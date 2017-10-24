@@ -2575,4 +2575,53 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_auto_get_list($adminid,$start_time,$end_time,$origin_ex,$page_info){
+        $where_arr = [
+            'n.hand_get_adminid = 0',
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            ['n.admin_revisiterid = %u',$adminid,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select n.admin_revisiterid adminid,n.admin_assign_time,n.global_tq_called_flag,"
+                                  ." s.phone,if(n.userid>0,0,1) del_flag,s.origin, "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ." group by n.admin_revisiterid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_hand_get_list($adminid,$start_time,$end_time,$origin_ex,$page_info){
+        $where_arr = [
+            'n.admin_revisiterid>0',
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            'n.hand_get_adminid>0 and n.admin_revisiterid = n.hand_get_adminid'
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
+                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ." group by n.admin_revisiterid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
