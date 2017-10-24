@@ -46,7 +46,7 @@ $(function(){
             ["完成金额",g_data.total_price],
             ["完成率",g_data.kpi_per+"%"],
             ["缺口金额",g_data.gap_money],
-            ["现金总收入",g_data.total_price],
+            ["现金总收入",g_data.total_income],
             ["下单总人数",g_data.person_num],
             ["入职完整月人员签单额",g_data.total_price_thirty],
             ["入职完整月人员人数",g_data.person_num_thirty],
