@@ -3188,7 +3188,12 @@ ORDER BY require_time ASC";
 
     public function get_plan_invit_num_for_month($start_time, $end_time){ 
         $where_arr = [
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            // "s.is_test_user=0",
+            // "ts.require_admin_type=2",
+            // "tq.is_called_phone=1",
+            // "tq.admin_role=2"
+
         ];
 
         // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
@@ -3253,7 +3258,7 @@ ORDER BY require_time ASC";
         // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(tss.lessonid) from %s tr "
+        $sql = $this->gen_sql_new("  select count(distinct(tr.require_id)) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s tss on tss.require_id=tr.require_id  "
                                   ." left join %s s on ts.userid=s.userid"
