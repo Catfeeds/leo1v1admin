@@ -300,7 +300,7 @@ class order_price_20171001 extends order_price_base
             //if (!$off_86_flag) {
             static::get_activity_20170901($price, $present_lesson_count,  $desc_list,  $lesson_times,$new_discount_config );
             //}
-            static::get_activity_2017102001($price,$present_lesson_count,$desc_list , $lesson_times,$args);
+            //static::get_activity_2017102001($price,$present_lesson_count,$desc_list , $lesson_times,$args);
 
 
             $now=time(NULL);

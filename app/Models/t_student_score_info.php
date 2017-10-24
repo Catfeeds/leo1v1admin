@@ -152,14 +152,15 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     public function get_input_score_list($start_time, $end_time, $admin_type, $page_num){
         $where_arr = [
             ['admin_type=%d',$admin_type,-1],
-            "sc.status = 0"
+            "sc.status = 0",
+            "sc.userid>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"create_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select s.nick, s.userid, create_time, create_adminid, admin_type  from %s sc  "
+        $sql = $this->gen_sql_new("  select  s.nick, s.userid, sc.subject, sc.semester, sc.stu_score_type, sc.score, sc.grade_rank, sc.rank, sc.file_url, create_time, create_adminid, admin_type  from %s sc  "
                                   ." left join %s s on s.userid=sc.userid "
-                                  ." where %s"
+                                  ." where %s group by sc.userid "
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr

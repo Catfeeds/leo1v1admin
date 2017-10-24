@@ -26,7 +26,7 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list( "boolean", $("#id_admin_type"));
+    // Enum_map.append_option_list( "boolean", $("#id_admin_type"));
 
 	  $('#id_admin_type').val(g_args.admin_type);
 
