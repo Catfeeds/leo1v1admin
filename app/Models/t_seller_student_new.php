@@ -2554,7 +2554,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_distribution_count($start_time,$end_time){
         $where_arr = [
-            'n.admin_assignerid>0',
+            'n.admin_revisiterid>0',
             ['m.account_role=%u',E\Eaccount_role::V_2],
         ];
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
@@ -2563,7 +2563,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
                                   ." where %s "
-                                  ." group by n.admin_assignerid "
+                                  ." group by n.admin_revisiterid "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr

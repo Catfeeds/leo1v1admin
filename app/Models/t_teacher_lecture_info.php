@@ -62,14 +62,15 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." t.nick as reference_name,t.teacherid,la.answer_begin_time,la.grade_ex,"
                                   ." tt.subject t_subject,tt.teacherid as t_teacherid,tt.create_time as t_create_time,"
                                   ." la.textbook,b.confirm_time,la.grade_start,la.grade_end,la.not_grade,la.trans_grade,"
-                                  ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,"
+                                  ." la.trans_grade_start,la.trans_grade_end,tt.wx_openid,tt.user_agent,"
                                   ." m.account accept_account, m.name as zs_name,"
-                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time ,t.train_through_new_time,t.train_through_new "
+                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time ,"
+                                  ." tt.train_through_new_time,tt.train_through_new "
                                   ." from %s as b"
                                   ." left join %s la on b.phone=la.phone"
-                                  ." left join %s t on t.phone=la.reference"
+                                  ." left join %s t on t.phone=la.reference" //推荐人
                                   ." left join %s tt on b.phone=tt.phone"
-                                  ." left join %s ttt on b.phone=ttt.phone"
+                                  // ." left join %s ttt on b.phone=ttt.phone"
                                   ." left join %s m on la.accept_adminid = m.uid"
                                   ." where %s "
                                   ." %s"
@@ -78,7 +79,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
+                                  // ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
                                   ,$group_str

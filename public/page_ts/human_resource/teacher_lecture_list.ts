@@ -6,23 +6,22 @@ var notify_cur_playpostion =null;
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val(),
-			grade            : $('#id_grade').val(),
-			trans_grade      : $('#id_trans_grade').val(),
-			subject          : $('#id_subject').val(),
-			status           : $('#id_status').val(),
-			phone            : $('#id_phone').val(),
-			teacherid        : $('#id_teacherid').val(),
-			is_test_flag     : $('#id_is_test_flag').val(),
-			full_time        : $('#id_full_time').val(),
-			have_wx:	$('#id_have_wx').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      grade            : $('#id_grade').val(),
+			      trans_grade      : $('#id_trans_grade').val(),
+			      subject          : $('#id_subject').val(),
+			      status           : $('#id_status').val(),
+			      phone            : $('#id_phone').val(),
+			      teacherid        : $('#id_teacherid').val(),
+			      is_test_flag     : $('#id_is_test_flag').val(),
+			      full_time        : $('#id_full_time').val(),
+			      have_wx:	$('#id_have_wx').val()
         });
     }
-
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
