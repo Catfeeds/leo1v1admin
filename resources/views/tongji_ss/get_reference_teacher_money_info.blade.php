@@ -34,11 +34,11 @@
                 @foreach ( $list as $var )
                     <tr>
                         <td>{{@$var["month"]}} </td>                          
-                        <td>{{@$var["stu_num"]}} </td>                          
-                        <td>{{@$var["all_price"]/100}} </td>                          
-                        <td>{{@$var["lesson_count_all"]/100}} </td>                          
+                        <td class="stu_num">{{@$var["stu_num"]}} </td>                          
+                        <td class="all_price">{{@$var["all_price"]/100}} </td>                          
+                        <td class="lesson_count_all">{{@$var["lesson_count_all"]/100}} </td>                          
                         @foreach ( $list as $k=>$v )
-                            <td>{{@$var[$k]}} </td>                          
+                            <td class="{{$k}}">{{@$var[$k]}} </td>                          
                         @endforeach
                         <td>
                             <div class="row-data" data-teacherid="{{$var["month_start"]}}" >
