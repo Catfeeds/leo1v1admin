@@ -747,6 +747,10 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
+        $ret_info['all_order_price'] = $this->t_admin_group_name->get_entry_total_price($start_time,$end_time);
+        dd($ret_info);
+
+
         if($start_time == null && $end_time == null ){
             $end_time   = strtotime(date('Y-m-d 0:0:0'));
             $start_time = $end_time-7*86400;

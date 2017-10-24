@@ -405,17 +405,19 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         $where_arr = [
             "((m.leave_member_time=0 and $end_time-m.create_time>29*86400) or (m.leave_member_time>=$start_time and $end_time-m.create_time>29*86400 ))",
             " mg.main_type=2",
+            "o.contract_type=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select  sum(o.price)/100 from %s n"
+        // $sql = $this->gen_sql_new("  select  sum(o.price)/100 from %s n"
+        $sql = $this->gen_sql_new("  select  o.orderid from %s n"
                                   ." left join %s u on u.groupid=n.groupid "
                                   ." left join %s mg on mg.groupid=n.up_groupid"
                                   ." left join %s mgn on mgn.groupid=mg.up_groupid"
                                   ." left join %s m on m.uid=u.adminid"
                                   ." left join %s o on o.sys_operator=m.account"
-                                  ." where %s  "
+                                  ." where %s group by o.orderid  "
                                   ,self::DB_TABLE_NAME
                                   ,t_admin_group_user::DB_TABLE_NAME
                                   ,t_admin_main_group_name::DB_TABLE_NAME
@@ -425,7 +427,8 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        // return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
 
     }
 
