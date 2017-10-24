@@ -30,7 +30,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
-            " select sum(if(m.account_role = 2,1,0)) count,l.uid adminid,l.type,sum(if(m.account_role = 7,1,0)) tmk_count,"
+            " select sum(if(m.account_role = 2 and l.uid<>l.adminid,1,0)) count,l.uid adminid,l.type,sum(if(m.account_role = 7 and l.uid<>l.adminid,1,0)) tmk_count,"
             // ." count(ss.global_tq_called_flag = 0) no_call_count,ss.global_tq_called_flag, "
             ." m.account_role "
             ." from %s l"
@@ -56,7 +56,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
-            " select count(l.adminid) count,l.adminid adminid,l.type,"
+            " select sum(if(l.adminid and l.uid<>l.adminid,1,0)) count,l.adminid adminid,l.type,"
             ." count(ss.global_tq_called_flag = 0) no_call_count,ss.global_tq_called_flag, "
             ." m.account_role "
             ." from %s l"
@@ -77,6 +77,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
     public function get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$account_role){
         $where_arr = [
             ['l.uid = %u',$adminid,-1],
+            'l.uid <> l.adminid',
             ['m.account_role = %u',$account_role,-1],
             ['l.type = %u',E\Eseller_edit_log_type::V_3],
             ['ss.global_tq_called_flag = %u',$global_tq_called_flag,-1],
