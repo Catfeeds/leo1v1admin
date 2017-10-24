@@ -67,8 +67,8 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
-                        <td >{{@$var["auto_get_count"]}}</td>
-                        <td >{{@$var["hand_get_count"]}}</td>
+                        <td ></td>
+                        <td ></td>
                         <td >
                             <a href="javascript:;" class="distribution_count" >
                                 {{@$var["count"]}}
