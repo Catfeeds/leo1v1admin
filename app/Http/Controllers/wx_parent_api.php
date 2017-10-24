@@ -62,7 +62,11 @@ class wx_parent_api extends Controller
     }
 
     public function get_lesson_info() {
-        $parentid = $this->get_parentid();
+        if($this->get_account()=="adrian"){
+            $parentid=$this->get_in_int_val("parentid");
+        }else{
+            $parentid = $this->get_parentid();
+        }
         $type = $this->get_in_int_val('type',0); // 0: 常规课 2: 试听课
         // $parentid = 54573;//测试
         $now = time();
