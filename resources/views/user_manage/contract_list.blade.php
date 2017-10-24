@@ -255,7 +255,7 @@
                         <td >{{$var["discount_price"]}}</td>
                             <td >
                                 {{ $var["lesson_total"] ? intval($var["price"]/$var["lesson_total"]):"-" }}/
-                                {{ $var["lesson_total"] ? intval($var["discount_price"]/$var["lesson_total"]):"-" }}
+                                {{ $var["lesson_total"] ? @intval(@$var["discount_price"]/@$var["lesson_total"]):"-" }}
                             </td>
                         <td >{{$var["discount_reason"]}}</td>
                         <td >{{$var["from_type_str"]}}</td>
