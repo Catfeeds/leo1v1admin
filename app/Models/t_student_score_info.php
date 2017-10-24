@@ -160,7 +160,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 
         $sql = $this->gen_sql_new("  select  s.nick, s.userid, sc.subject, sc.semester, sc.stu_score_type, sc.score, sc.grade_rank, sc.rank, sc.file_url, create_time, create_adminid, admin_type  from %s sc  "
                                   ." left join %s s on s.userid=sc.userid "
-                                  ." where %s group by sc.userid "
+                                  ." where %s group by sc.userid order by sc.create_time desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
