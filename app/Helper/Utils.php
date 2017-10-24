@@ -1788,5 +1788,15 @@ class Utils  {
         }
     }
 
+    static public function format_teacher_birth(&$item){
+        $birth = $item['birth'];
+        if(strlen($birth) != 0) {
+            $year = substr($birth,0,4);
+            $month = substr($birth,4,2);
+            $day = substr($birth,6);
+            $item['birth'] = $year.'-'.$month.'-'.$day;
+        }
+    }
+
 
 };

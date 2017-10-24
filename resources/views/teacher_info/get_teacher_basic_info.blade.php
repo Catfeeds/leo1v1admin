@@ -604,11 +604,11 @@
                         <!-- <input type="file" id="file" style=" width: 200px">-->
                         <div class="new-contentarea tc">
                             <a href="javascript:void(0)" class="upload-img"> 上传头像</a>
-                            <input type="file" class="" name="upload-file" id="upload-file" />
+                            <input type="file" class="" name="upload-file" id="upload-file" accept="image/jpg, image/png"/>
                         </div>
-                            <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
-                            <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
-                            <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+                        <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
+                        <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+                        <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
                     </div>
                     <div class="cropped"></div>
                 </div>
