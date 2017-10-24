@@ -735,6 +735,9 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
+
+        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("acc",$this->get_account()); 
         return $this->Pageview(__METHOD__,$ret_info);
     }
 

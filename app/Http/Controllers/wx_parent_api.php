@@ -46,8 +46,7 @@ class wx_parent_api extends Controller
     public function __construct() {
 
         parent::__construct();
-        $acc = $this->get_account();
-        if (!$this->get_parentid() && $acc!="adrian"  ) {
+        if (!$this->get_parentid()   ) {
             // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
@@ -62,11 +61,7 @@ class wx_parent_api extends Controller
     }
 
     public function get_lesson_info() {
-        if($this->get_account()=="adrian"){
-            $parentid=$this->get_in_int_val("parentid");
-        }else{
-            $parentid = $this->get_parentid();
-        }
+        $parentid = $this->get_parentid();
         $type = $this->get_in_int_val('type',0); // 0: 常规课 2: 试听课
         // $parentid = 54573;//测试
         $now = time();
@@ -81,14 +76,12 @@ class wx_parent_api extends Controller
 
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
         foreach ($ret_list as &$item ) {
-
             //判断是否可以申请调课
             if($item['lesson_start']-$now>86400){
                 $is_change_flag = 1;
             }else{
                 $is_change_flag = 0;
             }
-
 
             $item['parent_modify_time'] = $item['parent_modify_time']?$item['parent_modify_time']:0;
 

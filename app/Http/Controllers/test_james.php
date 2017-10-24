@@ -747,13 +747,14 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $a = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
+        $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+        // $a = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
         // $b = [];
         // foreach($a as $v){
         //     $b[]=$v['sys_operator'];
         // }
 
-        dd($a);
+        dd($ret_info);
 
 
         if($start_time == null && $end_time == null ){
