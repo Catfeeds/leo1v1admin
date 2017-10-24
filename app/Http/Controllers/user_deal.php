@@ -735,12 +735,20 @@ class user_deal extends Controller
                     $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
                 }
 
+                //非助教自己排课,发送推送给助教
                 $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
 
-                $adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
-                $account_id = $this->get_account_id();
-                if($adminid != $account_id){
-                    $ass_oponid = $this->t_manager_info->get_wx_openid($adminid);
+                $adminid_ass = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                if($adminid != $adminid_ass){
+                    $ass_oponid = $this->t_manager_info->get_wx_openid($adminid_ass);
+                    $nick = $this->t_student_info->get_nick($userid);
+                    $data_msg = [
+                        "first"     => "上课时间调整通知",
+                        "keyword1"  => "上课时间调整",
+                        "keyword2"  => "学生".$nick."从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end",
+                        "remark"     => " 修改人: $operation_name 联系电话: $operation_phone"
+                    ];
+
                     $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
                     $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
                 }

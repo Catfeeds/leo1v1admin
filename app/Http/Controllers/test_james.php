@@ -747,8 +747,13 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $ret_info['all_order_price'] = $this->t_admin_group_name->get_entry_total_price($start_time,$end_time);
-        dd($ret_info);
+        $a = $this->t_admin_group_name->get_entry_total_price($start_time,$end_time);
+        $b = [];
+        foreach($a as $v){
+            $b[]=$v['sys_operator'];
+        }
+
+        dd($b);
 
 
         if($start_time == null && $end_time == null ){
