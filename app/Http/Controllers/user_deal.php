@@ -727,7 +727,7 @@ class user_deal extends Controller
                 if($parent_wx_openid){
                     $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
                 }
-                $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
+                //  $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
 
                 // 获取教务的openid
                 $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
@@ -3129,6 +3129,21 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $first_month = strtotime("2016-01-01");
+        $end_month = strtotime(date("Y-m-01",time()));
+        $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
+        $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
+        
+        $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
+        $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
+        $list=[];
+        for($i=1;$i<=$num;$i++){
+            $first_month = date("Y-m-01",strtotime("+".$i." months", $first_month));
+            echo $first_month."<br>";
+        }
+        
+        dd($order_money_info);
+        dd(date("Y-m-01",strtotime("+1 months", $first_month)));
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
        

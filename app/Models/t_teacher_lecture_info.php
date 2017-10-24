@@ -46,7 +46,6 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             }elseif($have_wx==1){
                 $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
             }
-
         }else{
             $where_arr []= "b.phone like '%%".$phone."%%' or b.nick like '%%".$phone."%%'";
             $group_str = "group by b.add_time";
