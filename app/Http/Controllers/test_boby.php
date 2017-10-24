@@ -386,22 +386,22 @@ class test_boby extends Controller
         }
         // dd($userid_xiao);
 
-        foreach($lessonid_list as $k=>$v){
-            if ($v == 100){
-                $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
-                dispatch($job);
-            } else if ($v == 200) {
-                $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $k))->delay(10);
-                dispatch($job);
-            } else {
-                $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
-                dispatch($job);
-           }
-        }
-        dd($userid_list);
+        // foreach($lessonid_list as $k=>$v){
+        //     if ($v == 100){
+        //         $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
+        //         dispatch($job);
+        //     } else if ($v == 200) {
+        //         $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $k))->delay(10);
+        //         dispatch($job);
+        //     } else {
+        //         $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
+        //         dispatch($job);
+        //    }
+        // }
 
         foreach($jiaoyu_lessonid_list as $v){
-            $job=(new \App\Jobs\add_lesson_grade_user($userid_list[0], $v))->delay(10);
+            $job=(new \App\Jobs\add_lesson_grade_user($userid_list, $v))->delay(10);
+            dispatch($job);
         }
         return 'ok';
     }
