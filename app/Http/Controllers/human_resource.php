@@ -19,6 +19,7 @@ class human_resource extends Controller
         $stat_time = $date["sdate"];
 
         $ret_info = \App\Helper\Utils::list_to_page_info([]);
+        $this->set_filed_for_js("account_role",$this->get_account_role());
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -31,6 +32,7 @@ class human_resource extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        $this->set_filed_for_js("account_role",$this->get_account_role());
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -43,6 +45,7 @@ class human_resource extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        $this->set_filed_for_js("account_role",$this->get_account_role());
         return $this->pageView(__METHOD__, $ret_info);
     }
 
