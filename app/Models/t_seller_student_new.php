@@ -2512,6 +2512,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr);
+        dd($sql);
         return $this->main_get_row($sql);
     }
 
