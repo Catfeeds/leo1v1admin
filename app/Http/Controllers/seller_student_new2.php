@@ -847,6 +847,12 @@ class seller_student_new2 extends Controller
             $end_time = time();
         }
         $res = [];
+        $seller_student_new_list = $this->t_seller_student_new->get_distribution_count($start_time,$end_time);
+        foreach($seller_student_new_list as $item){
+            $adminid = $item['adminid'];
+            $res[$adminid]['auto_get_count'] = $item['auto_get_count'];
+            $res[$adminid]['hand_get_count'] = $item['hand_get_count'];
+        }
         $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time);
         foreach($seller_log_list as $item){
             $adminid = $item['adminid'];
