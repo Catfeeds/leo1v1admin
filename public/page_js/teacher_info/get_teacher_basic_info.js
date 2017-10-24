@@ -165,14 +165,14 @@ $(function(){
         } else {
             var modal_title = '银行卡信息';
             var arr= [
-                ["持卡人：",     id_bank_account],
-                ["身份证号：",   id_idcard],
-                ["银行卡类型：", id_bank_type],
-                ["支行名称：",   id_bank_address],
-                ["开户省：",     id_bank_province],
-                ["开户市：",     id_bank_city],
-                ["卡号：",       id_bankcard],
-                ["预留手机号：", id_bank_phone],
+                ["持卡人：",     id_bank_account, 'required'],
+                ["身份证号：",   id_idcard, 'required'],
+                ["银行卡类型：", id_bank_type, 'required'],
+                ["支行名称：",   id_bank_address, 'required'],
+                ["开户省：",     id_bank_province, 'required'],
+                ["开户市：",     id_bank_city, 'required'],
+                ["卡号：",       id_bankcard, 'required'],
+                ["预留手机号：", id_bank_phone, 'required'],
             ];
 
         }

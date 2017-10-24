@@ -1668,16 +1668,14 @@ jQuery.extend({
             var row_obj=$("<tr> </tr>" );
             var v = element[0] ;
             if (element['2']) {
-                var add_required = '<td style="color:ff3451;vertical-align:middle;">*</td>';
+                var add_required = '<td style="color:ff3451;vertical-align:middle;width:60px;">*</td>';
             } else {
-                var add_required = '';
+                var add_required = '<td style="width:60px;"></td>';
             }
             if ( v === 'merge') {
-                var td_obj=$( "<td colspan=\"2\" style=\"text-align:center;color:#00a6ff\"></td>" );
+                var td_obj=$( "<td colspan=\"3\" style=\"text-align:center;color:#00a6ff\"></td>" );
                 td_obj.append( element[1] );
-                // td_obj.append( add_required);
                 row_obj.append(td_obj);
-                row_obj.append( add_required);
                 table_obj.append(row_obj);
 
             } else {
