@@ -645,6 +645,13 @@ class user_deal extends Controller
             if ($db_lesson_start) {
                 return $this->output_err("试听课不能修改时间,只能删除,重新排新课,再设置时间");
             }
+        }else{
+            if(in_array($lesson_type,[0,1,3])){
+                $account_role = $this->get_account_role();
+                if($account_role !=1 && $account_role !=12){
+                   return $this->output_err("非助教不能改常规课时间!"); 
+                }
+            }
         }
 
         $userid = $this->t_lesson_info->get_userid($lessonid);
@@ -727,6 +734,17 @@ class user_deal extends Controller
                 if($parent_wx_openid){
                     $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
                 }
+
+                $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
+
+                $adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                $account_id = $this->get_account_id();
+                if($adminid != $account_id){
+                    $ass_oponid = $this->t_manager_info->get_wx_openid($adminid);
+                    $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
+                    $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
+                }
+
                 //  $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
 
                 // 获取教务的openid
