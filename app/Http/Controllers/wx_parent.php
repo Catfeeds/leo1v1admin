@@ -13,7 +13,6 @@ class wx_parent extends Controller
 {
     var $check_login_flag=false;
     public function __construct() {
-
         parent::__construct();
         if (!session("parentid")   ) {
 
@@ -41,8 +40,8 @@ class wx_parent extends Controller
 
             header("Location: $url");
         }
-
     }
+
     public function index() {
     }
 
