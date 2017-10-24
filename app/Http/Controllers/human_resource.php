@@ -4710,12 +4710,12 @@ class human_resource extends Controller
                 $item['admin_type_str'] = '后台';
             }
 
-            if($item['admin_type'] == 0 && !$item['create_nick']  && $item['create_adminid'] !=0){
-                // $a[] = $item['id'];
-                $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
-                $item['account_type'] = '家长';
-                $item['admin_type_str'] = '微信端';
-            }
+            // if($item['admin_type'] == 0 && !$item['create_nick']  && $item['create_adminid'] !=0){
+            //     // $a[] = $item['id'];
+            //     $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
+            //     $item['account_type'] = '家长';
+            //     $item['admin_type_str'] = '微信端';
+            // }
 
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
 
