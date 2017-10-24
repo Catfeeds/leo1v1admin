@@ -31,7 +31,28 @@
                 </tr>
             </thead>
             <tbody id="id_tbody">
-               
+                @foreach ( $list as $var )
+                    <tr>
+
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["stu_num"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["month"]}} </td>                          
+                    </tr>
+
+                @endforeach
+                    
+ 
                
             </tbody>
         </table>
