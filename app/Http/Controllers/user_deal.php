@@ -691,6 +691,9 @@ class user_deal extends Controller
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+
+           
+            
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
             $url              = "";
             $old_lesson_start = date('Y-m-d H:i:s',$lesson_info['lesson_start']);
@@ -724,12 +727,22 @@ class user_deal extends Controller
                 if($parent_wx_openid){
                     $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
                 }
+                $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
 
                 // 获取教务的openid
                 $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
                 if ($jw_openid) {
                     $wx->send_template_msg($jw_openid,$template_id,$data_msg ,$url);
                 }
+
+                //数据记录
+                $phone = $this->t_student_info->get_phone($userid);
+                $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "$lessonid :从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end 修改人: $operation_name 联系电话: $operation_phone",
+                    "system"
+                );
+
             }
 
             return $this->output_succ();

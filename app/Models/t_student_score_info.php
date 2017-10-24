@@ -151,7 +151,8 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 
     public function get_input_score_list($start_time, $end_time, $admin_type, $page_num){
         $where_arr = [
-            ['admin_type=%d',$admin_type,-1]
+            ['admin_type=%d',$admin_type,-1],
+            "sc.status = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"create_time",$start_time,$end_time);

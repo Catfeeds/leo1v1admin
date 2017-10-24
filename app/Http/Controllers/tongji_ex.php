@@ -130,9 +130,9 @@ class tongji_ex extends Controller
 
         foreach( $ret_info['list'] as &$item){
             if($item['admin_type'] == 1){ // 家长
-                $item['create_nick'] = $this->cache_get_parent_nick($item['create_adminid']);
+                $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
             }else{ // 助教
-                $item['create_nick'] = $this->cache_get_assistant_nick($item['create_adminid']);
+                $item['create_nick'] = $this->t_manager_info->get_account($item['create_adminid']);
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
         }
