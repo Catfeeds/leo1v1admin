@@ -4280,7 +4280,7 @@ class human_resource extends Controller
             $new_teacherid = $this->add_teacher_common($add_info);
         }
 
-        return $this->output_succ(["new_teacherid"=>$new_teacherid]);
+        return $this->output_succ(["new_teacherid" => $new_teacherid]);
     }
 
     public function check_phone_exists($phone){
@@ -4336,12 +4336,15 @@ class human_resource extends Controller
                 return $this->output_err("更新常规课表(regular)出错！请重试！");
             }
         }
-        $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
-            //"is_test_user" => 1,
-            "wx_use_flag"  => 0,
-        ]);
-        if(!$ret){
-            return $this->output_err("更新老师信息失败！");
+
+        $old_wx_use_flag = $this->t_teacher_info->get_wx_openid($old_teacherid);
+        if($old_wx_use_flag!=0){
+            $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
+                "wx_use_flag"  => 0,
+            ]);
+            if(!$ret){
+                return $this->output_err("更新老师信息失败！");
+            }
         }
         $this->t_course_order->commit();
 
@@ -4686,6 +4689,44 @@ class human_resource extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+
+    public function get_input_score_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3,0,true);
+        $admin_type = $this->get_in_int_val('admin_type',1);
+        $page_num   = $this->get_in_page_num();
+
+        $ret_info = $this->t_student_score_info->get_input_score_list($start_time, $end_time, $admin_type, $page_num);
+
+
+        foreach( $ret_info['list'] as &$item){
+            if($item['admin_type'] == 1){ // 家长
+                $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
+                $item['account_type'] = '家长';
+                $item['admin_type_str'] = '微信端';
+            }else{ // 助教
+                $item['create_nick'] = $this->t_manager_info->get_account($item['create_adminid']);
+                $item['account_type'] = '助教';
+                $item['admin_type_str'] = '后台';
+            }
+
+            if($item['admin_type'] == 0 && !$item['create_nick']  && $item['create_adminid'] !=0){
+                // $a[] = $item['id'];
+                $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
+                $item['account_type'] = '家长';
+                $item['admin_type_str'] = '微信端';
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
+
+
+        }
+        // dd($a);
+
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
 
 
 }

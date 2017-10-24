@@ -196,7 +196,13 @@ class cr_info_month extends Command
         }else{
           $arr['tranfer_success_per'] = 0;
         }*/
-        $tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($start_time,$end_time);
+        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time); //月初至今
+        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+        $tranfer_total_month['total_orderid'] = $month_tranfer_data['total_num'];
+        $tranfer_total_month['total_num']     = $month_tranfer;
+
+        //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($start_time,$end_time);
         if($tranfer_total_month['total_orderid']){
           $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
         }else{

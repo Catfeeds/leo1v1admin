@@ -9,7 +9,6 @@ $(function(){
     }
     $("#id_get_money").on("click",function(){
         var row_list=$("#id_tbody tr");
-        console.log(row_list);
         var do_index=0;
 	    
         function do_one() {
@@ -42,10 +41,36 @@ $(function(){
                         "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".cc_per").text(resp.cc_per); 
-                        $tr.find(".cr_per").text(resp.cr_per); 
-                        $tr.find(".record_score").text(resp.score);
-                                             
+                        var data = resp.data;
+                        $tr.find(".stu_num").text(data.stu_num); 
+                        $tr.find(".all_price").text(data.all_price/100); 
+                        $tr.find(".lesson_count_all").text(data.lesson_count_all/100);
+                        
+                        $tr.find(".2016-01-01").text(data["2016-01-01"]);
+                        $tr.find(".2016-02-01").text(data["2016-02-01"]);
+                        $tr.find(".2016-03-01").text(data["2016-03-01"]);
+                        $tr.find(".2016-04-01").text(data["2016-04-01"]);
+                        $tr.find(".2016-05-01").text(data["2016-05-01"]);
+                        $tr.find(".2016-06-01").text(data["2016-06-01"]);
+                        $tr.find(".2016-07-01").text(data["2016-07-01"]);
+                        $tr.find(".2016-08-01").text(data["2016-08-01"]);
+                        $tr.find(".2016-09-01").text(data["2016-09-01"]);
+                        $tr.find(".2016-10-01").text(data["2016-10-01"]);
+                        $tr.find(".2016-11-01").text(data["2016-11-01"]);
+                        $tr.find(".2016-12-01").text(data["2016-12-01"]);
+                        $tr.find(".2017-01-01").text(data["2017-01-01"]);
+                        $tr.find(".2017-02-01").text(data["2017-02-01"]);
+                        $tr.find(".2017-03-01").text(data["2017-03-01"]);
+                        $tr.find(".2017-04-01").text(data["2017-04-01"]);
+                        $tr.find(".2017-05-01").text(data["2017-05-01"]);
+                        $tr.find(".2017-06-01").text(data["2017-06-01"]);
+                        $tr.find(".2017-07-01").text(data["2017-07-01"]);
+                        $tr.find(".2017-08-01").text(data["2017-08-01"]);
+                        $tr.find(".2017-09-01").text(data["2017-09-01"]);
+                        $tr.find(".2017-10-01").text(data["2017-10-01"]);
+
+                       
+                                                                   
 
                        
                         

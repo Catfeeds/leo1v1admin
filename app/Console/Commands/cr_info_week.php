@@ -192,8 +192,12 @@ class cr_info_week extends Command
 
 
         //转介绍 
-        //$month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
-        $tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
+        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num(strtotime($end_month),$end_time);
+        //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+        $tranfer_total_month['total_orderid'] = $month_tranfer_data['total_num'];
+        $tranfer_total_month['total_num']     = $month_tranfer;
+
         if($tranfer_total_month['total_orderid']){
           $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
         }else{
@@ -334,7 +338,6 @@ class cr_info_week extends Command
           "student_list"            => $arr['student_list'],      //预警学员列表
         ];
 
-        
         $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time($type,$create_time);
         if($ret_id>0){
             $task->t_cr_week_month_info->field_update_list($ret_id,$insert_data);

@@ -143,21 +143,21 @@ $(function(){
 
         Enum_map.append_option_list("education",id_education,true);
         id_education.val(able_edit.education);
-
+        var required = '<span style="color:ff3451;">* </span>';
         if (title_type == 'user-info') {
             var modal_title = '可编辑信息';
             var arr= [
                 ["merge","个人资料"],
                 ["姓名：", id_nick],
-                ["性别：", id_gender,'required'],
-                ["生日：", id_birth,'required'],
+                [required+"性别：", id_gender],
+                [required+"生日：", id_birth],
                 ["merge","教学信息"],
-                ["教龄：",     id_work_year,'required'],
+                [required+"教龄：",     id_work_year],
                 ["方言备注：", id_dialect_notes],
-                ["所在地：",   id_address,'required'],
+                [required+"所在地：",   id_address],
                 ["merge",  "教育背景"],
-                ["毕业院校：", id_school,'required'],
-                ["最高学历：", id_education,'required'],
+                [required+"毕业院校：", id_school],
+                [required+"最高学历：", id_education],
                 ["专业：",     id_major],
                 ["兴趣爱好：", id_hobby],
                 ["个人特长：", id_speciality],
@@ -165,14 +165,14 @@ $(function(){
         } else {
             var modal_title = '银行卡信息';
             var arr= [
-                ["持卡人：",     id_bank_account],
-                ["身份证号：",   id_idcard],
-                ["银行卡类型：", id_bank_type],
-                ["支行名称：",   id_bank_address],
-                ["开户省：",     id_bank_province],
-                ["开户市：",     id_bank_city],
-                ["卡号：",       id_bankcard],
-                ["预留手机号：", id_bank_phone],
+                [required+"持卡人：",     id_bank_account],
+                [required+"身份证号：",   id_idcard],
+                [required+"银行卡类型：", id_bank_type],
+                [required+"支行名称：",   id_bank_address],
+                [required+"开户省：",     id_bank_province],
+                [required+"开户市：",     id_bank_city],
+                [required+"卡号：",       id_bankcard],
+                [required+"预留手机号：", id_bank_phone],
             ];
 
         }
@@ -269,7 +269,7 @@ $(function(){
                     }
                 }
             }
-        },'',false,600);
+        },'',false,600,'padding-right:60px;');
 
     };
 
