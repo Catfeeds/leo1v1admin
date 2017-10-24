@@ -977,7 +977,7 @@ class seller_student_new2 extends Controller
 
     public function seller_edit_log_list(){
         $flag = $this->get_in_int_val("flag");
-        $account_role = $this->get_in_int_val("account_role");
+        $account_role = $this->get_in_int_val("account_role",-1);
         $origin_ex = $this->get_in_str_val("origin_ex");
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $adminid    = $this->get_in_int_val('adminid',-1);
