@@ -418,7 +418,7 @@ class menu{
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
                 ["power_id"=>10, "name"=>"排行榜数据",   "url"=>"/tongji_ex/top_list"],
-                ["power_id"=>13, "name"=>"学生成绩录入记录",   "url"=>"/tongji_ex/get_input_score_list"],
+                ["power_id"=>13, "name"=>"学生成绩录入记录",   "url"=>"/human_resource/get_input_score_list"],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],

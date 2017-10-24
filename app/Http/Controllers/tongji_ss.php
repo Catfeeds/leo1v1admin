@@ -8089,6 +8089,8 @@ class tongji_ss extends Controller
 
             
         }
+        $this->set_filed_for_js("arr",json_encode($list));
+
         return $this->pageView(__METHOD__,null,[
             "list"  =>$list ,
             "num"  =>count($list)
