@@ -747,6 +747,26 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
+        if($start_time == null && $end_time == null ){
+            $end_time   = strtotime(date('Y-m-d 0:0:0'));
+            $start_time = $end_time-7*86400;
+        }
+
+
+        $month_start_time_funnel = strtotime(date('Y-m-01',$start_time));
+
+        if($month_start_time_funnel<$start_time){
+            $month_start_time_funnel = $start_time;
+        }
+
+
+
+
+        $ret_info['has_tq_succ_invit_month']  = $this->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
+
+
+        dd($ret_info);
+
        //  $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
 
        // echo date('Y-m-01', strtotime('+1 month'));
@@ -901,6 +921,7 @@ class test_james extends Controller
     }
     
 
+   
 
 
 

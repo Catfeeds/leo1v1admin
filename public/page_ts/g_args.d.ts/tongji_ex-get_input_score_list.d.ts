@@ -4,7 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	tongji_type:	number;//App\Enums\Etongji_type
+	admin_type:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -16,22 +16,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	tongji_type	:any;
-	logtime	:any;
-	adminid	:any;
-	value	:any;
-	top_index	:any;
-	top_index2	:any;
-	admin_nick	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ex; vi  ../tongji_ex/top_list.ts
+	 mkdir -p ../tongji_ex; vi  ../tongji_ex/get_input_score_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ex-top_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ex-get_input_score_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -41,12 +34,11 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		tongji_type:	$('#id_tongji_type').val()
+		admin_type:	$('#id_admin_type').val()
     });
 }
 $(function(){
 
-	Enum_map.append_option_list("tongji_type",$("#id_tongji_type"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -58,7 +50,7 @@ $(function(){
             load_data();
         }
     });
-	$('#id_tongji_type').val(g_args.tongji_type);
+	$('#id_admin_type').val(g_args.admin_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -71,9 +63,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">分类</span>
-                <select class="opt-change form-control" id="id_tongji_type" >
-                </select>
+                <span class="input-group-addon">admin_type</span>
+                <input class="opt-change form-control" id="id_admin_type" />
             </div>
         </div>
 */

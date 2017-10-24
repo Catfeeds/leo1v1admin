@@ -51,10 +51,29 @@ class period_order_overdue_warning_send_wx extends Command
             $due_date = $month_start+14*86400;
 
         }
-        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3);
+        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,1);
+        // dd($list);
         if(count($list)>0){
             foreach($list as $val){
                 //微信推送家长
+                $wx = new \App\Helper\Wx();
+                // $openid = $val["wx_openid"];
+                $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+                $data=[
+                    "first"    => "百度分期还款逾期通知",
+                    "keyword1" => "百度分期还款逾期",
+                    "keyword2" => "家长，您好！由于您本月15日没有按时缴纳百度分期还款，即已发生逾期行为，建议尽快还款，避免出现停课情况，具体还款方式为：登录百度钱包APP进行还款，谢谢您的配合！",
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => "",
+                ];
+                $url="";
+
+
+                $wx->send_template_msg($openid,$template_id,$data,$url);
+                dd($list);
+
                 
             }
             

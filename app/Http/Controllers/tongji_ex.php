@@ -121,5 +121,24 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__, null, ["report_info"=> $item]);
     }
 
+    public function get_input_score_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],0,0,true);
+        $admin_type = $this->get_in_int_val('admin_type');
+        $page_num   = $this->get_in_page_num();
+
+        $ret_info = $this->t_student_score_info->get_input_score_list($start_time, $end_time, $admin_type, $page_num);
+
+        foreach( $ret_info['list'] as &$item){
+            if($item['admin_type'] == 1){ // 家长
+                $item['create_nick'] = $this->cache_get_parent_nick($item['create_adminid']);
+            }else{ // 助教
+                $item['create_nick'] = $this->cache_get_assistant_nick($item['create_adminid']);
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
+        }
+
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
 
 }
