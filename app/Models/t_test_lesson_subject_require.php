@@ -3189,11 +3189,7 @@ ORDER BY require_time ASC";
     public function get_plan_invit_num_for_month($start_time, $end_time){ 
         $where_arr = [
             "s.is_test_user=0",
-            // "s.is_test_user=0",
-            // "ts.require_admin_type=2",
-            // "tq.is_called_phone=1",
-            // "tq.admin_role=2"
-
+            "ts.require_admin_type=2",
         ];
 
         // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
