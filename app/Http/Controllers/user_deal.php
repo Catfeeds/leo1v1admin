@@ -3130,19 +3130,30 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $first_month = strtotime("2016-01-01");
-        $end_month = strtotime(date("Y-m-01",time()));
-        $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
+        // $end_month = strtotime(date("Y-m-01",time()));
+        // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
         $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
         
-        $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
-        $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
+        // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
+        //  $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
         $list=[];
         for($i=1;$i<=$num;$i++){
-            $first_month = date("Y-m-01",strtotime("+".$i." months", $first_month));
-            echo $first_month."<br>";
+            $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
+            $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+            $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
+            $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
+            $month = date("Y-m-d",$first);
+            $list[$month]["stu_num"] = @$order_money_info["stu_num"];
+            $list[$month]["all_price"] = @$order_money_info["all_price"];
+            $list[$month]["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+            foreach($order_money_month as $val){
+                $list[$month][$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+            }
+
+            
         }
         
-        dd($order_money_info);
+        dd($list);
         dd(date("Y-m-01",strtotime("+1 months", $first_month)));
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");

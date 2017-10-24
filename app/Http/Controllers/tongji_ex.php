@@ -128,6 +128,8 @@ class tongji_ex extends Controller
 
         $ret_info = $this->t_student_score_info->get_input_score_list($start_time, $end_time, $admin_type, $page_num);
 
+        dd($ret_info);
+
         foreach( $ret_info['list'] as &$item){
             if($item['admin_type'] == 1){ // 家长
                 $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
