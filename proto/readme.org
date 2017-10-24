@@ -5,10 +5,8 @@ https://github.com/google/protobuf/archive/v3.4.1.tar.gz
  autogen.sh
 ./configure 
 make -j 4
-sudo make intall
-
-~/.bashrc
-export  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+sudo make install
+sudo ldconfig
 
 
 

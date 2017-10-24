@@ -390,7 +390,7 @@ class login extends Controller
             return $this->output_err( E\Eerror::V_WRONG_VERIFY_CODE );
         }
 
-        $userid = $this->t_user_info->check_login_userid($account, $password);
+        $userid = $this->t_user_info->check_login_userid($account, $password, E\Erole::V_TEACHER);
         //dd($userid);
         if($userid>0){
             $teacherid = $userid;
