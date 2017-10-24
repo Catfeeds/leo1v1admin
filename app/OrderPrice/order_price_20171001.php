@@ -87,10 +87,11 @@ class order_price_20171001 extends order_price_base
 
             $userid = $lesson_info["userid"];
             $grade  = $lesson_info["grade"];
-            $last_lesson_info=$task->t_lesson_info_b3->get_grade_last_test_lesson( $userid, $grade );
+            #$last_lesson_info=$task->t_lesson_info_b3->get_grade_last_test_lesson( $userid, $grade );
             $lesson_count_all=$task->t_student_info->get_lesson_count_all($userid);
 
-            $lesson_start = $last_lesson_info["lesson_start"];
+            #$lesson_start = $last_lesson_info["lesson_start"];
+            $lesson_start = $lesson_info["lesson_start"];
             $now=time(NULL);
             if ( !$lesson_count_all && $now >= strtotime("2017-10-20")
                  && $now < strtotime("2017-10-24") ) {
@@ -153,7 +154,7 @@ class order_price_20171001 extends order_price_base
                 "lesson_start,userid,grade");
             $userid = $lesson_info["userid"];
             $grade  = $lesson_info["grade"];
-            $cur_lesson_start = $lesson_info["lesson_start"];
+            $lesson_start = $lesson_info["lesson_start"];
             $first_lesson_info=$task->t_lesson_info_b3->get_grade_first_test_lesson( $userid, $grade );
             $lesson_start = $first_lesson_info["lesson_start"];
 

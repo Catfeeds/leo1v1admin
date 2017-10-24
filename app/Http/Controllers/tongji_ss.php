@@ -7403,6 +7403,9 @@ class tongji_ss extends Controller
 
         $tran_avg= $lesson_avg=[];
         foreach($ret_info as &$item){
+
+            // $item["train_through_new_time_str"]=date("Y-m-d",$item["train_through_new_time"]);
+            $item["train_day"] = floor((time()-$item["train_through_new_time"])/86400);
             $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
             $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
             $item["kk_lesson_num"] =  isset($qz_tea_list_kk[$item["teacherid"]])?$qz_tea_list_kk[$item["teacherid"]]["all_lesson"]:0;
@@ -7466,6 +7469,8 @@ class tongji_ss extends Controller
             $m1 =220;$m2=210;$m3=190;
         }
         foreach($list as &$val){
+            $val["train_day"] = floor((time()-$val["train_through_new_time"])/86400);
+            // $val["train_through_new_time_str"]=date("Y-m-d",$val["train_through_new_time"]);
             $val["normal_stu"] = isset($normal_stu_num1[$val["teacherid"]])?$normal_stu_num1[$val["teacherid"]]["num"]:0;
             $val["week_count"] = isset($normal_stu_num1[$val["teacherid"]])?round($normal_stu_num1[$val["teacherid"]]["lesson_all"]/500):0;
             $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
