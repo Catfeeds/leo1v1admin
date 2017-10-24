@@ -1287,10 +1287,14 @@ class tongji2 extends Controller
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
-            }elseif($type == 1 || $type == 2){
+            }elseif($type == 1){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+            }elseif($type == 2){
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
+                $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
+                $ret_cr            = $this->t_manager_info->get_cr_num_new(strtotime($start_month),$start_time,$end_time);
             }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             
