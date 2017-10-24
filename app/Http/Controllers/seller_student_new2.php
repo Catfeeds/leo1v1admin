@@ -1005,7 +1005,7 @@ class seller_student_new2 extends Controller
                 $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
                 $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
             }
-        }else{
+        }elseif($flag == 3){//分配
             $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$account_role);
             foreach($ret_info['list'] as &$item){
                 $userid = (int)$item['new'];
@@ -1016,7 +1016,19 @@ class seller_student_new2 extends Controller
                 $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
                 $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
             }
+        }else{//被分配
+            $ret_info = $this->t_seller_edit_log->get_count_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$account_role);
+            foreach($ret_info['list'] as &$item){
+                $userid = (int)$item['new'];
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+                $item["adminid_nick"]= $this->cache_get_account_nick($item["adminid"]);
+                $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
+                $item["phone"] = $this->t_phone_to_user->get_phone($userid);
+                $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
+                $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+            }
         }
+
         
         return $this->pageView(__METHOD__,$ret_info);
     }
