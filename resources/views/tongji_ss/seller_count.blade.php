@@ -14,7 +14,7 @@
 
      var g_data_ex_list= <?php  echo json_encode($table_data_list); ?> ;
     </script>
-
+    
     <section class="content">
         <div class="book_filter">
             <div class="row">
