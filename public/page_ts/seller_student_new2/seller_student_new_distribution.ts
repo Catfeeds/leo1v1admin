@@ -9,10 +9,11 @@ $(function(){
             date_type     : $('#id_date_type').val(),
             opt_date_type : $('#id_opt_date_type').val(),
             start_time    : $('#id_start_time').val(),
-            end_time      : $('#id_end_time').val()
+            end_time      : $('#id_end_time').val(),
+            origin_ex : $("#id_origin_ex").val(),
         });
     }
-
+    $('#id_origin_ex').val(g_args.origin_ex);
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
