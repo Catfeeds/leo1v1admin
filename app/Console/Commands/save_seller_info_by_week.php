@@ -117,7 +117,7 @@ class save_seller_info_by_week extends Command
         $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
         // $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
-        $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数
+        $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数总金额
 
 
 
