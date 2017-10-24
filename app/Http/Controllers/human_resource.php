@@ -4280,7 +4280,7 @@ class human_resource extends Controller
             $new_teacherid = $this->add_teacher_common($add_info);
         }
 
-        return $this->output_succ(["new_teacherid"=>$new_teacherid]);
+        return $this->output_succ(["new_teacherid" => $new_teacherid]);
     }
 
     public function check_phone_exists($phone){
@@ -4336,12 +4336,15 @@ class human_resource extends Controller
                 return $this->output_err("更新常规课表(regular)出错！请重试！");
             }
         }
-        $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
-            //"is_test_user" => 1,
-            "wx_use_flag"  => 0,
-        ]);
-        if(!$ret){
-            return $this->output_err("更新老师信息失败！");
+
+        $old_wx_use_flag = $this->t_teacher_info->get_wx_openid($old_teacherid);
+        if($old_wx_use_flag!=0){
+            $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
+                "wx_use_flag"  => 0,
+            ]);
+            if(!$ret){
+                return $this->output_err("更新老师信息失败！");
+            }
         }
         $this->t_course_order->commit();
 

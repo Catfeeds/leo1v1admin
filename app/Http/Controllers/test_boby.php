@@ -398,10 +398,9 @@ class test_boby extends Controller
                 dispatch($job);
            }
         }
-        dd($userid_list);
 
         foreach($jiaoyu_lessonid_list as $v){
-            $job=(new \App\Jobs\add_lesson_grade_user($userid_list[0], $v))->delay(10);
+            $job=(new \App\Jobs\add_lesson_grade_user($userid_list, $v))->delay(10);
         }
         return 'ok';
     }
