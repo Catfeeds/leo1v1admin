@@ -30,7 +30,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
-            " select sum(if(m.account_role = 2,1,0)) count,l.adminid adminid,l.type,sum(if(m.account_role = 7,1,0)) tmk_count,"
+            " select sum(if(m.account_role = 2,1,0)) count,l.uid adminid,l.type,sum(if(m.account_role = 7,1,0)) tmk_count,"
             ." count(ss.global_tq_called_flag = 0) no_call_count,ss.global_tq_called_flag, "
             ." m.account_role "
             ." from %s l"
@@ -38,7 +38,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             ." left join %s m on m.uid=l.adminid "
             ." left join %s s on s.userid=ss.userid "
             ." where %s "
-            ." group by l.adminid "
+            ." group by l.uid "
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
             ,t_manager_info::DB_TABLE_NAME
