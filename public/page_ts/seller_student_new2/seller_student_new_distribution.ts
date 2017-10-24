@@ -34,7 +34,7 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&account_role="+g_args.account_role
+                +"&account_role="+2
                );
     });
 
@@ -48,7 +48,7 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&account_role="+g_args.account_role
+                +"&account_role="+7
                );
     });
 
