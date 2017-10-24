@@ -9,6 +9,7 @@
     <script src='/js/lang-all.js'></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
+    <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
     <style>
      #cal_week th  {
          text-align:center;
@@ -32,6 +33,12 @@
             <div class="row">
                 <div class="col-xs-12 col-md-4"  data-title="时间段">
                     <div  id="id_date_range" >
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-4" >
+                    <div class="input-group ">
+                        <span class="input-group-addon">渠道选择</span>
+                        <input class="opt-change form-control" id="id_origin_ex" />
                     </div>
                 </div>
             </div>

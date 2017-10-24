@@ -2552,20 +2552,24 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_distribution_count($start_time,$end_time){
+    public function get_distribution_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             'n.admin_revisiterid>0',
             ['m.account_role=%u',E\Eaccount_role::V_2],
         ];
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
                                   ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
                                   ." where %s "
                                   ." group by n.admin_revisiterid "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

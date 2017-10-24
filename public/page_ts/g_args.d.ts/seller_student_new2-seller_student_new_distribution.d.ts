@@ -1,4 +1,5 @@
 interface GargsStatic {
+	origin_ex:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -42,6 +43,7 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		origin_ex:	$('#id_origin_ex').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -62,6 +64,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_origin_ex').val(g_args.origin_ex);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -71,4 +74,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">origin_ex</span>
+                <input class="opt-change form-control" id="id_origin_ex" />
+            </div>
+        </div>
 */
