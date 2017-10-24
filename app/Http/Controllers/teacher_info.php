@@ -1733,6 +1733,7 @@ class teacher_info extends Controller
             $first_day    = strtotime( date('Y-m-d', $item['create_time']) );
             $item['days'] = ($now_day - $first_day)/86400;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::format_teacher_birth($item);
             $item['teacher_title'] = \App\Helper\Utils::get_teacher_level_str($item);
 
             if ($item['grade_start'] == 0) {
@@ -1789,7 +1790,7 @@ class teacher_info extends Controller
     public function edit_teacher_info(){
         $teacherid     = $this->get_login_teacher();
         $gender        = $this->get_in_str_val('gender','');
-        $birth         = $this->get_in_int_val('birth','');
+        $birth         = trim( $this->get_in_str_val('birth','') );
         $work_year     = $this->get_in_int_val('work_year','');
         $school        = trim( $this->get_in_str_val('school','') );
         $address       = trim( $this->get_in_str_val('address','') );
@@ -1801,13 +1802,26 @@ class teacher_info extends Controller
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
-        if ($birth == '') {
-            return $this->output_err('出生日期不能为空！');
+        if (!$gender) {
+            return $this->output_err('请设置性别！');
         }
-
+        if ($birth == '') {
+            return $this->output_err('请设置出生日期!');
+        }
+        if ($work_year == '') {
+            return $this->output_err('教龄不能为空！');
+        }
+        if ($address == '') {
+            return $this->output_err('所在地不能为空！');
+        }
         if ($school == '') {
             return $this->output_err('毕业院校不能为空！');
         }
+        if ($education == '') {
+            return $this->output_err('最高学历不能为空！');
+        }
+
+        $birth =  date( 'Ymd',strtotime($birth) );
 
         $ret_info = $this->t_teacher_info->field_update_list($teacherid,[
             "gender"        => $gender,
@@ -1827,12 +1841,12 @@ class teacher_info extends Controller
 
     public function edit_teacher_bank_info(){
         $teacherid     = $this->get_login_teacher();
-        $bank_account  = $this->get_in_str_val('bank_account','');
+        $bank_account  = trim( $this->get_in_str_val('bank_account','') );
         $idcard        = trim( $this->get_in_str_val('idcard','') );
         $bank_type     = trim( $this->get_in_str_val('bank_type','') );
-        $bank_address  = $this->get_in_str_val('bank_address','');
-        $bank_province = $this->get_in_str_val('bank_province','');
-        $bank_city     = $this->get_in_str_val('bank_city','');
+        $bank_address  = trim( $this->get_in_str_val('bank_address','') );
+        $bank_province = trim( $this->get_in_str_val('bank_province','') );
+        $bank_city     = trim( $this->get_in_str_val('bank_city','') );
         $bankcard      = trim( $this->get_in_str_val('bankcard','') );
         $bank_phone    = trim( $this->get_in_int_val('bank_phone','') );
         if(!$teacherid) {
@@ -1844,19 +1858,37 @@ class teacher_info extends Controller
         if ($idcard == '') {
             return $this->output_err('身份证号不能为空！');
         }
-        // if (strlen($idcard) !== 18) {
-        //     return $this->output_err('身份证号码不正确！');
-        // }
+        //简单的身份证验证
+        $parg1 = '/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/'; //15位
+        $parg2 = '/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/'; //18位
+        $is_idcard1 = preg_match( $parg1, $idcard);
+        $is_idcard2 = preg_match( $parg2, $idcard);
+        if ( !$is_idcard1 && !$is_idcard2 ) {
+            return $this->output_err('身份证号码不正确！');
+        }
+        if ($bank_type == '') {
+            return $this->output_err('请选择银行卡类型！');
+        }
+        if ($bank_address == '') {
+            return $this->output_err('支行名称不能为空！');
+        }
+        if ($bank_province == '') {
+            return $this->output_err('开户省不能为空！');
+        }
+        if ($bank_city == '') {
+            return $this->output_err('开户市不能为空！');
+        }
         if ($bankcard == '') {
             return $this->output_err('银行卡号不能为空！');
         }
         if ($bank_phone == '') {
-            return $this->output_err('手机号不能为空！');
+            return $this->output_err('预留手机号不能为空！');
         }
         $is_phone = preg_match("/^1[34578]\d{9}$/", $bank_phone);
         if (!$is_phone) {
             return $this->output_err('请填写正确的手机号码！');
         }
+
 
         $ret_info = $this->t_teacher_info->field_update_list( $teacherid,[
             "bank_account"  => $bank_account,

@@ -3141,7 +3141,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ["o.pay_time>=%u",$start_time,0],
             ["o.pay_time<%u",$end_time,0],
-            "o.contract_type in (0,3)",
+            "o.contract_type=0",
             "o.contract_status=1",
             "s.is_test_user=0",
             // "s.grade>200",
@@ -3778,6 +3778,44 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $sql = $this->gen_sql_new("select sum(lesson_left) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
+    }
+
+    public function get_order_lesson_money_info($start_time,$end_time){
+        $where_arr=[
+            "contract_status>0",
+            "contract_type in (0,1,3)"
+        ];
+        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct userid) stu_num,sum(price) all_price,"
+                                  ."sum(lesson_total*default_lesson_count) lesson_count_all"
+                                  ." from %s"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+ 
+    }
+
+    public function get_order_lesson_money_use_info($start_time,$end_time){
+        $where_arr=[
+            "o.contract_status>0",
+            "o.contract_type in (0,1,3)"
+        ];
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select from_unixtime(l.lesson_start,'%%Y-%%m-01') time,"
+                                  ."sum(ol.lesson_count) lesson_count_all,"
+                                  ." sum(ol.price) all_price "
+                                  ." from %s o  join %s ol on o.orderid = ol.orderid"
+                                  ." join %s l on ol.lessonid = l.lessonid"
+                                  ." where %s group by time",
+                                  self::DB_TABLE_NAME,
+                                  t_order_lesson_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 
 }

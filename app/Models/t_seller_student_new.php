@@ -1585,7 +1585,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_user_free($userid) {
         $sql=$this->gen_sql_new(
-            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1,hand_get_adminid=0 "
             ."  where   n.userid=%u  and require_admin_type=2  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1598,7 +1598,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_no_hold_free($admin_revisiterid) {
         $sql=$this->gen_sql_new(
-            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1,hand_get_adminid=0 "
             ."  where  hold_flag=0  and admin_revisiterid=%u  and require_admin_type=2  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -2550,5 +2550,28 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_distribution_count($start_time,$end_time,$origin_ex){
+        $where_arr = [
+            'n.admin_revisiterid>0',
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
+                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ." group by n.admin_revisiterid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

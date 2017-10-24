@@ -58,14 +58,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/stu_manage-course_lesson_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		sid:	$('#id_sid').val(),
+		courseid:	$('#id_courseid').val(),
+		all_flag:	$('#id_all_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			sid:	$('#id_sid').val(),
-			courseid:	$('#id_courseid').val(),
-			all_flag:	$('#id_all_flag').val()
-        });
-    }
 
 
 	$('#id_sid').val(g_args.sid);

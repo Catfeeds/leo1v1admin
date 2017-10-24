@@ -289,6 +289,7 @@ class url_power_map {
 			'/news_info/stu_message_list'	=>1090700,
 			'/news_info/stu_detail_message_list'	=>1091000,
 			'/tongji_ex/top_list'	=>1101000,
+			'/tongji_ex/get_input_score_list'	=>1101300,
 			'/tongji/contract'	=>1100101,
 			'/tongji/user_count'	=>1100102,
 			'/tongji/seller_user_count'	=>1100121,

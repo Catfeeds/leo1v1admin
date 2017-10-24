@@ -842,12 +842,19 @@ class seller_student_new2 extends Controller
 
     //分配例子统计
     public function seller_student_new_distribution(){
+        $origin_ex = $this->get_in_str_val("origin_ex");
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         if($end_time >= time()){
             $end_time = time();
         }
         $res = [];
-        $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time);
+        $seller_student_new_list = $this->t_seller_student_new->get_distribution_count($start_time,$end_time,$origin_ex);
+        foreach($seller_student_new_list as $item){
+            $adminid = $item['adminid'];
+            $res[$adminid]['auto_get_count'] = $item['auto_get_count'];
+            $res[$adminid]['hand_get_count'] = $item['hand_get_count'];
+        }
+        $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);
         foreach($seller_log_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['count'] = $item['count'];

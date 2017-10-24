@@ -1125,6 +1125,23 @@ class common_new extends Controller
         $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
         $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
         if(empty($check_exist)){
+            if($status==8){
+                $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+                $userid = $this->t_order_info->get_userid($parent_orderid);
+                if($parent_orderid>0){
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "百度分期付款异常",
+                        "百度分期付款异常",
+                        "学生id:".$userid." 百度分期付款成功(后台子合同异常),支付方式:百度有钱花,订单号:".$orderNo,
+                        "");
+                    $this->t_orderid_orderno_list->field_update_list($orderNo,[
+                        "pay_flag" =>1,
+                        "channel"  =>"baidu"
+                    ]);
+
+                }
+            }
             return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
         }else{
             //期待贷款额度(分单位)

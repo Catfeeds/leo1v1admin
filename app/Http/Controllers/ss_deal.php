@@ -2149,7 +2149,7 @@ class ss_deal extends Controller
         }
         $from_parent_order_lesson_count=0;
         //8月营销活动
-        $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
+        //$price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
