@@ -747,7 +747,12 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $a = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+        // $a = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+
+
+        $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
+
+        dd($ret_info);
         // $a = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
         $b = [];
         foreach($a as $v){
