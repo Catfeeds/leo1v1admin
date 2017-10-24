@@ -456,7 +456,7 @@ class test_james extends Controller
             $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
             // $main_type = 2;// 销售
-            $ret_info['seller_target_income'] = (new tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
+            $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入
             if (!$ret_info['seller_target_income'] ) {
                 $ret_info['seller_target_income'] = 1600000;
             }
@@ -747,11 +747,48 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
+       //  $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
 
-       echo date('Y-m-01', strtotime('+1 month'));
+       // echo date('Y-m-01', strtotime('+1 month'));
 
-        dd($six_month_old);
+        $month_start_time = strtotime(date("Y-m-01",$start_time));
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
+
+
+        echo $month_start_time.' ~ '.$month_end_time;
+        dd('ok');
+
+
+
+
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
+
+        $main_type = 2;// 销售
+        $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入
+        if (!$ret_info['seller_target_income'] ) {
+            $ret_info['seller_target_income'] = 1600000;
+        }
+
+
+        // $month_end_time   = strtotime(date("Y-m-01",  $end_time));
+        // $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
+
+
+        $month_start_time = strtotime(date("Y-m-01"));
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month')));
+
+
+        $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+        $ret_info['formal_info']=0;  // 完成金额
+        $today=time(NULL);
+        foreach ($month_date_money_list as $date=> &$item ) {
+            $date_time=strtotime($date);
+            if ($date_time<=$today) {
+                $ret_info['formal_info']+=@$item["money"];
+            }
+        }
+
+        dd($ret_info);
         // $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
 
         // dd($r);
@@ -806,6 +843,63 @@ class test_james extends Controller
 
         dd($ret_info);
     }
+
+
+
+
+
+    public function get_month_finish_define_money($seller_groupid_ex,$start_time){
+        $task = new \App\Console\Tasks\TaskController();
+        $task->t_admin_main_group_name->switch_tongji_database();
+        $task->t_admin_group_name->switch_tongji_database();
+        $task->t_manager_info->switch_tongji_database();
+        $task->t_seller_month_money_target->switch_tongji_database();
+        $task->t_admin_group_month_time->switch_tongji_database();
+        $arr=explode(",",$seller_groupid_ex);
+        $main_type="";
+        $up_groupid="";
+        $groupid="";
+        $adminid="";
+        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3];
+        if (isset($arr[0]) && !empty($arr[0])){
+            $main_type_name= $arr[0];
+            $main_type = $main_type_list[$main_type_name];
+        }
+        if (isset($arr[1])  && !empty($arr[1])){
+            $up_group_name= $arr[1];
+            $up_groupid = $task->t_admin_main_group_name->get_groupid_by_group_name($up_group_name);
+        }
+        if (isset($arr[2])  && !empty($arr[2])){
+            $group_name= $arr[2];
+            $groupid = $task->t_admin_group_name->get_groupid_by_group_name($group_name);
+        }
+        if (isset($arr[3])  && !empty($arr[3])){
+            $account= $arr[3];
+            $adminid = $task->t_manager_info->get_id_by_account($account);
+        }
+
+        $month = date("Y-m-01",$start_time);
+        $groupid_list = [];
+        if($adminid){
+            $month_finish_define_money=$task->t_seller_month_money_target->field_get_value_2( $adminid,$month,"personal_money");
+        }else{
+            if($groupid){
+                $groupid_list[] = $groupid;
+            }else{
+                if($up_groupid){
+                    $groupid_list = $task->t_admin_group_name->get_groupid_list_new($up_groupid,-1);
+                }else{
+                    if($main_type){
+                        $groupid_list = $task->t_admin_group_name->get_groupid_list_new(-1,$main_type);
+                    }
+                }
+            }
+            $month_finish_define_money=$task->t_admin_group_month_time->get_month_money_by_month( $start_time,$groupid_list);
+        }
+
+        return $month_finish_define_money;
+    }
+    
 
 
 

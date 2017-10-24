@@ -32,9 +32,8 @@ class SetTeacherMoney extends Command
 
     /**
      * Execute the console command.
-     * @param type  1 每周二更新老师荣誉榜
-     2,3 每天更新老师的试听签单奖励
-     * @param day 老师签单奖更新的时间周期
+     * @param type 1 每周二更新老师荣誉榜  2,3 每天更新老师的试听签单奖励
+     * @param day  老师签单奖更新的时间周期
      * @return mixed
      */
     public function handle()
@@ -45,7 +44,7 @@ class SetTeacherMoney extends Command
         \App\Helper\Utils::logger("set_teacher_money_day:".$day);
 
         if($type===null){
-            $type = 1;
+            $type = 2;
         }
         if($day===null){
             $day = 0;

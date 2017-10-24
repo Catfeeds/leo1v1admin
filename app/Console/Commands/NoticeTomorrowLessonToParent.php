@@ -39,8 +39,8 @@ class NoticeTomorrowLessonToParent extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        // $ret  = \App\Helper\Utils::get_day_range(time(NULL)+86400);
-        $ret  = \App\Helper\Utils::get_day_range(time(NULL)+6*86400);
+        $ret  = \App\Helper\Utils::get_day_range(time(NULL)+86400);
+        //  $ret  = \App\Helper\Utils::get_day_range(time(NULL)+6*86400);
 
         $start_time = $ret["sdate"];
         $end_time   = $ret["edate"];
