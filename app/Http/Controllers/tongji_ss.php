@@ -8263,4 +8263,34 @@ class tongji_ss extends Controller
 
     }
 
+    public function get_order_lesson_money_info(){
+        $first_month = strtotime("2016-01-01");
+        // $end_month = strtotime(date("Y-m-01",time()));
+        // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
+        $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
+        
+        // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
+        //  $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
+        $list=[];
+        for($i=1;$i<=$num;$i++){
+            $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
+            $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+            $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
+            $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
+            $month = date("Y-m-d",$first);
+            $list[$month]["stu_num"] = @$order_money_info["stu_num"];
+            $list[$month]["all_price"] = @$order_money_info["all_price"];
+            $list[$month]["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+            foreach($order_money_month as $val){
+                $list[$month][$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+            }
+
+            
+        }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list  
+        ]);
+
+    }
+
 }

@@ -26,15 +26,18 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,'l.type',E\Eseller_edit_log_type::V_3);
+        $this->where_arr_add_int_or_idlist($where_arr,'m.account_role',E\Eaccount_role::V_2);
         $sql = $this->gen_sql_new(
             " select count(l.adminid) count,l.adminid,l.type,"
             ." count(ss.global_tq_called_flag = 0) no_call_count,ss.global_tq_called_flag "
             ." from %s l"
             ." left join %s ss on ss.userid=l.new and ss.global_tq_called_flag = 0 "
+            ." left join %s m on m.uid=l.adminid "
             ." where %s "
             ." group by l.adminid "
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

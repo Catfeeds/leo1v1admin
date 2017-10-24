@@ -122,19 +122,28 @@ class tongji_ex extends Controller
     }
 
     public function get_input_score_list(){
-        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],0,0,true);
-        $admin_type = $this->get_in_int_val('admin_type');
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3,0,true);
+        $admin_type = $this->get_in_int_val('admin_type',1);
         $page_num   = $this->get_in_page_num();
 
         $ret_info = $this->t_student_score_info->get_input_score_list($start_time, $end_time, $admin_type, $page_num);
 
+        dd($ret_info);
+
         foreach( $ret_info['list'] as &$item){
             if($item['admin_type'] == 1){ // 家长
                 $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
+                $item['account_type'] = '家长';
+                $item['admin_type_str'] = '微信端';
             }else{ // 助教
                 $item['create_nick'] = $this->t_manager_info->get_account($item['create_adminid']);
+                $item['account_type'] = '助教';
+                $item['admin_type_str'] = '后台';
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
+
+
+
         }
 
         return $this->pageView(__METHOD__, $ret_info);

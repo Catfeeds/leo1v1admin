@@ -28,6 +28,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                 ['la.full_time=%u',$full_time,-1],
                 ["not exists(select 1 from %s where b.grade=grade and b.phone=phone and b.subject=subject and b.add_time<add_time)",
                  self::DB_TABLE_NAME,""],
+                "b.add_time!=0"
             ];
 
             if($grade !=100 && $grade !=200 && $grade!=300){
@@ -46,7 +47,6 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             }elseif($have_wx==1){
                 $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
             }
-
         }else{
             $where_arr []= "b.phone like '%%".$phone."%%' or b.nick like '%%".$phone."%%'";
             $group_str = "group by b.add_time";

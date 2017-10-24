@@ -47,8 +47,10 @@
                     <td>入职时间 </td>
                     <td>离职时间 </td>
                     <td>是否离职 </td>
-                    <td>分配数</td>
-                    <td>分配未联系数</td>
+                    <td>拨打认领数</td>
+                    <td>手动认领数</td>
+                    <td>手动分配数</td>
+                    <td>手动分配未联系数</td>
                     <td>在职人数</td>
                     <td>离职人数</td>
                     <td> 操作  </td>
@@ -65,6 +67,8 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
+                        <td ></td>
+                        <td ></td>
                         <td >
                             <a href="javascript:;" class="distribution_count" >
                                 {{@$var["count"]}}
