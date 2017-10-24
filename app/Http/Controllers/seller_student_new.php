@@ -1592,7 +1592,11 @@ class seller_student_new extends Controller
                 "操作者:  抢单 [$account] ",
                 "system"
             );
-            $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
+            $this->t_seller_student_new->field_update_list($userid,[
+                'admin_revisiterid' => $competition_call_adminid,
+                "admin_assign_time" => time(NULL),
+                'hand_get_adminid'  => $competition_call_adminid
+            ]);
             $ret = 1;
         }
         return $ret;

@@ -1585,7 +1585,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_user_free($userid) {
         $sql=$this->gen_sql_new(
-            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1,hand_get_adminid=0 "
             ."  where   n.userid=%u  and require_admin_type=2  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1598,7 +1598,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_no_hold_free($admin_revisiterid) {
         $sql=$this->gen_sql_new(
-            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1,hand_get_adminid=0 "
             ."  where  hold_flag=0  and admin_revisiterid=%u  and require_admin_type=2  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
