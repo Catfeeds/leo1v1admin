@@ -325,16 +325,17 @@ class test_boby extends Controller
     //添加给老师添加公开课学生
 
     public function add_stu_to_tea_open_lesson(){
-        // $start_time = strtotime('2017-09-01');
-        // $end_time = strtotime('2017-10-01');
-        // $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
+        $start_time = strtotime('2017-09-01');
+        $end_time = strtotime('2017-10-01');
+        $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
         // $teacherid = "(180795)";
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
 
         // $lessonid_list = ['374979','374980','374096','374097','374098',374080,374081,374082,374083,374084,374085,374086];
-        $lessonid_list = [318460,318461,371543,371544,371545];
+        // $lessonid_list = [318460,318461,371543,371544,371545];
+        $lessonid_list = [378713,378714];//10-24
         foreach($lessonid_list as $lessonid){
             $courseid = $this->t_lesson_info->get_courseid($lessonid);
 
@@ -342,7 +343,7 @@ class test_boby extends Controller
                 "packageid"=>0
             ]);
         }
-        return 1;
+        // return 1;
         //$lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
          // foreach ($lessonid_list as $k=>$v) {
          //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $k );
@@ -371,7 +372,7 @@ class test_boby extends Controller
                     array_push($userid_xiao,$item);
                 } else if ($item['grade'] < 300 ) {
                     array_push($userid_chu,$item);
-                } else {
+                } else if ($item['grade'] < 400 )  {
                     array_push($userid_gao,$item);
                 }
             }
@@ -383,16 +384,17 @@ class test_boby extends Controller
         // dd($userid_xiao);
 
         foreach($lessonid_list as $k=>$v){
-            if ($v == 100){
-                $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
-                dispatch($job);
-            } else if ($v == 200) {
-                $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $k))->delay(10);
-                dispatch($job);
-            } else {
-                $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
-                dispatch($job);
-           }
+           //  if ($v == 100){
+           //      $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
+           //      dispatch($job);
+           //  } else if ($v == 200) {
+                // $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $k))->delay(10);
+            $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $v))->delay(10);
+            dispatch($job);
+           //  } else {
+           //      $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
+           //      dispatch($job);
+           // }
         }
         return 'ok';
     }
