@@ -62,7 +62,6 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&account_role="+7
                 +"&flag="+3
                );
     });
