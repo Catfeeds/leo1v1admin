@@ -153,7 +153,7 @@ class tongji_ex extends Controller
 
 
         }
-        dd($a);
+        // dd($a);
 
         return $this->pageView(__METHOD__, $ret_info);
 
