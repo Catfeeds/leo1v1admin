@@ -25,89 +25,80 @@ $(function(){
     });
 
     var jump_url_1="/seller_student_new2/seller_edit_log_list";
-    $(".count").on("click",function(){
-        var opt_data= $(this).get_row_opt_data();
-        $.wopen(jump_url_1+"?"
-                +"adminid="+opt_data.adminid
-                +"&start_time="+g_args.start_time
-                +"&end_time="+g_args.end_time
-                +"&date_type="+g_args.date_type
-                +"&opt_date_type="+g_args.opt_date_type
-                +"&origin_ex="+g_args.origin_ex
-                +"&account_role="+2
-               );
-    });
-
-    var jump_url_1="/seller_student_new2/seller_edit_log_list";
-    $(".tmk_count").on("click",function(){
-        var opt_data= $(this).get_row_opt_data();
-        $.wopen(jump_url_1+"?"
-                +"adminid="+opt_data.adminid
-                +"&start_time="+g_args.start_time
-                +"&end_time="+g_args.end_time
-                +"&date_type="+g_args.date_type
-                +"&opt_date_type="+g_args.opt_date_type
-                +"&origin_ex="+g_args.origin_ex
-                +"&account_role="+7
-               );
-    });
-
-    var jump_url_1="/seller_student_new2/seller_edit_log_list";
-    $(".distribution_count").on("click",function(){
-        var opt_data= $(this).get_row_opt_data();
-        $.wopen(jump_url_1+"?"
-                +"adminid="+opt_data.adminid
-                +"&start_time="+g_args.start_time
-                +"&end_time="+g_args.end_time
-                +"&date_type="+g_args.date_type
-                +"&opt_date_type="+g_args.opt_date_type
-                +"&origin_ex="+g_args.origin_ex
-                +"&flag="+3
-               );
-    });
-
-    var jump_url_1="/seller_student_new2/seller_edit_log_list";
-    $(".no_call_count").on("click",function(){
-        var opt_data= $(this).get_row_opt_data();
-        $.wopen(jump_url_1+"?"
-                +"adminid="+opt_data.adminid
-                +"&start_time="+g_args.start_time
-                +"&end_time="+g_args.end_time
-                +"&date_type="+g_args.date_type
-                +"&opt_date_type="+g_args.opt_date_type
-                +"&global_tq_called_flag="+0
-                +"&origin_ex="+g_args.origin_ex
-                +"&flag="+3
-               );
-    });
-
-    var jump_url_1="/seller_student_new2/seller_edit_log_list";
     $(".auto_get_count").on("click",function(){
         var opt_data= $(this).get_row_opt_data();
         $.wopen(jump_url_1+"?"
-                +"adminid="+opt_data.adminid
                 +"&start_time="+g_args.start_time
                 +"&end_time="+g_args.end_time
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
-                +"&global_tq_called_flag="+0
+                +"adminid="+opt_data.adminid
                 +"&origin_ex="+g_args.origin_ex
                 +"&flag="+1
                );
     });
 
-    var jump_url_1="/seller_student_new2/seller_edit_log_list";
     $(".hand_get_count").on("click",function(){
         var opt_data= $(this).get_row_opt_data();
         $.wopen(jump_url_1+"?"
-                +"adminid="+opt_data.adminid
                 +"&start_time="+g_args.start_time
                 +"&end_time="+g_args.end_time
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
-                +"&global_tq_called_flag="+0
+                +"adminid="+opt_data.adminid
                 +"&origin_ex="+g_args.origin_ex
                 +"&flag="+2
+               );
+    });
+
+    $(".count").on("click",function(){
+        var opt_data= $(this).get_row_opt_data();
+        $.wopen(jump_url_1+"?"
+                +"&start_time="+g_args.start_time
+                +"&end_time="+g_args.end_time
+                +"&date_type="+g_args.date_type
+                +"&opt_date_type="+g_args.opt_date_type
+                +"adminid="+opt_data.adminid
+                +"&origin_ex="+g_args.origin_ex
+                +"&flag="+3
+               );
+    });
+
+    $(".tmk_count").on("click",function(){
+        var opt_data= $(this).get_row_opt_data();
+        $.wopen(jump_url_1+"?"
+                +"&start_time="+g_args.start_time
+                +"&end_time="+g_args.end_time
+                +"&date_type="+g_args.date_type
+                +"&opt_date_type="+g_args.opt_date_type
+                +"adminid="+opt_data.adminid
+                +"&origin_ex="+g_args.origin_ex
+                +"&flag="+4
+               );
+    });
+
+    $(".distribution_count").on("click",function(){
+        var opt_data= $(this).get_row_opt_data();
+        $.wopen(jump_url_1+"?"
+                +"&start_time="+g_args.start_time
+                +"&end_time="+g_args.end_time
+                +"&date_type="+g_args.date_type
+                +"&opt_date_type="+g_args.opt_date_type
+                +"adminid="+opt_data.adminid
+                +"&origin_ex="+g_args.origin_ex
+               );
+    });
+
+    $(".no_call_count").on("click",function(){
+        var opt_data= $(this).get_row_opt_data();
+        $.wopen(jump_url_1+"?"
+                +"&start_time="+g_args.start_time
+                +"&end_time="+g_args.end_time
+                +"&date_type="+g_args.date_type
+                +"&opt_date_type="+g_args.opt_date_type
+                +"adminid="+opt_data.adminid
+                +"&origin_ex="+g_args.origin_ex
+                +"&global_tq_called_flag="+0
                );
     });
 

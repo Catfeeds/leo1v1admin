@@ -2561,12 +2561,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             'n.admin_revisiterid>0',
             ['m.account_role=%u',E\Eaccount_role::V_2],
+            's.is_test_user=0',
         ];
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
-        $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
-                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
+        $sql = $this->gen_sql_new(" select n.admin_revisiterid adminid, "
+                                  ." sum(if(n.hand_get_adminid=1,1,0)) auto_get_count,"
+                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid=2,1,0)) hand_get_count,"
+                                  ." sum(if(n.hand_get_adminid=3,1,0)) count, "
+                                  ." sum(if(n.hand_get_adminid=4,1,0)) tmk_count "
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
                                   ." left join %s s on s.userid=n.userid "
@@ -2580,11 +2584,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_auto_get_list($adminid,$start_time,$end_time,$origin_ex,$page_info){
+    public function get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info){
         $where_arr = [
-            'n.hand_get_adminid = 0',
+            ['n.admin_revisiterid=%u',$adminid],
+            ['n.hand_get_adminid=%u',$flag],
             ['m.account_role=%u',E\Eaccount_role::V_2],
-            ['n.admin_revisiterid = %u',$adminid,-1],
+            's.is_test_user=0',
         ];
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
@@ -2595,6 +2600,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ." left join %s m on m.uid=n.admin_revisiterid "
                                   ." left join %s s on s.userid=n.userid "
                                   ." where %s "
+                                  ." group by n.admin_revisiterid "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
