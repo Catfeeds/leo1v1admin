@@ -80,7 +80,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_adminid_in_list($where_arr,"admin_revisiterid",$adminid_all);
         $where_arr[]= $this->where_get_in_str_query("s.grade",$grade_list);
 
-        // 
+        //
         $sql = $this->gen_sql_new(
             // "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
             "select from_unixtime(first_call_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
@@ -785,8 +785,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $phone=$ss_info["phone"];
         $set_arr=[];
         if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
-
-
+            $hand_get_adminid = 0;
+            if($opt_type == 0){
+                $hand_get_adminid = E\Ehand_get_adminid::V_3;
+            }elseif($opt_type == 3){
+                $hand_get_adminid = E\Ehand_get_adminid::V_4;
+            }
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
@@ -798,7 +802,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_adminid_1"  => $sub_assign_adminid_1,
                 "sub_assign_time_1"  => $now,
                 "hold_flag" => 1,
-
+                "hand_get_adminid" => $hand_get_adminid,
             ];
 
             if ($opt_type==3 ||  ($tmk_student_status==E\Etmk_student_status::V_3)  ) {
@@ -901,7 +905,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "first_seller_adminid" => $opt_adminid,
                 "sub_assign_time_1"  => time(NULL),
                 "hold_flag" => 1,
-
+                "hand_get_adminid" => E\Ehand_get_adminid::V_1,
             ];
             if ($opt_type==1){
 
