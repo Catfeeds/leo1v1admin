@@ -2569,7 +2569,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(" select n.admin_revisiterid adminid, "
                                   ." sum(if(n.hand_get_adminid=1,1,0)) auto_get_count,"
-                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid=2,1,0)) hand_get_count,"
+                                  ." sum(if(n.hand_get_adminid=2,1,0)) hand_get_count,"
                                   ." sum(if(n.hand_get_adminid=3,1,0)) count, "
                                   ." sum(if(n.hand_get_adminid=4,1,0)) tmk_count "
                                   ." from %s n "
