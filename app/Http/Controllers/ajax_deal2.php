@@ -1810,5 +1810,20 @@ class ajax_deal2 extends Controller
 
     }
 
-
+    public function push_share_knowledge(){
+        $account_role = $this->get_account_role();
+        $adminid = $this->get_account_id();
+        $url = "http://admin.yb1v1.com/";
+        $wx_openid = $this->t_manager_info->get_wx_openid($adminid);
+        if(!$wx_openid){
+            //return $this->output_err("请绑定微信");
+        }
+        $ret = $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                944,
+                "分析知识库",
+                "",
+                "",
+                $url);
+        return $this->output_succ(['data'=>"推送成功"]);
+    }
 }
