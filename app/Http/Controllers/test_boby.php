@@ -827,6 +827,7 @@ class test_boby extends Controller
         foreach ( $old_order_list as $item ) {
             array_push($old_user, $item['userid']);
         }
+//dd($old_user);
         foreach ( $new_order_list as $item ) {
 
             if( !in_array($item['userid'], $old_user) ) {
@@ -839,6 +840,7 @@ class test_boby extends Controller
                 }
             }
         }
+dd($new_user);
         $ret['new_pay_stu_num'] = count($new_user);
         $ret['has_ass_num'] = count($has_ass_user);
         $ret['no_ass_num'] = count($no_ass_user);

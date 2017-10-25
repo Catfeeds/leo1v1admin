@@ -1356,10 +1356,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         $ret_info = $this->main_get_list($sql);
-        $sql=$this->gen_sql_new("delete from %s where %s"
+        $sql=$this->gen_sql_new("update %s set lesson_del_flag=1 where %s"
 
-                                ." and lesson_del_flag=0 "
-                                ,
+                                ." and lesson_del_flag=0 ",
                                 self::DB_TABLE_NAME,
                                 $where_arr
         );

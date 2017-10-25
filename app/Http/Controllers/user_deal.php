@@ -3175,7 +3175,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        
+        $userid = 50232;
+        $ret=$this->t_lesson_info_b3->del_lesson_no_start_by_userid($userid);
+        dd($ret);
+        dd(111);
+
       
         $list = $this->t_teacher_info->get_all_teacher_tags();
         foreach($list as $val){

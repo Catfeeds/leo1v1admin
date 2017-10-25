@@ -532,6 +532,21 @@ class test_james extends Controller
     public function send_wx_msg(){
         $wx = new App\Helper\Wx();
 
+        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+
+        $data_leo = [
+            'first'    => "测试",
+            'keyword1' => "$keyword1",
+            'keyword2' => "$keyword2",
+            'keyword3' => "$day_date",
+            'remark'   => "请尽快联系家长和老师进行处理!"
+        ];
+
+        $url_leo = '';
+
+        $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
+
+        $data = [];
 
         \App\Helper\Utils::logger();
 
