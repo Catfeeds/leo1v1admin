@@ -604,6 +604,9 @@ class user_deal extends Controller
 
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $userid    = $this->t_lesson_info->get_userid($lessonid);
+
+
+        
         /* 设置lesson_count */
         $diff=($lesson_end-$lesson_start)/60;
         if ($diff<=20) {
@@ -619,6 +622,20 @@ class user_deal extends Controller
         }else{
             $lesson_count= ceil($diff/40)*100 ;
         }
+
+
+        //百度分期用户首月排课限制
+        /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
+            if($period_limit){
+            return $period_limit;
+            }*/
+
+        //逾期预警/逾期停课学员不能排课
+        $student_type = $this->t_student_info->get_type($userid);
+        if($student_type>4){
+            //return $this->output_err("百度分期逾期学员不能排课!");
+        }
+
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
         $lesson_type = $lesson_info['lesson_type'];

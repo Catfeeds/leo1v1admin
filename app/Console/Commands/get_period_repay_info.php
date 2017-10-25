@@ -63,9 +63,9 @@ class get_period_repay_info extends Command
                         if($item["bStatus"] != 48){
                             $item["paidTime"]=0; 
                         }
-                        if($item["bStatus"] == 48 && $item["paidTime"]>$item["paidTime"]){
+                        if($item["bStatus"] == 48 && $item["paidTime"]>$item["dueDate"]){
                             $repay_status = 2;
-                        }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["paidTime"]){
+                        }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["dueDate"]){
                             $repay_status = 1;
                         }elseif($item["bStatus"] == 144){
                             $repay_status = 3;
@@ -104,17 +104,19 @@ class get_period_repay_info extends Command
                             $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
                             $userid = $task->t_order_info->get_userid($parent_orderid);
                             $old_type= $task->t_student_info->get_type($userid);
-                            $task->t_student_info->get_student_type_update($userid,5);
-                            $task->t_student_type_change_list->row_insert([
-                                "userid"    =>$userid,
-                                "add_time"  =>time(),
-                                "type_before" =>$old_type,
-                                "type_cur"    =>0,
-                                "change_type" =>5,
-                                "adminid"     =>0,
-                                "reason"      =>"系统更新"
-                            ]);
-                            $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期预警","学员预警逾期通知",$userid."学生逾期未还款,状态已变更为预警逾期","");
+                            if($old_type != 6){
+                                $task->t_student_info->get_student_type_update($userid,5);
+                                $task->t_student_type_change_list->row_insert([
+                                    "userid"    =>$userid,
+                                    "add_time"  =>time(),
+                                    "type_before" =>$old_type,
+                                    "type_cur"    =>0,
+                                    "change_type" =>5,
+                                    "adminid"     =>0,
+                                    "reason"      =>"系统更新"
+                                ]);
+                                $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期预警","学员预警逾期通知",$userid."学生逾期未还款,状态已变更为预警逾期","");
+                            }
 
                         }
                     }

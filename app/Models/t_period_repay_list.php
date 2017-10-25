@@ -24,14 +24,16 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
         return $this->main_get_list($sql);
     }
 
-    public function get_period_order_overdue_warning_info($due_date,$repay_status=3){
+    public function get_period_order_overdue_warning_info($due_date,$repay_status=3,$type=-1){
         $where_arr=[
             ["p.due_date = %u",$due_date,-1],
             ["p.repay_status = %u",$repay_status,-1],
+            ["s.type = %u",$type,-1],
             "s.is_test_user=0",
             "r.orderid is null"
         ];
-        $sql = $this->gen_sql_new("select o.userid,p.repay_status,pa.wx_openid,m.uid,s.nick "
+        $sql = $this->gen_sql_new("select o.userid,p.repay_status,pa.wx_openid,m.uid,"
+                                  ."s.nick,c.from_orderno,p.orderid  "
                                   ." from %s p"
                                   ." left join %s c on p.orderid=c.child_orderid"
                                   ." left join %s o on c.parent_orderid = o.orderid"

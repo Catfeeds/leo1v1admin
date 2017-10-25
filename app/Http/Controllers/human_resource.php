@@ -1197,7 +1197,7 @@ class human_resource extends Controller
             $ret_auth = $this->t_manager_info->check_permission($this->get_account(), TEA_ARCHIVES);
             if(!$ret_auth)
                 return outputJson(array('ret' => NOT_AUTH, 'info' => $this->err_string[NOT_AUTH]));
-            
+
             $this->t_teacher_info->delete_teacher($teacherid);
             $this->t_user_info->delete_user($teacherid, 2);
         }elseif($teacher_type == 1){
@@ -2093,7 +2093,7 @@ class human_resource extends Controller
             }else{
                 $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
             }
-            
+
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
 
             if(empty($item["grade_ex"])){
@@ -4725,6 +4725,21 @@ class human_resource extends Controller
         $page_num = $this->get_in_page_num();
         $is_done  = $this->get_in_int_val('is_modify_time_flag',-1);
         $ret_info = $this->t_lesson_time_modify->get_modify_list($start_time, $end_time, $page_num, $is_done);
+
+        foreach($ret_info['list'] as &$item){
+            $item[''] = '';
+
+            if($item['is_modify_time_flag'] == 2){
+                $item['is_modify_time_flag_str'] = "<font color=\"red\">已拒绝</font>";
+            }elseif($item['is_modify_time_flag'] == 1){
+                $item['is_modify_time_flag_str'] = "<font color=\"green\">已完成</font>";
+            }elseif($item['is_modify_time_flag'] == 0){
+                $item['is_modify_time_flag_str'] = "<font color=\blue\">老师未回应</font>";
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"parent_deal_time","","Y-m-d H:i");
+
+        }
 
         return $this->pageView(__METHOD__, $ret_info);
     }

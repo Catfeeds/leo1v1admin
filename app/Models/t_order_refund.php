@@ -282,7 +282,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         $sql = $this->gen_sql_new("select r.userid,r.orderid,so.orderid so_orderid,so.lesson_left,so.contract_type,o.competition_flag "
                                   ." from %s r left join %s o on r.orderid=o.orderid"
                                   ." left join %s s on r.userid = s.userid"
-                                  ." left join %s so on so.parent_order_id = o.orderid"
+                                  ." left join %s so on so.parent_order_id = o.orderid and so.from_parent_order_type=0"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
