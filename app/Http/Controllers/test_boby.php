@@ -808,9 +808,11 @@ class test_boby extends Controller
         $start_time = strtotime('2017-10-01');
         $end_time   = strtotime('2017-11-01');
         $page_num   = $this->get_in_page_num();
+        $ret = [];
         //月初付费学员数
         $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, -1, -1, '', -1, -1, -1);
         $all_pay  = $ret_info['list'];
+        $ret['pay_stu_num'] = count($all_pay);
 
         $old_order_list = $this->t_order_info->get_order_list_count(-1,$start_time);
         $new_order_list = $this->t_order_info->get_order_list_count($start_time,$end_time);
@@ -834,14 +836,16 @@ class test_boby extends Controller
                 }
             }
         }
+        $ret['new_pay_stu_num'] = count($new_user);
+        $ret['has_ass_num'] = count($has_ass_user);
+        $ret['no_ass_num'] = count($no_ass_user);
 
         //月退费名单
-        $ret_info = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
-
-        $refund_user = [];
-        foreach($ret_info as $item) {
-            array_push($refund_user, $item['userid']);
-        }
+        $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
+        $ret['refund_stu_num'] = $refund_num;
+        //月正常结课学生
+        $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
+        $ret['normal_over_num'] = $ret_num;
 
         //月 在读,停课,休学,假期数
         $ret_info = $this->t_student_info->get_student_list_archive(-1,-1,-1,'','',-1,-1,0,-1,$page_num,-1,-1);
@@ -862,29 +866,40 @@ class test_boby extends Controller
             }
         }
 
+        $ret['study_num'] = count($study_user);
+        $ret['stop_num'] = count($stop_user);
+        $ret['drop_out_num'] = count($drop_out_user);
+        $ret['vacation_num'] = count($vacation_user);
         //月续费学员
         $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
-        //月预警学员续
+        $renow_user = [];
+        foreach ($renow_list as $item) {
+            array_push($renow_user, $item['userid']);
+        }
+        //月预警学员
         $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
-        $warning_user = [];
+        $warning_renow_num = 0;
 
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
             if(is_array($new)){
                 foreach($new as $v) {
-                    if(count($v) && !in_array($v ,$warning_user)){
-                        array_push($warning_user, $v);
+                    if(count($v) && !in_array($v ,$renow_user)){
+                        $warning_renow_num++;
                     }
                 }
             }
         }
-        dd($warning_list);
-        dd($old_order_list);
 
-        //月收入
-        // $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
+        $ret['warning_renow_stu_num']    = $warning_renow_num;
+        $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
+
         //月课耗和月课耗收入
-        $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
+        $lesson_money = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month($start_time, $end_time);
+        $ret['lesson_count']       = $lesson_money['lesson_count'];
+        $ret['lesson_count_money'] = $lesson_money['lesson_count_money'];
+        $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
+        dd($ret);
 
     }
 
