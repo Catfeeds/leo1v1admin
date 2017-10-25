@@ -413,6 +413,12 @@ class test_james extends Controller
 
 
     public function ssss(){
+        $parentid = $this->get_in_int_val('p');
+        $lessonid = $this->get_in_int_val('l');
+        $type = $this->get_in_int_val('y');
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
+
+        dd($ret_list);
 
         $this->switch_tongji_database();
         // $parent_list = $this->t_parent_info->get_openid_list();
