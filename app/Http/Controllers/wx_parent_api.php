@@ -68,13 +68,15 @@ class wx_parent_api extends Controller
 
         if($type == 0){
             $lesson_type_str = '常规课';
+            $type_str = "0,1,3";
         }elseif($type == 2){
+            $type_str = "2";
             $lesson_type_str = '试听课';
         }else{
             $lesson_type_str = '';
         }
 
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type_str);
         foreach ($ret_list as &$item ) {
             //判断是否可以申请调课
             if($item['lesson_start']-$now>86400){
