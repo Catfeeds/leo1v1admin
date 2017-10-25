@@ -413,6 +413,10 @@ class test_james extends Controller
 
 
     public function ssss(){
+
+        $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+
         $parentid = $this->get_in_int_val('p');
         $lessonid = $this->get_in_int_val('l');
         $type = $this->get_in_int_val('y');
