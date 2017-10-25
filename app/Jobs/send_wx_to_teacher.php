@@ -28,15 +28,9 @@ class send_wx_to_teacher extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $t_teacher_info = new \App\Models\t_teacher_info();
+        $t_teacher_info=new \App\Models\t_teacher_info();
 
         $tea_list = $t_teacher_info->get_all_has_wx_tea();
-        // $tea_list = [[
-        //     'wx_openid' => 'oJ_4fxMltd-j8Pc4-GtJgll0i5SQ',
-        //     'grade_start' => 1,
-        //     'subject' => 1,
-        //     'grade_part_ex' =>0
-        // ]];
         /**
          * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
          * 标题课程 : 待办事项提醒
