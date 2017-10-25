@@ -13,6 +13,7 @@ class common_ex extends Controller
     public function book_free_lesson_with_code() {
         $code       = $this->get_in_str_val('code');
         $phone      = $this->get_in_phone();
+        $type       = $this->get_in_str_val("type","");
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
 
         \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
@@ -20,8 +21,14 @@ class common_ex extends Controller
             return $this->output_err("手机验证码不对,请重新输入");
         }
 
-        return $this->book_free_lesson();
+        if($type=="zhishiku"){
+            
+        }else{
+            return $this->book_free_lesson();
+        }
     }
+
+
 
     public function send_phone_code () {
         $phone = trim($this->get_in_str_val('phone'));
@@ -54,7 +61,6 @@ class common_ex extends Controller
 
     public function book_free_lesson()
     {
-
         $nick     = $this->get_in_str_val("nick");
         $phone    = $this->get_in_str_val("phone");
         $origin_phone = $this->get_in_str_val("origin_phone");
