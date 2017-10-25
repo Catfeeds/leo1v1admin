@@ -1314,13 +1314,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new("select  sum(l.lesson_count ),count(distinct l.userid) ,sum(ol.price)"
-                                  .",from_unixtime(l.lesson_start,'%%Y-%%m') as lesson_month"
+                                  // .",from_unixtime(l.lesson_start,'%%Y-%%m') as lesson_month"
                                   ." from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s ol on ol.lessonid=l.lessonid"
                                   ." where %s"
-                                  ." group by lesson_month "
-                                  ." order by lesson_month asc "
+                                  // ." group by lesson_month "
+                                  // ." order by lesson_month asc "
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_order_lesson_list::DB_TABLE_NAME
