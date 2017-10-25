@@ -39,15 +39,13 @@ class t_ass_weekly_info extends \App\Models\Zgen\z_t_ass_weekly_info
         return $this->main_get_list($sql);
 
     }
+
+    public function get_warning_user_by_month($start_time){
+        $where_arr = [
+            ["week=%u", $start_time, -1],
+            'time_type=2',
+        ];
+        $sql = $this->gen_sql_new("select warning_student_list from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-

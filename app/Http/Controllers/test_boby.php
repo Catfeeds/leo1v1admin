@@ -817,12 +817,19 @@ class test_boby extends Controller
 
         $old_user = [];
         $new_user = [];//月新签
+        $has_ass_user = [];//月新签未排课,已分配助教
+        $no_ass_user = [];//月新签未排课,未分配助教
         foreach ( $old_order_list as $item ) {
             array_push($old_user, $item['userid']);
         }
         foreach ( $new_order_list as $item ) {
             if( !in_array($old_user, $item['userid']) ) {
                 array_push($new_user, $item['userid']);
+                if (!$item['start_time'] && $item['assistantid'] > 0) {
+                    array_push($has_ass_user, $item['userid']);
+                } else if (!$item['start_time'] && !$item['assistantid']) {
+                    array_push($no_ass_user, $item['userid']);
+                }
             }
         }
 
@@ -841,7 +848,7 @@ class test_boby extends Controller
         $stop_user = [];
         $drop_out_user = [];
         $vacation_user = [];
-        foreach($ret_info as $itme) {
+        foreach($ret_info['list'] as $item) {
             if($item['type'] == 0) {
                 array_push($study_user,$item['userid']);
             } else if ($item['type'] == 2) {
@@ -852,12 +859,27 @@ class test_boby extends Controller
                 array_push($vacation_user,$item['userid']);
             }
         }
+
+        //月续费学员
+        $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
+        //月预警学员续
+        $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
+        $warning_user = [];
+        foreach ($warning_list as $item){
+            $new = json_decode($item['warning_student_list'], true);
+            foreach($new as $v) {
+                if(count($v) && in_array($warning_user)){
+                    array_push($warning_user, $v);
+                }
+            }
+        }
+        dd($warning_user);
         dd($old_order_list);
 
         //月收入
         // $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
         //月课耗和月课耗收入
-        // $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
 
     }
 
