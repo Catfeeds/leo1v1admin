@@ -3732,4 +3732,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
+    public function check_ass_leader_flag($account_id){
+        $is_master = $this->t_admin_main_group_name->check_is_master(1,$account_id); 
+        $is_master_2 = $this->t_admin_group_name->check_is_master(1,$account_id);
+        if($is_master_2 || $is_master){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
 }

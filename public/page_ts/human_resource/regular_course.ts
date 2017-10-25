@@ -200,7 +200,11 @@ $(function(){
 
             id_btn_student.on("click",function(){
                 if(g_args.account_role==1){
-                     $.wopen("../user_manage/ass_archive_ass?userid="+calEvent.userid);
+                    if(g_args.ass_master_flag==1){
+                        $.wopen("../user_manage/ass_archive?userid="+calEvent.userid);
+                    }else{
+                        $.wopen("../user_manage/ass_archive_ass?userid="+calEvent.userid); 
+                    }
                 }else{
                     $.wopen("../stu_manage?sid="+calEvent.userid+"&return_url=http%3A%2F%2Fdev.admin.yb1v1.com%2Fuser_manage%2Fall_users   ");
                 }
