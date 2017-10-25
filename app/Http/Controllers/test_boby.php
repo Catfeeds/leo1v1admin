@@ -810,8 +810,11 @@ class test_boby extends Controller
         $page_num   = $this->get_in_page_num();
         $ret = [];
         //月初付费学员数
-        $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, -1, -1, '', -1, -1, -1);
-        $all_pay  = $ret_info['list'];
+        $all_pay = [];
+        $ret_info = $this->t_student_info->get_student_list_for_finance_count();
+        foreach($ret_info as $item){
+            array_push($all_pay, $item['userid']);
+        }
         $ret['pay_stu_num'] = count($all_pay);
 
         $old_order_list = $this->t_order_info->get_order_list_count(-1,$start_time);
