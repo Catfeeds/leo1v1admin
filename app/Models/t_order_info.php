@@ -128,6 +128,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_order_list_count( $start_time, $end_time)
+    {
+        $where_arr=[
+            ["o.order_time>=%u" , $start_time, -1],
+            ["o.order_time<%u" , $end_time, -1],
+            "s.is_test_user=0",
+            "o.contract_type=0",
+            "o.contract_status>0",
+            "o.price>0",
+        ];
+
+        $sql = $this->gen_sql_new("select distinct  o.userid "
+                              ." from %s o "
+                              ." left join %s s on s.userid = o.userid "
+                              ." where %s ",
+                              self::DB_TABLE_NAME,
+                              t_student_info::DB_TABLE_NAME,
+                              $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_order_list(
         $page_num,$start_time,$end_time,$contract_type,$contract_status
         ,$userid,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money

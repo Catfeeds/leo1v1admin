@@ -27,18 +27,19 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-lesson_count_user_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		lesson_count_start:	$('#id_lesson_count_start').val(),
+		lesson_count_end:	$('#id_lesson_count_end').val(),
+		assistantid:	$('#id_assistantid').val(),
+		type:	$('#id_type').val(),
+		grade:	$('#id_grade').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			lesson_count_start:	$('#id_lesson_count_start').val(),
-			lesson_count_end:	$('#id_lesson_count_end').val(),
-			assistantid:	$('#id_assistantid').val(),
-			type:	$('#id_type').val(),
-			grade:	$('#id_grade').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 

@@ -701,24 +701,17 @@ class user_manage extends Controller
         $grade          = $this->get_in_grade();
         $originid       = $this->get_in_int_val('originid',-1);
         $user_name      = trim($this->get_in_str_val('user_name',''));
-        $phone          = trim($this->get_in_str_val('phone',''));
         $assistantid    = $this->get_in_int_val("assistantid",-1);
         $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
         $page_num       = $this->get_in_page_num();
-        $userid         = $this->get_in_userid(-1);
 
-        $teacherid = -1;
+        $userid = -1;
         if (is_numeric($user_name) && $user_name< 10000000 ) {
             $userid    = $user_name;
             $user_name = "";
         }
-        if ($assistantid >0 && $order_type == -1) {
-            $order_type = 3;
-        }
 
-        $ret_info = $this->t_student_info->get_student_list_for_finance(
-            $page_num, $userid, $grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
-        );
+        $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, $userid, $grade, $user_name, $assistantid, $originid, $seller_adminid);
 
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);

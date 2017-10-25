@@ -548,5 +548,23 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
     }
 
+    public function get_refund_userid_by_month($start_time, $end_time){
+        $where_arr = [
+            ['r.apply_time>=%u', $start_time, -1],
+            ['r.apply_time<%u', $end_time, -1],
+            's.is_test_user=0',
+        ];
+
+        $sql = $this->gen_sql_new("select distinct r.userid "
+                                  ." from %s r "
+                                  ." left join %s s on s.userid=r.userid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 
 }
