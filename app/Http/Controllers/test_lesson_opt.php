@@ -14,7 +14,7 @@ class test_lesson_opt extends Controller
         $ret_info = $this->t_test_lesson_opt_log->get_all_list($page_info);
         foreach($ret_info['list'] as &$item){
             $this->cache_set_item_student_nick($item);
-            App\Helper\Utils::unixtime2date_for_item($item,'opt_time');
+            \App\Helper\Utils::unixtime2date_for_item($item,'opt_time');
             E\Erole::set_item_value_str($item);
             $item['opt_type_str'] = E\Eopt_type::get_desc($item['opt_type']);
             $item['action_str'] = E\Eaction::get_desc($item['action']);
