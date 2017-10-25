@@ -97,7 +97,11 @@ class update_period_overdue_type_recover extends Command
                 }
             }
         }
-        dd($list);
+
+
+
+        //逾期停课学员
+        $ret_info = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,-1,6);
         if(count($list)>0){
             foreach($list as $val){
                 //微信推送家长
