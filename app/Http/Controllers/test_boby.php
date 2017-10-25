@@ -877,7 +877,7 @@ class test_boby extends Controller
                 }
             }
         }
-        dd($warning_user);
+        dd($warning_list);
         dd($old_order_list);
 
         //月收入
