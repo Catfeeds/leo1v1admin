@@ -3175,6 +3175,12 @@ class user_deal extends Controller
         
       
         $list = $this->t_teacher_info->get_all_teacher_tags();
+        foreach($list as $val){
+            if($val["teacher_tags"]){
+                $tags= explode(",",trim($val["teacher_tags"],","));
+                dd($tags);
+            }
+        }
         dd($list);
 
     }
