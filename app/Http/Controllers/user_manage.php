@@ -1329,7 +1329,6 @@ class user_manage extends Controller
 
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
-
                         if(isset($v1["$key1_name"])){
                             $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
                             $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
