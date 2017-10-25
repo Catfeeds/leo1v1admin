@@ -185,7 +185,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_value($sql);
     }
 
-    public function update_refund_list ($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status) {
+    public function update_refund_list ($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status) {
         $where_arr = [
             "orderid"      => $orderid,
             "apply_time"   => $apply_time,
@@ -197,7 +197,9 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                    qc_reply        = '%s',
                                    qc_contact_status  = %d,
                                    qc_advances_status = %d,
-                                   qc_voluntarily_status = %d
+                                   qc_voluntarily_status = %d,
+                                   teacher_id = %d,
+                                   subject = %d
                                    where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$qc_other_reason
@@ -206,6 +208,8 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ,$qc_contact_status
                                   ,$qc_advances_status
                                   ,$qc_voluntarily_status
+                                  ,$teacherid
+                                  ,$subject
                                   ,$where_arr
         );
 

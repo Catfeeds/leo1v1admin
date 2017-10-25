@@ -365,8 +365,10 @@ class human_resource extends Controller
         $week = $arr[0];
         $start = @$arr[1];
 
-        if($start == $end_time){
-            return $this->output_err("开始时间不能与结束时间相同!") ;
+        if($opt_type=="add" || $opt_type =="update"){
+            if($start == $end_time){
+                return $this->output_err("开始时间不能与结束时间相同!") ;
+            }
         }
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
