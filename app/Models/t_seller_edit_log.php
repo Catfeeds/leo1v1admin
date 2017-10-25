@@ -61,7 +61,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
             " select sum(if(l.adminid>0 and l.uid<>l.adminid,1,0)) count,l.adminid adminid,l.type,"
-            ." sum(if(ss.global_tq_called_flag = 0,1,0)) no_call_count, "
+            ." sum(if(ss.global_tq_called_flag = 0,1,0)) no_call_count,ss.global_tq_called_flag, "
             ." m.account_role "
             ." from %s l"
             ." left join %s ss on ss.userid=l.new and ss.global_tq_called_flag = 0 "

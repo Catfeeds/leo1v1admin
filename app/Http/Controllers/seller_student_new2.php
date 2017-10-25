@@ -859,6 +859,7 @@ class seller_student_new2 extends Controller
         $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);//分配
         foreach($seller_distribution_list as $item){
             $adminid = $item['adminid'];
+            $res[$adminid]['global_tq_called_flag'] = $item['global_tq_called_flag'];
             $res[$adminid]['distribution_count'] = $item['count'];
             $res[$adminid]['no_call_count'] = $item['no_call_count'];
         }
