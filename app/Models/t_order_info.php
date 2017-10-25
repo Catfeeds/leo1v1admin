@@ -140,11 +140,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "w.competition_flag=0",
         ];
 
-        $sql = $this->gen_sql_new("select distinct  o.userid,w.start_time,s.assistantid "
+        $sql = $this->gen_sql_new("select  o.userid,w.start_time,s.assistantid "
                                   ." from %s o "
                                   ." left join %s s on s.userid = o.userid "
                                   ." left join %s w on w.userid = o.userid "
-                                  ." where %s ",
+                                  ." where %s "
+                                  ." group by o.userid",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_week_regular_course::DB_TABLE_NAME,
