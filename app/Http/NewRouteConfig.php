@@ -390,6 +390,7 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
+        "/human_resource/get_lesson_modify_list" => true,
         "/human_resource/get_input_score_list" => true,
         "/human_resource/interview_remind"   => true,
         "/human_resource/get_check_textbook_tea_list"   => true,

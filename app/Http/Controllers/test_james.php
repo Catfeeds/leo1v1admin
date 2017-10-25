@@ -751,10 +751,10 @@ class test_james extends Controller
 
 
         $ret_info['seller_plan_invit_month'] = $this->t_test_lesson_subject_require->get_plan_invit_num_for_month($start_time, $end_time); // 试听邀约数[月排课率]
-        // $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
+        $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
 
         dd($ret_info);
-        // $a = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
+        $a = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
         $b = [];
         foreach($a as $v){
             $b[]=$v['lessonid'];

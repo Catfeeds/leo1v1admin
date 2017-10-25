@@ -458,7 +458,6 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         );
 
         return $this->main_get_value($sql);
-        // return $this->main_get_list($sql);
 
 
     }

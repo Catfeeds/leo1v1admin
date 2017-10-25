@@ -29,6 +29,7 @@ interface GargsStatic {
 	from_url:	string;
 	order_activity_type:	number;//\App\Enums\Eorder_activity_type
 	spec_flag:	number;//\App\Enums\Eboolean
+	acc:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -173,7 +174,8 @@ function load_data(){
 		from_key:	$('#id_from_key').val(),
 		from_url:	$('#id_from_url').val(),
 		order_activity_type:	$('#id_order_activity_type').val(),
-		spec_flag:	$('#id_spec_flag').val()
+		spec_flag:	$('#id_spec_flag').val(),
+		acc:	$('#id_acc').val()
     });
 }
 $(function(){
@@ -214,6 +216,7 @@ $(function(){
 	$('#id_from_url').val(g_args.from_url);
 	$('#id_order_activity_type').val(g_args.order_activity_type);
 	$('#id_spec_flag').val(g_args.spec_flag);
+	$('#id_acc').val(g_args.acc);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -384,6 +387,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_spec_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">acc</span>
+                <input class="opt-change form-control" id="id_acc" />
             </div>
         </div>
 */
