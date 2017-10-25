@@ -705,17 +705,24 @@ class user_manage extends Controller
         $grade          = $this->get_in_grade();
         $originid       = $this->get_in_int_val('originid',-1);
         $user_name      = trim($this->get_in_str_val('user_name',''));
+        $phone          = trim($this->get_in_str_val('phone',''));
         $assistantid    = $this->get_in_int_val("assistantid",-1);
         $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
         $page_num       = $this->get_in_page_num();
+        $userid         = $this->get_in_userid(-1);
 
-        $userid = -1;
+        $teacherid = -1;
         if (is_numeric($user_name) && $user_name< 10000000 ) {
             $userid    = $user_name;
             $user_name = "";
         }
+        if ($assistantid >0 && $order_type == -1) {
+            $order_type = 3;
+        }
 
-        $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, $userid, $grade, $user_name, $assistantid, $originid, $seller_adminid);
+        $ret_info = $this->t_student_info->get_student_list_for_finance(
+            $page_num, $userid, $grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
+        );
 
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
@@ -1263,6 +1270,9 @@ class user_manage extends Controller
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['subject_str'] = E\Esubject::desc_map($item['subject']);
+
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
