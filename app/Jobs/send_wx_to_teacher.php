@@ -28,7 +28,7 @@ class send_wx_to_teacher extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $t_teacher_info = new \App\Models\t_teacher_info();
+        $t_teacher_info = new \App\Models\t_teacher_info;
 
         $tea_list = $t_teacher_info->get_all_has_wx_tea();
         // $tea_list = [[
