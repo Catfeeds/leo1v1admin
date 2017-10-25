@@ -33,14 +33,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/textbook_manage-get_subject_grade_textbook_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		address:	$('#id_address').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			subject:	$('#id_subject').val(),
-			address:	$('#id_address').val()
-        });
-    }
 
 
 	$('#id_grade').val(g_args.grade);

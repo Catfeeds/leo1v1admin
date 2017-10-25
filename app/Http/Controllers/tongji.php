@@ -739,7 +739,6 @@ class tongji extends Controller
         $end_time = date('Y-m-d 23:59:59', strtotime("$start_time +1 year -1day"));
         $end_time = strtotime($end_time);
         $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
-        // $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
             /*
