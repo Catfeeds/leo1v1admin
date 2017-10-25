@@ -123,6 +123,28 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
+    public function get_student_list_for_finance_count( ){
+        $where_arr=[
+            "s.type<>1",
+            "s.is_test_user=0",
+            "o.contract_type in (0,1,3)",
+            "o.contract_status > 0",
+            "o.price>0",
+        ];
+
+        $sql = $this->gen_sql_new("select distinct o.userid "
+                                  ." from %s s "
+                                  ." left join %s o on o.userid=s.userid"
+                                  ." where  %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return  $this->main_get_list($sql);
+    }
+
+
 
 
     public function get_student_list_search_two_weeks( $start_time, $end_time,$page_num,$all_flag, $userid,$grade, $status,
