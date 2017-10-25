@@ -534,22 +534,26 @@ class test_james extends Controller
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
 
+        $openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek';
+
         $data_leo = [
-            'first'    => "测试",
-            'keyword1' => "$keyword1",
-            'keyword2' => "$keyword2",
-            'keyword3' => "$day_date",
-            'remark'   => "请尽快联系家长和老师进行处理!"
+            'first'    => "测试 first",
+            'keyword1' => "keyword1",
+            'keyword2' => "keyword2",
+            'keyword3' => "keyword3",
+            'remark'   => "测试信息!"
         ];
 
-        $url_leo = '';
+        $url_leo = 'http://admin.yb1v1.com/test_james/jilu';
 
-        $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
+        $wx->send_template_msg($openid, $parent_template_id, $data_leo, $url_leo);
 
-        $data = [];
 
-        \App\Helper\Utils::logger();
 
+    }
+
+    public function jilu(){
+        dd(12);
     }
 
 
