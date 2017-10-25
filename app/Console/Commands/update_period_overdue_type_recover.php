@@ -79,19 +79,17 @@ class update_period_overdue_type_recover extends Command
                             $old_type= $task->t_student_info->get_type($userid);
                             $target_type_info = $task->t_student_type_change_list->get_info_by_userid_last($userid);
                             $target_type = $target_type_info["type_before"];
-                            if($old_type != 6){
-                                $task->t_student_info->get_student_type_update($userid,$target_type);
-                                $task->t_student_type_change_list->row_insert([
-                                    "userid"    =>$userid,
-                                    "add_time"  =>time(),
-                                    "type_before" =>$old_type,
-                                    "type_cur"    =>$target_type,
-                                    "change_type" =>5,
-                                    "adminid"     =>0,
-                                    "reason"      =>"系统更新"
-                                ]);
-                                $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期预警状态变更","学员预警逾期状态变更通知",$userid."学生逾期预警已还款,状态已恢复","");
-                            }
+                            $task->t_student_info->get_student_type_update($userid,$target_type);
+                            $task->t_student_type_change_list->row_insert([
+                                "userid"    =>$userid,
+                                "add_time"  =>time(),
+                                "type_before" =>$old_type,
+                                "type_cur"    =>$target_type,
+                                "change_type" =>5,
+                                "adminid"     =>0,
+                                "reason"      =>"系统更新"
+                            ]);
+                            $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期预警状态变更","学员预警逾期状态变更通知",$userid."学生逾期预警已还款,状态已恢复","");
 
                         }
                     }
