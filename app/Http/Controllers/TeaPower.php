@@ -60,7 +60,16 @@ trait TeaPower {
                 }
             }else{
                 //新教研老师规则改变(2017-10-25以后入职)
-                
+                //工作时间（周二至周六9:00~18:00）不安排授课
+                if($day>=2 && $day <=6){
+                    if(!empty($lesson_start)){
+                        
+                        if($h <18 ){
+                            return $this->output_err("教研老师周二至周五只能18点以后排课");
+                        }
+                    }
+ 
+                }
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
             $create_time = $this->t_teacher_info->field_get_value($teacherid,"train_through_new_time");
