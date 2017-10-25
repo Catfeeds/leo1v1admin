@@ -199,7 +199,7 @@ $(function(){
             });
 
             id_btn_student.on("click",function(){
-                if(g_args.account_role==1){
+                if(g_args.account_role_self==1){
                     if(g_args.ass_master_flag==1){
                         $.wopen("../user_manage/ass_archive?userid="+calEvent.userid);
                     }else{

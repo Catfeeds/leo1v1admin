@@ -3175,6 +3175,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $ret_auth = $this->t_manager_info->check_permission("jack", E\Epower::V_SHOW_MONEY );
+        dd($ret_auth);
+        $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
+        $create_time = $this->t_manager_info->get_create_time(349);
+        if($create_time<strtotime("2017-10-25")){
+            dd(111);
+        }else{
+            dd(222);
+
+        }
+
         $userid = 50232;
         $ret=$this->t_lesson_info_b3->del_lesson_no_start_by_userid($userid);
         dd($ret);
