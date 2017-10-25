@@ -979,7 +979,7 @@ class seller_student_new2 extends Controller
         $page_info             = $this->get_in_page_info();
         if(in_array($flag,[1,2,3,4])){
             $ret_info = $this->t_seller_student_new->get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info);
-            if(in_array($flag,[3,4])){
+            if(in_array($flag,[1,2])){
                 foreach($ret_info['list'] as &$item){
                     $item["adminid"] = 0;
                 }
