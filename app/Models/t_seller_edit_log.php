@@ -53,7 +53,6 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
     public function get_distribution_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             's.is_test_user=0',
-            'ss.hand_get_adminid in(3,4)',
         ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,'l.type',E\Eseller_edit_log_type::V_3);
@@ -113,7 +112,6 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             ['l.type = %u',E\Eseller_edit_log_type::V_3],
             ['ss.global_tq_called_flag = %u',$global_tq_called_flag,-1],
             's.is_test_user=0',
-            'ss.hand_get_adminid in (3,4)',
         ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
