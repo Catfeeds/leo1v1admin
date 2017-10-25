@@ -2600,7 +2600,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ." left join %s m on m.uid=n.admin_revisiterid "
                                   ." left join %s s on s.userid=n.userid "
                                   ." where %s "
-                                  ." group by n.admin_revisiterid "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
