@@ -68,7 +68,7 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject_plan") );
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
     Enum_map.append_option_list("identity", $("#id_identity") );
-    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[1,2,3,4,5]  );
+    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[6,7,8,9,10,11,12,13,14]  );
     Enum_map.append_option_list("region_version", $("#id_teacher_textbook") );
 
 
