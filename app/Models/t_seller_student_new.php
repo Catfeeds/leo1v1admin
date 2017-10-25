@@ -2560,6 +2560,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_distribution_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             'n.admin_revisiterid>0',
+            'n.admin_revisiterid<>n.admin_assignerid',
             ['m.account_role=%u',E\Eaccount_role::V_2],
             's.is_test_user=0',
         ];
@@ -2587,6 +2588,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info){
         $where_arr = [
             ['n.admin_revisiterid=%u',$adminid],
+            'n.admin_revisiterid<>n.admin_assignerid',
             ['n.hand_get_adminid=%u',$flag],
             ['m.account_role=%u',E\Eaccount_role::V_2],
             's.is_test_user=0',
