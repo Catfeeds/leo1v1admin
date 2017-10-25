@@ -114,5 +114,9 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
         return $this->main_get_list($sql);
     }
 
+    public function get_total(){
+        $sql = " select count(*) from db_weiyi.t_yxyx_new_list ";
+        return $this->main_get_value($sql);
+    }
 }
 

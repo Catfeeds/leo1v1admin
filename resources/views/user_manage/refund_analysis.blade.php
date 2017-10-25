@@ -25,6 +25,22 @@
                         <select id="id_qc_voluntarily_status"  ></select>
                     </div>
                 </div>
+
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group " >
+                        <span >科目</span>
+                        <select id="id_subject"  ></select>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group " >
+                        <span >老师</span>
+                        <input id="id_teacher"/>
+                    </div>
+                </div>
             </div>
         </div>
         <hr/>
@@ -104,7 +120,7 @@
             <tr>
                 <td  colspan="15"  style="vertical-align:middle; text-align:center;width:10%;">
                     <button type="button" class="btn btn-success btn-lg" id="id_qc_msg">提交</button>
-                </td> 
+                </td>
             </tr>
         </table>
         <a style="display:none;" id="adminid" data-adminid="{{$adminid}}"></a>

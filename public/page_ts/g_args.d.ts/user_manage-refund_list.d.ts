@@ -20,6 +20,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	assistantid	:any;
+	subject	:any;
+	teacher_id	:any;
 	qc_contact_status	:any;
 	qc_advances_status	:any;
 	qc_voluntarily_status	:any;
@@ -49,6 +52,9 @@ interface RowData {
 	grade	:any;
 	need_receipt	:any;
 	is_staged_flag	:any;
+	ass_nick	:any;
+	tea_nick	:any;
+	subject_str	:any;
 	is_staged_flag_str	:any;
 	user_nick	:any;
 	refund_user	:any;

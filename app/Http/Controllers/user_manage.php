@@ -705,17 +705,24 @@ class user_manage extends Controller
         $grade          = $this->get_in_grade();
         $originid       = $this->get_in_int_val('originid',-1);
         $user_name      = trim($this->get_in_str_val('user_name',''));
+        $phone          = trim($this->get_in_str_val('phone',''));
         $assistantid    = $this->get_in_int_val("assistantid",-1);
         $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
         $page_num       = $this->get_in_page_num();
+        $userid         = $this->get_in_userid(-1);
 
-        $userid = -1;
+        $teacherid = -1;
         if (is_numeric($user_name) && $user_name< 10000000 ) {
             $userid    = $user_name;
             $user_name = "";
         }
+        if ($assistantid >0 && $order_type == -1) {
+            $order_type = 3;
+        }
 
-        $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, $userid, $grade, $user_name, $assistantid, $originid, $seller_adminid);
+        $ret_info = $this->t_student_info->get_student_list_for_finance(
+            $page_num, $userid, $grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
+        );
 
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
@@ -1263,6 +1270,10 @@ class user_manage extends Controller
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
+            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
@@ -1897,6 +1908,8 @@ class user_manage extends Controller
         $adminid     = $this->get_account_id();
         $orderid     = $this->get_in_int_val("orderid",-1);
         $apply_time  = $this->get_in_int_val("apply_time");
+        $teacherid   = $this->get_in_int_val('teacherid');
+        $subject   = $this->get_in_int_val('subject');
 
         if($orderid <=0){
             return $this->error_view(["请从[退费管理]-[QC退费分析总表]进入"]);
@@ -1995,8 +2008,10 @@ class user_manage extends Controller
         $qc_contact_status     = $this->get_in_int_val('qc_contact_status');
         $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
+        $subject   = $this->get_in_int_val('subject');
+        $teacherid = $this->get_in_int_val('teacherid');
 
-        $this->t_order_refund->update_refund_list($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
+        $this->t_order_refund->update_refund_list($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
         return $this->output_succ();
     }
 
