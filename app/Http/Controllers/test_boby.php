@@ -805,8 +805,8 @@ class test_boby extends Controller
 
     //给t_month_student_info 添加数据
     public function select_and_add_stu_info(){
-        $start_time = strtotime('2017-10-01');
-        $end_time   = strtotime('2017-11-01');
+        $start_time = strtotime('2017-09-01');
+        $end_time   = strtotime('2017-10-01');
         $page_num   = $this->get_in_page_num();
         $ret = [];
         //月初付费学员数
