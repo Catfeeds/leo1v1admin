@@ -16,7 +16,7 @@ class test_lesson_opt extends Controller
             $this->cache_set_item_student_nick($item);
             \App\Helper\Utils::unixtime2date_for_item($item,'opt_time');
             E\Erole::set_item_value_str($item);
-            $item['opt_type_str'] = E\Eopt_type::get_desc($item['opt_type']);
+            $item['opt_type_str'] = E\Etest_opt_type::get_desc($item['opt_type']);
             $item['action_str'] = E\Eaction::get_desc($item['action']);
             $item['class_type'] = $item['lessonid']>0?'试听课':'测试课';
         }

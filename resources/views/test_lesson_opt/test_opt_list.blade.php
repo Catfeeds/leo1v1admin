@@ -38,7 +38,7 @@
                     <tr>
                         <td>{{@$var["roomid"]}} </td>
                         <td>{{@$var["student_nick"]}} </td>
-                        <td>{{@$var["role"]}} </td>
+                        <td>{{@$var["role_str"]}} </td>
                         <td>{{@$var["opt_type_str"]}} </td>
                         <td>{{@$var["action_str"]}} </td>
                         <td>{{@$var["server_ip"]}} </td>
