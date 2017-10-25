@@ -823,8 +823,10 @@ class test_boby extends Controller
             array_push($old_user, $item['userid']);
         }
         foreach ( $new_order_list as $item ) {
-            if( !in_array($old_user, $item['userid']) ) {
+
+            if( !in_array($item['userid'], $old_user) ) {
                 array_push($new_user, $item['userid']);
+
                 if (!$item['start_time'] && $item['assistantid'] > 0) {
                     array_push($has_ass_user, $item['userid']);
                 } else if (!$item['start_time'] && !$item['assistantid']) {
@@ -868,7 +870,7 @@ class test_boby extends Controller
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
             foreach($new as $v) {
-                if(count($v) && in_array($warning_user)){
+                if(count($v) && in_array($v ,$warning_user)){
                     array_push($warning_user, $v);
                 }
             }
