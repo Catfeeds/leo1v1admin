@@ -4,6 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -13,43 +15,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	target_money	:any;
-	require_test_count_for_month	:any;
-	succ_all_count_for_month	:any;
-	fail_all_count_for_month	:any;
-	lesson_per	:any;
-	main_type	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
-	become_member_time	:any;
-	leave_member_time	:any;
-	del_flag	:any;
-	main_type_str	:any;
-	order_per	:any;
-	finish_per	:any;
-	finish_personal_per	:any;
-	duration_count_for_day	:any;
-	ave_price_for_month	:any;
-	los_money	:any;
-	los_personal_money	:any;
-	del_flag_str	:any;
-	become_member_num	:any;
-	leave_member_num	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage_new; vi  ../user_manage_new/seller_tongji_report_info.ts
+	 mkdir -p ../test_lesson_opt; vi  ../test_lesson_opt/test_opt_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage_new-seller_tongji_report_info.d.ts" />
+/// <reference path="../g_args.d.ts/test_lesson_opt-test_opt_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
