@@ -972,11 +972,11 @@ class seller_student_new2 extends Controller
 
     public function seller_edit_log_list(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $adminid    = $this->get_in_int_val('adminid',-1);
-        $flag = $this->get_in_int_val("flag",-1);
-        $origin_ex = $this->get_in_str_val("origin_ex");
-        $global_tq_called_flag    = $this->get_in_int_val('global_tq_called_flag',-1);
-        $page_info  = $this->get_in_page_info();
+        $adminid               = $this->get_in_int_val('adminid',-1);
+        $flag                  = $this->get_in_int_val("flag",-1);
+        $origin_ex             = $this->get_in_str_val("origin_ex");
+        $global_tq_called_flag = $this->get_in_int_val('global_tq_called_flag',-1);
+        $page_info             = $this->get_in_page_info();
         if(in_array($flag,[1,2,3,4])){
             $ret_info = $this->t_seller_student_new->get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info);
         }else{
