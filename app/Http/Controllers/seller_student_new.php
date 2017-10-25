@@ -1620,5 +1620,13 @@ class seller_student_new extends Controller
 
         return $this->pageView(__METHOD__,$ret_info);
     }
-
+    /**
+     *个人中心-分享知识库
+     *
+     */
+    public function share_knowledge(){
+        $arr['total_test_pic_info_num'] = $this->t_yxyx_test_pic_info->get_total();
+        $arr['total_new_list_num']      = $this->t_yxyx_new_list->get_total();
+        return $this->pageView(__METHOD__,null,["arr"=>$arr]);
+    }
 }

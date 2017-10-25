@@ -3172,6 +3172,45 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        
+        $userid = $this->get_in_int_val('userid',162178);
+        $teacherid = $this->get_in_int_val('teacherid',-1);
+        #$userid = 60016;
+        $common_lesson_config= $this->t_week_regular_course->get_lesson_info($teacherid,$userid);
+
+        //暑假课表显示在常规课表里
+        /* $m = date("m",time());
+        if($m>=6 && $m <9){
+            $common_lesson_config_summer= $this->t_summer_week_regular_course->get_lesson_info($teacherid,$userid);
+            foreach($common_lesson_config_summer as $k=>$v){
+                if(!isset($common_lesson_config[$k])){
+                    $common_lesson_config[$k]=$v;
+                }
+            }
+
+            }*/
+        $date=\App\Helper\Utils::get_week_range(time(NULL),1);
+        $stime=$date["sdate"];
+        foreach ( $common_lesson_config as &$item ) {
+            $start_time=$item["start_time"];
+            $end_time=$item["end_time"];
+
+            $arr=explode("-",$start_time);
+            $item["assistantid"] = $this->t_student_info->get_assistantid($item['userid']);
+            $item['ass_nick'] = $this->t_assistant_info->get_nick($item['assistantid']);
+            \App\Helper\Utils::logger("start_time:$start_time");
+            $week=$arr[0];
+            $start_time=@$arr[1];
+            E\Ecompetition_flag::set_item_value_str($item,"competition_flag");
+
+            //得到周几的开始时间
+            $day_start=$stime + ($week-1)*86400;
+            $item["start_time_ex"] = strtotime(date("Y-m-d", $day_start)." $start_time")*1000;
+            $item["end_time_ex"]   = strtotime(date("Y-m-d", $day_start)." $end_time")*1000;
+            $item["nick"]          = $this->cache_get_student_nick($item["userid"]);
+            $item["teacher"]       = $this->cache_get_teacher_nick($item["teacherid"]);
+        }
+        dd($common_lesson_config);
         $first_month = strtotime("2016-01-01");
         // $end_month = strtotime(date("Y-m-01",time()));
         // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
