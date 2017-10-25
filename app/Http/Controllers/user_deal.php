@@ -663,7 +663,10 @@ class user_deal extends Controller
                 return $this->output_err("试听课不能修改时间,只能删除,重新排新课,再设置时间");
             }
         }else{
-            if(in_array($lesson_type,[0,1,3])){
+            $userid = $this->t_lesson_info->get_userid($lessonid);
+            $is_test_user = $this->t_student_info->get_is_test_user($userid);
+            
+            if(in_array($lesson_type,[0,1,3]) && $is_test_user==0){
                 $account_role = $this->get_account_role();
                 if($account_role !=1 && $account_role !=12){
                    return $this->output_err("非助教不能改常规课时间!"); 
@@ -3173,110 +3176,35 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
-        $userid = $this->get_in_int_val('userid',162178);
-        $teacherid = $this->get_in_int_val('teacherid',-1);
-        #$userid = 60016;
-        $common_lesson_config= $this->t_week_regular_course->get_lesson_info($teacherid,$userid);
-
-        //暑假课表显示在常规课表里
-        /* $m = date("m",time());
-        if($m>=6 && $m <9){
-            $common_lesson_config_summer= $this->t_summer_week_regular_course->get_lesson_info($teacherid,$userid);
-            foreach($common_lesson_config_summer as $k=>$v){
-                if(!isset($common_lesson_config[$k])){
-                    $common_lesson_config[$k]=$v;
-                }
-            }
-
-            }*/
-        $date=\App\Helper\Utils::get_week_range(time(NULL),1);
-        $stime=$date["sdate"];
-        foreach ( $common_lesson_config as &$item ) {
-            $start_time=$item["start_time"];
-            $end_time=$item["end_time"];
-
-            $arr=explode("-",$start_time);
-            $item["assistantid"] = $this->t_student_info->get_assistantid($item['userid']);
-            $item['ass_nick'] = $this->t_assistant_info->get_nick($item['assistantid']);
-            \App\Helper\Utils::logger("start_time:$start_time");
-            $week=$arr[0];
-            $start_time=@$arr[1];
-            E\Ecompetition_flag::set_item_value_str($item,"competition_flag");
-
-            //得到周几的开始时间
-            $day_start=$stime + ($week-1)*86400;
-            $item["start_time_ex"] = strtotime(date("Y-m-d", $day_start)." $start_time")*1000;
-            $item["end_time_ex"]   = strtotime(date("Y-m-d", $day_start)." $end_time")*1000;
-            $item["nick"]          = $this->cache_get_student_nick($item["userid"]);
-            $item["teacher"]       = $this->cache_get_teacher_nick($item["teacherid"]);
-        }
-        dd($common_lesson_config);
-        $first_month = strtotime("2016-01-01");
-        // $end_month = strtotime(date("Y-m-01",time()));
-        // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
-        $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
-        
-        // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
-        //  $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
-        $list=[];
-        for($i=1;$i<=$num;$i++){
-            $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
-            $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
-            $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
-            $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
-            $month = date("Y-m-d",$first);
-            $list[$month]["stu_num"] = @$order_money_info["stu_num"];
-            $list[$month]["all_price"] = @$order_money_info["all_price"];
-            $list[$month]["lesson_count_all"] = @$order_money_info["lesson_count_all"];
-            foreach($order_money_month as $val){
-                $list[$month][$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
-            }
-
-            
-        }
-        
-        dd($list);
-        dd(date("Y-m-01",strtotime("+1 months", $first_month)));
-        $start_time = strtotime("2017-07-01");
-        $end_time = strtotime("2017-10-01");
-       
-        $lesson_count=3;
-        $userid = $this->get_in_userid(367085);
-
-        $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
-        if($period_info){
-            $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
-            $pay_price=0;
-            if($data && $data["status"]==0){
-                $data = $data["data"];
-                foreach($data as $val){
-                    if($val["bStatus"]==48){
-                        $pay_price +=$val["paidMoney"];
+      
+        $list = $this->t_teacher_info->get_all_teacher_tags();
+        foreach($list as $val){
+            if($val["teacher_tags"]){
+                $tags= explode(",",trim($val["teacher_tags"],","));
+                $r="";
+                foreach($tags as $v){
+                    if($v=="自然型"){
+                        $r .="细致耐心,"; 
+                    }elseif($v=="逻辑型"){
+                         $r .="功底扎实,考纲熟悉,";
+                    }elseif($v=="技巧型"){
+                        $r .="循循善诱,考纲熟悉,经验丰富,";
+                    }elseif($v=="情感型"){
+                        $r .="生动活泼,善于互动,";
+                    }elseif($v=="幽默型"){
+                        $r .="幽默风趣,生动活泼,善于互动,";
                     }
                 }
+                $new_arr=explode(",",trim($r,","));
+                $arr=array_unique($new_arr);
+                $ff = implode(",",$arr).",";
+                $this->t_teacher_info->field_update_list($val["teacherid"],[
+                   "teacher_tags" =>$ff 
+                ]);
+                
             }
-            $pay_price +=$period_info["price"]-$period_info["period_price"];
-            $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
-            $lesson_count_plan = floor($pay_price/$per_price/100+3*3);
-            $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
-            $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
-                       
-
-            if(empty($order_lesson_left_pre) && $flag){
-                $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
-                $day_end = $period_info["pay_time"]+30*86400;
-                $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
-                $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
-                $all_plan = ($lesson_use+$order_use)/100;
-                $plan_flag = (($all_plan+$lesson_count)>$lesson_count_plan)?1:0;
-                if($plan_flag){
-                    return $this->output_err("分期用户,已超限,该时间段不能排课!");
-                }
-
-            }
-                        
         }
-
+        dd($list);
 
     }
 

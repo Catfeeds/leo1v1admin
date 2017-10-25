@@ -1,13 +1,14 @@
 interface GargsStatic {
-	flag:	number;
-	account_role:	number;
-	origin_ex:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
 	adminid:	number;
+	uid:	number;
+	user_name:	string;
+	flag:	number;
+	origin_ex:	string;
 	global_tq_called_flag:	number;
 	page_num:	number;
 	page_count:	number;
@@ -29,11 +30,12 @@ interface RowData {
 	new	:any;
 	global_tq_called_flag	:any;
 	del_flag	:any;
+	phone	:any;
+	origin	:any;
 	adminid_nick	:any;
 	uid_nick	:any;
-	phone	:any;
-	global_tq_called_flag_str	:any;
 	del_flag_str	:any;
+	global_tq_called_flag_str	:any;
 }
 
 /*
@@ -47,15 +49,16 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		flag:	$('#id_flag').val(),
-		account_role:	$('#id_account_role').val(),
-		origin_ex:	$('#id_origin_ex').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		adminid:	$('#id_adminid').val(),
+		uid:	$('#id_uid').val(),
+		user_name:	$('#id_user_name').val(),
+		flag:	$('#id_flag').val(),
+		origin_ex:	$('#id_origin_ex').val(),
 		global_tq_called_flag:	$('#id_global_tq_called_flag').val()
     });
 }
@@ -72,10 +75,11 @@ $(function(){
             load_data();
         }
     });
-	$('#id_flag').val(g_args.flag);
-	$('#id_account_role').val(g_args.account_role);
-	$('#id_origin_ex').val(g_args.origin_ex);
 	$('#id_adminid').val(g_args.adminid);
+	$('#id_uid').val(g_args.uid);
+	$('#id_user_name').val(g_args.user_name);
+	$('#id_flag').val(g_args.flag);
+	$('#id_origin_ex').val(g_args.origin_ex);
 	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 
 
@@ -89,6 +93,27 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">uid</span>
+                <input class="opt-change form-control" id="id_uid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">user_name</span>
+                <input class="opt-change form-control" id="id_user_name" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">flag</span>
                 <input class="opt-change form-control" id="id_flag" />
             </div>
@@ -96,22 +121,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">account_role</span>
-                <input class="opt-change form-control" id="id_account_role" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
                 <span class="input-group-addon">origin_ex</span>
                 <input class="opt-change form-control" id="id_origin_ex" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
 
