@@ -530,7 +530,7 @@ class test_james extends Controller
 
 
     public function send_wx_msg(){
-        $wx = new App\Helper\Wx();
+        $wx = new \App\Helper\Wx();
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
 

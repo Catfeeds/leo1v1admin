@@ -29,7 +29,8 @@ trait TeaPower {
         $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28","2017-10-01","2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08"];
         $lesson_start_date = date("Y-m-d",$lesson_start);
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
-            if($admin_info["uid"] != 325){
+            $create_time = $this->t_manager_info->get_create_time($admin_info["uid"]);
+            if($create_time<strtotime("2017-10-25")){
                 /*if($lesson_type==2){
                    $month_start = strtotime(date("Y-m-01",$lesson_start));
                    $month_end = strtotime(date("Y-m-01",$month_start+35*86400));
@@ -57,6 +58,9 @@ trait TeaPower {
                         }
                     }
                 }
+            }else{
+                //新教研老师规则改变(2017-10-25以后入职)
+                
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
             $create_time = $this->t_teacher_info->field_get_value($teacherid,"train_through_new_time");
