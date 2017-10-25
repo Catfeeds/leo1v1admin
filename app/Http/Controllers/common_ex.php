@@ -22,13 +22,11 @@ class common_ex extends Controller
         }
 
         if($type=="zhishiku"){
-            
+
         }else{
             return $this->book_free_lesson();
         }
     }
-
-
 
     public function send_phone_code () {
         $phone = trim($this->get_in_str_val('phone'));
@@ -56,7 +54,6 @@ class common_ex extends Controller
         }
 
         return $this->output_succ($ret_arr);
-
     }
 
     public function book_free_lesson()
@@ -136,6 +133,7 @@ class common_ex extends Controller
         \App\Helper\Utils::sms_common($phone,$sms_id,$arr);
 
         $userid = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
+
         if($origin_userid!=0){
             $this->t_student_info->field_update_list($userid,[
                "origin_userid" => $origin_userid

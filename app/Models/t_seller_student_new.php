@@ -101,7 +101,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" ) {
-
         $reg_channel = $origin;
         $passwd = md5("123456");
         $region = "";
@@ -238,7 +237,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($origin_level==E\Eorigin_level::V_100 ) {
             $this->set_admin_info(0,[$userid],60,60);
         }
-
 
         return $userid;
     }

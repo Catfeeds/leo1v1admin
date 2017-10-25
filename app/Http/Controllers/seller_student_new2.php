@@ -328,6 +328,9 @@ class seller_student_new2 extends Controller
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
         $this->set_filed_for_js("account_role",$this->get_account_role());
+        $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
+
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,

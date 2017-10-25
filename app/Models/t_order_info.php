@@ -137,15 +137,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_type=0",
             "o.contract_status>0",
             "o.price>0",
+            "w.competition_flag=0",
         ];
 
-        $sql = $this->gen_sql_new("select distinct  o.userid "
-                              ." from %s o "
-                              ." left join %s s on s.userid = o.userid "
-                              ." where %s ",
-                              self::DB_TABLE_NAME,
-                              t_student_info::DB_TABLE_NAME,
-                              $where_arr
+        $sql = $this->gen_sql_new("select distinct  o.userid,w.start_time,s.assistantid "
+                                  ." from %s o "
+                                  ." left join %s s on s.userid = o.userid "
+                                  ." left join %s w on w.userid = o.userid "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_week_regular_course::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -3820,7 +3823,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr
         );
         return $this->main_get_row($sql);
- 
+
     }
 
     public function get_order_lesson_money_use_info($start_time,$end_time){
@@ -3848,4 +3851,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    public function get_renow_user_by_month($start_time, $end_time){
+        $where_arr = [
+            ["o.order_time>=%u", $start_time,-1],
+            ["o.order_time<%u", $end_time,-1],
+            'o.contract_type=3',
+            'o.price>0',
+            's.is_test_user=0'
+        ];
+
+        $sql = $this->gen_sql_new("select distinct o.userid"
+                                  ." from %s o"
+                                  ." left join %s s on s.userid=o.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
