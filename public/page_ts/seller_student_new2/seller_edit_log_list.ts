@@ -19,6 +19,8 @@ function load_data(){
         adminid          : $('#id_adminid').val(),
         origin_ex        : $("#id_origin_ex").val(),
         user_name        : $("#id_user_name").val(),
+        adminid          : $('#id_adminid').val(),
+        uid              : $('#id_uid').val(),
     });
 }
 $(function(){
@@ -45,7 +47,38 @@ $(function(){
     $('#id_adminid').val(g_args.adminid);
     $('#id_origin_ex').val(g_args.origin_ex);
     $("#id_user_name").val(g_args.user_name);
+    $('#id_adminid').val(g_args.adminid);
+    $('#id_uid').val(g_args.uid);
 
+    $.admin_select_user(
+        $('#id_adminid'),
+        "admin", load_data ,false, {
+            " main_type": 2,
+            select_btn_config: [
+                {
+                    "label": "[已分配]",
+                    "value": -2
+                }, {
+                    "label": "[未分配]",
+                    "value": 0
+                }]
+        }
+    );
+
+    $.admin_select_user(
+        $('#id_uid'),
+        "admin", load_data ,false, {
+            " main_type": 2,
+            select_btn_config: [
+                {
+                    "label": "[已分配]",
+                    "value": -2
+                }, {
+                    "label": "[未分配]",
+                    "value": 0
+                }]
+        }
+    );
     var jump_url_1="/tq/get_list_by_phone";
     $(".opt-return-back-list").on("click",function(){
         var opt_data= $(this).get_row_opt_data();

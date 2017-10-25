@@ -5,6 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	adminid:	number;
+	uid:	number;
 	user_name:	string;
 	flag:	number;
 	origin_ex:	string;
@@ -54,6 +55,7 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		adminid:	$('#id_adminid').val(),
+		uid:	$('#id_uid').val(),
 		user_name:	$('#id_user_name').val(),
 		flag:	$('#id_flag').val(),
 		origin_ex:	$('#id_origin_ex').val(),
@@ -74,6 +76,7 @@ $(function(){
         }
     });
 	$('#id_adminid').val(g_args.adminid);
+	$('#id_uid').val(g_args.uid);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_flag').val(g_args.flag);
 	$('#id_origin_ex').val(g_args.origin_ex);
@@ -92,6 +95,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">adminid</span>
                 <input class="opt-change form-control" id="id_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">uid</span>
+                <input class="opt-change form-control" id="id_uid" />
             </div>
         </div>
 

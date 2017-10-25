@@ -105,9 +105,10 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name){
+    public function get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name,$uid){
         $where_arr = [
             ['l.adminid = %u',$adminid,-1],
+            ['l.uid = %u',$uid,-1],
             'l.uid <> l.adminid',
             ['l.type = %u',E\Eseller_edit_log_type::V_3],
             ['ss.global_tq_called_flag = %u',$global_tq_called_flag,-1],

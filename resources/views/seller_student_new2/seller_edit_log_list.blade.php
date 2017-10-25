@@ -41,6 +41,19 @@
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="user_name" id="id_user_name"  placeholder="学生/家长姓名, 手机号,userid 回车查找" />
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">分配人</span>
+                        <input class="opt-change form-control" id="id_adminid" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">被分配人</span>
+                        <input class="opt-change form-control" id="id_uid" />
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
