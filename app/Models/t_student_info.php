@@ -86,9 +86,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $ret_info;
     }
 
-    public function get_student_list_for_finance(
-        $page_num, $userid,$grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
-    ){
+    public function get_student_list_for_finance($page_num, $userid,$grade, $user_name, $assistantid, $originid, $seller_adminid){
         $where_arr=[
             ["s.userid=%u", $userid, -1] ,
             ["s.grade=%u", $grade, -1] ,

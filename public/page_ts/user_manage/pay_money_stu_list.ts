@@ -23,9 +23,7 @@ $(function(){
     $("#id_grade").val(g_args.grade);
     $("#id_originid").val(g_args.originid);
     $("#id_user_name").val(g_args.user_name);
-    $("#id_phone").val(g_args.phone);
     $("#id_seller_adminid").val(g_args.seller_adminid);
-
     $("#id_assistantid").val(g_args.assistantid);
 
     $.admin_select_user($("#id_assistantid"), "assistant", load_data);
@@ -51,13 +49,10 @@ $(function(){
         }
 
         $.reload_self_page({
-            test_user   : $("#id_test_user").val(),
             originid    : $("#id_originid").val(),
             grade       : $("#id_grade").val(),
             user_name   : $("#id_user_name").val(),
-            phone       : $("#id_phone").val(),
             assistantid : $("#id_assistantid").val(),
-            order_type : $("#id_order_type").val(),
             seller_adminid : $("#id_seller_adminid").val()
         });
     }
