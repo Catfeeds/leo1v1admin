@@ -4181,4 +4181,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_has_wx_tea(){
+        $where_arr = [
+            'is_test_user=0',
+            'trial_lecture_is_pass=1',
+            'wx_openid!=""',
+        ];
+        $sql = $this->gen_sql_new("select nick,wx_openid,grade_start,subject,grade_part_ex "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 } 
