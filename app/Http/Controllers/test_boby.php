@@ -869,9 +869,11 @@ class test_boby extends Controller
         $warning_user = [];
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
-            foreach($new as $v) {
-                if(count($v) && in_array($v ,$warning_user)){
-                    array_push($warning_user, $v);
+            if(is_array($new)){
+                foreach($new as $v) {
+                    if(count($v) && in_array($v ,$warning_user)){
+                        array_push($warning_user, $v);
+                    }
                 }
             }
         }
