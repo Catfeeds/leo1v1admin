@@ -239,7 +239,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->set_admin_info(0,[$userid],60,60);
         }
 
-
         return $userid;
     }
 

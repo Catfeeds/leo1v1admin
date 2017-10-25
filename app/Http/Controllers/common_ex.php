@@ -22,13 +22,11 @@ class common_ex extends Controller
         }
 
         if($type=="zhishiku"){
-            
+
         }else{
             return $this->book_free_lesson();
         }
     }
-
-
 
     public function send_phone_code () {
         $phone = trim($this->get_in_str_val('phone'));
