@@ -1366,9 +1366,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         if($ret_info){
             foreach($ret_info as $item){
                 if ($ret) {
-                    $this->t_homework_info->row_delete($item['lessonid']);
+                    $this->task->t_homework_info->row_delete($item['lessonid']);
                 }
-                $this->reset_lesson_list($item['courseid']);
+                $this->task->t_lesson_info->reset_lesson_list($item['courseid']);
             }
         }
         return $ret;
