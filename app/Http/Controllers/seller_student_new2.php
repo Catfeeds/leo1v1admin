@@ -984,7 +984,7 @@ class seller_student_new2 extends Controller
         }
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item["adminid_nick"]= '';
+            $item["adminid_nick"]= isset($item["adminid"])?$this->cache_get_account_nick($item["adminid"]):'';
             $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
             $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
             $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
