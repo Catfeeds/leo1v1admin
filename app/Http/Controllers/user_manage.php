@@ -546,6 +546,7 @@ class user_manage extends Controller
             3 => array("app_time", "申请日期"),
         ],3);
 
+
         $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_int_val('contract_type',-1);
         $contract_status   = $this->get_in_int_val('contract_status',-1);
@@ -689,6 +690,9 @@ class user_manage extends Controller
         // dd($price);
 
         $acc = $this->get_account();
+        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("acc",$this->get_account()); 
+
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
@@ -735,6 +739,7 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
+
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -1265,9 +1270,11 @@ class user_manage extends Controller
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
+            $item['subject_str'] = E\Esubject::desc_map($item['subject']);
+
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
-
-
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
             $item['lesson_total']      = $item['lesson_total']/100;
@@ -1326,7 +1333,6 @@ class user_manage extends Controller
 
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
-
                         if(isset($v1["$key1_name"])){
                             $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
                             $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];

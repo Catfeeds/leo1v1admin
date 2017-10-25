@@ -1,5 +1,4 @@
 interface GargsStatic {
-	change_teacher_reason_type:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -7,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	page_num:	number;
 	page_count:	number;
+	is_modify_time_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -16,48 +16,25 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	userid	:any;
-	old_teacherid	:any;
-	is_done_flag	:any;
-	change_teacher_reason_type	:any;
-	subject	:any;
-	grade	:any;
-	order_confirm_flag	:any;
-	confirm_adminid	:any;
-	lesson_start	:any;
-	teacherid	:any;
-	lesson_end	:any;
-	assistantid	:any;
-	stu_nick	:any;
-	teacher_nick	:any;
-	old_teacher_nick	:any;
-	change_teacher_reason_type_str	:any;
-	grade_str	:any;
-	subject_str	:any;
-	order_confirm_flag_str	:any;
-	ass_nick	:any;
-	test_lesson_time	:any;
-	confirm_adminid_nick	:any;
-	is_done_flag_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/tongji_change_teacher_info.ts
+	 mkdir -p ../human_resource; vi  ../human_resource/get_lesson_modify_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-tongji_change_teacher_info.d.ts" />
+/// <reference path="../g_args.d.ts/human_resource-get_lesson_modify_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		change_teacher_reason_type:	$('#id_change_teacher_reason_type').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		is_modify_time_flag:	$('#id_is_modify_time_flag').val()
     });
 }
 $(function(){
@@ -73,7 +50,7 @@ $(function(){
             load_data();
         }
     });
-	$('#id_change_teacher_reason_type').val(g_args.change_teacher_reason_type);
+	$('#id_is_modify_time_flag').val(g_args.is_modify_time_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -86,8 +63,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">change_teacher_reason_type</span>
-                <input class="opt-change form-control" id="id_change_teacher_reason_type" />
+                <span class="input-group-addon">is_modify_time_flag</span>
+                <input class="opt-change form-control" id="id_is_modify_time_flag" />
             </div>
         </div>
 */

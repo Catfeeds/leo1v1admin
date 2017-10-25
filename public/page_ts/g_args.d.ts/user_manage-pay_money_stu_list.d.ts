@@ -2,12 +2,10 @@ interface GargsStatic {
 	grade:	number;//App\Enums\Egrade
 	originid:	number;
 	user_name:	string;
-	phone:	string;
 	assistantid:	number;
 	seller_adminid:	number;
 	page_num:	number;
 	page_count:	number;
-	userid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -63,10 +61,8 @@ function load_data(){
 		grade:	$('#id_grade').val(),
 		originid:	$('#id_originid').val(),
 		user_name:	$('#id_user_name').val(),
-		phone:	$('#id_phone').val(),
 		assistantid:	$('#id_assistantid').val(),
-		seller_adminid:	$('#id_seller_adminid').val(),
-		userid:	$('#id_userid').val()
+		seller_adminid:	$('#id_seller_adminid').val()
     });
 }
 $(function(){
@@ -76,10 +72,8 @@ $(function(){
 	$('#id_grade').val(g_args.grade);
 	$('#id_originid').val(g_args.originid);
 	$('#id_user_name').val(g_args.user_name);
-	$('#id_phone').val(g_args.phone);
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_seller_adminid').val(g_args.seller_adminid);
-	$('#id_userid').val(g_args.userid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -114,13 +108,6 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">phone</span>
-                <input class="opt-change form-control" id="id_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
                 <span class="input-group-addon">assistantid</span>
                 <input class="opt-change form-control" id="id_assistantid" />
             </div>
@@ -130,13 +117,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_adminid</span>
                 <input class="opt-change form-control" id="id_seller_adminid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">userid</span>
-                <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
 */

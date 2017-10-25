@@ -46,8 +46,7 @@ class wx_parent_api extends Controller
     public function __construct() {
 
         parent::__construct();
-
-        if (!$this->get_parentid()  ) {
+        if (!$this->get_parentid()   ) {
             // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
@@ -77,14 +76,12 @@ class wx_parent_api extends Controller
 
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
         foreach ($ret_list as &$item ) {
-
             //判断是否可以申请调课
             if($item['lesson_start']-$now>86400){
                 $is_change_flag = 1;
             }else{
                 $is_change_flag = 0;
             }
-
 
             $item['parent_modify_time'] = $item['parent_modify_time']?$item['parent_modify_time']:0;
 

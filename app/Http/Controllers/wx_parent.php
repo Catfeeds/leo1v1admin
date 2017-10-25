@@ -13,7 +13,6 @@ class wx_parent extends Controller
 {
     var $check_login_flag=false;
     public function __construct() {
-
         parent::__construct();
         if (!session("parentid")   ) {
 
@@ -32,8 +31,6 @@ class wx_parent extends Controller
 
             $to_url=$this->get_in_str_val("_url");
 
-            \App\Helper\Utils::logger(" jiluchengji ".$to_url);
-
             $goto_url_arr=preg_split("/\//", $to_url);
             $action=@$goto_url_arr[2];
             $url="$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
@@ -41,8 +38,8 @@ class wx_parent extends Controller
 
             header("Location: $url");
         }
-
     }
+
     public function index() {
     }
 

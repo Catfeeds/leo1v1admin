@@ -3437,7 +3437,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $period_limit;
             }*/
 
-        
+        //逾期预警/逾期停课学员不能排课
+        $student_type = $this->t_student_info->get_type($item["userid"]);
+        if($student_type>4){
+            //return $this->output_err("百度分期逾期学员不能排课!");
+        }
+
+
+               
         if (!$item["teacherid"]) {
            return $this->output_err("还没设置老师");
         }
@@ -3446,6 +3453,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 return $this->output_err("没有权限排试听课");
             }
         }
+
+      
 
         $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
         if($check){

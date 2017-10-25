@@ -69,7 +69,6 @@ class  parent_wx_server extends Controller
 
 
     public function wx_send_phone_code () {
-
         $phone = $_GET['phone'];
         $code = rand(1000,9999);
         $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
@@ -86,22 +85,20 @@ class  parent_wx_server extends Controller
     }
 
     public function wx_bind( Request $request){
-
         /*
-        $wx= new \App\Helper\Wx("","");
-
-        $to_url=bin2hex($this->get_in_str_val("to_url"));
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com?=$to_url" );
-        $wx->goto_wx_login( $redirect_url );
+          $wx= new \App\Helper\Wx("","");
+          $to_url=bin2hex($this->get_in_str_val("to_url"));
+          $redirect_url=urlencode("http://wx-parent.leo1v1.com?=$to_url" );
+          $wx->goto_wx_login( $redirect_url );
         */
 
         /*
-        $wx= new \App\Helper\Wx();
-        global $_SERVER;
-        if (!$code) {
-            $to_url=bin2hex($this->get_in_str_val("to_url"));
-            $redirect_url=urlencode("http://admin.yb1v1.com?to_url=$to_url" );
-            $wx->goto_wx_login( $redirect_url );
+          $wx= new \App\Helper\Wx();
+          global $_SERVER;
+          if (!$code) {
+          $to_url=bin2hex($this->get_in_str_val("to_url"));
+          $redirect_url=urlencode("http://admin.yb1v1.com?to_url=$to_url" );
+          $wx->goto_wx_login( $redirect_url );
         */
 
     }

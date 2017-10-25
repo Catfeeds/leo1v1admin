@@ -79,11 +79,9 @@ class check_modify_lesson_time extends Command
             $wx = new \App\Helper\Wx();
             $ret_send = $wx->send_template_msg($ass_wx_openid, $ass_template_id, $data_ass, $url_ass);
 
-            if($ret_send){
-                $this->task->t_lesson_time_modify->field_update_list($item['lessonid'],[
-                    'is_notice_ass_flag' => 1 // 已发送通知给助教
-                ]);
-            }
+            $this->task->t_lesson_time_modify->field_update_list($item['lessonid'],[
+                'is_notice_ass_flag' => 1 // 已发送通知给助教
+            ]);
         }
     }
 }

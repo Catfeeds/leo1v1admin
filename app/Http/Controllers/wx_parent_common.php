@@ -88,13 +88,12 @@ class wx_parent_common extends Controller
         ]);
 
         return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
-
     }
+
     public function do_wx_bind( ){
         $code      = $this->get_in_str_val('code');
         $wx_openid = session("wx_parent_openid");
-
-        $openid = $this->get_in_str_val("openid");
+        $openid    = $this->get_in_str_val("openid");
         if(!$wx_openid){
             $wx_openid = $openid;
         }
@@ -138,10 +137,9 @@ class wx_parent_common extends Controller
         $this->t_parent_info->field_update_list($parentid,[
             "wx_openid" => $wx_openid,
         ]);
-        session(["parentid" => $parentid ]);
+        session(["parentid" => $parentid]);
 
         return $this->output_succ(["type"=>$market_activity_type]);
-
     }
 
     public function get_lesson_evaluate () {

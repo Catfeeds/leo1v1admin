@@ -1594,6 +1594,7 @@ class ajax_deal2 extends Controller
     public function get_three_month_stu_num(){
         $list=[];
         $first              = $this->get_in_int_val("teacherid",50272);
+        // $first = strtotime("2016-06-01");
         // $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
         $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
         $month = date("Y-m-d",$first);

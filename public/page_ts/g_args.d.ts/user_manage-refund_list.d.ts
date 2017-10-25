@@ -48,6 +48,8 @@ interface RowData {
 	file_url	:any;
 	grade	:any;
 	need_receipt	:any;
+	is_staged_flag	:any;
+	is_staged_flag_str	:any;
 	user_nick	:any;
 	refund_user	:any;
 	apply_time_str	:any;

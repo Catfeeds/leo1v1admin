@@ -171,6 +171,10 @@ $(function(){
             $.do_ajax("/user_deal/lesson_add_lesson",{
                 courseid:g_args.courseid
             },function(resp){
+                if(resp.ret==-1){
+                    alert(resp.info);
+                    return;
+                }
                 var  $item=$("<div></div> ");
                 $item.admin_set_lesson_time({
                     "lessonid" : resp.lessonid

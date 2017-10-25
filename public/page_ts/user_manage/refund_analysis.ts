@@ -25,9 +25,6 @@ $(function(){
     Enum_map.append_option_list( "qc_contact_status", $("#id_qc_contact_status"));
     Enum_map.append_option_list( "qc_advances_status", $("#id_qc_advances_status"));
     Enum_map.append_option_list( "qc_voluntarily_status", $("#id_qc_voluntarily_status"));
-    // $("#id_qc_contact_status").val(g_args.qc_contact_status);
-    // $("#id_qc_advances_status").val(g_args.qc_advances_status);
-    // $("#id_qc_voluntarily_status").val(g_args.qc_voluntarily_status);
 
      $("#id_qc_contact_status").find('option[value="'+qc_contact_status+'"]').attr('selected',1);
      $("#id_qc_advances_status").find('option[value="'+qc_advances_status+'"]').attr('selected',1);
@@ -44,7 +41,9 @@ $(function(){
         var qc_advances_status     = $("#id_qc_advances_status").val();
         var qc_voluntarily_status  = $("#id_qc_voluntarily_status").val();
 
-        console.log(qc_voluntarily_status);
+        if(qc_contact_status<1){
+            alert('请选择联系状态!');
+        }
 
         if(adminid != 540 && adminid != 968 && adminid != 99 && adminid != 1024 && adminid!=1184 ){
             alert('您没有修改权限!');

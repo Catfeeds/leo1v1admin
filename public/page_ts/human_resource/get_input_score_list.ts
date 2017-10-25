@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ex-get_input_score_list.d.ts" />
+/// <reference path="../g_args.d.ts/human_resource-get_input_score_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -31,6 +31,6 @@ $(function(){
 	  $('#id_admin_type').val(g_args.admin_type);
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
 

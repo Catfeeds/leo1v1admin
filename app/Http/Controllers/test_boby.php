@@ -522,6 +522,7 @@ class test_boby extends Controller
     }
 
     public function get_info_by_time(){
+        $this->switch_tongji_database();
         $start = $this->get_in_str_val('start',0);
         $end = $this->get_in_str_val('end',0);
         $start_time = strtotime($start);
@@ -800,6 +801,64 @@ class test_boby extends Controller
         }
         $th_arr = ['老师','常规课----money','试听课----money'];
         dd($new);
+    }
+
+    //给t_month_student_info 添加数据
+    public function select_and_add_stu_info(){
+        $start_time = strtotime('2017-10-01');
+        $end_time   = strtotime('2017-11-01');
+        $page_num   = $this->get_in_page_num();
+        //月初付费学员数
+        $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, -1, -1, '', -1, -1, -1);
+        $all_pay  = $ret_info['list'];
+
+        $old_order_list = $this->t_order_info->get_order_list_count(-1,$start_time);
+        $new_order_list = $this->t_order_info->get_order_list_count($start_time,$end_time);
+
+        $old_user = [];
+        $new_user = [];//月新签
+        foreach ( $old_order_list as $item ) {
+            array_push($old_user, $item['userid']);
+        }
+        foreach ( $new_order_list as $item ) {
+            if( !in_array($old_user, $item['userid']) ) {
+                array_push($new_user, $item['userid']);
+            }
+        }
+
+        //月退费名单
+        $ret_info = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
+
+        $refund_user = [];
+        foreach($ret_info as $item) {
+            array_push($refund_user, $item['userid']);
+        }
+
+        //月 在读,停课,休学,假期数
+        $ret_info = $this->t_student_info->get_student_list_archive(-1,-1,-1,'','',-1,-1,0,-1,$page_num,-1,-1);
+
+        $study_user = [];
+        $stop_user = [];
+        $drop_out_user = [];
+        $vacation_user = [];
+        foreach($ret_info as $itme) {
+            if($item['type'] == 0) {
+                array_push($study_user,$item['userid']);
+            } else if ($item['type'] == 2) {
+                array_push($stop_user,$item['userid']);
+            } else if ($item['type'] == 3) {
+                array_push($drop_out_user,$item['userid']);
+            } else if ($item['type'] == 4) {
+                array_push($vacation_user,$item['userid']);
+            }
+        }
+        dd($old_order_list);
+
+        //月收入
+        // $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
+        //月课耗和月课耗收入
+        // $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
+
     }
 
 }

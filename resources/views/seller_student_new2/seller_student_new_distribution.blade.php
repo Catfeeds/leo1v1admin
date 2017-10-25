@@ -56,7 +56,9 @@
                     <td>是否离职 </td>
                     <td>拨打认领</td>
                     <td>手动认领</td>
-                    <td>手动分配</td>
+                    <td>被其他分配</td>
+                    <td>被TMK分配</td>
+                    <td>分配</td>
                     <td>分配未联系</td>
                     <td>在职人数</td>
                     <td>离职人数</td>
@@ -74,11 +76,29 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
-                        <td >{{@$var["auto_get_count"]}}</td>
-                        <td >{{@$var["hand_get_count"]}}</td>
+                        <td >
+                            <a href="javascript:;" class="auto_get_count" >
+                                {{@$var["auto_get_count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="hand_get_count" >
+                                {{@$var["hand_get_count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="count" >
+                                {{@$var["count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="tmk_count" >
+                                {{@$var["tmk_count"]}}
+                            </a>
+                        </td>
                         <td >
                             <a href="javascript:;" class="distribution_count" >
-                                {{@$var["count"]}}
+                                {{@$var["distribution_count"]}}
                             </a>
                         </td>
                         <td >

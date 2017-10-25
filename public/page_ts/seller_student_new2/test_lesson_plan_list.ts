@@ -105,6 +105,7 @@ $(function(){
     }else{
         $(".show_seller").hide();
         $(".limit-require-info").hide();
+        console.log(1111);
     }
 
     if (window.location.pathname=="/seller_student_new2/ass_test_lesson_list_tran" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list_tran/" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list/") {
@@ -125,7 +126,11 @@ $(function(){
     //点击进入个人主页
     $('.opt-user').on('click',function(){
         var opt_data= $(this).get_opt_data();
-        $.wopen('/stu_manage?sid=' + opt_data.userid);
+        if(g_args.account_role==1){
+            $.wopen('/user_manage/ass_archive_ass?userid=' + opt_data.userid);
+        }else{
+            $.wopen('/stu_manage?sid=' + opt_data.userid); 
+        }
     });
 
     $(".opt-set-lesson-new ").on("click",function(){
