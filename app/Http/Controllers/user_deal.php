@@ -663,7 +663,10 @@ class user_deal extends Controller
                 return $this->output_err("试听课不能修改时间,只能删除,重新排新课,再设置时间");
             }
         }else{
-            if(in_array($lesson_type,[0,1,3])){
+            $userid = $this->t_lesson_info->get_userid($lessonid);
+            $is_test_user = $this->t_student_info->get_is_test_user($userid);
+            
+            if(in_array($lesson_type,[0,1,3]) && $is_test_user==0){
                 $account_role = $this->get_account_role();
                 if($account_role !=1 && $account_role !=12){
                    return $this->output_err("非助教不能改常规课时间!"); 
@@ -3172,13 +3175,48 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        
+        $ret_auth = $this->t_manager_info->check_permission("jack", E\Epower::V_SHOW_MONEY );
+        dd($ret_auth);
+        $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
+        $create_time = $this->t_manager_info->get_create_time(349);
+        if($create_time<strtotime("2017-10-25")){
+            dd(111);
+        }else{
+            dd(222);
+
+        }
+
+        $userid = 50232;
+        $ret=$this->t_lesson_info_b3->del_lesson_no_start_by_userid($userid);
+        dd($ret);
+        dd(111);
+
       
         $list = $this->t_teacher_info->get_all_teacher_tags();
         foreach($list as $val){
             if($val["teacher_tags"]){
                 $tags= explode(",",trim($val["teacher_tags"],","));
-                dd($tags);
+                $r="";
+                foreach($tags as $v){
+                    if($v=="自然型"){
+                        $r .="细致耐心,"; 
+                    }elseif($v=="逻辑型"){
+                         $r .="功底扎实,考纲熟悉,";
+                    }elseif($v=="技巧型"){
+                        $r .="循循善诱,考纲熟悉,经验丰富,";
+                    }elseif($v=="情感型"){
+                        $r .="生动活泼,善于互动,";
+                    }elseif($v=="幽默型"){
+                        $r .="幽默风趣,生动活泼,善于互动,";
+                    }
+                }
+                $new_arr=explode(",",trim($r,","));
+                $arr=array_unique($new_arr);
+                $ff = implode(",",$arr).",";
+                $this->t_teacher_info->field_update_list($val["teacherid"],[
+                   "teacher_tags" =>$ff 
+                ]);
+                
             }
         }
         dd($list);

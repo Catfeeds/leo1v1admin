@@ -327,7 +327,7 @@ class seller_student_new2 extends Controller
         $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
-        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
         $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
 

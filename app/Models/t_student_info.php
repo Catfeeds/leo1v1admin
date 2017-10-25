@@ -123,6 +123,28 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
+    public function get_student_list_for_finance_count( ){
+        $where_arr=[
+            "s.type<>1",
+            "s.is_test_user=0",
+            "o.contract_type in (0,1,3)",
+            "o.contract_status > 0",
+            "o.price>0",
+        ];
+
+        $sql = $this->gen_sql_new("select distinct o.userid "
+                                  ." from %s s "
+                                  ." left join %s o on o.userid=s.userid"
+                                  ." where  %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return  $this->main_get_list($sql);
+    }
+
+
 
 
     public function get_student_list_search_two_weeks( $start_time, $end_time,$page_num,$all_flag, $userid,$grade, $status,
@@ -1025,6 +1047,40 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
+    public function get_user_list_by_lesson_count_new($lesson_start,$lesson_end){
+        $where_arr = [
+            "lesson_count_left=0",
+            ["last_lesson_time >=%u",$lesson_start,-1 ],
+            ["last_lesson_time <=%u",$lesson_end,-1 ],
+            "is_test_user=0",
+            'type=1',
+        ];
+
+        $refund_sql="true";
+        $type = 1;
+        if(in_array($type,[1,2])){
+            if($type==1){
+                $exists_str = "not exists";
+            }elseif($type==2){
+                $exists_str = "exists";
+            }
+            $refund_sql = $this->gen_sql_new("%s (select 1 from %s where s.userid=userid)"
+                                             ,$exists_str
+                                             ,t_order_refund::DB_TABLE_NAME
+            );
+        }
+
+        $sql = $this->gen_sql_new("select count( distinct userid) "
+                                  ." from %s s"
+                                  ." where %s "
+                                  ." and %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$refund_sql
+        );
+        return $this->main_get_value($sql);
+    }
+
 
     public function get_parent_total_list($userid){
         $sql = $this->gen_sql("select parentid from %s where userid = %u ",

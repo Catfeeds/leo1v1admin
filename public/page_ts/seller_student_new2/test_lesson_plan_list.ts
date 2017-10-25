@@ -126,7 +126,7 @@ $(function(){
     //点击进入个人主页
     $('.opt-user').on('click',function(){
         var opt_data= $(this).get_opt_data();
-        if(g_args.account_role==1){
+        if(g_args.account_role_self==1){
             if(g_args.ass_master_flag==1){
                 $.wopen('/user_manage/ass_archive?userid=' + opt_data.userid);
             }else{

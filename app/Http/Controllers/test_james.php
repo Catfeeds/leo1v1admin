@@ -422,6 +422,15 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
+        $ret = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+
+        $a = [];
+
+        foreach($ret as $v){
+            $a[] = $v['lessonid'];
+        }
+
+        dd($a);
         // $a = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
@@ -500,34 +509,6 @@ class test_james extends Controller
         }
 
         dd($ret_info);
-        // $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
-
-        // dd($r);
-        // $arr = [];
-        // foreach($r as $v){
-        //     $arr[] = $v['account'];
-        // }
-        // dd($arr);
-
-        // $this->switch_tongji_database();
-        // $r = $this->t_parent_info->get_openid_list();
-        // dd($r);
-
-        // $userid= $this->get_in_str_val('u');
-
-        // $userid  = $userid*10;
-        // dd($userid);
-
-        // $ass_openid = $this->t_student_info->get_ass_openid($userid);
-
-        // $check = 1;
-        // $send_openid = 'cccc';
-
-        // if(!$ass_openid ){
-        //     $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
-        //     $check = 2;
-
-        // }
 
         $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
@@ -557,75 +538,65 @@ class test_james extends Controller
 
 
 
+    public function send_wx_msg(){
+        $wx = new \App\Helper\Wx();
 
+        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
 
-    public function get_month_finish_define_money($seller_groupid_ex,$start_time){
-        $task = new \App\Console\Tasks\TaskController();
-        $task->t_admin_main_group_name->switch_tongji_database();
-        $task->t_admin_group_name->switch_tongji_database();
-        $task->t_manager_info->switch_tongji_database();
-        $task->t_seller_month_money_target->switch_tongji_database();
-        $task->t_admin_group_month_time->switch_tongji_database();
-        $arr=explode(",",$seller_groupid_ex);
-        $main_type="";
-        $up_groupid="";
-        $groupid="";
-        $adminid="";
-        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3];
-        if (isset($arr[0]) && !empty($arr[0])){
-            $main_type_name= $arr[0];
-            $main_type = $main_type_list[$main_type_name];
-        }
-        if (isset($arr[1])  && !empty($arr[1])){
-            $up_group_name= $arr[1];
-            $up_groupid = $task->t_admin_main_group_name->get_groupid_by_group_name($up_group_name);
-        }
-        if (isset($arr[2])  && !empty($arr[2])){
-            $group_name= $arr[2];
-            $groupid = $task->t_admin_group_name->get_groupid_by_group_name($group_name);
-        }
-        if (isset($arr[3])  && !empty($arr[3])){
-            $account= $arr[3];
-            $adminid = $task->t_manager_info->get_id_by_account($account);
-        }
+        $openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek';
 
-        $month = date("Y-m-01",$start_time);
-        $groupid_list = [];
-        if($adminid){
-            $month_finish_define_money=$task->t_seller_month_money_target->field_get_value_2( $adminid,$month,"personal_money");
-        }else{
-            if($groupid){
-                $groupid_list[] = $groupid;
-            }else{
-                if($up_groupid){
-                    $groupid_list = $task->t_admin_group_name->get_groupid_list_new($up_groupid,-1);
-                }else{
-                    if($main_type){
-                        $groupid_list = $task->t_admin_group_name->get_groupid_list_new(-1,$main_type);
-                    }
-                }
-            }
-            $month_finish_define_money=$task->t_admin_group_month_time->get_month_money_by_month( $start_time,$groupid_list);
-        }
-
-        return $month_finish_define_money;
-    }
-
-
-
-
-    public function genxin(){
-
-
-        $a = [
-            '110034','109995','109981','109978','109969','109962','109957','109946','109944','109939','109934','109928','109909','109867',''
+        $data_leo = [
+            'first'    => "测试 first",
+            'keyword1' => "keyword1",
+            'keyword2' => "keyword2",
+            'keyword3' => "keyword3",
+            'remark'   => "测试信息!"
         ];
 
-        foreach($a as $item){
-            $this->t_student_score_info->field_update_list($item,["admin_type" => 1]);
-        }
+        $url_leo = 'http://admin.yb1v1.com/test_james/jilu?test=1';
+
+        urldecode();
+
+        $wx->send_template_msg($openid, $parent_template_id, $data_leo, $url_leo);
+
+
 
     }
+
+    public function jilu(){
+
+        $str="http://www.jb51.net";  //定义字符串
+        $result=urlencode($str);   //对指定字符串编码
+        echo $result;  //输出结果
+
+        header("Location:");
+
+        return;
+
+
+        $test = $this->get_in_int_val('test');
+
+        header("Loaction ");
+
+        if($test == 1){
+            // 存入数据库
+        }
+
+
+        /*
+
+
+
+
+
+
+
+
+         */
+
+        dd($test);
+    }
+
 
 
 
