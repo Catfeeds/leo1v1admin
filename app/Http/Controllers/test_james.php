@@ -414,6 +414,30 @@ class test_james extends Controller
 
     public function ssss(){
 
+        $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+
+        $parentid = $this->get_in_int_val('p');
+        $lessonid = $this->get_in_int_val('l');
+        $type = $this->get_in_int_val('y');
+
+        if($type == 0){
+            $lesson_type_str = '常规课';
+            $type_str = "0,1,3";
+        }elseif($type == 2){
+            $type_str = "2";
+            $lesson_type_str = '试听课';
+        }else{
+            $lesson_type_str = '';
+        }
+
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type_str);
+
+
+        // $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
+
+        dd($ret_list);
+
         $this->switch_tongji_database();
         // $parent_list = $this->t_parent_info->get_openid_list();
 

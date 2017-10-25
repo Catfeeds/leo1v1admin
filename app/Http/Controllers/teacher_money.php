@@ -483,7 +483,7 @@ class teacher_money extends Controller
     }
 
     /**
-     * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
+     * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿 5 模拟试听奖 6 伯乐奖
      * @param teacherid 老师id
      * @param money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
      * @param money 奖金金额
@@ -535,6 +535,9 @@ class teacher_money extends Controller
                 $money = ($base_money+$reward_money)*25;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
+            }elseif($type==E\Erewrad_type::V_5){
+            }elseif($type==E\Ereward_type::V_6){
+
             }
         }
 
