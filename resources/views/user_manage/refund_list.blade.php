@@ -202,7 +202,8 @@
                             <td >{!! $var["is_staged_flag_str"] !!}</td>
 
                             <td >{{$var["ass_nick"]}}</td>
-                            <td >{{$var["qc_advances_status_str"]}}</td>
+                            <td >{{$var["subject_str"]}}</td>
+                            <td >{{$var["tea_nick"]}}</td>
 
                             <td >{{$var["qc_contact_status_str"]}}</td>
                             <td >{{$var["qc_advances_status_str"]}}</td>
