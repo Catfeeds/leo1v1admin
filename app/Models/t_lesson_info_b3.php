@@ -1307,31 +1307,25 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_start > $start_time",
             "l.lesson_start < $end_time",
-            "l.confirm_flag  in  (0,1,3,4)",
-            "l.lesson_type in(0,1,3 ) ",
-            "(s.is_test_user=0 or s.is_test_user is null)",
+            "l.confirm_flag in (0,1,3,4)",
+            "l.lesson_type in (0,1,3)",
+            "s.is_test_user=0",
             "l.lesson_user_online_status=1 ",
             "l.lesson_del_flag=0"
         ];
-        $sql = $this->gen_sql_new("select  sum(l.lesson_count ),count(distinct l.userid) ,sum(ol.price)"
-                                  // .",from_unixtime(l.lesson_start,'%%Y-%%m') as lesson_month"
-                                  ." from %s l"
-                                  ." left join %s s on s.userid=l.userid"
-                                  ." left join %s ol on ol.lessonid=l.lessonid"
-                                  ." where %s"
-                                  // ." group by lesson_month "
-                                  // ." order by lesson_month asc "
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_order_lesson_list::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select sum(l.lesson_count ) lesson_count,count(distinct l.userid) lesson_stu_num,sum(ol.price) lesson_count_money "
+            ." from %s l"
+            ." left join %s s on s.userid=l.userid"
+            ." left join %s ol on ol.lessonid=l.lessonid"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_order_lesson_list::DB_TABLE_NAME
+            ,$where_arr
         );
 
-        return $this->main_get_list($sql,function($item) {
-            return $item["lesson_month"];
-        });
-
-
+        return $this->main_get_row($sql);
 
     }
 
