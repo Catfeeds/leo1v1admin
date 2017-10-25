@@ -105,7 +105,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex){
+    public function get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name){
         $where_arr = [
             ['l.adminid = %u',$adminid,-1],
             'l.uid <> l.adminid',
@@ -113,6 +113,12 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             ['ss.global_tq_called_flag = %u',$global_tq_called_flag,-1],
             's.is_test_user=0',
         ];
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;

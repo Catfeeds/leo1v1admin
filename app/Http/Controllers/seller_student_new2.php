@@ -973,6 +973,7 @@ class seller_student_new2 extends Controller
     public function seller_edit_log_list(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $adminid               = $this->get_in_int_val('adminid',-1);
+        $user_name      = trim($this->get_in_str_val('user_name',''));
         $flag                  = $this->get_in_int_val("flag",-1);
         $origin_ex             = $this->get_in_str_val("origin_ex");
         $global_tq_called_flag = $this->get_in_int_val('global_tq_called_flag',-1);
@@ -985,7 +986,7 @@ class seller_student_new2 extends Controller
                 }
             }
         }else{
-            $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex);
+            $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name);
         }
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
