@@ -690,7 +690,7 @@ class user_manage extends Controller
         // dd($price);
 
         $acc = $this->get_account();
-        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
         $this->set_filed_for_js("acc",$this->get_account()); 
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
         $this->set_filed_for_js("ass_master_flag",$ass_master_flag);

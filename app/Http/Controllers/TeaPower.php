@@ -64,12 +64,22 @@ trait TeaPower {
                 if($day>=2 && $day <=6){
                     if(!empty($lesson_start)){
                         
-                        if($h <18 ){
-                            return $this->output_err("教研老师周二至周五只能18点以后排课");
+                        $lesson_end = $lesson_count*2400+$lesson_start;
+                        $end_h = date("H",$lesson_end);
+                        if($h <18 && $end_h>=9 ){
+                            return $this->output_err("教研老师周二至周六9点至18点不能排课");
                         }
                     }
  
                 }
+
+                //非工作时间（周二至周六18:00以后及周日、周一）每周排课总量不超过6课时；
+                if(($lesson_count_week+$lesson_count)>6){
+                    return $this->output_err(
+                        "教研老师每周只能带6课时,该老师该周已有".$lesson_count_week."课时!"
+                    );
+                }
+
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
             $create_time = $this->t_teacher_info->field_get_value($teacherid,"train_through_new_time");

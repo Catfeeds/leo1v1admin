@@ -422,6 +422,15 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
+        $ret = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+
+        $a = [];
+
+        foreach($ret as $v){
+            $a[] = $v['lessonid'];
+        }
+
+        dd($a);
         // $a = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
@@ -544,7 +553,9 @@ class test_james extends Controller
             'remark'   => "测试信息!"
         ];
 
-        $url_leo = 'http://admin.yb1v1.com/test_james/jilu';
+        $url_leo = 'http://admin.yb1v1.com/test_james/jilu?test=1';
+
+        urldecode();
 
         $wx->send_template_msg($openid, $parent_template_id, $data_leo, $url_leo);
 
@@ -553,7 +564,37 @@ class test_james extends Controller
     }
 
     public function jilu(){
-        dd(12);
+
+        $str="http://www.jb51.net";  //定义字符串
+        $result=urlencode($str);   //对指定字符串编码
+        echo $result;  //输出结果
+
+        header("Location:");
+
+        return;
+
+
+        $test = $this->get_in_int_val('test');
+
+        header("Loaction ");
+
+        if($test == 1){
+            // 存入数据库
+        }
+
+
+        /*
+
+
+
+
+
+
+
+
+         */
+
+        dd($test);
     }
 
 
