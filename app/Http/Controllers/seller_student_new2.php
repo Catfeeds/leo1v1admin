@@ -982,6 +982,13 @@ class seller_student_new2 extends Controller
         }else{
             $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex);
         }
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item["adminid_nick"]= '';
+            $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
+            $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+            $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
+        }
 
         return $this->pageView(__METHOD__,$ret_info);
     }
