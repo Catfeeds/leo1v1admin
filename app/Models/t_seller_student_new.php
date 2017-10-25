@@ -2594,7 +2594,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
-        $sql = $this->gen_sql_new(" select n.admin_revisiterid uid,n.admin_assign_time create_time,n.global_tq_called_flag,"
+        $sql = $this->gen_sql_new(" select n.admin_assignerid adminid,n.admin_revisiterid uid,"
+                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,"
                                   ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
