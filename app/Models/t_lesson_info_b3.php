@@ -1344,6 +1344,37 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
+    public function del_lesson_no_start_by_userid($userid){
+        $where_arr=[
+            ["userid = %u",$userid,-1],
+            "lesson_status = 0",
+            "lesson_type in (0,1,3)"
+        ];
+
+        $sql = $this->gen_sql_new("select courseid,lessonid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        $ret_info = $this->main_get_list($sql);
+        $sql=$this->gen_sql_new("delete from %s where %s"
+
+                                ." and lesson_del_flag=0 "
+                                ,
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+        $ret=$this->main_update($sql);
+        if($ret_info){
+            foreach($ret_info as $item){
+                if ($ret) {
+                    $this->t_homework_info->row_delete($item['lessonid']);
+                }
+                $this->reset_lesson_list($item['courseid']);
+            }
+        }
+        return $ret;
+ 
+    }
 
 
 }

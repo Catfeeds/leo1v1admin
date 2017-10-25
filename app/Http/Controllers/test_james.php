@@ -530,7 +530,11 @@ class test_james extends Controller
 
 
     public function send_wx_msg(){
-        
+        $wx = new App\Helper\Wx();
+
+
+        \App\Helper\Utils::logger();
+
     }
 
 
