@@ -80,7 +80,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_adminid_in_list($where_arr,"admin_revisiterid",$adminid_all);
         $where_arr[]= $this->where_get_in_str_query("s.grade",$grade_list);
 
-        // 
+        //
         $sql = $this->gen_sql_new(
             // "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
             "select from_unixtime(first_call_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
@@ -785,8 +785,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $phone=$ss_info["phone"];
         $set_arr=[];
         if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
-
-
+            $hand_get_adminid = 0;
+            if($opt_type == 0){
+                $hand_get_adminid = E\Ehand_get_adminid::V_3;
+            }elseif($opt_type == 3){
+                $hand_get_adminid = E\Ehand_get_adminid::V_4;
+            }
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
@@ -798,7 +802,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_adminid_1"  => $sub_assign_adminid_1,
                 "sub_assign_time_1"  => $now,
                 "hold_flag" => 1,
-
+                "hand_get_adminid" => $hand_get_adminid,
             ];
 
             if ($opt_type==3 ||  ($tmk_student_status==E\Etmk_student_status::V_3)  ) {
@@ -901,7 +905,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "first_seller_adminid" => $opt_adminid,
                 "sub_assign_time_1"  => time(NULL),
                 "hold_flag" => 1,
-
+                "hand_get_adminid" => E\Ehand_get_adminid::V_1,
             ];
             if ($opt_type==1){
 
@@ -2556,13 +2560,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_distribution_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             'n.admin_revisiterid>0',
+            'n.admin_revisiterid<>n.admin_assignerid',
             ['m.account_role=%u',E\Eaccount_role::V_2],
+            's.is_test_user=0',
         ];
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
-        $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
-                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
+        $sql = $this->gen_sql_new(" select n.admin_revisiterid adminid, "
+                                  ." sum(if(n.hand_get_adminid=1,1,0)) auto_get_count,"
+                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid=2,1,0)) hand_get_count,"
+                                  ." sum(if(n.hand_get_adminid=3,1,0)) count, "
+                                  ." sum(if(n.hand_get_adminid=4,1,0)) tmk_count "
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
                                   ." left join %s s on s.userid=n.userid "
@@ -2575,4 +2584,54 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info){
+        $where_arr = [
+            ['n.admin_revisiterid=%u',$adminid],
+            'n.admin_revisiterid<>n.admin_assignerid',
+            ['n.hand_get_adminid=%u',$flag],
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            's.is_test_user=0',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select n.admin_assignerid adminid,n.admin_revisiterid uid,"
+                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,"
+                                  ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_hand_get_list($adminid,$start_time,$end_time,$origin_ex,$page_info){
+        $where_arr = [
+            ['n.admin_revisiterid = %u',$adminid,-1],
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            'n.hand_get_adminid>0 and n.admin_revisiterid = n.hand_get_adminid',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select n.admin_revisiterid uid,n.admin_assign_time create_time,n.global_tq_called_flag, "
+                                  ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
 }

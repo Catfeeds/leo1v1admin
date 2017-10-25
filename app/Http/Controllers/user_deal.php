@@ -604,6 +604,9 @@ class user_deal extends Controller
 
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $userid    = $this->t_lesson_info->get_userid($lessonid);
+
+
+        
         /* 设置lesson_count */
         $diff=($lesson_end-$lesson_start)/60;
         if ($diff<=20) {
@@ -619,6 +622,20 @@ class user_deal extends Controller
         }else{
             $lesson_count= ceil($diff/40)*100 ;
         }
+
+
+        //百度分期用户首月排课限制
+        /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
+            if($period_limit){
+            return $period_limit;
+            }*/
+
+        //逾期预警/逾期停课学员不能排课
+        $student_type = $this->t_student_info->get_type($userid);
+        if($student_type>4){
+            //return $this->output_err("百度分期逾期学员不能排课!");
+        }
+
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
         $lesson_type = $lesson_info['lesson_type'];
@@ -735,12 +752,20 @@ class user_deal extends Controller
                     $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
                 }
 
+                //非助教自己排课,发送推送给助教
                 $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
 
-                $adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
-                $account_id = $this->get_account_id();
-                if($adminid != $account_id){
-                    $ass_oponid = $this->t_manager_info->get_wx_openid($adminid);
+                $adminid_ass = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                if($adminid != $adminid_ass){
+                    $ass_oponid = $this->t_manager_info->get_wx_openid($adminid_ass);
+                    $nick = $this->t_student_info->get_nick($userid);
+                    $data_msg = [
+                        "first"     => "上课时间调整通知",
+                        "keyword1"  => "上课时间调整",
+                        "keyword2"  => "学生".$nick."从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end",
+                        "remark"     => " 修改人: $operation_name 联系电话: $operation_phone"
+                    ];
+
                     $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
                     $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
                 }

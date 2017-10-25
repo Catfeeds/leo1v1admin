@@ -1595,7 +1595,7 @@ class seller_student_new extends Controller
             $this->t_seller_student_new->field_update_list($userid,[
                 'admin_revisiterid' => $competition_call_adminid,
                 "admin_assign_time" => time(NULL),
-                'hand_get_adminid'  => $competition_call_adminid
+                'hand_get_adminid'  => E\Ehand_get_adminid::V_2,
             ]);
             $ret = 1;
         }

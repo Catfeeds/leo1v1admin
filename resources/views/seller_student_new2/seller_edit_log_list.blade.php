@@ -25,6 +25,7 @@
                     <td>分配人 </td>
                     <td>被分配人 </td>
                     <td>分配例子 </td>
+                    <td>渠道 </td>
                     <td>是否联系 </td>
                     <td>是否删除 </td>
                     <td>分配时间 </td>
@@ -37,6 +38,7 @@
                         <td>{{@$var["adminid_nick"]}} </td>
                         <td>{{@$var["uid_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["origin"]}} </td>
                         <td>{!! @$var["global_tq_called_flag_str"] !!} </td>
                         <td>{!! @$var["del_flag_str"] !!} </td>
                         <td>{{@$var["create_time"]}} </td>

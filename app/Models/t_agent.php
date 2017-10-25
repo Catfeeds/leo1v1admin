@@ -1565,7 +1565,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ]);
         }
 
-        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        //$check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        $check_time=strtotime( "2017-09-01");
         if ($agent_info["create_time"] < $check_time) {
             if ( $agent_info["agent_status_money_open_flag"] !=0 ) {
                 $this->field_update_list($id,[
