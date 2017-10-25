@@ -4712,22 +4712,21 @@ class human_resource extends Controller
                 $item['account_type'] = '助教';
                 $item['admin_type_str'] = '后台';
             }
-
-            // if($item['admin_type'] == 0 && !$item['create_nick']  && $item['create_adminid'] !=0){
-            //     // $a[] = $item['id'];
-            //     $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
-            //     $item['account_type'] = '家长';
-            //     $item['admin_type_str'] = '微信端';
-            // }
-
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
-
-
         }
-        // dd($a);
 
         return $this->pageView(__METHOD__, $ret_info);
 
+    }
+
+
+    public function get_lesson_modify_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3,0,true);
+        $page_num = $this->get_in_page_num();
+        $is_done  = $this->get_in_int_val('is_modify_time_flag',-1);
+        $ret_info = $this->t_lesson_time_modify->get_modify_list($start_time, $end_time, $page_num, $is_done);
+
+        return $this->pageView(__METHOD__, $ret_info);
     }
 
 
