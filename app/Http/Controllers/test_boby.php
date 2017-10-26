@@ -787,11 +787,13 @@ class test_boby extends Controller
 
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
-            foreach($new as $v) {
-                if( strlen($v)>0){
-                    $warning_stu_num++;
-                    if( in_array($v ,$renow_user) ){
-                        $warning_renow_num++;
+            if(is_array($new)){
+                foreach($new as $v) {
+                    if( strlen($v)>0){
+                        $warning_stu_num++;
+                        if( in_array($v ,$renow_user) ){
+                            $warning_renow_num++;
+                        }
                     }
                 }
             }
