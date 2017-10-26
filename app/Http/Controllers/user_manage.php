@@ -723,7 +723,7 @@ class user_manage extends Controller
         }
 
         $ret_info = $this->t_student_info->get_student_list_for_finance(
-            $page_num, $userid, $grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
+            $page_num, $userid, $grade, $user_name, $assistantid, $originid, $seller_adminid
         );
 
         foreach($ret_info['list'] as &$item) {
