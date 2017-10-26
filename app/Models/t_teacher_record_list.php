@@ -1371,7 +1371,10 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
-        $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,tr.add_time,tr.phone_spare as phone from %s l left join %s tr on l.courseid=tr.train_lessonid where %s ",
+        $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,tr.add_time,tr.phone_spare as phone "
+                                  ." from %s l "
+                                  ." left join %s tr on l.lessonid=tr.train_lessonid "
+                                  ." where %s ",
                                   t_lesson_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
                                   $where_arr
