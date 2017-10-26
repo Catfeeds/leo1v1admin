@@ -137,22 +137,45 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_type=0",
             "o.contract_status>0",
             "o.price>0",
-            "w.competition_flag=0",
         ];
 
-        $sql = $this->gen_sql_new("select  o.userid,max( w.start_time ) as start_time ,s.assistantid "
+        $sql = $this->gen_sql_new("select  o.userid "
+                                  ." from %s o "
+                                  ." left join %s s on s.userid = o.userid "
+                                  ." where %s "
+                                  ." group by o.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_order_user_list_by_month( $start_time, $end_time) {
+        $where_arr=[
+            ["o.order_time>=%u" , $start_time, -1],
+            ["o.order_time<%u" , $end_time, -1],
+            "s.is_test_user=0",
+            "o.contract_type=0",
+            "o.contract_status>0",
+            "o.price>0",
+        ];
+
+        $sql = $this->gen_sql_new("select  o.orderid,o.userid,max( w.start_time ) as start_time ,s.assistantid "
                                   ." from %s o "
                                   ." left join %s s on s.userid = o.userid "
                                   ." left join %s w on w.userid = o.userid "
                                   ." where %s "
-                                  ." group by o.userid",
+                                  ." group by o.orderid",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_week_regular_course::DB_TABLE_NAME,
                                   $where_arr
         );
+
         return $this->main_get_list($sql);
     }
+
 
 
     public function get_order_list(
