@@ -213,6 +213,9 @@ class get_period_repay_info extends Command
                     }elseif($money_contrast>0 && $money_contrast<1){
                         //判断当天有无课程
                         $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
+                        if($plan_lesson_count>0){
+                            $first_lesson_start = $task->t_lesson_info_b3->get_first_lesson_start($userid,$day_start);
+                        }
                         //已排超出课是否要清除,待确认
                         
                     }else{
