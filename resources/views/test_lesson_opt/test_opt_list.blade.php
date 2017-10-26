@@ -23,6 +23,7 @@
             <thead>
                 <tr>
                     <td>roomid </td>
+                    <td>lessonid </td>
                     <td>用户名 </td>
                     <td>角色 </td>
                     <td>操作类型 </td>
@@ -37,6 +38,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["roomid"]}} </td>
+                        <td>{{@$var["lessonid"]}} </td>
                         <td>{{@$var["student_nick"]}} </td>
                         <td>{{@$var["role_str"]}} </td>
                         <td>{{@$var["opt_type_str"]}} </td>
