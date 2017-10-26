@@ -797,6 +797,7 @@ class test_boby extends Controller
             }
         }
 
+        $ret['warning_stu_num']          = $warning_stu_num;
         $ret['warning_renow_stu_num']    = $warning_renow_num;
         $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
 
@@ -807,7 +808,7 @@ class test_boby extends Controller
         $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
 
         $ret['create_time'] = $start_time;
-        //        $this->t_month_student_count->row_insert($ret);
+        $this->t_month_student_count->row_insert($ret);
 
         dd($ret);
         return 'ok';
