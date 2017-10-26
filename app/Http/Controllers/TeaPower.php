@@ -3518,7 +3518,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         $url="";
 
 
-                        $wx->send_template_msg($openid,$template_id,$data,$url);
+                        //$wx->send_template_msg($openid,$template_id,$data,$url);
+                        if($openid){
+                            $wx->send_template_msg($openid,$template_id,$data,$url);
+                            $period = $no_first_list[0]["period"];
+                            $this->t_period_repay_list->field_update_list($period_info["child_orderid"],$period,[
+                                "stop_wx_send_flag"=>1
+                            ]);
+
+                        }else{
+                            $this->t_period_repay_list->field_update_list($period_info["child_orderid"],$period,[
+                                "stop_wx_send_flag"=>2
+                            ]);
+
+                        }
+
 
  
                     }elseif($money_contrast>0 && $money_contrast<1){

@@ -3188,9 +3188,10 @@ class user_deal extends Controller
             $due_date = $month_start+14*86400;
 
         }
-        $list = $this->t_period_repay_list->get_period_order_overdue_warning_info($due_date,2,-1,1);
+        $list = $this->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,-1,2);
         dd($list);        
-       
+        $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date,$period_info["child_orderid"]);
+
 
     }
 
