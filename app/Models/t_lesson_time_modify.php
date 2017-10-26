@@ -85,7 +85,7 @@ class t_lesson_time_modify extends \App\Models\Zgen\z_t_lesson_time_modify
             "backstage_type=1"
         ];
         $this->where_arr_add_time_range($where_arr,"parent_deal_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("  select lt.lessonid, backstage_type,  p.nick as p_name , is_notice_ass_flag, parent_deal_time, is_modify_time_flag from %s lt"
+        $sql = $this->gen_sql_new("  select l.lesson_start, l.lesson_end, lt.lessonid, backstage_type,  p.nick as p_name , is_notice_ass_flag, parent_deal_time, is_modify_time_flag from %s lt"
                                   ." left join %s l on l.lessonid=lt.lessonid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s p on p.parentid=s.parentid"
