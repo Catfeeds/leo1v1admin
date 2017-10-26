@@ -480,7 +480,7 @@ class agent extends Controller
                 $role = $item['role'];
                 $opt_type = $item['opt_type'];
 
-                if($info == $roomid){
+                if($info == $roomid && $roomid==1508835634505){
                     if($role == E\Erole::V_1 && $opt_type == E\Etest_opt_type::V_1){//学生登录
                         $stu_login = $item;
                     }elseif($role == E\Erole::V_1 && $opt_type == E\Etest_opt_type::V_2){//学生退出
@@ -492,7 +492,8 @@ class agent extends Controller
                     }
                 }
             }
-            if(count($stu_login)>0 && count($stu_logout)>0 && count($seller_login)>0 && count($stu_logout)>0){
+            if(count($stu_login)>0 && count($stu_logout)>0 && count($seller_login)>0 && count($seller_logout)>0){
+                dd($stu_login,$stu_logout,$seller_login,$seller_logout);
                 $userid = $stu_login['userid'];
                 $login_time_stu = $stu_login['opt_time'];
                 $logout_time_stu = $stu_logout['opt_time'];
