@@ -19,7 +19,7 @@ class t_teacher_flow extends \App\Models\Zgen\z_t_teacher_flow
 
     public function get_id_for_phone($phone) {
         $where_arr = [
-            ["phone='%s'",$phone,0]
+            ["phone=\'%s\'",$phone,0]
         ];
         $sql = $this->gen_sql_new("select teacherid from %s where "
                                   ,self::DB_TABLE_NAME
