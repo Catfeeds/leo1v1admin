@@ -13,6 +13,9 @@ interface RowData {
 	order_month	:any;
 	count	:any;
 	order_total	:any;
+	lesson_count	:any;
+	lesson_stu_num	:any;
+	lesson_count_money	:any;
 }
 
 /*
