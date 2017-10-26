@@ -1644,6 +1644,12 @@ class user_manage extends Controller
         $job = new \App\Jobs\StdentResetLessonCount($userid);
         dispatch($job);
 
+        //优学优享
+        $agentid= $this->t_agent->get_agentid_by_userid($userid);
+        if ($agentid) {
+            dispatch( new \App\Jobs\agent_reset($agentid ));
+        }
+
         return $this->output_succ();
     }
 
@@ -3091,6 +3097,7 @@ class user_manage extends Controller
 
     public function set_dynamic_passwd()
     {
+        $userid = $this->get_in_int_val('userid');
         $phone  = $this->get_in_str_val('phone', '');
         $role   = $this->get_in_int_val('role', 0);
         $passwd = $this->get_in_str_val('passwd', '');
@@ -3100,6 +3107,9 @@ class user_manage extends Controller
         }
 
         $ret_set = \App\Helper\Net::set_dynamic_passwd($phone,$role,md5($passwd), $connection_conf );
+
+        // 添加操作日志
+        $this->t_user_log->add_data("设置临时密码", $userid);
         return $this->output_bool_ret($ret_set);
     }
 

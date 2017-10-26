@@ -1137,7 +1137,8 @@ class common_new extends Controller
                         "");
                     $this->t_orderid_orderno_list->field_update_list($orderNo,[
                         "pay_flag" =>1,
-                        "channel"  =>"baidu"
+                        "channel"  =>"baidu",
+                        "pay_time" =>time()
                     ]);
 
                 }
