@@ -18,11 +18,13 @@ class common_ex extends Controller
 
         
         if($type=="zhishiku"){
+
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
             if ($check_code != $code) {
                 //return $this->output_err("手机验证码不对,请重新输入");
             }
             return $this->share_knowledge();
+
         }else{
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
             if ($check_code != $code) {
@@ -31,6 +33,7 @@ class common_ex extends Controller
             return $this->book_free_lesson();
         }
     }
+
     public function send_phone_code () {
         $phone = trim($this->get_in_str_val('phone'));
         $code_flag= $this->get_in_int_val("code_flag",0) ;
@@ -188,6 +191,7 @@ class common_ex extends Controller
         \App\Helper\Utils::sms_common($phone,$sms_id,$arr);
 
         $userid = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
+
         if($origin_userid!=0){
             $this->t_student_info->field_update_list($userid,[
                "origin_userid" => $origin_userid

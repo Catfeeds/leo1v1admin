@@ -184,6 +184,8 @@ class tea_manage extends Controller
              $tea_subject= "";
         }elseif($adminid==329){
             $tea_subject="";
+        }elseif($adminid==1143){
+            $tea_subject="";//朱丽莎权限
         }
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);

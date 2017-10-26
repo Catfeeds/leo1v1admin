@@ -119,7 +119,6 @@ class lesson extends TeaWxController
     }
 
     public function get_comment_list(){ //协议编号 1002
-
         $teacherid  = $this->get_teacherid();
         $page_num   = $this->get_in_page_num();
         $type       = $this->get_in_int_val('type');

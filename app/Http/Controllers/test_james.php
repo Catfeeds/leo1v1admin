@@ -412,332 +412,36 @@ class test_james extends Controller
     }
 
 
+    public function ssss(){
 
+        dd(session_id());
 
+        $lessonid = $this->get_in_int_val('p');
 
-    public function get_seller_total_info(){ // cc 总表信息
-        $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
-        $history_data = $this->get_in_int_val('history_data');
+        $wx_openid_arr = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
 
-        if($history_data){ // 0:是历史数据 1:否历史数据
-            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
+        dd($wx_openid_arr);
 
-            $ret_info = &$ret_info_arr['list'];
-            //概况
-            $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
+        $parentid = $this->get_in_int_val('p');
+        $lessonid = $this->get_in_int_val('l');
+        $type = $this->get_in_int_val('y');
 
-            $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
-
-            $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-            $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-            $ret_info['income_price'] = $order_info_total['total_price'];
-            $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
-
-
-            if($order_info_total['total_num']>0){
-                $ret_info['aver_count'] = $order_info_total['total_price']/$order_info_total['total_num'];//平均单笔
-            }else{
-                $ret_info['aver_count'] = 0; //平均单笔
-            }
-
-            $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-            $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
-            $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
-
-            if($ret_info['formal_num']>0){
-                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
-            }else{
-                $ret_info['aver_money'] = 0;
-            }
-
-            // dd($ret_info);
-            $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
-            $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-
-            // $main_type = 2;// 销售
-            $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入
-            if (!$ret_info['seller_target_income'] ) {
-                $ret_info['seller_target_income'] = 1600000;
-            }
-
-            $month_finish_define_money_2=$ret_info['seller_target_income']/100;
-            $month_start_time = strtotime( date("Y-m-01",  $start_time));
-            $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
-            $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-            $ret_info['cur_money']=0;
-            $today=time(NULL);
-            foreach ($month_date_money_list as $date=> &$item ) {
-                $date_time=strtotime($date);
-                if ($date_time<=$today) {
-                    $ret_info['cur_money']+=@$item["money"];
-                }
-            }
-            $ret_info['month_finish_persent'] = $ret_info['cur_money']/$ret_info['seller_target_income'];//月kpi完成率
-            $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['cur_money'];//
-
-            if($ret_info['seller_target_income']>0){
-                $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income']*100;
-            }else{
-                $ret_info['seller_kpi'] = 0;
-            }
-
-            // 计算电销人数
-            $first_group  = '咨询一部';
-            $second_group = '咨询二部';
-            $third_group  = '咨询三部';
-            $new_group    = '新人营';
-            $ret_info['first_num']  = $seller_num_arr['first_num']  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
-            $ret_info['second_num'] = $seller_num_arr['second_num'] = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-            $ret_info['third_num']  = $seller_num_arr['third_num']  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-            $ret_info['new_num']    = $seller_num_arr['new_num']    = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-            $ret_info['traing_num'] = $seller_num_arr['traing_num'] = '';// 培训中
-            $ret_info['seller_num'] = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
-            $ret_info['department_num_info'] = json_encode($seller_num_arr);
-
-
-
-            // 金额转化率占比
-            $ret_info['high_school_money'] = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
-            $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
-            $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
-
-            if($ret_info['income_price']>0){
-                $ret_info['referral_money_rate'] = $ret_info['income_referral']/$ret_info['income_price']*100;
-                $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
-                $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['income_price']*100;
-                $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['income_price']*100;
-            }else{
-                $ret_info['referral_money_rate']    = 0;
-                $ret_info['high_school_money_rate'] = 0;
-                $ret_info['junior_money_rate']      = 0;
-                $ret_info['primary_money_rate']     = 0;
-            }
-
-            // 转化率
-            $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
-            $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
-            $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-            $ret_info['new_order_num'] = $order_info_total['total_num']; // 合同数量
-
-
-
-            $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
-
-            //  外呼情况
-            $ret_info['seller_call_num'] = $ret_info['has_called'] =  $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
-            $ret_info['has_called_stu'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
-
-
-            $ret_info['claim_num'] = $this->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
-
-            $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
-
-
-            $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
-            $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
-            $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
-            $ret_info['has_tq_succ_invit_month']  = $this->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
-
-            $ret_info['seller_plan_invit_month'] = $this->t_test_lesson_subject_require->get_plan_invit_num_for_month($start_time, $end_time); // 试听邀约数[月排课率]
-            $ret_info['seller_test_succ_month'] = $this->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
-            $ret_info['order_trans_month'] = $this->t_order_info->get_order_trans_month($start_time, $end_time); // 合同人数[月试听转化率]
-
-            $ret_info['has_tq_succ_sign_month'] = $this->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
-            $ret_info['order_sign_month'] = $this->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
-
-            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
-
-
-
-            if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
-                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month_funnel']*100;
-            }else{
-                $ret_info['invit_month_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
-                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
-            }else{
-                $ret_info['test_plan_month_rate'] = 0;
-            }
-
-            if($ret_info['seller_schedule_num']>0){ //月到课率
-                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
-            }else{
-                $ret_info['lesson_succ_month_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_test_succ_month_funnel']>0){ //月试听转化率
-                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month_funnel']*100;
-            }else{
-                $ret_info['trans_month_rate'] = 0;
-            }
-
-
-            if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
-                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month']*100;
-            }else{
-                $ret_info['sign_month_rate'] = 0;
-            }
-
-            if($ret_info['has_called']>0){
-                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
-            }else{
-                $ret_info['claim_num_rate'] = 0;
-                $ret_info['succ_called_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_num']>0){ // 人均通时
-                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
-            }else{
-                $ret_info['called_rate'] = 0;
-            }
-
-            if($ret_info['cc_called_num']>0){
-                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
-                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
-            }else{
-                $ret_info['aver_called'] = 0;
-                $ret_info['invit_rate'] = 0;
-            }
-
-            if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
-            }else{
-                $ret_info['stu_consume_rate'] = 0;
-            }
-
-        }else{ // 历史数据 [从数据库中取]
-            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
-
-            $ret_info = &$ret_info_arr['list'];
-
-            if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
-                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month']*100;
-            }else{
-                $ret_info['invit_month_rate'] = 0;
-            }
-
-            if($ret_info['seller_plan_invit_month']>0){ //月排课率
-                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month']*100;
-            }else{
-                $ret_info['test_plan_month_rate'] = 0;
-            }
-
-            if($ret_info['seller_schedule_num']>0){ //月到课率
-                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num']*100;
-            }else{
-                $ret_info['lesson_succ_month_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_test_succ_month']>0){ //月试听转化率
-                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month']*100;
-            }else{
-                $ret_info['trans_month_rate'] = 0;
-            }
-
-
-            if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
-                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month']*100;
-            }else{
-                $ret_info['sign_month_rate'] = 0;
-            }
-
-            if($ret_info['has_called']>0){
-                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
-            }else{
-                $ret_info['claim_num_rate'] = 0;
-                $ret_info['succ_called_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_num']>0){ // 人均通时
-                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
-            }else{
-                $ret_info['called_rate'] = 0;
-            }
-
-            if($ret_info['cc_called_num']>0){
-                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
-                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
-            }else{
-                $ret_info['aver_called'] = 0;
-                $ret_info['invit_rate'] = 0;
-            }
-
-            if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
-            }else{
-                $ret_info['stu_consume_rate'] = 0;
-            }
-
-
+        if($type == 0){
+            $lesson_type_str = '常规课';
+            $type_str = "0,1,3";
+        }elseif($type == 2){
+            $type_str = "2";
+            $lesson_type_str = '试听课';
+        }else{
+            $lesson_type_str = '';
         }
 
-        $ret_info_arr["page_info"] = array(
-            "total_num"      => 1,
-            "per_page_count" => 100000,
-            "page_num"       => 1,
-        );
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type_str);
 
 
-        return $this->pageView(__METHOD__, $ret_info_arr,[
-            "ret_info" => $ret_info_arr['list']
-        ]);
-    }
+        // $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
 
-
-    public function get_all_stu_info(){
-
-
-        $parentid = $this->get_in_int_val('parentid');
-
-        $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
-
-        return $this->output_succ(['data'=>$student_info]);
-    }
-
-
-
-    public function send_msg_to_parent(){
-        dd(1);
-
-
-
-
-    }
-
-
-    public function send_msg_to_teacher(){
-
-
-        $re = $this->t_teacher_info->get_openid_list();
-        dd($re);
-        dd('已处理');
-        
-
-
-        // dd($re);
-    }
-
-
-
-    public function dds(){
-
-
-    }
-
-
-
-
-    public function ssss(){
+        dd($ret_list);
 
         $this->switch_tongji_database();
         // $parent_list = $this->t_parent_info->get_openid_list();
@@ -747,6 +451,15 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
+        $ret = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+
+        $a = [];
+
+        foreach($ret as $v){
+            $a[] = $v['lessonid'];
+        }
+
+        dd($a);
         // $a = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
@@ -825,34 +538,6 @@ class test_james extends Controller
         }
 
         dd($ret_info);
-        // $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
-
-        // dd($r);
-        // $arr = [];
-        // foreach($r as $v){
-        //     $arr[] = $v['account'];
-        // }
-        // dd($arr);
-
-        // $this->switch_tongji_database();
-        // $r = $this->t_parent_info->get_openid_list();
-        // dd($r);
-
-        // $userid= $this->get_in_str_val('u');
-
-        // $userid  = $userid*10;
-        // dd($userid);
-
-        // $ass_openid = $this->t_student_info->get_ass_openid($userid);
-
-        // $check = 1;
-        // $send_openid = 'cccc';
-
-        // if(!$ass_openid ){
-        //     $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
-        //     $check = 2;
-
-        // }
 
         $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
@@ -882,221 +567,68 @@ class test_james extends Controller
 
 
 
+    public function send_wx_msg(){
+        $wx = new \App\Helper\Wx();
 
+        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
 
-    public function get_month_finish_define_money($seller_groupid_ex,$start_time){
-        $task = new \App\Console\Tasks\TaskController();
-        $task->t_admin_main_group_name->switch_tongji_database();
-        $task->t_admin_group_name->switch_tongji_database();
-        $task->t_manager_info->switch_tongji_database();
-        $task->t_seller_month_money_target->switch_tongji_database();
-        $task->t_admin_group_month_time->switch_tongji_database();
-        $arr=explode(",",$seller_groupid_ex);
-        $main_type="";
-        $up_groupid="";
-        $groupid="";
-        $adminid="";
-        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3];
-        if (isset($arr[0]) && !empty($arr[0])){
-            $main_type_name= $arr[0];
-            $main_type = $main_type_list[$main_type_name];
-        }
-        if (isset($arr[1])  && !empty($arr[1])){
-            $up_group_name= $arr[1];
-            $up_groupid = $task->t_admin_main_group_name->get_groupid_by_group_name($up_group_name);
-        }
-        if (isset($arr[2])  && !empty($arr[2])){
-            $group_name= $arr[2];
-            $groupid = $task->t_admin_group_name->get_groupid_by_group_name($group_name);
-        }
-        if (isset($arr[3])  && !empty($arr[3])){
-            $account= $arr[3];
-            $adminid = $task->t_manager_info->get_id_by_account($account);
-        }
+        $openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek';
 
-        $month = date("Y-m-01",$start_time);
-        $groupid_list = [];
-        if($adminid){
-            $month_finish_define_money=$task->t_seller_month_money_target->field_get_value_2( $adminid,$month,"personal_money");
-        }else{
-            if($groupid){
-                $groupid_list[] = $groupid;
-            }else{
-                if($up_groupid){
-                    $groupid_list = $task->t_admin_group_name->get_groupid_list_new($up_groupid,-1);
-                }else{
-                    if($main_type){
-                        $groupid_list = $task->t_admin_group_name->get_groupid_list_new(-1,$main_type);
-                    }
-                }
-            }
-            $month_finish_define_money=$task->t_admin_group_month_time->get_month_money_by_month( $start_time,$groupid_list);
-        }
-
-        return $month_finish_define_money;
-    }
-
-
-
-
-    public function genxin(){
-
-        // $a = [
-
-        //     0 => "396007",
-        //     1 => "392385",
-        //     2 => "313629",
-        //     3 => "232777",
-        //     4 => "304219",
-        //     5 => "224131",
-        //     6 => "272284",
-        //     7 => "314011",
-        //     8 => "312960",
-        //     9 => "392152",
-        //     10 => "360983",
-        //     11 => "273647",
-        //     12 => "396086",
-        //     13 => "370031",
-        //     14 => "299764",
-        //     15 => "346151",
-        //     16 => "386177",
-        //     17 => "329501",
-        //     18 => "396441",
-        //     19 => "365146",
-        //     20 => "270487",
-        //     21 => "389440",
-        //     22 => "394503",
-        //     23 => "283835",
-        //     24 => "220702",
-        //     25 => "392799",
-        //     26 => "371930",
-        //     27 => "261234",
-        //     28 => "390947",
-        //     29 => "395982",
-        //     30 => "361018",
-        //     31 => "392634",
-        //     32 => "392366",
-        //     33 => "390139",
-        //     34 => "396453",
-        //     35 => "214470",
-        //     36 => "244159",
-        //     37 => "272361",
-        //     38 => "238491",
-        //     39 => "271365",
-        //     40 => "323650",
-        //     41 => "396440",
-        //     42 => "282950",
-        //     43 => "390158",
-        //     44 => "396100",
-        //     45 => "161962",
-        //     46 => "395411",
-        //     47 => "347600",
-        //     48 => "396362",
-        //     49 => "392939",
-        //     50 => "397028",
-        //     51 => "395218",
-        //     52 => "397584",
-        //     53 => "392486",
-        //     54 => "323232",
-        //     55 => "352741",
-        //     56 => "288015",
-        //     57 => "225743",
-        //     58 => "243422",
-        //     59 => "276299",
-        //     60 => "354105",
-        //     61 => "197544",
-        //     62 => "284175",
-        //     63 => "392923",
-        //     64 => "253608",
-        //     65 => "344181",
-        //     66 => "392474",
-        // ];
-
-
-        // $a = [
-        //     0 => "110058",
-        //     1 => "110054",
-        //     2 => "110053",
-        //     3 => "110051",
-        //     4 => "110050",
-        //     5 => "110048",
-        //     6 => "110047",
-        //     7 => "110046",
-        //     8 => "110045",
-        //     9 => "110043",
-        //     10 => "110040",
-        //     11 => "110036",
-        //     12 => "110032",
-        //     13 => "110027",
-        //     14 => "110026",
-        //     15 => "110025",
-        //     16 => "110024",
-        //     17 => "110023",
-        //     18 => "110022",
-        //     19 => "110021",
-        //     20 => "110014",
-        //     21 => "110006",
-        //     22 => "110004",
-        //     23 => "110003",
-        //     24 => "110002",
-        //     25 => "109992",
-        //     26 => "109991",
-        //     27 => "109988",
-        //     28 => "109986",
-        //     29 => "109985",
-        //     30 => "109982",
-        //     31 => "109979",
-        //     32 => "109976",
-        //     33 => "109975",
-        //     34 => "109974",
-        //     35 => "109973",
-        //     36 => "109972",
-        //     37 => "109971",
-        //     38 => "109970",
-        //     39 => "109968",
-        //     40 => "109967",
-        //     41 => "109966",
-        //     42 => "109961",
-        //     43 => "109960",
-        //     44 => "109959",
-        //     45 => "109958",
-        //     46 => "109956",
-        //     47 => "109955",
-        //     48 => "109954",
-        //     49 => "109953",
-        //     50 => "109952",
-        //     51 => "109947",
-        //     52 => "109943",
-        //     53 => "109942",
-        //     54 => "109941",
-        //     55 => "109938",
-        //     56 => "109937",
-        //     57 => "109936",
-        //     58 => "109935",
-        //     59 => "109933",
-        //     60 => "109927",
-        //     61 => "109926",
-        //     62 => "109906",
-        //     63 => "109861",
-        //     64 => "109822",
-        //     65 => "109811",
-        //     66 => "109807",
-           
-            
-        // ];
-
-        $a = [
-            '110034','109995','109981','109978','109969','109962','109957','109946','109944','109939','109934','109928','109909','109867',''
+        $data_leo = [
+            'first'    => "测试 first",
+            'keyword1' => "keyword1",
+            'keyword2' => "keyword2",
+            'keyword3' => "keyword3",
+            'remark'   => "测试信息!"
         ];
 
-        foreach($a as $item){
-            $this->t_student_score_info->field_update_list($item,["admin_type" => 1]);
-        }
+        $url_leo = 'http://admin.yb1v1.com/test_james/jilu?test=1';
+
+        urldecode();
+
+        $wx->send_template_msg($openid, $parent_template_id, $data_leo, $url_leo);
+
+
 
     }
-    
 
-   
+    public function jilu(){
+
+        $str="http://www.jb51.net";  //定义字符串
+        $result=urlencode($str);   //对指定字符串编码
+        echo $result;  //输出结果
+
+        header("Location:");
+
+        return;
+
+
+        $test = $this->get_in_int_val('test');
+
+        header("Loaction ");
+
+        if($test == 1){
+            // 存入数据库
+        }
+
+
+        /*
+
+
+
+
+
+
+
+
+         */
+
+        dd($test);
+    }
+
+
+
+
 
 
 

@@ -100,8 +100,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" )
-     {
+
+    public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" ) {
         $reg_channel = $origin;
         $passwd = md5("123456");
         $region = "";
@@ -238,7 +238,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($origin_level==E\Eorigin_level::V_100 ) {
             $this->set_admin_info(0,[$userid],60,60);
         }
-
 
         return $userid;
     }
@@ -2355,7 +2354,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "tq.admin_role=2"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(distinct(s.userid)) from %s tq "
                                   ." left join %s ss on tq.phone=ss.phone"
@@ -2514,7 +2514,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "tss.admin_revisiterid>0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,'tss.admin_assign_time',$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,'tss.admin_assign_time',$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,'tss.add_time',$start_time,$end_time);
+
         $sql = $this->gen_sql_new("  select count(*) from %s tss "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME

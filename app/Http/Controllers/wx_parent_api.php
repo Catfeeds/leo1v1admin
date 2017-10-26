@@ -68,13 +68,15 @@ class wx_parent_api extends Controller
 
         if($type == 0){
             $lesson_type_str = '常规课';
+            $type_str = "0,1,3";
         }elseif($type == 2){
+            $type_str = "2";
             $lesson_type_str = '试听课';
         }else{
             $lesson_type_str = '';
         }
 
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type_str);
         foreach ($ret_list as &$item ) {
             //判断是否可以申请调课
             if($item['lesson_start']-$now>86400){
@@ -719,6 +721,8 @@ class wx_parent_api extends Controller
         $lesson_old_time_arr  = explode(',',$lesson_old_time_str);
         $lesson_old_time      = date('m月d日 H:i:s',$lesson_old_time_arr[0]).' - '.date('H:i:s',$lesson_old_time_arr[1]);
 
+        $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+
         if($is_teacher_agree == 1){ // 家长同意
             $data['first']        = "$teacher_nick 老师您好,  $stu_nick 的家长同意将时间做出如下修改,原课程时间: $lesson_old_time ,最终时间调整至 $lesson_new_time ";
 
@@ -783,9 +787,18 @@ class wx_parent_api extends Controller
 
         // 给助教// 销售 // 教务 推送结果
 
-        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
         $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
         $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+
+        if($lesson_type == 0){
+            $wx_openid_arr[3] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        }elseif($lesson_type == 2){
+            $wx_openid_arr[3] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
+
+
 
         $data_leo = [
             'keyword1' => "$lesson_name",
@@ -861,8 +874,16 @@ class wx_parent_api extends Controller
 
         //推送给 助教 / 咨询
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-        $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+
+        $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+        if($lesson_type == 0){
+            $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        }elseif($lesson_type == 2){
+            $wx_openid_arr[0] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
         $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+
 
         $data_leo = [
             'first'    => "$first",
@@ -931,7 +952,15 @@ class wx_parent_api extends Controller
         // 给助教// 销售 // 教务 推送结果
         $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
 
-        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+
+        $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+        if($lesson_type == 0){
+            $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        }elseif($lesson_type == 2){
+            $wx_openid_arr[0] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
+
         $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
         $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
 

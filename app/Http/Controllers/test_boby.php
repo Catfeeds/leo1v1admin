@@ -42,86 +42,7 @@ class test_boby extends Controller
        $arr  = explode("\n",$info);
        return $arr;
     }
-    public function p_list(){
-        $page_info= $this->get_in_page_info();
-        $nick_phone= $this->get_in_str_val("nick_phone");
-        $account_role= $this->get_in_el_account_role();
 
-        $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone);
-        return $this->pageView( __METHOD__,$ret_info);
-    }
-    public function  ss() {
-        $page_info= $this->get_in_page_info();
-        $nick_phone= $this->get_in_str_val("nick_phone");
-        $account_role= $this->get_in_el_account_role();
-        $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone,$account_role);
-        foreach ($ret_info['list'] as &$item ) {
-            E\Eaccount_role::set_item_value_str($item);
-            $this->cache_set_item_account_nick($item,"uid", "unick");
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-        }
-        return $this->pageView( __METHOD__,$ret_info);
-
-    }
-    public function sf() {
-        $page_info = $this->get_in_page_info();
-        $nick_phone = $this->get_in_str_val("nick_phone");
-        $account_role = $this->get_in_el_account_role();
-        $ret_info = $this->t_manager_info->get_list_test($page_info,$nick_phone);
-        return $this->pageView( __METHOD__, $ret_info);
-    }
-    public function st() {
-        list($start_time,$end_time) = $this->get_in_date_range(-365, 0 );
-        $page_info = $this->get_in_page_info();
-        $orderid = $this->get_in_str_val("orderid");
-        $nick_phone = $this->get_in_int_val("nick_phone",'');
-        $account_role = $this->get_in_el_account_role();
-        $tt =  $this->get_in_int_val("account_role"); //没什么作用?
-        $ret_info = $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
-        foreach ($ret_info['list'] as &$item ) {
-            E\Eaccount_role::set_item_value_str($item);
-            $this->cache_set_item_account_nick($item,"uid", "unick");
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-        }
-
-        return $this->pageView( __METHOD__, $ret_info);
-    }
-    public function test_one(){
-        $phone    = $this->get_in_phone();
-        $origin   = $this->get_in_str_val("origin");
-        $grade    = $this->get_in_grade();
-        $subject  = $this->get_in_subject();
-        $tmk_flag = $this->get_in_int_val("tmk_flag", 0);
-        $sql = 'select * from t_teacher_info where teacherid=123';
-        if (strlen($phone )!=11) {
-            return $this->output_err("电话号码长度不对");
-        }
-
-        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
-        if ($this->t_test_lesson_subject->check_subject($userid,$subject))  {
-            return $this->output_err("已经有了这个科目的例子了,不能增加");
-        }
-
-        $userid=$this->t_seller_student_new->book_free_lesson_new("",$phone,$grade,$origin,$subject,0);
-        if ($tmk_flag){
-            \App\Helper\Utils::logger("SET TMK INFO");
-
-            $this->t_seller_student_new->field_update_list($userid,[
-                "tmk_assign_time"  => time(NULL) ,
-                "tmk_adminid"  => $this->get_account_id(),
-                "tmk_join_time"  => time(NULL),
-                "tmk_student_status"  => 0,
-            ]);
-            $account=$this->get_account();
-            $ret_update = $this->t_book_revisit->add_book_revisit(
-                $phone,
-                "操作者: 状态:  TMK新增例子  :$account ",
-                "system"
-            );
-        }
-        return $this->output_succ();
-
-   }
     public function for_add_news() {
         $title = $this->get_in_str_val("title");
         $type = $this->get_in_int_val("type");
@@ -133,6 +54,7 @@ class test_boby extends Controller
         $ret_info = $this->t_yxyx_wxnews_info->add_news($title, $des,$pic,$new_link,$adminid,$type);
         dd($ret_info);
     }
+
     //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
         if ( !$this->get_in_str_val("boby")) {
@@ -808,57 +730,248 @@ class test_boby extends Controller
         $start_time = strtotime('2017-10-01');
         $end_time   = strtotime('2017-11-01');
         $page_num   = $this->get_in_page_num();
+        $ret = [];
         //月初付费学员数
-        $ret_info = $this->t_student_info->get_student_list_for_finance($page_num, -1, -1, '', -1, -1, -1);
-        $all_pay  = $ret_info['list'];
+        $all_pay = [];
+        $ret_info = $this->t_student_info->get_student_list_for_finance_count();
+        foreach($ret_info as $item){
+            $all_pay[] = $item['userid'];
+        }
+        $ret['pay_stu_num'] = count($all_pay);
 
-        $old_order_list = $this->t_order_info->get_order_list_count(-1,$start_time);
-        $new_order_list = $this->t_order_info->get_order_list_count($start_time,$end_time);
+        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
 
-        $old_user = [];
         $new_user = [];//月新签
-        foreach ( $old_order_list as $item ) {
-            array_push($old_user, $item['userid']);
-        }
-        foreach ( $new_order_list as $item ) {
-            if( !in_array($old_user, $item['userid']) ) {
-                array_push($new_user, $item['userid']);
+        $has_ass_user = [];//月新签未排课,已分配助教
+        $no_ass_user = [];//月新签未排课,未分配助教
+
+        foreach ( $user_order_list as $item ) {
+            if ($item['order_time'] >= $start_time){
+                $new_user[] = $item['userid'];
+
+                if (!$item['start_time'] && $item['assistantid'] > 0) {
+                    $has_ass_user[] = $item['orderid'];
+                } else if (!$item['start_time'] && !$item['assistantid']) {
+                    $no_ass_user[] = $item['orderid'];
+                }
             }
+
         }
+
+        $new_user = array_unique($new_user);
+
+        $ret['new_pay_stu_num'] = count($new_user);
+        $ret['has_ass_num'] = count($has_ass_user);
+        $ret['no_ass_num'] = count($no_ass_user);
 
         //月退费名单
-        $ret_info = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
-
-        $refund_user = [];
-        foreach($ret_info as $item) {
-            array_push($refund_user, $item['userid']);
-        }
+        $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
+        $ret['refund_stu_num'] = $refund_num;
+        //月正常结课学生
+        $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
+        $ret['normal_over_num'] = $ret_num;
 
         //月 在读,停课,休学,假期数
-        $ret_info = $this->t_student_info->get_student_list_archive(-1,-1,-1,'','',-1,-1,0,-1,$page_num,-1,-1);
+        $ret_info = $this->t_student_info->get_student_count_archive();
 
         $study_user = [];
         $stop_user = [];
         $drop_out_user = [];
         $vacation_user = [];
-        foreach($ret_info as $itme) {
+        foreach($ret_info as $item) {
             if($item['type'] == 0) {
-                array_push($study_user,$item['userid']);
+                $study_user[] = $item['userid'];
             } else if ($item['type'] == 2) {
-                array_push($stop_user,$item['userid']);
+                $stop_user[] = $item['userid'];
             } else if ($item['type'] == 3) {
-                array_push($drop_out_user,$item['userid']);
+                $drop_out_user[] = $item['userid'];
             } else if ($item['type'] == 4) {
-                array_push($vacation_user,$item['userid']);
+                $vacation_user[] = $item['userid'];
             }
         }
-        dd($old_order_list);
 
-        //月收入
-        // $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
+        $ret['study_num'] = count($study_user);
+        $ret['stop_num'] = count($stop_user);
+        $ret['drop_out_num'] = count($drop_out_user);
+        $ret['vacation_num'] = count($vacation_user);
+        //月续费学员
+        $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
+        $renow_user = [];
+        foreach ($renow_list as $item) {
+            $renow_user[] = $item['userid'];
+        }
+        //月预警学员
+        $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
+        $warning_renow_num = 0;
+
+        foreach ($warning_list as $item){
+            $new = json_decode($item['warning_student_list'], true);
+            if(is_array($new)){
+                foreach($new as $v) {
+                    if(count($v) && in_array($v ,$renow_user)){
+                        $warning_renow_num++;
+                    }
+                }
+            }
+        }
+
+        $ret['warning_renow_stu_num']    = $warning_renow_num;
+        $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
+
         //月课耗和月课耗收入
-        // $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
+        $lesson_money = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month($start_time, $end_time);
+        $ret['lesson_count']       = $lesson_money['lesson_count'];
+        $ret['lesson_count_money'] = $lesson_money['lesson_count_money'];
+        $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
 
+        $ret['create_time'] = $start_time;
+        //        $this->t_month_student_count->row_insert($ret);
+
+        dd($ret);
+        return 'ok';
     }
 
+    public function send_msg_to_tea_wx(){
+        $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
+        return 1;
+        $tea_list = [[
+            'wx_openid' => 'oJ_4fxMltd-j8Pc4-GtJgll0i5SQ',
+            'grade_start' => 1,
+            'subject' => 1,
+            'grade_part_ex' =>0
+        ]];
+        /**
+         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+         * 标题课程 : 待办事项提醒
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+
+        foreach ($tea_list as $item) {
+            $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
+
+
+            $wx_openid = $item['wx_openid'];
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = "老师您好，为了给大家提供更优质的服务，现对教研、排课及答疑群按学段和科目进行分类重建，旧群已作废。";
+            $data['keyword1'] = "加入相关QQ群";
+            $data['keyword2'] = $html;
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "";
+            // $url = "http://www.leo1v1.com/login/teacher";
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+
+        return 'ok';
+    }
+
+    public function get_new_qq_group_html($grade_start,$grade_part_ex,$subject){
+        // 528851744 原答疑1群，人数已满
+
+        if ( $grade_start >= 5 ) {
+            $grade = 300;
+        } else if ($grade_start >= 3) {
+            $grade = 200;
+        } else if($grade_start > 0 ) {
+            $grade = 100;
+        }else if ($grade_part_ex == 1) {
+            $grade = 100;
+        }else if ($grade_part_ex == 2) {
+            $grade = 200;
+        }else if ($grade_part_ex == 3) {
+            $grade = 300;
+        }else{
+            $grade = 100;
+        }
+
+        $qq_answer = [
+            1  => ["答疑-语文","126321887","可咨询软件使用等疑问"],
+            2  => ["答疑-数学","29759286","可咨询软件使用等疑问"],
+            3  => ["答疑-英语","451786901","可咨询软件使用等疑问"],
+            99 => ["答疑-综合学科","513683916","可咨询软件使用等疑问"],
+        ];
+        $qq_group  = [
+            '100' => [
+                1=>[
+                    ["教研-小学语文","653665526","可获取教研资料"],
+                    ["排课-小学语文","387090573","可接试听课"]
+                ],2=>[
+                    ["教研-小学数学","644724773","可获取教研资料"],
+                    ["排课-小学数学","527321518","可接试听课"],
+                ],3=>[
+                    ["教研-小学英语","653621142","可获取教研资料"],
+                    ["排课-小学英语","456074027","可接试听课"],
+                ],4=>[
+                    ["教研-化学","652504426","可获取教研资料"],
+                    ["排课-化学","608323943","可接试听课"],
+                ],5=>[
+                    ["教研-物理","652500552","可获取教研资料"],
+                    ["排课-物理","534509273","可接试听课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","可获取教研资料"],
+                    ["排课-文理综合","598180360","可接试听课"],
+                ],
+            ],
+            '200' => [
+                1=>[
+                    ["教研-初中语文","623708298","可获取教研资料"],
+                    ["排课-初中语文","465023367","可接试听课"]
+                ],2=>[
+                    ["教研-初中数学","373652928","可获取教研资料"],
+                    ["排课-初中数学","665840444","可接试听课"],
+                ],3=>[
+                    ["教研-初中英语","161287264","可获取教研资料"],
+                    ["排课-初中英语","463756557","可接试听课"],
+                ],4=>[
+                    ["教研-化学","652504426","可获取教研资料"],
+                    ["排课-化学","608323943","可接试听课"],
+                ],5=>[
+                    ["教研-物理","652500552","可获取教研资料"],
+                    ["排课-物理","534509273","可接试听课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","可获取教研资料"],
+                    ["排课-文理综合","598180360","可接试听课"],
+                ]
+            ],
+            '300' => [
+                1=>[
+                    ["教研-高中语文","653689781","可获取教研资料"],
+                    ["排课-高中语文","573564364","可接试听课"]
+                ],2=>[
+                    ["教研-高中数学","644249518","可获取教研资料"],
+                    ["排课-高中数学","659192934","可接试听课"],
+                ],3=>[
+                    ["教研-高中英语","456994484","可获取教研资料"],
+                    ["排课-高中英语","280781299","可接试听课"],
+                ],4=>[
+                    ["教研-化学","652504426","可获取教研资料"],
+                    ["排课-化学","608323943","可接试听课"],
+                ],5=>[
+                    ["教研-物理","652500552","可获取教研资料"],
+                    ["排课-物理","534509273","可接试听课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","可获取教研资料"],
+                    ["排课-文理综合","598180360","可接试听课"],
+                ]
+            ],
+        ];
+
+        $html="";
+        $list = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
+        $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
+        // dd($list);
+        foreach($list as $val){
+            $html .= "\n【LEO】".$val[0]."\n群号：".$val[1]."\n群介绍：".$val[2];
+        }
+        return $html;
+    }
+
+    public function test_job(){
+        //给老师发送微信推送
+        // dispatch( new \App\Jobs\send_wx_to_teacher());
+    }
 }

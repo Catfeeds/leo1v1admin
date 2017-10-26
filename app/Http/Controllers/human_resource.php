@@ -19,7 +19,9 @@ class human_resource extends Controller
         $stat_time = $date["sdate"];
 
         $ret_info = \App\Helper\Utils::list_to_page_info([]);
-        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
+        $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -32,7 +34,7 @@ class human_resource extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
-        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -45,7 +47,7 @@ class human_resource extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
-        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -365,8 +367,10 @@ class human_resource extends Controller
         $week = $arr[0];
         $start = @$arr[1];
 
-        if($start == $end_time){
-            return $this->output_err("开始时间不能与结束时间相同!") ;
+        if($opt_type=="add" || $opt_type =="update"){
+            if($start == $end_time){
+                return $this->output_err("开始时间不能与结束时间相同!") ;
+            }
         }
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");

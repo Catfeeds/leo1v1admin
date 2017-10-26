@@ -29,7 +29,8 @@ trait TeaPower {
         $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28","2017-10-01","2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08"];
         $lesson_start_date = date("Y-m-d",$lesson_start);
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
-            if($admin_info["uid"] != 325){
+            $create_time = $this->t_manager_info->get_create_time($admin_info["uid"]);
+            if($create_time<strtotime("2017-10-25")){
                 /*if($lesson_type==2){
                    $month_start = strtotime(date("Y-m-01",$lesson_start));
                    $month_end = strtotime(date("Y-m-01",$month_start+35*86400));
@@ -57,6 +58,28 @@ trait TeaPower {
                         }
                     }
                 }
+            }else{
+                //新教研老师规则改变(2017-10-25以后入职)
+                //工作时间（周二至周六9:00~18:00）不安排授课
+                if($day>=2 && $day <=6){
+                    if(!empty($lesson_start)){
+                        
+                        $lesson_end = $lesson_count*2400+$lesson_start;
+                        $end_h = date("H",$lesson_end);
+                        if($h <18 && $end_h>=9 ){
+                            return $this->output_err("教研老师周二至周六9点至18点不能排课");
+                        }
+                    }
+ 
+                }
+
+                //非工作时间（周二至周六18:00以后及周日、周一）每周排课总量不超过6课时；
+                if(($lesson_count_week+$lesson_count)>6){
+                    return $this->output_err(
+                        "教研老师每周只能带6课时,该老师该周已有".$lesson_count_week."课时!"
+                    );
+                }
+
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
             $create_time = $this->t_teacher_info->field_get_value($teacherid,"train_through_new_time");
@@ -1199,6 +1222,9 @@ trait TeaPower {
             $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
 
 
+            // tea_list  试讲通过trial_lecture_is_pass,绑定过微信wx_openid!='',is_test_user=0
+            // wx_openid,grade_start,subject    18790256265  boby
+
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
              * 标题课程 : 待办事项提醒
@@ -1225,6 +1251,9 @@ trait TeaPower {
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
         }
+
+
+
 
         return $this->output_succ();
     }
@@ -3424,6 +3453,18 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    //得到合同消耗课时折扣
+    public function get_order_lesson_discount_per($orderid,$order_use){
+        $order_info = $this->t_order_info->field_get_list($orderid,"grade,competition_flag"); 
+        $grade = $order_info["grade"];
+        $use = $order_use/100;
+        if($order_info["competition_flag"]){
+            
+        }else{
+            
+        }
+    }
+
     
     /**
      * 常规课排课接口
@@ -3730,6 +3771,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         ];
         return $ret;
 
+    }
+
+    public function check_ass_leader_flag($account_id){
+        $is_master = $this->t_admin_main_group_name->check_is_master(1,$account_id); 
+        $is_master_2 = $this->t_admin_group_name->check_is_master(1,$account_id);
+        if($is_master_2 || $is_master){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
 }

@@ -260,12 +260,6 @@ class wx_parent_gift extends Controller
 
 
 
-    public function del_session(){
-        $_SESSION['check_flag']=0;
-
-        return $_SESSION['check_flag'];
-    }
-
 
 
 
@@ -292,6 +286,13 @@ class wx_parent_gift extends Controller
             return $this->output_succ(['share_num'=>0]);
         }
     }
+
+    public function del_session(){
+        $_SESSION['check_flag']=0;
+        return $_SESSION['check_flag'];
+    }
+
+
 
 
 
