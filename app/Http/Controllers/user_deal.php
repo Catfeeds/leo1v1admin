@@ -3178,50 +3178,20 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $arr=[
-            1=>2,
-            4=>7,
-            5=>10
-        ];
-        foreach($arr as $val){
-            if($val>1){
-                foreach($arr as $f){
-                    if($f==4){
-                        break;
-                    }else{
-                    }
-                }
-                echo $val;
-            }
-        }
-        dd(111);
-        $day_start = strtotime(date("Y-m-d",time()));
-        $userid = "50232";
-        $left_plan_count = 9;
-       
-        //已排课量
-        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
-        $plan_lesson_count = $plan_lesson_count/100;
+        $d= date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
 
-        //两者比较,若已排课量超出,则清除超出部分
-        if( $left_plan_count<$plan_lesson_count){                          
-            $lesson_list = $this->t_lesson_info_b3->get_lesson_count_list_new($userid,$day_start,0);
-            $first_lesson_start=0;
-            $lesson_count_total=0;
-            foreach($lesson_list as $var){
-                if($lesson_count_total>=($left_plan_count*100)){
-                    break;
-                }
-                $lesson_count_total +=$var["lesson_count"];
-                $first_lesson_start = $var["lesson_start"];
-            }
-            //删除之后的课
-            $this->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
-            dd(111);
-
-                            
         }
-       
+        $list = $this->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,-1,2);
+        dd($list);        
+        $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date,$period_info["child_orderid"]);
+
 
     }
 

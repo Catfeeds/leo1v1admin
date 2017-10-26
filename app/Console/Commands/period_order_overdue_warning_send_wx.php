@@ -51,8 +51,7 @@ class period_order_overdue_warning_send_wx extends Command
             $due_date = $month_start+14*86400;
 
         }
-        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3);
-        // dd($list);
+        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,-1,1);
         if(count($list)>0){
             foreach($list as $val){
                 //微信推送家长
@@ -71,7 +70,17 @@ class period_order_overdue_warning_send_wx extends Command
                 $url="";
 
 
-                $wx->send_template_msg($openid,$template_id,$data,$url);
+                if($openid){
+                    $wx->send_template_msg($openid,$template_id,$data,$url);
+                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                        "warning_wx_send_flag"=>1
+                    ]);
+                }else{
+                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                        "warning_wx_send_flag"=>2
+                    ]);
+
+                }
 
 
                 //微信推送助教

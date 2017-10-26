@@ -19,7 +19,9 @@ $(function(){
 			      teacherid        : $('#id_teacherid').val(),
 			      is_test_flag     : $('#id_is_test_flag').val(),
 			      full_time        : $('#id_full_time').val(),
-			      have_wx:	$('#id_have_wx').val()
+			      have_wx:	$('#id_have_wx').val(),
+                  id_train_through_new_time:$("#id_train_through_new_time").val(),
+                  id_train_through_new:$("#id_train_through_new").val(),
         });
     }
 
@@ -52,7 +54,8 @@ $(function(){
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_full_time').val(g_args.full_time);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
-
+    $("#id_train_through_new").val(g_args.id_train_through_new);
+    $("#id_train_through_new_time").val(g_args.id_train_through_new_time);
 
     //audiojs 时间回调, 每秒3-4次
     //$(".tea_cw_url[data-v = 0], .stu_cw_url[data-v=0],.homework_url[data-v=0]" ) .parent().addClass("danger");

@@ -33,14 +33,19 @@ class wx_parent extends Controller
 
             $goto_url_arr=preg_split("/\//", $to_url);
             $action=@$goto_url_arr[2];
-            $url="$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
-            \App\Helper\Utils::logger("wx_url1:$url");
 
+            if($action=="zhishiku"){
+                $url = "wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+            }else{
+                $url = "$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
+            }
+            \App\Helper\Utils::logger("wx_url1:$url");
             header("Location: $url");
         }
     }
 
     public function index() {
+
     }
 
     public function binding() {
@@ -67,12 +72,7 @@ class wx_parent extends Controller
     }
 
     public function zhishiku(){
-        $url = "wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
-        header("Location : $url");
     }
 
-    public function test_id() {
-        echo session("parentid");
-    }
 
 }

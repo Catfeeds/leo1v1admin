@@ -1531,6 +1531,9 @@ class human_resource extends Controller
         $have_wx       = $this->get_in_int_val('have_wx',-1);
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
+        $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
+        
         if($fulltime_flag==1){
             $full_time=1;
         }
@@ -1538,7 +1541,7 @@ class human_resource extends Controller
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx,$full_time
+            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new
         );
 
         $num = 0;

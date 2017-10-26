@@ -1,11 +1,7 @@
 <?php
 return array(
-<<<<<<< HEAD
     ["db_weiyi","t_teacher_flow","teacherid"],
-=======
     ["db_weiyi","t_msg_log_for_wx","id"],
-    ["db_weiyi","t_teacher_flow","teacerid"],
->>>>>>> 1484ed5f2cc0d6276a0d7c11d9e51dbd2a5fd20e
     ["db_weiyi","t_user_log","id"],
     ["db_weiyi","t_new_tea_entry","id"],
     ["db_weiyi_admin","t_agent_wx_msg_log","id"],

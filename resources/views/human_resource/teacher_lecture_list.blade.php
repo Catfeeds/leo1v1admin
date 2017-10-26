@@ -75,6 +75,26 @@
                         <input type="text" id="id_phone" placeholder="请输入电话或姓名搜索"/>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>培训状态</span>
+                        <select id="id_train_through_new_time" class="opt-change" >
+                            <option value="-1">[全部]</option>
+                            <option value="0">未通过</option>
+                            <option value="1">已通过</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>模拟试听</span>
+                        <select id="id_train_through_new" class="opt-change" >
+                            <option value="-1">[全部]</option>
+                            <option value="0">未通过</option>
+                            <option value="1">已通过</option>
+                        </select>
+                    </div>
+                </div>
                 @if($acc=="adrian")
                 <div class="col-xs-12 col-md-2">
                     <div class="input-group ">

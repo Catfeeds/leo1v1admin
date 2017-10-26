@@ -2643,6 +2643,8 @@ class user_manage extends Controller
         $is_test_user = 0;//1测试用户
         $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user);
         foreach( $ret_info["list"] as $key => &$item ) {
+
+
             $ret_info['list'][$key]['num'] = $key + 1;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
             \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y/m/d");
@@ -2652,7 +2654,17 @@ class user_manage extends Controller
         if($ret_info['list'][$key]['total_score']){
         $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
         }
+
+
+        if($item['admin_type'] == 1){
+            $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
+        }elseif($item['admin_type'] == 0){
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+        }
+
+
+
+
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
