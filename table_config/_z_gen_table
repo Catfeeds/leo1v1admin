@@ -62,8 +62,14 @@ echo "start url\n";
 $url= "http://$url_fix.admin.yb1v1.com/common_new/show_create_table_list";
 $json_data= send_post_data($url,  ["table_list" =>  json_encode($table_list) ]  );
 echo "end url\n";
+<<<<<<< HEAD
 // echo $url;
 // exit;
+=======
+//echo $json_data;
+//echo $url;
+//exit;
+>>>>>>> 1484ed5f2cc0d6276a0d7c11d9e51dbd2a5fd20e
 
 
 

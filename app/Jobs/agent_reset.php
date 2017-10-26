@@ -31,13 +31,13 @@ class agent_reset extends Job implements ShouldQueue
     public function handle()
     {
         $agent_id=$this->agent_id;
-        $this->task->t_agent->reset_user_info($agent_id);
+        $this->task->t_agent->reset_user_info($agent_id,true);
         $pid=$this->task->t_agent->get_parentid($agent_id );
         if ($pid) {
-            $this->task->t_agent->reset_user_info($pid);
+            $this->task->t_agent->reset_user_info($pid,true);
             $ppid=$this->task->t_agent->get_parentid($pid);
             if ($ppid) {
-                $this->task->t_agent->reset_user_info($ppid);
+                $this->task->t_agent->reset_user_info($ppid,true);
             }
         }
 

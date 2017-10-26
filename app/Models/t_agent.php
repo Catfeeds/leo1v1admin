@@ -997,7 +997,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
+    public function reset_user_info_order_info($send_wx_flag, $id,$userid ,$is_test_user,$create_time) {
         //重置订单信息
         $p_pp_info = $this->task->t_agent->get_p_pp_by_id($id);
         $phone = $p_pp_info['phone'];
@@ -1081,22 +1081,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 \App\Helper\Utils::logger("yxyx_p_info $pid, $p_wx_openid,  $p_price  ");
                 if(!$order_info_old && $p_wx_openid && $p_price){
-
                     $p_price_new = $p_price/100;
-                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-                    $data = [
-                        'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $p_price_new.'元',
-                        'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
-                    ];
-                    $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    if ($send_wx_flag ) {
+                        $this->send_wx_msg_2002($id,$pid,$price,$p_price_new,$phone);
+                    }
                 }
 
                 if(!$order_info_old && $pp_wx_openid && $pp_price){
                     $pp_price_new = $pp_price/100;
-                    $this->send_wx_msg_2002($id,$ppid,$price,$pp_price_new,$phone);
+                    if ($send_wx_flag ) {
+                        $this->send_wx_msg_2002($id,$ppid,$price,$pp_price_new,$phone);
+                    }
                 }
             }
 
@@ -1329,52 +1324,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
                 }else if ($agent_status == E\Eagent_status::V_10) {//拨通推送
-                    $template_id = 'eP6Guhb_w4s7NxnuF1yf2fz_cRF1wLqguFrQLtOKYlc';
-                    $data = [
-                        'first'    => "课程老师已成功联系学员{$phone}，您获得5元奖励。",
-                        'keyword1' => $phone,
-                        'keyword2' => "预约测评课" ,
-                        'keyword3' => date('Y-m-d H:i:s',time()),
-                        'keyword4' => "已接通" ,
-                        'remark'   => "如学员成功预约测评课，将再获得10元奖励",
-                    ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
-                }else if ($agent_status == E\Eagent_status::V_20) { //排课
-
-                    $template_id = '5gRCvXir0giV6kQcgTMki0TUWfQuKD1Vigg7zanvsD8';
-                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
-                    $data = [
-                        'first'    => "您邀请的学员{$phone}成功预约测评课，您获得10元奖励。 ",
-                        'keyword1' => $phone,
-                        'keyword2' =>  $phone ,
-                        'keyword3' => "测评课",
-                        'keyword4' => \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
-                        'keyword5' => "理优1对1",
-                        'remark'   => "如学员成功上完测评课，将再获得30元奖励。",
-                    ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
-
-
-                }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
-
-                    $template_id = 'ahct5cHBDNVvA3rAYwMuaZ7VZlgx10xRfZ7ssh24hPQ';
-                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
-                    $remark="";
-                    if ($agent_level==E\Eagent_level::V_1 ) {
-                    }else if ($agent_level==E\Eagent_level::V_2 ) {
-                        $remark="如学员购买课程，将再获得该学员学费的5%（最高500元）奖励。";
+                    if ( $send_wx_flag){
+                        $this->send_wx_msg_1002($id,$parentid,$phone);
                     }
-                    $data = [
-                        'first'    => "您邀请的学员{$phone}成功上完测评课，您获得30元奖励。",
-                        'keyword1' => "理优1对1",
-                        'keyword2' => "测评课" ,
-                        'keyword3' =>  \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
-                        'keyword4' =>  \App\Helper\Utils::unixtime2date($lesson_start+50*60,"Y-m-d H:i") ,
-                        'remark'   => "$remark",
-                    ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
-
-
+                }else if ($agent_status == E\Eagent_status::V_20) { //排课
+                    if ( $send_wx_flag){
+                        $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+                        $this->send_wx_msg_1003($id,$parentid,$phone,$lesson_start);
+                    }
+                }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
+                    if ( $send_wx_flag){
+                        $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+                        $this->send_wx_msg_1004($id,$parentid,$phone,$lesson_start,$agent_level);
+                    }
                 }else if ($agent_status == E\Eagent_status::V_40) { //签单
 
                 }
@@ -1421,7 +1383,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $create_time = $agent_info['create_time'];
             $now=time(NULL);
             list($test_lessonid ,$lesson_info)=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
-            $orderid=$this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+            $orderid=$this->reset_user_info_order_info($send_wx_flag , $id,$userid,$is_test_user,$create_time);
 
             //是学员
             if (in_array( $agent_type, [E\Eagent_type::V_1 , E\Eagent_type::V_3]) ) {
@@ -1560,8 +1522,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }else {
             $this->wx_noti_agent_status( $send_wx_flag, $id , $agent_info["create_time"], $agent_info["parentid"],$agent_level,$test_lessonid ,$agent_info["phone"],$old_agent_status,$agent_status);
         }
-
-        //$agent_status_money_open_flag=0;
 
         if ( $level_count_info["l1_child_count"]) {
             if ($agent_type ==1 ) {
@@ -1803,7 +1763,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
     }
 
-    public function  wx_msg_1003( $from_agentid, $to_agentid, $phone , $lesson_start ) {
+    public function  send_wx_msg_1003( $from_agentid, $to_agentid, $phone , $lesson_start ) {
         $template_id = '5gRCvXir0giV6kQcgTMki0TUWfQuKD1Vigg7zanvsD8';
         $agent_wx_msg_type = E\Eagent_wx_msg_type::V_1003;
         $data = [
@@ -1863,13 +1823,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function  send_wx_msg_2002( $from_agentid, $to_agentid, $order_price,$get_money,$phone  ) {
 
 
-        if ($price >200000 )  {
+        if ($price >300000 )  {
             return  false;
         }
 
         if ($get_money >1000 )  {
             return  false;
         }
+
         $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
         $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
         $data = [

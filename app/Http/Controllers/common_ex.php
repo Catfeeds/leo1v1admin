@@ -76,7 +76,7 @@ class common_ex extends Controller
         }
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         if($userid){
-            return $this->output_err("此号码已经注册!");
+            //return $this->output_err("此号码已经注册!");
         }
         $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
         $account_id   = $this->t_manager_info->get_uid_by_phone($p_phone);
@@ -112,7 +112,7 @@ class common_ex extends Controller
             "public_num"      => "021或158",
             "public_telphone" => $public_telphone,
         ];
-        dd(2);
+        return $this->output_succ(["ret"=> "恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系"]);
     }
     public function book_free_lesson()
     {
