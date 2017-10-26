@@ -1273,6 +1273,9 @@ class wx_parent_api extends Controller
     public function check_is_admin(){
         $parentid = session("parentid");
         $wx_openid = $this->t_parent_info->get_wx_openid($parentid);
+        if($wx_openid == ""){
+            return $this->output_err("请绑定微信");
+        }
         $ret = $this->t_manager_info->check_admin($wx_openid);
 
         if($ret){

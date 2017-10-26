@@ -2017,7 +2017,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function check_admin($wx_openid){
         $where_arr = [
             "del_flag=0",
-            "wx_id = $wx_openid"
+            ["wx_id='%s'",$wx_openid],
         ];
         $sql = $this->gen_sql_new(
             "select phone from %s"
@@ -2025,6 +2025,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
+        dd($sql);
         return $this->main_get_value($sql);
     }
 }
