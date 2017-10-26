@@ -1457,9 +1457,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
             $this->t_test_lesson_subject->set_no_connect_for_sync_tq($userid);
+            \App\Helper\Utils::logger("AGENT_CHECK11 ");
             if ( $item["global_tq_called_flag"]==0 ) {
+                \App\Helper\Utils::logger("AGENT_CHECK ");
+
                 $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
                 if ($agent_id) {
+                    \App\Helper\Utils::logger("AGENT_RESET DISPATCH ");
                     dispatch( new \App\Jobs\agent_reset($agent_id) );
                 }
             }
