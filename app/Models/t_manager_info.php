@@ -2014,6 +2014,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-
-
+    public function check_admin($phone){
+        $where_arr = [
+            "del_flag=0",
+            "phone = $phone"
+        ];
+        $sql = $this->gen_sql_new(
+            "select 1 from %s"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
