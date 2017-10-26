@@ -10,10 +10,18 @@
                     </div>
                 </div>
 
+
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                    <div class="input-group ">
+                        <span class="input-group-addon">to_agentid</span>
+                        <input class="opt-change form-control" id="id_to_agentid" />
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">agent_wx_msg_type</span>
+                        <input class="opt-change form-control" id="id_agent_wx_msg_type" />
                     </div>
                 </div>
             </div>
