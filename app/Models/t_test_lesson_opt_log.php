@@ -32,14 +32,10 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
             ['o.userid = %u',$userid,-1],
             ['o.role = %u',E\Erole::V_1],
             'o.roomid > 0 and o.lessonid = 0',
-            ['m.uid = %u',$adminid,-1],
-            ['o2.role = %u',E\Erole::V_6],
-            'o2.roomid > 0 and o2.lessonid = 0',
         ];
         $sql = $this->gen_sql_new(
             "select o.* "
             ." from %s o "
-            ." left join %s o2 on o2.roomid = o.roomid "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
@@ -49,7 +45,9 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
 
     public function get_seller_test_lesson_opt($adminid){
         $where_arr = [
-            
+            ['o.role = %u',E\Erole::V_6],
+            'o.roomid > 0 and o.lessonid = 0',
+            ['m.uid = %u',$adminid,-1],
         ];
         $sql = $this->gen_sql_new(
             "select o.* "
