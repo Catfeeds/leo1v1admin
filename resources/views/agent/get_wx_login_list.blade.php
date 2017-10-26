@@ -32,6 +32,8 @@
                 <tr>
                     <td>时间 </td>
                     <td>发送给 </td>
+                    <td>分类</td>
+                    <td>内容 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
