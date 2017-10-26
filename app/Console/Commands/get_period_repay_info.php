@@ -51,6 +51,13 @@ class get_period_repay_info extends Command
             $due_date = $month_start+14*86400;
 
         }
+
+        if($d>=19 || $d <=15){
+            $no_first_list = $task->t_period_repay_list->get_no_first_overdue_repay_list($due_date);
+        }
+        dd($no_first_list);
+        dd(1111);
+
         $list = $task->t_period_repay_list->get_repay_order_info($due_date);
         if(count($list)>0){
             foreach($list as $val){
@@ -147,6 +154,11 @@ class get_period_repay_info extends Command
                 }
             }
             
+        }
+
+        //非首次逾期学员判断
+        if($d>=19 || $d <=15){
+            $no_first_list = $task->t_period_repay_list->get_no_first_overdue_repay_list($due_date);
         }
  
        

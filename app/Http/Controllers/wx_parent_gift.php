@@ -260,12 +260,6 @@ class wx_parent_gift extends Controller
 
 
 
-    public function del_session(){
-        $_SESSION['check_flag']=0;
-
-        return $_SESSION['check_flag'];
-    }
-
 
 
 
@@ -281,7 +275,6 @@ class wx_parent_gift extends Controller
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
-
         return $this->output_succ(['share_num'=>1]);
     }
 
@@ -293,6 +286,13 @@ class wx_parent_gift extends Controller
             return $this->output_succ(['share_num'=>0]);
         }
     }
+
+    public function del_session(){
+        $_SESSION['check_flag']=0;
+        return $_SESSION['check_flag'];
+    }
+
+
 
 
 
