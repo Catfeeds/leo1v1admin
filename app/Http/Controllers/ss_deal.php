@@ -4825,7 +4825,7 @@ class ss_deal extends Controller
             if (@$ret_arr["res"]) {
                 //同步未拨通
                 $this->t_seller_student_new->sync_tq($phone,1,time(NULL));
-                $this->t_book_revisit->add_book_revisit($phone,"天润拨打出错:". $ret_arr["res"], ", 设置为未拨通:". $this->get_account(), "system" );
+                $this->t_book_revisit->add_book_revisit($phone,"天润拨打出错:". $ret_arr["res"]. ", 设置为未拨通:". $this->get_account(), "system" );
                 return $this->output_err( "天润拨打出错:". $ret_arr["res"] . ":". @$error_code_conf[$ret_arr["res"] ] );
             }else{
                 return $this->output_succ();
