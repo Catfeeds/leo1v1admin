@@ -465,11 +465,33 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $userid = 11;
-        $adminid = 99;
-        $stu_list = $this->t_test_lesson_opt_log->get_stu_test_lesson_opt($userid);
-        $seller_list = $this->t_test_lesson_opt_log->get_stu_test_lesson_opt($adminid);
-        dd('a');
+        $ret_info = $this->t_test_lesson_opt_log->get_room_list();
+        $roomid_arr = array_unique(array_column($ret_info,'roomid'));
+        foreach($roomid_arr as $info){
+            $stu_login = [];
+            $stu_logout = [];
+            $seller_login = [];
+            $seller_logout = [];
+            $item = $ret_info[$info];
+            foreach($ret_info as $item){
+                $roomid = $item['roomid'];
+                $role = $item['role'];
+                $opt_type = $item['opt_type'];
+
+                if($info == $roomid){
+                    if($role == E\Erole::V_1 && $opt_type == E\Etest_opt_type::V_1){//学生登录
+                        $stu_login = $item;
+                    }elseif($role == E\Erole::V_1 && $opt_type == E\Etest_opt_type::V_2){//学生退出
+                        $stu_logout = $item;
+                    }elseif($role == E\Erole::V_6 && $opt_type == E\Etest_opt_type::V_1){//cc登录
+                        $seller_login = $item;
+                    }elseif($role == E\Erole::V_6 && $opt_type == E\Etest_opt_type::V_2){//cc退出
+                        $seller_logout = $item;
+                    }
+                }
+            }
+            dd($stu_login,$stu_logout,$seller_login,$seller_logout);
+        }
     }
 
     //处理等级头像
