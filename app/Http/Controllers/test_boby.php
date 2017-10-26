@@ -757,9 +757,9 @@ class test_boby extends Controller
                 $new_user[] = $item['userid'];
 
                 if (!$item['start_time'] && $item['assistantid'] > 0) {
-                    $has_ass_user[] = $item['order'];
+                    $has_ass_user[] = $item['orderid'];
                 } else if (!$item['start_time'] && !$item['assistantid']) {
-                    $no_ass_user[] = $item['order'];
+                    $no_ass_user[] = $item['orderid'];
                 }
 
             }
