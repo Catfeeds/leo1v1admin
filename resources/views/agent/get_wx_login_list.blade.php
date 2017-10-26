@@ -30,14 +30,15 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td>时间 </td>
+                    <td>发送给 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["log_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
