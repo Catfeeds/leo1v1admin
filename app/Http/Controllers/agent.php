@@ -465,9 +465,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_info = $task->t_test_lesson_opt_log->get_room_list();
+        $ret_info = $this->t_test_lesson_opt_log->get_room_list();
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
-        dd($roomid_arr,$roomid_arr);
+        dd($ret_info,$roomid_arr);
         foreach($roomid_arr as $info){
             $ret_stu_login = [];
             $ret_stu_logout = [];
