@@ -2,18 +2,18 @@
 namespace App\Models;
 use \App\Enums as E;
 /**
- * 
- 
+ *
+
  * @property t_admin_users $t_admin_users
-* @property  t_seller_student_info  	 $t_seller_student_info
- * @property  t_lesson_info  	 $t_lesson_info
+* @property  t_seller_student_info       $t_seller_student_info
+ * @property  t_lesson_info      $t_lesson_info
  */
 class t_test_lesson_log_list extends \App\Models\Zgen\z_t_test_lesson_log_list
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function get_test_lesson_info($phone) {
         $sql=$this->gen_sql(
             "select s.phone, s.phone_location, s.test_lesson_bind_adminid,  ".
@@ -49,9 +49,9 @@ class t_test_lesson_log_list extends \App\Models\Zgen\z_t_test_lesson_log_list
                 $log_data["log_time"]=time(NULL);
                 $st_application_nick=$log_data["st_application_nick"];
                 $st_application_id=$this->t_admin_users->get_id_by_account($st_application_nick);
-                unset($log_data["st_application_nick"]); 
+                unset($log_data["st_application_nick"]);
                 $log_data["st_application_id"]= $st_application_id;
-               
+
                 $this->row_insert($log_data);
             }
         }
@@ -71,7 +71,7 @@ class t_test_lesson_log_list extends \App\Models\Zgen\z_t_test_lesson_log_list
 
         if (!$phone) {
             $where_arr[]=["$date_type_str>=%u", $start_time, -1] ;
-            $where_arr[]=["$date_type_str<%u", $end_time, -1]; 
+            $where_arr[]=["$date_type_str<%u", $end_time, -1];
         }
 
         if ($test_lesson_status==-2) {
@@ -97,14 +97,3 @@ class t_test_lesson_log_list extends \App\Models\Zgen\z_t_test_lesson_log_list
         return $this->main_update($sql);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
