@@ -2640,6 +2640,9 @@ class user_deal extends Controller
             "grade"  => $grade,
         ]);
 
+        // 记录操作日志
+        $this->t_user_log->add_data('修改年级为'.E\Egrade::get_desc($grade), $userid);
+
         //设置时间再重置课程年级,避免影响老师工资
         if($start_time>0){
             $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
@@ -3175,58 +3178,50 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
-
-        $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date);
-        $orderid = 1219;$order_use = 100000;
-        $tt = $this->get_order_lesson_discount_per($orderid,$order_use);
-        dd($tt);
-        
-        $ret_auth = $this->t_manager_info->check_permission("jack", E\Epower::V_SHOW_MONEY );
-        dd($ret_auth);
-        $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
-        $create_time = $this->t_manager_info->get_create_time(349);
-        if($create_time<strtotime("2017-10-25")){
-            dd(111);
-        }else{
-            dd(222);
-
-        }
-
-        $userid = 50232;
-        $ret=$this->t_lesson_info_b3->del_lesson_no_start_by_userid($userid);
-        dd($ret);
-        dd(111);
-
-      
-        $list = $this->t_teacher_info->get_all_teacher_tags();
-        foreach($list as $val){
-            if($val["teacher_tags"]){
-                $tags= explode(",",trim($val["teacher_tags"],","));
-                $r="";
-                foreach($tags as $v){
-                    if($v=="自然型"){
-                        $r .="细致耐心,"; 
-                    }elseif($v=="逻辑型"){
-                         $r .="功底扎实,考纲熟悉,";
-                    }elseif($v=="技巧型"){
-                        $r .="循循善诱,考纲熟悉,经验丰富,";
-                    }elseif($v=="情感型"){
-                        $r .="生动活泼,善于互动,";
-                    }elseif($v=="幽默型"){
-                        $r .="幽默风趣,生动活泼,善于互动,";
+        $arr=[
+            1=>2,
+            4=>7,
+            5=>10
+        ];
+        foreach($arr as $val){
+            if($val>1){
+                foreach($arr as $f){
+                    if($f==4){
+                        break;
+                    }else{
                     }
                 }
-                $new_arr=explode(",",trim($r,","));
-                $arr=array_unique($new_arr);
-                $ff = implode(",",$arr).",";
-                $this->t_teacher_info->field_update_list($val["teacherid"],[
-                   "teacher_tags" =>$ff 
-                ]);
-                
+                echo $val;
             }
         }
-        dd($list);
+        dd(111);
+        $day_start = strtotime(date("Y-m-d",time()));
+        $userid = "50232";
+        $left_plan_count = 9;
+       
+        //已排课量
+        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+        $plan_lesson_count = $plan_lesson_count/100;
+
+        //两者比较,若已排课量超出,则清除超出部分
+        if( $left_plan_count<$plan_lesson_count){                          
+            $lesson_list = $this->t_lesson_info_b3->get_lesson_count_list_new($userid,$day_start,0);
+            $first_lesson_start=0;
+            $lesson_count_total=0;
+            foreach($lesson_list as $var){
+                if($lesson_count_total>=($left_plan_count*100)){
+                    break;
+                }
+                $lesson_count_total +=$var["lesson_count"];
+                $first_lesson_start = $var["lesson_start"];
+            }
+            //删除之后的课
+            $this->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
+            dd(111);
+
+                            
+        }
+       
 
     }
 
@@ -3604,6 +3599,9 @@ class user_deal extends Controller
         $this->t_seller_student_new->field_update_list($userid,[
             "phone" =>  $phone
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("修改账号,账号:".$phone, $userid);
 
         return $this->output_succ();
     }

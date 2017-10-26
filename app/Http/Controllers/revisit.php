@@ -164,6 +164,9 @@ class revisit extends Controller
             }
         }
 
+        // 添加操作记录
+        $this->t_user_log->add_data("操作回访录入",$userid);
+
         return  $this->output_succ();
 
     }

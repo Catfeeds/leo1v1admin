@@ -9669,61 +9669,91 @@ lesson_type in (0,1) "
     }
 
     // t_teacher_info add_time have_test_lesson_flag
-    public function get_imit_audi_sched_count($start_time, $end_time)
+    public function get_imit_audi_sched_count($start_time, $end_time, $subject)
     {
         $whereArr = [
             ["operate_time<%u",$start_time,0],
             ["operate_time>%u",$end_time,0],
+            ['subject=%u',$subject,0],
             "lesson_type=1100",
             "train_type=4"
         ];
-        $table = self::DB_TABLE_NAME;
-        $sql = "select count(*) sum from %s where %s";
-        $res = $this->get_three_maj_sub($sql, $whereArr, $table);
+        //$table = self::DB_TABLE_NAME;
+        //$sql = "select count(*) sum from %s where %s";
+        //$res = $this->get_three_maj_sub($sql, $whereArr, $table);
+        if ($subject <= 3) {
+            $query = " sum(if(substring(grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
         
-        $sql = $this->gen_sql_new("select subject,count(*) as sum from %s where %s group by subject",
+        $sql = $this->gen_sql_new("select %s from %s where %s ",
+                                  $query,
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
-        $info = $this->main_get_list($sql);
+        return $this->main_get_row($sql);
         return $this->get_handle_other_subject($info, $res);
     }
 
     // 上课
-    public function get_attend_lesson_count($start_time, $end_time) {
+    public function get_attend_lesson_count($start_time, $end_time, $subject) {
          $whereArr = [
             ["lesson_start<%u",$start_time,0],
             ["lesson_start>%u",$end_time,0],
+            ["subject=%u",$subject,0],
             "tea_attend>0"
         ];
-        $table = self::DB_TABLE_NAME;
-        $sql = "select count(*) from %s where %s";
-        $res = $this->get_three_maj_sub($sql, $whereArr, $table);
+        //$table = self::DB_TABLE_NAME;
+        //$sql = "select count(*) from %s where %s";
+        //$res = $this->get_three_maj_sub($sql, $whereArr, $table);
+        if ($subject <= 3) {
+            $query = " sum(if(substring(grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
 
-        $sql = $this->gen_sql_new("select subject,count(*) as sum from %s where %s group by subject",
+        $sql = $this->gen_sql_new("select %s from %s where %s",
+                                  $query,
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
-        $info = $this->main_get_list($sql);
+        return $this->main_get_row($sql);
         return $this->get_handle_other_subject($info, $res);
     }
 
-    public function get_adopt_lesson_count($start_time, $end_time) {
+    public function get_adopt_lesson_count($start_time, $end_time,$subject) {
         $whereArr = [
-            ["train_through_new_time>%u", $start_time, 0],
-            ["train_through_new_time<%u", $end_time, 0],
-            "train_through_new=1",
-            "is_test_user=0",
-            "train_type=4"
+            ["tf.simul_test_lesson_pass_time>%u", $start_time, 0],
+            ["tf.simul_test_lesson_pass_time<%u", $end_time, 0],
+            ["t.subject=%u",$subject,0],
+            //"train_through_new=1",
+            "t.is_test_user=0",
+            "t.train_type=4"
         ];
-        $table = t_teacher_info::DB_TABLE_NAME;
-        $sql = "select count(*) from %s where %s";
-        $res = $this->get_three_maj_sub($sql, $whereArr, $table);
-        $sql = $this->gen_sql_new("select subject,count(*) as sum from %s where %s group by subject",
+        //$table = t_teacher_info::DB_TABLE_NAME;
+        //$sql = "select count(*) from %s where %s";
+        //$res = $this->get_three_maj_sub($sql, $whereArr, $table);
+        if ($subject <= 3) {
+            $query = " sum(if(substring(t.grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(t.grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(t.grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
+
+
+        $sql = $this->gen_sql_new("select %s from %s t left join %s tf on t.teacherid=tf.teacherid where %s ",
+                                  $query,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
-        $info = $this->main_get_list($sql);
+        return $this->main_get_row($sql);
         return $this->get_handle_other_subject($info,$res);
     }
 
@@ -9838,14 +9868,13 @@ lesson_type in (0,1) "
 
     public function get_adopt_lesson_type_count($start_time, $end_time) {
         $whereArr = [
-            ["t.train_through_new_time>%u", $start_time, 0],
-            ["t.train_through_new_time<%u", $end_time, 0],
-            "t.train_through_new=1",
-            "t.train_type=4"
+            ["tf.simul_test_lesson_pass_time>%u", $start_time, 0],
+            ["tf.simul_test_lesson_pass_time<%u", $end_time, 0],
+            "t.is_test_user=1",
         ];
-        $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s l left join %s t on l.teacherid=t.teacherid where %s group by identity",
-                                  self::DB_TABLE_NAME,
+        $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s t left join %s tf on t.teacherid=tf.teacherid where %s group by t.identity",
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
         $info = $this->main_get_list($sql);

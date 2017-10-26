@@ -538,6 +538,7 @@ return array(
     'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => $vendorDir . '/sebastian/recursion-context/src/InvalidArgumentException.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'TAgentMoneyEx' => $baseDir . '/database/migrations/2017_10_10_145509_t_agent_money_ex.php',
+    'TAgentWxMsgLog' => $baseDir . '/database/migrations/2017_10_26_131423_t_agent_wx_msg_log.php',
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
     'TGrabLessonLinkVisitOperationAddVisitidIndex' => $baseDir . '/database/migrations/2017_10_11_094505_t_grab_lesson_link_visit_operation_add_visitid_index.php',
     'TInterviewRemindAddCreateTime' => $baseDir . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',

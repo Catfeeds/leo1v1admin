@@ -809,6 +809,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => __DIR__ . '/..' . '/sebastian/recursion-context/src/InvalidArgumentException.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'TAgentMoneyEx' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_145509_t_agent_money_ex.php',
+        'TAgentWxMsgLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_131423_t_agent_wx_msg_log.php',
         'TChildOrderInfoAddParentName' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
         'TGrabLessonLinkVisitOperationAddVisitidIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_094505_t_grab_lesson_link_visit_operation_add_visitid_index.php',
         'TInterviewRemindAddCreateTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',

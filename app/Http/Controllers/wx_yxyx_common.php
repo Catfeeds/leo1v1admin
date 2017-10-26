@@ -337,60 +337,13 @@ class wx_yxyx_common extends Controller
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
             $agent_id=$this->t_agent->get_last_insertid();
-            dispatch( new \App\Jobs\agent_reset ($agent_id));
-            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+            $this->t_agent->send_wx_msg_1001($agent_id,$parentid,$phone );
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");
         }
     }
 
-    public function send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level){
-        $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
-        $url = '';
-        if($p_wx_openid){
-            if($type == 1){//邀请学员
-                $type_str = '邀请学员成功!';
-                if($p_agent_level == 1){//黄金
-                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
-                }else{//水晶
-                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
-                }
-            }else{//邀请会员
-                $type_str = '邀请会员成功!';
-                $remark = '恭喜您成功邀请会员'.$phone;
-            }
-            $data = [
-                'first'    => $type_str,
-                'keyword1' => $phone,
-                'keyword2' => $phone,
-                'keyword3' => date('Y-m-d H:i:s',time()),
-                'remark'   => $remark,
-            ];
-            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
-        }
-        if($pp_wx_openid){
-            if($type == 1){//邀请学员
-                $type_str = '邀请学员成功!';
-                if($pp_agent_level == 1){//黄金
-                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课。';
-                }else{//水晶
-                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
-                }
-            }else{//邀请会员
-                $type_str = '邀请会员成功!';
-                $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone;
-            }
-            $data_p = [
-                'first'    => $type_str,
-                'keyword1' => $phone,
-                'keyword2' => $phone,
-                'keyword3' => date('Y-m-d H:i:s',time()),
-                'remark'   => $remark,
-            ];
-            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data_p,$url);
-        }
-    }
 
     public function get_wx_yxyx_js_config(){
         $ref = $this->get_in_str_val("ref");
