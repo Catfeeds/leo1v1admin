@@ -3458,11 +3458,46 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $order_info = $this->t_order_info->field_get_list($orderid,"grade,competition_flag"); 
         $grade = $order_info["grade"];
         $use = $order_use/100;
-        if($order_info["competition_flag"]){
-            
+        $discount_per=0;
+        if($order_info["competition_flag"]==1 || ($grade>=100 && $grade <=202)){
+            if($use<=90){
+               $discount_per=0.9; 
+            }elseif($use<=180){
+               $discount_per=0.86;  
+            }elseif($use<=270){
+               $discount_per=0.82;  
+            }elseif($use<=360){
+               $discount_per=0.78;  
+            }elseif($use<=480){
+               $discount_per=0.74;  
+            }elseif($use<=720){
+               $discount_per=0.7;  
+            }elseif($use<=1024){
+               $discount_per=0.66;  
+            }elseif($use<=1440){
+               $discount_per=0.62;  
+            }
         }else{
-            
+            if($use<=90){
+                $discount_per=0.95; 
+            }elseif($use<=180){
+                $discount_per=0.91;  
+            }elseif($use<=270){
+                $discount_per=0.9;  
+            }elseif($use<=360){
+                $discount_per=0.88;  
+            }elseif($use<=480){
+                $discount_per=0.86;  
+            }elseif($use<=720){
+                $discount_per=0.84;  
+            }elseif($use<=1024){
+                $discount_per=0.82;  
+            }elseif($use<=1440){
+                $discount_per=0.8;  
+            }
+
         }
+        return $discount_per;
     }
 
     

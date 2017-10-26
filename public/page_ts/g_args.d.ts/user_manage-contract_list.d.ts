@@ -29,6 +29,7 @@ interface GargsStatic {
 	from_url:	string;
 	order_activity_type:	number;//\App\Enums\Eorder_activity_type
 	spec_flag:	number;//\App\Enums\Eboolean
+	account_role_self:	number;
 	acc:	number;
 	ass_master_flag:	number;
 }
@@ -176,6 +177,7 @@ function load_data(){
 		from_url:	$('#id_from_url').val(),
 		order_activity_type:	$('#id_order_activity_type').val(),
 		spec_flag:	$('#id_spec_flag').val(),
+		account_role_self:	$('#id_account_role_self').val(),
 		acc:	$('#id_acc').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val()
     });
@@ -218,6 +220,7 @@ $(function(){
 	$('#id_from_url').val(g_args.from_url);
 	$('#id_order_activity_type').val(g_args.order_activity_type);
 	$('#id_spec_flag').val(g_args.spec_flag);
+	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_acc').val(g_args.acc);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
 
@@ -390,6 +393,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_spec_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">account_role_self</span>
+                <input class="opt-change form-control" id="id_account_role_self" />
             </div>
         </div>
 
