@@ -57,7 +57,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/test_lesson_opt/test_opt_list"       => true,
+        "/test_lesson_opt/test_opt_list"          => true,
         "/tea_manage/train_is_through_list"       => true,
         "/main_page/recruit_division"             => true,
         "/warning_overtime/add_overtime"          => true,
