@@ -472,7 +472,6 @@ class agent extends Controller
             $stu_logout = [];
             $seller_login = [];
             $seller_logout = [];
-            $item = $ret_info[$info];
             foreach($ret_info as $item){
                 $roomid = $item['roomid'];
                 $role = $item['role'];
