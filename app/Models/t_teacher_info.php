@@ -4296,6 +4296,5 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr
         );
         return $this->main_get_value($sql);
->>>>>>> ceb43a0d163239525a0bc8ffe4eb00dc2a958860
     }
 } 
