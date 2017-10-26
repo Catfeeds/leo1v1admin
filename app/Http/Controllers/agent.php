@@ -1710,8 +1710,10 @@ class agent extends Controller
         }
         return $img;
     }
+
     public function get_wx_login_list() {
-        $to_agentid=$this->get_in_int_val("to_agentid");
+        $to_agentid=$this->get_in_int_val("to_agentid", -1);
+
         list( $start_time,$end_time )=$this->get_in_date_range_day(0);
         $agent_wx_msg_type=$this->get_in_el_agent_wx_msg_type();
         $page_info= $this->get_in_page_info();
@@ -1723,5 +1725,6 @@ class agent extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
 
 }
