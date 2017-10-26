@@ -2266,19 +2266,13 @@ class user_manage_new extends Controller
         $all_pay = $this->t_student_info->get_student_list_for_finance_count();
 
         //2017-10-25以后的新数据
-        if ( time() > strtotime('2017-10') ) {
-            echo $start_time;
-            $list = $this->t_month_student_count->get_student_month_info($start_time);
-
-            // dd($list);
+        $list = $this->t_month_student_count->get_student_month_info($start_time);
+        if( $list != false ) {
             //退费率
-            // $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
+            $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
             //续费率
-            // $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
-            // $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
-
-        } else {
-            $list = [];
+            $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
+            $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
         }
 
         return $this->pageView(__METHOD__,null, [
