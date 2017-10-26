@@ -4275,7 +4275,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) "
                                   ." from %s t left join %s l on t.teacherid = l.teacherid "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s",
+                                  ." where %s and l.lessonid is null",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
