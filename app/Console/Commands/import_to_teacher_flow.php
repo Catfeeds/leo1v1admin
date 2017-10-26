@@ -110,8 +110,8 @@ class import_to_teacher_flow extends Command
         //simul_test_lesson_pass_time模拟试听通过时间
         $info = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 4);
         foreach($info as $item) {
-            $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
-            $task->t_teacher_flow->field_update_list($teacherid,[
+            // $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
+            $task->t_teacher_flow->field_update_list($item['teacherid'],[
                 "simul_test_lesson_pass_time" => $item['add_time']
             ]);
         }
