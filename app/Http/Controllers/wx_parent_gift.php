@@ -281,6 +281,7 @@ class wx_parent_gift extends Controller
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
+
         return $this->output_succ(['share_num'=>1]);
     }
 

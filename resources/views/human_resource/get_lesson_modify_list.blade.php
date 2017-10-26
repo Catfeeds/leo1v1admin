@@ -39,7 +39,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td><a >{{@$var["lessonid"]}}</a> </td>
+                        <td>{{@$var["lessonid"]}} </td>
                         <td>{{@$var["p_name"]}}</td>
                         <td>{{@$var["parent_deal_time"]}} </td>
                         <td>{!!@$var['is_modify_time_flag_str']!!}</td>
