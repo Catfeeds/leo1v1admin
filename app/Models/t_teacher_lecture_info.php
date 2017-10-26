@@ -57,17 +57,17 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
         if($id_train_through_new_time == -1){
         }elseif($id_train_through_new_time == 0){
-            $where_arr[] = " t.train_through_new_time=0 ";
+            $where_arr[] = " tt.train_through_new_time=0 ";
         }else{
-            $where_arr[] = " t.train_through_new_time>0 ";
+            $where_arr[] = " tt.train_through_new_time>0 ";
         }
 
         if($id_train_through_new == -1){
         }elseif ($id_train_through_new == 0) {
             # code...
-            $where_arr[] = " t.train_through_new=0 ";
+            $where_arr[] = " tt.train_through_new=0 ";
         }else{
-            $where_arr[] = " t.train_through_new=1 ";
+            $where_arr[] = " tt.train_through_new=1 ";
         }
         
         $sql = $this->gen_sql_new("select b.id,b.nick,b.face,b.phone,b.grade,b.subject,b.title,b.draw,"

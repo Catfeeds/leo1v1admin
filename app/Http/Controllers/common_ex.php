@@ -87,6 +87,7 @@ class common_ex extends Controller
         }
 
         //进例子
+        $value = 
         $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='知识库',$subject=0,$has_pad=0);
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
