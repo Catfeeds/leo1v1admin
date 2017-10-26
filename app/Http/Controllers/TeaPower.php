@@ -3453,6 +3453,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    //得到合同消耗课时折扣
+    public function get_order_lesson_discount_per($orderid,$order_use){
+        
+    }
+
     
     /**
      * 常规课排课接口
