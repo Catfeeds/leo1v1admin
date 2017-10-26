@@ -1152,6 +1152,9 @@ class ajax_deal2 extends Controller
             "stu_email"=>$stu_email,
             "realname" =>$realname,
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("修改个人资料", $userid);
         if($region){
             $this->t_student_info->field_update_list($userid,[
                 "region"   =>$region,
@@ -1201,6 +1204,9 @@ class ajax_deal2 extends Controller
         $this->t_student_info->field_update_list($userid,[
             "subject_ex"  =>trim($subject_ex,",")           
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data('增加科目'.E\Esubject::get_desc($subject).',增加教材,教材id:'.$editionid, $userid);
         return $this->output_succ();
     }
 
@@ -1217,6 +1223,9 @@ class ajax_deal2 extends Controller
         $this->t_student_info->field_update_list($userid,[
             "subject_ex"  =>trim($subject_ex,",")           
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("删除教材,教材id:".$editionid, $userid);
         return $this->output_succ();
 
  
@@ -1231,6 +1240,10 @@ class ajax_deal2 extends Controller
         $this->t_student_subject_list->field_update_list_2($userid,$subject,[
             "editionid" =>$editionid
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("修改教材,教材id:".$editionid, $userid);
+
         return $this->output_succ();
     }
 

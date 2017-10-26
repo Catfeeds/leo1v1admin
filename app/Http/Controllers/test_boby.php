@@ -787,16 +787,19 @@ class test_boby extends Controller
 
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
-            foreach($new as $v) {
-                if( strlen($v)>0){
-                    $warning_stu_num++;
-                    if( in_array($v ,$renow_user) ){
-                        $warning_renow_num++;
+            if(is_array($new)){
+                foreach($new as $v) {
+                    if( strlen($v)>0){
+                        $warning_stu_num++;
+                        if( in_array($v ,$renow_user) ){
+                            $warning_renow_num++;
+                        }
                     }
                 }
             }
         }
 
+        $ret['warning_stu_num']          = $warning_stu_num;
         $ret['warning_renow_stu_num']    = $warning_renow_num;
         $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
 
@@ -807,7 +810,7 @@ class test_boby extends Controller
         $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
 
         $ret['create_time'] = $start_time;
-        //        $this->t_month_student_count->row_insert($ret);
+        $this->t_month_student_count->row_insert($ret);
 
         dd($ret);
         return 'ok';

@@ -1,12 +1,11 @@
 interface GargsStatic {
-	page_num:	number;
-	page_count:	number;
+	recruit:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	teacherid:	number;
+	history_data:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -21,20 +20,21 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../seller_student_new2; vi  ../seller_student_new2/get_test_lesson_require_teacher_info.ts
+	 mkdir -p ../main_page; vi  ../main_page/recruit.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/seller_student_new2-get_test_lesson_require_teacher_info.d.ts" />
+/// <reference path="../g_args.d.ts/main_page-recruit.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		recruit:	$('#id_recruit').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		teacherid:	$('#id_teacherid').val()
+		history_data:	$('#id_history_data').val()
     });
 }
 $(function(){
@@ -50,7 +50,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_recruit').val(g_args.recruit);
+	$('#id_history_data').val(g_args.history_data);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -63,8 +64,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">teacherid</span>
-                <input class="opt-change form-control" id="id_teacherid" />
+                <span class="input-group-addon">recruit</span>
+                <input class="opt-change form-control" id="id_recruit" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">history_data</span>
+                <input class="opt-change form-control" id="id_history_data" />
             </div>
         </div>
 */

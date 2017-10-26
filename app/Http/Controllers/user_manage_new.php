@@ -2271,6 +2271,10 @@ class user_manage_new extends Controller
 
             //退费率
             $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
+            //续费率
+            $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
+            $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
+
         } else {
             $list = [];
         }
