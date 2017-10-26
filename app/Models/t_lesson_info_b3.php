@@ -1332,8 +1332,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_lesson_count_sum($userid,$start_time,$end_time){
         $where_arr = [
             ["userid=%u",$userid,-1],
-            "lesson_start > $start_time",
-            "lesson_start < $end_time",
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
             "confirm_flag  in  (0,1,3,4)",
             "lesson_type in(0,1,3 ) ",
             "lesson_del_flag=0"
@@ -1343,12 +1343,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
  
     }
 
+    public function get_lesson_count_list_new($userid,$start_time,$end_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select lesson_count,lesson_start from %s where %s order by lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
+ 
+    }
+
+
 
     public function del_lesson_no_start_by_userid($userid){
         $where_arr=[
             ["userid = %u",$userid,-1],
             "lesson_status = 0",
-            "lesson_type in (0,1,3)"
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("select courseid,lessonid from %s where %s",
@@ -1356,9 +1374,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         $ret_info = $this->main_get_list($sql);
-        $sql=$this->gen_sql_new("update %s set lesson_del_flag=1 where %s"
-
-                                ." and lesson_del_flag=0 ",
+        $sql=$this->gen_sql_new("update %s set lesson_del_flag=1 where %s",
                                 self::DB_TABLE_NAME,
                                 $where_arr
         );
@@ -1373,6 +1389,52 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }
         return $ret;
  
+    }
+
+   
+    public function get_first_lesson_start($userid,$start_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select min(lesson_start) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
+
+    public function delete_lesson_by_time_userid($userid,$start_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_status = 0",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select courseid,lessonid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        $ret_info = $this->main_get_list($sql);
+        $sql=$this->gen_sql_new("update %s set lesson_del_flag=1 where %s",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+        $ret=$this->main_update($sql);
+        if($ret_info){
+            foreach($ret_info as $item){
+                if ($ret) {
+                    $this->task->t_homework_info->row_delete($item['lessonid']);
+                }
+                $this->task->t_lesson_info->reset_lesson_list($item['courseid']);
+            }
+        }
+        return $ret;
+
+
     }
 
 

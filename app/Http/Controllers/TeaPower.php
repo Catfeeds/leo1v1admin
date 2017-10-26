@@ -3416,9 +3416,22 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
-    //百度分期用户首月排课限制
+    //百度分期用户首月排课限制/非首次逾期还款排课限制
     public function check_is_period_first_month($userid,$lesson_count){
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
+
+        //当期还款时间
+        $d= date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+        }
+        $no_first_overdue_flag=0;
+
         if($period_info){
             $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
             $pay_price=0;
@@ -3428,6 +3441,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     if($val["bStatus"]==48){
                         $pay_price +=$val["paidMoney"];
                     }
+                    if($val["dueDate"]==$due_date && $val["period"]>1 && $val["bStatus"]==144){
+                        $no_first_overdue_flag=1;
+                    }
+                    
                 }
             }
             $pay_price +=$period_info["price"]-$period_info["period_price"];
@@ -3443,12 +3460,74 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
                 $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
                 $all_plan = ($lesson_use+$order_use)/100;
-                $plan_flag = (($all_plan+$lesson_count)>$lesson_count_plan)?1:0;
+                $plan_flag = (($all_plan+$lesson_count/100)>$lesson_count_plan)?1:0;
                 if($plan_flag){
                     return $this->output_err("分期用户,已超限,该时间段不能排课!");
                 }
 
             }
+
+
+            //非首次逾期还款排课限制
+
+            //先确认是否为当期逾期未还款(非首次)用户
+            $check_overdue_history = $this->t_period_repay_list->check_overdue_history_flag($due_date,$period_info["child_orderid"]);
+            if(($d>=19 || $d <=15) && $no_first_overdue_flag==1 && !$check_overdue_history){
+                $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date,$period_info["child_orderid"]);
+                $old_type= $this->t_student_info->get_type($userid);
+                if($old_type !=6){
+                    $parent_orderid= $this->t_child_order_info->get_parent_orderid($orderid);
+                    //已消耗课时
+                    $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
+
+                    //得到合同消耗课次段折扣
+                    $discount_per = $this->get_order_lesson_discount_per($parent_orderid,$order_use);
+                    $money_use = $per_price*$order_use*$discount_per;
+                    $money_contrast = ($money_use-$pay_price)/100;
+
+                    $day_start = strtotime(date("Y-m-d",time()));
+
+                    if($money_contrast>=1){
+                   
+                        $this->t_student_info->get_student_type_update($userid,6);
+                        $this->t_student_type_change_list->row_insert([
+                            "userid"    =>$userid,
+                            "add_time"  =>time(),
+                            "type_before" =>$old_type,
+                            "type_cur"    =>0,
+                            "change_type" =>6,
+                            "adminid"     =>0,
+                            "reason"      =>"系统更新"
+                        ]);
+                        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+ 
+                    }elseif($money_contrast>0 && $money_contrast<1){
+                        //判断当天有无课程
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+                        if(($plan_lesson_count+$lesson_count)>300){
+                            return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
+                        }
+                        //已排超出课是否要清除,待确认
+                        
+                    }else{
+                        //可排课量
+                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per*100));
+
+                        //已排课量
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+                        $plan_lesson_count = $plan_lesson_count/100;
+ 
+                        
+                    }
+ 
+                }
+                
+            }
+
+
+            
+           
+           
                         
         }
     }
