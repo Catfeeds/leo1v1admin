@@ -53,7 +53,7 @@ class test_code extends Controller
             t_field($table->integer("lesson_small_money"),"小班课课时费");
             t_field($table->integer("lesson_open_money"),"公开课课时费");
             t_field($table->integer("reference_money"),"伯乐奖");
-            t_field($table->integer("train_"),"伯乐奖");
+            t_field($table->integer("trial_train_money"),"模拟试听培训奖");
         });
     }
 

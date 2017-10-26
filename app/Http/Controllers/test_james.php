@@ -417,13 +417,31 @@ class test_james extends Controller
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $re    = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
+        $re1    = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
 
+        $re2 = $this->t_order_info->get_new_order_money($start_time, $end_time);
         $a = [];
+        $g = [];
 
-        foreach($re as $v){
+
+        foreach($re1 as $v){
             $a[] = $v['account'];
         }
+
+
+        foreach($re2 as $v){
+            $g[] = $v['account'];
+        }
+
+
+        // $f = array_diff($a,$g);
+        $f = array_diff($g,$a);
+        $n1 = count($re1);
+        $n2 = count($re2);
+        echo $n1." ~ ".$n2;
+
+        dd($f);
+
 
         // $a = ['胡怀春'];
 
@@ -476,8 +494,8 @@ class test_james extends Controller
             '张维达',
             '吴雨',
             '熊昌隆',
-            '朱珈儀',
-            // 朱珈儀（朱薇敏）
+            // '朱珈儀',
+            '朱珈儀（朱薇敏)',
             '李承汐',
             '陈育洁',
             '孙佩华',

@@ -3500,22 +3500,43 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                             "reason"      =>"系统更新"
                         ]);
                         $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+
+                        //微信推送家长
+                        $wx = new \App\Helper\Wx();
+                        $parentid = $this->t_student_info->get_parentid($userid);
+                        $openid = $this->t_parent_info->get_wx_openid($parentid);
+                        $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+                        $data=[
+                            "first"    => "百度分期还款逾期停课通知",
+                            "keyword1" => "百度分期还款逾期",
+                            "keyword2" => "家长，您好！由于您未在指定日期内完成百度分期还款，即已发生逾期行为，现对您做出停课处理，为避免耽误孩子的学习，请尽快登录百度钱包完成还款，即可恢复正常上课！",
+                            "keyword3" => date("Y-m-d H:i:s"),
+                            "remark"   => "",
+                        ];
+                        $url="";
+
+
+                        $wx->send_template_msg($openid,$template_id,$data,$url);
+
  
                     }elseif($money_contrast>0 && $money_contrast<1){
-                        //判断当天有无课程
                         $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
                         if(($plan_lesson_count+$lesson_count)>300){
                             return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
                         }
-                        //已排超出课是否要清除,待确认
                         
                     }else{
                         //可排课量
-                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per*100));
+                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per));
 
                         //已排课量
                         $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
-                        $plan_lesson_count = $plan_lesson_count/100;
+
+                        if(($plan_lesson_count+$lesson_count)>$left_plan_count){
+                            return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
+                        }
  
                         
                     }
@@ -3895,6 +3916,29 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
             return 0;
         }
+    }
+
+    public function test_jack_new(){
+        //微信推送家长
+        $wx = new \App\Helper\Wx();
+        $userid = 50186;
+        $parentid = $this->t_student_info->get_parentid($userid);
+        $openid = $this->t_parent_info->get_wx_openid($parentid);
+        $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+        $data=[
+            "first"    => "百度分期还款逾期停课通知",
+            "keyword1" => "百度分期还款逾期",
+            "keyword2" => "家长，您好！由于您未在指定日期内完成百度分期还款，即已发生逾期行为，现对您做出停课处理，为避免耽误孩子的学习，请尽快登录百度钱包完成还款，即可恢复正常上课！",
+            "keyword3" => date("Y-m-d H:i:s"),
+            "remark"   => "",
+        ];
+        $url="";
+
+
+        $wx->send_template_msg($openid,$template_id,$data,$url);
+
     }
 
 }
