@@ -140,7 +140,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "w.competition_flag=0",
         ];
 
-        $sql = $this->gen_sql_new("select  o.userid,w.start_time,s.assistantid "
+        $sql = $this->gen_sql_new("select  o.userid,max( w.start_time ) as start_time ,s.assistantid "
                                   ." from %s o "
                                   ." left join %s s on s.userid = o.userid "
                                   ." left join %s w on w.userid = o.userid "
