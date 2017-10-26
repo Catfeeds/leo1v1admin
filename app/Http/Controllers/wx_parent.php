@@ -71,8 +71,5 @@ class wx_parent extends Controller
         header("Location : $url");
     }
 
-    public function test_id() {
-        echo session("parentid");
-    }
 
 }
