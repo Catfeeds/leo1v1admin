@@ -775,13 +775,13 @@ class test_boby extends Controller
         $ret['normal_over_num'] = $ret_num;
 
         //月 在读,停课,休学,假期数
-        $ret_info = $this->t_student_info->get_student_list_archive(-1,-1,-1,'','',-1,-1,0,-1,$page_num,-1,-1);
+        $ret_info = $this->t_student_info->get_student_count_archive();
 
         $study_user = [];
         $stop_user = [];
         $drop_out_user = [];
         $vacation_user = [];
-        foreach($ret_info['list'] as $item) {
+        foreach($ret_info as $item) {
             if($item['type'] == 0) {
                 array_push($study_user,$item['userid']);
             } else if ($item['type'] == 2) {
