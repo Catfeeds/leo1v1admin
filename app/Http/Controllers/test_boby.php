@@ -735,7 +735,7 @@ class test_boby extends Controller
         $all_pay = [];
         $ret_info = $this->t_student_info->get_student_list_for_finance_count();
         foreach($ret_info as $item){
-            array_push($all_pay, $item['userid']);
+            $all_pay[] = $item['userid'];
         }
         $ret['pay_stu_num'] = count($all_pay);
 
@@ -747,18 +747,17 @@ class test_boby extends Controller
         $has_ass_user = [];//月新签未排课,已分配助教
         $no_ass_user = [];//月新签未排课,未分配助教
         foreach ( $old_order_list as $item ) {
-            array_push($old_user, $item['userid']);
+            $old_user[] = $item['userid'];
         }
 
         foreach ( $new_order_list as $item ) {
 
             if( !in_array($item['userid'], $old_user) ) {
-                array_push($new_user, $item['userid']);
-
+                $new_user[] = $item['userid'];
                 if (!$item['start_time'] && $item['assistantid'] > 0) {
-                    array_push($has_ass_user, $item['userid']);
+                    $has_ass_user[] = $item['userid'];
                 } else if (!$item['start_time'] && !$item['assistantid']) {
-                    array_push($no_ass_user, $item['userid']);
+                    $no_ass_user[] = $item['userid'];
                 }
             }
         }
@@ -783,13 +782,13 @@ class test_boby extends Controller
         $vacation_user = [];
         foreach($ret_info as $item) {
             if($item['type'] == 0) {
-                array_push($study_user,$item['userid']);
+                $study_user[] = $item['userid'];
             } else if ($item['type'] == 2) {
-                array_push($stop_user,$item['userid']);
+                $stop_user[] = $item['userid'];
             } else if ($item['type'] == 3) {
-                array_push($drop_out_user,$item['userid']);
+                $drop_out_user[] = $item['userid'];
             } else if ($item['type'] == 4) {
-                array_push($vacation_user,$item['userid']);
+                $vacation_user[] = $item['userid'];
             }
         }
 
@@ -801,7 +800,7 @@ class test_boby extends Controller
         $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
         $renow_user = [];
         foreach ($renow_list as $item) {
-            array_push($renow_user, $item['userid']);
+            $renow_user[] = $item['userid'];
         }
         //月预警学员
         $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
