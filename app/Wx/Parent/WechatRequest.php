@@ -148,6 +148,12 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         $content = '
 您好，如您遇到关于我们课程、学习方面的问题，请联系您的课程老师；如您已报名理优各学科课程，需咨询如作业上传等上课过程中碰到的问题，请联系孩子的助教老师；如在咨询后尚未得到回复，请留下孩子的姓名+您登录app的手机账号，我将在3个工作日内把您的问题提交给相关部门尽快解决!
 ';
+
+
+        if($request['content'] == '知识库'){
+            $content = "http://wx-parent.leo1v1.com/wx_parent/zhishiku";
+        }
+
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }
 

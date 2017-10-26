@@ -875,7 +875,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -894,6 +894,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] = "trial_train_status is null";
         }else{
             $where_arr[] = ["trial_train_status=%u",$check_status,-2];
+        }
+
+        if($id_train_through_new_time == -1){
+        }elseif($id_train_through_new_time == 0){
+            $where_arr[] = " t.train_through_new_time=0 ";
+        }else{
+            $where_arr[] = " t.train_through_new_time>0 ";
+        }
+
+        if($id_train_through_new == -1){
+        }elseif ($id_train_through_new == 0) {
+            # code...
+            $where_arr[] = " t.train_through_new=0 ";
+        }else{
+            $where_arr[] = " t.train_through_new=1 ";
         }
         $where_arr = $this->lesson_common_where_arr($where_arr);
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);

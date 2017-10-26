@@ -1872,7 +1872,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     }
     public function get_agentid_by_userid($userid) {
-        $this->gen_sql_new(
+        $sql=$this->gen_sql_new(
             "select id  from %s where userid=%u  ",
             self::DB_TABLE_NAME, $userid
         );
