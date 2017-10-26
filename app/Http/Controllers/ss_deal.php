@@ -4789,6 +4789,9 @@ class ss_deal extends Controller
         $admin_info=$this->t_manager_info->field_get_list(  $this->get_account_id(),"*");
         if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL )  {//天润
             //?enterpriseId=&cno=&pwd=&customerNumber=&userField=
+            if ($this->get_account()=="jim") {
+                $admin_info["tquin"]="2063";
+            }
             $ret=\App\Helper\Net:: send_get_data(
                 "http://api.clink.cn/interface/PreviewOutcall",
                 [
