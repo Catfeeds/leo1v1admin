@@ -22,7 +22,7 @@ class CreateTTeacherSalaryList extends Migration
             t_field($table->integer("lesson_1v1_money"),"1v1工资");
             t_field($table->integer("lesson_small_money"),"小班课工资");
             t_field($table->integer("lesson_open_money"),"公开课工资");
-            t_field($table->integer("reward_money"),"额外奖励工资");
+            t_field($table->integer("reference_money"),"伯乐奖工资");
         });
     }
 

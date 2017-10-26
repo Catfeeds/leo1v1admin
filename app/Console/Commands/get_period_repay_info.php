@@ -158,6 +158,25 @@ class get_period_repay_info extends Command
                 $orderid = $v["orderid"];
                 $userid = $v["userid"];
                 $check_overdue_history = $task->t_period_repay_list->check_overdue_history_flag($due_date,$orderid);
+                if($check_overdue_history){
+                    $old_type= $task->t_student_info->get_type($userid);
+                   
+                    $task->t_student_info->get_student_type_update($userid,6);
+                    $task->t_student_type_change_list->row_insert([
+                        "userid"    =>$userid,
+                        "add_time"  =>time(),
+                        "type_before" =>$old_type,
+                        "type_cur"    =>0,
+                        "change_type" =>6,
+                        "adminid"     =>0,
+                        "reason"      =>"系统更新"
+                    ]);
+                    $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+                                                       
+ 
+                }else{
+                    
+                }
             }
         }
  
