@@ -15,28 +15,32 @@ class wx_parent extends Controller
 
     public function __construct() {
         parent::__construct();
-        if (!session("parentid")   ) {
-            \App\Helper\Utils::logger('jiluscore '.$this->get_in_str_val("_url"));
-
-            $wx_config = \App\Helper\Config::get_config("wx");
-            $to_url = bin2hex($this->get_in_str_val("_url"));
-            \App\Helper\Utils::logger("changeurl:  $to_url");
-
-            $wx= new \App\Helper\Wx( );
-            $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_common/wx_parent_jump_page?goto_url=$to_url");
-            $wx->goto_wx_login( $redirect_url );
+        $type = $this->get_in_str_val("type");
+        if($type == "zhishiku"){
         }else{
-            \App\Helper\Utils::logger("session_parentid:".session('parentid'));
-            $web_html_url="http://wx-parent-web.leo1v1.com";
+            if(!session("parentid")){
+                \App\Helper\Utils::logger('jiluscore '.$this->get_in_str_val("_url"));
 
-            $to_url=$this->get_in_str_val("_url");
+                $wx_config = \App\Helper\Config::get_config("wx");
+                $to_url = bin2hex($this->get_in_str_val("_url"));
+                \App\Helper\Utils::logger("changeurl:  $to_url");
 
-            $goto_url_arr=preg_split("/\//", $to_url);
-            $action=@$goto_url_arr[2];
-            $url="$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
-            \App\Helper\Utils::logger("wx_url1:$url");
+                $wx= new \App\Helper\Wx( );
+                $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_common/wx_parent_jump_page?goto_url=$to_url");
+                $wx->goto_wx_login( $redirect_url );
+            }else{
+                \App\Helper\Utils::logger("session_parentid:".session('parentid'));
+                $web_html_url="http://wx-parent-web.leo1v1.com";
 
-            header("Location: $url");
+                $to_url=$this->get_in_str_val("_url");
+
+                $goto_url_arr=preg_split("/\//", $to_url);
+                $action=@$goto_url_arr[2];
+                $url="$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
+                \App\Helper\Utils::logger("wx_url1:$url");
+
+                header("Location: $url");
+            }
         }
     }
 
@@ -67,7 +71,8 @@ class wx_parent extends Controller
     }
 
     public function zhishiku(){
-
+        // $url="wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+        // header("Location : $url");
     }
 
 }
