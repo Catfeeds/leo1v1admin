@@ -446,15 +446,19 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_student_count_archive() {
+        $where_arr=[
+            "is_test_user=0 ",
+            "assistantid>0",
+        ];
 
-        $sql = $this->gen_sql_new("select s.userid, s.type"
-                                  ." from %s s"
-                                  ." left join %s w on w.userid=s.userid"
-                                  ." where is_test_user=0 "
-                                  ." group by s.userid"
+        $sql = $this->gen_sql_new("select a.userid, a.type "
+                                  ." from %s a left join %s b on a.userid = b.userid "
+                                  ."  where  %s group by a.userid "
                                   ,self::DB_TABLE_NAME
                                   ,t_week_regular_course::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
         return $this->main_get_list($sql);
 
     }
