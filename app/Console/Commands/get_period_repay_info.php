@@ -186,7 +186,11 @@ class get_period_repay_info extends Command
                             }
                         }
                     }
+
+                    //已支付金额
                     $pay_price +=$period_info["price"]-$period_info["period_price"];
+
+                    //课时单价
                     $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
  
                 }
