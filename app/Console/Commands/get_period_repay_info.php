@@ -192,6 +192,24 @@ class get_period_repay_info extends Command
 
                     //得到合同消耗课次段折扣
                     $discount_per = $task->get_order_lesson_discount_per($parent_orderid,$order_use);
+                    $money_use = $per_price*$order_use*$discount_per;
+                    $money_contrast = ($money_use-$pay_price)/100;
+                    if($money_contrast>=1){
+                        $old_type= $task->t_student_info->get_type($userid);
+                   
+                        $task->t_student_info->get_student_type_update($userid,6);
+                        $task->t_student_type_change_list->row_insert([
+                            "userid"    =>$userid,
+                            "add_time"  =>time(),
+                            "type_before" =>$old_type,
+                            "type_cur"    =>0,
+                            "change_type" =>6,
+                            "adminid"     =>0,
+                            "reason"      =>"系统更新"
+                        ]);
+                        $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+ 
+                    }
 
  
                 }
