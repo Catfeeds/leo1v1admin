@@ -1324,16 +1324,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
                 }else if ($agent_status == E\Eagent_status::V_10) {//拨通推送
-                    $template_id = 'eP6Guhb_w4s7NxnuF1yf2fz_cRF1wLqguFrQLtOKYlc';
-                    $data = [
-                        'first'    => "课程老师已成功联系学员{$phone}，您获得5元奖励。",
-                        'keyword1' => $phone,
-                        'keyword2' => "预约测评课" ,
-                        'keyword3' => date('Y-m-d H:i:s',time()),
-                        'keyword4' => "已接通" ,
-                        'remark'   => "如学员成功预约测评课，将再获得10元奖励",
-                    ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+                    $this->send_wx_msg_1002($id,$parentid,$phone);
                 }else if ($agent_status == E\Eagent_status::V_20) { //排课
 
                     $template_id = '5gRCvXir0giV6kQcgTMki0TUWfQuKD1Vigg7zanvsD8';
