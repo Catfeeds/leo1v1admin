@@ -175,7 +175,24 @@ class get_period_repay_info extends Command
                                                        
  
                 }else{
-                    
+                    $period_info = $task->t_child_order_info->get_period_info_by_userid($userid);
+                    $data = $task->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
+                    $pay_price=0;
+                    if($data && $data["status"]==0){
+                        $data = $data["data"];
+                        foreach($data as $val){
+                            if($val["bStatus"]==48){
+                                $pay_price +=$val["paidMoney"];
+                            }
+                        }
+                    }
+
+                    //已支付金额
+                    $pay_price +=$period_info["price"]-$period_info["period_price"];
+
+                    //课时单价
+                    $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
+ 
                 }
             }
         }
