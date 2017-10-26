@@ -3451,41 +3451,57 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
 
-            // //非首次逾期还款排课限制
+            //非首次逾期还款排课限制
+
+            //先确认是否为当期逾期未还款(非首次)用户
+            $d= date("d");
+            if($d>15){            
+                $month_start = strtotime(date("Y-m-01",time()));
+                $due_date = $month_start+14*86400;
+            }else{
+                $last_month = strtotime("-1 month",time());
+                $month_start = strtotime(date("Y-m-01",$last_month));
+                $due_date = $month_start+14*86400;
+            }
+            if($d>=19 || $d <=15){
+                $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date);
+            }
+
+
             
-            // //已还款金额
-            // $pay_price=$task->t_period_repay_list->get_paid_money_all($orderid);
+            //已还款金额
+            $pay_price=$task->t_period_repay_list->get_paid_money_all($orderid);
                     
-            // //已支付金额
-            // $pay_price +=$period_info["price"]-$period_info["period_price"];
+            //已支付金额
+            $pay_price +=$period_info["price"]-$period_info["period_price"];
 
-            // //课时单价
-            // $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
+            //课时单价
+            $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
 
-            // $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
-            // //已消耗课时
-            // $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
+            $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
+            //已消耗课时
+            $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
 
-            // //得到合同消耗课次段折扣
-            // $discount_per = $task->get_order_lesson_discount_per($parent_orderid,$order_use);
-            // $money_use = $per_price*$order_use*$discount_per;
-            // $money_contrast = ($money_use-$pay_price)/100;
-            // if($money_contrast>=1){
-            //     $old_type= $task->t_student_info->get_type($userid);
+            //得到合同消耗课次段折扣
+            $discount_per = $task->get_order_lesson_discount_per($parent_orderid,$order_use);
+            $money_use = $per_price*$order_use*$discount_per;
+            $money_contrast = ($money_use-$pay_price)/100;
+            if($money_contrast>=1){
+                $old_type= $task->t_student_info->get_type($userid);
                    
-            //     $task->t_student_info->get_student_type_update($userid,6);
-            //     $task->t_student_type_change_list->row_insert([
-            //         "userid"    =>$userid,
-            //         "add_time"  =>time(),
-            //         "type_before" =>$old_type,
-            //         "type_cur"    =>0,
-            //         "change_type" =>6,
-            //         "adminid"     =>0,
-            //         "reason"      =>"系统更新"
-            //     ]);
-            //     $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+                $task->t_student_info->get_student_type_update($userid,6);
+                $task->t_student_type_change_list->row_insert([
+                    "userid"    =>$userid,
+                    "add_time"  =>time(),
+                    "type_before" =>$old_type,
+                    "type_cur"    =>0,
+                    "change_type" =>6,
+                    "adminid"     =>0,
+                    "reason"      =>"系统更新"
+                ]);
+                $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
  
-            // }
+            }
 
                         
         }

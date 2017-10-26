@@ -13,7 +13,7 @@ class TTeacherSalaryList extends Migration
     public function up()
     {
         //
-        Schema::drop("db_weiyi.t_teacher_salary_list");
+        Schema::dropIfExists("db_weiyi.t_teacher_salary_list");
     }
 
     /**
