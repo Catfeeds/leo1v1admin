@@ -11,6 +11,7 @@ return array(
     'CreateTOnlineCountXmppLog' => $baseDir . '/database/migrations/2017_10_19_131114_create_t_online_count_xmpp_log.php',
     'CreateTRevisitAssessInfo' => $baseDir . '/database/migrations/2017_10_11_100938_create_t_revisit_assess_info.php',
     'CreateTRevisitCallCount' => $baseDir . '/database/migrations/2017_10_12_152226_create_t_revisit_call_count.php',
+    'CreateTTeacherSalaryList' => $baseDir . '/database/migrations/2017_10_26_094958_create_t_teacher_salary_list.php',
     'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
     'CreateTableRevisitCallCountDrop' => $baseDir . '/database/migrations/2017_10_12_183730_create_table_revisit_call_count_drop.php',
     'CreateTableTPeriodOrderRepaymentList' => $baseDir . '/database/migrations/2017_10_13_151358_create_table_t_period_order_repayment_list.php',
