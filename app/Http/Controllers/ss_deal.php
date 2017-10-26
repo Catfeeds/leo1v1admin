@@ -4823,6 +4823,7 @@ class ss_deal extends Controller
 
             $ret_arr=json_decode($ret,true );
             if (@$ret_arr["res"]) {
+                $this->t_seller_student_new->sync_tq($phone,$tq_called_flag,$call_time);
                 return $this->output_err( "天润拨打出错:". $ret_arr["res"] . ":". @$error_code_conf[$ret_arr["res"] ] );
             }else{
                 return $this->output_succ();
