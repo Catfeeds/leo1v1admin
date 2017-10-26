@@ -2014,13 +2014,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function check_admin($phone){
+    public function check_admin($wx_openid){
         $where_arr = [
             "del_flag=0",
-            "phone = $phone"
+            "wx_id = $wx_openid"
         ];
         $sql = $this->gen_sql_new(
-            "select 1 from %s"
+            "select phone from %s"
             ." where %s"
             ,self::DB_TABLE_NAME
             ,$where_arr
