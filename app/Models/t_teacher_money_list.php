@@ -70,9 +70,11 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["add_time>%u",$start,0],
             ["add_time<%u",$end,0],
             ["type=%u",$type,0],
+            "tm.lessonid!=0"
         ];
-        $sql = $this->gen_sql_new("select tm.add_time,tm.money,tm.type,tm.money_info"
+        $sql = $this->gen_sql_new("select tm.add_time,tm.money,tm.type,tm.money_info,l.userid"
                                   ." from %s tm"
+                                  ." left join %s l on tm.lessonid=l.lessonid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
