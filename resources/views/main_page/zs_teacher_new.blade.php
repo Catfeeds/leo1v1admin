@@ -97,6 +97,9 @@
                             <font color="#333" >审核通过数:</font> 
                             <span style="color:green ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="suc_class" >　{{@$data["all_succ"]}}　</span>
 
+                            <font >入职人数:</font>
+                            <span style="text-decoration: underline;">{{@$entry_total}}</span>
+
                         </div>
 
 
@@ -282,6 +285,75 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+ <div class="row">
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            入职老师
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>招师专员</td>
+                                        <td>小学语文</td>
+                                        <td>初中语文</td>
+                                        <td>高中语文</td>
+                                        <td>小学数学</td>
+                                        <td>初中数学</td>
+                                        <td>高中数学</td>
+                                        <td>小学英语</td>
+                                        <td>初中英语</td>
+                                        <td>高中英语</td>
+                                        <td>初中化学</td>
+                                        <td>高中化学</td>
+                                        <td>初中物理</td>
+                                        <td>高中物理</td>
+                                        <td>初中生物</td>
+                                        <td>高中生物</td>
+                                        <td>科学</td>
+                                        <td>其他</td>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody id="id_per_count_list">
+                                    @foreach ( $zs_entry_list as $key=> $var )
+                                        <tr>
+                                            <td>{{@$var["name"]}} </td> 
+                                            <td>{{@$var["xxyw"]}} </td> 
+                                            <td>{{@$var["czyw"]}} </td> 
+                                            <td>{{@$var["gzyw"]}} </td>
+                                            <td>{{@$var["xxsx"]}} </td> 
+                                            <td>{{@$var["czsx"]}} </td> 
+                                            <td>{{@$var["gzsx"]}} </td> 
+                                            <td>{{@$var["xxyy"]}} </td> 
+                                            <td>{{@$var["czyy"]}} </td> 
+                                            <td>{{@$var["gzyy"]}} </td>
+                                            <td>{{@$var["czhx"]}} </td> 
+                                            <td>{{@$var["gzhx"]}} </td> 
+                                            <td>{{@$var["czwl"]}} </td> 
+                                            <td>{{@$var["gzwl"]}} </td> 
+                                            <td>{{@$var["czsw"]}} </td> 
+                                            <td>{{@$var["gzsw"]}} </td> 
+                                            <td>{{@$var["kx"]}} </td> 
+                                            <td>{{@$var["other"]}} </td> 
+
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            
                 
             </div>
         </div>

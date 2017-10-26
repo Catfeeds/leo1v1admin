@@ -2581,6 +2581,9 @@ class user_deal extends Controller
             "grade"  => $grade,
         ]);
 
+        // 记录操作日志
+        $this->t_user_log->add_data('修改年级为'.E\Egrade::get_desc($grade), $userid);
+
         //设置时间再重置课程年级,避免影响老师工资
         if($start_time>0){
             $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
@@ -3533,6 +3536,9 @@ class user_deal extends Controller
         $this->t_seller_student_new->field_update_list($userid,[
             "phone" =>  $phone
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("修改账号,账号:".$phone, $userid);
 
         return $this->output_succ();
     }
