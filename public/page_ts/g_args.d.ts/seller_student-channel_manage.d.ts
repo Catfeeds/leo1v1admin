@@ -36,18 +36,19 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student-channel_manage.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		key1:	$('#id_key1').val(),
+		key2:	$('#id_key2').val(),
+		key3:	$('#id_key3').val(),
+		key4:	$('#id_key4').val(),
+		value:	$('#id_value').val(),
+		origin_level:	$('#id_origin_level').val(),
+		key1_filed_hide:	$('#id_key1_filed_hide').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			key1:	$('#id_key1').val(),
-			key2:	$('#id_key2').val(),
-			key3:	$('#id_key3').val(),
-			key4:	$('#id_key4').val(),
-			value:	$('#id_value').val(),
-			origin_level:	$('#id_origin_level').val(),
-			key1_filed_hide:	$('#id_key1_filed_hide').val()
-        });
-    }
 
 
 	$('#id_key1').val(g_args.key1);

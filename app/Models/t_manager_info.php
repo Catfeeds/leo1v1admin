@@ -494,6 +494,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
 
     }
+    public function get_uid_by_phone($phone) {
+        $sql=$this->gen_sql_new("select  uid from %s where phone = %u ",
+                                self::DB_TABLE_NAME, $phone );
+        return $this->main_get_value($sql);
+
+    }
     public function get_uid_by_tquin($tquin) {
         $sql=$this->gen_sql_new("select  uid from %s where tquin = %u",
                                 self::DB_TABLE_NAME, $tquin);
@@ -1253,6 +1259,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_row($sql);
     }
+    public function get_account_role_by_phone($phone){
+        $sql = $this->gen_sql_new("select account_role from %s m where m.phone=".$phone,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
 
 
     public function get_research_teacher_list($account_role){
@@ -2002,6 +2014,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-
-
+    public function check_admin($phone){
+        $where_arr = [
+            "del_flag=0",
+            "phone = $phone"
+        ];
+        $sql = $this->gen_sql_new(
+            "select 1 from %s"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
