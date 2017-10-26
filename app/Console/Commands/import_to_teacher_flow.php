@@ -38,18 +38,21 @@ class import_to_teacher_flow extends Command
     public function handle()
     {
         //
-        $month = $this->argument('month');
-        if ($month > 12 || $month < 1) exit("你输入的月份不对");
+        // $month = $this->argument('month');
+        // if ($month > 12 || $month < 1) exit("你输入的月份不对");
         //if ($month < 10) {
         //    $start_time = date("Y-0{$month}-01 00:00:00");
         //} else {
-        $start_time = date("Y-{$month}-01 00:00:00");
+        // $start_time = date("Y-{$month}-01 00:00:00");
         //}
-        $end_time = date('Y-m-d', strtotime("$start_time +1 month -1 day"));
+        // $end_time = date('Y-m-d', strtotime("$start_time +1 month -1 day"));
 
         $task = new \App\Console\Tasks\TaskController();
-        $start_time = strtotime($start_time);
-        $end_time = strtotime($end_time);
+        // $start_time = strtotime($start_time);
+        // $end_time = strtotime($end_time);
+
+        $start_time  = strtotime("2017-6-1");
+        $end_time = time();
 
         $tea_list = $task->t_teacher_info->get_teacher_flow_list();
         if(!empty($tea_list)){
