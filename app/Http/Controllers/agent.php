@@ -472,7 +472,6 @@ class agent extends Controller
             $stu_logout = [];
             $seller_login = [];
             $seller_logout = [];
-            $item = $ret_info[$info];
             foreach($ret_info as $item){
                 $roomid = $item['roomid'];
                 $role = $item['role'];
@@ -490,7 +489,7 @@ class agent extends Controller
                     }
                 }
             }
-            dd($stu_login,$stu_logout,$seller_login,$seller_logout);
+            dd($ret_info,$stu_login,$stu_logout,$seller_login,$seller_logout);
         }
     }
 

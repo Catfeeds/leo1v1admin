@@ -1457,8 +1457,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
             $this->t_test_lesson_subject->set_no_connect_for_sync_tq($userid);
+            if ( $item["global_tq_called_flag"]==0 ) {
+                $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+                if ($agent_id) {
+                    dispatch( new \App\Jobs\agent_reset($agent_id) );
+                }
+            }
         }
-
     }
 
     public function tongji_last_revisite_time($start_time,$end_time)  {

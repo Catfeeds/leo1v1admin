@@ -80,6 +80,15 @@ class reset_lesson_online_user_status extends Command
             $lesson_online_user_status = $check_teacher_online_flag && $check_student_online_flag  ;
             $lesson_login_flag = $tea_logintime && $stu_logintime;
 
+            if ($lesson_online_user_status ==1 ) {
+                //优学优享
+                $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+                if ($agent_id) {
+                    dispatch( new \App\Jobs\agent_reset($agent_id) );
+                }
+            }
+
+
             $this->task->t_lesson_info->field_update_list($lessonid,[
                 "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
                 "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
