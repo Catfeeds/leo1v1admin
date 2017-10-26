@@ -739,21 +739,14 @@ class test_boby extends Controller
         }
         $ret['pay_stu_num'] = count($all_pay);
 
-        $old_order_list = $this->t_order_info->get_order_user_list_by_month(-1,$start_time);
-        $new_order_list = $this->t_order_info->get_order_user_list_by_month($start_time,$end_time);
+        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
 
-        $old_user = [];
         $new_user = [];//月新签
         $has_ass_user = [];//月新签未排课,已分配助教
         $no_ass_user = [];//月新签未排课,未分配助教
 
-        foreach ( $old_order_list as $item ) {
-            $old_user[] = $item['userid'];
-        }
-        $old_user = array_unique($old_user);
-
-        foreach ( $new_order_list as $item ) {
-            if( !in_array($item['userid'], $old_user) ) {
+        foreach ( $user_order_list as $item ) {
+            if ($item['order_time'] >= $start_time){
                 $new_user[] = $item['userid'];
 
                 if (!$item['start_time'] && $item['assistantid'] > 0) {
@@ -761,9 +754,10 @@ class test_boby extends Controller
                 } else if (!$item['start_time'] && !$item['assistantid']) {
                     $no_ass_user[] = $item['orderid'];
                 }
-
             }
+
         }
+
         $new_user = array_unique($new_user);
 
         $ret['new_pay_stu_num'] = count($new_user);
@@ -831,7 +825,7 @@ class test_boby extends Controller
         $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
 
         $ret['create_time'] = $start_time;
-//        $this->t_month_student_count->row_insert($ret);
+        //        $this->t_month_student_count->row_insert($ret);
 
         dd($ret);
         return 'ok';
