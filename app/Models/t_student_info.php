@@ -451,6 +451,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." from %s s"
                                   ." left join %s w on w.userid=s.userid"
                                   ." where is_test_user=0 "
+                                  ." group by s.userid"
                                   ,self::DB_TABLE_NAME
                                   ,t_week_regular_course::DB_TABLE_NAME
         );
