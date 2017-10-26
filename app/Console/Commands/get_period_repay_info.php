@@ -176,6 +176,8 @@ class get_period_repay_info extends Command
  
                 }else{
                     $period_info = $task->t_child_order_info->get_period_info_by_userid($userid,$orderid);
+
+                    //已还款金额
                     $pay_price=$task->t_period_repay_list->get_paid_money_all($orderid);
                     
                     //已支付金额
