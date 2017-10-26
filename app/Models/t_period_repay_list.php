@@ -82,6 +82,17 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
 
     }
 
+    public function check_overdue_history_flag($due_date,$orderid){
+        $where_arr=[
+            ["due_date < %u",$due_date,-1],
+            ["orderid = %u",$orderid,-1],
+            "repay_status in (2,3)",
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
+
 
 }
 
