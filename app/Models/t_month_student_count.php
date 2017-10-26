@@ -21,6 +21,17 @@ class t_month_student_count extends \App\Models\Zgen\z_t_month_student_count
             return $item["month"];
         });
     }
+
+    public function get_student_month_info($time){
+        $sql = $this->gen_sql_new(
+            "select pay_stu_num,new_pay_stu_num,normal_over_num,refund_stu_num,study_num,stop_num,drop_out_num,vacation_num,"
+            ." has_ass_num,no_ass_num,warning_renow_stu_num,no_warning_renow_stu_num"
+            ." from %s"
+            ." where create_time=$time"
+            ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_row($sql);
+    }
 }
 
 

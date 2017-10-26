@@ -1277,7 +1277,6 @@ class wx_parent_api extends Controller
             return $this->output_err("请绑定微信");
         }
         $ret = $this->t_manager_info->check_admin($wx_openid);
-
         if($ret){
             return $this->output_succ(['phone'=>$ret]);
         }else{

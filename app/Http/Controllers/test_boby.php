@@ -783,12 +783,14 @@ class test_boby extends Controller
         //月预警学员
         $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
         $warning_renow_num = 0;
+        $warning_stu_num = 0;
 
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
-            if(is_array($new)){
-                foreach($new as $v) {
-                    if(count($v) && in_array($v ,$renow_user)){
+            foreach($new as $v) {
+                if( strlen($v)>0){
+                    $warning_stu_num++;
+                    if( in_array($v ,$renow_user) ){
                         $warning_renow_num++;
                     }
                 }
