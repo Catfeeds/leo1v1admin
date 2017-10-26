@@ -3975,6 +3975,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
+        
         return $this->main_get_row($sql);
     }
 
@@ -4263,6 +4264,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_flow_list() {
+        $sql = $this->gen_sql_new("select teacherid, phone, train_through_new_time "
+                                  ." from %s t"
+                                  ." where is_test_user=0 and "
+                                  ." not exists (select 1 from %s where t.teacherid=teacherid)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_flow::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_no_regular_test_lesson_num($start_time,$end_time){
         $where_arr = [
             't.is_test_user=0',
@@ -4284,5 +4296,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr
         );
         return $this->main_get_value($sql);
+>>>>>>> ceb43a0d163239525a0bc8ffe4eb00dc2a958860
     }
 } 
