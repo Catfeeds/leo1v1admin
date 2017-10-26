@@ -157,7 +157,7 @@ class get_period_repay_info extends Command
             foreach($no_first_list as $v){
                 $orderid = $v["orderid"];
                 $userid = $v["userid"];
-                $check_overdue_history = $task->t_period_repay_list->check_overdue_history_flag($due_date,$userid,$orderid);
+                $check_overdue_history = $task->t_period_repay_list->check_overdue_history_flag($due_date,$orderid);
             }
         }
  
