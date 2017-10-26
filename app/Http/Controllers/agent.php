@@ -465,15 +465,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-14*86500),date("Y-m-d",time(NULL)));
-        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
-        dd($date_list);
-
-
-        list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $role_2_diff_money_def= $this->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY ,strtotime( date("Y-m-01", $start_time) ));
-        $role_2_diff_money= $this->t_order_info-> get_spec_diff_money_all( $start_time,$end_time,E\Eaccount_role::V_2 );
-        dd($role_2_diff_money_def,$role_2_diff_money);
+        $this->t_test_lesson_opt_log->get_suc_test_lesson_opt_row($userid);
+        dd('a');
     }
 
     //处理等级头像
