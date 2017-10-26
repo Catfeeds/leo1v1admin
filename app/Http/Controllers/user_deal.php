@@ -3178,6 +3178,16 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $list    = E\Eaccount_role::$desc_map;
+        krsort($list);
+        $account_role =11;
+        foreach($list as $k=>$v){
+            $account_role=$k;
+            break;
+        }
+        
+        dd($account_role);
+
         $d= date("d");
         if($d>15){            
             $month_start = strtotime(date("Y-m-01",time()));

@@ -35,12 +35,13 @@ class wx_parent extends Controller
             $action=@$goto_url_arr[2];
 
             if($action=="zhishiku"){
-                $url = "wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+                $url = "http://wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+                header("Location: $url");
             }else{
-                $url = "$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
+                $url ="$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
+                \App\Helper\Utils::logger("wx_url1:$url");
+                header("Location: $url");
             }
-            \App\Helper\Utils::logger("wx_url1:$url");
-            header("Location: $url");
         }
     }
 
