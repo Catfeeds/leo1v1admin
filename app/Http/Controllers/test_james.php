@@ -414,6 +414,14 @@ class test_james extends Controller
 
     public function ssss(){
 
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+
+        $ret_info['formal_num']    = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
+
+
+        dd($ret_info);
+
         dd(session_id());
 
         $lessonid = $this->get_in_int_val('p');
@@ -448,8 +456,7 @@ class test_james extends Controller
 
         // dd(count($parent_list));
 
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
+
 
         $ret = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 

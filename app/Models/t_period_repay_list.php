@@ -57,9 +57,10 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
 
     }
 
-    public function get_no_first_overdue_repay_list($due_date){
+    public function get_no_first_overdue_repay_list($due_date,$orderid=-1){
         $where_arr=[
             ["p.due_date = %u",$due_date,-1],
+            ["p.orderid = %u",$orderid,-1],
             "p.repay_status = 3",
             "s.type not in (1,6)",
             "s.is_test_user=0",
