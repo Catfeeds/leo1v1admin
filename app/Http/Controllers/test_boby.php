@@ -732,37 +732,25 @@ class test_boby extends Controller
         $page_num   = $this->get_in_page_num();
         $ret = [];
         //月初付费学员数
-        $all_pay = [];
-        $ret_info = $this->t_student_info->get_student_list_for_finance_count();
-        foreach($ret_info as $item){
-            $all_pay[] = $item['userid'];
-        }
-        $ret['pay_stu_num'] = count($all_pay);
+        $all_pay = $this->t_student_info->get_student_list_for_finance_count();
+        $ret['pay_stu_num'] = $all_pay;
 
         $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
-
         $new_user = [];//月新签
-        $has_ass_user = [];//月新签未排课,已分配助教
-        $no_ass_user = [];//月新签未排课,未分配助教
 
         foreach ( $user_order_list as $item ) {
             if ($item['order_time'] >= $start_time){
                 $new_user[] = $item['userid'];
-
-                if (!$item['start_time'] && $item['assistantid'] > 0) {
-                    $has_ass_user[] = $item['orderid'];
-                } else if (!$item['start_time'] && !$item['assistantid']) {
-                    $no_ass_user[] = $item['orderid'];
+                if (!$item['start_time'] && $item['assistantid'] > 0) {//月新签订单,未排课,已分配助教
+                    @$ret['has_ass_num']++;
+                } else if (!$item['start_time'] && !$item['assistantid']) {//月新签订单,未排课,未分配助教
+                    @$ret['no_ass_num']++;
                 }
             }
 
         }
-
         $new_user = array_unique($new_user);
-
         $ret['new_pay_stu_num'] = count($new_user);
-        $ret['has_ass_num'] = count($has_ass_user);
-        $ret['no_ass_num'] = count($no_ass_user);
 
         //月退费名单
         $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
@@ -774,26 +762,18 @@ class test_boby extends Controller
         //月 在读,停课,休学,假期数
         $ret_info = $this->t_student_info->get_student_count_archive();
 
-        $study_user = [];
-        $stop_user = [];
-        $drop_out_user = [];
-        $vacation_user = [];
         foreach($ret_info as $item) {
             if($item['type'] == 0) {
-                $study_user[] = $item['userid'];
+                @$ret['study_num']++;
             } else if ($item['type'] == 2) {
-                $stop_user[] = $item['userid'];
+                @$ret['stop_num']++;
             } else if ($item['type'] == 3) {
-                $drop_out_user[] = $item['userid'];
+                @$ret['drop_out_num']++;
             } else if ($item['type'] == 4) {
-                $vacation_user[] = $item['userid'];
+                @$ret['vacation_num']++;
             }
         }
 
-        $ret['study_num'] = count($study_user);
-        $ret['stop_num'] = count($stop_user);
-        $ret['drop_out_num'] = count($drop_out_user);
-        $ret['vacation_num'] = count($vacation_user);
         //月续费学员
         $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
         $renow_user = [];

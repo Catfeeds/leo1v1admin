@@ -132,7 +132,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "o.price>0",
         ];
 
-        $sql = $this->gen_sql_new("select distinct o.userid "
+        $sql = $this->gen_sql_new("select count( distinct o.userid )"
                                   ." from %s s "
                                   ." left join %s o on o.userid=s.userid"
                                   ." where  %s "
@@ -141,7 +141,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr
         );
 
-        return  $this->main_get_list($sql);
+        return  $this->main_get_value($sql);
     }
 
 
