@@ -1272,11 +1272,11 @@ class wx_parent_api extends Controller
 
     public function check_is_admin(){
         $parentid = session("parentid");
-        $phone = $this->t_parent_info->get_phone($parentid);
-        $ret = $this->t_manager_info->check_admin($phone);
+        $wx_openid = $this->t_parent_info->get_wx_openid($parentid);
+        $ret = $this->t_manager_info->check_admin($wx_openid);
 
         if($ret){
-            return $this->output_succ(['phone'=>$phone]);
+            return $this->output_succ(['phone'=>$ret]);
         }else{
             return $this->output_err("false");
         }
