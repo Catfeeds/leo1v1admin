@@ -826,8 +826,11 @@ class test_boby extends Controller
         $ret['lesson_count']       = $lesson_money['lesson_count'];
         $ret['lesson_count_money'] = $lesson_money['lesson_count_money'];
         $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
-        dd($ret);
 
+        $ret['create_time'] = $start_time;
+        $this->t_month_student_count->row_insert($ret);
+
+        return 'ok';
     }
 
     public function send_msg_to_tea_wx(){
