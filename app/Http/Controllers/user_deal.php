@@ -3175,6 +3175,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $orderid = 1219;$order_use = 100000;
+        $tt = $this->get_order_lesson_discount_per($orderid,$order_use);
+        dd($tt);
+        
         $ret_auth = $this->t_manager_info->check_permission("jack", E\Epower::V_SHOW_MONEY );
         dd($ret_auth);
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);

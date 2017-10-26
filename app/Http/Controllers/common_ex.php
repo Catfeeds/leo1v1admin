@@ -16,14 +16,20 @@ class common_ex extends Controller
         $type       = $this->get_in_str_val("type","");
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
 
-        \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
-        if ($check_code != $code) {
-            return $this->output_err("手机验证码不对,请重新输入");
-        }
-
+        
         if($type=="zhishiku"){
 
+            \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
+            if ($check_code != $code) {
+                //return $this->output_err("手机验证码不对,请重新输入");
+            }
+            return $this->share_knowledge();
+
         }else{
+            \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
+            if ($check_code != $code) {
+                return $this->output_err("手机验证码不对,请重新输入");
+            }
             return $this->book_free_lesson();
         }
     }
@@ -46,8 +52,6 @@ class common_ex extends Controller
             "code" => $code,
             "index" => $msg_num
         ] );
-
-
         $ret_arr= ["msg_num" =>$msg_num  ];
         if ( $code_flag ) {
             $ret_arr["code"] =  $code;
@@ -56,6 +60,60 @@ class common_ex extends Controller
         return $this->output_succ($ret_arr);
     }
 
+    public function share_knowledge(){
+        $phone = $this->get_in_str_val("phone");
+        $p_phone = $this->get_in_str_val("p_phone");
+        
+        if(!preg_match( "/^1[34578]{1}\d{9}$/",$phone)){
+            return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
+        }
+        if($p_phone!="" && $p_phone==$phone){
+            return $this->output_err("推荐人手机号不能和报名手机相同！");
+        }
+        $cc_type = 0;
+        if($p_phone == ""){
+            $cc_type = 0;
+        }
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        if($userid){
+            return $this->output_err("此号码已经注册!");
+        }
+        $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
+        $account_id   = $this->t_manager_info->get_uid_by_phone($p_phone);
+        if($account_role == 2){ //销售cc
+            $cc_type = 2;
+        }elseif($account_role == 1){//助教cr
+            $cc_type = 1;
+        }
+
+        //进例子
+        $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='知识库',$subject=0,$has_pad=0);
+        if($cc_type == 2){ //分配例子给销售
+            $opt_adminid = $account_id; // ccid
+            $opt_account=$this->t_manager_info->get_account($opt_adminid);
+            $this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
+        }else{
+            //$opt_adminid = 212; // ccid
+            //$opt_account=$this->t_manager_info->get_account($opt_adminid);
+            //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
+        }
+
+        /*
+         * 预约完成4-28
+         * SMS_63750218
+         * ${name}家长您好，恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系，
+         * 请注意接听${public_num}开头的上海号码。如果您有任何疑问需要咨询，请加微信客服（微信号：leoedu058）
+         * 或拨打全国免费咨询电话${public_telphone}。
+         */
+        $public_telphone = "400-680-6180";
+        $sms_id          = 63750218;
+        $arr = [
+            "name"            => " ",
+            "public_num"      => "021或158",
+            "public_telphone" => $public_telphone,
+        ];
+        dd(2);
+    }
     public function book_free_lesson()
     {
         $nick     = $this->get_in_str_val("nick");
