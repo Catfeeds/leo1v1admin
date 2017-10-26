@@ -3471,7 +3471,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             //非首次逾期还款排课限制
 
             //先确认是否为当期逾期未还款(非首次)用户
-            if(($d>=19 || $d <=15) && $no_first_overdue_flag==1){
+            $check_overdue_history = $this->t_period_repay_list->check_overdue_history_flag($due_date,$period_info["child_orderid"]);
+            if(($d>=19 || $d <=15) && $no_first_overdue_flag==1 && !$check_overdue_history){
                 $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date,$period_info["child_orderid"]);
                 $old_type= $this->t_student_info->get_type($userid);
                 if($old_type !=6){
@@ -3483,6 +3484,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $discount_per = $this->get_order_lesson_discount_per($parent_orderid,$order_use);
                     $money_use = $per_price*$order_use*$discount_per;
                     $money_contrast = ($money_use-$pay_price)/100;
+
+                    $day_start = strtotime(date("Y-m-d",time()));
+
                     if($money_contrast>=1){
                    
                         $this->t_student_info->get_student_type_update($userid,6);
@@ -3499,13 +3503,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
  
                     }elseif($money_contrast>0 && $money_contrast<1){
                         //判断当天有无课程
-                        $day_start = strtotime(date("Y-m-d",time()));
-                        $plan_lesson_count = $this->t_lesson_info_b3->check_lesson_count_regular($userid,$day_start,$lesson_start);
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
                         if(($plan_lesson_count+$lesson_count)>300){
                             return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
                         }
+                        //已排超出课是否要清除,待确认
                         
                     }else{
+                        
                         
                     }
  

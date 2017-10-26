@@ -1375,25 +1375,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
  
     }
 
-    public function check_lesson_count_regular($userid,$start_time,$end_time,$count_flag=1){
-        $where_arr=[
-            ["lesson_start>=%u",$start_time,0],
-            ["lesson_start<%u",$end_time,0],
-            ["userid = %u",$userid,-1],
-            "lesson_type in (0,1,3)",
-            "lesson_del_flag=0",
-        ];
-        if($count_flag==1){
-            $where_arr[]= "confirm_flag <>2";
-        }
-        $sql = $this->gen_sql_new("select sum(lesson_count) from %s where %s",
-                                  self::DB_TABLE_NAME,
-                                  $where_arr
-        );
-
-        return $this->main_get_value($sql);
-    }
-
+   
 
 
 }
