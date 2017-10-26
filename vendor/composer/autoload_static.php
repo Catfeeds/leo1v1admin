@@ -278,6 +278,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
 
     public static $classMap = array (
         'CreateTInterviewRemind' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
+        'CreateTMonthStudentCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_173622_create_t_month_student_count.php',
         'CreateTOnlineCountXmppLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_131114_create_t_online_count_xmpp_log.php',
         'CreateTRevisitAssessInfo' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_100938_create_t_revisit_assess_info.php',
         'CreateTRevisitCallCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_152226_create_t_revisit_call_count.php',
@@ -815,8 +816,11 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TLessonTimeModifyAddBackstageType' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_110844_t_lesson_time_modify_add_backstage_type.php',
         'TManagerInfoAddLevelFacePic' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_151350_t_manager_info_add_level_face_pic.php',
         'TMonthAssStudentInfoAddCcTranNum' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_165409_t_month_ass_student_info_add_cc_tran_num.php',
+        'TMsgLogForWx' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_181217_t_msg_log_for_wx.php',
         'TNewTeaEntry' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_131431_t_new_tea_entry.php',
         'TOnlineCountXmppLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_184809_t_online_count_xmpp_log.php',
+        'TOrderRefundAddSubjectTeacher' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_141618_t_order_refund_add_subject_teacher.php',
+        'TOrderidOrdernoListAddParentOrderid' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_100253_t_orderid_orderno_list_add_parent_orderid.php',
         'TParentSendMgsLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_145354_t_parent_send_mgs_log.php',
         'TPeriodRepayListAddRepayStatus' => __DIR__ . '/../..' . '/database/migrations/2017_10_14_104102_t_period_repay_list_add_repay_status.php',
         'TPeriodRepayListAddRepayStatusNew' => __DIR__ . '/../..' . '/database/migrations/2017_10_14_104537_t_period_repay_list_add_repay_status_new.php',
@@ -833,6 +837,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerStudentNewAddAssLeaderCreateGlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_105759_t_seller_student_new_add_ass_leader_create_glag.php',
         'TSellerStudentNewAddHandGetAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_112850_t_seller_student_new_add_hand_get_adminid.php',
         'TSellerStudentNewAddIndexFirstCallTimeAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
+        'TSellerStudentNewAddTestLessonOptFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
         'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
         'TSellerTongjiForMonthAddDataType' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
