@@ -47,7 +47,13 @@ class test_code extends Controller
         {
             t_field($table->integer("id"),"id");
             t_field($table->integer("teacherid"),"老师id");
-            t_field($table->integer("teacherid"),"老师id");
+            t_field($table->tinyInteger("teacher_type"),"老师类型");
+            t_field($table->tinyInteger("teacher_money_flag"),"老师工资发放类型");
+            t_field($table->integer("lesson_1v1_money"),"1对1课时费");
+            t_field($table->integer("lesson_small_money"),"小班课课时费");
+            t_field($table->integer("lesson_open_money"),"公开课课时费");
+            t_field($table->integer("reference_money"),"伯乐奖");
+            t_field($table->integer("train_"),"伯乐奖");
         });
     }
 

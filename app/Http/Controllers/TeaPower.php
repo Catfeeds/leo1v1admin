@@ -3417,7 +3417,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
     //百度分期用户首月排课限制/非首次逾期还款排课限制
-    public function check_is_period_first_month($userid,$lesson_count,$lesson_start){
+    public function check_is_period_first_month($userid,$lesson_count){
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
 
         //当期还款时间
@@ -3503,14 +3503,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
  
                     }elseif($money_contrast>0 && $money_contrast<1){
                         //判断当天有无课程
-                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
                         if(($plan_lesson_count+$lesson_count)>300){
                             return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
                         }
                         //已排超出课是否要清除,待确认
                         
                     }else{
-                        
+                        //可排课量
+                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per*100));
+
+                        //已排课量
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+                        $plan_lesson_count = $plan_lesson_count/100;
+ 
                         
                     }
  
@@ -3581,7 +3587,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $item = $this->t_course_order->field_get_list($courseid,"*");
 
         //百度分期用户首月排课限制
-        /*  $period_limit = $this->check_is_period_first_month($item["userid"],$lesson_count,$lesson_start);
+        /*  $period_limit = $this->check_is_period_first_month($item["userid"],$lesson_count);
         if($period_limit){
             return $period_limit;
             }*/
