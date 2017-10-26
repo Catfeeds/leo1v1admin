@@ -112,7 +112,7 @@ class common_ex extends Controller
             "public_num"      => "021或158",
             "public_telphone" => $public_telphone,
         ];
-        return $this->output_succ(["ret"=> "恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系");
+        return $this->output_succ(["ret"=> "恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系"]);
     }
     public function book_free_lesson()
     {
