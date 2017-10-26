@@ -9,7 +9,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_teacher_lecture_list($page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
-                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1
+                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1
     ){
         if($phone==''){
             if($opt_date_type=="add_time"){
@@ -55,6 +55,21 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             $where_arr[] = "b.subject in ".$tea_subject;
         }
 
+        if($id_train_through_new_time == -1){
+        }elseif($id_train_through_new_time == 0){
+            $where_arr[] = " tt.train_through_new_time=0 ";
+        }else{
+            $where_arr[] = " tt.train_through_new_time>0 ";
+        }
+
+        if($id_train_through_new == -1){
+        }elseif ($id_train_through_new == 0) {
+            # code...
+            $where_arr[] = " tt.train_through_new=0 ";
+        }else{
+            $where_arr[] = " tt.train_through_new=1 ";
+        }
+        
         $sql = $this->gen_sql_new("select b.id,b.nick,b.face,b.phone,b.grade,b.subject,b.title,b.draw,"
                                   ." real_begin_time,real_end_time,teacher_re_submit_num,"
                                   ." b.account,b.status,b.reason,b.add_time,b.identity,b.identity_image,b.resume_url,"

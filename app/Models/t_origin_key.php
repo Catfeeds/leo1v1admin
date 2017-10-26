@@ -40,6 +40,27 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         return $this->main_get_list_as_page($sql);
     }
 
+    public function  add_by_admind($adminid) {
+        $key1="";
+        $key2="";
+        $key3="";
+        $key4= "jim—20171028";
+        $value=$key4;
+        //
+
+
+        $this->row_insert_ignore([
+            self::C_key1     => $key1,
+            self::C_key2     => $key2,
+            self::C_key3     => $key3,
+            self::C_key4     => $key4,
+            self::C_value       => $value,
+            "origin_level"    =>2,
+            "create_time"=>time(NULL)
+        ]);
+
+        return $value;
+    }
 
     public function add_origin_key($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0) {
         if(empty($create_time)){

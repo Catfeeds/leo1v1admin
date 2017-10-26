@@ -2258,6 +2258,9 @@ class tea_manage extends Controller
         $is_all           = $this->get_in_int_val("is_all");
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
+
+        $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
         
         if($fulltime_flag==1){
             $full_time=1;
@@ -2276,7 +2279,7 @@ class tea_manage extends Controller
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
-            $train_email_flag,$full_time
+            $train_email_flag,$full_time,$id_train_through_new_time,$id_train_through_new
         );
 
         foreach($ret_info['list'] as &$val){
@@ -2321,7 +2324,7 @@ class tea_manage extends Controller
                 $val["have_wx_flag"] = "否";
             }
             E\Eidentity::set_item_value_str($val,"teacher_type");
-            // $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+            $val["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$val["phone_spare"]);
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(
@@ -2340,6 +2343,8 @@ class tea_manage extends Controller
             "all_num"        => $all_num,
             "wx_num"         => $wx_num,
             "email_num"      => $email_num,
+            "is_all"         => $is_all,
+            "fulltime_flag"  => $fulltime_flag
         ]);
     }
 

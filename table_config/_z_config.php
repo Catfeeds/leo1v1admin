@@ -1,6 +1,7 @@
 <?php
 return array(
-    ["db_weiyi","t_teacher_flow","id"],
+    ["db_weiyi","t_ruffian_activity","id"],
+    ["db_weiyi","t_teacher_flow","teacherid"],
     ["db_weiyi","t_msg_log_for_wx","id"],
     ["db_weiyi","t_user_log","id"],
     ["db_weiyi","t_new_tea_entry","id"],

@@ -51,10 +51,9 @@ class period_order_overdue_stop_send_wx extends Command
             $due_date = $month_start+14*86400;
 
         }
-        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3);
-        dd($list);
+        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,-1,2);
         // dd($list);
-        if(count($list)>0){
+        if(count($list)>0 && ($d>=19 || $d <=15)){
             foreach($list as $val){
                 //微信推送家长
                 $wx = new \App\Helper\Wx();
@@ -72,7 +71,18 @@ class period_order_overdue_stop_send_wx extends Command
                 $url="";
 
 
-                $wx->send_template_msg($openid,$template_id,$data,$url);
+                if($openid){
+                    $wx->send_template_msg($openid,$template_id,$data,$url);
+                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                        "stop_wx_send_flag"=>1
+                    ]);
+
+                }else{
+                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                        "stop_wx_send_flag"=>2
+                    ]);
+
+                }
 
                 //已排未上课程删除
                 $task->t_lesson_info_b3->del_lesson_no_start_by_userid($userid);

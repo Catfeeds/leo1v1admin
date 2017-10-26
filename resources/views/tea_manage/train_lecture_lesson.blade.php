@@ -86,6 +86,26 @@
                 </select>
             </div>
         </div>
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group">
+                <span>培训状态</span>
+                <select id="id_train_through_new_time" class="opt-change" >
+                    <option value="-1">[全部]</option>
+                    <option value="0">未通过</option>
+                    <option value="1">已通过</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group">
+                <span>模拟试听</span>
+                <select id="id_train_through_new" class="opt-change" >
+                    <option value="-1">[全部]</option>
+                    <option value="0">未通过</option>
+                    <option value="1">已通过</option>
+                </select>
+            </div>
+        </div>
         <div class="col-xs-6 col-md-4">
             <button class="btn" id="id_have_wx_flag"  > {{@$wx_num["all_user"]}}/{{@$all_num["all_user"]}}/{{@$all_num["all_num"]}}</button>
             <button class="btn" id="id_send_email_flag"  >{{@$email_num["all_user"]}}/{{@$all_num["all_user"]}}/{{@$all_num["all_num"]}} </button>
@@ -126,7 +146,15 @@
                     <td >{{$var['lesson_name']}}</td>
                     <td >{{$var['add_time_str']}}</td>
                     <td >{{$var['nick']}}</td>
-                    <td >{{$var['phone_spare']}}</td>
+                    <td>
+                        @if($is_all==1 && $fulltime_flag==0)
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
+                                {{@$var["phone_ex"]}}
+                            </a>
+                        @else
+                            {{$var["phone_spare"]}}
+                        @endif
+                    </td>
                     <td >{{@$var['have_wx_flag']}}</td>
                     <td >{{@$var['train_email_flag_str']}}</td>
                     <td >{{$var['user_agent']}}</td>

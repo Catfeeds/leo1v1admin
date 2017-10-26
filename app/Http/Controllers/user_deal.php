@@ -3178,19 +3178,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $d= date("d");
-        if($d>15){            
-            $month_start = strtotime(date("Y-m-01",time()));
-            $due_date = $month_start+14*86400;
-        }else{
-            $last_month = strtotime("-1 month",time());
-            $month_start = strtotime(date("Y-m-01",$last_month));
-            $due_date = $month_start+14*86400;
-
-        }
-        $list = $this->t_period_repay_list->get_period_order_overdue_warning_info($due_date,2,-1,1);
-        dd($list);        
-       
+      
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+        $num = $this->t_teacher_info->get_no_regular_test_lesson_num($start_time,$end_time);
+        dd($num);
 
     }
 

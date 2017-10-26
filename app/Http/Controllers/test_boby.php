@@ -704,7 +704,6 @@ class test_boby extends Controller
         ]);
     }
 
-
     public function get_data() {
         // $sql = 'select   t.realname,t.teacherid,sum( if (lesson_type= 2,lesson_count,0) ) as test ,sum( if (lesson_type in (0,1,3),lesson_count,0) ) as normal  from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
         $sql = 'select   t.realname,t.teacherid,lesson_type,lesson_count from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
@@ -725,7 +724,6 @@ class test_boby extends Controller
         dd($new);
     }
 
-    //给t_month_student_info 添加数据
     public function select_and_add_stu_info(){
         $start_time = strtotime('2017-10-01');
         $end_time   = strtotime('2017-11-01');
@@ -810,7 +808,7 @@ class test_boby extends Controller
         $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
 
         $ret['create_time'] = $start_time;
-        $this->t_month_student_count->row_insert($ret);
+        // $this->t_month_student_count->row_insert($ret);
 
         dd($ret);
         return 'ok';

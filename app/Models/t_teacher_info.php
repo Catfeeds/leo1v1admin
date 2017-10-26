@@ -4274,4 +4274,28 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_no_regular_test_lesson_num($start_time,$end_time){
+        $where_arr = [
+            't.is_test_user=0',
+            't.train_through_new=1',
+        ];
+        if($start_time>0){
+            $where_arr[]=["l.lesson_start >= %u",$start_time,-1];
+            $where_arr[]= ["l.lesson_start <= %u",$end_time,-1];
+            $where_arr[]="l.lesson_type<1000";
+            $where_arr[]="l.confirm_flag <>2"; 
+        }
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) "
+                                  ." from %s t left join %s l on t.teacherid = l.teacherid "
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+>>>>>>> ceb43a0d163239525a0bc8ffe4eb00dc2a958860
+    }
 } 
