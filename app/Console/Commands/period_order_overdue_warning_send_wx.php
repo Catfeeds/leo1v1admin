@@ -51,8 +51,7 @@ class period_order_overdue_warning_send_wx extends Command
             $due_date = $month_start+14*86400;
 
         }
-        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3);
-        // dd($list);
+        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3,-1,1);
         if(count($list)>0){
             foreach($list as $val){
                 //微信推送家长
