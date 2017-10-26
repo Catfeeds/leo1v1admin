@@ -13,9 +13,7 @@ class TTeacherSalaryList extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
-        {
-        });
+        Schema::drop("db_weiyi.t_teacher_salary_list");
     }
 
     /**

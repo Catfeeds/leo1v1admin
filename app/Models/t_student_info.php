@@ -575,7 +575,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             ["is_auto_set_type_flag=%u",$is_auto_set_type_flag,-1],
             "lesson_count_left <100",
-            "type not in (1,5,6)"
+            "type not in (1)"
             //"is_auto_set_type_flag = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type from %s  ".

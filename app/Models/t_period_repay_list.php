@@ -57,6 +57,32 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
 
     }
 
+    public function get_no_first_overdue_repay_list($due_date){
+        $where_arr=[
+            ["p.due_date = %u",$due_date,-1],
+            "p.repay_status = 3",
+            "s.type not in (1,6)",
+            "s.is_test_user=0",
+            "p.period >1"
+        ];
+
+        $sql = $this->gen_sql_new("select o.userid,p.repay_status,s.nick,c.from_orderno,p.orderid  "
+                                  ." from %s p"
+                                  ." left join %s c on p.orderid=c.child_orderid"
+                                  ." left join %s o on c.parent_orderid = o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_child_order_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
 }
 
 
