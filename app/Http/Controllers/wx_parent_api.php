@@ -46,7 +46,7 @@ class wx_parent_api extends Controller
     public function __construct() {
 
         parent::__construct();
-        if (!$this->get_parentid()   ) {
+        if (!$this->get_parentid()) {
             // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
@@ -1268,7 +1268,6 @@ class wx_parent_api extends Controller
                 }
             }
         }
-
     }
 
     public function check_is_admin(){
