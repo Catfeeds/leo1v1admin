@@ -445,6 +445,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
+    public function get_student_count_archive() {
+
+        $sql = $this->gen_sql_new("select userid, type"
+                                  ." from %s "
+                                  ."  where is_test_user=0 "
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
     public function get_two_stu_for_archive( $grade, $sum_start)
     {
         $where_arr=[
