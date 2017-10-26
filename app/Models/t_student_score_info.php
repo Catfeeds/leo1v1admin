@@ -15,7 +15,8 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     }
     public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user  ){
         $where_arr = [
-            [" u.realname= '%s'",$username,''],
+            // [" u.realname= '%s'",$username,''],
+            [" u.nick= '%s'",$username,''],
             [" s.grade = %d ",$grade,-1],
             [" s.semester = %d ",$semester,-1],
             [" s.stu_score_type = %d ",$stu_score_type,-1],
