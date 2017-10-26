@@ -41,12 +41,13 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["log_time"]}} </td>
+                        <td>{{@$var["phone"]}}/{{@$var["nickname"]}} </td>
+                        <td>{{@$var["agent_wx_msg_type_str"]}} </td>
+                        <td>{{@$var["msg"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>
                         </td>

@@ -948,6 +948,8 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="train_through_teacher_new"){//正式入职的培训通过的老师,老师所带学生超过10个学生人数
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select_new($id,$gender, $nick_phone, $page_num);
+        }else if($type=="agent"){//优学优享
+            $ret_list= $this->t_agent->get_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="seller_group"){//销售下级id
             if ($id<=0) {
                 $adminid = $this->get_account_id();
