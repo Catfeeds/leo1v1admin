@@ -739,35 +739,33 @@ class test_boby extends Controller
         }
         $ret['pay_stu_num'] = count($all_pay);
 
-        $old_order_list = $this->t_order_info->get_order_list_count(-1,$start_time);
-        $new_order_list = $this->t_order_info->get_order_list_count($start_time,$end_time);
+        $old_order_list = $this->t_order_info->get_order_user_list_by_month(-1,$start_time);
+        $new_order_list = $this->t_order_info->get_order_user_list_by_month($start_time,$end_time);
 
         $old_user = [];
         $new_user = [];//月新签
+        $has_ass_user = [];//月新签未排课,已分配助教
+        $no_ass_user = [];//月新签未排课,未分配助教
+
         foreach ( $old_order_list as $item ) {
             $old_user[] = $item['userid'];
         }
+        $old_user = array_unique($old_user);
 
         foreach ( $new_order_list as $item ) {
             if( !in_array($item['userid'], $old_user) ) {
                 $new_user[] = $item['userid'];
-            }
-        }
 
-        $has_ass_user = [];//月新签未排课,已分配助教
-        $no_ass_user = [];//月新签未排课,未分配助教
-
-        $order_user_list = $this->t_order_info->get_order_user_list_by_month($start_time,$end_time);
-        foreach($order_user_list as $item) {
-
-            if( in_array($item['userid'], $new_user) ){
                 if (!$item['start_time'] && $item['assistantid'] > 0) {
-                    $has_ass_user[] = $item['userid'];
+                    $has_ass_user[] = $item['order'];
                 } else if (!$item['start_time'] && !$item['assistantid']) {
-                    $no_ass_user[] = $item['userid'];
+                    $no_ass_user[] = $item['order'];
                 }
+
             }
         }
+        $new_user = array_unique($new_user);
+
         $ret['new_pay_stu_num'] = count($new_user);
         $ret['has_ass_num'] = count($has_ass_user);
         $ret['no_ass_num'] = count($no_ass_user);
