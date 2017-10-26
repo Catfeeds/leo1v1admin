@@ -100,6 +100,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+
     public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" ) {
         $reg_channel = $origin;
         $passwd = md5("123456");
@@ -2286,6 +2287,53 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $ret_update = $this->t_book_revisit->add_book_revisit(
             $phone,
             "操作者: $account 状态: 分配给主管 [ $opt_account ] ",
+            "system"
+        );
+
+        $set_str=$this-> get_sql_set_str( $set_arr);
+        $sql=sprintf("update %s set %s where userid=%u",
+                     self::DB_TABLE_NAME,
+                     $set_str,
+                     $userid );
+        return $this->main_update($sql);
+    }
+
+    public function allow_userid_to_cc($adminid, $opt_account, $userid){
+
+        //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规
+        $phone = $this->get_phone($userid);
+        $up_adminid=$this->t_admin_group_user->get_master_adminid($adminid);
+        $set_arr=[
+            "admin_revisiterid"  => $adminid,
+            "admin_assign_time"  => time(NULL),
+            "sub_assign_adminid_2"  => $up_adminid,
+            "sub_assign_time_2"  => time(NULL) ,
+            "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
+            "first_seller_adminid" => $adminid,
+            "sub_assign_time_1"  => time(NULL),
+            "hold_flag" => 1,
+        ];
+        $set_arr["tmk_set_seller_adminid"]=$adminid;
+        //$this->t_test_lesson_subject->set_seller_require_adminid( [$userid], $adminid);
+        /*
+        $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+        $set_arr=[
+            "admin_assignerid"  => $self_adminid,
+            "sub_assign_adminid_2"  => $opt_adminid,
+            "sub_assign_time_2"  => time(NULL),
+            "admin_revisiterid"  => 0,
+            "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($opt_adminid),
+            "sub_assign_time_1"  => time(NULL),
+            "first_admin_master_adminid" =>$up_adminid,
+            "first_admin_master_time" => time(NULL),
+            "hold_flag"          => 1,
+            "first_seller_adminid" => $opt_adminid,
+        ];
+        */
+
+        $ret_update = $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: 系统 状态: 分配给 [ $opt_account ] ",
             "system"
         );
 
