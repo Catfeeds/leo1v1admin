@@ -3175,6 +3175,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
+
+        $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date);
         $orderid = 1219;$order_use = 100000;
         $tt = $this->get_order_lesson_discount_per($orderid,$order_use);
         dd($tt);

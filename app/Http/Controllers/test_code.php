@@ -42,6 +42,15 @@ class test_code extends Controller
         }
     }
 
+    public function salary_table(){
+        Schema::table('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
+        {
+            t_field($table->integer("id"),"id");
+            t_field($table->integer("teacherid"),"老师id");
+            t_field($table->integer("teacherid"),"老师id");
+        });
+    }
+
     public function get_b_txt($file_name="b"){
         $info = file_get_contents("/tmp/".$file_name.".txt");
         $arr  = explode("\n",$info);

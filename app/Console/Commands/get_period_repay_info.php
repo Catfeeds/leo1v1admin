@@ -194,6 +194,7 @@ class get_period_repay_info extends Command
                     $discount_per = $task->get_order_lesson_discount_per($parent_orderid,$order_use);
                     $money_use = $per_price*$order_use*$discount_per;
                     $money_contrast = ($money_use-$pay_price)/100;
+                    $day_start = strtotime(date("Y-m-d",time()));
                     if($money_contrast>=1){
                         $old_type= $task->t_student_info->get_type($userid);
                    
@@ -209,7 +210,22 @@ class get_period_repay_info extends Command
                         ]);
                         $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
  
+                    }elseif($money_contrast>0 && $money_contrast<1){
+                        //判断当天有无课程
+                        //  $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
+                        $first_lesson_start = $task->t_lesson_info_b3->get_first_lesson_start($userid,$day_start);
+                        if($first_lesson_start>0){
+                            //删除之后的课
+                            $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
+                        }
+                        //已排超出课是否要清除,待确认
+                        
+                    }else{
+                        
+                        
                     }
+                    
+
 
  
                 }
