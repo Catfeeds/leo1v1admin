@@ -4268,18 +4268,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             't.is_test_user=0',
             't.train_through_new=1',
         ];
-        if($start_time>0){
-            $where_arr[]=["l.lesson_start >= %u",$start_time,-1];
-            $where_arr[]= ["l.lesson_start <= %u",$end_time,-1];
-            $where_arr[]="l.lesson_type<1000";
-            $where_arr[]="l.confirm_flag <>2"; 
-        }
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) "
-                                  ." from %s t left join %s l on t.teacherid = l.teacherid "
-                                  ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s ",
+                                  ." from %s t left join %s l on t.teacherid = l.teacherid and l.lesson_start >=%u and l.lesson_start <= %u and l.lesson_type in (0,1,3) and l.confirm_flag <>2 "
+                                  ." left join %s ll on t.teacherid = ll.teacherid and ll.lesson_start >=%u and ll.lesson_start <= %u and ll.lesson_type=2 and ll.confirm_flag <>2"
+                                  ." left join %s tss on ll.lessonid = tss.lessonid and tss.success_flag <2"
+                                  ." where %s and l.lessonid is null and tss.lessonid>0",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  $end_time,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  $end_time,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
