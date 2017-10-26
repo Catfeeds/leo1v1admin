@@ -20,7 +20,7 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">agent_wx_msg_type</span>
+                        <span class="input-group-addon">类型</span>
                         <input class="opt-change form-control" id="id_agent_wx_msg_type" />
                     </div>
                 </div>

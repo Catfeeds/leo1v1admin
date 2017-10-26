@@ -26,12 +26,13 @@ $(function(){
             load_data();
         }
     });
-	$('#id_to_agentid').val(g_args.to_agentid);
-	$('#id_agent_wx_msg_type').val(g_args.agent_wx_msg_type);
-	$.enum_multi_select( $('#id_agent_wx_msg_type'), 'agent_wx_msg_type', function(){load_data();} )
+
+	  $('#id_to_agentid').val(g_args.to_agentid);
+	  $('#id_agent_wx_msg_type').val(g_args.agent_wx_msg_type);
+	  $.enum_multi_select( $('#id_agent_wx_msg_type'), 'agent_wx_msg_type', function(){load_data();} )
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
 
 
