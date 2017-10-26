@@ -33,11 +33,13 @@ class t_agent_wx_msg_log extends \App\Models\Zgen\z_t_agent_wx_msg_log
         $this->where_arr_add_time_range($where_arr,"log_time",$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,"agent_wx_msg_type" ,$agent_wx_msg_type);
         $sql=$this->gen_sql_new(
-            " select aw.* "
+            " select aw.*, a.phone, a.nickname "
             . " from  %s aw  "
-            . " left join %s m   "
+            . " left join %s a  on (aw.to_agentid = a.id  )  "
             . " where  %s ",
-            self::DB_TABLE_NAME, $where_arr );
+            self::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            $where_arr );
         return $this->main_get_list_by_page($sql,$page_info);
     }
 }
