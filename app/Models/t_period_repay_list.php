@@ -93,6 +93,15 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
 
     }
 
+    public function get_paid_money_all($orderid){
+        $where_arr=[
+            ["orderid = %u",$orderid,-1],
+        ];
+        $sql = $this->gen_sql_new("select sum(paid_money) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
+
 
 }
 
