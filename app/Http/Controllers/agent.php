@@ -1713,8 +1713,14 @@ class agent extends Controller
         $to_agentid=$this->get_in_int_val("to_agentid");
         list( $start_time,$end_time )=$this->get_in_date_range_day(0);
         $agent_wx_msg_type=$this->get_in_el_agent_wx_msg_type();
-        $this->t_agent_wx_msg_log->
-
+        $page_info= $this->get_in_page_info();
+        $ret_info=$this->t_agent_wx_msg_log->get_list($page_info, $start_time,$end_time, $to_agentid ,$agent_wx_msg_type );
+        foreach ($ret_info["list"] as &$item) {
+            E\Eagent_wx_msg_type::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"log_time");
+            E\Eboolean::set_item_value_str($item,"succ_flag");
+        }
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
 }

@@ -102,14 +102,14 @@
                                             <td class="panel-green">全职老师完成的课耗总数</td> 
                                             <td class="panel-green">{{$ret_info['fulltime_teacher_lesson_count']}}</td>
                                             <td class="panel-blue">全职老师cc转化率</td>
-                                            <td class="panel-blue">{{$ret_info['fulltime_teacher_cc_order']}}/{{$ret_info['fulltime_teacher_cc_lesson']}}&nbsp&nbsp&nbsp&nbsp&nbsp{{$ret_info['fulltime_teacher_cc_per']}}%</td>
+                                            <td class="panel-blue">{{$ret_info['fulltime_teacher_cc_per']}}%({{$ret_info['fulltime_teacher_cc_order']}}/{{$ret_info['fulltime_teacher_cc_lesson']}})</td>
                                         </tr>
 
                                         <tr>
                                             <td class="panel-green">占平台课耗总数的比例</td> 
                                             <td class="panel-green">{{$ret_info['fulltime_teacher_lesson_count_per']}}%({{$ret_info['fulltime_teacher_lesson_count']}}/{{$ret_info['platform_teacher_lesson_count']}})</td>
                                             <td class="panel-blue">平台整体cc转化率</td>
-                                            <td class="panel-blue">{{$ret_info['platform_teacher_cc_order']}}/{{$ret_info['platform_teacher_cc_lesson']}}&nbsp&nbsp&nbsp&nbsp&nbsp{{$ret_info['platform_teacher_cc_per']}}%</td>
+                                            <td class="panel-blue">{{$ret_info['platform_teacher_cc_per']}}%({{$ret_info['platform_teacher_cc_order']}}/{{$ret_info['platform_teacher_cc_lesson']}})</td>
                                         </tr>
                                 </tbody>
                             </table>
