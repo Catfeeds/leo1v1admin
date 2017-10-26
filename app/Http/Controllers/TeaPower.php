@@ -3456,6 +3456,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //得到合同消耗课时折扣
     public function get_order_lesson_discount_per($orderid,$order_use){
         $order_info = $this->t_order_info->field_get_list($orderid,"grade,competition_flag"); 
+        $grade = $order_info["grade"];
+        $use = $order_use/100;
+        if($order_info["competition_flag"]){
+            
+        }else{
+            
+        }
     }
 
     
