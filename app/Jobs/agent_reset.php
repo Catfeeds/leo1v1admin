@@ -20,6 +20,7 @@ class agent_reset extends Job implements ShouldQueue
     public function __construct($agent_id )
     {
         parent::__construct();
+        \App\Helper\Utils::logger(" JOB_AGENT_RESET11  ");
         $this->agent_id=$agent_id;
     }
 
