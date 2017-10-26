@@ -1644,6 +1644,12 @@ class user_manage extends Controller
         $job = new \App\Jobs\StdentResetLessonCount($userid);
         dispatch($job);
 
+        //优学优享
+        $agentid= $this->t_agent->get_agentid_by_userid($userid);
+        if ($agentid) {
+            dispatch( new \App\Jobs\agent_reset($agentid ));
+        }
+
         return $this->output_succ();
     }
 

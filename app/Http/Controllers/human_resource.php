@@ -2079,7 +2079,7 @@ class human_resource extends Controller
                 }
             }
 
-            $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+            $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
             $count = strlen($item["qq"]);
             $item["qq_ex"] = substr($item["qq"],0,3)."***".substr($item["qq"],6,$count-1);
             $num = strlen($item["email"]);
