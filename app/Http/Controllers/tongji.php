@@ -775,7 +775,7 @@ class tongji extends Controller
             */
             $now = date('Y-m', time());
             if ( $month == $now ) {
-                $strat = strtotime($now);
+                $start = strtotime($now);
                 $end = strtotime('+1 month', $start);
                 $lesson_money = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month($start, $end);
                 $item['lesson_count']       = $lesson_money['lesson_count'];
