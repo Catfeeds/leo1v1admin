@@ -258,6 +258,7 @@ class url_power_map {
 			'/t_yxyx_custom_type/get_all'	=>1070468,
 			'/t_yxyx_new_list/get_all'	=>1070469,
 			'/agent_money_ex/agent_money_ex_list'	=>1070470,
+			'/agent/get_wx_login_list'	=>1070471,
 			'/seller_student_new/no_lesson_call_end_time_list'	=>1070489,
 			'/appoint/index2'	=>1070900,
 			'/user_manage_new/money_contract_list'	=>1080100,
