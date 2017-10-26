@@ -15,14 +15,15 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     }
     public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user  ){
         $where_arr = [
-            [" u.realname= '%s'",$username,''],
+            // [" u.realname= '%s'",$username,''],
+            [" u.nick= '%s'",$username,''],
             [" s.grade = %d ",$grade,-1],
             [" s.semester = %d ",$semester,-1],
             [" s.stu_score_type = %d ",$stu_score_type,-1],
             [" u.is_test_user = %d ",$is_test_user,-1],
             "s.status = 0",
         ];
-        $sql = $this->gen_sql_new(" select s.userid,s.create_time,s.create_adminid,s.subject,"
+        $sql = $this->gen_sql_new(" select s.admin_type, s.userid,s.create_time,s.create_adminid,s.subject,"
                                   ."s.stu_score_type,s.stu_score_time,s.score,s.total_score,s.rank,s.semester,"
                                   ."s.total_score,s.grade,s.grade_rank,s.status,s.month,s.rank_up,s.rank_down, "
                                   ."u.realname,u.school,m.name,u.nick "

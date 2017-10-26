@@ -2188,6 +2188,7 @@ class user_manage_new extends Controller
         //E\Eboolean::set_item_value_str($info,"stu_test_ipad_flag");
         return $this->output_succ(["data"=>$info]);
     }
+
     public function month_user_info() {
         $year=$this->get_in_int_val("year","2016");
         $month=$this->get_in_int_val("month","5");
@@ -2262,11 +2263,19 @@ class user_manage_new extends Controller
 
         //到月末退费人数 -----开发中
         $refund_num = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
-        //实时付费学员数
-        $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-
         //2017-10-25以后的新数据
-        $list = $this->t_month_student_count->get_student_month_info($start_time);
+        $now = strtotime( date('Y-m-01', time()) );
+        if( $start_time == $now ){
+            //实时付费学员数
+            $list = $this->get_cur_month_stu_info($start_time);
+            $all_pay = $list['all_pay'];
+            $res = $this->t_month_student_count->get_student_month_info($start_time);
+            $list['pay_stu_num'] = $res['pay_stu_num'];
+        } else {
+            $list = $this->t_month_student_count->get_student_month_info($start_time);
+            $all_pay = $this->t_month_student_count->get_all_pay_num($end_time);
+        }
+
         if( $list != false ) {
             //退费率
             $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
@@ -2281,15 +2290,13 @@ class user_manage_new extends Controller
         ]);
     }
 
-    public function get_cur_month_stu_info(){
+    public function get_cur_month_stu_info($start_time){
 
-        $start_time = strtotime( date('Y-m-01', time()) );
         $end_time   = strtotime('+1 month', $start_time );
-        $page_num   = $this->get_in_page_num();
         $ret = [];
-        //月初付费学员数
+        //实时付费学员数
         $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-        $ret['pay_stu_num'] = $all_pay;
+        $ret['all_pay'] = $all_pay;
 
         $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//月新签
@@ -2308,14 +2315,14 @@ class user_manage_new extends Controller
         $new_user = array_unique($new_user);
         $ret['new_pay_stu_num'] = count($new_user);
 
-        //月退费名单
+        //退费名单
         $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
         $ret['refund_stu_num'] = $refund_num;
-        //月正常结课学生
+        //正常结课学生
         $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
         $ret['normal_over_num'] = $ret_num;
 
-        //月 在读,停课,休学,假期数
+        // 在读,停课,休学,假期数
         $ret_info = $this->t_student_info->get_student_count_archive();
 
         foreach($ret_info as $item) {
@@ -2339,24 +2346,28 @@ class user_manage_new extends Controller
         //月预警学员
         $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
         $warning_renow_num = 0;
+        $warning_stu_num = 0;
 
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
             if(is_array($new)){
                 foreach($new as $v) {
-                    if(count($v) && in_array($v ,$renow_user)){
-                        $warning_renow_num++;
+                    if( strlen($v)>0){
+                        $warning_stu_num++;
+                        if( in_array($v ,$renow_user) ){
+                            $warning_renow_num++;
+                        }
                     }
                 }
             }
         }
 
+        $ret['warning_stu_num']          = $warning_stu_num;
         $ret['warning_renow_stu_num']    = $warning_renow_num;
         $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
 
         return $ret;
     }
-
 
     function stu_set_init_info_pdf_url() {
         $userid=$this->get_in_userid();

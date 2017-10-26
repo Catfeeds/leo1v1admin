@@ -1672,6 +1672,12 @@ class ss_deal extends Controller
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 
+        //优学优享
+        $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+        if ($agent_id) {
+            dispatch( new \App\Jobs\agent_reset($agent_id) );
+        }
+
 
         return $this->output_succ();
     }

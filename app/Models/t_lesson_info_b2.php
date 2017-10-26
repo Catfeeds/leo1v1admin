@@ -359,7 +359,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "lesson_del_flag = 0"
         ];
 
-        $sql=$this->gen_sql_new("select lessonid, courseid "
+        $sql=$this->gen_sql_new("select lessonid, courseid,userid "
                                 ." from %s where %s ",
                                 self::DB_TABLE_NAME,
                                 $where_arr

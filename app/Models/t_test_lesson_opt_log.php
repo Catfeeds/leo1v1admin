@@ -30,7 +30,7 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
     public function get_room_list(){
         $where_arr = [
             'roomid > 0',
-            ['opt_type = %u',E\Eaction::V_1]
+            ['action = %u',E\Eaction::V_1]
         ];
         $this->where_arr_add_int_or_idlist($where_arr,'role',[E\Erole::V_1,E\Erole::V_6]);
         $sql = $this->gen_sql_new(

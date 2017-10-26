@@ -489,7 +489,7 @@ class agent extends Controller
                     }
                 }
             }
-            dd($stu_login,$stu_logout,$seller_login,$seller_logout);
+            dd($ret_info,$stu_login,$stu_logout,$seller_login,$seller_logout);
         }
     }
 
