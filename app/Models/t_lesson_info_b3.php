@@ -1384,8 +1384,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_type in(0,1,3 ) ",
             "lesson_del_flag=0"
         ];
-        $sql = $this->gen_sql_new("select lesson_start from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        $sql = $this->gen_sql_new("select min(lesson_start) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
+
+    }
+
+    public function delete_lesson_by_time_userid($userid,$start_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_del_flag=0"
+        ];
 
     }
 
