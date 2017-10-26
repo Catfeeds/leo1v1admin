@@ -54,7 +54,7 @@ class update_test_lesson_opt_flag extends cmd_base
                     }
                 }
             }
-            if(count($stu_login)>0 && count($stu_logout)>0 && count($seller_login)>0 && count($stu_logout)>0){
+            if(count($stu_login)>0 && count($stu_logout)>0 && count($seller_login)>0 && count($seller_logout)>0){
                 $userid = $stu_login['userid'];
                 $login_time_stu = $stu_login['opt_time'];
                 $logout_time_stu = $stu_logout['opt_time'];
