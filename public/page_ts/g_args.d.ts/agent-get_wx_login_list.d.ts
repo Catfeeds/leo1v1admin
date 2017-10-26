@@ -1,13 +1,12 @@
 interface GargsStatic {
+	to_agentid:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	is_succ:	number;
-	phone:	string;
-	type:	number;
-	page_num:	number;
+	agent_wx_msg_type:	string;//枚举列表: \App\Enums\Eagent_wx_msg_type
+ 	page_num:	number;
 	page_count:	number;
 }
 declare module "g_args" {
@@ -18,35 +17,26 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	recordid	:any;
-	phone	:any;
-	message	:any;
-	send_time	:any;
-	type	:any;
-	user_ip	:any;
-	receive_content	:any;
-	is_success	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../monitor; vi  ../monitor/smsmonitor.ts
+	 mkdir -p ../agent; vi  ../agent/get_wx_login_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/monitor-smsmonitor.d.ts" />
+/// <reference path="../g_args.d.ts/agent-get_wx_login_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		to_agentid:	$('#id_to_agentid').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		is_succ:	$('#id_is_succ').val(),
-		phone:	$('#id_phone').val(),
-		type:	$('#id_type').val()
+		agent_wx_msg_type:	$('#id_agent_wx_msg_type').val()
     });
 }
 $(function(){
@@ -62,9 +52,9 @@ $(function(){
             load_data();
         }
     });
-	$('#id_is_succ').val(g_args.is_succ);
-	$('#id_phone').val(g_args.phone);
-	$('#id_type').val(g_args.type);
+	$('#id_to_agentid').val(g_args.to_agentid);
+	$('#id_agent_wx_msg_type').val(g_args.agent_wx_msg_type);
+	$.enum_multi_select( $('#id_agent_wx_msg_type'), 'agent_wx_msg_type', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -77,22 +67,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">is_succ</span>
-                <input class="opt-change form-control" id="id_is_succ" />
+                <span class="input-group-addon">to_agentid</span>
+                <input class="opt-change form-control" id="id_to_agentid" />
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">phone</span>
-                <input class="opt-change form-control" id="id_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">type</span>
-                <input class="opt-change form-control" id="id_type" />
+                <span class="input-group-addon">agent_wx_msg_type</span>
+                <input class="opt-change form-control" id="id_agent_wx_msg_type" />
             </div>
         </div>
 */

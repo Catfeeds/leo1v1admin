@@ -12,6 +12,7 @@ class CreateTTeacherSalaryList extends Migration
      */
     public function up()
     {
+
         Schema::table('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
         {
             t_field($table->integer("id"),"id");
@@ -27,6 +28,7 @@ class CreateTTeacherSalaryList extends Migration
             t_field($table->integer("micro_class_money"),"微课工资 手动录入");
             t_field($table->integer("agent_money"),"平台合作代理费(平台合作的抽成，非老师工资)");
         });
+
     }
 
     /**

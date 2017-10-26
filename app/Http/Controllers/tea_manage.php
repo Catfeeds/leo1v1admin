@@ -2324,7 +2324,7 @@ class tea_manage extends Controller
                 $val["have_wx_flag"] = "否";
             }
             E\Eidentity::set_item_value_str($val,"teacher_type");
-            // $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+            $val["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$val["phone_spare"]);
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(
@@ -2343,6 +2343,8 @@ class tea_manage extends Controller
             "all_num"        => $all_num,
             "wx_num"         => $wx_num,
             "email_num"      => $email_num,
+            "is_all"         => $is_all,
+            "fulltime_flag"  => $fulltime_flag
         ]);
     }
 

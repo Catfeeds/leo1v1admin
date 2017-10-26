@@ -790,6 +790,20 @@ $(function(){
         window.open(url, '_blank');
     });
 
+    $(".show_phone").on("click",function(){
+        var val = $(this).data("phone");
+        BootstrapDialog.alert({
+            title: "数据",
+            message:val ,
+            closable: true,
+            callback: function(){
+                
+            }
+        });
+
+    });
+
+
 
    	$('.opt-change').set_input_change_event(load_data);
 });
