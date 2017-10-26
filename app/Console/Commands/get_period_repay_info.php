@@ -212,13 +212,39 @@ class get_period_repay_info extends Command
  
                     }elseif($money_contrast>0 && $money_contrast<1){
                         //判断当天有无课程
-                        $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
-                        if($plan_lesson_count>0){
-                            $first_lesson_start = $task->t_lesson_info_b3->get_first_lesson_start($userid,$day_start);
+                        //  $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$lesson_start);
+                        $first_lesson_start = $task->t_lesson_info_b3->get_first_lesson_start($userid,$day_start);
+                        if($first_lesson_start>0){
+                            //删除之后的课
+                            $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
                         }
                         //已排超出课是否要清除,待确认
                         
                     }else{
+                        //可排课量
+                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per*100));
+
+                        //已排课量
+                        $plan_lesson_count = $task->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+                        $plan_lesson_count = $plan_lesson_count/100;
+
+                        //两者比较,若已排课量超出,则清除超出部分
+                        if( $left_plan_count<$plan_lesson_count){                          
+                            $lesson_list = $task->t_lesson_info_b3->get_lesson_count_list_new($userid,$day_start,0);
+                            $first_lesson_start=0;
+                            $lesson_count_total=0;
+                            foreach($lesson_list as $var){
+                                if($lesson_count_total>=($left_plan_count*100)){
+                                    break;
+                                }
+                                $lesson_count_total +=$var["lesson_count"];
+                                $first_lesson_start = $var["lesson_start"];
+                            }
+                            //删除之后的课
+                            $task->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
+
+                            
+                        }
                         
                         
                     }

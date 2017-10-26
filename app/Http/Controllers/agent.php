@@ -465,7 +465,10 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $this->t_test_lesson_opt_log->get_suc_test_lesson_opt_row($userid);
+        $userid = 11;
+        $adminid = 99;
+        $stu_list = $this->t_test_lesson_opt_log->get_stu_test_lesson_opt($userid);
+        $seller_list = $this->t_test_lesson_opt_log->get_stu_test_lesson_opt($adminid);
         dd('a');
     }
 

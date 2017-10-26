@@ -9,21 +9,17 @@ $(function(){
     }
 
     $("#id_notify_phone") .on("click",function(){
-        //同步...
-        var lesson_info = JSON.stringify({
-            cmd: "noti_phone",
-            phone: $.trim($("#id_phone" ).val() )
-        });
-        $.ajax({
-            type: "get",
-            url: "http://admin.yb1v1.com:9501/pc_phone_noti_user_lesson_info",
-            dataType: "text",
-            data: {
-                'username': g_account,
-                "lesson_info": lesson_info
-            }
-        });
+        var phone=  $.trim( $("#id_phone").val());
 
+        try{
+            window.navigate(
+                "app:1234567@"+phone+"");
+        } catch(e){
+
+        };
+        $.do_ajax_t("/ss_deal/call_ytx_phone", {
+            "phone": phone
+        } );
     });
 
 
