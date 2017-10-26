@@ -14,7 +14,7 @@ class test_lesson_opt extends Controller
         $ret_info = $this->t_test_lesson_opt_log->get_all_list($page_info);
         foreach($ret_info['list'] as &$item){
             $this->cache_set_item_student_nick($item);
-            if($item['role']=6){//销售
+            if($item['role']==6){//销售
                 $item['student_nick'] = $item['account'];
             }
             \App\Helper\Utils::unixtime2date_for_item($item,'opt_time');
