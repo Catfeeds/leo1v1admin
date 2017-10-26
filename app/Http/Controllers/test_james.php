@@ -435,12 +435,12 @@ class test_james extends Controller
 
 
         // $f = array_diff($a,$g);
-        $f = array_diff($g,$a);
+        // $f = array_diff($g,$a);
         $n1 = count($re1);
         $n2 = count($re2);
         echo $n1." ~ ".$n2;
 
-        dd($f);
+        // dd($f);
 
 
         // $a = ['胡怀春'];
