@@ -2094,7 +2094,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         if($opt_type == 'logout') {
             $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
-            $condition_arr[$utype][$server_type] = 1;
+            $condition_arr[$utype][$server_type] = 0;
         }else if ( $opt_type =="login") {
             $condition_arr[$utype][$server_type] = 1;
         }
