@@ -1,5 +1,7 @@
 <?php
 return array(
+    //t_msg_log_for_wx
+    ["db_weiyi","t_msg_log_for_wx","id"],
     ["db_weiyi","t_teacher_flow","teacerid"],
     ["db_weiyi","t_user_log","id"],
     ["db_weiyi","t_new_tea_entry","id"],

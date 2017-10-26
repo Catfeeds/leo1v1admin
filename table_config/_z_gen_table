@@ -68,7 +68,7 @@ echo "end url\n";
 
 
 $table_map = json_decode($json_data,true);
-//echo $table_map;
+echo $table_map;
 //return;
 if ( !is_array($table_map) ) {
     echo "get table config  error !!====";
