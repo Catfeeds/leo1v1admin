@@ -744,16 +744,23 @@ class test_boby extends Controller
 
         $old_user = [];
         $new_user = [];//月新签
-        $has_ass_user = [];//月新签未排课,已分配助教
-        $no_ass_user = [];//月新签未排课,未分配助教
         foreach ( $old_order_list as $item ) {
             $old_user[] = $item['userid'];
         }
 
         foreach ( $new_order_list as $item ) {
-
             if( !in_array($item['userid'], $old_user) ) {
                 $new_user[] = $item['userid'];
+            }
+        }
+
+        $has_ass_user = [];//月新签未排课,已分配助教
+        $no_ass_user = [];//月新签未排课,未分配助教
+
+        $order_user_list = $this->t_order_info->get_order_user_list_by_month($start_time,$end_time);
+        foreach($order_user_list as $item) {
+
+            if( in_array($item['userid'], $new_user) ){
                 if (!$item['start_time'] && $item['assistantid'] > 0) {
                     $has_ass_user[] = $item['userid'];
                 } else if (!$item['start_time'] && !$item['assistantid']) {
@@ -761,7 +768,6 @@ class test_boby extends Controller
                 }
             }
         }
-
         $ret['new_pay_stu_num'] = count($new_user);
         $ret['has_ass_num'] = count($has_ass_user);
         $ret['no_ass_num'] = count($no_ass_user);
