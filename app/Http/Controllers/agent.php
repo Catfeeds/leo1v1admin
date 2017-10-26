@@ -493,7 +493,6 @@ class agent extends Controller
                 }
             }
             if(count($stu_login)>0 && count($stu_logout)>0 && count($seller_login)>0 && count($seller_logout)>0){
-                dd($stu_login,$stu_logout,$seller_login,$seller_logout);
                 $userid = $stu_login['userid'];
                 $login_time_stu = $stu_login['opt_time'];
                 $logout_time_stu = $stu_logout['opt_time'];
@@ -503,7 +502,7 @@ class agent extends Controller
                 $server_ip_seller = $seller_logout['server_ip'];
                 $test_lesson_opt_flag = $task->t_seller_student_new->field_get_list($userid,'test_lesson_opt_flag');
 
-                if($server_ip_stu != $server_ip_seller && $test_lesson_opt_flag==0){
+                if($test_lesson_opt_flag==0){
                     if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先退出
                         $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
                     }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
