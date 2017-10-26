@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\update_month_student_count::class,
         Commands\import_to_teacher_flow::class,
         Commands\add_new_tea_entry::class,
         Commands\send_interview_remind_for_wx::class,
@@ -71,11 +72,11 @@ class Kernel extends ConsoleKernel
         Commands\zs_lecture_info_all::class,
         Commands\zs_send_data_every_week::class,
         Commands\zs_send_data_every_month::class,
-        Commands\update_ass_warning_list::class,        
+        Commands\update_ass_warning_list::class,
         Commands\fulltime_teacher_kaoqin::class,
         Commands\zs_train_interview_info_wx::class,
         Commands\teacher_advance_send_wx::class,
-	    Commands\set_every_month_student_score::class,
+        Commands\set_every_month_student_score::class,
         Commands\update_course_list::class,
         Commands\ass_wx_remind_send_day::class,
         Commands\no_auto_student_change_type::class,

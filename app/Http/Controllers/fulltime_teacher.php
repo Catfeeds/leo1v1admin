@@ -453,6 +453,8 @@ class fulltime_teacher extends Controller
         }else{
             $ret['platform_teacher_cc_per'] = 0;
         }
+        $ret['platform_teacher_cc_lesson']  = $test_person_num_total['person_num'];
+        $ret['platform_teacher_cc_order']  = $test_person_num_total['have_order'];
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret,
