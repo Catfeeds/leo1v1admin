@@ -38,7 +38,7 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
             $where_arr[]="p.stop_wx_send_flag=0";
         }
         $sql = $this->gen_sql_new("select o.userid,p.repay_status,pa.wx_openid,m.uid,"
-                                  ."s.nick,c.from_orderno,p.orderid  "
+                                  ."s.nick,c.from_orderno,p.orderid,p.period  "
                                   ." from %s p"
                                   ." left join %s c on p.orderid=c.child_orderid"
                                   ." left join %s o on c.parent_orderid = o.orderid"

@@ -2657,7 +2657,8 @@ class user_manage extends Controller
 
 
         if($item['admin_type'] == 1){
-            $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
+            // $this->cache_set_item_parent_nick($item,"create_adminid","create_admin_nick" );
+            $item['create_admin_nick'] = '家长微信端';
         }elseif($item['admin_type'] == 0){
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
