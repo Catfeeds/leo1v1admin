@@ -27,13 +27,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-account_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		phone:	$('#id_phone').val(),
+		userid:	$('#id_userid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			phone:	$('#id_phone').val(),
-			userid:	$('#id_userid').val()
-        });
-    }
 
 
 	$('#id_phone').val(g_args.phone);

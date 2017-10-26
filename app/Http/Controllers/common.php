@@ -2088,37 +2088,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 'suspend' => 0
             );
 
-            if($opt_type != 'stop' && $opt_type != "restart"){
-                foreach($user_type_arr as $key=>$type){
-                    $condition_arr[$type][$server_type] = 1;
-                }
-                if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"] + 1 ;
-            }else{
-                $condition_arr['suspend'] = $opt_type_config [$opt_type];
-            }
          }else{
             $condition_arr = json_decode($condition, true);
-            $this->clear_condition_state($condition_arr, $server_type);
-            if($opt_type != 'stop' && $opt_type != "restart"){
-                foreach($user_type_arr as $key=>$type){
-                    $condition_arr[$type][$server_type] = 1;
-                }
-                if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
-            }else{
-                $condition_arr['suspend'] = $opt_type_config[$opt_type];
-            }
          }
+
+        if($opt_type == 'logout') {
+            $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
+            $condition_arr[$utype][$server_type] = 1;
+        }else if ( $opt_type =="login") {
+            $condition_arr[$utype][$server_type] = 1;
+        }
+
         return json_encode($condition_arr);
     }
 
-    private function clear_condition_state(&$condition_arr, $server_type)
-    {
-        $condition_arr['stu'][$server_type] =0;
-        $condition_arr['tea'][$server_type] =0;
-        $condition_arr['par'][$server_type] =0;
-        $condition_arr['ad'][$server_type] =0;
-    }
 
 }
