@@ -2258,6 +2258,7 @@ class tea_manage extends Controller
         $is_all           = $this->get_in_int_val("is_all");
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
+        
         if($fulltime_flag==1){
             $full_time=1;
         }
