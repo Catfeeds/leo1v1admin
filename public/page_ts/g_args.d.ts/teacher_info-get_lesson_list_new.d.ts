@@ -56,6 +56,10 @@ interface RowData {
 	grade_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
+	cc_id	:any;
+	ass_nick	:any;
+	stu_nick	:any;
+	tea_comment	:any;
 	pdf_status_str	:any;
 }
 
@@ -67,15 +71,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_info-get_lesson_list_new.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		userid:	$('#id_userid').val(),
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val(),
+		lesson_type:	$('#id_lesson_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			userid:	$('#id_userid').val(),
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val(),
-			lesson_type:	$('#id_lesson_type').val()
-        });
-    }
 
 
 	$('#id_userid').val(g_args.userid);

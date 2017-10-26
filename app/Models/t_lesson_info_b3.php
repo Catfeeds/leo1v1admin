@@ -46,7 +46,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "select lesson_start from %s  l"
             ." left join %s f on   ( f.flow_type= %u and l.lessonid=f.from_key_int  ) "
             . " where userid= %u and  grade=%u and lesson_start>0 "
-            . "  and  (f.flow_status is null or  f.flow_status <> %u ) "
+            . "  and  ( l.lesson_user_online_status <>2    or   f.flow_status = %u ) "
             . " order by lesson_start asc limit 1  ",
             self::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,  E\Eflow_type::V_SELLER_RECHECK_LESSON_SUCESS,
@@ -933,6 +933,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tll.lessonid) from %s l "
+        // $sql = $this->gen_sql_new("  select tll.lessonid from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"
@@ -945,6 +946,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
 
         return $this->main_get_value($sql);
+        // return $this->main_get_list($sql);
     }
 
     public function get_test_succ_for_month($start_time,$end_time){
@@ -1305,39 +1307,33 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_start > $start_time",
             "l.lesson_start < $end_time",
-            "l.confirm_flag  in  (0,1,3,4)",
-            "l.lesson_type in(0,1,3 ) ",
-            "(s.is_test_user=0 or s.is_test_user is null)",
+            "l.confirm_flag in (0,1,3,4)",
+            "l.lesson_type in (0,1,3)",
+            "s.is_test_user=0",
             "l.lesson_user_online_status=1 ",
             "l.lesson_del_flag=0"
         ];
-        $sql = $this->gen_sql_new("select  sum(l.lesson_count ),count(distinct l.userid) ,sum(ol.price)"
-                                  .",from_unixtime(l.lesson_start,'%%Y-%%m') as lesson_month"
-                                  ." from %s l"
-                                  ." left join %s s on s.userid=l.userid"
-                                  ." left join %s ol on ol.lessonid=l.lessonid"
-                                  ." where %s"
-                                  ." group by lesson_month "
-                                  ." order by lesson_month asc "
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_order_lesson_list::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select sum(l.lesson_count ) lesson_count,count(distinct l.userid) lesson_stu_num,sum(ol.price) lesson_count_money "
+            ." from %s l"
+            ." left join %s s on s.userid=l.userid"
+            ." left join %s ol on ol.lessonid=l.lessonid"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_order_lesson_list::DB_TABLE_NAME
+            ,$where_arr
         );
 
-        return $this->main_get_list($sql,function($item) {
-            return $item["lesson_month"];
-        });
-
-
+        return $this->main_get_row($sql);
 
     }
 
     public function get_lesson_count_sum($userid,$start_time,$end_time){
         $where_arr = [
             ["userid=%u",$userid,-1],
-            "lesson_start > $start_time",
-            "lesson_start < $end_time",
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
             "confirm_flag  in  (0,1,3,4)",
             "lesson_type in(0,1,3 ) ",
             "lesson_del_flag=0"
@@ -1347,7 +1343,99 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
  
     }
 
+    public function get_lesson_count_list_new($userid,$start_time,$end_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select lesson_count,lesson_start from %s where %s order by lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
+ 
+    }
 
+
+
+    public function del_lesson_no_start_by_userid($userid){
+        $where_arr=[
+            ["userid = %u",$userid,-1],
+            "lesson_status = 0",
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0"
+        ];
+
+        $sql = $this->gen_sql_new("select courseid,lessonid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        $ret_info = $this->main_get_list($sql);
+        $sql=$this->gen_sql_new("update %s set lesson_del_flag=1 where %s",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+        $ret=$this->main_update($sql);
+        if($ret_info){
+            foreach($ret_info as $item){
+                if ($ret) {
+                    $this->task->t_homework_info->row_delete($item['lessonid']);
+                }
+                $this->task->t_lesson_info->reset_lesson_list($item['courseid']);
+            }
+        }
+        return $ret;
+ 
+    }
+
+   
+    public function get_first_lesson_start($userid,$start_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select min(lesson_start) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
+
+    public function delete_lesson_by_time_userid($userid,$start_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["lesson_start>%u",$start_time,0],
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_status = 0",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select courseid,lessonid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        $ret_info = $this->main_get_list($sql);
+        $sql=$this->gen_sql_new("update %s set lesson_del_flag=1 where %s",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+        $ret=$this->main_update($sql);
+        if($ret_info){
+            foreach($ret_info as $item){
+                if ($ret) {
+                    $this->task->t_homework_info->row_delete($item['lessonid']);
+                }
+                $this->task->t_lesson_info->reset_lesson_list($item['courseid']);
+            }
+        }
+        return $ret;
+
+
+    }
 
 
 }

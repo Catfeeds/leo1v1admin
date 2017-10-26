@@ -103,20 +103,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_list($sql);
     }
-    public function get_list_by_parent_id( $parentid,$lessonid=-1,$type) {
+    public function get_list_by_parent_id( $parentid,$lessonid=-1,$type_str) {
         $check_lesson_time=time(NULL)-90*86400;
         $now = time() + 14*86400;
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
-            ["lesson_type=%d",$type,-1],
+            ["lesson_type in (%s)",$type_str,-1],
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
             "lesson_start<$now", //试听
         ];
 
         $sql = $this->gen_sql_new(
-            "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
+            "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,"
+            ." lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
             ." lesson_type,lesson_num, tlm.parent_modify_time"
             ." from %s l "
@@ -2211,16 +2212,32 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_seller_wx_openid($lessonid){
         $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
                                   " left join %s s on s.userid = l.userid ".
-                                  " left join %s m on m.uid = s.seller_adminid".
+                                  " left join %s m on m.uid = s.admin_revisiterid".
                                   " where l.lessonid = %d",
                                   self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $lessonid
         );
 
         return $this->main_get_value($sql);
     }
+
+
+    // public function get_seller_wx_openid($lessonid){
+    //     $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
+    //                               " left join %s s on s.userid = l.userid ".
+    //                               " left join %s m on m.uid = s.seller_adminid".
+    //                               " where l.lessonid = %d",
+    //                               self::DB_TABLE_NAME,
+    //                               t_student_info::DB_TABLE_NAME,
+    //                               t_manager_info::DB_TABLE_NAME,
+    //                               $lessonid
+    //     );
+
+    //     return $this->main_get_value($sql);
+    // }
+
 
 
     public function get_modify_lesson_time($lessonid){

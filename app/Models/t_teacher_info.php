@@ -957,11 +957,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
             ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,t.teacher_tags,"
             ." t.test_transfor_per,t.school,t.need_test_lesson_flag,t.education,t.major,t.hobby,t.speciality,"
-            ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
-            ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
-            ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
-            ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count,"
-            ." sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
+            ." sum( if(l.deduct_change_class=1,1,0) ) as change_count,"
+            ." sum( if(l.tea_rate_time=0,1,0) ) as noevaluate_count,"
+            ." sum( if(l.deduct_come_late=1 and l.deduct_change_class!=1,1,0) ) as late_count,"
+            ." sum( if(l.lesson_cancel_reason_type=12,1,0) ) as leave_count,"
+            ." sum( if(l.lesson_type=0,l.lesson_count,0) ) as normal_count"
             ." from %s t"
             ." left join %s l on l.teacherid=t.teacherid"
             ." where %s"
@@ -4198,6 +4198,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+
     // 入职老师 --- 招师首页
     public function get_teacher_passes_num_by_subject_grade($start_time,$end_time,$subject){
         $where_arr=[
@@ -4232,6 +4233,32 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid,train_through_new_time from %s where %s ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_teacher_tags(){
+        $where_arr=[
+            "is_test_user=1",
+            // "train_through_new=1",
+            "teacher_tags <> ''"
+        ];
+        $sql = $this->gen_sql_new("select teacherid,teacher_tags from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_has_wx_tea(){
+        $where_arr = [
+            'is_test_user=0',
+            'trial_lecture_is_pass=1',
+            'wx_openid!=""',
+            'train_through_new=1',
+        ];
+        $sql = $this->gen_sql_new("select nick,wx_openid,grade_start,subject,grade_part_ex "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }

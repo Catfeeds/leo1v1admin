@@ -147,5 +147,8 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
-
+    public function get_total(){
+        $sql = " select count(*) from db_weiyi.t_yxyx_test_pic_info ";
+        return $this->main_get_value($sql);
+    }
 }

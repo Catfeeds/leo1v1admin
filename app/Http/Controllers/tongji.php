@@ -739,7 +739,8 @@ class tongji extends Controller
         $end_time = date('Y-m-d 23:59:59', strtotime("$start_time +1 year -1day"));
         $end_time = strtotime($end_time);
         $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
-        // $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
+
+        $lesson_list = $this->t_month_student_count->get_month_money_info(strtotime($start_time), $end_time);
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
             /*
@@ -772,7 +773,21 @@ class tongji extends Controller
                 $item["all_money"]=4454107;
             }
             */
+            $now = date('Y-m', time());
+            if ( $month == $now ) {
+                $start = strtotime($now);
+                $end = strtotime('+1 month', $start);
+                $lesson_money = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month($start, $end);
+                $item['lesson_count']       = $lesson_money['lesson_count']/100;
+                $item['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
+                $item['lesson_count_money'] = $lesson_money['lesson_count_money']/100;
+            } else {
 
+                $tmp_arr = @$lesson_list[$month];
+                $item['lesson_count'] = @$tmp_arr['lesson_count']/100;
+                $item['lesson_stu_num'] = @$tmp_arr['lesson_stu_num'];
+                $item['lesson_count_money'] = @$tmp_arr['lesson_count_money']/100;
+            }
         }
 
         return $this->pageView(__METHOD__, $ret_list);

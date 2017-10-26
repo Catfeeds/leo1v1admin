@@ -87,10 +87,11 @@ class order_price_20171001 extends order_price_base
 
             $userid = $lesson_info["userid"];
             $grade  = $lesson_info["grade"];
-            $last_lesson_info=$task->t_lesson_info_b3->get_grade_last_test_lesson( $userid, $grade );
+            #$last_lesson_info=$task->t_lesson_info_b3->get_grade_last_test_lesson( $userid, $grade );
             $lesson_count_all=$task->t_student_info->get_lesson_count_all($userid);
 
-            $lesson_start = $last_lesson_info["lesson_start"];
+            #$lesson_start = $last_lesson_info["lesson_start"];
+            $lesson_start = $lesson_info["lesson_start"];
             $now=time(NULL);
             if ( !$lesson_count_all && $now >= strtotime("2017-10-20")
                  && $now < strtotime("2017-10-24") ) {
@@ -153,7 +154,7 @@ class order_price_20171001 extends order_price_base
                 "lesson_start,userid,grade");
             $userid = $lesson_info["userid"];
             $grade  = $lesson_info["grade"];
-            $cur_lesson_start = $lesson_info["lesson_start"];
+            $lesson_start = $lesson_info["lesson_start"];
             $first_lesson_info=$task->t_lesson_info_b3->get_grade_first_test_lesson( $userid, $grade );
             $lesson_start = $first_lesson_info["lesson_start"];
 
@@ -268,6 +269,8 @@ class order_price_20171001 extends order_price_base
         \App\Helper\Utils::logger("lesson_count: $lesson_count");
 
         $lesson_times= $lesson_count/3;
+        $args["lesson_times"] = $lesson_times;
+
         $check_lesson_count= $lesson_times;
 
         if ($grade ==99 ) {
@@ -284,6 +287,7 @@ class order_price_20171001 extends order_price_base
         $off_config_id = static::$grade_price_off_config[$check_grade];
         \App\Helper\Utils::logger("off_config_id:$off_config_id");
         $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
+        $args["new_discount_config"]= $new_discount_config;
 
         $old_price = $grade_price/3*$lesson_count;
 
@@ -297,23 +301,21 @@ class order_price_20171001 extends order_price_base
             //check 6.8折
             //$off_86_flag=static::get_activity_2017100102( $price, $present_lesson_count,  $desc_list, $args );
             //if (!$off_86_flag) {
-            static::get_activity_20170901($price, $present_lesson_count,  $desc_list,  $lesson_times,$new_discount_config );
+            (new Activity\activity_2017090101( $args ))->exec($price,$present_lesson_count,$desc_list) ;
             //}
-            static::get_activity_2017102001($price,$present_lesson_count,$desc_list , $lesson_times,$args);
+            //static::get_activity_2017102001($price,$present_lesson_count,$desc_list , $lesson_times,$args);
 
 
-            $now=time(NULL);
+            //$now=time(NULL);
             //if ($now > strtotime("2017-10-01" ) &&  $now < strtotime("2017-10-08" )   ) {
             //static::get_activity_20171001($price, $present_lesson_count,  $desc_list,  $lesson_times);
             //}
 
-
         }
 
-        //static::get_activity_2017100801($price, $present_lesson_count,  $desc_list  );
 
         //当配
-        static::get_activity_20170801($price, $present_lesson_count,  $desc_list,  $args,$lesson_times);
+        (new Activity\activity_2017080101( $args ))->exec($price,$present_lesson_count,$desc_list) ;
 
 
         return [

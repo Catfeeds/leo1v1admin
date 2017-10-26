@@ -327,7 +327,10 @@ class seller_student_new2 extends Controller
         $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
-        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
+        $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
+
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,
@@ -842,17 +845,26 @@ class seller_student_new2 extends Controller
 
     //分配例子统计
     public function seller_student_new_distribution(){
+        $origin_ex = $this->get_in_str_val("origin_ex");
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         if($end_time >= time()){
             $end_time = time();
         }
         $res = [];
-        $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time);
-        foreach($seller_log_list as $item){
+        $seller_student_new_list = $this->t_seller_student_new->get_distribution_count($start_time,$end_time,$origin_ex);
+        foreach($seller_student_new_list as $item){
             $adminid = $item['adminid'];
+            $res[$adminid]['auto_get_count'] = $item['auto_get_count'];
+            $res[$adminid]['hand_get_count'] = $item['hand_get_count'];
             $res[$adminid]['count'] = $item['count'];
-            $res[$adminid]['no_call_count'] = $item['no_call_count'];
+            $res[$adminid]['tmk_count'] = $item['tmk_count'];
+        }
+        $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);//分配
+        foreach($seller_distribution_list as $item){
+            $adminid = $item['adminid'];
             $res[$adminid]['global_tq_called_flag'] = $item['global_tq_called_flag'];
+            $res[$adminid]['distribution_count'] = $item['count'];
+            $res[$adminid]['no_call_count'] = $item['no_call_count'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
@@ -961,22 +973,34 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
-
     public function seller_edit_log_list(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $adminid    = $this->get_in_int_val('adminid',-1);
-        $global_tq_called_flag    = $this->get_in_int_val('global_tq_called_flag',-1);
-        $page_info  = $this->get_in_page_info();
-        $ret_info   = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag);
-        foreach($ret_info['list'] as &$item){
-            $userid = (int)$item['new'];
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item["adminid_nick"]= $this->cache_get_account_nick($item["adminid"]);
-            $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
-            $item["phone"] = $this->t_phone_to_user->get_phone($userid);
-            $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
-            $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+        $adminid               = $this->get_in_int_val('adminid',-1);
+        $adminid               = $adminid>0?$adminid:-1;
+        $uid                   = $this->get_in_int_val('uid',-1);
+        $user_name             = trim($this->get_in_str_val('user_name',''));
+        $flag                  = $this->get_in_int_val("flag",-1);
+        $origin_ex             = $this->get_in_str_val("origin_ex");
+        $global_tq_called_flag = $this->get_in_int_val('global_tq_called_flag',-1);
+        $page_info             = $this->get_in_page_info();
+        if(in_array($flag,[1,2,3,4])){
+            $ret_info = $this->t_seller_student_new->get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info);
+            if(in_array($flag,[1,2])){
+                foreach($ret_info['list'] as &$item){
+                    $item["adminid"] = 0;
+                }
+            }
+        }else{
+            $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name,$uid);
         }
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item["adminid_nick"]= $item["adminid"]>0?$this->cache_get_account_nick($item["adminid"]):'';
+            $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
+            $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+            $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
+        }
+
         return $this->pageView(__METHOD__,$ret_info);
     }
 

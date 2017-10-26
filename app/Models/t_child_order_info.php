@@ -189,9 +189,10 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     }
 
 
-    public function get_period_info_by_userid($userid){
+    public function get_period_info_by_userid($userid,$child_orderid=-1){
         $where_arr=[
             ["o.userid=%u",$userid,-1],
+            ["c.child_orderid=%u",$child_orderid,-1],
             "c.child_order_type=2",
             "c.price>0",
             "c.pay_status=1",

@@ -36,17 +36,18 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-parent_archive.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		parentid:	$('#id_parentid').val(),
+		gender:	$('#id_gender').val(),
+		nick:	$('#id_nick').val(),
+		phone:	$('#id_phone').val(),
+		last_modified_time:	$('#id_last_modified_time').val(),
+		assistantid:	$('#id_assistantid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			parentid:	$('#id_parentid').val(),
-			gender:	$('#id_gender').val(),
-			nick:	$('#id_nick').val(),
-			phone:	$('#id_phone').val(),
-			last_modified_time:	$('#id_last_modified_time').val(),
-			assistantid:	$('#id_assistantid').val()
-        });
-    }
 
 
 	$('#id_parentid').val(g_args.parentid);

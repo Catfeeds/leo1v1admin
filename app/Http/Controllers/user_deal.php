@@ -604,6 +604,9 @@ class user_deal extends Controller
 
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $userid    = $this->t_lesson_info->get_userid($lessonid);
+
+
+        
         /* 设置lesson_count */
         $diff=($lesson_end-$lesson_start)/60;
         if ($diff<=20) {
@@ -619,6 +622,20 @@ class user_deal extends Controller
         }else{
             $lesson_count= ceil($diff/40)*100 ;
         }
+
+
+        //百度分期用户首月排课限制
+        /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
+            if($period_limit){
+            return $period_limit;
+            }*/
+
+        //逾期预警/逾期停课学员不能排课
+        $student_type = $this->t_student_info->get_type($userid);
+        if($student_type>4){
+            //return $this->output_err("百度分期逾期学员不能排课!");
+        }
+
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
         $lesson_type = $lesson_info['lesson_type'];
@@ -644,6 +661,16 @@ class user_deal extends Controller
             $db_lesson_start=$this->t_lesson_info->get_lesson_start($lessonid);
             if ($db_lesson_start) {
                 return $this->output_err("试听课不能修改时间,只能删除,重新排新课,再设置时间");
+            }
+        }else{
+            $userid = $this->t_lesson_info->get_userid($lessonid);
+            $is_test_user = $this->t_student_info->get_is_test_user($userid);
+            
+            if(in_array($lesson_type,[0,1,3]) && $is_test_user==0){
+                $account_role = $this->get_account_role();
+                if($account_role !=1 && $account_role !=12){
+                   return $this->output_err("非助教不能改常规课时间!"); 
+                }
             }
         }
 
@@ -691,6 +718,9 @@ class user_deal extends Controller
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+
+           
+            
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
             $url              = "";
             $old_lesson_start = date('Y-m-d H:i:s',$lesson_info['lesson_start']);
@@ -725,11 +755,40 @@ class user_deal extends Controller
                     $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
                 }
 
+                //非助教自己排课,发送推送给助教
+                $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
+
+                $adminid_ass = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                if($adminid != $adminid_ass){
+                    $ass_oponid = $this->t_manager_info->get_wx_openid($adminid_ass);
+                    $nick = $this->t_student_info->get_nick($userid);
+                    $data_msg = [
+                        "first"     => "上课时间调整通知",
+                        "keyword1"  => "上课时间调整",
+                        "keyword2"  => "学生".$nick."从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end",
+                        "remark"     => " 修改人: $operation_name 联系电话: $operation_phone"
+                    ];
+
+                    $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
+                    $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
+                }
+
+                //  $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
+
                 // 获取教务的openid
                 $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
                 if ($jw_openid) {
                     $wx->send_template_msg($jw_openid,$template_id,$data_msg ,$url);
                 }
+
+                //数据记录
+                $phone = $this->t_student_info->get_phone($userid);
+                $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "$lessonid :从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end 修改人: $operation_name 联系电话: $operation_phone",
+                    "system"
+                );
+
             }
 
             return $this->output_succ();
@@ -3119,46 +3178,50 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-07-01");
-        $end_time = strtotime("2017-10-01");
-       
-        $lesson_count=3;
-        $userid = $this->get_in_userid(367085);
-
-        $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
-        if($period_info){
-            $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
-            $pay_price=0;
-            if($data && $data["status"]==0){
-                $data = $data["data"];
-                foreach($data as $val){
-                    if($val["bStatus"]==48){
-                        $pay_price +=$val["paidMoney"];
+        $arr=[
+            1=>2,
+            4=>7,
+            5=>10
+        ];
+        foreach($arr as $val){
+            if($val>1){
+                foreach($arr as $f){
+                    if($f==4){
+                        break;
+                    }else{
                     }
                 }
+                echo $val;
             }
-            $pay_price +=$period_info["price"]-$period_info["period_price"];
-            $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
-            $lesson_count_plan = floor($pay_price/$per_price/100+3*3);
-            $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
-            $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
-                       
-
-            if(empty($order_lesson_left_pre) && $flag){
-                $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
-                $day_end = $period_info["pay_time"]+30*86400;
-                $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
-                $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
-                $all_plan = ($lesson_use+$order_use)/100;
-                $plan_flag = (($all_plan+$lesson_count)>$lesson_count_plan)?1:0;
-                if($plan_flag){
-                    return $this->output_err("分期用户,已超限,该时间段不能排课!");
-                }
-
-            }
-                        
         }
+        dd(111);
+        $day_start = strtotime(date("Y-m-d",time()));
+        $userid = "50232";
+        $left_plan_count = 9;
+       
+        //已排课量
+        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+        $plan_lesson_count = $plan_lesson_count/100;
 
+        //两者比较,若已排课量超出,则清除超出部分
+        if( $left_plan_count<$plan_lesson_count){                          
+            $lesson_list = $this->t_lesson_info_b3->get_lesson_count_list_new($userid,$day_start,0);
+            $first_lesson_start=0;
+            $lesson_count_total=0;
+            foreach($lesson_list as $var){
+                if($lesson_count_total>=($left_plan_count*100)){
+                    break;
+                }
+                $lesson_count_total +=$var["lesson_count"];
+                $first_lesson_start = $var["lesson_start"];
+            }
+            //删除之后的课
+            $this->t_lesson_info_b3->delete_lesson_by_time_userid($userid,$first_lesson_start);
+            dd(111);
+
+                            
+        }
+       
 
     }
 

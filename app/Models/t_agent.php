@@ -811,7 +811,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-    
+
         return $this->main_get_list($sql);
     }
     public  function get_link_list_by_ppid($ppid) {
@@ -1565,7 +1565,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ]);
         }
 
-        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        //$check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        $check_time=strtotime( "2017-09-01");
         if ($agent_info["create_time"] < $check_time) {
             if ( $agent_info["agent_status_money_open_flag"] !=0 ) {
                 $this->field_update_list($id,[
@@ -1739,4 +1740,185 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
     }
+
+    /*
+                if ($agent_status == E\Eagent_status::V_1) { //报名推送
+
+                    $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+                    $data = [
+                        'first'    => "恭喜您成功邀请学员{$phone}参加测评课，您获得5元奖励",
+                        'keyword1' =>"测评课" ,
+                        'keyword2' => date('Y-m-d H:i:s',time()),
+                        'keyword3' => $phone ,
+                        'remark'   => "如课程老师成功联系学员，将再获得5元奖励。"
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+                }else if ($agent_status == E\Eagent_status::V_10) {//拨通推送
+                    $template_id = 'eP6Guhb_w4s7NxnuF1yf2fz_cRF1wLqguFrQLtOKYlc';
+                    $data = [
+                        'first'    => "课程老师已成功联系学员{$phone}，您获得5元奖励。",
+                        'keyword1' => $phone,
+                        'keyword2' => "预约测评课" ,
+                        'keyword3' => date('Y-m-d H:i:s',time()),
+                        'keyword4' => "已接通" ,
+                        'remark'   => "如学员成功预约测评课，将再获得10元奖励",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+                }else if ($agent_status == E\Eagent_status::V_20) { //排课
+
+                    $template_id = '5gRCvXir0giV6kQcgTMki0TUWfQuKD1Vigg7zanvsD8';
+                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+                    $data = [
+                        'first'    => "您邀请的学员{$phone}成功预约测评课，您获得10元奖励。 ",
+                        'keyword1' => $phone,
+                        'keyword2' =>  $phone ,
+                        'keyword3' => "测评课",
+                        'keyword4' => \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
+                        'keyword5' => "理优1对1",
+                        'remark'   => "如学员成功上完测评课，将再获得30元奖励。",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+
+                }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
+
+                    $template_id = 'ahct5cHBDNVvA3rAYwMuaZ7VZlgx10xRfZ7ssh24hPQ';
+                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+                    $remark="";
+                    if ($agent_level==E\Eagent_level::V_1 ) {
+                    }else if ($agent_level==E\Eagent_level::V_2 ) {
+                        $remark="如学员购买课程，将再获得该学员学费的5%（最高500元）奖励。";
+                    }
+                    $data = [
+                        'first'    => "您邀请的学员{$phone}成功上完测评课，您获得30元奖励。",
+                        'keyword1' => "理优1对1",
+                        'keyword2' => "测评课" ,
+                        'keyword3' =>  \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
+                        'keyword4' =>  \App\Helper\Utils::unixtime2date($lesson_start+50*60,"Y-m-d H:i") ,
+                        'remark'   => "$remark",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+
+                }else if ($agent_status == E\Eagent_status::V_40) { //签单
+
+                }
+    */
+
+
+    public function  send_wx_msg_1004( $from_agentid, $to_agentid, $phone , $lesson_start , $agent_level) {
+        $template_id = 'ahct5cHBDNVvA3rAYwMuaZ7VZlgx10xRfZ7ssh24hPQ';
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_1004;
+        $remark="";
+        if ($agent_level==E\Eagent_level::V_1 ) {
+        }else if ($agent_level==E\Eagent_level::V_2 ) {
+            $remark="如学员购买课程，将再获得该学员学费的5%（最高500元）奖励。";
+        }
+        $data = [
+            'first'    => "您邀请的学员{$phone}成功上完测评课，您获得30元奖励。",
+            'keyword1' => "理优1对1",
+            'keyword2' => "测评课" ,
+            'keyword3' =>  \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
+            'keyword4' =>  \App\Helper\Utils::unixtime2date($lesson_start+50*60,"Y-m-d H:i") ,
+            'remark'   => "$remark",
+        ];
+        $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
+    }
+
+    public function  wx_msg_1003( $from_agentid, $to_agentid, $phone , $lesson_start ) {
+        $template_id = '5gRCvXir0giV6kQcgTMki0TUWfQuKD1Vigg7zanvsD8';
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_1003;
+        $data = [
+            'first'    => "您邀请的学员{$phone}成功预约测评课，您获得10元奖励。 ",
+            'keyword1' => $phone,
+            'keyword2' =>  $phone ,
+            'keyword3' => "测评课",
+            'keyword4' => \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
+            'keyword5' => "理优1对1",
+            'remark'   => "如学员成功上完测评课，将再获得30元奖励。",
+        ];
+        $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
+    }
+
+
+    public function  send_wx_msg_1002( $from_agentid, $to_agentid, $phone  ) {
+        $template_id = 'eP6Guhb_w4s7NxnuF1yf2fz_cRF1wLqguFrQLtOKYlc';
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_1002;
+        $data = [
+            'first'    => "课程老师已成功联系学员{$phone}，您获得5元奖励。",
+            'keyword1' => $phone,
+            'keyword2' => "预约测评课" ,
+            'keyword3' => date('Y-m-d H:i:s',time()),
+            'keyword4' => "已接通" ,
+            'remark'   => "如学员成功预约测评课，将再获得10元奖励",
+        ];
+        $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
+    }
+
+    public function  send_wx_msg_1001( $from_agentid, $to_agentid, $phone  ) {
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_1001;
+        $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+        $data = [
+            'first'    => "恭喜您成功邀请学员{$phone}参加测评课，您获得5元奖励",
+            'keyword1' =>"测评课" ,
+            'keyword2' => date('Y-m-d H:i:s',time()),
+            'keyword3' => $phone ,
+            'remark'   => "如课程老师成功联系学员，将再获得5元奖励。"
+        ];
+        $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
+
+    }
+
+    public function  send_wx_msg_2001( $from_agentid, $to_agentid ) {
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
+        $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
+        $data = [
+            'first'    => '等级升级提醒',
+            'keyword1' => '水晶会员',
+            'keyword2' => "永久" ,
+            'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
+        ];
+        $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
+    }
+
+    //消息
+    public function  send_wx_msg_2002( $from_agentid, $to_agentid, $order_price,$get_money,$phone  ) {
+
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
+        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+        $data = [
+            'first'    => '恭喜您获得邀请奖金',
+            'keyword1' => $get_money.'元',
+            'keyword2' => $phone,
+            'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$get_money.'元。',
+        ];
+        $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
+
+    }
+
+    public function  send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data, $url ="" ) {
+
+        if (!$this->task->t_agent_wx_msg_log->check_is_send($from_agentid,$to_agentid,$agent_wx_msg_type)) {
+            //未发送
+            $openid= $this->get_wx_openid($to_agentid);
+
+            $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+            $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            /*
+            $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
+            $wx->send_template_msg($xy_openid,$template_id,$data,$url);
+            */
+            $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+            $wx->send_template_msg($jim_openid,$template_id,$data,$url);
+
+            $succ_flag=false;
+            //$succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
+            $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
+            $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
+        }
+
+    }
+
+
 }

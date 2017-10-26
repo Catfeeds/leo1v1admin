@@ -3,6 +3,7 @@ return array(
     ["db_weiyi","t_teacher_flow","teacerid"],
     ["db_weiyi","t_user_log","id"],
     ["db_weiyi","t_new_tea_entry","id"],
+    ["db_weiyi_admin","t_agent_wx_msg_log","id"],
     ["db_weiyi_admin","t_interview_remind", "id"],
     ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],
@@ -82,9 +83,11 @@ return array(
     ["db_weiyi","t_test_lesson_subject_require","require_id" ],
     ["db_weiyi","t_test_lesson_subject_sub_list","lessonid" ],
     ["db_weiyi","t_test_lesson_subject_require_review","id" ],
+    ["db_weiyi","t_test_lesson_opt_log","roomid" ],
     ["db_weiyi","t_user_authority_group","groupid" ],
 
 
+    ["db_weiyi","t_month_student_count","id"] ,
     ["db_weiyi","t_train_lesson_user","userid","add_time"] ,
     ["db_weiyi","t_psychological_teacher_time_list","day","start"] ,
     ["db_weiyi","t_student_init_info","userid"] ,

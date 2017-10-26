@@ -14,6 +14,10 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	target_money	:any;
+	require_test_count_for_month	:any;
+	succ_all_count_for_month	:any;
+	fail_all_count_for_month	:any;
+	lesson_per	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -27,7 +31,6 @@ interface RowData {
 	leave_member_time	:any;
 	del_flag	:any;
 	main_type_str	:any;
-	lesson_per	:any;
 	order_per	:any;
 	finish_per	:any;
 	finish_personal_per	:any;
@@ -48,16 +51,17 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-seller_tongji_report_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

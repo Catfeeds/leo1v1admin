@@ -21,7 +21,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
 
         $sql = $this->gen_sql_new(
-            " select  r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
+            " select  s.assistantid, r.subject, r.teacher_id, r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
             ." f.flow_status_time,f.flowid,r.should_refund,r.price,o.invoice,o.order_time,o.sys_operator,r.pay_account, "
             ." r.real_refund,r.refund_status,r.apply_time,r.refund_userid,o.contractid,r.save_info,r.refund_info,file_url, "
             ." o.grade,o.need_receipt  "
@@ -33,9 +33,9 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ." left join %s co on (co.parent_orderid = r.orderid and co.child_order_type = 2)"
             ." where %s"
             ." order by $opt_date_str desc"
-            ,self::DB_TABLE_NAME
-            ,t_student_info::DB_TABLE_NAME
-            ,t_order_info::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME //r
+            ,t_student_info::DB_TABLE_NAME //s 
+            ,t_order_info::DB_TABLE_NAME //o
             ,t_flow::DB_TABLE_NAME
             ,E\Eflow_type::V_ASS_ORDER_REFUND
             ,t_child_order_info::DB_TABLE_NAME
@@ -185,7 +185,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_value($sql);
     }
 
-    public function update_refund_list ($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status) {
+    public function update_refund_list ($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status) {
         $where_arr = [
             "orderid"      => $orderid,
             "apply_time"   => $apply_time,
@@ -197,7 +197,9 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                    qc_reply        = '%s',
                                    qc_contact_status  = %d,
                                    qc_advances_status = %d,
-                                   qc_voluntarily_status = %d
+                                   qc_voluntarily_status = %d,
+                                   teacher_id = %d,
+                                   subject = %d
                                    where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$qc_other_reason
@@ -206,6 +208,8 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ,$qc_contact_status
                                   ,$qc_advances_status
                                   ,$qc_voluntarily_status
+                                  ,$teacherid
+                                  ,$subject
                                   ,$where_arr
         );
 
@@ -282,7 +286,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         $sql = $this->gen_sql_new("select r.userid,r.orderid,so.orderid so_orderid,so.lesson_left,so.contract_type,o.competition_flag "
                                   ." from %s r left join %s o on r.orderid=o.orderid"
                                   ." left join %s s on r.userid = s.userid"
-                                  ." left join %s so on so.parent_order_id = o.orderid"
+                                  ." left join %s so on so.parent_order_id = o.orderid and so.from_parent_order_type=0"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
@@ -548,5 +552,23 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
     }
 
+    public function get_refund_userid_by_month($start_time, $end_time){
+        $where_arr = [
+            ['r.apply_time>=%u', $start_time, -1],
+            ['r.apply_time<%u', $end_time, -1],
+            's.is_test_user=0',
+        ];
+
+        $sql = $this->gen_sql_new("select count( distinct r.userid )"
+                                  ." from %s r "
+                                  ." left join %s s on s.userid=r.userid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 }

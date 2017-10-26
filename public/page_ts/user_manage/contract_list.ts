@@ -172,8 +172,27 @@ $(function(){
     $('.opt-user').on('click',function(){
         var userid = $(this).parent().data("userid");
         var nick   = $(this).parent().data("stu_nick");
+        var sys_operator   = $(this).parent().data("sys_operator");
         //$(this).attr('href','/stu_manage?sid = '+userid+'&nick='+nick+"&"  );
-        window.open('/stu_manage?sid='+ userid+"&return_url="+ encodeURIComponent(window.location.href)) ;
+        if(g_args.account_role_self==1){
+            if(g_args.ass_master_flag==1){
+                $.wopen('/user_manage/ass_archive?userid=' + userid);
+            }else{
+                $.wopen('/user_manage/ass_archive_ass?userid=' + userid); 
+            }
+        }else if(g_args.account_role_self==2){
+            if(g_args.acc != sys_operator){
+                alert("请查看您下单的学生信息!");
+            }else{
+                window.open(
+                    '/stu_manage?sid='+ userid +"&return_url="+ encodeURIComponent(window.location.href)
+                ); 
+            }
+        }else{
+            window.open(
+                '/stu_manage?sid='+ userid +"&return_url="+ encodeURIComponent(window.location.href)
+            );
+        }
 
     });
 
@@ -2845,7 +2864,7 @@ $(function(){
 
                     var child_orderid = $(this).data("child_orderid");
                     var status = $(this).data("status");
-                    if(status >0 && parent_orderid != 24041 && parent_orderid != 23800){
+                    if(status >0 && parent_orderid != 24041 && parent_orderid != 23800 && parent_orderid != 25175){
                         alert("已付款,不能拆分!");
                         return;
                     }

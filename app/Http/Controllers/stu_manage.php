@@ -726,7 +726,7 @@ class stu_manage extends Controller
         }
         $ass_role = $this->get_account_role();
         $ass_id = $this->get_account_id();
-        if ($ass_role == 10 || $ass_id == 356) {
+        if ($ass_role == 10 || $ass_id == 356 || $ass_id == 1118 ) {
             $show_flag++;
         }
 

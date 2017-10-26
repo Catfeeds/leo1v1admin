@@ -48,6 +48,7 @@ class NewRouteConfig {
         "user_manage"=>true,
         "user_will"=>true,
         "wx"=>true,
+        "test_lesson_opt"=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -56,7 +57,8 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/tea_manage/train_is_through_list"        => true,
+        "/test_lesson_opt/test_opt_list"          => true,
+        "/tea_manage/train_is_through_list"       => true,
         "/main_page/recruit_division"             => true,
         "/warning_overtime/add_overtime"          => true,
         "/grab_lesson/add_requireids"             => true,
@@ -390,6 +392,8 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
+        "/human_resource/get_lesson_modify_list" => true,
+        "/human_resource/get_input_score_list" => true,
         "/human_resource/interview_remind"   => true,
         "/human_resource/get_check_textbook_tea_list"   => true,
         "/human_resource/switch_teacher_to_test"        => true,

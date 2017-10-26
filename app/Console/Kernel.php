@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
         Commands\reset_parent_call_status::class,
         Commands\get_period_repay_info::class,
         Commands\period_order_overdue_warning_send_wx::class,
+        Commands\period_order_overdue_stop_send_wx::class,
+        Commands\update_period_overdue_type_recover::class,
         Commands\send_wx_msg_for_test_lesson::class,
         Commands\check_system::class,
         Commands\CheckLessonTeacherMoneyType::class,

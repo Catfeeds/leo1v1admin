@@ -42,6 +42,21 @@ class test_code extends Controller
         }
     }
 
+    public function salary_table(){
+        Schema::table('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
+        {
+            t_field($table->integer("id"),"id");
+            t_field($table->integer("teacherid"),"老师id");
+            t_field($table->tinyInteger("teacher_type"),"老师类型");
+            t_field($table->tinyInteger("teacher_money_flag"),"老师工资发放类型");
+            t_field($table->integer("lesson_1v1_money"),"1对1课时费");
+            t_field($table->integer("lesson_small_money"),"小班课课时费");
+            t_field($table->integer("lesson_open_money"),"公开课课时费");
+            t_field($table->integer("reference_money"),"伯乐奖");
+            t_field($table->integer("trial_train_money"),"模拟试听培训奖");
+        });
+    }
+
     public function get_b_txt($file_name="b"){
         $info = file_get_contents("/tmp/".$file_name.".txt");
         $arr  = explode("\n",$info);
@@ -1385,7 +1400,7 @@ class test_code extends Controller
 
     public function test_reward(){
         $type = 2;
-        $day=30;
+        $day  = 30;
         $begin_time = $this->get_begin_time($type,$day);
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
         dd($list);

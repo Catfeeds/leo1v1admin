@@ -50,11 +50,11 @@ class save_seller_info_by_week extends Command
         }
 
 
-        $month_start_time_funnel = strtotime(date('Y-m-01'));
+        // $month_start_time_funnel = strtotime(date('Y-m-01'));
 
-        if($month_start_time_funnel<$start_time){
+        // if($month_start_time_funnel<$start_time){
             $month_start_time_funnel = $start_time;
-        }
+        // }
 
 
         $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
@@ -117,7 +117,7 @@ class save_seller_info_by_week extends Command
         $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
         // $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
-        $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数
+        $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数总金额
 
 
 
@@ -160,6 +160,9 @@ class save_seller_info_by_week extends Command
         $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($month_start_time_funnel, $end_time); // 合同人数[月签约率]
 
 
+        // \App\Helper\Utils::logger("zhoubao1:".json_encode($ret_info));
+
+        
         $task->t_seller_tongji_for_month->row_insert($ret_info);
 
 

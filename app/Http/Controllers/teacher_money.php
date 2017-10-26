@@ -124,15 +124,15 @@ class teacher_money extends Controller
             $reward['add_time_str'] = \App\Helper\Utils::unixtime2date($r_val["add_time"],"Y-m-d");
             $reward['money']        = (float)$r_val['money']/100;
             $reward['money_info']   = E\Ereward_type::get_desc($r_val['type']);
-            if(in_array($r_val['type'],[1,2,5])){
+            if(in_array($r_val['type'],[E\Ereward_type::V_1,E\Ereward_type::V_2,E\Ereward_type::V_5])){
                 \App\Helper\Utils::check_isset_data($reward_ex['price'],$reward['money']);
                 $reward["type"] = 1;
                 $reward_ex["reward_list"][] = $reward;
-            }elseif(in_array($r_val['type'],[3,4])){
+            }elseif(in_array($r_val['type'],[E\Ereward_type::V_3,E\Ereward_type::V_4])){
                 \App\Helper\Utils::check_isset_data($reward_compensate['price'],$reward['money']);
                 $reward["type"] = 2;
                 $reward_compensate["reward_list"][] = $reward;
-            }elseif(in_array($r_val['type'],[6])){
+            }elseif(in_array($r_val['type'],[E\Ereward_type::V_6])){
                 \App\Helper\Utils::check_isset_data($reward_reference['price'],$reward['money']);
                 $reward['money_info'] = $this->t_teacher_info->get_nick($r_val['money_info']);
                 $reward["type"] = 1;

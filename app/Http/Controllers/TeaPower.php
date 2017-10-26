@@ -29,7 +29,8 @@ trait TeaPower {
         $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28","2017-10-01","2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08"];
         $lesson_start_date = date("Y-m-d",$lesson_start);
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
-            if($admin_info["uid"] != 325){
+            $create_time = $this->t_manager_info->get_create_time($admin_info["uid"]);
+            if($create_time<strtotime("2017-10-25")){
                 /*if($lesson_type==2){
                    $month_start = strtotime(date("Y-m-01",$lesson_start));
                    $month_end = strtotime(date("Y-m-01",$month_start+35*86400));
@@ -57,6 +58,28 @@ trait TeaPower {
                         }
                     }
                 }
+            }else{
+                //新教研老师规则改变(2017-10-25以后入职)
+                //工作时间（周二至周六9:00~18:00）不安排授课
+                if($day>=2 && $day <=6){
+                    if(!empty($lesson_start)){
+                        
+                        $lesson_end = $lesson_count*2400+$lesson_start;
+                        $end_h = date("H",$lesson_end);
+                        if($h <18 && $end_h>=9 ){
+                            return $this->output_err("教研老师周二至周六9点至18点不能排课");
+                        }
+                    }
+ 
+                }
+
+                //非工作时间（周二至周六18:00以后及周日、周一）每周排课总量不超过6课时；
+                if(($lesson_count_week+$lesson_count)>6){
+                    return $this->output_err(
+                        "教研老师每周只能带6课时,该老师该周已有".$lesson_count_week."课时!"
+                    );
+                }
+
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
             $create_time = $this->t_teacher_info->field_get_value($teacherid,"train_through_new_time");
@@ -1199,6 +1222,9 @@ trait TeaPower {
             $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
 
 
+            // tea_list  试讲通过trial_lecture_is_pass,绑定过微信wx_openid!='',is_test_user=0
+            // wx_openid,grade_start,subject    18790256265  boby
+
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
              * 标题课程 : 待办事项提醒
@@ -1225,6 +1251,9 @@ trait TeaPower {
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
         }
+
+
+
 
         return $this->output_succ();
     }
@@ -1722,13 +1751,13 @@ trait TeaPower {
     }
 
     public function get_ass_leader_account_id($adminid){
-        if($adminid==503){
+        /*if($adminid==503){
             $adminid = 297;
         }elseif($adminid==512){
             $adminid =702;
         }elseif($adminid==349){
             $adminid=297;
-        }
+            }*/
         return $adminid;
     }
 
@@ -3387,9 +3416,22 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
-    //百度分期用户首月排课限制
+    //百度分期用户首月排课限制/非首次逾期还款排课限制
     public function check_is_period_first_month($userid,$lesson_count){
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
+
+        //当期还款时间
+        $d= date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+        }
+        $no_first_overdue_flag=0;
+
         if($period_info){
             $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
             $pay_price=0;
@@ -3399,6 +3441,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     if($val["bStatus"]==48){
                         $pay_price +=$val["paidMoney"];
                     }
+                    if($val["dueDate"]==$due_date && $val["period"]>1 && $val["bStatus"]==144){
+                        $no_first_overdue_flag=1;
+                    }
+                    
                 }
             }
             $pay_price +=$period_info["price"]-$period_info["period_price"];
@@ -3414,14 +3460,144 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
                 $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
                 $all_plan = ($lesson_use+$order_use)/100;
-                $plan_flag = (($all_plan+$lesson_count)>$lesson_count_plan)?1:0;
+                $plan_flag = (($all_plan+$lesson_count/100)>$lesson_count_plan)?1:0;
                 if($plan_flag){
                     return $this->output_err("分期用户,已超限,该时间段不能排课!");
                 }
 
             }
+
+
+            //非首次逾期还款排课限制
+
+            //先确认是否为当期逾期未还款(非首次)用户
+            $check_overdue_history = $this->t_period_repay_list->check_overdue_history_flag($due_date,$period_info["child_orderid"]);
+            if(($d>=19 || $d <=15) && $no_first_overdue_flag==1 && !$check_overdue_history){
+                $no_first_list = $this->t_period_repay_list->get_no_first_overdue_repay_list($due_date,$period_info["child_orderid"]);
+                $old_type= $this->t_student_info->get_type($userid);
+                if($old_type !=6){
+                    $parent_orderid= $this->t_child_order_info->get_parent_orderid($orderid);
+                    //已消耗课时
+                    $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
+
+                    //得到合同消耗课次段折扣
+                    $discount_per = $this->get_order_lesson_discount_per($parent_orderid,$order_use);
+                    $money_use = $per_price*$order_use*$discount_per;
+                    $money_contrast = ($money_use-$pay_price)/100;
+
+                    $day_start = strtotime(date("Y-m-d",time()));
+
+                    if($money_contrast>=1){
+                   
+                        $this->t_student_info->get_student_type_update($userid,6);
+                        $this->t_student_type_change_list->row_insert([
+                            "userid"    =>$userid,
+                            "add_time"  =>time(),
+                            "type_before" =>$old_type,
+                            "type_cur"    =>0,
+                            "change_type" =>6,
+                            "adminid"     =>0,
+                            "reason"      =>"系统更新"
+                        ]);
+                        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"逾期停课","学员预警停课通知",$userid."学生逾期未还款,状态已变更为预警停课","");
+
+                        //微信推送家长
+                        $wx = new \App\Helper\Wx();
+                        $parentid = $this->t_student_info->get_parentid($userid);
+                        $openid = $this->t_parent_info->get_wx_openid($parentid);
+                        $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+                        $data=[
+                            "first"    => "百度分期还款逾期停课通知",
+                            "keyword1" => "百度分期还款逾期",
+                            "keyword2" => "家长，您好！由于您未在指定日期内完成百度分期还款，即已发生逾期行为，现对您做出停课处理，为避免耽误孩子的学习，请尽快登录百度钱包完成还款，即可恢复正常上课！",
+                            "keyword3" => date("Y-m-d H:i:s"),
+                            "remark"   => "",
+                        ];
+                        $url="";
+
+
+                        $wx->send_template_msg($openid,$template_id,$data,$url);
+
+ 
+                    }elseif($money_contrast>0 && $money_contrast<1){
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+                        if(($plan_lesson_count+$lesson_count)>300){
+                            return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
+                        }
+                        
+                    }else{
+                        //可排课量
+                        $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per));
+
+                        //已排课量
+                        $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
+
+                        if(($plan_lesson_count+$lesson_count)>$left_plan_count){
+                            return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
+                        }
+ 
+                        
+                    }
+ 
+                }
+                
+            }
+
+
+            
+           
+           
                         
         }
+    }
+
+    //得到合同消耗课时折扣
+    public function get_order_lesson_discount_per($orderid,$order_use){
+        $order_info = $this->t_order_info->field_get_list($orderid,"grade,competition_flag"); 
+        $grade = $order_info["grade"];
+        $use = $order_use/100;
+        $discount_per=0;
+        if($order_info["competition_flag"]==1 || ($grade>=100 && $grade <=202)){
+            if($use<=90){
+               $discount_per=0.9; 
+            }elseif($use<=180){
+               $discount_per=0.86;  
+            }elseif($use<=270){
+               $discount_per=0.82;  
+            }elseif($use<=360){
+               $discount_per=0.78;  
+            }elseif($use<=480){
+               $discount_per=0.74;  
+            }elseif($use<=720){
+               $discount_per=0.7;  
+            }elseif($use<=1024){
+               $discount_per=0.66;  
+            }elseif($use<=1440){
+               $discount_per=0.62;  
+            }
+        }else{
+            if($use<=90){
+                $discount_per=0.95; 
+            }elseif($use<=180){
+                $discount_per=0.91;  
+            }elseif($use<=270){
+                $discount_per=0.9;  
+            }elseif($use<=360){
+                $discount_per=0.88;  
+            }elseif($use<=480){
+                $discount_per=0.86;  
+            }elseif($use<=720){
+                $discount_per=0.84;  
+            }elseif($use<=1024){
+                $discount_per=0.82;  
+            }elseif($use<=1440){
+                $discount_per=0.8;  
+            }
+
+        }
+        return $discount_per;
     }
 
     
@@ -3437,7 +3613,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $period_limit;
             }*/
 
-        
+        //逾期预警/逾期停课学员不能排课
+        $student_type = $this->t_student_info->get_type($item["userid"]);
+        if($student_type>4){
+            //return $this->output_err("百度分期逾期学员不能排课!");
+        }
+
+
+               
         if (!$item["teacherid"]) {
            return $this->output_err("还没设置老师");
         }
@@ -3446,6 +3629,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 return $this->output_err("没有权限排试听课");
             }
         }
+
+      
 
         $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
         if($check){
@@ -3720,6 +3905,39 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             "all_money"     =>$all_money
         ];
         return $ret;
+
+    }
+
+    public function check_ass_leader_flag($account_id){
+        $is_master = $this->t_admin_main_group_name->check_is_master(1,$account_id); 
+        $is_master_2 = $this->t_admin_group_name->check_is_master(1,$account_id);
+        if($is_master_2 || $is_master){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    public function test_jack_new(){
+        //微信推送家长
+        $wx = new \App\Helper\Wx();
+        $userid = 50186;
+        $parentid = $this->t_student_info->get_parentid($userid);
+        $openid = $this->t_parent_info->get_wx_openid($parentid);
+        $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+        $data=[
+            "first"    => "百度分期还款逾期停课通知",
+            "keyword1" => "百度分期还款逾期",
+            "keyword2" => "家长，您好！由于您未在指定日期内完成百度分期还款，即已发生逾期行为，现对您做出停课处理，为避免耽误孩子的学习，请尽快登录百度钱包完成还款，即可恢复正常上课！",
+            "keyword3" => date("Y-m-d H:i:s"),
+            "remark"   => "",
+        ];
+        $url="";
+
+
+        $wx->send_template_msg($openid,$template_id,$data,$url);
 
     }
 

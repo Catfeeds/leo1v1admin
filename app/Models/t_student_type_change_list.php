@@ -18,7 +18,7 @@ class t_student_type_change_list extends \App\Models\Zgen\z_t_student_type_chang
     
     public function get_info_by_userid_last($userid){
         $where_arr=[
-            ["userid = %u",$userid,-1]  
+            ["userid = %u",$userid,-1]
         ];
         $sql = $this->gen_sql_new("select * from %s "
                                   ." where %s and add_time = (select max(add_time) from %s where userid=%u)"
@@ -30,6 +30,23 @@ class t_student_type_change_list extends \App\Models\Zgen\z_t_student_type_chang
         );
         return $this->main_get_row($sql);
     }
+    public function get_info_by_userid_type_before_last($userid){
+        $where_arr=[
+            ["userid = %u",$userid,-1],
+            "type_before<5"
+        ];        
+        $sql = $this->gen_sql_new("select * from %s "
+                                  ." where %s and add_time = (select max(add_time) from %s where userid=%u and type_before<5)"
+                                  ." order by add_time desc",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME,
+                                  $userid
+        );
+        return $this->main_get_row($sql);
+    }
+
+
 
 }
 
