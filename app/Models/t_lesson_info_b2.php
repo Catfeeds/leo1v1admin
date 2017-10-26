@@ -2212,16 +2212,32 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_seller_wx_openid($lessonid){
         $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
                                   " left join %s s on s.userid = l.userid ".
-                                  " left join %s m on m.uid = s.seller_adminid".
+                                  " left join %s m on m.uid = s.admin_revisiterid".
                                   " where l.lessonid = %d",
                                   self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $lessonid
         );
 
         return $this->main_get_value($sql);
     }
+
+
+    // public function get_seller_wx_openid($lessonid){
+    //     $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
+    //                               " left join %s s on s.userid = l.userid ".
+    //                               " left join %s m on m.uid = s.seller_adminid".
+    //                               " where l.lessonid = %d",
+    //                               self::DB_TABLE_NAME,
+    //                               t_student_info::DB_TABLE_NAME,
+    //                               t_manager_info::DB_TABLE_NAME,
+    //                               $lessonid
+    //     );
+
+    //     return $this->main_get_value($sql);
+    // }
+
 
 
     public function get_modify_lesson_time($lessonid){

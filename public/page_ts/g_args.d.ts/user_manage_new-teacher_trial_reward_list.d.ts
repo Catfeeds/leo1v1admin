@@ -7,6 +7,7 @@ interface GargsStatic {
 	teacherid:	number;
 	type:	number;
 	lessonid:	number;
+	has_lesson:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -37,19 +38,21 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-teacher_trial_reward_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacherid:	$('#id_teacherid').val(),
+		type:	$('#id_type').val(),
+		lessonid:	$('#id_lessonid').val(),
+		has_lesson:	$('#id_has_lesson').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			type:	$('#id_type').val(),
-			lessonid:	$('#id_lessonid').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
@@ -65,6 +68,7 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_type').val(g_args.type);
 	$('#id_lessonid').val(g_args.lessonid);
+	$('#id_has_lesson').val(g_args.has_lesson);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -93,6 +97,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">lessonid</span>
                 <input class="opt-change form-control" id="id_lessonid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">has_lesson</span>
+                <input class="opt-change form-control" id="id_has_lesson" />
             </div>
         </div>
 */

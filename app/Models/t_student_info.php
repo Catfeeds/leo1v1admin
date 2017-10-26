@@ -445,6 +445,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
+    public function get_student_count_archive() {
+
+        $sql = $this->gen_sql_new("select s.userid, s.type"
+                                  ." from %s s"
+                                  ." left join %s w on w.userid=s.userid"
+                                  ." where is_test_user=0 "
+                                  ." group by s.userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_week_regular_course::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
     public function get_two_stu_for_archive( $grade, $sum_start)
     {
         $where_arr=[
@@ -561,7 +576,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             ["is_auto_set_type_flag=%u",$is_auto_set_type_flag,-1],
             "lesson_count_left <100",
-            "type not in (1,5,6)"
+            "type not in (1)"
             //"is_auto_set_type_flag = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type from %s  ".

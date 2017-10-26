@@ -413,9 +413,12 @@ class test_james extends Controller
 
 
     public function ssss(){
+
+        dd(session_id());
+
         $lessonid = $this->get_in_int_val('p');
 
-        $wx_openid_arr = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+        $wx_openid_arr = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
 
         dd($wx_openid_arr);
 
