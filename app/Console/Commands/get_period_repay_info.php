@@ -185,6 +185,8 @@ class get_period_repay_info extends Command
 
                     //课时单价
                     $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
+
+                    $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
  
                 }
             }
