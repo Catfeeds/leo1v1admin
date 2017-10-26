@@ -2188,6 +2188,7 @@ class user_manage_new extends Controller
         //E\Eboolean::set_item_value_str($info,"stu_test_ipad_flag");
         return $this->output_succ(["data"=>$info]);
     }
+
     public function month_user_info() {
         $year=$this->get_in_int_val("year","2016");
         $month=$this->get_in_int_val("month","5");
@@ -2262,11 +2263,19 @@ class user_manage_new extends Controller
 
         //到月末退费人数 -----开发中
         $refund_num = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
-        //实时付费学员数
-        $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-
         //2017-10-25以后的新数据
-        $list = $this->t_month_student_count->get_student_month_info($start_time);
+        $now = strtotime( date('Y-m-01', time()) );
+        if( $start_time == $now ){
+            //实时付费学员数
+            $list = $this->get_cur_month_stu_info($start_time);
+            $all_pay = $list['all_pay'];
+            $res = $this->t_month_student_count->get_student_month_info($start_time);
+            $list['pay_stu_num'] = $res['pay_stu_num'];
+        } else {
+            $list = $this->t_month_student_count->get_student_month_info($start_time);
+            $all_pay = $this->t_month_student_count->get_all_pay_num($end_time);
+        }
+
         if( $list != false ) {
             //退费率
             $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
@@ -2281,15 +2290,13 @@ class user_manage_new extends Controller
         ]);
     }
 
-    public function get_cur_month_stu_info(){
+    public function get_cur_month_stu_info($start_time){
 
-        $start_time = strtotime( date('Y-m-01', time()) );
         $end_time   = strtotime('+1 month', $start_time );
-        $page_num   = $this->get_in_page_num();
         $ret = [];
-        //月初付费学员数
+        //实时付费学员数
         $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-        $ret['pay_stu_num'] = $all_pay;
+        $ret['all_pay'] = $all_pay;
 
         $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//月新签
@@ -2356,7 +2363,6 @@ class user_manage_new extends Controller
 
         return $ret;
     }
-
 
     function stu_set_init_info_pdf_url() {
         $userid=$this->get_in_userid();
