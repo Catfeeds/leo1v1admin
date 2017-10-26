@@ -2315,14 +2315,14 @@ class user_manage_new extends Controller
         $new_user = array_unique($new_user);
         $ret['new_pay_stu_num'] = count($new_user);
 
-        //月退费名单
+        //退费名单
         $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
         $ret['refund_stu_num'] = $refund_num;
-        //月正常结课学生
+        //正常结课学生
         $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
         $ret['normal_over_num'] = $ret_num;
 
-        //月 在读,停课,休学,假期数
+        // 在读,停课,休学,假期数
         $ret_info = $this->t_student_info->get_student_count_archive();
 
         foreach($ret_info as $item) {
@@ -2346,18 +2346,23 @@ class user_manage_new extends Controller
         //月预警学员
         $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
         $warning_renow_num = 0;
+        $warning_stu_num = 0;
 
         foreach ($warning_list as $item){
             $new = json_decode($item['warning_student_list'], true);
             if(is_array($new)){
                 foreach($new as $v) {
-                    if(count($v) && in_array($v ,$renow_user)){
-                        $warning_renow_num++;
+                    if( strlen($v)>0){
+                        $warning_stu_num++;
+                        if( in_array($v ,$renow_user) ){
+                            $warning_renow_num++;
+                        }
                     }
                 }
             }
         }
 
+        $ret['warning_stu_num']          = $warning_stu_num;
         $ret['warning_renow_stu_num']    = $warning_renow_num;
         $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
 
