@@ -447,7 +447,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                   ." left join %s mgn on mgn.groupid=mg.up_groupid"
                                   ." left join %s m on m.uid=u.adminid"
                                   ." left join %s o on o.sys_operator=m.account"
-                                  ." where %s  "
+                                  ." where %s  group by m.uid"
                                   ,self::DB_TABLE_NAME
                                   ,t_admin_group_user::DB_TABLE_NAME
                                   ,t_admin_main_group_name::DB_TABLE_NAME
