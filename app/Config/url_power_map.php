@@ -352,6 +352,7 @@ class url_power_map {
 			'/self_manage/upload_face_pic'	=>1201300,
 			'/seller_student_new/share_knowledge'	=>1201400,
 			'/main_page/seller'	=>1116000,
+			'/test_lesson_opt/test_opt_list'	=>1114900,
 			'/human_resource/teacher_info_for_seller'	=>1116700,
 			'/seller_student_new2/test_lesson_plan_list_seller'	=>1117500,
 			'/human_resource/index_seller'	=>1116800,
