@@ -17,6 +17,7 @@ class wx_parent extends Controller
         parent::__construct();
         $type = $this->get_in_str_val("type");
         if($type == "zhishiku"){
+
         }else{
             if(!session("parentid")){
                 \App\Helper\Utils::logger('jiluscore '.$this->get_in_str_val("_url"));
@@ -71,8 +72,8 @@ class wx_parent extends Controller
     }
 
     public function zhishiku(){
-        // $url="wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
-        // header("Location : $url");
+        $url = "wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+        header("Location : $url");
     }
 
 }

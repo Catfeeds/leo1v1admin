@@ -831,7 +831,7 @@ class test_boby extends Controller
         $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
 
         $ret['create_time'] = $start_time;
-        $this->t_month_student_count->row_insert($ret);
+//        $this->t_month_student_count->row_insert($ret);
 
         dd($ret);
         return 'ok';
