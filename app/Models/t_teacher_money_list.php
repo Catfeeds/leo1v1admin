@@ -72,12 +72,13 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["tm.type=%u",$type,0],
             "tm.lessonid!=0"
         ];
-        $sql = $this->gen_sql_new("select tm.add_time,tm.money,tm.type,tm.money_info,l.userid"
+        $sql = $this->gen_sql_new("select tm.add_time,tm.money,tm.type,tm.money_info"
+                                  // .",l.userid"
                                   ." from %s tm"
-                                  ." left join %s l on tm.lessonid=l.lessonid"
+                                  // ." left join %s l on tm.lessonid=l.lessonid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
+                                  // ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
