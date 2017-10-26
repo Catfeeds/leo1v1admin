@@ -465,8 +465,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_parent_info->field_update_list(407370,['wx_openid'=>null]);
-
         $ret_info = $this->t_test_lesson_opt_log->get_room_list();
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
         foreach($roomid_arr as $info){
@@ -491,7 +489,7 @@ class agent extends Controller
                     }
                 }
             }
-            dd($stu_login,$stu_logout,$seller_login,$seller_logout,$ret);
+            dd($ret_info,$stu_login,$stu_logout,$seller_login,$seller_logout);
         }
     }
 
