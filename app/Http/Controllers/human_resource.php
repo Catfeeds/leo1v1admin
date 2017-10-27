@@ -1533,7 +1533,20 @@ class human_resource extends Controller
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
-        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
+
+        //判断招师主管
+        $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
+        //判断是否是招师
+        $is_zs_flag = (($this->t_admin_group_user->get_main_type($adminid))==8)?1:0;
+        if($is_zs_flag==1 && $is_master_flag !=1){
+            $accept_adminid = $adminid;
+            $id_train_through_new=0;
+        }else{
+            $accept_adminid = -1;
+            $id_train_through_new=-1;
+        }
+
+        $id_train_through_new      = $this->get_in_int_val("id_train_through_new", $id_train_through_new);
         $zs_flag = $this->get_in_int_val('zs_flag',0);
         
         if($fulltime_flag==1){
@@ -1543,7 +1556,7 @@ class human_resource extends Controller
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new
+            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new,$accept_adminid
         );
 
         $num = 0;
@@ -2000,7 +2013,17 @@ class human_resource extends Controller
 
     public function teacher_lecture_appointment_info(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(-7,0);
+        list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(-1,0,0,[
+            1 => array("la.answer_begin_time","入库时间"),
+            2 => array("ta.lesson_start", "面试时间"),
+        ],1);
+        // list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
+        //     1 => array("l.lesson_start","面试时间"),
+        //     2 => array("tl.add_time", "邀约时间"),
+        // ],1);
+
+
+        // list($start_time,$end_time) = $this->get_in_date_range(-7,0);
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);
@@ -2039,7 +2062,7 @@ class human_resource extends Controller
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid,
-            $second_train_status,$teacher_pass_type
+            $second_train_status,$teacher_pass_type,$opt_date_type
         );
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);

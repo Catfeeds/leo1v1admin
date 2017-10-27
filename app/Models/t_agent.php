@@ -1846,27 +1846,28 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function  send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data, $url ="" ) {
 
 
-        if (!$this->task->t_agent_wx_msg_log->check_is_send($from_agentid,$to_agentid,$agent_wx_msg_type)) {
+        if (!$this->task->t_agent_wx_msg_log->check_is_send(
+            $from_agentid,$to_agentid,$agent_wx_msg_type)) {
+            $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
+            //未发送
             if (!$url) {
                 $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
                 $base_url= $wx_config["url"] ;
                 $url="$base_url/wx_yxyx_web/index";
             }
-            //未发送
             $openid= $this->get_wx_openid($to_agentid);
 
             $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
             $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-            /*
             $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
             $wx->send_template_msg($xy_openid,$template_id,$data,$url);
-            */
-            $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+
+            //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+            $jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
             $wx->send_template_msg($jim_openid,$template_id,$data,$url);
 
             $succ_flag=false;
-            //$succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
-            $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
+            $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
             $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
         }
 
