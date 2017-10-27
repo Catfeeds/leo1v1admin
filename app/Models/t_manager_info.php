@@ -2041,4 +2041,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_value($sql);
     }
+    public function get_account_by_phone($phone) {
+        $sql = $this->gen_sql_new("select account from %s where phone='%s'",
+                                  self::DB_TABLE_NAME, $phone);
+        return $this->main_get_value($sql);
+    }
 }

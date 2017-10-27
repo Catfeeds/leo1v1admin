@@ -93,10 +93,11 @@ class common_ex extends Controller
                 $key4 = $ret_info['account']."-".date("md",time());
                 $value = $key4;
             }else{
+                $account = $this->t_manager_info->get_account_by_phone($p_phone);
                 $key1 = "知识库";
                 $key2 = "其它";
                 $key3 = "其它";
-                $key4 = $ret_info['account']."-".date("md",time());
+                $key4 = $account."-".date("md",time());
                 $value = $key4;
             }        
         }else{
