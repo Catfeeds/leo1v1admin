@@ -2077,5 +2077,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ." where leave_member_time = 0"
                                   ,self::DB_TABLE_NAME
         );
+
+        return $this->main_get_list($sql);
     }
 }

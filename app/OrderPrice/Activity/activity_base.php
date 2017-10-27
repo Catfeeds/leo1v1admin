@@ -20,6 +20,10 @@ class activity_base {
         $this->args = $args;
     }
 
+    static function check_now( $start_date, $end_date ) {
+        $now=time(NULL);
+        return (strtotime($start_date ) <= $now && $now < strtotime($end_date )   );
+    }
     /**
      * @return \App\Console\Tasks\TaskController
      */
@@ -54,28 +58,29 @@ class activity_base {
         return $last_value;
     }
 
-    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count  ) {
+    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag ) {
         return [ "order_activity_type" => static::$order_activity_type ,
                  "succ_flag"=> $succ_flag ,
                  "activity_desc"=>$desc,
                  "cur_price" => $cur_price  ,
-                 "cur_present_lesson_count" => $cur_present_lesson_count
+                 "cur_present_lesson_count" => $cur_present_lesson_count,
+                 "can_period_flag" => $can_period_flag,
         ];
     }
 
 
     //需要实现
-    protected function do_exec (  &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec ( &$can_period_flag,  &$price,  &$present_lesson_count,  &$desc_list )   {
 
 
     }
 
-    public function exec (  &$price,  &$present_lesson_count,  &$desc_list )   {
+    public function exec (  &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list  )   {
         $old_price= $price;
         $old_present_lesson_count= $present_lesson_count;
         $old_desc_list = $desc_list;
 
-        $this->do_exec($price,$present_lesson_count,$desc_list);
+        $this->do_exec($can_period_flag, $price,$present_lesson_count,$desc_list);
         if ( count($desc_list ) - count($old_desc_list )  > 1 ) {
             throw  new \Exception(" desc_list 增加　超过１，出错　" )  ;
         }

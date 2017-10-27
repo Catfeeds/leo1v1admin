@@ -1301,6 +1301,12 @@ class ajax_deal2 extends Controller
                 }else{
                     $succ_str="<font color=\"red\">未匹配</font>";
                 }
+
+                if ($item["can_period_flag"]) {
+                    $period_str="<font color=\"red\">分期</font>";
+                }else{
+                    $period_str="<font color=\"green\">全款</font>";
+                }
                 if(isset ($item["title"] )) { //旧版
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
@@ -1308,12 +1314,13 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                        . "<td>  ". $period_str 
                         . " </tr> ";
                 }
             }
             $row_count= count( $arr);
         }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时   </tr>  $tr_str </table>";
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时  <th> 启用分期  </tr>  $tr_str </table>";
         return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 

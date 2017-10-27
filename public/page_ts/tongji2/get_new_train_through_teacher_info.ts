@@ -62,9 +62,10 @@ $(function(){
                     },function(resp){
                        // console.log(resp.data);
                        /// var data = resp.data;
-                        $tr.find(".normal_lesspn_num").text(resp.normal_lesspn_num); 
-                        $tr.find(".all_price").text(data.all_price/100); 
-                        $tr.find(".lesson_count_all").text(data.lesson_count_all/100);
+                        $tr.find(".normal_lesson_num").text(resp.normal_lesson_num);
+                        $tr.find(".test_lesson_num").text(resp.test_lesson_num);
+                        $tr.find(".record_score").text(resp.record_score);
+                        $tr.find(".inter_score").text(resp.inter_score);
                         
                         do_index++;
                         do_one();
