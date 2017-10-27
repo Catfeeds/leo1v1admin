@@ -260,6 +260,8 @@ class url_power_map {
 			'/agent_money_ex/agent_money_ex_list'	=>1070470,
 			'/agent/get_wx_login_list'	=>1070471,
 			'/seller_student_new/no_lesson_call_end_time_list'	=>1070489,
+			'/agent/agent_group'	=>1070490,
+			'/agent/agent_group_statistics'	=>1070491,
 			'/appoint/index2'	=>1070900,
 			'/user_manage_new/money_contract_list'	=>1080100,
 			'/user_manage_new/money_contract_list_stu'	=>1081100,
