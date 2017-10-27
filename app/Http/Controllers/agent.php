@@ -531,7 +531,7 @@ class agent extends Controller
                     if(count($logout_c) == 0 || count($login_c) == 0){//销售无登录或退出
                         continue;
                     }else{
-                        if($item_c['roomid'] == 1508983623841){
+                        if($login_s['roomid'] == 1508983623841){
                             dd('a');
                         }
                         $login_time_seller = count($login_c)>0?$login_c['opt_time']:'';
