@@ -339,7 +339,6 @@ class wx_parent_gift extends Controller
             return $this->output_err("谢谢参加!");
         }
 
-
         $rate  = mt_rand(1,100);
         $prize = 0;
 
@@ -362,15 +361,20 @@ class wx_parent_gift extends Controller
 
         $ret = $this->t_agent->update_money($parentid, $prize);
         $is_save = 0;
+        $save_tiem = 0;
         if($ret){
             $is_save = 1;
+            $save_time = time();
         }
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
-            "luck_draw_time"     => time(),
             "luck_draw_adminid" => $parentid,
-            "money" => $prize,
-            "is_deposit" => $is_save
+            "luck_draw_time" => time(),
+            "deposit_time" => $save_time,
+            "is_deposit" => $is_save,
+            "money"  => $prize,
         ]);
+
+        return $this->output_succ();
 
         /**
            金额分别为
