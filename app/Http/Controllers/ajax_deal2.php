@@ -1620,6 +1620,17 @@ class ajax_deal2 extends Controller
             $score =0; 
         }
 
+        $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
+        $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($teacherid);
+        if(!empty($one_score) && !empty($video_score)){
+            $time = $one_score["add_time"]-$video_score["confirm_time"];
+            if($time<=0){
+                $inter_score = $one_score["record_score"];
+            }else{
+                 $inter_score = $video_score["teacher_lecture_score"];
+            }
+        }
+
 
         $list=[];
         $first             = $this->get_in_int_val("teacherid",50272);
