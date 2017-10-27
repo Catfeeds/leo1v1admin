@@ -32,7 +32,7 @@ class SetTeacherMoney extends Command
 
     /**
      * Execute the console command.
-     * @param type 1 每周二更新老师荣誉榜  2,3 每天更新老师的试听签单奖励 4 手动/定时
+     * @param type 1 每周二更新老师荣誉榜  2,3 每天更新老师的试听签单奖励 4 更新老师工资列表
      * @param day  老师签单奖更新的时间周期
      * @return mixed
      */
