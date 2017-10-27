@@ -2463,27 +2463,27 @@ class main_page extends Controller
                 if ($item['subject'] == 5) {
                     $physics = $this->accumulation($physics, $item);
                 }
-                if ($item['subject'] == 4) {
+                if ($item['subject'] == 6) {
                     $biology = $this->accumulation($biology, $item);
                 }
-                if ($item['subject'] == 4) {
+                if ($item['subject'] == 10) {
                     $science = $this->accumulation($science, $item);
                 }
-                if ($item['identity'] == 0) {
-                    $identity_no_set = $this->accumulation($identity_no_set, $item);
-                }
-                if ($item['identity'] == 5) {
-                    $identity_organ = $this->accumulation($identity_organ, $item);
-                }
-                if ($item["identity"] == 6) {
-                    $identity_public = $this->accumulation($identity_public, $item);
-                }
-                if ($item['identity'] == 7) {
-                    $identity_other = $this->accumulation($identity_other, $item);
-                }
-                if ($item['identity'] == 8) {
-                    $identity_stu = $this->accumulation($identity_stu, $item);
-                }
+                // if ($item['identity'] == 0) {
+                //     $identity_no_set = $this->accumulation($identity_no_set, $item);
+                // }
+                // if ($item['identity'] == 5) {
+                //     $identity_organ = $this->accumulation($identity_organ, $item);
+                // }
+                // if ($item["identity"] == 6) {
+                //     $identity_public = $this->accumulation($identity_public, $item);
+                // }
+                // if ($item['identity'] == 7) {
+                //     $identity_other = $this->accumulation($identity_other, $item);
+                // }
+                // if ($item['identity'] == 8) {
+                //     $identity_stu = $this->accumulation($identity_stu, $item);
+                // }
             }
             array_push($ret_info, $primary_china);
             array_push($ret_info, $middle_china);
