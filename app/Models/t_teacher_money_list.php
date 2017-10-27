@@ -95,7 +95,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
-    //签单奖
     public function get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson=-1){
 		$has_sql = "true";
         if($lessonid==-1){
