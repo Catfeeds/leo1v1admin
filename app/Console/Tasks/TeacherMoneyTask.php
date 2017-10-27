@@ -127,7 +127,7 @@ class TeacherMoneyTask extends TaskController
     /**
      * 设置老师工资信息
      */
-    public function set_teacher_salary_list($type){
+    public function set_teacher_salary_list($type,$day){
 
     }
 
