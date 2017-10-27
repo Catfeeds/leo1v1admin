@@ -35,7 +35,7 @@ class wx_parent_common extends Controller
         $action       = @$goto_url_arr[2];
         $web_html_url="http://wx-parent-web.leo1v1.com";
         if ($action=="binding" ){
-            $url="$web_html_url/binding?goto_url=";
+            $url="$web_html_url/binding?goto_url=$goto_url";
         }else{
             $parentid= $this->t_parent_info->get_parentid_by_wx_openid($openid);
             if ($parentid) {
