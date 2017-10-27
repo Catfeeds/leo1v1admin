@@ -211,12 +211,9 @@ class wx_yxyx_common extends Controller
 
         \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
         if ( $this->get_in_str_val('p_phone')!="15601830297" ) {
-
             if ($check_code != $code) {
                 return $this->output_err("手机验证码不对,请重新输入");
             }
-
-
         }
 
         return $this->agent_add();
