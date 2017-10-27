@@ -197,7 +197,6 @@ class tea_manage extends Controller
 
         $studentid       = $this->get_in_int_val('studentid', -1);
         $teacherid       = $this->get_in_int_val('teacherid', -1);
-        $lesson_status   = $this->get_in_int_val('lesson_status', -1);
         $confirm_flag    = $this->get_in_enum_list(E\Econfirm_flag::class);
         $seller_adminid  = $this->get_in_int_val("seller_adminid",-1);
         $lesson_status   = $this->get_in_int_val("lesson_status",-1);
