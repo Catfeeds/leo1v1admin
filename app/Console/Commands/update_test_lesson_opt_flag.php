@@ -91,6 +91,9 @@ class update_test_lesson_opt_flag extends cmd_base
                 foreach($seller_login as $item_c){
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
+                    if(count($logout_c) == 0){//cc无退出
+                        continue;
+                    }
                     $login_time_seller = $login_c['opt_time'];
                     $logout_time_seller = $logout_c['opt_time'];
                     $server_ip_seller = $login_c['server_ip'];
