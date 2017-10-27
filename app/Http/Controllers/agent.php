@@ -471,7 +471,6 @@ class agent extends Controller
         $ret_info = $task->t_test_lesson_opt_log->get_room_lesson_list($start_time,$end_time);
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
         $lessonid_arr = array_unique(array_column($ret_info,'lessonid'));
-        dd($roomid_arr,$lessonid_arr);
         foreach($roomid_arr as $info){//登录
             $stu_login = [];
             $stu_logout = [];
@@ -483,7 +482,7 @@ class agent extends Controller
                 $action = $item['action'];
                 $opt_type = $item['opt_type'];
 
-                if($info == $roomid && $action == E\Eaction::V_1){
+                if($info == $roomid && $action == E\Eaction::V_1 && $roomid==1508983623841){
                     if($role == E\Erole::V_1 && $opt_type == E\Etest_opt_type::V_1){//学生登录
                         $stu_login = $item;
                     }elseif($role == E\Erole::V_1 && $opt_type == E\Etest_opt_type::V_2){//学生退出
@@ -510,6 +509,7 @@ class agent extends Controller
                     }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
                         $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                     }
+                    dd(date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller),$time_differ);
                     if($time_differ>300){//不同ip,同时在线>5分钟,未测试成功
                         $task->t_seller_student_new->field_update_list($userid,[
                             'test_lesson_opt_flag'=>1,
