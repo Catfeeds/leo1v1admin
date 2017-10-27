@@ -338,7 +338,7 @@ class wx_yxyx_common extends Controller
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
             $agent_id=$this->t_agent->get_last_insertid();
-
+            dispatch( new \App\Jobs\agent_reset($agent_id) );
             $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             return $this->output_succ("邀请成功!");
         }else{
