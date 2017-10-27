@@ -73,6 +73,7 @@ class wx_parent extends Controller
     }
 
     public function zhishiku(){
+
     }
 
 
