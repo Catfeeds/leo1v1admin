@@ -2426,7 +2426,6 @@ class main_page extends Controller
                 $train_tea = $this->handle($train_tea);
                 $train_qual = $this->handle($train_qual);
             }
-            var_dump($train_tea);
             $imit_lesson = $this->handle($imit_lesson);
             $attend_lesson = $this->handle($attend_lesson);
             $adopt_lesson = $this->handle($adopt_lesson);
