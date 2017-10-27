@@ -59,6 +59,8 @@ class update_test_lesson_opt_flag extends cmd_base
                     }
                 }
             }
+            $stu_info = array_values($stu_info);
+            $seller_info = array_values($seller_info);
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
@@ -137,6 +139,8 @@ class update_test_lesson_opt_flag extends cmd_base
                     }
                 }
             }
+            $stu_info = array_values($stu_info);
+            $seller_info = array_values($seller_info);
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生上麦
                     $stu_wheat[$key]['login'] = $item;
