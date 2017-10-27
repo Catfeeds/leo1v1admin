@@ -46,8 +46,8 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <div class="row-data" data-teacherid="{{$var["month_start"]}}" >
-                                    <a class="fa fa-list course_plan" title="按课程包排课"> </a>
+                                <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
+                                    <a class="fa fa-list course_plan" > </a>
                                 </div>
                                
 
