@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+    'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
+    'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
     'CreateTInterviewRemind' => $baseDir . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
     'CreateTMonthStudentCount' => $baseDir . '/database/migrations/2017_10_24_173622_create_t_month_student_count.php',
     'CreateTMsgLogForWx' => $baseDir . '/database/migrations/2017_10_26_162253_create_t_msg_log_for_wx.php',
@@ -584,6 +587,7 @@ return array(
     'TTeacherAdvanceListAddStuNum' => $baseDir . '/database/migrations/2017_10_19_101810_t_teacher_advance_list_add_stu_num.php',
     'TTeacherAdvanceListAddTeacherMoneyType' => $baseDir . '/database/migrations/2017_10_17_100916_t_teacher_advance_list_add_teacher_money_type.php',
     'TTeacherFlow' => $baseDir . '/database/migrations/2017_10_26_120629_t_teacher_flow.php',
+    'TTeacherFlowAddId' => $baseDir . '/database/migrations/2017_10_26_183054_t_teacher_flow_add_id.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
     'TTestSubjectFreeListAddIndexAddTime' => $baseDir . '/database/migrations/2017_10_20_101727_t_test_subject_free_list_add_index_add_time.php',
@@ -592,6 +596,7 @@ return array(
     'TWxGiveBookModifyColumon' => $baseDir . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'UpdateThroughNewTime' => $baseDir . '/database/migrations/2017_10_26_194743_update_through_new_time.php',
     'XMPPHP_BOSH' => $baseDir . '/app/Libs/xmpp/BOSH.php',
     'XMPPHP_Exception' => $baseDir . '/app/Libs/xmpp/Exception.php',
     'XMPPHP_Log' => $baseDir . '/app/Libs/xmpp/Log.php',

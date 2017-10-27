@@ -662,7 +662,6 @@ class tongji_ss extends Controller
             $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
         }
 
-
         $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
         $subject_map      = [];
         $grade_map        = [];
