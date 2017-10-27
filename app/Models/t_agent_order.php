@@ -279,35 +279,21 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         );
         return $this->main_get_row($sql);
     }
-    //@desn:获取推荐学员签单量、签单金额
-    public function get_child_order_info($colonel_info,$cycle_order_count=0,$cycle_order_money=0){
-        for ($i = 0; $i < count($colonel_info); $i++) {
-            if($colonel_info[$i]['id']){
-                $where_arr = [
-                    ['ao.pid = %u',$colonel_info[$i]['id'],-1],
-                ];
-                $sql = $this->gen_sql_new(
-                    "select ao.aid as id,sum(ao.orderid>0) child_order_count,sum(oi.price) child_order_money ".
-                    "from %s ao ".
-                    "left join %s oi on ao.orderid = oi.orderid ".
-                    "where %s ".
-                    "group by ao.aid",
-                    self::DB_TABLE_NAME,
-                    t_order_info::DB_TABLE_NAME,
-                    $where_arr
-                );
-
-                $order_info = $this->main_get_list($sql);
-                foreach($order_info as $item){
-                    $cycle_order_count += @$item['child_order_count'];
-                    $cycle_order_money += @$item['child_order_money'];
-                    
-                }
-                if($order_info)
-                    $this->get_child_order_info($order_info);
-            }
-        }
-
-        return array($cycle_order_count,$cycle_order_money);
+    
+    //@desn:获取推荐学员签单量、签单金额[无下限限制下级]
+    public function get_cycle_child_order_info($in_str){
+        $where_arr = [
+            'ao.aid in '.$in_str,
+        ];
+        $sql = $this->gen_sql_new(
+            "select sum(ao.orderid>0) child_order_count,sum(oi.price) child_order_money ".
+            "from %s ao ".
+            "left join %s oi on ao.orderid = oi.orderid ".
+            "where %s ",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
     }
 }

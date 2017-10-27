@@ -31,7 +31,7 @@ class agent_reset extends cmd_base
         $list=$this->task->t_agent->get_agent_list();
         foreach ($list as $item ) {
             $id=$item["id"];
-            echo "deal $id\n";
+            // echo "deal $id\n";
                 $this->task->t_agent->reset_user_info($id);
         }
     }

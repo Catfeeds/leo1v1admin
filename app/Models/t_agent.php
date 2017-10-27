@@ -1466,14 +1466,43 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
-
+        $child_arr = [];
+        $cycle_student_count = 0;
+        $cycle_member_count = 0;
         //计算所有学员量、会员量[无下限限制下级]
-        list($cycle_student_count,$cycle_member_count)
-            =$this->get_cycle_child_count($id);
-        //计算所有试听量[无下限限制下级]
-        $cycle_test_lesson_count = $this->get_cycle_test_lesson_count($id);
-        //计算签单金额、签单量[无下限限制下级]
-        list($cycle_order_count,$cycle_order_money)=$this->get_cycle_child_order_info($id);
+        list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child($id);
+        if($id == 71)
+            print_r($child_arr);
+        $cycle_test_lesson_count = 0;
+        $cycle_order_count = 0;
+        $cycle_order_money = 0;
+        //用户有推荐人
+        if($child_arr){
+            $in_str = '('.implode(',',$child_arr).')';
+            //获取该用户推荐人的试听量[无限制下架]
+            $test_lesson_info = $this->get_child_test_lesson_info($in_str);
+            if($test_lesson_info){
+                foreach( $test_lesson_info as $item ) {
+                    $orderid=$item["orderid"];
+                    if ($orderid) { //有订单
+                
+                        $cycle_test_lesson_count += 1;
+                    }else{
+                        if ($item["lesson_user_online_status"] ==1 )
+                            $cycle_test_lesson_count += 1;
+                    }
+
+                }
+            }
+            
+
+            //计算签单金额、签单量[无下限限制下级]
+            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str);
+            $cycle_order_count = $child_order_info['child_order_count'];
+            $cycle_order_money = $child_order_info['child_order_money'];
+            
+        }
+        
 
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
@@ -1666,11 +1695,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_parent_map()
     {
         $sql = $this->gen_sql_new(
-            "select id,parentid from %s",
+            "select id,parentid,type from %s",
             self::DB_TABLE_NAME
         );
+
         return $this->main_get_list($sql,function( $item){
             return $item["id"];
+        } );
+    }
+    //@desn:获取以推荐人为key的数组
+    public function get_child_map(){
+        $sql = $this->gen_sql_new(
+            "select id,parentid,type from %s",
+            self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql,function( $item){
+            return $item["parentid"];
         } );
     }
     //设置用户为会员
@@ -1766,87 +1807,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_value($sql);
     }
-    //@desn:获取用户邀请学员个数[无下限限制下级]
-    public function get_cycle_child_count($id){
-        //构造团长信息
-        $colonel_info  = [
-            ['id' =>$id]
-        ];
-        list($cycle_student_count,$cycle_member_count) = $this->get_child_count($colonel_info);
-        return array($cycle_student_count,$cycle_member_count);
-        
-    }
-    //@desn:获取推荐学员数量
-    private function get_child_count($colonel_info,$cycle_student_count=0,$cycle_member_count=0){
-        for ($i = 0; $i < count($colonel_info); $i++) {
-            $where_arr = [
-                ['parentid = %u',$colonel_info[$i]['id'],'-1']
-            ];
-            $sql = $this->gen_sql_new(
-                "select id from %s where %s",self::DB_TABLE_NAME,$where_arr
-            );
-            $sql_count = $this->gen_sql_new(
-                "select sum(if(type in (1,3),1,0)) as child_student_count,".
-                "sum(if(type in (2,3),1,0)) as child_member_count ".
-                "from %s ".
-                "where %s",
-                self::DB_TABLE_NAME,
-                $where_arr
-            );
-            $parent_info = $this->main_get_list($sql);
-            $child_count =$this->main_get_row($sql_count);
-            $cycle_student_count += $child_count['child_student_count'];
-            $cycle_member_count += $child_count['child_member_count'];
-            if($child_count['child_student_count'] > 0 || $child_count['child_member_count'] > 0)
-                $this->get_child_count($parent_info,$cycle_student_count,$cycle_member_count);
-        }
-
-        return array($cycle_student_count,$cycle_member_count);
-    }
-        //@desn:获取推荐学员试听量[无限制下级]
-    public function get_cycle_test_lesson_count($id){
-        //构造团长信息
-        $colonel_info  = [
-            ['id' =>$id]
-        ];
-        return $this->get_child_test_lesson_count($colonel_info);
-
-    }
-    //@desn:递归获取试听量
-    private function get_child_test_lesson_count($colonel_info,$cycle_test_lesson_count=0){
-        for ($i = 0; $i < count($colonel_info); $i++) {
-            $child_list=$this-> get_l1_test_lesson_order_list($colonel_info[$i]['id']);
-            if($child_list){
-                foreach( $child_list as $item ) {
-                    $child_id=$item["id"];
-                    $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
-                    $orderid=$item["orderid"];
-                    if ($orderid) { //有订单
-                
-                        $cycle_test_lesson_count += 1;
-                    }else {
-                        if ($item["lesson_user_online_status"] ==1 )
-                            $cycle_test_lesson_count += 1;
-                    }
-
-                }
-                $this->get_child_test_lesson_count($child_list,$cycle_test_lesson_count);
-            }
-            
-        }
-
-        return $cycle_test_lesson_count;
-    }
-    //@desn:获取推荐学员签单量、签单金额[无下限限制下级]
-    public function get_cycle_child_order_info($id){
-        //构造团长信息
-        $colonel_info  = [
-            ['id' =>$id]
-        ];
-        list($cycle_order_count,$cycle_order_money) = $this->task->t_agent_order->get_child_order_info($colonel_info);
-        return array($cycle_order_count,$cycle_order_money);
-
-    }
+    
+    
     
     //获取某个团长试听数[一级]
     public function get_this_colconel_test_lesson_count($colconel_id){
@@ -2114,7 +2076,64 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                     self::DB_TABLE_NAME,  $where_arr );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+    //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
+    public function get_cycle_child($this_parentid){
+
+        $child_map=$this->get_child_map();
+        foreach($child_map as $parentid => $v ) {
+            list( $error_flag, $id_map,$student_count,$member_count )=$this->get_id($parentid, $child_map,$this_parentid);
+            if ($error_flag) {
+                echo "parentid $parentid: error_flag:$error_flag, list:  ". join(",", array_keys($id_map) ). "\n";
+            }
+        }
+
+        return [$id_map,$student_count,$member_count];
+        // $this->get_id($res);
+    }
+
+    function get_id($parentid , $parent_map ,$this_parentid)
+    {
+        $id_map=[ ];
+        $id_map[$this_parentid]=true;
+        $error_flag=false;
+        $tmpid=$this_parentid;
+        $member_count = 0;
+        $student_count = 0;
+        do{
+            $tmpid=@$parent_map[$tmpid]["id"];
+            if (isset ($id_map[ $tmpid]) ) {
+                $error_flag=true;
+                break;
+            }
+            if($tmpid){
+                $id_map[$tmpid] =true;
+                if(@$parent_map[$tmpid]['type'] = 1 || @$parent_map[$tmpid]['type'] = 3)
+                    $student_count++;
+                if(@$parent_map[$tmpid]['type'] = 1 || @$parent_map[$tmpid]['type'] = 3)
+                    $member_count++;
+            };
 
 
+        }while (!$tmpid==0 );
+        unset($id_map[$this_parentid]);
+        return array( $error_flag,  $id_map ,$member_count,$student_count );
+    }
+    //@desn:获取推荐用户上试听课信息
+    public function get_child_test_lesson_info($in_str) {
+        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
 
+        $sql = $this->gen_sql_new(
+            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
+            . " a.agent_status_money, ao.orderid  "
+            . " from %s a "
+            . " left join  %s l on a.test_lessonid =l.lessonid  "
+            . " left join  %s ao on a.id =ao.aid "
+            ." where  a.id in ".$in_str."  and a.create_time > %u  order by l.lesson_start asc ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            $check_time
+        );
+        return $this->main_get_list($sql);
+    }
 }
