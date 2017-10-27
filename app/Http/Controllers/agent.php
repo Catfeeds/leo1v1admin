@@ -640,7 +640,9 @@ class agent extends Controller
                     $login_time_seller = $login_c['opt_time'];
                     $logout_time_seller = $logout_c['opt_time'];
                     $server_ip_seller = $login_c['server_ip'];
-
+                    if($login_s['lessonid'] == 377680){
+                        dd($time_differ);
+                    }
                     // if($server_ip_stu != $server_ip_seller){
                         $time_differ = 0;
                         if($logout_time_stu == ''){//学生无下麦信息
@@ -652,9 +654,7 @@ class agent extends Controller
                                 $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                             }
                         }
-                        if($login_s['lessonid'] == 377680){
-                            dd($time_differ);
-                        }
+                        
 
                         if($login_s['lessonid'] == 377680){
                             dd($time_differ,date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller));
