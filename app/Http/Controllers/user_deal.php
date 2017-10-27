@@ -3179,8 +3179,6 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
       
-        $list = $this->t_order_refund->get_all_info_test();
-        dd($list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
         $num = $this->t_teacher_info->get_no_regular_test_lesson_num($start_time,$end_time);

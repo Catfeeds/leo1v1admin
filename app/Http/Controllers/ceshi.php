@@ -11,7 +11,7 @@ class ceshi extends Controller
     var $check_login_flag =false;
     public function ceshi1() {
         list($start_time,$end_time)=$this->get_in_date_range(0,-1);
-        $ret_info=$this->t_student_info-> get_closest_list($start_time,$end_time );
+        $ret_info=$this->t_student_info->get_closest_list($start_time,$end_time );
 
 
 

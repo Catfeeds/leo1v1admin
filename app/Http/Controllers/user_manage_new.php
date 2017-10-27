@@ -2032,13 +2032,35 @@ class user_manage_new extends Controller
 
 
         foreach($ret_info['list'] as &$item){
-            
+
         }
 
         // dd($ret_info);
 
         return $this->Pageview(__METHOD__,$ret_info);
     }
+
+
+
+
+
+    public function get_powr_list($powerid) // james
+    {
+        // $powerid = $this->get_in_int_val("powerid");
+        $list    = $this->t_authority_group->get_all_list();
+        foreach ($list as &$item) {
+            $p_list=preg_split("/,/", $item["group_authority"] );
+            unset( $item["group_authority"]);
+            unset( $item["2"]);
+            $item["has_power"] = in_array($powerid,$p_list)?1:0;
+
+            if(in_array($powerid, $p_list)){
+
+            }
+        }
+        return $this->output_succ(["data"=> $list]);
+    }
+
 
 
 
