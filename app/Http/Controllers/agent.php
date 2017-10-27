@@ -503,7 +503,7 @@ class agent extends Controller
                 $logout_time_seller = $seller_logout['opt_time'];
                 $server_ip_seller = $seller_logout['server_ip'];
                 $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
-                if($server_ip_stu != $server_ip_seller && $test_lesson_opt_flag==0){
+                if($test_lesson_opt_flag==0){
                     if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先退出
                         $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
                     }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
