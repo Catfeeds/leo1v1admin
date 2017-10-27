@@ -631,6 +631,10 @@ class agent extends Controller
                 $login_time_stu = $login_s['opt_time'];
                 $logout_time_stu = count($logout_s)>0?$logout_s['opt_time']:'';
                 $server_ip_stu = $login_s['server_ip'];
+                if($login_s['lessonid'] == 377680){
+                    dd($login_s,$logout_s);
+                }
+
                 foreach($seller_wheat as $item_c){
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
