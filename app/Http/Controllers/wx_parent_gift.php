@@ -341,7 +341,6 @@ class wx_parent_gift extends Controller
 
         $rate  = mt_rand(1,100);
         $prize = 0;
-
         /**
            金额分别为
            1.11（80%）
@@ -371,7 +370,7 @@ class wx_parent_gift extends Controller
             $prize = 11111;
         }
 
-
+        // 中奖金额存入数据库
         $ret = $this->t_agent->update_money($parentid, $prize);
         $is_save   = 0;
         $save_tiem = 0;
@@ -388,7 +387,6 @@ class wx_parent_gift extends Controller
         ]);
 
         //发送微信推送
-
         /**
            {{first.DATA}}
            活动主题：{{keyword1.DATA}}
@@ -407,13 +405,10 @@ class wx_parent_gift extends Controller
             "remark"    => "感谢您的参与",
         ];
         $url = "";
-        // $send_openid = $this->
+        $send_openid = $this->t_parent_info->get_wx_openid($parenrid);
         $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
 
-
         return $this->output_succ(["money"=>$prize]);
-
-
     }
 
 
