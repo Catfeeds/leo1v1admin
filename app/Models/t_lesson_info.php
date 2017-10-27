@@ -250,7 +250,9 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    s.userid as stu_id,"
                      ."    s.phone as stu_phone,"
                      ."    s.nick as stu_nick,"
+
                      ."    s.user_agent as stu_user_agent,"
+                     // ."l.stu_agent as stu_user_agent,"
                      ."    s.origin as origin_str,"
                      ."    s.stu_email,"
                      .""
