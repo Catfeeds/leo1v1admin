@@ -5,16 +5,16 @@ use Illuminate\Support\Facades\Log;
 
 use App\Helper\Net;
 use App\Helper\Utils;
-use CacheNick;
 /**
- * 老师奖励金额类型
- * type=1 荣誉榜奖励金额,每个周期课时消耗前5(第5名并列可取多)
- * type=2 兼职老师的试听签单奖
- * type=3 公司全职老师试听签单奖
+ * @from command:SetTeacherMoney
  */
 class TeacherMoneyTask extends TaskController
 {
 
+    /**
+     * 更新老师园丁奖奖金
+     * 园丁奖奖励金额,每个周期课时消耗前5(第5名并列可取多)
+     */
     public function set_teacher_lesson_total_list(){
         $end   = time();
         $start = strtotime("-1 week",$end);
@@ -50,6 +50,7 @@ class TeacherMoneyTask extends TaskController
     }
 
     /**
+     * 设置老师的签单奖
      * @param type 2 兼职老师的签单奖 3 全职老师的签单奖
      * @param day  老师签单奖更新的时间周期('day'天以内,如果为0则使用默认值)
      */
@@ -123,5 +124,11 @@ class TeacherMoneyTask extends TaskController
         return $begin_time;
     }
 
+    /**
+     * 设置老师工资信息
+     */
+    public function set_teacher_salary_list($type){
+
+    }
 
 }

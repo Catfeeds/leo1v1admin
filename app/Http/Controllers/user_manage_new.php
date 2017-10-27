@@ -1978,11 +1978,97 @@ class user_manage_new extends Controller
             $ret_info=\App\Helper\Utils::list_to_page_info([]);
         }
 
+        // dd($ret_info);
+
         return $this->Pageview(__METHOD__,$ret_info,[
             "group_list"=>$group_list,
             "user_list"=>$user_list,
         ]);
     }
+
+
+    public function test_james() {
+        $group_list = $this->t_authority_group->get_auth_groups();
+        $default_groupid = 0;
+        if (count($group_list)>0) {
+            $default_groupid= $group_list[0]["groupid"];
+        }
+        $groupid  = $this->get_in_int_val("groupid",$default_groupid);
+        $show_flag= $this->get_in_int_val("show_flag", -1);
+        $user_list=[];
+        $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
+        if ($show_flag!=2) { //只用户
+            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
+            $list=$this->get_menu_list($power_map );
+
+            $n=["k1"=>"","k2"=>"","k3"=>"" ];
+            $n["k1" ]= "其它";
+            $n["pid" ]= 0;
+            $k1_class= $this->gen_class(1);
+            $n["k_class" ]= $k1_class;
+            $n["class" ]=  "l_1 $k1_class " ;
+            $n["level" ]=  "1" ;
+            $n["folder" ]=  true;
+            $n["has_power_flag" ]= "" ;
+            $list[]=$n;
+
+            foreach (E\Epower::$desc_map as $k=> $v) {
+                $n=["k1"=>"----","k2"=>"","k3"=>"" ];
+                $k2_pid=$k;
+                $n["k2" ]= $v ;
+                $n["pid" ]= $k2_pid;
+                $k2_class= $this->gen_class(2);
+                $n["k_class" ]= $k2_class;
+                $n["class" ]= "l_2 $k1_class $k2_class";
+                $n["level" ]=  "2" ;
+                $n["folder" ]=  false;
+                $n["has_power_flag" ]= isset($power_map["$k2_pid"])?"checked":"" ;
+                $list[]=$n;
+            }
+            $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        }else{
+            $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        }
+
+
+        foreach($ret_info['list'] as &$item){
+            if($item['url']){
+                $item['powerid_info'] = $this->get_powr_list($item['pid']);
+            }
+        }
+
+
+
+        dd($ret_info);
+
+        return $this->Pageview(__METHOD__,$ret_info);
+    }
+
+
+
+
+
+    public function get_powr_list($powerid) // james
+    {
+        // $powerid = $this->get_in_int_val("powerid");
+        $list    = $this->t_authority_group->get_all_list();
+        $ret = [];
+        foreach ($list as &$item) {
+            $p_list=preg_split("/,/", $item["group_authority"] );
+            unset( $item["group_authority"]);
+            unset( $item["2"]);
+            $item["has_power"] = in_array($powerid,$p_list)?1:0;
+
+            if(in_array($powerid, $p_list)){
+                $ret[] = $item;
+            }
+        }
+        return $this->output_succ(["data"=> $ret]);
+    }
+
+
+
+
 
     public function opt_accont_group() {
         $uid      = $this->get_in_int_val("uid") ;

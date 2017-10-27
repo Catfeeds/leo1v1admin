@@ -1032,39 +1032,69 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $page_num,$lesson_count_start,$lesson_count_end,$lesson_start,$lesson_end,$assistantid,$grade,$type
     ){
         $where_arr = [
-            ["lesson_count_left >=%u",$lesson_count_start,-1 ],
-            ["lesson_count_left <=%u",$lesson_count_end,-1 ],
-            ["last_lesson_time >=%u",$lesson_start,-1 ],
-            ["last_lesson_time <=%u",$lesson_end,-1 ],
-            ["assistantid=%u", $assistantid, -1] ,
-            ["grade=%u",$grade,-1],
+            // ["s.lesson_count_left >=%u",$lesson_count_start,-1 ],
+            // ["s.lesson_count_left <=%u",$lesson_count_end,-1 ],
+            ["s.last_lesson_time >=%u",$lesson_start,-1 ],
+            ["s.last_lesson_time <=%u",$lesson_end,-1 ],
+            ["s.assistantid=%u", $assistantid, -1] ,
+            ["s.grade=%u",$grade,-1],
         ];
 
-        $refund_sql="true";
+        // $refund_sql="true";
+        // if(in_array($type,[1,2])){
+        //     if($type==1){
+        //         $exists_str = "not exists";
+        //     }elseif($type==2){
+        //         $exists_str = "exists";
+        //     }
+        //     $refund_sql = $this->gen_sql_new("%s (select 1 from %s where s.userid=userid)"
+        //                                      ,$exists_str
+        //                                      ,t_order_refund::DB_TABLE_NAME
+        //     );
+        //     $where_arr[]= "type=1";
+        // }
+
+        // $sql = $this->gen_sql_new("select userid,lesson_count_all,lesson_count_left,last_lesson_time,assistantid,grade "
+        //                           ." from %s s"
+        //                           ." where %s "
+        //                           ." and last_lesson_time>0"
+        //                           ." and %s"
+        //                           ." order by last_lesson_time desc "
+        //                           ,self::DB_TABLE_NAME
+        //                           ,$where_arr
+        //                           ,$refund_sql
+        // );
+        // return $this->main_get_list_by_page($sql,$page_num);
+
+        $have_flag="";
         if(in_array($type,[1,2])){
             if($type==1){
-                $exists_str = "not exists";
+                $where_arr[]="(r.apply_time is null or r.apply_time<s.last_lesson_time)"; 
+                $where_arr[]="s.type=1"; 
             }elseif($type==2){
-                $exists_str = "exists";
+                $where_arr[]="r.apply_time>=s.last_lesson_time"; 
+                $have_flag="having (sum(o.lesson_left) < 100)";
             }
-            $refund_sql = $this->gen_sql_new("%s (select 1 from %s where s.userid=userid)"
-                                             ,$exists_str
-                                             ,t_order_refund::DB_TABLE_NAME
-            );
-            $where_arr[]= "type=1";
+        }else{
+            $where_arr[] = ["s.lesson_count_left >=%u",$lesson_count_start,-1 ];
+            $where_arr[] = ["s.lesson_count_left <=%u",$lesson_count_end,-1 ];
         }
-
-        $sql = $this->gen_sql_new("select userid,lesson_count_all,lesson_count_left,last_lesson_time,assistantid,grade "
-                                  ." from %s s"
-                                  ." where %s "
-                                  ." and last_lesson_time>0"
-                                  ." and %s"
-                                  ." order by last_lesson_time desc "
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-                                  ,$refund_sql
+        
+        $sql = $this->gen_sql_new("select s.userid,s.lesson_count_all,s.lesson_count_left,"
+                                  ."s.last_lesson_time,s.assistantid,s.grade,sum(o.lesson_left) left_all"
+                                  ." from %s s  left join %s r on s.userid = r.userid and r.contract_type in (0,3) "
+                                   ." and not exists (select 1 from %s where userid=r.userid and r.contract_type in (0,3) "
+                                      ."and apply_time>r.apply_time)"
+                                  ." left join %s o on s.userid= o.userid and o.contract_type in (0,3)"
+                                  ." where %s  group by s.userid %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_order_refund::DB_TABLE_NAME,
+                                  t_order_refund::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  $have_flag 
         );
-        return $this->main_get_list_by_page($sql,$page_num);
+        return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
     public function get_user_list_by_lesson_count_new($lesson_start,$lesson_end){
@@ -1626,6 +1656,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"学生未分配助教组长","学生未分配助教组长通知","您好,学员".$nick."未找到对应助教助长","");
             }
+        }elseif($user_info["ass_master_adminid"]>0  && !empty($user_info["init_info_pdf_url"])){
+            $r = $this->field_update_list($userid,[
+                "type"=>0
+            ]);
+
         }
 
 

@@ -1296,6 +1296,13 @@ class common extends Controller
                     "学生:".$nick." 合同付款成功,支付方式".$channel_name.",订单号:".$orderNo,
                     "/user_manage_new/money_contract_list?studentid=$userid");
                 $this->t_manager_info->send_wx_todo_msg(
+                    "zero",
+                    "合同付款通知",
+                    "合同付款通知",
+                    "学生:".$nick." 合同付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                    "/user_manage_new/money_contract_list?studentid=$userid");
+
+                $this->t_manager_info->send_wx_todo_msg(
                     $sys_operator,
                     "合同付款通知",
                     "合同付款通知",
@@ -1309,17 +1316,24 @@ class common extends Controller
                     "");
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
                 if(empty($all_order_pay)){
-                    $this->t_order_info->field_update_list($parent_orderid,[
+                    /* $this->t_order_info->field_update_list($parent_orderid,[
                         "order_status" =>1,
                         "contract_status"=>1,
                         "pay_time"       =>time()
-                    ]);
+                        ]);*/
                     $this->t_manager_info->send_wx_todo_msg(
                         "echo",
                         "合同付款通知",
                         "合同已支付全款",
                         "学生:".$nick." 合同已支付全款",
                         "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "zero",
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$nick." 合同已支付全款",
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+
                     $this->t_manager_info->send_wx_todo_msg(
                         $sys_operator,
                         "合同付款通知",

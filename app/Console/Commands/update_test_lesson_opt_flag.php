@@ -67,6 +67,7 @@ class update_test_lesson_opt_flag extends cmd_base
                 $server_ip_seller = $seller_logout['server_ip'];
                 $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
                 if($server_ip_stu != $server_ip_seller && $test_lesson_opt_flag==0){
+                    $time_differ = 0;
                     if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先退出
                         $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
                     }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
@@ -113,6 +114,7 @@ class update_test_lesson_opt_flag extends cmd_base
                 $server_ip_seller = $seller_logout['server_ip'];
                 $on_wheat_flag = $task->t_lesson_info->field_get_value($info,'on_wheat_flag');
                 if($server_ip_stu != $server_ip_seller && $on_wheat_flag==0){
+                    $time_differ = 0;
                     if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先下麦
                         $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
                     }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先上麦

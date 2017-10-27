@@ -15,7 +15,7 @@ class update_month_student_count extends cmd_base
      *
      * @var string
      */
-    protected $description = '每月一日,早上四点更新学生信息,保存本月及上月部分信息';
+    protected $description = '每月一日,早上4:30更新学生信息,保存本月及上月部分信息';
 
 
 
