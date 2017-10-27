@@ -38,8 +38,8 @@
                         <td>{{$var["realname"]}} </td>
                         <td>{{$var["train_through_new_time_str"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
-                        <td class="normal_lesspn_num"></td>
-                        <td class="test_lesspn_num"></td>
+                        <td class="normal_lesson_num"></td>
+                        <td class="test_lesson_num"></td>
                         <td class="inter_score"></td>
                         <td class="record_score"></td>
                         <td>

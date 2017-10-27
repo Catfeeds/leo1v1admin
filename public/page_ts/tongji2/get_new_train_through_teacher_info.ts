@@ -60,9 +60,9 @@ $(function(){
                         "start_time"      : g_args.start_time,
                         "end_time"        : g_args.end_time
                     },function(resp){
-                        console.log(resp.data);
-                        var data = resp.data;
-                        $tr.find(".stu_num").text(data.stu_num); 
+                       // console.log(resp.data);
+                       /// var data = resp.data;
+                        $tr.find(".normal_lesspn_num").text(resp.normal_lesspn_num); 
                         $tr.find(".all_price").text(data.all_price/100); 
                         $tr.find(".lesson_count_all").text(data.lesson_count_all/100);
                         
