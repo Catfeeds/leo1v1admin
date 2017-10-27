@@ -2070,6 +2070,14 @@ class user_manage_new extends Controller
                 // $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
 
             }
+
+            
+        }
+
+        foreach($ret_info as &$v){
+            if($v['url_name']){
+                
+            }
         }
 
         // dd($group_list);
