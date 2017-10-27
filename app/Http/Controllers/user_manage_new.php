@@ -2044,6 +2044,8 @@ class user_manage_new extends Controller
 
                 dd($group_list);
 
+                $user_list = $this->t_manager_info->get_all();
+
                 $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
 
             }
