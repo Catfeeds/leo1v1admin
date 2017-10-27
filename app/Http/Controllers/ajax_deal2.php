@@ -1612,8 +1612,47 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
+        $teacherid             = $this->get_in_int_val("teacherid",50272);
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $list=[];
-        $first              = $this->get_in_int_val("teacherid",50272);
+        $normal_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,-2);
+        $test_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,2);
+        $tea_arr =[$teacherid];
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        if(!empty($teacher_record_score)){
+            $score_list = $teacher_record_score[$teacherid];
+            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        }else{
+            $score =0; 
+        }
+
+        $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
+        $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($teacherid);
+        if(!empty($one_score) && !empty($video_score)){
+            $time = $one_score["add_time"]-$video_score["confirm_time"];
+            if($time<=0){
+                $inter_score = $one_score["record_score"];
+            }else{
+                 $inter_score = $video_score["teacher_lecture_score"];
+            }
+        }elseif(!empty($one_score) && empty($video_score)){
+            $inter_score = $one_score["record_score"];
+        }elseif(empty($one_score) && !empty($video_score)){
+             $inter_score = $video_score["teacher_lecture_score"];
+        }else{
+            $inter_score=0;
+        }
+        return $this->output_succ([
+            "normal_lesson_num" =>$normal_lesson_num,
+            "test_lesson_num"   =>$test_lesson_num,
+            "record_score"      =>$score,
+            "inter_score"       =>$inter_score
+        ]);
+
+
+        $list=[];
+        $first             = $this->get_in_int_val("teacherid",50272);
         // $first = strtotime("2016-06-01");
         // $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
         $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));

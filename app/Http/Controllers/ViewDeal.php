@@ -474,6 +474,9 @@ trait  ViewDeal {
         }else if (  $ctrl == "teacher_info"  ) { //老师后台
             $data["_nick"] =  session("nick") ;
             $data["_face"] =  session("face") ;
+        }else if ($ctrl == 'agent_info'){
+            $data["_nickname"] = session('nickname');
+            $data["_headimgurl"] = session('headimgurl');
         }else{
             $data["_menu_html"] = session("menu_html") ;
         }

@@ -118,6 +118,10 @@ class Controller extends ControllerEx
     public function get_login_teacher() {
         return session("tid");
     }
+    
+    public function get_login_agent() {
+        return session("aid");
+    }
 
     function get_wx_teacherid(){
         return session("login_userid");

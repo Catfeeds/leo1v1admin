@@ -1437,5 +1437,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    public function get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,$lesson_type=-2){
+        $where_arr=[
+            ["teacherid=%u",$teacherid,-1],
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_del_flag=0",
+            "confirm_flag <>2"
+        ];
+        if($lesson_type==-2){
+            $where_arr[]="lesson_type in(0,1,3)";
+            $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        }elseif($lesson_type==2){
+            $where_arr[]="lesson_type =2";
+            $where_arr[]="success_flag <2";
+            $sql = $this->gen_sql_new("select count(tss.lessonid)"
+                                      ." from %s l join %s tss on l.lessonid = tss.lessonid"
+                                      ." where %s",
+                                      self::DB_TABLE_NAME,
+                                      t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                      $where_arr);
+
+        }
+        return $this->main_get_value($sql);
+    }
+
 
 }

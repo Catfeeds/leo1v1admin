@@ -887,6 +887,22 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
+    public function get_teacher_first_interview_score_info($teacherid){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,0],
+            "type=10",
+            "trial_train_status=1",
+        ];
+        $sql = $this->gen_sql_new("select record_score,add_time"
+                                  ." from %s "
+                                  ." where %s order by add_time"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_interview_acc($phone){
         $sql = $this->gen_sql_new("select acc from %s where phone_spare ='%s' and trial_train_status =1 and type=10",
                                   self::DB_TABLE_NAME,
@@ -1379,6 +1395,37 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   ." where %s ",
                                   t_lesson_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_interview_through_by_subject($start_time, $end_time, $subject){
+        $where_arr=[
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            ["l.subject=%u",$subject,0],
+            //  "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
+            "tr.type=10",
+            "tr.trial_train_status=1"
+        ];
+        if ($subject <= 3) {
+            $query = " sum(if(substring(l.grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(l.grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(l.grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
+        $sql = $this->gen_sql_new("select %s "
+                                  ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
+                                  ." left join %s tt on ta.userid = tt.teacherid "
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
+                                  ." where %s",
+                                  $query,
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_row($sql);

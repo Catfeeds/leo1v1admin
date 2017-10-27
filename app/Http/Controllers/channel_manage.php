@@ -656,7 +656,6 @@ class channel_manage extends Controller
             }
         }
         array_unshift($list,$total);
-        //dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 

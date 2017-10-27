@@ -21,7 +21,7 @@ class common_ex extends Controller
 
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
             if ($check_code != $code) {
-                //return $this->output_err("手机验证码不对,请重新输入");
+                return $this->output_err("手机验证码不对,请重新输入");
             }
             return $this->share_knowledge();
 
@@ -63,7 +63,6 @@ class common_ex extends Controller
     public function share_knowledge(){
         $phone = $this->get_in_str_val("phone");
         $p_phone = $this->get_in_str_val("p_phone");
-        
         if(!preg_match( "/^1[34578]{1}\d{9}$/",$phone)){
             return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
         }
@@ -76,7 +75,7 @@ class common_ex extends Controller
         }
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         if($userid){
-            //return $this->output_err("此号码已经注册!");
+            return $this->output_err("此号码已经注册!");
         }
         if($p_phone != ''){
             $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
@@ -86,13 +85,34 @@ class common_ex extends Controller
             }elseif($account_role == 1){//助教cr
                 $cc_type = 1;
             }
+            $ret_info = $this->t_admin_group_user->get_info_by_adminid($account_id);
+            if($ret_info['main_type'] == 2 || $ret_info['main_type'] == 3){
+                $key1 = "知识库";
+                $key2 = E\Emain_type::get_desc($ret_info['main_type']);
+                $key3 = $ret_info['group_name'];
+                $key4 = $ret_info['account']."-".date("md",time());
+                $value = $key4;
+            }else{
+                $account = $this->t_manager_info->get_account_by_phone($p_phone);
+                $key1 = "知识库";
+                $key2 = "其它";
+                $key3 = "其它";
+                $key4 = $account."-".date("md",time());
+                $value = $key4;
+            }        
         }else{
             $cc_type = 0;
+            $key1 = "未定义";
+            $key2 = "未定义";
+            $key3 = "未定义";
+            $key4 = "未定义";
+            $value = $key4;
         }
-       
+        //qudao 
+        $ret_origin = $this->t_origin_key->add_by_admind($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0);
         //进例子
-        $value = 1;
-        $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='知识库',$subject=0,$has_pad=0);
+        $origin_value = "知识库";
+        $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin_value,$subject=0,$has_pad=0);
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
             $opt_account=$this->t_manager_info->get_account($opt_adminid);
