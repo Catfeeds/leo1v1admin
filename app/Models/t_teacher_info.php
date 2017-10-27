@@ -3975,7 +3975,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
-        if($subject == 1) var_dump($sql); 
         return $this->main_get_row($sql);
     }
 

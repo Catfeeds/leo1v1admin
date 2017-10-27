@@ -96,7 +96,7 @@ class import_to_teacher_flow extends Command
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $item) {
             if ($item['teacherid']) {
-                $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 5, $item['phone']);
+                $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 5, $item['teacherid']);
                
                 $task->t_teacher_flow->field_update_list($item['teacherid'], [
                     "trial_lecture_pass_time" => $lecture['add_time'],
