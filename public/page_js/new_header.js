@@ -2787,8 +2787,7 @@ $(function () {
     if ( no_copy.length ) {
         no_copy.each(function(){
             $(document).bind("contextmenu copy selectstart", function() {
-            // $(document).bind("copy selectstart", function() {
-                return false;
+                // return false;
             });
         });
     }
