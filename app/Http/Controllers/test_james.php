@@ -818,8 +818,9 @@ class test_james extends Controller
 
 
     public function dd(){
-
-        $this->t_manager_info->get_user_list($item['group_str']))
+        $b = '29,30';
+        $a = $this->t_manager_info->get_user_list($b);
+        dd($a);
         $a = [
             ['a'=>1,'b'=>2],
             ['v'=>1,'d'=>2],
