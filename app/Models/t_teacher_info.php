@@ -4207,8 +4207,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "tl.is_test_user =0",
             "train_through_new=1",
             ["tl.subject=%u",$subject,-1],
-            //["tl.train_through_new_time >= %u",$start_time,-1],
-            //["tl.train_through_new_time <= %u",$end_time,-1],
+            ["tl.train_through_new_time >= %u",$start_time,-1],
+            ["tl.train_through_new_time <= %u",$end_time,-1],
         ];
 
         $sql = $this->gen_sql_new("select accept_adminid,sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
