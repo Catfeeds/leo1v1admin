@@ -2032,6 +2032,7 @@ class user_manage_new extends Controller
 
 
         // dd($ret_info);
+        $user_list = $this->t_manager_info->get_all();
 
         foreach($ret_info['list'] as &$item){
             if(!empty($item['url'])){
@@ -2040,11 +2041,13 @@ class user_manage_new extends Controller
                 foreach($powerid_info as $v){
                     $group_list[] = $v['groupid'];
                 }
-                $item['group_str'] = implode(',',$group_list);
+
+                foreach($user_list as $vv){
+                    $quan_arr = explode(',',$vv['permission']);
+                }
 
                 dd($group_list);
 
-                $user_list = $this->t_manager_info->get_all();
 
                 $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
 
