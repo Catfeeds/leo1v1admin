@@ -1656,6 +1656,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"学生未分配助教组长","学生未分配助教组长通知","您好,学员".$nick."未找到对应助教助长","");
             }
+        }elseif($user_info["ass_master_adminid"]>0  && !empty($user_info["init_info_pdf_url"])){
+            $r = $this->field_update_list($userid,[
+                "type"=>0
+            ]);
+
         }
 
 

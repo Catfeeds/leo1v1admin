@@ -2032,10 +2032,14 @@ class user_manage_new extends Controller
 
 
         foreach($ret_info['list'] as &$item){
-
+            if($item['url']){
+                $item['powerid_info'] = $this->get_powr_list($item['pid']);
+            }
         }
 
-        // dd($ret_info);
+
+
+        dd($ret_info);
 
         return $this->Pageview(__METHOD__,$ret_info);
     }
