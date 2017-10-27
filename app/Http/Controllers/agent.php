@@ -528,35 +528,31 @@ class agent extends Controller
                 foreach($seller_login as $item_c){
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
-                    $login_time_seller = count($login_c)>0?$login_c['opt_time']:'';
-                    $logout_time_seller = count($logout_c)>0?$logout_c['opt_time']:'';
-                    $server_ip_seller = $login_c['server_ip'];
-                    if($info == 1508983623841){
-                        dd($login_c,$logout_c);
-                    }
-                    if($server_ip_stu != $server_ip_seller){
-                        $time_differ = 0;
-                        if($logout_time_stu == ''){//学生无退出
-                            $time_differ = $logout_time_seller-$login_time_stu;
-                        }elseif($logout_time_seller == ''){//销售无退出
-                            if($info == 1508983623841){
-                                dd('a');
-                            }
-                            $time_differ = 0;
-                        }else{
-                            if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先退出
-                                $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
-                            }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
-                                $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
-                            }
-                            if($info == 1508983623841){
-                                dd($time_differ,date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller));
-                            }
+                    if(count($logout_c) == 0 || count($login_c) == 0){//销售无登录或退出
+                        continue;
+                    }else{
+                        if($item_c['roomid'] == 1508983623841){
+                            dd('a');
                         }
-                        if($time_differ>300){//不同ip,同时在线>5分钟
-                            $task->t_seller_student_new->field_update_list($userid,[
-                                'test_lesson_opt_flag'=>1,
-                            ]);
+                        $login_time_seller = count($login_c)>0?$login_c['opt_time']:'';
+                        $logout_time_seller = count($logout_c)>0?$logout_c['opt_time']:'';
+                        $server_ip_seller = $login_c['server_ip'];
+                        if($server_ip_stu != $server_ip_seller){
+                            $time_differ = 0;
+                            if($logout_time_stu == ''){//学生无退出
+                                $time_differ = $logout_time_seller-$login_time_stu;
+                            }else{
+                                if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先退出
+                                    $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
+                                }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
+                                    $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
+                                }
+                            }
+                            if($time_differ>300){//不同ip,同时在线>5分钟
+                                $task->t_seller_student_new->field_update_list($userid,[
+                                    'test_lesson_opt_flag'=>1,
+                                ]);
+                            }
                         }
                     }
                 }
@@ -1852,7 +1848,7 @@ class agent extends Controller
     }
     //优学优享团队统计
     public function agent_group_statistics(){
-       
+
         //获取一级数据  --begin---
         $colconel_list = $this->t_agent_group->get_colconel_list();
         for($i=0;$i<count($colconel_list);$i++){
@@ -1871,7 +1867,7 @@ class agent extends Controller
                 'level' => 'l-1',
             ];
             //$colconel_result[] = $this->t_agent->get_colconel_statistics($colconel_list[$i]['colconel_id']);
-            
+
         }
         // dd($colconel_result);
         //获取一级数据  --end---
