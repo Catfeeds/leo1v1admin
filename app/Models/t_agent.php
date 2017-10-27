@@ -1848,8 +1848,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         if (!$this->task->t_agent_wx_msg_log->check_is_send(
             $from_agentid,$to_agentid,$agent_wx_msg_type)) {
-            $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
             //未发送
+
+            $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
             if (!$url) {
                 $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
                 $base_url= $wx_config["url"] ;
