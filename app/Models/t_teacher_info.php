@@ -3952,6 +3952,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 面试通过
     public function get_interview_through_count($start_time, $end_time, $subject)
     {
+        $where_arr=[
+            ["confirm_time >= %u",$start_time,-1],
+            ["confirm_time <= %u",$end_time,-1],
+            "status=1",
+            "is_test_flag =0",
+            "account <> 'adrian'"
+        ];
+        if ($subject <= 3) {
+            $query = " sum(if(substring(grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
+
+        $sql = $this->gen_sql_new("select %s from %s where %s",
+                                  $query,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+
         $whereArr = [
             ["tf.trial_lecture_pass_time>%u", $start_time, 0],
             ["tf.trial_lecture_pass_time<%u", $end_time, 0],

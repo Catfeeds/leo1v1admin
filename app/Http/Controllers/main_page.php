@@ -2402,6 +2402,7 @@ class main_page extends Controller
             for ($i=1; $i <= 7; $i++) {
                 if ($i == 7) $i = 10;
                 $interview_pass[$i] = $this->t_teacher_info->get_interview_through_count($start_time, $end_time,$i);
+                $interview_video[$i] = $this->t_teacher_record_list->get_interview_through_by_subject($start_time, $end_time, $i);
                 if ($recruit == 'train') {
                     // 培训参训新师人数
                     $train_tea[$i] = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time, $i);
@@ -2415,8 +2416,8 @@ class main_page extends Controller
                 // 模拟试听通过人数
                 $adopt_lesson[$i] = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time,$i);
             }
-
             $ret_info = $this->handle($interview_pass);
+            $interview_video = $this->handle($interview_video);
 
             $total['sum'] = 0;
             if ($recruit == 'train') {
@@ -2432,6 +2433,7 @@ class main_page extends Controller
             $total['attend_sum'] = 0;
             $total['adopt_sum'] = 0;
             foreach($ret_info as $key => &$item) {
+                $item['sum'] += $interview_video[$key]['sum'];
                 if (isset($item['grade'])) {
                     E\Esubject::set_item_value_str($item, "subject");
                     E\Egrade::set_item_value_str($item, "grade");
