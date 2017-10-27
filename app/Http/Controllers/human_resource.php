@@ -2024,7 +2024,6 @@ class human_resource extends Controller
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);
-        $interview_type             = $this->get_in_int_val("interview_type",0);
         $user_name                  = trim($this->get_in_str_val('user_name',''));
         $record_status              = $this->get_in_int_val("record_status",-1);
         $page_num                   = $this->get_in_page_num();
@@ -2040,6 +2039,11 @@ class human_resource extends Controller
         $accept_adminid             = $this->get_in_int_val("accept_adminid", -1);
         $second_train_status        = $this->get_in_int_val("second_train_status", -1);
         $teacher_pass_type          = $this->get_in_int_val("teacher_pass_type", -1);
+        if($show_full_time ==1){
+            $interview_type             = $this->get_in_int_val("interview_type",-1);
+        }else{
+            $interview_type             = $this->get_in_int_val("interview_type",0); 
+        }
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();

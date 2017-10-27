@@ -17,7 +17,7 @@ class CreateTRuffianShare extends Migration
         Schema::create('db_weiyi.t_ruffian_share', function( Blueprint $table)
         {
             t_field($table->integer("id"),"id");
-            // t_field($table->tinyInteger("teacher_type"),"老师类型");
+            t_field($table->tinyInteger("is_share_flag"),"是否分享");
             // t_field($table->tinyInteger("teacher_money_flag"),"老师工资发放类型");
             // t_field($table->integer("lesson_1v1_money"),"1对1课工资");
             // t_field($table->integer("lesson_small_money"),"小班课工资");
