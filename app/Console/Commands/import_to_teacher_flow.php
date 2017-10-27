@@ -82,13 +82,14 @@ class import_to_teacher_flow extends Command
         foreach($info as $item) {
             if ($item['teacherid']) {
                 $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time, $end_time, $item['phone']);
-                var_dump($lecture);
-               
-                $task->t_teacher_flow->field_update_list($item['teacherid'], [
-                    "trial_lecture_pass_time" => $lecture['confirm_time'],
-                    'subject' => $lecture['subject'],
-                    'grade' => $lecture['grade']
-                ]);
+                
+                if ($lecture) { echo '调用: subject : '.$lecture['subject'];
+                    $task->t_teacher_flow->field_update_list($item['teacherid'], [
+                        "trial_lecture_pass_time" => $lecture['confirm_time'],
+                        'subject' => $lecture['subject'],
+                        'grade' => $lecture['grade']
+                    ]);
+                }
             }
         }
 
