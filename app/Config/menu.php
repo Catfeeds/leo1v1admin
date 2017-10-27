@@ -354,6 +354,8 @@ class menu{
                     ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
                     ["power_id"=>70, "name"=>"活动赠送金额",   "url"=>"/agent_money_ex/agent_money_ex_list"],
                     ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
+                    ["power_id"=>90, "name"=>"优学优享团",   "url"=>"/agent/agent_group"],
+                    ["power_id"=>91, "name"=>"团队统计",   "url"=>"/agent/agent_group_statistics"],
                 ]],
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
             ]],

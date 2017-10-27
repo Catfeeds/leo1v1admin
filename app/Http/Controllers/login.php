@@ -525,4 +525,54 @@ class login extends Controller
         return $this->pageView(__METHOD__,[],['downflag' => $download]);
     }
 
+    //@desn:优学优享团长登录[显示]
+    public function agent(){
+        global $_SESSION;
+        $download = $this->get_in_str_val('download',-1);
+        return $this->pageView(__METHOD__,[],['downflag' => $download]);
+    }
+    //@desn:优学优享团登录
+    public function agent_login(){
+        global $_SESSION;
+        $phone  = strtolower(trim($this->get_in_str_val("phone")));
+        $password = $this->get_in_str_val('password');
+        $seccode  = $this->get_in_str_val('seccode') ;
+        // $remember  = $this->get_in_str_val('remember') ;
+        $ip       = $this->get_in_client_ip();
+
+
+        if (  empty($seccode) || $seccode !== session('verify')) {
+            return $this->output_err( E\Eerror::V_WRONG_VERIFY_CODE );
+        }
+
+        $userid = $this->t_agent->check_login_userid($phone, $password);
+        //dd($userid);
+        if($userid>0){
+            $agentid = $userid;
+        }else{
+            $ret_dynamic = $this->login_with_dymanic_passwd($phone, E\Erole::V_TEACHER , $password  );
+            if ($ret_dynamic == false) {
+                return $this->output_err("用户名密码出错");
+            }
+            $agentid= $this->t_agent->get_agentid($phone);
+        }
+        //dd("success");
+        $tea_item= $this->t_agent->field_get_list($agentid,"nickname,headimgurl ");
+
+        $sess['aid']  = $agentid;
+        $sess["acc"]  = $agentid;
+        $sess['nickname'] = $tea_item["nickname"] ;
+        $sess['headimgurl'] = $tea_item["headimgurl"] ;
+        //$sess['role'] = E\Erole::V_TEACHER;
+
+        session($sess);
+
+        // if ( $remember ) {
+        //     $sessionId   = session()->getId();
+        //     $sessionName = session()->getName();
+        //     setcookie($sessionName, $sessionId, time()+3600*24*7);//有效期7天
+        // }
+        return $this->output_succ();       
+    }
+
 }

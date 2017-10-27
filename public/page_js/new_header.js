@@ -941,6 +941,39 @@ $(function(){
 
     });
 
+    //退出优学优享团系统
+    $("#id_system_logout_agent").on("click",function(){
+        BootstrapDialog.show({
+            title: '退出系统',
+            message: '要退出系统吗',
+            buttons: [{
+                label: '返回',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }, {
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.ajax({
+                        'url': '/login/logout_teacher',
+                        'type': 'POST',
+                        'data': {},
+                        'dataType': 'jsonp',
+                        success: function(data) {
+                            if (data['ret'] == 0) {
+                                window.location.href = "/login/agent" ;
+                            } else {
+                                window.location.href = "/agent_info/index" ;
+                            }
+                        }
+                    });
+                }
+            }]
+        });
+
+    });
+    
     if ($.query){
         if ( $.query.get("return_url") ){
             $("#id_header_return_back").attr("href" ,  $.query.get("return_url")   );

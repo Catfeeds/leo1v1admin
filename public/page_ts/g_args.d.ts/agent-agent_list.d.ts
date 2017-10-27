@@ -66,6 +66,11 @@ interface RowData {
 	l2_agent_status_all_money	:any;
 	l2_agent_status_test_lesson_succ_count	:any;
 	l2_agent_status_all_open_money	:any;
+	cycle_student_count	:any;
+	cycle_test_lesson_count	:any;
+	cycle_order_money	:any;
+	cycle_member_count	:any;
+	cycle_order_count	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;

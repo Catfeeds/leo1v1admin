@@ -75,6 +75,7 @@ class NewRouteConfig {
         "/tea_manage/get_lesson_xmpp_audio"       => true,
         "/tea_manage/get_tea_pad_lesson_qr"       => true,
         "/login/teacher"                          => true,
+        "/login/agent"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
         "/common/add_trial_train_lesson_by_admin" => true,
         "/common/get_teacher_hornor_list"         => true,
@@ -230,6 +231,7 @@ class NewRouteConfig {
 
         "/login/login"                   => true,
         "/login/login_teacher"           => true,
+        "/login/agent_login"           => true,
         "/login/login_other"             => true,
         "/login/login_ex"                => true,
         "/login/logout"                  => true,
