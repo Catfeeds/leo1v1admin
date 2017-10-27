@@ -2786,8 +2786,10 @@ $(function () {
 
     if ( no_copy.length ) {
         no_copy.each(function(){
-            // this.oncontextmenu=new Function("event.returnValue=false");
-            this.onselectstart=new Function("event.returnValue=false");
+            $(document).bind("contextmenu copy selectstart", function() {
+            // $(document).bind("copy selectstart", function() {
+                return false;
+            });
         });
     }
 });
