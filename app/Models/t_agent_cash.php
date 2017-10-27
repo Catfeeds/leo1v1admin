@@ -68,7 +68,19 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
         );
         return $this->main_get_value($sql);
     }
-
+    //@desn:获取用户体现中金额
+    public function get_is_cashing_money($agent_id){
+        $where_arr = [
+            ['aid = %u',$agent_id,'-1'],
+            'check_money_flag' => 0,
+        ];
+        $sql = $this->gen_sql_new(
+            "select count(cash) from %s where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 

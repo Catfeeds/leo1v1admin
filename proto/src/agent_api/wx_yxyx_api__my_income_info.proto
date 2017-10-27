@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1104
+//__DESC:微信[优学优享]我的收入页面 http://wx-yxyx.leo1v1.com/wx_yxyx_api/my_income_info?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+}
+
+message out {
+  common.income_info income_info = 1;//我的收入显示信息
+}
