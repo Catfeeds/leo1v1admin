@@ -9,7 +9,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_teacher_lecture_list($page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
-                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1
+                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1
     ){
         if($phone==''){
             if($opt_date_type=="add_time"){
@@ -69,6 +69,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         }else{
             $where_arr[] = " tt.train_through_new=1 ";
         }
+        $where_arr[]= ['la.accept_adminid=%u',$accept_adminid,-1];
         
         $sql = $this->gen_sql_new("select b.id,b.nick,b.face,b.phone,b.grade,b.subject,b.title,b.draw,"
                                   ." real_begin_time,real_end_time,teacher_re_submit_num,"

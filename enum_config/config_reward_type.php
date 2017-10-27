@@ -6,5 +6,8 @@ return array(
     array(4,"compensate","工资补偿"),
     array(5,"trial_train","模拟试听奖金"),
     array(6,"reference","伯乐奖"),
-    array(7,"edit_cw","编辑讲义"),
+    array(7,"edit_cw","编辑讲义工资"),
+    array(8,"micro_class","微课工资"),
+    array(9,"small_class","小班课工资"),
+    array(10,"small_class","小班课工资"),
 );
