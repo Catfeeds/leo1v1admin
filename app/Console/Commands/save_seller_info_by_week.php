@@ -50,11 +50,13 @@ class save_seller_info_by_week extends Command
         }
 
 
-        // $month_start_time_funnel = strtotime(date('Y-m-01'));
+        $month_start_time_funnel = strtotime(date('Y-m-01'));
 
-        // if($month_start_time_funnel<$start_time){
+        if($month_start_time_funnel<$start_time){
             $month_start_time_funnel = $start_time;
-        // }
+        }
+
+        // $month_start_time_funnel = '1506787200';
 
 
         $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);

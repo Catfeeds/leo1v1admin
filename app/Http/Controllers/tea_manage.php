@@ -2275,6 +2275,11 @@ class tea_manage extends Controller
             }
         }
 
+        //判断招师主管
+        $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
+        //判断是否是招师
+
+
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
