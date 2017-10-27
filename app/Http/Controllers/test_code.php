@@ -1393,5 +1393,12 @@ class test_code extends Controller
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
         dd($list);
     }
-
+    public function get_flow_data(){
+        $month = $this->get_in_int_val("month");
+        $phone = $this->get_in_str_val("phone","18273179886");
+        $start_time = date("Y-{$month}-01 00:00:00");
+        $end_time = date('Y-m-d', strtotime("$start_time +1 month -1 day"));
+        $info = $this->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time,$phone);
+        dd($info);
+    }
 }

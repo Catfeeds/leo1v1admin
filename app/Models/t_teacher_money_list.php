@@ -66,15 +66,19 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     //获取额外薪资明细
     public function get_teacher_honor_money_list($teacherid,$start,$end,$type=0){
         $where_arr = [
-            ["teacherid=%u",$teacherid,0],
-            ["add_time>%u",$start,0],
-            ["add_time<%u",$end,0],
-            ["type=%u",$type,0],
+            ["tm.teacherid=%u",$teacherid,0],
+            ["tm.add_time>%u",$start,0],
+            ["tm.add_time<%u",$end,0],
+            ["tm.type=%u",$type,0],
+            "tm.lessonid!=0"
         ];
         $sql = $this->gen_sql_new("select tm.add_time,tm.money,tm.type,tm.money_info"
+                                  // .",l.userid"
                                   ." from %s tm"
+                                  // ." left join %s l on tm.lessonid=l.lessonid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  // ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

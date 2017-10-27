@@ -3182,6 +3182,7 @@ class user_deal extends Controller
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
         $num = $this->t_teacher_info->get_no_regular_test_lesson_num($start_time,$end_time);
+        dd($num);
 
     }
 

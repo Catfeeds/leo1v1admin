@@ -2126,7 +2126,7 @@ $(function(){
 
     }
 
-    if(acc=="alina" || acc=="nina" || acc=="jack"){
+    if(acc=="alina" || acc=="nina" || acc=="jack" || $acc=="CoCo老师"){
          $("#id_plan_level").parent().parent().show();
     }else{
          $("#id_plan_level").parent().parent().hide();
