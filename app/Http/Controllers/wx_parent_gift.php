@@ -325,13 +325,13 @@ class wx_parent_gift extends Controller
         $start_time = 1509638400; // 2017-11-03
         $parentid = $this->get_in_int_val('pid');
 
-        $prize_num = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
-        $ret_info  = $this->t_agent->get_invite_num($start_time, $pid);
-        $invite_num = count($ret_info);
+        $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
+        $invite_info = $this->t_agent->get_invite_num($start_time, $pid);
 
-        $light_num = ($invite_num - 20*$prize_num);
+        $ret_info['invite_num'] = count($invite_info);
+        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5);
 
-
+        return $this->output_succ(["data"=>$ret_info]);
     }
 
 

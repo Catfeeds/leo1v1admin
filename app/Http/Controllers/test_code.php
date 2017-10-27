@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Libs;
@@ -1404,9 +1405,9 @@ class test_code extends Controller
 
     public function test_command(){
         // Route::get('/foo', function () {
-        //     $exitCode = Artisan::call('email:send', [
-        //         'type' => 1 
-        //     ]);
+            $exitCode = Artisan::call('email:send', [
+                'type' => 1 
+            ]);
 
         // });
 
