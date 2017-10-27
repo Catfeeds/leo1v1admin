@@ -519,12 +519,16 @@ class agent extends Controller
                     }
                 }
             }
+            
             foreach($stu_login as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
                 $login_time_stu = count($login_s)>0?$login_s['opt_time']:'';
                 $logout_time_stu = count($logout_s)>0?$logout_s['opt_time']:'';
                 $server_ip_stu = $login_s['server_ip'];
+                if($info == 1508983623841){
+                    dd($login_s,$logout_s);
+                }
                 foreach($seller_login as $item_c){
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
