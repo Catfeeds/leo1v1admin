@@ -534,7 +534,7 @@ class agent extends Controller
                         $login_time_seller = count($login_c)>0?$login_c['opt_time']:'';
                         $logout_time_seller = count($logout_c)>0?$logout_c['opt_time']:'';
                         $server_ip_seller = $login_c['server_ip'];
-                        if($server_ip_stu != $server_ip_seller){
+                        // if($server_ip_stu != $server_ip_seller){
                             $time_differ = 0;
                             if($logout_time_stu == ''){//学生无退出
                                 $time_differ = $logout_time_seller-$login_time_stu;
@@ -553,7 +553,7 @@ class agent extends Controller
                                     'test_lesson_opt_flag'=>1,
                                 ]);
                             }
-                        }
+                        // }
                     }
                 }
             }
