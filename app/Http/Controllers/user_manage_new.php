@@ -2075,7 +2075,7 @@ class user_manage_new extends Controller
         }
 
         foreach($ret_info as &$v){
-            if($v['url_name'] ==''){
+            if(@$v['url_name'] ==''){
                 unset($v);
             }
         }

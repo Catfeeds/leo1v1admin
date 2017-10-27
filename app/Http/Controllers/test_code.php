@@ -1403,6 +1403,9 @@ class test_code extends Controller
     }
 
     public function test_command(){
+        $a=session("aa");
+        var_dump($a);exit;
+
         $test = Artisan::call("test_command",[
             "type" => 1
         ]);

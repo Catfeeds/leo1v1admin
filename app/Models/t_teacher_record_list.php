@@ -893,7 +893,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "type=10",
             "trial_train_status=1",
         ];
-        $sql = $this->gen_sql_new("select record_score,add_time"
+        $sql = $this->gen_sql_new("select record_score,add_time,teacher_lecture_score"
                                   ." from %s "
                                   ." where %s order by add_time"
                                   ,self::DB_TABLE_NAME

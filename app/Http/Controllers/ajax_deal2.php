@@ -1633,12 +1633,12 @@ class ajax_deal2 extends Controller
         if(!empty($one_score) && !empty($video_score)){
             $time = $one_score["add_time"]-$video_score["confirm_time"];
             if($time<=0){
-                $inter_score = $one_score["record_score"];
+                $inter_score = $one_score["teacher_lecture_score"];
             }else{
                  $inter_score = $video_score["teacher_lecture_score"];
             }
         }elseif(!empty($one_score) && empty($video_score)){
-            $inter_score = $one_score["record_score"];
+            $inter_score = $one_score["teacher_lecture_score"];
         }elseif(empty($one_score) && !empty($video_score)){
              $inter_score = $video_score["teacher_lecture_score"];
         }else{
