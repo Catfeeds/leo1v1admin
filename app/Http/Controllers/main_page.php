@@ -2527,14 +2527,9 @@ class main_page extends Controller
                     E\Esubject::set_item_value_str($item, "subject");
                 }
                 if ($recruit == 'train') {
-                    // $ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
-                    // $ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
                     $total['train_tea_sum'] += $item['train_tea_sum'];
                     $total['train_qual_sum'] += $item['train_qual_sum'];
                 }
-                // $ret_info[$key]['imit_sum'] = $item[$key]['sum'];
-                // $ret_info[$key]['attend_sum'] = $item[$key]['sum'];
-                // $ret_info[$key]['adopt_sum'] = $item[$key]['sum']; 
                 $total['sum'] += $item['sum'];
                 $total['imit_sum'] += $item['imit_sum'];
                 $total['attend_sum'] += $item['attend_sum'];
@@ -2569,14 +2564,9 @@ class main_page extends Controller
             foreach($type_ret_info as $key => &$item) {
                 E\Eidentity::set_item_value_str($item, "identity");
                 if ($recruit == 'train') {
-                    // $type_ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
-                    // $type_ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
                     $type_total['train_tea_sum'] += $item['train_tea_sum'];
                     $type_total['train_qual_sum'] += $item['train_qual_sum'];
                 }
-                // $type_ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
-                // $type_ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
-                // $type_ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
                 $type_total['sum'] += $item['sum'];
                 $type_total['imit_sum'] += $item['imit_sum'];
                 $type_total['attend_sum'] += $item['attend_sum'];
@@ -2626,8 +2616,8 @@ class main_page extends Controller
     public function accumulation($info, $item) {
         $info['sum'] ++;
         // 新师参训
-        //$train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($train_tea_sum) $info['train_tea_sum'] ++;
+        $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($train_tea_sum) $info['train_tea_sum'] ++;
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
         
         // 模拟试听总排课人数
@@ -2667,39 +2657,5 @@ class main_page extends Controller
         }
         return $res;
     }
-
-    // public function test(){
-    //         for ($i=1; $i <= 7; $i++) {
-    //             if ($i == 7) $i = 10;
-    //             $interview_pass[$i] = $this->t_teacher_info->get_interview_through_count($start_time, $end_time,$i);
-    //             $interview_video[$i] = $this->t_teacher_record_list->get_interview_through_by_subject($start_time, $end_time, $i);
-    //             if ($recruit == 'train') {
-    //                 // 培训参训新师人数
-    //                 $train_tea[$i] = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time, $i);
-    //                 // 科目培训合格
-    //                 $train_qual[$i] = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time, $i);
-    //             }
-    //             // 模拟试听排课人数
-    //             $imit_lesson[$i] = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time,$i);
-    //             // 模拟试听上课人数
-    //             $attend_lesson[$i] = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time,$i);
-    //             // 模拟试听通过人数
-    //             $adopt_lesson[$i] = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time,$i);
-    //         }
-
-    //         $ret_info = $this->handle($interview_pass);
-    //         $interview_video = $this->handle($interview_video);
-
-    //         $total['sum'] = 0;
-    //         if ($recruit == 'train') {
-    //             $total['train_tea_sum'] = 0;
-    //             $total['train_qual_sum'] = 0;
-    //             $train_tea = $this->handle($train_tea);
-    //             $train_qual = $this->handle($train_qual);
-    //         }
-    //         $imit_lesson = $this->handle($imit_lesson);
-    //         $attend_lesson = $this->handle($attend_lesson);
-    //         $adopt_lesson = $this->handle($adopt_lesson);
-    // }
 
 }
