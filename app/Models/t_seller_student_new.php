@@ -886,6 +886,44 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     }
 
+    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type) {
+        if ( count($userid_list) ==0 ) {
+            return false;
+        }
+        $this->t_seller_student_new->set_admin_info(
+            $opt_type, $userid_list,  $opt_adminid,0 );
+
+        $opt_account=$this->t_manager_info->get_account($opt_adminid);
+        $account="system";
+
+        foreach ( $userid_list as $userid ) {
+            $phone=$this->t_seller_student_new->get_phone($userid);
+            if($opt_type==0) { //set admin
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
+                    "system"
+                );
+                $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_ASSIGNED_COUNT
+                                         ,$opt_adminid,$userid);
+            }else if($opt_type==1) { //set admin
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: $account 状态: 分配给主管 [ $opt_account ] ",
+                    "system"
+                );
+
+            }else if($opt_type==2) { //set admin
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: $account 状态: 分配给TMK [ $opt_account ] ",
+                    "system"
+                );
+            }
+        }
+    }
+
+
     public function set_admin_info( $opt_type, $userid_list, $opt_adminid ,$self_adminid ) {
 
         if ( count($userid_list) ==0 ) {
