@@ -1609,7 +1609,17 @@ class ajax_deal2 extends Controller
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $list=[];
-        $normal_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,1);
+        $normal_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,-2);
+        $test_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,2);
+        $tea_arr =[$teacherid];
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        if(!empty($teacher_record_score)){
+            $score_list = $teacher_record_score[$teacherid];
+            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        }else{
+            $score =0; 
+        }
+
 
         $list=[];
         $first             = $this->get_in_int_val("teacherid",50272);
