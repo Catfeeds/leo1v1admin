@@ -35,7 +35,7 @@ class t_teacher_flow extends \App\Models\Zgen\z_t_teacher_flow
 
     public function get_tea_list($start_time, $end_time) {
         $where_arr = [
-            //['tf.trial_lecture_pass_time>%u', $start_time, 0],
+            ['tf.trial_lecture_pass_time>%u', $start_time, 0],
             ['tf.trial_lecture_pass_time<%u', $end_time, 0],
             'tf.subject>0'
         ];
