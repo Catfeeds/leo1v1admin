@@ -3979,31 +3979,33 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     // 培训参训新师
-    public function get_train_inter_teacher_count($start_time, $end_time, $subject) {
+    public function get_train_inter_teacher_count($time, $teacherid) {
+
         $whereArr = [
-            ["l.add_time>%u", $start_time, 0],
-            ['l.add_time<%u', $end_time, 0],
-            ['tl.subject=%u', $subject, 0],
+            ["l.add_time>%u", $time, 0],
+            ["tl.teacherid=%u", $teacherid, 0],
+            //["l.add_time>%u", $start_time, 0],
+            //['l.add_time<%u', $end_time, 0],
+            //['tl.subject=%u', $subject, 0],
             "l.train_type=1"
         ];
-        if ($subject <= 3) {
-            $query = " sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
-                      ." sum(if(substring(tl.grade,1,1)=2,1,0)) middle_num,"
-                      ."sum(if(substring(tl.grade,1,1)=3,1,0)) senior_num";
-        } else {
-            $query = " count(*) sum";
-        }
+        // if ($subject <= 3) {
+        //     $query = " sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
+        //               ." sum(if(substring(tl.grade,1,1)=2,1,0)) middle_num,"
+        //               ."sum(if(substring(tl.grade,1,1)=3,1,0)) senior_num";
+        // } else {
+        //     $query = " count(*) sum";
+        // }
         // 
         //$sql = "select count(*) from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid where %s";
         //$res = $this->get_three_maj_sub_rel($sql, $whereArr);
 
-        $sql = $this->gen_sql_new("select %s from %s tl left join %s l on tl.teacherid=l.userid where %s ",
-                                  $query,
+        $sql = $this->gen_sql_new("select l.add_time from %s tl left join %s l on tl.teacherid=l.userid where %s ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   $whereArr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_value($sql);
         //return $this->get_handle_subject_count($info, $res);
     }
 

@@ -185,4 +185,6 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         );
         return $this->main_get_value($sql);
     }
+
+
 }

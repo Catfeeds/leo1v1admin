@@ -33,6 +33,20 @@ class t_teacher_flow extends \App\Models\Zgen\z_t_teacher_flow
         return $this->main_get_list($sql);
     }
 
+    public function get_tea_list($start_time, $end_time) {
+        $where_arr = [
+            //['tf.trial_lecture_pass_time>%u', $start_time, 0],
+            ['tf.trial_lecture_pass_time<%u', $end_time, 0],
+            //'tf.subject>0'
+        ];
+        $sql = $this->gen_sql_new("select tf.subject,tf.grade,tf.teacherid,tf.trial_lecture_pass_time,tf.simul_test_lesson_pass_time,tf.train_through_new_time,t.identity from %s tf left join %s t on tf.teacherid=t.teacherid where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
 
 
