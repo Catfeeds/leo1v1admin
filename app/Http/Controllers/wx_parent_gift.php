@@ -360,7 +360,7 @@ class wx_parent_gift extends Controller
 
 
         $ret = $this->t_agent->update_money($parentid, $prize);
-        $is_save = 0;
+        $is_save   = 0;
         $save_tiem = 0;
         if($ret){
             $is_save = 1;
