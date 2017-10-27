@@ -634,9 +634,6 @@ class agent extends Controller
                 foreach($seller_wheat as $item_c){
                     $login_c = $item['login'];
                     $logout_c = $item['logout'];
-                    if($login_s['lessonid'] == 377680){
-                        dd($login_c,$logout_c);
-                    }
                     if(count($logout_c) == 0 || count($login_c) == 0){//销售无上麦或下麦
                         continue;
                     }
@@ -655,6 +652,10 @@ class agent extends Controller
                                 $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                             }
                         }
+                        if($login_s['lessonid'] == 377680){
+                            dd($time_differ);
+                        }
+
                         if($login_s['lessonid'] == 377680){
                             dd($time_differ,date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller));
                         }
