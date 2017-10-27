@@ -1628,7 +1628,8 @@ class ajax_deal2 extends Controller
         }
 
         $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
-        $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($teacherid);
+        $phone = $this->t_teacher_info->get_phone($teacherid);
+        $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($phone);
         if(!empty($one_score) && !empty($video_score)){
             $time = $one_score["add_time"]-$video_score["confirm_time"];
             if($time<=0){
