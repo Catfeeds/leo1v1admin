@@ -1302,7 +1302,7 @@ class ajax_deal2 extends Controller
                     $succ_str="<font color=\"red\">未匹配</font>";
                 }
 
-                if ($item["can_period_flag"]) {
+                if (@$item["can_period_flag"]) {
                     $period_str="<font color=\"red\">分期</font>";
                 }else{
                     $period_str="<font color=\"green\">全款</font>";

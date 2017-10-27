@@ -37,7 +37,7 @@ class activity_2017102702 extends  activity_base {
                 && $this->lesson_times >=30 &&  $this->lesson_times <=45
             ) {
                 $price*=0.9;
-                $desc_list[]=static::gen_activity_item(1,  $lesson_start_desc. "9折" , $price,  $present_lesson_count, $can_period_flag );
+                $desc_list[]=static::gen_activity_item(1,  $lesson_start_desc. "折上折:9折" , $price,  $present_lesson_count, $can_period_flag );
 
             } else {
                 $desc_list[]=static::gen_activity_item(0,  $lesson_start_desc , $price,  $present_lesson_count, $can_period_flag );

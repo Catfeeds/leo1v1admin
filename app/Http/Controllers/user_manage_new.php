@@ -2048,7 +2048,7 @@ class user_manage_new extends Controller
 
                     if(array_intersect($quan_arr,$group_list)){
                         // $item['']
-                        $user_info[] = '姓名: '.$vv['account'].' admin:'.$vv['uid'];
+                        $user_info[] = '姓名: '.$vv['account'].' adminid:'.$vv['uid'];
                     }
                 }
 
@@ -2071,7 +2071,7 @@ class user_manage_new extends Controller
 
             }
 
-            
+
         }
 
         foreach($ret_info['list'] as $i=> &$v){
