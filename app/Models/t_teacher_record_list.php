@@ -1359,12 +1359,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $ret;
     }
 
-    public function get_data_to_teacher_flow($start_time,$end_time,$type)
+    public function get_data_to_teacher_flow($start_time,$end_time,$type,$teacherid)
     {
         $where_arr = [
             ["l.train_type=%u",$type,0],
             ["l.lesson_start>%u", $start_time, 0],
             ["l.lesson_start<%u", $end_time, 0],
+            ["l.teacherid=%u",$teacherid,0],
             'l.lesson_type=1100',
             "l.lesson_del_flag=0",
             "tr.trial_train_status=1",
@@ -1372,7 +1373,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
-        $sql = $this->gen_sql_new("select l.teacherid,tr.add_time "
+        $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.grade,tr.add_time "
                                   ." from %s l "
                                   ." left join %s tr on l.teacherid=tr.teacherid"
                                   ." where %s ",
@@ -1380,7 +1381,38 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
+    }
+
+    public function get_interview_through_by_subject($start_time, $end_time, $subject){
+        $where_arr=[
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            ["l.subject=%u",$subject,0],
+            //  "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
+            "tr.type=10",
+            "tr.trial_train_status=1"
+        ];
+        if ($subject <= 3) {
+            $query = " sum(if(substring(l.grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(l.grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(l.grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
+        $sql = $this->gen_sql_new("select %s "
+                                  ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
+                                  ." left join %s tt on ta.userid = tt.teacherid "
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
+                                  ." where %s",
+                                  $query,
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
     }
 
 }

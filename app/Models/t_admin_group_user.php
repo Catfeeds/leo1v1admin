@@ -286,4 +286,21 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_value($sql);
     }
 
+    public function get_info_by_adminid($account_id){
+        $where_arr = [
+          "main_type != ''",
+          ["adminid=%s",$account_id,-1]
+        ];
+        $sql = $this->gen_sql_new(" select main_type , group_name , m.account, adminid from %s a "
+                                  ."left join %s g on a.groupid = g.groupid "
+                                  ."left join %s m on m.uid = a.adminid "
+                                  ."where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr);
+
+        return $this->main_get_row($sql);
+    }
+
 }

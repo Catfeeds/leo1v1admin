@@ -181,15 +181,15 @@
                                             @else
                                                 <td>0</td>
                                             @endif
-                                            <td>{{$total['train_tea_sum']}}</td>
-                                            @if($total['train_tea_sum'] != 0)
-                                                <td>{{round($total['train_qual_sum']/$total['train_tea_sum'], 2) * 100}}%</td>
+                                            <td>{{$var['train_tea_sum']}}</td>
+                                            @if($var['train_tea_sum'] != 0)
+                                                <td>{{round($var['train_qual_sum']/$var['train_tea_sum'], 2) * 100}}%</td>
                                             @else
                                                 <td>0</td>
                                             @endif
-                                            <td>{{$total['train_qual_sum']}}</td>
-                                            @if($total['train_qual_sum'] != 0)
-                                                <td>{{round($total['imit_sum']/$total['train_qual_sum'], 2) * 100}}%</td>
+                                            <td>{{$var['train_qual_sum']}}</td>
+                                            @if($var['train_qual_sum'] != 0)
+                                                <td>{{round($var['imit_sum']/$var['train_qual_sum'], 2) * 100}}%</td>
                                             @else
                                                 <td>0</td>
                                             @endif

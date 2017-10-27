@@ -2814,6 +2814,12 @@ function download_hide(){
 }
 
 
-
+$(function () {
+    $('.common-table').each(function(){
+        $(this).bind("contextmenu copy selectstart", function() {
+            // return false;
+        });
+    });
+});
 
 //countly_log("管理平台");

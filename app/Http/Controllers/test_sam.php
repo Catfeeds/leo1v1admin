@@ -13,7 +13,83 @@ class test_sam  extends Controller
     use CacheNick;
     use TeaPower;
     public function ss(){
-        dd(2);
+        $phone = $this->get_in_str_val("phone");
+        $p_phone = $this->get_in_str_val("p_phone");
+        if(!preg_match( "/^1[34578]{1}\d{9}$/",$phone)){
+            return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
+        }
+        if($p_phone!="" && $p_phone==$phone){
+            return $this->output_err("推荐人手机号不能和报名手机相同！");
+        }
+        $cc_type = 0;
+        if($p_phone == ""){
+            $cc_type = 0;
+        }
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        if($userid){
+            //return $this->output_err("此号码已经注册!");
+        }
+        if($p_phone != ''){
+            $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
+            $account_id   = $this->t_manager_info->get_uid_by_phone($p_phone);
+            if($account_role == 2){ //销售cc
+                $cc_type = 2;
+            }elseif($account_role == 1){//助教cr
+                $cc_type = 1;
+            }
+            $ret_info = $this->t_admin_group_user->get_info_by_adminid($account_id);
+            if($ret_info['main_type'] == 2 || $ret_info['main_type'] == 3){
+                $key1 = "知识库";
+                $key2 = E\Emain_type::get_desc($ret_info['main_type']);
+                $key3 = $ret_info['group_name'];
+                $key4 = $ret_info['account']."-".date("md",time(null));
+                $value = $key4;
+            }else{
+                $key1 = "知识库";
+                $key2 = "其它";
+                $key3 = "其它";
+                $key4 = "其它"."-".date("md",time(null));
+                $value = $key4;
+            }        
+        }else{
+            $cc_type = 0;
+            $key1 = "未定义";
+            $key2 = "未定义";
+            $key3 = "未定义";
+            $key4 = "未定义";
+            $value = $key4;
+        }
+        //qudao 
+        //  dd($key1,$key2,$key3,$key4);
+        $ret_origin = $this->t_origin_key->add_by_admind($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0);
+        //进例子
+        $origin_value = "知识库";
+        $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin_value,$subject=0,$has_pad=0);
+        if($cc_type == 2){ //分配例子给销售
+            $opt_adminid = $account_id; // ccid
+            $opt_account=$this->t_manager_info->get_account($opt_adminid);
+            $this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
+        }else{
+            //$opt_adminid = 212; // ccid
+            //$opt_account=$this->t_manager_info->get_account($opt_adminid);
+            //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
+        }
+
+        /*
+         * 预约完成4-28
+         * SMS_63750218
+         * ${name}家长您好，恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系，
+         * 请注意接听${public_num}开头的上海号码。如果您有任何疑问需要咨询，请加微信客服（微信号：leoedu058）
+         * 或拨打全国免费咨询电话${public_telphone}。
+         */
+        $public_telphone = "400-680-6180";
+        $sms_id          = 63750218;
+        $arr = [
+            "name"            => " ",
+            "public_num"      => "021或158",
+            "public_telphone" => $public_telphone,
+        ];  
+        return $this->output_succ(["ret"=> "恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系"]);
 
     }
     public function tt(){

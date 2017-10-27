@@ -3178,7 +3178,22 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-      
+        $userid = 253753 ;
+        $r = $this->t_student_info->field_update_list($userid,[
+            "type"=>0
+        ]);
+        $old_type = $this->t_student_info->get_type($userid);
+        $this->t_student_type_change_list->row_insert([
+            "userid"    =>$userid,
+            "add_time"  =>time(),
+            "type_before" =>$old_type,
+            "type_cur"    =>0,
+            "change_type" =>1,
+            "adminid"     =>0,
+            "reason"      =>"新签续费"
+        ]);
+        dd($r);
+
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
         $num = $this->t_teacher_info->get_no_regular_test_lesson_num($start_time,$end_time);

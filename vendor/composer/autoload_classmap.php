@@ -548,6 +548,7 @@ return array(
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
     'TGrabLessonLinkVisitOperationAddVisitidIndex' => $baseDir . '/database/migrations/2017_10_11_094505_t_grab_lesson_link_visit_operation_add_visitid_index.php',
     'TInterviewRemindAddCreateTime' => $baseDir . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',
+    'TLessonInfoAddOnWheatFlag' => $baseDir . '/database/migrations/2017_10_27_101107_t_lesson_info_add_on_wheat_flag.php',
     'TLessonInfoAddOperateTimeIndex' => $baseDir . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
     'TLessonTimeModifyAddBackstageType' => $baseDir . '/database/migrations/2017_10_21_110844_t_lesson_time_modify_add_backstage_type.php',
     'TManagerInfoAddLevelFacePic' => $baseDir . '/database/migrations/2017_10_12_151350_t_manager_info_add_level_face_pic.php',

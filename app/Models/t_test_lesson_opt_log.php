@@ -27,6 +27,21 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_room_lesson_list($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'opt_time',$start_time,$end_time);
+        $this->where_arr_add_int_or_idlist($where_arr,'role',[E\Erole::V_1,E\Erole::V_6]);
+        $sql = $this->gen_sql_new(
+            "select * "
+            ." from %s "
+            ." where %s "
+            ." order by opt_time "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_room_list($start_time,$end_time){
         $where_arr = [
             'roomid > 0',
