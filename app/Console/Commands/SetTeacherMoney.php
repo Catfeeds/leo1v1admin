@@ -54,6 +54,8 @@ class SetTeacherMoney extends Command
             $task->set_teacher_lesson_total_list();
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
+        }elseif($type==4){
+            
         }
     }
 
