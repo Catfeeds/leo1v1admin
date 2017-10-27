@@ -2781,6 +2781,15 @@ function download_hide(){
 }
 
 
+$(function () {
+    var no_copy = $('.common-table');
 
+    if ( no_copy.length ) {
+        no_copy.each(function(){
+            // this.oncontextmenu=new Function("event.returnValue=false");
+            this.onselectstart=new Function("event.returnValue=false");
+        });
+    }
+});
 
 //countly_log("管理平台");
