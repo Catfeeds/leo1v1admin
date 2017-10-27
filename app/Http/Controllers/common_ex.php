@@ -78,16 +78,20 @@ class common_ex extends Controller
         if($userid){
             //return $this->output_err("此号码已经注册!");
         }
-        $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
-        $account_id   = $this->t_manager_info->get_uid_by_phone($p_phone);
-        if($account_role == 2){ //销售cc
-            $cc_type = 2;
-        }elseif($account_role == 1){//助教cr
-            $cc_type = 1;
+        if($p_phone != ''){
+            $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
+            $account_id   = $this->t_manager_info->get_uid_by_phone($p_phone);
+            if($account_role == 2){ //销售cc
+                $cc_type = 2;
+            }elseif($account_role == 1){//助教cr
+                $cc_type = 1;
+            }
+        }else{
+            $cc_type = 0;
         }
-
+       
         //进例子
-        $value = 
+        $value = 1;
         $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='知识库',$subject=0,$has_pad=0);
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
