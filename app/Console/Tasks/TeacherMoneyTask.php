@@ -14,7 +14,9 @@ use CacheNick;
  */
 class TeacherMoneyTask extends TaskController
 {
-
+    /**
+     * 更新老师园丁奖奖金
+     */
     public function set_teacher_lesson_total_list(){
         $end   = time();
         $start = strtotime("-1 week",$end);
