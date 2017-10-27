@@ -615,6 +615,11 @@ class user_manage extends Controller
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
 
+            if($item["order_time"] >= strtotime("2017-10-27 16:00:00") && $item["can_period_flag"]==0){
+                $item["can_period_flag"]=0;
+            }else{
+                $item["can_period_flag"]=1;
+            }
             E\Eboolean::set_item_value_str($item,"is_new_stu");
             E\Egrade::set_item_value_str($item);
             E\Econtract_from_type::set_item_value_str($item,"stu_from_type");
@@ -693,7 +698,7 @@ class user_manage extends Controller
         $this->set_filed_for_js("account_role_self",$this->get_account_role());
         $this->set_filed_for_js("acc",$this->get_account()); 
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
-        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);        
 
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),

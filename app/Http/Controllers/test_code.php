@@ -1403,6 +1403,7 @@ class test_code extends Controller
     }
 
     public function test_command(){
+
         $test = Artisan::call("test_command",[
             "type" => 1
         ]);

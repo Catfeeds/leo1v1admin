@@ -1909,9 +1909,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
 
-    public function get_teacher_first_interview_score_info($teacherid){
+    public function get_teacher_first_interview_score_info($phone){
         $where_arr = [
-            ["teacherid=%u",$teacherid,0],
+            ["phone='%s'",$phone,0],
             "status=1",
         ];
         $sql = $this->gen_sql_new("select teacher_lecture_score,confirm_time"

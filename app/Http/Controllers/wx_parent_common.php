@@ -31,10 +31,13 @@ class wx_parent_common extends Controller
         \App\Helper\Utils::logger("wx_parent_openid:".session("wx_parent_openid"));
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
-        $goto_url_arr=preg_split("/\//", $goto_url);
-        $action=@$goto_url_arr[2];
+        $goto_url_arr = preg_split("/\//", $goto_url);
+        $action       = @$goto_url_arr[2];
         $web_html_url="http://wx-parent-web.leo1v1.com";
         if ($action=="binding" ){
+            if($goto_url=="zhishiku"){
+                $url="$web_html_url/binding?goto_url=$goto_url";
+            }
             $url="$web_html_url/binding?goto_url=";
         }else{
             $parentid= $this->t_parent_info->get_parentid_by_wx_openid($openid);
@@ -42,7 +45,13 @@ class wx_parent_common extends Controller
                 session([
                     "parentid" => $parentid,
                 ]);
-                $url="$web_html_url/$action";
+
+                if($action=="zhishiku"){
+                    $url = "http://wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+                }else{
+                    $url="$web_html_url/$action";
+                }
+
             }else{
                 $url="$web_html_url/binding?goto_url=/$action";
             }
@@ -70,6 +79,7 @@ class wx_parent_common extends Controller
 
         $msg_num = \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
         $code = rand(1000,9999);
+        \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
         $ret  = \App\Helper\Utils::sms_common($phone,10671029,[
             "code"  => $code,
             "index" => $msg_num

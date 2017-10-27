@@ -9,5 +9,5 @@ return array(
     array(7,"edit_cw","编辑讲义工资"),
     array(8,"micro_class","微课工资"),
     array(9,"small_class","小班课工资"),
-    array(10,"small_class","小班课工资"),
+    array(10,"open_class","公开课工资"),
 );

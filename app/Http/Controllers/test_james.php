@@ -820,6 +820,19 @@ class test_james extends Controller
     public function dd(){
         $group_arr = ['12','19'];
 
+        $a = '["zhutousi\/60","18621696950\/71","alan\/75","jim\/99","adrian\/100","test123\/101","19827364758\/130","qazxsw\/131","tom2\/213"]';
+
+        dd(json_decode($a,true));
+
+        $quan_arr = explode(',','3');
+        dd($quan_arr);
+        $user_list = $this->t_manager_info->get_all();
+
+        dd($user_list);
+        $ac = ['1','2','3'];
+        $bc=['4','2'];
+
+        dd(array_intersect($ac,$bc));
 
         foreach($group_arr as $item){
             $where_arr[] = "permission like %$item%";

@@ -60,11 +60,12 @@ $(function(){
                         "start_time"      : g_args.start_time,
                         "end_time"        : g_args.end_time
                     },function(resp){
-                        console.log(resp.data);
-                        var data = resp.data;
-                        $tr.find(".stu_num").text(data.stu_num); 
-                        $tr.find(".all_price").text(data.all_price/100); 
-                        $tr.find(".lesson_count_all").text(data.lesson_count_all/100);
+                       // console.log(resp.data);
+                       /// var data = resp.data;
+                        $tr.find(".normal_lesson_num").text(resp.normal_lesson_num);
+                        $tr.find(".test_lesson_num").text(resp.test_lesson_num);
+                        $tr.find(".record_score").text(resp.record_score);
+                        $tr.find(".inter_score").text(resp.inter_score);
                         
                         do_index++;
                         do_one();

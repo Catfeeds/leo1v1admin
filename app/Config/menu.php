@@ -699,7 +699,7 @@ class menu{
                 ["power_id"=>13, "name"=>"抢单库", "url"=>"/seller_student_new2/grab_test_lesson_list"],
                 ["power_id"=>6, "name"=>"排课明细",   "url"=>"/seller_student_new2/test_lesson_detail_list_jw"],
                 ["power_id"=>10, "name"=>"教务-排课明细",   "url"=>"/tongji_ss/test_lesson_plan_detail_list_jw"],
-                ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_jw"],
+                ["power_id"=>3, "name"=>"教务-教师档案",   "url"=>"/human_resource/index_jw"],
                 ["power_id"=>2, "name"=>"教师档案(常规)",   "url"=>"/human_resource/index_new_jw"],
                 ["power_id"=>9, "name"=>"教师档案(休课)",   "url"=>"/human_resource/index_new_jw_hold"],
                 ["power_id"=>15, "name"=>"教师档案(离职)",   "url"=>"/human_resource/quit_teacher_info"],
@@ -738,7 +738,7 @@ class menu{
                 ]],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
-                ["power_id"=>20, "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                ["power_id"=>20, "name"=>"招师-渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
                 ["power_id"=>21, "name"=>"渠道统计-new-list", "url"=>"/channel_manage/zs_origin_list_new"],
                 ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zs"],
 

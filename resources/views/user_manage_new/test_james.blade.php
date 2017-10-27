@@ -67,10 +67,12 @@
             <tbody>
                 @foreach ( $table_data_list as $key=>$var )
                     <tr>
-                        <td>{{@$key}} </td>
-                        <td>{{@$var["complaint_type_str"]}} </td>
-                        <td>{{@$var["account_type_str"]}} </td>
-                        <td>{{@$var["user_nick"]}}/{{@$var["phone"]}} </td>
+                        <td>{{@$var['url_name']}} </td>
+                        <td>{{@$var["pid"]}} </td>
+                        <td>http://admin.yb1v1.com{{@$var["url"]}} </td>
+                        <td>
+                            {{@$var["user_info"]}}
+                        </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
