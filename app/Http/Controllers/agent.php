@@ -531,9 +531,6 @@ class agent extends Controller
                     if(count($logout_c) == 0 || count($login_c) == 0){//销售无登录或退出
                         continue;
                     }else{
-                        if($login_s['roomid'] == 1508983623841){
-                            dd('a');
-                        }
                         $login_time_seller = count($login_c)>0?$login_c['opt_time']:'';
                         $logout_time_seller = count($logout_c)>0?$logout_c['opt_time']:'';
                         $server_ip_seller = $login_c['server_ip'];
@@ -547,6 +544,9 @@ class agent extends Controller
                                 }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
                                     $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                                 }
+                            }
+                            if($login_s['roomid'] == 1508983623841){
+                                dd($time_differ,date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller));
                             }
                             if($time_differ>300){//不同ip,同时在线>5分钟
                                 $task->t_seller_student_new->field_update_list($userid,[
