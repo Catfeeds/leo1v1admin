@@ -465,6 +465,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+
         $end_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
         $start_time = $end_time - 24*3600*3;
         $task = new \App\Console\Tasks\TaskController();
@@ -495,10 +496,9 @@ class agent extends Controller
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
                         $seller_info[$key] = $item;
                     }
-                    dd($item,$seller_info);
                 }
             }
-            // dd($stu_info,$seller_info);
+            dd($stu_info,$seller_info);
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
