@@ -483,12 +483,12 @@ class agent extends Controller
                 $role = $item['role'];
                 $action = $item['action'];
                 $opt_type = $item['opt_type'];
+                $test_lesson_opt_flag = $item['test_lesson_opt_flag'];
 
-                $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
-                dd($test_lesson_opt_flag);
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
+                dd($test_lesson_opt_flag,$userid);
                 if($info == $roomid && $roomid==1508826899697){
                     dd($role,$action);
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生登录退出
