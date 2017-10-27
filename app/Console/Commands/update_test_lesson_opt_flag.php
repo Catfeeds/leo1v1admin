@@ -34,6 +34,10 @@ class update_test_lesson_opt_flag extends cmd_base
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
         $lessonid_arr = array_unique(array_column($ret_info,'lessonid'));
         foreach($roomid_arr as $info){//登录
+            if($info == 0){
+                continue;
+            }
+
             $stu_info = [];
             $stu_login = [];
             $seller_info = [];
@@ -118,6 +122,9 @@ class update_test_lesson_opt_flag extends cmd_base
         }
 
         foreach($lessonid_arr as $info){//上麦
+            if($info == 0){
+                continue;
+            }
             $stu_info = [];
             $stu_wheat = [];
             $seller_info = [];
