@@ -2075,14 +2075,14 @@ class user_manage_new extends Controller
         }
 
         foreach($ret_info as &$v){
-            if(@$v['url_name'] ==''){
+            if(empty(@$v['url'])){
                 unset($v);
             }
         }
 
         // dd($group_list);
 
-        // dd($ret_info);
+        dd($ret_info);
 
         return $this->Pageview(__METHOD__,$ret_info);
     }
