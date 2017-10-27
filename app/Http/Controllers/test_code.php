@@ -1401,4 +1401,10 @@ class test_code extends Controller
         $info = $this->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time,$phone);
         dd($info);
     }
+
+    public function test_command(){
+
+    }
+
+
 }

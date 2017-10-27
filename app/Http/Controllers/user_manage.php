@@ -1427,7 +1427,7 @@ class user_manage extends Controller
     public function set_refund_order(){
         $userid        = $this->get_in_int_val("userid");
         $orderid       = $this->get_in_int_val("orderid");
-        $contractid    = $this->get_in_int_val("contractid");
+        $contractid    = $this->get_in_str_val("contractid");
         $contract_type = $this->get_in_int_val("contract_type");
         $lesson_total  = $this->get_in_int_val("lesson_total");
         $order_left    = $this->get_in_str_val("order_left");
@@ -3126,6 +3126,9 @@ class user_manage extends Controller
         $this->t_user_log->add_data("设置临时密码", $userid);
         return $this->output_bool_ret($ret_set);
     }
+
+
+
 
 
 
