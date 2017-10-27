@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class SetTeacherMoney extends Command
+class SetTeacherMoney extends cmd_base
 {
     /**
      * The name and signature of the console command.

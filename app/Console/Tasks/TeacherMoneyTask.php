@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Log;
 
 use App\Helper\Net;
 use App\Helper\Utils;
-use CacheNick;
 /**
  * @from command:SetTeacherMoney
  */
 class TeacherMoneyTask extends TaskController
 {
+
     /**
      * 更新老师园丁奖奖金
      * 园丁奖奖励金额,每个周期课时消耗前5(第5名并列可取多)
