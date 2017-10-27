@@ -1387,4 +1387,13 @@ class tongji2 extends Controller
             return $this->pageView(__METHOD__,null,["arr"=>$arr]);
         }
     }
+
+    public function get_new_train_through_teacher_info(){
+       list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
+       //只取2017年入职的老师
+       $through_time = strtotime("2017-01-01");
+       $ret_info = $this->t_teacher_info->get_new_train_through_teacher_info($start_time,$end_time,$through_time);
+       dd($ret_info);
+       
+    }
 }
