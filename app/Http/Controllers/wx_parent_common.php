@@ -217,8 +217,6 @@ class wx_parent_common extends Controller
         }
     }
     public function share_knowledge(){
-
-        \App\Helper\Utils::logger("XXXX 1111");
         $phone = $this->get_in_str_val("phone");
         $p_phone = $this->get_in_str_val("p_phone");
         if(!preg_match( "/^1[34578]{1}\d{9}$/",$phone)){
@@ -266,27 +264,19 @@ class wx_parent_common extends Controller
             $key4 = "未定义";
             $value = $key4;
         }
-        \App\Helper\Utils::logger("XXXX 22200");
-
         $ret_origin = $this->t_origin_key->add_by_admind($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0);
         //进例子
         $origin_value = "知识库";
         $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin_value,$subject=0,$has_pad=0);
         if($cc_type == 2){ //分配例子给销售
-
-            \App\Helper\Utils::logger("XXXX 22201");
             $opt_adminid = $account_id; // ccid
             $this->t_seller_student_new->set_admin_id_ex([$new_userid],$opt_adminid,0);
-            \App\Helper\Utils::logger("XXXX 22202");
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }else{
             //$opt_adminid = 212; // ccid
             //$opt_account=$this->t_manager_info->get_account($opt_adminid);
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }
-
-        \App\Helper\Utils::logger("XXXX 3333");
-
         /*
          * 预约完成4-28
          * SMS_63750218
@@ -301,8 +291,6 @@ class wx_parent_common extends Controller
             "public_num"      => "021或158",
             "public_telphone" => $public_telphone,
         ];
-        \App\Helper\Utils::logger("XXX LOG SUCC");
-
         return $this->output_succ("恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系");
     }
 }
