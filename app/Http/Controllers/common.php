@@ -1296,6 +1296,13 @@ class common extends Controller
                     "学生:".$nick." 合同付款成功,支付方式".$channel_name.",订单号:".$orderNo,
                     "/user_manage_new/money_contract_list?studentid=$userid");
                 $this->t_manager_info->send_wx_todo_msg(
+                    "zero",
+                    "合同付款通知",
+                    "合同付款通知",
+                    "学生:".$nick." 合同付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                    "/user_manage_new/money_contract_list?studentid=$userid");
+
+                $this->t_manager_info->send_wx_todo_msg(
                     $sys_operator,
                     "合同付款通知",
                     "合同付款通知",
@@ -1320,6 +1327,13 @@ class common extends Controller
                         "合同已支付全款",
                         "学生:".$nick." 合同已支付全款",
                         "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "zero",
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$nick." 合同已支付全款",
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+
                     $this->t_manager_info->send_wx_todo_msg(
                         $sys_operator,
                         "合同付款通知",

@@ -1199,6 +1199,13 @@ class common_new extends Controller
                         "百度分期付款通知",
                         "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
                         "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "zero",
+                        "百度分期付款通知",
+                        "百度分期付款通知",
+                        "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
+                        "");
+
 
                     //生成还款信息
                     $data = $this->get_baidu_money_charge_pay_info($orderid);
@@ -1229,17 +1236,24 @@ class common_new extends Controller
 
                     $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
                     if(empty($all_order_pay)){
-                        $this->t_order_info->field_update_list($parent_orderid,[
+                        /*  $this->t_order_info->field_update_list($parent_orderid,[
                             "order_status" =>1,
                             "contract_status"=>1,
                             "pay_time"       =>time()
-                        ]);
+                            ]);*/
                         $this->t_manager_info->send_wx_todo_msg(
                             "echo",
                             "合同付款通知",
                             "合同已支付全款",
                             "学生:".$user_info["nick"]." 合同已支付全款",
                             "/user_manage_new/money_contract_list?studentid=$userid");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "zero",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+
                         $this->t_manager_info->send_wx_todo_msg(
                             $sys_operator,
                             "合同付款通知",
@@ -1367,6 +1381,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     "合同付款通知",
                     "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
                     "");
+                $this->t_manager_info->send_wx_todo_msg(
+                    "zero",
+                    "合同付款通知",
+                    "合同付款通知",
+                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "");
+
                 /* $this->t_manager_info->send_wx_todo_msg(
                     $sys_operator,
                     "百度分期付款通知",
