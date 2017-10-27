@@ -374,7 +374,7 @@ class wx_parent_gift extends Controller
             "money"  => $prize,
         ]);
 
-        return $this->output_succ();
+        return $this->output_succ(["money"=>$prize]);
 
         /**
            金额分别为
