@@ -84,14 +84,14 @@ class update_test_lesson_opt_flag extends cmd_base
             foreach($stu_login as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
-                $login_time_stu = $login_s['opt_time'];
+                $login_time_stu = count($login_s)>0?$login_s['opt_time']:'';
                 $logout_time_stu = count($logout_s)>0?$logout_s['opt_time']:'';
                 $server_ip_stu = $login_s['server_ip'];
 
                 foreach($seller_login as $item_c){
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
-                    $login_time_seller = $login_c['opt_time'];
+                    $login_time_seller = count($login_c)>0?$login_c['opt_time']:'';
                     $logout_time_seller = count($logout_c)>0?$logout_c['opt_time']:'';
                     $server_ip_seller = $login_c['server_ip'];
                     if($server_ip_stu != $server_ip_seller){
