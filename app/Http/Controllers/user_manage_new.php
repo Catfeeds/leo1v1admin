@@ -2048,12 +2048,12 @@ class user_manage_new extends Controller
 
                     if(array_intersect($quan_arr,$group_list)){
                         // $item['']
-                        $user_info[] = 'name: '.$vv['account'].' admin:'.$vv['uid'];
+                        $user_info[] = '姓名: '.$vv['account'].' admin:'.$vv['uid'];
                     }
                 }
 
                 // dd($group_list);
-                $item['user_info'] = json_encode($user_info);
+                $item['user_info'] = implode(',',$user_info);
                 // dd(json_encode($user_info));
                 $item['url_name'] = '';
                 if($item['k1'] != '----'){
