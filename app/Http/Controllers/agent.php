@@ -498,7 +498,7 @@ class agent extends Controller
                     }
                 }
             }
-            dd($stu_info,$seller_info);
+            // dd($stu_info,$seller_info);
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
