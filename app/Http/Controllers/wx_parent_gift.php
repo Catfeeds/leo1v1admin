@@ -387,7 +387,7 @@ class wx_parent_gift extends Controller
 
         $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
         $data_msg = [
-            "first"     => "$stu_nick 同学的家长上传了学生成绩",
+            "first"     => "您好，此次活动已经结束，你已经成功参与",
             "keyword1"  => "成绩录入提醒",
             "keyword2"  => "点击详情进行查看",
             "keyword3"  => date('Y-m-d H:i:s'),
