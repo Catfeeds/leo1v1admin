@@ -825,6 +825,9 @@ class test_james extends Controller
             $where_arr[] = "permission like %$item%";
         }
 
+        $aaaa= implode(' or ',$where_arr);
+
+        dd($aaaa);
 
         $a = $this->t_manager_info->get_user_list($b);
         dd($a);
