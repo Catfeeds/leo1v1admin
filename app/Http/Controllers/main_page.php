@@ -2416,7 +2416,6 @@ class main_page extends Controller
                 // 模拟试听通过人数
                 $adopt_lesson[$i] = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time,$i);
             }
-            dd($train_tea);
 
             $ret_info = $this->handle($interview_pass);
 
@@ -2427,6 +2426,7 @@ class main_page extends Controller
                 $train_tea = $this->handle($train_tea);
                 $train_qual = $this->handle($train_qual);
             }
+            var_dump($train_tea);
             $imit_lesson = $this->handle($imit_lesson);
             $attend_lesson = $this->handle($attend_lesson);
             $adopt_lesson = $this->handle($adopt_lesson);
