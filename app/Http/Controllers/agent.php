@@ -530,7 +530,7 @@ class agent extends Controller
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
                     $login_time_seller = $login_c['opt_time'];
-                    $logout_time_seller = $login_c['opt_time'];
+                    $logout_time_seller = $logout_c['opt_time'];
                     $server_ip_seller = $login_c['server_ip'];
 
                     // if($server_ip_stu != $server_ip_seller){
@@ -613,9 +613,9 @@ class agent extends Controller
                 foreach($seller_wheat as $item_c){
                     $login_c = $item['login'];
                     $logout_c = $item['logout'];
-                    $login_time_seller = $item_c['opt_time'];
-                    $logout_time_seller = $item_c['opt_time'];
-                    $server_ip_seller = $item_c['server_ip'];
+                    $login_time_seller = $login_c['opt_time'];
+                    $logout_time_seller = $logout_c['opt_time'];
+                    $server_ip_seller = $login_c['server_ip'];
 
                     if($server_ip_stu != $server_ip_seller){
                         $time_differ = 0;
