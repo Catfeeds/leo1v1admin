@@ -1393,7 +1393,7 @@ class tongji2 extends Controller
        //只取2017年入职的老师
        $through_time = strtotime("2017-01-01");
        $ret_info = $this->t_teacher_info->get_new_train_through_teacher_info($through_time);
-       dd($ret_info);
+       return $this->pageView(__METHOD__,$ret_info);
        
     }
 }
