@@ -2502,6 +2502,8 @@ class main_page extends Controller
             $total['imit_sum'] = 0;
             $total['attend_sum'] = 0;
             $total['adopt_sum'] = 0;
+            $total['train_tea_sum'] = 0;
+            $total['train_qual_sum'] = 0;
             foreach($ret_info as $key => &$item) {
                 if (isset($item['grade'])) {
                     E\Esubject::set_item_value_str($item, "subject");
