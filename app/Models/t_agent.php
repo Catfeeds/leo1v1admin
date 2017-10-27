@@ -1485,7 +1485,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 foreach( $test_lesson_info as $item ) {
                     $orderid=$item["orderid"];
                     if ($orderid) { //有订单
-                
+
                         $cycle_test_lesson_count += 1;
                     }else{
                         if ($item["lesson_user_online_status"] ==1 )
@@ -1494,15 +1494,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 }
             }
-            
+
 
             //计算签单金额、签单量[无下限限制下级]
             $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str);
             $cycle_order_count = $child_order_info['child_order_count'];
             $cycle_order_money = $child_order_info['child_order_money'];
-            
+
         }
-        
+
 
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
@@ -1807,9 +1807,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_value($sql);
     }
-    
-    
-    
+
+
+
     //获取某个团长试听数[一级]
     public function get_this_colconel_test_lesson_count($colconel_id){
         $where_arr = [
@@ -2138,5 +2138,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
-    
+
+    public function get_invite_num($start_time, $pid){
+
+        $where_arr = [
+            "a.create_time>=$start_time",
+            "a.parentid=$pid"
+        ];
+
+        $sql = $this->gen_sql_new("  select create_time, phone from %s a"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

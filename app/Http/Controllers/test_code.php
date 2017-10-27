@@ -1403,10 +1403,12 @@ class test_code extends Controller
     }
 
     public function test_command(){
+        // Route::get('/foo', function () {
+        //     $exitCode = Artisan::call('email:send', [
+        //         'type' => 1 
+        //     ]);
 
-        $test = Artisan::call("test_command",[
-            "type" => 1
-        ]);
+        // });
 
         var_dump($test);
     }
