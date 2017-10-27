@@ -929,6 +929,7 @@ $(function(){
         var $pre_money        = html_node.find(".field-pre-money");
 
         var $order_promotion_type = html_node.find(".field-order_promotion_type");
+        var $period_flag = html_node.find(".field-period_flag");
         var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
         var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
         var $discount_reason= html_node.find(".field-discount_reason");
@@ -972,6 +973,7 @@ $(function(){
                 lesson_count:$lesson_count.val()*100,
                 order_promotion_type: order_promotion_type,
                 contract_type: contract_type,
+                period_flag : $period_flag.val(),
                 require_id :  require_id
             },function(resp){
                 var data=resp.data;
@@ -999,7 +1001,8 @@ $(function(){
         };
         $competition_flag.set_input_change_event(reload_present_info);
         $lesson_count.set_input_change_event(reload_present_info);
-        $order_promotion_type. set_input_change_event(reload_present_info);
+        $order_promotion_type.set_input_change_event(reload_present_info);
+        $period_flag.set_input_change_event(reload_present_info);
 
         $nick.set_input_readonly(true);
         $phone.set_input_readonly(true);
@@ -1034,6 +1037,7 @@ $(function(){
                         pre_money                     : $pre_money.val(),
                         grade                         : data.grade,
                         subject                       : data.subject,
+                        period_flag : $period_flag.val(),
                         origin                        : data.origin,
                         order_promotion_type          : $order_promotion_type.val(),
                         promotion_spec_discount       : $promotion_spec_discount_price.val()*100,

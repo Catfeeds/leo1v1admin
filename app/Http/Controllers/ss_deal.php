@@ -1969,6 +1969,7 @@ class ss_deal extends Controller
         $lesson_count= $this->get_in_int_val("lesson_count")/100;
         $order_promotion_type= $this->get_in_int_val("order_promotion_type");
         $contract_type = $this->get_in_int_val("contract_type");
+        $period_flag= $this->get_in_int_val("period_flag");
         $account = $this->get_account();
         $require_id =$this->get_in_require_id();
         $userid= $this->t_test_lesson_subject_require->get_userid($require_id);
@@ -1979,7 +1980,11 @@ class ss_deal extends Controller
         $before_lesson_count=0;
 
         $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
-                $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
+            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count,
+            [
+                "from_test_lesson_id"=> $from_test_lesson_id ,
+                "period_flag" =>$period_flag,
+            ]
             );
         return $this->output_succ(["data"=>$ret]);
     }
@@ -2046,6 +2051,7 @@ class ss_deal extends Controller
         $has_share_activity_flag = $this->get_in_int_val("has_share_activity_flag");
         $contract_from_type = $this->get_in_e_contract_from_type();
         $order_partition_flag = $this->get_in_int_val("order_partition_flag",0);
+        $period_flag = $this->get_in_int_val("period_flag",0);
         // $child_order_info = $this->get_in_str_val("child_order_info");
 
         $sys_operator        = $this->get_account();
@@ -2080,7 +2086,11 @@ class ss_deal extends Controller
         $account = $this->get_account();
         //$before_lesson_count= $this->t_order_info->get_order_all_lesson_count($userid, $account);
         $before_lesson_count=0;
-        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, ["from_test_lesson_id" => $from_test_lesson_id] );
+        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, ["from_test_lesson_id" => $from_test_lesson_id ,"period_flag"=>$period_flag] );
+        if ( $period_flag != $price_ret["can_period_flag"] ) {
+            return $this->output_err("课时数过少不支持分期,请不要启用分期");
+        }
+
 
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
@@ -2168,7 +2178,8 @@ class ss_deal extends Controller
             $from_parent_order_lesson_count,
             $pre_price,
             "",
-            $order_partition_flag
+            $order_partition_flag,
+            $period_flag 
         );
 
 
