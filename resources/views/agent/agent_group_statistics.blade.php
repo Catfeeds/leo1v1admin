@@ -50,28 +50,30 @@
                     <td>{{$agent_all_group_result['order_money']}}</td>
                     <td>{{$agent_all_group_result['member_count']}}</td>
                 </tr>
-                @foreach ( $table_data_list as $var )
-                    <tr class="{{$var["level"]}}">
-                        <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
-                            {{$var["colconel_name"]}}
-                        </td>
-                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >
-                            {{@$var["group_name"]}}
-                        </td>
-                        <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >
-                            {{@$var["phone"]}}/{{@$var['nickname']}}
-                        </td>
+                @if($table_data_list){
+                    @foreach ( @$table_data_list as $var )
+                        <tr class="{{$var["level"]}}">
+                            <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
+                                {{$var["colconel_name"]}}
+                            </td>
+                            <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >
+                                {{@$var["group_name"]}}
+                            </td>
+                            <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >
+                                {{@$var["phone"]}}/{{@$var['nickname']}}
+                            </td>
 
-                        <td>{{@$var['student_count']}}</td>
-                        <td>{{@$var['test_lesson_count']}}</td>
+                            <td>{{@$var['student_count']}}</td>
+                            <td>{{@$var['test_lesson_count']}}</td>
 
-                        <td>{{@$var['order_count']}}</td>
-                        <td>{{@$var['order_money']}}</td>
+                            <td>{{@$var['order_count']}}</td>
+                            <td>{{@$var['order_money']}}</td>
 
-                        <td>{{@$var['member_count']}}</td>
-                        
-                    </tr>
-                @endforeach
+                            <td>{{@$var['member_count']}}</td>
+                            
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
         @include("layouts.page")
