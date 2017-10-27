@@ -25,6 +25,7 @@ class CreateTLuckDrawYxyxForRuffian extends Migration
 
             $table->index('luck_draw_adminid');
             $table->index('luck_draw_time');
+            $table->index('deposit_time');
         });
 
 

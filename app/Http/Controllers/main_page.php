@@ -2392,48 +2392,117 @@ class main_page extends Controller
 
     public function recruit()
     {
-        $recruit = $this->get_in_str_val("recruit");
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $recruit      = $this->get_in_str_val("recruit");
         $history_data = $this->get_in_int_val('history_data');
-        $total = $this->t_new_tea_entry->get_total();
+
+        $total    = $this->t_new_tea_entry->get_total();
         $ret_info = [];
         if ($history_data) { // 没有历史数据
             // 面试通过人数
-            for ($i=1; $i <= 7; $i++) {
-                if ($i == 7) $i = 10;
-                $interview_pass[$i] = $this->t_teacher_info->get_interview_through_count($start_time, $end_time,$i);
-                $interview_video[$i] = $this->t_teacher_record_list->get_interview_through_by_subject($start_time, $end_time, $i);
-                if ($recruit == 'train') {
-                    // 培训参训新师人数
-                    $train_tea[$i] = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time, $i);
-                    // 科目培训合格
-                    $train_qual[$i] = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time, $i);
-                }
-                // 模拟试听排课人数
-                $imit_lesson[$i] = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time,$i);
-                // 模拟试听上课人数
-                $attend_lesson[$i] = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time,$i);
-                // 模拟试听通过人数
-                $adopt_lesson[$i] = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time,$i);
-            }
-            $ret_info = $this->handle($interview_pass);
-            $interview_video = $this->handle($interview_video);
+            $tea_list = $this->t_teacher_flow->get_tea_list($start_time, $end_time);
+            $primary_china = $this->recruit_init([], 1, 100);
+            $middle_china = $this->recruit_init([], 1, 200);
+            $high_china = $this->recruit_init([], 1, 300);
+            $primary_math = $this->recruit_init([], 2, 100);
+            $middle_math = $this->recruit_init([], 2, 200);
+            $high_math = $this->recruit_init([], 2, 300);
+            $primary_eng = $this->recruit_init([], 3, 100);
+            $middle_eng = $this->recruit_init([], 3, 200);
+            $high_eng = $this->recruit_init([], 3, 300);
+            $chemistry = $this->recruit_init([], 4);
+            $physics = $this->recruit_init([], 5);
+            $biology = $this->recruit_init([], 6);
+            $science = $this->recruit_init([], 10);
 
-            $total['sum'] = 0;
-            if ($recruit == 'train') {
-                $total['train_tea_sum'] = 0;
-                $total['train_qual_sum'] = 0;
-                $train_tea = $this->handle($train_tea);
-                $train_qual = $this->handle($train_qual);
+            // 老师身份
+            $identity_no_set = $this->recruit_init([], '', '', 0);
+            $identity_organ = $this->recruit_init([], '', '', 5);
+            $identity_public = $this->recruit_init([], '', '', 6);
+            $identity_stu = $this->recruit_init([], '', '', 7);
+            $identity_other = $this->recruit_init([], '', '', 8);
+
+            foreach($tea_list as $item) {
+                // 语文
+                if ($item['subject'] == 1) {
+                    if ($item['grade'] == 100) {
+                        $primary_china = $this->accumulation($primary_china, $item);
+                    }
+                    if ($item['grade'] == 200) {
+                        $middle_china = $this->accumulation($middle_china, $item);
+                    }
+                    if ($item['grade'] == 300) {
+                        $high_china = $this->accumulation($high_china, $item);
+                    }
+                }
+                if ($item['subject'] == 2) {
+                    if ($item['grade'] == 100) {
+                        $primary_math = $this->accumulation($primary_math, $item);
+                    }
+                    if ($item['grade'] == 200) {
+                        $middle_math = $this->accumulation($middle_math, $item);
+                    }
+                    if ($item['grade'] == 300) {
+                        $high_math = $this->accumulation($high_math, $item);
+                    }
+                }
+                if ($item['subject'] == 3) {
+                    if ($item['grade'] == 100) {
+                        $primary_eng = $this->accumulation($primary_eng, $item);
+                    }
+                    if ($item['grade'] == 200) {
+                        $middle_eng = $this->accumulation($middle_eng, $item);
+                    }
+                    if ($item['grade'] == 300) {
+                        $high_eng = $this->accumulation($high_eng, $item);
+                    }
+                }
+                if ($item['subject'] == 4) {
+                    $chemistry = $this->accumulation($chemistry, $item);
+                }
+                if ($item['subject'] == 5) {
+                    $physics = $this->accumulation($physics, $item);
+                }
+                if ($item['subject'] == 4) {
+                    $biology = $this->accumulation($biology, $item);
+                }
+                if ($item['subject'] == 4) {
+                    $science = $this->accumulation($science, $item);
+                }
+                if ($item['identity'] == 0) {
+                    $identity_no_set = $this->accumulation($identity_no_set, $item);
+                }
+                if ($item['identity'] == 5) {
+                    $identity_organ = $this->accumulation($identity_organ, $item);
+                }
+                if ($item["identity"] == 6) {
+                    $identity_public = $this->accumulation($identity_public, $item);
+                }
+                if ($item['identity'] == 7) {
+                    $identity_other = $this->accumulation($identity_other, $item);
+                }
+                if ($item['identity'] == 8) {
+                    $identity_stu = $this->accumulation($identity_stu, $item);
+                }
             }
-            $imit_lesson = $this->handle($imit_lesson);
-            $attend_lesson = $this->handle($attend_lesson);
-            $adopt_lesson = $this->handle($adopt_lesson);
+            array_push($ret_info, $primary_china);
+            array_push($ret_info, $middle_china);
+            array_push($ret_info, $high_china);
+            array_push($ret_info, $primary_math);
+            array_push($ret_info, $middle_math);
+            array_push($ret_info, $high_math);
+            array_push($ret_info, $primary_eng);
+            array_push($ret_info, $middle_eng);
+            array_push($ret_info, $high_eng);
+            array_push($ret_info, $chemistry);
+            array_push($ret_info, $physics);
+            array_push($ret_info, $biology);
+            array_push($ret_info, $science);
+
             $total['imit_sum'] = 0;
             $total['attend_sum'] = 0;
             $total['adopt_sum'] = 0;
             foreach($ret_info as $key => &$item) {
-                $item['sum'] += $interview_video[$key]['sum'];
                 if (isset($item['grade'])) {
                     E\Esubject::set_item_value_str($item, "subject");
                     E\Egrade::set_item_value_str($item, "grade");
@@ -2442,54 +2511,60 @@ class main_page extends Controller
                     E\Esubject::set_item_value_str($item, "subject");
                 }
                 if ($recruit == 'train') {
-                    $ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
-                    $ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
-                    $total['train_tea_sum'] += $train_tea[$key]['sum'];
-                    $total['train_qual_sum'] += $train_qual[$key]['sum'];
+                    // $ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
+                    // $ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
+                    $total['train_tea_sum'] += $item['train_tea_sum'];
+                    $total['train_qual_sum'] += $item['train_qual_sum'];
                 }
-                $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
-                $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
-                $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum']; 
+                // $ret_info[$key]['imit_sum'] = $item[$key]['sum'];
+                // $ret_info[$key]['attend_sum'] = $item[$key]['sum'];
+                // $ret_info[$key]['adopt_sum'] = $item[$key]['sum']; 
                 $total['sum'] += $item['sum'];
-                $total['imit_sum'] += $imit_lesson[$key]['sum'];
-                $total['attend_sum'] += $attend_lesson[$key]['sum'];
-                $total['adopt_sum'] += $adopt_lesson[$key]['sum'];
+                $total['imit_sum'] += $item['imit_sum'];
+                $total['attend_sum'] += $item['attend_sum'];
+                $total['adopt_sum'] += $item['adopt_sum'];
             }
             // 面试通过人数
-            $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
-            if ($recruit == 'train') {
-                // 培训参训新师人数
-                $train_tea = $this->t_teacher_info->get_train_inter_teacher_type_count($start_time, $end_time);
-                // 老师类型培训合格
-                $train_qual = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
-            }
-            // 模拟试听排课人数
-            $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
-            // 模拟试听上课人数
-            $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
-            // 模拟试听通过人数
-            $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
+            // $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
+            // if ($recruit == 'train') {
+            //     // 培训参训新师人数
+            //     $train_tea = $this->t_teacher_info->get_train_inter_teacher_type_count($start_time, $end_time);
+            //     // 老师类型培训合格
+            //     $train_qual = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+            // }
+            // // 模拟试听排课人数
+            // $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
+            // // 模拟试听上课人数
+            // $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
+            // // 模拟试听通过人数
+            // $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
             $type_total['train_qual_sum'] = 0;
             $type_total['imit_sum'] = 0;
             $type_total['attend_sum'] = 0;
             $type_total['adopt_sum'] = 0;
+            $type_ret_info = [];
+            array_push($type_ret_info, $identity_no_set);
+            array_push($type_ret_info, $identity_organ);
+            array_push($type_ret_info, $identity_public);
+            array_push($type_ret_info, $identity_stu);
+            array_push($type_ret_info, $identity_other);
             foreach($type_ret_info as $key => &$item) {
                 E\Eidentity::set_item_value_str($item, "identity");
                 if ($recruit == 'train') {
-                    $type_ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
-                    $type_ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
-                    $type_total['train_tea_sum'] += $train_tea[$key]['sum'];
-                    $type_total['train_qual_sum'] += $train_qual[$key]['sum'];
+                    // $type_ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
+                    // $type_ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
+                    $type_total['train_tea_sum'] += $item['train_tea_sum'];
+                    $type_total['train_qual_sum'] += $item['train_qual_sum'];
                 }
-                $type_ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
-                $type_ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
-                $type_ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
+                // $type_ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
+                // $type_ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
+                // $type_ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
                 $type_total['sum'] += $item['sum'];
-                $type_total['imit_sum'] += $imit_lesson[$key]['sum'];
-                $type_total['attend_sum'] += $attend_lesson[$key]['sum'];
-                $type_total['adopt_sum'] += $adopt_lesson[$key]['sum'];
+                $type_total['imit_sum'] += $item['imit_sum'];
+                $type_total['attend_sum'] += $item['attend_sum'];
+                $type_total['adopt_sum'] += $item['adopt_sum'];
             } 
         } else {
             $ret_info = $this->t_new_tea_entry->get_subject_list();
@@ -2515,6 +2590,35 @@ class main_page extends Controller
             "type_total" => $type_total,
             'recruit' => $recruit
         ]);
+    }
+
+    public function recruit_init($info, $subject = '', $grade = '', $identity = '') {
+        $info['sum'] = $info['train_tea_sum'] = $info['train_qual_sum'] = $info['imit_sum'] = $info['attend_sum'] = $info['adopt_sum'] = 0;
+        if ($subject <= 3)
+        {
+            $info['subject'] = $subject;
+            $info['grade'] = $grade;
+        } else {
+            $info['subject'] = $subject;
+        }
+        if ($identity) {
+            $info['identity'] = $identity;
+        }
+        return $info;
+    }
+    public function accumulation($info, $item) {
+        $info['sum'] ++;
+        // 新师参训
+        $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($train_tea_sum) $info['train_tea_sum'] ++;
+        if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
+        // 模拟试听总排课人数
+        $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($imit_sum) $info['imit_sum']++;
+        $attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($attend_sum) $info['attend_sum']++;
+        if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
+        return $info;
     }
 
     public function handle($info) {
@@ -2545,5 +2649,39 @@ class main_page extends Controller
         }
         return $res;
     }
+
+    // public function test(){
+    //         for ($i=1; $i <= 7; $i++) {
+    //             if ($i == 7) $i = 10;
+    //             $interview_pass[$i] = $this->t_teacher_info->get_interview_through_count($start_time, $end_time,$i);
+    //             $interview_video[$i] = $this->t_teacher_record_list->get_interview_through_by_subject($start_time, $end_time, $i);
+    //             if ($recruit == 'train') {
+    //                 // 培训参训新师人数
+    //                 $train_tea[$i] = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time, $i);
+    //                 // 科目培训合格
+    //                 $train_qual[$i] = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time, $i);
+    //             }
+    //             // 模拟试听排课人数
+    //             $imit_lesson[$i] = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time,$i);
+    //             // 模拟试听上课人数
+    //             $attend_lesson[$i] = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time,$i);
+    //             // 模拟试听通过人数
+    //             $adopt_lesson[$i] = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time,$i);
+    //         }
+
+    //         $ret_info = $this->handle($interview_pass);
+    //         $interview_video = $this->handle($interview_video);
+
+    //         $total['sum'] = 0;
+    //         if ($recruit == 'train') {
+    //             $total['train_tea_sum'] = 0;
+    //             $total['train_qual_sum'] = 0;
+    //             $train_tea = $this->handle($train_tea);
+    //             $train_qual = $this->handle($train_qual);
+    //         }
+    //         $imit_lesson = $this->handle($imit_lesson);
+    //         $attend_lesson = $this->handle($attend_lesson);
+    //         $adopt_lesson = $this->handle($adopt_lesson);
+    // }
 
 }
