@@ -2049,7 +2049,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["teacherid=%u",$teacherid,-1],
             "is_test_user=0",
-            "wx_openid !=''",
+            // "wx_openid !=''",
         ];
 
         $sql = $this->gen_sql_new("select teacherid,wx_openid,user_agent"
