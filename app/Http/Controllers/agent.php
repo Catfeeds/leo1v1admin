@@ -515,7 +515,7 @@ class agent extends Controller
             foreach($seller_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//cc登录
                     $seller_login[$key]['login'] = $item;
-                    dd($item,$seller_info);
+                    dd($item,$seller_info[$key+1]);
                     if($seller_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2){//下一条为cc退出
                         $seller_login[$key]['logout'] = $seller_info[$key+1];
                     }else{
