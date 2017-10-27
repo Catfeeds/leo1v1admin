@@ -276,7 +276,7 @@ class wx_parent_common extends Controller
 
             \App\Helper\Utils::logger("XXXX 22201");
             $opt_adminid = $account_id; // ccid
-            (new  ss_deal() ) ->set_admin_id_ex([$new_userid],$opt_adminid,0);
+            $this->t_seller_student_new->set_admin_id_ex([$new_userid],$opt_adminid,0);
             \App\Helper\Utils::logger("XXXX 22202");
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }else{
