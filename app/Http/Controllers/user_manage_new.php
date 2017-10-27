@@ -2055,6 +2055,12 @@ class user_manage_new extends Controller
                 // dd($group_list);
                 $item['user_info'] = json_encode($user_info);
                 // dd(json_encode($user_info));
+                $item['url_name'] = '';
+                if($item['k1'] != ''){
+                    $item['url_name'] = $item['k1'];
+                }elseif($item['k2'] != ''){
+                    
+                }
 
 
                 // $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
@@ -2064,7 +2070,7 @@ class user_manage_new extends Controller
 
         // dd($group_list);
 
-        dd($ret_info);
+        // dd($ret_info);
 
         return $this->Pageview(__METHOD__,$ret_info);
     }
