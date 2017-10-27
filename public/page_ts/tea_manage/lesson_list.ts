@@ -87,6 +87,7 @@ $(function(){
             start_time    :	$('#id_start_time').val(),
             end_time      :	$('#id_end_time').val(),
 
+            lesson_status: $("#id_lesson_status").val(),
             lesson_type  : $("#id_lesson_type").val(),
             confirm_flag : $("#id_confirm_flag").val(),
             subject      : $("#id_subject").val(),
@@ -100,17 +101,18 @@ $(function(){
             is_with_test_user : $("#id_is_with_test_user").val(),
             has_performance   : $("#id_has_performance").val(),
             lesson_count      : $("#id_lesson_count").val(),
-      lesson_del_flag:	$('#id_lesson_del_flag').val(),
+            lesson_del_flag:	$('#id_lesson_del_flag').val(),
 
             origin : $("#id_origin").val(),
 
             has_video_flag            :	$('#id_has_video_flag').val(),
             lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
             lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
-      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+            fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
+    Enum_map.append_option_list( "lesson_status", $('#id_lesson_status'));
     Enum_map.append_option_list( "boolean", $('#id_lesson_del_flag'));
     Enum_map.append_option_list( "fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     $(".opt-change-price").on("click",function(){
