@@ -1410,7 +1410,6 @@ class test_code extends Controller
 
         // });
 
-        var_dump($test);
     }
 
 

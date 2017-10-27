@@ -330,6 +330,11 @@ class wx_parent_gift extends Controller
     }
 
 
+    public function do_(){ // 抽奖
+
+    }
+
+
 
 
 }
