@@ -42,7 +42,13 @@ class wx_parent_common extends Controller
                 session([
                     "parentid" => $parentid,
                 ]);
-                $url="$web_html_url/$action";
+
+                if($action=="zhishiku"){
+                    $url = "http://wx-parent-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?type='zhishiku'";
+                }else{
+                    $url="$web_html_url/$action";
+                }
+
             }else{
                 $url="$web_html_url/binding?goto_url=/$action";
             }

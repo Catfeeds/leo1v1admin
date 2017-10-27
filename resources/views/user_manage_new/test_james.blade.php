@@ -71,9 +71,7 @@
                         <td>{{@$var["pid"]}} </td>
                         <td>{{@$var["url"]}} </td>
                         <td>
-                            @foreach(json_decode($var['user_info']) as $v)
-                                {{@$var["user_nick"]}}/{{@$var["phone"]}}
-                            @endforeach
+                            {{@$var["user_info"]}}
                         </td>
                         <td>
                             <div
