@@ -9732,8 +9732,8 @@ lesson_type in (0,1) "
             ["tf.simul_test_lesson_pass_time<%u", $end_time, 0],
             ["tf.subject=%u",$subject,0],
             //"train_through_new=1",
-            "t.is_test_user=0",
-            "t.train_type=4"
+            //"t.is_test_user=0",
+            //"t.train_type=4"
         ];
         //$table = t_teacher_info::DB_TABLE_NAME;
         //$sql = "select count(*) from %s where %s";
@@ -9753,8 +9753,9 @@ lesson_type in (0,1) "
                                   t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
+        dd($sql);
         return $this->main_get_row($sql);
-        return $this->get_handle_other_subject($info,$res);
+        //return $this->get_handle_other_subject($info,$res);
     }
 
     public function get_handle_other_subject($info, $res) {
