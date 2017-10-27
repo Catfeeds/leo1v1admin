@@ -321,6 +321,9 @@ class wx_parent_gift extends Controller
 
     // 双11优学优享活动
 
+    public function get_member_info_list(){ // 获取会员信息
+        $num = $this->t_agent->get_invite_num($start_time);
+    }
 
 
 
