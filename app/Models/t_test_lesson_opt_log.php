@@ -32,7 +32,7 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
         $this->where_arr_add_time_range($where_arr,'opt_time',$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,'role',[E\Erole::V_1,E\Erole::V_6]);
         $sql = $this->gen_sql_new(
-            "select o.*,s.test_lesson_opt_flag "
+            "select o.*,n.test_lesson_opt_flag "
             ." from %s o "
             ." left join %s n on n.userid = o.userid "
             ." where %s "
