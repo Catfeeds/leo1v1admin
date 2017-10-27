@@ -9730,7 +9730,7 @@ lesson_type in (0,1) "
         $whereArr = [
             ["tf.simul_test_lesson_pass_time>%u", $start_time, 0],
             ["tf.simul_test_lesson_pass_time<%u", $end_time, 0],
-            ["t.subject=%u",$subject,0],
+            ["tf.subject=%u",$subject,0],
             //"train_through_new=1",
             "t.is_test_user=0",
             "t.train_type=4"
@@ -9739,9 +9739,9 @@ lesson_type in (0,1) "
         //$sql = "select count(*) from %s where %s";
         //$res = $this->get_three_maj_sub($sql, $whereArr, $table);
         if ($subject <= 3) {
-            $query = " sum(if(substring(t.grade,1,1)=1,1,0)) primary_num, "
-                      ." sum(if(substring(t.grade,1,1)=2,1,0)) middle_num,"
-                      ."sum(if(substring(t.grade,1,1)=3,1,0)) senior_num";
+            $query = " sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num";
         } else {
             $query = " count(*) sum";
         }
