@@ -15,7 +15,7 @@ class wx_parent extends Controller
 
     public function __construct() {
         parent::__construct();
-
+        // $parentid = session("parentid");
 
         if(!session("parentid")){
             \App\Helper\Utils::logger('jiluscore '.$this->get_in_str_val("_url"));
