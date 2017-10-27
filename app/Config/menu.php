@@ -738,7 +738,7 @@ class menu{
                 ]],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
-                ["power_id"=>20, "name"=>""招师-渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                ["power_id"=>20, "name"=>"招师-渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
                 ["power_id"=>21, "name"=>"渠道统计-new-list", "url"=>"/channel_manage/zs_origin_list_new"],
                 ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zs"],
 

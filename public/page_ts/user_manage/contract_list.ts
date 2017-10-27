@@ -936,7 +936,6 @@ $(function(){
         var $receipt_title= html_node.find(".field-receipt_title");
 
 
-
         Enum_map.append_option_list( "boolean", $order_require_flag ,true);
         Enum_map.append_option_list( "boolean", $has_share_activity_flag,true);
         Enum_map.append_option_list( "grade", $grade,true);

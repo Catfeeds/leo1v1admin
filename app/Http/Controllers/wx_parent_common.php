@@ -31,8 +31,8 @@ class wx_parent_common extends Controller
         \App\Helper\Utils::logger("wx_parent_openid:".session("wx_parent_openid"));
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
-        $goto_url_arr=preg_split("/\//", $goto_url);
-        $action=@$goto_url_arr[2];
+        $goto_url_arr = preg_split("/\//", $goto_url);
+        $action       = @$goto_url_arr[2];
         $web_html_url="http://wx-parent-web.leo1v1.com";
         if ($action=="binding" ){
             $url="$web_html_url/binding?goto_url=";
