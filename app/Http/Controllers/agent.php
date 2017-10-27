@@ -601,6 +601,9 @@ class agent extends Controller
                     $stu_wheat[$key]['login'] = $item;
                     if(isset($stu_wheat[$key+1])){
                         if($stu_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2){//下一条为学生下麦
+                            if($info == 377680){
+                                dd($item,$stu_info[$key+1]);
+                            }
                             $stu_wheat[$key]['logout'] = $stu_info[$key+1];
                         }else{
                             $stu_wheat[$key]['logout'] = [];
