@@ -40,7 +40,7 @@ class update_test_lesson_opt_flag extends cmd_base
             $seller_info = [];
             $seller_login = [];
 
-            foreach($ret_info as $item){
+            foreach($ret_info as $key=>$item){
                 $userid = $item['userid'];
                 $roomid = $item['roomid'];
                 $role = $item['role'];
@@ -112,6 +112,7 @@ class update_test_lesson_opt_flag extends cmd_base
                 }
             }
         }
+
         foreach($lessonid_arr as $info){//上麦
             $stu_info = [];
             $stu_wheat = [];

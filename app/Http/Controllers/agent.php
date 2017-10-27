@@ -477,7 +477,7 @@ class agent extends Controller
             $seller_info = [];
             $seller_login = [];
 
-            foreach($ret_info as $item){
+            foreach($ret_info as $key=>$item){
                 $userid = $item['userid'];
                 $roomid = $item['roomid'];
                 $role = $item['role'];
