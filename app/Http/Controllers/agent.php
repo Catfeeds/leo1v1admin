@@ -472,6 +472,10 @@ class agent extends Controller
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
         $lessonid_arr = array_unique(array_column($ret_info,'lessonid'));
         foreach($roomid_arr as $info){//登录
+            if($info == 0){
+                continue;
+            }
+
             $stu_info = [];
             $stu_login = [];
             $seller_info = [];
@@ -498,7 +502,6 @@ class agent extends Controller
             }
             $stu_info = array_values($stu_info);
             $seller_info = array_values($seller_info);
-            dd($stu_info,$seller_info);
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
@@ -557,6 +560,9 @@ class agent extends Controller
         }
 
         foreach($lessonid_arr as $info){//上麦
+            if($info == 0){
+                continue;
+            }
             $stu_info = [];
             $stu_wheat = [];
             $seller_info = [];
@@ -572,7 +578,7 @@ class agent extends Controller
                     continue;
                 }
 
-                if($info == $lessonid && $lessonid==377680){
+                if($info == $lessonid && $lessonid == 377680){
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生上下麦
                         $stu_info[$key] = $item;
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_2){//cc上下麦
@@ -582,6 +588,10 @@ class agent extends Controller
             }
             $stu_info = array_values($stu_info);
             $seller_info = array_values($seller_info);
+
+            if($info == 377680){
+                dd($stu_info,$stu_wheat);
+            }
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生上麦
                     $stu_wheat[$key]['login'] = $item;
@@ -601,9 +611,6 @@ class agent extends Controller
                         $seller_wheat[$key]['logout'] = [];
                     }
                 }
-            }
-            if($info==377680){
-                dd($stu_wheat,$seller_wheat);
             }
             foreach($stu_wheat as $item){
                 $login_s = $item['login'];
@@ -641,6 +648,7 @@ class agent extends Controller
                 }
             }
         }
+
 
     }
 
