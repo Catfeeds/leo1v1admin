@@ -184,6 +184,8 @@ class tea_manage extends Controller
              $tea_subject= "";
         }elseif($adminid==329){
             $tea_subject="";
+        }elseif($adminid==1143){
+            $tea_subject="";//朱丽莎权限
         }
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
@@ -2256,6 +2258,10 @@ class tea_manage extends Controller
         $is_all           = $this->get_in_int_val("is_all");
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
+
+        $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
+        
         if($fulltime_flag==1){
             $full_time=1;
         }
@@ -2269,11 +2275,16 @@ class tea_manage extends Controller
             }
         }
 
+        //判断招师主管
+        $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
+        //判断是否是招师
+
+
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
-            $train_email_flag,$full_time
+            $train_email_flag,$full_time,$id_train_through_new_time,$id_train_through_new
         );
 
         foreach($ret_info['list'] as &$val){
@@ -2290,6 +2301,16 @@ class tea_manage extends Controller
                 $status_str="<font color='green'>已通过</font>";
             }elseif($val['trial_train_status']==2){
                 $status_str="<font color='blue'>老师未到</font>";
+            }
+            if($val['train_through_new_time'] >0){
+                $val['train_status_str'] = "已通过";
+            }else{
+                $val['train_status_str'] = "未通过";
+            }
+            if($val['train_through_new'] == 1){
+                $val['train_through_str'] = "已通过";
+            }else{
+                $val['train_through_str'] = "未通过";
             }
             $val['trial_train_status_str']=$status_str;
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['l_teacherid']);
@@ -2308,6 +2329,7 @@ class tea_manage extends Controller
                 $val["have_wx_flag"] = "否";
             }
             E\Eidentity::set_item_value_str($val,"teacher_type");
+            $val["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$val["phone_spare"]);
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(
@@ -2326,6 +2348,8 @@ class tea_manage extends Controller
             "all_num"        => $all_num,
             "wx_num"         => $wx_num,
             "email_num"      => $email_num,
+            "is_all"         => $is_all,
+            "fulltime_flag"  => $fulltime_flag
         ]);
     }
 

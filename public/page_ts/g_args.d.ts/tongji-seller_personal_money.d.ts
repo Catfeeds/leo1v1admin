@@ -14,6 +14,22 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	main_type	:any;
+	up_group_name	:any;
+	group_name	:any;
+	account	:any;
+	main_type_class	:any;
+	up_group_name_class	:any;
+	group_name_class	:any;
+	account_class	:any;
+	level	:any;
+	become_member_time	:any;
+	leave_member_time	:any;
+	del_flag	:any;
+	main_type_str	:any;
+	del_flag_str	:any;
+	become_member_num	:any;
+	leave_member_num	:any;
 }
 
 /*
@@ -24,17 +40,18 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji-seller_personal_money.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		user_info:	$('#id_user_info').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			user_info:	$('#id_user_info').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

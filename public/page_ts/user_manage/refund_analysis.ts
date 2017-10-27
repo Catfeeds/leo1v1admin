@@ -4,11 +4,11 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            orderid       :  g_args.orderid	,
+            orderid       : g_args.orderid	,
             apply_time    : g_args.apply_time	,
-            // qc_contact_status  : $('#opt_qc_contact_status').attr('data-val'),
-            // qc_advances_status  : $('#opt_qc_advances_status').attr('data-val'),
-            // qc_voluntarily_status  : $('#opt_qc_voluntarily_status').attr('data-val'),
+            teacherid     : $('#id_teacher').val(),
+            subject      : $("#id_subject").val(),
+
         });
     }
 
@@ -20,18 +20,21 @@ $(function(){
     var qc_advances_status = $('#opt_qc_advances_status').attr('data-val');
     var qc_voluntarily_status  = $('#opt_qc_voluntarily_status').attr('data-val');
 
+    $("#id_teacher").val(g_args.teacherid);
 
+    $.admin_select_user( $("#id_teacher"), "teacher");
 
     Enum_map.append_option_list( "qc_contact_status", $("#id_qc_contact_status"));
     Enum_map.append_option_list( "qc_advances_status", $("#id_qc_advances_status"));
     Enum_map.append_option_list( "qc_voluntarily_status", $("#id_qc_voluntarily_status"));
-    // $("#id_qc_contact_status").val(g_args.qc_contact_status);
-    // $("#id_qc_advances_status").val(g_args.qc_advances_status);
-    // $("#id_qc_voluntarily_status").val(g_args.qc_voluntarily_status);
 
-     $("#id_qc_contact_status").find('option[value="'+qc_contact_status+'"]').attr('selected',1);
-     $("#id_qc_advances_status").find('option[value="'+qc_advances_status+'"]').attr('selected',1);
-     $("#id_qc_voluntarily_status").find('option[value="'+qc_voluntarily_status+'"]').attr('selected',1);
+    Enum_map.append_option_list( "subject", $("#id_subject"));
+
+    $("#id_subject").val(g_args.subject);
+
+    $("#id_qc_contact_status").find('option[value="'+qc_contact_status+'"]').attr('selected',1);
+    $("#id_qc_advances_status").find('option[value="'+qc_advances_status+'"]').attr('selected',1);
+    $("#id_qc_voluntarily_status").find('option[value="'+qc_voluntarily_status+'"]').attr('selected',1);
 
 
 
@@ -44,13 +47,34 @@ $(function(){
         var qc_advances_status     = $("#id_qc_advances_status").val();
         var qc_voluntarily_status  = $("#id_qc_voluntarily_status").val();
 
-        console.log(qc_voluntarily_status);
+        var teacherid  = $('#id_teacher').val();
+        var subject    = $('#id_subject').val();
+
+        if(qc_contact_status<1){
+            alert('请选择联系状态!');
+            load_data();
+            return;
+        }
+
+        if(qc_advances_status<1){
+            alert('请选择提升状态!');
+            load_data();
+            return;
+        }
+
+        if(qc_voluntarily_status<1){
+            alert('请选择是否自愿状态!');
+            load_data();
+            return;
+        }
 
         if(adminid != 540 && adminid != 968 && adminid != 99 && adminid != 1024 && adminid!=1184 ){
             alert('您没有修改权限!');
             load_data();
         } else {
             $.do_ajax( "/user_manage/add_qc_analysis_by_order_apply",{
+                teacherid       : teacherid,
+                subject         : subject,
                 orderid         : g_args.orderid,
                 apply_time      : g_args.apply_time	,
                 qc_reply        : qc_reply,

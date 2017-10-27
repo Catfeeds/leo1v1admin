@@ -1267,7 +1267,7 @@ class tongji2 extends Controller
             $arr['finish_renew_per']   = $ret_info['finish_renew_per'];//月预警续费率
             $arr['tranfer_success_per']= $ret_info['tranfer_success_per'];//月转介绍至CC签单率
             //$arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
-            $arr['kk_success_per'] = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
+            $arr['kk_success_per']     = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
             $arr['create_time_range']  = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
             //漏斗
             $ret_info1 = $this->t_cr_week_month_info->get_data_by_type($create_time,4);//
@@ -1276,7 +1276,7 @@ class tongji2 extends Controller
             $arr['renew_per']          = $ret_info1['renew_per']>0?$ret_info1['renew_per']/100:0;//月续费率
             $arr['finish_renew_per']   = $ret_info1['finish_renew_per']>0?$ret_info1['finish_renew_per']/100:0;//月预警续费率
             $arr['tranfer_success_per']= $ret_info1['tranfer_success_per']>0?$ret_info1['tranfer_success_per']/100:0;//月转介绍至CC签单率
-            $arr['kk_success_per']     = $ret_info1['kk_success_per']>0?$ret_info1['kk_success_per']/100:0;
+            //$arr['kk_success_per']     = $ret_info1['kk_success_per']>0?$ret_info1['kk_success_per']/100:0;
             if($opt_date_type == 3){
                 $arr['type'] = 1;
             }
@@ -1287,10 +1287,14 @@ class tongji2 extends Controller
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
-            }elseif($type == 1 || $type == 2){
+            }elseif($type == 1){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+            }elseif($type == 2){
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
+                $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
+                $ret_cr            = $this->t_manager_info->get_cr_num_new(strtotime($start_month),$start_time,$end_time);
             }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             

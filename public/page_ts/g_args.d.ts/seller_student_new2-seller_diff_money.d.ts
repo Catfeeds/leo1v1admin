@@ -22,6 +22,7 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	diff_money_def	:any;
 	become_member_time	:any;
 	leave_member_time	:any;
 	del_flag	:any;

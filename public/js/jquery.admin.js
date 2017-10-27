@@ -1682,14 +1682,17 @@ jQuery.extend({
                 td_obj.append( element[1] );
                 row_obj.append(td_obj);
                 table_obj.append(row_obj);
-
             }
         });
         var all_btn_config=[{
             label: '返回',
             cssClass : 'btn-default col-xs-2 col-xs-offset-7',
             action: function(dialog) {
-                dialog.close();
+                // dialog.close();
+
+                if(confirm('你还未保存信息，确定要返回吗？')){
+                    dialog.close();
+                }
             }
         }];
         if (btn_config){

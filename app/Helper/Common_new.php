@@ -1491,7 +1491,19 @@ class Common_new {
         }
         $num = count($list)+1;
 
-        $max_main_type = $task->t_admin_main_group_name->get_max_main_type();
+        $main_type_list    = E\Emain_type::$desc_map;
+        krsort($main_type_list);
+        $max_main_type =11;
+        foreach($main_type_list as $k=>$v){
+            $max_main_type=$k;
+            break;
+        }
+
+        // $max_main_type = $task->t_admin_main_group_name->get_max_main_type();
+        if($max_main_type<12){
+            $max_main_type = 12;  
+        }
+
         for ($i=1; $i<=$max_main_type; $i++) {
             $n = $num;
             $list[] = ["main_type"=>$i,"first_group_name"=>"","up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];

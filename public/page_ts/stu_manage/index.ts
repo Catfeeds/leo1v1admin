@@ -726,8 +726,9 @@ $(function(){
               type     :"post",
               url      :"/user_manage/set_dynamic_passwd",
               dataType :"json",
-              data     :{
-                        "phone"  :  g_phone,
+                data     :{
+                        "userid" : g_sid,
+                        "phone"  : g_phone,
                         "passwd" : id_tmp_passwd.val(),
                         "role"   : 1
                     },

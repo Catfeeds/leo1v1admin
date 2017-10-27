@@ -1152,6 +1152,9 @@ class ajax_deal2 extends Controller
             "stu_email"=>$stu_email,
             "realname" =>$realname,
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("修改个人资料", $userid);
         if($region){
             $this->t_student_info->field_update_list($userid,[
                 "region"   =>$region,
@@ -1201,6 +1204,9 @@ class ajax_deal2 extends Controller
         $this->t_student_info->field_update_list($userid,[
             "subject_ex"  =>trim($subject_ex,",")           
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data('增加科目'.E\Esubject::get_desc($subject).',增加教材,教材id:'.$editionid, $userid);
         return $this->output_succ();
     }
 
@@ -1217,6 +1223,9 @@ class ajax_deal2 extends Controller
         $this->t_student_info->field_update_list($userid,[
             "subject_ex"  =>trim($subject_ex,",")           
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("删除教材,教材id:".$editionid, $userid);
         return $this->output_succ();
 
  
@@ -1231,6 +1240,10 @@ class ajax_deal2 extends Controller
         $this->t_student_subject_list->field_update_list_2($userid,$subject,[
             "editionid" =>$editionid
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("修改教材,教材id:".$editionid, $userid);
+
         return $this->output_succ();
     }
 
@@ -1592,7 +1605,22 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $teacherid              = $this->get_in_int_val("teacherid",50272);
+        $list=[];
+        $first              = $this->get_in_int_val("teacherid",50272);
+        // $first = strtotime("2016-06-01");
+        // $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
+        $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+        $month = date("Y-m-d",$first);
+        $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
+        $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
+        $list["stu_num"] = @$order_money_info["stu_num"];
+        $list["all_price"] = @$order_money_info["all_price"];
+        $list["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+        foreach($order_money_month as $val){
+            $list[$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+        }
+        return $this->output_succ(["data"=>$list]);
+
         /*$start_time = time()-90*86400;
         $end_time = time();
 
@@ -1796,5 +1824,20 @@ class ajax_deal2 extends Controller
 
     }
 
-
+    public function push_share_knowledge(){
+        $account_role = $this->get_account_role();
+        $adminid = $this->get_account_id();
+        $url = "http://admin.yb1v1.com/";
+        $wx_openid = $this->t_manager_info->get_wx_openid($adminid);
+        if(!$wx_openid){
+            //return $this->output_err("请绑定微信");
+        }
+        $ret = $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                944,
+                "分析知识库",
+                "",
+                "",
+                $url);
+        return $this->output_succ(['data'=>"推送成功"]);
+    }
 }

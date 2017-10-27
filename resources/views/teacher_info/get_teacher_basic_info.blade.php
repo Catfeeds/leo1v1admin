@@ -236,14 +236,24 @@
                                     <div class="col-sm-12">
                                         <p>
                                             @foreach($my_info['teacher_tags_arr'] as $val)
-                                                @if ($val == '逻辑型')
-                                                    <span class="badge bg-linfo ft14">逻辑型</span>
-                                                @elseif ($val == '自然型')
-                                                    <span class="badge bg-lgreen ft14">自然型</span>
-                                                @elseif ($val == '技巧型')
-                                                    <span class="badge bg-lpro ft14">技巧型</span>
-                                                @elseif ($val == '情感型')
-                                                    <span class="badge bg-lyellow ft14">情感型</span>
+                                                @if ($val == '幽默风趣')
+                                                    <span class="badge bg-linfo ft14">幽默风趣</span>
+                                                @elseif ($val == '生动活泼')
+                                                    <span class="badge bg-lgreen ft14">生动活泼</span>
+                                                @elseif ($val == '循循善诱')
+                                                    <span class="badge bg-lpro ft14">循循善诱</span>
+                                                @elseif ($val == '细致耐心')
+                                                    <span class="badge bg-lyellow ft14">细致耐心</span>
+                                                @elseif ($val == '考纲熟悉')
+                                                    <span class="badge bg-lgreen ft14">考纲熟悉</span>
+                                                @elseif ($val == '善于互动')
+                                                    <span class="badge bg-lpro ft14">善于互动</span>
+                                                @elseif ($val == '没有口音')
+                                                    <span class="badge bg-lyellow ft14">没有口音</span>
+                                                @elseif ($val == '经验丰富')
+                                                    <span class="badge bg-lpro ft14">经验丰富</span>
+                                                @elseif ($val == '功底扎实')
+                                                    <span class="badge bg-lyellow ft14">功底扎实</span>
                                                 @endif
                                             @endforeach
                                         </p>
@@ -604,11 +614,11 @@
                         <!-- <input type="file" id="file" style=" width: 200px">-->
                         <div class="new-contentarea tc">
                             <a href="javascript:void(0)" class="upload-img"> 上传头像</a>
-                            <input type="file" class="" name="upload-file" id="upload-file" />
+                            <input type="file" class="" name="upload-file" id="upload-file" accept="image/jpg, image/png"/>
                         </div>
-                            <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
-                            <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
-                            <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+                        <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
+                        <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+                        <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
                     </div>
                     <div class="cropped"></div>
                 </div>

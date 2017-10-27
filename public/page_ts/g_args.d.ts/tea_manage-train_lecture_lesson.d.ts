@@ -19,6 +19,8 @@ interface GargsStatic {
 	is_all:	number;
 	full_time:	number;
 	fulltime_flag:	number;
+	id_train_through_new_time:	number;
+	id_train_through_new:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -108,7 +110,9 @@ function load_data(){
 		train_email_flag:	$('#id_train_email_flag').val(),
 		is_all:	$('#id_is_all').val(),
 		full_time:	$('#id_full_time').val(),
-		fulltime_flag:	$('#id_fulltime_flag').val()
+		fulltime_flag:	$('#id_fulltime_flag').val(),
+		id_train_through_new_time:	$('#id_id_train_through_new_time').val(),
+		id_train_through_new:	$('#id_id_train_through_new').val()
     });
 }
 $(function(){
@@ -137,6 +141,8 @@ $(function(){
 	$('#id_is_all').val(g_args.is_all);
 	$('#id_full_time').val(g_args.full_time);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
+	$('#id_id_train_through_new_time').val(g_args.id_train_through_new_time);
+	$('#id_id_train_through_new').val(g_args.id_train_through_new);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -235,6 +241,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">fulltime_flag</span>
                 <input class="opt-change form-control" id="id_fulltime_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_train_through_new_time</span>
+                <input class="opt-change form-control" id="id_id_train_through_new_time" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_train_through_new</span>
+                <input class="opt-change form-control" id="id_id_train_through_new" />
             </div>
         </div>
 */

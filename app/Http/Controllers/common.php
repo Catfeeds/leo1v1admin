@@ -1364,7 +1364,7 @@ class common extends Controller
 
         if($code==$check_code){
             $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
-            if($teacher_info['subject']==11){ // 临时测试!
+            if($teacher_info['subject']==E\Esubject::V_11){ // 教育学老师无法绑定老师帮
                 return $this->output_err("此账号无法绑定！");
             }
             if(!isset($teacher_info['teacherid'])  ){
@@ -2088,37 +2088,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 'suspend' => 0
             );
 
-            if($opt_type != 'stop' && $opt_type != "restart"){
-                foreach($user_type_arr as $key=>$type){
-                    $condition_arr[$type][$server_type] = 1;
-                }
-                if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"] + 1 ;
-            }else{
-                $condition_arr['suspend'] = $opt_type_config [$opt_type];
-            }
          }else{
             $condition_arr = json_decode($condition, true);
-            $this->clear_condition_state($condition_arr, $server_type);
-            if($opt_type != 'stop' && $opt_type != "restart"){
-                foreach($user_type_arr as $key=>$type){
-                    $condition_arr[$type][$server_type] = 1;
-                }
-                if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
-            }else{
-                $condition_arr['suspend'] = $opt_type_config[$opt_type];
-            }
          }
+
+        if($opt_type == 'logout') {
+            $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
+            $condition_arr[$utype][$server_type] = 0;
+        }else if ( $opt_type =="login") {
+            $condition_arr[$utype][$server_type] = 1;
+        }
+
         return json_encode($condition_arr);
     }
 
-    private function clear_condition_state(&$condition_arr, $server_type)
-    {
-        $condition_arr['stu'][$server_type] =0;
-        $condition_arr['tea'][$server_type] =0;
-        $condition_arr['par'][$server_type] =0;
-        $condition_arr['ad'][$server_type] =0;
-    }
 
 }

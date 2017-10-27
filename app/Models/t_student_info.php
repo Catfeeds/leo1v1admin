@@ -86,9 +86,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $ret_info;
     }
 
-    public function get_student_list_for_finance(
-        $page_num, $userid,$grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
-    ){
+    public function get_student_list_for_finance($page_num, $userid,$grade, $user_name, $assistantid, $originid, $seller_adminid){
         $where_arr=[
             ["s.userid=%u", $userid, -1] ,
             ["s.grade=%u", $grade, -1] ,
@@ -98,6 +96,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.type<>1",
             "s.is_test_user=0",
             "o.contract_type in (0,1,3)",
+            "o.contract_status > 0",
             "o.price>0",
         ];
         if ($user_name) {
@@ -121,6 +120,28 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
 
         return  $this->main_get_list_by_page($sql,$page_num,10,true);
+    }
+
+
+    public function get_student_list_for_finance_count( ){
+        $where_arr=[
+            "s.type<>1",
+            "s.is_test_user=0",
+            "o.contract_type in (0,1,3)",
+            "o.contract_status > 0",
+            "o.price>0",
+        ];
+
+        $sql = $this->gen_sql_new("select count( distinct o.userid )"
+                                  ." from %s s "
+                                  ." left join %s o on o.userid=s.userid"
+                                  ." where  %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return  $this->main_get_value($sql);
     }
 
 
@@ -375,15 +396,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }
 
         if ($user_name) {
-            $where_arr[]= " (nick like '%" . $user_name . "%' "
-                ." or parent_name like '%" . $user_name . "%' "
-                ." or phone_location like '%" . $user_name . "%' "
-                ." or realname like '%" . $user_name . "%') ";
+            $where_arr[]= " (nick like '" . $this->ensql( $user_name)  . "%' "
+                ." or parent_name like '" . $this->ensql(  $user_name) . "%' "
+                //." or phone_location like '" . $this->ensql(  $user_name) . "%' "
+                ." or realname like '" . $this->ensql( $user_name) . "%') ";
         }
 
-        if ($phone) {
-            $where_arr[]=  "phone like '%".$phone."%'";
-        }
+        $where_arr[]=  ["phone like '%s%%'",$phone,"" ] ;
+
         if($warning_stu == 1){
             $have = "(sum(b.lesson_count) - sum(a.lesson_count_left)/count(*)) >=0";
         }elseif($warning_stu == 2){
@@ -424,6 +444,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
 
     }
+
+    public function get_student_count_archive() {
+        $where_arr=[
+            "is_test_user=0 ",
+            "assistantid>0",
+        ];
+
+        $sql = $this->gen_sql_new("select a.userid, a.type "
+                                  ." from %s a left join %s b on a.userid = b.userid "
+                                  ."  where  %s group by a.userid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_week_regular_course::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
 
     public function get_two_stu_for_archive( $grade, $sum_start)
     {
@@ -541,7 +580,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             ["is_auto_set_type_flag=%u",$is_auto_set_type_flag,-1],
             "lesson_count_left <100",
-            "type not in (1,5,6)"
+            "type not in (1)"
             //"is_auto_set_type_flag = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type from %s  ".
@@ -773,7 +812,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             array( "admin_revisiterid=%d", $seller_adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -794,7 +833,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             array( "m.uid=%d", $ass_adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -819,7 +858,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //array( "seller_adminid=%d", $adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(nick like '%%%s%%' or realname like '%%%s%%' or  phone like '%%%s%%' )",
+            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -1027,6 +1066,40 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
+    public function get_user_list_by_lesson_count_new($lesson_start,$lesson_end){
+        $where_arr = [
+            "lesson_count_left=0",
+            ["last_lesson_time >=%u",$lesson_start,-1 ],
+            ["last_lesson_time <=%u",$lesson_end,-1 ],
+            "is_test_user=0",
+            'type=1',
+        ];
+
+        $refund_sql="true";
+        $type = 1;
+        if(in_array($type,[1,2])){
+            if($type==1){
+                $exists_str = "not exists";
+            }elseif($type==2){
+                $exists_str = "exists";
+            }
+            $refund_sql = $this->gen_sql_new("%s (select 1 from %s where s.userid=userid)"
+                                             ,$exists_str
+                                             ,t_order_refund::DB_TABLE_NAME
+            );
+        }
+
+        $sql = $this->gen_sql_new("select count( distinct userid) "
+                                  ." from %s s"
+                                  ." where %s "
+                                  ." and %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$refund_sql
+        );
+        return $this->main_get_value($sql);
+    }
+
 
     public function get_parent_total_list($userid){
         $sql = $this->gen_sql("select parentid from %s where userid = %u ",
@@ -1664,7 +1737,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s_1.is_test_user=0",
             ["s_1.grade=%u", $grade ,-1 ],
             ["c_1.subject=%u", $subject,-1 ],
-            [ "s_1.phone_location like '%%%s%%'  ", trim( $phone_location ) ,""  ],
+            [ "s_1.phone_location like '%s%%'  ", trim( $phone_location ) ,""  ],
             ["c_1.competition_flag=%u", $competition_flag ,-1 ],
         ];
 

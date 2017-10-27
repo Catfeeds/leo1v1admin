@@ -1,9 +1,10 @@
 <?php
 return array(
-    array(1,"","荣誉榜奖金"),
-    array(2,"","试听课奖金"),
-    array(3,"","90分钟课程补偿"),
-    array(4,"","工资补偿"),
-    array(5,"","模拟试听奖金"),
-    array(6,"","伯乐奖"),
+    array(1,"honor","荣誉榜奖金"),
+    array(2,"trial_reward","试听课奖金"),
+    array(3,"compensate_90","90分钟课程补偿"),
+    array(4,"compensate","工资补偿"),
+    array(5,"trial_train","模拟试听奖金"),
+    array(6,"reference","伯乐奖"),
+    array(7,"edit_cw","编辑讲义"),
 );

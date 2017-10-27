@@ -62,13 +62,16 @@ echo "start url\n";
 $url= "http://$url_fix.admin.yb1v1.com/common_new/show_create_table_list";
 $json_data= send_post_data($url,  ["table_list" =>  json_encode($table_list) ]  );
 echo "end url\n";
+// echo $url;
+// exit;
+//echo $json_data;
 //echo $url;
-
+//exit;
 
 
 $table_map = json_decode($json_data,true);
-//echo $table_map;
-//return;
+// var_dump($table_map);
+// return;
 if ( !is_array($table_map) ) {
     echo "get table config  error !!====";
     exit;

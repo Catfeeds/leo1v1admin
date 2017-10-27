@@ -46,8 +46,7 @@ class wx_parent_api extends Controller
     public function __construct() {
 
         parent::__construct();
-
-        if (!$this->get_parentid()  ) {
+        if (!$this->get_parentid()) {
             // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
@@ -69,22 +68,22 @@ class wx_parent_api extends Controller
 
         if($type == 0){
             $lesson_type_str = '常规课';
+            $type_str = "0,1,3";
         }elseif($type == 2){
+            $type_str = "2";
             $lesson_type_str = '试听课';
         }else{
             $lesson_type_str = '';
         }
 
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type_str);
         foreach ($ret_list as &$item ) {
-
             //判断是否可以申请调课
             if($item['lesson_start']-$now>86400){
                 $is_change_flag = 1;
             }else{
                 $is_change_flag = 0;
             }
-
 
             $item['parent_modify_time'] = $item['parent_modify_time']?$item['parent_modify_time']:0;
 
@@ -622,7 +621,7 @@ class wx_parent_api extends Controller
             ];
             $ret_parent = $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
 
-
+            
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
@@ -722,6 +721,8 @@ class wx_parent_api extends Controller
         $lesson_old_time_arr  = explode(',',$lesson_old_time_str);
         $lesson_old_time      = date('m月d日 H:i:s',$lesson_old_time_arr[0]).' - '.date('H:i:s',$lesson_old_time_arr[1]);
 
+        $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+
         if($is_teacher_agree == 1){ // 家长同意
             $data['first']        = "$teacher_nick 老师您好,  $stu_nick 的家长同意将时间做出如下修改,原课程时间: $lesson_old_time ,最终时间调整至 $lesson_new_time ";
 
@@ -786,9 +787,18 @@ class wx_parent_api extends Controller
 
         // 给助教// 销售 // 教务 推送结果
 
-        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
         $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
         $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+
+        if($lesson_type == 0){
+            $wx_openid_arr[3] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        }elseif($lesson_type == 2){
+            $wx_openid_arr[3] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
+
+
 
         $data_leo = [
             'keyword1' => "$lesson_name",
@@ -864,8 +874,16 @@ class wx_parent_api extends Controller
 
         //推送给 助教 / 咨询
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-        $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+
+        $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+        if($lesson_type == 0){
+            $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        }elseif($lesson_type == 2){
+            $wx_openid_arr[0] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
         $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+
 
         $data_leo = [
             'first'    => "$first",
@@ -934,7 +952,15 @@ class wx_parent_api extends Controller
         // 给助教// 销售 // 教务 推送结果
         $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
 
-        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+
+        $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+        if($lesson_type == 0){
+            $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        }elseif($lesson_type == 2){
+            $wx_openid_arr[0] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
+
         $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
         $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
 
@@ -1242,16 +1268,19 @@ class wx_parent_api extends Controller
                 }
             }
         }
-
     }
 
-
-
-
-
-
-
-
-
-
+    public function check_is_admin(){
+        $parentid = session("parentid");
+        $wx_openid = $this->t_parent_info->get_wx_openid($parentid);
+        if($wx_openid == ""){
+            return $this->output_err("请绑定微信");
+        }
+        $ret = $this->t_manager_info->check_admin($wx_openid);
+        if($ret){
+            return $this->output_succ(['phone'=>$ret]);
+        }else{
+            return $this->output_err("false");
+        }
+    }
 }

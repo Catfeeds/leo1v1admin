@@ -1192,4 +1192,18 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
+
+    public function get_data_to_teacher_flow($start_time, $end_time,$phone=""){
+        $where_arr = [
+            ["answer_begin_time>%u", $start_time, 0],
+            ["answer_begin_time<%u", $end_time, 0],
+            ["phone='%s'",$phone,""],
+        ];
+        $sql = $this->gen_sql_new("select phone,answer_begin_time,accept_adminid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

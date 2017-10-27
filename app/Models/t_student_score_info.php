@@ -15,14 +15,15 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     }
     public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user  ){
         $where_arr = [
-            [" u.realname= '%s'",$username,''],
+            // [" u.realname= '%s'",$username,''],
+            [" u.nick= '%s'",$username,''],
             [" s.grade = %d ",$grade,-1],
             [" s.semester = %d ",$semester,-1],
             [" s.stu_score_type = %d ",$stu_score_type,-1],
             [" u.is_test_user = %d ",$is_test_user,-1],
             "s.status = 0",
         ];
-        $sql = $this->gen_sql_new(" select s.userid,s.create_time,s.create_adminid,s.subject,"
+        $sql = $this->gen_sql_new(" select s.admin_type, s.userid,s.create_time,s.create_adminid,s.subject,"
                                   ."s.stu_score_type,s.stu_score_time,s.score,s.total_score,s.rank,s.semester,"
                                   ."s.total_score,s.grade,s.grade_rank,s.status,s.month,s.rank_up,s.rank_down, "
                                   ."u.realname,u.school,m.name,u.nick "
@@ -149,7 +150,24 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
         return $this->main_get_list($sql);
     }
 
-    public function update_score($id){
-        $sql = $this->gen_sql_new("  update %s set score=score*10  ");
+    public function get_input_score_list($start_time, $end_time, $admin_type, $page_num){
+        $where_arr = [
+            ['admin_type=%d',$admin_type,-1],
+            "sc.status = 0",
+            "sc.userid>0",
+            "s.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"create_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select sc.id, s.nick, s.userid, sc.subject, sc.semester, sc.stu_score_type, sc.score, sc.grade_rank, sc.rank, sc.file_url, create_time, create_adminid, admin_type  from %s sc  "
+                                  ." left join %s s on s.userid=sc.userid "
+                                  ." where %s group by sc.userid  order by sc.create_time desc "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 }

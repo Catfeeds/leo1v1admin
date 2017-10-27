@@ -9,7 +9,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_teacher_lecture_list($page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
-                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1
+                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1
     ){
         if($phone==''){
             if($opt_date_type=="add_time"){
@@ -28,6 +28,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                 ['la.full_time=%u',$full_time,-1],
                 ["not exists(select 1 from %s where b.grade=grade and b.phone=phone and b.subject=subject and b.add_time<add_time)",
                  self::DB_TABLE_NAME,""],
+                "b.add_time!=0"
             ];
 
             if($grade !=100 && $grade !=200 && $grade!=300){
@@ -46,7 +47,6 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             }elseif($have_wx==1){
                 $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
             }
-
         }else{
             $where_arr []= "b.phone like '%%".$phone."%%' or b.nick like '%%".$phone."%%'";
             $group_str = "group by b.add_time";
@@ -55,6 +55,21 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             $where_arr[] = "b.subject in ".$tea_subject;
         }
 
+        if($id_train_through_new_time == -1){
+        }elseif($id_train_through_new_time == 0){
+            $where_arr[] = " tt.train_through_new_time=0 ";
+        }else{
+            $where_arr[] = " tt.train_through_new_time>0 ";
+        }
+
+        if($id_train_through_new == -1){
+        }elseif ($id_train_through_new == 0) {
+            # code...
+            $where_arr[] = " tt.train_through_new=0 ";
+        }else{
+            $where_arr[] = " tt.train_through_new=1 ";
+        }
+        
         $sql = $this->gen_sql_new("select b.id,b.nick,b.face,b.phone,b.grade,b.subject,b.title,b.draw,"
                                   ." real_begin_time,real_end_time,teacher_re_submit_num,"
                                   ." b.account,b.status,b.reason,b.add_time,b.identity,b.identity_image,b.resume_url,"
@@ -62,14 +77,15 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." t.nick as reference_name,t.teacherid,la.answer_begin_time,la.grade_ex,"
                                   ." tt.subject t_subject,tt.teacherid as t_teacherid,tt.create_time as t_create_time,"
                                   ." la.textbook,b.confirm_time,la.grade_start,la.grade_end,la.not_grade,la.trans_grade,"
-                                  ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,"
+                                  ." la.trans_grade_start,la.trans_grade_end,tt.wx_openid,tt.user_agent,"
                                   ." m.account accept_account, m.name as zs_name,"
-                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time  "
+                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time ,"
+                                  ." tt.train_through_new_time,tt.train_through_new "
                                   ." from %s as b"
                                   ." left join %s la on b.phone=la.phone"
-                                  ." left join %s t on t.phone=la.reference"
+                                  ." left join %s t on t.phone=la.reference" //推荐人
                                   ." left join %s tt on b.phone=tt.phone"
-                                  ." left join %s ttt on b.phone=ttt.phone"
+                                  // ." left join %s ttt on b.phone=ttt.phone"
                                   ." left join %s m on la.accept_adminid = m.uid"
                                   ." where %s "
                                   ." %s"
@@ -78,7 +94,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
+                                  // ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
                                   ,$group_str
@@ -1875,4 +1891,20 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_data_to_teacher_flow($start_time, $end_time) {
+        $where_arr = [
+            ["confirm_time>%u", $start_time, 0],
+            ["confirm_time<%u", $end_time, 0],
+            "status=1"
+        ];
+        $sql = $this->gen_sql_new("select subject,grade,confirm_time,phone from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+
 }

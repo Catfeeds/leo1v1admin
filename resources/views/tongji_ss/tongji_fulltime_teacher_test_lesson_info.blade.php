@@ -86,6 +86,7 @@
                                 <thead>
                                     <tr>
                                         <td rowspan="2">老师</td> 
+                                        <td rowspan="2">入职天数</td> 
                                         <td colspan="4">试听学生</td>
                                         <td colspan="4">转化学生</td>
                                         <td colspan="4">转化率</td>
@@ -121,6 +122,7 @@
                                     @foreach($ret_info as $var)
                                         <tr>
                                             <td> {{@$var["realname"]}} </td> 
+                                            <td> {{@$var["train_day"]}} </td> 
                                             <td> {{@$var["cc_lesson_num"]}} </td> 
                                             <td> {{@$var["kk_lesson_num"]}} </td> 
                                             <td> {{@$var["hls_lesson_num"]}} </td> 
@@ -162,6 +164,7 @@
                                 <thead>
                                     <tr>
                                         <td >老师</td> 
+                                        <td >入职天数</td> 
                                         <td>常规学生数</td>
                                         <td>周常规课时</td>
                                         <td>常规课完成课时</td>
@@ -181,6 +184,7 @@
 
                                         <tr>
                                             <td> {{@$var["realname"]}} </td> 
+                                            <td> {{@$var["train_day"]}} </td> 
                                             <td> {{@$var["normal_stu"]}} </td> 
                                             <td> {{@$var["week_count"]}} </td> 
                                             <td> {{@$var["lesson_count"]}} </td> 

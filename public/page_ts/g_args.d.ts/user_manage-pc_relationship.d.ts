@@ -32,13 +32,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-pc_relationship.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		studentid:	$('#id_studentid').val(),
+		parentid:	$('#id_parentid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			studentid:	$('#id_studentid').val(),
-			parentid:	$('#id_parentid').val()
-        });
-    }
 
 
 	$('#id_studentid').val(g_args.studentid);

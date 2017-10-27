@@ -7,20 +7,22 @@ var notify_cur_playpostion =null;
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val(),
-			lesson_status    : $('#id_lesson_status').val(),
-			grade            : $('#id_grade').val(),
-			subject          : $('#id_subject').val(),
-			check_status     : $('#id_check_status').val(),
-			train_teacherid  : $('#id_train_teacherid').val(),
-			have_wx:	$('#id_have_wx').val(),
-			lecture_status:	$('#id_lecture_status').val(),
-			      train_email_flag:	$('#id_train_email_flag').val(),
-			      full_time:	$('#id_full_time').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      lesson_status    : $('#id_lesson_status').val(),
+			      grade            : $('#id_grade').val(),
+			      subject          : $('#id_subject').val(),
+			      check_status     : $('#id_check_status').val(),
+			      train_teacherid  : $('#id_train_teacherid').val(),
+                  id_train_through_new_time:$("#id_train_through_new_time").val(),
+                  id_train_through_new:$("#id_train_through_new").val(),
+			      have_wx          : $('#id_have_wx').val(),
+			      lecture_status   : $('#id_lecture_status').val(),
+			      train_email_flag : $('#id_train_email_flag').val(),
+			      full_time        : $('#id_full_time').val()
         });
     }
 
@@ -307,15 +309,17 @@ $(function(){
     Enum_map.append_option_list("boolean",$("#id_train_email_flag"));
     Enum_map.append_option_list("boolean",$("#id_full_time"));
     Enum_map.append_option_list("check_status",$("#id_lecture_status"));
-	$('#id_lesson_status').val(g_args.lesson_status);
-	$('#id_full_time').val(g_args.full_time);
-	$('#id_grade').val(g_args.grade);
-	$('#id_subject').val(g_args.subject);
-	$('#id_check_status').val(g_args.check_status);
-	$('#id_train_teacherid').val(g_args.train_teacherid);
-	$('#id_have_wx').val(g_args.have_wx);
-	$('#id_lecture_status').val(g_args.lecture_status);
-	$('#id_train_email_flag').val(g_args.train_email_flag);
+	  $('#id_lesson_status').val(g_args.lesson_status);
+	  $('#id_full_time').val(g_args.full_time);
+	  $('#id_grade').val(g_args.grade);
+	  $('#id_subject').val(g_args.subject);
+	  $('#id_check_status').val(g_args.check_status);
+	  $('#id_train_teacherid').val(g_args.train_teacherid);
+	  $('#id_have_wx').val(g_args.have_wx);
+	  $('#id_lecture_status').val(g_args.lecture_status);
+	  $('#id_train_email_flag').val(g_args.train_email_flag);
+    $("#id_train_through_new").val(g_args.id_train_through_new);
+    $("#id_train_through_new_time").val(g_args.id_train_through_new_time);
     $.admin_select_user($("#id_train_teacherid"),"teacher",load_data);
 
     $(".opt-edit").on("click",function(){
@@ -785,6 +789,24 @@ $(function(){
         var url=$(this).get_opt_data("resume_url");
         window.open(url, '_blank');
     });
+
+    $(".show_phone").on("click",function(){
+        var val = $(this).data("phone");
+        BootstrapDialog.alert({
+            title: "数据",
+            message:val ,
+            closable: true,
+            callback: function(){
+                
+            }
+        });
+
+    });
+
+    if (window.location.pathname=="/tea_manage/train_lecture_lesson_zs" || window.location.pathname=="/tea_manage/train_lecture_lesson_zs/") {
+        download_hide();
+    }
+
 
 
    	$('.opt-change').set_input_change_event(load_data);

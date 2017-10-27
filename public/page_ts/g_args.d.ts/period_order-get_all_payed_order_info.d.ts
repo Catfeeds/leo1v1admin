@@ -33,24 +33,25 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/period_order-get_all_payed_order_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		contract_type:	$('#id_contract_type').val(),
+		contract_status:	$('#id_contract_status').val(),
+		pay_status:	$('#id_pay_status').val(),
+		channel:	$('#id_channel').val(),
+		userid:	$('#id_userid').val(),
+		parent_orderid:	$('#id_parent_orderid').val(),
+		child_orderid:	$('#id_child_orderid').val(),
+		repay_status:	$('#id_repay_status').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			contract_type:	$('#id_contract_type').val(),
-			contract_status:	$('#id_contract_status').val(),
-			pay_status:	$('#id_pay_status').val(),
-			channel:	$('#id_channel').val(),
-			userid:	$('#id_userid').val(),
-			parent_orderid:	$('#id_parent_orderid').val(),
-			child_orderid:	$('#id_child_orderid').val(),
-			repay_status:	$('#id_repay_status').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

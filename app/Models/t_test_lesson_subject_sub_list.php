@@ -198,6 +198,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
         if($type==2){
             $where_arr[] = "l.teacher_money_type in (4,5,6) ";
+            // $where_arr[] = "l.teacher_money_type in (5,6) ";
         }elseif($type==3 || $type==4){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }
@@ -241,6 +242,9 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_money_list::DB_TABLE_NAME
         );
+        if(\App\Helper\Utils::check_env_is_local()){
+            dd($sql);exit;
+        }
         return $this->main_get_list($sql);
     }
 

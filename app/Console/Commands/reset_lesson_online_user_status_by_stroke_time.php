@@ -60,6 +60,7 @@ class reset_lesson_online_user_status_by_stroke_time extends Command
         foreach($invalid_list as &$item){
 
             $lessonid  = $item['lessonid'];
+            $userid= $item["userid"];
             $ret_video_arr = $this->task->t_lesson_info_b2->get_lesson_url($lessonid);
 
             $ret_video = $ret_video_arr['0'];
@@ -88,6 +89,13 @@ class reset_lesson_online_user_status_by_stroke_time extends Command
                         $this->task->t_lesson_info->field_update_list($lessonid,[
                             "lesson_user_online_status" =>  1
                         ]);
+
+                        //优学优享
+                        $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+                        if ($agent_id) {
+                            dispatch( new \App\Jobs\agent_reset($agent_id) );
+                        }
+
                     }
                 }
             }

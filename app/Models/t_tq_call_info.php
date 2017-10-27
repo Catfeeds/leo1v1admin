@@ -414,6 +414,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"s.add_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+
 
 
         $sql=$this->gen_sql_new("  select count(distinct(s.userid)) from %s s"

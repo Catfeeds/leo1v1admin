@@ -124,15 +124,15 @@ class teacher_money extends Controller
             $reward['add_time_str'] = \App\Helper\Utils::unixtime2date($r_val["add_time"],"Y-m-d");
             $reward['money']        = (float)$r_val['money']/100;
             $reward['money_info']   = E\Ereward_type::get_desc($r_val['type']);
-            if(in_array($r_val['type'],[1,2,5])){
+            if(in_array($r_val['type'],[E\Ereward_type::V_1,E\Ereward_type::V_2,E\Ereward_type::V_5])){
                 \App\Helper\Utils::check_isset_data($reward_ex['price'],$reward['money']);
                 $reward["type"] = 1;
                 $reward_ex["reward_list"][] = $reward;
-            }elseif(in_array($r_val['type'],[3,4])){
+            }elseif(in_array($r_val['type'],[E\Ereward_type::V_3,E\Ereward_type::V_4])){
                 \App\Helper\Utils::check_isset_data($reward_compensate['price'],$reward['money']);
                 $reward["type"] = 2;
                 $reward_compensate["reward_list"][] = $reward;
-            }elseif(in_array($r_val['type'],[6])){
+            }elseif(in_array($r_val['type'],[E\Ereward_type::V_6])){
                 \App\Helper\Utils::check_isset_data($reward_reference['price'],$reward['money']);
                 $reward['money_info'] = $this->t_teacher_info->get_nick($r_val['money_info']);
                 $reward["type"] = 1;
@@ -584,24 +584,27 @@ class teacher_money extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $idcard        = $this->get_in_str_val("idcard");
 
-        if($teacherid==0){
-            $error_info="老师未登录!";
-        }elseif($bank_account==""){
-            $error_info="请填写持卡人!";
-        }elseif($idcard==""){
-            $error_info="请填写身份证号!";
-        }elseif($bank_type==""){
-            $error_info="请选择银行卡类型!";
-        }elseif($bank_address==""){
-            $error_info="请填写银行支行名称!";
-        }elseif($bank_province==""){
-            $error_info="请填写开户省!";
-        }elseif($bank_city==""){
-            $error_info="请填写开户市!";
-        }elseif($bankcard==""){
-            $error_info="请填写银行卡号!";
-        }elseif($bank_phone==""){
-            $error_info="请填写银行预留手机号!";
+        $is_test_user = $this->t_teacher_info->get_is_test_user($teacherid);
+        if(!$is_test_user){
+            if($teacherid==0){
+                $error_info="老师未登录!";
+            }elseif($bank_account==""){
+                $error_info="请填写持卡人!";
+            }elseif($idcard==""){
+                $error_info="请填写身份证号!";
+            }elseif($bank_type==""){
+                $error_info="请选择银行卡类型!";
+            }elseif($bank_address==""){
+                $error_info="请填写银行支行名称!";
+            }elseif($bank_province==""){
+                $error_info="请填写开户省!";
+            }elseif($bank_city==""){
+                $error_info="请填写开户市!";
+            }elseif($bankcard==""){
+                $error_info="请填写银行卡号!";
+            }elseif($bank_phone==""){
+                $error_info="请填写银行预留手机号!";
+            }
         }
         if(isset($error_info) && $error_info!=""){
             return $this->output_err($error_info);

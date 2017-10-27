@@ -56,12 +56,16 @@ class save_seller_info_by_week extends Command
             $month_start_time_funnel = $start_time;
         }
 
+        // $month_start_time_funnel = '1506787200';
+
 
         $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
 
         $ret_info['create_time'] = time();
 
         $ret_info['from_time'] = $start_time;
+
+
 
         $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
 
@@ -71,13 +75,8 @@ class save_seller_info_by_week extends Command
         $ret_info['new_order_num'] = $new_order_info['order_num_new'] ; // 合同数量
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
-        $ret_info['new_money']   = $new_order_info['total_price'] ; //  新签
-        // $ret_info['order_cc_num']    = $new_order_info['total_num'] + $referral_order['total_num']; // 有签单的销售人数
+        $ret_info['new_money']      = $new_order_info['total_price'] ; //   全部收入[新签+转介绍]
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
-        $ret_info['all_order_price'] = $new_order_info['total_price'] ;
-        // $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
-
-
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
 
@@ -88,13 +87,16 @@ class save_seller_info_by_week extends Command
         }
 
 
-        // dd(2);
+        // // dd(2);
 
-        $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
-        $month_end_time   = strtotime(date("Y-m-01",  $end_time));
-        $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
+        // $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
+
+        $month_start_time = strtotime(date("Y-m-01",$start_time));
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
+
+
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $ret_info['formal_info']=0; //入职完整月人员签单额
+        $ret_info['formal_info']=0;  // 完成金额
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
             $date_time=strtotime($date);
@@ -117,6 +119,7 @@ class save_seller_info_by_week extends Command
         $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
         // $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
+        $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数总金额
 
 
 
@@ -132,6 +135,7 @@ class save_seller_info_by_week extends Command
         $ret_info['test_succ_num'] = $task->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
+        // $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
         $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
         //  外呼情况
@@ -142,9 +146,6 @@ class save_seller_info_by_week extends Command
         $ret_info['claim_num'] = $task->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
 
         $ret_info['new_stu'] = $task->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
-
-
-
 
 
 
@@ -161,6 +162,9 @@ class save_seller_info_by_week extends Command
         $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($month_start_time_funnel, $end_time); // 合同人数[月签约率]
 
 
+        // \App\Helper\Utils::logger("zhoubao1:".json_encode($ret_info));
+
+        
         $task->t_seller_tongji_for_month->row_insert($ret_info);
 
 
@@ -170,14 +174,6 @@ class save_seller_info_by_week extends Command
 
 
     }
-
-
-
-
-
-
-
-
 
 
     public function get_month_finish_define_money($seller_groupid_ex,$start_time){

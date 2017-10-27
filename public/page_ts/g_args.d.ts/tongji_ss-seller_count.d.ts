@@ -17,6 +17,29 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	admin_revisiterid	:any;
+	all_count	:any;
+	all_count_0	:any;
+	all_count_1	:any;
+	no_call	:any;
+	no_call_0	:any;
+	no_call_1	:any;
+	call_count	:any;
+	all_account	:any;
+	invalid_count	:any;
+	no_connect	:any;
+	valid_count	:any;
+	test_lesson_count	:any;
+	fail_need_pay_count	:any;
+	require_test_count	:any;
+	succ_all_count	:any;
+	fail_all_count	:any;
+	order_count	:any;
+	order_money	:any;
+	global_tq_no_call	:any;
+	new_user_count	:any;
+	assigned_count	:any;
+	get_histroy_count	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -37,20 +60,21 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-seller_count.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		group_adminid:	$('#id_group_adminid').val(),
+		order_by_str:	$('#id_order_by_str').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_ex:	$('#id_origin_ex').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			group_adminid:	$('#id_group_adminid').val(),
-			order_by_str:	$('#id_order_by_str').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_ex:	$('#id_origin_ex').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

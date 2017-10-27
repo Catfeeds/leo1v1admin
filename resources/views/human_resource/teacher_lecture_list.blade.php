@@ -75,6 +75,26 @@
                         <input type="text" id="id_phone" placeholder="请输入电话或姓名搜索"/>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>培训状态</span>
+                        <select id="id_train_through_new_time" class="opt-change" >
+                            <option value="-1">[全部]</option>
+                            <option value="0">未通过</option>
+                            <option value="1">已通过</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>模拟试听</span>
+                        <select id="id_train_through_new" class="opt-change" >
+                            <option value="-1">[全部]</option>
+                            <option value="0">未通过</option>
+                            <option value="1">已通过</option>
+                        </select>
+                    </div>
+                </div>
                 @if($acc=="adrian")
                 <div class="col-xs-12 col-md-2">
                     <div class="input-group ">
@@ -106,6 +126,8 @@
                     <td width="300px">确认原因</td>
                     <td width="120px">扩年级</td>
                     <td width="120px">跨科面试情况</td>
+                    <td >培训状态</td>
+                    <td >模拟试听</td>
                     <td>推荐人</td>
                     <td>负责人</td>
                     <td>客户端版本</td>
@@ -119,7 +141,16 @@
                     <tr>
                         <td>{{$var["num"]}}</td>
                         <td>{{$var["id"]}}</td>
-                        <td>{{$var["phone"]}}</td>
+                        <td>
+                            @if($zs_flag==1)
+                                <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                    {{@$var["phone_ex"]}}
+                                </a>
+                            @else
+                                {{$var["phone"]}}
+                            @endif
+
+                        </td>
                         <td>{{$var["have_wx_flag"]}}</td>
                         <td>{{$var["nick"]}}</td>
                         <td>{{$var["grade_str"]}}</td>
@@ -139,6 +170,8 @@
                                 {{@$var["t_subject_str"]}}
                             @endif
                         </td>
+                        <td >{{$var['train_status_str']}}</td>
+                        <td >{{$var['train_through_str']}}</td>
                         <td>{{$var["reference_name"]}}</td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["user_agent"]}}</td>

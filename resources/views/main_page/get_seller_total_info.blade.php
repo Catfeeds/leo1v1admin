@@ -83,6 +83,7 @@
                                         <td>收入</td>
                                         <td>下单总人数</td>
                                         <td class="panel-red">入职完整月签单人数</td>
+                                        <td class="panel-red">入职完整月人员签单总额</td>
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
                                         <td class="panel-red">月KPI完成率</td>
@@ -93,6 +94,7 @@
                                         <td> {{@$ret_info['new_money']}} </td>
                                         <td> {{@$ret_info['order_cc_num']}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
+                                        <td> {{@$ret_info['all_order_price']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
                                         <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
@@ -192,8 +194,8 @@
                                 <thead>
                                     <tr>
                                         <td>呼出量</td>
-                                        <td>接通率</td>
-                                        <td class="panel-red">认领率</td>
+                                        <td>例子接通率</td>
+                                        <td class="panel-red">例子认领率</td>
                                         <td class="panel-red">邀约数</td>
                                         <td class="panel-red">未消耗例子数</td>
                                         <td class="panel-red">月例子消耗率</td>

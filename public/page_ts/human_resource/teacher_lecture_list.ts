@@ -6,23 +6,24 @@ var notify_cur_playpostion =null;
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val(),
-			grade            : $('#id_grade').val(),
-			trans_grade      : $('#id_trans_grade').val(),
-			subject          : $('#id_subject').val(),
-			status           : $('#id_status').val(),
-			phone            : $('#id_phone').val(),
-			teacherid        : $('#id_teacherid').val(),
-			is_test_flag     : $('#id_is_test_flag').val(),
-			full_time        : $('#id_full_time').val(),
-			have_wx:	$('#id_have_wx').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      grade            : $('#id_grade').val(),
+			      trans_grade      : $('#id_trans_grade').val(),
+			      subject          : $('#id_subject').val(),
+			      status           : $('#id_status').val(),
+			      phone            : $('#id_phone').val(),
+			      teacherid        : $('#id_teacherid').val(),
+			      is_test_flag     : $('#id_is_test_flag').val(),
+			      full_time        : $('#id_full_time').val(),
+			      have_wx:	$('#id_have_wx').val(),
+                  id_train_through_new_time:$("#id_train_through_new_time").val(),
+                  id_train_through_new:$("#id_train_through_new").val(),
         });
     }
-
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -53,7 +54,8 @@ $(function(){
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_full_time').val(g_args.full_time);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
-
+    $("#id_train_through_new").val(g_args.id_train_through_new);
+    $("#id_train_through_new_time").val(g_args.id_train_through_new_time);
 
     //audiojs 时间回调, 每秒3-4次
     //$(".tea_cw_url[data-v = 0], .stu_cw_url[data-v=0],.homework_url[data-v=0]" ) .parent().addClass("danger");
@@ -1178,6 +1180,24 @@ $(function(){
         })
 
     });
+
+    $(".show_phone").on("click",function(){
+        var val = $(this).data("phone");
+        BootstrapDialog.alert({
+            title: "数据",
+            message:val ,
+            closable: true,
+            callback: function(){
+                
+            }
+        });
+
+    });
+
+    if (window.location.pathname=="/human_resource/teacher_lecture_list_zs" || window.location.pathname=="/human_resource/teacher_lecture_list_zs/") {
+        download_hide();
+    }
+
 
 
 	$('.opt-change').set_input_change_event(load_data);

@@ -2188,6 +2188,7 @@ class user_manage_new extends Controller
         //E\Eboolean::set_item_value_str($info,"stu_test_ipad_flag");
         return $this->output_succ(["data"=>$info]);
     }
+
     public function month_user_info() {
         $year=$this->get_in_int_val("year","2016");
         $month=$this->get_in_int_val("month","5");
@@ -2216,6 +2217,7 @@ class user_manage_new extends Controller
             }
             return $map;
         };
+
         $old_order_list=$this->t_order_info->get_order_list_for_tongji(-1,$start_time);
         $new_order_list=$this->t_order_info->get_order_list_for_tongji($start_time,$end_time);
         //统计
@@ -2259,11 +2261,114 @@ class user_manage_new extends Controller
         $ret["old_lesson_user_count"] = count($old_lesson_user_map);
         $ret["lesson_user_count"]     = $ret["new_lesson_user_count"] + $ret["old_lesson_user_count"];
 
+        //到月末退费人数 -----开发中
+        $refund_num = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
+        //2017-10-25以后的新数据
+        $now = strtotime( date('Y-m-01', time()) );
+        if( $start_time == $now ){
+            //实时付费学员数
+            $list = $this->get_cur_month_stu_info($start_time);
+            $all_pay = $list['all_pay'];
+            $res = $this->t_month_student_count->get_student_month_info($start_time);
+            $list['pay_stu_num'] = $res['pay_stu_num'];
+        } else {
+            $list = $this->t_month_student_count->get_student_month_info($start_time);
+            $all_pay = $this->t_month_student_count->get_all_pay_num($end_time);
+        }
+
+        if( $list != false ) {
+            //退费率
+            $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
+            //续费率
+            $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
+            $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
+        }
 
         return $this->pageView(__METHOD__,null, [
             "info"  => $ret,
+            "new"  => $list,
         ]);
     }
+
+    public function get_cur_month_stu_info($start_time){
+
+        $end_time   = strtotime('+1 month', $start_time );
+        $ret = [];
+        //实时付费学员数
+        $all_pay = $this->t_student_info->get_student_list_for_finance_count();
+        $ret['all_pay'] = $all_pay;
+
+        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
+        $new_user = [];//月新签
+
+        foreach ( $user_order_list as $item ) {
+            if ($item['order_time'] >= $start_time){
+                $new_user[] = $item['userid'];
+                if (!$item['start_time'] && $item['assistantid'] > 0) {//月新签订单,未排课,已分配助教
+                    @$ret['has_ass_num']++;
+                } else if (!$item['start_time'] && !$item['assistantid']) {//月新签订单,未排课,未分配助教
+                    @$ret['no_ass_num']++;
+                }
+            }
+
+        }
+        $new_user = array_unique($new_user);
+        $ret['new_pay_stu_num'] = count($new_user);
+
+        //退费名单
+        $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
+        $ret['refund_stu_num'] = $refund_num;
+        //正常结课学生
+        $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
+        $ret['normal_over_num'] = $ret_num;
+
+        // 在读,停课,休学,假期数
+        $ret_info = $this->t_student_info->get_student_count_archive();
+
+        foreach($ret_info as $item) {
+            if($item['type'] == 0) {
+                @$ret['study_num']++;
+            } else if ($item['type'] == 2) {
+                @$ret['stop_num']++;
+            } else if ($item['type'] == 3) {
+                @$ret['drop_out_num']++;
+            } else if ($item['type'] == 4) {
+                @$ret['vacation_num']++;
+            }
+        }
+
+        //月续费学员
+        $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
+        $renow_user = [];
+        foreach ($renow_list as $item) {
+            $renow_user[] = $item['userid'];
+        }
+        //月预警学员
+        $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
+        $warning_renow_num = 0;
+        $warning_stu_num = 0;
+
+        foreach ($warning_list as $item){
+            $new = json_decode($item['warning_student_list'], true);
+            if(is_array($new)){
+                foreach($new as $v) {
+                    if( strlen($v)>0){
+                        $warning_stu_num++;
+                        if( in_array($v ,$renow_user) ){
+                            $warning_renow_num++;
+                        }
+                    }
+                }
+            }
+        }
+
+        $ret['warning_stu_num']          = $warning_stu_num;
+        $ret['warning_renow_stu_num']    = $warning_renow_num;
+        $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
+
+        return $ret;
+    }
+
     function stu_set_init_info_pdf_url() {
         $userid=$this->get_in_userid();
         $init_info_pdf_url=$this->get_in_str_val("init_info_pdf_url");
@@ -2770,7 +2875,6 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-
         $tea_list = $this->t_lesson_info->get_tea_month_list(
             $start_time,$end_time,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type
         );
@@ -3242,8 +3346,11 @@ class user_manage_new extends Controller
         $apply_time = $this->get_in_int_val("apply_time");
 
         $refund_info = $this->t_order_refund->field_get_list_2($orderid,$apply_time,"*");
-        $order_info  = $this->t_order_info->get_order_info_by_orderid($orderid);
+        if($refund_info['refund_status']==1){
+            return $this->output_err("此退费已打款，无法取消!");
+        }
 
+        $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
         $order_info['lesson_left'] += $refund_info['should_refund'];
         $this->t_order_info->start_transaction();
         $ret = $this->t_order_info->field_update_list($orderid,[

@@ -1672,6 +1672,12 @@ class ss_deal extends Controller
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 
+        //优学优享
+        $agent_id= $this->t_agent->get_agentid_by_userid($userid);
+        if ($agent_id) {
+            dispatch( new \App\Jobs\agent_reset($agent_id) );
+        }
+
 
         return $this->output_succ();
     }
@@ -2149,7 +2155,7 @@ class ss_deal extends Controller
         }
         $from_parent_order_lesson_count=0;
         //8月营销活动
-        $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
+        //$price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
@@ -2266,7 +2272,8 @@ class ss_deal extends Controller
         }
         
         //分期合同不能全款
-        if($child_order_type==2){
+        $adm = $this->get_account_id();
+        if($child_order_type==2 && $adm !=349){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
             if(($price+$period_money) >($all_price-200000)){
@@ -4788,6 +4795,9 @@ class ss_deal extends Controller
         $admin_info=$this->t_manager_info->field_get_list(  $this->get_account_id(),"*");
         if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL )  {//天润
             //?enterpriseId=&cno=&pwd=&customerNumber=&userField=
+            if ($this->get_account()=="jim") {
+                $admin_info["tquin"]="2063";
+            }
             $ret=\App\Helper\Net:: send_get_data(
                 "http://api.clink.cn/interface/PreviewOutcall",
                 [
@@ -4819,7 +4829,10 @@ class ss_deal extends Controller
 
             $ret_arr=json_decode($ret,true );
             if (@$ret_arr["res"]) {
-                return $this->output_err( "天润拨打出错:". $ret_arr["res"] . ":". @$error_code_conf[$ret_arr["res"] ] );
+                //同步未拨通
+                $this->t_seller_student_new->sync_tq($phone,1,time(NULL));
+                $this->t_book_revisit->add_book_revisit($phone,"天润拨打出错:". $ret_arr["res"]. ", 设置为未拨通:". $this->get_account(), "system" );
+                return $this->output_err( "天润拨打出错:". $ret_arr["res"] . ":". @$error_code_conf[$ret_arr["res"]. ",请重新抢例子" ] );
             }else{
                 return $this->output_succ();
             }
@@ -6591,6 +6604,35 @@ class ss_deal extends Controller
             return $this->output_succ();
         }else{
             return $this->output_err('添加提醒任务失败,请联系开发人员!');
+        }
+    }
+
+
+    public function edit_interview_remind(){
+        $id = $this->get_in_int_val('id');
+        $name = $this->get_in_str_val('name');
+        $post = $this->get_in_str_val('post');
+        $dept = $this->get_in_str_val('dept');
+        $hr_adminid  = $this->get_account_id();
+        $interviewer_id = $this->get_in_int_val('interviewer');
+        $interview_time = strtotime($this->get_in_str_val('interview_time'));
+
+        $ret = $this->t_interview_remind->field_update_list($id,[
+            "name"  => $name,
+            "post"  => $post,
+            "dept"  => $dept,
+            "interviewer_id" => $interviewer_id,
+            "interview_time" => $interview_time,
+            "hr_adminid"     => $hr_adminid,
+            "create_time"    => time(),
+            "is_send_flag"   => 0,
+            "send_msg_time"  => 0
+        ]);
+
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('编辑任务失败,请联系开发人员!');
         }
     }
 

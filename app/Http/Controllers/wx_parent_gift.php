@@ -260,12 +260,6 @@ class wx_parent_gift extends Controller
 
 
 
-    public function del_session(){
-        $_SESSION['check_flag']=0;
-
-        return $_SESSION['check_flag'];
-    }
-
 
 
 
@@ -291,6 +285,38 @@ class wx_parent_gift extends Controller
         }else{
             return $this->output_succ(['share_num'=>0]);
         }
+    }
+
+    public function del_session(){
+        $_SESSION['check_flag']=0;
+        return $_SESSION['check_flag'];
+    }
+
+
+    // 双11活动
+
+
+    public function update_share_status(){ // check是否分享
+        $parentid = $this->get_in_int_val('parentid');
+
+
+        $check_falg = $this->t_ruffian_activity->check_share($parentid);
+
+
+        $this->t_ruffian_activity->update_share_flag($parentid);
+
+        $ret = $this->t_ruffian_activity->get_is_share_flag($parentid);
+
+        if($ret){
+            // return $this->ge
+        }
+    }
+
+    public function ruffian_activity(){ // 双11活动
+
+
+
+
     }
 
 

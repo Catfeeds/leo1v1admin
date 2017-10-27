@@ -103,20 +103,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_list($sql);
     }
-    public function get_list_by_parent_id( $parentid,$lessonid=-1,$type) {
+    public function get_list_by_parent_id( $parentid,$lessonid=-1,$type_str) {
         $check_lesson_time=time(NULL)-90*86400;
         $now = time() + 14*86400;
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
-            ["lesson_type=%d",$type,-1],
+            ["lesson_type in (%s)",$type_str,-1],
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
             "lesson_start<$now", //试听
         ];
 
         $sql = $this->gen_sql_new(
-            "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
+            "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,"
+            ." lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
             ." lesson_type,lesson_num, tlm.parent_modify_time"
             ." from %s l "
@@ -179,7 +180,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             . " from %s l"
             . " join %s c  on l.courseid = c.courseid  "
             . " join %s s  on l.userid = s.userid "
-            ." where lesson_upload_time = 0 and lesson_status = 2 and real_begin_time != 0 and lesson_type != 4001 and   confirm_flag<2  and ( lesson_type >=1000  or s.is_test_user= 0 ) and "
+            ." where lesson_upload_time = 0 and lesson_status = 2 and real_begin_time != 0 and lesson_type != 4001 and   confirm_flag<2  and"
+            . " ( lesson_type >=1000  or s.is_test_user= 0 )" //
+            . " and "
             . "  lesson_start > %u  and lesson_start <%u and  lesson_end<%u and lesson_del_flag=0 order by   gen_video_grade desc,   lesson_start asc ",
             self::DB_TABLE_NAME ,
             t_course_order::DB_TABLE_NAME ,
@@ -356,7 +359,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "lesson_del_flag = 0"
         ];
 
-        $sql=$this->gen_sql_new("select lessonid, courseid "
+        $sql=$this->gen_sql_new("select lessonid, courseid,userid "
                                 ." from %s where %s ",
                                 self::DB_TABLE_NAME,
                                 $where_arr
@@ -872,7 +875,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -891,6 +894,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] = "trial_train_status is null";
         }else{
             $where_arr[] = ["trial_train_status=%u",$check_status,-2];
+        }
+
+        if($id_train_through_new_time == -1){
+        }elseif($id_train_through_new_time == 0){
+            $where_arr[] = " t.train_through_new_time=0 ";
+        }else{
+            $where_arr[] = " t.train_through_new_time>0 ";
+        }
+
+        if($id_train_through_new == -1){
+        }elseif ($id_train_through_new == 0) {
+            # code...
+            $where_arr[] = " t.train_through_new=0 ";
+        }else{
+            $where_arr[] = " t.train_through_new=1 ";
         }
         $where_arr = $this->lesson_common_where_arr($where_arr);
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
@@ -920,7 +938,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
                                   ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type, "
                                   ." am.account zs_account,am.name zs_name,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,"
-                                  ." tr.id tt_id,tl.add_time tt_add_time,tli.resume_url  "
+                                  ." tr.id tt_id,tl.add_time tt_add_time,tli.resume_url ,t.train_through_new_time,t.train_through_new "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -2209,16 +2227,32 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_seller_wx_openid($lessonid){
         $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
                                   " left join %s s on s.userid = l.userid ".
-                                  " left join %s m on m.uid = s.seller_adminid".
+                                  " left join %s m on m.uid = s.admin_revisiterid".
                                   " where l.lessonid = %d",
                                   self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $lessonid
         );
 
         return $this->main_get_value($sql);
     }
+
+
+    // public function get_seller_wx_openid($lessonid){
+    //     $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
+    //                               " left join %s s on s.userid = l.userid ".
+    //                               " left join %s m on m.uid = s.seller_adminid".
+    //                               " where l.lessonid = %d",
+    //                               self::DB_TABLE_NAME,
+    //                               t_student_info::DB_TABLE_NAME,
+    //                               t_manager_info::DB_TABLE_NAME,
+    //                               $lessonid
+    //     );
+
+    //     return $this->main_get_value($sql);
+    // }
+
 
 
     public function get_modify_lesson_time($lessonid){

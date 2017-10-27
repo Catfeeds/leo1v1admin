@@ -85,7 +85,7 @@
                         <td>{{@$var["rank_up"]}} </td>
                         <td>{{@$var["rank_down"]}} </td>
                         <td>{{@$var["school"]}} </td>
-                        <td>{{@$var["create_admin_nick"]}} </td>
+                        <td>{!!@$var["create_admin_nick"]!!} </td>
                         <td><a href="{{url('stu_manage/score_list?sid=').$var['userid']}}" target="_blank">详情</a></td>
                         <td>
                             <div

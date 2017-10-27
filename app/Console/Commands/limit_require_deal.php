@@ -56,7 +56,6 @@ class limit_require_deal extends Command
             $lesson_time = date("Y-m-d H:i:s",$lesson_start);
             $db_lessonid = $task->t_test_lesson_subject_require->get_current_lessonid($require_id);
 
-           
             $ret_row1 = $task->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
             //检查时间是否冲突
             if ($ret_row1) {
@@ -159,7 +158,7 @@ class limit_require_deal extends Command
                 $parentid= $task->t_student_info->get_parentid($userid);
                 $task->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
             }            
-            $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"8000","11"=>"8500","12"=>"9000"];
+            $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"8500","12"=>"9000"];
 
             $m = date("m",time());
             $start_time = strtotime(date("Y-m-01",time()));

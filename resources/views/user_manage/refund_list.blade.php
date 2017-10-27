@@ -81,6 +81,10 @@
                         <td >审批时间</td>
                         <td >退费状态</td>
                         <td >是否分期</td>
+                        <td  style="display:none;">助教</td>
+                        <td  style="display:none;">科目</td>
+                        <td  style="display:none;">老师</td>
+
                         <td  style="display:none;">联系状态</td>
                         <td  style="display:none;">提升状态</td>
                         <td  style="display:none;">学习态度</td>
@@ -196,6 +200,10 @@
                             <td >{{$var["refund_status_str"]}}</td>
 
                             <td >{!! $var["is_staged_flag_str"] !!}</td>
+
+                            <td >{{$var["ass_nick"]}}</td>
+                            <td >{{$var["subject_str"]}}</td>
+                            <td >{{$var["tea_nick"]}}</td>
 
                             <td >{{$var["qc_contact_status_str"]}}</td>
                             <td >{{$var["qc_advances_status_str"]}}</td>

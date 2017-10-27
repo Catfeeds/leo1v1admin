@@ -39,15 +39,14 @@ class NoticeTomorrowLessonToParent extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        // $ret  = \App\Helper\Utils::get_day_range(time(NULL)+86400);
-        $ret  = \App\Helper\Utils::get_day_range(time(NULL)+6*86400);
+        $ret  = \App\Helper\Utils::get_day_range(time(NULL)+86400);
+        //  $ret  = \App\Helper\Utils::get_day_range(time(NULL)+6*86400);
 
         $start_time = $ret["sdate"];
         $end_time   = $ret["edate"];
 
-        $ret_id   = $task->t_lesson_info->get_today_lesson_list( $start_time, $end_time );
+        $ret_id   = $task->t_lesson_info->get_today_lesson_list($start_time,$end_time);
         $ret_list = $this->get_student_info($ret_id);
-        dd($ret_list);
 
         foreach( $ret_list as $item ) {
             $phone        = $item["phone"];
@@ -88,11 +87,9 @@ class NoticeTomorrowLessonToParent extends Command
 
                 }
             }
-
         }
 
         foreach( $ret_list as $item ) {
-
             $phone        = $item["phone"];
             $lesson_start = $item["lesson_start"];
             $lesson_end   = $item["lesson_end"];
@@ -103,7 +100,7 @@ class NoticeTomorrowLessonToParent extends Command
             $nick         = $task->cache_get_student_nick($userid);
 
             if ($lesson_type==2){
-                $course_name="试听课";
+                $course_name = "试听课";
             }else{
                 $course_name = \App\Helper\Utils::get_course_name($lesson_type);
             }
@@ -119,7 +116,6 @@ class NoticeTomorrowLessonToParent extends Command
                 \App\Helper\Net::baidu_push($userid,'1001',$title,$message);
             }
         }
-
     }
 
     function get_student_info($ret_id){

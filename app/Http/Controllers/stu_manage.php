@@ -222,6 +222,9 @@ class stu_manage extends Controller
             "type"            => 0
         ]);
 
+        // 添加操作日志
+        $this->t_user_log->add_data("设置助教,助教id:".$assistantid, $this->sid);
+
         $this->t_lesson_info->set_user_assistantid( $this->sid,$assistantid  );
         $this->t_course_order->set_user_assistantid( $this->sid,$assistantid  );
 
@@ -528,6 +531,9 @@ class stu_manage extends Controller
                 return  $this->output_err("绑定关系失败！");
             }else{
                 $this->t_parent_child->commit();
+
+                // 添加操作日志
+                $this->t_user_log->add_data("添加家长,家长id".$parentid, $studentid);
                 return $this->output_succ();
             }
         }
@@ -720,7 +726,7 @@ class stu_manage extends Controller
         }
         $ass_role = $this->get_account_role();
         $ass_id = $this->get_account_id();
-        if ($ass_role == 10 || $ass_id == 356) {
+        if ($ass_role == 10 || $ass_id == 356 || $ass_id == 1118 ) {
             $show_flag++;
         }
 

@@ -361,6 +361,13 @@ $(function(){
 
     var init_show_name_list_flag=false;
 
+    $('.opt-lesson').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        window.open(
+            '/stu_manage/course_list?sid='+ opt_data.userid +"&return_url="+ encodeURIComponent(window.location.href)
+        );
+    });
+
 
 
 });

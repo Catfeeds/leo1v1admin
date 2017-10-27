@@ -14,7 +14,6 @@ class wx_parent_common extends Controller
     var $check_login_flag=false;
 
     public function wx_parent_jump_page () {
-
         $code       = $this->get_in_str_val("code");
         /**  @var  wx \App\Helper\Wx */
         $wx= new \App\Helper\Wx( );
@@ -55,31 +54,26 @@ class wx_parent_common extends Controller
     }
 
     public function wx_send_phone_code () {
-
         $phone = trim($this->get_in_str_val('phone'));
-        $market_activity_type  = $this->get_in_int_val('type',-1); // 区分是否是市场的活动
+        $market_activity_type = $this->get_in_str_val('type',-1); // 区分是否是市场的活动
 
         if (session("")) {
         }
 
-
         if ( strlen($phone) != 11) {
             return $this->output_err("电话号码出错");
         }
-        $parentid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
-
-        \App\Helper\Utils::logger("market_activity_type:$market_activity_type");
-
+        $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
         if(!$parentid && ($market_activity_type<0)) {
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
-        $msg_num= \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
+        $msg_num = \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
         $code = rand(1000,9999);
-        $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
-            "code" => $code,
+        $ret  = \App\Helper\Utils::sms_common($phone,10671029,[
+            "code"  => $code,
             "index" => $msg_num
-        ] );
+        ]);
 
         session([
             'wx_parent_code'=>$code,
@@ -88,13 +82,12 @@ class wx_parent_common extends Controller
         ]);
 
         return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
-
     }
+
     public function do_wx_bind( ){
         $code      = $this->get_in_str_val('code');
         $wx_openid = session("wx_parent_openid");
-
-        $openid = $this->get_in_str_val("openid");
+        $openid    = $this->get_in_str_val("openid");
         if(!$wx_openid){
             $wx_openid = $openid;
         }
@@ -109,8 +102,9 @@ class wx_parent_common extends Controller
         }
 
         $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
+        $check_is_admin = $this->t_manager_info->check_admin_by_phone($phone);
         $market_activity_type = session("market_activity_type");
-        if(!$parentid && ($market_activity_type<0)) {
+        if(!$parentid && ($market_activity_type<0) && !$check_is_admin) {
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
@@ -138,10 +132,9 @@ class wx_parent_common extends Controller
         $this->t_parent_info->field_update_list($parentid,[
             "wx_openid" => $wx_openid,
         ]);
-        session(["parentid" => $parentid ]);
+        session(["parentid" => $parentid]);
 
         return $this->output_succ(["type"=>$market_activity_type]);
-
     }
 
     public function get_lesson_evaluate () {

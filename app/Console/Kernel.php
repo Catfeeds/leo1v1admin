@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\update_month_student_count::class,
+        Commands\import_to_teacher_flow::class,
         Commands\add_new_tea_entry::class,
         Commands\send_interview_remind_for_wx::class,
         Commands\check_modify_lesson_time::class,
@@ -27,6 +29,9 @@ class Kernel extends ConsoleKernel
         Commands\get_ass_stu_by_month::class,
         Commands\reset_parent_call_status::class,
         Commands\get_period_repay_info::class,
+        Commands\period_order_overdue_warning_send_wx::class,
+        Commands\period_order_overdue_stop_send_wx::class,
+        Commands\update_period_overdue_type_recover::class,
         Commands\send_wx_msg_for_test_lesson::class,
         Commands\check_system::class,
         Commands\CheckLessonTeacherMoneyType::class,
@@ -67,11 +72,11 @@ class Kernel extends ConsoleKernel
         Commands\zs_lecture_info_all::class,
         Commands\zs_send_data_every_week::class,
         Commands\zs_send_data_every_month::class,
-        Commands\update_ass_warning_list::class,        
+        Commands\update_ass_warning_list::class,
         Commands\fulltime_teacher_kaoqin::class,
         Commands\zs_train_interview_info_wx::class,
         Commands\teacher_advance_send_wx::class,
-	    Commands\set_every_month_student_score::class,
+        Commands\set_every_month_student_score::class,
         Commands\update_course_list::class,
         Commands\ass_wx_remind_send_day::class,
         Commands\no_auto_student_change_type::class,
@@ -163,7 +168,7 @@ class Kernel extends ConsoleKernel
         Commands\reset_lesson_online_user_status::class,
         Commands\CheckTeacherIsInRoom::class,
         Commands\seller_reset_no_call_to_new_user::class,
-
+        Commands\update_test_lesson_opt_flag::class,
     ];
 
     /**

@@ -19,6 +19,9 @@ class human_resource extends Controller
         $stat_time = $date["sdate"];
 
         $ret_info = \App\Helper\Utils::list_to_page_info([]);
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
+        $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -31,6 +34,7 @@ class human_resource extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -43,6 +47,7 @@ class human_resource extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -362,8 +367,10 @@ class human_resource extends Controller
         $week = $arr[0];
         $start = @$arr[1];
 
-        if($start == $end_time){
-            return $this->output_err("开始时间不能与结束时间相同!") ;
+        if($opt_type=="add" || $opt_type =="update"){
+            if($start == $end_time){
+                return $this->output_err("开始时间不能与结束时间相同!") ;
+            }
         }
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
@@ -1194,7 +1201,7 @@ class human_resource extends Controller
             $ret_auth = $this->t_manager_info->check_permission($this->get_account(), TEA_ARCHIVES);
             if(!$ret_auth)
                 return outputJson(array('ret' => NOT_AUTH, 'info' => $this->err_string[NOT_AUTH]));
-            
+
             $this->t_teacher_info->delete_teacher($teacherid);
             $this->t_user_info->delete_user($teacherid, 2);
         }elseif($teacher_type == 1){
@@ -1478,6 +1485,7 @@ class human_resource extends Controller
     }
 
     public function teacher_lecture_list_zs(){
+        $this->set_in_value("zs_flag",1);
         return $this->teacher_lecture_list();
     }
 
@@ -1524,6 +1532,10 @@ class human_resource extends Controller
         $have_wx       = $this->get_in_int_val('have_wx',-1);
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
+        $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
+        $zs_flag = $this->get_in_int_val('zs_flag',0);
+        
         if($fulltime_flag==1){
             $full_time=1;
         }
@@ -1531,7 +1543,7 @@ class human_resource extends Controller
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx,$full_time
+            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new
         );
 
         $num = 0;
@@ -1569,6 +1581,17 @@ class human_resource extends Controller
                 }else{
                     $val["have_wx_flag"]="否";
                 }
+                if($val['train_through_new_time'] >0){
+                    $val['train_status_str'] = "已通过";
+                }else{
+                    $val['train_status_str'] = "未通过";
+                }
+                if($val['train_through_new'] == 1){
+                    $val['train_through_str'] = "已通过";
+                }else{
+                    $val['train_through_str'] = "未通过";
+                }
+                $val["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$val["phone"]);
 
             }
         }
@@ -1577,7 +1600,8 @@ class human_resource extends Controller
             "acc"         => session("acc"),
             "tea_subject" => $tea_subject,
             "adminid"     => $adminid,
-            "account_role" => session("account_role")
+            "account_role" => session("account_role"),
+            "zs_flag"      =>$zs_flag
         ]);
     }
 
@@ -1980,7 +2004,7 @@ class human_resource extends Controller
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);
-        $interview_type             = $this->get_in_int_val("interview_type",-1);
+        $interview_type             = $this->get_in_int_val("interview_type",0);
         $user_name                  = trim($this->get_in_str_val('user_name',''));
         $record_status              = $this->get_in_int_val("record_status",-1);
         $page_num                   = $this->get_in_page_num();
@@ -2000,6 +2024,9 @@ class human_resource extends Controller
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
         $account_role = $this->get_account_role();
+
+        //检查是否招师组长
+        $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])
            || $account_role==12
@@ -2063,7 +2090,7 @@ class human_resource extends Controller
                 }
             }
 
-            $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+            $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
             $count = strlen($item["qq"]);
             $item["qq_ex"] = substr($item["qq"],0,3)."***".substr($item["qq"],6,$count-1);
             $num = strlen($item["email"]);
@@ -2081,7 +2108,7 @@ class human_resource extends Controller
             }else{
                 $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
             }
-            
+
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
 
             if(empty($item["grade_ex"])){
@@ -4271,7 +4298,7 @@ class human_resource extends Controller
             $new_teacherid = $this->add_teacher_common($add_info);
         }
 
-        return $this->output_succ(["new_teacherid"=>$new_teacherid]);
+        return $this->output_succ(["new_teacherid" => $new_teacherid]);
     }
 
     public function check_phone_exists($phone){
@@ -4327,12 +4354,15 @@ class human_resource extends Controller
                 return $this->output_err("更新常规课表(regular)出错！请重试！");
             }
         }
-        $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
-            //"is_test_user" => 1,
-            "wx_use_flag"  => 0,
-        ]);
-        if(!$ret){
-            return $this->output_err("更新老师信息失败！");
+
+        $old_wx_use_flag = $this->t_teacher_info->get_wx_openid($old_teacherid);
+        if($old_wx_use_flag!=0){
+            $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
+                "wx_use_flag"  => 0,
+            ]);
+            if(!$ret){
+                return $this->output_err("更新老师信息失败！");
+            }
         }
         $this->t_course_order->commit();
 
@@ -4412,70 +4442,6 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function zs_origin_list_new(){
-        $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-
-        //报名数
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
-
-       //录制试讲提交数
-        $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
-
-        ///面试预约数
-        $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
-
-        //入职总人数以及各老师类型入职人数
-        $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
-
-        //录制试讲入职人数
-        $train_through_video = $this->t_teacher_info->get_train_through_video_list($start_time,$end_time);
-
-        //面试试讲入职人数
-        $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
-
-        foreach($ret_info as $k=>&$val){
-            $val["video_add_num"] = isset($video_add[$k]["video_add_num"])?$video_add[$k]["video_add_num"]:0;
-            $val["lesson_add_num"] = isset($lesson_add[$k]["lesson_add_num"])?$lesson_add[$k]["lesson_add_num"]:0;
-
-            $val["through_all"] = isset($train_through_all[$k])?$train_through_all[$k]["through_all"]:0;
-
-            $val["through_jg"] = isset($train_through_all[$k])?$train_through_all[$k]["through_jg"]:0;
-            $val["through_gx"] = isset($train_through_all[$k])?$train_through_all[$k]["through_gx"]:0;
-            $val["through_zz"] = isset($train_through_all[$k])?$train_through_all[$k]["through_zz"]:0;
-            $val["through_gxs"] = isset($train_through_all[$k])?$train_through_all[$k]["through_gxs"]:0;
-
-            $val["through_video"] = isset($train_through_video[$k])?$train_through_video[$k]["through_video"]:0;
-            $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
-        }
-        dd($ret_info);
-        foreach($video_add as $k=>$v){
-            if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
-            }
-        }
-        foreach($lesson_add as $k=>$v){
-            if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
-            }
-        }
-        foreach($train_through_all as $k=>$v){
-            if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
-            }
-        }
-
-
-        $all=$list=$team=$data=[];
-        foreach($ret_info as $item){
-            dd(1111);
-        }
-
-
-
-
-        dd($ret_info);
-    }
     public function zs_origin_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
@@ -4677,6 +4643,58 @@ class human_resource extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+
+    public function get_input_score_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3,0,true);
+        $admin_type = $this->get_in_int_val('admin_type',1);
+        $page_num   = $this->get_in_page_num();
+
+        $ret_info = $this->t_student_score_info->get_input_score_list($start_time, $end_time, $admin_type, $page_num);
+
+
+        foreach( $ret_info['list'] as &$item){
+            if($item['admin_type'] == 1){ // 家长
+                $item['create_nick'] = $this->t_parent_info->get_nick($item['create_adminid']);
+                $item['account_type'] = '家长';
+                $item['admin_type_str'] = '微信端';
+            }else{ // 助教
+                $item['create_nick'] = $this->t_manager_info->get_account($item['create_adminid']);
+                $item['account_type'] = '助教';
+                $item['admin_type_str'] = '后台';
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y-m-d H:i");
+        }
+
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
+
+    public function get_lesson_modify_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3,0,true);
+        $page_num = $this->get_in_page_num();
+        $is_done  = $this->get_in_int_val('is_modify_time_flag',-1);
+        $ret_info = $this->t_lesson_time_modify->get_modify_list($start_time, $end_time, $page_num, $is_done);
+
+        foreach($ret_info['list'] as &$item){
+            $item[''] = '';
+
+            if($item['is_modify_time_flag'] == 2){
+                $item['is_modify_time_flag_str'] = "<font color=\"red\">已拒绝</font>";
+            }elseif($item['is_modify_time_flag'] == 1){
+                $item['is_modify_time_flag_str'] = "<font color=\"green\">已完成</font>";
+            }elseif($item['is_modify_time_flag'] == 0){
+                $item['is_modify_time_flag_str'] = "<font color=\blue\">老师未回应</font>";
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"parent_deal_time","","Y-m-d H:i");
+
+        }
+
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
 
 
 }

@@ -546,6 +546,7 @@ class user_manage extends Controller
             3 => array("app_time", "申请日期"),
         ],3);
 
+
         $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_int_val('contract_type',-1);
         $contract_status   = $this->get_in_int_val('contract_status',-1);
@@ -689,6 +690,11 @@ class user_manage extends Controller
         // dd($price);
 
         $acc = $this->get_account();
+        $this->set_filed_for_js("account_role_self",$this->get_account_role());
+        $this->set_filed_for_js("acc",$this->get_account()); 
+        $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
+
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
@@ -717,7 +723,7 @@ class user_manage extends Controller
         }
 
         $ret_info = $this->t_student_info->get_student_list_for_finance(
-            $page_num, $userid, $grade, $user_name, $phone, $teacherid, $assistantid, $originid, $seller_adminid
+            $page_num, $userid, $grade, $user_name, $assistantid, $originid, $seller_adminid
         );
 
         foreach($ret_info['list'] as &$item) {
@@ -735,6 +741,7 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
+
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -941,6 +948,8 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="train_through_teacher_new"){//正式入职的培训通过的老师,老师所带学生超过10个学生人数
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select_new($id,$gender, $nick_phone, $page_num);
+        }else if($type=="agent"){//优学优享
+            $ret_list= $this->t_agent->get_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="seller_group"){//销售下级id
             if ($id<=0) {
                 $adminid = $this->get_account_id();
@@ -1265,9 +1274,11 @@ class user_manage extends Controller
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
+            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
-
-
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
             $item['lesson_total']      = $item['lesson_total']/100;
@@ -1326,7 +1337,6 @@ class user_manage extends Controller
 
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
-
                         if(isset($v1["$key1_name"])){
                             $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
                             $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
@@ -1636,6 +1646,12 @@ class user_manage extends Controller
         $job = new \App\Jobs\StdentResetLessonCount($userid);
         dispatch($job);
 
+        //优学优享
+        $agentid= $this->t_agent->get_agentid_by_userid($userid);
+        if ($agentid) {
+            dispatch( new \App\Jobs\agent_reset($agentid ));
+        }
+
         return $this->output_succ();
     }
 
@@ -1902,6 +1918,8 @@ class user_manage extends Controller
         $adminid     = $this->get_account_id();
         $orderid     = $this->get_in_int_val("orderid",-1);
         $apply_time  = $this->get_in_int_val("apply_time");
+        $teacherid   = $this->get_in_int_val('teacherid');
+        $subject   = $this->get_in_int_val('subject');
 
         if($orderid <=0){
             return $this->error_view(["请从[退费管理]-[QC退费分析总表]进入"]);
@@ -2000,8 +2018,10 @@ class user_manage extends Controller
         $qc_contact_status     = $this->get_in_int_val('qc_contact_status');
         $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
+        $subject   = $this->get_in_int_val('subject');
+        $teacherid = $this->get_in_int_val('teacherid');
 
-        $this->t_order_refund->update_refund_list($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
+        $this->t_order_refund->update_refund_list($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
         return $this->output_succ();
     }
 
@@ -2625,6 +2645,8 @@ class user_manage extends Controller
         $is_test_user = 0;//1测试用户
         $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user);
         foreach( $ret_info["list"] as $key => &$item ) {
+
+
             $ret_info['list'][$key]['num'] = $key + 1;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
             \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y/m/d");
@@ -2634,7 +2656,17 @@ class user_manage extends Controller
         if($ret_info['list'][$key]['total_score']){
         $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
         }
+
+
+        if($item['admin_type'] == 1){
+            $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
+        }elseif($item['admin_type'] == 0){
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+        }
+
+
+
+
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
@@ -3079,6 +3111,7 @@ class user_manage extends Controller
 
     public function set_dynamic_passwd()
     {
+        $userid = $this->get_in_int_val('userid');
         $phone  = $this->get_in_str_val('phone', '');
         $role   = $this->get_in_int_val('role', 0);
         $passwd = $this->get_in_str_val('passwd', '');
@@ -3088,6 +3121,9 @@ class user_manage extends Controller
         }
 
         $ret_set = \App\Helper\Net::set_dynamic_passwd($phone,$role,md5($passwd), $connection_conf );
+
+        // 添加操作日志
+        $this->t_user_log->add_data("设置临时密码", $userid);
         return $this->output_bool_ret($ret_set);
     }
 

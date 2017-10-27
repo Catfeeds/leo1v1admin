@@ -10,7 +10,6 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
     $('.direct-chat-contacts').css('backgroundColor','#fff');
-
     $("[data-val]").each(function() {
         var opt_field = $(this).attr('data-val');
         custom_upload_file(
@@ -28,15 +27,18 @@ $(function(){
                         },
                         success : function(result){
                             if(result.ret==0){
-                                alert("上传成功！");
-                                window.location.reload();
+                                BootstrapDialog.alert("上传成功！");
+                                setTimeout(function(){
+                                    window.location.reload();
+                                },2000);
+
                             }else{
-                                alert("上传失败！");
+                                BootstrapDialog.alert("上传失败！");
                             }
                         }
                     });
                 }
-            }, [], ["pdf","zip"],function(){}
+            }, [], ["pdf","doc","doxc"],function(){}
         );
     });
 
@@ -65,7 +67,7 @@ $(function(){
                     $('p[data-status]').toggleClass('hide');
                     $('button[data-status]').toggleClass('hide');
                 }else{
-                    alert(result.info);
+                    BootstrapDialog.alert(result.info);
                 }
             }
         });
@@ -88,16 +90,17 @@ $(function(){
 
         var id_nick          = $("<span style=\"line-height:33px;\"/>");
         var id_gender        = $('<select class="form-control"/>');
-        var id_work_year     = $("<input/>");
+        var id_work_year     = $("<input type='number' min='1'/>");
         var id_address       = $("<input/>");
         var id_bank_account  = $("<input/>");
         var id_bank_address  = $("<input/>");
         var id_bank_city     = $("<input/>");
-        var id_bank_phone    = $("<input/>");
+        var id_bank_phone    = $("<input type='phone' />");
         var id_bank_province = $("<input/>");
         var id_bank_type     = $(bank_select);
-        var id_bankcard      = $("<input/>");
-        var id_birth         = $("<input placeholder=\"格式如19910101\"/>");
+        var id_bankcard      = $("<input type='number' />");
+        // var id_birth         = $("<input placeholder=\"格式如19910101\"/>");
+        var id_birth         =$("<input/> ");
         var id_dialect_notes = $("<input/>");
         var id_education     = $('<select class="form-control"/>');
         var id_hobby         = $("<input/>");
@@ -107,8 +110,17 @@ $(function(){
         var id_speciality    = $("<input/>");
 
         var tea_name = $('#teacher-name').text();
+
+        //时间插件
+        id_birth.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d',
+        });
+
+
         id_nick.text(tea_name);
-        // id_nick.val(tea_name);
         id_work_year.val(able_edit.work_year);
         id_address.val(able_edit.address);
         id_bank_account.val(able_edit.bank_account);
@@ -131,21 +143,21 @@ $(function(){
 
         Enum_map.append_option_list("education",id_education,true);
         id_education.val(able_edit.education);
-
+        var required = '<span style="color:ff3451;">* </span>';
         if (title_type == 'user-info') {
             var modal_title = '可编辑信息';
             var arr= [
                 ["merge","个人资料"],
                 ["姓名：", id_nick],
-                ["性别：", id_gender],
-                ["生日：", id_birth],
+                [required+"性别：", id_gender],
+                [required+"生日：", id_birth],
                 ["merge","教学信息"],
-                ["教龄：",     id_work_year],
+                [required+"教龄：",     id_work_year],
                 ["方言备注：", id_dialect_notes],
-                ["所在地：",   id_address],
+                [required+"所在地：",   id_address],
                 ["merge",  "教育背景"],
-                ["毕业院校：", id_school],
-                ["最高学历：", id_education],
+                [required+"毕业院校：", id_school],
+                [required+"最高学历：", id_education],
                 ["专业：",     id_major],
                 ["兴趣爱好：", id_hobby],
                 ["个人特长：", id_speciality],
@@ -153,14 +165,14 @@ $(function(){
         } else {
             var modal_title = '银行卡信息';
             var arr= [
-                ["持卡人：",     id_bank_account],
-                ["身份证号：",   id_idcard],
-                ["银行卡类型：", id_bank_type],
-                ["支行名称：",   id_bank_address],
-                ["开户省：",     id_bank_province],
-                ["开户市：",     id_bank_city],
-                ["卡号：",       id_bankcard],
-                ["预留手机号：", id_bank_phone],
+                [required+"持卡人：",     id_bank_account],
+                [required+"身份证号：",   id_idcard],
+                [required+"银行卡类型：", id_bank_type],
+                [required+"支行名称：",   id_bank_address],
+                [required+"开户省：",     id_bank_province],
+                [required+"开户市：",     id_bank_city],
+                [required+"卡号：",       id_bankcard],
+                [required+"预留手机号：", id_bank_phone],
             ];
 
         }
@@ -169,59 +181,95 @@ $(function(){
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
                 if (title_type == 'user-info') {
-                    $.ajax({
-                        type     : "post",
-                        url      : "/teacher_info/edit_teacher_info",
-                        dataType : "json",
-                        data : {
-                            'gender'        : id_gender.val(),
-                            'birth'         : id_birth.val(),
-                            'work_year'     : id_work_year.val(),
-                            'dialect_notes' : id_dialect_notes.val(),
-                            'address'       : id_address.val(),
-                            'school'        : id_school.val(),
-                            'education'     : id_education.val(),
-                            'major'         : id_major.val(),
-                            'hobby'         : id_hobby.val(),
-                            'speciality'    : id_speciality.val(),
-                        } ,
-                        success : function(result){
-                            if(result.ret==0){
-                                // alert("修改成功！");
-                                window.location.reload();
-                            }else{
-                                alert(result.info);
+                    if( !id_gender.val() ) {
+                        BootstrapDialog.alert('请设置性别！');
+                    } else if ( !id_birth.val() ) {
+                        BootstrapDialog.alert('请设置出生日期！');
+                    } else if ( !id_work_year.val() ) {
+                        BootstrapDialog.alert('教龄不能为空!');
+                    } else if ( !id_address.val() ) {
+                        BootstrapDialog.alert('所在地不能为空!');
+                    } else if ( !id_school.val() ) {
+                        BootstrapDialog.alert('毕业院校不能为空!');
+                    } else if ( !id_education.val() ) {
+                        BootstrapDialog.alert('最高学历不能为空');
+                    } else {
+                        $.ajax({
+                            type     : "post",
+                            url      : "/teacher_info/edit_teacher_info",
+                            dataType : "json",
+                            data : {
+                                'gender'        : id_gender.val(),
+                                'birth'         : id_birth.val(),
+                                'work_year'     : id_work_year.val(),
+                                'dialect_notes' : id_dialect_notes.val(),
+                                'address'       : id_address.val(),
+                                'school'        : id_school.val(),
+                                'education'     : id_education.val(),
+                                'major'         : id_major.val(),
+                                'hobby'         : id_hobby.val(),
+                                'speciality'    : id_speciality.val(),
+                            } ,
+                            success : function(result){
+                                if(result.ret==0){
+                                    BootstrapDialog.alert("修改成功！");
+                                    setTimeout(function(){
+                                        window.location.reload();
+                                    },2000);
+                                }else{
+                                    BootstrapDialog.alert(result.info);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } else {
-                    $.ajax({
-                        type     : "post",
-                        url      : "/teacher_info/edit_teacher_bank_info",
-                        dataType : "json",
-                        data : {
-                            'bankcard'      : id_bankcard.val(),
-                            'bank_phone'    : id_bank_phone.val(),
-                            'bank_account'  : id_bank_account.val(),
-                            'idcard'        : id_idcard.val(),
-                            'bank_type'     : id_bank_type.val(),
-                            'bank_address'  : id_bank_address.val(),
-                            'bank_city'     : id_bank_city.val(),
-                            'bank_province' : id_bank_province.val(),
-                        } ,
-                        success : function(result){
-                            if(result.ret==0){
-                                // alert("修改成功！");
-                                window.location.reload();
-                            }else{
-                                alert(result.info);
+                    if (id_bank_account.val() == '') {
+                        BootstrapDialog.alert('持卡人不能为空!');
+                    } else if ( !id_idcard.val() ) {
+                        BootstrapDialog.alert('身份证号不能为空！');
+                    } else if ( !id_bank_type.val() ) {
+                        BootstrapDialog.alert('请选择银行卡类型!');
+                    } else if ( !id_bank_address.val() ) {
+                        BootstrapDialog.alert('支行名称不能为空!');
+                    } else if ( !id_bank_province.val() ) {
+                        BootstrapDialog.alert('开户省不能为空!');
+                    } else if ( !id_bank_city.val() ) {
+                        BootstrapDialog.alert('开户市区不能为空!');
+                    } else if ( !id_bankcard.val() ) {
+                        BootstrapDialog.alert('银行卡号不能为空!');
+                    } else if ( !id_bank_phone.val() ) {
+                        BootstrapDialog.alert('预留手机号不能为空!');
+                    } else {
+                        $.ajax({
+                            type     : "post",
+                            url      : "/teacher_info/edit_teacher_bank_info",
+                            dataType : "json",
+                            data : {
+                                'bankcard'      : id_bankcard.val(),
+                                'bank_phone'    : id_bank_phone.val(),
+                                'bank_account'  : id_bank_account.val(),
+                                'idcard'        : id_idcard.val(),
+                                'bank_type'     : id_bank_type.val(),
+                                'bank_address'  : id_bank_address.val(),
+                                'bank_city'     : id_bank_city.val(),
+                                'bank_province' : id_bank_province.val(),
+                            } ,
+                            success : function(result){
+                                if(result.ret==0){
+                                    // alert("修改成功！");
+                                    BootstrapDialog.alert("修改成功！");
+                                    setTimeout(function(){
+                                        window.location.reload();
+                                    },2000);
+                                }else{
+                                    BootstrapDialog.alert(result.info);
+                                }
                             }
-                        }
-                    });
-
+                        });
+                    }
                 }
             }
-        },'',false,600,'padding-right:80px;');
+        },'',false,600,'padding-right:60px;');
 
     };
 
@@ -271,7 +319,7 @@ $(function(){
             if (picStr) {
                 upload_base64(picStr, pic_token);
             } else {
-                alert("请先剪切图片！");
+                BootstrapDialog.alert("请先剪切图片！");
             }
         });
 
@@ -295,9 +343,12 @@ $(function(){
                     data    : {'face': keyText.key},
                     success : function(result){
                         if( result.ret == 0 ){
-                            window.location.reload();
+                            BootstrapDialog.alert("修改成功！");
+                            setTimeout(function(){
+                                window.location.reload();
+                            },2000);
                         }else{
-                            alert(result.info);
+                            BootstrapDialog.alert(result.info);
                         }
                     }
                 });

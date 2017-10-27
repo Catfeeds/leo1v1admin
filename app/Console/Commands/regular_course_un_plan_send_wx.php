@@ -50,7 +50,7 @@ class regular_course_un_plan_send_wx extends Command
         $lend      = $date_week["edate"];
         $lesson_num = $task->t_lesson_info->get_stu_normal_lesson_num($lstart,$lend,$user_list);
         $lesson_num2 = $task->t_lesson_info->get_stu_normal_lesson_num($lstart+7*86400,$lend+7*86400,$user_list);
-        $lesson_num3 = $task->t_lesson_info->get_stu_normal_lesson_num($lstart+7*86400,$lend+7*86400,$user_list);
+        $lesson_num3 = $task->t_lesson_info->get_stu_normal_lesson_num($lstart+14*86400,$lend+14*86400,$user_list);
         $list=[];
         foreach($ret as $item){
             $num = $item["num"];

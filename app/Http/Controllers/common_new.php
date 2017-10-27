@@ -745,23 +745,25 @@ class common_new extends Controller
 
         $table_list = json_decode($this->get_in_str_val("table_list"));
         $ret_map    = [];
-        foreach ($table_list as $db_table_name) {
-            $create_sql = sprintf("show create table %s", $db_table_name );
-            $desc_sql   = sprintf("desc %s", $db_table_name );
-            $tmp_arr    = preg_split("/\./",$db_table_name);
-            $db_name    = $tmp_arr[0];
-            if ($db_name=="db_question") {
-                $this->question_model->main_get_value(  "set names utf8" );
-                $row  = $this->question_model->main_get_row($create_sql);
-                $list = $this->question_model->main_get_list($desc_sql);
-            }else{
-                $this->t_lesson_info ->main_get_value(  "set names utf8" );
-                $row  = $this->t_lesson_info ->main_get_row($create_sql);
-                $list = $this->t_lesson_info->main_get_list($desc_sql);
+        if(is_array($table_list)){
+            foreach ($table_list as $db_table_name) {
+                $create_sql = sprintf("show create table %s", $db_table_name );
+                $desc_sql   = sprintf("desc %s", $db_table_name );
+                $tmp_arr    = preg_split("/\./",$db_table_name);
+                $db_name    = $tmp_arr[0];
+                if ($db_name=="db_question") {
+                    $this->question_model->main_get_value(  "set names utf8" );
+                    $row  = $this->question_model->main_get_row($create_sql);
+                    $list = $this->question_model->main_get_list($desc_sql);
+                }else{
+                    $this->t_lesson_info ->main_get_value(  "set names utf8" );
+                    $row  = $this->t_lesson_info ->main_get_row($create_sql);
+                    $list = $this->t_lesson_info->main_get_list($desc_sql);
+                }
+                $ret_map[$db_table_name] = ["table_desc" => $row["Create Table"],
+                                            "desc_list" => $list
+                ];
             }
-            $ret_map[$db_table_name] = ["table_desc" => $row["Create Table"],
-                  "desc_list" => $list
-            ];
         }
         return $this->output_succ(["table_desc_list" => $ret_map]);
     }
@@ -1125,6 +1127,24 @@ class common_new extends Controller
         $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
         $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
         if(empty($check_exist)){
+            if($status==8){
+                $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+                $userid = $this->t_order_info->get_userid($parent_orderid);
+                if($parent_orderid>0){
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "百度分期付款异常",
+                        "百度分期付款异常",
+                        "学生id:".$userid." 百度分期付款成功(后台子合同异常),支付方式:百度有钱花,订单号:".$orderNo,
+                        "");
+                    $this->t_orderid_orderno_list->field_update_list($orderNo,[
+                        "pay_flag" =>1,
+                        "channel"  =>"baidu",
+                        "pay_time" =>time()
+                    ]);
+
+                }
+            }
             return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
         }else{
             //期待贷款额度(分单位)
@@ -1418,6 +1438,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_succ();
     }
 
+
     public function get_check_lesson_end_list()
     {
         $client_ip = $this->get_in_client_ip();
@@ -1449,6 +1470,25 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         return $this->output_succ(["list"=> $ret_list]);
+    }
+    public function xmpp_server_get_end_time_by_roomid() {
+        $room_name = $this->get_in_str_val("room_name");
+        if (preg_match("/[lp]_([0-9]+)y([0-9]+)y[0-9]+/",$room_name, $matches)) {
+            $courseid=$matches[1];
+            $lesson_num=$matches[2];
+            $ret=$this->t_lesson_info_b3->get_lesson_info_for_check_lesson_end($courseid, $lesson_num);
+            if ($ret) {
+                $lesson_end=$ret["lesson_end"];
+                $now=time(NULL);
+                $room_del_flag =   ($now-$lesson_end >3600);
+                return $this->output_succ([
+                    "lesson_end" => $lesson_end,
+                    "room_del_flag" =>$room_del_flag 
+                ]);
+            }
+        }
+        return $this->output_err("no find $room_name");
+
     }
 
 }

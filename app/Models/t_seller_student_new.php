@@ -80,24 +80,28 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_adminid_in_list($where_arr,"admin_revisiterid",$adminid_all);
         $where_arr[]= $this->where_get_in_str_query("s.grade",$grade_list);
 
+        //
         $sql = $this->gen_sql_new(
-            "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
-            "  avg( if(   add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
-            ." sum(add_time+86400>first_revisit_time) after_24_first_revisit_time_count "
+            // "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
+            "select from_unixtime(first_call_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
+            // "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
+            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_call_time,add_time,"
+            // ." sum(add_time+86400>first_revisit_time) after_24_first_revisit_time_count "
+            ." sum(if(from_unixtime(first_call_time, '%%Y-%%m-%%d') = from_unixtime(add_time,'%%Y-%%m-%%d'),1,0)) after_24_first_revisit_time_count "
             ." from %s n "
-            .  "left join %s s on s.userid=n.userid"
-
-            ." where first_revisit_time  >=%u and  first_revisit_time  <%u and %s  ".
-            " group by from_unixtime(first_revisit_time, '%%Y-%%m-%%d') "
-            ,
+            ." left join %s s on s.userid=n.userid "
+            // ." where first_revisit_time  >=%u and  first_revisit_time  <%u and %s  ".
+            ." where first_call_time  >=%u and  first_call_time  <%u and %s  ".
+            // " group by from_unixtime(first_revisit_time, '%%Y-%%m-%%d') ",
+            " group by from_unixtime(first_call_time, '%%Y-%%m-%%d') ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $start_time, $end_time,$where_arr );
         return $this->main_get_list($sql);
     }
 
-    public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" ) {
 
+    public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" ) {
         $reg_channel = $origin;
         $passwd = md5("123456");
         $region = "";
@@ -234,7 +238,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($origin_level==E\Eorigin_level::V_100 ) {
             $this->set_admin_info(0,[$userid],60,60);
         }
-
 
         return $userid;
     }
@@ -781,8 +784,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $phone=$ss_info["phone"];
         $set_arr=[];
         if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
-
-
+            $hand_get_adminid = 0;
+            if($opt_type == 0){
+                $hand_get_adminid = E\Ehand_get_adminid::V_3;
+            }elseif($opt_type == 3){
+                $hand_get_adminid = E\Ehand_get_adminid::V_4;
+            }
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
@@ -794,7 +801,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_adminid_1"  => $sub_assign_adminid_1,
                 "sub_assign_time_1"  => $now,
                 "hold_flag" => 1,
-
+                "hand_get_adminid" => $hand_get_adminid,
             ];
 
             if ($opt_type==3 ||  ($tmk_student_status==E\Etmk_student_status::V_3)  ) {
@@ -897,7 +904,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "first_seller_adminid" => $opt_adminid,
                 "sub_assign_time_1"  => time(NULL),
                 "hold_flag" => 1,
-
+                "hand_get_adminid" => E\Ehand_get_adminid::V_1,
             ];
             if ($opt_type==1){
 
@@ -1382,7 +1389,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time ");
 
             $set_arr=[];
-            $set_arr["last_revisit_time"]=$call_time;//最后回访时间
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
             }
@@ -1392,9 +1398,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
 
-            if (!$item["first_call_time"]) {
+            if (!$item["first_call_time"]) {//第一次拨打时间
                 $set_arr["first_call_time"]=$call_time;
             }
+            $set_arr["last_revisit_time"]=$call_time;//最后回访时间
 
 
             if ($tq_called_flag ==2) {
@@ -1450,8 +1457,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
             $this->t_test_lesson_subject->set_no_connect_for_sync_tq($userid);
-        }
+            \App\Helper\Utils::logger("AGENT_CHECK11 ");
+            if ( $item["global_tq_called_flag"]==0 ) {
+                \App\Helper\Utils::logger("AGENT_CHECK ");
 
+                $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+                if ($agent_id) {
+                    \App\Helper\Utils::logger("AGENT_RESET DISPATCH ");
+                    dispatch( new \App\Jobs\agent_reset($agent_id) );
+                }
+            }
+        }
     }
 
     public function tongji_last_revisite_time($start_time,$end_time)  {
@@ -1581,7 +1597,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_user_free($userid) {
         $sql=$this->gen_sql_new(
-            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1,hand_get_adminid=0 "
             ."  where   n.userid=%u  and require_admin_type=2  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1594,7 +1610,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_no_hold_free($admin_revisiterid) {
         $sql=$this->gen_sql_new(
-            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1,hand_get_adminid=0 "
             ."  where  hold_flag=0  and admin_revisiterid=%u  and require_admin_type=2  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -2291,17 +2307,66 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
     }
 
+    public function allow_userid_to_cc($adminid, $opt_account, $userid){
+
+        //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规
+        $phone = $this->get_phone($userid);
+        $up_adminid=$this->t_admin_group_user->get_master_adminid($adminid);
+        $set_arr=[
+            "admin_revisiterid"  => $adminid,
+            "admin_assign_time"  => time(NULL),
+            "sub_assign_adminid_2"  => $up_adminid,
+            "sub_assign_time_2"  => time(NULL) ,
+            "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
+            "first_seller_adminid" => $adminid,
+            "sub_assign_time_1"  => time(NULL),
+            "hold_flag" => 1,
+        ];
+        $set_arr["tmk_set_seller_adminid"]=$adminid;
+        //$this->t_test_lesson_subject->set_seller_require_adminid( [$userid], $adminid);
+        /*
+        $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+        $set_arr=[
+            "admin_assignerid"  => $self_adminid,
+            "sub_assign_adminid_2"  => $opt_adminid,
+            "sub_assign_time_2"  => time(NULL),
+            "admin_revisiterid"  => 0,
+            "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($opt_adminid),
+            "sub_assign_time_1"  => time(NULL),
+            "first_admin_master_adminid" =>$up_adminid,
+            "first_admin_master_time" => time(NULL),
+            "hold_flag"          => 1,
+            "first_seller_adminid" => $opt_adminid,
+        ];
+        */
+
+        $ret_update = $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: 系统 状态: 分配给 [ $opt_account ] ",
+            "system"
+        );
+
+        $set_str=$this-> get_sql_set_str( $set_arr);
+        $sql=sprintf("update %s set %s where userid=%u",
+                     self::DB_TABLE_NAME,
+                     $set_str,
+                     $userid );
+        return $this->main_update($sql);
+    }
+
 
     public function get_tq_succ_num($start_time, $end_time){
 
         $where_arr = [
             "s.is_test_user = 0",
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(tq.id) from %s tq "
+        $sql = $this->gen_sql_new("  select count(distinct(s.userid)) from %s tq "
                                   ." left join %s ss on tq.phone=ss.phone"
                                   ." left join %s s on s.userid=ss.userid"
                                   ." where %s"
@@ -2319,7 +2384,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr = [
             "s.is_test_user = 0",
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
@@ -2341,7 +2407,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_tq_succ_num_for_sign($start_time, $end_time){
 
         $where_arr = [
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
@@ -2455,7 +2523,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "tss.admin_revisiterid>0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,'tss.admin_assign_time',$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,'tss.admin_assign_time',$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,'tss.add_time',$start_time,$end_time);
+
         $sql = $this->gen_sql_new("  select count(*) from %s tss "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
@@ -2504,6 +2574,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr);
+        dd($sql);
         return $this->main_get_row($sql);
     }
 
@@ -2542,5 +2613,82 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_distribution_count($start_time,$end_time,$origin_ex){
+        $where_arr = [
+            'n.admin_revisiterid>0',
+            'n.admin_revisiterid<>n.admin_assignerid',
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            's.is_test_user=0',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select n.admin_revisiterid adminid, "
+                                  ." sum(if(n.hand_get_adminid=1,1,0)) auto_get_count,"
+                                  ." sum(if(n.hand_get_adminid=2,1,0)) hand_get_count,"
+                                  ." sum(if(n.hand_get_adminid=3,1,0)) count, "
+                                  ." sum(if(n.hand_get_adminid=4,1,0)) tmk_count "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ." group by n.admin_revisiterid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info){
+        $where_arr = [
+            ['n.admin_revisiterid=%u',$adminid],
+            'n.admin_revisiterid<>n.admin_assignerid',
+            ['n.hand_get_adminid=%u',$flag],
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            's.is_test_user=0',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select n.admin_assignerid adminid,n.admin_revisiterid uid,"
+                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,"
+                                  ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_hand_get_list($adminid,$start_time,$end_time,$origin_ex,$page_info){
+        $where_arr = [
+            ['n.admin_revisiterid = %u',$adminid,-1],
+            ['m.account_role=%u',E\Eaccount_role::V_2],
+            'n.hand_get_adminid>0 and n.admin_revisiterid = n.hand_get_adminid',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(" select n.admin_revisiterid uid,n.admin_assign_time create_time,n.global_tq_called_flag, "
+                                  ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
+                                  ." from %s n "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
+                                  ." left join %s s on s.userid=n.userid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 }
