@@ -2499,6 +2499,7 @@ class main_page extends Controller
             array_push($ret_info, $biology);
             array_push($ret_info, $science);
 
+            $total['sum'] = 0;
             $total['imit_sum'] = 0;
             $total['attend_sum'] = 0;
             $total['adopt_sum'] = 0;
