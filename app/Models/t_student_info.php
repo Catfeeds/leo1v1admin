@@ -1065,6 +1065,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$refund_sql
         );
         return $this->main_get_list_by_page($sql,$page_num);
+        // $sql = $this->gen_sql_new("select userid,lesson_count_all,lesson_count_left,"
+        //                           ."last_lesson_time,assistantid,grade"
+        //                           ." from %s s s left join %s rf on "
+        // );
     }
 
     public function get_user_list_by_lesson_count_new($lesson_start,$lesson_end){
