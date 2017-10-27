@@ -495,8 +495,10 @@ class agent extends Controller
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
                         $seller_info[$key] = $item;
                     }
-                    dd($seller_info);
                 }
+            }
+            if($info == 1508826899697){
+                dd($stu_info,$seller_info);
             }
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
