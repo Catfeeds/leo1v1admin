@@ -1629,7 +1629,19 @@ class ajax_deal2 extends Controller
             }else{
                  $inter_score = $video_score["teacher_lecture_score"];
             }
+        }elseif(!empty($one_score) && empty($video_score)){
+            $inter_score = $one_score["record_score"];
+        }elseif(empty($one_score) && !empty($video_score)){
+             $inter_score = $video_score["teacher_lecture_score"];
+        }else{
+            $inter_score=0;
         }
+        return $this->output_succ([
+            "normal_lesson_num" =>$normal_lesson_num,
+            "test_lesson_num"   =>$test_lesson_num,
+            "record_score"      =>$score,
+            "inter_score"       =>$inter_score
+        ]);
 
 
         $list=[];

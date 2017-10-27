@@ -820,6 +820,10 @@ class test_james extends Controller
     public function dd(){
         $group_arr = ['12','19'];
 
+        $ac = ['1','2','3'];
+        $bc=['4','2'];
+
+        dd(array_intersect($ac,$bc));
 
         foreach($group_arr as $item){
             $where_arr[] = "permission like %$item%";
