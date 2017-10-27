@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
-                    <button id="id_get_money" class="btn btn-primary">刷新</button>
+                    <button id="id_reset" class="btn btn-primary">刷新</button>
                 </div >
                 
             </div>
@@ -31,7 +31,7 @@
                     <td> 操作  </td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["teacherid"]}} </td>

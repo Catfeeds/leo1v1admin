@@ -2049,6 +2049,16 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     public function get_user_list($group_str){
-        $sql = $this->gen_sql_new("  select ");
+        $where_arr = [
+            ['permission in %s',$group_str]
+        ];
+
+        $sql = $this->gen_sql_new("  select uid as adminid, account as name from %s m "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 }
