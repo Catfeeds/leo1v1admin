@@ -324,7 +324,12 @@ class wx_parent_gift extends Controller
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
         $parentid = $this->get_in_int_val('pid');
-        $ret_info = $this->t_agent->get_invite_num($start_time, $pid);
+
+        $prize_num = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
+        $ret_info  = $this->t_agent->get_invite_num($start_time, $pid);
+        $invite_num = count($ret_info);
+
+        $light_num = ($invite_num - 20*$prize_num);
 
 
     }
