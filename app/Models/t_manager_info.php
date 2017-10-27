@@ -2046,4 +2046,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   self::DB_TABLE_NAME, $phone);
         return $this->main_get_value($sql);
     }
+
+
+    public function get_user_list($group_str){
+        $sql = $this->gen_sql_new("  select ");
+    }
 }
