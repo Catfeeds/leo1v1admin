@@ -100,10 +100,10 @@
                     <td >老师</td>
                     <td >学生</td>
                     <td >服务<br/>上课时间</td>
+                    <td  width="200px">老师版本</td>
+                    <td  width="200px">学生版本</td>
                     <td >老师</td>
                     <td >学生</td>
-                    <td width="200px">老师版本</td>
-                    <td width="200px">学生版本</td>
                     <td class="remove-for-xs"  >家长</td>
                     <td class="remove-for-xs"  >助教</td>
                     <td >操作</td>
