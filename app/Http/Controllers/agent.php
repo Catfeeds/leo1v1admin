@@ -599,7 +599,7 @@ class agent extends Controller
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生上麦
                     $stu_wheat[$key]['login'] = $item;
-                    if(isset($stu_wheat[$key+1])){
+                    if(isset($stu_info[$key+1])){
                         if($stu_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2){//下一条为学生下麦
                             $stu_wheat[$key]['logout'] = $stu_info[$key+1];
                         }else{
@@ -624,9 +624,7 @@ class agent extends Controller
                     }
                 }
             }
-            if($info == 377680){
-                dd($stu_wheat,$seller_wheat);
-            }
+            
             foreach($stu_wheat as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
