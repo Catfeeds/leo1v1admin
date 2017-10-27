@@ -2034,21 +2034,15 @@ class user_manage_new extends Controller
         // dd($ret_info);
 
         foreach($ret_info['list'] as &$item){
-            // if($item['url']){
-                $item['powerid_info'] = $this->get_powr_list($item['pid']);
-                // $quanxian_arr = json_encode($item['powerid_info']);
-                // $group_list =
-                // dd($item['powerid_info']);
+            if(!empty($item['url'])){
+                $powerid_info = $this->get_powr_list($item['pid']);
                 $group_list = [];
-                foreach($item['powerid_info'] as $v){
+                foreach($powerid_info as $v){
                     $group_list[] = $v['groupid'];
                 }
+                $item['group_str'] = implode(',',$group_list);
 
-
-                // foreach(){
-
-                // }
-            // }
+            }
         }
 
         // dd($group_list);
