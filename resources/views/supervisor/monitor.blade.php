@@ -100,8 +100,6 @@
                     <td >老师</td>
                     <td >学生</td>
                     <td >服务<br/>上课时间</td>
-                    <td  width="200px">老师版本</td>
-                    <td  width="200px">学生版本</td>
                     <td >老师</td>
                     <td >学生</td>
                     <td class="remove-for-xs"  >家长</td>
@@ -130,12 +128,6 @@
                         </td>
                         <td >
                             <a class="opt-stu-info"  href="/stu_manage/index?sid={{$var["userid"]}}">{{$var["student_nick"]}}</a>
-                        </td>
-                        <td>
-                            {{$var['tea_agent']}}
-                        </td>
-                        <td>
-                            {{$var['stu_agent']}}
                         </td>
                         <td ><span>{{$var["region"]}}</span><br/>{{$var["lesson_time"]}}</td>
                         <td class="wb_tea " style="padding:8px 0px;">
