@@ -250,8 +250,8 @@ $(function(){
                     $.do_ajax("/user_manage/set_refund_order", {
                         "userid"            : data.userid,
                         "orderid"           : data.orderid,
-                        "contractid"        : $(this).get_opt_data("contractid"),
-                        "contract_type"     : $(this).get_opt_data("contract_type"),
+                        "contractid"        : data.contractid,
+                        "contract_type"     : data.contract_type,
                         "lesson_total"      : data.lesson_total,
                         "order_left"        : data.lesson_left,
                         "should_refund"     : should_refund,

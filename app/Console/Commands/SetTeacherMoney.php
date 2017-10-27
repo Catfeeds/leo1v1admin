@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class SetTeacherMoney extends Command
+class SetTeacherMoney extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -55,7 +55,7 @@ class SetTeacherMoney extends Command
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
         }elseif($type==4){
-            $task->set_teacher_salary_list();
+            $task->set_teacher_salary_list($type);
         }
     }
 
