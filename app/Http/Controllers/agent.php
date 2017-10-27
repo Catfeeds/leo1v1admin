@@ -497,9 +497,7 @@ class agent extends Controller
                     }
                 }
             }
-            if($info == 1508826899697){
-                dd($stu_info,$seller_info);
-            }
+            
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
@@ -519,6 +517,9 @@ class agent extends Controller
                         $seller_login[$key]['logout'] = [];
                     }
                 }
+            }
+            if($info == 1508826899697){
+                dd($stu_login,$seller_login);
             }
             foreach($stu_login as $item){
                 $login_s = $item['login'];
