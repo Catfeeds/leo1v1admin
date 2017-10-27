@@ -18,7 +18,7 @@ class SetTeacherMoney extends Command
      *
      * @var string
      */
-    protected $description = '每个周期更新老师奖金信息';
+    protected $description = '每个周期更新老师奖金/工资信息';
 
     /**
      * Create a new command instance.
@@ -32,7 +32,7 @@ class SetTeacherMoney extends Command
 
     /**
      * Execute the console command.
-     * @param type 1 每周二更新老师荣誉榜  2,3 每天更新老师的试听签单奖励
+     * @param type 1 每周二更新老师荣誉榜  2,3 每天更新老师的试听签单奖励 4 手动/定时
      * @param day  老师签单奖更新的时间周期
      * @return mixed
      */
@@ -55,7 +55,7 @@ class SetTeacherMoney extends Command
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
         }elseif($type==4){
-            
+            $task->set_teacher_salary_list();
         }
     }
 
