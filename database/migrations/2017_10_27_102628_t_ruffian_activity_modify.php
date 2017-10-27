@@ -16,6 +16,7 @@ class TRuffianActivityModify extends Migration
         Schema::table('db_weiyi.t_ruffian_activity', function( Blueprint $table)
         {
             $table->dropColumn('create_time');
+            $table->dropColumn('is_share_flag');
             t_field($table->integer("add_time"),"添加时间");
             t_field($table->integer("prize_time"),"抽奖时间");
         });
