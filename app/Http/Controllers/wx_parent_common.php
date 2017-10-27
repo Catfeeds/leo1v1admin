@@ -204,6 +204,8 @@ class wx_parent_common extends Controller
             if ($check_code != $code) {
                 return $this->output_err("手机验证码不对,请重新输入");
             }
+            \App\Helper\Utils::logger("SHARE_KNOWLEDGE");
+
             return $this->share_knowledge();
         }else{
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
@@ -291,6 +293,8 @@ class wx_parent_common extends Controller
             "public_num"      => "021或158",
             "public_telphone" => $public_telphone,
         ];
-        return $this->output_succ(["ret"=> "恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系"]);
+        \App\Helper\Utils::logger("XXX LOG SUCC");
+
+        return $this->output_succ("恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系");
     }
 }

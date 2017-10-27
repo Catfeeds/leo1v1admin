@@ -546,7 +546,7 @@ class teacher_money extends Controller
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
             }elseif($type==E\Ereward_type::V_6){
-                
+                $update_arr['recommended_teacherid'] = $money_info;
             }
         }
 
