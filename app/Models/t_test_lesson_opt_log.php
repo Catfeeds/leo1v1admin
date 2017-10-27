@@ -35,6 +35,7 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
             "select * "
             ." from %s "
             ." where %s "
+            ." order by opt_time "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
