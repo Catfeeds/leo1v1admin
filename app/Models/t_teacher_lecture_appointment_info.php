@@ -89,11 +89,12 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                  $user_name,$status,$adminid=-1,$record_status=-1,$grade=-1,$subject=-1,
                                  $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1,
                                  $full_time=-1, $lecture_revisit_type_new=-1,$fulltime_teacher_type=-1,
-                                 $accept_adminid=-1,$second_train_status=-1,$teacher_pass_type=-1
+                                 $accept_adminid=-1,$second_train_status=-1,$teacher_pass_type=-1,
+                                 $opt_date_str=1
     ){
         $where_arr = [
-            ["answer_begin_time>=%u", $start_time, -1 ],
-            ["answer_begin_time<=%u", $end_time, -1 ],
+            // ["answer_begin_time>=%u", $start_time, -1 ],
+            // ["answer_begin_time<=%u", $end_time, -1 ],
             ["lecture_appointment_status=%u", $lecture_appointment_status, -1 ],
             ["t.teacherid=%u", $teacherid, -1 ],
             ["la.accept_adminid=%u", $adminid, -1 ],
@@ -101,6 +102,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["la.accept_adminid=%u", $accept_adminid, -1 ],
             ["tr2.trial_train_status=%u", $second_train_status, -1 ],
         ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         if($lecture_revisit_type==5){
             $where_arr[] = "(la.lecture_revisit_type=5 or ta.lesson_start>0)";
         }else{

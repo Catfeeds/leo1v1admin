@@ -82,7 +82,8 @@ class reset_lesson_online_user_status extends Command
 
             if ($lesson_online_user_status ==1 ) {
                 //优学优享
-                $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+                // $agent_id= $this->task->t_agent->get_agentid_by_userid($userid);
+                $agent_id= $this->task->t_agent->get_agentid_by_userid($studentid);
                 if ($agent_id) {
                     dispatch( new \App\Jobs\agent_reset($agent_id) );
                 }

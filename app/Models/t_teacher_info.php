@@ -3955,13 +3955,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $whereArr = [
             ["tf.trial_lecture_pass_time>%u", $start_time, 0],
             ["tf.trial_lecture_pass_time<%u", $end_time, 0],
-            ['t.subject=%u',$subject,0],
+            ['tf.subject=%u',$subject,0],
             't.is_test_user=0'
         ];
         if ($subject <= 3) {
-            $query = " sum(if(substring(t.grade,1,1)=1,1,0)) primary_num, "
-                ." sum(if(substring(t.grade,1,1)=2,1,0)) middle_num,"
-                ."sum(if(substring(t.grade,1,1)=3,1,0)) senior_num";
+            $query = " sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
+                ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
+                ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num";
         } else {
             $query = " count(*) sum";
         }
@@ -3975,7 +3975,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
-        
         return $this->main_get_row($sql);
     }
 
