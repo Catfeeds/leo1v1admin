@@ -33,8 +33,7 @@ class activity_2017102702 extends  activity_base {
 
             $adminid=$task->t_seller_student_new->get_admin_assignerid($userid);
             $account_role=$task->t_manager_info->get_account_role($adminid);
-            if ($account_role == E\Eaccount_role::V_2
-                && $lesson_start< strtotime("2017-10-15")
+            if ( $lesson_start< strtotime("2017-10-15")
                 && $this->lesson_times >=30 &&  $this->lesson_times <=45
             ) {
                 $price*=0.9;

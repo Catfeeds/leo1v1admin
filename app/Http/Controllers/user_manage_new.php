@@ -2041,15 +2041,23 @@ class user_manage_new extends Controller
                 foreach($powerid_info as $v){
                     $group_list[] = $v['groupid'];
                 }
+                $user_info = [];
 
                 foreach($user_list as $vv){
                     $quan_arr = explode(',',$vv['permission']);
+
+                    if(array_intersect($quan_arr,$group_list)){
+                        // $item['']
+                        $user_info[] = $vv['account'].'/'.$vv['uid'];
+                    }
                 }
 
-                dd($group_list);
+                // dd($group_list);
+                $item['user_info'] = json_encode($user_info);
+                // dd(json_encode($user_info));
 
 
-                $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
+                // $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
 
             }
         }

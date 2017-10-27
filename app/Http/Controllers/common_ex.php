@@ -16,16 +16,15 @@ class common_ex extends Controller
         $type       = $this->get_in_str_val("type","");
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
 
-        
         if($type=="zhishiku"){
-
+            $check_code = \App\Helper\Common::redis_get("WX_P_PHONE_$phone" );
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
             if ($check_code != $code) {
                 return $this->output_err("手机验证码不对,请重新输入");
             }
             return $this->share_knowledge();
-
         }else{
+            $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
             if ($check_code != $code) {
                 return $this->output_err("手机验证码不对,请重新输入");
