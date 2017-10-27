@@ -1,6 +1,7 @@
 <?php
 return array(
     //
+    ["db_weiyi","t_luck_draw_yxyx_for_ruffian","id"],
     ["db_weiyi","t_ruffian_share","id"],
     ["db_weiyi","t_ruffian_activity","id"],
     ["db_weiyi","t_teacher_flow","teacherid"],
