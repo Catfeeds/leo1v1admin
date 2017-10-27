@@ -545,7 +545,7 @@ class agent extends Controller
                             }
                         }
                         if($info == 1508835634505){
-                            dd($time_differ);
+                            dd($login_time_stu,$logout_time_stu,$login_time_seller,$logout_time_seller);
                         }
                         if($time_differ>300){//不同ip,同时在线>5分钟
                             $task->t_seller_student_new->field_update_list($userid,[
