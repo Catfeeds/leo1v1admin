@@ -331,6 +331,11 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
+        $parentid = $this->get_in_int_val('parentid');
+
+        // 获取已中奖的总金额
+
+        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian
 
     }
 
