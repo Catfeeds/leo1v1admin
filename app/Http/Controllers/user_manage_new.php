@@ -2031,9 +2031,10 @@ class user_manage_new extends Controller
         }
 
 
+        // dd($ret_info);
 
         foreach($ret_info['list'] as &$item){
-            if($item['url']){
+            // if($item['url']){
                 $item['powerid_info'] = $this->get_powr_list($item['pid']);
                 // $quanxian_arr = json_encode($item['powerid_info']);
                 // $group_list =
@@ -2043,14 +2044,14 @@ class user_manage_new extends Controller
                     $group_list[] = $v['groupid'];
                 }
 
-                
+
                 // foreach(){
 
                 // }
-            }
+            // }
         }
 
-        dd($group_list);
+        // dd($group_list);
 
         dd($ret_info);
 
