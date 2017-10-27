@@ -496,6 +496,7 @@ class agent extends Controller
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
                         $seller_info[$key] = $item;
                     }
+                    dd($seller_info,$item);
                 }
             }
             dd($stu_info,$seller_info);
