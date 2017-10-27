@@ -266,15 +266,18 @@ class wx_parent_common extends Controller
             $key4 = "未定义";
             $value = $key4;
         }
-        \App\Helper\Utils::logger("XXXX 22222");
+        \App\Helper\Utils::logger("XXXX 22200");
 
         $ret_origin = $this->t_origin_key->add_by_admind($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0);
         //进例子
         $origin_value = "知识库";
         $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin_value,$subject=0,$has_pad=0);
         if($cc_type == 2){ //分配例子给销售
+
+            \App\Helper\Utils::logger("XXXX 22201");
             $opt_adminid = $account_id; // ccid
             (new  ss_deal() ) ->set_admin_id_ex([$new_userid],$opt_adminid,0);
+            \App\Helper\Utils::logger("XXXX 22202");
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }else{
             //$opt_adminid = 212; // ccid

@@ -126,6 +126,10 @@ class teacher_money extends Controller
             $reward['money_info']   = E\Ereward_type::get_desc($r_val['type']);
             if(in_array($r_val['type'],[E\Ereward_type::V_1,E\Ereward_type::V_2,E\Ereward_type::V_5])){
                 \App\Helper\Utils::check_isset_data($reward_ex['price'],$reward['money']);
+
+                if($r_val['type']==E\Ereward_type::V_2){
+                    
+                }
                 $reward["type"] = 1;
                 $reward_ex["reward_list"][] = $reward;
             }elseif(in_array($r_val['type'],[E\Ereward_type::V_3,E\Ereward_type::V_4])){
