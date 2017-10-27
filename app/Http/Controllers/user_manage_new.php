@@ -2061,9 +2061,10 @@ class user_manage_new extends Controller
 
     public function get_powr_list() // james
     {
-        $powerid = 0;
+        // $powerid = 0;
         // $powerid = $this->get_in_int_val("powerid");
         $list    = $this->t_authority_group->get_all_list();
+        // dd($list);
         $ret = [];
         foreach ($list as &$item) {
             $p_list=preg_split("/,/", $item["group_authority"] );
