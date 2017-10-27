@@ -1181,6 +1181,24 @@ $(function(){
 
     });
 
+    $(".show_phone").on("click",function(){
+        var val = $(this).data("phone");
+        BootstrapDialog.alert({
+            title: "数据",
+            message:val ,
+            closable: true,
+            callback: function(){
+                
+            }
+        });
+
+    });
+
+    if (window.location.pathname=="/human_resource/teacher_lecture_list_zs" || window.location.pathname=="/human_resource/teacher_lecture_list_zs/") {
+        download_hide();
+    }
+
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

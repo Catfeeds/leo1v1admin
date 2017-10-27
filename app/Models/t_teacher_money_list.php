@@ -70,7 +70,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["tm.add_time>%u",$start,0],
             ["tm.add_time<%u",$end,0],
             ["tm.type=%u",$type,0],
-            "tm.lessonid!=0"
+            // "tm.lessonid!=0"
         ];
         $sql = $this->gen_sql_new("select tm.add_time,tm.money,tm.type,tm.money_info"
                                   // .",l.userid"

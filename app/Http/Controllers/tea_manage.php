@@ -2259,8 +2259,20 @@ class tea_manage extends Controller
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
 
+        //判断招师主管
+        $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
+        //判断是否是招师
+        $is_zs_flag = (($this->t_admin_group_user->get_main_type($adminid))==8)?1:0;
+        if($is_zs_flag==1 && $is_master_flag !=1){
+            $accept_adminid = $adminid;
+            $id_train_through_new=0;
+        }else{
+            $accept_adminid = -1;
+            $id_train_through_new=-1;
+        }
+
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
-        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
+        $id_train_through_new      = $this->get_in_int_val("id_train_through_new",$id_train_through_new);
         
         if($fulltime_flag==1){
             $full_time=1;
@@ -2275,11 +2287,14 @@ class tea_manage extends Controller
             }
         }
 
+       
+
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
-            $train_email_flag,$full_time,$id_train_through_new_time,$id_train_through_new
+            $train_email_flag,$full_time,$id_train_through_new_time,
+            $id_train_through_new,$accept_adminid
         );
 
         foreach($ret_info['list'] as &$val){
