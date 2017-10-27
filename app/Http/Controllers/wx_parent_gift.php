@@ -388,9 +388,11 @@ class wx_parent_gift extends Controller
         $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
         $data_msg = [
             "first"     => "您好，此次活动已经结束，你已经成功参与",
-            "keyword1"  => "成绩录入提醒",
-            "keyword2"  => "点击详情进行查看",
-            "keyword3"  => date('Y-m-d H:i:s'),
+            "keyword1"  => "双十一活动",
+            "keyword2"  => "2017.11.03 - 2017.11.10",
+            "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
+            "remark"    => "感谢您的参与",
+
         ];
         $url = "";
         $wx = new \App\Helper\Wx();

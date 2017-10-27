@@ -127,9 +127,11 @@ class teacher_money extends Controller
             if(in_array($r_val['type'],[E\Ereward_type::V_1,E\Ereward_type::V_2,E\Ereward_type::V_5])){
                 \App\Helper\Utils::check_isset_data($reward_ex['price'],$reward['money']);
 
-                if($r_val['type']==E\Ereward_type::V_2){
-                    
+                if($r_val['type']==E\Ereward_type::V_2 && $r_val['userid']>0){
+                    $stu_nick = $this->cache_get_student_nick($r_val['userid']);
+                    $reward['money_info'] .= "|".$stu_nick;
                 }
+
                 $reward["type"] = 1;
                 $reward_ex["reward_list"][] = $reward;
             }elseif(in_array($r_val['type'],[E\Ereward_type::V_3,E\Ereward_type::V_4])){
