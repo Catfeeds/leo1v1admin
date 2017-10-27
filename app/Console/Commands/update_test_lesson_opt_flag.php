@@ -46,8 +46,8 @@ class update_test_lesson_opt_flag extends cmd_base
                 $role = $item['role'];
                 $action = $item['action'];
                 $opt_type = $item['opt_type'];
+                $test_lesson_opt_flag = $item['test_lesson_opt_flag'];
 
-                $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
@@ -119,15 +119,15 @@ class update_test_lesson_opt_flag extends cmd_base
             $seller_info = [];
             $seller_wheat = [];
 
-            $on_wheat_flag = $task->t_lesson_info->field_get_value($info,'on_wheat_flag');
-            if($on_wheat_flag == 1){
-                continue;
-            }
             foreach($ret_info as $key=>$item){
                 $lessonid = $item['lessonid'];
                 $role = $item['role'];
                 $action = $item['action'];
                 $opt_type = $item['opt_type'];
+                $on_wheat_flag = $item['on_wheat_flag'];
+                if($on_wheat_flag == 1){
+                    continue;
+                }
 
                 if($info == $lessonid){
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生上下麦
