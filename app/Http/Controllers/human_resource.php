@@ -2013,7 +2013,17 @@ class human_resource extends Controller
 
     public function teacher_lecture_appointment_info(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(-7,0);
+        list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(-1,0,0,1,[
+            1 => array("la.answer_begin_time","入库时间"),
+            2 => array("ta.lesson_start", "面试时间"),
+        ],1);
+        // list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
+        //     1 => array("l.lesson_start","面试时间"),
+        //     2 => array("tl.add_time", "邀约时间"),
+        // ],1);
+
+
+        // list($start_time,$end_time) = $this->get_in_date_range(-7,0);
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);
@@ -2052,7 +2062,7 @@ class human_resource extends Controller
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid,
-            $second_train_status,$teacher_pass_type
+            $second_train_status,$teacher_pass_type,$opt_date_type
         );
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
