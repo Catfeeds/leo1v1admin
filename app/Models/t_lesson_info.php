@@ -9753,7 +9753,7 @@ lesson_type in (0,1) "
                                   t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
-        dd($sql);
+        
         return $this->main_get_row($sql);
         //return $this->get_handle_other_subject($info,$res);
     }
