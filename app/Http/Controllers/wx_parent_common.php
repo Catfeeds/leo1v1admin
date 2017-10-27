@@ -70,7 +70,7 @@ class wx_parent_common extends Controller
 
         $msg_num = \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
         $code = rand(1000,9999);
-        \App\Helper\Common::redis_set("JOIN_USER_PHONE_$code", $code );
+        \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
         $ret  = \App\Helper\Utils::sms_common($phone,10671029,[
             "code"  => $code,
             "index" => $msg_num

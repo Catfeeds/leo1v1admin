@@ -2843,7 +2843,8 @@ $(function(){
         /*if(data.contract_status>0){
             alert("已付款合同不能拆分");
             return;
-        }*/
+            }*/
+        var can_period_flag= data.can_period_flag;
         var title = "编辑子合同";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");
         $.do_ajax("/ss_deal/get_child_order_list",{
@@ -2873,11 +2874,20 @@ $(function(){
                         return;
                     }
 
-                    var id_child_order_type= $("<select> "+
-                                               "<option value=1>首付款</option> "+
-                                               "<option value=2>分期</option> "+
-                                               "<option value=3>其他</option> "+
-                                               "</select>");
+                    if(can_period_flag==1){
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=2>分期</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+                        
+                    }else{
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+ 
+                    }
                     var id_period_num= $("<select> "+
                                          "<option value=6>6期</option> "+
                                          "<option value=12>12期</option> "+
@@ -2964,11 +2974,21 @@ $(function(){
                         alert("已付款,不能修改!");
                         return;
                     }
-                    var id_child_order_type= $("<select> "+
-                                               "<option value=1>首付款</option> "+
-                                               "<option value=2>分期</option> "+
-                                               "<option value=3>其他</option> "+
-                                               "</select>");
+                    if(can_period_flag==1){
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=2>分期</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+                        
+                    }else{
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+                        
+                    }
+                   
                     var id_period_num= $("<select> "+
                                          "<option value=6>6期</option> "+
                                          "<option value=12>12期</option> "+
