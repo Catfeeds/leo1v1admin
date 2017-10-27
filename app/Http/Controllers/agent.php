@@ -519,6 +519,9 @@ class agent extends Controller
                     }
                 }
             }
+            if($info == 1508983623841){
+                dd($stu_login,$seller_login);
+            }
             foreach($stu_login as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
