@@ -122,25 +122,26 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-money_contract_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		userid_flag:	$('#id_userid_flag').val(),
+		contract_type:	$('#id_contract_type').val(),
+		contract_status:	$('#id_contract_status').val(),
+		is_test_user:	$('#id_is_test_user').val(),
+		studentid:	$('#id_studentid').val(),
+		check_money_flag:	$('#id_check_money_flag').val(),
+		origin:	$('#id_origin').val(),
+		from_type:	$('#id_from_type').val(),
+		account_role:	$('#id_account_role').val(),
+		sys_operator:	$('#id_sys_operator').val(),
+		need_receipt:	$('#id_need_receipt').val(),
+		userid_stu:	$('#id_userid_stu').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			userid_flag:	$('#id_userid_flag').val(),
-			contract_type:	$('#id_contract_type').val(),
-			contract_status:	$('#id_contract_status').val(),
-			is_test_user:	$('#id_is_test_user').val(),
-			studentid:	$('#id_studentid').val(),
-			check_money_flag:	$('#id_check_money_flag').val(),
-			origin:	$('#id_origin').val(),
-			from_type:	$('#id_from_type').val(),
-			account_role:	$('#id_account_role').val(),
-			sys_operator:	$('#id_sys_operator').val(),
-			need_receipt:	$('#id_need_receipt').val(),
-			userid_stu:	$('#id_userid_stu').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_is_test_user"));
 	Enum_map.append_option_list("boolean",$("#id_need_receipt"));

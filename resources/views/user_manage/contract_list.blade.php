@@ -663,12 +663,10 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-6 " style="display:none">
+            <div class="col-xs-12 col-md-6 " >
                 <div class="input-group  ">
-                    <span class="input-group-addon">1000元定金</span>
-                    <select  class="form-control field-pre-money">
-                        <option value="0" >否</option>
-                        <option value="1" >是</option>
+                    <span class="input-group-addon" >适用促销：</span>
+                    <select  class="form-control field-order_promotion_type">
                     </select>
                 </div>
             </div>
@@ -682,9 +680,12 @@
             </div>
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group  ">
-                    <span class="input-group-addon" style="color:blue;">适用促销：</span>
-                    <select  class="form-control field-order_promotion_type">
+                    <span class="input-group-addon" style="color:blue;">启用分期：</span>
+                    <select  class="form-control field-period_flag">
+                        <option value="0" >否</option>
+                        <option value="1" >是</option>
                     </select>
+
                 </div>
             </div>
         </div>

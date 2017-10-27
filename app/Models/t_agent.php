@@ -688,7 +688,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
         $sql= $this->gen_sql_new(
             "select a.id,a.phone,a.type,a.wx_openid,a.agent_level,"
-            ."aa.wx_openid pp_wx_openid,aa.agent_level pp_agent_level "
+            ."aa.wx_openid pp_wx_openid,aa.agent_level pp_agent_level, aa.id pp_id  "
             . " from %s a "
             . " left join %s aa on aa.id = a.parentid "
             . " where %s ",
