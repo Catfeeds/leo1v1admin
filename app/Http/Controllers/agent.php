@@ -506,7 +506,7 @@ class agent extends Controller
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
                     if(isset($stu_info[$key+1])){
-                        if($stu_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2 && isset($stu_info[$key+1])){//下一条为学生退出
+                        if($stu_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2){//下一条为学生退出
                             $stu_login[$key]['logout'] = $stu_info[$key+1];
                         }else{
                             $stu_login[$key]['logout'] = [];
@@ -520,7 +520,7 @@ class agent extends Controller
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//cc登录
                     $seller_login[$key]['login'] = $item;
                     if(isset($seller_info[$key+1])){
-                        if($seller_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2 && isset($seller_info[$key+1])){//下一条为cc退出
+                        if($seller_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2){//下一条为cc退出
                             $seller_login[$key]['logout'] = $seller_info[$key+1];
                         }else{
                             $seller_login[$key]['logout'] = [];
@@ -600,7 +600,7 @@ class agent extends Controller
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生上麦
                     $stu_wheat[$key]['login'] = $item;
                     if(isset($stu_wheat[$key+1])){
-                        if($stu_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2 && isset($stu_info[$key+1])){//下一条为学生下麦
+                        if($stu_info[$key+1]['opt_type'] == E\Etest_opt_type::V_2){//下一条为学生下麦
                             $stu_wheat[$key]['logout'] = $stu_info[$key+1];
                         }else{
                             $stu_wheat[$key]['logout'] = [];
@@ -614,7 +614,7 @@ class agent extends Controller
                 if($item['opt_type'] == E\Etest_opt_type_new::V_1){//cc上麦
                     $seller_wheat[$key]['login'] = $item;
                     if(isset($seller_info[$key+1])){
-                        if($seller_info[$key+1]['opt_type'] == E\Etest_opt_type_new::V_2 && isset($seller_info[$key+1])){//下一条为cc下麦
+                        if($seller_info[$key+1]['opt_type'] == E\Etest_opt_type_new::V_2){//下一条为cc下麦
                             $seller_wheat[$key]['logout'] = $seller_info[$key+1];
                         }else{
                             $seller_wheat[$key]['logout'] = [];
@@ -624,16 +624,13 @@ class agent extends Controller
                     }
                 }
             }
-
+            
             foreach($stu_wheat as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
                 $login_time_stu = $login_s['opt_time'];
                 $logout_time_stu = count($logout_s)>0?$logout_s['opt_time']:'';
                 $server_ip_stu = $login_s['server_ip'];
-                if($login_s['lessonid'] == 377680){
-                    dd($login_s,$logout_s);
-                }
 
                 foreach($seller_wheat as $item_c){
                     $login_c = $item_c['login'];
@@ -656,7 +653,6 @@ class agent extends Controller
                                 $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                             }
                         }
-
 
                         if($login_s['lessonid'] == 377680){
                             dd($time_differ,$login_time_stu,$logout_time_stu,$login_time_seller,$logout_time_seller);
