@@ -41,7 +41,6 @@ class SetTeacherMoney extends cmd_base
         $task = new \App\Console\Tasks\TeacherMoneyTask();
         $type = $this->option('type');
         $day  = $this->option('day');
-        \App\Helper\Utils::logger("set_teacher_money_day:".$day);
 
         if($type===null){
             $type = 2;

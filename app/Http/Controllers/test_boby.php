@@ -572,33 +572,8 @@ class test_boby extends Controller
         $sql = "select l.subject,l.userid,l.grade  from db_weiyi.t_lesson_info l force index(lesson_start) left join t_student_info s on s.userid=l.userid where l.lesson_start >=1504195200 and l.lesson_start<1508342400 and l.lesson_user_online_status <>2  and l.lesson_type<>2  and s.is_test_user=0";
 
         $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $subject_arr = [
-            1 =>[],
-            2 =>[],
-            3 =>[],
-            4 =>[],
-            5 =>[],
-            6 =>[],
-            7 =>[],
-            8 =>[],
-            9 =>[],
-            10 =>[],
-            11 =>[],
-        ];
-        $grade_arr = [
-            101 =>[],
-            102 =>[],
-            103 =>[],
-            104 =>[],
-            105 =>[],
-            106 =>[],
-            201 =>[],
-            202 =>[],
-            203 =>[],
-            301 =>[],
-            302 =>[],
-            303 =>[],
-        ];
+        $subject_arr = [1 =>[], 2 =>[], 3 =>[], 4 =>[], 5 =>[], 6 =>[], 7 =>[], 8 =>[], 9 =>[], 10 =>[], 11 =>[]];
+        $grade_arr = [101 =>[], 102 =>[], 103 =>[], 104 =>[], 105 =>[], 106 =>[], 201 =>[], 202 =>[], 203 =>[], 301 =>[], 302 =>[], 303 =>[]];
         $sub = array_keys($subject_arr);
         $grade = array_keys($grade_arr);
         $new = [];
@@ -650,78 +625,6 @@ class test_boby extends Controller
         $s = $this->table_end($s);
         return $s;
 
-    }
-
-    public function match_lesson_textbook(){
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-
-        $region_version = array_flip(E\Eregion_version::$desc_map);
-
-        // $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
-        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
-        $all_num   = 0;
-        $match_num = 0;
-        $stu_arr   = [];
-        $succ_arr  = [];
-        $match_arr = [];
-        foreach($list as $val){
-            $all_num++;
-            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
-                $stu_textbook = $region_version[$val['textbook']];
-            }else{
-                $stu_textbook = $val['editionid'];
-            }
-            $tea_textbook = explode(",",$val['teacher_textbook']);
-            if(in_array($stu_textbook,$tea_textbook)){
-                $match_num++;
-                if(!in_array($val['succ_userid'],$match_arr)){
-                    array_push($match_arr,$val['succ_userid']);
-                }
-            } else {
-                if(!in_array($val['succ_userid'],$succ_arr)){
-                    array_push($succ_arr,$val['succ_userid']);
-                }
-            }
-            if(!in_array($val['stu_userid'],$stu_arr)){
-                array_push($stu_arr,$val['stu_userid']);
-            }
-
-        }
-        $match_rate = $all_num>0?($match_num/$all_num):0;
-        $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
-        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
-        echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".$match_rate;
-        echo '<br>';
-        echo "总数:".count($stu_arr)." 匹配正确数: ".count($match_arr)." chenggong:".count($succ_arr);
-
-        exit;
-        return $this->pageView(__METHOD__,[],[
-            "all_num"    => $all_num,
-            "match_num"  => $match_num,
-            "match_rate" => round($match_rate*100,2)."%",
-            "succ_rate" => round($succ_rate*100,2)."%",
-            "match_succ_rate" => round($match_succ_rate*100,2)."%",
-        ]);
-    }
-
-    public function get_data() {
-        // $sql = 'select   t.realname,t.teacherid,sum( if (lesson_type= 2,lesson_count,0) ) as test ,sum( if (lesson_type in (0,1,3),lesson_count,0) ) as normal  from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
-        $sql = 'select   t.realname,t.teacherid,lesson_type,lesson_count from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
-
-
-        $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $new = [];
-        foreach($ret_info as $item) {
-            $tid = $item['teacherid'];
-            $new[$tid]['name'] = $item['realname'];
-            if ($item['lesson_type'] == 2) {
-                $new[$tid][ 2 ]['lesson_count'] = @$new[$tid][ 2 ]['lesson_count']+$item['lesson_count'];
-            } else {
-                $new[$tid][ 1 ]['lesson_count'] = @$new[$tid][ 1 ]['lesson_count']+$item['lesson_count'];
-            }
-        }
-        $th_arr = ['老师','常规课----money','试听课----money'];
-        dd($new);
     }
 
     public function select_and_add_stu_info(){
@@ -815,7 +718,7 @@ class test_boby extends Controller
     }
 
     public function send_msg_to_tea_wx(){
-        $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
+        // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
         return 1;
         $tea_list = [[
             'wx_openid' => 'oJ_4fxMltd-j8Pc4-GtJgll0i5SQ',
@@ -852,109 +755,31 @@ class test_boby extends Controller
         return 'ok';
     }
 
-    public function get_new_qq_group_html($grade_start,$grade_part_ex,$subject){
-        // 528851744 原答疑1群，人数已满
-
-        if ( $grade_start >= 5 ) {
-            $grade = 300;
-        } else if ($grade_start >= 3) {
-            $grade = 200;
-        } else if($grade_start > 0 ) {
-            $grade = 100;
-        }else if ($grade_part_ex == 1) {
-            $grade = 100;
-        }else if ($grade_part_ex == 2) {
-            $grade = 200;
-        }else if ($grade_part_ex == 3) {
-            $grade = 300;
-        }else{
-            $grade = 100;
-        }
-
-        $qq_answer = [
-            1  => ["答疑-语文","126321887","可咨询软件使用等疑问"],
-            2  => ["答疑-数学","29759286","可咨询软件使用等疑问"],
-            3  => ["答疑-英语","451786901","可咨询软件使用等疑问"],
-            99 => ["答疑-综合学科","513683916","可咨询软件使用等疑问"],
-        ];
-        $qq_group  = [
-            '100' => [
-                1=>[
-                    ["教研-小学语文","653665526","可获取教研资料"],
-                    ["排课-小学语文","387090573","可接试听课"]
-                ],2=>[
-                    ["教研-小学数学","644724773","可获取教研资料"],
-                    ["排课-小学数学","527321518","可接试听课"],
-                ],3=>[
-                    ["教研-小学英语","653621142","可获取教研资料"],
-                    ["排课-小学英语","456074027","可接试听课"],
-                ],4=>[
-                    ["教研-化学","652504426","可获取教研资料"],
-                    ["排课-化学","608323943","可接试听课"],
-                ],5=>[
-                    ["教研-物理","652500552","可获取教研资料"],
-                    ["排课-物理","534509273","可接试听课"],
-                ],99=>[
-                    ["教研-文理综合","652567225","可获取教研资料"],
-                    ["排课-文理综合","598180360","可接试听课"],
-                ],
-            ],
-            '200' => [
-                1=>[
-                    ["教研-初中语文","623708298","可获取教研资料"],
-                    ["排课-初中语文","465023367","可接试听课"]
-                ],2=>[
-                    ["教研-初中数学","373652928","可获取教研资料"],
-                    ["排课-初中数学","665840444","可接试听课"],
-                ],3=>[
-                    ["教研-初中英语","161287264","可获取教研资料"],
-                    ["排课-初中英语","463756557","可接试听课"],
-                ],4=>[
-                    ["教研-化学","652504426","可获取教研资料"],
-                    ["排课-化学","608323943","可接试听课"],
-                ],5=>[
-                    ["教研-物理","652500552","可获取教研资料"],
-                    ["排课-物理","534509273","可接试听课"],
-                ],99=>[
-                    ["教研-文理综合","652567225","可获取教研资料"],
-                    ["排课-文理综合","598180360","可接试听课"],
-                ]
-            ],
-            '300' => [
-                1=>[
-                    ["教研-高中语文","653689781","可获取教研资料"],
-                    ["排课-高中语文","573564364","可接试听课"]
-                ],2=>[
-                    ["教研-高中数学","644249518","可获取教研资料"],
-                    ["排课-高中数学","659192934","可接试听课"],
-                ],3=>[
-                    ["教研-高中英语","456994484","可获取教研资料"],
-                    ["排课-高中英语","280781299","可接试听课"],
-                ],4=>[
-                    ["教研-化学","652504426","可获取教研资料"],
-                    ["排课-化学","608323943","可接试听课"],
-                ],5=>[
-                    ["教研-物理","652500552","可获取教研资料"],
-                    ["排课-物理","534509273","可接试听课"],
-                ],99=>[
-                    ["教研-文理综合","652567225","可获取教研资料"],
-                    ["排课-文理综合","598180360","可接试听课"],
-                ]
-            ],
-        ];
-
-        $html="";
-        $list = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
-        $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
-        // dd($list);
-        foreach($list as $val){
-            $html .= "\n【LEO】".$val[0]."\n群号：".$val[1]."\n群介绍：".$val[2];
-        }
-        return $html;
-    }
-
     public function test_job(){
         //给老师发送微信推送
         // dispatch( new \App\Jobs\send_wx_to_teacher());
     }
+
+    public function lesson_count_user_list() {
+        $start_time  = strtotime(date("Y-m-01",time()) );
+        $end_time    = strtotime('+1 month', $start_time );
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $type        = $this->get_in_int_val("type",-1);
+        $grade       = $this->get_in_grade();
+        $page_num    = $this->get_in_page_num();
+
+        $type     = 2;
+        $ret_list = $this->t_student_info->get_user_list_by_lesson_count(
+            $page_num,$lesson_count_start,$lesson_count_end,$start_time,$end_time,$assistantid,$grade,$type
+        );
+        foreach($ret_list['list'] as &$item ){
+            $item["nick"]           = $this->cache_get_student_nick($item["userid"]);
+            $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
+            $item["assistant_nick"] = $this->cache_get_assistant_nick($item["assistantid"]);
+            \App\Helper\Utils::unixtime2date_for_item($item,"last_lesson_time");
+        }
+
+        return $this->Pageview(__METHOD__,$ret_list );
+    }
+
 }

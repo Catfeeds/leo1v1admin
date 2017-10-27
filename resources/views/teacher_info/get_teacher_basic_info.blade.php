@@ -257,17 +257,6 @@
                                                 @endif
                                             @endforeach
                                         </p>
-                                        @foreach($my_info['teacher_tags_arr'] as $val)
-                                            @if ($val == '逻辑型')
-                                                <p> <span style="color:#42B2FF">逻辑型:</span> 讲课思维严谨，讲题思路清晰，富有亲和力，善于运用多种教学方式，培养学生独立思考的能力，启发学生举一反三。</p>
-                                            @elseif ($val == '自然型')
-                                                <p> <span style="color:#36D68F">自然型:</span> 有丰富的教学讲课经验，可以快速了解掌握学生心理，选择有针对的方案进行教学，讲课过程思路清晰，自然流畅。</p>
-                                            @elseif ($val == '技巧型')
-                                                <p> <span style="color:#6C86E1">技巧型:</span> 根据每一个孩子的特点制定相应的教学计划，课堂上能吸引孩子的注意力，充分调动孩子的探索欲和求知欲，开扩孩子思维并使其养成良好的学习习惯。</p>
-                                            @elseif ($val == '情感型')
-                                                <p> <span style="color:#EF7D50">情感型:</span> 具有亲和力，开朗活泼，上课风趣幽默，深受学生的喜欢和家长的好评。能够提高孩子的学习积极性和主动性。</p>
-                                            @endif
-                                        @endforeach
                                     </div>
                                 </div>
                             </div>

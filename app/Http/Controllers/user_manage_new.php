@@ -2031,9 +2031,20 @@ class user_manage_new extends Controller
         }
 
 
+
         foreach($ret_info['list'] as &$item){
             if($item['url']){
                 $item['powerid_info'] = $this->get_powr_list($item['pid']);
+                $quanxian_arr = json_encode($item['powerid_info']);
+                // $group_list =
+                $group_list = [];
+                foreach($quanxian_arr as $v){
+                    $group_list[] = $v['groupid'];
+                }
+
+                // foreach(){
+
+                // }
             }
         }
 
@@ -2048,10 +2059,12 @@ class user_manage_new extends Controller
 
 
 
-    public function get_powr_list($powerid) // james
+    public function get_powr_list() // james
     {
+        // $powerid = 0;
         // $powerid = $this->get_in_int_val("powerid");
         $list    = $this->t_authority_group->get_all_list();
+        // dd($list);
         $ret = [];
         foreach ($list as &$item) {
             $p_list=preg_split("/,/", $item["group_authority"] );
@@ -2063,7 +2076,9 @@ class user_manage_new extends Controller
                 $ret[] = $item;
             }
         }
-        return $this->output_succ(["data"=> $ret]);
+
+        return json_encode($ret);
+        // return $this->output_succ(["data"=> $ret]);
     }
 
 

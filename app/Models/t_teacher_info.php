@@ -3952,6 +3952,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 面试通过
     public function get_interview_through_count($start_time, $end_time, $subject)
     {
+        $where_arr=[
+            ["confirm_time >= %u",$start_time,-1],
+            ["confirm_time <= %u",$end_time,-1],
+            "status=1",
+            "is_test_flag =0",
+            "account <> 'adrian'"
+        ];
+        if ($subject <= 3) {
+            $query = " sum(if(substring(grade,1,1)=1,1,0)) primary_num, "
+                      ." sum(if(substring(grade,1,1)=2,1,0)) middle_num,"
+                      ."sum(if(substring(grade,1,1)=3,1,0)) senior_num";
+        } else {
+            $query = " count(*) sum";
+        }
+
+        $sql = $this->gen_sql_new("select %s from %s where %s",
+                                  $query,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+
         $whereArr = [
             ["tf.trial_lecture_pass_time>%u", $start_time, 0],
             ["tf.trial_lecture_pass_time<%u", $end_time, 0],
@@ -4274,26 +4297,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_no_regular_test_lesson_num($start_time,$end_time){
-        $where_arr = [
-            't.is_test_user=0',
-            't.train_through_new=1',
+    public function get_new_train_through_teacher_info($through_time){
+        $where_arr=[
+            "train_through_new=1",
+            "is_test_user=0",
+            ["train_through_new_time>=%u",$through_time,0]
         ];
-        $sql = $this->gen_sql_new("select count(distinct t.teacherid) "
-                                  ." from %s t left join %s l on t.teacherid = l.teacherid and l.lesson_start >=%u and l.lesson_start <= %u and l.lesson_type in (0,1,3) and l.confirm_flag <>2 "
-                                  ." left join %s ll on t.teacherid = ll.teacherid and ll.lesson_start >=%u and ll.lesson_start <= %u and ll.lesson_type=2 and ll.confirm_flag <>2"
-                                  ." left join %s tss on ll.lessonid = tss.lessonid and tss.success_flag <2"
-                                  ." where %s and l.lessonid is null and tss.lessonid>0",
+        $sql = $this->gen_sql_new("select teacherid,realname,subject,"
+                                  ."second_subject,train_through_new_time"
+                                  ." from %s where %s",
                                   self::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  $start_time,
-                                  $end_time,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  $start_time,
-                                  $end_time,
-                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list_as_page($sql);
     }
+
+    
 } 
