@@ -2422,7 +2422,7 @@ class main_page extends Controller
             $identity_stu = $this->recruit_init([], '', '', 7);
             $identity_other = $this->recruit_init([], '', '', 8);
             foreach($tea_list as $item) {
-                var_dump($item);
+                //var_dump($item);
                 // $t_subject = $item['subject'];
                 // $t_grade = $item['grade'];
                 // $t_identity = E\Eidentity::$item['identity'];
@@ -2626,15 +2626,15 @@ class main_page extends Controller
     public function accumulation($info, $item) {
         $info['sum'] ++;
         // 新师参训
-        $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        if ($train_tea_sum) $info['train_tea_sum'] ++;
+        //$train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        //if ($train_tea_sum) $info['train_tea_sum'] ++;
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
         
         // 模拟试听总排课人数
         $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($imit_sum) $info['imit_sum']++;
-        $attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        if ($attend_sum) $info['attend_sum']++;
+        //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        //if ($attend_sum) $info['attend_sum']++;
         if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
         return $info;
     }
