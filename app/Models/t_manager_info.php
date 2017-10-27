@@ -2056,7 +2056,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ,self::DB_TABLE_NAME
                                   ,$group_str
         );
-
+        
         return $this->main_get_list($sql);
     }
 }
