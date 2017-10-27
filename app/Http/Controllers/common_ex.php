@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail ;
 class common_ex extends Controller
 {
     var $check_login_flag =false;
-
     public function book_free_lesson_with_code() {
         $code       = $this->get_in_str_val('code');
         $phone      = $this->get_in_phone();

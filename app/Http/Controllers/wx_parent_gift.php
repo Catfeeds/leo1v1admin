@@ -334,8 +334,56 @@ class wx_parent_gift extends Controller
         $parentid = $this->get_in_int_val('parentid');
 
         // 获取已中奖的总金额
+        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
+        if($has_get_money >1000){
+            return $this->output_err("谢谢参加!");
+        }
 
-        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian
+
+        $rate  = mt_rand(1,100);
+        $prize = 0;
+
+        if($rate>=10 && $rate<90){ //中奖金额 1.11
+            $prize = 111;
+        }elseif($rate>30 & $rate<=41){ // 中奖金额 11.11
+            $prize = 1111;
+        }elseif($rate>30 & $rate<=34){ // 中奖金额 31.11
+            $prize = 3111;
+        }elseif($rate>50 & $rate<=52){ // 中奖金额 51.11
+            $prize = 5111;
+        }elseif($rate>60 & $rate<=61){ // 中奖金额 71.11
+            $prize = 7111;
+        }elseif($rate>70 & $rate<=71){ // 中奖金额 91.11
+            $prize = 9111;
+        }elseif($rate>80 & $rate<=81){ // 中奖金额 111.11
+            $prize = 11111;
+        }
+
+
+        $ret = $this->t_agent->update_money($parentid, $prize);
+        $is_save = 0;
+        if($ret){
+            $is_save = 1;
+        }
+        $this->t_luck_draw_yxyx_for_ruffian->row_insert([
+            "luck_draw_time"     => time(),
+            "luck_draw_adminid" => $parentid,
+            "money" => $prize,
+            "is_deposit" => $is_save
+        ]);
+
+        /**
+           金额分别为
+           1.11（80%）
+           11.11（11%）
+           31.11（4%）
+           51.11（2%）
+           71.11（1%）
+           91.11（1%）
+           111.1（1%）
+           每天优先小金额
+           每日金额为1000元预算
+         */
 
     }
 

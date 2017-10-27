@@ -2154,4 +2154,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_list($sql);
     }
+
+
+    public function update_money($parentid, $prize){
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money + $prize "
+                                  ." where parentid = %d"
+                                  ,self::DB_TABLE_NAME
+                                  ,$parentid
+        );
+
+        return $this->main_update($sql);
+    }
 }
