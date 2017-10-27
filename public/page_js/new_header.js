@@ -2782,15 +2782,11 @@ function download_hide(){
 
 
 $(function () {
-    var no_copy = $('.common-table');
-
-    if ( no_copy.length ) {
-        no_copy.each(function(){
-            $(document).bind("contextmenu copy selectstart", function() {
-                // return false;
-            });
+    $('.common-table').each(function(){
+        $(this).bind("contextmenu copy selectstart", function() {
+            // return false;
         });
-    }
+    });
 });
 
 //countly_log("管理平台");
