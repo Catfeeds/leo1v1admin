@@ -1866,28 +1866,32 @@ class agent extends Controller
         //获取一级数据  --end---
 
         //获取二级数据  ---begin---
-        for($i=0;$i<count($colconel_result);$i++){
-            $group_list[] = $colconel_result[$i];
-            $group_result = $this->t_agent_group_members->get_group_info($colconel_result[$i]['colconel_id']);
-            foreach($group_result as &$item){
-                $item['colconel_name'] = $colconel_result[$i]['colconel_name'];
-                $item['order_money'] /= 100;
-                $group_list[] = $item;
+        if(@$colconel_result){
+            for($i=0;$i<count($colconel_result);$i++){
+                $group_list[] = $colconel_result[$i];
+                $group_result = $this->t_agent_group_members->get_group_info($colconel_result[$i]['colconel_id']);
+                foreach($group_result as &$item){
+                    $item['colconel_name'] = $colconel_result[$i]['colconel_name'];
+                    $item['order_money'] /= 100;
+                    $group_list[] = $item;
+                }
             }
         }
         // dd($group_list);
         //获取二级数据  ---end---
 
         //获取三级数据  ---begin---
-        for($i=0;$i<count($group_list);$i++){
-            $member_list[] = $group_list[$i];
-            if(@$group_list[$i]['is_group'] == 1){
-                $member_result = $this->t_agent_group_members->get_member_result($group_list[$i]['group_id']);
-                foreach($member_result as &$item){
-                    $item['colconel_name'] = $group_list[$i]['colconel_name'];
-                    $item['group_name'] = $group_list[$i]['group_name'];
-                    $item['order_money'] /= 100;
-                    $member_list[] = $item;
+        if(@$group_list){
+            for($i=0;$i<count($group_list);$i++){
+                $member_list[] = $group_list[$i];
+                if(@$group_list[$i]['is_group'] == 1){
+                    $member_result = $this->t_agent_group_members->get_member_result($group_list[$i]['group_id']);
+                    foreach($member_result as &$item){
+                        $item['colconel_name'] = $group_list[$i]['colconel_name'];
+                        $item['group_name'] = $group_list[$i]['group_name'];
+                        $item['order_money'] /= 100;
+                        $member_list[] = $item;
+                    }
                 }
             }
         }
@@ -1896,33 +1900,35 @@ class agent extends Controller
 
         //分配层级类标识 ---begin--
         $colconel_num = 1;
-        foreach($member_list as &$item){
-            if(@$item['is_colconel'] == 1){
-                $item['main_type_class'] = 'acmpus_id-'.$colconel_num;
-                $item['up_group_name_class'] = '';
-                $item['group_name_class'] = '';
+        if(@$member_list){
+            foreach($member_list as &$item){
+                if(@$item['is_colconel'] == 1){
+                    $item['main_type_class'] = 'acmpus_id-'.$colconel_num;
+                    $item['up_group_name_class'] = '';
+                    $item['group_name_class'] = '';
+                }
+                if(@$item['is_group'] == 1){
+                    $item['up_group_name_class'] = 'up_group_name-'.++$colconel_num;
+                    $item['group_name_class'] ='';
+                }
+                if(@$item['is_member'] == 1)
+                    $item['group_name_class'] = 'group_name-'.++$colconel_num;
             }
-            if(@$item['is_group'] == 1){
-                $item['up_group_name_class'] = 'up_group_name-'.++$colconel_num;
-                $item['group_name_class'] ='';
-            }
-            if(@$item['is_member'] == 1)
-                $item['group_name_class'] = 'group_name-'.++$colconel_num;
-        }
 
-        $acmpus='';
-        foreach($member_list as &$item){
-            if(@$item['main_type_class'])
-                $acmpus = $item['main_type_class'];
-            if(@$item['is_colconel'] != 1)
-                $item['main_type_class'] = $acmpus;
-        }
-        $up_group_name='';
-        foreach($member_list as &$item){
-            if(@$item['up_group_name_class'])
-                $up_group_name = $item['up_group_name_class'];
-            if(@$item['is_member'] ==1)
-                $item['up_group_name_class'] = $up_group_name;
+            $acmpus='';
+            foreach($member_list as &$item){
+                if(@$item['main_type_class'])
+                    $acmpus = $item['main_type_class'];
+                if(@$item['is_colconel'] != 1)
+                    $item['main_type_class'] = $acmpus;
+            }
+            $up_group_name='';
+            foreach($member_list as &$item){
+                if(@$item['up_group_name_class'])
+                    $up_group_name = $item['up_group_name_class'];
+                if(@$item['is_member'] ==1)
+                    $item['up_group_name_class'] = $up_group_name;
+            }
         }
         // dd($member_list);
         //分配层级类标识 ---end--
@@ -1948,7 +1954,7 @@ class agent extends Controller
         $agent_all_group_result['order_money'] = ($agent_member_result['order_money']+$agent_colconel_result['order_money'])/100;
         $agent_all_group_result['name'] = '总计';
         // dd($agent_all_group_result);
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($member_list),[
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info(@$member_list),[
             'agent_all_group_result' => $agent_all_group_result,
         ]);
     }
