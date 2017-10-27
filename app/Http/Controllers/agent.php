@@ -471,7 +471,6 @@ class agent extends Controller
         $ret_info = $task->t_test_lesson_opt_log->get_room_lesson_list($start_time,$end_time);
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
         $lessonid_arr = array_unique(array_column($ret_info,'lessonid'));
-        dd($roomid_arr,$lessonid_arr);
         foreach($roomid_arr as $info){//登录
             $stu_info = [];
             $stu_login = [];
@@ -489,7 +488,7 @@ class agent extends Controller
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
-                if($info == $roomid){
+                if($info == $roomid && $roomid==1508826899697){
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生登录退出
                         $stu_info[$key] = $item;
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
@@ -517,6 +516,7 @@ class agent extends Controller
                     }
                 }
             }
+            dd($stu_login,$seller_login);
             foreach($stu_login as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
