@@ -34,6 +34,7 @@
                     <td>发送给 </td>
                     <td>分类</td>
                     <td>内容 </td>
+                    <td>发送成功</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -44,6 +45,7 @@
                         <td>{{@$var["phone"]}}/{{@$var["nickname"]}} </td>
                         <td>{{@$var["agent_wx_msg_type_str"]}} </td>
                         <td>{{@$var["msg"]}} </td>
+                        <td>{{@$var["succ_flag_str"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

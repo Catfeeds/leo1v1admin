@@ -276,7 +276,6 @@ class wx_yxyx_common extends Controller
                 //"parentid" => $parentid,
                 "type"     => $type_new,
             ]);
-            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             return $this->output_succ("邀请成功!");
         }
         if($type == 1){//进例子
