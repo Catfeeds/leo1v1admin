@@ -519,9 +519,6 @@ class agent extends Controller
                     }
                 }
             }
-            if($info == 1508835634505){
-                dd($stu_login,$seller_login);
-            }
             foreach($stu_login as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
@@ -535,6 +532,7 @@ class agent extends Controller
                     $login_time_seller = $login_c['opt_time'];
                     $logout_time_seller = $login_c['opt_time'];
                     $server_ip_seller = $login_c['server_ip'];
+
                     if($server_ip_stu != $server_ip_seller){
                         $time_differ = 0;
                         if($logout_time_stu == ''){//学生无退出
@@ -545,6 +543,9 @@ class agent extends Controller
                             }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先退出
                                 $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                             }
+                        }
+                        if($info == 1508835634505){
+                            dd($time_differ);
                         }
                         if($time_differ>300){//不同ip,同时在线>5分钟
                             $task->t_seller_student_new->field_update_list($userid,[
