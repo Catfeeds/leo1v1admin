@@ -3,6 +3,7 @@ namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Artisan;
 use App\Enums as  E;
 use \App\Libs;
 

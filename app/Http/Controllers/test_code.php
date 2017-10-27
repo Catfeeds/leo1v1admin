@@ -296,16 +296,16 @@ class test_code extends Controller
             $user_agent = json_decode($val['user_agent'],true);
             $os         = substr($user_agent["device_model"],0,4);
             $version    = $user_agent["version"];
-            // if($os=="Win" || $os=="Mac"){
-            //     if($version != "3.1.0"){
-            //         $push_list[] = $val;
-            //     }
-            // }
-            if($os=="iPad"){
-                if($version != "5.0.4"){
+            if($os=="Win" || $os=="Mac"){
+                if($version == "4.2.0"){
                     $push_list[] = $val;
                 }
             }
+            // if($os=="iPad"){
+            //     if($version != "5.0.4"){
+            //         $push_list[] = $val;
+            //     }
+            // }
         }
 
         echo "<pre>";
