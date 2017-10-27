@@ -2401,7 +2401,6 @@ class main_page extends Controller
         if ($history_data) { // 没有历史数据
             // 面试通过人数
             $tea_list = $this->t_teacher_flow->get_tea_list($start_time, $end_time);
-            dd($tea_list);
             $primary_china = $this->recruit_init([], 1, 100);
             $middle_china = $this->recruit_init([], 1, 200);
             $high_china = $this->recruit_init([], 1, 300);
