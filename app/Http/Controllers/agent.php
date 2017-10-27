@@ -489,7 +489,7 @@ class agent extends Controller
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
-                if($info == $roomid && $roomid == 1508835634505){
+                if($info == $roomid && $roomid == 1508983623841){
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生登录退出
                         $stu_info[$key] = $item;
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
@@ -533,7 +533,7 @@ class agent extends Controller
                     $logout_time_seller = $logout_c['opt_time'];
                     $server_ip_seller = $login_c['server_ip'];
 
-                    // if($server_ip_stu != $server_ip_seller){
+                    if($server_ip_stu != $server_ip_seller){
                         $time_differ = 0;
                         if($logout_time_stu == ''){//学生无退出
                             $time_differ = $logout_time_seller-$login_time_stu;
@@ -544,7 +544,7 @@ class agent extends Controller
                                 $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                             }
                         }
-                        if($info == 1508835634505){
+                        if($info == 1508983623841){
                             dd($time_differ,date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller));
                         }
                         if($time_differ>300){//不同ip,同时在线>5分钟
@@ -552,7 +552,7 @@ class agent extends Controller
                                 'test_lesson_opt_flag'=>1,
                             ]);
                         }
-                    // }
+                    }
                 }
             }
         }
