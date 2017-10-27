@@ -33,7 +33,7 @@ class update_test_lesson_opt_flag extends cmd_base
         // $ret_info = $task->t_test_lesson_opt_log->get_room_list($start_time,$end_time);
         $ret_info = $task->t_test_lesson_opt_log->get_room_lesson_list($start_time,$end_time);
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
-        $roomid_arr = array_unique(array_column($ret_info,'lessonid'));
+        $lessonid_arr = array_unique(array_column($ret_info,'lessonid'));
         foreach($roomid_arr as $info){//登录
             $stu_login = [];
             $stu_logout = [];
@@ -111,14 +111,14 @@ class update_test_lesson_opt_flag extends cmd_base
                 $login_time_seller = $seller_login['opt_time'];
                 $logout_time_seller = $seller_logout['opt_time'];
                 $server_ip_seller = $seller_logout['server_ip'];
-                $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
-                if($server_ip_stu != $server_ip_seller && $test_lesson_opt_flag==0){
+                $on_wheat_flag = $task->t_lesson_info->field_get_value($info,'on_wheat_flag');
+                if($server_ip_stu != $server_ip_seller && $on_wheat_flag==0){
                     if($logout_time_seller>=$login_time_stu && $logout_time_seller<=$logout_time_stu){//销售先下麦
                         $time_differ = $logout_time_seller-max($login_time_stu,$login_time_seller);
                     }elseif($login_time_seller>=$login_time_stu && $login_time_seller<$logout_time_stu){//学生先上麦
                         $time_differ = min($logout_time_stu,$logout_time_seller)-$login_time_seller;
                     }
-                    if($time_differ>300){//不同ip,同时在线>5分钟,未测试成功
+                    if($time_differ>300){//不同ip,同时上麦>5分钟,未上麦
                         $task->t_lesson_info->field_update_list($info,[
                             'on_wheat_flag'=>1,
                         ]);
