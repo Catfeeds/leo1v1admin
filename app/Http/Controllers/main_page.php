@@ -1571,6 +1571,7 @@ class main_page extends Controller
 
         }
 
+        $entry_total = 0;
         foreach($zs_entry_list as &$uy){
             $uid      = $uy["uid"];
             $uy["xxyw"] = @$entry_pass[1][$uid]["primary_num"];
@@ -1590,10 +1591,8 @@ class main_page extends Controller
             $uy["gzsw"] = @$entry_pass[6][$uid]["senior_num"];
             $uy["kx"] = @$entry_pass[10][$uid]["primary_num"]+@$entry_pass[10][$uid]["middle_num"]+@$entry_pass[10][$uid]["senior_num"];
             $uy["other"] = @$entry_pass[7][$uid]["primary_num"]+@$entry_pass[7][$uid]["middle_num"]+@$entry_pass[7][$uid]["senior_num"]+@$entry_pass[8][$uid]["primary_num"]+@$entry_pass[8][$uid]["middle_num"]+@$entry_pass[8][$uid]["senior_num"]+@$entry_pass[9][$uid]["primary_num"]+@$entry_pass[9][$uid]["middle_num"]+@$entry_pass[9][$uid]["senior_num"];
-
+            $entry_total += $uy['xxyw'] + $uy['czyw'] + $uy['gzyw'] + $uy['xxsx'] + $uy['czsx'] + $uy['gzsx'] + $uy['xxyy'] + $uy['czyy'] + $uy['gzyy'] + $uy['czhx'] + $uy['gzhx'] + $uy['czwl'] + $uy['gzwl'] + $uy['czsw'] + $uy['gzsw'] + $uy['kx'] + $uy['other'];
         }
-
-        $entry_total = 100;
 
         // print_r($zs_video_list);
         //print_r($zs_one_list);
