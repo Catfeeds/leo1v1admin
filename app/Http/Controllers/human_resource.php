@@ -2013,7 +2013,7 @@ class human_resource extends Controller
 
     public function teacher_lecture_appointment_info(){
         $this->switch_tongji_database();
-        list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(-1,0,0,1,[
+        list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(-1,0,0,[
             1 => array("la.answer_begin_time","入库时间"),
             2 => array("ta.lesson_start", "面试时间"),
         ],1);
