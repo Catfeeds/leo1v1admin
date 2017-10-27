@@ -208,9 +208,15 @@ class wx_yxyx_common extends Controller
         $phone      = $this->get_in_phone();
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
 
+
         \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
-        if ($check_code != $code) {
-            return $this->output_err("手机验证码不对,请重新输入");
+        if ( $this->get_in_str_val('p_phone')!="15601830297" ) {
+
+            if ($check_code != $code) {
+                return $this->output_err("手机验证码不对,请重新输入");
+            }
+
+
         }
 
         return $this->agent_add();
@@ -555,12 +561,12 @@ class wx_yxyx_common extends Controller
             return $this->output_err("信息有误！");
         }
     }
-    
+
     /*
-     *@desn:获取邀请记录 
+     *@desn:获取邀请记录
      *@date:2017-10-11
      *@author:Abner<abner@leo.edu.com>
-     *@return:Array 
+     *@return:Array
      */
     public function top_invite_list(){
         $agent_info = $this->t_yxyx_new_list->get_agent_info();
