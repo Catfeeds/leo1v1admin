@@ -11,7 +11,7 @@ class test_command extends Command
      *
      * @var string
      */
-    protected $signature = 'command:test_command';
+    protected $signature = 'command:test_command {--type=}';
 
     /**
      * The console command description.
@@ -38,6 +38,11 @@ class test_command extends Command
     public function handle()
     {
         //
-        echo "succ";
+        $type = $this->option("type");
+        if($type==1){
+            return "succ";
+        }else{
+            return "error";
+        }
     }
 }

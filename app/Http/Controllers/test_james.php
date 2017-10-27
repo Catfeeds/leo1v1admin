@@ -818,7 +818,19 @@ class test_james extends Controller
 
 
     public function dd(){
+        $group_arr = ['12','19'];
 
+
+        foreach($group_arr as $item){
+            $where_arr[] = "permission like %$item%";
+        }
+
+        $aaaa= implode(' or ',$where_arr);
+
+        dd($aaaa);
+
+        $a = $this->t_manager_info->get_user_list($b);
+        dd($a);
         $a = [
             ['a'=>1,'b'=>2],
             ['v'=>1,'d'=>2],

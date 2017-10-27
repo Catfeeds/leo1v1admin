@@ -1173,7 +1173,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql,function($item){
             return $item["uid"];
         });
- 
+
     }
 
 
@@ -1336,9 +1336,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_adminid_list_by_account_role_new($account_role,$month,$history_flag=0){        
+    public function get_adminid_list_by_account_role_new($account_role,$month,$history_flag=0){
         $where_arr=[];
-        $where_arr[]=["n.main_type=%u",$account_role,-1];      
+        $where_arr[]=["n.main_type=%u",$account_role,-1];
         if($history_flag==0){
             $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
                                       " from %s m left join %s a on m.phone = a.phone ".
@@ -1365,7 +1365,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                       $month,
                                       $where_arr
             );
-   
+
         }
         return  $this->main_get_list($sql,function($item){
             return $item["uid"];
@@ -2048,15 +2048,25 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
 
-    public function get_user_list($group_str){
-        $where_arr = [
-            ['permission in %s',$group_str]
-        ];
+    public function get_user_list($group_arr){
+        // $where_arr = ["permission in ( $group_str )"];
+
+        foreach($group_arr as $item){
+            $where_arr[] = "permission like %$item%";
+        }
+
+
+        foreach($group_arr as $item){
+            $where_arr[] = "permission like %$item%";
+        }
+
+        $group_str= implode(' or ',$where_arr);
+
 
         $sql = $this->gen_sql_new("  select uid as adminid, account as name from %s m "
-                                  ." where %s"
+                                  ." where permission %u"
                                   ,self::DB_TABLE_NAME
-                                  ,$where_arr
+                                  ,$group_str
         );
 
         return $this->main_get_list($sql);

@@ -2042,8 +2042,9 @@ class user_manage_new extends Controller
                 }
                 $item['group_str'] = implode(',',$group_list);
 
+                dd($group_list);
 
-                $item['user_list'] = $this->t_manager_info->get_user_list($item['group_str']);
+                $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
 
             }
         }

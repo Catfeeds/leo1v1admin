@@ -468,6 +468,7 @@ class agent extends Controller
         $end_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
         $start_time = $end_time - 24*3600*3;
         $task = new \App\Console\Tasks\TaskController();
+        // $ret_info = $task->t_test_lesson_opt_log->get_room_list($start_time,$end_time);
         $ret_info = $task->t_test_lesson_opt_log->get_room_lesson_list($start_time,$end_time);
         $roomid_arr = array_unique(array_column($ret_info,'roomid'));
         $lessonid_arr = array_unique(array_column($ret_info,'lessonid'));
@@ -483,18 +484,20 @@ class agent extends Controller
                 $role = $item['role'];
                 $action = $item['action'];
                 $opt_type = $item['opt_type'];
+                $test_lesson_opt_flag = $item['test_lesson_opt_flag'];
 
-                $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
-                if($info == $roomid && $roomid==1508826899697){
+                if($info == $roomid && $roomid == 1508826899697){
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生登录退出
                         $stu_info[$key] = $item;
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
                         $seller_info[$key] = $item;
+                        dd($item);
                     }
                 }
+                dd($seller_info);
             }
             dd($stu_info,$seller_info);
             foreach($stu_info as $key=>$item){
@@ -517,7 +520,6 @@ class agent extends Controller
                     }
                 }
             }
-            dd($stu_login,$seller_login);
             foreach($stu_login as $item){
                 $login_s = $item['login'];
                 $logout_s = $item['logout'];
@@ -551,21 +553,22 @@ class agent extends Controller
                 }
             }
         }
+
         foreach($lessonid_arr as $info){//上麦
             $stu_info = [];
             $stu_wheat = [];
             $seller_info = [];
             $seller_wheat = [];
 
-            $on_wheat_flag = $task->t_lesson_info->field_get_value($info,'on_wheat_flag');
-            if($on_wheat_flag == 1){
-                continue;
-            }
             foreach($ret_info as $key=>$item){
                 $lessonid = $item['lessonid'];
                 $role = $item['role'];
                 $action = $item['action'];
                 $opt_type = $item['opt_type'];
+                $on_wheat_flag = $item['on_wheat_flag'];
+                if($on_wheat_flag == 1){
+                    continue;
+                }
 
                 if($info == $lessonid){
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生上下麦
