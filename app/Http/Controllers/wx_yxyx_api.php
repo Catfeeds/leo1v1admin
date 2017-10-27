@@ -739,4 +739,24 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
 
     }
+    //@desn:我的收入页面
+    public function my_income_info(){
+        $agent_id   = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        
+        $list = [
+            "all_money" => $agent_info["all_yxyx_money"]/100,
+            "open_moeny" => $agent_info["all_open_cush_money"]/100,
+            "all_have_cush_money" => $agent_info["all_have_cush_money"]/100,
+        ];
+
+        //获取提现中金额
+        $list['is_cash_money'] = $this->t_agent_cash->get_is_cashing_money($agent_id)/100;
+        return $this->output_succ(['income_info'=>$list]);
+    }
 }

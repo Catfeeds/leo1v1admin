@@ -124,3 +124,9 @@ message user_center_list{
   float all_money = 4;//总收入
   uint32 child_all_count = 5;//邀请个数
 }
+message income_info{
+  float all_money = 1;//全部金额
+  float open_money = 2;//可体现金额
+  float all_have_cash_money = 3;//已提现金额
+  float is_cash_money = 4;//正在体现金额
+}
