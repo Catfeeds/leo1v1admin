@@ -1637,6 +1637,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                     "master_assign_time"=>time(),
                     "type"=>0
                 ]);
+                $old_type = $this->get_type($userid);
+                $this->task->t_student_type_change_list->row_insert([
+                    "userid"    =>$userid,
+                    "add_time"  =>time(),
+                    "type_before" =>$old_type,
+                    "type_cur"    =>0,
+                    "change_type" =>1,
+                    "adminid"     =>0,
+                    "reason"      =>"新签续费"
+                ]);
+
                 if($r){
                     $ass_account = $this->t_manager_info->get_account($master_adminid);
                     $this->t_manager_info->send_wx_todo_msg  (
@@ -1660,6 +1671,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             $r = $this->field_update_list($userid,[
                 "type"=>0
             ]);
+            $old_type = $this->get_type($userid);
+            $this->task->t_student_type_change_list->row_insert([
+                "userid"    =>$userid,
+                "add_time"  =>time(),
+                "type_before" =>$old_type,
+                "type_cur"    =>0,
+                "change_type" =>1,
+                "adminid"     =>0,
+                "reason"      =>"新签续费"
+            ]);
+
 
         }
 
