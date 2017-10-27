@@ -46,7 +46,7 @@ class get_agent_parent_id extends Command
         $paret_map=$task->t_agent->get_parent_map();
         foreach($paret_map as $id => $v ) {
             list( $error_flag, $id_map )=$this->get_id($id, $paret_map);
-            if ($error_flag) {
+            if (!$error_flag) {
                 echo "id $id: error_flag:$error_flag, list:  ". join(",", array_keys($id_map) ). "\n";
             }
         }

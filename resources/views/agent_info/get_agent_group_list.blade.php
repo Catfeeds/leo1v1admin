@@ -23,39 +23,12 @@
 <section class="content li-section">
 
     <div class="row">
-
-        <div class="col-xs-12 col-md-4">
-            <div class="input-group "  >
-                <span >日期</span>
-                <input type="text" id="id_start_date" class="opt-change form-control input-group-addon  "/>
-                <span >-</span>
-                <input type="text" id="id_end_date" class="opt-change form-control input-group-addon  "/>
-            </div>
-        </div>
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">课程类型</span>
-                <select class="opt-change form-control" id="id_lesson_type" >
-                    <option value="-1">[全部]</option>
-                    <option value="0">1对1</option>
-                    <option value="2">试听课 </option>
-                    <option value="1001">公开课 </option>
-                    <option value="3001">小班课</option>
-                    <option value="1100">培训课程</option>
-                </select>
+                <button id="id_add" class="btn btn-primary"> 建立优学优享团</button>
             </div>
         </div>
-        <div class="col-xs-12 col-md-2">
-            <div class="input-group">
-                <span >学生</span>
-                <select id="id_student" class="opt-change">
-                    <option value="-1">[全部]</option>
-                    @foreach($student_list as $val)
-                        <option value="{{$val['userid']}}">{{$val['nick']}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+            
     </div>
     <hr/>
     <table class="common-table">
@@ -69,23 +42,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    {{@$table_data_list["group_name"]}}<br/>
-                    {{@$table_data_list["member_num"]}}<br/>
-                    {{@$table_data_list["create_time"]}}<br/>
-                    {{@$table_data_list["colonel_info"]}}<br/>
-                </td>
-                
-            </tr>
+            @foreach ( $table_data_list as $var )
+                <tr>
+                    <td>{{$var["group_name"]}} </td>
+                    <td>{{$var["member_num"]}} </td>
+                    <td>{{$var["create_time"]}} </td>
+                    <td>{{$var["phone"]}}/{{$var["nickname"]}} </td>
+                    <td>
+                        <div
+                            {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                        >
+                            <a class="fa fa-edit opt-edit"  title="编辑团队名称"> </a>
+
+                            <a class="fa-user opt-user " title="添加团队成员" ></a>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
-    </table>
-    
+     </table>
+        @include("layouts.page")    
 </section>
 
 @endsection
-
-<div class="row">
-    <div class="col-xs-6 col-md-2">
-    </div>
-</div>

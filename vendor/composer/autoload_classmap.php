@@ -6,9 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+    'AddVotesToTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_22_151255_add_votes_to_t_agent_group_members.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
-    'CreateTAgentGroupRelation' => $baseDir . '/database/migrations/2017_10_20_145038_create_t_agent_group_relation.php',
     'CreateTRevisitAssessInfo' => $baseDir . '/database/migrations/2017_10_11_100938_create_t_revisit_assess_info.php',
     'CreateTRevisitCallCount' => $baseDir . '/database/migrations/2017_10_12_152226_create_t_revisit_call_count.php',
     'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',

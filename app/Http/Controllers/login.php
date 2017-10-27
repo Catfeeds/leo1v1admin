@@ -562,7 +562,7 @@ class login extends Controller
         $sess['aid']  = $agentid;
         $sess["acc"]  = $agentid;
         $sess['nickname'] = $tea_item["nickname"] ;
-        $sess['headimgurl '] = $tea_item["headimgurl"] ;
+        $sess['headimgurl'] = $tea_item["headimgurl"] ;
         //$sess['role'] = E\Erole::V_TEACHER;
 
         session($sess);

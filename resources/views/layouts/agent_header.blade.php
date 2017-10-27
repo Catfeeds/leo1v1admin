@@ -85,20 +85,20 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="$$$$$" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">$$$$</span>
+                                    <img src="{{$_headimgurl}}" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">{{$_nickname}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="$$$$" class="img-circle" alt="User Image">
+                                        <img src="{{$_headimgurl}}" class="img-circle" alt="User Image">
                                     </li>
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat" id="id_system_logout_teacher" >退出系统</a>
+                                            <a href="#" class="btn btn-default btn-flat" id="id_system_logout_agent" >退出系统</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -114,8 +114,9 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu tree" data-widget="tree">
 
-                        <li><a href="/teacher_info/index"><i class="fa fa-clipboard"></i> <span> 团队信息 </span> </a></li>
-                        <li><a href="/teacher_info/current_course"><i class="fa fa-calendar-check-o"></i> <span> 团队明细 </span> </a></li>
+                        <li><a href="/agent_info/index"><i class="fa fa-clipboard"></i> <span> 团队信息 </span> </a></li>
+                        <li><a href="/agent_info/group_info"><i class="fa fa-calendar-check-o"></i> <span> 团队统计 </span> </a></li>
+                        <li><a href="/agent_info/members_info"><i class="fa fa-calendar-check-o"></i> <span> 团队明细 </span> </a></li>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
