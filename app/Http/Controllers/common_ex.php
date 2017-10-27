@@ -19,7 +19,7 @@ class common_ex extends Controller
         if($type=="zhishiku"){
             \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
             if ($check_code != $code) {
-               // return $this->output_err("手机验证码不对,请重新输入");
+                return $this->output_err("手机验证码不对,请重新输入");
             }
             return $this->share_knowledge();
         }else{
@@ -72,7 +72,7 @@ class common_ex extends Controller
         }
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         if($userid){
-            return $this->output_err("此号码已经注册!");
+            //return $this->output_err("此号码已经注册!");
         }
         if($p_phone != ''){
             $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);

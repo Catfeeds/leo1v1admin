@@ -330,7 +330,7 @@ class wx_parent_gift extends Controller
     }
 
 
-    public function do_(){ // 抽奖
+    public function do_luck_draw_yxyx(){ // 抽奖
 
     }
 
