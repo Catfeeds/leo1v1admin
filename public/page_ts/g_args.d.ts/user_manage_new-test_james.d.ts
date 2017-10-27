@@ -20,6 +20,8 @@ interface RowData {
 	level	:any;
 	has_power_flag	:any;
 	url	:any;
+	user_info	:any;
+	url_name	:any;
 }
 
 /*

@@ -966,6 +966,10 @@ $(function(){
 
         var reload_present_info = function() {
             var order_promotion_type=  $order_promotion_type.val();
+            if (!($lesson_count.val() >0) ) {
+                return;
+            }
+
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
                 competition_flag:$competition_flag.val(),

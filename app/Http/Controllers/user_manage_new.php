@@ -2074,15 +2074,16 @@ class user_manage_new extends Controller
             
         }
 
-        foreach($ret_info as &$v){
+        foreach($ret_info['list'] as $i=> &$v){
             if(empty(@$v['url'])){
-                unset($v);
+                // dd($v);
+                unset($ret_info['list'][$i]);
             }
         }
 
         // dd($group_list);
 
-        dd($ret_info);
+        // dd($ret_info);
 
         return $this->Pageview(__METHOD__,$ret_info);
     }
