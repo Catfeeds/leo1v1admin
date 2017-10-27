@@ -819,6 +819,7 @@ class test_james extends Controller
 
     public function dd(){
 
+        $this->t_manager_info->get_user_list($item['group_str']))
         $a = [
             ['a'=>1,'b'=>2],
             ['v'=>1,'d'=>2],
