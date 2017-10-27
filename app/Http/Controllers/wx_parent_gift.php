@@ -342,6 +342,19 @@ class wx_parent_gift extends Controller
         $rate  = mt_rand(1,100);
         $prize = 0;
 
+        /**
+           金额分别为
+           1.11（80%）
+           11.11（11%）
+           31.11（4%）
+           51.11（2%）
+           71.11（1%）
+           91.11（1%）
+           111.1（1%）
+           每天优先小金额
+           每日金额为1000元预算
+        */
+
         if($rate>=10 && $rate<90){ //中奖金额 1.11
             $prize = 111;
         }elseif($rate>30 & $rate<=41){ // 中奖金额 11.11
@@ -392,28 +405,14 @@ class wx_parent_gift extends Controller
             "keyword2"  => "2017.11.03 - 2017.11.10",
             "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
             "remark"    => "感谢您的参与",
-
         ];
         $url = "";
-        $wx = new \App\Helper\Wx();
-
+        // $send_openid = $this->
         $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
 
 
         return $this->output_succ(["money"=>$prize]);
 
-        /**
-           金额分别为
-           1.11（80%）
-           11.11（11%）
-           31.11（4%）
-           51.11（2%）
-           71.11（1%）
-           91.11（1%）
-           111.1（1%）
-           每天优先小金额
-           每日金额为1000元预算
-         */
 
     }
 
