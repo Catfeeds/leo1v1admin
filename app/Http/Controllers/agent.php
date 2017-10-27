@@ -490,15 +490,15 @@ class agent extends Controller
                     continue;
                 }
                 if($info == $roomid && $roomid == 1508826899697){
-                    dd($roomid,$role,$action);
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生登录退出
                         $stu_info[$key] = $item;
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
                         $seller_info[$key] = $item;
                     }
                 }
+                dd($seller_info);
             }
-            // dd($stu_info,$seller_info);
+            dd($stu_info,$seller_info);
             foreach($stu_info as $key=>$item){
                 if($item['opt_type'] == E\Etest_opt_type::V_1){//学生登录
                     $stu_login[$key]['login'] = $item;
