@@ -10,6 +10,9 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <button id="id_get_money" class="btn btn-primary">刷新</button>
+                </div >
                 
             </div>
         </div>
@@ -35,13 +38,19 @@
                         <td>{{$var["realname"]}} </td>
                         <td>{{$var["train_through_new_time_str"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="normal_lesspn_num"></td>
+                        <td class="test_lesspn_num"></td>
+                        <td class="inter_score"></td>
+                        <td class="record_score"></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <div class="row-data" data-teacherid="{{$var["month_start"]}}" >
+                                    <a class="fa fa-list course_plan" title="按课程包排课"> </a>
+                                </div>
+                               
+
                             </div>
                         </td>
                     </tr>
