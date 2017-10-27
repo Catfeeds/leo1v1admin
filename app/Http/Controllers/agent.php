@@ -489,8 +489,8 @@ class agent extends Controller
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
+                dd($info,$roomid,$test_lesson_opt_flag);
                 if($info == $roomid && $roomid == 1508826899697){
-                    dd($info,$roomid);
                     if($role == E\Erole::V_1 && $action == E\Eaction::V_1){//学生登录退出
                         $stu_info[$key] = $item;
                     }elseif($role == E\Erole::V_6 && $action == E\Eaction::V_1){//cc登录退出
