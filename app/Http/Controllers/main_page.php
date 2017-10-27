@@ -2423,6 +2423,7 @@ class main_page extends Controller
             $identity_other = $this->recruit_init([], '', '', 8);
 
             foreach($tea_list as $item) {
+                dd($item);
                 // 语文
                 // if ($item['subject'] == 1) {
                 //     if ($item['grade'] == 100) {
