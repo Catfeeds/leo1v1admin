@@ -818,6 +818,15 @@ class test_james extends Controller
 
 
     public function dd(){
+        $b = '29,30';
+        $a = $this->t_manager_info->get_user_list($b);
+        dd($a);
+        $a = [
+            ['a'=>1,'b'=>2],
+            ['v'=>1,'d'=>2],
+        ];
+
+        dd(json_encode($a));
 
         $powerid = 0;
         $list    = $this->t_authority_group->get_all_list();

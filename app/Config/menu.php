@@ -362,6 +362,8 @@ class menu{
                     ["power_id"=>71, "name"=>"微信推送消息",   "url"=>"/agent/get_wx_login_list"],
 
                     ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
+                    ["power_id"=>90, "name"=>"优学优享团",   "url"=>"/agent/agent_group"],
+                    ["power_id"=>91, "name"=>"团队统计",   "url"=>"/agent/agent_group_statistics"],
                 ]],
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
             ]],
