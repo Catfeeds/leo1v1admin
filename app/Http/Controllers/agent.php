@@ -526,7 +526,7 @@ class agent extends Controller
                 $logout_time_stu = count($logout_s)>0?$logout_s['opt_time']:'';
                 $server_ip_stu = $login_s['server_ip'];
 
-                foreach($seller as $item_c){
+                foreach($seller_login as $item_c){
                     $login_c = $item_c['login'];
                     $logout_c = $item_c['logout'];
                     $login_time_seller = $login_c['opt_time'];
