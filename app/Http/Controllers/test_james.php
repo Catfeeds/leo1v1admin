@@ -817,6 +817,14 @@ class test_james extends Controller
     }
 
 
+    public function dd(){
+        $a = '
+{groupid: "52", group_name: "02 非金钱管理账户", create_time: "1456294562", del_flag: "0", has_power: 0}';
+// {groupid: "52", group_name: "02 非金钱管理账户", create_time: "1456294562", del_flag: "0", has_power: 0}';
+
+        dd(json_decode($a,true));
+    }
+
 
 
 

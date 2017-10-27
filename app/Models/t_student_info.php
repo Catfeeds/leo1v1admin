@@ -1032,8 +1032,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $page_num,$lesson_count_start,$lesson_count_end,$lesson_start,$lesson_end,$assistantid,$grade,$type
     ){
         $where_arr = [
-            ["s.lesson_count_left >=%u",$lesson_count_start,-1 ],
-            ["s.lesson_count_left <=%u",$lesson_count_end,-1 ],
+            // ["s.lesson_count_left >=%u",$lesson_count_start,-1 ],
+            // ["s.lesson_count_left <=%u",$lesson_count_end,-1 ],
             ["s.last_lesson_time >=%u",$lesson_start,-1 ],
             ["s.last_lesson_time <=%u",$lesson_end,-1 ],
             ["s.assistantid=%u", $assistantid, -1] ,
@@ -1067,12 +1067,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         // return $this->main_get_list_by_page($sql,$page_num);
 
         $have_flag="";
-        if($type==1){
-            $where_arr[]="(r.apply_time is null or r.apply_time<s.last_lesson_time)"; 
-            $have_flag="having (sum(o.lesson_left) < 100)"; 
-        }elseif($type==2){
-            $where_arr[]="r.apply_time>=s.last_lesson_time"; 
-            $have_flag="having (sum(o.lesson_left) < 100)";
+        if(in_array($type,[1,2])){
+            if($type==1){
+                $where_arr[]="(r.apply_time is null or r.apply_time<s.last_lesson_time)"; 
+                $where_arr[]="s.type=1"; 
+            }elseif($type==2){
+                $where_arr[]="r.apply_time>=s.last_lesson_time"; 
+                $have_flag="having (sum(o.lesson_left) < 100)";
+            }
+        }else{
+            $where_arr[] = ["s.lesson_count_left >=%u",$lesson_count_start,-1 ];
+            $where_arr[] = ["s.lesson_count_left <=%u",$lesson_count_end,-1 ];
         }
         
         $sql = $this->gen_sql_new("select s.userid,s.lesson_count_all,s.lesson_count_left,"

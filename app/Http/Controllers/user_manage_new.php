@@ -2048,6 +2048,7 @@ class user_manage_new extends Controller
     {
         // $powerid = $this->get_in_int_val("powerid");
         $list    = $this->t_authority_group->get_all_list();
+        $ret = [];
         foreach ($list as &$item) {
             $p_list=preg_split("/,/", $item["group_authority"] );
             unset( $item["group_authority"]);
@@ -2055,10 +2056,10 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
 
             if(in_array($powerid, $p_list)){
-
+                $ret[] = $item;
             }
         }
-        return $this->output_succ(["data"=> $list]);
+        return $this->output_succ(["data"=> $ret]);
     }
 
 
