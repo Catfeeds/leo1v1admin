@@ -655,7 +655,7 @@ class agent extends Controller
                         }
 
                         if($login_s['lessonid'] == 377680){
-                            dd($time_differ,$login_time_stu,$logout_time_stu,$login_time_seller,$logout_time_seller);
+                            dd($time_differ,date('Y-m-d H:i:s',$login_time_stu),date('Y-m-d H:i:s',$logout_time_stu),date('Y-m-d H:i:s',$login_time_seller),date('Y-m-d H:i:s',$logout_time_seller));
                         }
                         if($time_differ>300){//不同ip,同时上麦>5分钟
                             $task->t_lesson_info->field_update_list($info,[
