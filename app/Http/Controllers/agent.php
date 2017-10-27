@@ -485,6 +485,7 @@ class agent extends Controller
                 $opt_type = $item['opt_type'];
 
                 $test_lesson_opt_flag = $task->t_seller_student_new->field_get_value($userid,'test_lesson_opt_flag');
+                dd($test_lesson_opt_flag);
                 if($test_lesson_opt_flag == 1){//测试过
                     continue;
                 }
