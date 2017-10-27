@@ -2872,6 +2872,7 @@ $(function(){
                         alert("已付款,不能拆分!");
                         return;
                     }
+
                     var id_child_order_type= $("<select> "+
                                                "<option value=1>首付款</option> "+
                                                "<option value=2>分期</option> "+

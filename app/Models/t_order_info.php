@@ -2421,7 +2421,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
             ." t2.ass_master_adminid,m.account master_nick, pdf_url ,pre_price, pre_pay_time, pre_from_orderno, "
-            ." if(co.child_order_type=2,1,0) is_staged_flag"
+            ." if(co.child_order_type=2,1,0) is_staged_flag,t1.can_period_flag"
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
             ." left join %s t3 on t1.sys_operator = t3.account "
