@@ -4,13 +4,13 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		to_agentid:	$('#id_to_agentid').val(),
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		agent_wx_msg_type:	$('#id_agent_wx_msg_type').val()
+    to_agentid:	$('#id_to_agentid').val(),
+    date_type_config:	$('#id_date_type_config').val(),
+    date_type:	$('#id_date_type').val(),
+    opt_date_type:	$('#id_opt_date_type').val(),
+    start_time:	$('#id_start_time').val(),
+    end_time:	$('#id_end_time').val(),
+    agent_wx_msg_type:	$('#id_agent_wx_msg_type').val()
     });
 }
 $(function(){
@@ -27,12 +27,12 @@ $(function(){
         }
     });
 
-	  $('#id_to_agentid').val(g_args.to_agentid);
-	  $('#id_agent_wx_msg_type').val(g_args.agent_wx_msg_type);
-	  $.enum_multi_select( $('#id_agent_wx_msg_type'), 'agent_wx_msg_type', function(){load_data();} )
+    $('#id_to_agentid').val(g_args.to_agentid);
+    $('#id_agent_wx_msg_type').val(g_args.agent_wx_msg_type);
+
+    $.admin_select_user( $("#id_to_agentid"), "agent",  load_data );
+    $.enum_multi_select( $('#id_agent_wx_msg_type'), 'agent_wx_msg_type', function(){load_data();} )
 
 
-	  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
-
-
