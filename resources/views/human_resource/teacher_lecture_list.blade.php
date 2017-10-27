@@ -141,7 +141,16 @@
                     <tr>
                         <td>{{$var["num"]}}</td>
                         <td>{{$var["id"]}}</td>
-                        <td>{{$var["phone"]}}</td>
+                        <td>
+                            @if($zs_flag==1)
+                                <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                    {{@$var["phone_ex"]}}
+                                </a>
+                            @else
+                                {{$var["phone"]}}
+                            @endif
+
+                        </td>
                         <td>{{$var["have_wx_flag"]}}</td>
                         <td>{{$var["nick"]}}</td>
                         <td>{{$var["grade_str"]}}</td>

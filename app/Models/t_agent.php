@@ -1879,5 +1879,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_value($sql);
     }
 
+    public function get_list_for_select($id,$gender, $nick_phone, $page_num )
+    {
+        $where_arr = array(
+            array( "id=%d", $id, -1 ),
+        );
+        if ($nick_phone!=""){
+            $where_arr[]=sprintf( "( phone like '%s%%'  )", $this->ensql($nick_phone));
+        }
+
+
+        $sql =  $this->gen_sql_new( "select  id ,  nickname as  nick,    nickname  as realname,  phone,'' as gender  from %s    where %s ",
+                                    self::DB_TABLE_NAME,  $where_arr );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+    }
+
+
 
 }

@@ -803,6 +803,10 @@ $(function(){
 
     });
 
+    if (window.location.pathname=="/tea_manage/train_lecture_lesson_zs" || window.location.pathname=="/tea_manage/train_lecture_lesson_zs/") {
+        download_hide();
+    }
+
 
 
    	$('.opt-change').set_input_change_event(load_data);

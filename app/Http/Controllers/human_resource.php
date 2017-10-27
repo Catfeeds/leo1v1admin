@@ -1485,6 +1485,7 @@ class human_resource extends Controller
     }
 
     public function teacher_lecture_list_zs(){
+        $this->set_in_value("zs_flag",1);
         return $this->teacher_lecture_list();
     }
 
@@ -1533,6 +1534,7 @@ class human_resource extends Controller
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
         $id_train_through_new      = $this->get_in_int_val("id_train_through_new",-1);
+        $zs_flag = $this->get_in_int_val('zs_flag',0);
         
         if($fulltime_flag==1){
             $full_time=1;
@@ -1589,6 +1591,8 @@ class human_resource extends Controller
                 }else{
                     $val['train_through_str'] = "未通过";
                 }
+                $val["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$val["phone"]);
+
             }
         }
 
@@ -1596,7 +1600,8 @@ class human_resource extends Controller
             "acc"         => session("acc"),
             "tea_subject" => $tea_subject,
             "adminid"     => $adminid,
-            "account_role" => session("account_role")
+            "account_role" => session("account_role"),
+            "zs_flag"      =>$zs_flag
         ]);
     }
 
@@ -1999,7 +2004,7 @@ class human_resource extends Controller
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);
-        $interview_type             = $this->get_in_int_val("interview_type",-1);
+        $interview_type             = $this->get_in_int_val("interview_type",0);
         $user_name                  = trim($this->get_in_str_val('user_name',''));
         $record_status              = $this->get_in_int_val("record_status",-1);
         $page_num                   = $this->get_in_page_num();
@@ -2019,6 +2024,9 @@ class human_resource extends Controller
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
         $account_role = $this->get_account_role();
+
+        //检查是否招师组长
+        $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])
            || $account_role==12
@@ -4434,70 +4442,6 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function zs_origin_list_new(){
-        $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-
-        //报名数
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
-
-       //录制试讲提交数
-        $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
-
-        ///面试预约数
-        $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
-
-        //入职总人数以及各老师类型入职人数
-        $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
-
-        //录制试讲入职人数
-        $train_through_video = $this->t_teacher_info->get_train_through_video_list($start_time,$end_time);
-
-        //面试试讲入职人数
-        $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
-
-        foreach($ret_info as $k=>&$val){
-            $val["video_add_num"] = isset($video_add[$k]["video_add_num"])?$video_add[$k]["video_add_num"]:0;
-            $val["lesson_add_num"] = isset($lesson_add[$k]["lesson_add_num"])?$lesson_add[$k]["lesson_add_num"]:0;
-
-            $val["through_all"] = isset($train_through_all[$k])?$train_through_all[$k]["through_all"]:0;
-
-            $val["through_jg"] = isset($train_through_all[$k])?$train_through_all[$k]["through_jg"]:0;
-            $val["through_gx"] = isset($train_through_all[$k])?$train_through_all[$k]["through_gx"]:0;
-            $val["through_zz"] = isset($train_through_all[$k])?$train_through_all[$k]["through_zz"]:0;
-            $val["through_gxs"] = isset($train_through_all[$k])?$train_through_all[$k]["through_gxs"]:0;
-
-            $val["through_video"] = isset($train_through_video[$k])?$train_through_video[$k]["through_video"]:0;
-            $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
-        }
-        dd($ret_info);
-        foreach($video_add as $k=>$v){
-            if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
-            }
-        }
-        foreach($lesson_add as $k=>$v){
-            if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
-            }
-        }
-        foreach($train_through_all as $k=>$v){
-            if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
-            }
-        }
-
-
-        $all=$list=$team=$data=[];
-        foreach($ret_info as $item){
-            dd(1111);
-        }
-
-
-
-
-        dd($ret_info);
-    }
     public function zs_origin_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);

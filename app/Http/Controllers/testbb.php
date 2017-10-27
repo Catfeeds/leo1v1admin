@@ -47,6 +47,7 @@ class testbb extends Controller
     }
 
     public function ttt(){// 更新扩课信息
+
         $require_id = $this->get_in_int_val('rid');
         $origin = $this->get_in_str_val('origin');
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
@@ -117,8 +118,11 @@ class testbb extends Controller
 
 
     public function tt() {
-        dd($_SERVER);;
+        $agent_id= 4627;
+        dispatch( new \App\Jobs\agent_reset($agent_id) );
+        echo "s1s";
     }
+
     public function rename_file() {
         dd(date('Y年m月'));
     }
