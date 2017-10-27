@@ -193,8 +193,8 @@ class update_test_lesson_opt_flag extends cmd_base
                 $logout_time_stu = count($logout_s)>0?$logout_s['opt_time']:'';
                 $server_ip_stu = $login_s['server_ip'];
                 foreach($seller_wheat as $item_c){
-                    $login_c = $item['login'];
-                    $logout_c = $item['logout'];
+                    $login_c = $item_c['login'];
+                    $logout_c = $item_c['logout'];
                     if(count($logout_c) == 0 || count($login_c) == 0){//销售无上麦或下麦
                         continue;
                     }
