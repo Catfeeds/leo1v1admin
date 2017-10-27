@@ -374,6 +374,31 @@ class wx_parent_gift extends Controller
             "money"  => $prize,
         ]);
 
+        //发送微信推送
+
+        /**
+           {{first.DATA}}
+           活动主题：{{keyword1.DATA}}
+           活动时间：{{keyword2.DATA}}
+           活动结果：{{keyword3.DATA}}
+           {{remark.DATA}}
+         **/
+        $wx = new \App\Helper\Wx();
+
+        $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
+        $data_msg = [
+            "first"     => "$stu_nick 同学的家长上传了学生成绩",
+            "keyword1"  => "成绩录入提醒",
+            "keyword2"  => "点击详情进行查看",
+            "keyword3"  => date('Y-m-d H:i:s'),
+        ];
+        $url = 'http://admin.yb1v1.com/stu_manage/score_list?sid='.$userid;
+        $wx = new \App\Helper\Wx();
+
+
+        $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
+
+
         return $this->output_succ(["money"=>$prize]);
 
         /**
