@@ -2059,8 +2059,12 @@ class user_manage_new extends Controller
                 if($item['k1'] != ''){
                     $item['url_name'] = $item['k1'];
                 }elseif($item['k2'] != ''){
-                    
+                    $item['url_name'] = $item['k2'];
+                }elseif($item['k3'] != ''){
+                    $item['url_name'] = $item['k3'];
                 }
+
+
 
 
                 // $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
