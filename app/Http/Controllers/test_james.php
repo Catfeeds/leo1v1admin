@@ -820,6 +820,9 @@ class test_james extends Controller
     public function dd(){
         $group_arr = ['12','19'];
 
+        $user_list = $this->t_manager_info->get_all();
+
+        dd($user_list);
         $ac = ['1','2','3'];
         $bc=['4','2'];
 
