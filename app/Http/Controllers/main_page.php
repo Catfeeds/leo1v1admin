@@ -2421,8 +2421,22 @@ class main_page extends Controller
             $identity_public = $this->recruit_init([], '', '', 6);
             $identity_stu = $this->recruit_init([], '', '', 7);
             $identity_other = $this->recruit_init([], '', '', 8);
-
             foreach($tea_list as $item) {
+                var_dump($item);
+                // $t_subject = $item['subject'];
+                // $t_grade = $item['grade'];
+                // $t_identity = E\Eidentity::$item['identity'];
+
+                // \App\Helper\Utils::check_isset_data($ret_list["all"]["all"],1);
+                // \App\Helper\Utils::check_isset_data($ret_list[$t_subject][$t_grade],1);
+                // \App\Helper\Utils::check_isset_data($ret_list[$t_grade][$t_subject],1);
+                // \App\Helper\Utils::check_isset_data($ret_list[$t_identity],1);
+
+                // if($item['train_through_new_time']>0){
+                //     \App\Helper\Utils::check_isset_data($ret_list[$t_subject][$t_grade]['train_through_new'],1);
+                //     \App\Helper\Utils::check_isset_data($ret_list["all"]["all"]['train_through_new'],1);
+                // }
+
                 // 语文
                 if ($item['subject'] == 1) {
                     if ($item['grade'] == 100) {
@@ -2498,7 +2512,6 @@ class main_page extends Controller
             array_push($ret_info, $physics);
             array_push($ret_info, $biology);
             array_push($ret_info, $science);
-
             $total['sum'] = 0;
             $total['imit_sum'] = 0;
             $total['attend_sum'] = 0;
@@ -2609,12 +2622,14 @@ class main_page extends Controller
         }
         return $info;
     }
+
     public function accumulation($info, $item) {
         $info['sum'] ++;
         // 新师参训
         $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($train_tea_sum) $info['train_tea_sum'] ++;
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
+        
         // 模拟试听总排课人数
         $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($imit_sum) $info['imit_sum']++;
