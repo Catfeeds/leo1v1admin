@@ -25,7 +25,7 @@ $(function(){
         }
     });
 
-    $("#id_get_money").on("click",function(){
+    $("#id_reset").on("click",function(){
         var row_list=$("#id_tbody tr");
         var do_index=0;
 	    
