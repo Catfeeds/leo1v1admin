@@ -1978,6 +1978,8 @@ class user_manage_new extends Controller
             $ret_info=\App\Helper\Utils::list_to_page_info([]);
         }
 
+        // dd($ret_info);
+
         return $this->Pageview(__METHOD__,$ret_info,[
             "group_list"=>$group_list,
             "user_list"=>$user_list,
