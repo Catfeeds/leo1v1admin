@@ -3892,7 +3892,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.train_type=1"
         ];
 
-        $sql = $this->gen_sql_new("select tl.identity as identity,count(*) sum from %s tl left join %s l on tl.teacherid=l.userid where %s group by tl.identity",
+        $sql = $this->gen_sql_new("select tl.identity as identity,count(*) sum from %s tl left join %s l on tl.teacherid=l.userid where %s group by tl.identity,tl.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   $whereArr
