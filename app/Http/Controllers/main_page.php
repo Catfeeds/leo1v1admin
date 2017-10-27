@@ -2607,7 +2607,7 @@ class main_page extends Controller
         } else {
             $info['subject'] = $subject;
         }
-        if ($identity) {
+        if ($identity || $identity == 0) {
             $info['identity'] = $identity;
         }
         return $info;
