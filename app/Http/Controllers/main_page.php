@@ -2424,51 +2424,51 @@ class main_page extends Controller
 
             foreach($tea_list as $item) {
                 // 语文
-                // if ($item['subject'] == 1) {
-                //     if ($item['grade'] == 100) {
-                //         $primary_china = $this->accumulation($primary_china, $item);
-                //     }
-                //     if ($item['grade'] == 200) {
-                //         $middle_china = $this->accumulation($middle_china, $item);
-                //     }
-                //     if ($item['grade'] == 300) {
-                //         $high_china = $this->accumulation($high_china, $item);
-                //     }
-                // }
-                // if ($item['subject'] == 2) {
-                //     if ($item['grade'] == 100) {
-                //         $primary_math = $this->accumulation($primary_math, $item);
-                //     }
-                //     if ($item['grade'] == 200) {
-                //         $middle_math = $this->accumulation($middle_math, $item);
-                //     }
-                //     if ($item['grade'] == 300) {
-                //         $high_math = $this->accumulation($high_math, $item);
-                //     }
-                // }
-                // if ($item['subject'] == 3) {
-                //     if ($item['grade'] == 100) {
-                //         $primary_eng = $this->accumulation($primary_eng, $item);
-                //     }
-                //     if ($item['grade'] == 200) {
-                //         $middle_eng = $this->accumulation($middle_eng, $item);
-                //     }
-                //     if ($item['grade'] == 300) {
-                //         $high_eng = $this->accumulation($high_eng, $item);
-                //     }
-                // }
-                // if ($item['subject'] == 4) {
-                //     $chemistry = $this->accumulation($chemistry, $item);
-                // }
-                // if ($item['subject'] == 5) {
-                //     $physics = $this->accumulation($physics, $item);
-                // }
-                // if ($item['subject'] == 6) {
-                //     $biology = $this->accumulation($biology, $item);
-                // }
-                // if ($item['subject'] == 10) {
-                //     $science = $this->accumulation($science, $item);
-                // }
+                if ($item['subject'] == 1) {
+                    if ($item['grade'] == 100) {
+                        $primary_china = $this->accumulation($primary_china, $item);
+                    }
+                    if ($item['grade'] == 200) {
+                        $middle_china = $this->accumulation($middle_china, $item);
+                    }
+                    if ($item['grade'] == 300) {
+                        $high_china = $this->accumulation($high_china, $item);
+                    }
+                }
+                if ($item['subject'] == 2) {
+                    if ($item['grade'] == 100) {
+                        $primary_math = $this->accumulation($primary_math, $item);
+                    }
+                    if ($item['grade'] == 200) {
+                        $middle_math = $this->accumulation($middle_math, $item);
+                    }
+                    if ($item['grade'] == 300) {
+                        $high_math = $this->accumulation($high_math, $item);
+                    }
+                }
+                if ($item['subject'] == 3) {
+                    if ($item['grade'] == 100) {
+                        $primary_eng = $this->accumulation($primary_eng, $item);
+                    }
+                    if ($item['grade'] == 200) {
+                        $middle_eng = $this->accumulation($middle_eng, $item);
+                    }
+                    if ($item['grade'] == 300) {
+                        $high_eng = $this->accumulation($high_eng, $item);
+                    }
+                }
+                if ($item['subject'] == 4) {
+                    $chemistry = $this->accumulation($chemistry, $item);
+                }
+                if ($item['subject'] == 5) {
+                    $physics = $this->accumulation($physics, $item);
+                }
+                if ($item['subject'] == 6) {
+                    $biology = $this->accumulation($biology, $item);
+                }
+                if ($item['subject'] == 10) {
+                    $science = $this->accumulation($science, $item);
+                }
                 if ($item['identity'] == 0) {
                     $identity_no_set = $this->accumulation($identity_no_set, $item);
                 }
@@ -2499,9 +2499,12 @@ class main_page extends Controller
             array_push($ret_info, $biology);
             array_push($ret_info, $science);
 
+            $total['sum'] = 0;
             $total['imit_sum'] = 0;
             $total['attend_sum'] = 0;
             $total['adopt_sum'] = 0;
+            $total['train_tea_sum'] = 0;
+            $total['train_qual_sum'] = 0;
             foreach($ret_info as $key => &$item) {
                 if (isset($item['grade'])) {
                     E\Esubject::set_item_value_str($item, "subject");
