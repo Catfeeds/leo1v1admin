@@ -42,6 +42,13 @@ class get_agent_parent_id extends Command
         //
         //dd('调用成功');
         $task = new \App\Console\Tasks\TaskController();
+        $res = $task->t_teacher_lecture_appointment_info->get_recruit_name();
+        foreach($res as $item) {
+            echo $item['tname'].'     '.$item['name'].PHP_EOL;
+        }
+        exit;
+
+        // 根据老师名字来招师名
 
         $paret_map=$task->t_agent->get_parent_map();
         foreach($paret_map as $id => $v ) {
