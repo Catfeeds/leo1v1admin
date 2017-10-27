@@ -392,9 +392,8 @@ class wx_parent_gift extends Controller
             "keyword2"  => "点击详情进行查看",
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
-        $url = 'http://admin.yb1v1.com/stu_manage/score_list?sid='.$userid;
+        $url = "";
         $wx = new \App\Helper\Wx();
-
 
         $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
 

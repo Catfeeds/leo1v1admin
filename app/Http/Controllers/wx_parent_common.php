@@ -216,7 +216,9 @@ class wx_parent_common extends Controller
             return $this->book_free_lesson();
         }
     }
-        public function share_knowledge(){
+    public function share_knowledge(){
+
+        \App\Helper\Utils::logger("XXXX 1111");
         $phone = $this->get_in_str_val("phone");
         $p_phone = $this->get_in_str_val("p_phone");
         if(!preg_match( "/^1[34578]{1}\d{9}$/",$phone)){
@@ -264,7 +266,8 @@ class wx_parent_common extends Controller
             $key4 = "未定义";
             $value = $key4;
         }
-        //qudao 
+        \App\Helper\Utils::logger("XXXX 22222");
+
         $ret_origin = $this->t_origin_key->add_by_admind($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0);
         //进例子
         $origin_value = "知识库";
@@ -278,6 +281,8 @@ class wx_parent_common extends Controller
             //$opt_account=$this->t_manager_info->get_account($opt_adminid);
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }
+
+        \App\Helper\Utils::logger("XXXX 3333");
 
         /*
          * 预约完成4-28
