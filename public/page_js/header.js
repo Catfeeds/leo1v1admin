@@ -2760,4 +2760,3 @@ var get_new_whiteboard = function (obj_drawing_list){
 
 
 
-//countly_log("管理平台");
