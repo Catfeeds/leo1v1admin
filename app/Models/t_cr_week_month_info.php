@@ -49,11 +49,15 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         return $this->main_get_list($sql);
     }
     public function get_teacher_info(){
-        $sql = "select * from t_teacher_info where  train_through_new_time > 1504195200 and train_through_new_time < 1506787200 and is_test_user  = 0";
+        $sql = "select * from t_teacher_info where  train_through_new_time > 1501516800 and train_through_new_time < 1509465600 and is_test_user  = 0";
+        return $this->main_get_list($sql);
+    }
+    public function get_all_teacher_info(){
+        $sql = "select * from t_teacher_info where  is_test_user  = 0";
         return $this->main_get_list($sql);
     }
     public function get_lesson_teacher_info(){
-        $sql = "select distinct(t.teacherid)  ,t.phone, t.phone_location from t_lesson_info l left join t_teacher_info t on t.teacherid = l.teacherid where lesson_start > 1504195200 and lesson_start < 1506787200 and  lesson_del_flag=0  and  lesson_type<1000 and t.is_test_user = 0";
+        $sql = "select distinct(t.teacherid)  ,t.phone, t.phone_location from t_lesson_info l left join t_teacher_info t on t.teacherid = l.teacherid where lesson_start > 1501516800 and lesson_start < 1509465600 and  lesson_del_flag=0  and  lesson_type<1000 and t.is_test_user = 0";
         return $this->main_get_list($sql);
     }
     //-------------------------------------------------------

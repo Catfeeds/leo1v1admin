@@ -974,21 +974,23 @@ class seller_student_new2 extends Controller
     }
 
     public function seller_edit_log_list(){
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $adminid               = $this->get_in_int_val('adminid',-1);
         $adminid               = $adminid>0?$adminid:-1;
         $uid                   = $this->get_in_int_val('uid',-1);
         $user_name             = trim($this->get_in_str_val('user_name',''));
-        $flag                  = $this->get_in_int_val("flag",-1);
+        $hand_get_adminid      = $this->get_in_int_val("hand_get_adminid",-1);
         $origin_ex             = $this->get_in_str_val("origin_ex");
         $global_tq_called_flag = $this->get_in_int_val('global_tq_called_flag',-1);
         $page_info             = $this->get_in_page_info();
-        if(in_array($flag,[1,2,3,4])){
-            $ret_info = $this->t_seller_student_new->get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info);
-            if(in_array($flag,[1,2])){
+        if(in_array($hand_get_adminid,[1,2,3,4])){
+            if(in_array($hand_get_adminid,[1,2])){
+                $ret_info = $this->t_seller_student_new->get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info);
                 foreach($ret_info['list'] as &$item){
                     $item["adminid"] = 0;
                 }
+            }else{
+                $ret_info = $this->t_seller_student_new->get_distribution_list($uid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info);
             }
         }else{
             $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name,$uid);

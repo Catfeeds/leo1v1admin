@@ -55,6 +55,7 @@ class Kernel extends ConsoleKernel
         Commands\notify_day_report::class,
         Commands\tt::class,
         Commands\jhp::class,
+        Commands\test_sam::class,
         Commands\lesson_check::class,
         Commands\fulltime_teacher_interview_info::class,
         Commands\teacher_first_test_lesson_deal::class,
