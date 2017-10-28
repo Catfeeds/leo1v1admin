@@ -3117,4 +3117,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
+
+    public function check_is_reading($parentid){
+        $sql = $this->gen_sql_new("  select 1 from %s s"
+                                  ." where s.type=0 and s.parentid = %d"
+                                  ,self::DB_TABLE_NAME
+                                  ,$parentid
+        );
+
+        return $this->main_get_value($sql);
+    }
 }
