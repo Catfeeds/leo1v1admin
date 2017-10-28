@@ -250,7 +250,9 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    s.userid as stu_id,"
                      ."    s.phone as stu_phone,"
                      ."    s.nick as stu_nick,"
+
                      ."    s.user_agent as stu_user_agent,"
+                     // ."l.stu_agent as stu_user_agent,"
                      ."    s.origin as origin_str,"
                      ."    s.stu_email,"
                      .""
@@ -718,7 +720,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
-            " lesson_num,c.current_server,server_type , xmpp_server_name".
+            " lesson_num,c.current_server,server_type , xmpp_server_name,".
+            " l.stu_agent,l.tea_agent".
             " from %s l " .
             " left join %s c on c.courseid = l.courseid  ".
             " left join %s tss on l.lessonid = tss.lessonid ".
@@ -9473,7 +9476,6 @@ lesson_type in (0,1) "
             ["teacherid=%u",$teacherid,0],
             "train_type=4",
             "lesson_del_flag=0"
-            // "lesson_start=0"
         ];
         $sql = $this->gen_sql_new("select count(1) "
                                   ." from %s "
@@ -9669,61 +9671,41 @@ lesson_type in (0,1) "
     }
 
     // t_teacher_info add_time have_test_lesson_flag
-    public function get_imit_audi_sched_count($start_time, $end_time, $subject)
+    public function get_imit_audi_sched_count($time, $teacherid)
     {
         $whereArr = [
-            ["operate_time<%u",$start_time,0],
-            ["operate_time>%u",$end_time,0],
-            ['subject=%u',$subject,0],
+            //["operate_time<%u",$start_time,0],
+            //["operate_time>%u",$time,0],
+            ['teacherid=%u',$teacherid,0],
             "lesson_type=1100",
             "train_type=4"
         ];
-        //$table = self::DB_TABLE_NAME;
-        //$sql = "select count(*) sum from %s where %s";
-        //$res = $this->get_three_maj_sub($sql, $whereArr, $table);
-        if ($subject <= 3) {
-            $query = " sum(if(substring(grade,1,1)=1,1,0)) primary_num, "
-                      ." sum(if(substring(grade,1,1)=2,1,0)) middle_num,"
-                      ."sum(if(substring(grade,1,1)=3,1,0)) senior_num";
-        } else {
-            $query = " count(*) sum";
-        }
-        
-        $sql = $this->gen_sql_new("select %s from %s where %s ",
-                                  $query,
+        $sql = $this->gen_sql_new("select teacherid from %s where %s limit 1",
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
-        return $this->main_get_row($sql);
-        return $this->get_handle_other_subject($info, $res);
+        return $this->main_get_value($sql);
+        //return $this->get_handle_other_subject($info, $res);
     }
 
     // 上课
-    public function get_attend_lesson_count($start_time, $end_time, $subject) {
+    public function get_attend_lesson_count($time, $teacherid) {
          $whereArr = [
-            ["lesson_start<%u",$start_time,0],
-            ["lesson_start>%u",$end_time,0],
-            ["subject=%u",$subject,0],
-            "tea_attend>0"
-        ];
-        //$table = self::DB_TABLE_NAME;
-        //$sql = "select count(*) from %s where %s";
-        //$res = $this->get_three_maj_sub($sql, $whereArr, $table);
-        if ($subject <= 3) {
-            $query = " sum(if(substring(grade,1,1)=1,1,0)) primary_num, "
-                      ." sum(if(substring(grade,1,1)=2,1,0)) middle_num,"
-                      ."sum(if(substring(grade,1,1)=3,1,0)) senior_num";
-        } else {
-            $query = " count(*) sum";
-        }
+             //["lesson_start<%u",$start_time,0],
+             //["lesson_start>%u",$time,0],
+            ["l.userid=%u",$teacherid,0],
+            //"tea_attend>0"
+         ];
 
-        $sql = $this->gen_sql_new("select %s from %s where %s",
-                                  $query,
+        $sql = $this->gen_sql_new("select l.userid "
+                                  ."from %s l left join %s lo on l.lessonid=lo.lessonid "
+                                  ." where %s limit 1 ",
                                   self::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
                                   $whereArr
         );
         return $this->main_get_row($sql);
-        return $this->get_handle_other_subject($info, $res);
+        //return $this->get_handle_other_subject($info, $res);
     }
 
     public function get_adopt_lesson_count($start_time, $end_time,$subject) {

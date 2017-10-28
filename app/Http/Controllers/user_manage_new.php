@@ -2032,6 +2032,7 @@ class user_manage_new extends Controller
 
 
         // dd($ret_info);
+        $user_list = $this->t_manager_info->get_all();
 
         foreach($ret_info['list'] as &$item){
             if(!empty($item['url'])){
@@ -2040,20 +2041,49 @@ class user_manage_new extends Controller
                 foreach($powerid_info as $v){
                     $group_list[] = $v['groupid'];
                 }
-                $item['group_str'] = implode(',',$group_list);
+                $user_info = [];
 
-                dd($group_list);
+                foreach($user_list as $vv){
+                    $quan_arr = explode(',',$vv['permission']);
 
-                $user_list = $this->t_manager_info->get_all();
+                    if(array_intersect($quan_arr,$group_list)){
+                        // $item['']
+                        $user_info[] = '姓名: '.$vv['account'].' adminid:'.$vv['uid'];
+                    }
+                }
 
-                $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
+                // dd($group_list);
+                $item['user_info'] = implode(',',$user_info);
+                // dd(json_encode($user_info));
+                $item['url_name'] = '';
+                if($item['k1'] != '----'){
+                    $item['url_name'] = $item['k1'];
+                }elseif($item['k2'] != '----'){
+                    $item['url_name'] = $item['k2'];
+                }elseif($item['k3'] != '----'){
+                    $item['url_name'] = $item['k3'];
+                }
 
+
+
+
+                // $item['user_list'] = json_encode($this->t_manager_info->get_user_list($group_list));
+
+            }
+
+
+        }
+
+        foreach($ret_info['list'] as $i=> &$v){
+            if(empty(@$v['url'])){
+                // dd($v);
+                unset($ret_info['list'][$i]);
             }
         }
 
         // dd($group_list);
 
-        dd($ret_info);
+        // dd($ret_info);
 
         return $this->Pageview(__METHOD__,$ret_info);
     }
@@ -3610,7 +3640,6 @@ class user_manage_new extends Controller
                 $val['money_info_extra'] = $this->cache_get_student_nick($val['userid']);
             }elseif($val['type']==E\Ereward_type::V_6){
                 $identity = E\Eidentity::get_desc($val['identity']);
-                // $val['money_info_extra'] = $this->cache_get_teacher_nick($val['money_info']);
                 $val['money_info_extra'] = $val['realname']."|".$identity;
             }else{
                 $val['money_info_extra'] = "";

@@ -174,6 +174,7 @@ class ss_deal extends Controller
         $this->t_student_info->update_origin_list($userid_list,$origin) ;
         return $this->output_succ();
     }
+
     public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type) {
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");

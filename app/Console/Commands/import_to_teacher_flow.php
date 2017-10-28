@@ -3,15 +3,15 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
-class import_to_teacher_flow extends Command
+use \App\Enums as E;
+class import_to_teacher_flow extends cmd_base
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:import_to_teacher_flow {month}';
+    protected $signature = 'command:import_to_teacher_flow';
 
     /**
      * The console command description.
@@ -37,24 +37,17 @@ class import_to_teacher_flow extends Command
      */
     public function handle()
     {
-        //
-        // $month = $this->argument('month');
-        // if ($month > 12 || $month < 1) exit("你输入的月份不对");
-        //if ($month < 10) {
-        //    $start_time = date("Y-0{$month}-01 00:00:00");
-        //} else {
-        // $start_time = date("Y-{$month}-01 00:00:00");
-        //}
-        // $end_time = date('Y-m-d', strtotime("$start_time +1 month -1 day"));
+        //按天导入数据 (脚本执行时间为每天凌晨二点)
+        $time = strtotime("-1 day");
+        $start_time = strtotime(date('Y-m-d 00:00:00', $time));
+        $end_time = strtotime(date('Y-m-d 23:59:59', $time));
 
         $task = new \App\Console\Tasks\TaskController();
-        // $start_time = strtotime($start_time);
-        // $end_time = strtotime($end_time);
 
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        // $tea_list = $task->t_teacher_info->get_teacher_flow_list();
+        // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
         // if(!empty($tea_list)){
         //     foreach($tea_list as $val){
         //         $task->t_teacher_flow->row_insert_ignore([
@@ -64,9 +57,82 @@ class import_to_teacher_flow extends Command
         //         ]);
         //     }
         // }
-        // // $tea_list=[];
-        // // 导入老师报名时间 accept_adminid招师专员的id
-        // $info = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time);
+
+        // trial_lecture_pass_time 设0
+        $info = $task->t_teacher_flow->get_all_trial_time();
+        foreach($info as $teacherid => $item) {
+            $task->t_teacher_flow->field_update_list($teacherid, [
+                    "trial_lecture_pass_time" => 0
+                ]);
+        }
+
+        // 导入老师报名时间 accept_adminid招师专员的id
+        // $where = ["answer_begin_time=0"];
+        // $info = $task->t_teacher_flow->get_all_list($where);
+        // foreach($info as $teacherid => $item) {
+        //     $ret = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($item['phone']);
+        //     if ($ret) {
+        //         $task->t_teacher_flow->field_update_list($teacherid, [
+        //             'answer_begin_time' => $ret['answer_begin_time'],
+        //             "accept_adminid" => $ret['accept_adminid']
+        //         ]);
+        //     } 
+        // }
+
+        // 面试通过时间
+        $start_time = strtotime("2017-9-1");
+        $end_time = strtotime('2017-9-30');
+        $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time,$end_time);
+
+        $where = ["trial_lecture_pass_time=0"];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        //$lecture_pass_list ;
+        foreach($info as $teacherid => $item) {
+            if (!isset($lecture[$item['phone']])) break;
+            $task->t_teacher_flow->field_update_list($teacherid, [
+                "trial_lecture_pass_time" => $lecture[$item['phone']]['confirm_time'],
+                "subject" => $lecture[$item['phone']]['subject'],
+                "grade" => $lecture[$item['phone']]['grade']
+            ]);
+
+            // $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
+            // if ($lecture) {
+            //     $task->t_teacher_flow->field_update_list($teacherid, [
+            //         "trial_lecture_pass_time" => $lecture['confirm_time'],
+            //         'subject' => $lecture['subject'],
+            //         'grade' => $lecture['grade']
+            //     ]);
+            // }
+        }
+
+        //面试试讲时间
+        // $where = ['trial_lecture_pas=0'];
+        // $info = $task->t_teacher_flow->get_all_list($where);
+        // foreach($info as $teacherid => $item) {
+        //     $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_5, $teacherid);
+        //     if ($lecture['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time']==0) {
+        //         $task->t_teacher_flow->field_update_list($teacherid,[
+        //             "trial_lecture_pass_time" => $lecture['add_time'],
+        //         ]);
+        //     }
+        // }
+
+
+        // 模拟试听时间
+        // $where = ['simul_test_lesson_pass_time=0'];
+        // $info = $task->t_teacher_flow->get_all_list($where);
+        // foreach($info as $teacherid => $item) {
+        //     $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_4, $teacherid);
+        //     if ($lecture) {
+        //         $task->t_teacher_flow->field_update_list($teacherid, [
+        //             "simul_test_lesson_pass_time" => $lecture['add_time'],
+        //         ]);
+        //     }
+        // }
+
+
+
+        // $info = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time,$tea_phone);
         // foreach($info as $item) {
         //     $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
         //     if ($teacherid) {
@@ -149,18 +215,5 @@ class import_to_teacher_flow extends Command
         //     ]);
         // }
 
-        $where = ['simul_test_lesson_pass_time=0'];
-        $info = $task->t_teacher_flow->get_all_list($where);
-        foreach($info as $item) {
-            if ($item['teacherid']) {
-                $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 4, $item['teacherid']);
-                if ($lecture) {
-                    $task->t_teacher_flow->field_update_list($item['teacherid'], [
-                        "simul_test_lesson_pass_time" => $lecture['add_time'],
-                    ]);
-                }
-
-            }
-        }
     }
 }

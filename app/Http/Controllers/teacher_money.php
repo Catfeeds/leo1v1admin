@@ -5,11 +5,13 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Artisan;
 
 class teacher_money extends Controller
 {
     use CacheNick;
     use TeaPower;
+
     var $check_login_flag = false;
     var $teacher_money;
     var $late_num   = 0;
@@ -126,6 +128,12 @@ class teacher_money extends Controller
             $reward['money_info']   = E\Ereward_type::get_desc($r_val['type']);
             if(in_array($r_val['type'],[E\Ereward_type::V_1,E\Ereward_type::V_2,E\Ereward_type::V_5])){
                 \App\Helper\Utils::check_isset_data($reward_ex['price'],$reward['money']);
+
+                if($r_val['type']==E\Ereward_type::V_2 && $r_val['userid']>0){
+                    $stu_nick = $this->cache_get_student_nick($r_val['userid']);
+                    $reward['money_info'] .= "|".$stu_nick;
+                }
+
                 $reward["type"] = 1;
                 $reward_ex["reward_list"][] = $reward;
             }elseif(in_array($r_val['type'],[E\Ereward_type::V_3,E\Ereward_type::V_4])){
@@ -502,6 +510,15 @@ class teacher_money extends Controller
             }
         }
 
+        $update_arr = [
+            "teacherid"  => $teacherid,
+            "type"       => $type,
+            "add_time"   => $add_time,
+            "money"      => $money,
+            "money_info" => $money_info,
+            "acc"        => $acc,
+        ];
+
         if($type != E\Ereward_type::V_1){
             $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
             if($check_flag){
@@ -513,6 +530,7 @@ class teacher_money extends Controller
                 if(!in_array($teacher_money_type,[0,4,5,6])){
                     return $this->output_err("老师工资分类错误！");
                 }
+                $update_arr['lessonid'] = $money_info;
             }elseif($type==E\Ereward_type::V_3){
                 $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
                 $add_time    = $lesson_money_info['lesson_start'];
@@ -533,19 +551,15 @@ class teacher_money extends Controller
                 );
 
                 $money = ($base_money+$reward_money)*25;
+                $update_arr['money'] = $money;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
+            }elseif($type==E\Ereward_type::V_6){
+                $update_arr['recommended_teacherid'] = $money_info;
             }
         }
 
-        $ret = $this->t_teacher_money_list->row_insert([
-            "teacherid"  => $teacherid,
-            "type"       => $type,
-            "add_time"   => $add_time,
-            "money"      => $money,
-            "money_info" => $money_info,
-            "acc"        => $acc,
-        ]);
+        $ret = $this->t_teacher_money_list->row_insert($update_arr);
         if(!$ret){
             return $this->output_err("添加失败！请重试！");
         }
@@ -771,6 +785,13 @@ class teacher_money extends Controller
             return $this->output_err("更新失败！请重试！");
         }
         return $this->output_succ();
+    }
+
+    /**
+     * 设置老师的薪资
+     */
+    public function set_teacher_salary(){
+
     }
 
 

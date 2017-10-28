@@ -1471,8 +1471,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_member_count = 0;
         //计算所有学员量、会员量[无下限限制下级]
         list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child($id);
-        if($id == 71)
-            print_r($child_arr);
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
@@ -1485,7 +1483,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 foreach( $test_lesson_info as $item ) {
                     $orderid=$item["orderid"];
                     if ($orderid) { //有订单
-                
+
                         $cycle_test_lesson_count += 1;
                     }else{
                         if ($item["lesson_user_online_status"] ==1 )
@@ -1494,15 +1492,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 }
             }
-            
+
 
             //计算签单金额、签单量[无下限限制下级]
             $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str);
             $cycle_order_count = $child_order_info['child_order_count'];
             $cycle_order_money = $child_order_info['child_order_money'];
-            
+
         }
-        
+
 
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
@@ -1807,9 +1805,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_value($sql);
     }
-    
-    
-    
+
+
+
     //获取某个团长试听数[一级]
     public function get_this_colconel_test_lesson_count($colconel_id){
         $where_arr = [
@@ -1991,7 +1989,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function  send_wx_msg_2001( $from_agentid, $to_agentid ) {
-        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2001;
         $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
         $data = [
             'first'    => '等级升级提醒',
@@ -2080,17 +2078,64 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
     public function get_cycle_child($this_parentid){
+        //构造用户数组
+        $parent_arr = [
+            ['id'=>$this_parentid]
+        ];
 
-        $child_map=$this->get_child_map();
-        foreach($child_map as $parentid => $v ) {
-            list( $error_flag, $id_map,$student_count,$member_count )=$this->get_id($parentid, $child_map,$this_parentid);
-            if ($error_flag) {
-                echo "parentid $parentid: error_flag:$error_flag, list:  ". join(",", array_keys($id_map) ). "\n";
-            }
+        list($child_arr,$student_count,$member_count,$error_flag)=$this->get_child_by_cycle($parent_arr);
+        if($error_flag)
+            echo $this_parentid.'推荐人循环!';
+
+        return [$child_arr,$student_count,$member_count];
+        // $this->get_id($res);
+    }
+    //@desn:获取无限制下限信息
+    private function get_child_by_cycle($parent_arr){
+        $counter = 0;
+        if($counter == 0){
+            $child_arr = [];
+            $student_count = 0;
+            $member_count = 0;
+            $err_flag = false;
+            $id_map[$parent_arr[0]['id']] = true;
         }
 
-        return [$id_map,$student_count,$member_count];
-        // $this->get_id($res);
+        foreach($parent_arr as $item){
+            $where_arr = [
+                ['parentid = %u',$item['id'],'-a'],
+            ];
+            $sql2 = $this->gen_sql_new(
+                "select id from %s where %s",self::DB_TABLE_NAME,$where_arr
+            );
+            $child_list=$this->main_get_list($sql2);
+            foreach($child_list as $val){
+                if(isset($id_map[$val['id']])){
+                    $err_flag=true;
+                    break;
+                }
+                $id_map[$val['id']] = true;
+                $child_arr[] = $val['id'];
+            }
+            $sql = $this->gen_sql_new(
+                "select sum(if(type in (1,3),1,0)) as student_count,sum(if(type in (2,3),1,0)) as member_count ".
+                "from %s ".
+                "where %s",
+                self::DB_TABLE_NAME,
+                $where_arr
+            );
+            $child_count = $this->main_get_row($sql);
+            $student_count +=$child_count['student_count'];
+            $member_count +=$child_count['member_count'];
+
+            $counter++;
+
+            if($child_list)
+                $this->get_child_by_cycle($child_list);
+
+        }
+
+        return [$child_arr,$student_count,$member_count,$err_flag];
     }
 
     function get_id($parentid , $parent_map ,$this_parentid)
@@ -2137,5 +2182,58 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $check_time
         );
         return $this->main_get_list($sql);
+    }
+    //获取我的邀请列表
+    public function my_invite($agent_id){
+        
+        $sql = $this->gen_sql_new(
+            "select  a1.id  agent_id, concat('/',a1.phone,a1.nickname) as nickname, a1.agent_status,"
+            ."a1.agent_status_money,a1.create_time "
+            . " from %s a1"
+            ." where  a1.parentid=%u group  by a1.id  ",
+            self::DB_TABLE_NAME,
+            $agent_id
+        );
+        return $this->main_get_list($sql);
+    }
+    //会员邀请
+    public function member_invite($agent_id){
+        $sql = $this->gen_sql_new(
+            "select a2.id as agent_id,concat('/',a2.phone,a2.nickname) as nickname,a2.agent_status,"
+            ."a2.pp_agent_status_money as agent_status_money,a2.create_time "
+            ."from %s a2 "
+            ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $agent_id
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_invite_num($start_time, $pid){
+
+        $where_arr = [
+            "a.create_time>=$start_time",
+            "a.parentid=$pid"
+        ];
+
+        $sql = $this->gen_sql_new("  select create_time, phone from %s a"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
+    public function update_money($parentid, $prize){
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money + $prize "
+                                  ." where parentid = %d"
+                                  ,self::DB_TABLE_NAME
+                                  ,$parentid
+        );
+
+        return $this->main_update($sql);
     }
 }

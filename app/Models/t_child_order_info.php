@@ -211,6 +211,26 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_row($sql);
     }
 
+    public function get_order_list_new_jack($userid){
+        $sql=$this->gen_sql("select o.orderid,o.order_time,o.grade,o.lesson_total,"
+                            ."o.contract_type,o.subject,o.taobao_orderid,o.default_lesson_count,f.flow_status, "
+                            ." o.pre_pay_time,co.child_orderid ,co.pay_status,co.price ,co.period_num,co.child_order_type"
+                            ." from %s co "
+                            ." left join %s o on parent_orderid = o.orderid"
+                            ." left join %s f on ( f.from_key_int = o.orderid  and f.flow_type=2002)"
+                            ." where o.userid=%u and o.contract_type in (0,3,3001)"
+                            ." and (o.order_status=0 or o.order_status =1 or o.order_status=2)"
+                            ." and co.price>0 and o.orderid >0 "
+                            ." order by co.parent_orderid desc"
+                            ,self::DB_TABLE_NAME
+                            ,t_order_info::DB_TABLE_NAME
+                            ,t_flow::DB_TABLE_NAME
+                            ,$userid
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
 }
 

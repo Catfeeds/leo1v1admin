@@ -3178,7 +3178,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $userid = 253753 ;
+        $userid = 363833 ;
+        $tt= $this->t_child_order_info->get_order_list_new_jack($userid);
+        dd($tt);
         $r = $this->t_student_info->field_update_list($userid,[
             "type"=>0
         ]);

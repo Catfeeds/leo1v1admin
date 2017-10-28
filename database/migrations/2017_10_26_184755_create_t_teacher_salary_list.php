@@ -12,7 +12,6 @@ class CreateTTeacherSalaryList extends Migration
      */
     public function up()
     {
-
         Schema::create('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
         {
             t_field($table->integer("id"),"id");

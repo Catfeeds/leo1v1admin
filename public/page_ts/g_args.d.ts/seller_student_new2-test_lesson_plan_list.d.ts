@@ -34,7 +34,8 @@ interface GargsStatic {
 	require_id:	number;
 	has_1v1_lesson_flag:	number;//App\Enums\Eboolean
 	lesson_plan_style:	number;
-	account_role:	number;
+	account_role_self:	number;
+	ass_master_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -238,7 +239,8 @@ function load_data(){
 		require_id:	$('#id_require_id').val(),
 		has_1v1_lesson_flag:	$('#id_has_1v1_lesson_flag').val(),
 		lesson_plan_style:	$('#id_lesson_plan_style').val(),
-		account_role:	$('#id_account_role').val()
+		account_role_self:	$('#id_account_role_self').val(),
+		ass_master_flag:	$('#id_ass_master_flag').val()
     });
 }
 $(function(){
@@ -293,7 +295,8 @@ $(function(){
 	$('#id_require_id').val(g_args.require_id);
 	$('#id_has_1v1_lesson_flag').val(g_args.has_1v1_lesson_flag);
 	$('#id_lesson_plan_style').val(g_args.lesson_plan_style);
-	$('#id_account_role').val(g_args.account_role);
+	$('#id_account_role_self').val(g_args.account_role_self);
+	$('#id_ass_master_flag').val(g_args.ass_master_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -513,8 +516,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">account_role</span>
-                <input class="opt-change form-control" id="id_account_role" />
+                <span class="input-group-addon">account_role_self</span>
+                <input class="opt-change form-control" id="id_account_role_self" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">ass_master_flag</span>
+                <input class="opt-change form-control" id="id_ass_master_flag" />
             </div>
         </div>
 */

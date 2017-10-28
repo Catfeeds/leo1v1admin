@@ -559,6 +559,7 @@ return array(
     'TMsgLogForWx' => $baseDir . '/database/migrations/2017_10_25_181217_t_msg_log_for_wx.php',
     'TNewTeaEntry' => $baseDir . '/database/migrations/2017_10_20_131431_t_new_tea_entry.php',
     'TOnlineCountXmppLog' => $baseDir . '/database/migrations/2017_10_19_184809_t_online_count_xmpp_log.php',
+    'TOrderActivityInfoCanPeriodFlag' => $baseDir . '/database/migrations/2017_10_27_163754_t_order_activity_info_can_period_flag.php',
     'TOrderInfoAddCanPeriodFlag' => $baseDir . '/database/migrations/2017_10_27_115944_t_order_info_add_can_period_flag.php',
     'TOrderRefundAddSubjectTeacher' => $baseDir . '/database/migrations/2017_10_25_141618_t_order_refund_add_subject_teacher.php',
     'TOrderidOrdernoListAddParentOrderid' => $baseDir . '/database/migrations/2017_10_24_100253_t_orderid_orderno_list_add_parent_orderid.php',

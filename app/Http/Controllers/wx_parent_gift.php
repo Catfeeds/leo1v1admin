@@ -293,34 +293,248 @@ class wx_parent_gift extends Controller
     }
 
 
-    // 双11活动
+    /***
+        双11活动 理优在线
 
+    ***/
+
+    public function get_draw_num($parentid){
+        // 检查是否分享朋友圈
+        $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+
+        // 检查是否在读学生
+        $is_reading = $this->t_student_info->check_is_reading($parentid);
+
+        //检查是否新签
+        $order_start = strtotime('2017-11-11');
+        $order_end   = strtotime('2017-11-13');
+        $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
+
+        $draw_num = 0; //抽奖次数
+
+        if($has_share){ $draw_num++;}
+
+        if($is_reading){$draw_num++;}
+
+        if($is_new_order){$draw_num++;}
+
+        $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
+
+        $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
+
+        $left_num = $draw_num-$consume_num;
+
+        return $left_num;
+    }
+
+    public function get_luck_parent_info(){ // 获取家长抽奖信息
+        $parentid = $this->get_in_int_val('parentid');
+        $left_num = $this->get_draw_num($parentid);
+        return $this->output_succ(['left'=>$left_num]);
+    }
 
     public function update_share_status(){ // check是否分享
-        $parentid = $this->get_in_int_val('parentid');
-
-        $check_falg = $this->t_ruffian_activity->check_share($parentid);
-
-        $this->t_ruffian_activity->update_share_flag($parentid);
-
-        $ret = $this->t_ruffian_activity->get_is_share_flag($parentid);
-
-        if($ret){
-            // return $this->ge
-        }
+        $parentid = $this->get_in_int_val('parentid');//
+        $this->t_ruffian_share->delete_row_by_pid($parentid);
+        $this->t_ruffian_share->row_insert([
+            "is_share_flag" => 1,
+            "share_time"    => time(),
+            "parentid"      => $parentid
+        ]);
+        return $this->output_succ();
     }
 
     public function ruffian_activity(){ // 双11活动
+        /**
+        $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
+                                  ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
+                                  ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
+                                  ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
+
+        **/
 
 
+        $reg_time   = $this->t_user_info->get_reg_time($parentid);
+        $check_time = strtotime('2017-11-6');
+        $stu_type = 1;
+        if($check_time>$reg_time){ // 老用户
+            $stu_type = 2;
+        }else{
+            $stu_type = 1;
+        }
 
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time   = $start_time+86400;
+        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
+
+        $limit_num = $this->get_limit_num($stu_type);
+
+        if($draw_num_arr['bag_num'] >80){
+
+        }
+    }
+
+
+    public function get_limit_num($stu_type){
+        $ret_info = [];
+        /**
+           $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
+           ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
+           ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
+           ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
+
+        **/
+
+        $bag_num = 0;
+        $three_free_num = 0;
+        $test_lesson_num = 0;
+        $fifty_coupon_num = 0;
+        $one_hundred_coupon_num = 0;
+        $five_hundred_coupon_num = 0;
+        $three_hundred_coupon_num = 0;
+
+        $today = strtotime(date('Y-m-d '));
+
+        if($stu_type == 1){ // 新用户
+            if(1){
+
+            }
+        }elseif($stu_type == 2){ // 老用户
+
+        }
+
+
+        $ret_info = [
+            "bag_num" => $bag_num,
+            "three_free_num"   => $three_free_num,
+            "test_lesson_num"  => $test_lesson_num,
+            "fifty_coupon_num" => $fifty_coupon_num,
+            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
+            "three_hundred_coupon_num" => $three_hundred_coupon_num,
+            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
+        ];
+
+        return $ret_info;
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     // 双11优学优享活动
+    public function get_member_info_list(){ // 获取会员信息
+        $start_time = 1509638400; // 2017-11-03
+        $parentid = $this->get_in_int_val('pid');
 
+        $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
+        $invite_info = $this->t_agent->get_invite_num($start_time, $pid);
+
+        $ret_info['invite_num'] = count($invite_info);
+        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5);
+
+        return $this->output_succ(["data"=>$ret_info]);
+    }
+
+
+    public function do_luck_draw_yxyx(){ // 抽奖
+        $parentid = $this->get_in_int_val('parentid');
+
+        // 获取已中奖的总金额
+        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
+        if($has_get_money >1000){
+            return $this->output_err("谢谢参加!");
+        }
+
+        $rate  = mt_rand(1,100);
+        $prize = 0;
+        /**
+           金额分别为
+           1.11（80%）
+           11.11（11%）
+           31.11（4%）
+           51.11（2%）
+           71.11（1%）
+           91.11（1%）
+           111.1（1%）
+           每天优先小金额
+           每日金额为1000元预算
+        */
+
+        if($rate>=10 && $rate<90){ //中奖金额 1.11
+            $prize = 111;
+        }elseif($rate>30 & $rate<=41){ // 中奖金额 11.11
+            $prize = 1111;
+        }elseif($rate>30 & $rate<=34){ // 中奖金额 31.11
+            $prize = 3111;
+        }elseif($rate>50 & $rate<=52){ // 中奖金额 51.11
+            $prize = 5111;
+        }elseif($rate>60 & $rate<=61){ // 中奖金额 71.11
+            $prize = 7111;
+        }elseif($rate>70 & $rate<=71){ // 中奖金额 91.11
+            $prize = 9111;
+        }elseif($rate>80 & $rate<=81){ // 中奖金额 111.11
+            $prize = 11111;
+        }
+
+        // 中奖金额存入数据库
+        $ret = $this->t_agent->update_money($parentid, $prize);
+        $is_save   = 0;
+        $save_tiem = 0;
+        if($ret){
+            $is_save = 1;
+            $save_time = time();
+        }
+        $this->t_luck_draw_yxyx_for_ruffian->row_insert([
+            "luck_draw_adminid" => $parentid,
+            "luck_draw_time" => time(),
+            "deposit_time" => $save_time,
+            "is_deposit" => $is_save,
+            "money"  => $prize,
+        ]);
+
+        //发送微信推送
+        /**
+           {{first.DATA}}
+           活动主题：{{keyword1.DATA}}
+           活动时间：{{keyword2.DATA}}
+           活动结果：{{keyword3.DATA}}
+           {{remark.DATA}}
+         **/
+        $wx = new \App\Helper\Wx();
+
+        $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
+        $data_msg = [
+            "first"     => "您好，此次活动已经结束，你已经成功参与",
+            "keyword1"  => "双十一活动",
+            "keyword2"  => "2017.11.03 - 2017.11.10",
+            "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
+            "remark"    => "感谢您的参与",
+        ];
+        $url = "";
+        $send_openid = $this->t_parent_info->get_wx_openid($parenrid);
+        $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
+
+        return $this->output_succ(["money"=>$prize]);
+    }
 
 
 

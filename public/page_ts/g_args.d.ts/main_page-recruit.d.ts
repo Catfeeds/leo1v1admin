@@ -1,10 +1,10 @@
 interface GargsStatic {
-	recruit:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	recruit:	string;
 	history_data:	number;
 }
 declare module "g_args" {
@@ -28,12 +28,12 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		recruit:	$('#id_recruit').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
+		recruit:	$('#id_recruit').val(),
 		history_data:	$('#id_history_data').val()
     });
 }

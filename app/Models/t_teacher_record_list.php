@@ -893,7 +893,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "type=10",
             "trial_train_status=1",
         ];
-        $sql = $this->gen_sql_new("select record_score,add_time"
+        $sql = $this->gen_sql_new("select record_score,add_time,teacher_lecture_score"
                                   ." from %s "
                                   ." where %s order by add_time"
                                   ,self::DB_TABLE_NAME
@@ -1375,12 +1375,10 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $ret;
     }
 
-    public function get_data_to_teacher_flow($start_time,$end_time,$type,$teacherid)
+    public function get_data_to_teacher_flow($type,$teacherid)
     {
         $where_arr = [
             ["l.train_type=%u",$type,0],
-            ["l.lesson_start>%u", $start_time, 0],
-            ["l.lesson_start<%u", $end_time, 0],
             ["l.teacherid=%u",$teacherid,0],
             'l.lesson_type=1100',
             "l.lesson_del_flag=0",
@@ -1401,7 +1399,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function get_interview_through_by_subject($start_time, $end_time, $subject){
-        $where_arr=[
+        $where_arr = [
             ["l.lesson_start >= %u",$start_time,-1],
             ["l.lesson_start <= %u",$end_time,-1],
             ["l.subject=%u",$subject,0],

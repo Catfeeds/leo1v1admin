@@ -739,4 +739,117 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
 
     }
+    //@desn:我的收入页面
+    public function my_income_info(){
+        $agent_id   = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        
+        $list = [
+            "all_money" => $agent_info["all_yxyx_money"]/100,
+            "open_moeny" => $agent_info["all_open_cush_money"]/100,
+            "all_have_cush_money" => $agent_info["all_have_cush_money"]/100,
+        ];
+
+        //获取提现中金额
+        $list['is_cash_money'] = $this->t_agent_cash->get_is_cashing_money($agent_id)/100;
+        return $this->output_succ(['income_info'=>$list]);
+    }
+    //@desn:获取我的邀请、会员邀请奖励列表
+    public function get_invite_list(){
+        $agent_id   = $this->get_agent_id();
+        $my_invite = [];
+        if (!$agent_id){
+            return $this->output_err("没有信息");
+        }
+        $list = $this->t_agent->my_invite($agent_id);
+        foreach($list as $key => &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            if($item['agent_status'] > 0 && $item['agent_status'] < 10)
+                $item['agent_status'] = 0;
+            if($item['agent_status'] >30)
+                $item['agent_status'] = 30;
+            $my_invite[$key]['nickname'] = $item['nickname'];
+            $my_invite[$key]['create_time'] = $item['create_time'];
+            $my_invite[$key]['agent_status_money'] = $item['agent_status_money']/100;
+            $my_invite[$key]['agent_status'] = $item['agent_status'];
+            $my_invite[$key]['create_time'] = $item['create_time'];
+        }
+        $member_invite = [];
+        $data = $this->t_agent->member_invite($agent_id);
+        foreach($data as $key => &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            $member_invite[$key]['nickname'] = $item['nickname'];
+            $member_invite[$key]['create_time'] = $item['create_time'];
+            $member_invite[$key]['agent_status_money'] = $item['agent_status_money']/100;
+            $member_invite[$key]['agent_status'] = $item['agent_status'];
+            $member_invite[$key]['create_time'] = $item['create_time'];
+        }
+        
+        return $this->output_succ([
+            "my_invite"=>$my_invite,
+            "member_invite"=>$member_invite,
+        ]);
+    }
+
+    //@desn:获取银行卡信息
+    public function get_agent_bank_info(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        $ret = [];
+        $ret = $this->t_agent->get_agent_info_by_phone($phone);
+        if(!$ret){
+            return $this->output_err('请先绑定优学优享账号!');
+        }
+        $data = [
+            "bank_account"  => $ret['bank_account'],
+            "idcard"        => $ret['idcard'],
+            "bank_type"     => $ret['bank_type'],
+            "bank_address"  => $ret['bank_address'],
+            "bank_province" => $ret['bank_province'],
+            "bank_city"     => $ret['bank_city'],
+            "bankcard"      => $ret['bankcard'],
+            "bank_phone"    => $ret['bank_phone'],
+        ];
+
+        return $this->output_succ(["data" =>$data]);
+    }
+
+    //@desn:获取用户支付包信息
+    public function get_agent_alipay_info(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        $ret = [];
+        $ret = $this->t_agent->get_agent_info_by_phone($phone);
+        if(!$ret){
+            return $this->output_err('请先绑定优学优享账号!');
+        }
+        $data = [
+            "zfb_name"      => $ret['zfb_name'],
+            "zfb_account"   => $ret['zfb_account'],
+        ];
+
+        return $this->output_succ(["data" =>$data]);
+    }
+
 }

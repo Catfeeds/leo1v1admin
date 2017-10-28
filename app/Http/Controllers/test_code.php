@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Libs;
@@ -295,16 +296,16 @@ class test_code extends Controller
             $user_agent = json_decode($val['user_agent'],true);
             $os         = substr($user_agent["device_model"],0,4);
             $version    = $user_agent["version"];
-            // if($os=="Win" || $os=="Mac"){
-            //     if($version != "3.1.0"){
-            //         $push_list[] = $val;
-            //     }
-            // }
-            if($os=="iPad"){
-                if($version != "5.0.4"){
+            if($os=="Win" || $os=="Mac"){
+                if($version == "4.2.0"){
                     $push_list[] = $val;
                 }
             }
+            // if($os=="iPad"){
+            //     if($version != "5.0.4"){
+            //         $push_list[] = $val;
+            //     }
+            // }
         }
 
         echo "<pre>";
@@ -1403,12 +1404,30 @@ class test_code extends Controller
     }
 
     public function test_command(){
-        $test = Artisan::call("test_command",[
-            "type" => 1
+        // Route::get('/foo', function () {
+        echo "begin";
+        echo "<br>";
+        $ret = Artisan::call('command:test_command', [
+            '--type' => 1
         ]);
-
-        var_dump($test);
+        var_dump($ret);
+        // });
     }
+
+    /**
+     * 删除多余的模拟试听课程
+     */
+    public function delete_more_lesson(){
+        $lesson_list = $this->t_lesson_info_b3->get_more_trial_lesson_list();
+        foreach($lesson_list as $l_val){
+            $this->t_lesson_info->row_delete($l_val['lessonid']);
+        }
+        $lesson_list = $this->t_lesson_info_b3->get_more_trial_lesson_list();
+        if(!empty($lesson_list)){
+            $this->delete_more_lesson();
+        }
+    }
+
 
 
 }

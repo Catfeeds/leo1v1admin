@@ -117,13 +117,12 @@ class order_price_20171001 extends order_price_base
         //$off_86_flag=false;
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
-            $off_flag=(new Activity\activity_2017102702( $args ))->exec( $can_period_flag,$price,$present_lesson_count,$desc_list) ;
-            if (!$off_flag) {
-                (new Activity\activity_2017090101( $args ))->exec( $can_period_flag,$price,$present_lesson_count,$desc_list) ;
+            (new Activity\activity_2017090101( $args ))->exec( $can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
-            }
+
         }
 
+        (new Activity\activity_2017102702( $args ))->exec( $can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
         (new Activity\activity_2017102701( $args ))->exec($can_period_flag,$price,$present_lesson_count,$desc_list) ;
 

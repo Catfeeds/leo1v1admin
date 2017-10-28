@@ -1833,9 +1833,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function get_some_info($sql){
-        return $this->main_get_list($sql);
-    }
 
     public function get_admin_list_by_role($role){
         $where_arr = [
@@ -2073,9 +2070,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_all(){
-        $sql = $this->gen_sql_new(" select permission from %s m"
+        $sql = $this->gen_sql_new(" select permission, uid, account from %s m"
                                   ." where leave_member_time = 0"
                                   ,self::DB_TABLE_NAME
         );
+
+        return $this->main_get_list($sql);
     }
 }
