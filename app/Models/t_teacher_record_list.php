@@ -1375,7 +1375,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $ret;
     }
 
-    public function get_data_to_teacher_flow($start_time, $end_time, $type)
+    public function get_data_to_teacher_flow($start_time,$end_time,$type)
     {
         $where_arr = [
             ["tr.add_time>%u",$start_time, 0],
