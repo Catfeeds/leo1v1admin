@@ -295,19 +295,26 @@ class wx_parent_gift extends Controller
 
     // 双11活动
 
-
     public function update_share_status(){ // check是否分享
         $parentid = $this->get_in_int_val('parentid');
 
-        $check_falg = $this->t_ruffian_activity->check_share($parentid);
+        $this->t_ruffian_share->delete_row_by_pid($parentid);
 
-        $this->t_ruffian_activity->update_share_flag($parentid);
+        $this->t_ruffian_share->row_insert([
+            "is_share_flag" => 1,
+            "share_time"    => time(),
+            "parentid"      => $parentid
+        ]);
 
-        $ret = $this->t_ruffian_activity->get_is_share_flag($parentid);
+        // $check_falg = $this->t_ruffian_activity->check_share($parentid);
 
-        if($ret){
-            // return $this->ge
-        }
+        // $this->t_ruffian_activity->update_share_flag($parentid);
+
+        // $ret = $this->t_ruffian_activity->get_is_share_flag($parentid);
+
+        // if($ret){
+        //     // return $this->ge
+        // }
     }
 
     public function ruffian_activity(){ // 双11活动

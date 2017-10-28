@@ -1405,9 +1405,9 @@ class test_code extends Controller
 
     public function test_command(){
         // Route::get('/foo', function () {
-            $ret = Artisan::call('command:test_command', [
-                '--type' => 1 
-            ]);
+        $ret = Artisan::call('test:test_command', [
+            '--type' => 1
+        ]);
         var_dump($ret);
         // });
 
