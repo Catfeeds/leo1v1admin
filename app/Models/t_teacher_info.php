@@ -4281,8 +4281,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     /**
      * 获取需要更新工资的老师名单
      */
-    public function get_need_set_teacher_salary_list(){
+    public function get_need_set_teacher_salary_list($start_time,$end_time){
+        $where_arr = [
+            ""
+        ];
+        $sql = $this->gen_sql_new(""
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
 
     }
 
-} 
+}
