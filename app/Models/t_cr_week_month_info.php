@@ -49,7 +49,11 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         return $this->main_get_list($sql);
     }
     public function get_teacher_info(){
-        $sql = "select * from t_teacher_info where  train_through_new_time > 1504195200 and train_through_new_time < 1506787200";
+        $sql = "select * from t_teacher_info where  train_through_new_time > 1504195200 and train_through_new_time < 1506787200 and is_test_user  = 0";
+        return $this->main_get_list($sql);
+    }
+    public function get_lesson_teacher_info(){
+        $sql = "select distinct(t.teacherid)  ,t.phone, t.phone_location from t_lesson_info l left join t_teacher_info t on t.teacherid = l.teacherid where lesson_start > 1504195200 and lesson_start < 1506787200 and  lesson_del_flag=0  and  lesson_type<1000 and t.is_test_user = 0";
         return $this->main_get_list($sql);
     }
     //-------------------------------------------------------
@@ -199,11 +203,23 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
     //----------------------------------------------
     public function get_total_province_teacher($start_time,$end_time){
         $where_arr = [
-            ["reg_time>%u",$start_time,-1],
-            ["reg_time<%u",$end_time,-1],
+            [" train_through_new_time>%u",$start_time,-1],
+            [" train_through_new_time<%u",$end_time,-1],
             "is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select count(userid) as total,phone_location from t_student_info where %s group by phone_location", $where_arr);
+        $sql = $this->gen_sql_new("select count(teacherid) as total,phone_location from t_teacher_info where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
+    }
+    public function get_total_province_lesson_teacher($start_time,$end_time){
+        $where_arr = [
+            ["  lesson_start>%u",$start_time,-1],
+            ["  lesson_start<%u",$end_time,-1],
+            "t.is_test_user=0",
+            "lesson_del_flag=0  ",
+            "lesson_type<1000 "
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(t.teacherid))  as total,phone_location from t_lesson_info l left join t_teacher_info t on t.teacherid = l.teacherid  where %s group by phone_location", $where_arr);
+        return $this->main_get_list($sql);
+
     }
 }

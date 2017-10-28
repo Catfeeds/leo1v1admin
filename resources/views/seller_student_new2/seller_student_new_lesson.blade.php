@@ -54,12 +54,12 @@
                     <td>入职时间 </td>
                     <td>离职时间 </td>
                     <td>是否离职 </td>
-                    <td>拨打认领</td>
-                    <td>手动认领</td>
-                    <td>被其他分配</td>
-                    <td>被TMK分配</td>
-                    <td>分配</td>
-                    <td>分配未联系</td>
+                    <td>应上课数</td>
+                    <td>上课成功数</td>
+                    <td>到课率</td>
+                    <td>测试数</td>
+                    <td>测试率</td>
+                    <td>上麦数</td>
                     <td>在职人数</td>
                     <td>离职人数</td>
                     <td> 操作  </td>
@@ -78,32 +78,28 @@
                         <td>{!! @$var["del_flag_str"] !!}</td>
                         <td >
                             <a href="javascript:;" class="auto_get_count" >
-                                {{@$var["auto_get_count"]}}
-                            </a>
-                        </td>
-                        <td >
-                            <a href="javascript:;" class="hand_get_count" >
-                                {{@$var["hand_get_count"]}}
-                            </a>
-                        </td>
-                        <td >
-                            <a href="javascript:;" class="count" >
                                 {{@$var["count"]}}
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="tmk_count" >
-                                {{@$var["tmk_count"]}}
+                            <a href="javascript:;" class="hand_get_count" >
+                                {{@$var["suc_count"]}}
                             </a>
+                        </td>
+                        <td >
+                            {{@$var["suc_rate"]}}
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="tmk_count" >
+                                {{@$var["test_count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            {{@$var["test_rate"]}}
                         </td>
                         <td >
                             <a href="javascript:;" class="distribution_count" >
-                                {{@$var["distribution_count"]}}
-                            </a>
-                        </td>
-                        <td >
-                            <a href="javascript:;" class="no_call_count" >
-                                {{@$var["no_call_count"]}}
+                                {{@$var["wheat_count"]}}
                             </a>
                         </td>
                         <td >{{@$var["become_member_num"]}}</td>
