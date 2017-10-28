@@ -2143,8 +2143,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, concat('/',a1.phone,a1.nickname) as nickname, a1.agent_status,"
-            ."a1.agent_status_money,a1.create_time, "
-            . " oi.lesson_total,oi.default_lesson_count,lesson_left"
+            ."a1.agent_status_money,a1.create_time "
             . " from %s a1"
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
@@ -2156,15 +2155,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function member_invite($agent_id){
         $sql = $this->gen_sql_new(
             "select a2.id as agent_id,concat('/',a2.phone,a2.nickname) as nickname,a2.agent_status,"
-            ."a2.agent_status_money,a2.create_time,"
-            ."oi.lesson_total,oi.default_lesson_count,oi.lesson_left "
+            ."a2.pp_agent_status_money as agent_status_money,a2.create_time "
             ."from %s a2 "
-            ." left join %s ag on ag.aid = a2.id"
-            . " left join %s oi on ag.orderid = oi.orderid"
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
             self::DB_TABLE_NAME,
-            t_agent_order::DB_TABLE_NAME,
-            t_order_info::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $agent_id
         );
