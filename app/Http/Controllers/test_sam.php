@@ -385,7 +385,7 @@ class test_sam  extends Controller
                     if(!isset($new_list[$pro])){
                         foreach (E\Esubject::$desc_map as $kaey => $vaalue) {
                             if(!isset($new_list[$pro][$kaey])){
-                                $new_list[$pro][$kaey] = 0;
+                                $new_list[$pro][$kaey] = '';
                             }
                         }
                         $new_list[$pro][$value['subject']] = 0;
