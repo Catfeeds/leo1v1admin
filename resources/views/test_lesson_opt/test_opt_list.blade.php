@@ -48,37 +48,34 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>roomid </td>
-                    <td>lessonid </td>
-                    <td>用户名 </td>
-                    <td>角色 </td>
-                    <td>操作类型 </td>
+                    <td>课堂类型</td>
+                    <td>用户</td>
+                    <td>角色</td>
                     <td>动作类型 </td>
-                    <td>操作ip </td>
-                    <td>课堂类型 </td>
-                    <td> 操作时间  </td>
-                    <td> 操作  </td>
+                    <td>操作类型 </td>
+                    <td>ip</td>
+                    <td>roomid/lessonid</td>
+                    <td>操作时间</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["roomid"]}} </td>
-                        <td>{{@$var["lessonid"]}} </td>
+                        <td>{{@$var["class_type"]}} </td>
                         <td>{{@$var["student_nick"]}} </td>
                         <td>{{@$var["role_str"]}} </td>
-                        <td>{{@$var["opt_type_str"]}} </td>
                         <td>{{@$var["action_str"]}} </td>
+                        <td>{{@$var["opt_type_str"]}} </td>
                         <td>{{@$var["server_ip"]}} </td>
-                        <td>{{@$var["class_type"]}} </td>
+                        <td>{{@$var["roomid"]}}/{{@$var["lessonid"]}}</td>
                         <td>{{@$var["opt_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
-
+                                <a class="fa fa-edit opt-edit" style="display:none;"  title="编辑"> </a>
+                                <a class="fa fa-times opt-del" style="display:none;" title="删除"> </a>
                             </div>
                         </td>
                     </tr>
