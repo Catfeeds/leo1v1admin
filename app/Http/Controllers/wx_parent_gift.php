@@ -298,6 +298,10 @@ class wx_parent_gift extends Controller
     public function update_share_status(){ // check是否分享
         $parentid = $this->get_in_int_val('parentid');
 
+        $this->t_ruffian_share->delete_row_by_pid($parentid);
+
+
+
         $check_falg = $this->t_ruffian_activity->check_share($parentid);
 
         $this->t_ruffian_activity->update_share_flag($parentid);
