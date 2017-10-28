@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail ;
 class common_ex extends Controller
 {
     var $check_login_flag =false;
-
     public function book_free_lesson_with_code() {
         $code       = $this->get_in_str_val('code');
         $phone      = $this->get_in_phone();
@@ -72,7 +71,7 @@ class common_ex extends Controller
         }
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         if($userid){
-            return $this->output_err("此号码已经注册!");
+            //return $this->output_err("此号码已经注册!");
         }
         if($p_phone != ''){
             $account_role = $this->t_manager_info->get_account_role_by_phone($p_phone);
@@ -112,8 +111,8 @@ class common_ex extends Controller
         $new_userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin_value,$subject=0,$has_pad=0);
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
-            $opt_account=$this->t_manager_info->get_account($opt_adminid);
-            $this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
+            (new  ss_deal() ) ->set_admin_id_ex([$new_userid],$opt_adminid,0);
+            //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }else{
             //$opt_adminid = 212; // ccid
             //$opt_account=$this->t_manager_info->get_account($opt_adminid);

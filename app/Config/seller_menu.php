@@ -105,6 +105,7 @@ class seller_menu{
                     ["power_id"=>6, "name"=>"试听签约失败-未设置","url"=>"/tongji_ss/order_fail_seller_set"],
                     ["power_id"=>16, "name"=>"特殊申请配额列表",   "url"=>"/seller_student_new2/seller_diff_money"],
                     ["power_id"=>49, "name"=>"测试课堂列表",   "url"=>"/test_lesson_opt/test_opt_list"],
+                    ["power_id"=>41, "name"=>"上课统计",   "url"=>"/seller_student_new2/seller_student_new_lesson"],
                 ]],
             ]],
         ];  

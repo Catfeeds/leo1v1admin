@@ -121,8 +121,8 @@ class supervisor extends Controller
         //     $ret_info    = $this->t_lesson_info->get_lesson_condition_list_new(
         //         $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid_arr);
         // }else{
-            $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
-                $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid);
+        $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
+            $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid);
         // }
         $monitor_key = $this->session_gen_key($date,$st_application_nick,$userid,$teacherid,$run_flag) ;
 

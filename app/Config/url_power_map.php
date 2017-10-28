@@ -299,6 +299,7 @@ class url_power_map {
 			'/tongji/seller_user_count'	=>1100121,
 			'/seller_student_new2/seller_student_new_distribution'	=>1100142,
 			'/seller_student_new2/seller_edit_log_list'	=>1100143,
+			'/seller_student_new2/seller_student_new_lesson'	=>1100141,
 			'/tongji/seller_personal_money'	=>1100135,
 			'/tongji/seller_personal_rank'	=>1100137,
 			'/tongji/seller_time_income_list'	=>1100133,
