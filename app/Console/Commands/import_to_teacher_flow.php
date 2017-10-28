@@ -47,24 +47,26 @@ class import_to_teacher_flow extends cmd_base
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
-        // if(!empty($tea_list)){
-        //     foreach($tea_list as $val){
-        //         $task->t_teacher_flow->row_insert_ignore([
-        //             "teacherid"              => $val['teacherid'],
-        //             "phone"                  => $val['phone'],
-        //             "train_through_new_time" => $val['train_through_new_time'],
-        //         ]);
-        //     }
-        // }
+        $task->t_teacher_flow->delete(); // 清空表
+
+        $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
+        if(!empty($tea_list)){
+            foreach($tea_list as $val){
+                $task->t_teacher_flow->row_insert_ignore([
+                    "teacherid"              => $val['teacherid'],
+                    "phone"                  => $val['phone'],
+                    "train_through_new_time" => $val['train_through_new_time'],
+                ]);
+            }
+        }
 
         // trial_lecture_pass_time 设0
-        $info = $task->t_teacher_flow->get_all_trial_time();
-        foreach($info as $teacherid => $item) {
-            $task->t_teacher_flow->field_update_list($teacherid, [
-                    "trial_lecture_pass_time" => 0
-                ]);
-        }
+        // $info = $task->t_teacher_flow->get_all_trial_time();
+        // foreach($info as $teacherid => $item) {
+        //     $task->t_teacher_flow->field_update_list($teacherid, [
+        //             "trial_lecture_pass_time" => 0
+        //         ]);
+        // }
 
         // 导入老师报名时间 accept_adminid招师专员的id
         // $where = ["answer_begin_time=0"];
@@ -86,7 +88,6 @@ class import_to_teacher_flow extends cmd_base
 
         $where = ["trial_lecture_pass_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
-        //$lecture_pass_list ;
         foreach($info as $teacherid => $item) {
             if (!isset($lecture[$item['phone']])) continue;
             $task->t_teacher_flow->field_update_list($teacherid, [
