@@ -2681,11 +2681,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info){
+    public function get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info){
         $where_arr = [
             ['n.admin_revisiterid=%u',$adminid],
             'n.admin_revisiterid<>n.admin_assignerid',
-            ['n.hand_get_adminid=%u',$flag],
+            ['n.hand_get_adminid=%u',$hand_get_adminid],
             ['m.account_role=%u',E\Eaccount_role::V_2],
             's.is_test_user=0',
         ];
