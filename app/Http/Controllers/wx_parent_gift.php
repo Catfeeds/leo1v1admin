@@ -397,18 +397,25 @@ class wx_parent_gift extends Controller
 
 
         if($stu_type == 1){ // 新用户
-            $ret_info = [
-                "bag_num" => $bag_num,
-                "three_free_num"   => $three_free_num,
-                "test_lesson_num"  => $test_lesson_num,
-                "fifty_coupon_num" => $fifty_coupon_num,
-                "one_hundred_coupon_num"   => $one_hundred_coupon_num,
-                "three_hundred_coupon_num" => $three_hundred_coupon_num,
-                "five_hundred_coupon_num"  => $five_hundred_coupon_num,
-            ];
+            if(1){
+
+            }
         }elseif($stu_type == 2){ // 老用户
 
         }
+
+
+        $ret_info = [
+            "bag_num" => $bag_num,
+            "three_free_num"   => $three_free_num,
+            "test_lesson_num"  => $test_lesson_num,
+            "fifty_coupon_num" => $fifty_coupon_num,
+            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
+            "three_hundred_coupon_num" => $three_hundred_coupon_num,
+            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
+        ];
+
+        return $ret_info;
 
     }
 
