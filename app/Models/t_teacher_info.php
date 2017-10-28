@@ -3981,6 +3981,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 培训参训新师
     public function get_train_inter_teacher_count($time, $teacherid) {
         $whereArr = [
+            ["add_time>%u",$time,0],
             ["userid=%u", $teacherid, 0],
             "train_type=1"
         ];
