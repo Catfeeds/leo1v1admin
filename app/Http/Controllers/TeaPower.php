@@ -1222,8 +1222,6 @@ trait TeaPower {
             $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
 
 
-            // tea_list  试讲通过trial_lecture_is_pass,绑定过微信wx_openid!='',is_test_user=0
-            // wx_openid,grade_start,subject    18790256265  boby
 
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
