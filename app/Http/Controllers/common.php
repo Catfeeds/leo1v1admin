@@ -767,6 +767,7 @@ class common extends Controller
         return $file_url;
     }
 
+
     /**
      * 优学优享 邀请会员生成二维码图片
      */
