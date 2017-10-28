@@ -1526,7 +1526,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "pre_price"                      => $pre_price,
             "order_price_desc"               => $order_price_desc,
             "order_partition_flag"           => $order_partition_flag,
-            "can_period_flag"               => $can_period_flag 
+            "can_period_flag"               => $can_period_flag
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
@@ -3874,5 +3874,22 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function check_is_new($parentid){
+        $where_arr = [
+            "o.contract_type=0",
+            "o."
+        ];
+        $sql = $this->gen_sql_new("  select * from %s o "
+                                  ." left join %s s on s.userid=o.userid"
+                                  ." left join %s p on p.userid=o.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }
