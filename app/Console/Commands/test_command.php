@@ -40,7 +40,18 @@ class test_command extends Command
         //
         // $type = $this->option("type");
         echo "this is test command";
-        sleep(10);
+        sleep(2);
         echo "sleep finish";
+        $this->info("show info");
+
+        $bar = $this->output->createProgressBar(3);
+        sleep(1);
+        $bar->advance();
+        sleep(2);
+        $bar->advance();
+        sleep(2);
+        $bar->advance();
+
+        $bar->finish();
     }
 }
