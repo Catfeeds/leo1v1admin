@@ -369,15 +369,23 @@ class Utils  {
         return $ret;
     }
 
-    // 获取指定日期所在月的开始日期与结束日期
-    static function get_month_range($timestamp ){
+    /**
+     * 获取指定日期所在月的开始日期与结束日期
+     * @param int timestamp 当前时间戳
+     * @param int is_full_month 是否拉取整个月
+     * @return array
+     */
+    static function get_month_range($timestamp,$is_full_month=false ){
         $ret = array();
         $mdays        = date('t',$timestamp);
         $ret['sdate'] = strtotime( date('Y-m-1 00:00:00',$timestamp));
-        $ret['edate'] = strtotime( date('Y-m-'.$mdays.' 23:59:59',$timestamp));
+        if($is_full_month){
+            $ret['edate'] = strtotime("+1 month",$ret['sdate']);
+        }else{
+            $ret['edate'] = strtotime( date('Y-m-'.$mdays.' 23:59:59',$timestamp));
+        }
         return $ret;
     }
-
 
     //检测当前环境
     static function   check_env_is_local(){
