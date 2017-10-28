@@ -61,8 +61,7 @@ class import_to_teacher_flow extends cmd_base
         // trial_lecture_pass_time 设0
         $info = $task->t_teacher_flow->get_all_trial_time();
         foreach($info as $teacherid => $item) {
-            $task->t_teacher_flow->field_update_list($teacherid
-                ,[
+            $task->t_teacher_flow->field_update_list($teacherid, [
                     "trial_lecture_pass_time" => 0
                 ]);
         }

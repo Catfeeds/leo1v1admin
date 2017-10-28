@@ -1901,7 +1901,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "status=1",
             "confirm_time!=0"
         ];
-        $sql = $this->gen_sql_new("select subject,grade,confirm_time from %s where %s tl "
+        $sql = $this->gen_sql_new("select subject,grade,confirm_time from %s tl where %s "
                                   ." and not exists (select 1 from %s "
                                   ." where tl.phone=phone and tl.add_time>add_time and status=1 and confirm_time!=0)"
                                   ,self::DB_TABLE_NAME
