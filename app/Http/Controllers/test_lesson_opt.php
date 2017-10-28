@@ -30,5 +30,4 @@ class test_lesson_opt extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    
 }
