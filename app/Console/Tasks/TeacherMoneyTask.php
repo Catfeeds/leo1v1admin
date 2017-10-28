@@ -128,9 +128,8 @@ class TeacherMoneyTask extends TaskController
      * 设置老师工资信息
      */
     public function set_teacher_salary_list($type,$start_time=0){
-        if($start_time == 0){
+        $start_time = $start_time==0?time():$start_time;
 
-        }
         $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list();
     }
 
