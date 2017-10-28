@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1106
+//__DESC:微信[优学优享]获取用户优学优享银行卡信息 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_agent_bank_info?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+}
+
+message out {
+  common.agent_bank_info data = 1;//银行卡信息
+}

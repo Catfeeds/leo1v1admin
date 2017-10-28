@@ -57,6 +57,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">被分配类型</span>
                         <select class="opt-change form-control" id="id_hand_get_adminid" >
+                        </select>
                     </div>
                 </div>
             </div>
@@ -82,7 +83,7 @@
                         <td>{{@$var["uid_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["origin"]}} </td>
-                        <td>{!! @$var["global_tq_called_flag_str"] !!} </td>
+                        <td>{!! @$var["is_contact_flag_str"] !!} </td>
                         <td>{!! @$var["del_flag_str"] !!} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>

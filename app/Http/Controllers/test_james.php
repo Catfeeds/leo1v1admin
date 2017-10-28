@@ -818,6 +818,7 @@ class test_james extends Controller
 
 
     public function dd(){
+        dd(strtotime(date('Y-m-d ')));
     }
 
 
