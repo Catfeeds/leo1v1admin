@@ -762,6 +762,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_XOR_EQUAL' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PageTrack' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_164418_page_track.php',
         'Qiniu\\Auth' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Auth.php',
         'Qiniu\\Cdn\\CdnManager' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Cdn/CdnManager.php',
         'Qiniu\\Config' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Config.php',

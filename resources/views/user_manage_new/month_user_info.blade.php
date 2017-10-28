@@ -64,7 +64,7 @@
                 <tr> <td>本月新增学员数</td> <td>{{@$new["new_pay_stu_num"]}}</td> </tr>
                 <tr> <td>本月正常结课学员数</td> <td>{{@$new["normal_over_num"]}}</td> </tr>
                 <tr> <td>本月退费学员数</td> <td>{{@$new["refund_stu_num"]}}</td> </tr>
-                <tr> <td>本月学员累计退费率</td> <td>{{@$new["refund_rate"]}}</td> </tr>
+                <tr> <td>合同累计退费率</td> <td>{{@$new["refund_rate"]}}</td> </tr>
                 <tr> <td>本月在读学员期末数</td> <td>{{@$new["study_num"]}}</td> </tr>
                 <tr> <td>本月停课学员期末数</td> <td>{{@$new["stop_num"]}}</td> </tr>
                 <tr> <td>本月休学学员期末数 </td> <td>{{@$new["drop_out_num"]}}</td> </tr>
