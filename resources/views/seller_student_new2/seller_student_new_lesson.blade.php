@@ -88,7 +88,7 @@
                         </td>
                         <td >
                             @if ($var["count"]>0)
-                                {{@$var["suc_count"]/$var["count"]}}
+                                {{round(@$var["suc_count"]/$var["count"],1)}}
                             @else
                                 0
                             @endif
@@ -100,7 +100,7 @@
                         </td>
                         <td >
                             @if ($var["suc_count"]>0)
-                                {{@$var["test_count"]/$var["suc_count"]}}
+                                {{round(@$var["test_count"]/$var["suc_count"],1)}}
                             @else
                                 0
                             @endif
