@@ -62,11 +62,11 @@ class import_to_teacher_flow extends Command
         $where = ["answer_begin_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
-            $info = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($info['phone']);
-            dd($info);
+            $ret = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($item['phone']);
+            dd($ret);
             $task->t_teacher_flow->field_update_list($teacherid, [
-                'answer_begin_time' => $info['answer_begin_time'],
-                "accept_adminid" => $info['accept_adminid']
+                'answer_begin_time' => $ret['answer_begin_time'],
+                "accept_adminid" => $ret['accept_adminid']
             ]);
         }
         exit;
