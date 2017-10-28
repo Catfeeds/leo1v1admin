@@ -42,7 +42,8 @@ class test_sam extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         //$ret_info = $task->t_cr_week_month_info->get_teacher_info();
-        $ret_info = $task->t_cr_week_month_info->get_lesson_teacher_info();
+        //$ret_info = $task->t_cr_week_month_info->get_lesson_teacher_info();
+        $ret_info = $task->t_cr_week_month_info->get_all_teacher_info();
         foreach ($ret_info as $key => $value) {
             $phone=trim($value['phone']);
             if ($phone =="" ) {
@@ -74,7 +75,7 @@ class test_sam extends Command
                 "phone_location" =>$phone_location,
             ]);
         }
-
+        /*
 
         $ret_info_1 = $task->t_cr_week_month_info->get_teacher_info();
         //$ret_info = $task->t_cr_week_month_info->get_lesson_teacher_info();
@@ -109,5 +110,7 @@ class test_sam extends Command
                 "phone_location" =>$phone_location,
             ]);
         }
+
+        */
     }
 }
