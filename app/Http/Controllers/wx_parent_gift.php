@@ -309,6 +309,15 @@ class wx_parent_gift extends Controller
         //检查是否新签
         $is_new_order = $this->t_order_info->check_is_new($parentid);
 
+        $draw_num = 0; //抽奖次数
+
+        if($has_share){ $draw_num++;}
+
+        if($is_reading){$draw_num++;}
+
+        if($is_new_order){$draw_num++;}
+
+        $draw_num = ($draw_num>=2)?2:$draw_num;
 
     }
 
