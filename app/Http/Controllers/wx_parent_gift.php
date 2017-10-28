@@ -531,9 +531,13 @@ class wx_parent_gift extends Controller
            活动结果：{{keyword3.DATA}}
            {{remark.DATA}}
          **/
+
+        $this->appid     = \App\Helper\Config::get_wx_appid();
+        $this->appsecret = \App\Helper\Config::get_wx_appsecret();
+
         $wx = new \App\Helper\Wx();
 
-        $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
+        $template_id = "-jlgaNShu8zuil5ST1Qo5hY6RzaNyujwZ0fAnh2Te40";//活动结束提醒
         $data_msg = [
             "first"     => "您好，此次活动已经结束，你已经成功参与",
             "keyword1"  => "双十一活动",

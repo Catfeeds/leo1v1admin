@@ -64,6 +64,17 @@ class Config{
         return $config["appsecret"];
     }
 
+    static public function get_wx_appid() {
+        $config=self::get_config("wx");
+        return $config["appid"];
+    }
+
+    static public function get_wx_appsecret() {
+        $config=self::get_config("wx");
+        return $config["appsecret"];
+    }
+
+
     static public function get_teacher_wx_appid() {
         $config=self::get_config("teacher_wx");
         return $config["appid"];

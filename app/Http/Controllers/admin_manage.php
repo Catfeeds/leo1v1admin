@@ -150,7 +150,7 @@ class admin_manage extends Controller
     public function web_page_log () {
         $web_page_id= $this->get_in_int_val("web_page_id");
         $page_info= $this->get_in_page_info();
-        $from_adminid= $this->get_in_int_val("from_adminid");
+        $from_adminid= $this->get_in_int_val("from_adminid",-1);
 
         $ret_info=$this->t_web_page_trace_log->get_admin_info( $page_info,$web_page_id,$from_adminid);
 
