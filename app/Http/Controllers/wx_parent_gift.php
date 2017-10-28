@@ -402,6 +402,7 @@ class wx_parent_gift extends Controller
         if($stu_type == 1){ // 新用户
             $ret_info = [
                 "bag_num" => $bag_num,
+                "test_lesson_num" => $test_lesson_num,
                 "fifty_coupon_num" => $fifty_coupon_num,
                 "one_hundred_coupon_num" => $one_hundred_coupon_num,
                 "three_hundred_coupon_num" => $three_hundred_coupon_num,
