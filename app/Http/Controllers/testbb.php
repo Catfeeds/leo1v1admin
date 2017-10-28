@@ -118,7 +118,7 @@ class testbb extends Controller
 
 
     public function tt() {
-        $agent_id= 4621;
+        $agent_id= 3921 ;
         dispatch( new \App\Jobs\agent_reset($agent_id) );
         echo "s1s";
     }

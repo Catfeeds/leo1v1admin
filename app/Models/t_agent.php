@@ -2001,7 +2001,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     //消息
-    public function  send_wx_msg_2002( $from_agentid, $to_agentid, $order_price,$get_money,$phone  ) {
+    public function  send_wx_msg_2002( $from_agentid, $to_agentid, $price,$get_money,$phone  ) {
 
 
         if ($price >300000 )  {
