@@ -336,7 +336,7 @@ class wx_parent_gift extends Controller
     }
 
     public function update_share_status(){ // check是否分享
-        $parentid = $this->get_in_int_val('parentid');// 
+        $parentid = $this->get_in_int_val('parentid');//
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
@@ -355,16 +355,97 @@ class wx_parent_gift extends Controller
 
         **/
 
+
+        $reg_time   = $this->t_user_info->get_reg_time($parentid);
+        $check_time = strtotime('2017-11-6');
+        $stu_type = 1;
+        if($check_time>$reg_time){ // 老用户
+            $stu_type = 2;
+        }else{
+            $stu_type = 1;
+        }
+
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
-        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time);
-        if($draw_num_arr['']){
+        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
+
+        $limit_num = $this->get_limit_num($stu_type);
+
+        if($draw_num_arr['bag_num'] >80){
+
+        }
+    }
+
+
+    public function get_limit_num($stu_type){
+        $ret_info = [];
+        /**
+           $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
+           ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
+           ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
+           ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
+
+        **/
+
+        $bag_num = 0;
+        $three_free_num = 0;
+        $test_lesson_num = 0;
+        $fifty_coupon_num = 0;
+        $one_hundred_coupon_num = 0;
+        $five_hundred_coupon_num = 0;
+        $three_hundred_coupon_num = 0;
+
+        $today = strtotime(date('Y-m-d '));
+
+        $six    = strtotime('2017-11-6');
+        $seven  = strtotime('2017-11-7');
+        $eight  = strtotime('2017-11-8');
+        $nine   = strtotime('2017-11-9');
+        $ten    = strtotime('2017-11-10');
+        $eleven = strtotime('2017-11-11');
+        $twelve = strtotime('2017-11-12');
+        $Thirteen = strtotime('2017-11-13');
+
+        if($stu_type == 1){ // 新用户
+            if($today<$eleven){
+
+            }
+        }elseif($stu_type == 2){ // 老用户
 
         }
 
 
+        $ret_info = [
+            "bag_num" => $bag_num,
+            "three_free_num"   => $three_free_num,
+            "test_lesson_num"  => $test_lesson_num,
+            "fifty_coupon_num" => $fifty_coupon_num,
+            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
+            "three_hundred_coupon_num" => $three_hundred_coupon_num,
+            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
+        ];
+
+        return $ret_info;
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

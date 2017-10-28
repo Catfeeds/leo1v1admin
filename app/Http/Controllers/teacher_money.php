@@ -551,6 +551,7 @@ class teacher_money extends Controller
                 );
 
                 $money = ($base_money+$reward_money)*25;
+                $update_arr['money'] = $money;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
             }elseif($type==E\Ereward_type::V_6){
@@ -790,10 +791,7 @@ class teacher_money extends Controller
      * 设置老师的薪资
      */
     public function set_teacher_salary(){
-        $ret = Artisan::call('command:test_command', [
-            '--type' => 1
-        ]);
-        echo "test is finish";
+
     }
 
 

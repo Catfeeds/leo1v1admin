@@ -44,13 +44,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/pic_manage-pic_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		type:	$('#id_type').val(),
+		usage_type:	$('#id_usage_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			type:	$('#id_type').val(),
-			usage_type:	$('#id_usage_type').val()
-        });
-    }
 
 
 	$('#id_type').val(g_args.type);
