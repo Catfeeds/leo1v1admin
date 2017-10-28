@@ -790,8 +790,8 @@ class teacher_money extends Controller
      * 设置老师的薪资
      */
     public function set_teacher_salary(){
-        $ret = Artisan::call('test:test_command', [
-            '--type' => 1
+        $ret = Artisan::call('command:SetTeacherMoney', [
+            '--type' => 4
         ]);
         var_dump($ret);
     }
