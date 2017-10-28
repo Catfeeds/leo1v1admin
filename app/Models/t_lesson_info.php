@@ -9698,7 +9698,7 @@ lesson_type in (0,1) "
             //"tea_attend>0"
          ];
 
-        $sql = $this->gen_sql_new("select lesson_start from %s l left join %s lo on l.lessonid=lo.lessonid where %s limit ",
+        $sql = $this->gen_sql_new("select l.userid from %s l left join %s lo on l.lessonid=lo.lessonid where %s limit ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   $whereArr
