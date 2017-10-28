@@ -893,5 +893,88 @@ class wx_yxyx_api extends Controller
             'child_reward' => $invite_child_reward,
             'member_reward' => $member_child_reward,
         ]);
-    } 
+    }
+
+    //@desn:更新银行卡信息
+    public function update_bank_info(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+
+
+        $bankcard      = $this->get_in_str_val("bankcard");
+        $idcard        = $this->get_in_str_val("idcard");
+        $bank_address  = $this->get_in_str_val("bank_address");
+        $bank_account  = $this->get_in_str_val("bank_account");
+        $bank_phone    = $this->get_in_str_val("bank_phone");
+        $bank_province = $this->get_in_str_val("bank_province");
+        $bank_city     = $this->get_in_str_val("bank_city");
+        $bank_type     = $this->get_in_str_val("bank_type");
+        $zfb_name      = $this->get_in_str_val("zfb_name");
+        $zfb_account   = $this->get_in_str_val("zfb_account");
+        $cash          = $this->t_agent->get_can_carry($agent_id);
+        $id            = $agent_id;
+        if (!($cash>0)) {
+            return $this->output_err("无可提现金额!");
+        }
+
+
+        $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
+        $total_cash = $agent_info["all_open_cush_money"];
+        $have_cash = $this->t_agent_cash->get_have_cash($agent_id,[0,1]);
+        $cash_new = $cash + $have_cash;
+        if($cash_new > $total_cash){
+            return $this->output_err("超出可提现金额!");
+        }
+
+        if($bankcard){
+            if($bankcard==0 || $bank_address=="" || $bank_account==""
+               || $bank_phone=="" || $bank_type=="" || $idcard=="" || $bank_province==""
+               || $bank_city==""
+            ){
+                return $this->output_err("请完善所有数据后重新提交！");
+            }
+            if(!preg_match("/^1\d{10}$/",$bank_phone)){
+                return $this->output_err("请输入规范的手机号!");
+            }
+            if($bank_account){
+                $ret = $this->t_agent->field_update_list($id,[
+                    "bankcard"      => $bankcard,
+                    "bank_address"  => $bank_address,
+                    "bank_account"  => $bank_account,
+                    "bank_phone"    => $bank_phone,
+                    "bank_type"     => $bank_type,
+                    "idcard"        => $idcard,
+                    "bank_city"     => $bank_city,
+                    "bank_province" => $bank_province,
+                ]);
+            }
+        }elseif($zfb_account){
+            if($zfb_name=='' || $zfb_account==''){
+                return $this->output_err("请完善所有数据后重新提交！");
+            }
+            $ret = $this->t_agent->field_update_list($id,[
+                "zfb_name"     => $zfb_name,
+                "zfb_account"     => $zfb_account,
+            ]);
+
+        }
+        $ret_new = $this->t_agent_cash->row_insert([
+            "aid"         => $id,
+            "cash"        => $cash,
+            "is_suc_flag" => 0,
+            "type"        => 1,
+            "create_time" => time(null),
+        ]);
+
+        return $this->output_succ();
+
+    }
 }
