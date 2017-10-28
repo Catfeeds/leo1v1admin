@@ -277,6 +277,9 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $classMap = array (
+        'AddVotesToTAgent' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+        'CreateTAgentGroup' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
+        'CreateTAgentGroupMembers' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
         'CreateTInterviewRemind' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
         'CreateTMonthStudentCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_173622_create_t_month_student_count.php',
         'CreateTMsgLogForWx' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_162253_create_t_msg_log_for_wx.php',
@@ -758,6 +761,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_XOR_EQUAL' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PageTrack' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_164418_page_track.php',
         'Qiniu\\Auth' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Auth.php',
         'Qiniu\\Cdn\\CdnManager' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Cdn/CdnManager.php',
         'Qiniu\\Config' => __DIR__ . '/../..' . '/app/Libs/Qiniu/Config.php',

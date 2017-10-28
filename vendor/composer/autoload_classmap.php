@@ -490,6 +490,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'PageTrack' => $baseDir . '/database/migrations/2017_10_28_164418_page_track.php',
     'Qiniu\\Auth' => $baseDir . '/app/Libs/Qiniu/Auth.php',
     'Qiniu\\Cdn\\CdnManager' => $baseDir . '/app/Libs/Qiniu/Cdn/CdnManager.php',
     'Qiniu\\Config' => $baseDir . '/app/Libs/Qiniu/Config.php',
