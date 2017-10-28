@@ -430,6 +430,7 @@ class menu{
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
                     ["power_id"=>42, "name"=>"例子分配统计",   "url"=>"/seller_student_new2/seller_student_new_distribution"],
                     ["power_id"=>43, "name"=>"例子分配列表",   "url"=>"/seller_student_new2/seller_edit_log_list"],
+                    ["power_id"=>41, "name"=>"上课统计",   "url"=>"/seller_student_new2/seller_student_new_lesson"],
                     ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
                     ["power_id"=>37, "name"=>"销售个人排行榜",   "url"=>"/tongji/seller_personal_rank"],
                     ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
