@@ -12,7 +12,11 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
 
     }
 
-    public function get_draw_num(){
+    public function get_draw_num($start_time, $end_time){
+
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,"");
+
         $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
                                   ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
                                   ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
