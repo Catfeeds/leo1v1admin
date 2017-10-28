@@ -307,8 +307,7 @@ class test_sam  extends Controller
 
     }
 
-
-    public function total_test_lesson_grade(){
+    public function total_test_lesson_phone(){
         $time = [
             [
                 'start_time' => 1501516800,
@@ -323,49 +322,7 @@ class test_sam  extends Controller
                 'end_time'   => 1509465600,
             ]
         ];
-        
-        foreach ($time as $key => $value) {
-            $start_time = $value['start_time'];
-            $end_time   = $value['end_time'];
-            $subject_list = $this->t_cr_week_month_info->get_test_lesson($start_time,$end_time);
-            $list = [];
-            foreach (E\Esubject::$desc_map as $key => $value) {
-                foreach (E\Egrade::$desc_map as $kkey => $kvalue) {
-                    $list[$kkey][$key] = '';
-                }
-            }
-            foreach ($subject_list as $key => $value) {
-                if(isset($list[$value['grade']][$value['subject']])){
-                    $list[$value['grade']][$value['subject']] = $value['total'];
-                }else{
-                    //var_dump($value);
-                }
-            }
-            //dd($list);
-            echo date("Y-m-d H:i:s",$start_time).'----'.date("Y-m-d H:i:s",$end_time)."<br/>";
-            echo "<table >";
-            echo "<tr><th >|</th>";
-            foreach (E\Esubject::$desc_map as $akkey => $akvalue) {
-                echo "<th>".E\Esubject::get_desc($akkey)."|</th>";
-            }
-            echo "</tr>";
-            foreach ($list as $akey => $avalue) {
-                $row = $avalue;
-               
-                echo "<tr>";
-                echo "<td>".E\Egrade::get_desc($akey)."</td>";
-                foreach ($row as $bkey => $bvalue) {
-                    echo "<td width=60px>".$bvalue."|</td>";
-                }
-
-                echo "</tr>";
-            }
-            echo "</table>";
-            echo "<br />";
-            echo "<br/>";
-        }
-        
-        echo "---------------------------------------"."<br/>";
+                echo "---------------------------------------"."<br/>";
         foreach ($time as $key => $value) {
             $start_time = $value['start_time'];
             $end_time   = $value['end_time'];
@@ -414,6 +371,63 @@ class test_sam  extends Controller
                     }else{
                         echo "<td width=60px>"."|</td>";
                     }
+                }
+
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "<br />";
+            echo "<br/>";
+        }
+    }
+    public function total_test_lesson_grade(){
+        $time = [
+            [
+                'start_time' => 1501516800,
+                'end_time'   => 1504195200,
+            ],
+            [
+                'start_time' => 1504195200,
+                'end_time'   => 1506787200,
+            ],
+            [
+                'start_time' => 1506787200,
+                'end_time'   => 1509465600,
+            ]
+        ];
+        
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $subject_list = $this->t_cr_week_month_info->get_test_lesson($start_time,$end_time);
+            $list = [];
+            foreach (E\Esubject::$desc_map as $key => $value) {
+                foreach (E\Egrade::$desc_map as $kkey => $kvalue) {
+                    $list[$kkey][$key] = '';
+                }
+            }
+            foreach ($subject_list as $key => $value) {
+                if(isset($list[$value['grade']][$value['subject']])){
+                    $list[$value['grade']][$value['subject']] = $value['total'];
+                }else{
+                    //var_dump($value);
+                }
+            }
+            //dd($list);
+            echo date("Y-m-d H:i:s",$start_time).'----'.date("Y-m-d H:i:s",$end_time)."<br/>";
+            echo "<table >";
+            echo "<tr><th >|</th>";
+            foreach (E\Esubject::$desc_map as $akkey => $akvalue) {
+                echo "<th>".E\Esubject::get_desc($akkey)."|</th>";
+            }
+            echo "</tr>";
+            foreach ($list as $akey => $avalue) {
+                $row = $avalue;
+               
+                echo "<tr>";
+                echo "<td>".E\Egrade::get_desc($akey)."</td>";
+                foreach ($row as $bkey => $bvalue) {
+                    echo "<td width=60px>".$bvalue."|</td>";
                 }
 
                 echo "</tr>";
