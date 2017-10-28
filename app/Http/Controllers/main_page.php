@@ -2536,20 +2536,20 @@ class main_page extends Controller
                 $total['attend_sum'] += $item['attend_sum'];
                 $total['adopt_sum'] += $item['adopt_sum'];
             }
-            // 面试通过人数
-            $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
-            if ($recruit == 'train') {
-                // 培训参训新师人数
-                $train_tea = $this->t_teacher_info->get_train_inter_teacher_type_count($start_time, $end_time);
-                // 老师类型培训合格
-                $train_qual = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
-            }
-            // 模拟试听排课人数
-            $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
-            // 模拟试听上课人数
-            $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
-            // 模拟试听通过人数
-            $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
+            // // 面试通过人数
+            // $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
+            // if ($recruit == 'train') {
+            //     // 培训参训新师人数
+            //     $train_tea = $this->t_teacher_info->get_train_inter_teacher_type_count($start_time, $end_time);
+            //     // 老师类型培训合格
+            //     $train_qual = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+            // }
+            // // 模拟试听排课人数
+            // $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
+            // // 模拟试听上课人数
+            // $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
+            // // 模拟试听通过人数
+            // $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
             $type_total['train_qual_sum'] = 0;
