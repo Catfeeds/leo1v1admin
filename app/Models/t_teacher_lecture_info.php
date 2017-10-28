@@ -1897,13 +1897,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     public function get_data_to_teacher_flow($start_time, $end_time) {
         $where_arr = [
-<<<<<<< HEAD
             ["confirm_time>%u", $start_time, 0],
             ["confirm_time<%u", $end_time, 0],
             //["phone='%s'",$phone,0],
-=======
-            ["phone='%s'",$phone,0],
->>>>>>> 96b9aa608fc3685f9a2836b2fd707e66f92206ca
             "status=1",
             "confirm_time!=0"
         ];
