@@ -770,56 +770,6 @@ class common extends Controller
     /**
      * 优学优享 邀请会员生成二维码图片
      */
-    /*
-    public function get_agent_qr_new(){
-        $wx_openid = $this->get_in_str_val("wx_openid");
-        $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
-        $phone = '';
-        if(isset($row['phone'])){
-            $phone = $row['phone'];
-        }
-        if(!$phone || $wx_openid==""){
-            return "";
-        }
-
-        $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_pg.png";
-        $qiniu_url     = $qiniu['public']['url'];
-        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-        if(!$is_exists){
-            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=2";
-            $qr_url       = "/tmp/".$phone.".png";
-            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/cd2417b5d0621d4e06c9c2dd64154bbf1506061336004.png";
-            $agent_qr_url = "/tmp/".$phone_qr_name;
-            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-
-            $image_1 = imagecreatefrompng($bg_url);     //背景图
-            $image_2 = imagecreatefrompng($qr_url);     //二维码
-            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-            $image_4 = imageCreatetruecolor(186,186);     //新建二维码图
-            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
-            imagecopymerge($image_3,$image_4,288,2221,0,0,imagesx($image_4),imagesy($image_4),100);
-            imagepng($image_3,$agent_qr_url);
-
-            $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-
-            if($file_name!=''){
-                $cmd_rm = "rm /tmp/".$phone."*.png";
-                \App\Helper\Utils::exec_cmd($cmd_rm);
-            }
-
-            imagedestroy($image_1);
-            imagedestroy($image_2);
-            imagedestroy($image_3);
-        }else{
-            $file_name=$phone_qr_name;
-        }
-
-        $file_url = $qiniu_url."/".$file_name;
-        return $file_url;
-    }
-    */
     public function get_agent_qr_new(){
         $wx_openid = $this->get_in_str_val("wx_openid");
         $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
