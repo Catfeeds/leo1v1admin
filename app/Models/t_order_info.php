@@ -3882,7 +3882,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "p.parentid=$parentid"
         ];
 
-        // $this->
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$order_start,$order_end);
 
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s s on s.userid=o.userid"
