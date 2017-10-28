@@ -1378,8 +1378,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     public function get_data_to_teacher_flow($start_time, $end_time, $type)
     {
         $where_arr = [
-            ["l.add_time>%u", $start_time, 0],
-            ["l.add_time<%u", $end_time, 0],
+            ["tr.add_time>%u",$start_time, 0],
+            ["tr.add_time<%u",$end_time, 0],
             ["l.train_type=%u",$type,0],
             //["l.teacherid=%u",$teacherid,0],
             'l.lesson_type=1100',
