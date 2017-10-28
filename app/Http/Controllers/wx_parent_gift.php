@@ -321,6 +321,11 @@ class wx_parent_gift extends Controller
 
         $draw_num = ($draw_num>=2)?2:$draw_num;
 
+
+        /** 抽奖活动
+        // 1.统计
+        **/
+
     }
 
     public function update_share_status(){ // check是否分享
