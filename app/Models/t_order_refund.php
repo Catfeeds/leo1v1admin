@@ -34,7 +34,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ." where %s"
             ." order by $opt_date_str desc"
             ,self::DB_TABLE_NAME //r
-            ,t_student_info::DB_TABLE_NAME //s 
+            ,t_student_info::DB_TABLE_NAME //s
             ,t_order_info::DB_TABLE_NAME //o
             ,t_flow::DB_TABLE_NAME
             ,E\Eflow_type::V_ASS_ORDER_REFUND
@@ -487,7 +487,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
         $sql = $this->gen_sql_new("select o.orderid, ra.apply_time, ra.add_time, s.nick as stu_nick, t.nick as teac_nick,occ.value"
-                                  ." from %s r " 
+                                  ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s o on r.orderid = o.orderid"
                                   ." left join %s c on c.userid = s.userid"
@@ -560,7 +560,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             's.is_test_user=0',
         ];
 
-        $sql = $this->gen_sql_new("select count( distinct r.userid )"
+        $sql = $this->gen_sql_new("select count( distinct r.userid ) as userid_count,count( distinct r.orderid ) as orderid_count"
                                   ." from %s r "
                                   ." left join %s s on s.userid=r.userid"
                                   ." where %s "
@@ -569,8 +569,8 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
-   
+
 }
