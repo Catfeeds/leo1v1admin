@@ -4194,7 +4194,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["tf.simul_test_lesson_pass_time<%u",$end_time,-1],
         ];
 
-        $sql = $this->gen_sql_new("select accept_adminid,sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
+        $sql = $this->gen_sql_new("select ta.accept_adminid,sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
                                   ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
                                   ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num "
                                   ." from %s tf "
