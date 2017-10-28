@@ -80,8 +80,13 @@ class test_sam  extends Controller
     }
     public function ll(){
     
-        $start_time = 1504195200;
-        $end_time   = 1506787200;
+        //$start_time = 1504195200;
+        //$end_time   = 1506787200;
+        $start_time = $this->get_in_int_val('start_time',-1);
+        $end_time = $this->get_in_int_val('end_time',-1);
+        if($start_time > 1509465600 || $end_time < 1501516800){
+            dd("Time Error");
+        }
         $ret_info = $this->t_cr_week_month_info->get_total_province($start_time,$end_time);
         $province = [];
         $province['总计'] = 0;
@@ -269,7 +274,6 @@ class test_sam  extends Controller
             $this->t_teacher_info->field_update_list($value['teacherid'],[
                 "phone_location" =>$phone_location,
             ]);
-
         }
 
     }
