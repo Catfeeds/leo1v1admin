@@ -16,9 +16,7 @@ declare var g_adminid: any;
 interface RowData {
 	count	:any;
 	suc_count	:any;
-	suc_rate	:any;
 	test_count	:any;
-	test_rate	:any;
 	wheat_count	:any;
 	main_type	:any;
 	up_group_name	:any;

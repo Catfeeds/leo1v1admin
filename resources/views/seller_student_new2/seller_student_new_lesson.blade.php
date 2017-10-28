@@ -87,7 +87,7 @@
                             </a>
                         </td>
                         <td >
-                            @if (count($var["count"])>0)
+                            @if ($var["count"]>0)
                                 {{@$var["suc_count"]/$var["count"]}}
                             @else
                                 0
@@ -99,7 +99,7 @@
                             </a>
                         </td>
                         <td >
-                            @if (count($var["suc_count"])>0)
+                            @if ($var["suc_count"]>0)
                                 {{@$var["test_count"]/$var["suc_count"]}}
                             @else
                                 0
