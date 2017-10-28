@@ -343,6 +343,7 @@ class wx_parent_gift extends Controller
             "share_time"    => time(),
             "parentid"      => $parentid
         ]);
+        return $this->output_succ();
     }
 
     public function ruffian_activity(){ // 双11活动
