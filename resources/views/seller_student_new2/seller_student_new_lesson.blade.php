@@ -87,9 +87,11 @@
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="count" >
-                                {{@$var["suc_rate"]}}
-                            </a>
+                            @if (count($var["count"])>0)
+                                {{@$var["suc_count"]/$var["count"]}}
+                            @else
+                                0
+                            @endif
                         </td>
                         <td >
                             <a href="javascript:;" class="tmk_count" >
@@ -97,9 +99,11 @@
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="distribution_count" >
-                                {{@$var["test_rate"]}}
-                            </a>
+                            @if (count($var["suc_count"])>0)
+                                {{@$var["test_count"]/$var["suc_count"]}}
+                            @else
+                                0
+                            @endif
                         </td>
                         <td >
                             <a href="javascript:;" class="distribution_count" >

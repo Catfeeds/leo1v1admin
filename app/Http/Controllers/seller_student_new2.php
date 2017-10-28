@@ -1137,9 +1137,7 @@ class seller_student_new2 extends Controller
             $adminid = $item['adminid'];
             $res[$adminid]['count'] = $item['count'];
             $res[$adminid]['suc_count'] = $item['suc_count'];
-            $res[$adminid]['suc_rate'] = $item['count']>0?round($item['suc_count']/$item['count'],1):0;
             $res[$adminid]['test_count'] = $item['test_count'];
-            $res[$adminid]['test_rate'] = $item['suc_count']>0?round($item['test_count']/$item['suc_count'],1):0;
             $res[$adminid]['wheat_count'] = $item['wheat_count'];
         }
         foreach ($res as $ret_k=> &$res_item) {
