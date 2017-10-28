@@ -88,7 +88,7 @@ class import_to_teacher_flow extends cmd_base
         $info = $task->t_teacher_flow->get_all_list($where);
         //$lecture_pass_list ;
         foreach($info as $teacherid => $item) {
-            if (!isset($lecture[$item['phone']])) break;
+            if (!isset($lecture[$item['phone']])) continue;
             $task->t_teacher_flow->field_update_list($teacherid, [
                 "trial_lecture_pass_time" => $lecture[$item['phone']]['confirm_time'],
                 "subject" => $lecture[$item['phone']]['subject'],
