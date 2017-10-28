@@ -2629,34 +2629,4 @@ class main_page extends Controller
         if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
         return $info;
     }
-
-    // public function handle($info) {
-    //     $res = [];
-    //     foreach($info as $key => $item) {
-    //         $ret['subject'] = $key;
-    //         $len = count($item);
-    //         if ($len > 1) {
-    //             foreach($item as $k=>$v) {
-    //                 if($k == 'primary_num') {
-    //                     $ret['grade'] = 100;
-    //                 }
-    //                 if ($k == 'middle_num') {
-    //                     $ret['grade'] = 200;
-    //                 }
-    //                 if ($k == 'senior_num') {
-    //                     $ret['grade'] = 300;
-    //                 }
-    //                 if ($v == null) $v = 0;
-    //                 $ret['sum'] = $v;
-    //                 array_push($res, $ret);
-    //             }
-    //         } else {
-    //             $ret['grade'] = '';
-    //             $ret['sum'] = $item['sum'];
-    //             array_push($res,$ret);
-    //         }
-    //     }
-    //     return $res;
-    // }
-
 }
