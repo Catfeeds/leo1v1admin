@@ -1,0 +1,27 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD: 1109
+//__DESC:微信[优学优享]-银行卡/支付宝信息更新  http://wx-yxyx.leo1v1.com/wx_yxyx_api/update_bank_info 
+//__TAGS: for_wx_yxyx 
+
+message in  {
+  string phone =1 ; //用户手机号
+  string bankcard =2 ; //银行卡号
+  string idcard =3 ; //身份证号码
+  string bank_address =4 ; //开户行和支行
+  string bank_account =5 ; //持卡人姓名
+  string bank_phone =6 ; //银行预留手机号
+  string bank_province =7 ; //银行开户省
+  string bank_city =8 ; //银行开户市
+  string bank_type =9 ; //银行卡类型
+  string zfb_name =10 ; //支付宝姓名
+  string fb_account =11 ; //支付宝账户
+  
+}
+
+
+
+message out {
+
+}
