@@ -414,6 +414,24 @@ class wx_parent_gift extends Controller
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
