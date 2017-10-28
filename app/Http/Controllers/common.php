@@ -308,7 +308,7 @@ class common extends Controller
                 }
 
                 $train_time = $this->t_train_lesson_user->get_max_lesson_time($answer['userid']);
-                $train_flag=1;
+                $train_flag = 1;
 
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
