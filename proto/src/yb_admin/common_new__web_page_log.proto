@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 //__CMD: 8131
-//__DESC:  xmpp服务器的php定时程序,检查到老师不在房间,设置该课程结束 http://admin.leo1v1.com/common_new/web_page_log?
+//__DESC: 记录h5页面访问信息  http://admin.leo1v1.com/common_new/web_page_log?
 //__TAGS: for_h5_log
 
 
