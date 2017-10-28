@@ -323,8 +323,12 @@ class wx_parent_gift extends Controller
 
 
         /** 抽奖活动
-        // 1.统计
+          1.统计奖品数量
+
+
         **/
+
+        $school_bag = $this->t_ruffian_activity->get_ss();
 
     }
 
