@@ -354,6 +354,9 @@ class wx_parent_gift extends Controller
                                   ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
 
         **/
+
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num();
         if($draw_num_arr['']){
 
