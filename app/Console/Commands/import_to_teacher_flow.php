@@ -83,7 +83,7 @@ class import_to_teacher_flow extends cmd_base
         $start_time = strtotime("2017-9-1");
         $end_time = strtotime('2017-10-1');
         $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time,$end_time);
-        echo "length: ".$lecture;
+        echo "length: ".count($lecture);
 
         $where = ["trial_lecture_pass_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
