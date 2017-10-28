@@ -2146,12 +2146,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ."a1.agent_status_money,a1.create_time, "
             . " oi.lesson_total,oi.default_lesson_count,lesson_left"
             . " from %s a1"
-            . " left join %s ag on ag.aid = a1.id"
-            . " left join %s oi on ag.orderid = oi.orderid"
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
-            t_agent_order::DB_TABLE_NAME,
-            t_order_info::DB_TABLE_NAME,
             $agent_id
         );
         return $this->main_get_list($sql);
@@ -2173,6 +2169,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $agent_id
         );
         return $this->main_get_list($sql);
+    }
 
     public function get_invite_num($start_time, $pid){
 
