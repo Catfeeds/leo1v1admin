@@ -355,7 +355,7 @@ class test_sam  extends Controller
                 echo "<tr>";
                 echo "<td>".E\Egrade::get_desc($akey)."</td>";
                 foreach ($row as $bkey => $bvalue) {
-                    echo "<td width=40px>".$bvalue."|</td>";
+                    echo "<td width=60px>".$bvalue."|</td>";
                 }
 
                 echo "</tr>";
@@ -383,6 +383,11 @@ class test_sam  extends Controller
                     $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
 
                     if(!isset($new_list[$pro])){
+                        foreach (E\Esubject::$desc_map as $kaey => $vaalue) {
+                            if(!isset($new_list[$pro][$kaey])){
+                                $new_list[$pro][$kaey] = 0;
+                            }
+                        }
                         $new_list[$pro][$value['subject']] = 0;
                         $new_list[$pro][$value['subject']] += $value['total'];
                     }else{
@@ -402,12 +407,12 @@ class test_sam  extends Controller
             foreach ($new_list as $akey => $avalue) {
                 $row = $avalue;
                 echo "<tr>";
-                echo "<td>".E\Egrade::get_desc($akey)."|</td>";
+                echo "<td width=60px>".E\Egrade::get_desc($akey)."|</td>";
                 foreach (E\Esubject::$desc_map as $bkey => $bvalue) {
                     if(isset($new_list[$akey][$bkey])){
-                        echo "<td width=40px>".$new_list[$akey][$bkey]."|</td>";
+                        echo "<td width=60px>".$new_list[$akey][$bkey]."|</td>";
                     }else{
-                        echo "<td width=40px>"."|</td>";
+                        echo "<td width=60px>"."|</td>";
                     }
                 }
 
