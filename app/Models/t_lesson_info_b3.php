@@ -1471,10 +1471,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select lessonid,count(lessonid) as lesson_num"
                                   ." from %s "
                                   ." where %s"
+                                  ." group by teacherid"
+                                  ." having lesson_num>1"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
 }
