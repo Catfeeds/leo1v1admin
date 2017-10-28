@@ -295,7 +295,6 @@ class wx_parent_gift extends Controller
 
     // 双11活动
 
-
     public function update_share_status(){ // check是否分享
         $parentid = $this->get_in_int_val('parentid');
 
