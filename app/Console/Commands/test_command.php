@@ -38,7 +38,7 @@ class test_command extends Command
     public function handle()
     {
         //
-        $type = $this->option("type");
+        // $type = $this->option("type");
         echo "this is test command";
         sleep(10);
         echo "sleep finish";

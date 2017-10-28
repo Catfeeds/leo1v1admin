@@ -3119,6 +3119,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
 
     public function check_is_reading($parentid){
-        
+        $sql = $this->gen_sql_new("  select 1 from %s s"
+                                  ." left join %s p on p.userid=s.userid "
+        );
     }
 }
