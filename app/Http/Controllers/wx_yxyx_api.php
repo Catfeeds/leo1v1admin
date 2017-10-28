@@ -851,5 +851,47 @@ class wx_yxyx_api extends Controller
 
         return $this->output_succ(["data" =>$data]);
     }
+    //获取用户佣金奖励
+    public function get_commission_reward(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
 
+        //获取用户邀请人佣金奖励
+        $invite_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=1);
+
+        foreach($invite_child_reward as &$item){
+            if(!$item['nickname'])
+                $item[nickname] = $item['phone'];
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            $item['price'] /= $item['price'];
+            $item['p_price'] /= $item['p_price'];
+            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
+            $item['count']=$lesson_info["count"] ;
+        }
+        
+        //获取会员邀请人佣金
+        $member_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=2);
+        foreach($member_child_reward as &$item){
+            if(!$item['nickname'])
+                $item[nickname] = $item['phone'];
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            $item['price'] /= $item['price'];
+            $item['p_price'] /= $item['pp_price'];
+            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
+            $item['count']=$lesson_info["count"] ;
+        }
+
+        return $this->output_succ([
+            'child_reward' => $invite_child_reward,
+            'member_reward' => $member_child_reward,
+        ]);
+    } 
 }
