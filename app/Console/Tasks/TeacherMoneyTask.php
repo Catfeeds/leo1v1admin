@@ -132,9 +132,6 @@ class TeacherMoneyTask extends TaskController
         $month_time = \App\Helper\Utils::get_month_range($start_time,true);
 
         $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
-        foreach($tea_list as $t_val){
-
-        }
 
 
     }

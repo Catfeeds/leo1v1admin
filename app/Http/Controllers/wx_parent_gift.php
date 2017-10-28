@@ -532,10 +532,10 @@ class wx_parent_gift extends Controller
            {{remark.DATA}}
          **/
 
-        $this->appid     = \App\Helper\Config::get_wx_appid();
-        $this->appsecret = \App\Helper\Config::get_wx_appsecret();
+        $appid     = \App\Helper\Config::get_yxyx_wx_appid();
+        $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();
 
-        $wx = new \App\Helper\Wx();
+        $wx = new \App\Helper\Wx($appid, $appsecret);
 
         $template_id = "-jlgaNShu8zuil5ST1Qo5hY6RzaNyujwZ0fAnh2Te40";//活动结束提醒
         $data_msg = [
@@ -546,7 +546,8 @@ class wx_parent_gift extends Controller
             "remark"    => "感谢您的参与",
         ];
         $url = "";
-        $send_openid = $this->t_parent_info->get_wx_openid($parentid);
+        // $send_openid = $this->t_parent_info->get_wx_openid($parentid);
+        $send_openid = $this->t_agent->get_wx_openid_by_pid($parentid);
         $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
         $prize = $prize/100;
         return $this->output_succ(["money"=>$prize]);

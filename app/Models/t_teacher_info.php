@@ -4294,7 +4294,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['add_time<%u',$end_time,0],
             "t.teacherid=teacherid"
         ];
-        $sql = $this->gen_sql_new("select teacherid "
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type "
                                   ." from %s t"
                                   ." where exists (select 1 from %s where %s)"
                                   ." or exists (select 1 from %s where %s)"
