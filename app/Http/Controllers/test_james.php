@@ -818,6 +818,8 @@ class test_james extends Controller
 
 
     public function dd(){
+        $six = strtotime('2017-11-6');
+        dd($six);
         dd(strtotime(date('Y-m-d ')));
     }
 

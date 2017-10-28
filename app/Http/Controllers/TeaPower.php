@@ -2092,7 +2092,7 @@ trait TeaPower {
             </div>
     </body>
 </html>
-";
+                    ";
         return $html;
     }
 
@@ -3950,7 +3950,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
         $wx->send_template_msg($openid,$template_id,$data,$url);
-
     }
+
+
 
 }

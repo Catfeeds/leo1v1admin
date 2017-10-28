@@ -164,7 +164,7 @@ class save_seller_info_by_week extends Command
 
         // \App\Helper\Utils::logger("zhoubao1:".json_encode($ret_info));
 
-        
+
         $task->t_seller_tongji_for_month->row_insert($ret_info);
 
 
