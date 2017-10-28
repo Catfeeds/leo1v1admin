@@ -395,9 +395,19 @@ class wx_parent_gift extends Controller
         $five_hundred_coupon_num = 0;
         $three_hundred_coupon_num = 0;
 
+        $today = strtotime(date('Y-m-d '));
+
+        $six    = strtotime('2017-11-6');
+        $seven  = strtotime('2017-11-7');
+        $eight  = strtotime('2017-11-8');
+        $nine   = strtotime('2017-11-9');
+        $ten    = strtotime('2017-11-10');
+        $eleven = strtotime('2017-11-11');
+        $twelve = strtotime('2017-11-12');
+        $Thirteen = strtotime('2017-11-13');
 
         if($stu_type == 1){ // 新用户
-            if(1){
+            if($today<$eleven){
 
             }
         }elseif($stu_type == 2){ // 老用户
