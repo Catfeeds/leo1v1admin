@@ -2,9 +2,9 @@
 namespace App\Console\Tasks;
 use \App\Enums as E;
 use Illuminate\Support\Facades\Log;
-
 use App\Helper\Net;
 use App\Helper\Utils;
+
 /**
  * @from command:SetTeacherMoney
  */
@@ -131,7 +131,7 @@ class TeacherMoneyTask extends TaskController
         $start_time = $start_time==0?time():$start_time;
         $month_time = \App\Helper\Utils::get_month_range($start_time,true);
 
-        $teacher_money = new teacher_money();
+        $teacher_money = new \App\Http\Controllers\teacher_money();
         $this->set_in_value($type,"admin");
         $ret = $teacher_money->set_teacher_salary();
         var_dump($ret);
