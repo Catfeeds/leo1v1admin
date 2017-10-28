@@ -395,6 +395,7 @@ class wx_parent_gift extends Controller
         $five_hundred_coupon_num = 0;
         $three_hundred_coupon_num = 0;
 
+        $today = strtotime(date('Y-m-d '));
 
         if($stu_type == 1){ // 新用户
             if(1){
