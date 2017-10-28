@@ -2392,7 +2392,6 @@ class main_page extends Controller
 
     public function recruit()
     {
-
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $recruit      = $this->get_in_str_val("recruit");
         $history_data = $this->get_in_int_val('history_data');
@@ -2402,7 +2401,7 @@ class main_page extends Controller
         if ($history_data) { // 没有历史数据
             // 面试通过人数
             $tea_list = $this->t_teacher_flow->get_tea_list($start_time, $end_time);
-            $primary_china = $this->recruit_init([], 1, 100);
+            $primary_china = $this->recruit_init([], E\Esubject::V_1, E\Egrade::V_100);
             $middle_china = $this->recruit_init([], 1, 200);
             $high_china = $this->recruit_init([], 1, 300);
             $primary_math = $this->recruit_init([], 2, 100);
