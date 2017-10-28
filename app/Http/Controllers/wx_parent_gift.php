@@ -374,9 +374,6 @@ class wx_parent_gift extends Controller
         if($draw_num_arr['bag_num'] >80){
 
         }
-
-
-
     }
 
 
