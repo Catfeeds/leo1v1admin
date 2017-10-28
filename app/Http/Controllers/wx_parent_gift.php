@@ -302,8 +302,8 @@ class wx_parent_gift extends Controller
 
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
-            "share_time" => time(),
-            "parentid" => $parentid
+            "share_time"    => time(),
+            "parentid"      => $parentid
         ]);
 
         // $check_falg = $this->t_ruffian_activity->check_share($parentid);
