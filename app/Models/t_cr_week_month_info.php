@@ -226,4 +226,17 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
         return $this->main_get_list($sql);
 
     }
+
+    public function get_total_province_lesson_student($start_time,$end_time){
+        $where_arr = [
+            ["  lesson_start>%u",$start_time,-1],
+            ["  lesson_start<%u",$end_time,-1],
+            "s.is_test_user=0",
+            "lesson_del_flag=0  ",
+            "lesson_type<1000 "
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(s.userid))  as total,phone_location from t_lesson_info l left join t_student_info s on s.userid = l.userid  where %s group by phone_location", $where_arr);
+        return $this->main_get_list($sql);
+
+    }
 }

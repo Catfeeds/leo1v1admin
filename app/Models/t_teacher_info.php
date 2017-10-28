@@ -4251,8 +4251,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_flow_list($start_time, $end_time) { // 将数据导入至t_teacher_flow表
         $where_arr = [
-            //["create_time>%u", $start_time, 0],
-            //["create_time<%u", $end_time, 0]
+            ["create_time>%u", $start_time, 0],
+            ["create_time<%u", $end_time, 0]
         ];
         $sql = $this->gen_sql_new("select teacherid, phone, train_through_new_time "
                                   ." from %s t"
@@ -4279,5 +4279,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_as_page($sql);
     }
 
-    
+    public function delete() {
+        $sql = $this->gen_sql_new("delete from %s", self::DB_TABLE_NAME);
+        $this->main_update($sql);
+    }
 } 

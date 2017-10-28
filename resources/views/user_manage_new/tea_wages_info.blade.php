@@ -65,7 +65,6 @@
                         <td >课时消耗分组</td>
                         <td >课程类型</td>
                         <td >金额</td>
-                        <td >课程金额</td>
                         <td >课时数</td>
                         <td >课时基础价格</td>
                         <td >课时奖金</td>
@@ -89,10 +88,9 @@
                             <td data-class_name="{{$var["key2_class"]}}" class="key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{@$var["lesson_count_level_str"]}} </td>
                             <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{@$var["lesson_type_str"]}}</td>
                             <td >{{$var["price"]}}</td>
-                            <td >{{@$var["lesson_price"]}}</td>
                             <td style="{{@$var["lesson_count_err"]}}">
-                                {{$var["lesson_count"]/100}}</td>
-
+                                {{$var["lesson_count"]/100}}
+                            </td>
                             <td >{{@$var["pre_price"]}}</td>
                             <td >{{@$var["lesson_reward"]}}</td>
                             <td >{{@$var["pre_reward"]}}</td>

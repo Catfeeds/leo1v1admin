@@ -12,8 +12,92 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
-    public function ss(){
-        
+    public function total_student(){
+        echo '------------------------------Student Total Number--------------'.'<br/>';
+        $ret_info = $this->t_cr_week_month_info->get_total_province(-1,1509163200);
+        $province = [];
+        $province['总计'] = 0;
+        $province['其它'] = 0;
+
+        foreach($ret_info as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                $province['总计'] += $value['total'];
+                $province['其它'] += $value['total'];
+                
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province[$pro])){
+                    $province[$pro] = 0;
+                    $province[$pro] += $value['total'];
+                    $province['总计'] += $value['total'];
+                }else{
+                    $province[$pro] += $value['total'];
+                    $province['总计'] += $value['total'];
+                }
+
+            }
+        }
+        foreach ($province as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+    }
+    public function total_teacher(){
+        echo '------------------------------Teacher Total Number--------------'.'<br/>';
+        $ret_info_teacher = $this->t_cr_week_month_info->get_total_province_teacher(-1,1509163200);
+        $province_teacher = [];
+        $province_teacher['总计'] = 0;
+        $province_teacher['其它'] = 0;
+
+        foreach($ret_info_teacher as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+
+                $province_teacher['其它'] += $value['total'];
+                $province_teacher['总计'] += $value['total'];
+            }else{
+                $teacher_pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province_teacher[$teacher_pro])){
+                    $province_teacher[$teacher_pro] = 0;
+                    $province_teacher[$teacher_pro] += $value['total'];
+                    $province_teacher['总计'] += $value['total'];
+                }else{
+                    $province_teacher[$teacher_pro] += $value['total'];
+                    $province_teacher['总计'] += $value['total'];
+                }
+
+            }
+        }
+        foreach ($province_teacher as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+    }
+    public function total_lesson_student(){
+        echo "------------------------------------Student 8-1 0:0:0- 10-28 12:0:0------------------------------------------"."<br/>";
+        $ret_info_lesson_student = $this->t_cr_week_month_info->get_total_province_lesson_student(1501516800,1509163200);
+        $province_lesson_student = [];
+        $province_lesson_student['总计'] = 0;
+        $province_lesson_student['其它'] = 0;
+
+        foreach($ret_info_lesson_student as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+
+                $province_lesson_student['其它'] += $value['total'];
+                $province_lesson_student['总计'] += $value['total'];
+            }else{
+                $student_lesson_pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province_lesson_student[$student_lesson_pro])){
+                    $province_lesson_student[$student_lesson_pro] = 0;
+                    $province_lesson_student[$student_lesson_pro] += $value['total'];
+                    $province_lesson_student['总计'] += $value['total'];
+                }else{
+                    $province_lesson_student[$student_lesson_pro] += $value['total'];
+                    $province_lesson_student['总计'] += $value['total'];
+                }
+
+            }
+        }
+        foreach ($province_lesson_student as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
     }
     public function tt(){
     
@@ -78,70 +162,14 @@ class test_sam  extends Controller
     public function test(){
         
     }
-    public function ll(){
+    public function total_lesson_teacher(){
     
         //$start_time = 1504195200;
         //$end_time   = 1506787200;
-        $start_time = $this->get_in_int_val('start_time',-1);
-        $end_time = $this->get_in_int_val('end_time',-1);
-        if($start_time > 1509465600 || $end_time < 1501516800){
-            dd("Time Error");
-        }
-        $ret_info = $this->t_cr_week_month_info->get_total_province($start_time,$end_time);
-        $province = [];
-        $province['总计'] = 0;
-        $province['其它'] = 0;
-
-        foreach($ret_info as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
-                $province['总计'] += $value['total'];
-                $province['其它'] += $value['total'];
-                
-            }else{
-                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
-                if(!isset($province[$pro])){
-                    $province[$pro] = 0;
-                    $province[$pro] += $value['total'];
-                    $province['总计'] += $value['total'];
-                }else{
-                    $province[$pro] += $value['total'];
-                    $province['总计'] += $value['total'];
-                }
-
-            }
-        }
-        foreach ($province as $key => $value) {
-            echo $key."|".$value."<br/>";
-        }
-        echo "------------------------------------------------------------------------------"."<br/>";
-        $ret_info_teacher = $this->t_cr_week_month_info->get_total_province_teacher($start_time,$end_time);
-        $province_teacher = [];
-        $province_teacher['总计'] = 0;
-        $province_teacher['其它'] = 0;
-
-        foreach($ret_info_teacher as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
-
-                $province_teacher['其它'] += $value['total'];
-                $province_teacher['总计'] += $value['total'];
-            }else{
-                $teacher_pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
-                if(!isset($province_teacher[$teacher_pro])){
-                    $province_teacher[$teacher_pro] = 0;
-                    $province_teacher[$teacher_pro] += $value['total'];
-                    $province_teacher['总计'] += $value['total'];
-                }else{
-                    $province_teacher[$teacher_pro] += $value['total'];
-                    $province_teacher['总计'] += $value['total'];
-                }
-
-            }
-        }
-        foreach ($province_teacher as $key => $value) {
-            echo $key."|".$value."<br/>";
-        }
-        echo "------------------------------------------------------------------------------"."<br/>";
-        $ret_info_lesson_teacher = $this->t_cr_week_month_info->get_total_province_lesson_teacher($start_time,$end_time);
+        
+        
+        echo "------------------------------------Teacher 8-1 0:0:0- 10-28 12:0:0------------------------------------------"."<br/>";
+        $ret_info_lesson_teacher = $this->t_cr_week_month_info->get_total_province_lesson_teacher(1501516800,1509163200);
         $province_lesson_teacher = [];
         $province_lesson_teacher['总计'] = 0;
         $province_lesson_teacher['其它'] = 0;
@@ -167,6 +195,7 @@ class test_sam  extends Controller
         foreach ($province_lesson_teacher as $key => $value) {
             echo $key."|".$value."<br/>";
         }
+       
 
     }
 

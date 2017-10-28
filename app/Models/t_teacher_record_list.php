@@ -1379,8 +1379,6 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     {
         $where_arr = [
             ["l.train_type=%u",$type,0],
-            //["l.lesson_start>%u", $start_time, 0],
-            //["l.lesson_start<%u", $end_time, 0],
             ["l.teacherid=%u",$teacherid,0],
             'l.lesson_type=1100',
             "l.lesson_del_flag=0",
@@ -1401,7 +1399,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function get_interview_through_by_subject($start_time, $end_time, $subject){
-        $where_arr=[
+        $where_arr = [
             ["l.lesson_start >= %u",$start_time,-1],
             ["l.lesson_start <= %u",$end_time,-1],
             ["l.subject=%u",$subject,0],
