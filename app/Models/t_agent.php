@@ -1471,8 +1471,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_member_count = 0;
         //计算所有学员量、会员量[无下限限制下级]
         list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child($id);
-        if($id == 71)
-            print_r($child_arr);
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
@@ -2080,17 +2078,64 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
     public function get_cycle_child($this_parentid){
+        //构造用户数组
+        $parent_arr = [
+            ['id'=>$this_parentid]
+        ];
 
-        $child_map=$this->get_child_map();
-        foreach($child_map as $parentid => $v ) {
-            list( $error_flag, $id_map,$student_count,$member_count )=$this->get_id($parentid, $child_map,$this_parentid);
-            if ($error_flag) {
-                echo "parentid $parentid: error_flag:$error_flag, list:  ". join(",", array_keys($id_map) ). "\n";
-            }
+        list($child_arr,$student_count,$member_count,$error_flag)=$this->get_child_by_cycle($parent_arr);
+        if($error_flag)
+            echo $this_parentid.'推荐人循环!';
+
+        return [$child_arr,$student_count,$member_count];
+        // $this->get_id($res);
+    }
+    //@desn:获取无限制下限信息
+    private function get_child_by_cycle($parent_arr){
+        $counter = 0;
+        if($counter == 0){
+            $child_arr = [];
+            $student_count = 0;
+            $member_count = 0;
+            $err_flag = false;
+            $id_map[$parent_arr[0]['id']] = true;
         }
 
-        return [$id_map,$student_count,$member_count];
-        // $this->get_id($res);
+        foreach($parent_arr as $item){
+            $where_arr = [
+                ['parentid = %u',$item['id'],'-a'],
+            ];
+            $sql2 = $this->gen_sql_new(
+                "select id from %s where %s",self::DB_TABLE_NAME,$where_arr
+            );
+            $child_list=$this->main_get_list($sql2);
+            foreach($child_list as $val){
+                if(isset($id_map[$val['id']])){
+                    $err_flag=true;
+                    break;
+                }
+                $id_map[$val['id']] = true;
+                $child_arr[] = $val['id'];
+            }
+            $sql = $this->gen_sql_new(
+                "select sum(if(type in (1,3),1,0)) as student_count,sum(if(type in (2,3),1,0)) as member_count ".
+                "from %s ".
+                "where %s",
+                self::DB_TABLE_NAME,
+                $where_arr
+            );
+            $child_count = $this->main_get_row($sql);
+            $student_count +=$child_count['student_count'];
+            $member_count +=$child_count['member_count'];
+
+            $counter++;
+
+            if($child_list)
+                $this->get_child_by_cycle($child_list);
+
+        }
+
+        return [$child_arr,$student_count,$member_count,$err_flag];
     }
 
     function get_id($parentid , $parent_map ,$this_parentid)
