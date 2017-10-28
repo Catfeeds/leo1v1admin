@@ -871,8 +871,8 @@ class wx_yxyx_api extends Controller
             if(!$item['nickname'])
                 $item['nickname'] = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            $item['price'] /= $item['price'];
-            $item['p_price'] /= $item['p_price'];
+            $item['price'] /= 100;
+            $item['p_price'] /= 100;
             $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
             $item['count']=$lesson_info["count"] ;
         }
@@ -883,8 +883,8 @@ class wx_yxyx_api extends Controller
             if(!$item['nickname'])
                 $item['nickname'] = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            $item['price'] /= $item['price'];
-            $item['p_price'] /= $item['pp_price'];
+            $item['price'] /= 100;
+            $item['p_price'] /= 100;
             $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
             $item['count']=$lesson_info["count"] ;
         }
