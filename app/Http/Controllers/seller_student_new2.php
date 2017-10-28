@@ -1146,8 +1146,8 @@ class seller_student_new2 extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
         foreach($ret_info as $key=>&$item){
-            $item['suc_rate'] = $item['count']>0?round($item['suc_count']/$item['count'],1):0;
-            $item['test_rate'] = $item['suc_count']>0?round($item['test_count']/$item['suc_count'],1):0;
+            $item['suc_rate'] = ($item['count']>0?round($item['suc_count']/$item['count'],3)*100:0).'%';
+            $item['test_rate'] = ($item['suc_count']>0?round($item['test_count']/$item['suc_count'],3)*100:0).'%';
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
