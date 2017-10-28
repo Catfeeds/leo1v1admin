@@ -870,7 +870,7 @@ class ajax_deal2 extends Controller
         // $new_train_flag = $this->t_teacher_info->get_new_train_flag($teacherid);
         //$lessonid = $this->t_lesson_info_b3->get_first_new_train_lessonid();
         /* if($new_train_flag==0 && $lessonid >0){
-            
+
            }*/
         return $this->output_succ();
     }
@@ -1202,7 +1202,7 @@ class ajax_deal2 extends Controller
              $subject_ex .= E\Esubject::get_desc ($item["subject"]).",";
         }
         $this->t_student_info->field_update_list($userid,[
-            "subject_ex"  =>trim($subject_ex,",")           
+            "subject_ex"  =>trim($subject_ex,",")
         ]);
 
         // 添加操作日志
@@ -1221,14 +1221,14 @@ class ajax_deal2 extends Controller
             $subject_ex .= E\Esubject::get_desc ($item["subject"]).",";
         }
         $this->t_student_info->field_update_list($userid,[
-            "subject_ex"  =>trim($subject_ex,",")           
+            "subject_ex"  =>trim($subject_ex,",")
         ]);
 
         // 添加操作日志
         $this->t_user_log->add_data("删除教材,教材id:".$editionid, $userid);
         return $this->output_succ();
 
- 
+
     }
 
     //修改学生科目教材
@@ -1314,7 +1314,7 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
-                        . "<td>  ". $period_str 
+                        . "<td>  ". $period_str
                         . " </tr> ";
                 }
             }
@@ -1624,7 +1624,7 @@ class ajax_deal2 extends Controller
             $score_list = $teacher_record_score[$teacherid];
             $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
         }else{
-            $score =0; 
+            $score =0;
         }
 
         $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
@@ -1707,15 +1707,15 @@ class ajax_deal2 extends Controller
             $score_list = $teacher_record_score[$teacherid];
             $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
         }else{
-            $score =0; 
+            $score =0;
         }
 
         //  $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
-        //  $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]); 
+        //  $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]);
 
         return $this->output_succ(["score"=>$score,"cc_per"=>$cc_per,"cr_per"=>$cr_per]);
 
-       
+
         //return $this->output_succ();
 
     }
@@ -1743,7 +1743,7 @@ class ajax_deal2 extends Controller
             return $this->output_err('无数据!');
         }
         if($list["status"]>0){
-           return $this->output_err($list["msg"]); 
+           return $this->output_err($list["msg"]);
         }
         $data = $list["data"];
         foreach($data as &$item){
@@ -1765,7 +1765,7 @@ class ajax_deal2 extends Controller
 
     //百度分期还款明细
     public function get_baidu_period_detail_info_new(){
-        $orderid              = $this->get_in_int_val("orderid",177);        
+        $orderid              = $this->get_in_int_val("orderid",177);
         $data = $this->t_period_repay_list->get_order_repay_info($orderid);
         if(!$data){
             return $this->output_err('无数据!');
@@ -1822,7 +1822,7 @@ class ajax_deal2 extends Controller
                     $teacher_dimension="其他";
                 }
                 $this->t_test_lesson_subject_sub_list->field_update_list($item["lessonid"],[
-                   "teacher_dimension" =>$teacher_dimension 
+                   "teacher_dimension" =>$teacher_dimension
                 ]);
 
             }
@@ -1862,7 +1862,7 @@ class ajax_deal2 extends Controller
                     $teacher_dimension="其他";
                 }
                 $this->t_test_lesson_subject_sub_list->field_update_list($item["lessonid"],[
-                    "teacher_dimension" =>$teacher_dimension 
+                    "teacher_dimension" =>$teacher_dimension
                 ]);
 
             }
@@ -1887,5 +1887,49 @@ class ajax_deal2 extends Controller
                 $url);
         return $this->output_succ(['data'=>"推送成功"]);
         */
+    }
+    public function web_page_info_add () {
+        $title= trim($this->get_in_str_val("title"));
+        $url= trim($this->get_in_str_val("url"));
+        $this->t_web_page_info->row_insert([
+            "url" =>$url,
+            "title" =>$title,
+            "add_time" => time(NULL),
+            "add_adminid" =>  $this->get_account_id(),
+        ]);
+        return $this->output_succ();
+    }
+
+    public function web_page_info_edit () {
+        $title= trim($this->get_in_str_val("title"));
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $del_flag= $this->get_in_int_val("del_flag");
+        $this->t_web_page_info->field_update_list($web_page_id,[
+            "title"    => $title,
+            "del_flag" => $del_flag,
+        ]);
+        return $this->output_succ();
+    }
+    public  function web_page_info_send_admin ()   {
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $userid_list_str= $this->get_in_str_val("userid_list");
+        $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
+        if ( count($userid_list) ==0 ) {
+            return $this->output_err("还没选择例子");
+        }
+        $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
+        $url=$web_page_info["url"];
+        $title=$web_page_info["title"];
+        foreach($userid_list as $adminid ) {
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(
+                $adminid,
+                "系统推送 分享", "点击分享",$title,
+                "$url?web_page_id=$web_page_id&from_adminid=$adminid",
+                "点击进入 分享到朋友圈 "
+            );
+        }
+
+        return $this->output_succ();
+
     }
 }

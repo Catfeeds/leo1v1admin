@@ -86,5 +86,54 @@ class admin_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+    public function web_page_info()   {
+        list($start_time,$end_time ) = $this->get_in_date_range(-180,1);
+        $del_flag =$this->get_in_e_boolean( 0, "del_flag");
+        $page_info= $this->get_in_page_info();
+        $ret_info=$this->t_web_page_info->get_list( $page_info, $start_time,$end_time, $del_flag );
+        foreach ($ret_info["list"] as &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            $this->cache_set_item_account_nick($item,"add_adminid","add_adminid_nick");
+            E\Eboolean::set_item_value_str($item,"del_flag");
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+    public  function  web_page_share ( ) {
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
+        $page_info=null;
+        $uid               = $this->get_in_int_val('uid',0);
+        $account_role      = $this->get_in_e_account_role(E\Eaccount_role::V_2 );
+
+        $user_info="";
+
+        $has_question_user=false;
+        $creater_adminid =-1;
+        $del_flag =0;
+        $cardid=-1;
+        $tquin=-1;
+        $day_new_user_flag=-1;
+        $seller_level=-1;
+        $adminid=-1;
+        $fulltime_teacher_type=-1;
+        $call_phone_type=-1;
+
+        $ret_info = $this->t_manager_info->get_all_manager( $page_info,$uid,$user_info,$has_question_user, $creater_adminid,$account_role,$del_flag,$cardid,$tquin,$day_new_user_flag,$seller_level,$adminid,$fulltime_teacher_type,$call_phone_type);
+
+        foreach($ret_info['list'] as &$item){
+            E\Eaccount_role::set_item_value_str($item);
+            E\Eseller_level::set_item_value_str($item);
+            E\Edepartment::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"become_full_member_flag");
+        }
+        $this->set_filed_for_js("web_page_title",  $web_page_info["title"]  );
+        $this->set_filed_for_js("web_page_url",  $web_page_info["url"]  );
+
+        return $this->pageView(__METHOD__,$ret_info, [
+            "web_page_info" =>$web_page_info
+        ]);
+
+    }
 
 }

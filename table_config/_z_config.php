@@ -1,6 +1,8 @@
 <?php
 return array(
     //
+    ["db_weiyi_admin","t_web_page_info","web_page_id"],
+    ["db_weiyi_admin","t_web_page_trace_log","id"],
     ["db_weiyi","t_luck_draw_yxyx_for_ruffian","id"],
     ["db_weiyi","t_ruffian_share","id"],
     ["db_weiyi","t_ruffian_activity","id"],
