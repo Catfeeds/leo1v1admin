@@ -293,7 +293,11 @@ class wx_parent_gift extends Controller
     }
 
 
-    // 双11活动
+    // 双11活动 理优在线
+
+    public function get_luck_parent_info(){ // 获取家长抽奖信息
+        
+    }
 
     public function update_share_status(){ // check是否分享
         $parentid = $this->get_in_int_val('parentid');
