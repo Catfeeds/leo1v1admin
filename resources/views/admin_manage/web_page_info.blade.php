@@ -52,6 +52,7 @@
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                 <a class="fa fa-share opt-share"  title="分享"> </a>
                                 <a class="fa fa-bar-chart-o   opt-tongji "  title="统计"> </a>
+                                <a class="fa fa-list   opt-log "  title="浏览信息"> </a>
 
                             </div>
                         </td>

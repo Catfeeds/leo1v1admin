@@ -157,8 +157,9 @@ class admin_manage extends Controller
         foreach ($ret_info["list"] as &$item  ) {
             $this->cache_set_item_account_nick($item,"from_adminid", "from_adminid_nick" );
             \App\Helper\Utils::unixtime2date_for_item($item,"log_time");
+            $item["ip"] = long2ip($item["ip"]);
         }
-
+        return $this->pageView(__METHOD__,$ret_info);
 
     }
 

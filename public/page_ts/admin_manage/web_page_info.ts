@@ -100,6 +100,11 @@ $(function(){
         $.wopen("/admin_manage/web_page_admin_info?web_page_id="+opt_data.web_page_id );
     });
 
+    $(".opt-log").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/admin_manage/web_page_log?web_page_id="+opt_data.web_page_id );
+    });
+
 
 
 });
