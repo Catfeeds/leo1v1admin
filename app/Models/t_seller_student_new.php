@@ -890,7 +890,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ( count($userid_list) ==0 ) {
             return false;
         }
-        $this->t_seller_student_new->set_admin_info(
+        $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
 
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
@@ -1436,7 +1436,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
 
-            if (!$item["first_call_time"]) {//第一次拨打时间
+            if ($item["first_call_time"] == 0) {//第一次拨打时间
                 $set_arr["first_call_time"]=$call_time;
             }
             $set_arr["last_revisit_time"]=$call_time;//最后回访时间
