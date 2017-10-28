@@ -48,6 +48,10 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         $sql = "select userid,phone from t_student_info where phone_location='免商店充值卡 ' or phone_location='' or phone_location = '鹏博士' and is_test_user = 0  and reg_time > 1475251200 and reg_time < 1506787200 ";
         return $this->main_get_list($sql);
     }
+    public function get_teacher_info(){
+        $sql = "select * from t_teacher_info where  train_through_new_time > 1504195200 and train_through_new_time < 1506787200 and is_test_user  = 0";
+        return $this->main_get_list($sql);
+    }
     //-------------------------------------------------------
     public function get_total_province($start_time,$end_time){
         $where_arr = [
@@ -58,6 +62,7 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         $sql = $this->gen_sql_new("select count(userid) as total,phone_location from t_student_info where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
     }
+
     public function get_total_grade_num($start_time,$end_time){
          $where_arr = [
             ["reg_time>%u",$start_time,-1],
@@ -189,6 +194,16 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
             " price>0"
         ];
         $sql = $this->gen_sql_new("select count( s.userid) as total, s.phone_location,o.subject,o.grade from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by s.phone_location,o.subject,o.grade", $where_arr);
+        return $this->main_get_list($sql);
+    }
+    //----------------------------------------------
+    public function get_total_province_teacher($start_time,$end_time){
+        $where_arr = [
+            [" train_through_new_time>%u",$start_time,-1],
+            [" train_through_new_time<%u",$end_time,-1],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count(teacherid) as total,phone_location from t_teacher_info where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
     }
 }

@@ -94,7 +94,7 @@ class wx_parent_common extends Controller
         return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
     }
 
-    public function do_wx_bind( ){
+    public function do_wx_bind(){
         $code      = $this->get_in_str_val('code');
         $wx_openid = session("wx_parent_openid");
         $openid    = $this->get_in_str_val("openid");

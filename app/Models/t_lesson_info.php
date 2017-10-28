@@ -9677,11 +9677,11 @@ lesson_type in (0,1) "
         $whereArr = [
             //["operate_time<%u",$start_time,0],
             //["operate_time>%u",$time,0],
-            ['userid=%u',$teacherid,0],
+            ['teacherid=%u',$teacherid,0],
             "lesson_type=1100",
             "train_type=4"
         ];
-        $sql = $this->gen_sql_new("select userid from %s where %s limit 1",
+        $sql = $this->gen_sql_new("select teacherid from %s where %s limit 1",
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );

@@ -2620,7 +2620,7 @@ class main_page extends Controller
         $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($train_tea_sum) $info['train_tea_sum'] ++;
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
-        
+
         // 模拟试听总排课人数
         $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($imit_sum) $info['imit_sum']++;
@@ -2629,34 +2629,4 @@ class main_page extends Controller
         if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
         return $info;
     }
-
-    // public function handle($info) {
-    //     $res = [];
-    //     foreach($info as $key => $item) {
-    //         $ret['subject'] = $key;
-    //         $len = count($item);
-    //         if ($len > 1) {
-    //             foreach($item as $k=>$v) {
-    //                 if($k == 'primary_num') {
-    //                     $ret['grade'] = 100;
-    //                 }
-    //                 if ($k == 'middle_num') {
-    //                     $ret['grade'] = 200;
-    //                 }
-    //                 if ($k == 'senior_num') {
-    //                     $ret['grade'] = 300;
-    //                 }
-    //                 if ($v == null) $v = 0;
-    //                 $ret['sum'] = $v;
-    //                 array_push($res, $ret);
-    //             }
-    //         } else {
-    //             $ret['grade'] = '';
-    //             $ret['sum'] = $item['sum'];
-    //             array_push($res,$ret);
-    //         }
-    //     }
-    //     return $res;
-    // }
-
 }

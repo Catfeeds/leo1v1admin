@@ -24,7 +24,7 @@ interface GargsStatic {
 	has_video_flag:	number;//\App\Enums\Eboolean
 	is_with_test_user:	number;
 	seller_flag:	number;
-	lessonid:	string;
+	lessonid:	number;
 	origin:	string;
 	page_num:	number;
 	page_count:	number;
