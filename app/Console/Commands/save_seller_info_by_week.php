@@ -162,9 +162,6 @@ class save_seller_info_by_week extends Command
         $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($month_start_time_funnel, $end_time); // 合同人数[月签约率]
 
 
-        // \App\Helper\Utils::logger("zhoubao1:".json_encode($ret_info));
-
-
         $task->t_seller_tongji_for_month->row_insert($ret_info);
 
 
