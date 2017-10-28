@@ -59,12 +59,12 @@ class import_to_teacher_flow extends cmd_base
         // }
 
         // trial_lecture_pass_time 设0
-        // $info = $task->t_teacher_flow->get_all_trial_time();
-        // foreach($info as $teacherid => $item) {
-        //     $task->t_teacher_flow->field_update_list($teacherid, [
-        //             "trial_lecture_pass_time" => 0
-        //         ]);
-        // }
+        $info = $task->t_teacher_flow->get_all_trial_time();
+        foreach($info as $teacherid => $item) {
+            $task->t_teacher_flow->field_update_list($teacherid, [
+                    "trial_lecture_pass_time" => 0
+                ]);
+        }
 
         // 导入老师报名时间 accept_adminid招师专员的id
         $where = ["answer_begin_time=0"];
@@ -80,17 +80,30 @@ class import_to_teacher_flow extends cmd_base
         }
 
         // 面试通过时间
+        $start_time = strtotime("2017-9-1");
+        $end_time = strtotime('2017-9-30');
+        $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time,$end_time);
+
         $where = ["trial_lecture_pass_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
-            $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
-            if ($lecture) {
-                $task->t_teacher_flow->field_update_list($teacherid, [
-                    "trial_lecture_pass_time" => $lecture['confirm_time'],
-                    'subject' => $lecture['subject'],
-                    'grade' => $lecture['grade']
-                ]);
+            foreach($lecture as $v) {
+                if ($item['phone'] == $v['phone']) {
+                    $task->t_teacher_flow->field_update_list($teacherid, [
+                        "trial_lecture_pass_time" => $lecture['confirm_time'],
+                        'subject' => $lecture['subject'],
+                        'grade' => $lecture['grade']
+                    ]);
+                }
             }
+            // $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
+            // if ($lecture) {
+            //     $task->t_teacher_flow->field_update_list($teacherid, [
+            //         "trial_lecture_pass_time" => $lecture['confirm_time'],
+            //         'subject' => $lecture['subject'],
+            //         'grade' => $lecture['grade']
+            //     ]);
+            // }
         }
 
         //面试试讲时间

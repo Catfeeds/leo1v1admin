@@ -1893,22 +1893,22 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_list($sql);
     }
 
-    public function get_data_to_teacher_flow($phone) {
+    public function get_data_to_teacher_flow($start_time, $end_time) {
         $where_arr = [
-            //["confirm_time>%u", $start_time, 0],
-            //["confirm_time<%u", $end_time, 0],
-            ["phone='%s'",$phone,0],
+            ["confirm_time>%u", $start_time, 0],
+            ["confirm_time<%u", $end_time, 0],
+            //["phone='%s'",$phone,0],
             "status=1",
             "confirm_time!=0"
         ];
-        $sql = $this->gen_sql_new("select subject,grade,confirm_time from %s tl where %s "
+        $sql = $this->gen_sql_new("select subject,grade,confirm_time,phone from %s tl where %s "
                                   ." and not exists (select 1 from %s "
                                   ." where tl.phone=phone and tl.add_time>add_time and status=1 and confirm_time!=0)"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
                                   ,self::DB_TABLE_NAME
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
 
