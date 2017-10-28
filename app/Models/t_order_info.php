@@ -3879,14 +3879,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function check_is_new($parentid){
         $where_arr = [
             "o.contract_type=0",
-            "o."
+            "p.parentid=$parentid"
         ];
-        $sql = $this->gen_sql_new("  select * from %s o "
+
+        $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s s on s.userid=o.userid"
-                                  ." left join %s p on p.userid=o.userid"
+                                  ." left join %s p on p.userid=s.userid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_parent_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
                                   ,$where_arr
         );
 
