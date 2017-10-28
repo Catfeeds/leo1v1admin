@@ -127,8 +127,18 @@ class TeacherMoneyTask extends TaskController
     /**
      * 设置老师工资信息
      */
-    public function set_teacher_salary_list($type,$day){
-        
+    public function set_teacher_salary_list($type,$start_time=0){
+        $start_time = $start_time==0?time():$start_time;
+        $month_time = \App\Helper\Utils::get_month_range($start_time,true);
+
+        $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
+        foreach($tea_list as $t_val){
+
+        }
+
+
     }
+
+
 
 }

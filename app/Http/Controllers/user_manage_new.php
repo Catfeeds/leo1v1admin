@@ -2402,17 +2402,17 @@ class user_manage_new extends Controller
         if( $start_time == $now ){
             //实时付费学员数
             $list = $this->get_cur_month_stu_info($start_time);
-            $all_pay = $list['all_pay'];
+            $all_order = $list['all_order'];
             $res = $this->t_month_student_count->get_student_month_info($start_time);
             $list['pay_stu_num'] = $res['pay_stu_num'];
         } else {
             $list = $this->t_month_student_count->get_student_month_info($start_time);
-            $all_pay = $this->t_month_student_count->get_all_pay_num($end_time);
+            $all_order = $this->t_month_student_count->get_all_pay_order_num($end_time);
         }
 
         if( $list != false ) {
             //退费率
-            $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
+            $list['refund_rate'] = round( $refund_num*100/$all_order ,2) .'%';
             //续费率
             $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
             $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
@@ -2430,7 +2430,8 @@ class user_manage_new extends Controller
         $ret = [];
         //实时付费学员数
         $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-        $ret['all_pay'] = $all_pay;
+        $ret['all_pay'] = $all_pay['userid_count'];
+        $ret['all_order'] = $all_pay['orderid_count'];
 
         $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//月新签
@@ -2451,7 +2452,8 @@ class user_manage_new extends Controller
 
         //退费名单
         $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
-        $ret['refund_stu_num'] = $refund_num;
+        $ret['refund_stu_num'] = $refund_num['userid_count'];
+        $ret['refund_order_num'] = $refund_num['orderid_count'];
         //正常结课学生
         $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
         $ret['normal_over_num'] = $ret_num;

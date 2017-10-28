@@ -150,3 +150,10 @@ message alipay_info{
   string zfb_name = 1;//姓名
   string zfb_account = 2;//支付宝账号
 }
+message reward_list{
+  string nickname = 1;//姓名
+  string create_time = 2;//时间
+  float price = 3;//购买课程
+  float p_price = 4;//收入
+  uint32 count = 5;//上课节数
+}

@@ -397,8 +397,17 @@ class wx_parent_gift extends Controller
 
         $today = strtotime(date('Y-m-d '));
 
+        $six    = strtotime('2017-11-6');
+        $seven  = strtotime('2017-11-7');
+        $eight  = strtotime('2017-11-8');
+        $nine   = strtotime('2017-11-9');
+        $ten    = strtotime('2017-11-10');
+        $eleven = strtotime('2017-11-11');
+        $twelve = strtotime('2017-11-12');
+        $Thirteen = strtotime('2017-11-13');
+
         if($stu_type == 1){ // 新用户
-            if(1){
+            if($today<$eleven){
 
             }
         }elseif($stu_type == 2){ // 老用户
@@ -443,7 +452,9 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
-        $parentid = $this->get_in_int_val('pid');
+        $parentid = $this->get_parentid();
+
+        // $parentid = $this->get_in_int_val('parentid');
 
         $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
         $invite_info = $this->t_agent->get_invite_num($start_time, $pid);
@@ -456,7 +467,8 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
-        $parentid = $this->get_in_int_val('parentid');
+        // $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
 
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
@@ -535,6 +547,14 @@ class wx_parent_gift extends Controller
 
         return $this->output_succ(["money"=>$prize]);
     }
+
+
+    public function get_parentid(){
+        $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
+        return $parentid;
+    }
+
+
 
 
 

@@ -2236,4 +2236,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_update($sql);
     }
+    //@desn:获取可体现金额
+    public function get_can_carry($agent_id){
+        $sql = $this->gen_sql_new(
+            "select all_open_cush_money from %s where id = % u "
+            ,self::DB_TABLE_NAME
+            ,$agent_id
+        );
+        return $this->main_get_value($sql);
+    }
 }

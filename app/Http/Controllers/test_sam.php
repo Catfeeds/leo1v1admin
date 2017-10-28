@@ -306,5 +306,122 @@ class test_sam  extends Controller
         }
 
     }
+
+
+    public function total_test_lesson_grade(){
+        $time = [
+            [
+                'start_time' => 1501516800,
+                'end_time'   => 1504195200,
+            ],
+            [
+                'start_time' => 1504195200,
+                'end_time'   => 1506787200,
+            ],
+            [
+                'start_time' => 1506787200,
+                'end_time'   => 1509465600,
+            ]
+        ];
+        
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $subject_list = $this->t_cr_week_month_info->get_test_lesson($start_time,$end_time);
+            $list = [];
+            foreach (E\Esubject::$desc_map as $key => $value) {
+                foreach (E\Egrade::$desc_map as $kkey => $kvalue) {
+                    $list[$kkey][$key] = '';
+                }
+            }
+            foreach ($subject_list as $key => $value) {
+                if(isset($list[$value['grade']][$value['subject']])){
+                    $list[$value['grade']][$value['subject']] = $value['total'];
+                }else{
+                    //var_dump($value);
+                }
+            }
+            //dd($list);
+            echo date("Y-m-d H:i:s",$start_time).'----'.date("Y-m-d H:i:s",$end_time)."<br/>";
+            echo "<table >";
+            echo "<tr><th >|</th>";
+            foreach (E\Esubject::$desc_map as $akkey => $akvalue) {
+                echo "<th>".E\Esubject::get_desc($akkey)."|</th>";
+            }
+            echo "</tr>";
+            foreach ($list as $akey => $avalue) {
+                $row = $avalue;
+               
+                echo "<tr>";
+                echo "<td>".E\Egrade::get_desc($akey)."</td>";
+                foreach ($row as $bkey => $bvalue) {
+                    echo "<td width=60px>".$bvalue."|</td>";
+                }
+
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "<br />";
+            echo "<br/>";
+        }
+        
+        echo "---------------------------------------"."<br/>";
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $phone_location_list = $this->t_cr_week_month_info->get_test_lesson_subject($start_time,$end_time);
+            $new_list = [];
+            foreach (E\Esubject::$desc_map as $key => $value) {
+                 $new_list['其它'][$key] = 0;
+            }
+            foreach($phone_location_list as $key => $value){
+                if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+
+                    $new_list['其它'][$value['subject']] += $value['total'];
+                    //$province_lesson_student['总计'] += $value['total'];
+                }else{
+                    $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+
+                    if(!isset($new_list[$pro])){
+                        foreach (E\Esubject::$desc_map as $kaey => $vaalue) {
+                            if(!isset($new_list[$pro][$kaey])){
+                                $new_list[$pro][$kaey] = '';
+                            }
+                        }
+                        $new_list[$pro][$value['subject']] = 0;
+                        $new_list[$pro][$value['subject']] += $value['total'];
+                    }else{
+                        $new_list[$pro][$value['subject']] += $value['total'];
+                    }
+                }
+            }
+
+            //dd($list);
+            echo date("Y-m-d H:i:s",$start_time).'----'.date("Y-m-d H:i:s",$end_time)."<br/>";
+            echo "<table >";
+            echo "<tr><th >城市|</th>";
+            foreach (E\Esubject::$desc_map as $akkey => $akvalue) {
+                echo "<th>".E\Esubject::get_desc($akkey)."|</th>";
+            }
+            echo "</tr>";
+            foreach ($new_list as $akey => $avalue) {
+                $row = $avalue;
+                echo "<tr>";
+                echo "<td width=60px>".E\Egrade::get_desc($akey)."|</td>";
+                foreach (E\Esubject::$desc_map as $bkey => $bvalue) {
+                    if(isset($new_list[$akey][$bkey])){
+                        echo "<td width=60px>".$new_list[$akey][$bkey]."|</td>";
+                    }else{
+                        echo "<td width=60px>"."|</td>";
+                    }
+                }
+
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "<br />";
+            echo "<br/>";
+        }
+    }
 }
 

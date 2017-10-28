@@ -501,7 +501,6 @@ class WechatRequest  {
             $token = AccessToken::getAccessToken();
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
-
             \App\Helper\Utils::logger("send txt end");
 
             $url = "$base_url/common/get_agent_qr?wx_openid=".$openid;
@@ -513,7 +512,7 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
-            \App\Helper\Utils::logger("media_info:".json_encode( $mediaId));
+            \App\Helper\Utils::logger("yxyxyx_openid:".$openid.",yxyxyx_img_url:".$img_url.",yxyxyx_mediaid:".json_encode($mediaId));
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);

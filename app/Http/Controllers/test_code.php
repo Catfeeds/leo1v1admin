@@ -1429,5 +1429,7 @@ class test_code extends Controller
     }
 
 
+    public function get_tea_list(){
+    }
 
 }
