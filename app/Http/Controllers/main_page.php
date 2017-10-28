@@ -2624,8 +2624,8 @@ class main_page extends Controller
         // 模拟试听总排课人数
         $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($imit_sum) $info['imit_sum']++;
-        //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($attend_sum) $info['attend_sum']++;
+        $attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($attend_sum) $info['attend_sum']++;
         if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
         return $info;
     }

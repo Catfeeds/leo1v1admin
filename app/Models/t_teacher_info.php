@@ -3982,12 +3982,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_train_inter_teacher_count($time, $teacherid) {
 
         $whereArr = [
-            ["l.add_time>%u", $time, 0],
-            ["tl.teacherid=%u", $teacherid, 0],
+            //["l.add_time>%u", $time, 0],
+            ["userid=%u", $teacherid, 0],
             //["l.add_time>%u", $start_time, 0],
             //['l.add_time<%u', $end_time, 0],
             //['tl.subject=%u', $subject, 0],
-            "l.train_type=1"
+            "train_type=1"
         ];
         // if ($subject <= 3) {
         //     $query = " sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
@@ -4000,8 +4000,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         //$sql = "select count(*) from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid where %s";
         //$res = $this->get_three_maj_sub_rel($sql, $whereArr);
 
-        $sql = $this->gen_sql_new("select l.add_time from %s tl left join %s l on tl.teacherid=l.userid where %s ",
-                                  self::DB_TABLE_NAME,
+        $sql = $this->gen_sql_new("select userid from %s where %s limit 1",
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   $whereArr
         );
@@ -4205,10 +4204,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_passes_num_by_subject_grade($start_time,$end_time,$subject){
         $where_arr=[
             "tl.is_test_user =0",
-            "train_through_new=1",
+            //"train_through_new=1",
             ["tl.subject=%u",$subject,-1],
-            ["tl.train_through_new_time >= %u",$start_time,-1],
-            ["tl.train_through_new_time <= %u",$end_time,-1],
+            ["tl.train_through_new_time>%u",$start_time,-1],
+            ["tl.train_through_new_time<%u",$end_time,-1],
         ];
 
         $sql = $this->gen_sql_new("select accept_adminid,sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
