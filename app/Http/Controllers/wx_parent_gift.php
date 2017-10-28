@@ -397,8 +397,13 @@ class wx_parent_gift extends Controller
 
         $today = strtotime(date('Y-m-d '));
 
+        $six = strtotime('2017-11-6');
+        $seven = strtotime('2017-11-7');
+        $eight = strtotime('2017-11-8');
+        $nine = strtotime('2017-11-9');
+
         if($stu_type == 1){ // 新用户
-            if(1){
+            if($today>$ww){
 
             }
         }elseif($stu_type == 2){ // 老用户
