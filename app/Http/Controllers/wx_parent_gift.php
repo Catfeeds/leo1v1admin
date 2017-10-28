@@ -336,7 +336,7 @@ class wx_parent_gift extends Controller
     }
 
     public function update_share_status(){ // check是否分享
-        $parentid = $this->get_in_int_val('parentid');// 
+        $parentid = $this->get_in_int_val('parentid');//
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
@@ -358,7 +358,7 @@ class wx_parent_gift extends Controller
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time);
-        if($draw_num_arr['']){
+        if($draw_num_arr['bag_num']){
 
         }
 
