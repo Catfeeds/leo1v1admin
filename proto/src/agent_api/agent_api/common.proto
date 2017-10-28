@@ -136,3 +136,17 @@ message invite_list{
   float agent_status_money = 3;//奖励金额
   uint32 agent_status = 4;//状态 array(0,"","无"), array(1,"","已报名"), array(10,"","已回访"), array(20,"","安排试听"), array(30,"","成功试听"), array(40 ,"","签单")
 }
+message agent_bank_info{
+  string bank_account = 1;//持卡人
+  string idcard = 2; //身份证号
+  string bank_type = 3;//银行卡类型
+  string bank_address = 4;//支行名称
+  string bank_province = 5;//开户省
+  string bank_city = 6;//开户市
+  string bankcard = 7;//卡号
+  string bank_phone = 8;//预留手机号
+}
+message alipay_info{
+  string zfb_name = 1;//姓名
+  string zfb_account = 2;//支付宝账号
+}

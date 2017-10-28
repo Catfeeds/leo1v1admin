@@ -791,4 +791,61 @@ class wx_yxyx_api extends Controller
             "member_invite"=>$member_invite,
         ]);
     }
+
+    //@desn:获取银行卡信息
+    public function get_agent_bank_info(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        $ret = [];
+        $ret = $this->t_agent->get_agent_info_by_phone($phone);
+        if(!$ret){
+            return $this->output_err('请先绑定优学优享账号!');
+        }
+        $data = [
+            "bank_account"  => $ret['bank_account'],
+            "idcard"        => $ret['idcard'],
+            "bank_type"     => $ret['bank_type'],
+            "bank_address"  => $ret['bank_address'],
+            "bank_province" => $ret['bank_province'],
+            "bank_city"     => $ret['bank_city'],
+            "bankcard"      => $ret['bankcard'],
+            "bank_phone"    => $ret['bank_phone'],
+        ];
+
+        return $this->output_succ(["data" =>$data]);
+    }
+
+    //@desn:获取用户支付包信息
+    public function get_agent_alipay_info(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        $ret = [];
+        $ret = $this->t_agent->get_agent_info_by_phone($phone);
+        if(!$ret){
+            return $this->output_err('请先绑定优学优享账号!');
+        }
+        $data = [
+            "zfb_name"      => $ret['zfb_name'],
+            "zfb_account"   => $ret['zfb_account'],
+        ];
+
+        return $this->output_succ(["data" =>$data]);
+    }
+
 }
