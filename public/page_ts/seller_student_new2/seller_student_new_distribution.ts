@@ -54,7 +54,7 @@ $(function(){
     $(".count").on("click",function(){
         var opt_data= $(this).get_row_opt_data();
         $.wopen(jump_url_1+"?"
-                +"uid="+opt_data.adminid
+                +"adminid="+opt_data.adminid
                 +"&start_time="+g_args.start_time
                 +"&end_time="+g_args.end_time
                 +"&date_type="+g_args.date_type
@@ -67,7 +67,7 @@ $(function(){
     $(".tmk_count").on("click",function(){
         var opt_data= $(this).get_row_opt_data();
         $.wopen(jump_url_1+"?"
-                +"uid="+opt_data.adminid
+                +"adminid="+opt_data.adminid
                 +"&start_time="+g_args.start_time
                 +"&end_time="+g_args.end_time
                 +"&date_type="+g_args.date_type
