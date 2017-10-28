@@ -791,6 +791,7 @@ class teacher_money extends Controller
      * 设置老师的薪资
      */
     public function set_teacher_salary(){
+        $type = $this->get_in_str_val("type");
         return $type;
     }
 

@@ -545,7 +545,8 @@ class wx_parent_gift extends Controller
             "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
             "remark"    => "感谢您的参与",
         ];
-        $url = "";
+        $phone = $this->t_agent->get_phone_by_pid($parentid);
+        $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
         // $send_openid = $this->t_parent_info->get_wx_openid($parentid);
         $send_openid = $this->t_agent->get_wx_openid_by_pid($parentid);
         $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
