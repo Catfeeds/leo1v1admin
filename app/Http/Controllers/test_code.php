@@ -1412,8 +1412,12 @@ class test_code extends Controller
         ]);
         var_dump($ret);
         // });
-
     }
+
+    public function delete_more_lesson(){
+        $lesson_list = $this->t_lesson_info_b3->get_more_trial_lesson_list();
+    }
+
 
     public function teacher_flow(){
 
