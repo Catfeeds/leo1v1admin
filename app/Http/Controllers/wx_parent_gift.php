@@ -544,7 +544,7 @@ class wx_parent_gift extends Controller
         $url = "";
         $send_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
-
+        $prize = $prize/100;
         return $this->output_succ(["money"=>$prize]);
     }
 

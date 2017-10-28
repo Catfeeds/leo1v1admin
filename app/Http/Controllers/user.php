@@ -340,47 +340,50 @@ class user extends TeaWxController
     public function get_tea_feedback_select_options(){ //1021
         $feedback_type = E\Efeedback_type::$desc_map;
         $options  = [];
-        foreach($feedback_type as $val){
-
+        foreach($feedback_type as $key=>$val){
+            $options[] = [
+                "feedback_type"     => $key,
+                "feedback_type_str" => $val,
+            ];
         }
-        $options = [
-            [
-                "feedback_type"=>101,
-                "feedback_type_str" => "基础工资"
-            ],
-            [
-                "feedback_type"=>102,
-                "feedback_type_str" =>"课时奖励工资"
-            ],
-            [
-                "feedback_type"=>105,
-                "feedback_type_str" =>"额外奖金"
-            ],
-            [
-                "feedback_type"=>104,
-                "feedback_type_str" =>"荣誉榜排名奖金"
-            ],
-            [
-                "feedback_type"=>201,
-                "feedback_type_str"=> "上课迟到扣款"
-            ],
-            [
-                "feedback_type"=>202,
-                "feedback_type_str" =>"规定时间内未评价扣款"
-            ],
-            [
-                "feedback_type"=>203,
-                "feedback_type_str" =>"课前未传讲义扣款"
-            ],
-            [
-                "feedback_type"=>204,
-                "feedback_type_str" =>"未提前4小时换课"
-            ],
-            [
-                "feedback_type"=>205,
-                "feedback_type_str" =>"教学事故"
-            ],
-        ];
+        // $options = [
+        //     [
+        //         "feedback_type"=>101,
+        //         "feedback_type_str" => "基础工资"
+        //     ],
+        //     [
+        //         "feedback_type"=>102,
+        //         "feedback_type_str" =>"课时奖励工资"
+        //     ],
+        //     [
+        //         "feedback_type"=>105,
+        //         "feedback_type_str" =>"额外奖金"
+        //     ],
+        //     [
+        //         "feedback_type"=>104,
+        //         "feedback_type_str" =>"荣誉榜排名奖金"
+        //     ],
+        //     [
+        //         "feedback_type"=>201,
+        //         "feedback_type_str"=> "上课迟到扣款"
+        //     ],
+        //     [
+        //         "feedback_type"=>202,
+        //         "feedback_type_str" =>"规定时间内未评价扣款"
+        //     ],
+        //     [
+        //         "feedback_type"=>203,
+        //         "feedback_type_str" =>"课前未传讲义扣款"
+        //     ],
+        //     [
+        //         "feedback_type"=>204,
+        //         "feedback_type_str" =>"未提前4小时换课"
+        //     ],
+        //     [
+        //         "feedback_type"=>205,
+        //         "feedback_type_str" =>"教学事故"
+        //     ],
+        // ];
         return $this->output_succ(["data"=>$options]);
 
     }
