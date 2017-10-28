@@ -96,12 +96,12 @@ message agent_link_item_t{
   uint32 agent_id = 1;//优学优享ID
   string create_time = 2;//创建时间
   string name = 3;//姓名
-  string agent_type = 4;//类型 array(1,"","学员" ), array(2,"","会员" ), array(3,"","会员+学员" )
-  string agent_student_status = 5;//array(0,"","未回访"), array(10,"","未拨通"), array(20,"","回访中"), array(30,"","安排试听"), array(40,"","试听完成"), array(50 ,"","签单"), array(100,"","无意向")
+  string agent_type = 4;//类型 1学员2会员3会员+学员
+  string agent_student_status = 5;//0未回访10未拨通20回访中30安排试听40试听完成50签单100无意向
   uint32 child_count = 6;//下线个数
   string agent_student_status_str = 7;//
   string agent_type_str = 8;//
-  string agent_status = 9;//状态 array(0,"","无"), array(1,"","已报名"), array(10,"","已回访"), array(20,"","安排试听"), array(30,"","成功试听"), array(40 ,"","签单")
+  string agent_status = 9;//状态 0无1已报名10已回访20安排试听30成功试听40签单
   string agent_status_str = 10;//agent_status str
   uint32 invaild_flag = 11;//无意向标示
 }
@@ -129,4 +129,11 @@ message income_info{
   float open_money = 2;//可体现金额
   float all_have_cash_money = 3;//已提现金额
   float is_cash_money = 4;//正在体现金额
+}
+message invite_list{
+  string nickname = 1;//昵称
+  string create_time = 2;//进入时间
+  float agent_status_money = 3;//奖励金额
+  uint32 agent_status = 4;//状态 array(0,"","无"), array(1,"","已报名"), array(10,"","已回访"), array(20,"","安排试听"), array(30,"","成功试听"), array(40 ,"","签单")
+  uint32 had_lesson = 5;//上了几节课
 }
