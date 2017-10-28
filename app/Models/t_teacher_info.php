@@ -4283,17 +4283,23 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      * 获取需要更新工资的老师名单
      */
     public function get_need_set_teacher_salary_list($start_time,$end_time){
-        $where_arr = [
-            ""
+        $lesson_arr = [
+            ['lesson_start>%u',$start_time,0],
+            ['lesson_start<%u',$end_time,0],
+            "lesson_del_flag=0",
+            "lesson_type<1000",
         ];
-        $sql = $this->gen_sql_new(""
+        $reward_arr = [
+            ['add_time>%u',$start_time,0],
+            ['add_time<%u',$end_time,0],
+        ];
+        $sql = $this->gen_sql_new("select teacherid "
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
 }
