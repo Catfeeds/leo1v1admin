@@ -1462,5 +1462,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_more_trial_lesson_list(){
+        $where_arr = [
+            "lesson_type=1100",
+            "train_type=4",
+            "lesson_start=0",
+        ];
+        $sql = $this->gen_sql_new("select lessonid,count(lessonid) as lesson_num"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
 
+    }
 }
