@@ -9700,7 +9700,7 @@ lesson_type in (0,1) "
 
         $sql = $this->gen_sql_new("select lesson_start from %s l left join %s lo on l.lessonid=lo.lessonid where %s limit ",
                                   self::DB_TABLE_NAME,
-                                  t_user_opt_log::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
                                   $whereArr
         );
         return $this->main_get_row($sql);
