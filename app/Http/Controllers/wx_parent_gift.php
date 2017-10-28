@@ -355,8 +355,15 @@ class wx_parent_gift extends Controller
 
         **/
 
-        $stu_type = 1;
 
+        $reg_time   = $this->t_user_info->get_reg_time($parentid);
+        $check_time = strtotime('2017-11-6');
+        $stu_type = 0;
+        if($check_time>$reg_time){ // 老用户
+            $stu_type = 2;
+        }else{
+            $stu_type = 1;
+        }
 
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
