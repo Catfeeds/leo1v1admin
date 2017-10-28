@@ -109,8 +109,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
     public function get_all_record_info_time($teacherid,$type,$start_time,$end_time,$page_num,$subject,$lesson_invalid_flag=0){
         $where_arr=[
-            ["add_time >= %u",$start_time,-1],
-            ["add_time <= %u",$end_time,-1],
+            ["add_time>%u",$start_time,-1],
+            ["add_time<%u",$end_time,-1],
             ["r.teacherid=%u",$teacherid,-1],
             ["r.type=%u",$type,0],
             ["t.subject=%u",$subject,-1],
@@ -1375,11 +1375,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $ret;
     }
 
-    public function get_data_to_teacher_flow($type,$teacherid)
+    public function get_data_to_teacher_flow($start_time, $end_time, $type)
     {
         $where_arr = [
+            ["tr.add_time>%u",$start_time, 0],
+            ["tr.add_time<%u",$end_time, 0],
             ["l.train_type=%u",$type,0],
-            ["l.teacherid=%u",$teacherid,0],
+            //["l.teacherid=%u",$teacherid,0],
             'l.lesson_type=1100',
             "l.lesson_del_flag=0",
             "tr.trial_train_status=1",
