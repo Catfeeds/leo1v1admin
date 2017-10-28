@@ -82,7 +82,9 @@ class import_to_teacher_flow extends cmd_base
         // 面试通过时间
         $where = ["trial_lecture_pass_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
+        $lecture_pass_list ;
         foreach($info as $teacherid => $item) {
+            $lecture_pass_list[$item['phone']]['confirm_time'];
             $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
             if ($lecture) {
                 $task->t_teacher_flow->field_update_list($teacherid, [

@@ -9476,7 +9476,6 @@ lesson_type in (0,1) "
             ["teacherid=%u",$teacherid,0],
             "train_type=4",
             "lesson_del_flag=0"
-            // "lesson_start=0"
         ];
         $sql = $this->gen_sql_new("select count(1) "
                                   ." from %s "

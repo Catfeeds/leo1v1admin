@@ -2092,7 +2092,7 @@ trait TeaPower {
             </div>
     </body>
 </html>
-";
+                    ";
         return $html;
     }
 
