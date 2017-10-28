@@ -19,7 +19,6 @@ function load_data(){
         adminid          : $('#id_adminid').val(),
         origin_ex        : $("#id_origin_ex").val(),
         user_name        : $("#id_user_name").val(),
-        adminid          : $('#id_adminid').val(),
         uid              : $('#id_uid').val(),
     });
 }
@@ -47,7 +46,6 @@ $(function(){
     $('#id_adminid').val(g_args.adminid);
     $('#id_origin_ex').val(g_args.origin_ex);
     $("#id_user_name").val(g_args.user_name);
-    $('#id_adminid').val(g_args.adminid);
     $('#id_uid').val(g_args.uid);
 
     $.admin_select_user(
