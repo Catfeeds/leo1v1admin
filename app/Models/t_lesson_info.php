@@ -9681,7 +9681,7 @@ lesson_type in (0,1) "
             "lesson_type=1100",
             "train_type=4"
         ];
-        $sql = $this->gen_sql_new("select teahcerid from %s where %s limit 1",
+        $sql = $this->gen_sql_new("select teacherid from %s where %s limit 1",
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
