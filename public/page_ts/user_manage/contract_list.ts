@@ -1027,26 +1027,40 @@ $(function(){
             },{
                 label  : '确认',
                 action : function(dialog) {
-                    $.do_ajax("/ss_deal/seller_add_contract_new",{
-                        require_id                    : require_id,
-                        contract_type                 : contract_type,
-                        contract_from_type            : contract_from_type,
-                        competition_flag              : $competition_flag.val(),
-                        lesson_total                  : $lesson_count.val()*100,
-                        discount_reason               : $discount_reason.val(),
-                        title                         : $receipt_title.val(),
-                        order_require_flag            : $order_require_flag.val(),
-                        userid                        : data.userid,
-                        pre_money                     : $pre_money.val(),
-                        grade                         : data.grade,
-                        subject                       : data.subject,
-                        period_flag : $period_flag.val(),
-                        origin                        : data.origin,
-                        order_promotion_type          : $order_promotion_type.val(),
-                        promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
-                        promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
-                        has_share_activity_flag       : $has_share_activity_flag.val(),
-                    });
+                    var  deal_func=function() {
+                        $.do_ajax("/ss_deal/seller_add_contract_new",{
+                            require_id                    : require_id,
+                            contract_type                 : contract_type,
+                            contract_from_type            : contract_from_type,
+                            competition_flag              : $competition_flag.val(),
+                            lesson_total                  : $lesson_count.val()*100,
+                            discount_reason               : $discount_reason.val(),
+                            title                         : $receipt_title.val(),
+                            order_require_flag            : $order_require_flag.val(),
+                            userid                        : data.userid,
+                            pre_money                     : $pre_money.val(),
+                            grade                         : data.grade,
+                            subject                       : data.subject,
+                            period_flag : $period_flag.val(),
+                            origin                        : data.origin,
+                            order_promotion_type          : $order_promotion_type.val(),
+                            promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
+                            promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
+                            has_share_activity_flag       : $has_share_activity_flag.val(),
+                        });
+
+                    }
+                    if ( $period_flag.val()==0) {
+                        BootstrapDialog.confirm( "你选择全款,之后的处理过程中,不能分期,可以吗?!",
+                                                 function(val ){
+                                                     if (val) {
+                                                         deal_func();
+                                                     }
+                                                 });
+                    }else{
+                        deal_func();
+                    }
+
                 }
             }]
         });

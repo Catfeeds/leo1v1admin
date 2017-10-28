@@ -3981,6 +3981,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 培训参训新师
     public function get_train_inter_teacher_count($time, $teacherid) {
         $whereArr = [
+            ["add_time>%u",$time,0],
             ["userid=%u", $teacherid, 0],
             "train_type=1"
         ];
@@ -4248,14 +4249,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_flow_list() {
+    public function get_teacher_flow_list($start_time, $end_time) { // 将数据导入至t_teacher_flow表
+        $where_arr = [
+            //["create_time>%u", $start_time, 0],
+            //["create_time<%u", $end_time, 0]
+        ];
         $sql = $this->gen_sql_new("select teacherid, phone, train_through_new_time "
                                   ." from %s t"
-                                  ." where is_test_user=0 and "
-                                  ." not exists (select 1 from %s where t.teacherid=teacherid)"
+                                  ." where is_test_user=0"
                                   ,self::DB_TABLE_NAME
-                                  ,t_teacher_flow::DB_TABLE_NAME
+                                  ,$where_arr
         );
+        echo $sql;
         return $this->main_get_list($sql);
     }
 

@@ -8,6 +8,7 @@ interface GargsStatic {
 	uid:	number;
 	user_name:	string;
 	flag:	number;
+	hand_get_adminid:	number;
 	origin_ex:	string;
 	global_tq_called_flag:	number;
 	page_num:	number;
@@ -58,6 +59,7 @@ function load_data(){
 		uid:	$('#id_uid').val(),
 		user_name:	$('#id_user_name').val(),
 		flag:	$('#id_flag').val(),
+		hand_get_adminid:	$('#id_hand_get_adminid').val(),
 		origin_ex:	$('#id_origin_ex').val(),
 		global_tq_called_flag:	$('#id_global_tq_called_flag').val()
     });
@@ -79,6 +81,7 @@ $(function(){
 	$('#id_uid').val(g_args.uid);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_flag').val(g_args.flag);
+	$('#id_hand_get_adminid').val(g_args.hand_get_adminid);
 	$('#id_origin_ex').val(g_args.origin_ex);
 	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 
@@ -116,6 +119,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">flag</span>
                 <input class="opt-change form-control" id="id_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">hand_get_adminid</span>
+                <input class="opt-change form-control" id="id_hand_get_adminid" />
             </div>
         </div>
 

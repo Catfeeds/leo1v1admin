@@ -1893,7 +1893,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_list($sql);
     }
 
-    public function get_data_to_teacher_flow($start_time, $end_time,$phone) {
+    public function get_data_to_teacher_flow($phone) {
         $where_arr = [
             //["confirm_time>%u", $start_time, 0],
             //["confirm_time<%u", $end_time, 0],
