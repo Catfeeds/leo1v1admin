@@ -11,9 +11,11 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
     public function get_all_list($start_time,$end_time,$test_lesson_type,$action,$test_opt_type,$adminid,$user_name,$page_info){
         $where_arr = [
             ['o.action = %u',$action,-1],
-            ['o.opt_type = %u',$test_opt_type,-1],
             ['m.uid = %u',$adminid,-1],
         ];
+        if($test_opt_type > 0){
+            $where_arr[] = ['o.opt_type=%u',$test_opt_type];
+        }
         if($test_lesson_type == E\Etest_lesson_type::V_1){
             $where_arr[] = 'o.lessonid>0';
         }elseif($test_lesson_type == E\Etest_lesson_type::V_2){
