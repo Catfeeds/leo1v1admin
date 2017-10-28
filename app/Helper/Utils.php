@@ -378,7 +378,6 @@ class Utils  {
         return $ret;
     }
 
-
     //检测当前环境
     static function   check_env_is_local(){
         return \Illuminate\Support\Facades\App::environment( E\Eenv::S_LOCAL );
