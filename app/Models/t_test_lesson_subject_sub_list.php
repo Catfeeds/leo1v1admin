@@ -228,8 +228,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." ) "
                                   ." and tl.lessonid not in ( "
                                   ." select lessonid from %s "
-                                  ." where teacherid=l.teacherid "
-                                  ." and type=2 "
+                                  ." where type=2 "
                                   ." ) "
                                   ." group by l.lessonid "
                                   ,self::DB_TABLE_NAME
