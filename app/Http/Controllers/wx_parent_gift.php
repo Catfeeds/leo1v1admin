@@ -331,23 +331,18 @@ class wx_parent_gift extends Controller
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
         $parentid = $this->get_in_int_val('parentid');
-
         $left_num = $this->get_draw_num($parentid);
-
         return $this->output_succ(['left'=>$left_num]);
     }
 
     public function update_share_status(){ // check是否分享
         $parentid = $this->get_in_int_val('parentid');
-
         $this->t_ruffian_share->delete_row_by_pid($parentid);
-
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
             "share_time"    => time(),
             "parentid"      => $parentid
         ]);
-
     }
 
     public function ruffian_activity(){ // 双11活动
