@@ -33,13 +33,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/agent-agent_user_link.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		phone:	$('#id_phone').val(),
+		id:	$('#id_id').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			phone:	$('#id_phone').val(),
-			id:	$('#id_id').val()
-        });
-    }
 
 
 	$('#id_phone').val(g_args.phone);

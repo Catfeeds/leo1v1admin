@@ -759,4 +759,40 @@ class wx_yxyx_api extends Controller
         $list['is_cash_money'] = $this->t_agent_cash->get_is_cashing_money($agent_id)/100;
         return $this->output_succ(['income_info'=>$list]);
     }
+    //@desn:获取我的邀请、会员邀请奖励列表
+    public function get_invite_list(){
+        $agent_id   = $this->get_agent_id();
+        $my_invite = [];
+        if (!$agent_id){
+            return $this->output_err("没有信息");
+        }
+        $list = $this->t_agent->my_invite($agent_id);
+        foreach($list as $key => &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            $item['had_lesson'] = ($item['lesson_total']-$item['lesson_left']);
+            $my_invite[$key]['nickname'] = $item['nickname'];
+            $my_invite[$key]['create_time'] = $item['create_time'];
+            $my_invite[$key]['agent_status_money'] = $item['agent_status_money']/100;
+            $my_invite[$key]['agent_status'] = $item['agent_status'];
+            $my_invite[$key]['create_time'] = $item['create_time'];
+            $my_invite[$key]['had_lesson'] = $item['had_lesson'];
+        }
+        $member_invite = [];
+        $data = $this->t_agent->member_invite($agent_id);
+        foreach($data as $key => &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            $item['had_lesson'] = ($item['lesson_total']-$item['lesson_left']);
+            $member_invite[$key]['nickname'] = $item['nickname'];
+            $member_invite[$key]['create_time'] = $item['create_time'];
+            $member_invite[$key]['agent_status_money'] = $item['agent_status_money']/100;
+            $member_invite[$key]['agent_status'] = $item['agent_status'];
+            $member_invite[$key]['create_time'] = $item['create_time'];
+            $member_invite[$key]['had_lesson'] = $item['had_lesson'];
+        }
+        
+        return $this->output_succ([
+            "my_invite"=>$my_invite,
+            "member_invite"=>$member_invite,
+        ]);
+    }
 }
