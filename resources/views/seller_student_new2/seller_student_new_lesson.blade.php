@@ -87,9 +87,7 @@
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="count" >
-                                {{@$var["suc_rate"]}}
-                            </a>
+                            {{@$var["suc_rate"]}}
                         </td>
                         <td >
                             <a href="javascript:;" class="tmk_count" >
@@ -97,9 +95,7 @@
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="distribution_count" >
-                                {{@$var["test_rate"]}}
-                            </a>
+                            {{@$var["test_rate"]}}
                         </td>
                         <td >
                             <a href="javascript:;" class="distribution_count" >
