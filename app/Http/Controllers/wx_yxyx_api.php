@@ -869,7 +869,7 @@ class wx_yxyx_api extends Controller
 
         foreach($invite_child_reward as &$item){
             if(!$item['nickname'])
-                $item[nickname] = $item['phone'];
+                $item['nickname'] = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             $item['price'] /= $item['price'];
             $item['p_price'] /= $item['p_price'];
@@ -881,7 +881,7 @@ class wx_yxyx_api extends Controller
         $member_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=2);
         foreach($member_child_reward as &$item){
             if(!$item['nickname'])
-                $item[nickname] = $item['phone'];
+                $item['nickname'] = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             $item['price'] /= $item['price'];
             $item['p_price'] /= $item['pp_price'];
