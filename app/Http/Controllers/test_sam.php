@@ -112,7 +112,7 @@ class test_sam  extends Controller
         $province_teacher = [];
         $province_teacher['其它'] = 0;
         $province_teacher['总计'] = 0;
-        foreach($ret_info as $key => $value){
+        foreach($ret_info_teacher as $key => $value){
             if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
 
                 $province_teacher['其它'] += $value['total'];
