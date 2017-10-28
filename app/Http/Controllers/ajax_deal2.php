@@ -1879,12 +1879,13 @@ class ajax_deal2 extends Controller
         if(!$wx_openid){
             //return $this->output_err("请绑定微信");
         }
-        $ret = $this->t_manager_info->send_wx_todo_msg_by_adminid (
-                944,
+        /*$ret = $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                1101,
                 "分析知识库",
                 "",
                 "",
                 $url);
         return $this->output_succ(['data'=>"推送成功"]);
+        */
     }
 }
