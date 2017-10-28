@@ -307,7 +307,9 @@ class wx_parent_gift extends Controller
         $is_reading = $this->t_student_info->check_is_reading($parentid);
 
         //检查是否新签
-        $is_new_order = $this->t_order_info->check_is_new($parentid);
+        $order_start = strtotime('2017-11-11');
+        $order_end   = strtotime('2017-11-13');
+        $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
         $draw_num = 0; //抽奖次数
 
