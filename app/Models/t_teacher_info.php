@@ -4288,16 +4288,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['lesson_start<%u',$end_time,0],
             "lesson_del_flag=0",
             "lesson_type<1000",
+            "t.teacherid=teacherid"
         ];
         $reward_arr = [
             ['add_time>%u',$start_time,0],
             ['add_time<%u',$end_time,0],
+            "t.teacherid=teacherid"
         ];
         $sql = $this->gen_sql_new("select teacherid "
-                                  ." from %s "
-                                  ." where %s"
+                                  ." from %s t"
+                                  ." where exists (select 1 from %s where %s)"
+                                  ." or exists (select 1 from %s where %s)"
                                   ,self::DB_TABLE_NAME
-                                  ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
