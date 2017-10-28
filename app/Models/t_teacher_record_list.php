@@ -1385,7 +1385,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             //["l.teacherid=%u",$teacherid,0],
             //'l.lesson_type=1100',
             //"l.lesson_del_flag=0",
-            "tr.trial_train_status=1",
+            "trial_train_status=1",
             //"tr.train_lessonid=l.lessonid",
         ];
         //select add_time from t_teacher_record_list where type=10 and trial_train_status=1
