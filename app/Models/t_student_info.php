@@ -1069,22 +1069,22 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $have_flag="";
         if(in_array($type,[1,2])){
             if($type==1){
-                $where_arr[]="(r.apply_time is null or r.apply_time<s.last_lesson_time)"; 
-                $where_arr[]="s.type=1"; 
+                $where_arr[]="(r.apply_time is null or r.apply_time<s.last_lesson_time)";
+                $where_arr[]="s.type=1";
             }elseif($type==2){
-                $where_arr[]="r.apply_time>=s.last_lesson_time"; 
+                $where_arr[]="r.apply_time>=s.last_lesson_time";
                 $have_flag="having (sum(o.lesson_left) < 100)";
             }
         }else{
             $where_arr[] = ["s.lesson_count_left >=%u",$lesson_count_start,-1 ];
             $where_arr[] = ["s.lesson_count_left <=%u",$lesson_count_end,-1 ];
         }
-        
+
         $sql = $this->gen_sql_new("select s.userid,s.lesson_count_all,s.lesson_count_left,"
                                   ."s.last_lesson_time,s.assistantid,s.grade,sum(o.lesson_left) left_all"
                                   ." from %s s  left join %s r on s.userid = r.userid and r.contract_type in (0,3) "
-                                   ." and not exists (select 1 from %s where userid=r.userid and r.contract_type in (0,3) "
-                                      ."and apply_time>r.apply_time)"
+                                  ." and not exists (select 1 from %s where userid=r.userid and r.contract_type in (0,3) "
+                                  ."and apply_time>r.apply_time)"
                                   ." left join %s o on s.userid= o.userid and o.contract_type in (0,3)"
                                   ." where %s  group by s.userid %s ",
                                   self::DB_TABLE_NAME,
@@ -1092,7 +1092,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   t_order_refund::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   $where_arr,
-                                  $have_flag 
+                                  $have_flag
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
@@ -1120,10 +1120,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             );
         }
 
-        $sql = $this->gen_sql_new("select count( distinct userid) "
-                                  ." from %s s"
-                                  ." where %s "
-                                  ." and %s"
+        $sql = $this->gen_sql_new("select count( distinct userid)  from %s s where %s  and %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
                                   ,$refund_sql
@@ -1461,7 +1458,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                 "system"
             );
 
-            
+
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
             if($user_info["origin_assistantid"]>0){

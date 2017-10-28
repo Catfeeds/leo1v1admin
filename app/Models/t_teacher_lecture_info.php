@@ -8,8 +8,10 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         parent::__construct();
     }
 
-    public function get_teacher_lecture_list($page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
-                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1
+    public function get_teacher_lecture_list(
+        $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
+        $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1,
+        $id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1
     ){
         if($phone==''){
             if($opt_date_type=="add_time"){
@@ -43,14 +45,14 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             $group_str = "group by b.phone,b.subject";
 
             if($have_wx==0){
-                $where_arr[] ="(ttt.wx_openid = '' or ttt.wx_openid is null )";
+                $where_arr[] = "(ttt.wx_openid = '' or ttt.wx_openid is null )";
             }elseif($have_wx==1){
-                $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
+                $where_arr[] = "ttt.wx_openid <> '' and ttt.wx_openid is not null";
             }
-            $where_arr[]= ['la.accept_adminid=%u',$accept_adminid,-1];
+            $where_arr[] = ['la.accept_adminid=%u',$accept_adminid,-1];
         }else{
-            $where_arr []= "b.phone like '%%".$phone."%%' or b.nick like '%%".$phone."%%'";
-            $group_str = "group by b.add_time";
+            $where_arr [] = "b.phone like '%%".$phone."%%' or b.nick like '%%".$phone."%%'";
+            $group_str    = "group by b.add_time";
         }
         if(!empty($tea_subject)) {
             $where_arr[] = "b.subject in ".$tea_subject;
@@ -70,7 +72,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         }else{
             $where_arr[] = " tt.train_through_new=1 ";
         }
-        
+
         $sql = $this->gen_sql_new("select b.id,b.nick,b.face,b.phone,b.grade,b.subject,b.title,b.draw,"
                                   ." real_begin_time,real_end_time,teacher_re_submit_num,"
                                   ." b.account,b.status,b.reason,b.add_time,b.identity,b.identity_image,b.resume_url,"
@@ -1895,9 +1897,13 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     public function get_data_to_teacher_flow($start_time, $end_time) {
         $where_arr = [
+<<<<<<< HEAD
             ["confirm_time>%u", $start_time, 0],
             ["confirm_time<%u", $end_time, 0],
             //["phone='%s'",$phone,0],
+=======
+            ["phone='%s'",$phone,0],
+>>>>>>> 96b9aa608fc3685f9a2836b2fd707e66f92206ca
             "status=1",
             "confirm_time!=0"
         ];

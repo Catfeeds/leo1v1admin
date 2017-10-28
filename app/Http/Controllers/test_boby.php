@@ -57,9 +57,6 @@ class test_boby extends Controller
 
     //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
-        if ( !$this->get_in_str_val("boby")) {
-                exit;
-            }
         $start_time = strtotime('2017-07-01');
         $end_time  = strtotime('2017-08-01');
         $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
@@ -758,28 +755,6 @@ class test_boby extends Controller
     public function test_job(){
         //给老师发送微信推送
         // dispatch( new \App\Jobs\send_wx_to_teacher());
-    }
-
-    public function lesson_count_user_list() {
-        $start_time  = strtotime(date("Y-m-01",time()) );
-        $end_time    = strtotime('+1 month', $start_time );
-        $assistantid = $this->get_in_int_val("assistantid",-1);
-        $type        = $this->get_in_int_val("type",-1);
-        $grade       = $this->get_in_grade();
-        $page_num    = $this->get_in_page_num();
-
-        $type     = 2;
-        $ret_list = $this->t_student_info->get_user_list_by_lesson_count(
-            $page_num,$lesson_count_start,$lesson_count_end,$start_time,$end_time,$assistantid,$grade,$type
-        );
-        foreach($ret_list['list'] as &$item ){
-            $item["nick"]           = $this->cache_get_student_nick($item["userid"]);
-            $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
-            $item["assistant_nick"] = $this->cache_get_assistant_nick($item["assistantid"]);
-            \App\Helper\Utils::unixtime2date_for_item($item,"last_lesson_time");
-        }
-
-        return $this->Pageview(__METHOD__,$ret_list );
     }
 
 }
