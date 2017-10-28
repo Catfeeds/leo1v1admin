@@ -1132,20 +1132,15 @@ class seller_student_new2 extends Controller
             $end_time = time();
         }
         $res = [];
-        $seller_student_new_list = $this->t_seller_student_new->get_distribution_count($start_time,$end_time,$origin_ex);
-        foreach($seller_student_new_list as $item){
+        $lesson_list = $this->t_test_lesson_subject_sub_list->get_all_lsit($start_time,$end_time,$origin_ex);
+        foreach($lesson_list as $item){
             $adminid = $item['adminid'];
-            $res[$adminid]['auto_get_count'] = $item['auto_get_count'];
-            $res[$adminid]['hand_get_count'] = $item['hand_get_count'];
             $res[$adminid]['count'] = $item['count'];
-            $res[$adminid]['tmk_count'] = $item['tmk_count'];
-        }
-        $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);//分配
-        foreach($seller_distribution_list as $item){
-            $adminid = $item['adminid'];
-            $res[$adminid]['global_tq_called_flag'] = $item['global_tq_called_flag'];
-            $res[$adminid]['distribution_count'] = $item['count'];
-            $res[$adminid]['no_call_count'] = $item['no_call_count'];
+            $res[$adminid]['suc_count'] = $item['suc_count'];
+            $res[$adminid]['suc_rate'] = $item['count']>0?$item['suc_count']/$item['count']:0;
+            $res[$adminid]['test_count'] = $item['test_count'];
+            $res[$adminid]['test_rate'] = $item['suc_count']>0?$item['test_count']/$item['suc_count']:0;
+            $res[$adminid]['wheat_count'] = $item['wheat_count'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
