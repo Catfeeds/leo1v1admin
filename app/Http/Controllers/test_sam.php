@@ -423,9 +423,8 @@ class test_sam  extends Controller
             echo "</tr>";
             foreach ($list as $akey => $avalue) {
                 $row = $avalue;
-               
                 echo "<tr>";
-                echo "<td>".E\Egrade::get_desc($akey)."</td>";
+                echo "<td>".E\Egrade::get_desc($akey)."|</td>";
                 foreach ($row as $bkey => $bvalue) {
                     echo "<td width=60px>".$bvalue."|</td>";
                 }
