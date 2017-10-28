@@ -30,7 +30,6 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                 ['la.full_time=%u',$full_time,-1],
                 ["not exists(select 1 from %s where b.grade=grade and b.phone=phone and b.subject=subject and b.add_time<add_time)",
                  self::DB_TABLE_NAME,""],
-                "b.add_time!=0"
             ];
 
             if($grade !=100 && $grade !=200 && $grade!=300){
@@ -72,7 +71,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         }else{
             $where_arr[] = " tt.train_through_new=1 ";
         }
-
+        $where_arr[] = "add_time!=0";
         $sql = $this->gen_sql_new("select b.id,b.nick,b.face,b.phone,b.grade,b.subject,b.title,b.draw,"
                                   ." real_begin_time,real_end_time,teacher_re_submit_num,"
                                   ." b.account,b.status,b.reason,b.add_time,b.identity,b.identity_image,b.resume_url,"

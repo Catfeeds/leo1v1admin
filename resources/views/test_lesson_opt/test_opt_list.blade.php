@@ -9,11 +9,37 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-4" data-always_show="1">
+                    <div class="input-group ">
+                        <input type="text" class=" form-control click_on put_name opt-change"  data-field="user_name" id="id_user_name"  placeholder="学生/家长姓名, 手机号,userid 回车查找" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">销售</span>
+                        <input class="opt-change form-control" id="id_adminid" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group " >
+                        <span >动作类型</span>
+                        <select class="opt-change form-control" id="id_action" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group " >
+                        <span >操作类型</span>
+                        <select class="opt-change form-control" id="id_test_opt_type" >
+                        </select>
+                    </div>
+                </div>
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                        <span >课堂类型</span>
+                        <select class="opt-change form-control" id="id_test_lesson_type" >
+                        </select>
                     </div>
                 </div>
             </div>

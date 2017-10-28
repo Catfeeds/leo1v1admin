@@ -8,20 +8,39 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
         parent::__construct();
     }
 
-    public function get_all_list($start_time,$end_time,$page_info){
-        $where_arr = [];
+    public function get_all_list($start_time,$end_time,$test_lesson_type,$action,$test_opt_type,$adminid,$user_name,$page_info){
+        $where_arr = [
+            ['o.action = %u',$action,-1],
+            ['o.opt_type = %u',$test_opt_type,-1],
+            ['m.uid = %u',$adminid,-1],
+        ];
+        if($test_lesson_type == E\Etest_lesson_type::V_1){
+            $where_arr[] = 'o.lessonid>0';
+        }elseif($test_lesson_type == E\Etest_lesson_type::V_2){
+            $where_arr[] = 'o.roomid>0';
+        }
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
         $this->where_arr_add_time_range($where_arr,'opt_time',$start_time,$end_time);
-        $role = E\Erole::V_6;
+        $role_c = E\Erole::V_6;
+        $role_s = E\Erole::V_1;
         $sql = $this->gen_sql_new(
             "select o.*,m.account "
             ." from %s o "
             ." left join %s t on t.teacherid=o.userid and o.role=%u "
             ." left join %s m on m.phone=t.phone "
+            ." left join %s s on s.userid=o.userid and o.role=%u "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,t_teacher_info::DB_TABLE_NAME
-            ,$role
+            ,$role_c
             ,t_manager_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$role_s
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);

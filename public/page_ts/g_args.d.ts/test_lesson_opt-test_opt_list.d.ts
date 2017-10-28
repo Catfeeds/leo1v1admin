@@ -4,6 +4,11 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	test_lesson_type:	number;
+	action:	number;
+	test_opt_type:	number;
+	adminid:	number;
+	user_name:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -32,7 +37,12 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		test_lesson_type:	$('#id_test_lesson_type').val(),
+		action:	$('#id_action').val(),
+		test_opt_type:	$('#id_test_opt_type').val(),
+		adminid:	$('#id_adminid').val(),
+		user_name:	$('#id_user_name').val()
     });
 }
 $(function(){
@@ -48,6 +58,11 @@ $(function(){
             load_data();
         }
     });
+	$('#id_test_lesson_type').val(g_args.test_lesson_type);
+	$('#id_action').val(g_args.action);
+	$('#id_test_opt_type').val(g_args.test_opt_type);
+	$('#id_adminid').val(g_args.adminid);
+	$('#id_user_name').val(g_args.user_name);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -57,4 +72,39 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_type</span>
+                <input class="opt-change form-control" id="id_test_lesson_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">action</span>
+                <input class="opt-change form-control" id="id_action" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_opt_type</span>
+                <input class="opt-change form-control" id="id_test_opt_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">user_name</span>
+                <input class="opt-change form-control" id="id_user_name" />
+            </div>
+        </div>
 */
