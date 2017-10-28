@@ -1,5 +1,8 @@
 <?php
 return array(
+    //
+    ["db_weiyi","t_luck_draw_yxyx_for_ruffian","id"],
+    ["db_weiyi","t_ruffian_share","id"],
     ["db_weiyi","t_ruffian_activity","id"],
     ["db_weiyi","t_teacher_flow","teacherid"],
     ["db_weiyi","t_msg_log_for_wx","id"],
@@ -7,6 +10,8 @@ return array(
     ["db_weiyi","t_new_tea_entry","id"],
     ["db_weiyi_admin","t_agent_wx_msg_log","id"],
     ["db_weiyi_admin","t_interview_remind", "id"],
+    ["db_weiyi","t_agent_group", "group_id"],
+    ["db_weiyi","t_agent_group_members", "id"],
     ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],
     ["db_weiyi","t_wx_give_book", "id"],

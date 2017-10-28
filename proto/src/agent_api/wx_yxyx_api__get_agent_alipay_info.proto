@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1107
+//__DESC:微信[优学优享]优学优享支付宝信息 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_agent_alipay_info?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+}
+
+message out {
+  common.alipay_info data = 1;//支付宝信息
+}

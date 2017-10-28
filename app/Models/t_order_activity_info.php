@@ -17,6 +17,7 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
                 "succ_flag"  =>$item["succ_flag"],
                 "cur_price" => $item["cur_price"  ],
                 "cur_present_lesson_count" => $item["cur_present_lesson_count"  ],
+                "can_period_flag" => $item["can_period_flag"  ],
             ]);
 
         }

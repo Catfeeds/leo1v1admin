@@ -2049,7 +2049,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["teacherid=%u",$teacherid,-1],
             "is_test_user=0",
-            "wx_openid !=''",
+            // "wx_openid !=''",
         ];
 
         $sql = $this->gen_sql_new("select teacherid,wx_openid,user_agent"
@@ -3792,64 +3792,64 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     // 培训合格
-    public function get_subject_train_qual_count($start_time, $end_time,$subject) {
-        $res = [];
-        $whereArr = [
-            ["tf.train_through_new_time>%u", $start_time, 0],
-            ["tf.train_through_new_time<%u", $end_time, 0],
-            ['tf.subject=%u', $subject,0],
-            "t.is_test_user=0",
-            //"l.train_type=1",
-            //"l.score>=90",
-        ];
-        if ($subject <= 3) {
-            $query = " sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
-                      ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
-                      ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num";
-        } else {
-            $query = " count(*) sum";
-        }
+    // public function get_subject_train_qual_count($start_time, $end_time,$subject) {
+    //     $res = [];
+    //     $whereArr = [
+    //         ["tf.train_through_new_time>%u", $start_time, 0],
+    //         ["tf.train_through_new_time<%u", $end_time, 0],
+    //         ['tf.subject=%u', $subject,0],
+    //         "t.is_test_user=0",
+    //         //"l.train_type=1",
+    //         //"l.score>=90",
+    //     ];
+    //     if ($subject <= 3) {
+    //         $query = " sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
+    //                   ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
+    //                   ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num";
+    //     } else {
+    //         $query = " count(*) sum";
+    //     }
 
 
-        //$sql = "select count(*) sum from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid"
-        //." where %s";
-        //$res = $this->get_three_maj_sub_rel($sql, $whereArr);
+    //     //$sql = "select count(*) sum from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid"
+    //     //." where %s";
+    //     //$res = $this->get_three_maj_sub_rel($sql, $whereArr);
 
-        $sql = $this->gen_sql_new("select %s from %s t left join %s tf on t.teacherid=tf.teacherid where %s",
-                                  $query,
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_flow::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        return $this->main_get_row($sql);
-        // if ($info) {
-        //     foreach($info as $item) {
-        //         if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
-        //             array_push($res, $item);
-        //             $tem[$item['subject']] = $item['subject'];
-        //         } 
-        //     }
-        //     if (!isset($tem[5])) {
-        //         array_push($res, ['subject'=>5,"sum"=>0]);
-        //     }
-        //     if (!isset($tem[4])) {
-        //         array_push($res, ['subject'=>4,"sum"=>0]);
-        //     }
-        //     if (!isset($tem[6])) {
-        //         array_push($res, ['subject'=>6,"sum"=>0]);
-        //     }
-        //     if (!isset($tem[10])) {
-        //         array_push($res, ['subject'=>10,"sum"=>0]);
-        //     }
-        // } else {
-        //     array_push($res, ["subject"=>5,"sum"=>0]);
-        //     array_push($res, ["subject"=>4,"sum"=>0]);
-        //     array_push($res, ["subject"=>6,"sum"=>0]);
-        //     array_push($res, ["subject"=>10,"sum"=>0]);
-        // }
+    //     $sql = $this->gen_sql_new("select %s from %s t left join %s tf on t.teacherid=tf.teacherid where %s",
+    //                               $query,
+    //                               self::DB_TABLE_NAME,
+    //                               t_teacher_flow::DB_TABLE_NAME,
+    //                               $whereArr
+    //     );
+    //     return $this->main_get_row($sql);
+    //     // if ($info) {
+    //     //     foreach($info as $item) {
+    //     //         if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
+    //     //             array_push($res, $item);
+    //     //             $tem[$item['subject']] = $item['subject'];
+    //     //         } 
+    //     //     }
+    //     //     if (!isset($tem[5])) {
+    //     //         array_push($res, ['subject'=>5,"sum"=>0]);
+    //     //     }
+    //     //     if (!isset($tem[4])) {
+    //     //         array_push($res, ['subject'=>4,"sum"=>0]);
+    //     //     }
+    //     //     if (!isset($tem[6])) {
+    //     //         array_push($res, ['subject'=>6,"sum"=>0]);
+    //     //     }
+    //     //     if (!isset($tem[10])) {
+    //     //         array_push($res, ['subject'=>10,"sum"=>0]);
+    //     //     }
+    //     // } else {
+    //     //     array_push($res, ["subject"=>5,"sum"=>0]);
+    //     //     array_push($res, ["subject"=>4,"sum"=>0]);
+    //     //     array_push($res, ["subject"=>6,"sum"=>0]);
+    //     //     array_push($res, ["subject"=>10,"sum"=>0]);
+    //     // }
 
-        // return $res;
-    }
+    //     // return $res;
+    // }
 
     // 排课 have_test_lesson_flag
     public function get_one_subject_count($sql, $whereArr, $where, $subject, $grade)
@@ -3867,178 +3867,164 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     // 面试通过人数 -- 老师类型
-    public function get_interview_through_type_count($start_time, $end_time) {
-        $whereArr = [
-            ["tf.trial_lecture_pass_time>%u", $start_time, 0], 
-            ["tf.trial_lecture_pass_time<%u", $end_time, 0],
-            "t.is_test_user=0",
-        ];
+    // public function get_interview_through_type_count($start_time, $end_time) {
+    //     $whereArr = [
+    //         ["tf.trial_lecture_pass_time>%u", $start_time, 0], 
+    //         ["tf.trial_lecture_pass_time<%u", $end_time, 0],
+    //         "t.is_test_user=0",
+    //     ];
 
-        $sql = $this->gen_sql_new("select t.identity,count(*) sum from %s t left join %s tf on t.teacherid=tf.teacherid where %s group by t.identity",
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  t_teacher_flow::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        $info = $this->main_get_list($sql);
-        $res = [];
-        return $this->get_handle_identity_count($info, $res);
-    }
+    //     $sql = $this->gen_sql_new("select t.identity,count(*) sum from %s t left join %s tf on t.teacherid=tf.teacherid where %s group by t.identity",
+    //                               t_teacher_info::DB_TABLE_NAME,
+    //                               t_teacher_flow::DB_TABLE_NAME,
+    //                               $whereArr
+    //     );
+    //     $info = $this->main_get_list($sql);
+    //     $res = [];
+    //     return $this->get_handle_identity_count($info, $res);
+    // }
 
     // 新师参训 -- 老师参型
-    public function get_train_inter_teacher_type_count($start_time, $end_time){
-        $whereArr = [
-            ["l.add_time>%u", $start_time, 0],
-            ['l.add_time<%u', $end_time, 0],
-            "l.train_type=1"
-        ];
+    // public function get_train_inter_teacher_type_count($start_time, $end_time){
+    //     $whereArr = [
+    //         ["l.add_time>%u", $start_time, 0],
+    //         ['l.add_time<%u', $end_time, 0],
+    //         "l.train_type=1"
+    //     ];
 
-        $sql = $this->gen_sql_new("select tl.identity as identity,count(*) sum from %s tl left join %s l on tl.teacherid=l.userid where %s group by tl.identity,tl.teacherid",
-                                  self::DB_TABLE_NAME,
-                                  t_train_lesson_user::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        $info = $this->main_get_list($sql);
-        $res = [];
-        return $this->get_handle_identity_count($info, $res);
-    }
+    //     $sql = $this->gen_sql_new("select tl.identity as identity,count(*) sum from %s tl left join %s l on tl.teacherid=l.userid where %s group by tl.identity,tl.teacherid",
+    //                               self::DB_TABLE_NAME,
+    //                               t_train_lesson_user::DB_TABLE_NAME,
+    //                               $whereArr
+    //     );
+    //     $info = $this->main_get_list($sql);
+    //     $res = [];
+    //     return $this->get_handle_identity_count($info, $res);
+    // }
 
-    // 老师类型培训合格
-    public function get_subject_train_qual_type_count($start_time, $end_time) {
-        $whereArr = [
-            ["tf.train_pass_time>%u", $start_time, 0],
-            ["tf.train_pass_time<%u", $end_time, 0],
-            "t.is_test_user=0",
-        ];
-        $sql = $this->gen_sql_new("select t.identity,count(*) sum from %s t left join %s tf on t.teacherid=tf.teacherid where %s group by t.identity",
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_flow::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        $info = $this->main_get_list($sql);
-        $res = [];
-        if ($info) {
-            foreach($info as $item) {
-                if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
-                    array_push($res, $item);
-                    $tem[$item['identity']] = $item['identity'];
-                } 
-            }
-            if (!isset($tem[0])) {
-                array_push($res, ['identity'=>0,"sum"=>0]);
-            }
-            if (!isset($tem[5])) {
-                array_push($res, ['identity'=>5,"sum"=>0]);
-            }
-            if (!isset($tem[6])) {
-                array_push($res, ['identity'=>6,"sum"=>0]);
-            }
-            if (!isset($tem[7])) {
-                array_push($res, ['identity'=>7,"sum"=>0]);
-            }
-            if (!isset($tem[8])) {
-                array_push($res, ['identity'=>8,"sum"=>0]);
-            }
-        } else {
-            array_push($res, ["identity"=>0,"sum"=>0]);
-            array_push($res, ["identity"=>5,"sum"=>0]);
-            array_push($res, ["identity"=>6,"sum"=>0]);
-            array_push($res, ["identity"=>7,"sum"=>0]);
-            array_push($res, ["identity"=>8,"sum"=>0]);
-        }
+    // // 老师类型培训合格
+    // public function get_subject_train_qual_type_count($start_time, $end_time) {
+    //     $whereArr = [
+    //         ["tf.train_pass_time>%u", $start_time, 0],
+    //         ["tf.train_pass_time<%u", $end_time, 0],
+    //         "t.is_test_user=0",
+    //     ];
+    //     $sql = $this->gen_sql_new("select t.identity,count(*) sum from %s t left join %s tf on t.teacherid=tf.teacherid where %s group by t.identity",
+    //                               self::DB_TABLE_NAME,
+    //                               t_teacher_flow::DB_TABLE_NAME,
+    //                               $whereArr
+    //     );
+    //     $info = $this->main_get_list($sql);
+    //     $res = [];
+    //     if ($info) {
+    //         foreach($info as $item) {
+    //             if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
+    //                 array_push($res, $item);
+    //                 $tem[$item['identity']] = $item['identity'];
+    //             } 
+    //         }
+    //         if (!isset($tem[0])) {
+    //             array_push($res, ['identity'=>0,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[5])) {
+    //             array_push($res, ['identity'=>5,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[6])) {
+    //             array_push($res, ['identity'=>6,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[7])) {
+    //             array_push($res, ['identity'=>7,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[8])) {
+    //             array_push($res, ['identity'=>8,"sum"=>0]);
+    //         }
+    //     } else {
+    //         array_push($res, ["identity"=>0,"sum"=>0]);
+    //         array_push($res, ["identity"=>5,"sum"=>0]);
+    //         array_push($res, ["identity"=>6,"sum"=>0]);
+    //         array_push($res, ["identity"=>7,"sum"=>0]);
+    //         array_push($res, ["identity"=>8,"sum"=>0]);
+    //     }
 
-        return $res;
-    }
+    //     return $res;
+    // }
 
     // 面试通过
-    public function get_interview_through_count($start_time, $end_time, $subject)
-    {
-        $whereArr = [
-            ["tf.trial_lecture_pass_time>%u", $start_time, 0],
-            ["tf.trial_lecture_pass_time<%u", $end_time, 0],
-            ['tf.subject=%u',$subject,0],
-            't.is_test_user=0'
-        ];
-        if ($subject <= 3) {
-            $query = " sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
-                ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
-                ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num";
-        } else {
-            $query = " count(*) sum";
-        }
+    // public function get_interview_through_count($start_time, $end_time, $subject)
+    // {
+    //     $whereArr = [
+    //         ["tf.trial_lecture_pass_time>%u", $start_time, 0],
+    //         ["tf.trial_lecture_pass_time<%u", $end_time, 0],
+    //         ['tf.subject=%u',$subject,0],
+    //         't.is_test_user=0'
+    //     ];
+    //     if ($subject <= 3) {
+    //         $query = " sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
+    //             ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
+    //             ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num";
+    //     } else {
+    //         $query = " count(*) sum";
+    //     }
 
-        //        $sql = "select count(*) from %s where %s";
-        //$res = $this->get_three_maj_sub($sql, $whereArr, t_teacher_lecture_info::DB_TABLE_NAME);
+    //     //        $sql = "select count(*) from %s where %s";
+    //     //$res = $this->get_three_maj_sub($sql, $whereArr, t_teacher_lecture_info::DB_TABLE_NAME);
 
-        $sql = $this->gen_sql_new("select %s from %s t left join %s tf on t.teacherid=tf.teacherid where %s",
-                                  $query,
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_flow::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        return $this->main_get_row($sql);
-    }
+    //     $sql = $this->gen_sql_new("select %s from %s t left join %s tf on t.teacherid=tf.teacherid where %s",
+    //                               $query,
+    //                               self::DB_TABLE_NAME,
+    //                               t_teacher_flow::DB_TABLE_NAME,
+    //                               $whereArr
+    //     );
+    //     return $this->main_get_row($sql);
+    // }
 
     // 培训参训新师
-    public function get_train_inter_teacher_count($start_time, $end_time, $subject) {
+    public function get_train_inter_teacher_count($time, $teacherid) {
         $whereArr = [
-            ["l.add_time>%u", $start_time, 0],
-            ['l.add_time<%u', $end_time, 0],
-            ['tl.subject=%u', $subject, 0],
-            "l.train_type=1"
+            ["add_time>%u",$time,0],
+            ["userid=%u", $teacherid, 0],
+            "train_type=1"
         ];
-        if ($subject <= 3) {
-            $query = " sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
-                      ." sum(if(substring(tl.grade,1,1)=2,1,0)) middle_num,"
-                      ."sum(if(substring(tl.grade,1,1)=3,1,0)) senior_num";
-        } else {
-            $query = " count(*) sum";
-        }
-        // 
-        //$sql = "select count(*) from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid where %s";
-        //$res = $this->get_three_maj_sub_rel($sql, $whereArr);
 
-        $sql = $this->gen_sql_new("select %s from %s tl left join %s l on tl.teacherid=l.userid where %s ",
-                                  $query,
-                                  self::DB_TABLE_NAME,
+        $sql = $this->gen_sql_new("select userid from %s where %s limit 1",
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   $whereArr
         );
-        return $this->main_get_row($sql);
-        //return $this->get_handle_subject_count($info, $res);
+        return $this->main_get_value($sql);
     }
 
-    public function get_three_maj_sub_rel($sql, $whereArr)
-    {
-        $res = [];
-        $where = ["tl.subject=1","tl.grade<200"]; //小学语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 1, 100);
-        array_push($res, $info);
-        $where = ["tl.subject=1","tl.grade>=200","tl.grade<300"]; // 初中语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 1, 200);
-        array_push($res, $info);
-        $where = ["tl.subject=1","tl.grade>=300"]; // 高中语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 1, 300);
-        array_push($res, $info);
-        $where = ["tl.subject=2","tl.grade<200"]; //小学数学
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 2, 100);
-        array_push($res, $info);
-        $where = ["tl.subject=2","tl.grade>=200","tl.grade<300"]; // 初中数字
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 2, 200);
-        array_push($res, $info);
-        $where = ["tl.subject=2","tl.grade>=300"]; // 高中数字
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 2, 300);
-        array_push($res, $info);
-        $where = ["tl.subject=3","tl.grade<200"]; //小学英语
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 3, 100);
-        array_push($res, $info);
-        $where = ["tl.subject=3","tl.grade>=200","tl.grade<300"]; // 初中语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 3, 200);
-        array_push($res, $info);
-        $where = ["tl.subject=3","tl.grade>=300"]; // 高中英语
-        $info = $this->get_one_subject_count($sql, $whereArr, $where, 3, 300);
-        array_push($res, $info);
-        return $res;
-    }
+    // public function get_three_maj_sub_rel($sql, $whereArr)
+    // {
+    //     $res = [];
+    //     $where = ["tl.subject=1","tl.grade<200"]; //小学语文
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 1, 100);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=1","tl.grade>=200","tl.grade<300"]; // 初中语文
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 1, 200);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=1","tl.grade>=300"]; // 高中语文
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 1, 300);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=2","tl.grade<200"]; //小学数学
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 2, 100);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=2","tl.grade>=200","tl.grade<300"]; // 初中数字
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 2, 200);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=2","tl.grade>=300"]; // 高中数字
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 2, 300);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=3","tl.grade<200"]; //小学英语
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 3, 100);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=3","tl.grade>=200","tl.grade<300"]; // 初中语文
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 3, 200);
+    //     array_push($res, $info);
+    //     $where = ["tl.subject=3","tl.grade>=300"]; // 高中英语
+    //     $info = $this->get_one_subject_count($sql, $whereArr, $where, 3, 300);
+    //     array_push($res, $info);
+    //     return $res;
+    // }
 
     public function get_through_num_month($start_time,$end_time,$flag=1){
         $where_arr=[
@@ -4068,115 +4054,115 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_handle_identity_count($info, $res)
-    {
-        if ($info) {
-            foreach($info as $item) {
-                if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
-                    array_push($res, $item);
-                    $tem[$item['identity']] = $item['identity'];
-                } 
-            }
-            if (!isset($tem[0])) {
-                array_push($res, ['identity'=>0,"sum"=>0]);
-            }
-            if (!isset($tem[5])) {
-                array_push($res, ['identity'=>5,"sum"=>0]);
-            }
-            if (!isset($tem[6])) {
-                array_push($res, ['identity'=>6,"sum"=>0]);
-            }
-            if (!isset($tem[7])) {
-                array_push($res, ['identity'=>7,"sum"=>0]);
-            }
-            if (!isset($tem[8])) {
-                array_push($res, ['identity'=>8,"sum"=>0]);
-            }
-        } else {
-            array_push($res, ["identity"=>0,"sum"=>0]);
-            array_push($res, ["identity"=>5,"sum"=>0]);
-            array_push($res, ["identity"=>6,"sum"=>0]);
-            array_push($res, ["identity"=>7,"sum"=>0]);
-            array_push($res, ["identity"=>8,"sum"=>0]);
-        }
-        return $res;
-    }
+    // public function get_handle_identity_count($info, $res)
+    // {
+    //     if ($info) {
+    //         foreach($info as $item) {
+    //             if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
+    //                 array_push($res, $item);
+    //                 $tem[$item['identity']] = $item['identity'];
+    //             } 
+    //         }
+    //         if (!isset($tem[0])) {
+    //             array_push($res, ['identity'=>0,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[5])) {
+    //             array_push($res, ['identity'=>5,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[6])) {
+    //             array_push($res, ['identity'=>6,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[7])) {
+    //             array_push($res, ['identity'=>7,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[8])) {
+    //             array_push($res, ['identity'=>8,"sum"=>0]);
+    //         }
+    //     } else {
+    //         array_push($res, ["identity"=>0,"sum"=>0]);
+    //         array_push($res, ["identity"=>5,"sum"=>0]);
+    //         array_push($res, ["identity"=>6,"sum"=>0]);
+    //         array_push($res, ["identity"=>7,"sum"=>0]);
+    //         array_push($res, ["identity"=>8,"sum"=>0]);
+    //     }
+    //     return $res;
+    // }
 
-    public function get_handle_subject_count($info, $res)
-    {
-        if ($info) {
-            foreach($info as $item) {
-                if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
-                    array_push($res, $item);
-                    $tem[$item['subject']] = $item['subject'];
-                } 
-            }
-            if (!isset($tem[5])) {
-                array_push($res, ['subject'=>5,"sum"=>0]);
-            }
-            if (!isset($tem[4])) {
-                array_push($res, ['subject'=>4,"sum"=>0]);
-            }
-            if (!isset($tem[6])) {
-                array_push($res, ['subject'=>6,"sum"=>0]);
-            }
-            if (!isset($tem[10])) {
-                array_push($res, ['subject'=>10,"sum"=>0]);
-            }
-        } else {
-            array_push($res, ["subject"=>5,"sum"=>0]);
-            array_push($res, ["subject"=>4,"sum"=>0]);
-            array_push($res, ["subject"=>6,"sum"=>0]);
-            array_push($res, ["subject"=>10,"sum"=>0]);
-        }
-        return $res;
-    }
+    // public function get_handle_subject_count($info, $res)
+    // {
+    //     if ($info) {
+    //         foreach($info as $item) {
+    //             if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
+    //                 array_push($res, $item);
+    //                 $tem[$item['subject']] = $item['subject'];
+    //             } 
+    //         }
+    //         if (!isset($tem[5])) {
+    //             array_push($res, ['subject'=>5,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[4])) {
+    //             array_push($res, ['subject'=>4,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[6])) {
+    //             array_push($res, ['subject'=>6,"sum"=>0]);
+    //         }
+    //         if (!isset($tem[10])) {
+    //             array_push($res, ['subject'=>10,"sum"=>0]);
+    //         }
+    //     } else {
+    //         array_push($res, ["subject"=>5,"sum"=>0]);
+    //         array_push($res, ["subject"=>4,"sum"=>0]);
+    //         array_push($res, ["subject"=>6,"sum"=>0]);
+    //         array_push($res, ["subject"=>10,"sum"=>0]);
+    //     }
+    //     return $res;
+    // }
 
-    public function get_three_maj_sub($sql, $whereArr, $table) {
-        $res = [];
-        $where = ["subject=1","grade<200"]; //小学语文
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 1, 100);
-        array_push($res, $info);
-        $where = ["subject=1","grade>=200","grade<300"]; // 初中语文
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 1, 200);
-        array_push($res, $info);
-        $where = ["subject=1","grade>=300"]; // 高中语文
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 1, 300);
-        array_push($res, $info);
-        $where = ["subject=2","grade<200"]; //小学数学
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 2, 100);
-        array_push($res, $info);
-        $where = ["subject=2","grade>=200","grade<300"]; // 初中数字
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 2, 200);
-        array_push($res, $info);
-        $where = ["subject=2","grade>=300"]; // 高中数字
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 2, 300);
-        array_push($res, $info);
-        $where = ["subject=3","grade<200"]; //小学英语
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 3, 100);
-        array_push($res, $info);
-        $where = ["subject=3","grade>=200","grade<300"]; // 初中语文
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 3, 200);
-        array_push($res, $info);
-        $where = ["subject=3","grade>=300"]; // 高中英语
-        $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 3, 300);
-        array_push($res, $info);
-        return $res;
-    }
+    // public function get_three_maj_sub($sql, $whereArr, $table) {
+    //     $res = [];
+    //     $where = ["subject=1","grade<200"]; //小学语文
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 1, 100);
+    //     array_push($res, $info);
+    //     $where = ["subject=1","grade>=200","grade<300"]; // 初中语文
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 1, 200);
+    //     array_push($res, $info);
+    //     $where = ["subject=1","grade>=300"]; // 高中语文
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 1, 300);
+    //     array_push($res, $info);
+    //     $where = ["subject=2","grade<200"]; //小学数学
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 2, 100);
+    //     array_push($res, $info);
+    //     $where = ["subject=2","grade>=200","grade<300"]; // 初中数字
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 2, 200);
+    //     array_push($res, $info);
+    //     $where = ["subject=2","grade>=300"]; // 高中数字
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 2, 300);
+    //     array_push($res, $info);
+    //     $where = ["subject=3","grade<200"]; //小学英语
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 3, 100);
+    //     array_push($res, $info);
+    //     $where = ["subject=3","grade>=200","grade<300"]; // 初中语文
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 3, 200);
+    //     array_push($res, $info);
+    //     $where = ["subject=3","grade>=300"]; // 高中英语
+    //     $info = $this->get_one_subject_rel_count($sql, $whereArr, $table, $where, 3, 300);
+    //     array_push($res, $info);
+    //     return $res;
+    // }
 
-    public function get_one_subject_rel_count($sql, $whereArr, $table, $where, $subject, $grade)
-    {
-        $where = array_merge($whereArr, $where);
-        $sql = $this->gen_sql_new($sql,
-                                  $table,
-                                  $where
-        );
-        $info = $this->main_get_value($sql);
-        $res['subject'] = $subject;
-        $res['grade'] = $grade;
-        $res['sum'] = $info;
-        return $res;
-    }
+    // public function get_one_subject_rel_count($sql, $whereArr, $table, $where, $subject, $grade)
+    // {
+    //     $where = array_merge($whereArr, $where);
+    //     $sql = $this->gen_sql_new($sql,
+    //                               $table,
+    //                               $where
+    //     );
+    //     $info = $this->main_get_value($sql);
+    //     $res['subject'] = $subject;
+    //     $res['grade'] = $grade;
+    //     $res['sum'] = $info;
+    //     return $res;
+    // }
 
     public function get_openid_list(){
         // return true;
@@ -4202,20 +4188,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 入职老师 --- 招师首页
     public function get_teacher_passes_num_by_subject_grade($start_time,$end_time,$subject){
         $where_arr=[
-            "tl.is_test_user =0",
-            "train_through_new=1",
-            ["tl.subject=%u",$subject,-1],
-            //["tl.train_through_new_time >= %u",$start_time,-1],
-            //["tl.train_through_new_time <= %u",$end_time,-1],
+            //"tl.is_test_user =0",
+            //"train_through_new=1",
+            ["tf.subject=%u",$subject,-1],
+            ["tf.simul_test_lesson_pass_time>%u",$start_time,-1],
+            ["tf.simul_test_lesson_pass_time<%u",$end_time,-1],
         ];
 
-        $sql = $this->gen_sql_new("select accept_adminid,sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
-                                  ." sum(if(substring(tl.grade,1,1)=2,1,0)) middle_num,"
-                                  ."sum(if(substring(tl.grade,1,1)=3,1,0)) senior_num "
-                                  ." from %s tl "
-                                  ." left join %s ta on tl.phone = ta.phone"
+        $sql = $this->gen_sql_new("select ta.accept_adminid,sum(if(substring(tf.grade,1,1)=1,1,0)) primary_num, "
+                                  ." sum(if(substring(tf.grade,1,1)=2,1,0)) middle_num,"
+                                  ."sum(if(substring(tf.grade,1,1)=3,1,0)) senior_num "
+                                  ." from %s tf "
+                                  ." left join %s ta on tf.phone = ta.phone"
                                   ." where %s group by ta.accept_adminid",
-                                  self::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -4263,37 +4249,35 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_flow_list() {
+    public function get_teacher_flow_list($start_time, $end_time) { // 将数据导入至t_teacher_flow表
+        $where_arr = [
+            //["create_time>%u", $start_time, 0],
+            //["create_time<%u", $end_time, 0]
+        ];
         $sql = $this->gen_sql_new("select teacherid, phone, train_through_new_time "
                                   ." from %s t"
-                                  ." where is_test_user=0 and "
-                                  ." not exists (select 1 from %s where t.teacherid=teacherid)"
+                                  ." where is_test_user=0"
                                   ,self::DB_TABLE_NAME
-                                  ,t_teacher_flow::DB_TABLE_NAME
+                                  ,$where_arr
         );
+        echo $sql;
         return $this->main_get_list($sql);
     }
 
-    public function get_no_regular_test_lesson_num($start_time,$end_time){
-        $where_arr = [
-            't.is_test_user=0',
-            't.train_through_new=1',
+    public function get_new_train_through_teacher_info($through_time){
+        $where_arr=[
+            "train_through_new=1",
+            "is_test_user=0",
+            ["train_through_new_time>=%u",$through_time,0]
         ];
-        $sql = $this->gen_sql_new("select count(distinct t.teacherid) "
-                                  ." from %s t left join %s l on t.teacherid = l.teacherid and l.lesson_start >=%u and l.lesson_start <= %u and l.lesson_type in (0,1,3) and l.confirm_flag <>2 "
-                                  ." left join %s ll on t.teacherid = ll.teacherid and ll.lesson_start >=%u and ll.lesson_start <= %u and ll.lesson_type=2 and ll.confirm_flag <>2"
-                                  ." left join %s tss on ll.lessonid = tss.lessonid and tss.success_flag <2"
-                                  ." where %s and l.lessonid is null and tss.lessonid>0",
+        $sql = $this->gen_sql_new("select teacherid,realname,subject,"
+                                  ."second_subject,train_through_new_time"
+                                  ." from %s where %s",
                                   self::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  $start_time,
-                                  $end_time,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  $start_time,
-                                  $end_time,
-                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list_as_page($sql);
     }
+
+    
 } 

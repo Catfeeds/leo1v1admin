@@ -886,6 +886,44 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     }
 
+    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type) {
+        if ( count($userid_list) ==0 ) {
+            return false;
+        }
+        $this->set_admin_info(
+            $opt_type, $userid_list,  $opt_adminid,0 );
+
+        $opt_account=$this->t_manager_info->get_account($opt_adminid);
+        $account="system";
+
+        foreach ( $userid_list as $userid ) {
+            $phone=$this->t_seller_student_new->get_phone($userid);
+            if($opt_type==0) { //set admin
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
+                    "system"
+                );
+                $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_ASSIGNED_COUNT
+                                         ,$opt_adminid,$userid);
+            }else if($opt_type==1) { //set admin
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: $account 状态: 分配给主管 [ $opt_account ] ",
+                    "system"
+                );
+
+            }else if($opt_type==2) { //set admin
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: $account 状态: 分配给TMK [ $opt_account ] ",
+                    "system"
+                );
+            }
+        }
+    }
+
+
     public function set_admin_info( $opt_type, $userid_list, $opt_adminid ,$self_adminid ) {
 
         if ( count($userid_list) ==0 ) {
@@ -1398,7 +1436,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
 
-            if (!$item["first_call_time"]) {//第一次拨打时间
+            if ($item["first_call_time"] == 0) {//第一次拨打时间
                 $set_arr["first_call_time"]=$call_time;
             }
             $set_arr["last_revisit_time"]=$call_time;//最后回访时间
@@ -2643,11 +2681,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_distribution_list($adminid,$flag,$start_time,$end_time,$origin_ex,$page_info){
+    public function get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info){
         $where_arr = [
             ['n.admin_revisiterid=%u',$adminid],
             'n.admin_revisiterid<>n.admin_assignerid',
-            ['n.hand_get_adminid=%u',$flag],
+            ['n.hand_get_adminid=%u',$hand_get_adminid],
             ['m.account_role=%u',E\Eaccount_role::V_2],
             's.is_test_user=0',
         ];

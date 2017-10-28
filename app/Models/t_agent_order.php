@@ -250,5 +250,50 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         );
         return $this->main_update($sql);
     }
-
+    //获取所有团长推荐人的签单量和签单金额
+    public function get_colconel_order_info(){
+        $sql = $this->gen_sql_new(
+            "select sum(ao.orderid>0) as order_count,sum(oi.price) as order_money ".
+            "from %s ao ".
+            "left join %s oi on ao.orderid = oi.orderid ".
+            "where ao.pid in (select distinct colconel_agent_id from %s)",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_agent_group::DB_TABLE_NAME
+        );
+        return $this->main_get_row($sql);
+    }
+    //获取所有团长推荐人的签单量和签单金额
+    public function get_this_colconel_order_info($colconel_id){
+        $where_arr = [
+            ['ao.pid = %u',$colconel_id,'-1'],
+        ];
+        $sql = $this->gen_sql_new(
+            "select sum(ao.orderid>0) as order_count,sum(oi.price) as order_money ".
+            "from %s ao ".
+            "left join %s oi on ao.orderid = oi.orderid ".
+            "where %s",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    
+    //@desn:获取推荐学员签单量、签单金额[无下限限制下级]
+    public function get_cycle_child_order_info($in_str){
+        $where_arr = [
+            'ao.aid in '.$in_str,
+        ];
+        $sql = $this->gen_sql_new(
+            "select sum(ao.orderid>0) child_order_count,sum(oi.price) child_order_money ".
+            "from %s ao ".
+            "left join %s oi on ao.orderid = oi.orderid ".
+            "where %s ",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }

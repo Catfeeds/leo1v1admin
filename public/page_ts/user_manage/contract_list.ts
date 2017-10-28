@@ -929,11 +929,11 @@ $(function(){
         var $pre_money        = html_node.find(".field-pre-money");
 
         var $order_promotion_type = html_node.find(".field-order_promotion_type");
+        var $period_flag = html_node.find(".field-period_flag");
         var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
         var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
         var $discount_reason= html_node.find(".field-discount_reason");
         var $receipt_title= html_node.find(".field-receipt_title");
-
 
 
         Enum_map.append_option_list( "boolean", $order_require_flag ,true);
@@ -966,12 +966,17 @@ $(function(){
 
         var reload_present_info = function() {
             var order_promotion_type=  $order_promotion_type.val();
+            if (!($lesson_count.val() >0) ) {
+                return;
+            }
+
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
                 competition_flag:$competition_flag.val(),
                 lesson_count:$lesson_count.val()*100,
                 order_promotion_type: order_promotion_type,
                 contract_type: contract_type,
+                period_flag : $period_flag.val(),
                 require_id :  require_id
             },function(resp){
                 var data=resp.data;
@@ -999,7 +1004,8 @@ $(function(){
         };
         $competition_flag.set_input_change_event(reload_present_info);
         $lesson_count.set_input_change_event(reload_present_info);
-        $order_promotion_type. set_input_change_event(reload_present_info);
+        $order_promotion_type.set_input_change_event(reload_present_info);
+        $period_flag.set_input_change_event(reload_present_info);
 
         $nick.set_input_readonly(true);
         $phone.set_input_readonly(true);
@@ -1021,25 +1027,40 @@ $(function(){
             },{
                 label  : '确认',
                 action : function(dialog) {
-                    $.do_ajax("/ss_deal/seller_add_contract_new",{
-                        require_id                    : require_id,
-                        contract_type                 : contract_type,
-                        contract_from_type            : contract_from_type,
-                        competition_flag              : $competition_flag.val(),
-                        lesson_total                  : $lesson_count.val()*100,
-                        discount_reason               : $discount_reason.val(),
-                        title                         : $receipt_title.val(),
-                        order_require_flag            : $order_require_flag.val(),
-                        userid                        : data.userid,
-                        pre_money                     : $pre_money.val(),
-                        grade                         : data.grade,
-                        subject                       : data.subject,
-                        origin                        : data.origin,
-                        order_promotion_type          : $order_promotion_type.val(),
-                        promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
-                        promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
-                        has_share_activity_flag       : $has_share_activity_flag.val(),
-                    });
+                    var  deal_func=function() {
+                        $.do_ajax("/ss_deal/seller_add_contract_new",{
+                            require_id                    : require_id,
+                            contract_type                 : contract_type,
+                            contract_from_type            : contract_from_type,
+                            competition_flag              : $competition_flag.val(),
+                            lesson_total                  : $lesson_count.val()*100,
+                            discount_reason               : $discount_reason.val(),
+                            title                         : $receipt_title.val(),
+                            order_require_flag            : $order_require_flag.val(),
+                            userid                        : data.userid,
+                            pre_money                     : $pre_money.val(),
+                            grade                         : data.grade,
+                            subject                       : data.subject,
+                            period_flag : $period_flag.val(),
+                            origin                        : data.origin,
+                            order_promotion_type          : $order_promotion_type.val(),
+                            promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
+                            promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
+                            has_share_activity_flag       : $has_share_activity_flag.val(),
+                        });
+
+                    }
+                    if ( $period_flag.val()==0) {
+                        BootstrapDialog.confirm( "你选择全款,之后的处理过程中,不能分期,可以吗?!",
+                                                 function(val ){
+                                                     if (val) {
+                                                         deal_func();
+                                                     }
+                                                 });
+                    }else{
+                        deal_func();
+                    }
+
                 }
             }]
         });
@@ -2839,7 +2860,8 @@ $(function(){
         /*if(data.contract_status>0){
             alert("已付款合同不能拆分");
             return;
-        }*/
+            }*/
+        var can_period_flag= data.can_period_flag;
         var title = "编辑子合同";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");
         $.do_ajax("/ss_deal/get_child_order_list",{
@@ -2868,11 +2890,21 @@ $(function(){
                         alert("已付款,不能拆分!");
                         return;
                     }
-                    var id_child_order_type= $("<select> "+
-                                               "<option value=1>首付款</option> "+
-                                               "<option value=2>分期</option> "+
-                                               "<option value=3>其他</option> "+
-                                               "</select>");
+
+                    if(can_period_flag==1){
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=2>分期</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+                        
+                    }else{
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+ 
+                    }
                     var id_period_num= $("<select> "+
                                          "<option value=6>6期</option> "+
                                          "<option value=12>12期</option> "+
@@ -2959,11 +2991,21 @@ $(function(){
                         alert("已付款,不能修改!");
                         return;
                     }
-                    var id_child_order_type= $("<select> "+
-                                               "<option value=1>首付款</option> "+
-                                               "<option value=2>分期</option> "+
-                                               "<option value=3>其他</option> "+
-                                               "</select>");
+                    if(can_period_flag==1){
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=2>分期</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+                        
+                    }else{
+                        var id_child_order_type= $("<select> "+
+                                                   "<option value=1>首付款</option> "+
+                                                   "<option value=3>其他</option> "+
+                                                   "</select>");
+                        
+                    }
+                   
                     var id_period_num= $("<select> "+
                                          "<option value=6>6期</option> "+
                                          "<option value=12>12期</option> "+

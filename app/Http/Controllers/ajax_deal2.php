@@ -1301,6 +1301,12 @@ class ajax_deal2 extends Controller
                 }else{
                     $succ_str="<font color=\"red\">未匹配</font>";
                 }
+
+                if (@$item["can_period_flag"]) {
+                    $period_str="<font color=\"red\">分期</font>";
+                }else{
+                    $period_str="<font color=\"green\">全款</font>";
+                }
                 if(isset ($item["title"] )) { //旧版
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
@@ -1308,12 +1314,13 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                        . "<td>  ". $period_str 
                         . " </tr> ";
                 }
             }
             $row_count= count( $arr);
         }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时   </tr>  $tr_str </table>";
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时  <th> 启用分期  </tr>  $tr_str </table>";
         return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 
@@ -1605,8 +1612,48 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
+        $teacherid             = $this->get_in_int_val("teacherid",50272);
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $list=[];
-        $first              = $this->get_in_int_val("teacherid",50272);
+        $normal_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,-2);
+        $test_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,2);
+        $tea_arr =[$teacherid];
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        if(!empty($teacher_record_score)){
+            $score_list = $teacher_record_score[$teacherid];
+            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        }else{
+            $score =0; 
+        }
+
+        $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
+        $phone = $this->t_teacher_info->get_phone($teacherid);
+        $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($phone);
+        if(!empty($one_score) && !empty($video_score)){
+            $time = $one_score["add_time"]-$video_score["confirm_time"];
+            if($time<=0){
+                $inter_score = $one_score["teacher_lecture_score"];
+            }else{
+                 $inter_score = $video_score["teacher_lecture_score"];
+            }
+        }elseif(!empty($one_score) && empty($video_score)){
+            $inter_score = $one_score["teacher_lecture_score"];
+        }elseif(empty($one_score) && !empty($video_score)){
+             $inter_score = $video_score["teacher_lecture_score"];
+        }else{
+            $inter_score=0;
+        }
+        return $this->output_succ([
+            "normal_lesson_num" =>$normal_lesson_num,
+            "test_lesson_num"   =>$test_lesson_num,
+            "record_score"      =>$score,
+            "inter_score"       =>$inter_score
+        ]);
+
+
+        $list=[];
+        $first             = $this->get_in_int_val("teacherid",50272);
         // $first = strtotime("2016-06-01");
         // $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
         $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));

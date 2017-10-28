@@ -1893,7 +1893,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_list($sql);
     }
 
-    public function get_data_to_teacher_flow($start_time, $end_time,$phone) {
+    public function get_data_to_teacher_flow($phone) {
         $where_arr = [
             //["confirm_time>%u", $start_time, 0],
             //["confirm_time<%u", $end_time, 0],
@@ -1901,13 +1901,30 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "status=1",
             "confirm_time!=0"
         ];
-        $sql = $this->gen_sql_new("select subject,grade,confirm_time from %s where %s",
-                                  self::DB_TABLE_NAME,
-                                  $where_arr
+        $sql = $this->gen_sql_new("select subject,grade,confirm_time from %s tl where %s "
+                                  ." and not exists (select 1 from %s "
+                                  ." where tl.phone=phone and tl.add_time>add_time and status=1 and confirm_time!=0)"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,self::DB_TABLE_NAME
         );
         return $this->main_get_row($sql);
     }
 
+
+    public function get_teacher_first_interview_score_info($phone){
+        $where_arr = [
+            ["phone='%s'",$phone,0],
+            "status=1",
+        ];
+        $sql = $this->gen_sql_new("select teacher_lecture_score,confirm_time"
+                                  ." from %s "
+                                  ." where %s order by confirm_time"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 
 }

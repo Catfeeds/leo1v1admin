@@ -3,27 +3,82 @@
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
 $(function(){
-    $(".opt-set-server ").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> "
-                       + "<option value=\"a_01\" >青岛_27</option> "
-                       +" </select>");
-        var arr=[
-            ["服务器", $server]
-        ];
-        $server.val(opt_data.current_server);
-        $.show_key_value_table("选择服务器", arr, {
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                $.do_ajax( '/ajax_deal2/set_lesson_current_server',{
-                    "courseid" : opt_data.courseid,
-                    "current_server" :  $server.val()
-                });
-            }
-        });
 
+    $(".opt-set-server").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var select_id_list=[];
+
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_id_list.push( $item.data("id") ) ;
+            }
+        } ) ;
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" :  "select", // or "list"
+            "url"          : "/user_deal/get_xmpp_server_list_js",
+            select_primary_field   : "server_name",
+            select_display         : "server_name",
+            select_no_select_value : "",
+            select_no_select_title : "[全部]",
+
+            //其他参数
+            "args_ex" : {
+            },
+            //字段列表
+            'field_list' :[
+                {
+                    title:"ip",
+                    render:function(val,item) {return item.ip;}
+                },{
+                    title:"权重",
+                    render:function(val,item) {return item.weights ;}
+                },{
+                    title:"名称",
+                    render:function(val,item) {return item.server_name;}
+                },{
+
+                    title:"说明",
+                    render:function(val,item) {return item.server_desc;}
+                }
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(v) {
+            $.do_ajax( '/ajax_deal2/set_lesson_current_server',{
+                    "lessonid" : opt_data.lessonid ,
+                    "current_server" :  v,
+                });
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+
+        });
     });
+    // $(".opt-set-server ").on("click",function(){
+    //     var opt_data=$(this).get_opt_data();
+    //     var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> "
+    //                    + "<option value=\"a_01\" >青岛_27</option> "
+    //                    +" </select>");
+    //     var arr=[
+    //         ["服务器", $server]
+    //     ];
+    //     $server.val(opt_data.current_server);
+    //     $.show_key_value_table("选择服务器", arr, {
+    //         label: '确认',
+    //         cssClass: 'btn-warning',
+    //         action: function(dialog) {
+    //             $.do_ajax( '/ajax_deal2/set_lesson_current_server',{
+    //                 "courseid" : opt_data.courseid,
+    //                 "current_server" :  $server.val()
+    //             });
+    //         }
+    //     });
+
+    // });
 
     function load_data( ){
         $.reload_self_page({
@@ -32,6 +87,7 @@ $(function(){
             start_time    :	$('#id_start_time').val(),
             end_time      :	$('#id_end_time').val(),
 
+            lesson_status: $("#id_lesson_status").val(),
             lesson_type  : $("#id_lesson_type").val(),
             confirm_flag : $("#id_confirm_flag").val(),
             subject      : $("#id_subject").val(),
@@ -45,17 +101,18 @@ $(function(){
             is_with_test_user : $("#id_is_with_test_user").val(),
             has_performance   : $("#id_has_performance").val(),
             lesson_count      : $("#id_lesson_count").val(),
-      lesson_del_flag:	$('#id_lesson_del_flag').val(),
+            lesson_del_flag:	$('#id_lesson_del_flag').val(),
 
             origin : $("#id_origin").val(),
 
             has_video_flag            :	$('#id_has_video_flag').val(),
             lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
             lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
-      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+            fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
+    Enum_map.append_option_list( "lesson_status", $('#id_lesson_status'));
     Enum_map.append_option_list( "boolean", $('#id_lesson_del_flag'));
     Enum_map.append_option_list( "fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     $(".opt-change-price").on("click",function(){

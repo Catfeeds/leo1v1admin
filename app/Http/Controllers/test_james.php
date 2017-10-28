@@ -818,30 +818,7 @@ class test_james extends Controller
 
 
     public function dd(){
-
-        $powerid = 0;
-        $list    = $this->t_authority_group->get_all_list();
-        $ret = [];
-        foreach ($list as &$item) {
-            $p_list=preg_split("/,/", $item["group_authority"] );
-            unset( $item["group_authority"]);
-            unset( $item["2"]);
-            $item["has_power"] = in_array($powerid,$p_list)?1:0;
-
-            if(in_array($powerid, $p_list)){
-                $ret[] = $item;
-            }
-        }
-
-        // dd($list);
-        return $this->output_succ(["data"=> $list]);
-
-
-
-        $a = '{"groupid": "52"}';
-        // {groupid: "52", group_name: "02 非金钱管理账户", create_time: "1456294562", del_flag: "0", has_power: 0}';
-
-        dd(json_decode($a,true));
+        dd(strtotime(date('Y-m-d ')));
     }
 
 

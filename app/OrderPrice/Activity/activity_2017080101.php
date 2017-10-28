@@ -9,7 +9,7 @@ class activity_2017080101 extends  activity_base {
         parent::__construct($args);
     }
 
-    protected function do_exec (  &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec ( &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list )   {
 
         $free_money=0;
         if($this->from_test_lesson_id ){
@@ -34,15 +34,16 @@ class activity_2017080101 extends  activity_base {
                 $price-=$free_money;
                 //2017-0801 当配活动(常规)
                 $activity_desc="试听后一天内下单 立减 300元 ,$lesson_start_desc";
-                $desc_list[]=static::gen_activity_item(1, $activity_desc ,  $price,  $present_lesson_count );
+                $desc_list[]=static::gen_activity_item(1, $activity_desc ,  $price,  $present_lesson_count ,$can_period_flag );
             }else{
 
                 $activity_desc="$lesson_start_desc";
-                $desc_list[]=static::gen_activity_item(0, $activity_desc ,  $price,  $present_lesson_count );
+                $desc_list[]=static::gen_activity_item(0, $activity_desc ,  $price,  $present_lesson_count ,$can_period_flag );
             }
         }else{
             $activity_desc="无试听课";
-            $desc_list[]=static::gen_activity_item(0, $activity_desc ,  $price,  $present_lesson_count );
+
+            $desc_list[]=static::gen_activity_item(0, $activity_desc ,  $price,  $present_lesson_count,$can_period_flag );
         }
 
     }
