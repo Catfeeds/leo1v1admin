@@ -19,7 +19,7 @@ class t_luck_draw_yxyx_for_ruffian extends \App\Models\Zgen\z_t_luck_draw_yxyx_f
 
     public function get_prize_num($parentid){
         $where_arr = [
-            "tl.parentid = $parentid"
+            "tl.luck_draw_adminid = $parentid"
         ];
         $sql = $this->gen_sql_new("  select count(*) from %s tl"
                                   ." where %s"
