@@ -9697,7 +9697,7 @@ lesson_type in (0,1) "
 
 
         $sql = $this->gen_sql_new("select l.teacherid"
-                                  ."from %s l left join %s lo on l.lessonid=lo.lessonid "
+                                  ." from %s l left join %s lo on l.lessonid=lo.lessonid "
                                   ." where %s  group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
