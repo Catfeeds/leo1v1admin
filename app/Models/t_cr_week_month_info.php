@@ -239,4 +239,26 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
         return $this->main_get_list($sql);
 
     }
+    public function get_test_lesson($start_time,$end_time){
+        $where_arr = [
+            ["  lesson_start>%u",$start_time,-1],
+            ["  lesson_start<%u",$end_time,-1],
+            "  (s.is_test_user = 0 OR s.is_test_user IS NULL)"
+        ];
+        $sql = $this->gen_sql_new("select l.grade, l.subject, count(*) as total "
+                                ."from t_lesson_info l left join t_student_info s on s.userid = l.userid "
+                                ." where %s group by l.grade, l.subject",$where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_test_lesson_subject($start_time,$end_time){
+        $where_arr = [
+            ["  lesson_start>%u",$start_time,-1],
+            ["  lesson_start<%u",$end_time,-1],
+            "  (s.is_test_user = 0 OR s.is_test_user IS NULL)"
+        ];
+        $sql = $this->gen_sql_new("select s.phone_location, l.subject, count(*) as total "
+                                ."from t_lesson_info l left join t_student_info s on s.userid = l.userid "
+                                ." where %s group by s.phone_location, l.subject",$where_arr);
+        return $this->main_get_list($sql);
+    }
 }
