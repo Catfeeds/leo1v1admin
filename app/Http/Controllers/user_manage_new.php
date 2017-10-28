@@ -2396,7 +2396,8 @@ class user_manage_new extends Controller
         $ret["lesson_user_count"]     = $ret["new_lesson_user_count"] + $ret["old_lesson_user_count"];
 
         //到月末退费人数 -----开发中
-        $refund_num = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
+        $refund_info = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
+        $refund_num = $refund_info['orderid_count'];
         //2017-10-25以后的新数据
         $now = strtotime( date('Y-m-01', time()) );
         if( $start_time == $now ){
