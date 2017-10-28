@@ -57,6 +57,7 @@
                     <div class="input-group ">
                         <span class="input-group-addon">被分配类型</span>
                         <select class="opt-change form-control" id="id_hand_get_adminid" >
+                        </select>
                     </div>
                 </div>
             </div>
