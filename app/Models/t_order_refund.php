@@ -556,6 +556,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         $where_arr = [
             ['r.apply_time>=%u', $start_time, -1],
             ['r.apply_time<%u', $end_time, -1],
+            'r.contract_type in (0,3)',
             's.is_test_user=0',
         ];
 
