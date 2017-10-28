@@ -293,11 +293,12 @@ class wx_parent_gift extends Controller
     }
 
 
-    // 双11活动 理优在线
+    /***
+        双11活动 理优在线
 
-    public function get_luck_parent_info(){ // 获取家长抽奖信息
-        $parentid = $this->get_in_int_val('parentid');
+    ***/
 
+    public function get_draw_num($parentid){
         // 检查是否分享朋友圈
         $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
@@ -319,34 +320,47 @@ class wx_parent_gift extends Controller
 
         if($is_new_order){$draw_num++;}
 
-        $draw_num = ($draw_num>=2)?2:$draw_num;
+        $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
 
+        $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
 
-        /** 抽奖活动
-          1.统计奖品数量
+        $left_num = $draw_num-$consume_num;
 
+        return $left_num;
+    }
 
-        **/
-
-        $school_bag = $this->t_ruffian_activity->get_ss();
-
+    public function get_luck_parent_info(){ // 获取家长抽奖信息
+        $parentid = $this->get_in_int_val('parentid');
+        $left_num = $this->get_draw_num($parentid);
+        return $this->output_succ(['left'=>$left_num]);
     }
 
     public function update_share_status(){ // check是否分享
-        $parentid = $this->get_in_int_val('parentid');
-
+        $parentid = $this->get_in_int_val('parentid');// 
         $this->t_ruffian_share->delete_row_by_pid($parentid);
-
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
             "share_time"    => time(),
             "parentid"      => $parentid
         ]);
-
+        return $this->output_succ();
     }
 
     public function ruffian_activity(){ // 双11活动
+        /**
+        $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
+                                  ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
+                                  ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
+                                  ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
 
+        **/
+
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time   = $start_time+86400;
+        $draw_num_arr = $this->t_ruffian_activity->get_draw_num();
+        if($draw_num_arr['']){
+
+        }
 
 
 

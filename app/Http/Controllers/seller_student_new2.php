@@ -1000,7 +1000,7 @@ class seller_student_new2 extends Controller
             $item["adminid_nick"]= $item["adminid"]>0?$this->cache_get_account_nick($item["adminid"]):'';
             $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
             $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
-            $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
+            $item["is_contact_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["last_revisit_time"]);
         }
 
         return $this->pageView(__METHOD__,$ret_info);

@@ -83,7 +83,7 @@
                         <td>{{@$var["uid_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["origin"]}} </td>
-                        <td>{!! @$var["global_tq_called_flag_str"] !!} </td>
+                        <td>{!! @$var["is_contact_flag_str"] !!} </td>
                         <td>{!! @$var["del_flag_str"] !!} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
