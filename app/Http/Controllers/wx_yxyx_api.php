@@ -769,6 +769,10 @@ class wx_yxyx_api extends Controller
         $list = $this->t_agent->my_invite($agent_id);
         foreach($list as $key => &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            if($item['agent_status'] > 0 && $item['agent_status'] < 10)
+                $item['agent_status'] = 0;
+            if($item['agent_status'] >30)
+                $item['agent_status'] = 30;
             $my_invite[$key]['nickname'] = $item['nickname'];
             $my_invite[$key]['create_time'] = $item['create_time'];
             $my_invite[$key]['agent_status_money'] = $item['agent_status_money']/100;

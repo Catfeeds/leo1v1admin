@@ -134,7 +134,7 @@ message invite_list{
   string nickname = 1;//昵称
   string create_time = 2;//进入时间
   float agent_status_money = 3;//奖励金额
-  uint32 agent_status = 4;//状态 array(0,"","无"), array(1,"","已报名"), array(10,"","已回访"), array(20,"","安排试听"), array(30,"","成功试听"), array(40 ,"","签单")
+  uint32 agent_status = 4;//0:邀请10：联系20：预约30：试听
 }
 message agent_bank_info{
   string bank_account = 1;//持卡人

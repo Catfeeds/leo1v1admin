@@ -336,27 +336,29 @@ class wx_parent_gift extends Controller
     }
 
     public function update_share_status(){ // check是否分享
-        $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_in_int_val('parentid');// 
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
             "share_time"    => time(),
             "parentid"      => $parentid
         ]);
-        return $this->output_succ(["data"=>]);
+        return $this->output_succ();
     }
 
     public function ruffian_activity(){ // 双11活动
-
-
-        /** 抽奖活动
-            1.统计奖品数量
-
+        /**
+        $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
+                                  ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
+                                  ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
+                                  ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
 
         **/
 
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num();
-        if(1){
+        if($draw_num_arr['']){
 
         }
 
