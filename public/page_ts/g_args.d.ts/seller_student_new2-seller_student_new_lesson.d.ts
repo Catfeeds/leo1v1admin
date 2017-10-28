@@ -14,6 +14,10 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	count	:any;
+	suc_count	:any;
+	test_count	:any;
+	wheat_count	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -23,6 +27,8 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	suc_rate	:any;
+	test_rate	:any;
 	become_member_time	:any;
 	leave_member_time	:any;
 	del_flag	:any;

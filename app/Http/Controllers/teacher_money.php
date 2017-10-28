@@ -5,11 +5,13 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Artisan;
 
 class teacher_money extends Controller
 {
     use CacheNick;
     use TeaPower;
+
     var $check_login_flag = false;
     var $teacher_money;
     var $late_num   = 0;
@@ -782,6 +784,16 @@ class teacher_money extends Controller
             return $this->output_err("更新失败！请重试！");
         }
         return $this->output_succ();
+    }
+
+    /**
+     * 设置老师的薪资
+     */
+    public function set_teacher_salary(){
+        $ret = Artisan::call('command:SetTeacherMoney', [
+            '--type' => 4
+        ]);
+        var_dump($ret);
     }
 
 
