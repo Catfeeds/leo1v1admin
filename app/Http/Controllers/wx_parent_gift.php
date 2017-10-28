@@ -298,11 +298,13 @@ class wx_parent_gift extends Controller
     public function get_luck_parent_info(){ // 获取家长抽奖信息
         $parentid = $this->get_in_int_val('parentid');
 
-        $start_time = strtotime('2017-11-06');
-        $end_time   = strtotime('2017-11-13');
+        // 检查是否分享朋友圈
+        $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
 
-        $has_share = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
-
+        // 检查是否在读学生
+        $is_reading = $this->t_student_info->check_is_reading($parentid);
 
 
     }
