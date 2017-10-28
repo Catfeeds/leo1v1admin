@@ -34,7 +34,7 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&flag="+1
+                +"&hand_get_adminid="+1
                );
     });
 
@@ -47,7 +47,7 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&flag="+2
+                +"&hand_get_adminid="+2
                );
     });
 
@@ -60,7 +60,7 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&flag="+3
+                +"&hand_get_adminid="+3
                );
     });
 
@@ -73,7 +73,7 @@ $(function(){
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
                 +"&origin_ex="+g_args.origin_ex
-                +"&flag="+4
+                +"&hand_get_adminid="+4
                );
     });
 

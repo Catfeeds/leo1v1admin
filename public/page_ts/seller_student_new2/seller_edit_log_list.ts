@@ -20,6 +20,7 @@ function load_data(){
         origin_ex        : $("#id_origin_ex").val(),
         user_name        : $("#id_user_name").val(),
         uid              : $('#id_uid').val(),
+        hand_get_adminid : $('#id_hand_get_adminid').val(),
     });
 }
 $(function(){
@@ -43,10 +44,12 @@ $(function(){
             load_data();
         }
     });
+    Enum_map.append_option_list("hand_get_adminid",$("#id_hand_get_adminid"));
     $('#id_adminid').val(g_args.adminid);
     $('#id_origin_ex').val(g_args.origin_ex);
     $("#id_user_name").val(g_args.user_name);
     $('#id_uid').val(g_args.uid);
+    $('#id_hand_get_adminid').val(g_args.hand_get_adminid);
 
     $.admin_select_user(
         $('#id_adminid'),
