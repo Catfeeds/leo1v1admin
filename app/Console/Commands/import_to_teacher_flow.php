@@ -99,7 +99,7 @@ class import_to_teacher_flow extends cmd_base
         foreach($info as $teacherid => $item) {
             $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_5, $teacherid);
             if ($lecture['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time']==0) {
-                $task->t_teacher_flow->field_update_list($teacherid, [
+                $task->t_teacher_flow->field_update_list($teacherid,[
                     "trial_lecture_pass_time" => $lecture['add_time'],
                 ]);
             }

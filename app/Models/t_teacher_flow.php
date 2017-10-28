@@ -35,7 +35,7 @@ class t_teacher_flow extends \App\Models\Zgen\z_t_teacher_flow
         });
     }
 
-    public function get_all_list($where) {
+    public function get_all_list($where=[]) {
         $sql = $this->gen_sql_new("select teacherid,phone,trial_lecture_pass_time,simul_test_lesson_pass_time,train_through_new_time from %s where %s",self::DB_TABLE_NAME,$where);
         return $this->main_get_list($sql, function( $item) {
             return $item['teacherid'];

@@ -355,10 +355,13 @@ class wx_parent_gift extends Controller
 
         **/
 
+        $stu_type = 1;
+
+
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
-        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time);
-        if($draw_num_arr['bag_num']){
+        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
+        if($draw_num_arr['bag_num'] >80){
 
         }
 
