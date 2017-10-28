@@ -47,16 +47,16 @@ class import_to_teacher_flow extends cmd_base
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
-        if(!empty($tea_list)){
-            foreach($tea_list as $val){
-                $task->t_teacher_flow->row_insert_ignore([
-                    "teacherid"              => $val['teacherid'],
-                    "phone"                  => $val['phone'],
-                    "train_through_new_time" => $val['train_through_new_time'],
-                ]);
-            }
-        }
+        // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
+        // if(!empty($tea_list)){
+        //     foreach($tea_list as $val){
+        //         $task->t_teacher_flow->row_insert_ignore([
+        //             "teacherid"              => $val['teacherid'],
+        //             "phone"                  => $val['phone'],
+        //             "train_through_new_time" => $val['train_through_new_time'],
+        //         ]);
+        //     }
+        // }
 
         // trial_lecture_pass_time 设0
         // $info = $task->t_teacher_flow->get_all_trial_time();
@@ -106,28 +106,28 @@ class import_to_teacher_flow extends cmd_base
 
         //面试试讲时间
         // $where = ['trial_lecture_pas=0'];
-        // $info = $task->t_teacher_flow->get_all_list($where);
-        // foreach($info as $teacherid => $item) {
-        //     $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_5, $teacherid);
-        //     if ($lecture['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time']==0) {
-        //         $task->t_teacher_flow->field_update_list($teacherid,[
-        //             "trial_lecture_pass_time" => $lecture['add_time'],
-        //         ]);
-        //     }
-        // }
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_5, $teacherid);
+            if ($lecture['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time']==0) {
+                $task->t_teacher_flow->field_update_list($teacherid,[
+                    "trial_lecture_pass_time" => $lecture['add_time'],
+                ]);
+            }
+        }
 
 
         // 模拟试听时间
-        // $where = ['simul_test_lesson_pass_time=0'];
-        // $info = $task->t_teacher_flow->get_all_list($where);
-        // foreach($info as $teacherid => $item) {
-        //     $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_4, $teacherid);
-        //     if ($lecture) {
-        //         $task->t_teacher_flow->field_update_list($teacherid, [
-        //             "simul_test_lesson_pass_time" => $lecture['add_time'],
-        //         ]);
-        //     }
-        // }
+        $where = ['simul_test_lesson_pass_time=0'];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_4, $teacherid);
+            if ($lecture) {
+                $task->t_teacher_flow->field_update_list($teacherid, [
+                    "simul_test_lesson_pass_time" => $lecture['add_time'],
+                ]);
+            }
+        }
 
 
 

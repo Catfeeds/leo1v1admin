@@ -4260,7 +4260,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql);
     }
 
@@ -4282,8 +4281,31 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     /**
      * 获取需要更新工资的老师名单
      */
-    public function get_need_set_teacher_salary_list(){
-
+    public function get_need_set_teacher_salary_list($start_time,$end_time){
+        $lesson_arr = [
+            ['lesson_start>%u',$start_time,0],
+            ['lesson_start<%u',$end_time,0],
+            "lesson_del_flag=0",
+            "lesson_type<1000",
+            "t.teacherid=teacherid"
+        ];
+        $reward_arr = [
+            ['add_time>%u',$start_time,0],
+            ['add_time<%u',$end_time,0],
+            "t.teacherid=teacherid"
+        ];
+        $sql = $this->gen_sql_new("select teacherid "
+                                  ." from %s t"
+                                  ." where exists (select 1 from %s where %s)"
+                                  ." or exists (select 1 from %s where %s)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
+                                  ,t_teacher_money_list::DB_TABLE_NAME
+                                  ,$reward_arr
+        );
+        echo $sql;exit;
+        return $this->main_get_list($sql);
     }
 
-} 
+}
