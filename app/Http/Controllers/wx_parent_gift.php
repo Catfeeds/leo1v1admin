@@ -306,6 +306,8 @@ class wx_parent_gift extends Controller
         // 检查是否在读学生
         $is_reading = $this->t_student_info->check_is_reading($parentid);
 
+        //检查是否新签
+        $is_new_order = $this->t_order_info->check_is_new($parentid);
 
     }
 

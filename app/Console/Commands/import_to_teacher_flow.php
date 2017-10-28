@@ -44,7 +44,7 @@ class import_to_teacher_flow extends Command
 
         $task = new \App\Console\Tasks\TaskController();
 
-        $start_time  = strtotime("2017-1-1");
+        $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
         // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
@@ -63,26 +63,63 @@ class import_to_teacher_flow extends Command
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
             $ret = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($item['phone']);
-            dd($ret);
-            $task->t_teacher_flow->field_update_list($teacherid, [
-                'answer_begin_time' => $ret['answer_begin_time'],
-                "accept_adminid" => $ret['accept_adminid']
-            ]);
-        }
-        exit;
-        $tea_phone = implode(",",$tea_phone_list);
-        dd($tea_phone);
-
-        $info = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time,$tea_phone);
-        foreach($info as $item) {
-            $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
-            if ($teacherid) {
+            if ($ret) {
                 $task->t_teacher_flow->field_update_list($teacherid, [
-                    'answer_begin_time' => $item['answer_begin_time'],
-                    "accept_adminid" => $item['accept_adminid']
+                    'answer_begin_time' => $ret['answer_begin_time'],
+                    "accept_adminid" => $ret['accept_adminid']
+                ]);
+            } 
+        }
+
+        // 面试通过时间
+        $where = ["trial_lecture_pass_time=0"];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
+            if ($lecture) {
+                $task->t_teacher_flow->field_update_list($teacherid, [
+                    "trial_lecture_pass_time" => $lecture['confirm_time'],
+                    'subject' => $lecture['subject'],
+                    'grade' => $lecture['grade']
                 ]);
             }
         }
+
+        // 模拟试听时间
+        $where = ['simul_test_lesson_pass_time=0'];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(4, $teacherid);
+            if ($lecture) {
+                $task->t_teacher_flow->field_update_list($teacherid, [
+                    "simul_test_lesson_pass_time" => $lecture['add_time'],
+                ]);
+            }
+        }
+
+        // 试讲通过时间
+        $where = ['train_through_new_time=0'];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(5, $teacherid);
+            if ($lecture) {
+                $task->t_teacher_flow->field_update_list($teacherid, [
+                    "train_through_new_time" => $lecture['add_time'],
+                ]);
+            }
+        }
+
+
+        // $info = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time,$tea_phone);
+        // foreach($info as $item) {
+        //     $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
+        //     if ($teacherid) {
+        //         $task->t_teacher_flow->field_update_list($teacherid, [
+        //             'answer_begin_time' => $item['answer_begin_time'],
+        //             "accept_adminid" => $item['accept_adminid']
+        //         ]);
+        //     }
+        // }
 
         // $where = ["trial_lecture_pass_time=0"];
         // $info = $task->t_teacher_flow->get_all_list($where);
@@ -156,18 +193,5 @@ class import_to_teacher_flow extends Command
         //     ]);
         // }
 
-        $where = ['simul_test_lesson_pass_time=0'];
-        $info = $task->t_teacher_flow->get_all_list($where);
-        foreach($info as $item) {
-            if ($item['teacherid']) {
-                $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 4, $item['teacherid']);
-                if ($lecture) {
-                    $task->t_teacher_flow->field_update_list($item['teacherid'], [
-                        "simul_test_lesson_pass_time" => $lecture['add_time'],
-                    ]);
-                }
-
-            }
-        }
     }
 }
