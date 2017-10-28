@@ -2620,7 +2620,7 @@ class main_page extends Controller
         $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($train_tea_sum) $info['train_tea_sum'] ++;
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
-        
+
         // 模拟试听总排课人数
         $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
         if ($imit_sum) $info['imit_sum']++;
