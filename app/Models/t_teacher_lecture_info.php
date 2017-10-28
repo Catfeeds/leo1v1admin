@@ -1909,7 +1909,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ,$where_arr
                                   ,self::DB_TABLE_NAME
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql, function ( $item) {
+            return $item['phone'];
+        });
     }
 
 

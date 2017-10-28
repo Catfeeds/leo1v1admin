@@ -86,26 +86,14 @@ class import_to_teacher_flow extends cmd_base
 
         $where = ["trial_lecture_pass_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
-        $lecture_pass_list ;
+        //$lecture_pass_list ;
         foreach($info as $teacherid => $item) {
-            $lecture_pass_list[$item['phone']]['confirm_time'];
-            $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
-            if ($lecture) {
-                $task->t_teacher_flow->field_update_list($teacherid, [
-                    "trial_lecture_pass_time" => $lecture['confirm_time'],
-                    'subject' => $lecture['subject'],
-                    'grade' => $lecture['grade']
-                ]);
-            }
-            // foreach($lecture as $v) {
-            //     if ($item['phone'] == $v['phone']) {
-            //         $task->t_teacher_flow->field_update_list($teacherid, [
-            //             "trial_lecture_pass_time" => $lecture['confirm_time'],
-            //             'subject' => $lecture['subject'],
-            //             'grade' => $lecture['grade']
-            //         ]);
-            //     }
-            // }
+            $task->t_teacher_flow->field_update_list($teacherid, [
+                "trial_lecture_pass_time" => $lecture[$item['phone']]['confirm_time'],
+                "subject" => $lecture[$item['phone']]['subject'],
+                "grade" => $lecture[$item['phone']]['grade']
+            ]);
+
             // $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
             // if ($lecture) {
             //     $task->t_teacher_flow->field_update_list($teacherid, [
