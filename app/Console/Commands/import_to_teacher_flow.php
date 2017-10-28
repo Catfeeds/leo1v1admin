@@ -104,7 +104,7 @@ class import_to_teacher_flow extends cmd_base
         $info = $task->t_teacher_flow->get_all_list();
         foreach($info as $teacherid => $item) {
             if (!isset($lecture[$item['teacherid']])) continue;
-            if ($lecture['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
+            if ($lecture[$item['teacherid']]['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
                 $task->t_teacher_flow->field_update_list($teacherid,[
                     "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time']
                 ]);
