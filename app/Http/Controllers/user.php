@@ -338,6 +338,11 @@ class user extends TeaWxController
 
 
     public function get_tea_feedback_select_options(){ //1021
+        $feedback_type = E\Efeedback_type::$desc_map;
+        $options  = [];
+        foreach($feedback_type as $val){
+
+        }
         $options = [
             [
                 "feedback_type"=>101,
@@ -348,8 +353,8 @@ class user extends TeaWxController
                 "feedback_type_str" =>"课时奖励工资"
             ],
             [
-                "feedback_type"=>103,
-                "feedback_type_str" =>"全勤奖"
+                "feedback_type"=>105,
+                "feedback_type_str" =>"额外奖金"
             ],
             [
                 "feedback_type"=>104,

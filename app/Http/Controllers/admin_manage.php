@@ -139,6 +139,8 @@ class admin_manage extends Controller
     public  function  web_page_admin_info ( ) {
         $web_page_id= $this->get_in_int_val("web_page_id");
 
+        $this->t_web_page_trace_log->get_admin_info();
+
     }
 
 }
