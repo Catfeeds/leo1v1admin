@@ -1431,7 +1431,9 @@ class test_code extends Controller
 
     public function get_tea_list(){
         $a = new teacher_money();
-        $ret = $a->set_teacher_salary();
+        $ret = $a->set_teacher_salary([
+            "type"=>33
+        ]);
         var_dump($ret);
     }
 

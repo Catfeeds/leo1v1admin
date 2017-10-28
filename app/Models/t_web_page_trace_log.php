@@ -20,7 +20,13 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
             ["from_adminid=%u", $from_adminid],
             ["web_page_id=%u", $web_page_id  ],
         ];
+        $sql=$this->gen_sql_new(
+            "select * from %s  where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
 
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 
 }

@@ -124,9 +124,9 @@ class main_page extends Controller
                 }
 
 
-                if($ret_info['seller_invit_num']>0){ //月排课率
+                if($ret_info['seller_invit_month_funnel']>0){ //月排课率
                     // $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
-                    $ret_info['test_plan_month_rate'] = $ret_info['seller_plan_invit_month_funnel']/$ret_info['seller_invit_month_funnel']*100;
+                    $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month_funnel']/$ret_info['seller_invit_month_funnel']*100;
                 }else{
                     $ret_info['test_plan_month_rate'] = 0;
                 }
@@ -228,8 +228,7 @@ class main_page extends Controller
                     $ret_info['invit_month_rate'] = 0;
                 }
 
-                if($ret_info['seller_invit_num']>0){ //月排课率
-                    //seller_invit_num  //seller_plan_invit_month
+                if($ret_info['seller_plan_invit_month']>0){ //月排课率
                     $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month']/$ret_info['seller_plan_invit_month']*100;
                 }else{
                     $ret_info['test_plan_month_rate'] = 0;
