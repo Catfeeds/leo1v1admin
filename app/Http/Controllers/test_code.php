@@ -1416,6 +1416,10 @@ class test_code extends Controller
 
     public function delete_more_lesson(){
         $lesson_list = $this->t_lesson_info_b3->get_more_trial_lesson_list();
+        dd($lesson_list);
+        foreach($lesson_list as $l_val){
+            
+        }
     }
 
 
