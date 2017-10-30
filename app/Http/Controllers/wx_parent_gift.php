@@ -452,7 +452,7 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
-        $parentid = $this->get_parentid();
+        $parentid = $this->get_agentid();
 
         // $parentid = $this->get_in_int_val('parentid');
 
@@ -468,7 +468,7 @@ class wx_parent_gift extends Controller
 
     public function do_luck_draw_yxyx(){ // 抽奖
         // $parentid = $this->get_in_int_val('parentid');
-        $parentid = $this->get_parentid();
+        $parentid = $this->get_agentid();
 
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
@@ -531,9 +531,13 @@ class wx_parent_gift extends Controller
            活动结果：{{keyword3.DATA}}
            {{remark.DATA}}
          **/
-        $wx = new \App\Helper\Wx();
 
-        $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
+        $appid     = \App\Helper\Config::get_yxyx_wx_appid();
+        $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();
+
+        $wx = new \App\Helper\Wx($appid, $appsecret);
+
+        $template_id = "-jlgaNShu8zuil5ST1Qo5hY6RzaNyujwZ0fAnh2Te40";//活动结束提醒
         $data_msg = [
             "first"     => "您好，此次活动已经结束，你已经成功参与",
             "keyword1"  => "双十一活动",
@@ -541,13 +545,20 @@ class wx_parent_gift extends Controller
             "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
             "remark"    => "感谢您的参与",
         ];
-        $url = "";
-        $send_openid = $this->t_parent_info->get_wx_openid($parentid);
-        $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
+
+        $p_info = $this->t_agent->get_info_by_pid($parentid);
+
+        $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2";
+        // $send_openid = $this->t_parent_info->get_wx_openid($parentid);
+        $wx->send_template_msg($p_info['wx_openid'],$template_id,$data_msg ,$url);
         $prize = $prize/100;
         return $this->output_succ(["money"=>$prize]);
     }
 
+    public function get_agentid(){
+        $agent_id = $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id") : session("agent_id");
+        return $agent_id;
+    }
 
     public function get_parentid(){
         $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");

@@ -139,8 +139,29 @@ class admin_manage extends Controller
     public  function  web_page_admin_info ( ) {
         $web_page_id= $this->get_in_int_val("web_page_id");
         $ret_info=$this->t_web_page_trace_log->get_admin_info($web_page_id);
+
+        foreach ($ret_info["list"] as &$item  ) {
+            $this->cache_set_item_account_nick($item,"from_adminid", "from_adminid_nick" );
+        }
+
         return $this->pageView(__METHOD__,$ret_info);
 
     }
+    public function web_page_log () {
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $page_info= $this->get_in_page_info();
+        $from_adminid= $this->get_in_int_val("from_adminid",-1);
+
+        $ret_info=$this->t_web_page_trace_log->get_admin_info( $page_info,$web_page_id,$from_adminid);
+
+        foreach ($ret_info["list"] as &$item  ) {
+            $this->cache_set_item_account_nick($item,"from_adminid", "from_adminid_nick" );
+            \App\Helper\Utils::unixtime2date_for_item($item,"log_time");
+            $item["ip"] = long2ip($item["ip"]);
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
 
 }
