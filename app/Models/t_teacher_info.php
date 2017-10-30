@@ -2890,6 +2890,36 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    //获取每月上过课老师的类型统计(试听课,常规课)
+    public function get_lesson_teacher_total_info($start_time,$end_time){
+        $where_arr = [
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1,4)",
+            "l.lesson_del_flag=0",
+            // "l.lesson_type in (0,3)",
+            "l.lesson_type<1000",
+            "l.lesson_status=2",
+            "(tss.success_flag is null or tss.success_flag <2)"
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time
+        ];
+       
+        $sql = $this->gen_sql_new("select t.identity,count(distinct l.teacherid) num "
+                                  ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." where %s group by t.identity"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+
     public function set_simulate_info($teacher_money_type,$level,$level_simulate){
         $where_arr = [
             ["teacher_money_type_simulate=%u",$teacher_money_type,0],
@@ -4307,5 +4337,24 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         echo $sql;exit;
         return $this->main_get_list($sql);
     }
+
+    public function tongji_train_through_info($start_time,$end_time){
+        $where_arr = [
+            " is_quit=0 ",
+            " is_test_user =0",
+            "train_through_new_time>=".$start_time,
+            "train_through_new_time<".$end_time,
+            "train_through_new=1",
+        ];
+
+        $sql = $this->gen_sql_new("select count(*) through_all,sum(identity=5) through_jg,sum(identity=6) through_gx, "
+                                  ." sum(identity=7) through_zz,sum(identity=8) through_gxs "
+                                  ." from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 
 }

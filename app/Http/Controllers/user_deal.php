@@ -3178,11 +3178,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-09-25");
-        $end_time = strtotime("2017-10-30");
-        $top_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1,-1,1);
-        dd($top_seller_total);
-        
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-09-01");
+        $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);         
+        dd($train_through_all);
        
     }
 
