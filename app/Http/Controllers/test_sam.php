@@ -52,7 +52,7 @@ class test_sam  extends Controller
         echo "</table>";
 
         foreach ($ret_info as $key => $value) {
-            if($value['subject'] == '' || $value['subject'] < 0){
+            if($value['subject'] == '' || $value['subject'] < 0 || $value['subject'] > 11){
                 $subject_str = "未设置";
             }else{
                 $subject_str = E\Esubject::get_desc($value['subject']);
