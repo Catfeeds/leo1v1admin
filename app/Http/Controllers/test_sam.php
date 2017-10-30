@@ -15,18 +15,6 @@ class test_sam  extends Controller
     public function world(){
         $ret_info = $this->t_cr_week_month_info->get_all_teacher_info_total();
         $ret_info_success  = $this->t_cr_week_month_info->get_all_teacher_info_success();
-        $ret_info_success = [
-            "60011" => [
-                "teacherid" => "60011",
-                "subject" => "5",
-                "phone_location" => "",
-            ],
-            "62637" => [
-                "teacherid" => "62637",
-                "subject" => "11",
-                "phone_location" => "",
-              ]
-        ];
         //dd($ret_info_success);
         foreach ($ret_info as $key => &$value) {
             # code...
