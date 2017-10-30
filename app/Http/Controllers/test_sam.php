@@ -12,6 +12,84 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function world(){
+        $ret_info = $this->t_cr_week_month_info->get_all_teacher_info_total();
+        $ret_info_success  = $this->t_cr_week_month_info->get_all_teacher_info_success();
+        $ret_info_success = [
+            "60011" => [
+                "teacherid" => "60011",
+                "subject" => "5",
+                "phone_location" => "",
+            ],
+            "62637" => [
+                "teacherid" => "62637",
+                "subject" => "11",
+                "phone_location" => "",
+              ]
+        ];
+        //dd($ret_info_success);
+        foreach ($ret_info as $key => &$value) {
+            # code...
+            if(isset($ret_info_success[$key])){
+                unset($ret_info[$key]);
+            }
+        }
+
+        foreach ($ret_info as $key => $value) {
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                if(isset($province['其它'])){
+                     ++$province['其它'] ;
+                }else{
+                    $province['其它'] = 0;
+                    ++$province['其它'] ;
+                }
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province[$pro])){
+                    $province[$pro] = 0;
+                    ++$province[$pro];
+                }else{
+                    ++$province[$pro];
+                }
+
+            }
+        }
+        echo "<table>";
+        foreach ($province as $key => $value) {
+            echo "<tr>";
+            echo "<td width=100px>".$key."</td>";
+            echo "<td width=100px>".$value."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+
+        foreach ($ret_info as $key => $value) {
+            if($value['subject'] == '' || $value['subject'] < 0){
+                $subject_str = "未设置";
+            }else{
+                $subject_str = E\Esubject::get_desc($value['subject']);
+            }
+            
+            if(isset($subject[$subject_str])){
+                ++$subject[$subject_str];
+            }else{
+                $subject[$subject_str] = 0;
+
+            }
+        }
+
+        echo '----------------------------------------------'."<br/>";
+        echo "<table>";
+        foreach ($subject as $key => $value) {
+            echo "<tr>";
+            echo "<td width=100px>".$key."</td>";
+            echo "<td width=100px>".$value."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
+
+
     public function hello(){
         $ret_info = $this->t_cr_week_month_info->get_apply_info();
         foreach ($ret_info as $key => &$value) {
