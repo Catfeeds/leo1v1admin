@@ -212,6 +212,7 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
             "is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select count(teacherid) as total,phone_location from t_teacher_info where %s group by phone_location", $where_arr);
+        //dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_total_province_lesson_teacher($start_time,$end_time){

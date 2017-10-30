@@ -43,7 +43,7 @@ class test_sam  extends Controller
     }
     public function total_teacher(){
         echo '------------------------------Teacher Total Number--------------'.'<br/>';
-        $ret_info_teacher = $this->t_cr_week_month_info->get_total_province_teacher(-1,1509163200);
+        $ret_info_teacher = $this->t_cr_week_month_info->get_total_province_teacher(0,1509163200);
         $province_teacher = [];
         $province_teacher['总计'] = 0;
         $province_teacher['其它'] = 0;
