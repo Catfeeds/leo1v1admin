@@ -735,6 +735,18 @@ $(function(){
         } );
     });
 
+    $(".opt-delete-permission").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要清除该用户所有权限:"+opt_data.account+"?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/delete_permission_by_uid', {
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+
+    });
+
 
     $(".opt-log").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -818,5 +830,27 @@ $(function(){
         });
 
     });
+
+    //实例化一个plupload上传对象
+    var uploader = $.plupload_Uploader({
+        browse_button : 'id_upload_xls', //触发文件选择对话框的按钮，为那个元素id
+        url : '/ss_deal/upload_permission_info_from_xls', //服务器端的上传页面地址
+        flash_swf_url : '/js/qiniu/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+        silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+        filters: {
+            mime_types : [ //只允许上传图片和zip文件
+                { title : "xls files", extensions : "xls" },
+                { title : "xlsx files", extensions : "xlsx" }
+            ],
+            max_file_size : '40m', //最大只能上传400kb的文件
+            prevent_duplicates : true //不允许选取重复文件
+        }
+    });
+
+    uploader.init();
+    uploader.bind('FilesAdded',function(up, files) {
+        uploader.start();
+    });
+
 
 });
