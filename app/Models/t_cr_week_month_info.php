@@ -212,7 +212,6 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
             "is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select count(teacherid) as total,phone_location from t_teacher_info where %s group by phone_location", $where_arr);
-        //dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_total_province_lesson_teacher($start_time,$end_time){
@@ -273,5 +272,18 @@ left join t_lesson_info l on l.lessonid = k.lessonid
 left join t_order_info o on o.from_test_lesson_id  = l.lessonid
 where a.stu_request_test_lesson_time > 1483200000 and a.grade in (101,102,103) and s.is_test_user = 0";
         return $this->main_get_list($sql);
+    }
+
+    public function get_all_teacher_info_total(){
+        $sql = "select teacherid ,subject ,phone_location from t_teacher_info  where train_through_new_time>0 and train_through_new_time<1509163200 and is_test_user=0 ";
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+    }
+    public function get_all_teacher_info_success(){
+        $sql = "select distinct(t.teacherid) , t.subject ,t.phone_location from t_teacher_info t left join t_lesson_info l on t.teacherid = l.teacherid   where train_through_new_time>0 and train_through_new_time<1509163200 and is_test_user=0 and lesson_start > 1501516800 and lesson_start < 1509465600 and (l.lesson_type = 0 or l.lesson_type=2)";
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
     }
 }
