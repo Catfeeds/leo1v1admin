@@ -3196,7 +3196,7 @@ class user_deal extends Controller
                 $match_num++;
             }       
         }
-        $match_rate = $all_num>0?($match_num/$all_num):0;
+        $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
         dd($match_rate);
 
         $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
@@ -3251,7 +3251,7 @@ class user_deal extends Controller
                 $match_num++;
             }       
         }
-        $match_rate = $all_num>0?($match_num/$all_num):0;
+        $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
 
 
 
