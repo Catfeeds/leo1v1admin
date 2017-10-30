@@ -2891,7 +2891,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     //获取每月上过课老师的类型统计(试听课,常规课)
-    public function get_lesson_teacher_total_info($start_time,$end_time){
+    public function get_lesson_teacher_total_info($start_time,$end_time,$tea_flag=-1,$two_month_time=0,$lesson_type=-1){
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
@@ -2901,22 +2901,54 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             // "l.lesson_type in (0,3)",
             "l.lesson_type<1000",
             "l.lesson_status=2",
-            "(tss.success_flag is null or tss.success_flag <2)"
-            "l.lesson_start>=".$start_time,
-            "l.lesson_start<".$end_time
+            "(tss.success_flag is null or tss.success_flag <2)",
+            /// "l.lesson_start>=".$start_time,
+            /// "l.lesson_start<".$end_time
         ];
+        if($tea_flag==1){
+            $where_arr[] =["t.train_through_new_time>=%u",$start_time,0];
+            $where_arr[]=["t.train_through_new_time<%u",$end_time,0];
+            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+  
+        }elseif($tea_flag==2){
+            $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
+            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        }elseif($tea_flag==3){
+            $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
+            $this->where_arr_add_time_range($where_arr,"lesson_start",$two_month_time,$end_time);
+        }else{
+            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time); 
+        }
+        if($lesson_type==-2){
+            $where_arr[] ="l.lesson_type in (0,1,3)";
+        }elseif($lesson_type==2){
+            $where_arr[] ="l.lesson_type =2";
+        }
        
-        $sql = $this->gen_sql_new("select t.identity,count(distinct l.teacherid) num "
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s group by t.identity"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
 
+    }
+
+    //按入职时间统计老师数量
+    public function get_tea_num_by_train_through_time($start_time){
+        $where_arr = [
+            " train_through_new=1 ",
+            " is_quit=0 ",
+            " is_test_user =0"
+        ];
+
+        $where_arr[] =["train_through_new_time<%u",$start_time,0];
+        $sql = $this->gen_sql_new("select count(1) from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
     }
 
 

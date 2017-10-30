@@ -759,7 +759,7 @@ class user_deal extends Controller
                 $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
 
                 $adminid_ass = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
-                if($adminid != $adminid_ass){
+                if($adminid != $adminid_ass && $adminid_ass>0){
                     $ass_oponid = $this->t_manager_info->get_wx_openid($adminid_ass);
                     $nick = $this->t_student_info->get_nick($userid);
                     $data_msg = [
@@ -3178,10 +3178,84 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
-        $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);         
-        dd($train_through_all);
+        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
+        $all_num   = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }       
+        }
+        $match_rate = $all_num>0?($match_num/$all_num):0;
+        dd($match_rate);
+
+        $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
+        $tea_num_all = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time);
+        dd($tea_num_all);
+       
+
+        //新老师数(入职)
+        $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);
+        //本月上课老师数
+        $tea_num_all = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time);
+        //本月新增上课老师数
+        $tea_num_new = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,1);
+        //本月留存上课老师数
+        $tea_num_old = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,2);
+        //本月之前老师总数
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time);
+        //本月流失上课老师数
+        $tea_num_lose = $tea_num_all_old-$tea_num_old;
+
+        //流失老师数(三个月未上课)
+        $two_month_time = strtotime(date("Y-m-01",$start_time-45*86400));
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time);
+        $tea_num_lose_three = $tea_num_all_old-$tea_num_old_three;
+
+        //在读学生数
+        $tea_lesson_info = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $read_stu_num = @$tea_lesson_info["stu_num"];
+        //师生比
+        $tea_stu_num = round(@$tea_lesson_info["tea_num"]/@$tea_lesson_info["stu_num"],1);
+        $tea_stu_per = "1:".$tea_stu_num;
+
+        //试听课老师数
+        $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
+        //常规课老师数
+        $tea_num_all_normal = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,-2);
+
+
+        //试听课学生与教材匹配度
+        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
+        $all_num   = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }       
+        }
+        $match_rate = $all_num>0?($match_num/$all_num):0;
+
+
+
+        dd($tea_stu_per);
        
     }
 
