@@ -162,7 +162,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1,
         $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc",$have_init=-1,
-        $have_master=-1
+        $have_master=-1,$sys_operator_uid=-1
     ){
         $where_arr=[];
         if($userid>=0){
@@ -239,6 +239,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         //select count(*) from t_order_info as t1,t_book_info as t2 where t1.userid=t2.userid, t2.origin like "%APP课程包%" ;
         $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
+        if($sys_operator_uid>0){
+            $where_arr=[
+              "t3.uid=".$sys_operator_uid  
+            ];
+        }
         $sql = $this->gen_sql_new(
             "select  order_price_desc,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
@@ -2547,7 +2552,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." t1.config_lesson_account_id ,t1.config_courseid,  check_money_flag,check_money_time,"
             ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
-            ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
+            ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,t1.can_period_flag,"
             ." t2.ass_master_adminid,m.account master_nick, pdf_url ,pre_price, pre_pay_time, pre_from_orderno "
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
@@ -3891,6 +3896,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+    public function check_is_buy($parentid){
+        $sql = $this->gen_sql_new("  select o.orderid from %s o "
+                                  ." left join %s p on p.userid=o.userid"
+                                  ." where p.parentid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$parentid
         );
 
         return $this->main_get_value($sql);

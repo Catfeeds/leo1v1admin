@@ -1931,4 +1931,10 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
 
     }
+
+    public function delete_permission_by_uid(){
+        $adminid= $this->get_in_int_val("adminid");
+        $this->test_jack_new($adminid);
+        return $this->output_succ();
+    }
 }

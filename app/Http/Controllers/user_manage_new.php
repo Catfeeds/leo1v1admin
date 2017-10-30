@@ -891,6 +891,7 @@ class user_manage_new extends Controller
         $contract_type     = $this->get_in_int_val(  'contract_type', -2 );
         $account           = $this->get_account();
         $show_yueyue_flag  = false;
+        $sys_operator_uid = $this->get_in_int_val("sys_operator_uid", -1);
         /*
         if ($account =="yueyue") {
             $show_yueyue_flag= true;
@@ -906,7 +907,7 @@ class user_manage_new extends Controller
         }
         //$up_master_adminid=-1;
 
-        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master);
+        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master,$sys_operator_uid);
 
         $money_all=0;
 
@@ -4915,6 +4916,12 @@ class user_manage_new extends Controller
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
+            if($item["order_time"] >= strtotime("2017-10-27 16:00:00") && $item["can_period_flag"]==0){
+                $item["can_period_flag"]=0;
+            }else{
+                $item["can_period_flag"]=1;
+            }
+
             E\Eboolean::set_item_value_str($item,"is_new_stu");
             E\Egrade::set_item_value_str($item);
             E\Econtract_from_type::set_item_value_str($item,"stu_from_type");

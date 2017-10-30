@@ -154,11 +154,17 @@ class save_seller_info_by_week extends Command
         $ret_info['seller_invit_month'] = $task->t_test_lesson_subject_require->get_invit_num_for_month($month_start_time_funnel, $end_time); // 销售邀约数[月邀约数]
         $ret_info['has_tq_succ_invit_month']  = $task->t_seller_student_new->get_tq_succ_for_invit_month($month_start_time_funnel, $end_time); // 已拨通[月邀约数]
 
-        $ret_info['seller_schedule_num_month'] = $task->t_test_lesson_subject_require->get_seller_schedule_num_month($start_time, $end_time); // 教务已排课['月排课数']
+
+
+        $ret_info['seller_schedule_num_month'] = $task->t_test_lesson_subject_require->get_seller_schedule_num_month($month_start_time_funnel, $end_time); // 教务已排课['月排课数']
 
 
         $ret_info['seller_plan_invit_month'] = $task->t_test_lesson_subject_require->get_plan_invit_num_for_month($month_start_time_funnel, $end_time); // 试听邀约数[月排课率]
+
         $ret_info['seller_test_succ_month'] = $task->t_lesson_info_b3->get_test_succ_for_month($month_start_time_funnel, $end_time); // 试听成功数[月到课率]
+        $ret_info['seller_schedule_num_has_done_month'] = $task->t_test_lesson_subject_require->get_seller_schedule_num($month_start_time_funnel, $end_time); // 试听排课[月到课率]
+
+
         $ret_info['order_trans_month'] = $task->t_order_info->get_order_trans_month($month_start_time_funnel, $end_time); // 合同人数[月试听转化率]
 
         $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($month_start_time_funnel, $end_time); // 拨通电话数量[月签约率]
@@ -170,7 +176,7 @@ class save_seller_info_by_week extends Command
 
         // 更新漏斗型数据
 
-        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $ret_info['seller_invit_month'], $ret_info['has_tq_succ_invit_month'], $ret_info['seller_plan_invit_month'], $ret_info['seller_test_succ_month'], $ret_info['order_trans_month'], $ret_info['order_sign_month'], $ret_info['has_tq_succ_sign_month'], $ret_info['has_called_stu'], $ret_info['seller_schedule_num_month'] );
+        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $ret_info['seller_invit_month'], $ret_info['has_tq_succ_invit_month'], $ret_info['seller_plan_invit_month'], $ret_info['seller_test_succ_month'], $ret_info['order_trans_month'], $ret_info['order_sign_month'], $ret_info['has_tq_succ_sign_month'], $ret_info['has_called_stu'], $ret_info['seller_schedule_num_month'],$ret_info['seller_schedule_num_has_done_month'] );
 
 
     }
