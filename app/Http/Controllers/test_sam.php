@@ -62,7 +62,7 @@ class test_sam  extends Controller
                 ++$subject[$subject_str];
             }else{
                 $subject[$subject_str] = 0;
-
+                ++$subject[$subject_str];
             }
         }
 
