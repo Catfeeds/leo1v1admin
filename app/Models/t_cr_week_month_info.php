@@ -262,4 +262,16 @@ where %s group by s.phone_location,t.subject,t.grade",$where_arr);
                                 ." where %s group by s.phone_location, l.subject",$where_arr);
         return $this->main_get_list($sql);
     }
+
+    public function get_apply_info(){
+        $sql = "select  a.userid, s.nick, a.grade, a. subject ,a.stu_request_test_lesson_demand,a.textbook  ,s.phone_location, t.current_lessonid ,t.require_id ,k.lessonid ,k.success_flag, l.lesson_type,l.lesson_user_online_status ,
+o.price,o.contract_status
+from t_test_lesson_subject   a  left join t_student_info s on s.userid = a.userid 
+left join t_test_lesson_subject_require t on t.require_id = a.current_require_id 
+left join t_test_lesson_subject_sub_list k on k.require_id  = t.require_id
+left join t_lesson_info l on l.lessonid = k.lessonid
+left join t_order_info o on o.from_test_lesson_id  = l.lessonid
+where a.stu_request_test_lesson_time > 1483200000 and a.grade in (101,102,103) and s.is_test_user = 0";
+        return $this->main_get_list($sql);
+    }
 }
