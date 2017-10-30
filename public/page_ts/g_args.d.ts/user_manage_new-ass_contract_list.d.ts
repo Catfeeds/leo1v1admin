@@ -12,6 +12,7 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	contract_type:	number;
+	sys_operator_uid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -104,7 +105,8 @@ function load_data(){
 		have_init:	$('#id_have_init').val(),
 		have_master:	$('#id_have_master').val(),
 		assistantid:	$('#id_assistantid').val(),
-		contract_type:	$('#id_contract_type').val()
+		contract_type:	$('#id_contract_type').val(),
+		sys_operator_uid:	$('#id_sys_operator_uid').val()
     });
 }
 $(function(){
@@ -126,6 +128,7 @@ $(function(){
 	$('#id_have_master').val(g_args.have_master);
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_contract_type').val(g_args.contract_type);
+	$('#id_sys_operator_uid').val(g_args.sys_operator_uid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -175,6 +178,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">contract_type</span>
                 <input class="opt-change form-control" id="id_contract_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sys_operator_uid</span>
+                <input class="opt-change form-control" id="id_sys_operator_uid" />
             </div>
         </div>
 */

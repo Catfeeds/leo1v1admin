@@ -3342,14 +3342,49 @@ class ss_deal extends Controller
                 }
                
             }
+            $list=[];
+
+            //用户权限更新
+            // foreach($arr as $item){
+            //     @$list[$item[1]] .= $item[0].","; 
+            // }
+            // foreach($list as $k=>$v){
+            //     $v= trim($v,",");
+            //     $permission_info = $this->t_manager_info->field_get_list($k,"permission,permission_backup");
+            //     $this->t_manager_info->field_update_list($k,[
+            //         "permission" =>$v  
+            //     ]);
+            //     if(!$permission_info["permission_backup"]){
+            //         $this->t_manager_info->field_update_list($k,[
+            //             "permission_backup" => $permission_info["permission"]
+            //         ]);
+  
+            //     }
+ 
+                              
+            // }
+
+            
+
+            //角色更新
+            // foreach($arr as $item){
+            //     @$list[$item[0]] .= $item[1].","; 
+            // }
+            // foreach($list as $k=>$v){
+            //     $v= trim($v,",");
+            //     $this->t_authority_group->field_update_list($k,[
+            //        "group_authority"=>$v 
+            //     ]);
+                
+            // }
 
           
-            $arr = json_encode($arr);
-            \App\Helper\Utils::logger(" PHONE:$arr ");
-            dd($arr);
+            // $arr = json_encode($list);
+            // \App\Helper\Utils::logger(" PHONE:$arr ");
+            // dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 
-            // return outputjson_success();
+            return outputjson_success();
         } else {
             //return 111;
             //dd(222);
