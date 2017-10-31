@@ -3377,7 +3377,32 @@ class user_deal extends Controller
         $through_time = $through_real_num>0?round($through_time/$through_real_num/86400,1):0;
 
 
+        //培训数
+        $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
+        //培训参与率,培训通过数
+        $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
+        $all_num= $part_num=$train_tea_num =$train_through_num=0;
+        $train_tea_list = [];
+        
+        foreach($train_lesson_part_info as $val){
+            $all_num++;
+            if($val["opt_time"]>0){
+                $part_num++; 
+            }
+            if(!isset($train_tea_list[$val["userid"]])){
+                @$train_tea_list[$val["userid"]]=$val["userid"];
+                $train_tea_num++;
+                if($val["train_through_new_time"]>0){
+                    $train_through_num++;
+                }
+            }
+        }
+        $train_part_per =  $all_num>0?round($part_num/$all_num*100,2):0;
+        $train_through_per =  $train_tea_num>0?round($train_through_num/$train_tea_num*100,2):0;
 
+
+        //教务数据
+        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
 
 
         
