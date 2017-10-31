@@ -139,7 +139,6 @@ class seller_order_money_201709  extends  seller_order_money_base
         */
 
         $percent = static::get_pecent_config( $ret_arr["all_price"]);
-        App\Helper\Utils::logger('xxx_per:'.$percent);
         $group_money_add_percent=0;
 
         if ( $ret_arr["group_default_money"] >0  ) {
