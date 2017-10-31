@@ -10,7 +10,7 @@ trait  InputDeal {
         $g_request->offsetSet($key,$value);
     }
 
-    public function set_filed_for_js($field_name,$v, $type_str ="number") {
+    public function set_filed_for_js($field_name,$v,$type_str = "number"){
         $this->set_in_value($field_name,$v);
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */

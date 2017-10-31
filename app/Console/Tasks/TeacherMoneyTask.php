@@ -4,7 +4,8 @@ use \App\Enums as E;
 use Illuminate\Support\Facades\Log;
 use App\Helper\Net;
 use App\Helper\Utils;
-// use App\Http\Controllers\Controller;
+
+use App\Http\Controllers\Controller;
 
 /**
  * @from command:SetTeacherMoney
@@ -134,8 +135,7 @@ class TeacherMoneyTask extends TaskController
         echo "start";
         echo PHP_EOL;
         $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
-        var_dump($tea_list);
-        exit;
+
         $teacher_money = new \App\Http\Controllers\teacher_money();
         foreach($tea_list as $t_val){
             $teacherid   = $t_val['teacherid'];

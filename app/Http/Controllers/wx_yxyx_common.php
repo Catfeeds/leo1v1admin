@@ -210,9 +210,11 @@ class wx_yxyx_common extends Controller
 
 
         \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
-        if ( $this->get_in_str_val('p_phone')!="15601830297" ) {
-            if ($check_code != $code) {
-                return $this->output_err("手机验证码不对,请重新输入");
+        if (!\App\Helper\Utils::check_env_is_test() ) {
+            if ( $this->get_in_str_val('p_phone')!="15601830297"  ) {
+                if ($check_code != $code) {
+                    return $this->output_err("手机验证码不对,请重新输入");
+                }
             }
         }
 
@@ -649,7 +651,9 @@ class wx_yxyx_common extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
-        if($openid){ // ==> 活动页面
+        $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
+
+        if($agent_arr){ // ==> 活动页面
             header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
         }elseif(!$openid){ // 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");

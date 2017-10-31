@@ -2227,7 +2227,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+1.1"
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize"
                                   ." where userid=%s"
                                   ,self::DB_TABLE_NAME
                                   ,$parentid
@@ -2312,7 +2312,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     public function get_agent_id_by_openid($openid){
         $sql = $this->gen_sql_new("  select id, userid, phone from %s ag "
-                                  ." where wx_openid = %d"
+                                  ." where wx_openid = '%s'"
                                   ,self::DB_TABLE_NAME
                                   ,$openid
         );
@@ -2320,6 +2320,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    public function get_id_by_openid($openid){
+        
+    }
 
 
 }
