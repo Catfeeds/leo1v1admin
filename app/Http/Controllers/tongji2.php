@@ -364,7 +364,6 @@ class tongji2 extends Controller
         // dd($order_user_list,$map,$adminid);
         foreach($order_user_list as $item ) {
             // if(!@$map[$item["adminid"] ] ) {
-            dd($order_user_list);
             if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
                 // if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
                 if ($adminid==$item["adminid"]) {
