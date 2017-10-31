@@ -523,14 +523,13 @@ class WechatRequest  {
                     'touser'   => $openid,
                     'msgtype'  => 'image',
                     "image"=> [
-                        "media_id" => "MEDIA_ID"
+                        "media_id" => "$mediaId"
                     ],
                 ];
                 $txt = self::ch_json_encode($txt_arr);
                 $token = AccessToken::getAccessToken();
                 $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
                 $txt_ret = self::https_post($url,$txt);
-
             }
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
 
