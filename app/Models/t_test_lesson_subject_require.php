@@ -3299,8 +3299,8 @@ ORDER BY require_time ASC";
             "tr.accept_flag=1",
             "ts.require_admin_type=2",
             "l.lesson_type = 2",
-            "l.lesson_del_flag = 0",
-            "tss.fail_greater_4_hour_flag=0"
+            // "l.lesson_del_flag = 0",
+            // "tss.fail_greater_4_hour_flag=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
