@@ -31,4 +31,6 @@ class UpdateTeacherMoney extends Job implements ShouldQueue
         $teacher_money = new \App\Http\Controllers\teacher_money();
         $teacher_money->test_api();
     }
+
+
 }
