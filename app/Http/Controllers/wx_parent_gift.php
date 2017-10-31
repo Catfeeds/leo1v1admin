@@ -470,6 +470,8 @@ class wx_parent_gift extends Controller
 
         $openid = $this->get_in_int_val('openid');
 
+        $parentid = $this->t_agent->get_userid_by_openid($openid);
+
         $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
         $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
 
