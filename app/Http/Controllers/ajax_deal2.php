@@ -1922,7 +1922,9 @@ class ajax_deal2 extends Controller
         foreach($userid_list as $adminid ) {
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $adminid,
-                "系统推送 分享", "点击分享",$title,
+                "系统推送 分享",
+                "点击分享",
+                "分享:$title",
                 "$url?web_page_id=$web_page_id&from_adminid=$adminid",
                 "点击进入 分享到朋友圈 "
             );

@@ -14,9 +14,15 @@ $(function(){
 
 	  Enum_map.append_option_list("account_role",$("#id_account_role"));
 
-	  $('#id_web_page_id').val(g_args.web_page_id);
 	  $('#id_uid').val(g_args.uid);
 	  $('#id_account_role').val(g_args.account_role);
+
+    $.admin_select_user(
+        $('#id_uid'),
+        "admin", load_data ,false, {
+            "main_type": -1, //分配用户
+        }
+    );
 
 
 	  $('.opt-change').set_input_change_event(load_data);
@@ -61,6 +67,8 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax('/ajax_deal2/web_page_info_send_admin', {
                     'userid_list' : JSON.stringify(select_userid_list ),
+                    "web_page_id" : g_args.web_page_id,
+
                 });
 
             }
