@@ -1132,12 +1132,12 @@ class seller_student_new2 extends Controller
             $end_time = time();
         }
         $res = [];
-        // $lesson_list = $this->t_test_lesson_subject_sub_list->get_all_lsit($start_time,$end_time,$origin_ex);
-        $lesson_list = $this->t_test_lesson_subject_require->get_all_lsit($start_time,$end_time,$origin_ex);
+        $lesson_list = $this->t_test_lesson_subject_sub_list->get_all_lsit($start_time,$end_time,$origin_ex);
+        // $lesson_list = $this->t_test_lesson_subject_require->get_all_lsit($start_time,$end_time,$origin_ex);
         foreach($lesson_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['count'] = $item['count'];
-            $res[$adminid]['suc_count'] = $item['succ_count'];
+            $res[$adminid]['suc_count'] = $item['suc_count'];
             $res[$adminid]['test_count'] = $item['test_count'];
             $res[$adminid]['wheat_count'] = $item['wheat_count'];
         }
@@ -1147,8 +1147,13 @@ class seller_student_new2 extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
         foreach($ret_info as $key=>&$item){
-            $item['suc_rate'] = ($item['count']>0?round($item['suc_count']/$item['count'],3)*100:0).'%';
-            $item['test_rate'] = ($item['suc_count']>0?round($item['test_count']/$item['suc_count'],3)*100:0).'%';
+            if(isset($item['count'])){
+                $item['suc_rate'] = ($item['count']>0?round($item['suc_count']/$item['count'],3)*100:0).'%';
+                $item['test_rate'] = ($item['suc_count']>0?round($item['test_count']/$item['suc_count'],3)*100:0).'%';
+            }else{
+                $item['suc_rate'] = '';
+                $item['test_rate'] = '';
+            }
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;

@@ -23,16 +23,17 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-deal_new_user.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		phone:	$('#id_phone').val(),
+		open_flag:	$('#id_open_flag').val(),
+		userid:	$('#id_userid').val(),
+		test_lesson_subject_id:	$('#id_test_lesson_subject_id').val(),
+		account_seller_level:	$('#id_account_seller_level').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			phone:	$('#id_phone').val(),
-			open_flag:	$('#id_open_flag').val(),
-			userid:	$('#id_userid').val(),
-			test_lesson_subject_id:	$('#id_test_lesson_subject_id').val(),
-			account_seller_level:	$('#id_account_seller_level').val()
-        });
-    }
 
 
 	$('#id_phone').val(g_args.phone);

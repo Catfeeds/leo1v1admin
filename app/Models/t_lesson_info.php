@@ -2506,6 +2506,9 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
+  
+
+
     public function check_test_lesson_info($userid){
         $sql=$this->gen_sql_new("select sum(lesson_count) from %s where userid=%u and lesson_type=2"
                                 ,self::DB_TABLE_NAME
@@ -4084,6 +4087,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4177,6 +4181,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4309,6 +4314,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4562,6 +4568,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             // "t.train_through_new =1"
         ];
@@ -4703,6 +4710,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             // "t.train_through_new =1"
         ];

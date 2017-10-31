@@ -311,6 +311,7 @@ class menu{
                 ["power_id"=>3, "name"=>"单渠道-对外", "list"=>[
                     ["power_id"=>1, "name"=>"ALL",   "url"=>"/tongji_ss/origin_publish_list"],
                     ["power_id"=>8, "name"=>"考拉购物",   "url"=>"/tongji_ss/origin_publish_kaolagouwu"],
+                    ["power_id"=>6, "name"=>"金数据",   "url"=>"/tongji_ss/origin_publish_jinshuju"],
                     ["power_id"=>2, "name"=>"BD",   "url"=>"/tongji_ss/origin_publish_bd"],
                     ["power_id"=>4, "name"=>"BD2",   "url"=>"/tongji_ss/origin_publish_bd_vaild"],
                     ["power_id"=>3, "name"=>"今日头条",   "url"=>"/tongji_ss/origin_publish_jrtt"],

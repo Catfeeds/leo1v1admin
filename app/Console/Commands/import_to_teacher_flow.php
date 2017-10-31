@@ -40,6 +40,17 @@ class import_to_teacher_flow extends cmd_base
         $task = new \App\Console\Tasks\TaskController();
         //echo date('Y-m-d',1501046802).' --- '.date('Y-m-d',1505183643);exit;
         // check手机号
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-1");
+        $info = $task->t_teacher_lecture_info->get_phone_data(strtotime('2017-1-01'),strtotime('2017-10-1'));
+        $ret = implode(",",array_column($info,"phone"));
+        $info = $task->t_teacher_lecture_info->get_confirm_for_phone($ret);
+        foreach($info as $item) {
+            if ($item['confirm_time'] > $start_time && $item['confirm_time'] < $end_time) {
+                echo $item['phone'].',';
+            }
+        }
+        exit;
         $info = $task->t_teacher_flow->get_data();
         $start_time = strtotime('2017-9-1');
         $end_time = strtotime('2017-10-1');

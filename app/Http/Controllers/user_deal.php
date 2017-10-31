@@ -3182,28 +3182,13 @@ class user_deal extends Controller
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
 
-        //教务数据
-        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=0;
-        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        foreach($ret_info as $val){
-            $set_count_all+=$val["set_count"];
-            $set_count_top+=$val["top_count"];
-            $set_count_green+=$val["green_count"];
-            $set_count_grab+=$val["grab_count"];
-        }
-        $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
-        $all        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time);
-        $ass       = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
-        $seller        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2);
-        $green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,-1,1);
-        $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        $none_total = $task->t_test_lesson_subject_require->get_none_total_info($start_time,$end_time);
-        $no_assign_total = $task->t_test_lesson_subject_require->get_no_assign_total_info($start_time,$end_time);
-        $ass_green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
-        $seller_green     = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
-        $seller_top        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_seller_top($start_time,$end_time,-1,1);
+        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
+        dd($complaint_info);
 
-        dd([$set_count_normal,$set_count_all,$set_count_top,$set_count_green,$set_count_grab]);        
+
+
+
+               
                   
        
 
@@ -3403,7 +3388,117 @@ class user_deal extends Controller
 
 
         //教务数据
+        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+        $set_count_seller =$set_count_kk=$set_count_hls=0;
         $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+        foreach($ret_info as $val){
+            $set_count_all+=$val["set_count"];
+            $set_count_top+=$val["top_count"];
+            $set_count_green+=$val["green_count"];
+            $set_count_grab+=$val["grab_count"];
+            $set_lesson_time_all+=$val["set_lesson_time_all"];
+            $set_count_seller+=$val["set_count_seller"];
+            $set_count_kk+=$val["ass_kk_count_set"];
+            $set_count_hls+=$val["ass_hls_count_set"];
+        }
+        $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
+        $all_tran    = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+        $seller_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
+        $kk_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
+        $hls_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
+        $top_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
+        $green_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
+        $grab_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
+        $normal_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
+        $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
+        $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
+        $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
+        $hls_tran_per =  $set_count_hls>0?round($hls_tran/$set_count_hls*100,2):0;
+        $top_tran_per =  $set_count_top>0?round($top_tran/$set_count_top*100,2):0;
+        $green_tran_per =  $set_count_green>0?round($green_tran/$set_count_green*100,2):0;
+        $grab_tran_per =  $set_count_grab>0?round($grab_tran/$set_count_grab*100,2):0;
+        $normal_tran_per =  $set_count_normal>0?round($normal_tran/$set_count_normal*100,2):0;
+        $jw_num = count($ret_info);
+        $set_count_avg = $jw_num>0?round($set_count_all/$jw_num,1):0;
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
+
+        //抢课数据
+        $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
+        $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
+
+        //运营数据
+        $lesson_list = $this->t_lesson_info_b2->get_lesson_info_teacher_check_total($start_time,$end_time,$is_full_time,$teacher_money_type );
+        $teacher_come_late_count = @$lesson_list["teacher_come_late_count"];
+        $teacher_change_lesson = @$lesson_list["teacher_change_lesson"];
+        $teacher_leave_lesson = @$lesson_list["teacher_leave_lesson"];
+        $teacher_come_late_per = @$lesson_list["all_num"]>0?round(@$teacher_come_late_count/$lesson_list["all_num"]*100,2):0;
+        $teacher_change_per = @$lesson_list["normal_num"]>0?round(@$teacher_change_lesson/$lesson_list["normal_num"]*100,2):0;
+        $teacher_leave_per = @$lesson_list["normal_num"]>0?round(@$teacher_leave_lesson/$lesson_list["normal_num"]*100,2):0;
+
+        //换老师申请
+        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+        $change_tea_num = @$change_test_person_num["change_order"];
+        $change_tea_per = $tea_num_all_normal>0?round($change_tea_num/$tea_num_all_normal*100,2):0;
+
+        //老师退费人数
+        $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,[],1);
+        $arr=[];
+        foreach($list as $val){
+            if(($val["value"]=="教学部" || $val["value"]=="老师管理") && $val["score"]>0){
+                @$arr[$val["teacherid"]]++;
+            }
+        }
+        $refund_tea_num = count($arr);
+
+        //常规课数大于30/60/90/120人数
+        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,3000);
+        $thirty = count($thirty_tea_list);
+        $sixty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,6000);
+        $sixty = count($sixty_tea_list);
+        $ninty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,9000);
+        $ninty = count($ninty_tea_list);
+        $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,12000);
+        $twl = count($twl_tea_list);
+
+        //流失老师按科目分
+        $subject=1;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_yuwen = $tea_num_all_old-$tea_num_old_three;
+        $subject=2;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_shuxue = $tea_num_all_old-$tea_num_old_three;
+        $subject=3;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_yingyu = $tea_num_all_old-$tea_num_old_three;
+        $subject=4;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_huaxue = $tea_num_all_old-$tea_num_old_three;
+        $subject=5;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_wuli = $tea_num_all_old-$tea_num_old_three;
+        $subject=-2;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_zonghe = $tea_num_all_old-$tea_num_old_three;
+
+        //老师投诉处理
+
+
+        
+
+        
+
+
+
+
+
+
+
 
 
         

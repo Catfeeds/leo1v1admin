@@ -796,59 +796,13 @@ class test_boby extends Controller
 
     }
 
-    public function get_all_test_pic(){
-        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
-        $grade     = $this->get_in_int_val('grade',-1);
-        $subject   = $this->get_in_int_val('subject',-1);
-        $test_type = $this->get_in_int_val('test_type',-1);
-        $wx_openid = $this->get_in_str_val('wx_openid', -1);
-        $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
-        $start_time = strtotime('-14 days');
-        $end_time   = strtotime('tomorrow');
-        foreach ($ret_info['list'] as &$item) {
-            if (!$item['flag'] && $item['create_time'] > $start_time) {
-                $item['flag'] = 0;
-            } else {
-                $item['flag'] = 1;
-            }
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+    public function add_user_to_lesson(){
+        $old_lessonid = '371545';
+        $new_lessonid = '398579';
+        $userid = $this->t_open_lesson_user->get_all_user($old_lessonid);
+        foreach($userid as $v){
+            $this->t_open_lesson_user->add_open_class_user($new_lessonid,$v);
         }
-
-        $pic_list = $this->t_yxyx_test_pic_info->get_all_id_poster_new(0,0,$end_time,10);
-        $ret_info['poster'] = $pic_list['list'];
-        $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
-        return $this->output_succ(["home_info"=>$ret_info]);
-    }
-
-    public function get_one_test_and_other(){
-        $id   = $this->get_in_int_val('id',-1);
-        $flag = $this->get_in_int_val('flag', 1);
-        $wx_openid = $this->get_in_str_val('wx_openid', -1);
-        if ($id < 0){
-            return $this->output_err('信息有误！');
-        }
-        $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
-        if ($ret_info) {
-            if (!$flag) {
-                // $this->t_yxyx_test_pic_visit_info->add_visit_info($id,$wx_openid);//添加到访问记录
-            }
-            // $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
-
-            \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
-            E\Egrade::set_item_value_str($ret_info,"grade");
-            E\Esubject::set_item_value_str($ret_info,"subject");
-            E\Etest_type::set_item_value_str($ret_info,"test_type");
-            $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
-            unset($ret_info['pic']);
-            $end_time  = strtotime('today');
-            $all_id  = $this->t_yxyx_test_pic_info->get_all_id_poster_new($id, 0, $end_time,4);
-            $ret_info['other'] = $all_id['list'];
-            return $this->output_succ(['list' => $ret_info]);
-        } else {
-            return $this->output_err("您查看的信息不存在！");
-        }
-
     }
 
 }

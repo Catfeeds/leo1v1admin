@@ -466,7 +466,7 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
-        $openid = $this->get_in_int_val('openid');
+        $openid = $this->get_in_str_val('openid');
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
@@ -475,7 +475,8 @@ class wx_parent_gift extends Controller
         $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
 
         $ret_info['invite_num'] = count($invite_info);
-        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+        // $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+        $ret_info['light_num']=4; // 测试
         $ret_info['phone'] = $agent_info['phone'];
 
         return $this->output_succ(["data"=>$ret_info]);
@@ -483,10 +484,9 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
-        $openid = $this->get_in_int_val('openid');
+        $openid = $this->get_in_str_val('openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
-        $parentid   = $agent_info['userid'];
-
+        $userid   = $agent_info['userid'];
         $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
@@ -506,19 +506,19 @@ class wx_parent_gift extends Controller
            每日金额为1000元预算
         */
 
-        if($rate>=10 && $rate<90){ //中奖金额 1.11
+        if($rate>20 && $rate<=100){ //中奖金额 1.11  [80]
             $prize = 111;
-        }elseif($rate>30 & $rate<=41){ // 中奖金额 11.11
+        }elseif($rate>9 & $rate<=20){ // 中奖金额 11.11 [11]
             $prize = 1111;
-        }elseif($rate>30 & $rate<=34){ // 中奖金额 31.11
+        }elseif($rate>5 & $rate<=9){ // 中奖金额 31.11  [4]
             $prize = 3111;
-        }elseif($rate>50 & $rate<=52){ // 中奖金额 51.11
+        }elseif($rate>3 & $rate<=5){ // 中奖金额 51.11 [2]
             $prize = 5111;
-        }elseif($rate>60 & $rate<=61){ // 中奖金额 71.11
+        }elseif($rate>2 & $rate<=3){ // 中奖金额 71.11 [1]
             $prize = 7111;
-        }elseif($rate>70 & $rate<=71){ // 中奖金额 91.11
+        }elseif($rate>1 & $rate<=2){ // 中奖金额 91.11 [1]
             $prize = 9111;
-        }elseif($rate>80 & $rate<=81){ // 中奖金额 111.11
+        }elseif($rate>0 & $rate<=1){ // 中奖金额 111.11  [1]
             $prize = 11111;
         }
 
@@ -527,7 +527,7 @@ class wx_parent_gift extends Controller
         }
 
         // 中奖金额存入数据库
-        $ret = $this->t_agent->update_money($parentid, $prize);
+        $ret = $this->t_agent->update_money($userid, $prize);
         $is_save   = 0;
         $save_time = 0;
         if($ret){
@@ -536,7 +536,7 @@ class wx_parent_gift extends Controller
         }
 
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
-            "luck_draw_adminid" => $parentid,
+            "luck_draw_adminid" => $userid,
             "luck_draw_time" => time(),
             "deposit_time" => $save_time,
             "is_deposit" => $is_save,
@@ -565,8 +565,8 @@ class wx_parent_gift extends Controller
             "remark"    => "感谢您的参与",
         ];
         // $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$agent_info['phone']."&type=2";
-        $url = "http://www.wx-yxyx.leo1v1.com/wx_yxyx_web/index";
-        $wx->send_template_msg($agent_info['wx_openid'],$template_id,$data_msg ,$url);
+        $url = "http://wx-yxyx.leo1v1.com/wx_yxyx_web/index";
+        $wx->send_template_msg($openid,$template_id,$data_msg ,$url);
         $prize = $prize/100;
         return $this->output_succ(["money"=>$prize]);
     }

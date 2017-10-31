@@ -483,6 +483,7 @@ class agent extends Controller
             $adminid, $start_time, $end_time );
         $arr['next_all_price'] = $arr_next['all_price'];
         $arr['next_money'] = $arr_next['money'];
+        $arr['next_desc'] = $arr_next['desc'];
         dd($arr);
     }
 

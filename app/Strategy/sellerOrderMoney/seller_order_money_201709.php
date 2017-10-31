@@ -80,8 +80,8 @@ class seller_order_money_201709  extends  seller_order_money_base
 
             $group_money_add_percent_val=$group_money_add_percent/100;
 
-            $money= ($all_price * $percent_value +  $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
-            $desc= "($all_price * $percent_value   - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            $money= ($all_price * $percent_value + $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
+            $desc= "($all_price * $percent_value + $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
             //$money=($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ;
             //$desc="($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ";
 
@@ -138,7 +138,7 @@ class seller_order_money_201709  extends  seller_order_money_base
         }
         */
 
-        $percent=static::get_pecent_config( $ret_arr["all_price"]);
+        $percent = static::get_pecent_config( $ret_arr["all_price"]);
         $group_money_add_percent=0;
 
         if ( $ret_arr["group_default_money"] >0  ) {
@@ -150,13 +150,12 @@ class seller_order_money_201709  extends  seller_order_money_base
                     $group_money_add_percent=1.8;
                 }
             }else if ($ret_arr[ "group_all_price"] >= $ret_arr["group_default_money"] *0.75 ) {
-
                 if ($ret_arr["group_adminid"] == $adminid) { //是主管
                     $group_money_add_percent=0.8;
                 }
             }
         }
-        $ret_arr["percent"]=$percent;
+        $ret_arr["percent"] = $percent;
         $money=0;
         $desc="";
 
@@ -166,7 +165,7 @@ class seller_order_money_201709  extends  seller_order_money_base
         $v24_hour_all_price_1 =0;
         $require_and_24_hour_price_1 =0;
         if ($percent >0  ||  $ret_arr["group_adminid"] == $adminid ) {
-            $percent_value=$percent/100;
+            $percent_value = $percent/100;
             $group_all_price= $ret_arr[ "group_all_price"];
             $all_price= $ret_arr["all_price"];
             //$v_24_hour_all_price= $ret_arr["24_hour_all_price"];
@@ -183,8 +182,8 @@ class seller_order_money_201709  extends  seller_order_money_base
 
             $group_money_add_percent_val=$group_money_add_percent/100;
 
-            $money= ($all_price * $percent_value +  - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
-            $desc= "($all_price * $percent_value   - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            $money= ($all_price * $percent_value + $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
+            $desc= "($all_price * $percent_value + $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
             //$money=($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ;
             //$desc="($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ";
 
