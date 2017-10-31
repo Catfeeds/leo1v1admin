@@ -12,7 +12,7 @@ class t_month_student_count extends \App\Models\Zgen\z_t_month_student_count
         $sql = $this->gen_sql_new(
             "select lesson_stu_num,lesson_count ,lesson_count_money,from_unixtime(create_time,'%%Y-%%m') as month"
             ." from %s "
-            ." where create_time>$start_time and create_time<$end_time "
+            ." where create_time>=$start_time and create_time<$end_time "
             ." group by month "
             ,self::DB_TABLE_NAME
         );
