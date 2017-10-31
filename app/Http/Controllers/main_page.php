@@ -124,8 +124,9 @@ class main_page extends Controller
                 }
 
 
-                if($ret_info['seller_invit_month_funnel']>0){ //月排课率
+                if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
                     $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month_funnel']/$ret_info['seller_invit_month_funnel']*100;
+                    //seller_plan_invit_month_funnel
                 }else{
                     $ret_info['test_plan_month_rate'] = 0;
                 }
