@@ -111,7 +111,7 @@ class wx_yxyx_common extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
 
-        if($code==$check_code){
+        if($code==$check_code ||  \App\Helper\Utils::check_env_is_test() ){
             $agent_info = [];
             $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
             $user_info  = $this->get_wx_user_info($wx_openid);

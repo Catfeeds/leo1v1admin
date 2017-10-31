@@ -15,7 +15,7 @@ class t_luck_draw_yxyx_for_ruffian extends \App\Models\Zgen\z_t_luck_draw_yxyx_f
 
         $end_time = $today+86400;
 
-        $this->where_arr_add_time_range($where_arr,"luck_draw_time",$today,$end);
+        $this->where_arr_add_time_range($where_arr,"luck_draw_time",$today,$end_time);
 
         $sql = $this->gen_sql_new("  select sum(tx.money)/100 from %s tx"
                                   ." where %s"

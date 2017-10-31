@@ -1776,6 +1776,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $sql = $this->gen_sql_new("select m.name,accept_adminid,".
                                   "m.account,sum(if(test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) set_count,".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and t.require_admin_type=1,1,0)) ass_count_set, ".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and t.require_admin_type=1 and t.ass_test_lesson_type=1,1,0)) ass_kk_count_set, ".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and t.require_admin_type=1 and t.ass_test_lesson_type=2,1,0)) ass_hls_count_set, ".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and t.require_admin_type=2,1,0)) seller_count_set, ".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1,1,0)) green_count, ".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1 and t.require_admin_type=1,1,0)) ass_green_count, ".
@@ -1788,6 +1790,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=0,1,0)) top_count,".
                                    "sum(if(tr.seller_top_flag=0 and test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=0 and tss.grab_flag=1,1,0)) grab_count,".
                                   " sum(if(o.orderid>0 and tr.seller_top_flag=1 and tr.is_green_flag=0,1,0)) order_num,".
+                                  " sum(tss.set_lesson_time-tr.require_time) set_lesson_time_all,".
                                   "count(*) all_count ".
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
@@ -1925,21 +1928,23 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "l.lessonid >0"
         ];
 
-        $sql = $this->gen_sql_new("select accept_adminid,count(distinct l.lessonid) num ".
+        $sql = $this->gen_sql_new("select count(distinct l.lessonid) num ".
                                   " from %s tr join %s m on tr.accept_adminid = m.uid ".
                                   " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
                                   " join %s ll on tr.current_lessonid = ll.lessonid".
+                                  " join %s tss on tr.current_lessonid = tss.lessonid".
                                   " join %s l on (ll.teacherid = l.teacherid ".
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
                                   " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on t.userid = s.userid ".
-                                  " where %s group by accept_adminid ",
+                                  " where %s ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $start_time,
@@ -1948,9 +1953,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   $where_arr
         );
 
-        return $this->main_get_list($sql,function($item){
-            return $item["accept_adminid"];
-        });
+        return $this->main_get_value($sql);
     }
 
 

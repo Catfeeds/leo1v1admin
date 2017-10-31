@@ -3183,17 +3183,23 @@ class user_deal extends Controller
         $end_time = strtotime("2017-10-01");
 
         //教务数据
-        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=0;
+        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+        $set_count_seller =$set_count_kk=$set_count_hls=0;
         $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
         foreach($ret_info as $val){
             $set_count_all+=$val["set_count"];
             $set_count_top+=$val["top_count"];
             $set_count_green+=$val["green_count"];
             $set_count_grab+=$val["grab_count"];
+            $set_lesson_time_all+=$val["set_lesson_time_all"];
+            $set_count_seller+=$val["set_count_seller"];
+            $set_count_kk+=$val["ass_kk_count_set"];
+            $set_count_hls+=$val["ass_hls_count_set"];
         }
         $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
-        $all        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time);
-        $ass       = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
+        $all_tran        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+        dd($all_tran);
+        $ass       = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
         $seller        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2);
         $green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,-1,1);
         $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
