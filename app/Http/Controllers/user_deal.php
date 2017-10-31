@@ -3279,10 +3279,16 @@ class user_deal extends Controller
         $new_teacher_sixty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,60);
         $sixty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_sixty["tea_num"]/$train_through_all["through_all"]*100,2):0;
         $sixty_tran_per =  @$new_teacher_sixty["person_num"]>0?round(@$new_teacher_sixty["have_order"]/@$new_teacher_sixty["person_num"]*100,2):0;
+        $sixty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
+        $sixty_lesson_count = @$sixty_lesson_count_info["tea_num"]>0?round(@$sixty_lesson_count_info["all_count"]/$sixty_lesson_count_info["tea_num"]):0;
+
         //新老师90天留存率/转化率
         $new_teacher_ninty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,90);
         $ninty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_ninty["tea_num"]/$train_through_all["through_all"]*100,2):0;
         $ninty_tran_per =  @$new_teacher_ninty["person_num"]>0?round(@$new_teacher_ninty["have_order"]/@$new_teacher_ninty["person_num"]*100,2):0;
+        $ninty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
+        $ninty_lesson_count = @$ninty_lesson_count_info["tea_num"]>0?round(@$ninty_lesson_count_info["all_count"]/$ninty_lesson_count_info["tea_num"]):0;
+
 
 
 
