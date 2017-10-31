@@ -226,6 +226,7 @@ class url_power_map {
 			'/seller_student/channel_manage_yxb'	=>1070226,
 			'/tongji_ss/origin_publish_list'	=>1070301,
 			'/tongji_ss/origin_publish_kaolagouwu'	=>1070308,
+			'/tongji_ss/origin_publish_jinshuju'	=>1070306,
 			'/tongji_ss/origin_publish_bd'	=>1070302,
 			'/tongji_ss/origin_publish_bd_vaild'	=>1070304,
 			'/tongji_ss/origin_publish_jrtt'	=>1070303,

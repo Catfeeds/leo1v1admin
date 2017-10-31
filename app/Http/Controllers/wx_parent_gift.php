@@ -489,6 +489,9 @@ class wx_parent_gift extends Controller
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid   = $agent_info['userid'];
 
+        return $this->output_succ(["money"=>0,"userid"=>$parentid,"openid"=>$openid]);
+
+
         $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
@@ -528,8 +531,10 @@ class wx_parent_gift extends Controller
             $prize = 0;
         }
 
+        $prize = 0.01; // 测试
         // 中奖金额存入数据库
-        $ret = $this->t_agent->update_money(0, $prize);
+        $ret = 0;
+        // $ret = $this->t_agent->update_money(0, $prize);
         $is_save   = 0;
         $save_time = 0;
         if($ret){
