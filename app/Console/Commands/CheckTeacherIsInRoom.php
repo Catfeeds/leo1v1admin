@@ -57,7 +57,8 @@ class CheckTeacherIsInRoom extends Command
                     $lesson_num   = $lesson_val['lesson_num'];
                     $teacherid    = $lesson_val['teacherid'];
                     $lesson_time  = date("Y-m-d H:i",$lesson_start)."-".date("H:i",$lesson_end);
-                    if(time()-$lesson_start<=2400){
+                    $time_diff    = time()-$lesson_start;
+                    if($time_diff <= 2400 && $time_diff > 0){
                         $server_config = [];
                         $xmpp_server_name = $lesson_val["xmpp_server_name"];
                         $current_server   = $lesson_val["current_server"];
