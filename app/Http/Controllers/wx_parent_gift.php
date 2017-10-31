@@ -466,9 +466,9 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
-        $parentid = $this->get_agentid();
+        // $parentid = $this->get_agentid();
 
-        // $parentid = $this->get_in_int_val('parentid');
+        $openid = $this->get_in_int_val('openid');
 
         $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
         $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
