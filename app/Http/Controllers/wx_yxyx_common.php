@@ -228,7 +228,7 @@ class wx_yxyx_common extends Controller
         $student_info = $this->t_student_info->field_get_list($userid,'*');
         $orderid = 0;
         if($userid){
-            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
+            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
             $orderid = $order_info['orderid'];
         }
         if(!preg_match("/^1\d{10}$/",$phone)){
@@ -629,5 +629,35 @@ class wx_yxyx_common extends Controller
             ];
             $this->t_agent->send_wx_msg($agent_wx_msg_type,$from_agentid, $pp_to_agentid,$template_id,$data_p);
         }
+    }
+
+
+
+    public function check_is_login(){
+        $phone = $this->get_in_int_val('p_phone');
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?phone=".$phone );
+        $ret = $wx->goto_wx_login( $redirect_url );
+    }
+
+    public function get_openid(){
+        $p_phone    = $this->get_in_int_val('phone');
+        $code       = $this->get_in_str_val("code");
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $token_info = $wx->get_token_from_code($code);
+        $openid     = @$token_info["openid"];
+
+        $agent_id = session('agent_id');
+
+        if(!$agent_id && $openid){ // 已关注 未绑定 ==> 绑定
+            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind ");
+        }elseif($agent_id & $openid){ // 未关注 ==> 会员绑定页面
+            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
+        }elseif(!$agent_id & !$openid){
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
+        }
+
     }
 }

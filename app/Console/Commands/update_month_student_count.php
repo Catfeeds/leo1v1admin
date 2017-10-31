@@ -36,9 +36,10 @@ class update_month_student_count extends cmd_base
         $prev_start = strtotime( '-1 month',$start_time );
         $cur_month = [];
         $prev_month = [];
-        //本月初付费学员数
+        //本月初付费学员数,订单数
         $all_pay = $task->t_student_info->get_student_list_for_finance_count();
-        $cur_month['pay_stu_num'] = $all_pay;
+        $cur_month['pay_stu_num'] = $all_pay['userid_count'];
+        $cur_month['pay_order_num'] = $all_pay['orderid_count'];
 
         $user_order_list = $task->t_order_info->get_order_user_list_by_month($start_time);
         $new_user = [];//上月新签
@@ -59,8 +60,9 @@ class update_month_student_count extends cmd_base
         $prev_month['new_pay_stu_num'] = count($new_user);
 
         //上月退费名单
-        $refund_num = $task->t_order_refund->get_refund_userid_by_month($prev_start,$start_time);
-        $prev_month['refund_stu_num'] = $refund_num;
+        $refund_info = $task->t_order_refund->get_refund_userid_by_month($prev_start,$start_time);
+        $prev_month['refund_stu_num'] = $refund_info['userid_count'];
+        $prev_month['refund_order_num'] = $refund_info['orderid_count'];
         //上月正常结课学生
         $ret_num = $task->t_student_info->get_user_list_by_lesson_count_new($prev_start,$start_time);
         $prev_month['normal_over_num'] = $ret_num;

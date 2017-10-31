@@ -76,7 +76,7 @@ class ss_deal extends Controller
         if($ret){
             return $this->output_err('此账号已经注册');
         }
-       
+
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
         if ($userid && $this->t_seller_student_new->get_phone($userid)) {
 
@@ -117,15 +117,15 @@ class ss_deal extends Controller
             "origin_assistantid"=>$admin_revisiterid,
             "origin_userid"   =>1
         ]);
-        
-        
+
+
         $account=$this->get_account();
         $this->t_book_revisit->add_book_revisit(
             $phone,
             "操作者: 状态:  新增例子  :$account ",
             "system"
         );
-      
+
         return $this->output_succ();
     }
 
@@ -655,9 +655,9 @@ class ss_deal extends Controller
         $userid                 = $this->get_in_userid();
         $phone                  = $this->get_in_phone();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
-		if ($phone == "") {
+        if ($phone == "") {
             $phone=$this->t_seller_student_new->get_phone($userid);
-		}
+        }
 
         $grade         = $this->get_in_grade();
         $gender        = $this->get_in_int_val("gender");
@@ -780,7 +780,7 @@ class ss_deal extends Controller
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
         if($db_grade!= $grade && !$this->t_order_info->has_1v1_order($userid)){
-         	$revisite_info="年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]";
+            $revisite_info="年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]";
 
             $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());
             $this->t_field_modified_list->row_insert([
@@ -912,7 +912,7 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
-    
+
 
     public function  set_seller_student_status( ) {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
@@ -1941,7 +1941,7 @@ class ss_deal extends Controller
             $this->t_assistant_info->field_update_list($assistantid,[
                "assign_lesson_count" =>$assign_lesson_count_left
             ]);
-           
+
             //合同状态更新
             $this->t_order_info->field_update_list($orderid,[
                 "contract_status"=>1,
@@ -2180,7 +2180,7 @@ class ss_deal extends Controller
             $pre_price,
             "",
             $order_partition_flag,
-            $period_flag 
+            $period_flag
         );
 
 
@@ -2256,13 +2256,13 @@ class ss_deal extends Controller
                 $item["period_num_info"] ="";
             }
 
-            $userid = $this->t_order_info->get_userid($item["parent_orderid"]);           
+            $userid = $this->t_order_info->get_userid($item["parent_orderid"]);
             $parentid= $this->t_student_info->get_parentid($userid);
             $parent_name = $this->t_parent_info->get_nick($parentid);
             if(empty($item["parent_name"])){
                 $item["parent_name"] = $parent_name;
             }
-            \App\Helper\Utils::unixtime2date_for_item($item, "pay_time","_str");        
+            \App\Helper\Utils::unixtime2date_for_item($item, "pay_time","_str");
 
 
 
@@ -2282,7 +2282,7 @@ class ss_deal extends Controller
         if($price > $old_price ){
             return $this->output_err("新增子合同金额大于可拆分金额!!");
         }
-        
+
         //分期合同不能全款
         $adm = $this->get_account_id();
         if($child_order_type==2 && $adm !=349){
@@ -2293,7 +2293,7 @@ class ss_deal extends Controller
             }
         }
 
-        
+
         $new_price =  $old_price-$price;
         $this->t_child_order_info->field_update_list($child_orderid,[
            "price"  =>$new_price
@@ -2339,7 +2339,7 @@ class ss_deal extends Controller
             "price"            => $price
         ]);
         return $this->output_succ();
-        
+
 
 
     }
@@ -3027,7 +3027,7 @@ class ss_deal extends Controller
         $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
 
         $origin_nick=$this->cache_get_student_nick($origin_userid);
-       
+
 
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
@@ -3322,6 +3322,76 @@ class ss_deal extends Controller
             //dd(222);
             return outputjson_ret(false);
         }
+
+    }
+
+    public function upload_permission_info_from_xls(){
+        $file = Input::file('file');
+        
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0){
+                    unset($arr[$k]);
+                }
+               
+            }
+            $list=[];
+
+            //用户权限更新
+            // foreach($arr as $item){
+            //     @$list[$item[1]] .= $item[0].","; 
+            // }
+            // foreach($list as $k=>$v){
+            //     $v= trim($v,",");
+            //     $permission_info = $this->t_manager_info->field_get_list($k,"permission,permission_backup");
+            //     $this->t_manager_info->field_update_list($k,[
+            //         "permission" =>$v  
+            //     ]);
+            //     if(!$permission_info["permission_backup"]){
+            //         $this->t_manager_info->field_update_list($k,[
+            //             "permission_backup" => $permission_info["permission"]
+            //         ]);
+  
+            //     }
+ 
+                              
+            // }
+
+            
+
+            //角色更新
+            // foreach($arr as $item){
+            //     @$list[$item[0]] .= $item[1].","; 
+            // }
+            // foreach($list as $k=>$v){
+            //     $v= trim($v,",");
+            //     $this->t_authority_group->field_update_list($k,[
+            //        "group_authority"=>$v 
+            //     ]);
+                
+            // }
+
+          
+            // $arr = json_encode($list);
+            // \App\Helper\Utils::logger(" PHONE:$arr ");
+            // dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+
+       
 
     }
 
@@ -4843,7 +4913,8 @@ class ss_deal extends Controller
             if (@$ret_arr["res"]) {
                 //同步未拨通
                 $this->t_seller_student_new->sync_tq($phone,1,time(NULL));
-                $this->t_book_revisit->add_book_revisit($phone,"天润拨打出错:". $ret_arr["res"]. ", 设置为未拨通:". $this->get_account(), "system" );
+                $this->t_book_revisit->add_book_revisit($phone,
+                                                        "天润拨打出错:". $ret_arr["res"].  @$error_code_conf[$ret_arr["res"]] . ",设置为未拨通:". $this->get_account(), "system" );
                 return $this->output_err( "天润拨打出错:". $ret_arr["res"] . ":". @$error_code_conf[$ret_arr["res"]. ",请重新抢例子" ] );
             }else{
                 return $this->output_succ();

@@ -891,6 +891,7 @@ class user_manage_new extends Controller
         $contract_type     = $this->get_in_int_val(  'contract_type', -2 );
         $account           = $this->get_account();
         $show_yueyue_flag  = false;
+        $sys_operator_uid = $this->get_in_int_val("sys_operator_uid", -1);
         /*
         if ($account =="yueyue") {
             $show_yueyue_flag= true;
@@ -906,7 +907,7 @@ class user_manage_new extends Controller
         }
         //$up_master_adminid=-1;
 
-        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master);
+        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master,$sys_operator_uid);
 
         $money_all=0;
 
@@ -2396,23 +2397,24 @@ class user_manage_new extends Controller
         $ret["lesson_user_count"]     = $ret["new_lesson_user_count"] + $ret["old_lesson_user_count"];
 
         //到月末退费人数 -----开发中
-        $refund_num = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
+        $refund_info = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);
+        $refund_num = $refund_info['orderid_count'];
         //2017-10-25以后的新数据
         $now = strtotime( date('Y-m-01', time()) );
         if( $start_time == $now ){
             //实时付费学员数
             $list = $this->get_cur_month_stu_info($start_time);
-            $all_pay = $list['all_pay'];
+            $all_order = $list['all_order'];
             $res = $this->t_month_student_count->get_student_month_info($start_time);
             $list['pay_stu_num'] = $res['pay_stu_num'];
         } else {
             $list = $this->t_month_student_count->get_student_month_info($start_time);
-            $all_pay = $this->t_month_student_count->get_all_pay_num($end_time);
+            $all_order = $this->t_month_student_count->get_all_pay_order_num($end_time);
         }
 
         if( $list != false ) {
             //退费率
-            $list['refund_rate'] = round( $refund_num*100/$all_pay ,2) .'%';
+            $list['refund_rate'] = round( $refund_num*100/$all_order ,2) .'%';
             //续费率
             $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
             $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
@@ -2430,7 +2432,8 @@ class user_manage_new extends Controller
         $ret = [];
         //实时付费学员数
         $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-        $ret['all_pay'] = $all_pay;
+        $ret['all_pay'] = $all_pay['userid_count'];
+        $ret['all_order'] = $all_pay['orderid_count'];
 
         $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//月新签
@@ -2451,7 +2454,8 @@ class user_manage_new extends Controller
 
         //退费名单
         $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
-        $ret['refund_stu_num'] = $refund_num;
+        $ret['refund_stu_num'] = $refund_num['userid_count'];
+        $ret['refund_order_num'] = $refund_num['orderid_count'];
         //正常结课学生
         $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
         $ret['normal_over_num'] = $ret_num;
@@ -4912,6 +4916,12 @@ class user_manage_new extends Controller
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
+            if($item["order_time"] >= strtotime("2017-10-27 16:00:00") && $item["can_period_flag"]==0){
+                $item["can_period_flag"]=0;
+            }else{
+                $item["can_period_flag"]=1;
+            }
+
             E\Eboolean::set_item_value_str($item,"is_new_stu");
             E\Egrade::set_item_value_str($item);
             E\Econtract_from_type::set_item_value_str($item,"stu_from_type");

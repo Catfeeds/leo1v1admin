@@ -127,12 +127,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr=[
             "s.type<>1",
             "s.is_test_user=0",
-            "o.contract_type in (0,1,3)",
+            "o.contract_type in (0,3)",
             "o.contract_status > 0",
             "o.price>0",
         ];
 
-        $sql = $this->gen_sql_new("select count( distinct o.userid )"
+        $sql = $this->gen_sql_new("select count( distinct o.userid ) as userid_count,count(distinct o.orderid) as orderid_count"
                                   ." from %s s "
                                   ." left join %s o on o.userid=s.userid"
                                   ." where  %s "
@@ -141,7 +141,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr
         );
 
-        return  $this->main_get_value($sql);
+        return  $this->main_get_row($sql);
     }
 
 

@@ -139,8 +139,9 @@ $(function(){
                 var id = val;
                 $.do_ajax( '/stu_manage/set_assistantid',{
                     'sid'         : opt_data.userid,
-            'assistantid' : id
-          });
+                    'assistantid' : id,
+                    'sys_operator': opt_data.sys_operator
+                });
             }
         });
     });

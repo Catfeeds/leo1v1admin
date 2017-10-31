@@ -94,25 +94,20 @@ class import_to_teacher_flow extends cmd_base
                 "subject" => $lecture[$item['phone']]['subject'],
                 "grade" => $lecture[$item['phone']]['grade']
             ]);
-
-            // $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($item['phone']);
-            // if ($lecture) {
-            //     $task->t_teacher_flow->field_update_list($teacherid, [
-            //         "trial_lecture_pass_time" => $lecture['confirm_time'],
-            //         'subject' => $lecture['subject'],
-            //         'grade' => $lecture['grade']
-            //     ]);
-            // }
         }
 
         //面试试讲时间
+        $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, E\Etrain_type::V_5);
+        echo "length: ".count($lecture);
+        var_dump($lecture);
+
         // $where = ['trial_lecture_pas=0'];
-        $info = $task->t_teacher_flow->get_all_list($where);
+        $info = $task->t_teacher_flow->get_all_list();
         foreach($info as $teacherid => $item) {
-            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_5, $teacherid);
-            if ($lecture['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time']==0) {
+            if (!isset($lecture[$item['teacherid']])) continue;
+            if ($lecture[$item['teacherid']]['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
                 $task->t_teacher_flow->field_update_list($teacherid,[
-                    "trial_lecture_pass_time" => $lecture['add_time'],
+                    "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time']
                 ]);
             }
         }
@@ -121,7 +116,7 @@ class import_to_teacher_flow extends cmd_base
         $where = ['simul_test_lesson_pass_time=0'];
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
-            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow(E\Etrain_type::V_4, $teacherid);
+            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $teacherid);
             if ($lecture) {
                 $task->t_teacher_flow->field_update_list($teacherid, [
                     "simul_test_lesson_pass_time" => $lecture['add_time'],

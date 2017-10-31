@@ -109,8 +109,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
     public function get_all_record_info_time($teacherid,$type,$start_time,$end_time,$page_num,$subject,$lesson_invalid_flag=0){
         $where_arr=[
-            ["add_time >= %u",$start_time,-1],
-            ["add_time <= %u",$end_time,-1],
+            ["add_time>%u",$start_time,-1],
+            ["add_time<%u",$end_time,-1],
             ["r.teacherid=%u",$teacherid,-1],
             ["r.type=%u",$type,0],
             ["t.subject=%u",$subject,-1],
@@ -549,6 +549,37 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   $where_arr
         );
         return $this->main_get_row($sql);
+
+    }
+
+    public function get_teacher_througn_detail($start_time,$end_time){
+        $where_arr=[
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            "tr.type=10",
+            "l.lesson_type=1100",
+            "(tr.acc is not null && tr.acc <> '')",
+            "tr.trial_train_status =1",
+            "t.is_test_user=0",
+            "t.train_through_new=1",
+            "t.train_through_new_time>l.lesson_start"
+        ];
+
+        $sql = $this->gen_sql_new("select t.teacherid,l.lesson_start,t.train_through_new_time, "
+                                  ."t.train_through_new_time-l.lesson_start time "
+                                  ." from %s tr left join %s l on tr.train_lessonid  = l.lessonid"
+                                  ." left join %s t on l.userid = t.teacherid"
+                                  ." where %s and not exists ("
+                                  ." select 1 from %s where teacherid=tr.teacherid and type=10 "
+                                  ."and tr.trial_train_status =1 and add_time<tr.add_time"
+                                  ." )",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );      
+        return  $this->main_get_list($sql);
 
     }
 
@@ -1375,7 +1406,32 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $ret;
     }
 
-    public function get_data_to_teacher_flow($type,$teacherid)
+    public function get_data_to_teacher_flow($start_time,$end_time,$type)
+    {
+        $where_arr = [
+            ["add_time>%u",$start_time, 0],
+            ["add_time<%u",$end_time, 0],
+            "type=10",
+            //["l.train_type=%u",$type,0],
+            //["l.teacherid=%u",$teacherid,0],
+            //'l.lesson_type=1100',
+            //"l.lesson_del_flag=0",
+            "trial_train_status=1",
+            //"tr.train_lessonid=l.lessonid",
+        ];
+        //select add_time from t_teacher_record_list where type=10 and trial_train_status=1
+        //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
+        //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
+        $sql = $this->gen_sql_new("select teacherid,add_time from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function( $item) {
+            return $item['teacherid'];
+        });
+    }
+
+    public function get_data_to_teacher_flow_id($type,$teacherid)
     {
         $where_arr = [
             ["l.train_type=%u",$type,0],
@@ -1387,7 +1443,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
-        $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.grade,tr.add_time "
+        $sql = $this->gen_sql_new("select l.teacherid teacherid,l.subject,l.grade,tr.add_time "
                                   ." from %s l "
                                   ." left join %s tr on l.teacherid=tr.teacherid"
                                   ." where %s ",
@@ -1397,6 +1453,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         );
         return $this->main_get_row($sql);
     }
+
 
     public function get_interview_through_by_subject($start_time, $end_time, $subject){
         $where_arr = [

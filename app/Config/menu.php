@@ -366,6 +366,7 @@ class menu{
                     ["power_id"=>91, "name"=>"团队统计",   "url"=>"/agent/agent_group_statistics"],
                 ]],
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
+                ["power_id"=>18, "name"=>"h5 活动页 ",   "url"=>"/admin_manage/web_page_info"],
             ]],
 
 

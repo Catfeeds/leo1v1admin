@@ -263,6 +263,7 @@ class url_power_map {
 			'/agent/agent_group'	=>1070490,
 			'/agent/agent_group_statistics'	=>1070491,
 			'/appoint/index2'	=>1070900,
+			'/admin_manage/web_page_info'	=>1071800,
 			'/user_manage_new/money_contract_list'	=>1080100,
 			'/user_manage_new/money_contract_list_stu'	=>1081100,
 			'/lesson_manage/stu_status_count'	=>1080200,
