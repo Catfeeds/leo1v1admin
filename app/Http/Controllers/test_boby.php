@@ -842,7 +842,7 @@ class test_boby extends Controller
             $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
             unset($ret_info['pic']);
             $end_time  = strtotime('today');
-            $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster_new($id, 0, $end_time,4);
+            $all_id  = $this->t_yxyx_test_pic_info->get_all_id_poster_new($id, 0, $end_time,4);
             $ret_info['other'] = $all_id['list'];
             return $this->output_succ(['list' => $ret_info]);
         } else {

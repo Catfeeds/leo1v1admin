@@ -444,15 +444,28 @@ class wx_yxyx_common extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
 
-        $pic_list = $this->t_yxyx_test_pic_info->get_all_id_poster_new(0,0,$end_time,10);
-        $ret_info['poster'] = $pic_list['list'];
+        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒序
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
+        $count_num  = count($all_id)-1;
+        $poster_arr = [];
+        $num_arr    = [];
+        $loop_num   = 0;
+        $max_loop  = $count_num >10?10:$count_num;
+        while ( $loop_num < $max_loop) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
+            }
+        }
+        $ret_info['poster'] = $poster_arr;
         $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
         return $this->output_succ(["home_info"=>$ret_info]);
-
     }
 
     public function get_one_test_and_other() {
-                $id   = $this->get_in_int_val('id',-1);
+        $id   = $this->get_in_int_val('id',-1);
         $flag = $this->get_in_int_val('flag', 1);
         $wx_openid = $this->get_in_str_val('wx_openid', -1);
         if ($id < 0){
@@ -471,13 +484,35 @@ class wx_yxyx_common extends Controller
             E\Etest_type::set_item_value_str($ret_info,"test_type");
             $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
             unset($ret_info['pic']);
+            //获取所有id，随机选取四个(当天之前的14天之内)->改为取１００条，时间倒叙
+            // $start_time = strtotime('-15 days');
             $end_time  = strtotime('today');
-            $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster_new($id, 0, $end_time,4);
-            $ret_info['other'] = $all_id['list'];
+            $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, 0, $end_time);
+            $count_num = count($all_id)-1;
+            $id_arr    = [];
+            $num_arr   = [];
+            $loop_num  = 0;
+            $max_loop  = $count_num >4?4:$count_num;
+            while ( $loop_num < $max_loop) {
+                $key = mt_rand(0, $count_num);
+                if( !in_array($key, $num_arr) ) {
+                    $num_arr[] = $key;
+                    $id_arr[]  = $all_id[$key]['id'];
+                    $loop_num++;
+                }
+            }
+            if ( count($id_arr) ) {
+                $id_str = join($id_arr,',');
+                $create_time = strtotime('today');
+                $ret_info['other'] = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+            } else {
+                $ret_info['other'] = [];
+            }
             return $this->output_succ(['list' => $ret_info]);
         } else {
             return $this->output_err("您查看的信息不存在！");
         }
+
     }
 
     public function add_share_num(){
@@ -614,14 +649,11 @@ class wx_yxyx_common extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
-        $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
-        $agent_id = $agent_info['id'];
+        $agent_id = session('agent_id');
 
-        // $agent_id = session('agent_id');
-
-        if($agent_id){ // ==>已绑定 ==> 活动页面
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
-        }elseif(!$openid){ //未绑定 ==> 绑定会员的页面
+        if($openid){ // ==> 活动页面
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?p_phone=".$p_phone);
+        }elseif(!$openid){ // 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
         }
 
