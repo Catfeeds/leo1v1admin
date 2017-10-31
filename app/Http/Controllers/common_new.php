@@ -1527,7 +1527,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             "from_adminid" =>$from_adminid,
             "web_page_id" =>$web_page_id,
             "ip" =>$ip,
-            "log_time" =>$log_time,
+            "log_time" =>time(NULL),
         ]);
         return $this->output_succ();
     }
