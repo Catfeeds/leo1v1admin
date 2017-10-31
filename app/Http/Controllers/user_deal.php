@@ -3183,6 +3183,7 @@ class user_deal extends Controller
         $end_time = strtotime("2017-10-01");
 
         $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
+        $complaint_num = count($complaint_info);
         dd($complaint_info);
 
 
