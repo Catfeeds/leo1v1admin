@@ -799,7 +799,6 @@ class teacher_money extends Controller
      * 设置老师的薪资
      */
     public function set_teacher_salary($teacherid){
-
         $salary_info = $this->get_teacher_total_money();
 
         return $salary_info;

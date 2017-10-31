@@ -128,7 +128,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
             "tc.account_type=2",
             "complaint_type = 5"
         ];
-        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
 
       
         $sql = $this->gen_sql_new(" select  add_time,  deal_time ".
