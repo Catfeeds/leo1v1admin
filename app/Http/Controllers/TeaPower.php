@@ -2791,26 +2791,6 @@ trait TeaPower {
     }
 
     /**
-     * 获取时间段内的老师工资明细
-     */
-    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time){
-        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
-        $teacher_money_type = $teacher_info['teacher_money_type'];
-
-        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
-        $cost_list = [
-            "late_num"   => 0,
-            "change_num" => 0,
-        ];
-        if(!empty($lesson_list)){
-            foreach($lesson_list as $val){
-            }
-        }
-
-    }
-
-    /**
      * 检测是否为公司全职老师,全职老师工资隔月发放
      * 叶,时,刁除外
      */
@@ -3943,13 +3923,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     /**
-     * 获取老师的总工资
+     * 获取老师的总工资明细
      * @param int teacherid 老师id
      * @param int start_time 拉取老师工资的开始时间
      * @param int end_time   拉取老师工资的结束时间
+     * @param string show_type 拉取老师工资的结束时间
      * @return array list
      */
-    public function get_teacher_money($teacherid,$start_time,$end_time){
+    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time,$show_type){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
         $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);

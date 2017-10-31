@@ -122,6 +122,31 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
+    public function get_tea_complaint_list_by_product($start_time,$end_time){
+
+        $where_arr = [
+            "tc.account_type=2",
+            "complaint_type = 5"
+        ];
+        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
+
+      
+        $sql = $this->gen_sql_new(" select  add_time,  deal_time ".
+                                  " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
+                                  " left join %s td on td.complaint_id = tc.complaint_id".
+                                  " left join %s m on m.uid = tc.current_adminid ".
+                                  " where %s group by tc.complaint_id ",
+                                  self::DB_TABLE_NAME,
+                                  t_complaint_assign_info::DB_TABLE_NAME,
+                                  t_complaint_deal_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
 
 
 

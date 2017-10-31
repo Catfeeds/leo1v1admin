@@ -476,7 +476,8 @@ class wx_parent_gift extends Controller
 
         $ret_info['invite_num'] = count($invite_info);
         // $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['light_num']=4; // 测试
+        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0; // 测试版
+        // $ret_info['light_num']=4; // 测试
         $ret_info['phone'] = $agent_info['phone'];
 
         return $this->output_succ(["data"=>$ret_info]);
@@ -485,11 +486,8 @@ class wx_parent_gift extends Controller
 
     public function do_luck_draw_yxyx(){ // 抽奖
         $openid = $this->get_in_str_val('openid');
-
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid   = $agent_info['userid'];
-
-
         $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
