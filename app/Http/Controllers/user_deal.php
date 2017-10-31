@@ -3201,6 +3201,10 @@ class user_deal extends Controller
         $seller_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
         $kk_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
         $hls_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
+        $top_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
+        $green_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
+        $grab_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
+        $normal_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
         
         
        

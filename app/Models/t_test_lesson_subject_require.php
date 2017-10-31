@@ -1928,6 +1928,15 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ["tr.is_green_flag=%u",$is_green_flag,-1],
             "l.lessonid >0"
         ];
+        if($plan_type==1){
+            $where_arr[]="tr.is_green_flag=0 and tr.seller_top_flag =1";
+        }elseif($plan_type==2){
+            $where_arr[]="tr.is_green_flag=1";
+        }elseif($plan_type==3){
+             $where_arr[]="tr.is_green_flag=0 and tr.seller_top_flag =0 and tss.grab_flag=1";
+        }elseif($plan_type==4){
+            $where_arr[]="tr.is_green_flag=0 and tr.seller_top_flag =0 and tss.grab_flag=0";
+        }
 
         $sql = $this->gen_sql_new("select count(distinct l.lessonid) num ".
                                   " from %s tr join %s m on tr.accept_adminid = m.uid ".
