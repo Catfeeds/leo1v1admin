@@ -1072,7 +1072,7 @@ class wx_yxyx_api extends Controller
                 $item['nickname'] = $item['phone'];
             $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
             foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
                 if(empty($val['nickname']))
                     $val['nickname'] = $val['phone'];
                 $val['price'] /= 100;
@@ -1087,7 +1087,7 @@ class wx_yxyx_api extends Controller
                 $item['nickname'] = $item['phone'];
             $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
             foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
                 if(empty($val['nickname']))
                     $val['nickname'] = $val['phone'];
                 if($val['agent_status'] < 10)
@@ -1104,7 +1104,7 @@ class wx_yxyx_api extends Controller
                 $item['nickname'] = $item['phone'];
             $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
             foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
                 if(empty($val['nickname']))
                     $val['nickname'] = $val['phone'];
                 $val['price'] /= 100;
