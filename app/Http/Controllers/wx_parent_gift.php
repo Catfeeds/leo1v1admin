@@ -364,6 +364,9 @@ class wx_parent_gift extends Controller
 
         $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
+        $winning_rate = '';
+
+
         if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){
             if($bag_tag>0){
 
