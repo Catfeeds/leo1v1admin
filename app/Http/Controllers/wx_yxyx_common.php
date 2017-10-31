@@ -636,27 +636,33 @@ class wx_yxyx_common extends Controller
 
 
     public function check_is_login(){
-        $phone = $this->get_in_int_val('p_phone');
+        $p_openid = $this->get_in_str_val('openid');
+        dd($p_openid);
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?phone=".$phone );
+        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?p_openid=".$p_openid );
         $ret = $wx->goto_wx_login( $redirect_url );
     }
 
     public function get_openid(){
-        $p_phone    = $this->get_in_int_val('phone');
+        $p_openid   = $this->get_in_str_val('p_openid');
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
+        $p_info = $this->t_agent->get_agent_id_by_openid($p_openid); // 推荐人信息
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
+
+        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){
+            $agent_arr = [];
+        }
 
         if($agent_arr){ // ==> 活动页面
             header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
         }elseif(!$openid){ // 绑定会员的页面
-            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
+            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2");
         }
 
     }

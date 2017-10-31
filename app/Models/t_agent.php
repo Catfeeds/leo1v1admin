@@ -2320,9 +2320,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-    public function get_id_by_openid($openid){
-        
-    }
 
 
 }

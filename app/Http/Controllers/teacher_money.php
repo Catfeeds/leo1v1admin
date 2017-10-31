@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
@@ -236,20 +237,12 @@ class teacher_money extends Controller
      * type wx 微信老师端 admin 后台计算老师工资明细
      */
     public function get_teacher_total_money(){
-        $type      = $this->get_in_str_val("type","wx");
-        $show_type = $this->get_in_str_val("show_type","current");
-        $teacherid = $this->get_in_int_val("teacherid");
+        $type       = $this->get_in_str_val("type","wx");
+        $show_type  = $this->get_in_str_val("show_type","current");
+        $teacherid  = $this->get_in_int_val("teacherid");
+
         if(!$teacherid){
             return $this->output_err("老师id错误!");
-        }
-        if(\App\Helper\Utils::check_env_is_local()){
-            echo "start switch";
-            echo PHP_EOL;
-            echo "type is :".$type;
-            echo PHP_EOL;
-            echo "teacherid is :".$teacherid;
-            echo PHP_EOL;
-            exit;
         }
 
         $this->t_lesson_info->switch_tongji_database();
@@ -285,6 +278,7 @@ class teacher_money extends Controller
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
         $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
+
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_money_type = $simple_info['teacher_money_type'];
         $teacher_type       = $simple_info['teacher_type'];
@@ -397,22 +391,20 @@ class teacher_money extends Controller
             }
 
             //teacher_money_flag=1 多卡用户,不扣管理费
-            if($teacher_money_flag!=1 || in_array($teacher_money_type,[5,6])){
-                //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
-                /**
-                 * 与sherry沟通，从2017年10月31日16:11:55开始全部都扣除2%的费用
-                 */
-                // if(in_array($teacher_money_type,[0,1,2,3])){
-                //     if($item['lesson_price']>800){
-                //         $tax_price = $item['lesson_price']-800;
-                //         $item['lesson_cost_tax'] = strval(round($tax_price*0.02,2));
-                //         $item['lesson_price'] -= $item['lesson_cost_tax'];
-                //     }
-                // }else{
-                    $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
-                    $item['lesson_price'] -= $item['lesson_cost_tax'];
-                // }
-            }
+            // if($teacher_money_flag!=1 || in_array($teacher_money_type,[5,6])){
+            //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
+            // 与sherry沟通，从2017年10月31日16:11:55开始全部都扣除2%的费用
+            // if(in_array($teacher_money_type,[0,1,2,3])){
+            //     if($item['lesson_price']>800){
+            //         $tax_price = $item['lesson_price']-800;
+            //         $item['lesson_cost_tax'] = strval(round($tax_price*0.02,2));
+            //         $item['lesson_price'] -= $item['lesson_cost_tax'];
+            //     }
+            // }else{
+            $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
+            $item['lesson_price'] -= $item['lesson_cost_tax'];
+            // }
+            // }
         }
         array_multisort($start_list,SORT_DESC,$list);
 

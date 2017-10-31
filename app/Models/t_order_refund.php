@@ -108,13 +108,17 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){
+    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr,$no_tea_flag=-1){
         $where_arr = [
             "ra.id is not null",
             "t.teacherid >0"
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
-        $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
+        if($no_tea_flag==1){
+            
+        }else{
+            $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr); 
+        }
         $sql = $this->gen_sql_new("select distinct r.real_refund,ra.id,t.teacherid,occ.value,ra.score,r.orderid,r.apply_time,s.nick "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"

@@ -4087,6 +4087,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4180,6 +4181,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4312,6 +4314,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4565,6 +4568,7 @@ lesson_type in (0,1) "
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
             // "t.trial_lecture_is_pass =1",
             // "t.train_through_new =1"
         ];
