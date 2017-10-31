@@ -3216,6 +3216,9 @@ class user_deal extends Controller
         $jw_num = count($ret_info);
         $set_count_avg = $jw_num>0?round($set_count_all/$jw_num,1):0;
         $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
+
+        //抢课数据
+        $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
         
         
        

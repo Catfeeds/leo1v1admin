@@ -1925,7 +1925,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "ll.lesson_del_flag=0",
             ["t.require_admin_type=%u",$require_admin_type,-1],
             ["t.ass_test_lesson_type=%u",$ass_test_lesson_type,-1],
-            ["tr.is_green_flag=%u",$is_green_flag,-1],
             "l.lessonid >0"
         ];
         if($plan_type==1){
