@@ -589,7 +589,7 @@ class WechatRequest  {
 
                 if (\App\Helper\Utils::check_env_is_test()) {
                     $txt_arr = [
-                        'touser'   => $openid,
+                        'touser'   => $request['tousername'] ,
                         'msgtype'  => 'image',
                         "image"=> [
                             "media_id" => "$mediaId"
