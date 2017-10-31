@@ -3178,6 +3178,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $list = $this->t_train_lesson_user->get_all_info_no_train_type();
+        dd($list);;
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");

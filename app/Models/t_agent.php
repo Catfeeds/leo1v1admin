@@ -2287,6 +2287,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                   ,self::DB_TABLE_NAME
                                   ,$openid
         );
+
+        return $this->main_get_value($sql);
     }
 
 }

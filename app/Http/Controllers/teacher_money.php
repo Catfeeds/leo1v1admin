@@ -790,7 +790,8 @@ class teacher_money extends Controller
     /**
      * 设置老师的薪资
      */
-    public function set_teacher_salary($str){
+    public function set_teacher_salary($teacherid){
+        $this->set_in_value("teacherid",$teacherid);
         echo "get_str:".$str;
         echo PHP_EOL;
         return "get succ";
