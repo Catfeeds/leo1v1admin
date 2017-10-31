@@ -3184,7 +3184,15 @@ class user_deal extends Controller
 
         $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
         $complaint_num = count($complaint_info);
-        dd($complaint_info);
+        $deal_num = $deal_time=0;
+        foreach($complaint_info as $val){
+            if($val["deal_time"]>0){
+                $deal_time +=($val["deal_time"]-$val["add_time"]);
+                $deal_num++;
+            }
+        }
+        $deal_time = $deal_num>0?round($deal_time/$deal_num/86400,1):0;
+        dd($deal_time);
 
 
 
@@ -3488,6 +3496,17 @@ class user_deal extends Controller
         $tea_num_lose_three_zonghe = $tea_num_all_old-$tea_num_old_three;
 
         //老师投诉处理
+
+        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
+        $complaint_num = count($complaint_info);
+        $deal_num = $deal_time=0;
+        foreach($complaint_info as $val){
+            if($val["deal_time"]>0){
+                $deal_time +=($val["deal_time"]-$val["add_time"]);
+                $deal_num++;
+            }
+        }
+        $deal_time = $deal_num>0?round($deal_time/$deal_num/86400,1):0;
 
 
         
