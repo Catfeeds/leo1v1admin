@@ -702,7 +702,8 @@ class wx_yxyx_common extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
-        $agent_id = $this->t_agent->get_agent_id_by_openid($openid);
+        $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
+        $agent_id = $agent_info['id'];
 
         // $agent_id = session('agent_id');
 

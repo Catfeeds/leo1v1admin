@@ -2282,13 +2282,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function get_agent_id_by_openid($openid){
-        $sql = $this->gen_sql_new("  select id from %s ag "
+        $sql = $this->gen_sql_new("  select id, userid, phone from %s ag "
                                   ." where wx_openid = %d"
                                   ,self::DB_TABLE_NAME
                                   ,$openid
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
+
+
 
 }
