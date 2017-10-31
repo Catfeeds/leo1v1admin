@@ -1059,6 +1059,7 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "last_revisit_time");
             E\Epad_type::set_item_value_str($item, "has_pad");
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
