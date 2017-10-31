@@ -37,20 +37,14 @@ class t_yxyx_custom_type extends \App\Models\Zgen\z_t_yxyx_custom_type
     }
 
     public function get_all_custom_type($page_info){
-        $sql = $this->gen_sql_new( "select custom_type_id,type_name,create_time,adminid "
-                                    ." from %s "
-                                    ,self::DB_TABLE_NAME
-        );
+        $sql = $this->gen_sql_new( "select custom_type_id,type_name,create_time,adminid from %s ", self::DB_TABLE_NAME);
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
 
     public function get_type_id_name_info()
     {
-        $sql = $this->gen_sql_new( "select custom_type_id,type_name"
-                                    ." from %s "
-                                    ,self::DB_TABLE_NAME
-        );
+        $sql = $this->gen_sql_new( "select custom_type_id,type_name from %s ", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
 
     }

@@ -944,7 +944,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_info_to_teacher($teacherid){
         $where_arr = [
-            "t.teacherid=$teacherid",
+            ['t.teacherid=%u', $teacherid, -1],
             'l.lesson_start>0',
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
