@@ -3274,6 +3274,7 @@ class user_deal extends Controller
         $thirty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_thirty["tea_num"]/$train_through_all["through_all"]*100,2):0;
         $thirty_tran_per =  @$new_teacher_thirty["person_num"]>0?round(@$new_teacher_thirty["have_order"]/@$new_teacher_thirty["person_num"]*100,2):0;
         $thirty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,30);
+        $thirty_lesson_count = @$thirty_lesson_count_info["tea_num"]>0?round(@$thirty_lesson_count_info["all_count"]/$thirty_lesson_count_info["tea_num"]):0;
         //新老师60天留存率/转化率
         $new_teacher_sixty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,60);
         $sixty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_sixty["tea_num"]/$train_through_all["through_all"]*100,2):0;
