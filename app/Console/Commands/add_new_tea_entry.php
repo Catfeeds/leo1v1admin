@@ -37,13 +37,35 @@ class add_new_tea_entry extends Command
      */
     public function handle()
     {
-        // 存档
+        // 每日存档(每天凌晨二点刷新前一天数据) 月存档(每月存档)
+        //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
+        //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+        // 随机添加测试时间
+        // $begin = strtotime('2017-07-01');
+        // $end = time();
+        // $info = $task->t_teacher_flow->get_all_list();
+        // foreach($info as $teacherid => $item) {
+        //     $timestamp = rand($begin, $end);
+        //     $task->t_teacher_flow->field_update_list($teacherid,[
+        //         "trial_lecture_pass_time" => $timestamp,
+        //         "simul_test_lesson_pass_time" => $timestamp,
+        //         "train_through_new_time" => $timestamp
+        //     ]);
+        // }
         $add_time = time();
-        $begin = date('Y-m-01 00:00:00', time());
+        $month = date('m') - 1;
+        $begin = date("Y-$month-01 00:00:00");
         $start_time = strtotime($begin);
         $end = date('Y-m-d', strtotime("$begin +1 month -1 day"));
         $end_time = strtotime($end);
+
+        // 测试时间
+        $start_time = strtotime('2017-06-01');
+        $end_time = time();
+
+        $tea_list = $task->t_teacher_flow->get_tea_list($start_time, $end_time);
+        dd($tea_list);
 
         // 面试通过人数
         $ret_info = $task->t_teacher_info->get_interview_through_count($start_time, $end_time);
