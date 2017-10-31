@@ -3182,9 +3182,11 @@ class user_deal extends Controller
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
         //面试邀约数
-        $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
+        $ret = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
+        dd($ret);
 
         //面试邀约时长
+        
         
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
         $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);

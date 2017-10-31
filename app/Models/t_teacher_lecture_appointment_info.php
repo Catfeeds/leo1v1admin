@@ -454,35 +454,33 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_appoinment_interview_info($time){
+    public function get_teacher_appoinment_interview_info($start_time,$end_time){
         $where_arr=[
+            "al.name not like '%%不要审核%%' and  al.name not like '%%gavan%%' and al.name not like '%%阿蓝%%'"
         ];
-
-        if(is_array($time)){
-            $start_time = $time['start_time'];
-            $end_time   = $time['end_time'];
-            $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
-
-        }else{
-        }
-
-        $time_begin = strtotime(date("2017-01-05")); // 
-        $time_str = "l.confirm_time>$time_begin";
+        $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new("select count(distinct al.phone) app_total,count(distinct l.phone) lec_total,count(distinct t.teacherid) tea_total,count(distinct tt.teacherid) tran_total "
-                                  ." from %s al left join %s l on al.phone = l.phone and %s"
-                                  ." left join %s t on l.phone = t.phone and l.status=1 and t.is_test_user=0 and t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%' "
-                                  ." left join %s tt on tt.teacherid = t.teacherid and tt.train_through_new=1"
+        $sql = $this->gen_sql_new("select distinct al.phone,al.answer_begin_time,tl.add_time,l.lesson_start "
+                                  ." from %s al "
+                                  ." left join %s tl on al.phone = tl.phone and tl.status <>4 and tl.is_test_flag=0 and "
+                                  ." not exists (select 1 from %s where phone = tl.phone and status <>4 and "
+                                  ."is_test_flag=0 and add_time<tl.add_time )"
+                                  ." left join %s t on al.phone = t.phone and t.is_test_user=0"
+                                  ." left join %s l on l.lesson_type=1100 and l.train_type=5 and l.lesson_del_flag=0 "
+                                  ."and l.userid = t.teacherid and l.lesson_start>0 and not exists(select 1 from %s "
+                                  ."where lesson_type=1100 and lesson_start>0 "
+                                  ." and train_type=5 and lesson_del_flag=0 and userid=l.userid and lesson_start<l.lesson_start)"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
-                                  $time_str,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
 

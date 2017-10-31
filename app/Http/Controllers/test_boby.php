@@ -624,97 +624,6 @@ class test_boby extends Controller
 
     }
 
-    public function select_and_add_stu_info(){
-        $start_time = strtotime('2017-10-01');
-        $end_time   = strtotime('2017-11-01');
-        $page_num   = $this->get_in_page_num();
-        $ret = [];
-        //月初付费学员数
-        $all_pay = $this->t_student_info->get_student_list_for_finance_count();
-        $ret['pay_stu_num'] = $all_pay;
-
-        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
-        $new_user = [];//月新签
-
-        foreach ( $user_order_list as $item ) {
-            if ($item['order_time'] >= $start_time){
-                $new_user[] = $item['userid'];
-                if (!$item['start_time'] && $item['assistantid'] > 0) {//月新签订单,未排课,已分配助教
-                    @$ret['has_ass_num']++;
-                } else if (!$item['start_time'] && !$item['assistantid']) {//月新签订单,未排课,未分配助教
-                    @$ret['no_ass_num']++;
-                }
-            }
-
-        }
-        $new_user = array_unique($new_user);
-        $ret['new_pay_stu_num'] = count($new_user);
-
-        //月退费名单
-        $refund_num = $this->t_order_refund->get_refund_userid_by_month($start_time,$end_time);
-        $ret['refund_stu_num'] = $refund_num;
-        //月正常结课学生
-        $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start_time,$end_time);
-        $ret['normal_over_num'] = $ret_num;
-
-        //月 在读,停课,休学,假期数
-        $ret_info = $this->t_student_info->get_student_count_archive();
-
-        foreach($ret_info as $item) {
-            if($item['type'] == 0) {
-                @$ret['study_num']++;
-            } else if ($item['type'] == 2) {
-                @$ret['stop_num']++;
-            } else if ($item['type'] == 3) {
-                @$ret['drop_out_num']++;
-            } else if ($item['type'] == 4) {
-                @$ret['vacation_num']++;
-            }
-        }
-
-        //月续费学员
-        $renow_list = $this->t_order_info->get_renow_user_by_month($start_time, $end_time);
-        $renow_user = [];
-        foreach ($renow_list as $item) {
-            $renow_user[] = $item['userid'];
-        }
-        //月预警学员
-        $warning_list = $this->t_ass_weekly_info->get_warning_user_by_month($start_time);
-        $warning_renow_num = 0;
-        $warning_stu_num = 0;
-
-        foreach ($warning_list as $item){
-            $new = json_decode($item['warning_student_list'], true);
-            if(is_array($new)){
-                foreach($new as $v) {
-                    if( strlen($v)>0){
-                        $warning_stu_num++;
-                        if( in_array($v ,$renow_user) ){
-                            $warning_renow_num++;
-                        }
-                    }
-                }
-            }
-        }
-
-        $ret['warning_stu_num']          = $warning_stu_num;
-        $ret['warning_renow_stu_num']    = $warning_renow_num;
-        $ret['no_warning_renow_stu_num'] = count($renow_user) - $warning_renow_num;
-
-        //月课耗和月课耗收入
-        $lesson_money = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month($start_time, $end_time);
-        $ret['lesson_count']       = $lesson_money['lesson_count'];
-        $ret['lesson_count_money'] = $lesson_money['lesson_count_money'];
-        $ret['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
-
-        $ret['create_time'] = $start_time;
-        // dd($ret);
-        $this->t_month_student_count->row_insert($ret);
-
-        dd($ret);
-        return 'ok';
-    }
-
     public function send_msg_to_tea_wx(){
         // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
         return 1;
@@ -759,6 +668,7 @@ class test_boby extends Controller
     }
 
     public function update_data(){
+        return 1;
         $day = $this->get_in_str_val('day','2015-01-01');
         $start_time = strtotime( $day );
         $end_time   = strtotime( '+1 month',$start_time );
