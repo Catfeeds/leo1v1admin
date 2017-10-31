@@ -38,15 +38,19 @@ class import_to_teacher_flow extends cmd_base
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+        //echo date('Y-m-d',1501046802).' --- '.date('Y-m-d',1505183643);exit;
         // check手机号
         $info = $task->t_teacher_flow->get_data();
         $start_time = strtotime('2017-9-1');
         $end_time = strtotime('2017-10-1');
+        $num = 0;
         foreach($info as $item) {
             if ($item['trial_lecture_pass_time'] < $start_time || $item['trial_lecture_pass_time'] > $end_time) {
-                echo $item['teacherid'].' phone: '.$item['phone'].' time: '.date('Y-m-d',$item['trial_lecture_pass_time']);
+                echo $item['teacherid'].' phone: '.$item['phone'].' time: '.date('Y-m-d',$item['trial_lecture_pass_time']).PHP_EOL;
+                $num ++;
             }
         }
+        echo ' num : '.$num;
         exit;
         //按天导入数据 (脚本执行时间为每天凌晨二点)
         $time = strtotime("-1 day");

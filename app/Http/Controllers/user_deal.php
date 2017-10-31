@@ -3192,6 +3192,17 @@ class user_deal extends Controller
             $set_count_grab+=$val["grab_count"];
         }
         $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
+        $all        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time);
+        $ass       = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
+        $seller        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2);
+        $green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,-1,1);
+        $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+        $none_total = $task->t_test_lesson_subject_require->get_none_total_info($start_time,$end_time);
+        $no_assign_total = $task->t_test_lesson_subject_require->get_no_assign_total_info($start_time,$end_time);
+        $ass_green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
+        $seller_green     = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
+        $seller_top        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_seller_top($start_time,$end_time,-1,1);
+
         dd([$set_count_normal,$set_count_all,$set_count_top,$set_count_green,$set_count_grab]);        
                   
        

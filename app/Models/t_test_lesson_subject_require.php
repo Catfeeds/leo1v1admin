@@ -1913,6 +1913,47 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         });
     }
 
+    public function get_teat_lesson_transfor_info_type_total($start_time,$end_time,$require_admin_type=-1,$is_green_flag=-1){
+        $where_arr = [
+            "accept_adminid > 0",
+            "m.account_role = 3",
+            "s.is_test_user=0",
+            // "ll.lesson_user_online_status in (0,1)",
+            "ll.lesson_del_flag=0",
+            ["t.require_admin_type=%u",$require_admin_type,-1],
+            ["tr.is_green_flag=%u",$is_green_flag,-1],
+            "l.lessonid >0"
+        ];
+
+        $sql = $this->gen_sql_new("select accept_adminid,count(distinct l.lessonid) num ".
+                                  " from %s tr join %s m on tr.accept_adminid = m.uid ".
+                                  " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
+                                  " join %s ll on tr.current_lessonid = ll.lessonid".
+                                  " join %s l on (ll.teacherid = l.teacherid ".
+                                  " and ll.userid = l.userid ".
+                                  " and ll.subject = l.subject ".
+                                  " and l.lesson_start= ".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " join %s s on t.userid = s.userid ".
+                                  " where %s group by accept_adminid ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  $end_time,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
+    }
+
+
     public function get_teat_lesson_transfor_info_type($start_time,$end_time,$require_admin_type=-1,$is_green_flag=-1){
         $where_arr = [
             "accept_adminid > 0",
