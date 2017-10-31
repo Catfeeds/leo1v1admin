@@ -3227,6 +3227,51 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time=-1,$teacher_money_type){
+        $where_arr=[
+            "lesson_type in (0,1,2,3)",
+            "s.is_test_user = 0",
+            "lesson_del_flag = 0",
+            "l.teacherid>0",
+            ["t.teacher_money_type=%d",$teacher_money_type,-1]
+        ];
+
+        if($is_full_time >=0){
+            if($is_full_time == 1){ // 兼职老师
+                $where_arr[] = "t.teacher_type not in(3,4) and (m.account_role not in(4,5) or m.account_role is null)";
+            }else{ // 全职老师
+                $where_arr[] = "m.account_role=5 and t.is_quit = 0 and t.trial_lecture_is_pass=1";
+            }
+        }
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new("select count(distinct l.userid) stu_num"
+                                ." from %s l "
+                                ." left join %s s on l.userid=s.userid "
+                                ." left join %s tll on tll.lessonid = l.lessonid"
+                                ." left join %s tlr on tlr.require_id = tll.require_id"
+                                ." left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id"
+                                ." left join %s t on t.teacherid = l.teacherid"
+                                ." left join %s m on t.phone = m.phone"
+                                ." where  %s "
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                ,t_test_lesson_subject::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,t_manager_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+        // return $this->main_get_list_by_page($sql,$page_num,300,true);
+
+
+    }
+
+
     public function get_suc_test_by_userid($userid_arr){
         $where_arr = [
             'lesson_type = 2',
