@@ -247,11 +247,11 @@ class teacher_money extends Controller
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
+        $this->t_lesson_info->switch_tongji_database();
         if(\App\Helper\Utils::check_env_is_local()){
             echo "begin check";
             echo PHP_EOL;
         }
-        $this->t_lesson_info->switch_tongji_database();
         if($type=="wx"){
             $start_time = $this->t_lesson_info->get_first_lesson_start($teacherid);
             $node_time  = strtotime("2016-12-1");
