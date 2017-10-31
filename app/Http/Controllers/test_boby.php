@@ -841,31 +841,8 @@ class test_boby extends Controller
             E\Etest_type::set_item_value_str($ret_info,"test_type");
             $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
             unset($ret_info['pic']);
-            //获取所有id，随机选取四个(当天之前的14天之内)->改为取１００条，时间倒叙
-            // $start_time = strtotime('-15 days');
             $end_time  = strtotime('today');
             $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster_new($id, 0, $end_time,4);
-            // $count_num = count($all_id)-1;
-            // $id_arr    = [];
-            // $num_arr   = [];
-            // $loop_num  = 0;
-            // $max_loop  = $count_num >4?4:$count_num;
-            // while ( $loop_num < $max_loop) {
-            //     $key = mt_rand(0, $count_num);
-            //     if( !in_array($key, $num_arr) ) {
-            //         $num_arr[] = $key;
-            //         $id_arr[]  = $all_id[$key]['id'];
-            //         $loop_num++;
-            //     }
-            // }
-            // if ( count($id_arr) ) {
-            //     $id_str = join($id_arr,',');
-                // $create_time = strtotime('today');
-                // $ret_info['other'] = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
-            // } else {
-            //     $ret_info['other'] = [];
-            // }
-
             $ret_info['other'] = $all_id['list'];
             return $this->output_succ(['list' => $ret_info]);
         } else {
