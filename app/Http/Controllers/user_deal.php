@@ -3427,6 +3427,8 @@ class user_deal extends Controller
         $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
         $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
 
+        //运营数据
+
 
         
 
