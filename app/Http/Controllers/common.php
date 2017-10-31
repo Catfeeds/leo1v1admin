@@ -760,7 +760,18 @@ class common extends Controller
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,372,1346,0,0,imagesx($image_2),imagesx($image_2),100);
-            imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
+            $r = 95; //圆半径
+            for ($x = 0; $x < 190; $x++) {
+                for ($y = 0; $y < 190; $y++) {
+                    $rgbColor = imagecolorat($image_5, $x, $y);
+                    if ( ( ( ($x - $r) * ($x - $r) + ($y - $r) * ($y - $r) ) < ($r * $r) ) ) {
+                        $n_x = $x+354;
+                        $n_y = $y+33;
+                        imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+                    }
+                }
+            }
+            // imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
             // imagecopy($image_3,$image_4,0,0,0,0,190,190);
             imagepng($image_3,$agent_qr_url);
 

@@ -851,4 +851,143 @@ class test_boby extends Controller
 
     }
 
+    /**
+     * 优学优享 邀请学员生成二维码图片
+     */
+    public function get_agent_qr(){
+        $wx_openid = $this->get_in_str_val("wx_openid");
+        $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $phone = '10211';
+        // if(isset($row['phone'])){
+        //     $phone = $row['phone'];
+        // }
+        // if(!$phone || $wx_openid==""){
+        //     return "";
+        // }
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $phone_qr_name = $phone."_ent_gk.png";
+        $qiniu_url     = $qiniu['public']['url'];
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        if(!$is_exists){
+            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=1";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
+            $qr_url       = "/tmp/".$phone.".png";
+            $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+            $image_1 = imagecreatefromjpeg($bg_url);     //背景图
+            $image_2 = imagecreatefrompng($qr_url);     //二维码
+            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建背景图
+
+            //请求微信头像
+            // $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+            // $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            // $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            // $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+            // $ch = curl_init();
+            // curl_setopt($ch, CURLOPT_URL, $url);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            // curl_setopt($ch, CURLOPT_HEADER, 0);
+            // $output = curl_exec($ch);
+            // curl_close($ch);
+            // $data = json_decode($output,true);
+            // $headimgurl = $data['headimgurl'];
+            // $datapath ="/tmp/".$phone."_headimg.jpeg";
+            // $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+            // shell_exec($wgetshell);
+
+            // $imgg = $this->yuan_img($datapath);
+            // $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+            // imagejpeg($imgg,$datapath_new);
+            $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/f80147fc1248fa1d6f3060ba9ad87f8f1483004180070.jpg';
+            $image_4 = imagecreatefromjpeg($datapath_new);
+
+            $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
+            $color = imagecolorallocatealpha($image_5, 255, 255, 255,127);
+            imagefill($image_5, 0, 0, $color);
+            imageColorTransparent($image_5, $color);
+
+            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
+            imagecopymerge($image_3,$image_2,372,1346,0,0,imagesx($image_2),imagesx($image_2),100);
+
+            $r = 95; //圆半径
+            for ($x = 0; $x < 190; $x++) {
+                for ($y = 0; $y < 190; $y++) {
+                    $rgbColor = imagecolorat($image_5, $x, $y);
+                    if ( ( ( ($x - $r) * ($x - $r) + ($y - $r) * ($y - $r) ) < ($r * $r) ) ) {
+                        $n_x = $x+354;
+                        $n_y = $y+33;
+                        imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+                    }
+                }
+            }
+
+
+            // imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
+            // imagecopymerge($image_3,$image_4,354,35,0,0,190,190,100);
+            // imagecopy($image_3,$image_4,0,0,0,0,190,190);
+            imagepng($image_3,$agent_qr_url);
+
+            $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
+
+            if($file_name!=''){
+                $cmd_rm = "rm /tmp/".$phone."*.png";
+                \App\Helper\Utils::exec_cmd($cmd_rm);
+            }
+
+            imagedestroy($image_1);
+            imagedestroy($image_2);
+            imagedestroy($image_3);
+            imagedestroy($image_4);
+            imagedestroy($image_5);
+        }else{
+            $file_name=$phone_qr_name;
+        }
+
+        $file_url = $qiniu_url."/".$file_name;
+        return $file_url;
+    }
+
+    /*
+    *  blog:http://www.zhaokeli.com
+    * 处理成圆图片,如果图片不是正方形就取最小边的圆半径,从左边开始剪切成圆形
+    * @param  string $imgpath [description]
+    * @return [type]          [description]
+    */
+    function yuan_img($imgpath = './tx.jpg') {
+        $ext     = pathinfo($imgpath);
+        $src_img = null;
+        switch ($ext['extension']) {
+        case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'png':
+            $src_img = imagecreatefrompng($imgpath);
+            break;
+        }
+        $wh  = getimagesize($imgpath);
+        $w   = $wh[0];
+        $h   = $wh[1];
+        $w   = min($w, $h);
+        $h   = $w;
+        $img = imagecreatetruecolor($w, $h);
+        //这一句一定要有
+        imagesavealpha($img, true);
+        //拾取一个完全透明的颜色,最后一个参数127为全透明
+        $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        imagefill($img, 0, 0, $bg);
+        $r   = $w / 2; //圆半径
+        $y_x = $r; //圆心X坐标
+        $y_y = $r; //圆心Y坐标
+        for ($x = 0; $x < $w; $x++) {
+            for ($y = 0; $y < $h; $y++) {
+                $rgbColor = imagecolorat($src_img, $x, $y);
+                if ( ( ( ($x - $r) * ($x - $r) + ($y - $r) * ($y - $r) ) < ($r * $r) ) ) {
+                    imagesetpixel($img, $x, $y, $rgbColor);
+                }
+            }
+        }
+        return $img;
+    }
 }
