@@ -124,16 +124,14 @@ class main_page extends Controller
                 }
 
 
-                if($ret_info['seller_invit_num']>0){ //月排课率
-                    // $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
-                    //seller_plan_invit_month_funnel
-                    $ret_info['test_plan_month_rate'] = $ret_info['seller_plan_invit_month_funnel']/$ret_info['seller_invit_month_funnel']*100;
+                if($ret_info['seller_invit_month_funnel']>0){ //月排课率
+                    $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month_funnel']/$ret_info['seller_invit_month_funnel']*100;
                 }else{
                     $ret_info['test_plan_month_rate'] = 0;
                 }
 
-                if($ret_info['seller_schedule_num']>0){ //月到课率
-                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
+                if($ret_info['seller_schedule_num_has_done_month_funnel']>0){ //月到课率
+                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num_has_done_month_funnel']*100;
                 }else{
                     $ret_info['lesson_succ_month_rate'] = 0;
                 }
@@ -229,16 +227,14 @@ class main_page extends Controller
                     $ret_info['invit_month_rate'] = 0;
                 }
 
-                if($ret_info['seller_invit_num']>0){ //月排课率
-                    //seller_invit_num  //seller_plan_invit_month
-                    // $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month']*100;
-                    $ret_info['test_plan_month_rate'] = $ret_info['seller_plan_invit_month']/$ret_info['seller_invit_num']*100;
+                if($ret_info['seller_plan_invit_month']>0){ //月排课率
+                    $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month']/$ret_info['seller_plan_invit_month']*100;
                 }else{
                     $ret_info['test_plan_month_rate'] = 0;
                 }
 
-                if($ret_info['seller_schedule_num']>0){ //月到课率
-                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num']*100;
+                if($ret_info['seller_schedule_num_has_done_month']>0){ //月到课率
+                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num_has_done_month']*100;
                 }else{
                     $ret_info['lesson_succ_month_rate'] = 0;
                 }
@@ -2487,21 +2483,21 @@ class main_page extends Controller
                 if ($item['subject'] == 10) {
                     $science = $this->accumulation($science, $item);
                 }
-                // if ($item['identity'] == 0) {
-                //     $identity_no_set = $this->accumulation($identity_no_set, $item);
-                // }
-                // if ($item['identity'] == 5) {
-                //     $identity_organ = $this->accumulation($identity_organ, $item);
-                // }
-                // if ($item["identity"] == 6) {
-                //     $identity_public = $this->accumulation($identity_public, $item);
-                // }
-                // if ($item['identity'] == 7) {
-                //     $identity_other = $this->accumulation($identity_other, $item);
-                // }
-                // if ($item['identity'] == 8) {
-                //     $identity_stu = $this->accumulation($identity_stu, $item);
-                // }
+                if ($item['identity'] == 0) {
+                    $identity_no_set = $this->accumulation($identity_no_set, $item);
+                }
+                if ($item['identity'] == 5) {
+                    $identity_organ = $this->accumulation($identity_organ, $item);
+                }
+                if ($item["identity"] == 6) {
+                    $identity_public = $this->accumulation($identity_public, $item);
+                }
+                if ($item['identity'] == 7) {
+                    $identity_other = $this->accumulation($identity_other, $item);
+                }
+                if ($item['identity'] == 8) {
+                    $identity_stu = $this->accumulation($identity_stu, $item);
+                }
             }
             array_push($ret_info, $primary_china);
             array_push($ret_info, $middle_china);
@@ -2625,10 +2621,10 @@ class main_page extends Controller
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
 
         // 模拟试听总排课人数
-        //$imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($imit_sum) $info['imit_sum']++;
-        //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($attend_sum) $info['attend_sum']++;
+        $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($imit_sum) $info['imit_sum']++;
+        $attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        if ($attend_sum) $info['attend_sum']++;
         if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
         return $info;
     }

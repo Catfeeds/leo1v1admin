@@ -2003,7 +2003,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //消息
     public function  send_wx_msg_2002( $from_agentid, $to_agentid, $price,$get_money,$phone  ) {
 
-
         if ($price >300000 )  {
             return  false;
         }
@@ -2245,4 +2244,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_info_by_pid($parentid){
+        $sql = $this->gen_sql_new("  select wx_openid,phone from %s ta"
+                                  ." where userid=$parentid"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
 }

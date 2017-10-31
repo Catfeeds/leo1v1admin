@@ -347,46 +347,33 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        /**
-        $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
-                                  ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
-                                  ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
-                                  ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
-
-        **/
-
-
-        $reg_time   = $this->t_user_info->get_reg_time($parentid);
+        $parentid = $this->get_parentid();
+        $has_buy  = $this->t_order_info->check_is_buy($parentid);
+        $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
         $stu_type = 1;
-        if($check_time>$reg_time){ // 老用户
+        if($check_time>$reg_time && $has_buy>0){ // 老用户
             $stu_type = 2;
         }else{
             $stu_type = 1;
         }
-
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
+        $limit_arr = $this->get_limit_num($stu_type);
 
-        $limit_num = $this->get_limit_num($stu_type);
+        $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
-        if($draw_num_arr['bag_num'] >80){
+        if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){
+            if($bag_tag>0){
 
+            }
         }
     }
 
 
     public function get_limit_num($stu_type){
         $ret_info = [];
-        /**
-           $sql = $this->gen_sql_new("  select sum(if(prize_list=1,1,0)) as bag_num, sum(if(prize_list=2,1,0)) as ten_coupon_num, "
-           ."  sum(if(prize_list=3,1,0)) as fifty_coupon_num, sum(if(prize_list=4,1,0)) as one_hundred_coupon_num,"
-           ." sum(if(prize_list=5,1,0)) as three_hundred_coupon_num, sum(if(prize_list=6,1,0)) as five_hundred_coupon_num, "
-           ." sum(if(prize_list=7,1,0)) as three_free_num, sum(if(prize_list=8,1,0)) as test_lesson_num,"
-
-        **/
-
         $bag_num = 0;
         $three_free_num = 0;
         $test_lesson_num = 0;
@@ -395,8 +382,7 @@ class wx_parent_gift extends Controller
         $five_hundred_coupon_num = 0;
         $three_hundred_coupon_num = 0;
 
-        $today = strtotime(date('Y-m-d '));
-
+        $today  = time();
         $six    = strtotime('2017-11-6');
         $seven  = strtotime('2017-11-7');
         $eight  = strtotime('2017-11-8');
@@ -407,18 +393,44 @@ class wx_parent_gift extends Controller
         $Thirteen = strtotime('2017-11-13');
 
         if($stu_type == 1){ // 新用户
-            if($today<$eleven){
-
+            if($today < $eleven){
+                $bag_num = 80;
+                $fifty_coupon_num = 80;
+                $one_hundred_coupon_num = 30;
+                $three_hundred_coupon_num = 10;
+            }elseif($today >= $eleven && $today<$twelve){
+                $bag_num = 100;
+                $fifty_coupon_num = 100;
+                $one_hundred_coupon_num = 80;
+                $three_hundred_coupon_num = 20;
+            }elseif($today >= $twelve){
+                $bag_num = 100;
+                $fifty_coupon_num = 100;
+                $one_hundred_coupon_num = 50;
+                $three_hundred_coupon_num = 20;
             }
         }elseif($stu_type == 2){ // 老用户
-
+            if($today >= $six){
+                $bag_num = 5;
+                $fifty_coupon_num = 50;
+                $one_hundred_coupon_num = 10;
+                $three_hundred_coupon_num = 3;
+            }
         }
 
+        if($today < $eleven){ // 免费3次课
+            $three_free_num = 1;
+        }elseif($today >= $eleven){
+            $three_free_num = 2;
+        }
+
+        if( $today>=$eight){ // 5百
+            $five_hundred_coupon_num = 1;
+        }
 
         $ret_info = [
             "bag_num" => $bag_num,
             "three_free_num"   => $three_free_num,
-            "test_lesson_num"  => $test_lesson_num,
             "fifty_coupon_num" => $fifty_coupon_num,
             "one_hundred_coupon_num"   => $one_hundred_coupon_num,
             "three_hundred_coupon_num" => $three_hundred_coupon_num,
@@ -428,7 +440,9 @@ class wx_parent_gift extends Controller
         return $ret_info;
 
     }
-
+    /**
+       双11活动 理优在线
+     **/
 
 
 
@@ -452,7 +466,7 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
-        $parentid = $this->get_parentid();
+        $parentid = $this->get_agentid();
 
         // $parentid = $this->get_in_int_val('parentid');
 
@@ -468,7 +482,12 @@ class wx_parent_gift extends Controller
 
     public function do_luck_draw_yxyx(){ // 抽奖
         // $parentid = $this->get_in_int_val('parentid');
-        $parentid = $this->get_parentid();
+        $parentid = $this->get_agentid();
+        // 根据openid或session值
+
+
+        // return $this->output_succ(['date'=>$parentid]);
+        // dd($parentid);
 
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
@@ -531,9 +550,13 @@ class wx_parent_gift extends Controller
            活动结果：{{keyword3.DATA}}
            {{remark.DATA}}
          **/
-        $wx = new \App\Helper\Wx();
 
-        $template_id = "lFGrDb_bPXPNJjS33WfmG4XVlVLoCWKLoAPGB5v9mP0";//活动结束提醒
+        $appid     = \App\Helper\Config::get_yxyx_wx_appid();
+        $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();
+
+        $wx = new \App\Helper\Wx($appid, $appsecret);
+
+        $template_id = "-jlgaNShu8zuil5ST1Qo5hY6RzaNyujwZ0fAnh2Te40";//活动结束提醒
         $data_msg = [
             "first"     => "您好，此次活动已经结束，你已经成功参与",
             "keyword1"  => "双十一活动",
@@ -541,13 +564,19 @@ class wx_parent_gift extends Controller
             "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
             "remark"    => "感谢您的参与",
         ];
-        $url = "";
-        $send_openid = $this->t_parent_info->get_wx_openid($parentid);
-        $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
 
+        $p_info = $this->t_agent->get_info_by_pid($parentid);
+
+        $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2";
+        $wx->send_template_msg($p_info['wx_openid'],$template_id,$data_msg ,$url);
+        $prize = $prize/100;
         return $this->output_succ(["money"=>$prize]);
     }
 
+    public function get_agentid(){
+        $agent_id = $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
+        return $agent_id;
+    }
 
     public function get_parentid(){
         $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");

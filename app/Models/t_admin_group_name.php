@@ -405,7 +405,8 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         $where_arr = [
             "((m.leave_member_time=0 and $end_time-m.create_time>29*86400) or (m.leave_member_time>=$start_time and $end_time-m.create_time>29*86400 ))",
             " mg.main_type=2",
-            "o.contract_type=0"
+            "o.contract_type=0",
+            "contract_status <> 0",
         ];
 
         $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);

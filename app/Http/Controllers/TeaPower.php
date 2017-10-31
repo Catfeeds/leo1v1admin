@@ -3930,26 +3930,18 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
-    public function test_jack_new(){
-        //微信推送家长
-        $wx = new \App\Helper\Wx();
-        $userid = 50186;
-        $parentid = $this->t_student_info->get_parentid($userid);
-        $openid = $this->t_parent_info->get_wx_openid($parentid);
-        $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
-        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
-
-        $data=[
-            "first"    => "百度分期还款逾期停课通知",
-            "keyword1" => "百度分期还款逾期",
-            "keyword2" => "家长，您好！由于您未在指定日期内完成百度分期还款，即已发生逾期行为，现对您做出停课处理，为避免耽误孩子的学习，请尽快登录百度钱包完成还款，即可恢复正常上课！",
-            "keyword3" => date("Y-m-d H:i:s"),
-            "remark"   => "",
-        ];
-        $url="";
-
-
-        $wx->send_template_msg($openid,$template_id,$data,$url);
+    public function test_jack_new($uid){
+        $permission_info = $this->t_manager_info->field_get_list($uid,"permission,permission_backup");
+        $this->t_manager_info->field_update_list($uid,[
+          "permission" =>""  
+        ]);
+        if(!$permission_info["permission_backup"]){
+            $this->t_manager_info->field_update_list($uid,[
+                "permission_backup" => $permission_info["permission"]
+            ]);
+  
+        }
+        
     }
 
 
