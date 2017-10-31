@@ -701,7 +701,10 @@ class common extends Controller
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         $phone_qr_name = $phone."_qr_agent_gkk.png";
         $qiniu_url     = $qiniu['public']['url'];
+        \App\Helper\Utils::logger("CHECK is_exists start");
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+
+        \App\Helper\Utils::logger("CHECK is_exists end");
         if(!$is_exists){
             if (\App\Helper\Utils::check_env_is_test() ) {
                 $www_url="test.www.leo1v1.com";
