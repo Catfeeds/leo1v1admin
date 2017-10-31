@@ -15,15 +15,40 @@ class CreateTableTTeachingCoraData extends Migration
         //
         Schema::create('db_weiyi.t_teaching_core_data', function( Blueprint $table)
         {
-            t_field($table->integer("orderid"),"子合同id");
-            t_field($table->tinyInteger("period"),"期数");
-            t_field($table->string("bid",32),"还款账户");
-            t_field($table->integer("b_status"),"还款明细状态");
-            t_field($table->integer("paid_time"),"已还款日期");
-            t_field($table->integer("due_date"),"当期应还款日");
-            t_field($table->integer("money"),"当期应还款总额");
-            t_field($table->integer("paid_money"),"已还金额");
-            t_field($table->integer("un_paid_money"),"未还金额");
+            t_field($table->integer("time"),"时间 月/周 第一天");
+            t_field($table->tinyInteger("time_type"),"1 月,2 周");
+            t_field($table->integer("new_train_through_num"),"新入职老师数");
+            t_field($table->integer("lesson_teacher_num"),"上课老师数");
+            t_field($table->integer("new_lesson_teacher_num"),"新增上课老师数");
+            t_field($table->integer("old_lesson_teacher_num"),"留存上课老师数");
+            t_field($table->integer("lose_teacher_num"),"流失上课老师数");
+            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(三个月)");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->string("tea_stu_per",32),"师生比");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("read_stu_num"),"在读学生数");
             $table->primary(["orderid","period"]);
         });
 
