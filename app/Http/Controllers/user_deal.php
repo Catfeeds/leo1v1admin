@@ -3199,7 +3199,6 @@ class user_deal extends Controller
         $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
         //面试通过数/面试通过时长
         $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
-        dd($ret_interview);
         $interview_pass_num = count($ret_interview);
         $interview_pass_time =0;
         $train_num=0;
@@ -3246,8 +3245,9 @@ class user_deal extends Controller
         //新师培训数/时间
         $train_time = $train_real_num>0?round($train_time/$train_real_num/86400,1):0;
         $trail_time = $trail_num>0?round($trail_time/$trail_num/86400,1):0;
+        $through_time = $through_num>0?round($through_time/$through_num/86400,1):0;
 
-        dd($train_time);
+        dd($through_time);
         
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
         $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);
