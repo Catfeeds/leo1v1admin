@@ -3211,8 +3211,11 @@ class user_deal extends Controller
             $interview_pass_time +=$time;
             if($val["train_add_time"]>0 && strlen($val["train_add_time"])==10){
                 $train_num++;
-                $tr_time= $val["train_add_time"]-$val["confirm_time"];
-                if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $tr_time=0;
+                if($val["confirm_time"]>0){
+                    $tr_time= $val["train_add_time"]-$val["confirm_time"];
+                }
+                if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"] && $val["one_add_time"]>0){
                      $tr_time= $val["train_add_time"]-$val["one_add_time"];
                 }
                 $train_time +=$tr_time;
