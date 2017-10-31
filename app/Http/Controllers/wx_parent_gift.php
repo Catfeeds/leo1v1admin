@@ -466,8 +466,6 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
         $start_time = 1509638400; // 2017-11-03
-        // $parentid = $this->get_agentid();
-
         $openid = $this->get_in_int_val('openid');
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
@@ -478,7 +476,7 @@ class wx_parent_gift extends Controller
 
         $ret_info['invite_num'] = count($invite_info);
         $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['phone'] = $this->t_agent->get_phone($parentid);
+        $ret_info['phone'] = $agent_info['phone'];
 
         return $this->output_succ(["data"=>$ret_info]);
     }
