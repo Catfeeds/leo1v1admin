@@ -3178,8 +3178,6 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $list = $this->t_train_lesson_user->get_all_info_no_train_type();
-        dd($list);;
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
@@ -3212,7 +3210,7 @@ class user_deal extends Controller
                 $time = $val["one_add_time"]-$val["lesson_start"];
             }
             $interview_pass_time +=$time;
-            if($val["train_add_time"]>0 && strlen($val["train_add_time"])==10){
+            if($val["train_add_time"]>0 ){
                 $train_num++;
                 $tr_time=0;
                 if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["train_add_time"]>$val["one_add_time"]){

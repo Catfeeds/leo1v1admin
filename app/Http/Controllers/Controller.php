@@ -118,7 +118,7 @@ class Controller extends ControllerEx
     public function get_login_teacher() {
         return session("tid");
     }
-    
+
     public function get_login_agent() {
         return session("aid");
     }
@@ -136,7 +136,7 @@ class Controller extends ControllerEx
     }
 
     static public function check_power($powerid){
-        $power_list= json_decode(session("power_list"),true);
+        $power_list = json_decode(session("power_list"),true);
         return @$power_list[$powerid];
     }
 
@@ -151,8 +151,6 @@ class Controller extends ControllerEx
             return false;
         }
     }
-
-
 
     public function get_seller_adminid_and_branch(){
         $adminid      = $this->get_account_id();
