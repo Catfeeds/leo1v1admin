@@ -23,6 +23,7 @@ class url_power_map {
 			'/teacher_level/get_teacher_advance_info_fulltime'	=>1402000,
 			'/teacher_level/teacher_switch_list_finally'	=>1401700,
 			'/tongji/match_lesson_textbook'	=>1402100,
+			'/tongji2/one_three_grade_student'	=>1402200,
 			'/main_page/admin'	=>1808300,
 			'/tongji/online_def_user_count_list'	=>1808000,
 			'/tongji/online_user_count_list'	=>1808100,
