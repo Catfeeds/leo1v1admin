@@ -529,7 +529,7 @@ class wx_parent_gift extends Controller
         }
 
         // 中奖金额存入数据库
-        $ret = $this->t_agent->update_money($parentid, $prize);
+        $ret = $this->t_agent->update_money(0, $prize);
         $is_save   = 0;
         $save_time = 0;
         if($ret){
@@ -570,7 +570,7 @@ class wx_parent_gift extends Controller
         $url = "http://wx-yxyx.leo1v1.com/wx_yxyx_web/index";
         $wx->send_template_msg($openid,$template_id,$data_msg ,$url);
         $prize = $prize/100;
-        return $this->output_succ(["money"=>$prize,"openid"=>$openid]);
+        return $this->output_succ(["money"=>$prize,"jieg"=>$parentid]);
     }
 
     public function get_agentid(){

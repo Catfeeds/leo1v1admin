@@ -2506,6 +2506,9 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
+  
+
+
     public function check_test_lesson_info($userid){
         $sql=$this->gen_sql_new("select sum(lesson_count) from %s where userid=%u and lesson_type=2"
                                 ,self::DB_TABLE_NAME

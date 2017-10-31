@@ -3428,6 +3428,8 @@ class user_deal extends Controller
         $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
 
         //运营数据
+        $lesson_list = $this->t_lesson_info->get_lesson_info_ass_tongji($start_time,$end_time, $assistantid ,$require_adminid_list  );
+
 
 
         
