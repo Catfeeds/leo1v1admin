@@ -9,12 +9,17 @@ class t_month_student_count extends \App\Models\Zgen\z_t_month_student_count
 	}
 
     public function get_month_money_info($start_time, $end_time){
+        $where_arr = [
+            ['create_time>=%u', $start_time, 0],
+            ['create_time<%u', $end_time, 0],
+        ];
         $sql = $this->gen_sql_new(
             "select lesson_stu_num,lesson_count ,lesson_count_money,from_unixtime(create_time,'%%Y-%%m') as month"
             ." from %s "
-            ." where create_time>=$start_time and create_time<$end_time "
+            ." where %s "
             ." group by month "
             ,self::DB_TABLE_NAME
+            ,$where_arr
         );
 
         return $this->main_get_list($sql,function($item) {
@@ -34,8 +39,12 @@ class t_month_student_count extends \App\Models\Zgen\z_t_month_student_count
     }
 
     public function get_all_pay_order_num($time){
-        $sql = $this->gen_sql_new("select pay_order_num from %s where create_time=$time"
+        $where_arr = [
+            ["create_time=%u" ,$time,-1],
+        ];
+        $sql = $this->gen_sql_new("select pay_order_num from %s where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }
