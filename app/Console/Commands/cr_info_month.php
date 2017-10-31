@@ -136,7 +136,7 @@ class cr_info_month extends Command
             $arr['renew_num_per'] = 0;
         }
         //转介绍
-        $tranfer = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        $tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
         $tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
         $arr['tranfer_phone_num'] = $tranfer;                                         //D1-转介绍至CC例子量
         $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);     //D2-转介绍至CC例子签单金额
@@ -197,7 +197,7 @@ class cr_info_month extends Command
           $arr['tranfer_success_per'] = 0;
         }*/
         $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time); //月初至今
-        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
         //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
         $tranfer_total_month['total_orderid'] = $month_tranfer_data['total_num'];
         $tranfer_total_month['total_num']     = $month_tranfer;

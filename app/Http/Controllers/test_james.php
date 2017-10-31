@@ -821,7 +821,9 @@ class test_james extends Controller
         // $a = mt_rand(1,2);
         // dd($a);
         // dd(strtotime(date('Y-m-d')));
-
+        $today = strtotime(date('Y-m-d'));
+        dd($today);
+        
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 

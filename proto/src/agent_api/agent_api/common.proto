@@ -168,3 +168,15 @@ message can_cash_commisson{
   float p_open_price = 4;//收入
   uint32 count = 5;//上课节数
 }
+message invite_child_list{
+  string nickname = 1;//昵称
+  string create_time = 2;//日期
+  uint32 second_num = 3;//二级推荐人个数
+  common.second_child child =4;//二级推荐人列表
+}
+message second_child{
+  string nickname = 1;//昵称
+  string create_time = 2;//日期
+  uint32 agent_status = 3;//状态 0无1已报名10已回访20安排试听30成功试听40成功购课
+  float price = 4;//购课金额[agent_status = 40时使用该参数]
+}

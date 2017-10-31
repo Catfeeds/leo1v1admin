@@ -1,0 +1,19 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1112
+//__DESC:微信[优学优享]获取用户学员、会员、学员&会员的推荐人及下级列表 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_invite_type_list?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+
+}
+
+message out {
+  common.invite_child_list student_list = 1;//学员一级列表
+  uint32 steudent_first_num =2;//一级学员个数
+  common.invite_child_list member_list = 3;//会员一级列表
+  uint32 member_first_num =4;//一级会员个数
+  common.invite_child_list student_and_member_list = 5;//学员&会员一级列表
+  uint32 student_and_member_first_num = 6;//一级学员&会员个数
+}
