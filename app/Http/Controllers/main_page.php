@@ -2550,6 +2550,7 @@ class main_page extends Controller
             // $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
             // // 模拟试听通过人数
             // $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
+
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
             $type_total['train_qual_sum'] = 0;
@@ -2622,11 +2623,11 @@ class main_page extends Controller
         if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
 
         // 模拟试听总排课人数
-        //$imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($imit_sum) $info['imit_sum']++;
-        //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($attend_sum) $info['attend_sum']++;
-        if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
+        // $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        // if ($imit_sum) $info['imit_sum']++;
+        // $attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
+        // if ($attend_sum) $info['attend_sum']++;
+        // if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
         return $info;
     }
 }

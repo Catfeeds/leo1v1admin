@@ -1957,5 +1957,13 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_row($sql);
     }
 
-
+    public function get_phone_data($start_time,$end_time) {
+        $where_arr = [
+            ['confirm_time>%u',$start_time,0],
+            ['confirm_time<%u',$end_time,0],
+            "status=1"
+        ];
+        $sql = $this->gen_sql_new("sleect phone from %s where %s ", self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
 }
