@@ -131,7 +131,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
 
       
-        $sql = $this->gen_sql_new(" select  add_time,  deal_time ".
+        $sql = $this->gen_sql_new(" select   tc.complaint_id,add_time,  deal_time ".
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
                                   " left join %s td on td.complaint_id = tc.complaint_id".
                                   " left join %s m on m.uid = tc.current_adminid ".
