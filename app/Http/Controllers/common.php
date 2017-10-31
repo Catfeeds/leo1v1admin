@@ -764,9 +764,11 @@ class common extends Controller
             for ($x = 0; $x < 190; $x++) {
                 for ($y = 0; $y < 190; $y++) {
                     $rgbColor = imagecolorat($image_5, $x, $y);
-                    if ( ( ( ($x - $r) * ($x - $r) + ($y - $r) * ($y - $r) ) < ($r * $r) ) ) {
+                    $a = $x-$r;
+                    $b = $y-$r;
+                    if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
                         $n_x = $x+354;
-                        $n_y = $y+33;
+                        $n_y = $y+34;
                         imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
                     }
                 }
@@ -811,7 +813,7 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_bob.png";
+        $phone_qr_name = $phone."_qr_agent_new_pic.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -855,7 +857,22 @@ class common extends Controller
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
             imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
-            imagecopymerge($image_3,$image_6,295,29,0,0,160,160,100);
+            // imagecopymerge($image_3,$image_6,295,29,0,0,160,160,100);
+
+            $r = 80; //圆半径
+            for ($x = 0; $x < 160; $x++) {
+                for ($y = 0; $y < 160; $y++) {
+                    $rgbColor = imagecolorat($image_6, $x, $y);
+                    $a = $x-$r;
+                    $b = $y-$r;
+                    if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
+                        $n_x = $x+295;
+                        $n_y = $y+28;
+                        imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+                    }
+                }
+            }
+
             imagepng($image_3,$agent_qr_url);
 
 
