@@ -3205,7 +3205,7 @@ class user_deal extends Controller
         $train_time=0;
         foreach($ret_interview as $val){
             $time = $val["confirm_time"]-$val["add_time"];
-            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+            if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"]){
                 $time = $val["one_add_time"]-$val["lesson_start"];
             }
             $interview_pass_time +=$time;
@@ -3215,7 +3215,7 @@ class user_deal extends Controller
                 if($val["confirm_time"]>0){
                     $tr_time= $val["train_add_time"]-$val["confirm_time"];
                 }
-                if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"] && $val["one_add_time"]>0){
+                if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"]){
                      $tr_time= $val["train_add_time"]-$val["one_add_time"];
                 }
                 $train_time +=$tr_time;
