@@ -4402,16 +4402,24 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>t.train_through_new_time",
             "(l.lesson_start-t.train_through_new_time)<=".$day_time
         ];
-        $sql = $this->gen_sql_new("select count(distinct l.teacherid)"                                  
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) tea_num, count(distinct l.userid,l.subject) person_num"
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s t left join %s l on l.teacherid=t.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);               
+
  
     }
 
