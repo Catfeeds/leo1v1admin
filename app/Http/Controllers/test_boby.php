@@ -786,7 +786,7 @@ class test_boby extends Controller
         foreach ($ret_info as $item){
             $sub = E\Esubject::get_desc($item['subject']);
             $gra = E\Egrade::get_desc($item['grade']);
-            $tim = \App\Helper\Utils::unixtime2date($item["create_time"]);
+            $tim = \App\Helper\Utils::unixtime2date($item["set_lesson_time"]);
 
             $s= $this->tr_add($s, $gra,$sub,$tim);
         }
@@ -796,5 +796,82 @@ class test_boby extends Controller
 
     }
 
+    public function get_all_test_pic(){
+        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
+        $grade     = $this->get_in_int_val('grade',-1);
+        $subject   = $this->get_in_int_val('subject',-1);
+        $test_type = $this->get_in_int_val('test_type',-1);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
+        $page_info = $this->get_in_page_info();
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
+        $start_time = strtotime('-14 days');
+        $end_time   = strtotime('tomorrow');
+        foreach ($ret_info['list'] as &$item) {
+            if (!$item['flag'] && $item['create_time'] > $start_time) {
+                $item['flag'] = 0;
+            } else {
+                $item['flag'] = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+
+        $pic_list = $this->t_yxyx_test_pic_info->get_all_id_poster_new(0,0,$end_time,10);
+        $ret_info['poster'] = $pic_list['list'];
+        $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
+        return $this->output_succ(["home_info"=>$ret_info]);
+    }
+
+    public function get_one_test_and_other(){
+        $id   = $this->get_in_int_val('id',-1);
+        $flag = $this->get_in_int_val('flag', 1);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
+        if ($id < 0){
+            return $this->output_err('信息有误！');
+        }
+        $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
+        if ($ret_info) {
+            if (!$flag) {
+                $this->t_yxyx_test_pic_visit_info->add_visit_info($id,$wx_openid);//添加到访问记录
+            }
+            $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
+
+            \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
+            E\Egrade::set_item_value_str($ret_info,"grade");
+            E\Esubject::set_item_value_str($ret_info,"subject");
+            E\Etest_type::set_item_value_str($ret_info,"test_type");
+            $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
+            unset($ret_info['pic']);
+            //获取所有id，随机选取四个(当天之前的14天之内)->改为取１００条，时间倒叙
+            // $start_time = strtotime('-15 days');
+            $end_time  = strtotime('today');
+            $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster_new($id, 0, $end_time,4);
+            // $count_num = count($all_id)-1;
+            // $id_arr    = [];
+            // $num_arr   = [];
+            // $loop_num  = 0;
+            // $max_loop  = $count_num >4?4:$count_num;
+            // while ( $loop_num < $max_loop) {
+            //     $key = mt_rand(0, $count_num);
+            //     if( !in_array($key, $num_arr) ) {
+            //         $num_arr[] = $key;
+            //         $id_arr[]  = $all_id[$key]['id'];
+            //         $loop_num++;
+            //     }
+            // }
+            // if ( count($id_arr) ) {
+            //     $id_str = join($id_arr,',');
+                // $create_time = strtotime('today');
+                // $ret_info['other'] = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+            // } else {
+            //     $ret_info['other'] = [];
+            // }
+
+            $ret_info['other'] = $all_id['list'];
+            return $this->output_succ(['list' => $ret_info]);
+        } else {
+            return $this->output_err("您查看的信息不存在！");
+        }
+
+    }
 
 }

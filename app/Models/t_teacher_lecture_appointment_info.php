@@ -491,7 +491,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
 
         $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,"
-                                  ."tr.add_time one_add_time,ta.add_time train_add_time "
+                                  ."tr.add_time one_add_time,ll.lesson_start train_add_time,"
+                                  ."lll.lesson_start trail_time,t.train_through_new,t.train_through_new_time "
                                   ." from %s al "
                                   ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
                                   ." not exists (select 1 from %s where phone = tl.phone and status =1 and "
@@ -501,8 +502,10 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." and  not exists(select 1 from %s where trial_train_status =1 and type=10 and "
                                   ."teacherid = tr.teacherid and add_time<tr.add_time)"
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
-                                  ." left join %s ta on t.teacherid = ta.userid and not exists (select 1 from %s where"
-                                  ." userid = ta.userid and add_time<ta.add_time)"
+                                  ." left join %s ta on t.teacherid = ta.userid and ta.train_type=1 and not exists (select 1 from %s where"
+                                  ." userid = ta.userid and train_type=1 and add_time<ta.add_time)"
+                                  ." left join %s ll on ta.lessonid = ll.lessonid"
+                                  ." left join %s lll on lll.train_type=4 and lll.lesson_del_flag=0 and lll.lesson_type=1100 and lll.teacherid = t.teacherid and lll.lesson_start>0 and not exists(select 1 from %s where train_type=4 and lesson_del_flag=0 and lesson_type=1100 and teacherid = lll.teacherid and lesson_start>0 and lesson_start<lll.lesson_start)"
                                   ." where %s having(tl.add_time>0 or tr.add_time>0)",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
@@ -513,6 +516,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

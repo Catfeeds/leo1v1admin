@@ -65,8 +65,8 @@ abstract class NewModel
 
 
     function switch_tongji_database() {
-        $this->readony_on_tongji_flag=true;
 
+        $this->readony_on_tongji_flag=true;
         if ($this->config_fix){
             $this->db=NewDB::get($this->config_fix."_tongji");
         }else{

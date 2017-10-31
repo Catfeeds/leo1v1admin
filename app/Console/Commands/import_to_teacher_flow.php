@@ -47,19 +47,6 @@ class import_to_teacher_flow extends cmd_base
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        $where=["subject=0"];
-        $info = $task->t_teacher_flow->get_all_list($where);
-        foreach($info as $teacherid => $item) {
-            $ret = $task->t_teacher_info->get_subject_for_id($teacherid);
-            if ($ret['grade'] >= 100 && $ret['grade'] < 200) $ret['grade'] = 100;
-            if ($ret['grade'] >= 200 && $ret['grade'] < 300) $ret['grade'] = 200;
-            if ($ret['grade'] >= 300) $ret['grade'] = 300;
-            $task->t_teacher_flow->field_update_list($teacherid,[
-                "subject" => $ret['subject'],
-                "grade" => $ret['grade']
-            ]);
-        }
-        exit;
         // $tea_list = $task->t_teacher_info->get_teacher_flow_li:st($start_time, $end_time);
         // if(!empty($tea_list)){
         //     foreach($tea_list as $val){
@@ -109,7 +96,7 @@ class import_to_teacher_flow extends cmd_base
             ]);
         }
 
-        //面试试讲时间
+        //面试试讲通过时间
         $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, E\Etrain_type::V_5);
         echo "length: ".count($lecture);
 
@@ -124,7 +111,7 @@ class import_to_teacher_flow extends cmd_base
             }
         }
 
-        // 模拟试听时间
+        // 模拟试听通过时间
         $where = ['simul_test_lesson_pass_time=0'];
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {

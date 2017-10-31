@@ -353,7 +353,7 @@ class tongji2 extends Controller
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
         $map=[];
-        foreach($ret_info["list"] as &$item ) {
+        foreach($ret_info["list"] as $item ) {
             $map[$item["adminid"] ]=true;
             // $sys_operator = $item["account"];
             // $sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
@@ -362,17 +362,12 @@ class tongji2 extends Controller
         }
 		//unset($item);
         foreach($order_user_list as $item ) {
-            if(!@$map[$item["adminid"] ] ) {
-                //if(isset($map[$item["adminid"]])) {
-                if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
-                    //if ($adminid == $item["adminid"]){
+            if(!@$map[$item["adminid"]] ) {
+                if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
                     $ret_info["list"][]=["adminid" => $item["adminid"] ];
-                    // $ret_info["list"][$item["adminid"]] = ["adminid" => $item["adminid"]];
-                    // dd($order_user_list,$ret_info["list"],$item["adminid"]);
                 }
             }
         }
-        // dd($ret_info["list"]);
         $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
 
         foreach( $admin_list as &$item ) {
