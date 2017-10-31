@@ -2613,7 +2613,7 @@ class main_page extends Controller
         if ($imit_sum) {$info['imit_sum']++; $info['attend_sum']++;}
         //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
         //if ($attend_sum) $info['attend_sum']++;
-        if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
+        if ($item['simul_test_lesson_pass_time'] && $item['simul_test_lesson_pass_time'] > $item['train_through_new_time']) $info['adopt_sum']++;
         return $info;
     }
 }
