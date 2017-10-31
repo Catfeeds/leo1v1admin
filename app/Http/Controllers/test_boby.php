@@ -831,9 +831,9 @@ class test_boby extends Controller
         $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
         if ($ret_info) {
             if (!$flag) {
-                $this->t_yxyx_test_pic_visit_info->add_visit_info($id,$wx_openid);//添加到访问记录
+                // $this->t_yxyx_test_pic_visit_info->add_visit_info($id,$wx_openid);//添加到访问记录
             }
-            $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
+            // $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
 
             \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
             E\Egrade::set_item_value_str($ret_info,"grade");
