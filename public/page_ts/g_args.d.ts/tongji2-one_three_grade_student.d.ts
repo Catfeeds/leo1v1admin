@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	account:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -16,22 +15,34 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	login_time	:any;
-	account	:any;
-	ip	:any;
-	flag	:any;
-	login_time_str	:any;
-	flag_str	:any;
+	userid	:any;
+	nick	:any;
+	grade	:any;
+	subject	:any;
+	stu_request_test_lesson_demand	:any;
+	textbook	:any;
+	phone_location	:any;
+	current_lessonid	:any;
+	require_id	:any;
+	lessonid	:any;
+	success_flag	:any;
+	lesson_type	:any;
+	lesson_user_online_status	:any;
+	price	:any;
+	contract_status	:any;
+	grade_str	:any;
+	subject_str	:any;
+	lesson_user_online_status_str	:any;
+	status_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/user_login_list.ts
+	 mkdir -p ../tongji2; vi  ../tongji2/one_three_grade_student.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage-user_login_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji2-one_three_grade_student.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -40,8 +51,7 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		account:	$('#id_account').val()
+		end_time:	$('#id_end_time').val()
     });
 }
 $(function(){
@@ -57,7 +67,6 @@ $(function(){
             load_data();
         }
     });
-	$('#id_account').val(g_args.account);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -67,11 +76,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">account</span>
-                <input class="opt-change form-control" id="id_account" />
-            </div>
-        </div>
 */

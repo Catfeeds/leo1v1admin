@@ -699,14 +699,31 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_gkk.png";
+        if ( \App\Helper\Utils::check_env_is_test() ) {
+            $phone_qr_name = $phone."_qr_agent_test.png";
+        }else{
+            $phone_qr_name = $phone."_qr_agent_gkk.png";
+        }
         $qiniu_url     = $qiniu['public']['url'];
+        \App\Helper\Utils::logger("CHECK is_exists start");
+
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+
+        \App\Helper\Utils::logger("CHECK is_exists end");
         if(!$is_exists){
-            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=1";
+            if (\App\Helper\Utils::check_env_is_test() ) {
+                $www_url="test.www.leo1v1.com";
+            }else{
+                $www_url="www.leo1v1.com";
+            }
+
+
+            $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=1";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
+
             $qr_url       = "/tmp/".$phone.".png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::logger("QR_URL $text ");
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefromjpeg($bg_url);     //背景图

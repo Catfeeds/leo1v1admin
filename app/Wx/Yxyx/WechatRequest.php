@@ -517,6 +517,22 @@ class WechatRequest  {
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             $t_agent->set_add_type_2( $agent["id"]);
+
+            if (\App\Helper\Utils::check_env_is_test()) {
+                $txt_arr = [
+                    'touser'   => $openid,
+                    'msgtype'  => 'image',
+                    "image"=> [
+                        "media_id" => "$mediaId"
+                    ],
+                ];
+                $txt = self::ch_json_encode($txt_arr);
+                $token = AccessToken::getAccessToken();
+                $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+                $txt_ret = self::https_post($url,$txt);
+                \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+
+            }
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
 
         }elseif ($eventKey == 'invitation_member') {
@@ -570,9 +586,23 @@ class WechatRequest  {
             if ( \App\Helper\Utils::check_env_is_release() ) {
                 return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
             }else{
-                ResponseInitiative::image( $request['fromusername'],  $mediaId);
-                //ResponseInitiative::
-                return "";
+
+                if (\App\Helper\Utils::check_env_is_test()) {
+                    $txt_arr = [
+                        'touser'   => $request['tousername'] ,
+                        'msgtype'  => 'image',
+                        "image"=> [
+                            "media_id" => "$mediaId"
+                        ],
+                    ];
+                    $txt = self::ch_json_encode($txt_arr);
+                    $token = AccessToken::getAccessToken();
+                    $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+                    $txt_ret = self::https_post($url,$txt);
+                    \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+
+                }
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
             }
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(

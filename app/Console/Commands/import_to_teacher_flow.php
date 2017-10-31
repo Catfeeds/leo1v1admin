@@ -47,7 +47,7 @@ class import_to_teacher_flow extends cmd_base
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
+        // $tea_list = $task->t_teacher_info->get_teacher_flow_li:st($start_time, $end_time);
         // if(!empty($tea_list)){
         //     foreach($tea_list as $val){
         //         $task->t_teacher_flow->row_insert_ignore([
@@ -96,10 +96,9 @@ class import_to_teacher_flow extends cmd_base
             ]);
         }
 
-        //面试试讲时间
+        //面试试讲通过时间
         $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, E\Etrain_type::V_5);
         echo "length: ".count($lecture);
-        var_dump($lecture);
 
         // $where = ['trial_lecture_pas=0'];
         $info = $task->t_teacher_flow->get_all_list();
@@ -112,7 +111,7 @@ class import_to_teacher_flow extends cmd_base
             }
         }
 
-        // 模拟试听时间
+        // 模拟试听通过时间
         $where = ['simul_test_lesson_pass_time=0'];
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {

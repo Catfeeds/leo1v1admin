@@ -162,7 +162,7 @@
                                             <td>0</td>
                                         @endif
                                         <td>{{$total['attend_sum']}}</td>
-                                        @if($total['adopt_sum'] != 0)
+                                        @if($total['attend_sum'] != 0)
                                             <td>{{round($total['adopt_sum']/$total['attend_sum'], 2) * 100}}%</td>
                                         @else
                                             <td>0</td>
@@ -207,7 +207,7 @@
                                                 <td>0</td>
                                             @endif
                                             <td>{{$var['attend_sum']}}</td>
-                                            @if($var['adopt_sum'] != 0)
+                                            @if($var['attend_sum'] != 0)
                                                 <td>{{round($var['adopt_sum']/$var['attend_sum'], 2) * 100}}%</td>
                                             @else
                                                 <td>0</td>

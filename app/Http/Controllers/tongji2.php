@@ -353,24 +353,21 @@ class tongji2 extends Controller
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
         $map=[];
-        foreach($ret_info["list"] as &$item ) {
+        foreach($ret_info["list"] as $item ) {
             $map[$item["adminid"] ]=true;
-            //$sys_operator = $item["account"];
-            //$sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
-            //$item["stage_money"] = @$sort_moeny["stage_money"];
-            //$item["no_stage_money"] = @$sort_moeny["no_stage_money"];
+            // $sys_operator = $item["account"];
+            // $sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
+            // $item["stage_money"] = @$sort_moeny["stage_money"];
+            // $item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
 		//unset($item);
         foreach($order_user_list as $item ) {
-            // if(!@$map[$item["adminid"] ] ) {
-            if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
+            if(!@$map[$item["adminid"]] ) {
                 if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
-                    // $ret_info["list"][]=["adminid" => $item["adminid"] ];
-                    $ret_info["list"] = ["adminid" => $item["adminid"] ];
+                    $ret_info["list"][]=["adminid" => $item["adminid"] ];
                 }
             }
         }
-        dd($ret_info["list"]);
         $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
 
         foreach( $admin_list as &$item ) {
@@ -1363,7 +1360,7 @@ class tongji2 extends Controller
             }
 
             //转介绍
-            $tranfer = $this->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+            $tranfer = $this->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
             $tranfer_data = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
             $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
             $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
@@ -1400,5 +1397,46 @@ class tongji2 extends Controller
        }
        return $this->pageView(__METHOD__,$ret_info);
        
+    }
+
+    /**
+     * @author sam
+     * @function ID：1000409
+     */
+    public function one_three_grade_student(){
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],3);
+        $page_info = $this->get_in_page_info();
+
+        $ret_info = $this->t_cr_week_month_info->get_apply_info_new($page_info,$start_time,$end_time);
+        $ret = $this->t_cr_week_month_info->get_total_apply_info($start_time,$end_time);
+        foreach ($ret_info['list'] as $key => &$value) {
+            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+            $value['subject_str'] = E\Esubject::get_desc($value['subject']);
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                $value['phone_location'] = "其它";
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $value['phone_location'] = $pro;
+            }
+            if($value['lesson_user_online_status'] == 0 ){
+                $value['lesson_user_online_status_str'] = "无效"; 
+            }elseif($value['lesson_user_online_status'] == 1){
+                $value['lesson_user_online_status_str'] = "有效";
+            }else{
+                $value['lesson_user_online_status_str'] = "无效";
+            }
+            if($value['price'] > 0 and $value['contract_status'] != 0){
+                $value['status_str'] = "有效";
+            }else{
+                $value['status_str'] = "无效";
+            }
+        }
+        foreach ($ret as $key => &$value) {
+            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+        }
+        return $this->pageView(__METHOD__, $ret_info,[
+            // "table_data_list" => $ret_info['list'],
+            "ret" => $ret,
+        ]);
     }
 }

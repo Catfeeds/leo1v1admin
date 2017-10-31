@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Redis;
 trait  InputDeal {
     public function set_in_value($key,$value ) {
         global $g_request;
-        $g_request-> offsetSet ($key,$value);
+        $g_request->offsetSet($key,$value);
     }
+
     public function set_filed_for_js($field_name,$v, $type_str ="number") {
         $this->set_in_value($field_name,$v);
         global $g_request;
@@ -16,7 +17,6 @@ trait  InputDeal {
 
         $this->last_in_values[$field_name]=$v;
         $this->last_in_types[$field_name]= $type_str ;
-
     }
 
 

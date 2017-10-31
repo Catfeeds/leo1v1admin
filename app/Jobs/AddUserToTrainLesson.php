@@ -54,6 +54,7 @@ class AddUserToTrainLesson extends Job implements ShouldQueue
                 "lessonid" => $lessonid,
                 "userid"   => $userid,
                 "add_time" => time(),
+                "train_type"=>$type
             ]);
             \App\Helper\Utils::logger("lessonid :".$lessonid." userid ".$userid);
 

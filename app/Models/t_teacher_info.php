@@ -4370,6 +4370,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_subject_for_id($teacherid) {
+        $where_arr = ["teacherid=%u",$teacherid,0];
+        $sql = $this->gen_sql_new("select subject,grade from %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_row($sql);
+    }
+
     public function tongji_train_through_info($start_time,$end_time){
         $where_arr = [
             " is_quit=0 ",
