@@ -786,7 +786,7 @@ class test_boby extends Controller
         foreach ($ret_info as $item){
             $sub = E\Esubject::get_desc($item['subject']);
             $gra = E\Egrade::get_desc($item['grade']);
-            $tim = \App\Helper\Utils::unixtime2date($item["create_time"]);
+            $tim = \App\Helper\Utils::unixtime2date($item["set_lesson_time"]);
 
             $s= $this->tr_add($s, $gra,$sub,$tim);
         }
