@@ -25,6 +25,7 @@ class menu{
                 ["power_id"=>20, "name"=>"老师晋升审核-全职","url"=>"/teacher_level/get_teacher_advance_info_fulltime"],
                 ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
                 ["power_id"=>21, "name"=>"教材版本匹配度","url"=>"/tongji/match_lesson_textbook"],
+                ["power_id"=>22, "name"=>"1-3年级试听详情", "url" => "/tongji2/one_three_grade_student" ],
             ]],
 
             ["power_id"=>80, "name"=>"运维管理",  "list"=> [

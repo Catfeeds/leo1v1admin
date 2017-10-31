@@ -31,12 +31,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-stu_all_teacher_all.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		assistantid:	$('#id_assistantid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			assistantid:	$('#id_assistantid').val()
-        });
-    }
 
 
 	$('#id_assistantid').val(g_args.assistantid);

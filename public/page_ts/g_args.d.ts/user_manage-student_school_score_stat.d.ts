@@ -15,6 +15,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	admin_type	:any;
 	userid	:any;
 	create_time	:any;
 	create_adminid	:any;
@@ -50,16 +51,17 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-student_school_score_stat.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		username:	$('#id_username').val(),
+		grade:	$('#id_grade').val(),
+		semester:	$('#id_semester').val(),
+		stu_score_type:	$('#id_stu_score_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			order_by_str:	$('#id_order_by_str').val(),
-			username:	$('#id_username').val(),
-			grade:	$('#id_grade').val(),
-			semester:	$('#id_semester').val(),
-			stu_score_type:	$('#id_stu_score_type').val()
-        });
-    }
 
 
 	$('#id_order_by_str').val(g_args.order_by_str);

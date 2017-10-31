@@ -32,22 +32,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji2-valid_user_region.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_ex:	$('#id_origin_ex').val(),
+		grade:	$('#id_grade').val(),
+		phone_location:	$('#id_phone_location').val(),
+		origin_from_user_flag:	$('#id_origin_from_user_flag').val(),
+		competition_flag:	$('#id_competition_flag').val(),
+		subject:	$('#id_subject').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_ex:	$('#id_origin_ex').val(),
-			grade:	$('#id_grade').val(),
-			phone_location:	$('#id_phone_location').val(),
-			origin_from_user_flag:	$('#id_origin_from_user_flag').val(),
-			competition_flag:	$('#id_competition_flag').val(),
-			subject:	$('#id_subject').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 	Enum_map.append_option_list("boolean",$("#id_origin_from_user_flag"));

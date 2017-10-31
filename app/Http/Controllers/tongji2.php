@@ -1401,4 +1401,43 @@ class tongji2 extends Controller
        return $this->pageView(__METHOD__,$ret_info);
        
     }
+
+    /**
+     * @author sam
+     * @function ID：1000409
+     */
+    public function one_three_grade_student(){
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],3);
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_cr_week_month_info->get_apply_info_new($page_info,$start_time,$end_time);
+        $ret = $this->t_cr_week_month_info->get_total_apply_info($start_time,$end_time);
+        foreach ($ret_info['list'] as $key => &$value) {
+            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+            $value['subject_str'] = E\Esubject::get_desc($value['subject']);
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                $value['phone_location'] = "其它";
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $value['phone_location'] = $pro;
+            }
+            if($value['lesson_user_online_status'] == 0 ){
+                $value['lesson_user_online_status_str'] = "无效"; 
+            }elseif($value['lesson_user_online_status'] == 1){
+                $value['lesson_user_online_status_str'] = "有效";
+            }else{
+                $value['lesson_user_online_status_str'] = "无效";
+            }
+            if($value['price'] > 0 and $value['contract_status'] != 0){
+                $value['status_str'] = "有效";
+            }else{
+                $value['status_str'] = "无效";
+            }
+        }
+        foreach ($ret as $key => $value) {
+            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+        }
+        return $this->pageView(__METHOD__, $ret_info,[
+                "ret" => $ret,
+            ]);
+    }
 }
