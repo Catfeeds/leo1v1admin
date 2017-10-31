@@ -3181,6 +3181,32 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
+        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,3000);
+        dd($thirty_tea_list);
+        $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,[],1);
+        $arr=[];
+        foreach($list as $val){
+            if(($val["value"]=="教学部" || $val["value"]=="老师管理") && $val["score"]>0){
+                @$arr[$val["teacherid"]]++;
+            }
+        }
+
+        dd($arr);
+        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+        $change_tea_num = @$change_test_person_num["change_order"];
+        $tea_num_all_normal = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,-2);
+        $change_tea_per = $tea_num_all_normal>0?round($change_tea_num/$tea_num_all_normal*100,2):0;
+        dd($change_tea_per);
+
+        $lesson_list = $this->t_lesson_info_b2->get_lesson_info_teacher_check_total($start_time,$end_time);
+        $teacher_come_late_count = @$lesson_list["teacher_come_late_count"];
+        $teacher_change_lesson = @$lesson_list["teacher_change_lesson"];
+        $teacher_leave_lesson = @$lesson_list["teacher_leave_lesson"];
+        $teacher_come_late_per = @$lesson_list["all_num"]>0?round(@$teacher_come_late_count/$lesson_list["all_num"]*100,2):0;
+        $teacher_change_per = @$lesson_list["normal_num"]>0?round(@$teacher_change_lesson/$lesson_list["normal_num"]*100,2):0;
+        $teacher_leave_per = @$lesson_list["normal_num"]>0?round(@$teacher_leave_lesson/$lesson_list["normal_num"]*100,2):0;
+        dd($lesson_list);
+
         $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
         $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
         dd($grab_info);
@@ -3426,6 +3452,51 @@ class user_deal extends Controller
         //抢课数据
         $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
         $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
+
+        //运营数据
+        $lesson_list = $this->t_lesson_info_b2->get_lesson_info_teacher_check_total($start_time,$end_time,$is_full_time,$teacher_money_type );
+        $teacher_come_late_count = @$lesson_list["teacher_come_late_count"];
+        $teacher_change_lesson = @$lesson_list["teacher_change_lesson"];
+        $teacher_leave_lesson = @$lesson_list["teacher_leave_lesson"];
+        $teacher_come_late_per = @$lesson_list["all_num"]>0?round(@$teacher_come_late_count/$lesson_list["all_num"]*100,2):0;
+        $teacher_change_per = @$lesson_list["normal_num"]>0?round(@$teacher_change_lesson/$lesson_list["normal_num"]*100,2):0;
+        $teacher_leave_per = @$lesson_list["normal_num"]>0?round(@$teacher_leave_lesson/$lesson_list["normal_num"]*100,2):0;
+
+        //换老师申请
+        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+        $change_tea_num = @$change_test_person_num["change_order"];
+        $change_tea_per = $tea_num_all_normal>0?round($change_tea_num/$tea_num_all_normal*100,2):0;
+
+        //老师退费人数
+        $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,[],1);
+        $arr=[];
+        foreach($list as $val){
+            if(($val["value"]=="教学部" || $val["value"]=="老师管理") && $val["score"]>0){
+                @$arr[$val["teacherid"]]++;
+            }
+        }
+        $refund_tea_num = count($arr);
+
+        //常规课数大于30/60/90/120人数
+        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,3000);
+        $thirty = count($thirty_tea_list);
+        $sixty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,6000);
+        $sixty = count($sixty_tea_list);
+        $ninty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,9000);
+        $ninty = count($ninty_tea_list);
+        $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,12000);
+        $twl = count($twl_tea_list);
+
+        
+
+        
+
+
+
+
+
+
+
 
 
         

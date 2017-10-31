@@ -487,7 +487,8 @@ class wx_parent_gift extends Controller
         $openid = $this->get_in_str_val('openid');
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
-        $parentid   = $agent_info['userid'];
+        $userid   = $agent_info['userid'];
+
 
         $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
@@ -529,7 +530,7 @@ class wx_parent_gift extends Controller
         }
 
         // 中奖金额存入数据库
-        $ret = $this->t_agent->update_money($parentid, $prize);
+        $ret = $this->t_agent->update_money($userid, $prize);
         $is_save   = 0;
         $save_time = 0;
         if($ret){
@@ -538,7 +539,7 @@ class wx_parent_gift extends Controller
         }
 
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
-            "luck_draw_adminid" => $parentid,
+            "luck_draw_adminid" => $userid,
             "luck_draw_time" => time(),
             "deposit_time" => $save_time,
             "is_deposit" => $is_save,
@@ -570,7 +571,7 @@ class wx_parent_gift extends Controller
         $url = "http://wx-yxyx.leo1v1.com/wx_yxyx_web/index";
         $wx->send_template_msg($openid,$template_id,$data_msg ,$url);
         $prize = $prize/100;
-        return $this->output_succ(["money"=>$prize,"openid"=>$openid]);
+        return $this->output_succ(["money"=>$prize]);
     }
 
     public function get_agentid(){

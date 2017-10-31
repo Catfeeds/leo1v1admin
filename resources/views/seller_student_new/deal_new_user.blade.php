@@ -81,7 +81,15 @@
             <tbody>
                 <tr>
                     <td>电话</td>
-                    <td>{{$user_info["phone"] }}</td>
+                    <td>
+                        {{$user_info["phone"] }}
+                        @if($user_info['origin'] == '优学优享')
+                            /
+                            <font color="red">
+                                {{$user_info["origin"]}}
+                            </font>
+                        @endif
+                    </td>
                 </tr>
 
 

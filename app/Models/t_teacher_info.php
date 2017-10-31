@@ -2938,6 +2938,40 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    //按常规课数量统计老师数量
+    public function get_lesson_teacher_total_by_count($start_time,$end_time,$lesson_total=0){
+        $where_arr = [
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1,4)",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            /// "l.lesson_start>=".$start_time,
+            /// "l.lesson_start<".$end_time
+        ];
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $have_flag="";
+        if($lesson_total>0){
+            $have_flag = "having(sum(l.lesson_count)>$lesson_total)";
+        }
+              
+        $sql = $this->gen_sql_new("select l.teacherid,sum(l.lesson_count) lesson_total"
+                                  ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." where %s  group by l.teacherid %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$have_flag
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
     //按入职时间统计老师数量
     public function get_tea_num_by_train_through_time($start_time){
         $where_arr = [

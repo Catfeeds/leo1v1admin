@@ -6733,6 +6733,14 @@ class tongji_ss extends Controller
         return $this->origin_publish_list();
     }
 
+    public function origin_publish_jinshuju()
+    {
+        $origin_ex= "金数据";
+        $this->set_in_value("origin_ex",  $origin_ex );
+        return $this->origin_publish_list();
+    }
+
+
     public function origin_publish_bd()
     {
         $origin_ex= "BD";
@@ -7932,6 +7940,7 @@ class tongji_ss extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type );
+        $stu_num_all = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time,$teacher_money_type);
 
         // dd($ret_info);
         foreach($ret_info as &$item_list){
@@ -7994,6 +8003,11 @@ class tongji_ss extends Controller
         }
 
         array_unshift($ret_info, $all_item);
+        foreach($ret_info as &$p_item){
+            if($p_item["teacher_nick"]=="全部"){
+                $p_item["stu_num"]=$stu_num_all;
+            }
+        }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
 
     }

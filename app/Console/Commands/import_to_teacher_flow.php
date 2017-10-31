@@ -44,7 +44,7 @@ class import_to_teacher_flow extends cmd_base
         $end_time = strtotime("2017-10-1");
         $info = $task->t_teacher_lecture_info->get_phone_data(strtotime('2017-1-01'),strtotime('2017-10-1'));
         $ret = implode(",",array_column($info,"phone"));
-        $info = $task->t_teacher_lecture_info->get_confirm_for_phone($phone);
+        $info = $task->t_teacher_lecture_info->get_confirm_for_phone($ret);
         foreach($info as $item) {
             if ($item['confirm_time'] > $start_time && $item['confirm_time'] < $end_time) {
                 echo $item['phone'].',';
