@@ -364,11 +364,11 @@ class tongji2 extends Controller
         foreach($order_user_list as $item ) {
             if(!@$map[$item["adminid"]] ) {
                 if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
-                    dd($adminid);
                     $ret_info["list"][]=["adminid" => $item["adminid"] ];
                 }
             }
         }
+        dd($order_user_list);
         $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
 
         foreach( $admin_list as &$item ) {
