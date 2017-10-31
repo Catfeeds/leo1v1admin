@@ -3183,7 +3183,20 @@ class user_deal extends Controller
         $end_time = strtotime("2017-09-01");
         //面试邀约数
         $ret = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
-        dd($ret);
+        $app_num = count($ret);
+        $plan_num=$plan_time =0;
+        foreach($ret as $val){
+            $time = $val["add_time"];
+            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $time = $val["lesson_start"];
+            }
+            if($time>0){
+                $plan_num++;
+                $plan_time += ($time-$val["answer_begin_time"]);
+            }
+            
+        }
+        dd($plan_num);
 
         //面试邀约时长
         
