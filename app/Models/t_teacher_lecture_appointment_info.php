@@ -513,6 +513,37 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_appoinment_new_train_info($start_time,$end_time){
+        $where_arr=[
+            "al.name not like '%%不要审核%%' and  al.name not like '%%gavan%%' and al.name not like '%%阿蓝%%'"
+        ];
+        $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
+
+
+        $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,tr.add_time one_add_time "
+                                  ." from %s al "
+                                  ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
+                                  ." not exists (select 1 from %s where phone = tl.phone and status =1 and "
+                                  ."is_test_flag=0 and add_time<tl.add_time )"
+                                  ." left join %s t on al.phone = t.phone and t.is_test_user=0"
+                                  ." left join %s tr on tr.trial_train_status =1 and tr.type=10 and tr.teacherid = t.teacherid "
+                                  ." and  not exists(select 1 from %s where trial_train_status =1 and type=10 and "
+                                  ."teacherid = tr.teacherid and add_time<tr.add_time)"
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
+                                  ." where %s having(tl.add_time>0 or tr.add_time>0)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
 
     public function get_train_through_tea($time){

@@ -3197,7 +3197,7 @@ class user_deal extends Controller
             
         }
         $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
-        //面试通过数
+        //面试通过数/面试通过时长
         $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
         $interview_pass_num = count($ret_interview);
         $interview_pass_time =0;
@@ -3210,9 +3210,10 @@ class user_deal extends Controller
         }
         $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
         
-        dd($interview_pass_time);
 
-        //面试邀约时长
+        //新师培训数
+        $new_train_info = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_new_train_info($start_time,$end_time);
+        dd($new_train_info);
         
         
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
