@@ -3197,7 +3197,9 @@ class user_deal extends Controller
             $set_count_hls+=$val["ass_hls_count_set"];
         }
         $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
-        $all_tran        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+        $all_tran    = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+        $seller_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
+        
        
         dd([$set_count_normal,$set_count_all,$set_count_top,$set_count_green,$set_count_grab]);        
                   

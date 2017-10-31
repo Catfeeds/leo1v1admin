@@ -4458,4 +4458,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_1(){
+        $sql = $this->gen_sql_new("select 1 "
+                                  ." from %s "
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
