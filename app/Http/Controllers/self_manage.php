@@ -311,11 +311,11 @@ class self_manage extends Controller
         $dim = $imagecreatefrom($origin_pic);
         // 创建缩略画布    
         $tim = imagecreatetruecolor($width, $height); 
-         // 创建白色填充缩略画布   
+        // 创建白色填充缩略画布   
         $white = imagecolorallocate($tim, 255, 255, 255);   
-          // 填充缩略画布   
+        // 填充缩略画布   
         imagefill($tim, 0, 0, $white);   
-     
+
         $dwidth = (int)$info[0] * $calc;   
         $dheight = (int)$info[1] * $calc;     
         $paddingx = (int)($width - $dwidth) / 2;   
@@ -343,19 +343,23 @@ class self_manage extends Controller
         imagedestroy($tim);
         imagedestroy($dim);
 
+        $face = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         $this->t_manager_info->field_update_list($uid,[
-            "face_pic" => "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name,
+            "face_pic" => $face,
         ]);
-        $phone = $this->t_manager_info->get_phone($uid);
-        $ret = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        if($ret){
-            $this->t_teacher_info->field_update_list($teacherid,[
-                "face" => "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name,
-            ]);
+
+        $phone     = $this->t_manager_info->get_phone($uid);
+        $account_role = $this->get_account_role();
+        if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2])){
+            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+            if($teacherid){
+                $this->t_teacher_info->field_update_list($teacherid,[
+                    "face" => $face,
+                ]);
+            }
         }
-        
-        $_SESSION['face_pic']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
-        // dd();
+
+        $_SESSION['face_pic'] = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         return $this->output_succ();
     }
 
