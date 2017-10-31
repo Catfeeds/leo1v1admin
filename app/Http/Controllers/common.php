@@ -703,6 +703,7 @@ class common extends Controller
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
+
             $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=1";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
             $qr_url       = "/tmp/".$phone.".png";
