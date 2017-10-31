@@ -3207,6 +3207,7 @@ class user_deal extends Controller
         $trail_num=0;
         $trail_time=0;
         $through_num=0;
+        $through_real_num=0;
         $through_time=0;
         foreach($ret_interview as $val){
             $time = $val["confirm_time"]-$val["add_time"];
@@ -3235,7 +3236,10 @@ class user_deal extends Controller
             }
             if($val["train_through_new"]==1){
                 $through_num++;
-                $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
+                if($val["trail_time"]>0 && $val["train_through_new_time"]>$val["trail_time"]){
+                    $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
+                    $through_real_num++;
+                }
             }
             
         }
@@ -3245,7 +3249,7 @@ class user_deal extends Controller
         //新师培训数/时间
         $train_time = $train_real_num>0?round($train_time/$train_real_num/86400,1):0;
         $trail_time = $trail_num>0?round($trail_time/$trail_num/86400,1):0;
-        $through_time = $through_num>0?round($through_time/$through_num/86400,1):0;
+        $through_time = $through_real_num>0?round($through_time/$through_real_num/86400,1):0;
 
         dd($through_time);
         
