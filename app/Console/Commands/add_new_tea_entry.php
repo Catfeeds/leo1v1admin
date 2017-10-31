@@ -58,7 +58,7 @@ class add_new_tea_entry extends Command
             if ($item['subject'] == 1 && $item['grade'] == 100) {
                 $info[0] = $item;
             }
-            if ($item['subject'] == 1 && )
+            // if ($item['subject'] == 1 && )
             //$item['']
         }
 

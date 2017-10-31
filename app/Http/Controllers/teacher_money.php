@@ -281,136 +281,136 @@ class teacher_money extends Controller
         $teacher_type       = $simple_info['teacher_type'];
         $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
 
-        if(in_array($teacherid,[50728,58052])){
+        // if(in_array($teacherid,[50728,58052])){
             $list = $this->get_teacher_lesson_money_list($teacherid,$start_time,$now_time,$show_type);
-        }else{
-            $start_date         = strtotime(date("Y-m-01",$start_time));
-            $now_date           = strtotime(date("Y-m-01",$now_time));
+        // }else{
+        //     $start_date         = strtotime(date("Y-m-01",$start_time));
+        //     $now_date           = strtotime(date("Y-m-01",$now_time));
 
-            $list = [];
-            for($i=0,$flag=true;$flag!=false;$i++){
-                $j     = $i+1;
-                $start = strtotime("+".$i."month",$start_date);
-                $end   = strtotime("+".$j."month",$start_date);
-                if($end==$now_date || $end>$now_date){
-                    $flag = false;
-                }
+        //     $list = [];
+        //     for($i=0,$flag=true;$flag!=false;$i++){
+        //         $j     = $i+1;
+        //         $start = strtotime("+".$i."month",$start_date);
+        //         $end   = strtotime("+".$j."month",$start_date);
+        //         if($end==$now_date || $end>$now_date){
+        //             $flag = false;
+        //         }
 
-                $start_list[] = $start;
-                $list[$i]["date"]               = date("Y年m月",$start);
-                $list[$i]["start_time"]         = $start;
-                $list[$i]["end_time"]           = $end;
-                $list[$i]["lesson_price"]       = "0";
-                $list[$i]["lesson_normal"]      = "0";
-                $list[$i]["lesson_trial"]       = "0";
-                $list[$i]["lesson_reward"]      = "0";
-                $list[$i]["lesson_full_reward"] = "0";
-                $list[$i]["lesson_cost"]        = "0";
-                //常规课扣款综合，本字段供后台统计使用
-                $list[$i]["lesson_cost_normal"] = "0";
-                $list[$i]["lesson_cost_tax"]    = "0";
-                $list[$i]["lesson_total"]       = "0";
-                $reward_list = $this->get_teacher_reward_money_list($teacherid,$start,$end);
-                //荣誉榜奖励金额
-                $list[$i]['lesson_reward_ex']   = $reward_list[E\Ereward_type::V_1]['money'];
-                //试听课奖金
-                $list[$i]['lesson_reward_trial'] = $reward_list[E\Ereward_type::V_2]['money'];
-                //90分钟课程补偿
-                $list[$i]['lesson_reward_compensate'] = $reward_list[E\Ereward_type::V_3]['money'];
-                //工资补偿
-                $list[$i]['lesson_reward_compensate_price'] = $reward_list[E\Ereward_type::V_4]['money'];
-                //模拟试听奖金
-                $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money'];
-                //伯乐奖
-                $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money'];
+        //         $start_list[] = $start;
+        //         $list[$i]["date"]               = date("Y年m月",$start);
+        //         $list[$i]["start_time"]         = $start;
+        //         $list[$i]["end_time"]           = $end;
+        //         $list[$i]["lesson_price"]       = "0";
+        //         $list[$i]["lesson_normal"]      = "0";
+        //         $list[$i]["lesson_trial"]       = "0";
+        //         $list[$i]["lesson_reward"]      = "0";
+        //         $list[$i]["lesson_full_reward"] = "0";
+        //         $list[$i]["lesson_cost"]        = "0";
+        //         //常规课扣款综合，本字段供后台统计使用
+        //         $list[$i]["lesson_cost_normal"] = "0";
+        //         $list[$i]["lesson_cost_tax"]    = "0";
+        //         $list[$i]["lesson_total"]       = "0";
+        //         $reward_list = $this->get_teacher_reward_money_list($teacherid,$start,$end);
+        //         //荣誉榜奖励金额
+        //         $list[$i]['lesson_reward_ex']   = $reward_list[E\Ereward_type::V_1]['money'];
+        //         //试听课奖金
+        //         $list[$i]['lesson_reward_trial'] = $reward_list[E\Ereward_type::V_2]['money'];
+        //         //90分钟课程补偿
+        //         $list[$i]['lesson_reward_compensate'] = $reward_list[E\Ereward_type::V_3]['money'];
+        //         //工资补偿
+        //         $list[$i]['lesson_reward_compensate_price'] = $reward_list[E\Ereward_type::V_4]['money'];
+        //         //模拟试听奖金
+        //         $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money'];
+        //         //伯乐奖
+        //         $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money'];
 
-                $list[$i]["lesson_ref_money"]  = "0";
-                $list[$i]["teacher_ref_money"] = "0";
+        //         $list[$i]["lesson_ref_money"]  = "0";
+        //         $list[$i]["teacher_ref_money"] = "0";
 
-                //拉取上个月的课时信息
-                $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
-                $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
-                if(!empty($lesson_list)){
-                    foreach($lesson_list as $key => &$val){
-                        $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+        //         //拉取上个月的课时信息
+        //         $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
+        //         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
+        //         if(!empty($lesson_list)){
+        //             foreach($lesson_list as $key => &$val){
+        //                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
 
-                        if($val['lesson_type'] != 2){
-                            $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
-                            $val['lesson_base'] = $val['money']*$lesson_count;
-                            $list[$i]['lesson_normal'] += $val['lesson_base'];
-                            $reward = $this->get_lesson_reward_money(
-                                $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
-                            );
-                        }else{
-                            $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
-                                $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
-                            );
-                            $list[$i]['lesson_trial'] += $val['lesson_base'];
-                            $reward = "0";
-                        }
-                        $val['lesson_full_reward'] = 0;
-                        $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
+        //                 if($val['lesson_type'] != 2){
+        //                     $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
+        //                     $val['lesson_base'] = $val['money']*$lesson_count;
+        //                     $list[$i]['lesson_normal'] += $val['lesson_base'];
+        //                     $reward = $this->get_lesson_reward_money(
+        //                         $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
+        //                     );
+        //                 }else{
+        //                     $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
+        //                         $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
+        //                     );
+        //                     $list[$i]['lesson_trial'] += $val['lesson_base'];
+        //                     $reward = "0";
+        //                 }
+        //                 $val['lesson_full_reward'] = 0;
+        //                 $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
 
-                        $this->get_lesson_cost_info($val);
-                        $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
-                        $list[$i]['lesson_price']       += $lesson_price;
-                        $list[$i]['lesson_reward']      += $val['lesson_reward'];
-                        $list[$i]['lesson_cost']        += $val['lesson_cost'];
-                        $list[$i]['lesson_cost_normal'] += $val['lesson_cost_normal'];
-                        $list[$i]['lesson_total']       += $lesson_count;
-                        $list[$i]['lesson_full_reward'] += $val['lesson_full_reward'];
-                    }
-                }
-            }
+        //                 $this->get_lesson_cost_info($val);
+        //                 $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
+        //                 $list[$i]['lesson_price']       += $lesson_price;
+        //                 $list[$i]['lesson_reward']      += $val['lesson_reward'];
+        //                 $list[$i]['lesson_cost']        += $val['lesson_cost'];
+        //                 $list[$i]['lesson_cost_normal'] += $val['lesson_cost_normal'];
+        //                 $list[$i]['lesson_total']       += $lesson_count;
+        //                 $list[$i]['lesson_full_reward'] += $val['lesson_full_reward'];
+        //             }
+        //         }
+        //     }
 
-            foreach($list as &$item){
-                $item['lesson_price'] = strval(
-                    $item['lesson_price']
-                    +$item['lesson_reward_ex']
-                    +$item['lesson_reward_trial']
-                    +$item['lesson_reward_compensate']
-                    +$item['lesson_reward_compensate_price']
-                    +$item['lesson_reward_reference']
-                    +$item['lesson_reward_train']
-                );
-                $item['lesson_normal']       = strval($item['lesson_normal']);
-                $item['lesson_trial']        = strval($item['lesson_trial']);
-                $item['lesson_reward']       = strval(
-                    $item['lesson_reward']
-                    +$item['lesson_reward_compensate']
-                    +$item['lesson_reward_compensate_price']
-                );
-                $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
-                $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);
-                $item['lesson_cost']         = strval($item['lesson_cost']);
-                $item['lesson_cost_normal']  = strval($item['lesson_cost_normal']);
-                $item['lesson_total']        = strval($item['lesson_total']);
-                $item['lesson_price_tax']    = strval($item['lesson_price']);
-                //计算平台合作的抽成费用
-                if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
-                    $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
-                    $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
-                    $item['teacher_ref_rate']  = $teacher_ref_rate;
-                }
+        //     foreach($list as &$item){
+        //         $item['lesson_price'] = strval(
+        //             $item['lesson_price']
+        //             +$item['lesson_reward_ex']
+        //             +$item['lesson_reward_trial']
+        //             +$item['lesson_reward_compensate']
+        //             +$item['lesson_reward_compensate_price']
+        //             +$item['lesson_reward_reference']
+        //             +$item['lesson_reward_train']
+        //         );
+        //         $item['lesson_normal']       = strval($item['lesson_normal']);
+        //         $item['lesson_trial']        = strval($item['lesson_trial']);
+        //         $item['lesson_reward']       = strval(
+        //             $item['lesson_reward']
+        //             +$item['lesson_reward_compensate']
+        //             +$item['lesson_reward_compensate_price']
+        //         );
+        //         $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
+        //         $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);
+        //         $item['lesson_cost']         = strval($item['lesson_cost']);
+        //         $item['lesson_cost_normal']  = strval($item['lesson_cost_normal']);
+        //         $item['lesson_total']        = strval($item['lesson_total']);
+        //         $item['lesson_price_tax']    = strval($item['lesson_price']);
+        //         //计算平台合作的抽成费用
+        //         if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
+        //             $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
+        //             $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
+        //             $item['teacher_ref_rate']  = $teacher_ref_rate;
+        //         }
 
-                //teacher_money_flag=1 多卡用户,不扣管理费
-                // if($teacher_money_flag!=1 || in_array($teacher_money_type,[5,6])){
-                //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
-                // 与sherry沟通，从2017年10月31日16:11:55开始全部都扣除2%的费用
-                // if(in_array($teacher_money_type,[0,1,2,3])){
-                //     if($item['lesson_price']>800){
-                //         $tax_price = $item['lesson_price']-800;
-                //         $item['lesson_cost_tax'] = strval(round($tax_price*0.02,2));
-                //         $item['lesson_price'] -= $item['lesson_cost_tax'];
-                //     }
-                // }else{
-                $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
-                $item['lesson_price'] -= $item['lesson_cost_tax'];
-                // }
-                // }
-            }
-            array_multisort($start_list,SORT_DESC,$list);
-        }
+        //         //teacher_money_flag=1 多卡用户,不扣管理费
+        //         // if($teacher_money_flag!=1 || in_array($teacher_money_type,[5,6])){
+        //         //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
+        //         // 与sherry沟通，从2017年10月31日16:11:55开始全部都扣除2%的费用
+        //         // if(in_array($teacher_money_type,[0,1,2,3])){
+        //         //     if($item['lesson_price']>800){
+        //         //         $tax_price = $item['lesson_price']-800;
+        //         //         $item['lesson_cost_tax'] = strval(round($tax_price*0.02,2));
+        //         //         $item['lesson_price'] -= $item['lesson_cost_tax'];
+        //         //     }
+        //         // }else{
+        //         $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
+        //         $item['lesson_price'] -= $item['lesson_cost_tax'];
+        //         // }
+        //         // }
+        //     }
+        //     array_multisort($start_list,SORT_DESC,$list);
+        // }
 
         return $this->output_succ([
             "teacher_info" => $teacher_info,
@@ -799,8 +799,6 @@ class teacher_money extends Controller
      * 设置老师的薪资
      */
     public function set_teacher_salary($teacherid){
-        $this->set_in_value("teacherid",$teacherid);
-        $this->set_in_value("type","command");
 
         $salary_info = $this->get_teacher_total_money();
 
