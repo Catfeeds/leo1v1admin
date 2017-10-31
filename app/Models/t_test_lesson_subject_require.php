@@ -3294,25 +3294,7 @@ ORDER BY require_time ASC";
 
     /**
                $sql = $this->gen_sql_new(
-            "select tr.change_teacher_reason, tr.change_teacher_reason_img_url, tr.change_teacher_reason_type, test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
-            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid,s.is_test_user ,"
-            ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
-            ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
-            ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
-            ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time ,  if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand ,tr.intention_level, "
-            ." s.gender,s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
-            ." ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
-            ." t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag,t.learning_situation,"
-            ." tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason,tr.seller_require_change_flag,"
-            ." tr.require_change_lesson_time,tr.seller_require_change_time , assigned_lesson_count ,tr.accept_adminid,"
-            ." jw_test_lesson_status,set_lesson_time,tr.green_channel_teacherid,tc.cancel_time,t.textbook,tr.cur_require_adminid,"
-            ." tr.grab_status,tr.current_lessonid,tr.is_green_flag,tr.limit_require_flag,tr.limit_require_teacherid , "
-            ." tr.limit_require_lesson_start ,tr.limit_require_time,tr.limit_require_adminid ,tr.limit_require_send_adminid,"
-            ." tr.limit_accept_flag,tr.limit_require_reason,tr.limit_accept_time, tea.limit_plan_lesson_reason, "
-            ." t.demand_urgency,t.quotation_reaction,t.knowledge_point_location,t.recent_results,t.advice_flag,"
-            ." ss.class_rank,ss.grade_rank,ss.academic_goal,ss.test_stress,ss.entrance_school_type,ss.interest_cultivation,"
-            ." ss.extra_improvement ,ss.habit_remodel ,ss.study_habit,ss.interests_and_hobbies,ss.character_type,"
-            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag "
+               "select  count(distinct(tss.lessonid)), "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -3346,7 +3328,8 @@ ORDER BY require_time ASC";
         $where_arr = [
             "s.is_test_user=0",
             "tr.accept_flag=1",
-            "ts.require_admin_type=2",
+            // "ts.require_admin_type=2",
+            "t.require_admin_type=2",
             // "l.lesson_type = 2",
             // "l.lesson_del_flag = 0",
             // "tss.fail_greater_4_hour_flag=0"
@@ -3354,19 +3337,50 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(distinct(tss.lessonid)) from %s tr "
-                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-                                  ." left join %s tss on tss.require_id=tr.require_id  "
-                                  ." left join %s l on l.lessonid=tss.lessonid"
-                                  ." left join %s s on ts.userid=s.userid"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME // tss
-                                  ,t_lesson_info::DB_TABLE_NAME// l
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr
+
+
+
+
+        $sql = $this->gen_sql_new(
+            "select  count(distinct(tss.lessonid)), "
+            ." from  %s tr "
+            ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+            ." left join %s ss on  t.userid = ss.userid "
+            ." left join %s s on  t.userid = s.userid "
+            ." left join %s tss on  tr.current_lessonid = tss.lessonid "
+            ." left join %s l on  tss.lessonid = l.lessonid "
+            ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
+            ." left join %s tc on tr.current_lessonid=tc.lessonid "
+            ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
+            ." where  %s  "
+            , t_test_lesson_subject_require::DB_TABLE_NAME//tr
+            , t_test_lesson_subject::DB_TABLE_NAME//t
+            , t_seller_student_new::DB_TABLE_NAME//ss
+            , t_student_info::DB_TABLE_NAME//s
+            , t_test_lesson_subject_sub_list::DB_TABLE_NAME//tss
+            , t_lesson_info::DB_TABLE_NAME//l
+            , t_course_order::DB_TABLE_NAME//c
+            , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
+            , t_teacher_info::DB_TABLE_NAME//tea
+            ,$where_arr
         );
+
+
+
+
+        // $sql = $this->gen_sql_new("  select count(distinct(tss.lessonid)) from %s tr "
+        //                           ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+        //                           ." left join %s tss on tss.require_id=tr.require_id  "
+        //                           ." left join %s l on l.lessonid=tss.lessonid"
+        //                           ." left join %s s on ts.userid=s.userid"
+        //                           ." where %s"
+        //                           ,self::DB_TABLE_NAME
+        //                           ,t_test_lesson_subject::DB_TABLE_NAME
+        //                           ,t_test_lesson_subject_sub_list::DB_TABLE_NAME // tss
+        //                           ,t_lesson_info::DB_TABLE_NAME// l
+        //                           ,t_student_info::DB_TABLE_NAME
+        //                           ,$where_arr
+        // );
 
         return $this->main_get_value($sql);
 
