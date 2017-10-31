@@ -485,11 +485,8 @@ class wx_parent_gift extends Controller
 
     public function do_luck_draw_yxyx(){ // 抽奖
         $openid = $this->get_in_str_val('openid');
-
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid   = $agent_info['userid'];
-
-
         $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);

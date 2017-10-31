@@ -3181,6 +3181,13 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
+
+        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
+        dd($complaint_info);
+
+
+
+
                
                   
        
@@ -3452,6 +3459,35 @@ class user_deal extends Controller
         $ninty = count($ninty_tea_list);
         $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,12000);
         $twl = count($twl_tea_list);
+
+        //流失老师按科目分
+        $subject=1;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_yuwen = $tea_num_all_old-$tea_num_old_three;
+        $subject=2;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_shuxue = $tea_num_all_old-$tea_num_old_three;
+        $subject=3;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_yingyu = $tea_num_all_old-$tea_num_old_three;
+        $subject=4;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_huaxue = $tea_num_all_old-$tea_num_old_three;
+        $subject=5;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_wuli = $tea_num_all_old-$tea_num_old_three;
+        $subject=-2;
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
+        $tea_num_lose_three_zonghe = $tea_num_all_old-$tea_num_old_three;
+
+        //老师投诉处理
+
 
         
 
