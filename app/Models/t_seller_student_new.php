@@ -1169,8 +1169,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"
-            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,"
-            ."s.grade,s.origin,s.nick "
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,"
+            ."s.grade,s.origin,s.realname "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "

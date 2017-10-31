@@ -65,7 +65,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["phone_location"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
