@@ -365,10 +365,10 @@ class tongji2 extends Controller
             // if(!@$map[$item["adminid"] ] ) {
             if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
                 // if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
-                if ($adminid==  $item["adminid"]) {
-                    dd($adminid);
+                if ($adminid == $item["adminid"]) {
                     // $ret_info["list"][]=["adminid" => $item["adminid"] ];
                     $ret_info["list"][$item["adminid"]] = ["adminid" => $item["adminid"]];
+                    dd($ret_info["list"],$adminid);
                 }
             }
         }
