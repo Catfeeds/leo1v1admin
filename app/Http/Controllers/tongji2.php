@@ -364,7 +364,7 @@ class tongji2 extends Controller
         foreach($order_user_list as $item ) {
             // if(!@$map[$item["adminid"] ] ) {
             if(isset($map[$item["adminid"]])) {
-                if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
+                if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
                     // $ret_info["list"][]=["adminid" => $item["adminid"] ];
                     $ret_info["list"][$item["adminid"]]=["adminid" => $item["adminid"] ];
                     dd($order_user_list,$ret_info["list"],$item["adminid"]);
@@ -1435,7 +1435,7 @@ class tongji2 extends Controller
             }
         }
         foreach ($ret as $key => $value) {
-            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+            $value['grade_str1'] = E\Egrade::get_desc($value['grade']);
         }
         return $this->pageView(__METHOD__, $ret_info,[
                 "ret" => $ret,
