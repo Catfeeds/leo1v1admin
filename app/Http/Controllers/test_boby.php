@@ -861,7 +861,7 @@ class test_boby extends Controller
 
         $id = $this->t_month_student_count->get_id_by_create_time($prev_start);
         $this->t_month_student_count->field_update_list($id,$prev_month);
-        $this->t_month_student_count->row_insert($cur_month);
+        // $this->t_month_student_count->row_insert($cur_month);
 
         return 'ok';
     }
