@@ -30,7 +30,7 @@ class t_grab_lesson_link_visit_operation extends \App\Models\Zgen\z_t_grab_lesso
             ["create_time<%u",$end_time,0],  
         ];
         $sql = $this->gen_sql_new("select count(*) all_num,"
-                                  ." sum(if(success_flag=1,1,0) success_num)"
+                                  ." sum(if(success_flag=1,1,0)) success_num"
                                   ." from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr

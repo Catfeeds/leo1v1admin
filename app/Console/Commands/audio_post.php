@@ -96,7 +96,10 @@ class audio_post extends cmd_base
 
                 $ret=\App\Helper\Net::http_post_data($rcrai_url, json_encode($post_data));
                 echo "deal : $adminid, ".  $item["phone"]. ":".json_encode($ret)."\n";
+                \App\Helper\Utils::logger("deal : $adminid, ".  $item["phone"]. ":".json_encode($ret));
+
             }else {
+                \App\Helper\Utils::logger(" no send : $adminid, ".  $item["phone"]);
                 echo "no send : $adminid, ".  $item["phone"]. " \n";
             }
 
