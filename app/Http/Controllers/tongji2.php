@@ -368,7 +368,7 @@ class tongji2 extends Controller
                 if ($adminid==  $item["adminid"]){
                     // $ret_info["list"][]=["adminid" => $item["adminid"] ];
                     $ret_info["list"][$item["adminid"]]=["adminid" => $item["adminid"] ];
-                    dd($order_user_list,$ret_info["list"],$item["adminid"]);
+                    // dd($order_user_list,$ret_info["list"],$item["adminid"]);
                 }
             }
         }
