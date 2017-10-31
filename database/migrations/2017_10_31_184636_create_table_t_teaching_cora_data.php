@@ -81,9 +81,19 @@ class CreateTableTTeachingCoraData extends Migration
             t_field($table->integer("teacher_late_num"),"老师迟到次数");
             t_field($table->integer("teacher_change_num"),"老师调课次数");
             t_field($table->integer("teacher_leave_num"),"老师请假次数");
-            t_field($table->integer("read_stu_num"),"在读学生数");
-            t_field($table->integer("read_stu_num"),"在读学生数");
-            t_field($table->integer("read_stu_num"),"在读学生数");
+            t_field($table->integer("change_tea_num"),"老师更换次数");
+            t_field($table->integer("teacher_refund_num"),"老师退费人数");
+
+            t_field($table->string("teacher_late_per",32),"老师迟到率");
+            t_field($table->string("teacher_change_per",32),"老师调课率");
+            t_field($table->string("teacher_leave_per",32),"老师请假率");
+            t_field($table->string("change_tea_per",32),"老师更换率");
+
+            
+            t_field($table->integer("thirty_lesson_tea_num"),"常规课数大于30人数");
+            t_field($table->integer("sixty_lesson_tea_num"),"常规课数大于60人数");
+            t_field($table->integer("ninty_lesson_tea_num"),"常规课数大于90人数");
+            t_field($table->integer("hundred_twenty_lesson_tea_num"),"常规课数大于120人数");
             t_field($table->integer("read_stu_num"),"在读学生数");
             t_field($table->integer("read_stu_num"),"在读学生数");
             t_field($table->integer("read_stu_num"),"在读学生数");
