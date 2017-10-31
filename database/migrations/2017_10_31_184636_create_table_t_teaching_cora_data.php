@@ -94,9 +94,16 @@ class CreateTableTTeachingCoraData extends Migration
             t_field($table->integer("sixty_lesson_tea_num"),"常规课数大于60人数");
             t_field($table->integer("ninty_lesson_tea_num"),"常规课数大于90人数");
             t_field($table->integer("hundred_twenty_lesson_tea_num"),"常规课数大于120人数");
-            t_field($table->integer("read_stu_num"),"在读学生数");
-            t_field($table->integer("read_stu_num"),"在读学生数");
-            t_field($table->integer("read_stu_num"),"在读学生数");
+
+            t_field($table->integer("lose_teacher_num_three_chinese"),"流失上课老师数(语文)");
+            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(数学)");
+            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(英语)");
+            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(化学)");
+            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(物理)");
+            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(综合)");
+            t_field($table->integer("tea_complaint_num"),"老师投诉次数");
+            t_field($table->string("tea_complaint_deal_time",32),"投诉处理时长");
+            
             $table->primary(["orderid","period"]);
         });
 
