@@ -3182,25 +3182,6 @@ class user_deal extends Controller
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
 
-        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
-        $complaint_num = count($complaint_info);
-        $deal_num = $deal_time=0;
-        foreach($complaint_info as $val){
-            if($val["deal_time"]>0){
-                $deal_time +=($val["deal_time"]-$val["add_time"]);
-                $deal_num++;
-            }
-        }
-        $deal_time = $deal_num>0?round($deal_time/$deal_num/86400,1):0;
-        dd($deal_time);
-
-
-
-
-               
-                  
-       
-
         //新老师数(入职)
         $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);
         //本月上课老师数
