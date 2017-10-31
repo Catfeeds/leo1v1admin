@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      // $this->switch_tongji_database();
+      $this->switch_tongji_database();
     }
 
     public function table_start($th_arr){
@@ -775,5 +775,26 @@ class test_boby extends Controller
 
         return 'ok';
     }
+
+    //获取所有试听课排课时间,科目,年级
+    public function get_test_lesson_info(){
+        $sql = " select set_lesson_time,l.subject,l.grade  from t_test_lesson_subject_sub_list tl left join t_lesson_info l on l.lessonid=tl.lessonid where l.lesson_del_flag=0 and l.lesson_user_online_status <>2";
+
+        $th_arr = ['年级','科目','人数'];
+        $s = $this->table_start($th_arr);
+        $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+        foreach ($ret_info as $item){
+            $sub = E\Esubject::get_desc($item['subject']);
+            $gra = E\Egrade::get_desc($item['grade']);
+            $tim = \App\Helper\Utils::unixtime2date($item["create_time"]);
+
+            $s= $this->tr_add($s, $gra,$sub,$tim);
+        }
+
+        $s = $this->table_end($s);
+        echo $s;
+
+    }
+
 
 }

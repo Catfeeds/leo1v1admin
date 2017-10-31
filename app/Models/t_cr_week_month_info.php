@@ -281,20 +281,21 @@ where a.stu_request_test_lesson_time > 1483200000 and a.grade in (101,102,103) a
           "s.is_test_user = 0 ",
         ];
         $sql = $this->gen_sql_new("select  a.userid, s.nick, a.grade, a. subject ,a.stu_request_test_lesson_demand,a.textbook  ,s.phone_location, t.current_lessonid ,t.require_id ,k.lessonid ,k.success_flag, l.lesson_type,l.lesson_user_online_status ,o.price,o.contract_status"
-        ." from %s  a  "
-        ." left join %s s on s.userid = a.userid "
-        ." left join %s t on t.require_id = a.current_require_id "
-        ." left join %s k on k.require_id  = t.require_id "
-        ." left join %s l on l.lessonid = k.lessonid "
-        ." left join %s o on o.from_test_lesson_id  = l.lessonid "
-        ." where  %s",
-        t_test_lesson_subject::DB_TABLE_NAME,
-        t_student_info::DB_TABLE_NAME,
-        t_test_lesson_subject_require::DB_TABLE_NAME,
-        t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-        t_lesson_info::DB_TABLE_NAME,
-        t_order_info::DB_TABLE_NAME,
-        $where_arr);
+                                  ." from %s  a  "
+                                  ." left join %s s on s.userid = a.userid "
+                                  ." left join %s t on t.require_id = a.current_require_id "
+                                  ." left join %s k on k.require_id  = t.require_id "
+                                  ." left join %s l on l.lessonid = k.lessonid "
+                                  ." left join %s o on o.from_test_lesson_id  = l.lessonid "
+                                  ." where  %s",
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_info);
     }
     public function get_total_apply_info($start_time,$end_time){
