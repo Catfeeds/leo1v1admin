@@ -362,12 +362,12 @@ class tongji2 extends Controller
         }
 		//unset($item);
         foreach($order_user_list as $item ) {
-            if(!@$map[$item["adminid"] ] ) {
-            // if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
-                if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
+            // if(!@$map[$item["adminid"] ] ) {
+            if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
+                // if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
                     // $ret_info["list"][]=["adminid" => $item["adminid"] ];
                     $ret_info["list"] = ["adminid" => $item["adminid"] ];
-                }
+                // }
             }
         }
         dd($ret_info["list"]);
