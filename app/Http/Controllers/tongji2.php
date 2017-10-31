@@ -1411,6 +1411,7 @@ class tongji2 extends Controller
     public function one_three_grade_student(){
         list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],3);
         $page_info = $this->get_in_page_info();
+
         $ret_info = $this->t_cr_week_month_info->get_apply_info_new($page_info,$start_time,$end_time);
         $ret = $this->t_cr_week_month_info->get_total_apply_info($start_time,$end_time);
         foreach ($ret_info['list'] as $key => &$value) {
@@ -1436,12 +1437,11 @@ class tongji2 extends Controller
             }
         }
         foreach ($ret as $key => &$value) {
-            
             $value['grade_str'] = E\Egrade::get_desc($value['grade']);
         }
-        return $this->pageView(__METHOD__, null,[
-                "table_data_list" => $ret_info['list'],
-                "ret" => $ret,
-            ]);
+        return $this->pageView(__METHOD__, $ret_info,[
+            // "table_data_list" => $ret_info['list'],
+            "ret" => $ret,
+        ]);
     }
 }
