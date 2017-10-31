@@ -1760,7 +1760,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." and s.is_test_user=0 "
                                   ." and contract_status>0 "
                                   ." and price>0 "
-                                  ." and order_time>$start_time"
+                                  ." and order_time>=$start_time"
                                   ." and order_time<$end_time"
                                   ." group by order_month "
                                   ." order by order_month asc "
