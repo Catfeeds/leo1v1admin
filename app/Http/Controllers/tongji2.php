@@ -365,13 +365,10 @@ class tongji2 extends Controller
             // if(!@$map[$item["adminid"] ] ) {
             if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
                 if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
-                    dd($adminid);
-                // if ($adminid==$item["adminid"]) {
                     $ret_info["list"][]=["adminid" => $item["adminid"] ];
                 }
             }
         }
-        dd($ret_info["list"]);
         $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
 
         foreach( $admin_list as &$item ) {
