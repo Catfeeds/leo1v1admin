@@ -35,7 +35,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
     //获取一条新闻
     public function get_one_new_info($id) {
         $where_arr = [
-            'id='.$id,
+            ['id=%u', $id, 0],
         ];
         $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content,create_time,adminid"
                                     ." from %s"
