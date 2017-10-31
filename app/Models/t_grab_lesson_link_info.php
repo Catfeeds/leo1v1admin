@@ -56,8 +56,6 @@ class t_grab_lesson_link_info extends \App\Models\Zgen\z_t_grab_lesson_link_info
         );
         return $this->main_get_value($sql);
 
-
-
     }
 
     public function get_info_test($sql){

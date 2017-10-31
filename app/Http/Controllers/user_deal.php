@@ -3480,6 +3480,13 @@ class user_deal extends Controller
         //常规课数大于30/60/90/120人数
         $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,3000);
         $thirty = count($thirty_tea_list);
+        $sixty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,6000);
+        $sixty = count($sixty_tea_list);
+        $ninty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,9000);
+        $ninty = count($ninty_tea_list);
+        $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,12000);
+        $twl = count($twl_tea_list);
+
         
 
         
