@@ -3460,7 +3460,7 @@ ORDER BY require_time ASC";
         $sql = $this->gen_sql_new(
             "select "
             ."cur_require_adminid adminid,count(*) count,"
-            ."sum(lesson_user_online_status in (0, 1) or f.flow_status = 2) succ_count,"
+            ."sum(lesson_user_online_status in (0, 1) or f.flow_status = 2) suc_count,"
             ."sum(if((lesson_user_online_status in (0, 1) or f.flow_status = 2) and n.test_lesson_opt_flag=1,1,0)) test_count, "
             ."sum(if(l.on_wheat_flag=1,1,0)) wheat_count "
             ."from %s tr "
