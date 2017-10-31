@@ -65,13 +65,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["realname"]}} </td>
+                        <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone_location"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["has_pad_str"]}} </td>
                         <td>{{@$var["last_revisit_time"]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["last_lesson_time"]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var["user_desc"]}} </td>

@@ -1060,6 +1060,7 @@ class seller_student_new extends Controller
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "last_revisit_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "last_lesson_time");
             E\Epad_type::set_item_value_str($item, "has_pad");
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
