@@ -1426,4 +1426,5 @@ class stu_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+    
 }

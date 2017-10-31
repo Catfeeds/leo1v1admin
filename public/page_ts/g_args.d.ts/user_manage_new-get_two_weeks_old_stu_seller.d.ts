@@ -37,28 +37,29 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-get_two_weeks_old_stu_seller.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		all_flag:	$('#id_all_flag').val(),
+		test_user:	$('#id_test_user').val(),
+		originid:	$('#id_originid').val(),
+		user_name:	$('#id_user_name').val(),
+		phone:	$('#id_phone').val(),
+		assistantid:	$('#id_assistantid').val(),
+		seller_adminid:	$('#id_seller_adminid').val(),
+		order_type:	$('#id_order_type').val(),
+		student_type:	$('#id_student_type').val(),
+		userid:	$('#id_userid').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			all_flag:	$('#id_all_flag').val(),
-			test_user:	$('#id_test_user').val(),
-			originid:	$('#id_originid').val(),
-			user_name:	$('#id_user_name').val(),
-			phone:	$('#id_phone').val(),
-			assistantid:	$('#id_assistantid').val(),
-			seller_adminid:	$('#id_seller_adminid').val(),
-			order_type:	$('#id_order_type').val(),
-			student_type:	$('#id_student_type').val(),
-			userid:	$('#id_userid').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 

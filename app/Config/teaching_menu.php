@@ -22,6 +22,7 @@ class teaching_menu{
                     [ "name"=>"试听转化率统计-质监", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                     [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                     [ "name"=>"教材版本匹配度",   "url"=>"/tongji/match_lesson_textbook"],
+                    [ "name"=>"1-3年级试听详情",  "url"=>"/tongji2/one_three_grade_student"],
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[

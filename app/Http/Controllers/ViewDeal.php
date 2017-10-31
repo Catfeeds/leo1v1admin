@@ -609,6 +609,7 @@ trait  ViewDeal {
         if (count($data_ex)>0 )  {
             $data=array_merge($data,$data_ex) ;
         }
+//        dd($data);
         return $this->view($method,$data);
     }
 
