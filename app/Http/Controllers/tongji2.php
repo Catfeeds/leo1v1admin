@@ -1360,7 +1360,7 @@ class tongji2 extends Controller
             }
 
             //转介绍
-            $tranfer = $this->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+            $tranfer = $this->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
             $tranfer_data = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
             $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
             $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
