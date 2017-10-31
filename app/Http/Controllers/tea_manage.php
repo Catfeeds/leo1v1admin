@@ -1952,12 +1952,13 @@ class tea_manage extends Controller
 
         if($type==0){
             $check_flag = $this->t_train_lesson_user->check_user_exists($lessonid,$userid);
+            $train_type = $this->t_lesson_info->get_train_type($lessonid);
             if(!$check_flag){
                 $this->t_train_lesson_user->row_insert([
                     "lessonid" => $lessonid,
                     "userid"   => $userid,
                     "add_time" => time(),
-                    "train_type"=>$type
+                    "train_type"=>$train_type
                 ]);
             }
         }else{

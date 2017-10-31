@@ -235,15 +235,23 @@ class teacher_money extends Controller
      * teacherid 老师id
      * type wx 微信老师端 admin 后台计算老师工资明细
      */
-    public function get_teacher_total_money(){
-        $type      = $this->get_in_str_val("type","wx");
-        $show_type = $this->get_in_str_val("show_type","current");
-        $teacherid = $this->get_in_int_val("teacherid");
+    public function get_teacher_total_money($from_type="wx",$teacherid=0){
+        if($from_type!="command"){
+            $type      = $this->get_in_str_val("type","wx");
+            $show_type = $this->get_in_str_val("show_type","current");
+            $teacherid = $this->get_in_int_val("teacherid");
+        }else{
+            $type = "wx";
+            $show_type = "current";
+        }
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
-
         $this->t_lesson_info->switch_tongji_database();
+        if(\App\Helper\Utils::check_env_is_local()){
+            echo "begin check";
+            echo PHP_EOL;
+        }
         if($type=="wx"){
             $start_time = $this->t_lesson_info->get_first_lesson_start($teacherid);
             $node_time  = strtotime("2016-12-1");
@@ -272,7 +280,10 @@ class teacher_money extends Controller
         }else{
             return $this->output_err("参数错误!");
         }
-
+        if(\App\Helper\Utils::check_env_is_local()){
+            echo "check over";
+            echo PHP_EOL;
+        }
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
         $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -791,8 +802,9 @@ class teacher_money extends Controller
      * 设置老师的薪资
      */
     public function set_teacher_salary($teacherid){
-        $this->set_in_value("teacherid",$teacherid);
-        $salary_info = $this->get_teacher_total_money();
+        // $this->set_in_value("teacherid",$teacherid);
+
+        $salary_info = $this->get_teacher_total_money("command",$teacherid);
         return $salary_info;
     }
 

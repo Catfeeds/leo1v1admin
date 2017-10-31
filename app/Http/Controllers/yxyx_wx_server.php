@@ -43,6 +43,7 @@ class  yxyx_wx_server extends Controller
         $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
         $base_url= $wx_config["url"] ;
 
+
         $menuList = array(
             array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'', 'code'=>''),
             array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'', 'code'=>''),
@@ -80,7 +81,7 @@ class  yxyx_wx_server extends Controller
         ]);
         return $this->output_succ(["index" =>$phone_index ]);
     }
-
+    //www-data-laravel-fpm-fcgi-2017-10-31.log
 
     public function ceshi () {
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http%3A%2F%2Fwx-parent.leo1v1.com%2Farticle_wx%2Fget_openid&response_type=code&scope=snsapi_base&state=1#wechat_redirect";

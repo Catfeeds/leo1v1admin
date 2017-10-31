@@ -699,9 +699,14 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_gkk.png";
+        if ( \App\Helper\Utils::check_env_is_test() ) {
+            $phone_qr_name = $phone."_qr_agent_test.png";
+        }else{
+            $phone_qr_name = $phone."_qr_agent_gkk.png";
+        }
         $qiniu_url     = $qiniu['public']['url'];
         \App\Helper\Utils::logger("CHECK is_exists start");
+
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
 
         \App\Helper\Utils::logger("CHECK is_exists end");
