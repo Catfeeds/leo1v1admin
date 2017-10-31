@@ -361,6 +361,7 @@ class tongji2 extends Controller
             //$item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
 		//unset($item);
+        dd($ret_info["list"]);
         foreach($order_user_list as $item ) {
             // if(!@$map[$item["adminid"] ] ) {
             if(@$map[$item["adminid"]] == true && isset($map[$item["adminid"]])) {
