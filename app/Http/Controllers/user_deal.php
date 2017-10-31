@@ -3236,7 +3236,7 @@ class user_deal extends Controller
             }
             if($val["train_through_new"]==1){
                 $through_num++;
-                if($val["trail_time"]>0){
+                if($val["trail_time"]>0 && $val["train_through_new_time"]>$val["trail_time"]){
                     $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
                     $through_real_num++;
                 }
