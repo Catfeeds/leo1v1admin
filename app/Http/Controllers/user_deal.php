@@ -759,7 +759,7 @@ class user_deal extends Controller
                 $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
 
                 $adminid_ass = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
-                if($adminid != $adminid_ass){
+                if($adminid != $adminid_ass && $adminid_ass>0){
                     $ass_oponid = $this->t_manager_info->get_wx_openid($adminid_ass);
                     $nick = $this->t_student_info->get_nick($userid);
                     $data_msg = [
@@ -3178,29 +3178,182 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $userid = 363833 ;
-        $tt= $this->t_child_order_info->get_order_list_new_jack($userid);
-        dd($tt);
-        $r = $this->t_student_info->field_update_list($userid,[
-            "type"=>0
-        ]);
-        $old_type = $this->t_student_info->get_type($userid);
-        $this->t_student_type_change_list->row_insert([
-            "userid"    =>$userid,
-            "add_time"  =>time(),
-            "type_before" =>$old_type,
-            "type_cur"    =>0,
-            "change_type" =>1,
-            "adminid"     =>0,
-            "reason"      =>"新签续费"
-        ]);
-        dd($r);
+        $this->switch_tongji_database();
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-09-01");
+        //面试邀约数/面试邀约时长
+        $ret = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
+        $app_num = count($ret);
+        $plan_num=$plan_time =0;
+        foreach($ret as $val){
+            $time = $val["add_time"];
+            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $time = $val["lesson_start"];
+            }
+            if($time>0){
+                $plan_num++;
+                $plan_time += ($time-$val["answer_begin_time"]);
+            }
+            
+        }
+        $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
+        //面试通过数/面试通过时长
+        $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
+        dd($ret_interview);
+        $interview_pass_num = count($ret_interview);
+        $interview_pass_time =0;
+        foreach($ret_interview as $val){
+            $time = $val["confirm_time"]-$val["add_time"];
+            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $time = $val["one_add_time"]-$val["lesson_start"];
+            }
+            $interview_pass_time +=$time;
+        }
+        $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
+        
 
-        $start_time = strtotime("2017-07-01");
-        $end_time = strtotime("2017-10-01");
-        $num = $this->t_teacher_info->get_no_regular_test_lesson_num($start_time,$end_time);
-        dd($num);
+        //新师培训数
+        $new_train_info = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_new_train_info($start_time,$end_time);
+        dd($new_train_info);
+        
+        
+        $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
+        $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);
+        $fifth_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,5);
 
+        $app_time = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_time($time);
+        $app_time_avg = !empty($app_time["num"])?round($app_time["time"]/$app_time["num"]/86400,1):0;
+
+        $lec_time = $this->t_teacher_lecture_info->get_tea_pass_time($time);
+        $lec_time_avg =  !empty($lec_time["num"])?round($lec_time["time"]/$lec_time["num"]/86400,1):0;
+
+        $tran_time = $this->t_teacher_lecture_info->get_tea_tran_pass_time($time);
+        $tran_time_avg =  !empty($tran_time["num"])?round($tran_time["time"]/$tran_time["num"]/86400,1):0;
+
+        $first_time =  $this->t_teacher_lecture_info->get_new_teacher_first_lesson_time($time);
+        $first_time_avg =  round(($first_time["lesson_time"] - $first_time["confirm_time"])/86400,1);
+
+        $fifth_time =  $this->t_teacher_lecture_info->get_new_teacher_fifth_lesson_time($time);
+        $fifth_time_avg =  round(($fifth_time["lesson_time"] - $fifth_time["confirm_time"])/86400,1);
+
+        $tea_limit_info  = $this->t_teacher_info->get_freeze_and_limit_tea_info($time);
+ 
+
+      
+
+        dd($thirty_lesson_count_info);
+           
+       
+
+        //新老师数(入职)
+        $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);
+        //本月上课老师数
+        $tea_num_all = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time);
+        //本月新增上课老师数
+        $tea_num_new = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,1);
+        //本月留存上课老师数
+        $tea_num_old = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,2);
+        //本月之前老师总数
+        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time);
+        //本月流失上课老师数
+        $tea_num_lose = $tea_num_all_old-$tea_num_old;
+
+        //流失老师数(三个月未上课)
+        $two_month_time = strtotime(date("Y-m-01",$start_time-45*86400));
+        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time);
+        $tea_num_lose_three = $tea_num_all_old-$tea_num_old_three;
+
+        //在读学生数
+        $tea_lesson_info = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $read_stu_num = @$tea_lesson_info["stu_num"];
+        //师生比
+        $tea_stu_num = $tea_lesson_info["stu_num"]>0?round(@$tea_lesson_info["tea_num"]/@$tea_lesson_info["stu_num"],1):0;       
+        $tea_stu_per = !empty($tea_stu_num)?"1:".$tea_stu_num:"";
+
+        //试听课老师数
+        $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
+        //常规课老师数
+        $tea_num_all_normal = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,-2);
+
+
+        //试听课学生与教材匹配度
+        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
+        $all_num   = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }       
+        }
+        $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
+
+        //新老师入职通过率
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
+                $teacher_list_ex[$k]=$k;
+            }
+        }
+        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
+        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
+        @$video_real["all_count"] += $one_real["all_count"];
+        $all_tea_ex = count($teacher_list_ex);
+        $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
+
+        //新老师入职时长
+        $video_time = $this->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
+        $one_time = $this->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
+        $num_total = 0;
+        $time_total=0;
+        foreach($video_time as $v){
+            $num_total++;
+            $time_total +=$v["time"];
+        }
+        foreach($one_time as $v){
+            $num_total++;
+            $time_total +=$v["time"];
+        }
+        $through_avg_time = $num_total>0?round($time_total/$num_total/86400,1):0;
+
+        //新老师30天留存率/转化率/平均课耗数
+        $new_teacher_thirty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,30);
+        $thirty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_thirty["tea_num"]/$train_through_all["through_all"]*100,2):0;
+        $thirty_tran_per =  @$new_teacher_thirty["person_num"]>0?round(@$new_teacher_thirty["have_order"]/@$new_teacher_thirty["person_num"]*100,2):0;
+        $thirty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,30);
+        $thirty_lesson_count = @$thirty_lesson_count_info["tea_num"]>0?round(@$thirty_lesson_count_info["all_count"]/$thirty_lesson_count_info["tea_num"]):0;
+        //新老师60天留存率/转化率
+        $new_teacher_sixty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,60);
+        $sixty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_sixty["tea_num"]/$train_through_all["through_all"]*100,2):0;
+        $sixty_tran_per =  @$new_teacher_sixty["person_num"]>0?round(@$new_teacher_sixty["have_order"]/@$new_teacher_sixty["person_num"]*100,2):0;
+        $sixty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
+        $sixty_lesson_count = @$sixty_lesson_count_info["tea_num"]>0?round(@$sixty_lesson_count_info["all_count"]/$sixty_lesson_count_info["tea_num"]):0;
+
+        //新老师90天留存率/转化率
+        $new_teacher_ninty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,90);
+        $ninty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_ninty["tea_num"]/$train_through_all["through_all"]*100,2):0;
+        $ninty_tran_per =  @$new_teacher_ninty["person_num"]>0?round(@$new_teacher_ninty["have_order"]/@$new_teacher_ninty["person_num"]*100,2):0;
+        $ninty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
+        $ninty_lesson_count = @$ninty_lesson_count_info["tea_num"]>0?round(@$ninty_lesson_count_info["all_count"]/$ninty_lesson_count_info["tea_num"]):0;
+
+
+
+
+        
+
+
+
+        dd($tea_stu_per);
+       
     }
 
        

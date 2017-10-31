@@ -785,9 +785,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $set_arr=[];
         if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
             $hand_get_adminid = 0;
-            if($opt_type == 0){
+            if($opt_type == 0){//cc
                 $hand_get_adminid = E\Ehand_get_adminid::V_3;
-            }elseif($opt_type == 3){
+            }elseif($opt_type == 3){//tmk
                 $hand_get_adminid = E\Ehand_get_adminid::V_4;
             }
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);

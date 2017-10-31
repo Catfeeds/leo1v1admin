@@ -294,8 +294,8 @@ class WechatRequest  {
 推广材料：
 点击下方蓝字，将内容转发给好友或朋友圈
 <a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_leo-Introduction/index.html'>【理优简介】</a>
-<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?p_phone='".$phone."&wx_openid=".$request['fromusername'].">【精品内容】</a>
-<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='".$request['fromusername'].">【学员反馈】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?p_phone='".$phone."&wx_openid=".$request['fromusername']."'>【精品内容】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='".$request['fromusername']."'>【学员反馈】</a>
 
 点击蓝字:<a href='http://www.leo1v1.com/market-l/index.html'>预约试听课</a>";
         $_SESSION['wx_openid'] = $request['fromusername'];
@@ -502,22 +502,28 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
             \App\Helper\Utils::logger("send txt end");
+            if ( \App\Helper\Utils::check_env_is_test()) {
 
-            $url = "$base_url/common/get_agent_qr?wx_openid=".$openid;
-            $img_url = self::get_img_url($url);
-            $type = 'image';
-            $num = rand();
-            $img_Long = file_get_contents($img_url);
-            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
-            $img_url = public_path().'/wximg/'.$num.'.png';
-            $img_url = realpath($img_url);
-            $mediaId = Media::upload($img_url, $type);
-            \App\Helper\Utils::logger("yxyxyx_openid:".$openid.",yxyxyx_img_url:".$img_url.",yxyxyx_mediaid:".json_encode($mediaId));
+            } else {
 
-            $mediaId = $mediaId['media_id'];
-            unlink($img_url);
-            $t_agent->set_add_type_2( $agent["id"]);
-            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+                $url = "$base_url/common/get_agent_qr?wx_openid=".$openid;
+                $img_url = self::get_img_url($url);
+                $type = 'image';
+                $num = rand();
+                $img_Long = file_get_contents($img_url);
+                file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+                $img_url = public_path().'/wximg/'.$num.'.png';
+                $img_url = realpath($img_url);
+                $mediaId = Media::upload($img_url, $type);
+                \App\Helper\Utils::logger("yxyxyx_openid:".$openid.",yxyxyx_img_url:".$img_url.",yxyxyx_mediaid:".json_encode($mediaId));
+
+                $mediaId = $mediaId['media_id'];
+                unlink($img_url);
+                $t_agent->set_add_type_2( $agent["id"]);
+
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+
+            }
 
         }elseif ($eventKey == 'invitation_member') {
             $t_agent = new \App\Models\t_agent();

@@ -97,6 +97,13 @@
                 <button class="btn btn-warning  add_player " >添加</button>
                 <button id="id_email_list" class="btn btn-primary " >邮箱</button>
             </div>
+            @if(in_array($acc,["jim","jack","孙瞿"]))
+                <div class="col-md-1 remove-for-xs col-xs-6 "  >
+                    <div>
+                        <button class="btn btn-primary" id="id_upload_xls"> 上传 </button>
+                    </div>
+                </div>
+            @endif
         </div>
         <hr/>
         <table class="common-table" >
@@ -169,6 +176,9 @@
                                     @if($var["account_role"]==5)
                                         <a href="javascript:;" title="同步老师入职时间" class="opt-set-train-through-time">同</a>
                                         <a href="javascript:;" title="修改老师等级" class="opt-set-teacher-level">等</a>
+                                    @endif
+                                    @if(in_array($acc,["jim","jack","孙瞿"]))
+                                        <a href="javascript:;" title="权限删除测试" class="opt-delete-permission">权限删除测</a>
                                     @endif
                                 </div>
                             </td>

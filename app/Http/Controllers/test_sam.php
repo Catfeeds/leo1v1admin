@@ -12,6 +12,129 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function world(){
+        $ret_info = $this->t_cr_week_month_info->get_all_teacher_info_total();
+        $ret_info_success  = $this->t_cr_week_month_info->get_all_teacher_info_success();
+        //dd($ret_info_success);
+        foreach ($ret_info as $key => &$value) {
+            # code...
+            if(isset($ret_info_success[$key])){
+                unset($ret_info[$key]);
+            }
+        }
+
+        foreach ($ret_info as $key => $value) {
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                if(isset($province['其它'])){
+                     ++$province['其它'] ;
+                }else{
+                    $province['其它'] = 0;
+                    ++$province['其它'] ;
+                }
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province[$pro])){
+                    $province[$pro] = 0;
+                    ++$province[$pro];
+                }else{
+                    ++$province[$pro];
+                }
+
+            }
+        }
+        echo "<table>";
+        foreach ($province as $key => $value) {
+            echo "<tr>";
+            echo "<td width=100px>".$key."</td>";
+            echo "<td width=100px>".$value."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+
+        foreach ($ret_info as $key => $value) {
+            if($value['subject'] == '' || $value['subject'] < 0 || $value['subject'] > 11){
+                $subject_str = "未设置";
+            }else{
+                $subject_str = E\Esubject::get_desc($value['subject']);
+            }
+            
+            if(isset($subject[$subject_str])){
+                ++$subject[$subject_str];
+            }else{
+                $subject[$subject_str] = 0;
+                ++$subject[$subject_str];
+            }
+        }
+
+        echo '----------------------------------------------'."<br/>";
+        echo "<table>";
+        foreach ($subject as $key => $value) {
+            echo "<tr>";
+            echo "<td width=100px>".$key."</td>";
+            echo "<td width=100px>".$value."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
+
+
+    public function hello(){
+        $ret_info = $this->t_cr_week_month_info->get_apply_info();
+        foreach ($ret_info as $key => &$value) {
+            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+            $value['subject_str'] = E\Esubject::get_desc($value['subject']);
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                $value['phone_location'] = "其它";
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $value['phone_location'] = $pro;
+            }
+            if($value['lesson_user_online_status'] == 0 ){
+                $value['lesson_user_online_status_str'] = "未设置"; 
+            }elseif($value['lesson_user_online_status'] == 1){
+                $value['lesson_user_online_status_str'] = "有效";
+            }else{
+                $value['lesson_user_online_status_str'] = "无效";
+            }
+
+            if($value['price'] > 0 and $value['contract_status'] != 0){
+                $value['status_str'] = "有效";
+            }else{
+                $value['status_str'] = "无效";
+            }
+        }
+        echo "<table >";
+        echo "<tr>"."<td width=30px>ID|</td>"
+                ."<td width=30px>姓名|</td>"
+                ."<td width=30px>年级|</td>"
+                ."<td width=30px>科目|</td>"
+                ."<td width=200px>试听需求|</td>"
+                ."<td width=30px>教材版本|</td>"
+                ."<td width=30px>地区|</td>"
+                ."<td width=30px>status|</td>"
+                ."<td width=30px>order_status</td></tr>";
+        foreach ($ret_info as $key => $value) {
+            echo "<tr>";
+            echo "<td width=30px>".$value['userid']."|</td>";
+            echo "<td width=30px>".$value['nick']."|</td>";
+            echo "<td width=30px>".$value['grade_str']."|</td>";
+            echo "<td width=30px>".$value['subject_str']."|</td>";
+            echo "<td width=200px>".$value['stu_request_test_lesson_demand']."|</td>";
+            echo "<td width=30px>".$value['textbook']."|</td>";
+            echo "<td width=30px>".$value['phone_location']."|</td>";
+            echo "<td width=30px>".$value['lesson_user_online_status_str']."|</td>";
+            echo "<td width=30px>".$value['status_str']."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";    
+    }
+
+
+
+
+
+
+
     public function total_student(){
         echo '------------------------------Student Total Number--------------'.'<br/>';
         $ret_info = $this->t_cr_week_month_info->get_total_province(-1,1509163200);
@@ -43,7 +166,7 @@ class test_sam  extends Controller
     }
     public function total_teacher(){
         echo '------------------------------Teacher Total Number--------------'.'<br/>';
-        $ret_info_teacher = $this->t_cr_week_month_info->get_total_province_teacher(-1,1509163200);
+        $ret_info_teacher = $this->t_cr_week_month_info->get_total_province_teacher(0,1509163200);
         $province_teacher = [];
         $province_teacher['总计'] = 0;
         $province_teacher['其它'] = 0;

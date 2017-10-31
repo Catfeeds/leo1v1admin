@@ -4,6 +4,7 @@ use \App\Enums as E;
 use Illuminate\Support\Facades\Log;
 use App\Helper\Net;
 use App\Helper\Utils;
+// use App\Http\Controllers\Controller;
 
 /**
  * @from command:SetTeacherMoney
@@ -130,9 +131,10 @@ class TeacherMoneyTask extends TaskController
     public function set_teacher_salary_list($type,$start_time=0){
         $start_time = $start_time==0?time():$start_time;
         $month_time = \App\Helper\Utils::get_month_range($start_time,true);
-
+        echo 1;
         $teacher_money = new \App\Http\Controllers\teacher_money();
-        $this->set_in_value($type,"admin");
+        // $teacher_money->set_in_value($type,"admin");
+        echo "start";
         $ret = $teacher_money->set_teacher_salary();
         var_dump($ret);
         // $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);

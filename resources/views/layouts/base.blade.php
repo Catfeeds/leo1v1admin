@@ -50,7 +50,13 @@
 
             <!-- jQuery 3 -->
             <script src="/AdminLTE-2.4.0-rc/bower_components/jquery/dist/jquery.min.js"></script>
+            <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
             <!-- jQuery UI 1.11.4 -->
+        <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
+
+        <!-- 全局变量  -->
+        {!!  @$js_values_str !!}
+
 
 
             <!-- Content Wrapper. Contains page content -->

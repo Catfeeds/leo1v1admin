@@ -69,7 +69,7 @@ class Config{
         return $config["appid"];
     }
 
-    static public function get_yxy_wx_appsecret() {
+    static public function get_yxyx_wx_appsecret() {
         $config=self::get_config("yxyx_wx");
         return $config["appsecret"];
     }

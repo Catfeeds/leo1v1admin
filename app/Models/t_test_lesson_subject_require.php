@@ -3195,21 +3195,6 @@ ORDER BY require_time ASC";
         // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        //require_time
-        // $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
-        //                           ." left join %s tss on tss.require_id=tr.require_id"
-        //                           ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-        //                           ." left join %s s on ts.userid=s.userid"
-        //                           ." where %s"
-        //                           ,self::DB_TABLE_NAME
-        //                           ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-        //                           ,t_test_lesson_subject::DB_TABLE_NAME
-        //                           ,t_student_info::DB_TABLE_NAME
-        //                           ,$where_arr
-        // );
-
-
-
         $sql = $this->gen_sql_new(
             "select count(tr.require_id) "
             ." from  %s tr "
@@ -3233,9 +3218,6 @@ ORDER BY require_time ASC";
             , t_teacher_info::DB_TABLE_NAME//tea
             ,$where_arr
         );
-
-
-
 
         return $this->main_get_value($sql);
     }
@@ -3258,7 +3240,7 @@ ORDER BY require_time ASC";
                                   ." left join %s tq on ss.phone=tq.phone"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME //ts
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_seller_student_new::DB_TABLE_NAME
                                   ,t_tq_call_info::DB_TABLE_NAME
@@ -3274,29 +3256,85 @@ ORDER BY require_time ASC";
         $where_arr = [
             "s.is_test_user=0",
             "tr.accept_flag=1",
-            "t.require_admin_type=2"
-
+            "t.require_admin_type=2",
+            "l.lesson_del_flag = 0",
+            "tss.fail_greater_4_hour_flag=0"
         ];
 
-        // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
-        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
-
-        // $sql = $this->gen_sql_new("  select count(distinct(tr.require_id)) from %s tr "
-        //                           ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-        //                           ." left join %s tss on tss.require_id=tr.require_id  "
-        //                           ." left join %s s on ts.userid=s.userid"
-        //                           ." where %s"
-        //                           ,self::DB_TABLE_NAME
-        //                           ,t_test_lesson_subject::DB_TABLE_NAME
-        //                           ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-        //                           ,t_student_info::DB_TABLE_NAME
-        //                           ,$where_arr
-        // );
-
-
+        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new(
-            "select count(tr.require_id) "
+            "select count(tss.lessonid) "
+            ." from  %s tr "
+            ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+            ." left join %s ss on  t.userid = ss.userid "
+            ." left join %s s on  t.userid = s.userid "
+            ." left join %s tss on  tr.current_lessonid = tss.lessonid "
+            ." left join %s l on  tss.lessonid = l.lessonid "
+            ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
+            ." left join %s tc on tr.current_lessonid=tc.lessonid "
+            ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
+            ." where  %s  "
+            , t_test_lesson_subject_require::DB_TABLE_NAME//tr
+            , t_test_lesson_subject::DB_TABLE_NAME//t
+            , t_seller_student_new::DB_TABLE_NAME//ss
+            , t_student_info::DB_TABLE_NAME//s
+            , t_test_lesson_subject_sub_list::DB_TABLE_NAME//tss
+            , t_lesson_info::DB_TABLE_NAME//l
+            , t_course_order::DB_TABLE_NAME//c
+            , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
+            , t_teacher_info::DB_TABLE_NAME//tea
+            ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
+
+    /**
+               $sql = $this->gen_sql_new(
+               "select  count(distinct(tss.lessonid)), "
+            ." from  %s tr "
+            ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+            ." left join %s ss on  t.userid = ss.userid "
+            ." left join %s s on  t.userid = s.userid "
+            ." left join %s tss on  tr.current_lessonid = tss.lessonid "
+            ." left join %s l on  tss.lessonid = l.lessonid "
+            ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
+            ." left join %s tc on tr.current_lessonid=tc.lessonid "
+            ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
+            ." where  %s order by %s asc "
+            , t_test_lesson_subject_require::DB_TABLE_NAME//tr
+            , t_test_lesson_subject::DB_TABLE_NAME//t
+            , t_seller_student_new::DB_TABLE_NAME//ss
+            , t_student_info::DB_TABLE_NAME//s
+            , t_test_lesson_subject_sub_list::DB_TABLE_NAME//tss
+            , t_lesson_info::DB_TABLE_NAME//l
+            , t_course_order::DB_TABLE_NAME//c
+            , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
+            , t_teacher_info::DB_TABLE_NAME//tea
+            ,$where_arr
+            ,$opt_date_str
+        );
+
+
+
+
+     **/
+
+
+    public function get_seller_schedule_num_month($start_time, $end_time ){// 试听排课数
+        $where_arr = [
+            "s.is_test_user=0",
+            "tr.accept_flag=1",
+            "t.require_admin_type=2",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(
+            "select  count(distinct(tss.lessonid)) "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -3321,34 +3359,19 @@ ORDER BY require_time ASC";
 
 
 
-
-        return $this->main_get_value($sql);
-
-    }
-
-
-
-    public function get_seller_schedule_num_month($start_time, $end_time ){// 试听排课数
-        $where_arr = [
-            "s.is_test_user=0",
-            "tr.accept_flag=1",
-            "t.require_admin_type=2"
-
-        ];
-
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
-
-        $sql = $this->gen_sql_new("  select count(distinct(tr.require_id)) from %s tr "
-                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-                                  ." left join %s tss on tss.require_id=tr.require_id  "
-                                  ." left join %s s on ts.userid=s.userid"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
+        // $sql = $this->gen_sql_new("  select count(distinct(tss.lessonid)) from %s tr "
+        //                           ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+        //                           ." left join %s tss on tss.require_id=tr.require_id  "
+        //                           ." left join %s l on l.lessonid=tss.lessonid"
+        //                           ." left join %s s on ts.userid=s.userid"
+        //                           ." where %s"
+        //                           ,self::DB_TABLE_NAME
+        //                           ,t_test_lesson_subject::DB_TABLE_NAME
+        //                           ,t_test_lesson_subject_sub_list::DB_TABLE_NAME // tss
+        //                           ,t_lesson_info::DB_TABLE_NAME// l
+        //                           ,t_student_info::DB_TABLE_NAME
+        //                           ,$where_arr
+        // );
 
         return $this->main_get_value($sql);
 

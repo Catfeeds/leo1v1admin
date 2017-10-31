@@ -491,6 +491,34 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     }
 
+    public function get_teacher_througn_detail($start_time,$end_time){
+        $where_arr=[
+            ["tl.confirm_time >= %u",$start_time,-1],
+            ["tl.confirm_time <= %u",$end_time,-1],
+            "tl.status =1",
+            "tl.is_test_flag =0",
+            "(tl.account is not null && tl.account <> '')",
+            "t.train_through_new=1",
+            "t.train_through_new_time>tl.confirm_time",
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.train_through_new_time,tl.confirm_time,"
+                                  ."t.train_through_new_time-tl.confirm_time time"
+                                  ." from %s tl left join %s t on tl.phone = t.phone"
+                                  ." where %s and not exists ("
+                                  ." select 1 from %s where phone=tl.phone and status=1 "
+                                  ."and is_test_flag =0 and confirm_time<tl.confirm_time"
+                                  ." )",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return  $this->main_get_list($sql);
+
+    }
+
+
     public function get_teacher_list_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1){
         $where_arr=[
             ["tl.confirm_time >= %u",$start_time,-1],

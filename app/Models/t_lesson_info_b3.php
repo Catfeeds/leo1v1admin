@@ -274,7 +274,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-    public function get_seller_test_lesson_tran_info( $start_time,$end_time,$require_type,$set_type,$grab_flag=-1){
+    public function get_seller_test_lesson_tran_info( $start_time,$end_time,$require_type,$set_type,$grab_flag=-1,$full_time_flag=-1){
         $where_arr = [
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
@@ -299,6 +299,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.is_green_flag =0";
             $where_arr[] = ["tss.grab_flag=%u",$grab_flag,-1];
         }
+        if($full_time_flag==1){
+            $where_arr[]="m.account_role=5";
+        }
 
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
@@ -313,6 +316,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." and c.course_type=0 and c.courseid >0) "
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." left join %s m on t.phone = m.phone"
                                   ." where %s " ,
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -320,6 +324,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -951,11 +956,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_test_succ_for_month($start_time,$end_time){
         $where_arr = [
-            "l.lesson_user_online_status in (0,1)",
+            "l.lesson_user_online_status = 1",
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
-            // "tll.test_lesson_fail_flag=0",
-            "tll.fail_greater_4_hour_flag=0"
+            "tll.fail_greater_4_hour_flag=0",
+            "tlr.accept_flag=1",
 
         ];
 
@@ -968,7 +973,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME //tlr
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -1305,8 +1310,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_lesson_count_money_info_by_month($start_time,$end_time){
         $where_arr = [
-            "l.lesson_start > $start_time",
-            "l.lesson_start < $end_time",
+            ["l.lesson_start >=%u ",$start_time,-1],
+            ["l.lesson_start < %u ",$end_time,-1],
             "l.confirm_flag in (0,1,3,4)",
             "l.lesson_type in (0,1,3)",
             "s.is_test_user=0",
@@ -1477,5 +1482,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+
+    public function get_lessonid_by_parentid($parentid){
+        $sql = $this->gen_sql_new("  select l.lessonid from %s l"
+                                  ." left join %s p on p.userid=l.userid"
+                                  ." where p.parentid=%d and l.lesson_type=2 and lesson_start>1509897600"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$parentid
+        );
+
+
+        return $this->main_get_value($sql);
     }
 }

@@ -124,15 +124,15 @@ class main_page extends Controller
                 }
 
 
-                if($ret_info['seller_invit_month_funnel']>0){ //月排课率
-                    // $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
-                    $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month_funnel']/$ret_info['seller_invit_month_funnel']*100;
+                if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
+                    $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num_month_funnel']/$ret_info['seller_plan_invit_month_funnel']*100;
+                    //seller_plan_invit_month_funnel
                 }else{
                     $ret_info['test_plan_month_rate'] = 0;
                 }
 
-                if($ret_info['seller_schedule_num']>0){ //月到课率
-                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
+                if($ret_info['seller_schedule_num_has_done_month_funnel']>0){ //月到课率
+                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num_has_done_month_funnel']*100;
                 }else{
                     $ret_info['lesson_succ_month_rate'] = 0;
                 }
@@ -234,8 +234,8 @@ class main_page extends Controller
                     $ret_info['test_plan_month_rate'] = 0;
                 }
 
-                if($ret_info['seller_schedule_num']>0){ //月到课率
-                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num']*100;
+                if($ret_info['seller_schedule_num_has_done_month']>0){ //月到课率
+                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num_has_done_month']*100;
                 }else{
                     $ret_info['lesson_succ_month_rate'] = 0;
                 }

@@ -3325,6 +3325,76 @@ class ss_deal extends Controller
 
     }
 
+    public function upload_permission_info_from_xls(){
+        $file = Input::file('file');
+        
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0){
+                    unset($arr[$k]);
+                }
+               
+            }
+            $list=[];
+
+            //用户权限更新
+            // foreach($arr as $item){
+            //     @$list[$item[1]] .= $item[0].","; 
+            // }
+            // foreach($list as $k=>$v){
+            //     $v= trim($v,",");
+            //     $permission_info = $this->t_manager_info->field_get_list($k,"permission,permission_backup");
+            //     $this->t_manager_info->field_update_list($k,[
+            //         "permission" =>$v  
+            //     ]);
+            //     if(!$permission_info["permission_backup"]){
+            //         $this->t_manager_info->field_update_list($k,[
+            //             "permission_backup" => $permission_info["permission"]
+            //         ]);
+  
+            //     }
+ 
+                              
+            // }
+
+            
+
+            //角色更新
+            // foreach($arr as $item){
+            //     @$list[$item[0]] .= $item[1].","; 
+            // }
+            // foreach($list as $k=>$v){
+            //     $v= trim($v,",");
+            //     $this->t_authority_group->field_update_list($k,[
+            //        "group_authority"=>$v 
+            //     ]);
+                
+            // }
+
+          
+            // $arr = json_encode($list);
+            // \App\Helper\Utils::logger(" PHONE:$arr ");
+            // dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+
+       
+
+    }
+
     public function upload_psychological_lesson_from_xls(){
         $file = Input::file('file');
         if ($file->isValid()) {
