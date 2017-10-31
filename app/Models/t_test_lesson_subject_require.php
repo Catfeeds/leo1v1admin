@@ -3377,9 +3377,6 @@ ORDER BY require_time ASC";
 
     }
 
-
-
-
     public function get_cur_require_adminid_by_lessonid($lessonid){
         $sql = $this->gen_sql_new("  select m.wx_openid from %s tr"
                                   ." left join %s tss on tss.require_id=tr.require_id"
@@ -3392,6 +3389,42 @@ ORDER BY require_time ASC";
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_all_lsit($start_time,$end_time,$origin_ex){
+        $where_arr = [
+            'accept_flag=1',
+            'require_admin_type=2',
+            'is_test_user=0',
+        ];
+        if($origin_ex){
+            $where_arr[] = ['s.origin = %s',$origin_ex,-1];
+        }
+        $this->where_arr_add_time_range($where_arr,'l.lesson_start',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            "select "
+            ."cur_require_adminid adminid,count(*) count,"
+            ."sum(lesson_user_online_status in (0, 1) or f.flow_status = 2) succ_count,"
+            ."sum(if((lesson_user_online_status in (0, 1) or f.flow_status = 2) and n.test_lesson_opt_flag=1,1,0)) test_count, "
+            ."sum(if(l.on_wheat_flag=1,1,0)) wheat_count "
+            ."from %s tr "
+            ."left join %s l on tr.current_lessonid = l.lessonid "
+            ."left join %s tss on tr.current_lessonid = tss.lessonid "
+            ."left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id "
+            ."left join %s s on l.userid = s.userid "
+            ."left join %s n on n.userid = s.userid "
+            ."left join %s f on f.flow_type = 2003 and l.lessonid = f.from_key_int "
+            ." where %s group by cur_require_adminid "
+            ,self::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_flow::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }
