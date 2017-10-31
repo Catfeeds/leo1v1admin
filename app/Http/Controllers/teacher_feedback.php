@@ -20,7 +20,7 @@ class teacher_feedback extends Controller
     public function teacher_feedback_list_jw(){
         if (!$this->check_in_has("accept_adminid")) {
             $account_id = $this->get_account_id();
-            $account_id = $account_id==895?-1:$account_role;
+            $account_id = $account_id==895?-1:$account_id;
             $this->set_in_value("accept_adminid",$account_id);
         }
         return $this->teacher_feedback_list();
