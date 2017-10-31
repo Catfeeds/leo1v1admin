@@ -46,7 +46,8 @@ class t_teacher_flow extends \App\Models\Zgen\z_t_teacher_flow
         $where_arr = [
             ['tf.trial_lecture_pass_time>%u', $start_time, 0],
             ['tf.trial_lecture_pass_time<%u', $end_time, 0],
-            'tf.subject>0'
+            'tf.subject>0',
+            'tf.grade>0'
         ];
         $sql = $this->gen_sql_new("select tf.subject,tf.grade,tf.teacherid,tf.trial_lecture_pass_time,"
                                   ." tf.simul_test_lesson_pass_time,tf.train_through_new_time,t.identity "
