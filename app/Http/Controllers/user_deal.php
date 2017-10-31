@@ -3184,6 +3184,9 @@ class user_deal extends Controller
         
         //培训数
         $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
+        //培训参与率,培训通过数
+        $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
+        dd($train_lesson_part_info);
                   
        
 

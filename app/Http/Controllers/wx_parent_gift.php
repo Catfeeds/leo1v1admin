@@ -483,19 +483,11 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
-        // $parentid = $this->get_in_int_val('parentid');
-        $parentid = $this->get_agentid();
-        // 根据openid或session值
-
-
-        // return $this->output_succ(['date'=>$parentid]);
-        // dd($parentid);
-
+        $openid = $this->get_in_int_val('openid');
+        $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
+        $parentid   = $agent_info['userid'];
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
-        if($has_get_money >1000){
-            return $this->output_err("谢谢参加!");
-        }
 
         $rate  = mt_rand(1,100);
         $prize = 0;
@@ -528,6 +520,10 @@ class wx_parent_gift extends Controller
             $prize = 11111;
         }
 
+        if($has_get_money >1000){ // 每日金额1000元
+            $prize = 0;
+        }
+
         // 中奖金额存入数据库
         $ret = $this->t_agent->update_money($parentid, $prize);
         $is_save   = 0;
@@ -536,6 +532,7 @@ class wx_parent_gift extends Controller
             $is_save = 1;
             $save_time = time();
         }
+
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
             "luck_draw_adminid" => $parentid,
             "luck_draw_time" => time(),
@@ -555,7 +552,6 @@ class wx_parent_gift extends Controller
 
         $appid     = \App\Helper\Config::get_yxyx_wx_appid();
         $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();
-
         $wx = new \App\Helper\Wx($appid, $appsecret);
 
         $template_id = "-jlgaNShu8zuil5ST1Qo5hY6RzaNyujwZ0fAnh2Te40";//活动结束提醒
@@ -567,10 +563,8 @@ class wx_parent_gift extends Controller
             "remark"    => "感谢您的参与",
         ];
 
-        $p_info = $this->t_agent->get_info_by_pid($parentid);
-
-        $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2";
-        $wx->send_template_msg($p_info['wx_openid'],$template_id,$data_msg ,$url);
+        $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$agent_info['phone']."&type=2";
+        $wx->send_template_msg($agent_info['wx_openid'],$template_id,$data_msg ,$url);
         $prize = $prize/100;
         return $this->output_succ(["money"=>$prize]);
     }
