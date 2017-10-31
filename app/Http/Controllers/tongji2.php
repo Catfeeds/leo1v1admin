@@ -1435,7 +1435,7 @@ class tongji2 extends Controller
             }
         }
         foreach ($ret as $key => $value) {
-            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+            $value['grade_str1'] = E\Egrade::get_desc($value['grade']);
         }
         return $this->pageView(__METHOD__, $ret_info,[
                 "ret" => $ret,
