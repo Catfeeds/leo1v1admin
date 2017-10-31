@@ -3196,7 +3196,8 @@ class user_deal extends Controller
             }
             
         }
-        dd($plan_num);
+        $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
+        dd($app_time);
 
         //面试邀约时长
         
