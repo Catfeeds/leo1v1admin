@@ -456,7 +456,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
     public function get_teacher_appoinment_interview_info($start_time,$end_time){
         $where_arr=[
-            "al.realname not like '%%不要审核%%' and  al.realname not like '%%gavan%%' and al.realname not like '%%阿蓝%%'"
+            "al.name not like '%%不要审核%%' and  al.name not like '%%gavan%%' and al.name not like '%%阿蓝%%'"
         ];
         $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
 

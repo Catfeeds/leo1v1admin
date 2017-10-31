@@ -68,6 +68,7 @@ $(function(){
                 $.do_ajax('/ajax_deal2/web_page_info_send_admin', {
                     'userid_list' : JSON.stringify(select_userid_list ),
                     "web_page_id" : g_args.web_page_id,
+
                 });
 
             }
