@@ -3298,7 +3298,7 @@ ORDER BY require_time ASC";
             "s.is_test_user=0",
             "tr.accept_flag=1",
             "ts.require_admin_type=2",
-            "l.lesson_type = 2",
+            // "l.lesson_type = 2",
             // "l.lesson_del_flag = 0",
             "tss.fail_greater_4_hour_flag=0"
         ];
