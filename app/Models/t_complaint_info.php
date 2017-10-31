@@ -126,7 +126,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
         $where_arr = [
             "tc.account_type=2",
-            "complaint_type = 5"
+            "complaint_type <> 5"
         ];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
 
