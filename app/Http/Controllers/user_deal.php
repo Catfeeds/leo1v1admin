@@ -3183,8 +3183,16 @@ class user_deal extends Controller
         $end_time = strtotime("2017-10-01");
 
         //教务数据
+        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=0;
         $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        dd($ret_info);        
+        foreach($ret_info as $val){
+            $set_count_all+=$val["set_count"];
+            $set_count_top+=$val["top_count"];
+            $set_count_green+=$val["green_count"];
+            $set_count_grab+=$val["grab_count"];
+        }
+        $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
+        dd([$set_count_normal,$set_count_all,$set_count_top,$set_count_green,$set_count_grab]);        
                   
        
 

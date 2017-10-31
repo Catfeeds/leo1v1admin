@@ -1428,12 +1428,15 @@ class test_code extends Controller
         }
     }
 
-
-    public function get_tea_list(){
-        $a = new teacher_money();
-        $this->set_in_value("type",33);
-        $ret = $a->set_teacher_salary();
-        var_dump($ret);
+    public function test_api(){
+        echo "begin";
+        echo PHP_EOL;
+        $job = new \App\Jobs\UpdateTeacherMoney;
+        dispatch($job);
+        echo "job end";
+        echo PHP_EOL;
     }
+
+
 
 }
