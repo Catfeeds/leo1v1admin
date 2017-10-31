@@ -28,8 +28,7 @@ class UpdateTeacherMoney extends Job implements ShouldQueue
      */
     public function handle()
     {
-        //
         $teacher_money = new \App\Http\Controllers\teacher_money();
-
+        
     }
 }

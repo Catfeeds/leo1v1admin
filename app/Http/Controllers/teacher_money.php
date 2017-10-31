@@ -813,5 +813,10 @@ class teacher_money extends Controller
         return $salary_info;
     }
 
+    public function test_api(){
+        \App\Helper\Utils::logger("succ");
+
+    }
+
 
 }
