@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1110
+//__DESC:微信[优学优享]获取可提现邀请奖励 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_had_invite_rewards?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+
+}
+
+message out {
+  common.had_invite_rewards my_invite = 1;//邀请获得的奖励
+  common.had_invite_rewards member_invite = 2;//会员邀请获得的奖励
+}
