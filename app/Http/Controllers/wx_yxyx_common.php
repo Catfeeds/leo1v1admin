@@ -651,9 +651,9 @@ class wx_yxyx_common extends Controller
 
         $agent_id = session('agent_id');
 
-        if($openid){ // ==> 会员绑定页面
+        if($openid){ // ==> 活动页面
             header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?p_phone=".$p_phone);
-        }elseif(!$openid){
+        }elseif(!$openid){ // 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
         }
 
