@@ -529,7 +529,8 @@ class wx_parent_gift extends Controller
         }
 
         // 中奖金额存入数据库
-        $ret = $this->t_agent->update_money(0, $prize);
+        $ret = 0;
+        // $ret = $this->t_agent->update_money(0, $prize);
         $is_save   = 0;
         $save_time = 0;
         if($ret){
