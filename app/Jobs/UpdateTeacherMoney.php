@@ -30,6 +30,8 @@ class UpdateTeacherMoney extends Job implements ShouldQueue
     {
         $teacher_money = new \App\Http\Controllers\teacher_money();
         $ret = $teacher_money->test_api();
+        \App\Helper\Utils::logger("job succ:".$ret);
+
     }
 
 

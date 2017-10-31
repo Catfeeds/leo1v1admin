@@ -816,7 +816,11 @@ class teacher_money extends Controller
     public function test_api(){
         \App\Helper\Utils::logger("succ");
         $ret = $this->t_teacher_info->get_1();
-        return $ret;
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err("job fail");
+        }
     }
 
 
