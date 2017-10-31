@@ -247,6 +247,11 @@ class teacher_money extends Controller
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
+        if(\App\Helper\Utils::check_env_is_local()){
+            echo "start switch";
+            echo PHP_EOL;
+        }
+
         $this->t_lesson_info->switch_tongji_database();
         if(\App\Helper\Utils::check_env_is_local()){
             echo "begin check";

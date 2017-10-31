@@ -504,7 +504,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." left join %s ta on t.teacherid = ta.userid and ta.train_type=1 and not exists (select 1 from %s where"
                                   ." userid = ta.userid and train_type=1 and add_time<ta.add_time)"
                                   ." left join %s ll on ta.lessonid = ll.lessonid"
-                                  ." left join %s lll on lll.train_type=4 and lll.lesson_del_flag=0 and lll.lesson_type=1100 and lll.teacherid = t.teacherid and lll.lesson_start>0 not exists(select 1 from %s where train_type=4 and lesson_del_flag=0 and lesson_type=1100 and teacherid = lll.teacherid and lesson_start>0 and lesson_start<lll.lesson_start)"
+                                  ." left join %s lll on lll.train_type=4 and lll.lesson_del_flag=0 and lll.lesson_type=1100 and lll.teacherid = t.teacherid and lll.lesson_start>0 and not exists(select 1 from %s where train_type=4 and lesson_del_flag=0 and lesson_type=1100 and teacherid = lll.teacherid and lesson_start>0 and lesson_start<lll.lesson_start)"
                                   ." where %s having(tl.add_time>0 or tr.add_time>0)",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
