@@ -796,5 +796,13 @@ class test_boby extends Controller
 
     }
 
+    public function add_user_to_lesson(){
+        $old_lessonid = '371545';
+        $new_lessonid = '398579';
+        $userid = $this->t_open_lesson_user->get_all_user($old_lessonid);
+        foreach($userid as $v){
+            $this->t_open_lesson_user->add_open_class_user($new_lessonid,$v);
+        }
+    }
 
 }
