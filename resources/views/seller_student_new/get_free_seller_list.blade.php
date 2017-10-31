@@ -55,7 +55,6 @@
                     <td>上次回访时间</td>
                     <td>试听成功时间</td>
                     <td>回流公海时间</td>
-                    <td>未签约原因</td>
                     <td>最后一次备注</td>
                     <td>例子进入时间 </td>
                     <td>电话</td>
@@ -72,8 +71,7 @@
                         <td>{{@$var["has_pad_str"]}} </td>
                         <td>{{@$var["last_revisit_time"]}} </td>
                         <td>{{@$var["last_lesson_time"]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["free_time"]}} </td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["phone_hide"]}} </td>
