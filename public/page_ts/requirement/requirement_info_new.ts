@@ -37,7 +37,7 @@ $(function(){
 
     $("#id_add_requirement_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
-        var name              = $("<input />");  //需求名称
+        var name              = $("<textarea />");  //需求名称
         var priority          = $("<select id='id_priority'><option value=\"3\">高</option> <option value=\"2\">中</option><option value=\"1\">低</option>/>");  //优先级
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
@@ -126,7 +126,7 @@ $(function(){
 
     $(".opt-re-edit").on("click", function(){
         var opt_data = $(this).get_opt_data();
-        var name              = $("<input />");  //需求名称
+        var name              = $("<textarea />");  //需求名称
         var priority          = $("<select id='id_priority'><option value=\"3\">高</option> <option value=\"2\">中</option><option value=\"1\">低</option>/>");  //优先级
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
