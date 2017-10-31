@@ -350,6 +350,7 @@ class self_manage extends Controller
 
         $phone     = $this->t_manager_info->get_phone($uid);
         $account_role = $this->get_account_role();
+        //如果cc，cr上传头像，也需更新其老师账号的头像
         if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2])){
             $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
             if($teacherid){
