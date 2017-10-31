@@ -3199,23 +3199,33 @@ class user_deal extends Controller
         $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
         //面试通过数/面试通过时长
         $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
-        dd($ret_interview);
         $interview_pass_num = count($ret_interview);
         $interview_pass_time =0;
+        $train_num=0;
+        $train_time=0;
         foreach($ret_interview as $val){
             $time = $val["confirm_time"]-$val["add_time"];
             if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
                 $time = $val["one_add_time"]-$val["lesson_start"];
             }
             $interview_pass_time +=$time;
-        }
-        $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
-        
+            if($val["train_add_time"]>0 && strlen($val["train_add_time"])==10){
+                $train_num++;
+                $tr_time= $val["train_add_time"]-$val["confirm_time"];
+                if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                     $tr_time= $val["train_add_time"]-$val["one_add_time"];
+                }
+                $train_time +=$tr_time;
 
-        //新师培训数
-        $new_train_info = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_new_train_info($start_time,$end_time);
-        dd($new_train_info);
-        
+                
+            }
+        }
+                dd($train_time);
+
+        $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
+
+        //新师培训数/时间
+        $train_time = $train_num>0?round($train_time/$train_num/86400,1):0;
         
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
         $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);
