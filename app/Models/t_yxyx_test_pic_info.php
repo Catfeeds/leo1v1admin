@@ -122,6 +122,22 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_id_poster_new( $id=0, $start_time,$end_time){
+        $where_arr = [
+            ['id!=%u', $id, 0],
+            ['create_time>=%u', $start_time, 0],
+            ['create_time<%u', $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("select id, poster"
+                                  ." from %s"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_page_random($sql,10);
+    }
+
+
     public function get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid){
         $where_arr = [
             ['y.grade=%u', $grade , -1],
