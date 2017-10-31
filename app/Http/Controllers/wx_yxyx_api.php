@@ -977,4 +977,34 @@ class wx_yxyx_api extends Controller
         return $this->output_succ();
 
     }
+    //@desn:获取邀请奖励[我邀请的、会员邀请]
+    public function get_had_invite_rewards(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        //获取自己邀请的奖励列表
+        $list = $this->t_agent->my_had_invite($agent_id);
+        foreach($list as $key => &$item){
+            if(empty($item['nickname']))
+                $item['nickname'] = $item['phone'];
+        }
+        //获取会员邀请的奖励列表
+        $data = $this->t_agent->member_had_invite($agent_id);
+        foreach($data as $key => &$item){
+            if(empty($item['nickname']))
+                $item['nickname'] = $item['phone'];
+        }
+        
+        return $this->output_succ([
+            "my_invite"=>$list,
+            "member_invite"=>$data,
+        ]);
+    }
 }

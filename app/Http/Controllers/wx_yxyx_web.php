@@ -20,7 +20,6 @@ class wx_yxyx_web extends Controller
 
     public function __construct() {
         parent::__construct();
-        // $agent_id = $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
 
         $agent_id = $this->get_agent_id();
         $agent = $this->t_agent->get_agent_info_by_id($agent_id);
