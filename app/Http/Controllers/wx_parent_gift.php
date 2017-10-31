@@ -468,6 +468,8 @@ class wx_parent_gift extends Controller
         $start_time = 1509638400; // 2017-11-03
         $openid = $this->get_in_int_val('openid');
 
+        dd($openid);
+
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
 
@@ -476,7 +478,7 @@ class wx_parent_gift extends Controller
 
         $ret_info['invite_num'] = count($invite_info);
         // $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['light_num']=4;
+        $ret_info['light_num']=4; // 测试
         $ret_info['phone'] = $agent_info['phone'];
 
         return $this->output_succ(["data"=>$ret_info]);
@@ -485,6 +487,9 @@ class wx_parent_gift extends Controller
 
     public function do_luck_draw_yxyx(){ // 抽奖
         $openid = $this->get_in_int_val('openid');
+        $openid1 = $this->get_in_str_val('openid');
+
+        dd($openid1);
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid   = $agent_info['userid'];
 
