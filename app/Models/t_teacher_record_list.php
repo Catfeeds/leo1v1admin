@@ -552,6 +552,37 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     }
 
+    public function get_teacher_througn_detail($start_time,$end_time){
+        $where_arr=[
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            "tr.type=10",
+            "l.lesson_type=1100",
+            "(tr.acc is not null && tr.acc <> '')",
+            "tr.trial_train_status =1",
+            "t.is_test_user=0",
+            "t.train_through_new=1",
+            "t.train_through_new_time>l.lesson_start"
+        ];
+
+        $sql = $this->gen_sql_new("select t.teacherid,l.lesson_start,t.train_through_new_time, "
+                                  ."t.train_through_new_time-l.lesson_start time "
+                                  ." from %s tr left join %s l on tr.train_lessonid  = l.lessonid"
+                                  ." left join %s t on l.userid = t.teacherid"
+                                  ." where %s and not exists ("
+                                  ." select 1 from %s where teacherid=tr.teacherid and type=10 "
+                                  ."and tr.trial_train_status =1 and add_time<tr.add_time"
+                                  ." )",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );      
+        return  $this->main_get_list($sql);
+
+    }
+
 
     public function get_teacher_train_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1){
         $where_arr=[

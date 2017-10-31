@@ -103,7 +103,7 @@ class admin_manage extends Controller
         $web_page_id= $this->get_in_int_val("web_page_id");
         $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
         $page_info=null;
-        $uid               = $this->get_in_int_val('uid',0);
+        $adminid               = $this->get_in_int_val('uid',0);
         $account_role      = $this->get_in_e_account_role(E\Eaccount_role::V_2 );
 
         $user_info="";
@@ -115,7 +115,7 @@ class admin_manage extends Controller
         $tquin=-1;
         $day_new_user_flag=-1;
         $seller_level=-1;
-        $adminid=-1;
+        $uid=-1;
         $fulltime_teacher_type=-1;
         $call_phone_type=-1;
 

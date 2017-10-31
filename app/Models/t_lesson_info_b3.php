@@ -1310,8 +1310,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_lesson_count_money_info_by_month($start_time,$end_time){
         $where_arr = [
-            "l.lesson_start > $start_time",
-            "l.lesson_start < $end_time",
+            ["l.lesson_start >=%u ",$start_time,-1],
+            ["l.lesson_start < %u ",$end_time,-1],
             "l.confirm_flag in (0,1,3,4)",
             "l.lesson_type in (0,1,3)",
             "s.is_test_user=0",

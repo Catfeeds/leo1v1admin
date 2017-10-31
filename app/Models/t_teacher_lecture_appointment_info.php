@@ -454,6 +454,68 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_row($sql);
     }
 
+    public function get_teacher_appoinment_interview_info($start_time,$end_time){
+        $where_arr=[
+            "al.name not like '%%不要审核%%' and  al.name not like '%%gavan%%' and al.name not like '%%阿蓝%%'"
+        ];
+        $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
+
+
+        $sql = $this->gen_sql_new("select distinct al.phone,al.answer_begin_time,tl.add_time,l.lesson_start "
+                                  ." from %s al "
+                                  ." left join %s tl on al.phone = tl.phone and tl.status <>4 and tl.is_test_flag=0 and "
+                                  ." not exists (select 1 from %s where phone = tl.phone and status <>4 and "
+                                  ."is_test_flag=0 and add_time<tl.add_time )"
+                                  ." left join %s t on al.phone = t.phone and t.is_test_user=0"
+                                  ." left join %s l on l.lesson_type=1100 and l.train_type=5 and l.lesson_del_flag=0 "
+                                  ."and l.userid = t.teacherid and l.lesson_start>0 and not exists(select 1 from %s "
+                                  ."where lesson_type=1100 and lesson_start>0 "
+                                  ." and train_type=5 and lesson_del_flag=0 and userid=l.userid and lesson_start<l.lesson_start)"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    
+    public function get_teacher_appoinment_interview_pass_info($start_time,$end_time){
+        $where_arr=[
+            "al.name not like '%%不要审核%%' and  al.name not like '%%gavan%%' and al.name not like '%%阿蓝%%'"
+        ];
+        $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
+
+
+        $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,tr.add_time one_add_time "
+                                  ." from %s al "
+                                  ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
+                                  ." not exists (select 1 from %s where phone = tl.phone and status =1 and "
+                                  ."is_test_flag=0 and add_time<tl.add_time )"
+                                  ." left join %s t on al.phone = t.phone and t.is_test_user=0"
+                                  ." left join %s tr on tr.trial_train_status =1 and tr.type=10 and tr.teacherid = t.teacherid "
+                                  ." and  not exists(select 1 from %s where trial_train_status =1 and type=10 and "
+                                  ."teacherid = tr.teacherid and add_time<tr.add_time)"
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
+                                  ." where %s having(tl.add_time>0 or tr.add_time>0)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+   
+
+
     public function get_train_through_tea($time){
         $where_arr=[
             "t.teacherid >0"

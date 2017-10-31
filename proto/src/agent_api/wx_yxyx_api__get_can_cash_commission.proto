@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1111
+//__DESC:微信[优学优享]获取可体现佣金奖励 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_can_cash_commission?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+
+}
+
+message out {
+  common.can_cash_commisson child_reward = 1;//自己邀请用户可体现佣金
+  common.can_cash_commisson member_reward = 2;//会员邀请用户可体现佣金
+}

@@ -639,11 +639,10 @@ class wx_yxyx_common extends Controller
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?phone=".$phone );
         $ret = $wx->goto_wx_login( $redirect_url );
-
     }
 
     public function get_openid(){
-        $p_phone = $this->get_in_int_val('phone');
+        $p_phone    = $this->get_in_int_val('phone');
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
@@ -652,12 +651,10 @@ class wx_yxyx_common extends Controller
 
         $agent_id = session('agent_id');
 
-        if(!$agent_id && $openid){ // 已关注 未绑定 ==> 绑定
-            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind ");
-        }elseif(!$agent_id){ // 未关注 ==> 会员绑定页面
+        if($openid){ // ==> 会员绑定页面
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?p_phone=".$p_phone);
+        }elseif(!$openid){
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
-        }else{
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
         }
 
     }
