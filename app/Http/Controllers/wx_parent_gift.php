@@ -468,6 +468,8 @@ class wx_parent_gift extends Controller
         $start_time = 1509638400; // 2017-11-03
         $openid = $this->get_in_int_val('openid');
 
+        dd($openid);
+
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
 
