@@ -512,6 +512,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   t_teacher_record_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
