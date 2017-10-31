@@ -20,7 +20,7 @@ $(function(){
     $.admin_select_user(
         $('#id_uid'),
         "admin", load_data ,false, {
-            "main_type": 2, //分配用户
+            "main_type": -1, //分配用户
         }
     );
 

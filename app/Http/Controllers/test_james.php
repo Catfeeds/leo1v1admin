@@ -824,6 +824,9 @@ class test_james extends Controller
         
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
+
+        $ret_info['seller_schedule_num_month'] = $task->t_test_lesson_subject_require->get_seller_schedule_num_month($month_start_time_funnel, $end_time); // 教务已排课['月排课数']
+
         $ret_info['all_order_price'] = $this->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数签单总额
 
         dd($ret_info);
