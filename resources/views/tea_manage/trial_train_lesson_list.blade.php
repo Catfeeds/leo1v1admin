@@ -97,7 +97,11 @@
                         <td>{{$var["record_info"]}}</td>
                         <td>{{$var["trial_train_status_str"]}}</td>
                         <td>{{$var["acc"]}}</td>
-                        <td>{{$var["add_time_str"]}}</td>
+                        <td>
+                            @if($var["trial_train_status"]>0)
+                                {{$var["add_time_str"]}}
+                            @endif
+                        </td>
                         <td >
                             <div class="show_flag"
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
