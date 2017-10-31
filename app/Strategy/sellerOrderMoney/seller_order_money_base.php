@@ -134,7 +134,7 @@ class seller_order_money_base {
 
     static function  get_info_by_type_next( $type, $adminid, $start_time, $end_time  )  {
         $class_name=static::$type_config[$type];
-        return $class_name::get_info(  $adminid, $start_time, $end_time );
+        return $class_name::get_info_next(  $adminid, $start_time, $end_time );
     }
 
     static public function get_cur_info_next( $adminid, $start_time, $end_time) {
