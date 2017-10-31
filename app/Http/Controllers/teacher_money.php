@@ -792,7 +792,8 @@ class teacher_money extends Controller
      */
     public function set_teacher_salary(){
         $type = $this->get_in_str_val("type");
-
+        echo "teacher_moeny_type";
+        echo PHP_EOL;
         // return $type;
     }
 

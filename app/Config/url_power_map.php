@@ -508,6 +508,7 @@ class url_power_map {
 			'/main_page/teacher_management_info'	=>1143100,
 			'/main_page/zs_teacher_new'	=>1250100,
 			'/human_resource/index_zs'	=>1250300,
+			'/main_page/zs_teacher_old'	=>1252200,
 			'/human_resource/reaearch_teacher_lesson_list'	=>1250200,
 			'/tongji_ss/tongji_zs_reference'	=>1250500,
 			'/train_teacher/train_lecture_lesson_list'	=>1250600,
