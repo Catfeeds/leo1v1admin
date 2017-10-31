@@ -3181,6 +3181,8 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
+        $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
+        dd($grab_info);
 
         //教务数据
         $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;

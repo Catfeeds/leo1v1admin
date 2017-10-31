@@ -1428,15 +1428,6 @@ class test_code extends Controller
         }
     }
 
-    public function test_api(){
-        echo "begin";
-        echo PHP_EOL;
-        $job = new \App\Jobs\UpdateTeacherMoney;
-        dispatch($job);
-        echo "job end";
-        echo PHP_EOL;
-    }
-
 
 
 }

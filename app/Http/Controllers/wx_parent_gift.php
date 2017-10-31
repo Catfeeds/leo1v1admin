@@ -468,7 +468,6 @@ class wx_parent_gift extends Controller
         $start_time = 1509638400; // 2017-11-03
         $openid = $this->get_in_str_val('openid');
 
-
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
 
@@ -568,7 +567,7 @@ class wx_parent_gift extends Controller
             "remark"    => "感谢您的参与",
         ];
         // $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$agent_info['phone']."&type=2";
-        $url = "http://www.wx-yxyx.leo1v1.com/wx_yxyx_web/index";
+        $url = "http://wx-yxyx.leo1v1.com/wx_yxyx_web/index";
         $wx->send_template_msg($openid,$template_id,$data_msg ,$url);
         $prize = $prize/100;
         return $this->output_succ(["money"=>$prize,"openid"=>$openid]);
