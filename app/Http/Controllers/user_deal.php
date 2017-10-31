@@ -3199,8 +3199,18 @@ class user_deal extends Controller
         $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
         //面试通过数
         $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
+        $interview_pass_num = count($ret_interview);
+        $interview_pass_time =0;
+        foreach($ret_interview as $val){
+            $time = $val["confirm_time"]-$val["add_time"];
+            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $time = $val["one_add_time"]-$val["lesson_start"];
+            }
+            $interview_pass_time +=$time;
+        }
+        $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
         
-        dd($ret_interview);
+        dd($interview_pass_time);
 
         //面试邀约时长
         

@@ -57,14 +57,17 @@ class CheckTeacherIsInRoom extends Command
                     $lesson_num   = $lesson_val['lesson_num'];
                     $teacherid    = $lesson_val['teacherid'];
                     $lesson_time  = date("Y-m-d H:i",$lesson_start)."-".date("H:i",$lesson_end);
-                    if($lesson_start-time()<=2400){
+                    if(time()-$lesson_start<=2400){
                         $server_config = [];
-                        $xmpp_server_name=$lesson_val["xmpp_server_name"];
-                        $current_server=$lesson_val["current_server"];
-                        $server_config        = $task->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
-                        $roomid        = \App\Helper\Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
-                        $user_list     = \App\Helper\Utils::get_room_users($roomid,$server_config);
-                        $teacher_nick  = $task->cache_get_teacher_nick($teacherid);
+                        $xmpp_server_name = $lesson_val["xmpp_server_name"];
+                        $current_server   = $lesson_val["current_server"];
+                        $server_config    = $task->t_lesson_info_b3->eval_real_xmpp_server(
+                            $xmpp_server_name,$current_server,$server_name_map
+                        );
+
+                        $roomid       = \App\Helper\Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
+                        $user_list    = \App\Helper\Utils::get_room_users($roomid,$server_config);
+                        $teacher_nick = $task->cache_get_teacher_nick($teacherid);
 
                         if(is_array($user_list)){
                             if(!in_array($teacherid,$user_list)){
@@ -73,7 +76,7 @@ class CheckTeacherIsInRoom extends Command
                                 $msg        = "\n老师：".$teacher_nick."\n课程时间:".$lesson_time;
                                 $url        = "http://admin.yb1v1.com/tea_manage/lesson_list?lessonid=".$lessonid;
                                 $task->t_manager_info->send_wx_todo_msg("amanda",$from_user,$header_msg,$msg,$url);
-                                $task->t_manager_info->send_wx_todo_msg("yueyue",$from_user,$header_msg,$msg,$url);
+                                // $task->t_manager_info->send_wx_todo_msg("yueyue",$from_user,$header_msg,$msg,$url);
                                 $task->t_manager_info->send_wx_todo_msg("adrian",$from_user,$header_msg,$msg,$url);
                             }
                         }
