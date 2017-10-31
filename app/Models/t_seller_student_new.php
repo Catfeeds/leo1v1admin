@@ -1168,13 +1168,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[] = 'n.test_lesson_count=0';
         }
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
+            "select t.test_lesson_subject_id,t.subject,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,"
+            ."s.grade,s.origin,s.nick "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s m on n.admin_revisiterid=m.uid  "
             ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid )  "
-            ." where    %s  ",
+            ." where %s ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
