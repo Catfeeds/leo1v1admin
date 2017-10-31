@@ -1132,11 +1132,12 @@ class seller_student_new2 extends Controller
             $end_time = time();
         }
         $res = [];
-        $lesson_list = $this->t_test_lesson_subject_sub_list->get_all_lsit($start_time,$end_time,$origin_ex);
+        // $lesson_list = $this->t_test_lesson_subject_sub_list->get_all_lsit($start_time,$end_time,$origin_ex);
+        $lesson_list = $this->t_test_lesson_subject_require->get_all_lsit($start_time,$end_time,$origin_ex);
         foreach($lesson_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['count'] = $item['count'];
-            $res[$adminid]['suc_count'] = $item['suc_count'];
+            $res[$adminid]['suc_count'] = $item['succ_count'];
             $res[$adminid]['test_count'] = $item['test_count'];
             $res[$adminid]['wheat_count'] = $item['wheat_count'];
         }

@@ -4386,7 +4386,8 @@ class ss_deal extends Controller
         $green_channel_teacherid = $this->get_in_int_val("green_channel_teacherid");
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             "green_channel_teacherid"=>$green_channel_teacherid,
-            "is_green_flag"          =>1
+            "is_green_flag"          =>1,
+            "seller_top_flag"        =>0
         ]);
         return $this->output_succ();
     }

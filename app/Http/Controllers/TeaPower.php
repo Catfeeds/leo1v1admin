@@ -3939,11 +3939,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->t_manager_info->field_update_list($uid,[
                 "permission_backup" => $permission_info["permission"]
             ]);
-  
         }
-        
     }
 
-
+    public function test_api(){
+        return "succ";
+    }
 
 }
