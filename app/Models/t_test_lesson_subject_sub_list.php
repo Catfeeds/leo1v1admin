@@ -1251,8 +1251,8 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
     public function get_all_lsit($start_time,$end_time,$origin_ex){
         $where_arr = [
-            'is_test_user=0',
-            'tss.accept_flag<>2',
+            's.is_test_user=0',
+            'tr.accept_flag<>2',
         ];
         if($origin_ex){
             $where_arr[] = ['s.origin = %s',$origin_ex,-1];
