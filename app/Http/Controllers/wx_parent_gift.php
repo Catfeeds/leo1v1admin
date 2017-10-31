@@ -485,6 +485,8 @@ class wx_parent_gift extends Controller
 
     public function do_luck_draw_yxyx(){ // 抽奖
         $openid = $this->get_in_int_val('openid');
+
+        dd($openid);
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid   = $agent_info['userid'];
 
