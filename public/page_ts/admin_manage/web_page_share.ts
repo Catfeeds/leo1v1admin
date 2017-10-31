@@ -17,6 +17,13 @@ $(function(){
 	  $('#id_uid').val(g_args.uid);
 	  $('#id_account_role').val(g_args.account_role);
 
+    $.admin_select_user(
+        $('#id_uid'),
+        "admin", load_data ,false, {
+            "main_type": 2, //分配用户
+        }
+    );
+
 
 	  $('.opt-change').set_input_change_event(load_data);
 
