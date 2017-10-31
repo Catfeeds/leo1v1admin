@@ -994,12 +994,14 @@ class wx_yxyx_api extends Controller
         foreach($list as $key => &$item){
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
+            $item['agent_status_money'] /= 100;
         }
         //获取会员邀请的奖励列表
         $data = $this->t_agent->member_had_invite($agent_id);
         foreach($data as $key => &$item){
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
+            $item['agent_status_money'] /= 100;
         }
         
         return $this->output_succ([
