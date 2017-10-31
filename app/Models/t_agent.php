@@ -2245,4 +2245,31 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取我的邀请列表 [已获取]
+    public function my_had_invite($agent_id){
+        $where_arr = [
+            ['a.parentid = %u',$agent_id,'-1'],
+            ['a.agent_status >= %u',30]
+        ];
+        $sql = $this->gen_sql_new(
+            "select  id,a.phone,a.nickname,a.agent_status_money "
+            . " from %s a"
+            ." where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:会员邀请奖励列表[已获取]
+    public function member_had_invite($agent_id){
+        $sql = $this->gen_sql_new(
+            "select phone,nickname,pp_agent_status_money as agent_status_money "
+            ."from %s "
+            ." where  parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $agent_id
+        );
+        return $this->main_get_list($sql);
+    }
 }
