@@ -490,7 +490,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,tr.add_time one_add_time "
+        $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,"
+                                  ."tr.add_time one_add_time,ta.add_time train_add_time "
                                   ." from %s al "
                                   ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
                                   ." not exists (select 1 from %s where phone = tl.phone and status =1 and "
@@ -510,6 +511,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   t_teacher_record_list::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
