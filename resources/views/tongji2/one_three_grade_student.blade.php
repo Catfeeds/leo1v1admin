@@ -24,7 +24,7 @@
             <tbody>
                 @foreach ( $ret as $var )
                     <tr>
-                        <td > {{$var["grade"]}} </td>
+                        <td > {{$var["grade_str"]}} </td>
                         <td > {{$var["total_num"]}} </td>
                         <td > {{$var["total_test"]}} </td>
                         <td > {{$var["total_success"]}} </td>

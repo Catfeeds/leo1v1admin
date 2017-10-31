@@ -604,12 +604,11 @@ trait  ViewDeal {
             $this->out_xls($ret_info);
             exit;
         }
-
         $data=$this->getPageData($ret_info,$ex_js_args,$showPages);
         if (count($data_ex)>0 )  {
             $data=array_merge($data,$data_ex) ;
         }
-//        dd($data);
+
         return $this->view($method,$data);
     }
 

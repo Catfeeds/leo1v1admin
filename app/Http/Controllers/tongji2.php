@@ -1435,10 +1435,12 @@ class tongji2 extends Controller
                 $value['status_str'] = "无效";
             }
         }
-        foreach ($ret as $key => $value) {
-            $value['grade'] = E\Egrade::get_desc($value['grade']);
+        foreach ($ret as $key => &$value) {
+            
+            $value['grade_str'] = E\Egrade::get_desc($value['grade']);
         }
-        return $this->pageView(__METHOD__, $ret_info,[
+        return $this->pageView(__METHOD__, null,[
+                "table_data_list" => $ret_info['list'],
                 "ret" => $ret,
             ]);
     }
