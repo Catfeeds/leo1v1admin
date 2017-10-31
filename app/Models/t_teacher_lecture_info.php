@@ -1963,7 +1963,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ['confirm_time<%u',$end_time,0],
             "status=1"
         ];
-        $sql = $this->gen_sql_new("sleect phone from %s where %s ", self::DB_TABLE_NAME,$where_arr);
+        $sql = $this->gen_sql_new("select phone from %s where %s ", self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 

@@ -162,12 +162,13 @@ class WechatRequest  {
                 $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
             }
             return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
-        }elseif($content == '测试一'){
+        }elseif($content == '测试'){
             $tuwenList[] = array(
-                'title' => '测试文章一',
-                'description' => '优学优享是理优教育旗下的分享社区。分享科学的教育理念。如邀请身边的好友进入理优学习，可获得相应的奖励。',
+                'title' => '如果你无法简洁的表达你的想法,那只说明你还不够了解它.',
+                'description' => '',
                 'pic_url' => '',
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_int',
+                'url' => "http://wx-yxyx.leo1v1.com/wx_yxyx_common/check_is_login?p_phone=",
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_int',
             );
             $item = array();
             foreach($tuwenList as $tuwen){

@@ -131,14 +131,18 @@ class TeacherMoneyTask extends TaskController
     public function set_teacher_salary_list($type,$start_time=0){
         $start_time = $start_time==0?time():$start_time;
         $month_time = \App\Helper\Utils::get_month_range($start_time,true);
-
-        $teacher_money = new \App\Http\Controllers\teacher_money();
-        $teacherid   = 60024;
-        $salary_info = $teacher_money->set_teacher_salary($teacherid);
-        var_dump($salary_info);
-        echo "end";
+        echo "start";
         echo PHP_EOL;
-        // $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
+        $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
+        var_dump($tea_list);
+        exit;
+        $teacher_money = new \App\Http\Controllers\teacher_money();
+        foreach($tea_list as $t_val){
+            $teacherid   = $t_val['teacherid'];
+            $salary_info = $teacher_money->set_teacher_salary($teacherid);
+            var_dump($salary_info);
+            exit;
+        }
 
     }
 
