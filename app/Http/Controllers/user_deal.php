@@ -3207,6 +3207,8 @@ class user_deal extends Controller
         $train_real_num=0;
         $trail_num=0;
         $trail_time=0;
+        $through_num=0;
+        $through_time=0;
         foreach($ret_interview as $val){
             $time = $val["confirm_time"]-$val["add_time"];
             if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"]){
@@ -3231,6 +3233,10 @@ class user_deal extends Controller
                 }
 
                 
+            }
+            if($val["train_through_new"]==1){
+                $through_num++;
+                $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
             }
             
         }
