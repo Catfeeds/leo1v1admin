@@ -273,7 +273,54 @@ left join t_order_info o on o.from_test_lesson_id  = l.lessonid
 where a.stu_request_test_lesson_time > 1483200000 and a.grade in (101,102,103) and s.is_test_user = 0";
         return $this->main_get_list($sql);
     }
-
+    public function get_apply_info_new($page_info,$start_time,$end_time){
+        $where_arr = [
+          ["a.stu_request_test_lesson_time>%u",$start_time,-1],
+          ["a.stu_request_test_lesson_time<%u",$end_time,-1],
+          "a.grade in (101,102,103) ",
+          "s.is_test_user = 0 ",
+        ];
+        $sql = $this->gen_sql_new("select  a.userid, s.nick, a.grade, a. subject ,a.stu_request_test_lesson_demand,a.textbook  ,s.phone_location, t.current_lessonid ,t.require_id ,k.lessonid ,k.success_flag, l.lesson_type,l.lesson_user_online_status ,o.price,o.contract_status"
+        ." from %s  a  "
+        ." left join %s s on s.userid = a.userid "
+        ." left join %s t on t.require_id = a.current_require_id "
+        ." left join %s k on k.require_id  = t.require_id "
+        ." left join %s l on l.lessonid = k.lessonid "
+        ." left join %s o on o.from_test_lesson_id  = l.lessonid "
+        ." where  %s",
+        t_test_lesson_subject::DB_TABLE_NAME,
+        t_student_info::DB_TABLE_NAME,
+        t_test_lesson_subject_require::DB_TABLE_NAME,
+        t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+        t_lesson_info::DB_TABLE_NAME,
+        t_order_info::DB_TABLE_NAME,
+        $where_arr);
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+    public function get_total_apply_info($start_time,$end_time){
+        $where_arr = [
+          ["a.stu_request_test_lesson_time>%u",$start_time,-1],
+          ["a.stu_request_test_lesson_time<%u",$end_time,-1],
+          "a.grade in (101,102,103) ",
+          "s.is_test_user = 0 ",
+        ];
+        $sql = $this->gen_sql_new("select a.grade, count(a.userid) as total_num, sum(if(k.lessonid>0, 1,0)) as total_test , sum(if(l.lesson_user_online_status=1, 1,0)) as total_success,  sum(if (   o.contract_status > 0,1,0)) as total_order"
+           ." from %s  a  "
+        ." left join %s s on s.userid = a.userid "
+        ." left join %s t on t.require_id = a.current_require_id "
+        ." left join %s k on k.require_id  = t.require_id "
+        ." left join %s l on l.lessonid = k.lessonid "
+        ." left join %s o on o.from_test_lesson_id  = l.lessonid "
+        ." where  %s group by a.grade",
+        t_test_lesson_subject::DB_TABLE_NAME,
+        t_student_info::DB_TABLE_NAME,
+        t_test_lesson_subject_require::DB_TABLE_NAME,
+        t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+        t_lesson_info::DB_TABLE_NAME,
+        t_order_info::DB_TABLE_NAME,
+        $where_arr);
+        return $this->main_get_list($sql);
+    }
     public function get_all_teacher_info_total(){
         $sql = "select teacherid ,subject ,phone_location from t_teacher_info  where train_through_new_time>0 and train_through_new_time<1509163200 and is_test_user=0 ";
         return $this->main_get_list($sql,function($item){

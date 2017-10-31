@@ -651,12 +651,10 @@ class wx_yxyx_common extends Controller
 
         $agent_id = session('agent_id');
 
-        if(!$agent_id && $openid){ // 已关注 未绑定 ==> 绑定
-            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind ");
-        }elseif($agent_id & $openid){ // 未关注 ==> 会员绑定页面
-            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
-        }elseif(!$agent_id & !$openid){
+        if($openid){ // ==> 活动页面
             header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?p_phone=".$p_phone);
+        }elseif(!$openid){ // 绑定会员的页面
+            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
         }
 
     }

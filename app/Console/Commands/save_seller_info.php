@@ -43,8 +43,8 @@ class save_seller_info extends Command
         // 月末保存整月信息
         $task=new \App\Console\Tasks\TaskController();
 
-        $start_time = $this->option('s');
-        $end_time   = $this->option('e');
+        $start_time = strtotime($this->option('s'));
+        $end_time   = strtotime($this->option('e'));
 
         if($start_time == null && $end_time == null ){
             $end_time   = strtotime(date('Y-m-01'));

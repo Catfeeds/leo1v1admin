@@ -3181,11 +3181,40 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
-        //面试邀约数
+        //面试邀约数/面试邀约时长
         $ret = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
-        dd($ret);
+        $app_num = count($ret);
+        $plan_num=$plan_time =0;
+        foreach($ret as $val){
+            $time = $val["add_time"];
+            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $time = $val["lesson_start"];
+            }
+            if($time>0){
+                $plan_num++;
+                $plan_time += ($time-$val["answer_begin_time"]);
+            }
+            
+        }
+        $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
+        //面试通过数/面试通过时长
+        $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
+        dd($ret_interview);
+        $interview_pass_num = count($ret_interview);
+        $interview_pass_time =0;
+        foreach($ret_interview as $val){
+            $time = $val["confirm_time"]-$val["add_time"];
+            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+                $time = $val["one_add_time"]-$val["lesson_start"];
+            }
+            $interview_pass_time +=$time;
+        }
+        $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
+        
 
-        //面试邀约时长
+        //新师培训数
+        $new_train_info = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_new_train_info($start_time,$end_time);
+        dd($new_train_info);
         
         
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);

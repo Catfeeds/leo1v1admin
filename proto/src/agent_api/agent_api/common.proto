@@ -161,3 +161,10 @@ message had_invite_rewards{
   string nickname = 1;//邀请人昵称
   float agent_status_money = 2;//获得的邀请金额
 }
+message can_cash_commisson{
+  string nickname = 1;//姓名
+  string create_time = 2;//时间
+  float price = 3;//购买课程
+  float p_open_price = 4;//收入
+  uint32 count = 5;//上课节数
+}
