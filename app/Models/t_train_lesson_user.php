@@ -186,5 +186,14 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         return $this->main_get_value($sql);
     }
 
+    public function get_all_info_no_train_type(){
+        $sql = $this->gen_sql_new("select ta.*,l.train_type lesson_train_type,l.lesson_del_flag"
+                                  ." from %s ta left join %s l on ta.lessonid = l.lessonid",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
