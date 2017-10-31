@@ -461,14 +461,15 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new("select count(distinct al.phone) app_total"
+        $sql = $this->gen_sql_new("select distinct al.phone,al.answer_begin_time,tl.add_time,l.lesson_start "
                                   ." from %s al "
                                   ." left join %s tl on al.phone = tl.phone and tl.status <>4 and tl.is_test_flag=0 and "
                                   ." not exists (select 1 from %s where phone = tl.phone and status <>4 and "
                                   ."is_test_flag=0 and add_time<tl.add_time )"
                                   ." left join %s t on al.phone = t.phone and t.is_test_user=0"
                                   ." left join %s l on l.lesson_type=1100 and l.train_type=5 and l.lesson_del_flag=0 "
-                                  ."and l.userid = t.teacherid and not exists(select 1 from %s where lesson_type=1100"
+                                  ."and l.userid = t.teacherid and l.lesson_start>0 and not exists(select 1 from %s "
+                                  ."where lesson_type=1100 and lesson_start>0 "
                                   ." and train_type=5 and lesson_del_flag=0 and userid=l.userid and lesson_start<l.lesson_start)"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
