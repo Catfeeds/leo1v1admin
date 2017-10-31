@@ -39,7 +39,7 @@ class import_to_teacher_flow extends cmd_base
     {
         $task = new \App\Console\Tasks\TaskController();
         // check手机号
-        $info = $task->t_teacher_flow->get_date();
+        $info = $task->t_teacher_flow->get_data();
         $start_time = strtotime('2017-9-1');
         $end_time = strtotime('2017-10-1');
         foreach($info as $item) {
