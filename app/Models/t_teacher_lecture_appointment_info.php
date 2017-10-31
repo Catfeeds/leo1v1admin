@@ -500,7 +500,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." and  not exists(select 1 from %s where trial_train_status =1 and type=10 and "
                                   ."teacherid = tr.teacherid and add_time<tr.add_time)"
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
-                                  ." left join %s ta on t.teacherid = ta.userid"
+                                  ." left join %s ta on t.teacherid = ta.userid and not exists (select 1 from %s where"
+                                  ." userid = ta.userid and add_time<ta.add_time)"
                                   ." where %s having(tl.add_time>0 or tr.add_time>0)",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,

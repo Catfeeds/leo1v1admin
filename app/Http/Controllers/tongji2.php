@@ -368,7 +368,7 @@ class tongji2 extends Controller
                 if ($adminid==  $item["adminid"]){
                     // $ret_info["list"][]=["adminid" => $item["adminid"] ];
                     $ret_info["list"][$item["adminid"]]=["adminid" => $item["adminid"] ];
-                    // dd($order_user_list,$ret_info["list"],$item["adminid"]);
+                    dd($order_user_list,$ret_info["list"],$item["adminid"]);
                 }
             }
         }
@@ -1438,7 +1438,6 @@ class tongji2 extends Controller
         foreach ($ret as $key => $value) {
             $value['grade_str1'] = E\Egrade::get_desc($value['grade']);
         }
-		dd($ret);
         return $this->pageView(__METHOD__, $ret_info,[
                 "ret" => $ret,
             ]);
