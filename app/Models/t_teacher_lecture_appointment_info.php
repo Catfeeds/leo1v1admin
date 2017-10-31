@@ -461,16 +461,15 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new("select count(distinct al.phone) app_total,count(distinct l.phone) lec_total,count(distinct t.teacherid) tea_total,count(distinct tt.teacherid) tran_total "
-                                  ." from %s al left join %s l on al.phone = l.phone and %s"
-                                  ." left join %s t on l.phone = t.phone and l.status=1 and t.is_test_user=0 and t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%' "
-                                  ." left join %s tt on tt.teacherid = t.teacherid and tt.train_through_new=1"
+        $sql = $this->gen_sql_new("select al.phone, "
+                                  ." from %s al "
+                                  ." left join %s l on al.phone = l.phone and l.status <>4 and"
+                                  ." not exists (select 1 from %s where phone = l.phone and status <>4 and add_time<l.add_time )"
+                                  ." left join %s t on al.phone = t.phone"
+                                  ." left join %s l on l.lesson_type=1100 and l.train_type=5 and "
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
-                                  $time_str,
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_row($sql);
