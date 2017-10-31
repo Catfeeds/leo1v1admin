@@ -700,9 +700,9 @@ class common extends Controller
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_test.png";
+            $phone_qr_name = $phone."_qr_agent_test_new.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_gkk.png";
+            $phone_qr_name = $phone."_qr_agent_gkk_new.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
         \App\Helper\Utils::logger("CHECK is_exists start");
@@ -760,7 +760,7 @@ class common extends Controller
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,372,1346,0,0,imagesx($image_2),imagesx($image_2),100);
-            $r = 95; //圆半径
+            // $r = 95; //圆半径
             for ($x = 0; $x < 190; $x++) {
                 for ($y = 0; $y < 190; $y++) {
                     $rgbColor = imagecolorat($image_5, $x, $y);
