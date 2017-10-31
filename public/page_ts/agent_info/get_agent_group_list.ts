@@ -36,8 +36,9 @@ $(function(){
             },function(data){
                 // console.log(data);
                 if (data.ret!=0) {
-                    console.log(data.info);
                     $('.notice_'+data.flag).text(data.info);
+                }else{
+                    $('.notice_'+data.flag).text('');
                 }
             });
             
