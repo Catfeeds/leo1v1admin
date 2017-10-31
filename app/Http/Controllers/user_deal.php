@@ -3181,22 +3181,12 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
-        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
-        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
-        foreach($teacher_arr_ex as $k=>$val){
-            if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k;
-            }
-        }
-        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
-            -1,$start_time,$end_time,-1,-1,-1,"",-2);
-        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
-            -1,$start_time,$end_time,-1,-1,-1,"",-2);
-        @$video_real["all_count"] += $one_real["all_count"];
-        $all_tea_ex = count($teacher_list_ex);
-        $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
-        dd($new_tea_through_per);
-       
+
+        //新老师30天留存率
+        $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);
+        $new_teacher_thirty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,60);
+        dd($new_teacher_thirty);
+           
        
 
         //新老师数(入职)
@@ -3221,8 +3211,8 @@ class user_deal extends Controller
         $tea_lesson_info = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
         $read_stu_num = @$tea_lesson_info["stu_num"];
         //师生比
-        $tea_stu_num = round(@$tea_lesson_info["tea_num"]/@$tea_lesson_info["stu_num"],1);
-        $tea_stu_per = "1:".$tea_stu_num;
+        $tea_stu_num = $tea_lesson_info["stu_num"]>0?round(@$tea_lesson_info["tea_num"]/@$tea_lesson_info["stu_num"],1):0;       
+        $tea_stu_per = !empty($tea_stu_num)?"1:".$tea_stu_num:"";
 
         //试听课老师数
         $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
@@ -3249,20 +3239,37 @@ class user_deal extends Controller
         $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
 
         //新老师入职通过率
-        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
-        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         foreach($teacher_arr_ex as $k=>$val){
             if(!isset($teacher_list_ex[$k])){
                 $teacher_list_ex[$k]=$k;
             }
         }
         $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
         $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
         @$video_real["all_count"] += $one_real["all_count"];
         $all_tea_ex = count($teacher_list_ex);
         $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
+
+        //新老师入职时长
+        $video_time = $this->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
+        $one_time = $this->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
+        $num_total = 0;
+        $time_total=0;
+        foreach($video_time as $v){
+            $num_total++;
+            $time_total +=$v["time"];
+        }
+        foreach($one_time as $v){
+            $num_total++;
+            $time_total +=$v["time"];
+        }
+        $through_avg_time = $num_total>0?round($time_total/$num_total/86400,1):0;
+
+        
 
 
 

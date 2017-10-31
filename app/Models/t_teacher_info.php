@@ -4388,5 +4388,32 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    public function get_new_teacher_test_info($start_time,$end_time,$day_num){
+        $day_time = $day_num*86400;
+        $where_arr = [
+            " is_quit=0 ",
+            " is_test_user =0",
+            "train_through_new_time>=".$start_time,
+            "train_through_new_time<".$end_time,
+            "train_through_new=1",
+            "l.lesson_del_flag=0",
+            "l.lesson_type=2",
+            "tss.success_flag<2",
+            "l.lesson_start>t.train_through_new_time",
+            "(l.lesson_start-t.train_through_new_time)<=".$day_time
+        ];
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid)"                                  
+                                  ." from %s t left join %s l on l.teacherid=t.teacherid"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+ 
+    }
+
 
 }
