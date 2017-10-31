@@ -1509,11 +1509,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_train_lesson_part_info($start_time,$end_time,$train_type=1){
         $where_arr=[
-            "lesson_del_flag=0",
-            "lesson_type=1100",
-            ["lesson_start>=%u",$start_time,0],
-            ["lesson_start<%u",$end_time,0],
-            ["train_type=%u",$train_type,-1]
+            "l.lesson_del_flag=0",
+            "l.lesson_type=1100",
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.train_type=%u",$train_type,-1]
         ];
         $sql = $this->gen_sql_new("select l.lessonid,ta.userid,lo.opt_time,t.train_through_new_time "
                                   ." from %s l left join %s ta on l.lessonid=ta.lessonid"
@@ -1523,6 +1523,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr);

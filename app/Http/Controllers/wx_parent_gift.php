@@ -486,8 +486,10 @@ class wx_parent_gift extends Controller
         $openid = $this->get_in_int_val('openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid   = $agent_info['userid'];
+
+        $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
-        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money();
+        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
 
         $rate  = mt_rand(1,100);
         $prize = 0;
@@ -520,7 +522,7 @@ class wx_parent_gift extends Controller
             $prize = 11111;
         }
 
-        if($has_get_money >1000){ // 每日金额1000元
+        if($has_get_money >=1000){ // 每日金额1000元
             $prize = 0;
         }
 

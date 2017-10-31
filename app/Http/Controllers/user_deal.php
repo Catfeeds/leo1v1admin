@@ -3186,7 +3186,23 @@ class user_deal extends Controller
         $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
         //培训参与率,培训通过数
         $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
-        dd($train_lesson_part_info);
+        $all_num= $part_num=$train_tea_num =$train_through_num=0;
+        $train_tea_list = [];
+        
+        foreach($train_lesson_part_info as $val){
+            $all_num++;
+            if($val["opt_time"]>0){
+                $part_num++; 
+            }
+            if(!isset($train_tea_list[$val["userid"]])){
+                @$train_tea_list[$val["userid"]]=$val["userid"];
+                $train_tea_num++;
+                if($val["train_through_new_time"]>0){
+                    $train_through_num++;
+                }
+            }
+        }
+        dd([$all_num,$part_num,$train_tea_num,$train_through_num]);
                   
        
 
