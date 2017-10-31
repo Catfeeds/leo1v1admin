@@ -3218,9 +3218,9 @@ class user_deal extends Controller
                     $train_real_num++;
                 }elseif($val["confirm_time"]>0 && $val["train_add_time"]>$val["confirm_time"]){
                     $tr_time= $val["train_add_time"]-$val["confirm_time"];
+                    $train_real_num++;
                 }
                 $train_time +=$tr_time;
-                $train_real_num++;
 
                 
             }
