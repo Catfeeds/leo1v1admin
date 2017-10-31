@@ -102,7 +102,6 @@ class test_sam  extends Controller
             }else{
                 $value['status_str'] = "无效";
             }
-            
         }
         echo "<table >";
         echo "<tr>"."<td width=30px>ID|</td>"
