@@ -1957,6 +1957,7 @@ class tea_manage extends Controller
                     "lessonid" => $lessonid,
                     "userid"   => $userid,
                     "add_time" => time(),
+                    "train_type"=>$type
                 ]);
             }
         }else{
