@@ -111,9 +111,9 @@ class flow_ass_order_refund  extends flow_base{
         \App\Helper\Utils::logger(" GET_ACCOUNT_ROLE   $account_role");
         if ($account_role== E\Eaccount_role::V_1) {
             //助教
-            return [5,188];
+            return [5,"班洁" ];
         }else{
-            $flag=\App\Helper\Utils::check_env_is_release() ;
+            //$flag=\App\Helper\Utils::check_env_is_release() ;
             return [7,"班洁" ];
             //return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
         }

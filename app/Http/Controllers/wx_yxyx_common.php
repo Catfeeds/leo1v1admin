@@ -614,12 +614,13 @@ class wx_yxyx_common extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
-        $agent_id = $this->t_agent->get_agent_id_by_openid($openid);
+        $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
+        $agent_id = $agent_info['id'];
 
         // $agent_id = session('agent_id');
 
         if($agent_id){ // ==>已绑定 ==> 活动页面
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?p_phone=".$p_phone);
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
         }elseif(!$openid){ //未绑定 ==> 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
         }
