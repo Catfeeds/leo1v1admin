@@ -475,6 +475,7 @@ class wx_parent_gift extends Controller
 
         $ret_info['invite_num'] = count($invite_info);
         $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+        $ret_info['phone'] = $this->t_agent->get_phone($parentid);
 
         return $this->output_succ(["data"=>$ret_info]);
     }

@@ -3205,6 +3205,8 @@ class user_deal extends Controller
         $train_num=0;
         $train_time=0;
         $train_real_num=0;
+        $trail_num=0;
+        $trail_time=0;
         foreach($ret_interview as $val){
             $time = $val["confirm_time"]-$val["add_time"];
             if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"]){
@@ -3223,14 +3225,21 @@ class user_deal extends Controller
                 }
                 $train_time +=$tr_time;
 
+                if($val["trail_time"]>0){
+                    $trail_num++;
+                    $trail_time += ($val["trail_time"]-$val["train_add_time"]);
+                }
+
                 
             }
+            
         }
 
         $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
 
         //新师培训数/时间
-        $train_time = $train_num>0?round($train_time/$train_real_num/86400,1):0;
+        $train_time = $train_real_num>0?round($train_time/$train_real_num/86400,1):0;
+        $trail_time = $trail_num>0?round($trail_time/$trail_num/86400,1):0;
         dd($train_time);
         
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
