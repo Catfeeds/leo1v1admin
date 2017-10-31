@@ -3181,7 +3181,7 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
-        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,3000);
+        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,12000);
         dd($thirty_tea_list);
         $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,[],1);
         $arr=[];
