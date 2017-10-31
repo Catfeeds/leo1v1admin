@@ -2536,7 +2536,6 @@ class main_page extends Controller
                 $total['attend_sum'] += $item['attend_sum'];
                 $total['adopt_sum'] += $item['adopt_sum'];
             }
-            dd($ret_info);
 
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
