@@ -3401,7 +3401,9 @@ class user_deal extends Controller
         $train_through_per =  $train_tea_num>0?round($train_through_num/$train_tea_num*100,2):0;
 
 
-        //
+        //教务数据
+        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+
 
         
 
