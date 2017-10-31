@@ -37,6 +37,7 @@ class import_to_teacher_flow extends cmd_base
      */
     public function handle()
     {
+        $task = new \App\Console\Tasks\TaskController();
         // check手机号
         $info = $task->t_teacher_flow->get_date();
         $start_time = strtotime('2017-9-1');
@@ -52,7 +53,6 @@ class import_to_teacher_flow extends cmd_base
         $start_time = strtotime(date('Y-m-d 00:00:00', $time));
         $end_time = strtotime(date('Y-m-d 23:59:59', $time));
 
-        $task = new \App\Console\Tasks\TaskController();
 
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
