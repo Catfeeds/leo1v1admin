@@ -1532,4 +1532,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_succ();
     }
 
+    public  function test_web_page(){
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $from_adminid= $this->get_in_int_val("from_adminid");
+        return $this->pageView(__METHOD__);
+    }
+
+
 }
