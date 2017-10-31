@@ -2572,7 +2572,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_value($sql);
     }
-    public function get_tranfer_phone_num($start_time,$end_time){
+    public function get_tranfer_phone_num_new($start_time,$end_time){
         $where_arr = [
             "s.origin_assistantid <> 0 ",
             "m.account_role = 1",
@@ -2612,7 +2612,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr);
-        dd($sql);
         return $this->main_get_row($sql);
     }
 

@@ -41,7 +41,8 @@ class cr_info_week extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $timestamp = time(); 
+        //$timestamp = time(); 
+        $timestamp = 1509379200;
 
 
         $end_time   = strtotime(date('Y-m-d', strtotime("this week Tuesday", $timestamp)));  
@@ -74,10 +75,14 @@ class cr_info_week extends Command
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($end_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
             $ret_cr = $task->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
-        }elseif($type == 1 || $type == 2){
+        }elseif($type == 1){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
             $ret_cr = $task->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+        }else{
+            $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
+            $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
+            $ret_cr = $task->t_manager_info->get_cr_num_new_b2(strtotime($start_month),$end_time);
         }//月初至今
         $ret_total_thirty  = $task->t_order_info->get_total_price_thirty($start_time,$end_time);
         
@@ -141,7 +146,7 @@ class cr_info_week extends Command
             $arr['renew_num_per'] = 0;
         }
         //转介绍
-        $tranfer = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        $tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
         $tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
         $arr['tranfer_phone_num'] = $tranfer;                                         //D1-转介绍至CC例子量
         $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);     //D2-转介绍至CC例子签单金额
@@ -193,7 +198,8 @@ class cr_info_week extends Command
 
         //转介绍 
         $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
-        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num(strtotime($end_month),$end_time);
+        $end_month_time = strtotime($end_month);
+        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($end_month_time,$end_time);
         //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
         $tranfer_total_month['total_orderid'] = $month_tranfer_data['total_num'];
         $tranfer_total_month['total_num']     = $month_tranfer;
