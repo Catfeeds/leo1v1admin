@@ -3181,7 +3181,7 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
-        //面试邀约数
+        //面试邀约数/面试邀约时长
         $ret = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
         $app_num = count($ret);
         $plan_num=$plan_time =0;
@@ -3197,7 +3197,10 @@ class user_deal extends Controller
             
         }
         $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
-        dd($app_time);
+        //面试通过数
+        $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
+        
+        dd($ret_interview);
 
         //面试邀约时长
         
