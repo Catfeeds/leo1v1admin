@@ -818,6 +818,16 @@ class test_james extends Controller
 
 
     public function dd(){
+        $a = mt_rand(1,2);
+        dd($a);
+        dd(strtotime(date('Y-m-d')));
+        
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+        $ret_info['all_order_price'] = $this->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数签单总额
+
+        dd($ret_info);
+
         $six = strtotime('2017-11-6');
         dd($six);
         dd(strtotime(date('Y-m-d ')));

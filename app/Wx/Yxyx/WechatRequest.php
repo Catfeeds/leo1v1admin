@@ -294,8 +294,8 @@ class WechatRequest  {
 推广材料：
 点击下方蓝字，将内容转发给好友或朋友圈
 <a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_leo-Introduction/index.html'>【理优简介】</a>
-<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?p_phone='".$phone."&wx_openid=".$request['fromusername'].">【精品内容】</a>
-<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='".$request['fromusername'].">【学员反馈】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?p_phone='".$phone."&wx_openid=".$request['fromusername']."'>【精品内容】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='".$request['fromusername']."'>【学员反馈】</a>
 
 点击蓝字:<a href='http://www.leo1v1.com/market-l/index.html'>预约试听课</a>";
         $_SESSION['wx_openid'] = $request['fromusername'];

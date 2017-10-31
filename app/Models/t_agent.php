@@ -1989,7 +1989,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function  send_wx_msg_2001( $from_agentid, $to_agentid ) {
-        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2001;
         $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
         $data = [
             'first'    => '等级升级提醒',
@@ -2001,8 +2001,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     //消息
-    public function  send_wx_msg_2002( $from_agentid, $to_agentid, $order_price,$get_money,$phone  ) {
-
+    public function  send_wx_msg_2002( $from_agentid, $to_agentid, $price,$get_money,$phone  ) {
 
         if ($price >300000 )  {
             return  false;
@@ -2272,4 +2271,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_info_by_pid($parentid){
+        $sql = $this->gen_sql_new("  select wx_openid,phone from %s ta"
+                                  ." where userid=$parentid"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
 }

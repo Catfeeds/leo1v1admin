@@ -1430,9 +1430,10 @@ class test_code extends Controller
 
 
     public function get_tea_list(){
-        $start_time = strtotime("2017-10-1");
-        $end_time = strtotime("+1 month",$start_time);
-        $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
+        $a = new teacher_money();
+        $this->set_in_value("type",33);
+        $ret = $a->set_teacher_salary();
+        var_dump($ret);
     }
 
 }

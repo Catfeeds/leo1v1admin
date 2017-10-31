@@ -361,15 +361,16 @@ class tongji2 extends Controller
             //$item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
 		//unset($item);
-
+        dd($order_user_list,$map,$adminid);
         foreach($order_user_list as $item ) {
             if(!@$map[$item["adminid"] ] ) {
                 if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
+                // if ($adminid==  $item["adminid"]   ) {
                     $ret_info["list"][]=["adminid" => $item["adminid"] ];
                 }
             }
         }
-
+        dd($ret_info["list"]);
         $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
 
         foreach( $admin_list as &$item ) {

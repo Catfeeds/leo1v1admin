@@ -188,6 +188,7 @@ class stu_manage extends Controller
     public function  set_assistantid() {
         $assistantid=$this->get_in_assistantid();
         $account_role = $this->get_account_role();
+        $sys_operator = $this->get_in_str_val("sys_operator","");
         if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster"])
             && !in_array($account_role,[12])
         ){
@@ -229,10 +230,33 @@ class stu_manage extends Controller
         $this->t_course_order->set_user_assistantid( $this->sid,$assistantid  );
 
         if(!$is_test_user){
-            $seller_adminid = $this->t_seller_student_new->get_admin_revisiterid($this->sid);
+
+            if($sys_operator){
+                $seller_adminid = $this->t_manager_info->get_id_by_account($sys_operator);
+            }else{
+                $seller_adminid = $this->t_seller_student_new->get_admin_revisiterid($this->sid);
+                if(!$seller_adminid){
+                    $seller_adminid = $this->t_student_info->get_seller_adminid($this->sid);
+                }
+            }
             $ass_adminid    = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
             $wx_id = $this->t_manager_info->get_wx_id($ass_adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id,"");
+            if($seller_adminid>0){
+                if($wx_id){
+                   $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id,""); 
+                }else{
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,暂无该助教老师微信号","");
+                }
+            }else{
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id.",未找到对应销售","");
+                $phone = $this->t_student_info->get_phone($this->sid);
+                $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id.",未找到对应销售",
+                    "system"
+                );
+
+            }
         }
 
         return $this->output_succ();

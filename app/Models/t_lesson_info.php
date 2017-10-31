@@ -9674,13 +9674,11 @@ lesson_type in (0,1) "
     public function get_imit_audi_sched_count($time, $teacherid)
     {
         $whereArr = [
-            //["operate_time<%u",$start_time,0],
-            //["operate_time>%u",$time,0],
             ['teacherid=%u',$teacherid,0],
             "lesson_type=1100",
             "train_type=4"
         ];
-        $sql = $this->gen_sql_new("select teacherid from %s where %s limit 1",
+        $sql = $this->gen_sql_new("select teacherid from %s  where %s ",
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
@@ -9693,13 +9691,14 @@ lesson_type in (0,1) "
          $whereArr = [
              //["lesson_start<%u",$start_time,0],
              //["lesson_start>%u",$time,0],
-            ["l.userid=%u",$teacherid,0],
+            ["l.teacherid=%u",$teacherid,0],
             //"tea_attend>0"
          ];
 
-        $sql = $this->gen_sql_new("select l.userid "
-                                  ."from %s l left join %s lo on l.lessonid=lo.lessonid "
-                                  ." where %s limit 1 ",
+
+        $sql = $this->gen_sql_new("select l.teacherid"
+                                  ." from %s l left join %s lo on l.lessonid=lo.lessonid "
+                                  ." where %s  group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   $whereArr

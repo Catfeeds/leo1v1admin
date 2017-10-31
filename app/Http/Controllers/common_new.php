@@ -1518,5 +1518,25 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_err("no find $room_name");
 
     }
+    public function web_page_log()    {
+        $web_page_id=$this->get_in_int_val("web_page_id");
+        $from_adminid=$this->get_in_int_val("from_adminid");
+
+        $ip=ip2long( $this->get_in_client_ip() );
+        $this->t_web_page_trace_log->row_insert([
+            "from_adminid" =>$from_adminid,
+            "web_page_id" =>$web_page_id,
+            "ip" =>$ip,
+            "log_time" =>$log_time,
+        ]);
+        return $this->output_succ();
+    }
+
+    public  function test_web_page(){
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $from_adminid= $this->get_in_int_val("from_adminid");
+        return $this->pageView(__METHOD__);
+    }
+
 
 }

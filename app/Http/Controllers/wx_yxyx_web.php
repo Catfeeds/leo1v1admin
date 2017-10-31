@@ -20,9 +20,13 @@ class wx_yxyx_web extends Controller
 
     public function __construct() {
         parent::__construct();
+
         $agent_id = $this->get_agent_id();
         $agent = $this->t_agent->get_agent_info_by_id($agent_id);
+
         $agent_id_new = $agent['id'];
+        \App\Helper\Utils::logger("agent_idxx: $agent_id agent_id_new: $agent_id_new ");
+
         $wx_config=\App\Helper\Config::get_config("yxyx_wx");
         $base_url=$wx_config["url"];
         if($agent_id_new){
