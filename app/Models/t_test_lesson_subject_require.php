@@ -1786,18 +1786,21 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   "sum(if(test_lesson_student_status =200,1,0)) un_count,".
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status =200 and tr.is_green_flag=0,1,0)) top_un_count,".
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=0,1,0)) top_count,".
+                                   "sum(if(tr.seller_top_flag=0 and test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=0 and tss.grab_flag=1,1,0)) grab_count,".
                                   " sum(if(o.orderid>0 and tr.seller_top_flag=1 and tr.is_green_flag=0,1,0)) order_num,".
                                   "count(*) all_count ".
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
                                   " left join %s s on t.userid = s.userid".
                                   " left join %s o  on tr.current_lessonid = o.from_test_lesson_id and o.contract_type in(0,3) and contract_status>0".
+                                  " left join %s tss on tr.current_lessonid = tss.lessonid".
                                   " where %s group by accept_adminid ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

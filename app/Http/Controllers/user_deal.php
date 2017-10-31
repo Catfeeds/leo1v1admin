@@ -3179,30 +3179,20 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $this->switch_tongji_database();
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-09-01");
-        
-        //培训数
-        $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
-        //培训参与率,培训通过数
-        $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
-        $all_num= $part_num=$train_tea_num =$train_through_num=0;
-        $train_tea_list = [];
-        
-        foreach($train_lesson_part_info as $val){
-            $all_num++;
-            if($val["opt_time"]>0){
-                $part_num++; 
-            }
-            if(!isset($train_tea_list[$val["userid"]])){
-                @$train_tea_list[$val["userid"]]=$val["userid"];
-                $train_tea_num++;
-                if($val["train_through_new_time"]>0){
-                    $train_through_num++;
-                }
-            }
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
+
+        //教务数据
+        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=0;
+        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+        foreach($ret_info as $val){
+            $set_count_all+=$val["set_count"];
+            $set_count_top+=$val["top_count"];
+            $set_count_green+=$val["green_count"];
+            $set_count_grab+=$val["grab_count"];
         }
-        dd([$all_num,$part_num,$train_tea_num,$train_through_num]);
+        $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
+        dd([$set_count_normal,$set_count_all,$set_count_top,$set_count_green,$set_count_grab]);        
                   
        
 
@@ -3377,7 +3367,32 @@ class user_deal extends Controller
         $through_time = $through_real_num>0?round($through_time/$through_real_num/86400,1):0;
 
 
+        //培训数
+        $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
+        //培训参与率,培训通过数
+        $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
+        $all_num= $part_num=$train_tea_num =$train_through_num=0;
+        $train_tea_list = [];
+        
+        foreach($train_lesson_part_info as $val){
+            $all_num++;
+            if($val["opt_time"]>0){
+                $part_num++; 
+            }
+            if(!isset($train_tea_list[$val["userid"]])){
+                @$train_tea_list[$val["userid"]]=$val["userid"];
+                $train_tea_num++;
+                if($val["train_through_new_time"]>0){
+                    $train_through_num++;
+                }
+            }
+        }
+        $train_part_per =  $all_num>0?round($part_num/$all_num*100,2):0;
+        $train_through_per =  $train_tea_num>0?round($train_through_num/$train_tea_num*100,2):0;
 
+
+        //教务数据
+        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
 
 
         
