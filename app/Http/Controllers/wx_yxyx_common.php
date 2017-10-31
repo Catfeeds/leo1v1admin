@@ -111,7 +111,7 @@ class wx_yxyx_common extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
 
-        if($code==$check_code){
+        if($code==$check_code || \App\Helper\Utils::check_env_is_test()){
             $agent_info = [];
             $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
             $user_info  = $this->get_wx_user_info($wx_openid);
@@ -649,10 +649,8 @@ class wx_yxyx_common extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
-        $agent_id = session('agent_id');
-
         if($openid){ // ==> 活动页面
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?p_phone=".$p_phone);
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
         }elseif(!$openid){ // 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=$p_phone&type=2");
         }

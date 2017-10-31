@@ -4366,7 +4366,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$reward_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -4456,6 +4455,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_row($sql);               
 
+    }
+
+    public function get_1(){
+        $sql = $this->gen_sql_new("select 1 "
+                                  ." from %s "
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
     }
 
 }

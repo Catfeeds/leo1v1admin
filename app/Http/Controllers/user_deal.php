@@ -3179,30 +3179,17 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $this->switch_tongji_database();
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-09-01");
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
+        $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
+        $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
+        dd($grab_info);
+
+      
         
-        //培训数
-        $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
-        //培训参与率,培训通过数
-        $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
-        $all_num= $part_num=$train_tea_num =$train_through_num=0;
-        $train_tea_list = [];
         
-        foreach($train_lesson_part_info as $val){
-            $all_num++;
-            if($val["opt_time"]>0){
-                $part_num++; 
-            }
-            if(!isset($train_tea_list[$val["userid"]])){
-                @$train_tea_list[$val["userid"]]=$val["userid"];
-                $train_tea_num++;
-                if($val["train_through_new_time"]>0){
-                    $train_through_num++;
-                }
-            }
-        }
-        dd([$all_num,$part_num,$train_tea_num,$train_through_num]);
+       
+        dd([$set_count_normal,$set_count_all,$set_count_top,$set_count_green,$set_count_grab]);        
                   
        
 
@@ -3402,7 +3389,47 @@ class user_deal extends Controller
 
 
         //教务数据
+        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+        $set_count_seller =$set_count_kk=$set_count_hls=0;
         $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+        foreach($ret_info as $val){
+            $set_count_all+=$val["set_count"];
+            $set_count_top+=$val["top_count"];
+            $set_count_green+=$val["green_count"];
+            $set_count_grab+=$val["grab_count"];
+            $set_lesson_time_all+=$val["set_lesson_time_all"];
+            $set_count_seller+=$val["set_count_seller"];
+            $set_count_kk+=$val["ass_kk_count_set"];
+            $set_count_hls+=$val["ass_hls_count_set"];
+        }
+        $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
+        $all_tran    = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+        $seller_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
+        $kk_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
+        $hls_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
+        $top_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
+        $green_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
+        $grab_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
+        $normal_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
+        $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
+        $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
+        $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
+        $hls_tran_per =  $set_count_hls>0?round($hls_tran/$set_count_hls*100,2):0;
+        $top_tran_per =  $set_count_top>0?round($top_tran/$set_count_top*100,2):0;
+        $green_tran_per =  $set_count_green>0?round($green_tran/$set_count_green*100,2):0;
+        $grab_tran_per =  $set_count_grab>0?round($grab_tran/$set_count_grab*100,2):0;
+        $normal_tran_per =  $set_count_normal>0?round($normal_tran/$set_count_normal*100,2):0;
+        $jw_num = count($ret_info);
+        $set_count_avg = $jw_num>0?round($set_count_all/$jw_num,1):0;
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
+
+        //抢课数据
+        $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
+        $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
+
+        //运营数据
+        $lesson_list = $this->t_lesson_info->get_lesson_info_ass_tongji($start_time,$end_time, $assistantid ,$require_adminid_list  );
+
 
 
         
