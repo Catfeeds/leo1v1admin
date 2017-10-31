@@ -1137,7 +1137,7 @@ class seller_student_new2 extends Controller
         foreach($lesson_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['count'] = $item['count'];
-            $res[$adminid]['suc_count'] = $item['succ_count'];
+            $res[$adminid]['suc_count'] = $item['suc_count'];
             $res[$adminid]['test_count'] = $item['test_count'];
             $res[$adminid]['wheat_count'] = $item['wheat_count'];
         }
