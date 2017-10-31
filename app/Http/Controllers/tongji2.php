@@ -353,6 +353,7 @@ class tongji2 extends Controller
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
         $map=[];
+        dd($ret_info['list']);
         foreach($ret_info["list"] as &$item ) {
             $map[$item["adminid"] ]=true;
             // $sys_operator = $item["account"];
