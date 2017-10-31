@@ -3181,27 +3181,22 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
-        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
-        $all_num   = 0;
-        $match_num = 0;
-        foreach($list as $val){
-            $all_num++;
-            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
-                $stu_textbook = $region_version[$val['textbook']];
-            }else{
-                $stu_textbook = $val['editionid'];
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
+                $teacher_list_ex[$k]=$k;
             }
-            $tea_textbook = explode(",",$val['teacher_textbook']);
-            if(in_array($stu_textbook,$tea_textbook)){
-                $match_num++;
-            }       
         }
-        $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
-        dd($match_rate);
-
-        $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
-        $tea_num_all = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time);
-        dd($tea_num_all);
+        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
+        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
+        @$video_real["all_count"] += $one_real["all_count"];
+        $all_tea_ex = count($teacher_list_ex);
+        $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
+        dd($new_tea_through_per);
+       
        
 
         //新老师数(入职)
@@ -3252,6 +3247,22 @@ class user_deal extends Controller
             }       
         }
         $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
+
+        //新老师入职通过率
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
+                $teacher_list_ex[$k]=$k;
+            }
+        }
+        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+        @$video_real["all_count"] += $one_real["all_count"];
+        $all_tea_ex = count($teacher_list_ex);
+        $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
 
 
 
