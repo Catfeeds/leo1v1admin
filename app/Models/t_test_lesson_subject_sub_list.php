@@ -1255,27 +1255,33 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "tss.success_flag <> 2",
             "l.lesson_type = 2 ",
             "l.lesson_del_flag = 0 ",
-            ['l.lesson_start>%u',$start_time,-1],
-            ['l.lesson_start<%u',$end_time,-1],
+            'accept_flag=1',
+            'require_admin_type=2',
+            'is_test_user=0',
         ];
+        if($origin_ex){
+            $where_arr[] = ['s.origin = %s',$origin_ex,-1];
+        }
+        $this->where_arr_add_time_range($where_arr,'l.lesson_start',$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select count(tss.lessonid) count,sum(if(l.lesson_user_online_status=1,1,0)) suc_count, "
             ." sum(if(n.test_lesson_opt_flag=1,1,0)) test_count, "
             ." sum(if(l.on_wheat_flag=1,1,0)) wheat_count, "
-            // ." tt.require_adminid adminid "
             ." tr.cur_require_adminid adminid "
             ." from  %s tss "
             ." left join %s tr ON tss.require_id = tr.require_id"
-            // ." left join %s tt ON tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+            ." left join %s tt ON tr.test_lesson_subject_id = tt.test_lesson_subject_id"
             ." left join %s l ON tss.lessonid = l.lessonid"
             ." left join %s n ON n.userid = l.userid"
+            ." left join %s s ON s.userid = l.userid"
             ." where %s"
             ." group by tr.cur_require_adminid "
             , t_test_lesson_subject_sub_list::DB_TABLE_NAME
             , t_test_lesson_subject_require::DB_TABLE_NAME
-            // , t_test_lesson_subject::DB_TABLE_NAME
+            , t_test_lesson_subject::DB_TABLE_NAME
             , t_lesson_info::DB_TABLE_NAME
             , t_seller_student_new::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
             , $where_arr
         );
         return $this->main_get_list($sql);
