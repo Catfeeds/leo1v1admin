@@ -1792,12 +1792,14 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
                                   " left join %s s on t.userid = s.userid".
                                   " left join %s o  on tr.current_lessonid = o.from_test_lesson_id and o.contract_type in(0,3) and contract_status>0".
+                                  " left join %s tss on tr.current_lessonid = tss.lessonid"
                                   " where %s group by accept_adminid ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
