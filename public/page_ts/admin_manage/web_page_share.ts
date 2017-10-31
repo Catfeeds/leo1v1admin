@@ -14,7 +14,6 @@ $(function(){
 
 	  Enum_map.append_option_list("account_role",$("#id_account_role"));
 
-	  $('#id_web_page_id').val(g_args.web_page_id);
 	  $('#id_uid').val(g_args.uid);
 	  $('#id_account_role').val(g_args.account_role);
 

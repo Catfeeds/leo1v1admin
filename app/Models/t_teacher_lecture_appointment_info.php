@@ -454,20 +454,11 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_appoinment_interview_info($time){
+    public function get_teacher_appoinment_interview_info($start_time,$end_time){
         $where_arr=[
+            "al.realname not like '%%不要审核%%' and  al.realname not like '%%gavan%%' and al.realname not like '%%阿蓝%%'"
         ];
-
-        if(is_array($time)){
-            $start_time = $time['start_time'];
-            $end_time   = $time['end_time'];
-            $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
-
-        }else{
-        }
-
-        $time_begin = strtotime(date("2017-01-05")); // 
-        $time_str = "l.confirm_time>$time_begin";
+        $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
 
 
         $sql = $this->gen_sql_new("select count(distinct al.phone) app_total,count(distinct l.phone) lec_total,count(distinct t.teacherid) tea_total,count(distinct tt.teacherid) tran_total "

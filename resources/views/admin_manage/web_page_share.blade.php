@@ -13,7 +13,7 @@
             <div class="col-xs-6 col-md-2 " data-always_show="1"  >
                     <div class="input-group ">
                         <span class="input-group-addon">账号</span>
-                        <input class="opt-change form-control" id="id_adminid" />
+                        <input class="opt-change form-control" id="id_uid" />
                     </div>
             </div>
             <div class="col-md-2 col-xs-0">
