@@ -3205,6 +3205,17 @@ class user_deal extends Controller
         $green_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
         $grab_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
         $normal_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
+        $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
+        $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
+        $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
+        $hls_tran_per =  $set_count_hls>0?round($hls_tran/$set_count_hls*100,2):0;
+        $top_tran_per =  $set_count_top>0?round($top_tran/$set_count_top*100,2):0;
+        $green_tran_per =  $set_count_green>0?round($green_tran/$set_count_green*100,2):0;
+        $grab_tran_per =  $set_count_grab>0?round($grab_tran/$set_count_grab*100,2):0;
+        $normal_tran_per =  $set_count_normal>0?round($normal_tran/$set_count_normal*100,2):0;
+        $jw_num = count($ret_info);
+        $set_count_avg = $jw_num>0?round($set_count_all/$jw_num,1):0;
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
         
         
        

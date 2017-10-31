@@ -406,16 +406,19 @@ class teacher_money extends Controller
             //teacher_money_flag=1 多卡用户,不扣管理费
             if($teacher_money_flag!=1 || in_array($teacher_money_type,[5,6])){
                 //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
-                if(in_array($teacher_money_type,[0,1,2,3])){
-                    if($item['lesson_price']>800){
-                        $tax_price = $item['lesson_price']-800;
-                        $item['lesson_cost_tax'] = strval(round($tax_price*0.02,2));
-                        $item['lesson_price'] -= $item['lesson_cost_tax'];
-                    }
-                }else{
+                /**
+                 * 与sherry沟通，从2017年10月31日16:11:55开始全部都扣除2%的费用
+                 */
+                // if(in_array($teacher_money_type,[0,1,2,3])){
+                //     if($item['lesson_price']>800){
+                //         $tax_price = $item['lesson_price']-800;
+                //         $item['lesson_cost_tax'] = strval(round($tax_price*0.02,2));
+                //         $item['lesson_price'] -= $item['lesson_cost_tax'];
+                //     }
+                // }else{
                     $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                     $item['lesson_price'] -= $item['lesson_cost_tax'];
-                }
+                // }
             }
         }
         array_multisort($start_list,SORT_DESC,$list);
