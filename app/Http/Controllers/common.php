@@ -709,11 +709,13 @@ class common extends Controller
                 $www_url="www.leo1v1.com";
             }
 
+
             $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=1";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
 
             $qr_url       = "/tmp/".$phone.".png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::logger("QR_URL $text ");
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefromjpeg($bg_url);     //背景图

@@ -792,9 +792,8 @@ class teacher_money extends Controller
      */
     public function set_teacher_salary($teacherid){
         $this->set_in_value("teacherid",$teacherid);
-        echo "get_str:".$str;
-        echo PHP_EOL;
-        return "get succ";
+        $salary_info = $this->get_teacher_total_money();
+        return $salary_info;
     }
 
 
