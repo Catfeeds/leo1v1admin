@@ -3331,18 +3331,14 @@ ORDER BY require_time ASC";
             // "ts.require_admin_type=2",
             "t.require_admin_type=2",
             // "l.lesson_type = 2",
-            // "l.lesson_del_flag = 0",
+            "l.lesson_del_flag = 0",
             // "tss.fail_greater_4_hour_flag=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-
-
-
-
         $sql = $this->gen_sql_new(
-            "select  count(distinct(tss.lessonid)), "
+            "select  count(distinct(tss.lessonid)) "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
