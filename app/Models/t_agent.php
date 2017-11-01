@@ -2363,7 +2363,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s aaa on aaa.id=aa.parentid"
             ." left join %s na on na.parentid=a.id"
             ." left join %s s on s.userid=na.userid"
-            ." left join %s ao on ao.pid=a.id"
+            ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid"
             ." left join %s r on r.userid=na.userid"
             ." left join %s tq on tq.phone=na.phone"
