@@ -300,7 +300,6 @@ class wx_parent_gift extends Controller
 
     public function get_draw_num($parentid){
         // 检查是否分享朋友圈
-
         $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
@@ -365,7 +364,7 @@ class wx_parent_gift extends Controller
 
         $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
-        $winning_rate = ''; // 中奖率
+        $winning_rate = '';
 
         $is_pass = 0;
 
@@ -503,8 +502,6 @@ class wx_parent_gift extends Controller
         if($ret_info['light_num'] == 1){  // 测试
             $ret_info['light_num']=4;
         }
-        $ret_info['light_num']=4;
-
 
         $ret_info['phone'] = $agent_info['phone'];
         return $this->output_succ(["data"=>$ret_info]);
@@ -512,11 +509,6 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
-
-        dd($_SESSION);
-        $openid = session('yxyx_openid');
-        return $this->output_succ(["data"=>$openid]);
-
         $openid = $this->get_in_str_val('openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid   = $agent_info['userid'];

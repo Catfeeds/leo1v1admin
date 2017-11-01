@@ -655,8 +655,11 @@ class wx_yxyx_common extends Controller
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
 
         if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){
-            $agent_arr = [];
+            // $agent_arr = [];
         }
+
+        // dd($openid);
+        session(['yxyx_openid'=>$openid]);
 
         if($agent_arr){ // ==> 活动页面
             header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);

@@ -16,7 +16,7 @@ class CreateTableTTeachingCoraData extends Migration
         Schema::create('db_weiyi.t_teaching_core_data', function( Blueprint $table)
         {
             t_field($table->integer("time"),"时间 月/周 第一天");
-            t_field($table->tinyInteger("time_type"),"1 月,2 周");
+            t_field($table->tinyInteger("type"),"1 月,2 周");
             t_field($table->integer("new_train_through_num"),"新入职老师数");
             t_field($table->integer("lesson_teacher_num"),"上课老师数");
             t_field($table->integer("new_lesson_teacher_num"),"新增上课老师数");
@@ -96,15 +96,15 @@ class CreateTableTTeachingCoraData extends Migration
             t_field($table->integer("hundred_twenty_lesson_tea_num"),"常规课数大于120人数");
 
             t_field($table->integer("lose_teacher_num_three_chinese"),"流失上课老师数(语文)");
-            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(数学)");
-            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(英语)");
-            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(化学)");
-            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(物理)");
-            t_field($table->integer("lose_teacher_num_three"),"流失上课老师数(综合)");
+            t_field($table->integer("lose_teacher_num_three_math"),"流失上课老师数(数学)");
+            t_field($table->integer("lose_teacher_num_three_english"),"流失上课老师数(英语)");
+            t_field($table->integer("lose_teacher_num_three_chem"),"流失上课老师数(化学)");
+            t_field($table->integer("lose_teacher_num_three_physics"),"流失上课老师数(物理)");
+            t_field($table->integer("lose_teacher_num_three_multiple"),"流失上课老师数(综合)");
             t_field($table->integer("tea_complaint_num"),"老师投诉次数");
             t_field($table->string("tea_complaint_deal_time",32),"投诉处理时长");
             
-            $table->primary(["orderid","period"]);
+            $table->primary(["time","type"]);
         });
 
     }

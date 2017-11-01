@@ -1,6 +1,5 @@
 #!/usr/bin/php
 <?php
-
     function send_post_data($url, $data)
     {
         // the data should be key-value, or something unexpectable may happen.

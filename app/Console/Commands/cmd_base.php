@@ -66,4 +66,13 @@ class cmd_base extends Command
         }
     }
 
+    public function get_in_value($field_name,$def_value=0){
+        $value = $this->option($field_name);
+        if($value===null){
+            $value = $def_value;
+        }
+        return $value;
+    }
+
+
 }
