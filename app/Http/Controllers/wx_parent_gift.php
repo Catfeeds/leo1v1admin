@@ -361,7 +361,6 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        // $parentid = $this->get_in_int_val('parentid');
         $parentid = $this->get_parentid();
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
@@ -426,7 +425,6 @@ class wx_parent_gift extends Controller
 
 
     public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
-
         $rate   = mt_rand(0,10000);
         $today  = time();
         $eleven = strtotime('2017-11-11');
