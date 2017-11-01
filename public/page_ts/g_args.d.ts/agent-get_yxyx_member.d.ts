@@ -1,10 +1,13 @@
 interface GargsStatic {
-	adminid:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	phone:	number;
+	nickname:	string;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -14,35 +17,26 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	main_type	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
-	main_type_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji2; vi  ../tongji2/seller_month_money_list.ts
+	 mkdir -p ../agent; vi  ../agent/get_yxyx_member.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji2-seller_month_money_list.d.ts" />
+/// <reference path="../g_args.d.ts/agent-get_yxyx_member.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		adminid:	$('#id_adminid').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		phone:	$('#id_phone').val(),
+		nickname:	$('#id_nickname').val()
     });
 }
 $(function(){
@@ -58,7 +52,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_phone').val(g_args.phone);
+	$('#id_nickname').val(g_args.nickname);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -71,8 +66,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
+                <span class="input-group-addon">phone</span>
+                <input class="opt-change form-control" id="id_phone" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">nickname</span>
+                <input class="opt-change form-control" id="id_nickname" />
             </div>
         </div>
 */

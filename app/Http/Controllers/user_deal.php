@@ -3182,6 +3182,9 @@ class user_deal extends Controller
         $end_time = strtotime("2017-11-01");
         $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
 
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($kk_suc));
+
       
         dd($kk_suc);
 
