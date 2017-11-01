@@ -372,9 +372,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_row($sql);
     }
 
-    public function get_trial_train_lesson_list($page_num,$start_time,$end_time,$status,$grade,
-                                                $subject,$teacherid,$is_test,$lesson_status,
-                                                $tea_subject,$opt_date_str=1
+    public function get_trial_train_lesson_list(
+        $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,$is_test,$lesson_status,
+        $tea_subject,$opt_date_str=1,$teacher_type=-1
     ){
         $where_arr = [
             //["tr.add_time>%u",$start_time,0],
@@ -386,6 +386,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.teacherid=%u",$teacherid,-1],
             ["t.is_test_user=%u",$is_test,-1],
             ["lesson_status=%u",$lesson_status,-1],
+            ["t.teacher_type=%u",$teacher_type,-1],
             //["tr.trial_train_status=%u",$status,-1],
             "tr.type=1",
             "tr.lesson_style=5",
