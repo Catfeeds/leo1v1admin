@@ -349,7 +349,7 @@ class tongji2 extends Controller
         $month = strtotime( date("Y-m-01", $start_time));
         $ret_time = $this->t_month_def_type->get_all_list();
         foreach($ret_time as $item){//本月
-            if(date('m-d',$month)==date('m-d',$item['start_time'])){
+            if(date('m-d',$month)==date('m-d',$item['def_time'])){
                 $start_time = $item['start_time'];
                 $end_time = $item['end_time'];
                 break;
