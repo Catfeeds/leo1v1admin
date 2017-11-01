@@ -210,6 +210,43 @@ class ss_deal2 extends Controller
         return $this->output_succ();
 
     }
+    public function set_user_free_new () {
+        $userid_list = $this->get_in_str_val('userid',-1);
+        foreach ($userid_list as $key => $value) {
+            //$userid=$this->get_in_userid();
+            $userid = $value;
+            $item=$this->t_seller_student_new->get_user_info_for_free($userid);
+            $account = $this->get_account();
+
+            $phone=$item["phone"];
+            $seller_student_status= $item["seller_student_status"];
+            $ret_update = $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者:$account 状态: 回到公海 ",
+                "system"
+            );
+            $test_subject_free_type=0;
+            if ($seller_student_status==1) {
+                $test_subject_free_type=3;
+            }
+
+            $this->t_test_subject_free_list ->row_insert([
+                "add_time" => time(NULL),
+                "userid" =>   $item["userid"],
+                "adminid" => $this->get_account_id(),
+                "test_subject_free_type" => $test_subject_free_type,
+            ],false,true);
+
+            $this->t_seller_student_new->set_user_free($userid);
+            $this->t_seller_student_new->field_update_list($userid,[
+                "free_adminid" => $this->get_account_id(),
+                "free_time" => time(),
+            ]);
+        }
+        
+        return $this->output_succ();
+
+    }
 
     public function show_change_lesson_by_teacher(){
         $start_time = strtotime($this->get_in_str_val('start_time'));
