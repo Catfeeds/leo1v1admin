@@ -6,6 +6,8 @@ import "agent_api/common.proto";
 //__TAGS: for_wx_yxyx 
 
 message in  {
+  uint32 page_num = 1;//第几页
+  uint32 page_count = 2;//每页条数[不传默认五条]
 
 }
 

@@ -155,6 +155,10 @@ message alipay_info{
   string zfb_account = 2;//支付宝账号
 }
 message reward_list{
+  common.yxyx_page page_info = 1;//分页信息
+  common.reward_list_info list = 2;//全部佣金信息
+}
+message reward_list_info{
   string nickname = 1;//姓名
   string create_time = 2;//时间
   float price = 3;//购买课程
@@ -162,10 +166,18 @@ message reward_list{
   uint32 count = 5;//上课节数
 }
 message had_invite_rewards{
+  common.yxyx_page page_info = 1;//分页信息
+  common.had_invite_rewards_info list = 2;//已获取邀请奖励信息
+}
+message had_invite_rewards_info{
   string nickname = 1;//邀请人昵称
   float agent_status_money = 2;//获得的邀请金额
 }
 message can_cash_commisson{
+  common.yxyx_page page_info = 1;//分页信息
+  common.can_cash_commisson_info list = 2;//可提现佣金信息
+}
+message can_cash_commisson_info{
   string nickname = 1;//姓名
   string create_time = 2;//时间
   float price = 3;//购买课程
@@ -173,6 +185,10 @@ message can_cash_commisson{
   uint32 count = 5;//上课节数
 }
 message invite_child_list{
+  common.yxyx_page page_info = 1;//分页信息
+  common.invite_child_list_info list = 2;//邀请学员信息
+}
+message invite_child_list_info{
   string nickname = 1;//昵称
   string create_time = 2;//日期
   uint32 second_num = 3;//二级推荐人个数

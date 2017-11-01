@@ -297,7 +297,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         return $this->main_get_row($sql);
     }
     //@desn:获取用户全部佣金奖励
-    public function get_invite_child_reward($agent_id,$type){
+    public function get_invite_child_reward($agent_id,$type,$page_info,$page_count){
         if($type == 1){
             $where_arr =[
                 ['ao.pid = %u',$agent_id,'-1'],
@@ -319,10 +319,10 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
             $where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:获取用户可提现佣金奖励
-    public function get_can_cash_commission_reward($agent_id,$type){
+    public function get_can_cash_commission_reward($agent_id,$type,$page_info,$page_count){
         if($type == 1){
             $where_arr =[
                 ['ao.pid = %u',$agent_id,'-1'],
@@ -346,6 +346,6 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
             $where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
 }

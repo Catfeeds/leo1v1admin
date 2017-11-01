@@ -2245,7 +2245,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_value($sql);
     }
     //@desn:获取我的邀请列表 [已获取]
-    public function my_had_invite($agent_id){
+    public function my_had_invite($agent_id,$page_info,$page_count){
         $where_arr = [
             ['a.parentid = %u',$agent_id,'-1'],
             ['a.agent_status >= %u',30]
@@ -2257,10 +2257,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:会员邀请奖励列表[已获取]
-    public function member_had_invite($agent_id){
+    public function member_had_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
             "select phone,nickname,pp_agent_status_money as agent_status_money "
             ."from %s "
@@ -2269,7 +2269,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
 
     public function get_info_by_pid($parentid){
@@ -2282,7 +2282,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //@desn:获取按邀请人列表 [一级]
     //@param 1:学员2：会员3：学员&会员
-    public function get_invite_type_list($agent_id,$type=1){
+    public function get_invite_type_list($agent_id,$type=1,$page_info,$page_count){
         $where_arr = [
             ['parentid = %u',$agent_id,'-1'],
             ['type = %u',$type,'1']
@@ -2292,7 +2292,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 self::DB_TABLE_NAME,
                 $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:获取邀请人
     public function get_second_invite_list($parentid){
