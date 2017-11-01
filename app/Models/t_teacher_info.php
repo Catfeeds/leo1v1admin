@@ -4404,6 +4404,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         //教育学老师工资额外发放
         $where_arr = [
             "subject!=11",
+            "is_test_user=0",
         ];
         $sql = $this->gen_sql_new("select teacherid,teacher_money_type,teacher_type "
                                   ." from %s t"
