@@ -161,7 +161,7 @@ class url_power_map {
 			'/user_manage_new/teacher_ref_money_list'	=>1040514,
 			'/user_manage_new/teacher_details_money'	=>1040515,
 			'/teacher_money/grade_wages_list'	=>1040516,
-			'/teacher_money/tea_salary_list'	=>1040517,
+			'/teacher_money/teacher_salary_list'	=>1040517,
 			'/teacher_simulate/teacher_simulate_money_total_list'	=>1041101,
 			'/teacher_simulate/new_teacher_money_list'	=>1041102,
 			'/user_manage_new/teacher_reward_rule_list'	=>1041103,
