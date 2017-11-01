@@ -3942,10 +3942,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_money_type = $teacher_info['teacher_money_type'];
         $teacher_ref_type   = $teacher_info['teacher_money_type'];
         $teacher_type       = $teacher_info['teacher_type'];
-
-        $teacher_ref_rate = $this->get_teacher_ref_rate(
-            $start_time,$teacher_ref_type,$teacher_money_type
-        );
+        //检测老师是否需要被渠道抽成
+        $check_flag = $this->t_teacher_lecture_appointment_info->check_tea_ref($teacherid,$teacher_ref_type);
+        if($check_flag){
+            $teacher_ref_rate = $this->get_teacher_ref_rate(
+                $start_time,$teacher_ref_type,$teacher_money_type
+            );
+        }
 
         $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
