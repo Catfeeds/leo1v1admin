@@ -46,7 +46,13 @@
                     </select>
                 </div>
             </div>
-
+            <div class="col-xs-12 col-md-4" data-always_show="1"   >
+                <div class="input-group ">
+                    <span class="input-group-addon">分类</span>
+                    <select class="opt-change form-control" id="id_test_lesson_order_fail_flag" >
+                    </select>
+                </div>
+            </div>
         </div>
 
         <hr/>

@@ -18,12 +18,12 @@ $(function(){
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
-
             grade:	$('#id_grade').val(),
             phone_name:	$('#id_phone_name').val(),
             has_pad:	$('#id_has_pad').val(),
             subject:	$('#id_subject').val(),
             test_lesson_count_flag : $('#id_test_lesson_count_flag').val(),
+            test_lesson_order_fail_flag:    $('#id_test_lesson_order_fail_flag').val(),
         });
     }
 
@@ -42,13 +42,13 @@ $(function(){
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("test_lesson_count_flag",$("#id_test_lesson_count_flag"));
-
+    Enum_map.append_option_list("test_lesson_order_fail_flag",$("#id_test_lesson_order_fail_flag"));
     $('#id_grade').val(g_args.grade);
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_phone_name').val(g_args.phone_name);
     $('#id_subject').val(g_args.subject);
     $('#id_test_lesson_count_flag').val(g_args.test_lesson_count_flag),
-
+    $('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
     $( "#id_phone_name" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
         minLength: 0,
