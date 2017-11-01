@@ -39,7 +39,13 @@
                     </select>
                 </div>
             </div>
-
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">是否试听</span>
+                    <select class="opt-change form-control" id="id_test_lesson_count_flag" >
+                    </select>
+                </div>
+            </div>
 
         </div>
 
