@@ -409,8 +409,7 @@ class wx_parent_gift extends Controller
 
         if($stu_type == 1){ // 新用户
             if($today < $eleven){
-
-                $bag_num_rate = 0;
+                $bag_num_rate = 1000;
                 $three_free_num_rate = 0;
                 $test_lesson_num_rate = 0;
                 $fifty_coupon_num_rate = 0;
