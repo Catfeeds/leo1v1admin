@@ -1540,7 +1540,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_lessonid_by_pid($parentid){
-        $sql = $this->gen_sql_new("  select lessonid");
+
+        $where_arr = [
+            "p.parentid=$parentid",
+            "l.lesson_type =2",
+            "l.lesson_del_flag =0"
+        ];
+
+        $sql = $this->gen_sql_new("  select lessonid from %s l "
+                                  ." left join %s p on p.userid=l.userid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

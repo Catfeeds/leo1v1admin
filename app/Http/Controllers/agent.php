@@ -1980,8 +1980,30 @@ class agent extends Controller
 
     public function get_yxyx_member(){
 
-        $ret_info = $this->t_agent->get_yxyx_member();
-        dd($ret_info);
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $phone  = $this->get_in_int_val('phone',-1);
+        $nickname = $this->get_in_str_val('nickname','');
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
+
+        foreach ($ret_info['list'] as &$item){
+            $item['revisit_count']--;
+            $item['ok_phone_count']--;
+            $item['no_phone_count']--;
+            $item['rank_count']--;
+            $item['ok_lesson_count']--;
+            $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+            if($item['rank_count']) {
+                $item['ok_lesson_rate'] = $item['ok_lesson_count']/$item['rank_count'];
+            }
+            if($item['user_count']) {
+                $item['order_rate'] = $item['order_user_count']/$item['user_count'];
+            }
+
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+        // dd($ret_info);
     }
 
 }

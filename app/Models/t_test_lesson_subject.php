@@ -572,6 +572,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         // $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select tr.cur_require_adminid,count(distinct l.userid,l.teacherid,l.subject) lesson_count "
+                                  .",m.name"
                                   ." from %s tss  join %s tr on tss.require_id = tr.require_id"
                                   ." join %s t on t.test_lesson_subject_id =tr.test_lesson_subject_id"
                                   ."  join %s l on tss.lessonid = l.lessonid"

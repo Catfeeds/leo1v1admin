@@ -143,7 +143,7 @@ class TeacherMoneyTask extends TaskController
         $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         foreach($tea_list as $t_val){
             $salary_info = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
-            $lesson_money = $salary_info['lesson_price_tax'];
+            $lesson_money = $salary_info['lesson_price_tax']*100;
 
             $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$start_time);
             if(!$check_flag){

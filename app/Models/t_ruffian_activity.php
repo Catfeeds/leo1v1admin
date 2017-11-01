@@ -39,4 +39,19 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
 
         return $this->main_get_value($sql);
     }
+
+    public function get_prize_list($parentid){
+
+        $where_arr = [
+            "ra.parentid=$parentid"
+        ];
+
+        $sql = $this->gen_sql_new("  select prize_list, stu_type, get_prize_time from %s ra"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }
