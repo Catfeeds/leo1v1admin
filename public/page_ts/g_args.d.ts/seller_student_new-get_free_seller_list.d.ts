@@ -11,6 +11,7 @@ interface GargsStatic {
 	has_pad:	number;//App\Enums\Epad_type
 	subject:	number;//App\Enums\Esubject
 	test_lesson_count_flag:	number;
+	test_lesson_order_fail_flag:	number;//App\Enums\Etest_lesson_order_fail_flag
 	origin:	string;
 }
 declare module "g_args" {
@@ -66,6 +67,7 @@ function load_data(){
 		has_pad:	$('#id_has_pad').val(),
 		subject:	$('#id_subject').val(),
 		test_lesson_count_flag:	$('#id_test_lesson_count_flag').val(),
+		test_lesson_order_fail_flag:	$('#id_test_lesson_order_fail_flag').val(),
 		origin:	$('#id_origin').val()
     });
 }
@@ -74,6 +76,7 @@ $(function(){
 	Enum_map.append_option_list("grade",$("#id_grade"));
 	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
 	Enum_map.append_option_list("subject",$("#id_subject"));
+	Enum_map.append_option_list("test_lesson_order_fail_flag",$("#id_test_lesson_order_fail_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -90,6 +93,7 @@ $(function(){
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_subject').val(g_args.subject);
 	$('#id_test_lesson_count_flag').val(g_args.test_lesson_count_flag);
+	$('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
 	$('#id_origin').val(g_args.origin);
 
 
@@ -136,6 +140,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">test_lesson_count_flag</span>
                 <input class="opt-change form-control" id="id_test_lesson_count_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_order_fail_flag</span>
+                <select class="opt-change form-control" id="id_test_lesson_order_fail_flag" >
+                </select>
             </div>
         </div>
 

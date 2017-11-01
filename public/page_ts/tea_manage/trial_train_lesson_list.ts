@@ -6,6 +6,7 @@ $(function(){
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("check_status",$("#id_status"));
     Enum_map.append_option_list("is_test",$("#id_is_test_flag"));
+    Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
     Enum_map.append_option_list("lesson_status",$("#id_lesson_status"),false,[0,1,2]);
     $('#id_status').append("<option value='999'>旷课</option>");
 
@@ -16,20 +17,22 @@ $(function(){
     $("#id_is_test_flag").val(g_args.is_test);
     $("#id_lesson_status").val(g_args.lesson_status);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
+    $("#id_teacher_type").val(g_args.teacher_type);
 
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val(),
-			status           : $('#id_status').val(),
-			grade            : $('#id_grade').val(),
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      status           : $('#id_status').val(),
+			      grade            : $('#id_grade').val(),
             subject          : $('#id_subject').val(),
             teacherid        : $('#id_teacherid').val(),
             is_test          : $('#id_is_test_flag').val(),
             lesson_status    : $('#id_lesson_status').val(),
+            teacher_type     : $('#id_teacher_type').val(),
         });
     }
 

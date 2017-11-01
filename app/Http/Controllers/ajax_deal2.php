@@ -814,6 +814,9 @@ class ajax_deal2 extends Controller
         $this->t_manager_info->field_update_list($adminid,[
             "admin_work_status" =>$status
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("设置招师工作状态");
         return $this->output_succ();
     }
     public function config_date_set () {
