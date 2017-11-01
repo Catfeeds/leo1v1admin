@@ -180,11 +180,10 @@
                                         <td>
                                         </td>
                                         <td style="text-align:left">
-                                            <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
-                                        <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
                                         <td>
-                                            <font style="color:#000000;">{{$var["all_price"]}}</font>
+                                        </td>
+                                        <td>
                                         </td>
                                     </tr>
                                 @endforeach
