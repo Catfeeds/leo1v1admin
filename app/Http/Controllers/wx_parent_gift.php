@@ -363,10 +363,9 @@ class wx_parent_gift extends Controller
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
         $limit_arr = $this->get_limit_num($stu_type);
 
-
         $is_pass = 0;
 
-        if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){ // 书包
+        if($draw_num_arr['bag_num']>$limit_arr['bag_num']){ // 书包
             $is_pass = 1;
         }elseif($draw_num_arr['three_free_num'] >$limit_arr['three_free_num']){ // 3次免费课
             $is_pass = 1;
@@ -381,7 +380,20 @@ class wx_parent_gift extends Controller
         }
 
         // 抽奖
-        $prize_type = $this->get_win_rate($parentid);
+        if($is_pass){
+            if($stu_type==1){ // 新用户
+                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                if($is_test>0){
+                    $prize_type=2;
+                }else{
+                    $prize_type=8;
+                }
+            }elseif($stu_type==2){ //老用户
+                $prize_type=2;
+            }
+        }else{
+            $prize_type = $this->get_win_rate($parentid);
+        }
 
 
 

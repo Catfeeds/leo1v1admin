@@ -23,11 +23,10 @@ class teaching_menu{
                     [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                     [ "name"=>"教材版本匹配度",   "url"=>"/tongji/match_lesson_textbook"],
                     [ "name"=>"1-3年级试听详情",  "url"=>"/tongji2/one_three_grade_student"],
-                    [ "name"=>"教学事业部核心数据指标", "url" => "/tongji2/get_teaching_core_data" ],
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[
-                    [ "name"=>"首页", "url"=>"/main_page/teacher_management_info"],
+                    [ "name"=>"师资管理部核心数据", "url" => "/tongji2/get_teaching_core_data" ],
                     [ "name"=>"招师组",  "list"=>[
                         [ "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                         [ "name"=>"面试转化信息",   "url"=>"/main_page/zs_teacher_old" ],
@@ -79,6 +78,7 @@ class teaching_menu{
 
 
                     ["power_id"=>14, "name"=>"教务组",  "list"=>[
+                        [ "name"=>"教务组核心数据", "url"=>"/main_page/teacher_management_info"],
                         ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/jw_teacher" ],
                         ["power_id"=>12, "name"=>"KPI",   "url"=>"/tongji_ss/tongji_jw_teacher_kpi" ],
                         ["power_id"=>14, "name"=>"未排统计",   "url"=>"/tongji_ss/get_jw_no_plan_remind" ],
