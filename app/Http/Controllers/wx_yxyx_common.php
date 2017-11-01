@@ -267,13 +267,13 @@ class wx_yxyx_common extends Controller
                 $ret_info_p = $item;
             }
         }
-        $agent_id = $ret_info['id'];
         $parentid = $ret_info_p['id'];
         $p_wx_openid = $ret_info_p['wx_openid'];
         $p_agent_level = $ret_info_p['agent_level'];
         $pp_wx_openid = $ret_info_p['pp_wx_openid'];
         $pp_agent_level = $ret_info_p['pp_agent_level'];
         $pp_id = $ret_info_p['pp_id'];
+        $insert_flag = 0;
         if(isset($ret_info['id'])){//已存在,则更新父级和类型
             if($type == $ret_info['type'] or $ret_info['type']==3){
                 return $this->output_err("您已被邀请过!");
@@ -283,10 +283,16 @@ class wx_yxyx_common extends Controller
                 //"parentid" => $parentid,
                 "type"     => $type_new,
             ]);
+            $agent_id = $ret_info['id'];
             $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
-            return $this->output_succ("邀请成功!");
+            //判断用户是否已进入学员档案
+            $is_student = $this->t_student_info->get_userid_by_phone($phone);
+            if($is_student)
+                return $this->output_succ("邀请成功!");
+            else
+                $insert_flag = 1;
         }
-        if($type == 1){//进例子
+        if($type == 1 || $insert_flag == 1){//进例子
             $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
 
             if ($db_userid){
@@ -335,20 +341,23 @@ class wx_yxyx_common extends Controller
             }
         }
 
-
-        $userid = null;
-        $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-        if($userid_new){
-            $userid = $userid_new;
-        }
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
-        if($ret){
-            $agent_id=$this->t_agent->get_last_insertid();
-            dispatch( new \App\Jobs\agent_reset($agent_id) );
-            $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+        if($type == 1 && $insert_flag == 0){
+            $userid = null;
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            if($userid_new){
+                $userid = $userid_new;
+            }
+            $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+            if($ret){
+                $agent_id=$this->t_agent->get_last_insertid();
+                dispatch( new \App\Jobs\agent_reset($agent_id) );
+                $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+                return $this->output_succ("邀请成功!");
+            }else{
+                return $this->output_err("数据请求异常!");
+            }
+        }elseif($type == 1 && $insert_flag == 1){
             return $this->output_succ("邀请成功!");
-        }else{
-            return $this->output_err("数据请求异常!");
         }
     }
 
@@ -654,18 +663,17 @@ class wx_yxyx_common extends Controller
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
         if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
-            // $agent_arr = [];
+            $agent_arr = [];
         }
 
         session(['yxyx_openid'=>$openid]);
 
-        if(empty($agent_arr)){
-            $is_member = 2; // 不是会员
-        }else{
-            $is_member = 1;  // 是会员
+        if(empty($agent_arr)){ // 不是会员
+            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
+        }else{ // 会员
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
         }
 
-        header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?is_member=".$is_member."&p_phone=".$p_phone);
     }
 
 }

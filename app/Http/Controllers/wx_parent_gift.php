@@ -300,21 +300,22 @@ class wx_parent_gift extends Controller
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
-
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
 
         foreach($prize_list as &$item){
-
+            if($item['get_prize_time']>0){
+                $item['exchanged'] = 1;// 已兑换
+            }else{
+                $item['exchanged'] = 0;
+            }
         }
-
         return $this->output_succ(["data"=>$prize_list]);
     }
 
-    public function get_draw_num($parentid){
-        // 检查是否分享朋友圈
-
+    public function get_draw_num($parentid){ //
+        // 检查是否分享朋友圈 11.6-11.13[包含13号]
         $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
-        $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
 
         // 检查是否在读学生
@@ -322,7 +323,7 @@ class wx_parent_gift extends Controller
 
         //检查是否新签
         $order_start = strtotime('2017-11-11');
-        $order_end   = strtotime('2017-11-13');
+        $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
         $draw_num = 0; //抽奖次数
@@ -348,7 +349,7 @@ class wx_parent_gift extends Controller
         return $this->output_succ(['left'=>$left_num]);
     }
 
-    public function update_share_status(){ // check是否分享
+    public function update_share_status(){ // 分享朋友圈
         $parentid = $this->get_in_int_val('parentid');//
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
@@ -360,7 +361,8 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        $parentid = $this->get_in_int_val('parentid');
+        // $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
@@ -511,10 +513,7 @@ class wx_parent_gift extends Controller
                 }
             }
         }
-
         return $prize_type;
-
-
     }
 
 
@@ -612,21 +611,29 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
-        $start_time = 1509638400; // 2017-11-03
+        // $start_time = strtotime('2017-11-3'); 
+        $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
-        $parentid = $agent_info['userid'];
 
-        $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
-        $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
+        if($agent_info){
+            $parentid    = $agent_info['userid'];
+            $p_agent_id  = $agent_info['id'];
+            $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
 
-        $ret_info['invite_num'] = count($invite_info);
-        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['phone'] = $agent_info['phone'];
+            $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
+            $ret_info['invite_num'] = count($invite_info);
+            $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+            $ret_info['phone'] = $agent_info['phone'];
 
-
-
-        if($ret_info['light_num'] == 1){  // 测试
-            $ret_info['light_num']=4;
+            if($ret_info['light_num'] == 1){  // 测试
+                $ret_info['light_num']=4;
+            }
+        }else{
+            $ret_info = [
+                "invite_num" => 0,
+                "light_num"  => 0,
+                "phone"      => 0
+            ];
         }
 
 

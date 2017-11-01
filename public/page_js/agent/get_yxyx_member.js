@@ -10,8 +10,7 @@ function load_data(){
         start_time    :    $('#id_start_time').val(),
         end_time      :    $('#id_end_time').val(),
 
-		    phone    : $('#id_phone').val(),
-		    nickname : $('#id_nickname').val()
+		    phone : $('#id_phone').val(),
     });
 }
 
@@ -28,8 +27,6 @@ $(function(){
         }
     });
 	$('#id_phone').val(g_args.phone);
-	$('#id_nickname').val(g_args.nickname);
-
 
 	$('.opt-change').set_input_change_event(load_data);
 });

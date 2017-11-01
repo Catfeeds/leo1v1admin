@@ -179,6 +179,8 @@ class limit_require_deal extends Command
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_adminid"],$realname."老师特殊申请排课已经排课成功","成功排课通知","学生:".$val["nick"].",老师:".$realname." ".$lesson_time."的课程已完成排课！","");
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_send_adminid"],$realname."老师特殊申请排课已经排课成功","成功排课通知","学生:".$val["nick"].",老师:".$realname." ".$lesson_time."的课程已完成排课！本月限课特殊申请".$limit_num."次,目前已申请".$num."次","");
             $task->t_manager_info->send_wx_todo_msg_by_adminid (72,$realname."老师特殊申请排课已经排课成功","成功排课通知","学生:".$val["nick"].",老师:".$realname." ".$lesson_time."的课程已完成排课！","");
+            $task->t_manager_info->send_wx_todo_msg_by_adminid (478,$realname."老师特殊申请排课已经排课成功","成功排课通知","学生:".$val["nick"].",老师:".$realname." ".$lesson_time."的课程已完成排课！","");
+
 
 
 

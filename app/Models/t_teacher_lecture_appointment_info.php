@@ -1306,7 +1306,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." where %s"
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);

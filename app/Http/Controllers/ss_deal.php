@@ -238,7 +238,8 @@ class ss_deal extends Controller
 
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
-                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
+//$opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
+                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time );
 
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
             $nick = $this->t_student_info->get_nick($userid);
@@ -1484,12 +1485,18 @@ class ss_deal extends Controller
 请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
 请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (478,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+
 
         }else{
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($master_adminid,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
 请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_jw_leader?require_id=".$require_id);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
 请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_jw_leader?require_id=".$require_id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (478,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+
 
 
         }
@@ -5810,6 +5817,7 @@ class ss_deal extends Controller
 
     public function get_teacher_list ()
     {
+        $this->switch_tongji_database();
         $page_num     = $this->get_in_page_num();
         $lesson_time  = $this->get_in_int_val("lesson_time");
         $end_time = $lesson_time+2400;
@@ -5820,7 +5828,6 @@ class ss_deal extends Controller
         $lstart    = $date_week["sdate"];
         $lend      = $date_week["edate"];
 
-        $this->t_teacher_info->switch_tongji_database();
         $ret_info     = $this->t_teacher_info->get_all_usefull_teacher_list($page_num,$teacherid_arr,$subject,$grade,$lstart,$lend);
         foreach($ret_info['list'] as &$item){
             $item['subject']      = E\Esubject::get_desc ($item['subject' ]) ;
@@ -5875,6 +5882,11 @@ class ss_deal extends Controller
             }else{
                 $item["fine_dimension"]="其他";
             }
+            if(empty($item["address"])){
+                $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
+                $item["address"]   = substr($item["address"], 0, -6);
+            }
+
 
 
         }

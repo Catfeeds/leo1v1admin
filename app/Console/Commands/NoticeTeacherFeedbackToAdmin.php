@@ -44,25 +44,36 @@ class NoticeTeacherFeedbackToAdmin extends Command
         $from_user  = "反馈系统";
         $header_msg = "今天有未处理的老师反馈，请及时处理。";
         $msg        = "";
+        $send_arr   = [];
 
         foreach($list as $val){
             $acc = "";
             if(in_array($val['feedback_type'],[201,202,203,204,205])){
-                if($val['accept_adminid']){
-                    if(!in_array($val['accept_adminid'],$has_push)){
-                        $acc = $task->t_manager_info->get_account($val['accept_adminid']);
-                        $has_push[] = $val['accept_adminid'];
-                    }
-                }elseif($val['assistantid']){
+                // if($val['accept_adminid']){
+                //     if(!in_array($val['accept_adminid'],$has_push)){
+                //         $acc = $task->t_manager_info->get_account($val['accept_adminid']);
+                //         $has_push[] = $val['accept_adminid'];
+                //     }
+                // }elseif($val['assistantid']){
+                //     if(!in_array($val['assistantid'],$has_push)){
+                //         $acc = $task->t_assistant_info->get_account_by_id($val['assistantid']);
+                //         $has_push[] = $val['assistantid'];
+                //     }
+                // }
+
+                if($val['assistantid']){
                     if(!in_array($val['assistantid'],$has_push)){
-                        $acc = $task->t_assistant_info->get_account_by_id($val['assistantid']);
+                        $send_arr[] = $task->t_assistant_info->get_account_by_id($val['assistantid']);
                         $has_push[] = $val['assistantid'];
                     }
                 }
             }
 
+            $send_arr[] = 'sunny'; // 产品需求
             if($acc){
-                $task->t_manager_info->send_wx_todo_msg($acc,$from_user,$header_msg,$msg,"");
+                foreach($send_arr as $item){
+                    $task->t_manager_info->send_wx_todo_msg($item,$from_user,$header_msg,$msg,"");
+                }
             }
         }
     }

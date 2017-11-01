@@ -12,8 +12,7 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                        <input type="text" value=""  class="opt-change"  id="id_phone"  placeholder="输入手机号/微信号 查询"  />
                     </div>
                 </div>
             </div>
@@ -41,9 +40,9 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["phone1"]}} <br/>/ {{@$var["nickname1"]}} </td>
-                        <td>{{@$var["phone2"]}} <br/>/ {{@$var["nickname2"]}} </td>
-                        <td>{{@$var["phone3"]}} <br/>/ {{@$var["nickname3"]}} </td>
+                        <td>{{@$var["phone1"]}} <br/>/ {{@$var["nick1"]}} </td>
+                        <td>{{@$var["phone2"]}} <br/>/ {{@$var["nick2"]}} </td>
+                        <td>{{@$var["phone3"]}} <br/>/ {{@$var["nick3"]}} </td>
                         <td>{{@$var["user_count"]}} </td>
                         <td>{{@$var["no_revisit_count"]}} </td>
                         <td>{{@$var["no_phone_count"]}} </td>
