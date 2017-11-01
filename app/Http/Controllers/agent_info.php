@@ -47,12 +47,9 @@ class agent_info extends Controller
     //@desn:建立优学优享团
     public function create_group(){
         $agentid   = $this->get_login_agent();
-        //判断团长原来如果在团队中，将他从原来团队删除
-        $is_member_flag = $this->t_agent_group_members->get_is_member($agentid);
-        if($is_member_flag)
-            $this->t_agent_group_members->row_delete($is_member_flag);
         $group_name = $this->get_in_str_val('group_name');
         $member_arr = [];
+        $check_repet = [];
         //循环获取成员电话
         for($x=1;$x<=10;$x++){
             $member_phone = $this->get_in_str_val('member'.$x);
@@ -61,9 +58,18 @@ class agent_info extends Controller
                 $check_arr = $this->check_member($member_phone);
                 if($check_arr['ret'] != 0)
                     return $this->output_err($member_phone.$check_arr['info']);
+                if(isset($check_repet[$member_phone]))
+                    return $this->output_err('成员'.$member_phone.'重复了!');
+
+                $check_repet[$member_phone] = true;
+                
                 $member_arr[] = $member_phone;
             }
         }
+        //判断团长原来如果在团队中，将他从原来团队删除
+        $is_member_flag = $this->t_agent_group_members->get_is_member($agentid);
+        if($is_member_flag)
+            $this->t_agent_group_members->row_delete($is_member_flag);
 
         $empty_flag = 0;
         $member_count = 0;

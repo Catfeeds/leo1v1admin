@@ -56,54 +56,126 @@
                     <td>  新师培训时长</td>
                     <td> 模拟试听时长</td>
                     <td> 新老师入职时长</td>
+                    <td>培训次数</td>
+                    <td>培训参与率</td>
+                    <td>培训通过率</td>
+                    <td>月排课数</td>
+                    <td> 排课转化率</td>
+                   <td> 排课转化率（新签）</td>
+                    <td>排课转化率（扩科）</td>
+                    <td>排课转化率（换老师）</td>
+                    <td> 精排排课数</td>
+                    <td> 绿色通道排课数</td>
+                    <td>  抢课排课数</td>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ( $ret as $var )
-                    <tr>
-                        <td > {{$var["grade_str"]}} </td>
-                        <td > {{$var["total_num"]}} </td>
-                        <td > {{$var["total_test"]}} </td>
-                        <td > {{$var["total_success"]}} </td>
-                        <td > {{$var["total_order"]}} </td>
-                        <td>
-                            <div class="opt-div" 
-                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                            >
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <table class="common-table"> 
-            <thead>
-                <tr>
-                    <td >ID</td>
-                    <td >姓名</td>
-                    <td >年级</td>
-                    <td >科目</td>
-                    <td >试听需求</td>
-                    <td >教材版本</td>
-                    <td >地区</td>
-                    <td >试听是否有效</td>
-                    <td >订单是否有效</td>
-                    <td >操作</td>
+                    <td>普通排课数</td>
+                    <td> 精排排课转化率</td>
+                    <td> 绿色通道转化率</td>
+                    <td> 抢课排课转化率</td>
+                    <td>  普通排课转化率</td>
+                    <td> 月平均排课量</td>
+
+                    <td> 月平均排课时长</td>
+                    <td> 抢课成功率</td>
+                    <td> 老师迟到次数</td>
+                    <td>老师调课次数</td>
+                    <td> 老师请假次数</td>
+                    <td> 老师更换次数</td>
+                    <td> 老师退费人数</td>
+                    <td> 老师迟到率</td>
+                    <td> 老师调课率</td>
+                    <td> 老师请假率</td>
+                    <td> 老师更换率</td>
+
+                    <td> 常规课数大于30人数</td>
+
+                    <td>常规课数大于60人数</td>
+                    <td>  常规课数大于90人数</td>
+                    <td> 常规课数大于120人数</td>
+
+                    <td>  数学流失老师数</td>
+                    <td>  语文流失老师数</td>
+                    <td> 英语流失老师数</td>
+                    <td> 物理流失老师数</td>
+                    <td> 化学流失老师数</td>
+                    <td> 综合学科流失老师数</td>
+
+                    <td>  老师投诉次数</td>
+                    <td> 投诉处理时长</td>
+
+
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td > {{$var["userid"]}} </td>
-                        <td > {{$var["nick"]}} </td>
-                        <td > {{$var["grade_str"]}} </td>
-                        <td > {{$var["subject_str"]}} </td>
-                        <td > {{$var["stu_request_test_lesson_demand"]}} </td>
-                        <td > {{$var["textbook"]}} </td>
-                        <td > {{$var["phone_location"]}} </td>
-                        <td > {{$var["lesson_user_online_status_str"]}} </td>
-                        <td > {{$var["status_str"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["total_num"]}} </td>
+                        <td > {{@$var["total_test"]}} </td>
+                        <td > {{@$var["total_success"]}} </td>
+                        <td > {{@$var["total_order"]}} </td>
+                        <td > {{@$var["grade_str"]}} </td>
+
                         <td>
                             <div class="opt-div" 
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

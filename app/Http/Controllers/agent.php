@@ -1828,5 +1828,10 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function get_yxyx_member(){
+
+        $ret_info = $this->t_agent->get_yxyx_member();
+        dd($ret_info);
+    }
 
 }

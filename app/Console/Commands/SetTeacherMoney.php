@@ -11,7 +11,7 @@ class SetTeacherMoney extends cmd_base
      *
      * @var string
      */
-    protected $signature = 'command:SetTeacherMoney {--type=}{--day=}';
+    protected $signature = 'command:SetTeacherMoney {--type=}{--day=}{--date=}';
 
     /**
      * The console command description.
@@ -47,7 +47,8 @@ class SetTeacherMoney extends cmd_base
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
         }elseif($type==4){
-            $task->set_teacher_salary_list($type);
+            $timestamp = strtotime("-$day day",time());
+            $task->set_teacher_salary_list($type,$timestamp);
         }
     }
 
