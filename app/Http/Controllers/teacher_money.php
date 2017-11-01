@@ -663,11 +663,12 @@ class teacher_money extends Controller
     }
 
     public function teacher_salary_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
 
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time);
         foreach($ret_info as &$t_val){
             $t_val['money']/=100;
+            $t_val['agent_money']=0;
         }
 
         return $this->pageView(__METHOD__,$ret_info);

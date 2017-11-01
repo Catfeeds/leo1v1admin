@@ -19,7 +19,6 @@ interface RowData {
 	money_3	:any;
 	money_4	:any;
 	money_5	:any;
-	money_6	:any;
 }
 
 /*
@@ -30,13 +29,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-teacher_money_type_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		teacher_money_type:	$('#id_teacher_money_type').val(),
+		level:	$('#id_level').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacher_money_type:	$('#id_teacher_money_type').val(),
-			level:	$('#id_level').val()
-        });
-    }
 
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
