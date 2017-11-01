@@ -654,19 +654,19 @@ class wx_yxyx_common extends Controller
         $p_info = $this->t_agent->get_agent_id_by_openid($p_openid); // 推荐人信息
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
 
-        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){
+        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
             $agent_arr = [];
         }
 
         session(['yxyx_openid'=>$openid]);
 
-        if($agent_arr){ // ==> 活动页面
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
-        }elseif(!$openid){ // 绑定会员的页面
-            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2");
+        if(empty($agent_arr)){
+            $is_member = 2; // 不是会员
+        }else{
+            $is_member = 1;  // 是会员
         }
-	// return $this->output_succ();
 
+        header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?is_member=".$is_member."&p_phone=".$p_info['phone']);
     }
 
 }

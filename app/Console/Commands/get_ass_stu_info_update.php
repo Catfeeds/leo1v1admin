@@ -309,7 +309,7 @@ class get_ass_stu_info_update extends Command
             }
 
             if(date("d",time())=="01"){
-                $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+                $lesson_target     = $task->t_ass_group_target->get_rate_target($start_time);
 
                 //add 课耗活动-------------------------------------------------------------------------------
                 $item["lesson_ratio_month"]          = !empty(@$item["read_student_new"])?round(@$item["lesson_total"]/@$item["read_student_new"]/100,3):0; //课程系数-新版 当月课耗/当月上课人数
