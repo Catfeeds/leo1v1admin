@@ -1446,9 +1446,63 @@ class tongji2 extends Controller
         $list = $this->t_teaching_core_data->get_all_info(1);
         foreach($list["list"] as &$val){
             $val["month"] = date("Y年m月",$val["time"]);
-            
         }
         return $this->pageView(__METHOD__, $list);
+    }
 
+    /**
+     * @author sam
+     * @function ID：1000424
+     */
+    public function home(){
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],3);
+        $phone_location_list = $this->t_cr_week_month_info->get_test_lesson_subject($start_time,$end_time);
+        $new_list = [];
+        foreach (E\Esubject::$desc_map as $key => $value) {
+             $new_list['其它'][$key] = '';
+        }
+        foreach($phone_location_list as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+
+                $new_list['其它'][$value['subject']] += $value['total'];
+                //$province_lesson_student['总计'] += $value['total'];
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+
+                if(!isset($new_list[$pro])){
+                    foreach (E\Esubject::$desc_map as $kaey => $vaalue) {
+                        if(!isset($new_list[$pro][$kaey])){
+                            $new_list[$pro][$kaey] = '';
+                        }
+                    }
+                    $new_list[$pro][$value['subject']] = 0;
+                    $new_list[$pro][$value['subject']] += $value['total'];
+                }else{
+                    $new_list[$pro][$value['subject']] += $value['total'];
+                }
+            }
+        }
+
+        $subject_list = $this->t_cr_week_month_info->get_test_lesson($start_time,$end_time);
+        $list = [];
+        foreach (E\Esubject::$desc_map as $key => $value) {
+            foreach (E\Egrade::$desc_map as $kkey => $kvalue) {
+                $grade_str = E\Egrade::get_desc($kkey);
+                $list[$grade_str][$key] = '';
+            }
+        }
+        foreach ($subject_list as $key => $value) {
+            $grade_str_1 = E\Egrade::get_desc($key);
+            if(isset($list[$grade_str_1][$value['subject']])){
+                $list[$grade_str_1][$value['subject']] = $value['total'];
+            }else{
+                //var_dump($value);
+            }
+        }
+        return $this->pageView(__METHOD__, null,[
+            // "table_data_list" => $ret_info['list'],
+            "list" => $list,
+            "new_list" => $new_list,
+        ]);
     }
 }
