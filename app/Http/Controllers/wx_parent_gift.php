@@ -611,7 +611,7 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
-        // $start_time = 1509638400; // 2017-11-03
+        // $start_time = strtotime('2017-11-3'); 
         $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
