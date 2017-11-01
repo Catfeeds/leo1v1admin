@@ -113,14 +113,14 @@ class import_to_teacher_flow extends cmd_base
 
         // 模拟试听通过时间
         $where = ['simul_test_lesson_pass_time=0'];
-        $info = $task->t_teacher_flow->get_all_list($where);
+        $info  = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
             $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $teacherid);
-            if ($lecture && $lecture['add_time'] > $item['trial_lecture_pass_time']) {
-                $task->t_teacher_flow->field_update_list($teacherid, [
-                    "simul_test_lesson_pass_time" => $lecture['add_time'],
-                ]);
-            }
+            // if ($lecture && ($lecture['add_time'] > $item['trial_lecture_pass_time'] )) {
+            $task->t_teacher_flow->field_update_list($teacherid, [
+                "simul_test_lesson_pass_time" => $lecture['add_time'],
+            ]);
+            // }
         }
 
 

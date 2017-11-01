@@ -9743,7 +9743,7 @@ lesson_type in (0,1) "
                                   $whereArr
         );
         
-        return $this->main_get_row($sql);:
+        return $this->main_get_row($sql);
     }
 
     public function get_one_subject_count($sql, $whereArr, $table, $where, $subject, $grade) {
