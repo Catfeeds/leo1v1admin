@@ -29,12 +29,19 @@ interface RowData {
 	phone_location	:any;
 	has_pad	:any;
 	user_desc	:any;
+	last_revisit_time	:any;
+	free_time	:any;
 	grade	:any;
 	origin	:any;
+	realname	:any;
 	nick	:any;
+	last_lesson_time	:any;
+	lesson_start	:any;
+	ass_test_lesson_order_fail_flag	:any;
 	has_pad_str	:any;
 	subject_str	:any;
 	grade_str	:any;
+	ass_test_lesson_order_fail_flag_str	:any;
 	phone_hide	:any;
 }
 
