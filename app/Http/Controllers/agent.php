@@ -1995,10 +1995,10 @@ class agent extends Controller
             $item['price'] = $item['price']/100;
             $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
             if($item['rank_count']) {
-                $item['ok_lesson_rate'] = $item['ok_lesson_count']/$item['rank_count'];
+                $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
             }
             if($item['user_count']) {
-                $item['order_rate'] = $item['order_user_count']/$item['user_count'];
+                $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
             }
 
 
