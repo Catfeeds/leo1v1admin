@@ -1996,7 +1996,6 @@ class agent extends Controller
         foreach ($ret_info['list'] as &$item){
             $item['no_revisit_count']--;
             $item['ok_phone_count']--;
-            $item['no_phone_count']--;
             $item['rank_count']--;
             $item['ok_lesson_count']--;
             $item['price'] = $item['price']/100;
@@ -2011,6 +2010,7 @@ class agent extends Controller
             } else {
                 $item['order_rate'] = '0%';
             }
+            $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
             $all_user = $all_user+$item['user_count'];
             $order_user = $order_user+$item['order_user_count'];
             $price = $price+$item['price'];

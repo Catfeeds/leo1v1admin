@@ -2361,7 +2361,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." count(distinct if( tq.id is null,na.userid,0 ) ) no_revisit_count,"
 
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
-            ." count(distinct if( tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
+            // ." count(distinct if( tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
 
             // ." count(distinct if( sum(tq.is_called_phone)>0,na.userid,0 ) ) ok_phone_count,"
             // ." count(distinct if( sum(tq.is_called_phone)=0,na.userid,0 ) ) no_phone_count,"
