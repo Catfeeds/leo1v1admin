@@ -414,7 +414,7 @@ class wx_parent_gift extends Controller
     }
 
 
-    public function get_win_rate($stu_type){ // 获取中奖概率
+    public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
 
         $rate   = mt_rand(0,10000);
         $today  = time();
@@ -445,7 +445,12 @@ class wx_parent_gift extends Controller
                 }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
                     $prize_type=7;
                 }else{ // 10元折扣券/试听课
-                    
+                    $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                    if($is_test>0){
+                        $prize_type=2;
+                    }else{
+                        $prize_type=2;
+                    }
                 }
             }else{
                 if($rate>1000 && $rate<=2250){ // 书包 12.5
