@@ -808,7 +808,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select t.wx_openid,need_test_lesson_flag,t.nick,realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,"
-                                  ." t.train_through_new, t.train_through_new_time,"
+                                  ." t.train_through_new, t.train_through_new_time,t.address,"
                                   ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,teacher_textbook,"
                                   ." create_meeting, t.level ,t.work_year,  advantage, base_intro,textbook_type,is_good_flag,"
                                   ." t.create_time,t.address,t.subject,second_subject,third_subject,t.school,tea_note,"
