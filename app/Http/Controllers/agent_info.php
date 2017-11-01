@@ -111,7 +111,7 @@ class agent_info extends Controller
         //检测该用户是否为团长的邀请人
         $invite_flag = $this->t_agent->check_is_invite($phone,$agentid);
 
-        if($invite_flag)
+        if(!$invite_flag)
             return ['ret'=>2,'info'=>'用户不是你邀请的，无法组团!'];
         //检测团员是否为会员
         $member_flag = $this->t_agent->check_is_member($phone);
