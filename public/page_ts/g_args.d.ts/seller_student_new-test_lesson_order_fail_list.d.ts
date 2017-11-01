@@ -55,22 +55,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-test_lesson_order_fail_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		cur_require_adminid:	$('#id_cur_require_adminid').val(),
+		hide_cur_require_adminid:	$('#id_hide_cur_require_adminid').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_userid_flag:	$('#id_origin_userid_flag').val(),
+		order_flag:	$('#id_order_flag').val(),
+		test_lesson_order_fail_flag:	$('#id_test_lesson_order_fail_flag').val(),
+		userid:	$('#id_userid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			cur_require_adminid:	$('#id_cur_require_adminid').val(),
-			hide_cur_require_adminid:	$('#id_hide_cur_require_adminid').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_userid_flag:	$('#id_origin_userid_flag').val(),
-			order_flag:	$('#id_order_flag').val(),
-			test_lesson_order_fail_flag:	$('#id_test_lesson_order_fail_flag').val(),
-			userid:	$('#id_userid').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_origin_userid_flag"));
 	Enum_map.append_option_list("boolean",$("#id_order_flag"));
