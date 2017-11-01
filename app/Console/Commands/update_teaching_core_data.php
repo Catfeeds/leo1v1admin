@@ -115,8 +115,14 @@ class update_teaching_core_data extends Command
             // $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
 
             // //新老师入职时长
-            $video_time = $task->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
-            $one_time = $task->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
+            //$video_time = $task->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
+            //$one_time = $task->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
+            $train_through_time_all = $task->t_teacher_info->get_train_through_time_new($start_time,$end_time);
+            $through_avg_time = round($train_through_time_all/86400,1);
+            $task->t_teaching_core_data->field_update_list_2($start_time,1,[
+                "new_train_through_time"=>$through_avg_time              
+            ]);
+
             // $num_total = 0;
             // $time_total=0;
             // foreach($video_time as $v){
@@ -149,146 +155,146 @@ class update_teaching_core_data extends Command
             // $ninty_lesson_count_info = $task->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
             // $ninty_lesson_count = @$ninty_lesson_count_info["tea_num"]>0?round(@$ninty_lesson_count_info["all_count"]/$ninty_lesson_count_info["tea_num"]):0;
 
-            //面试邀约数/面试邀约时长
-            $ret = $task->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
-            $app_num = count($ret);
-            $plan_num=$plan_time =0;
-            foreach($ret as $val){
-                $time = $val["add_time"];
-                if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
-                    $time = $val["lesson_start"];
-                }
-                if($time>0){
-                    $plan_num++;
-                    $plan_time += ($time-$val["answer_begin_time"]);
-                }
+            // //面试邀约数/面试邀约时长
+            // $ret = $task->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
+            // $app_num = count($ret);
+            // $plan_num=$plan_time =0;
+            // foreach($ret as $val){
+            //     $time = $val["add_time"];
+            //     if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
+            //         $time = $val["lesson_start"];
+            //     }
+            //     if($time>0){
+            //         $plan_num++;
+            //         $plan_time += ($time-$val["answer_begin_time"]);
+            //     }
             
-            }
-            $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
-            //面试通过数/面试通过时长
-            $ret_interview = $task->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
-            $interview_pass_num = count($ret_interview);
-            $interview_pass_time =0;
-            $train_num=0;
-            $train_time=0;
-            $train_real_num=0;
-            $trail_num=0;
-            $trail_time=0;
-            $through_num=0;
-            $through_real_num=0;
-            $through_time=0;
-            foreach($ret_interview as $val){
-                if($val["lesson_start"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["one_add_time"]>$val["lesson_start"]){
-                    $time = $val["one_add_time"]-$val["lesson_start"];
-                }elseif($val["confirm_time"]>$val["add_time"]){
-                    $time = $val["confirm_time"]-$val["add_time"]; 
-                }
-                $interview_pass_time +=$time;
-                if($val["train_add_time"]>0 ){
-                    $train_num++;
-                    $tr_time=0;
-                    if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["train_add_time"]>$val["one_add_time"]){
-                        $tr_time= $val["train_add_time"]-$val["one_add_time"];
-                        $train_real_num++;
-                    }elseif($val["confirm_time"]>0 && $val["train_add_time"]>$val["confirm_time"]){
-                        $tr_time= $val["train_add_time"]-$val["confirm_time"];
-                        $train_real_num++;
-                    }
-                    $train_time +=$tr_time;
+            // }
+            // $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
+            // //面试通过数/面试通过时长
+            // $ret_interview = $task->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
+            // $interview_pass_num = count($ret_interview);
+            // $interview_pass_time =0;
+            // $train_num=0;
+            // $train_time=0;
+            // $train_real_num=0;
+            // $trail_num=0;
+            // $trail_time=0;
+            // $through_num=0;
+            // $through_real_num=0;
+            // $through_time=0;
+            // foreach($ret_interview as $val){
+            //     if($val["lesson_start"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["one_add_time"]>$val["lesson_start"]){
+            //         $time = $val["one_add_time"]-$val["lesson_start"];
+            //     }elseif($val["confirm_time"]>$val["add_time"]){
+            //         $time = $val["confirm_time"]-$val["add_time"]; 
+            //     }
+            //     $interview_pass_time +=$time;
+            //     if($val["train_add_time"]>0 ){
+            //         $train_num++;
+            //         $tr_time=0;
+            //         if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["train_add_time"]>$val["one_add_time"]){
+            //             $tr_time= $val["train_add_time"]-$val["one_add_time"];
+            //             $train_real_num++;
+            //         }elseif($val["confirm_time"]>0 && $val["train_add_time"]>$val["confirm_time"]){
+            //             $tr_time= $val["train_add_time"]-$val["confirm_time"];
+            //             $train_real_num++;
+            //         }
+            //         $train_time +=$tr_time;
 
-                    if($val["trail_time"]>0){
-                        $trail_num++;
-                        $trail_time += ($val["trail_time"]-$val["train_add_time"]);
-                    }
+            //         if($val["trail_time"]>0){
+            //             $trail_num++;
+            //             $trail_time += ($val["trail_time"]-$val["train_add_time"]);
+            //         }
 
                 
-                }
-                if($val["train_through_new"]==1){
-                    $through_num++;
-                    if($val["trail_time"]>0 && $val["train_through_new_time"]>$val["trail_time"]){
-                        $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
-                        $through_real_num++;
-                    }
-                }
+            //     }
+            //     if($val["train_through_new"]==1){
+            //         $through_num++;
+            //         if($val["trail_time"]>0 && $val["train_through_new_time"]>$val["trail_time"]){
+            //             $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
+            //             $through_real_num++;
+            //         }
+            //     }
             
-            }
+            // }
 
-            $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
+            // $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
 
-            //新师培训数/时间
-            $train_time = $train_real_num>0?round($train_time/$train_real_num/86400,1):0;
-            $trail_time = $trail_num>0?round($trail_time/$trail_num/86400,1):0;
-            $through_time = $through_real_num>0?round($through_time/$through_real_num/86400,1):0;
+            // //新师培训数/时间
+            // $train_time = $train_real_num>0?round($train_time/$train_real_num/86400,1):0;
+            // $trail_time = $trail_num>0?round($trail_time/$trail_num/86400,1):0;
+            // $through_time = $through_real_num>0?round($through_time/$through_real_num/86400,1):0;
 
 
-            //培训数
-            $train_lesson_num = $task->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
-            //培训参与率,培训通过数
-            $train_lesson_part_info = $task->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
-            $all_num= $part_num=$train_tea_num =$train_through_num=0;
-            $train_tea_list = [];
+            // //培训数
+            // $train_lesson_num = $task->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
+            // //培训参与率,培训通过数
+            // $train_lesson_part_info = $task->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
+            // $all_num= $part_num=$train_tea_num =$train_through_num=0;
+            // $train_tea_list = [];
         
-            foreach($train_lesson_part_info as $val){
-                $all_num++;
-                if($val["opt_time"]>0){
-                    $part_num++; 
-                }
-                if(!isset($train_tea_list[$val["userid"]])){
-                    @$train_tea_list[$val["userid"]]=$val["userid"];
-                    $train_tea_num++;
-                    if($val["train_through_new_time"]>0){
-                        $train_through_num++;
-                    }
-                }
-            }
-            $train_part_per =  $all_num>0?round($part_num/$all_num*100,2):0;
-            $train_through_per =  $train_tea_num>0?round($train_through_num/$train_tea_num*100,2):0;
+            // foreach($train_lesson_part_info as $val){
+            //     $all_num++;
+            //     if($val["opt_time"]>0){
+            //         $part_num++; 
+            //     }
+            //     if(!isset($train_tea_list[$val["userid"]])){
+            //         @$train_tea_list[$val["userid"]]=$val["userid"];
+            //         $train_tea_num++;
+            //         if($val["train_through_new_time"]>0){
+            //             $train_through_num++;
+            //         }
+            //     }
+            // }
+            // $train_part_per =  $all_num>0?round($part_num/$all_num*100,2):0;
+            // $train_through_per =  $train_tea_num>0?round($train_through_num/$train_tea_num*100,2):0;
 
 
-            //教务数据
-            $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
-            $set_count_seller =$set_count_kk=$set_count_hls=0;
-            $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-            foreach($ret_info as $val){
-                $set_count_all+=$val["set_count"];
-                $set_count_top+=$val["top_count"];
-                $set_count_green+=$val["green_count"];
-                $set_count_grab+=$val["grab_count"];
-                $set_lesson_time_all+=$val["set_lesson_time_all"];
-                $set_count_seller+=$val["seller_count_set"];
-                $set_count_kk+=$val["ass_kk_count_set"];
-                $set_count_hls+=$val["ass_hls_count_set"];
-            }
-            $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
-            // $all_tran    = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
-            // $seller_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
-            // $kk_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
-            // $hls_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
-            // $top_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
-            // $green_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
-            // $grab_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
-            // $normal_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
-            $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
-            $top_tran_per = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
-            $green_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
-            $green_tran_per = !empty($green_seller_total["person_num"])?round($green_seller_total["have_order"]/$green_seller_total["person_num"]*100,2):0;
+            // //教务数据
+            // $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+            // $set_count_seller =$set_count_kk=$set_count_hls=0;
+            // $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+            // foreach($ret_info as $val){
+            //     $set_count_all+=$val["set_count"];
+            //     $set_count_top+=$val["top_count"];
+            //     $set_count_green+=$val["green_count"];
+            //     $set_count_grab+=$val["grab_count"];
+            //     $set_lesson_time_all+=$val["set_lesson_time_all"];
+            //     $set_count_seller+=$val["seller_count_set"];
+            //     $set_count_kk+=$val["ass_kk_count_set"];
+            //     $set_count_hls+=$val["ass_hls_count_set"];
+            // }
+            // $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
+            // // $all_tran    = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+            // // $seller_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
+            // // $kk_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
+            // // $hls_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
+            // // $top_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
+            // // $green_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
+            // // $grab_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
+            // // $normal_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
+            // $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
+            // $top_tran_per = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+            // $green_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
+            // $green_tran_per = !empty($green_seller_total["person_num"])?round($green_seller_total["have_order"]/$green_seller_total["person_num"]*100,2):0;
 
-            $normal_seller_total_grab = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,1); //咨询/老师普通排课总体(抢课)
-            $grab_tran_per = !empty($normal_seller_total_grab["person_num"])?round($normal_seller_total_grab["have_order"]/$normal_seller_total_grab["person_num"]*100,2):0;
+            // $normal_seller_total_grab = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,1); //咨询/老师普通排课总体(抢课)
+            // $grab_tran_per = !empty($normal_seller_total_grab["person_num"])?round($normal_seller_total_grab["have_order"]/$normal_seller_total_grab["person_num"]*100,2):0;
 
-            $normal_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,0); //咨询/老师普通排课总体(非抢课)
-            $normal_tran_per = !empty($normal_seller_total["person_num"])?round($normal_seller_total["have_order"]/$normal_seller_total["person_num"]*100,2):0;
+            // $normal_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,0); //咨询/老师普通排课总体(非抢课)
+            // $normal_tran_per = !empty($normal_seller_total["person_num"])?round($normal_seller_total["have_order"]/$normal_seller_total["person_num"]*100,2):0;
 
-            $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
-            $hls_tran_per = !empty(@$change_test_person_num["change_num"])?round($change_test_person_num["change_order"]/$change_test_person_num["change_num"]*100,2):0;
-            $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1);
-            $kk_tran_per = !empty(@$kk_test_person_num["kk_num"])?round($kk_test_person_num["kk_order"]/$kk_test_person_num["kk_num"]*100,2):0;
-            $scc_test_info =$task->t_lesson_info->get_teacher_test_person_num_list_total($start_time,$end_time);
+            // $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+            // $hls_tran_per = !empty(@$change_test_person_num["change_num"])?round($change_test_person_num["change_order"]/$change_test_person_num["change_num"]*100,2):0;
+            // $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1);
+            // $kk_tran_per = !empty(@$kk_test_person_num["kk_num"])?round($kk_test_person_num["kk_order"]/$kk_test_person_num["kk_num"]*100,2):0;
+            // $scc_test_info =$task->t_lesson_info->get_teacher_test_person_num_list_total($start_time,$end_time);
 
-            $seller_tran_per = !empty(@$scc_test_info["person_num"])?round($scc_test_info["have_order"]/$scc_test_info["person_num"]*100,2):0;
+            // $seller_tran_per = !empty(@$scc_test_info["person_num"])?round($scc_test_info["have_order"]/$scc_test_info["person_num"]*100,2):0;
             
-            $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
-            $all_tran_per = !empty(@$success_test_lesson_list_total["success_lesson"])?round($success_test_lesson_list_total["order_number"]/$success_test_lesson_list_total["success_lesson"]*100,2):0;
+            // $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+            // $all_tran_per = !empty(@$success_test_lesson_list_total["success_lesson"])?round($success_test_lesson_list_total["order_number"]/$success_test_lesson_list_total["success_lesson"]*100,2):0;
             $task->t_teaching_core_data->field_update_list_2($start_time,1,[               
                 "interview_pass_num"         =>$interview_pass_num,
                 "interview_pass_time"        =>$interview_pass_time,               
