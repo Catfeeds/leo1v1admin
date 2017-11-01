@@ -1214,8 +1214,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
             $where_arr[]= "f.adminid is null ";
         }
-        if($suc_test_flag){
+        if($suc_test_flag == 0){
             $where_arr[] = 'n.test_lesson_count=0';
+        }elseif($suc_test_flag == 1){
+            $where_arr[] = 'n.test_lesson_count>0';
         }
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"

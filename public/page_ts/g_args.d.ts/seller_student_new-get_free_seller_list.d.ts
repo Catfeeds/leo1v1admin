@@ -10,6 +10,7 @@ interface GargsStatic {
 	grade:	number;//App\Enums\Egrade
 	has_pad:	number;//App\Enums\Epad_type
 	subject:	number;//App\Enums\Esubject
+	test_lesson_count_flag:	number;
 	origin:	string;
 }
 declare module "g_args" {
@@ -57,6 +58,7 @@ function load_data(){
 		grade:	$('#id_grade').val(),
 		has_pad:	$('#id_has_pad').val(),
 		subject:	$('#id_subject').val(),
+		test_lesson_count_flag:	$('#id_test_lesson_count_flag').val(),
 		origin:	$('#id_origin').val()
     });
 }
@@ -80,6 +82,7 @@ $(function(){
 	$('#id_grade').val(g_args.grade);
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_subject').val(g_args.subject);
+	$('#id_test_lesson_count_flag').val(g_args.test_lesson_count_flag);
 	$('#id_origin').val(g_args.origin);
 
 
@@ -119,6 +122,13 @@ $(function(){
                 <span class="input-group-addon">科目</span>
                 <select class="opt-change form-control" id="id_subject" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_count_flag</span>
+                <input class="opt-change form-control" id="id_test_lesson_count_flag" />
             </div>
         </div>
 

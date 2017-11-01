@@ -1054,10 +1054,11 @@ class seller_student_new extends Controller
         $grade=$this->get_in_grade(-1);
         $has_pad=$this->get_in_has_pad(-1);
         $subject=$this->get_in_subject(-1);
+        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',-1);
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
+        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
