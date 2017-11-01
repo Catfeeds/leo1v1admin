@@ -256,6 +256,7 @@ class url_power_map {
 			'/agent/agent_order_list'	=>1070408,
 			'/agent/agent_cash_list'	=>1070411,
 			'/agent/agent_list_new'	=>1070412,
+			'/agent/get_yxyx_member'	=>1070450,
 			'/agent/check'	=>1070413,
 			'/agent/get_phone_count'	=>1070466,
 			'/t_yxyx_test_pic_info/get_all_info'	=>1070467,
