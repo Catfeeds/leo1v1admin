@@ -2001,9 +2001,13 @@ class agent extends Controller
             $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
             if($item['rank_count']) {
                 $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
+            } else {
+                $item['ok_lesson_rate'] = '0%';
             }
             if($item['user_count']) {
                 $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
+            } else {
+                $item['order_rate'] = '0%';
             }
 
 
