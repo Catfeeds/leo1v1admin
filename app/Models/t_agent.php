@@ -2352,7 +2352,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql = $this->gen_sql_new(
             "select a.id,a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
             ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
-            ." count(distinct if(tq.id<1,na.userid,0 ) ) no_revisit_count,"
+            ." count(distinct if(tq.id is null,na.userid,0 ) ) no_revisit_count,"
 
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
             ." count(distinct if( tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
