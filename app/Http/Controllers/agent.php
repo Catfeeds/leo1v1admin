@@ -2013,7 +2013,7 @@ class agent extends Controller
             }
             $all_user = $all_user+$item['user_count'];
             $order_user = $order_user+$item['order_user_count'];
-            $price = $price+$item['pirce'];
+            $price = $price+$item['price'];
 
         }
         return $this->pageView(__METHOD__,$ret_info,[
