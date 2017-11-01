@@ -47,7 +47,7 @@ class import_to_teacher_flow extends cmd_base
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
+        $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
         // if(!empty($tea_list)){
         //     foreach($tea_list as $val){
         //         $task->t_teacher_flow->row_insert_ignore([

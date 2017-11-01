@@ -4334,6 +4334,9 @@ class ss_deal extends Controller
             "lecture_revisit_type" =>$lecture_revisit_type,
             "hand_flag"          =>1
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("新增预讲试约");
         return $this->output_succ();
     }
 

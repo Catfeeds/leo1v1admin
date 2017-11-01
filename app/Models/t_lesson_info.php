@@ -9743,69 +9743,7 @@ lesson_type in (0,1) "
                                   $whereArr
         );
         
-        return $this->main_get_row($sql);
-        //return $this->get_handle_other_subject($info,$res);
-    }
-
-    public function get_handle_other_subject($info, $res) {
-        if ($info) {
-            foreach($info as $item) {
-                if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
-                    array_push($res, $item);
-                    $tem[$item['subject']] = $item['subject'];
-                } 
-            }
-            if (!isset($tem[5])) {
-                array_push($res, ['subject'=>5,"sum"=>0]);
-            }
-            if (!isset($tem[4])) {
-                array_push($res, ['subject'=>4,"sum"=>0]);
-            }
-            if (!isset($tem[6])) {
-                array_push($res, ['subject'=>6,"sum"=>0]);
-            }
-            if (!isset($tem[10])) {
-                array_push($res, ['subject'=>10,"sum"=>0]);
-            }
-        } else {
-            array_push($res, ["subject"=>5,"sum"=>0]);
-            array_push($res, ["subject"=>4,"sum"=>0]);
-            array_push($res, ["subject"=>6,"sum"=>0]);
-            array_push($res, ["subject"=>10,"sum"=>0]);
-        }
-        return $res;
-    }
-
-    public function get_three_maj_sub($sql, $whereArr, $table) {
-        $res = [];
-        $where = ["subject=1","grade<200"]; //小学语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 1, 100);
-        array_push($res, $info);
-        $where = ["subject=1","grade>=200","grade<300"]; // 初中语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 1, 200);
-        array_push($res, $info);
-        $where = ["subject=1","grade>=300"]; // 高中语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 1, 300);
-        array_push($res, $info);
-        $where = ["subject=2","grade<200"]; //小学数学
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 2, 100);
-        array_push($res, $info);
-        $where = ["subject=2","grade>=200","grade<300"]; // 初中数字
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 2, 200);
-        array_push($res, $info);
-        $where = ["subject=2","grade>=300"]; // 高中数字
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 2, 300);
-        array_push($res, $info);
-        $where = ["subject=3","grade<200"]; //小学英语
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 3, 100);
-        array_push($res, $info);
-        $where = ["subject=3","grade>=200","grade<300"]; // 初中语文
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 3, 200);
-        array_push($res, $info);
-        $where = ["subject=3","grade>=300"]; // 高中英语
-        $info = $this->get_one_subject_count($sql, $whereArr, $table, $where, 3, 300);
-        array_push($res, $info);
-        return $res;
+        return $this->main_get_row($sql);:
     }
 
     public function get_one_subject_count($sql, $whereArr, $table, $where, $subject, $grade) {
@@ -9837,72 +9775,6 @@ lesson_type in (0,1) "
         $info = $this->main_get_list($sql);
 
         return $this->get_handle_identity_count($info);
-    }
-
-    public function get_attend_lesson_type_count($start_time, $end_time) {
-        $whereArr = [
-            ["lesson_start<%u",$start_time,0],
-            ["lesson_start>%u",$end_time,0],
-            "tea_attend>0",
-        ];
-
-        $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s l left join %s t on l.teacherid=t.teacherid where %s group by identity",
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        $info = $this->main_get_list($sql);
-
-        return $this->get_handle_identity_count($info);
-    }
-
-    public function get_adopt_lesson_type_count($start_time, $end_time) {
-        $whereArr = [
-            ["tf.simul_test_lesson_pass_time>%u", $start_time, 0],
-            ["tf.simul_test_lesson_pass_time<%u", $end_time, 0],
-            "t.is_test_user=1",
-        ];
-        $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s t left join %s tf on t.teacherid=tf.teacherid where %s group by t.identity",
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  t_teacher_flow::DB_TABLE_NAME,
-                                  $whereArr
-        );
-        $info = $this->main_get_list($sql);
-        return $this->get_handle_identity_count($info);
-    }
-    public function get_handle_identity_count($info){
-        $res = [];
-        if ($info) {
-            foreach($info as $item) {
-                if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
-                    array_push($res, $item);
-                    $tem[$item['identity']] = $item['identity'];
-                } 
-            }
-            if (!isset($tem[0])) {
-                array_push($res, ['identity'=>0,"sum"=>0]);
-            }
-            if (!isset($tem[5])) {
-                array_push($res, ['identity'=>5,"sum"=>0]);
-            }
-            if (!isset($tem[6])) {
-                array_push($res, ['identity'=>6,"sum"=>0]);
-            }
-            if (!isset($tem[7])) {
-                array_push($res, ['identity'=>7,"sum"=>0]);
-            }
-            if (!isset($tem[8])) {
-                array_push($res, ['identity'=>8,"sum"=>0]);
-            }
-        } else {
-            array_push($res, ["identity"=>0,"sum"=>0]);
-            array_push($res, ["identity"=>5,"sum"=>0]);
-            array_push($res, ["identity"=>6,"sum"=>0]);
-            array_push($res, ["identity"=>7,"sum"=>0]);
-            array_push($res, ["identity"=>8,"sum"=>0]);
-        }
-
-        return $res;
     }
 
 }
