@@ -481,15 +481,15 @@ class wx_parent_gift extends Controller
                     $prize_type=2;
                 }
             }else{
-                if($rate>1000 && $rate<=2250){ // 书包 10
+                if($rate>100 && $rate<=200){ // 书包 10
                     $prize_type=1;
-                }elseif($rate>3000 && $rate<=4125){ // 50元折扣券  12.5
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
                     $prize_type=3;
-                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
                     $prize_type=4;
-                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
                     $prize_type=5;
-                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.10
                     $prize_type=7;
                 }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
                     $prize_type=7;
