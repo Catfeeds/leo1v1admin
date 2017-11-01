@@ -290,6 +290,9 @@
                         <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
                     </div>
                 </div>
+                <div class="col-xs-3 col-md-2">
+                        <button class="btn btn-primary" id="id_set_select_set_free">批量回流公海</button>
+                </div>
 
                 <div class="col-xs-3 col-md-2">
                     @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))

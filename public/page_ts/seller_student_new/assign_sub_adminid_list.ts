@@ -517,6 +517,30 @@ $(function(){
 
     });
 
+    $("#id_set_select_set_free").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var select_userid_list=[];
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_userid_list.push( $item.data("userid") ) ;
+            }
+        } ) ;
+        if(select_userid_list == ''){
+            alert("请选择要回流的例子");
+            return;
+        }
+        BootstrapDialog.confirm(
+            "设置释放到公海:" + select_userid_list ,
+            function(val){
+                if (val) {
+                    $.do_ajax("/ss_deal2/set_user_free_new",{
+                        "userid" :  select_userid_list
+                    });
+                }
+            });
+    });
+
     if(is_assign_group) {
         //$("#id_admin_revisiterid").parent().parent().hide();
     }else{

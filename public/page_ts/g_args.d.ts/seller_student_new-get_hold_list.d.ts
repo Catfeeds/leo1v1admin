@@ -76,16 +76,17 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-get_hold_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		hold_flag:	$('#id_hold_flag').val(),
+		phone_name:	$('#id_phone_name').val(),
+		seller_student_status:	$('#id_seller_student_status').val(),
+		subject:	$('#id_subject').val(),
+		grade:	$('#id_grade').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			hold_flag:	$('#id_hold_flag').val(),
-			phone_name:	$('#id_phone_name').val(),
-			seller_student_status:	$('#id_seller_student_status').val(),
-			subject:	$('#id_subject').val(),
-			grade:	$('#id_grade').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_hold_flag"));
 	Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"));
