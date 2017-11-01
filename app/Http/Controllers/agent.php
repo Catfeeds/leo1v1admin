@@ -1988,7 +1988,6 @@ class agent extends Controller
             $nick_name = $phone;
             $phone = '';
         }
-        $nickname = $this->get_in_str_val('nickname','');
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
 
