@@ -128,7 +128,7 @@ class import_to_teacher_flow extends cmd_base
         $where = ['grade=0'];
         $info = $task->t_teacher_flow->get_all_list();
         foreach($info as $teacherid => $item) {
-            $subject = $task->t_lesson_info->get_subject_for_teacherid($lessonid);
+            $subject = $task->t_lesson_info->get_subject_for_teacherid($teacherid);
             if ($subject) {
                 $task->t_teacher_flow->field_update_list($teacherid,[
                     "subject" => $subject['subject'],
