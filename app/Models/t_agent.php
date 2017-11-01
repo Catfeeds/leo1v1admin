@@ -2345,6 +2345,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'tq.id>0',
             'l.lesson_del_flag=0',
         ];
+
+        if ($nickname) {
+            $where_arr[]=sprintf(" a.nickname like '%s%%' ", $this->ensql($nickname));
+        }
+
+        if ($phone) {
+            $where_arr[]=sprintf(" a.phone like '%s%%' ", $this->ensql($phone));
+        }
+
         $sql = $this->gen_sql_new(
             "select a.id,a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
             ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
