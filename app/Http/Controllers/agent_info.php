@@ -49,8 +49,10 @@ class agent_info extends Controller
         $agentid   = $this->get_login_agent();
         //判断团长原来如果在团队中，将他从原来团队删除
         $is_member_flag = $this->t_agent_group_members->get_is_member($agentid);
-        $this->t_agent_group_members->row_delete($is_member_flag);
+        if($is_member_flag)
+            $this->t_agent_group_members->row_delete($is_member_flag);
         $group_name = $this->get_in_str_val('group_name');
+        $member_arr = [];
         //循环获取成员电话
         for($x=1;$x<=10;$x++){
             $member_phone = $this->get_in_str_val('member'.$x);
@@ -63,9 +65,15 @@ class agent_info extends Controller
             }
         }
 
+        $empty_flag = 0;
+        $member_count = 0;
         //判断成员数量  [大于10人]
-        $member_count = count($member_arr);
-        if($member_count < 10)
+        if($member_arr)
+            $member_count = count($member_arr);
+        else
+            $empty_flag = 1;
+
+        if($member_count < 10 || $empty_flag == 1)
             return $this->output_err("建团最小人数为10!");
         
         $ret = $this->t_agent_group->row_insert([
@@ -103,8 +111,12 @@ class agent_info extends Controller
         //检测该用户是否为团长的邀请人
         $invite_flag = $this->t_agent->check_is_invite($phone,$agentid);
 
-        if(!$invite_flag)
+        if($invite_flag)
             return ['ret'=>2,'info'=>'用户不是你邀请的，无法组团!'];
+        //检测团员是否为会员
+        $member_flag = $this->t_agent->check_is_member($phone);
+        if(!$member_flag)
+            return ['ret'=>5,'info'=>'组员身份必须为会员!'];
         //团长不能入团
         $is_colconel = $this->t_agent->get_agentid_by_phone($phone);
         if($is_colconel == $agentid)

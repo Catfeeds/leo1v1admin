@@ -2320,6 +2320,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    //@desn:检测团员是否是会员
+    public function check_is_member($phone){
+        $sql = $this->gen_sql_new(
+            "select id from %s where type in (2,3) and phone = '%s' ",
+            self::DB_TABLE_NAME,
+            $phone
+        );
 
+        return $this->main_get_value($sql);
+    }
 
 }
