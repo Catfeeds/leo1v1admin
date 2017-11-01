@@ -2341,10 +2341,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'na.type in (1,3)',
         ];
 
-        $tq_arr = [
-            ['tq.start_time>=%u', $start_time, -1],
-            ['tq.start_time<%u', $end_time, -1],
-        ];
         if ($nickname) {
             $where_arr[]=sprintf(" a.nickname like '%s%%' ", $this->ensql($nickname));
         }
@@ -2352,11 +2348,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if ($phone) {
             $where_arr[]=sprintf(" a.phone like '%s%%' ", $this->ensql($phone));
         }
+        $tq_arr = [
+            ['tq.start_time>=%u', $start_time, -1],
+            ['tq.start_time<%u', $end_time, -1],
+        ];
 
         $sql = $this->gen_sql_new(
             "select a.id,a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
             ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
-            ." count(distinct if(tq.id is null,na.userid,0 ) ) no_revisit_count,"
+            ." count(distinct if( tq.id is null,na.userid,0 ) ) no_revisit_count,"
 
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
             ." count(distinct if( tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
