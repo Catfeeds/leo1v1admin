@@ -199,7 +199,7 @@ class seller_student_new extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,
-            'adminid' => $this->get_account_id(),
+            'account' => $this->get_account(),
         ]);
     }
 
