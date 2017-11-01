@@ -363,13 +363,9 @@ class wx_parent_gift extends Controller
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
         $limit_arr = $this->get_limit_num($stu_type);
 
-        $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
-
-        $winning_rate = $this->get_win_rate($stu_type); // 中奖率
-
         $is_pass = 0;
 
-        if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){ // 书包
+        if($draw_num_arr['bag_num']>$limit_arr['bag_num']){ // 书包
             $is_pass = 1;
         }elseif($draw_num_arr['three_free_num'] >$limit_arr['three_free_num']){ // 3次免费课
             $is_pass = 1;
@@ -383,31 +379,21 @@ class wx_parent_gift extends Controller
             $is_pass = 1;
         }
 
-        if($bag_tag>0){ //11月6号试听过
-
-        }else{
-
-        }
-
-
         // 抽奖
-
-        $rate = mt_rand(0,10000);
-
-        if($rate>1000 && $rate<=2000){ // 书包 10
-
-        }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
-
-        }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
-
-        }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
-
-        }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
-
-        }else{ // 10元折扣券/试听课
-
+        if($is_pass){
+            if($stu_type==1){ // 新用户
+                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                if($is_test>0){
+                    $prize_type=2;
+                }else{
+                    $prize_type=8;
+                }
+            }elseif($stu_type==2){ //老用户
+                $prize_type=2;
+            }
+        }else{
+            $prize_type = $this->get_win_rate($parentid);
         }
-
 
 
 
@@ -449,7 +435,7 @@ class wx_parent_gift extends Controller
                     if($is_test>0){
                         $prize_type=2;
                     }else{
-                        $prize_type=2;
+                        $prize_type=8;
                     }
                 }
             }else{
@@ -601,7 +587,7 @@ class wx_parent_gift extends Controller
 
 
     // 双11优学优享活动
-    public function get_member_info_list(){ // 获取会员信息
+    public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
         $start_time = 1509638400; // 2017-11-03
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
