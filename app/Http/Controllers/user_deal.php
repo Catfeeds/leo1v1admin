@@ -3178,15 +3178,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        for($i=1;$i<=10;$i++){
+        $start_time = strtotime("2017-10-16");
+        $end_time = strtotime("2017-11-01");
+        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
 
-            $time =strtotime("2016-12-01");
-            $start_time=strtotime("+".$i." month",$time);
-            echo date("Y-m-d H:i:s",$start_time)."<br>";
-            $end_time = strtotime("+".($i+1)." month",$time);
-            echo date("Y-m-d H:i:s",$end_time)."<br>";
-        }
-        dd(111);
+      
+        dd($kk_suc);
 
         $this->switch_tongji_database();
         $start_time = strtotime("2017-09-01");
