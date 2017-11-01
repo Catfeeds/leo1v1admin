@@ -115,8 +115,8 @@ class update_teaching_core_data extends Command
             // $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
 
             // //新老师入职时长
-            // $video_time = $task->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
-            // $one_time = $task->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
+            $video_time = $task->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
+            $one_time = $task->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
             // $num_total = 0;
             // $time_total=0;
             // foreach($video_time as $v){

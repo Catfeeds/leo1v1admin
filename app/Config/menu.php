@@ -26,6 +26,7 @@ class menu{
                 ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
                 ["power_id"=>21, "name"=>"教材版本匹配度","url"=>"/tongji/match_lesson_textbook"],
                 ["power_id"=>22, "name"=>"1-3年级试听详情", "url" => "/tongji2/one_three_grade_student" ],
+                ["power_id"=>23, "name"=>"教学事业部核心数据指标", "url" => "/tongji2/get_teaching_core_data" ],
             ]],
 
             ["power_id"=>80, "name"=>"运维管理",  "list"=> [
@@ -206,9 +207,9 @@ class menu{
                     ["power_id"=>2, "name"=>"老师工资",   "url"=>"/user_manage_new/tea_lesson_count_detail_list"],
                     ["power_id"=>3, "name"=>"老师课时工资配置信息",   "url"=>"/user_manage_new/get_teacher_money_list"],
                     ["power_id"=>4, "name"=>"学生课程年级异常",   "url"=>"/user_manage_new/lesson_student_grade_list"],
-                    ["power_id"=>7, "name"=>"工资总体-new","url"=>"/user_manage_new/tea_wages_list"],
-                    ["power_id"=>5, "name"=>"工资明细-new","url"=>"/user_manage_new/tea_wages_info"],
-                    ["power_id"=>8, "name"=>"工资配置-new","url"=>"/user_manage_new/teacher_money_type_list"],
+                    ["power_id"=>7, "name"=>"工资总体","url"=>"/user_manage_new/tea_wages_list"],
+                    ["power_id"=>5, "name"=>"工资明细","url"=>"/user_manage_new/tea_wages_info"],
+                    ["power_id"=>8, "name"=>"工资配置","url"=>"/user_manage_new/teacher_money_type_list"],
                     ["power_id"=>9, "name"=>"工资统计","url"=>"/user_manage_new/tea_wages_count_list"],
                     ["power_id"=>11, "name"=>"全勤奖配置","url"=>"/human_resource/get_lesson_full_list"],
                     ["power_id"=>12, "name"=>"全勤奖配置-old","url"=>"/human_resource/get_lesson_full_wage_old"],
@@ -216,6 +217,7 @@ class menu{
                     ["power_id"=>14, "name"=>"招师工资","url"=>"/user_manage_new/teacher_ref_money_list"],
                     ["power_id"=>15, "name"=>"各类型薪资明细","url"=>"/user_manage_new/teacher_details_money"],
                     ["power_id"=>16, "name"=>"年级工资分类","url"=>"/teacher_money/grade_wages_list"],
+                    ["power_id"=>17, "name"=>"工资总体--new","url"=>"/teacher_money/teacher_salary_list"],
                 ]],
                 ["power_id"=>11, "name"=>"模拟工资", "list"=>[
                     ["power_id"=>1, "name"=>"模拟工资-总体","url"=>"/teacher_simulate/teacher_simulate_money_total_list"],

@@ -23,6 +23,7 @@ class teaching_menu{
                     [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                     [ "name"=>"教材版本匹配度",   "url"=>"/tongji/match_lesson_textbook"],
                     [ "name"=>"1-3年级试听详情",  "url"=>"/tongji2/one_three_grade_student"],
+                    [ "name"=>"教学事业部核心数据指标", "url" => "/tongji2/get_teaching_core_data" ],
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[
