@@ -1,6 +1,6 @@
 <?php
 return array(
-    //
+    ["db_weiyi","t_teacher_salary_list","id"],
     ["db_weiyi_admin","t_web_page_info","web_page_id"],
     ["db_weiyi_admin","t_web_page_trace_log","id"],
     ["db_weiyi","t_luck_draw_yxyx_for_ruffian","id"],
@@ -184,6 +184,7 @@ return array(
     ["db_weiyi","t_send_wx_template_record_list", "template_id","send_time"],
     ["db_weiyi","t_research_teacher_kpi_info", "kid","month"],
     ["db_weiyi","t_teacher_advance_list", "start_time","teacherid"],
+    ["db_weiyi","t_teaching_core_data", "time","type"],
 
     ["db_weiyi","t_origin_key", "value"],
     ["db_weiyi","t_wx_openid_bind","openid","role"] ,

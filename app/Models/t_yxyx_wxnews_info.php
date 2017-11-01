@@ -37,7 +37,7 @@ class t_yxyx_wxnews_info extends \App\Models\Zgen\z_t_yxyx_wxnews_info
     //获取一条新闻
     public function get_one_new_info($id) {
         $where_arr = [
-            'id='.$id,
+            ['id=%u', $id, -1],
         ];
         $sql = $this->gen_sql_new( "select w.id,w.pic,w.title,w.des,w.adminid,"
                                    ."w.type as wxnew_type,w.create_time,w.new_link,a.account"

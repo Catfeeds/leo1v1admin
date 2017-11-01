@@ -1743,9 +1743,9 @@ class teacher_info extends Controller
                 $grade_end_str   = E\Egrade_range::get_desc($item['grade_end']);
                 $grade_str       = $grade_start_str."-".$grade_end_str;
             }
-            $item['grade_str']=$grade_str;
+            $item['grade_str']        = $grade_str;
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
-            $item['tags_flag'] = count($item['teacher_tags_arr']);
+            $item['tags_flag']        = count($item['teacher_tags_arr']);
             //判断完整度
             $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','major', 'hobby','speciality',
                        'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];

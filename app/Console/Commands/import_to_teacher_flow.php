@@ -38,31 +38,6 @@ class import_to_teacher_flow extends cmd_base
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        //echo date('Y-m-d',1501046802).' --- '.date('Y-m-d',1505183643);exit;
-        // check手机号
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-1");
-        $info = $task->t_teacher_lecture_info->get_phone_data(strtotime('2017-1-01'),strtotime('2017-10-1'));
-        $ret = implode(",",array_column($info,"phone"));
-        $info = $task->t_teacher_lecture_info->get_confirm_for_phone($ret);
-        foreach($info as $item) {
-            if ($item['confirm_time'] > $start_time && $item['confirm_time'] < $end_time) {
-                echo $item['phone'].',';
-            }
-        }
-        exit;
-        $info = $task->t_teacher_flow->get_data();
-        $start_time = strtotime('2017-9-1');
-        $end_time = strtotime('2017-10-1');
-        $num = 0;
-        foreach($info as $item) {
-            if ($item['trial_lecture_pass_time'] < $start_time || $item['trial_lecture_pass_time'] > $end_time) {
-                echo $item['teacherid'].' phone: '.$item['phone'].' time: '.date('Y-m-d',$item['trial_lecture_pass_time']).PHP_EOL;
-                $num ++;
-            }
-        }
-        echo ' num : '.$num;
-        exit;
         //按天导入数据 (脚本执行时间为每天凌晨二点)
         $time = strtotime("-1 day");
         $start_time = strtotime(date('Y-m-d 00:00:00', $time));
@@ -105,8 +80,8 @@ class import_to_teacher_flow extends cmd_base
         // }
 
         // 面试通过时间
-        $start_time = strtotime("2017-9-1");
-        $end_time = strtotime('2017-10-1');
+        $start_time = strtotime("2017-10-1");
+        $end_time = time();
         $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time,$end_time);
         echo "length: ".count($lecture);
 
@@ -141,7 +116,7 @@ class import_to_teacher_flow extends cmd_base
         $info = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
             $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $teacherid);
-            if ($lecture) {
+            if ($lecture && $lecture['add_time'] > $item['trial_lecture_pass_time']) {
                 $task->t_teacher_flow->field_update_list($teacherid, [
                     "simul_test_lesson_pass_time" => $lecture['add_time'],
                 ]);
