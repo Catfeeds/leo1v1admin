@@ -63,6 +63,7 @@ class tom_do_once extends Command
             if($last_succ_test_lessonid!=$item['last_succ_test_lessonid']){
                 $this->task->t_seller_student_new->field_update_list($userid,['last_succ_test_lessonid'=>$last_succ_test_lessonid]);
             }
+            echo $userid.':'.$item['last_succ_test_lessonid']."=>".$last_succ_test_lessonid."\n";
         }
 
 
