@@ -1983,9 +1983,10 @@ class agent extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $phone  = $this->get_in_int_val('phone',-1);
         $nickname = $this->get_in_str_val('nickname','');
-        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone);
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
 
-        foreach ($ret_info as &$item){
+        foreach ($ret_info['list'] as &$item){
             $item['revisit_count']--;
             $item['ok_phone_count']--;
             $item['no_phone_count']--;
