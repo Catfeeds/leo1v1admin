@@ -1425,6 +1425,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
         $sql = $this->gen_sql_new("select tr.teacherid,tr.add_time,l.subject,l.grade from %s left join %s on tr.train_lessonid=l.lessonid where %s ",
                                   self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql, function( $item) {
