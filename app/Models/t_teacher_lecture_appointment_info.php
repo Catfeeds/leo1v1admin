@@ -1292,8 +1292,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
     public function check_tea_ref($teacherid,$teacher_ref_type){
-
-        // if($teacherid==-1){
         $where_arr = [
             ["t.teacherid=%u",$teacherid,-1],
             ["t.teacher_ref_type=%u",$teacher_ref_type,0],
@@ -1301,24 +1299,17 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             "t.is_test_user=0",
             "t.teacher_money_type=5",
         ];
-        // }else{
-        //     $where_arr = [
-        //         ["t.teacherid=%u",$teacherid,-1]
-        //     ];
-        // }
-        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,t.create_time,"
-                                  ." t2.realname as reference_name,t2.teacher_type "
+        $sql = $this->gen_sql_new("select 1"
                                   ." from %s t"
                                   ." left join %s tla on t.phone=tla.phone"
                                   ." left join %s t2 on tla.reference=t2.phone"
                                   ." where %s"
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
-                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
-
     }
 
 
