@@ -653,7 +653,7 @@ class wx_yxyx_common extends Controller
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
         if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
-            $agent_arr = [];
+            // $agent_arr = [];
         }
 
         session(['yxyx_openid'=>$openid]);

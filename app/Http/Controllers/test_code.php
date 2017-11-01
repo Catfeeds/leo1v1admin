@@ -1429,6 +1429,7 @@ class test_code extends Controller
     }
 
     public function test_salary(){
+        $teacher_money = new \App\Http\Controllers\teacher_money();
         $month_range = \App\Helper\Utils::get_month_range($timestamp,true);
         $start_time  = $month_range['sdate'];
         $end_time    = $month_range['edate'];
@@ -1437,7 +1438,7 @@ class test_code extends Controller
         $num = 0;
         foreach($tea_list as $t_val){
             $num++;
-            $salary_info = $this->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
+            $salary_info = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
             $lesson_money = $salary_info['lesson_price_tax'];
             echo $lesson_money;
             echo PHP_EOL;
