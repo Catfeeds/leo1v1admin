@@ -1410,20 +1410,20 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     public function get_data_to_teacher_flow($start_time,$end_time,$type)
     {
         $where_arr = [
-            ["add_time>%u",$start_time, 0],
-            ["add_time<%u",$end_time, 0],
-            "type=10",
+            ["tr.add_time>%u",$start_time, 0],
+            ["tr.add_time<%u",$end_time, 0],
+            "tr.type=10",
             //["l.train_type=%u",$type,0],
             //["l.teacherid=%u",$teacherid,0],
             //'l.lesson_type=1100',
             //"l.lesson_del_flag=0",
-            "trial_train_status=1",
+            "tr.trial_train_status=1",
             //"tr.train_lessonid=l.lessonid",
         ];
         //select add_time from t_teacher_record_list where type=10 and trial_train_status=1
         //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
-        $sql = $this->gen_sql_new("select teacherid,subject,grade,add_time from %s where %s ",
+        $sql = $this->gen_sql_new("select tr.teacherid,tr.add_time,l.subject,l.grade from %s left join %s on tr.train_lessonid=l.lessonid where %s ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
