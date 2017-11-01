@@ -2125,7 +2125,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["create_time<%u",$start_time,0],
             ["teacher_ref_type=%u",$teacher_ref_type,-1],
             // "trial_lecture_is_pass=1",
-            "train_through_new=1",
+            // "train_through_new=1",
         ];
         $sql = $this->gen_sql_new("select count(1) as num"
                                   ." from %s "

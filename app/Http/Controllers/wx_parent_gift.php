@@ -323,7 +323,7 @@ class wx_parent_gift extends Controller
 
         //检查是否新签
         $order_start = strtotime('2017-11-11');
-        $order_end   = strtotime('2017-11-13');
+        $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
         $draw_num = 0; //抽奖次数
@@ -614,17 +614,18 @@ class wx_parent_gift extends Controller
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
 
-        $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
-        $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
+        if($agent_info){
+            $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
+            $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
+            $ret_info['invite_num'] = count($invite_info);
+            $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+            $ret_info['phone'] = $agent_info['phone'];
 
-        $ret_info['invite_num'] = count($invite_info);
-        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['phone'] = $agent_info['phone'];
-
-
-
-        if($ret_info['light_num'] == 1){  // 测试
-            $ret_info['light_num']=4;
+            if($ret_info['light_num'] == 1){  // 测试
+                $ret_info['light_num']=4;
+            }
+        }else{
+            $ret_info = [];
         }
 
 
