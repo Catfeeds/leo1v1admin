@@ -176,7 +176,7 @@
                             </thead>
                             <tbody id="id_person_body">
                                 @foreach ( $table_data_list as $var )
-                                    @if($var['index'] == 2)
+                                    @if($var['index'] == 2 && count($table_data_list)>2)
                                         <tr>
                                             <td colspan="4">
                                                 <div class="row">
@@ -191,7 +191,7 @@
                                                             <p>{{$var["all_price"]}} </p>
                                                         </span>
                                                     </div>
-                                    @elseif($var['index'] == 1)
+                                    @elseif($var['index'] == 1 && count($table_data_list)>2)
                                                     <div class="col-xs-4" style="width:110px:height:240px;">
                                                         <p>
                                                             <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/146ba063e107d23a3d5745f3a1cfbe6b1507697031726.png" width="100%"  alt="" />
@@ -205,7 +205,7 @@
                                                             <p>{{$var["all_price"]}} </p>
                                                         </span>
                                                     </div>
-                                    @elseif($var['index'] == 3)
+                                    @elseif($var['index'] == 3 && count($table_data_list)>2)
                                                     <div class="col-xs-4" style="width:110px:height:240px;top:60px;" >
                                                         <p>
                                                             <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/89aff3cbc879529e2143e7528b9961071507696959137.png" width="70%"  alt="" />
