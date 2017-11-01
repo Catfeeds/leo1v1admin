@@ -419,6 +419,9 @@ $(function(){
         } ) ;
 
         var do_post= function (opt_adminid) {
+            var assign_time=$("<input/>");
+            var $arr=[
+            ];
             $.do_ajax(
                 '/ss_deal/set_adminid',
                 {

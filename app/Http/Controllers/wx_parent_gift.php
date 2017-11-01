@@ -303,6 +303,10 @@ class wx_parent_gift extends Controller
 
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
 
+        foreach($prize_list as &$item){
+
+        }
+
         return $this->output_succ(["data"=>$prize_list]);
     }
 

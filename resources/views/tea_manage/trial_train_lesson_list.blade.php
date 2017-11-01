@@ -57,6 +57,13 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span >老师类型</span>
+                        <select id="id_teacher_type" class ="opt-change" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span >老师</span>
                         <input id="id_teacherid" class="opt-change"/>
                     </div>
