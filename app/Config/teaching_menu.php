@@ -111,7 +111,7 @@ class teaching_menu{
 
 
                 [ "name"=>"教研部",  "list"=>[
-                    ["name"=>"首页","url"=>"/tongji2/home"],
+                    ["name"=>"教研首页","url"=>"/tongji2/home"],
                     ["name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                     [ "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
                     [ "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
