@@ -445,7 +445,7 @@ class wx_parent_gift extends Controller
                 }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
                     $prize_type=7;
                 }else{ // 10元折扣券/试听课
-
+                    
                 }
             }else{
                 if($rate>1000 && $rate<=2250){ // 书包 12.5

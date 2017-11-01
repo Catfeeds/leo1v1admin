@@ -469,7 +469,7 @@ class teacher_money extends Controller
         $idcard        = $this->get_in_str_val("idcard");
 
         $is_test_user = $this->t_teacher_info->get_is_test_user($teacherid);
-        if(!$is_test_user){
+        if(!$is_test_user && $type!="admin"){
             if($teacherid==0){
                 $error_info="老师未登录!";
             }elseif($bank_account==""){
