@@ -6,6 +6,8 @@ interface GargsStatic {
 	end_time:	string;
 	phone:	number;
 	nickname:	string;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;

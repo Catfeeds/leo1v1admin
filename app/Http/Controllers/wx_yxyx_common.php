@@ -267,6 +267,7 @@ class wx_yxyx_common extends Controller
                 $ret_info_p = $item;
             }
         }
+        $agent_id = $ret_info['id'];
         $parentid = $ret_info_p['id'];
         $p_wx_openid = $ret_info_p['wx_openid'];
         $p_agent_level = $ret_info_p['agent_level'];

@@ -298,10 +298,12 @@ class wx_parent_gift extends Controller
 
     ***/
 
-    public function get_prize_list(){
-        $parentid = $this->get_parentid();
+    public function get_prize_list(){ // 获取奖品列表
+        $parentid   = $this->get_parentid();
 
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
+
+        return $this->output_succ(["data"=>$prize_list]);
     }
 
     public function get_draw_num($parentid){

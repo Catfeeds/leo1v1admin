@@ -44,6 +44,7 @@
                         <td>{{@$var["phone1"]}} <br/>/ {{@$var["nickname1"]}} </td>
                         <td>{{@$var["phone2"]}} <br/>/ {{@$var["nickname2"]}} </td>
                         <td>{{@$var["phone3"]}} <br/>/ {{@$var["nickname3"]}} </td>
+                        <td>{{@$var["user_count"]}} </td>
                         <td>{{@$var["no_revisit_count"]}} </td>
                         <td>{{@$var["no_phone_count"]}} </td>
                         <td>{{@$var["ok_count_count"]}} </td>
