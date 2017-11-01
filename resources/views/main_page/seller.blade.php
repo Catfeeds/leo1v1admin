@@ -180,13 +180,11 @@
                                         <td>
                                         </td>
                                         <td style="text-align:left">
-                                            <img src="{{$var["face_pic"]}}" width="30px" height="30px" alt="" />
                                             <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
                                         <td>
                                             <font style="color:#000000;">{{$var["all_price"]}}</font>
-                                            <img src="{{$var["level_icon"]}}" width="30px" height="30px" alt="" style="margin:-8% -40% 0% 0%;" />
                                         </td>
                                     </tr>
                                 @endforeach
