@@ -134,11 +134,13 @@ class TeacherMoneyTask extends TaskController
         if($timestamp==0){
             $timestamp = time();
         }
-        $month_range = \App\Helper\Utils::get_month_range($timestamp,true);
-        $start_time = $month_range['sdate'];
-        $end_time = $month_range['edate'];
-        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
+
         $teacher_money = new \App\Http\Controllers\teacher_money();
+        $month_range   = \App\Helper\Utils::get_month_range($timestamp,true);
+        $start_time    = $month_range['sdate'];
+        $end_time      = $month_range['edate'];
+
+        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         foreach($tea_list as $t_val){
             $salary_info = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
             $lesson_1v1_money = $salary_info['lesson_normal']+$salary_info['lesson_trial']+$salary_info['lesson_reward']+$salary_info['lesson_reward_trial'];

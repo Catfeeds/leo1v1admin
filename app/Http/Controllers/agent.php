@@ -465,7 +465,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 975;
+        $userid = 50314;
+        $last_succ_test_lessonid = $this->t_lesson_info_b2->get_last_succ_test_lesson($userid);
+        dd($last_succ_test_lessonid);
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $month= date("Ym",$start_time);
         switch ( $month ) {
