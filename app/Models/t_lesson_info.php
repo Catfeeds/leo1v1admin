@@ -9784,7 +9784,7 @@ lesson_type in (0,1) "
                                   self::DB_TABLE_NAME,
                                   $where
         );
-        $info = $this->main_get_row($sql);
+        return $this->main_get_row($sql);
     }
 
 }
