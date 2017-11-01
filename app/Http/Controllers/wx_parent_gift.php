@@ -349,7 +349,7 @@ class wx_parent_gift extends Controller
         return $this->output_succ(['left'=>$left_num]);
     }
 
-    public function update_share_status(){ // check是否分享
+    public function update_share_status(){ // 分享朋友圈
         $parentid = $this->get_in_int_val('parentid');//
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
@@ -361,7 +361,8 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        $parentid = $this->get_in_int_val('parentid');
+        // $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');

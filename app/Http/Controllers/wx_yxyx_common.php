@@ -668,9 +668,9 @@ class wx_yxyx_common extends Controller
 
         session(['yxyx_openid'=>$openid]);
 
-        if(empty($agent_arr)){
+        if(empty($agent_arr)){ // 不是会员
             header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
-        }else{
+        }else{ // 会员
             header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
         }
 

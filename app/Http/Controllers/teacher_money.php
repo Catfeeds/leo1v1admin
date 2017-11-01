@@ -668,7 +668,6 @@ class teacher_money extends Controller
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time);
         foreach($ret_info['list'] as &$t_val){
             $t_val['money']/=100;
-            $t_val['agent_money']=0;
         }
 
         return $this->pageView(__METHOD__,$ret_info);
