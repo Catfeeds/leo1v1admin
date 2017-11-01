@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         Commands\check_modify_lesson_time::class,
         Commands\get_agent_parent_id::class,
         Commands\save_seller_info_by_week::class,
+        Commands\update_teaching_core_data::class,
         Commands\save_seller_info::class,
         Commands\update_ass_call_count::class,
         Commands\add_warning_overtime::class,
