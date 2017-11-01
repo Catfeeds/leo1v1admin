@@ -1222,18 +1222,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
-            ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time "
+            ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
+            ."l.lesson_start "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s m on n.admin_revisiterid=m.uid  "
-            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid )  "
+            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid ) "
+            ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." where %s ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_test_subject_free_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
              $where_arr
         );
         if($nick || $phone) {
@@ -2363,7 +2366,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_all_list(){
         $sql = $this->gen_sql_new(
-            " select userid,phone,test_lesson_count,free_adminid,free_time "
+            " select userid,phone,test_lesson_count,free_adminid,free_time,last_succ_test_lessonid "
             ." from %s "
             ." order by userid "
             ,self::DB_TABLE_NAME

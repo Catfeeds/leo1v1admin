@@ -817,7 +817,7 @@ class common extends Controller
         $qiniu         = \App\Helper\Config::get_config("qiniu");
 
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_new_pic_t.png";
+            $phone_qr_name = $phone."_qr_agent_new_pic_t1.png";
         }else{
             $phone_qr_name = $phone."_qr_agent_new_pic.png";
         }
@@ -831,7 +831,7 @@ class common extends Controller
                 $www_url="www.leo1v1.com";
             }
 
-            $text         = "http:/$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
+            $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
