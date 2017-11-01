@@ -53,6 +53,11 @@ interface RowData {
 	l2_agent_status_all_money	:any;
 	l2_agent_status_test_lesson_succ_count	:any;
 	l2_agent_status_all_open_money	:any;
+	cycle_student_count	:any;
+	cycle_test_lesson_count	:any;
+	cycle_order_money	:any;
+	cycle_member_count	:any;
+	cycle_order_count	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;
@@ -87,14 +92,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/agent-agent_list_new.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		type:	$('#id_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			type:	$('#id_type').val()
-        });
-    }
 
 
 	$('#id_start_time').val(g_args.start_time);
