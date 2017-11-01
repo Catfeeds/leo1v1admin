@@ -264,7 +264,7 @@
 
             <div class="row  " >
                 <div class="col-xs-3 col-md-1">
-                    @if(!in_array($adminid,[287,364,397,416,1004,1178]))
+                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
                         <button class="btn btn-primary" id="id_set_select_list">批量分配</button>
                     @endif
                 </div>
@@ -292,19 +292,19 @@
                 </div>
 
                 <div class="col-xs-3 col-md-2">
-                    @if(!in_array($adminid,[287,364,397,416,1004,1178]))
+                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
                         <button class="btn btn-primary" id="id_set_select_to_admin_list">分配给组员</button>
                     @endif
                 </div>
 
                 <div class="col-xs-3 col-md-2">
-                    @if(!in_array($adminid,[287,364,397,416,1004,1178]))
+                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
                         <button class="btn btn-primary" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
                     @endif
                 </div>
 
                 <div class="col-xs-3 col-md-2">
-                    @if(!in_array($adminid,[287,364,397,416,1004,1178]))
+                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
                         <button class="btn btn-primary" id="id_set_select_to_tmk_list">分配给TMK</button>
                     @endif
                 </div>
