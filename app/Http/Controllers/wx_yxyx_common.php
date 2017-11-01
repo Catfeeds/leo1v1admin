@@ -666,6 +666,7 @@ class wx_yxyx_common extends Controller
         }elseif(!$openid){ // 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2");
         }
+	return $this->output_succ();
 
     }
 }

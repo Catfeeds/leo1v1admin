@@ -259,14 +259,17 @@ class update_teaching_core_data extends Command
                 $set_count_hls+=$val["ass_hls_count_set"];
             }
             $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
-            $all_tran    = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
-            $seller_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
-            $kk_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
-            $hls_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
-            $top_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
-            $green_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
-            $grab_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
-            $normal_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
+            // $all_tran    = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
+            // $seller_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
+            // $kk_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
+            // $hls_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
+            // $top_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
+            // $green_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
+            // $grab_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
+            // $normal_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
+            $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
+            $top_seller_total["per"] = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+
             $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
             $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
             $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
