@@ -276,8 +276,8 @@ class update_teaching_core_data extends Command
             // // $normal_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
             $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,4,1); //咨询/老师1000精排总体
             $top_tran_per = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
-            $green_top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,4,1); //咨询/老师1000精排总体
-            $gren_top_tran_per = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+            $green_top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,5,1); //咨询/老师1000精排总体
+            $green_top_tran_per = !empty($green_top_seller_total["person_num"])?round($green_top_seller_total["have_order"]/$green_top_seller_total["person_num"]*100,2):0;
 
             // $green_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
             // $green_tran_per = !empty($green_seller_total["person_num"])?round($green_seller_total["have_order"]/$green_seller_total["person_num"]*100,2):0;
@@ -298,12 +298,10 @@ class update_teaching_core_data extends Command
             
             // $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
             // $all_tran_per = !empty(@$success_test_lesson_list_total["success_lesson"])?round($success_test_lesson_list_total["order_number"]/$success_test_lesson_list_total["success_lesson"]*100,2):0;
-            // $task->t_teaching_core_data->field_update_list_2($start_time,1,[               
-            //     "interview_pass_num"         =>$interview_pass_num,
-            //     "interview_pass_time"        =>$interview_pass_time,               
-            //     "set_count_expand_per"         =>$kk_tran_per,
-            //     "set_count_change_per"         =>$hls_tran_per,               
-            // ]);
+            $task->t_teaching_core_data->field_update_list_2($start_time,1,[               
+                "set_count_green_top_per"  => $green_top_tran_per,
+                "set_count_top_per"        => $top_tran_per,
+            ]);
 
                         
 
