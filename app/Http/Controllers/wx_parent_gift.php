@@ -305,7 +305,9 @@ class wx_parent_gift extends Controller
 
         foreach($prize_list as &$item){
             if($item['get_prize_time']>0){
-                $item[''] = '';
+                $item['exchanged'] = 1;// 已兑换
+            }else{
+                $item['exchanged'] = 0;
             }
         }
 
