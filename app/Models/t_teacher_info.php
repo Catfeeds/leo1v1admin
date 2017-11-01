@@ -4390,16 +4390,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      */
     public function get_need_set_teacher_salary_list($start_time,$end_time){
         $lesson_arr = [
-            ['lesson_start>%u',$start_time,0],
+            ['lesson_start>=%u',$start_time,0],
             ['lesson_start<%u',$end_time,0],
             "lesson_del_flag=0",
             "lesson_type<1000",
             "t.teacherid=teacherid"
         ];
         $reward_arr = [
-            ['add_time>%u',$start_time,0],
+            ['add_time>=%u',$start_time,0],
             ['add_time<%u',$end_time,0],
             "t.teacherid=teacherid"
+        ];
+        //教育学老师工资额外发放
+        $where_arr = [
+            "subject!=11",
         ];
         $sql = $this->gen_sql_new("select teacherid,teacher_money_type,teacher_type "
                                   ." from %s t"
