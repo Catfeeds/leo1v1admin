@@ -219,6 +219,7 @@ class ss_deal extends Controller
         $userid_list_str= $this->get_in_str_val("userid_list");
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         $seller_resource_type = $this->get_in_int_val('seller_resource_type');
+        $assign_time =$this->get_in_unixtime_from_str("assign_time");
         //dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
@@ -230,7 +231,7 @@ class ss_deal extends Controller
 
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
-                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
+                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type , $assign_time );
 
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
             $nick = $this->t_student_info->get_nick($userid);
@@ -4334,6 +4335,9 @@ class ss_deal extends Controller
             "lecture_revisit_type" =>$lecture_revisit_type,
             "hand_flag"          =>1
         ]);
+
+        // 添加操作日志
+        $this->t_user_log->add_data("新增预讲试约");
         return $this->output_succ();
     }
 
