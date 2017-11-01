@@ -800,6 +800,7 @@ class test_boby extends Controller
         $old_lessonid = '371545';
         $new_lessonid = '398579';
         $userid = $this->t_open_lesson_user->get_all_user($old_lessonid);
+        dd($userid);
         foreach($userid as $v){
             $this->t_open_lesson_user->add_open_class_user($new_lessonid,$v['userid']);
         }
