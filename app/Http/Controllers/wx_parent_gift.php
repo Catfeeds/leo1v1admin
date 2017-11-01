@@ -628,9 +628,9 @@ class wx_parent_gift extends Controller
             $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
             $ret_info['phone'] = $agent_info['phone'];
 
-            if($ret_info['light_num'] == 1){  // 测试
+            // if($ret_info['light_num'] == 1){  // 测试
                 // $ret_info['light_num']=4;
-            }
+            // }
         }else{
             $ret_info = [
                 "invite_num" => 0,
