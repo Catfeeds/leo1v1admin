@@ -41,13 +41,13 @@ class update_teaching_core_data extends Command
         //
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        // for($i=1;$i<=10;$i++){
+        for($i=1;$i<=10;$i++){
 
-            // $time =strtotime("2016-12-01");
-            // $start_time=strtotime("+".$i." month",$time);
-            // $end_time = strtotime("+".($i+1)." month",$time);
-            $start_time =strtotime("2017-01-01");
-            $end_time =strtotime("2017-02-01");
+            $time =strtotime("2016-12-01");
+            $start_time=strtotime("+".$i." month",$time);
+            $end_time = strtotime("+".($i+1)." month",$time);
+            // $start_time =strtotime("2017-01-01");
+            //  $end_time =strtotime("2017-02-01");
 
             //新老师数(入职)
             $train_through_all = $task->t_teacher_info->tongji_train_through_info($start_time,$end_time);
@@ -268,16 +268,40 @@ class update_teaching_core_data extends Command
             // $grab_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
             // $normal_tran = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
             $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
-            $top_seller_total["per"] = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+            $top_tran_per = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+            $green_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
+            $green_tran_per = !empty($green_seller_total["person_num"])?round($green_seller_total["have_order"]/$green_seller_total["person_num"]*100,2):0;
 
-            $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
-            $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
-            $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
-            $hls_tran_per =  $set_count_hls>0?round($hls_tran/$set_count_hls*100,2):0;
-            $top_tran_per =  $set_count_top>0?round($top_tran/$set_count_top*100,2):0;
-            $green_tran_per =  $set_count_green>0?round($green_tran/$set_count_green*100,2):0;
-            $grab_tran_per =  $set_count_grab>0?round($grab_tran/$set_count_grab*100,2):0;
-            $normal_tran_per =  $set_count_normal>0?round($normal_tran/$set_count_normal*100,2):0;
+            $normal_seller_total_grab = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,1); //咨询/老师普通排课总体(抢课)
+            $grab_tran_per = !empty($normal_seller_total_grab["person_num"])?round($normal_seller_total_grab["have_order"]/$normal_seller_total_grab["person_num"]*100,2):0;
+
+            $normal_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,0); //咨询/老师普通排课总体(非抢课)
+            $normal_tran_per = !empty($normal_seller_total["person_num"])?round($normal_seller_total["have_order"]/$normal_seller_total["person_num"]*100,2):0;
+
+            $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+            $hls_tran_per = !empty(@$change_test_person_num["person_num"])?round($change_test_person_num["have_order"]/$change_test_person_num["person_num"]*100,2):0;
+            $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1);
+            $kk_tran_per = !empty(@$kk_test_person_num["person_num"])?round($kk_test_person_num["have_order"]/$kk_test_person_num["person_num"]*100,2):0;
+            $scc_test_info =$task->t_lesson_info->get_teacher_test_person_num_list_total($start_time,$end_time);
+
+            $seller_tran_per = !empty(@$scc_test_info["person_num"])?round($scc_test_info["have_order"]/$scc_test_info["person_num"]*100,2):0;
+            
+            $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+            $all_tran_per = !empty(@$success_test_lesson_list_total["success_lesson"])?round($success_test_lesson_list_total["order_number"]/$success_test_lesson_list_total["success_lesson"]*100,2):0;
+
+
+
+
+
+
+            // $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
+            // $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
+            // $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
+            // $hls_tran_per =  $set_count_hls>0?round($hls_tran/$set_count_hls*100,2):0;
+            // $top_tran_per =  $set_count_top>0?round($top_tran/$set_count_top*100,2):0;
+            // $green_tran_per =  $set_count_green>0?round($green_tran/$set_count_green*100,2):0;
+            // $grab_tran_per =  $set_count_grab>0?round($grab_tran/$set_count_grab*100,2):0;
+            // $normal_tran_per =  $set_count_normal>0?round($normal_tran/$set_count_normal*100,2):0;
             $jw_num = count($ret_info);
             $set_count_avg = $jw_num>0?round($set_count_all/$jw_num,1):0;
             $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
@@ -296,7 +320,7 @@ class update_teaching_core_data extends Command
             $teacher_leave_per = @$lesson_list["normal_num"]>0?round(@$teacher_leave_lesson/$lesson_list["normal_num"]*100,2):0;
 
             //换老师申请
-            $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+            // $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
             $change_tea_num = @$change_test_person_num["change_order"];
             $change_tea_per = $tea_num_all_normal>0?round($change_tea_num/$tea_num_all_normal*100,2):0;
 
@@ -440,6 +464,6 @@ class update_teaching_core_data extends Command
             ]);
 
 
-            //}	
+        }	
     }
 }

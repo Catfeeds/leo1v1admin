@@ -658,15 +658,15 @@ class wx_yxyx_common extends Controller
             // $agent_arr = [];
         }
 
-        // dd($openid);
         session(['yxyx_openid'=>$openid]);
 
         if($agent_arr){ // ==> 活动页面
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
         }elseif(!$openid){ // 绑定会员的页面
             header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2");
         }
-	return $this->output_succ();
+	// return $this->output_succ();
 
     }
+
 }
