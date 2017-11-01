@@ -421,7 +421,6 @@ class wx_parent_gift extends Controller
         $eleven = strtotime('2017-11-11');
         $prize_type = 0; // 奖品类型
 
-
         /**
            array(1,"","书包" ),
            array(2,"","10元折扣券" ),
@@ -489,15 +488,17 @@ class wx_parent_gift extends Controller
                     $prize_type=4;
                 }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
                     $prize_type=5;
-                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.10
+                }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
                     $prize_type=7;
-                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
                     $prize_type=7;
-                }else{ // 10元折扣券/试听课
-
+                }else{ // 10元折扣券
+                    $prize_type=2;
                 }
             }
         }
+
+        return $prize_type;
 
 
     }
