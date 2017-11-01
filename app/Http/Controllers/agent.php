@@ -1992,7 +1992,7 @@ class agent extends Controller
             $item['rank_count']--;
             $item['ok_lesson_count']--;
             $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
-            if($item['rank_cound']) {
+            if($item['rank_count']) {
                 $item['ok_lesson_rate'] = $item['ok_count']/$item['rank_count'];
             }
             if($item['user_count']) {
