@@ -546,7 +546,6 @@ class user_manage extends Controller
             3 => array("app_time", "申请日期"),
         ],3);
 
-
         $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_int_val('contract_type',-1);
         $contract_status   = $this->get_in_int_val('contract_status',-1);
@@ -606,9 +605,9 @@ class user_manage extends Controller
             -1, $assistantid,"",$stu_from_type,$sys_operator,
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
-            $referral_adminid,$opt_date_type
-            , " t2.assistantid asc , order_time desc"
-            , $spec_flag,$orderid ,$order_activity_type,$show_son_flag
+            $referral_adminid,$opt_date_type,
+            " t2.assistantid asc , order_time desc",
+            $spec_flag,$orderid ,$order_activity_type,$show_son_flag
         );
 
         $all_lesson_count = 0;

@@ -28,7 +28,7 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
             ["pay_time<%u",$end_time,0],
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,"
-                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,money "
+                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,ts.money,ts.pay_status "
                                   ." from %s ts "
                                   ." left join %s t on ts.teacherid=t.teacherid "
                                   ." where %s "
