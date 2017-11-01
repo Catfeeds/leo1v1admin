@@ -419,8 +419,9 @@ $(function(){
         } ) ;
 
         var do_post= function (opt_adminid) {
-            var assign_time=$("<input/>");
+            var $assign_time=$("<input/>");
             var $arr=[
+                ["分配时间,(不填未当前)" ,  $assign_time ]
             ];
             $.do_ajax(
                 '/ss_deal/set_adminid',
