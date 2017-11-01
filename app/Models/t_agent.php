@@ -2342,7 +2342,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'o.contract_type=0',
             'o.contract_status>0',
             'o.pay_time>0',
-            'tq.id>0',
             'l.lesson_del_flag=0',
         ];
 
@@ -2375,7 +2374,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid"
             ." left join %s r on r.userid=na.userid"
-            ." left join %s tq on tq.phone=na.phone"
+            ." left join %s tq on tq.phone=na.phone and tq.id>0"
             ." left join %s l on l.lessonid=na.test_lessonid"
             ." where %s "
             ." group by a.id"
