@@ -51,6 +51,8 @@ class ss_deal extends Controller
                 "system"
             );
         }
+
+        $this->t_user_log->add_data("新增例子");
         return $this->output_succ();
     }
 
@@ -137,6 +139,9 @@ class ss_deal extends Controller
             return $this->output_err("还没选择例子");
         }
         $this->t_seller_student_new->set_level_b($userid_list, $origin_level );
+
+        // 添加操作日志
+        $this->t_user_log->add_data("设置可抢");
         return $this->output_succ();
     }
     public function free_to_new_user() {
@@ -172,6 +177,9 @@ class ss_deal extends Controller
         }
 
         $this->t_student_info->update_origin_list($userid_list,$origin) ;
+
+        // 添加操作日志
+        $this->t_user_log->add_data("设置渠道");
         return $this->output_succ();
     }
 
@@ -219,7 +227,6 @@ class ss_deal extends Controller
         $userid_list_str= $this->get_in_str_val("userid_list");
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         $seller_resource_type = $this->get_in_int_val('seller_resource_type');
-        $assign_time =$this->get_in_unixtime_from_str("assign_time");
         //dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
@@ -231,6 +238,7 @@ class ss_deal extends Controller
 
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
+//$opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
                 $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time );
 
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
@@ -4037,6 +4045,8 @@ class ss_deal extends Controller
             }
         }
 
+        // 添加操作日志
+        $this->t_user_log->add_data("公海->新");
         return $this->output_succ();
     }
 
@@ -4278,6 +4288,9 @@ class ss_deal extends Controller
         foreach( $id_list as $id ){
             $this->t_teacher_lecture_appointment_info->field_update_list($id,["lecture_revisit_type"=>$lecture_appointment_status]);
         }
+
+        // 添加操作日志
+        $this->t_user_log->add_data("批量修改状态");
         return $this->output_succ();
     }
 
