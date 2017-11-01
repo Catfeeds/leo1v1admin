@@ -1667,7 +1667,12 @@ $(function(){
                     title      : "精选维度",
                     width      : 50,
                     field_name : "fine_dimension"
+                },{
+                    title      : "地区",
+                    width      : 50,
+                    field_name : "address"
                 }
+
             ] ,
             //查询列表
             filter_list : [

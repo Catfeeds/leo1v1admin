@@ -611,13 +611,16 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
-        $start_time = 1509638400; // 2017-11-03
+        // $start_time = 1509638400; // 2017-11-03
+        $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
         if($agent_info){
             $parentid    = $agent_info['userid'];
+            $p_agent_id  = $agent_info['id'];
             $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
-            $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
+
+            $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
             $ret_info['invite_num'] = count($invite_info);
             $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
             $ret_info['phone'] = $agent_info['phone'];

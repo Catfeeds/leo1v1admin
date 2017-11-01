@@ -5869,6 +5869,11 @@ class ss_deal extends Controller
             }else{
                 $item["fine_dimension"]="其他";
             }
+            if(empty($item["address"])){
+                $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
+                $item["address"]   = substr($item["address"], 0, -6);
+            }
+
 
 
         }
