@@ -2332,7 +2332,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function get_yxyx_member($start_time, $end_time,$nickname,$phone){
+    public function get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info){
 
         $where_arr = [
             ['na.create_time>=%u', $start_time, -1],
@@ -2378,7 +2378,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,$where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info);
 
     }
 }
