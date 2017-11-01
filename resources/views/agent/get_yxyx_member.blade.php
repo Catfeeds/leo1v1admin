@@ -55,7 +55,7 @@
                         <td>{{@$var["user_count"]}} </td>
                         <td>{{@$var["no_revisit_count"]}} </td>
                         <td>{{@$var["no_phone_count"]}} </td>
-                        <td>{{@$var["ok_count_count"]}} </td>
+                        <td>{{@$var["ok_phone_count"]}} </td>
                         <td>{{@$var["rank_count"]}} </td>
                         <td>{{@$var["ok_lesson_count"]}} </td>
                         <td>{{@$var["ok_lesson_rate"]}} </td>
