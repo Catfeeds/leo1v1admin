@@ -1223,13 +1223,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "select t.test_lesson_subject_id,t.subject,"
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
-            ."l.lesson_start "
+            ."l.lesson_start, "
+            ."tss.ass_test_lesson_order_fail_flag"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s m on n.admin_revisiterid=m.uid  "
             ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid ) "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
+            ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
             ." where %s ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
@@ -1237,7 +1239,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_manager_info::DB_TABLE_NAME,
             t_test_subject_free_list::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
-             $where_arr
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            $where_arr
         );
         if($nick || $phone) {
             return $this->main_get_list_as_page($sql);
