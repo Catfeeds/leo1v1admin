@@ -2822,7 +2822,9 @@ $(function(){
         });
     }
 
-    download_hide();
+    if(g_adminid != 349){
+        download_hide();
+    }
     $(".opt-download-test-paper").show();
    // $(".page-opt-show-all-xls").hide();
 

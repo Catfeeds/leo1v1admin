@@ -5804,6 +5804,7 @@ class ss_deal extends Controller
 
     public function get_teacher_list ()
     {
+        $this->switch_tongji_database();
         $page_num     = $this->get_in_page_num();
         $lesson_time  = $this->get_in_int_val("lesson_time");
         $end_time = $lesson_time+2400;
@@ -5814,7 +5815,6 @@ class ss_deal extends Controller
         $lstart    = $date_week["sdate"];
         $lend      = $date_week["edate"];
 
-        $this->t_teacher_info->switch_tongji_database();
         $ret_info     = $this->t_teacher_info->get_all_usefull_teacher_list($page_num,$teacherid_arr,$subject,$grade,$lstart,$lend);
         foreach($ret_info['list'] as &$item){
             $item['subject']      = E\Esubject::get_desc ($item['subject' ]) ;
