@@ -1992,13 +1992,13 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
 
         foreach ($ret_info['list'] as &$item){
-            $item['revisit_count']--;
+            $item['no_revisit_count']--;
             $item['ok_phone_count']--;
             $item['no_phone_count']--;
             $item['rank_count']--;
             $item['ok_lesson_count']--;
             $item['price'] = $item['price']/100;
-            $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+            // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
             if($item['rank_count']) {
                 $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
             } else {
