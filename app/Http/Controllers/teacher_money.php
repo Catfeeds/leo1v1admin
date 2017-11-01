@@ -469,7 +469,7 @@ class teacher_money extends Controller
         $idcard        = $this->get_in_str_val("idcard");
 
         $is_test_user = $this->t_teacher_info->get_is_test_user($teacherid);
-        if(!$is_test_user){
+        if(!$is_test_user && $type!="admin"){
             if($teacherid==0){
                 $error_info="老师未登录!";
             }elseif($bank_account==""){
@@ -663,11 +663,12 @@ class teacher_money extends Controller
     }
 
     public function teacher_salary_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
 
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time);
-        foreach($ret_info as &$t_val){
+        foreach($ret_info['list'] as &$t_val){
             $t_val['money']/=100;
+            $t_val['agent_money']=0;
         }
 
         return $this->pageView(__METHOD__,$ret_info);
