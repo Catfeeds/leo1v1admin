@@ -2332,9 +2332,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function get_yxyx_member(){
+    public function get_yxyx_member($start_time, $end_time,$nickname,$phone){
 
         $where_arr = [
+            ['na.create_time>=%u', $start_time, -1],
+            ['na.create_time<%u', $end_time, -1],
             's.is_test_user=0',
             'na.type in (1,3)',
             'o.contract_type=0',
@@ -2347,10 +2349,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
             ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
             ." count(distinct if(r.revisit_time<1,na.userid,0 ) ) revisit_count,"
-            ." count(distinct if(tq.is_called_phone=1,na.userid,0 ) ) ok_count,"
-            ." count(distinct if(tq.is_called_phone=0,na.userid,0 ) ) no_count,"
+            ." count(distinct if(tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
+            ." count(distinct if(tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
             ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
-            ." count(distinct if(l.lesson_user_online_status=1,na.userid,0 ) ) test_lesson_count"
+            ." count(distinct if(l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count"
             ." from %s a "
             ." left join %s aa on aa.id=a.parentid"
             ." left join %s aaa on aaa.id=aa.parentid"
