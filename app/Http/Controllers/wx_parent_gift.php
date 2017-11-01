@@ -298,6 +298,12 @@ class wx_parent_gift extends Controller
 
     ***/
 
+    public function get_prize_list(){
+        $parentid = $this->get_parentid();
+
+        // $prize_list = $
+    }
+
     public function get_draw_num($parentid){
         // 检查是否分享朋友圈
 
@@ -353,20 +359,18 @@ class wx_parent_gift extends Controller
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
         $stu_type = 1;
-        if($check_time>$reg_time && $has_buy>0){ // 老用户
-            $stu_type = 2;
+        if($check_time>$reg_time && $has_buy>0){
+            $stu_type = 2; // 老用户
         }else{
-            $stu_type = 1;
+            $stu_type = 1; // 新用户
         }
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
         $limit_arr = $this->get_limit_num($stu_type);
 
-
         $is_pass = 0;
-
-        if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){ // 书包
+        if($draw_num_arr['bag_num']>$limit_arr['bag_num']){ // 书包
             $is_pass = 1;
         }elseif($draw_num_arr['three_free_num'] >$limit_arr['three_free_num']){ // 3次免费课
             $is_pass = 1;
@@ -381,10 +385,35 @@ class wx_parent_gift extends Controller
         }
 
         // 抽奖
-        $prize_type = $this->get_win_rate($parentid);
+        if($is_pass){
+            if($stu_type==1){ // 新用户
+                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                if($is_test>0){
+                    $prize_type=2;
+                }else{
+                    $prize_type=8;
+                }
+            }elseif($stu_type==2){ //老用户
+                $prize_type=2;
+            }
+        }else{
+            $prize_type = $this->get_win_rate($parentid);
+        }
 
+        // 微信通知
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
+        $data_msg = [
+            "first"     => " 您好，您的双十一奖品券已存放进您的账户",
+            "keyword1"  => "获奖详情",
+            "keyword2"  => "点击服务中心→奖品区即可兑换奖券",
+            "keyword3"  => date('Y-m-d H:i:s'),
+        ];
+        $url = '';
+        $wx=new \App\Helper\Wx();
+        $p_openid = $this->t_parent_info->get_wx_openid($parentid);
+        $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
 
-
+        return $this->output_succ(['prize'=>$prize_type]);
     }
 
 
