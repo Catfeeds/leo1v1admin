@@ -812,12 +812,26 @@ class common extends Controller
             return "";
         }
 
+
+
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_pic.png";
+
+        if ( \App\Helper\Utils::check_env_is_test() ) {
+            $phone_qr_name = $phone."_qr_agent_new_pic_t.png";
+        }else{
+            $phone_qr_name = $phone."_qr_agent_new_pic.png";
+        }
+        $qiniu_url     = $qiniu['public']['url'];
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
-            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=2";
+            if (\App\Helper\Utils::check_env_is_test() ) {
+                $www_url="test.www.leo1v1.com";
+            }else{
+                $www_url="www.leo1v1.com";
+            }
+
+            $text         = "http:/$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;

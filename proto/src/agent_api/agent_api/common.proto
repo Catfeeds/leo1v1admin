@@ -131,6 +131,10 @@ message income_info{
   float is_cash_money = 4;//正在体现金额
 }
 message invite_list{
+  common.yxyx_page page_info = 1;//分页信息
+  common.invite_list_info list = 2;//邀请详情
+}
+message invite_list_info{
   string nickname = 1;//昵称
   string create_time = 2;//进入时间
   float agent_status_money = 3;//奖励金额

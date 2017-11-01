@@ -281,7 +281,8 @@ class cr_info_month extends Command
 
         $month_real_renew_num = empty($month_renew_student_list)?0: count($month_renew_student_list); //  实际续费学生数量
 
-        $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_real_renew_num/$month_warning_num,2);//  月续费率
+
+        $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$arr['real_renew_num']/$month_warning_num,2);//  月续费率
         $arr['finish_renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_plan_renew_num/$month_warning_num,2);//  月续费率
 
         $insert_data = [
