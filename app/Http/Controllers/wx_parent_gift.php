@@ -612,9 +612,9 @@ class wx_parent_gift extends Controller
         $openid = session('yxyx_openid');
         $start_time = 1509638400; // 2017-11-03
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
-        $parentid = $agent_info['userid'];
 
         if($agent_info){
+            $parentid    = $agent_info['userid'];
             $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
             $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
             $ret_info['invite_num'] = count($invite_info);
@@ -625,7 +625,11 @@ class wx_parent_gift extends Controller
                 $ret_info['light_num']=4;
             }
         }else{
-            $ret_info = [];
+            $ret_info = [
+                "invite_num" => 0,
+                "light_num"  => 0,
+                "phone"      => 0
+            ];
         }
 
 
