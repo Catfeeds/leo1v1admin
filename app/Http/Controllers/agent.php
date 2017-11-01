@@ -1983,9 +1983,9 @@ class agent extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $phone = trim($this->get_in_str_val('phone',''));
         if($phone > 100000) {
-            $nick_name = '';
+            $nickname = '';
         } else {
-            $nick_name = $phone;
+            $nickname = $phone;
             $phone = '';
         }
         $page_info = $this->get_in_page_info();
