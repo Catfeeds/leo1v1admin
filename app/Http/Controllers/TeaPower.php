@@ -3940,7 +3940,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $teacher_info       = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_money_type = $teacher_info['teacher_money_type'];
-        $teacher_ref_type   = $teacher_info['teacher_money_type'];
+        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
         $teacher_type       = $teacher_info['teacher_type'];
         //检测老师是否需要被渠道抽成
         $check_flag = $this->t_teacher_lecture_appointment_info->check_tea_ref($teacherid,$teacher_ref_type);
