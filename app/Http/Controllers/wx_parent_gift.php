@@ -300,21 +300,21 @@ class wx_parent_gift extends Controller
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
-
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
 
         foreach($prize_list as &$item){
             if($item['get_prize_time']>0){
-                $item[''] = '';
+                $item['exchanged'] = 1;// 已兑换
+            }else{
+                $item['exchanged'] = 0;
             }
         }
 
         return $this->output_succ(["data"=>$prize_list]);
     }
 
-    public function get_draw_num($parentid){
+    public function get_draw_num($parentid){ //
         // 检查是否分享朋友圈
-
         $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
