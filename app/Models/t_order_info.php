@@ -918,7 +918,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
     public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
-
         $where_arr = [
             "is_test_user=0",
             "contract_type =0 ",
@@ -1957,8 +1956,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function  del_contract ($orderid,$userid) {
         $sql = sprintf("delete from %s "
-                       . "where orderid = %u  and contract_status = 0 and userid=%u and pre_pay_time=0 ",
-                       self::DB_TABLE_NAME,$orderid,$userid);
+                       . "where orderid = %u "
+                       ." and contract_status = 0 "
+                       ." and userid=%u "
+                       ." and pre_pay_time=0 "
+                       ,self::DB_TABLE_NAME
+                       ,$orderid,$userid
+        );
         return $this->main_update($sql);
     }
 

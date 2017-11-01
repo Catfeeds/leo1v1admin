@@ -467,13 +467,16 @@ class agent extends Controller
     public function test_new(){
         $order_by_str = $this->get_in_str_val('order_by_str','');
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $time = time(null);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
+            }
+        }
         $group_start_time=   $start_time;
-        if($start_time == 1504195200){//9月,9.1-10.2
-            $end_time = 1506960000;
-        }
-        if($start_time == 1506787200){//10月,10.3-10.31
-            $start_time = 1506960000;
-        }
         $start_first = date('Y-m-01',$start_time);
         $adminid=$this->get_account_id();
 
@@ -545,9 +548,7 @@ class agent extends Controller
 
         $ret_info_first = [];
         $ret_info_two = [];
-        dd($ret_info);
         foreach ($ret_info["list"] as $key=> &$item) {
-            $item["index"] = isset($item["index"])?$item["index"]:0;
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
             if($key == 0){
@@ -560,6 +561,8 @@ class agent extends Controller
             $ret_info["list"][0] = $ret_info_two;
             $ret_info["list"][1] = $ret_info_first;
         }
+        $ret_info["list"] = array_filter($ret_info["list"]);
+        dd($ret_info["list"]);
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
         $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);

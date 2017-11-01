@@ -492,7 +492,6 @@ $(function(){
                     if(result.ret==-1){
                         alert(result.info);
                     }else{
-                        
                         window.location.reload();
                     }
                 });

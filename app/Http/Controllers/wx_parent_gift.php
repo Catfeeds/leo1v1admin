@@ -390,60 +390,115 @@ class wx_parent_gift extends Controller
         }
 
 
+        // 抽奖
+
+        $rate = mt_rand(0,10000);
+
+        if($rate>1000 && $rate<=2000){ // 书包 10
+
+        }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
+
+        }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
+
+        }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
+
+        }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
+
+        }else{ // 10元折扣券/试听课
+
+        }
+
+
+
 
     }
 
 
     public function get_win_rate($stu_type){ // 获取中奖概率
-        $ret_info = [];
-        $bag_num_rate = 0;
-        $three_free_num_rate = 0;
-        $test_lesson_num_rate = 0;
-        $fifty_coupon_num_rate = 0;
-        $one_hundred_coupon_num_rate = 0;
-        $five_hundred_coupon_num_rate = 0;
-        $three_hundred_coupon_num_rate = 0;
 
+        $rate   = mt_rand(0,10000);
         $today  = time();
         $eleven = strtotime('2017-11-11');
+        $prize_type = 0; // 奖品类型
+
+
+        /**
+           array(1,"","书包" ),
+           array(2,"","10元折扣券" ),
+           array(3,"","50元折扣券" ),
+           array(4,"","100元折扣券" ),
+           array(5,"","300元折扣券" ),
+           array(6,"","500元折扣券" ),
+           array(7,"","免费3次正式课" ),
+           array(8,"","试听课" ),
+         **/
 
         if($stu_type == 1){ // 新用户
             if($today < $eleven){
-                $bag_num_rate = 1000;
-                $three_free_num_rate = 0;
-                $test_lesson_num_rate = 0;
-                $fifty_coupon_num_rate = 0;
-                $one_hundred_coupon_num_rate = 0;
-                $five_hundred_coupon_num_rate = 0;
-                $three_hundred_coupon_num_rate = 0;
-            }elseif($today >= $eleven && $today<$twelve){
-                $bag_num_rate = 0;
-                $three_free_num_rate = 0;
-                $test_lesson_num_rate = 0;
-                $fifty_coupon_num_rate = 0;
-                $one_hundred_coupon_num_rate = 0;
-                $five_hundred_coupon_num_rate = 0;
-                $three_hundred_coupon_num_rate = 0;
+                if($rate>1000 && $rate<=2000){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
+                    $prize_type=3;
+                }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
+                    $prize_type=4;
+                }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
+                    $prize_type=7;
+                }else{ // 10元折扣券/试听课
+
+                }
+            }else{
+                if($rate>1000 && $rate<=2250){ // 书包 12.5
+                    $prize_type=1;
+                }elseif($rate>3000 && $rate<=4125){ // 50元折扣券  12.5
+                    $prize_type=3;
+                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                    $prize_type=7;
+                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                    $prize_type=7;
+                }else{ // 10元折扣券/试听课
+
+                }
             }
-        }elseif($stu_type == 2){ // 老用户
-            if($today >= $six){
-                $bag_num = 5;
-                $fifty_coupon_num = 50;
-                $one_hundred_coupon_num = 10;
-                $three_hundred_coupon_num = 3;
+        }elseif($stu_type==2){ //老用户
+            if($today < $eleven){
+                if($rate>100 && $rate<=150){ // 书包 0.5
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>1500 && $rate<=1530){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5010){ // 3次免费课程 0.1
+                    $prize_type=7;
+                }else{ // 10元折扣券
+                    $prize_type=2;
+                }
+            }else{
+                if($rate>1000 && $rate<=2250){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>3000 && $rate<=4125){ // 50元折扣券  12.5
+                    $prize_type=3;
+                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                    $prize_type=7;
+                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                    $prize_type=7;
+                }else{ // 10元折扣券/试听课
+
+                }
             }
         }
 
-        $ret_info = [
-            "bag_num" => $bag_num,
-            "three_free_num"   => $three_free_num,
-            "fifty_coupon_num" => $fifty_coupon_num,
-            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
-            "three_hundred_coupon_num" => $three_hundred_coupon_num,
-            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
-        ];
-
-        return $ret_info;
 
     }
 

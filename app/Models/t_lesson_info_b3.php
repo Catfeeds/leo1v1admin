@@ -295,7 +295,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
             $where_arr[] = ["tss.grab_flag=%u",$grab_flag,-1];
+        }elseif($require_type==4){
+            $where_arr[] = "tq.seller_top_flag=1";
+            $where_arr[] = "tq.is_green_flag =0";
+
+        }elseif($require_type==5){
+            $where_arr[] = "tq.seller_top_flag=1";
+            $where_arr[] = "tq.is_green_flag =1";
+
         }
+
         if($full_time_flag==1){
             $where_arr[]="m.account_role=5";
         }
