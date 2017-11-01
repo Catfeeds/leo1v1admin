@@ -127,25 +127,29 @@ class TeacherMoneyTask extends TaskController
     }
 
     /**
-     * 设置老师工资信息
+     * @param int type
+     * @param int timestamp 需重置的老师工资的时段
      */
-    public function set_teacher_salary_list($type,$start_time=0){
-        $start_time = $start_time==0?time():$start_time;
-        $month_time = \App\Helper\Utils::get_month_range($start_time,true);
-        echo "start";
-        echo PHP_EOL;
-        $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
-
+    public function set_teacher_salary_list($type,$timestamp=0){
+        if($timestamp==0){
+            $timestamp = time();
+        }
+        $month_range = \App\Helper\Utils::get_month_range($timestamp,true);
+        $start_time = $month_range['sdate'];
+        $end_time = $month_range['edate'];
+        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         $teacher_money = new \App\Http\Controllers\teacher_money();
         foreach($tea_list as $t_val){
-            $teacherid   = $t_val['teacherid'];
-            $salary_info = $teacher_money->set_teacher_salary($teacherid);
-            var_dump($salary_info);
-            exit;
+            $salary_info = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
+            $lesson_1v1_money = $salary_info['lesson_normal']+$salary_info['lesson_trial']+$salary_info['lesson_reward']+$salary_info['lesson_reward_trial'];
+
+            $this->t_teacher_salary_list->row_insert([
+                "teacherid"    => $t_val['teacherid'],
+                "teacher_type" => $t_val['teacher_type'],
+                "pay_time"     => $start_time,
+            ]);
         }
-
     }
-
 
 
 }

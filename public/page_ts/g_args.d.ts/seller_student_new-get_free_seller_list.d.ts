@@ -10,6 +10,7 @@ interface GargsStatic {
 	grade:	number;//App\Enums\Egrade
 	has_pad:	number;//App\Enums\Epad_type
 	subject:	number;//App\Enums\Esubject
+	test_lesson_count_flag:	number;
 	origin:	string;
 }
 declare module "g_args" {
@@ -21,14 +22,16 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	test_lesson_subject_id	:any;
+	subject	:any;
 	add_time	:any;
 	userid	:any;
 	phone	:any;
 	phone_location	:any;
-	grade	:any;
-	subject	:any;
 	has_pad	:any;
+	user_desc	:any;
+	grade	:any;
 	origin	:any;
+	nick	:any;
 	has_pad_str	:any;
 	subject_str	:any;
 	grade_str	:any;
@@ -43,21 +46,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-get_free_seller_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		phone_name:	$('#id_phone_name').val(),
+		grade:	$('#id_grade').val(),
+		has_pad:	$('#id_has_pad').val(),
+		subject:	$('#id_subject').val(),
+		test_lesson_count_flag:	$('#id_test_lesson_count_flag').val(),
+		origin:	$('#id_origin').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			phone_name:	$('#id_phone_name').val(),
-			grade:	$('#id_grade').val(),
-			has_pad:	$('#id_has_pad').val(),
-			subject:	$('#id_subject').val(),
-			origin:	$('#id_origin').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
@@ -77,6 +82,7 @@ $(function(){
 	$('#id_grade').val(g_args.grade);
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_subject').val(g_args.subject);
+	$('#id_test_lesson_count_flag').val(g_args.test_lesson_count_flag);
 	$('#id_origin').val(g_args.origin);
 
 
@@ -116,6 +122,13 @@ $(function(){
                 <span class="input-group-addon">科目</span>
                 <select class="opt-change form-control" id="id_subject" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_count_flag</span>
+                <input class="opt-change form-control" id="id_test_lesson_count_flag" />
             </div>
         </div>
 

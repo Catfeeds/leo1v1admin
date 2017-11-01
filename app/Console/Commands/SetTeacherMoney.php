@@ -39,15 +39,8 @@ class SetTeacherMoney extends cmd_base
     public function handle()
     {
         $task = new \App\Console\Tasks\TeacherMoneyTask();
-        $type = $this->option('type');
-        $day  = $this->option('day');
-
-        if($type===null){
-            $type = 2;
-        }
-        if($day===null){
-            $day = 0;
-        }
+        $type  = $this->get_in_value('type',2);
+        $day   = $this->get_in_value('day',0);
 
         if($type==1){
             $task->set_teacher_lesson_total_list();

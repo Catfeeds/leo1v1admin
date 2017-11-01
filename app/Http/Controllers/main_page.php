@@ -2536,7 +2536,6 @@ class main_page extends Controller
                 $total['attend_sum'] += $item['attend_sum'];
                 $total['adopt_sum'] += $item['adopt_sum'];
             }
-            dd($ret_info);
 
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
@@ -2611,10 +2610,10 @@ class main_page extends Controller
 
         // 模拟试听总排课人数
         $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        if ($imit_sum) $info['imit_sum']++; $info['attend_sum']++;
+        if ($imit_sum) {$info['imit_sum']++; $info['attend_sum']++;}
         //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
         //if ($attend_sum) $info['attend_sum']++;
-        if ($item['simul_test_lesson_pass_time']) $info['adopt_sum']++;
+        if ($item['simul_test_lesson_pass_time'] && $item['simul_test_lesson_pass_time'] > $item['train_through_new_time']) $info['adopt_sum']++;
         return $info;
     }
 }

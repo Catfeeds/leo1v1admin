@@ -3178,20 +3178,22 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        for($i=1;$i<=10;$i++){
+
+            $time =strtotime("2016-12-01");
+            $start_time=strtotime("+".$i." month",$time);
+            echo date("Y-m-d H:i:s",$start_time)."<br>";
+            $end_time = strtotime("+".($i+1)." month",$time);
+            echo date("Y-m-d H:i:s",$end_time)."<br>";
+        }
+        dd(111);
+
         $this->switch_tongji_database();
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
+        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,30);        
 
-        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
-        dd($complaint_info);
-
-
-
-
-               
-                  
-       
-
+        dd($thirty_tea_list);
         //新老师数(入职)
         $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);
         //本月上课老师数
@@ -3451,13 +3453,13 @@ class user_deal extends Controller
         $refund_tea_num = count($arr);
 
         //常规课数大于30/60/90/120人数
-        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,3000);
+        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,30);        
         $thirty = count($thirty_tea_list);
-        $sixty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,6000);
+        $sixty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,60);
         $sixty = count($sixty_tea_list);
-        $ninty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,9000);
+        $ninty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,90);
         $ninty = count($ninty_tea_list);
-        $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,12000);
+        $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,120);
         $twl = count($twl_tea_list);
 
         //流失老师按科目分
@@ -3487,6 +3489,17 @@ class user_deal extends Controller
         $tea_num_lose_three_zonghe = $tea_num_all_old-$tea_num_old_three;
 
         //老师投诉处理
+
+        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
+        $complaint_num = count($complaint_info);
+        $deal_num = $deal_time=0;
+        foreach($complaint_info as $val){
+            if($val["deal_time"]>0){
+                $deal_time +=($val["deal_time"]-$val["add_time"]);
+                $deal_num++;
+            }
+        }
+        $deal_time = $deal_num>0?round($deal_time/$deal_num/86400,1):0;
 
 
         

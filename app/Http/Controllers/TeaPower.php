@@ -3930,12 +3930,18 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param string show_type 拉取老师工资的结束时间
      * @return array list
      */
-    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time,$show_type){
+    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
-        $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_money_type = $simple_info['teacher_money_type'];
-        $teacher_type       = $simple_info['teacher_type'];
+
+        $teacher_info       = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_type = $teacher_info['teacher_money_type'];
+        $teacher_ref_type   = $teacher_info['teacher_money_type'];
+        $teacher_type       = $teacher_info['teacher_type'];
+
+        $teacher_ref_rate = $this->get_teacher_ref_rate(
+            $start_time,$teacher_ref_type,$teacher_money_type
+        );
 
         $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){

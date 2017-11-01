@@ -60,17 +60,6 @@
             <script src="/AdminLTE-2.4.0-rc/https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="/AdminLTE-2.4.0-rc/https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <!-- 测试百度统计 -->
-        <script>
-         var _hmt = _hmt || [];
-         (function() {
-             var hm = document.createElement("script");
-             hm.src = "https://hm.baidu.com/hm.js?febb8783c7427142284e02c3bc584a61";
-             var s = document.getElementsByTagName("script")[0]; 
-             s.parentNode.insertBefore(hm, s);
-         })();
-        </script>
-
     </head>
     <body class="hold-transition skin-blue-light isidebar-mini">
         <div class="">

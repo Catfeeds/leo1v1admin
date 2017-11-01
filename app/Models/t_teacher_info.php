@@ -2960,10 +2960,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $have_flag="";
         if($lesson_total>0){
-            $have_flag = "having(sum(l.lesson_count)>$lesson_total)";
+            $have_flag = "having(count(l.lessonid)>$lesson_total)";
         }
               
-        $sql = $this->gen_sql_new("select l.teacherid,sum(l.lesson_count) lesson_total"
+        $sql = $this->gen_sql_new("select l.teacherid,count(l.lessonid) num"
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." where %s  group by l.teacherid %s"
@@ -4401,7 +4401,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['add_time<%u',$end_time,0],
             "t.teacherid=teacherid"
         ];
-        $sql = $this->gen_sql_new("select teacherid,teacher_money_type "
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,teacher_type "
                                   ." from %s t"
                                   ." where exists (select 1 from %s where %s)"
                                   ." or exists (select 1 from %s where %s)"
@@ -4498,16 +4498,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql);               
-
+        return $this->main_get_row($sql);
     }
 
-    public function get_1(){
-        $sql = $this->gen_sql_new("select 1 "
-                                  ." from %s "
-                                  ,self::DB_TABLE_NAME
-        );
-        return $this->main_get_value($sql);
-    }
 
 }

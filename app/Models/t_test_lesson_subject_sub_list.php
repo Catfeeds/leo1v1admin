@@ -1251,13 +1251,8 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
     public function get_all_lsit($start_time,$end_time,$origin_ex){
         $where_arr = [
-            "tss.lessonid > 0 ",
-            "tss.success_flag <> 2",
-            "l.lesson_type = 2 ",
-            "l.lesson_del_flag = 0 ",
-            'accept_flag=1',
-            'require_admin_type=2',
-            'is_test_user=0',
+            's.is_test_user=0',
+            'tr.accept_flag<>2',
         ];
         if($origin_ex){
             $where_arr[] = ['s.origin = %s',$origin_ex,-1];
@@ -1268,20 +1263,26 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             ." sum(if(n.test_lesson_opt_flag=1,1,0)) test_count, "
             ." sum(if(l.on_wheat_flag=1,1,0)) wheat_count, "
             ." tr.cur_require_adminid adminid "
-            ." from  %s tss "
-            ." left join %s tr ON tss.require_id = tr.require_id"
+            ." from %s tr "
             ." left join %s tt ON tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+            ." left join %s n ON n.userid = tt.userid"
+            ." left join %s s ON s.userid = tt.userid"
+            ." left join %s tss ON tss.lessonid = tr.current_lessonid"
             ." left join %s l ON tss.lessonid = l.lessonid"
-            ." left join %s n ON n.userid = l.userid"
-            ." left join %s s ON s.userid = l.userid"
+            ." left join %s c ON c.ass_from_test_lesson_id = tss.lessonid"
+            ." left join %s tc ON tc.lessonid = tr.current_lessonid"
+            ." left join %s tea ON tea.teacherid = tr.limit_require_teacherid"
             ." where %s"
             ." group by tr.cur_require_adminid "
-            , t_test_lesson_subject_sub_list::DB_TABLE_NAME
-            , t_test_lesson_subject_require::DB_TABLE_NAME
-            , t_test_lesson_subject::DB_TABLE_NAME
-            , t_lesson_info::DB_TABLE_NAME
-            , t_seller_student_new::DB_TABLE_NAME
-            , t_student_info::DB_TABLE_NAME
+            , t_test_lesson_subject_require::DB_TABLE_NAME//tr
+            , t_test_lesson_subject::DB_TABLE_NAME//tt
+            , t_seller_student_new::DB_TABLE_NAME//n
+            , t_student_info::DB_TABLE_NAME//s
+            , self::DB_TABLE_NAME//tss
+            , t_lesson_info::DB_TABLE_NAME//l
+            , t_course_order::DB_TABLE_NAME//c
+            , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
+            , t_teacher_info::DB_TABLE_NAME//tea
             , $where_arr
         );
         return $this->main_get_list($sql);

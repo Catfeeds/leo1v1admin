@@ -58,8 +58,6 @@ class add_new_tea_entry extends Command
             if ($item['subject'] == 1 && $item['grade'] == 100) {
                 $info[0] = $item;
             }
-            if ($item['subject'] == 1 && )
-            //$item['']
         }
 
 
@@ -177,7 +175,7 @@ class add_new_tea_entry extends Command
 
     public function array_init(){
         $info = [['subject' => 1, 'grade' => 100],['subject' => 1, 'grade' => 200],['subject' => 3, 'grade' => 300],[
-        'subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject']=>10]];
+        'subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
         foreach ($info as $key => $item) {
             $info[$key]['sum'] = 0;
             $info[$key]['train_tea_sum'] = 0;
