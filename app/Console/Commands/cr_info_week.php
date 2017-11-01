@@ -257,7 +257,7 @@ class cr_info_week extends Command
         }
         $arr['expect_finish_num'] = $warning_num; //预计结课学生数量
         //月初至今
-        $month_warning_list = $task->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
+        $month_warning_list = $task->t_cr_week_month_info->get_student_list_new(1,strtotime($end_month)); //月初拉上个月数据
         $month_renew_student_list = $task->t_order_info->get_renew_student_list(strtotime($end_month),$end_time);
 
         $month_warning_num = 0;
@@ -282,7 +282,7 @@ class cr_info_week extends Command
 
         $month_real_renew_num = empty($month_renew_student_list)?0: count($month_renew_student_list); //  实际续费学生数量
 
-        $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$arr['real_renew_num']/$month_warning_num,2);//  月续费率
+        $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_real_renew_num/$month_warning_num,2);//  月续费率
         $arr['finish_renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_plan_renew_num/$month_warning_num,2);//  月续费率
 
         $insert_data = [

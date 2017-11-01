@@ -119,6 +119,10 @@ class update_teaching_core_data extends Command
             //$one_time = $task->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
             $train_through_time_all = $task->t_teacher_info->get_train_through_time_new($start_time,$end_time);
             $through_avg_time = round($train_through_time_all/86400,1);
+            $task->t_teaching_core_data->field_update_list_2($start_time,1,[
+                "new_train_through_time"=>$through_avg_time              
+            ]);
+
             // $num_total = 0;
             // $time_total=0;
             // foreach($video_time as $v){
@@ -291,12 +295,12 @@ class update_teaching_core_data extends Command
             
             // $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
             // $all_tran_per = !empty(@$success_test_lesson_list_total["success_lesson"])?round($success_test_lesson_list_total["order_number"]/$success_test_lesson_list_total["success_lesson"]*100,2):0;
-            $task->t_teaching_core_data->field_update_list_2($start_time,1,[               
-                "interview_pass_num"         =>$interview_pass_num,
-                "interview_pass_time"        =>$interview_pass_time,               
-                "set_count_expand_per"         =>$kk_tran_per,
-                "set_count_change_per"         =>$hls_tran_per,               
-            ]);
+            // $task->t_teaching_core_data->field_update_list_2($start_time,1,[               
+            //     "interview_pass_num"         =>$interview_pass_num,
+            //     "interview_pass_time"        =>$interview_pass_time,               
+            //     "set_count_expand_per"         =>$kk_tran_per,
+            //     "set_count_change_per"         =>$hls_tran_per,               
+            // ]);
 
                         
 
