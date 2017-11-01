@@ -1428,6 +1428,23 @@ class test_code extends Controller
         }
     }
 
+    public function test_salary(){
+        $month_range = \App\Helper\Utils::get_month_range($timestamp,true);
+        $start_time  = $month_range['sdate'];
+        $end_time    = $month_range['edate'];
 
+        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
+        $num = 0;
+        foreach($tea_list as $t_val){
+            $num++;
+            $salary_info = $this->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
+            $lesson_money = $salary_info['lesson_price_tax'];
+            echo $lesson_money;
+            echo PHP_EOL;
+            if($num==20){
+                break;
+            }
+        }
+    }
 
 }

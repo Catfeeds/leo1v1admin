@@ -365,7 +365,7 @@ class wx_parent_gift extends Controller
 
         $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
-        $winning_rate = ''; // 中奖率
+        $winning_rate = $this->get_win_rate($stu_type); // 中奖率
 
         $is_pass = 0;
 
@@ -391,6 +391,76 @@ class wx_parent_gift extends Controller
 
 
 
+    }
+
+
+    public function get_win_rate($stu_type){
+               $ret_info = [];
+        $bag_num = 0;
+        $three_free_num = 0;
+        $test_lesson_num = 0;
+        $fifty_coupon_num = 0;
+        $one_hundred_coupon_num = 0;
+        $five_hundred_coupon_num = 0;
+        $three_hundred_coupon_num = 0;
+
+        $today  = time();
+        $six    = strtotime('2017-11-6');
+        $seven  = strtotime('2017-11-7');
+        $eight  = strtotime('2017-11-8');
+        $nine   = strtotime('2017-11-9');
+        $ten    = strtotime('2017-11-10');
+        $eleven = strtotime('2017-11-11');
+        $twelve = strtotime('2017-11-12');
+        $Thirteen = strtotime('2017-11-13');
+
+        if($stu_type == 1){ // 新用户
+            if($today < $eleven){
+                $bag_num = 80;
+                $fifty_coupon_num = 80;
+                $one_hundred_coupon_num = 30;
+                $three_hundred_coupon_num = 10;
+            }elseif($today >= $eleven && $today<$twelve){
+                $bag_num = 100;
+                $fifty_coupon_num = 100;
+                $one_hundred_coupon_num = 80;
+                $three_hundred_coupon_num = 20;
+            }elseif($today >= $twelve){
+                $bag_num = 100;
+                $fifty_coupon_num = 100;
+                $one_hundred_coupon_num = 50;
+                $three_hundred_coupon_num = 20;
+            }
+        }elseif($stu_type == 2){ // 老用户
+            if($today >= $six){
+                $bag_num = 5;
+                $fifty_coupon_num = 50;
+                $one_hundred_coupon_num = 10;
+                $three_hundred_coupon_num = 3;
+            }
+        }
+
+        if($today < $eleven){ // 免费3次课
+            $three_free_num = 1;
+        }elseif($today >= $eleven){
+            $three_free_num = 2;
+        }
+
+        if( $today>=$eight){ // 5百
+            $five_hundred_coupon_num = 1;
+        }
+
+        $ret_info = [
+            "bag_num" => $bag_num,
+            "three_free_num"   => $three_free_num,
+            "fifty_coupon_num" => $fifty_coupon_num,
+            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
+            "three_hundred_coupon_num" => $three_hundred_coupon_num,
+            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
+        ];
+
+        return $ret_info;
+ 
     }
 
 
