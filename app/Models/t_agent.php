@@ -2214,7 +2214,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr = [
             "a.create_time>=$start_time",
             "a.parentid=$pid",
-            ""
+            "a.type=1"
         ];
 
         $sql = $this->gen_sql_new("  select create_time, phone from %s a"
