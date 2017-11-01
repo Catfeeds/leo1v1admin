@@ -1945,7 +1945,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count,last_succ_test_lessonid");
         $invalid_flag = false;
         $add_time = $item_arr["add_time"];
         //连续3个人处理过了
@@ -1981,11 +1981,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ]);
             }
         }
-
+        //试听成功数
         $succ_test_info = $this->task->t_lesson_info_b2->get_succ_test_lesson_count($userid);
         $succ_count = $succ_test_info['count'];
         if($item_arr['test_lesson_count'] != $succ_count){
             $this->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+        }
+        //最后一次试听成功lessonid
+        $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
+        if($last_succ_test_lessonid != $item_arr['last_succ_test_lessonid']){
+            $this->field_update_list($userid,['last_succ_test_lessonid'=>$last_succ_test_lessonid]);
         }
 
         if ( $item_arr['global_tq_called_flag'] == 0 ) {
