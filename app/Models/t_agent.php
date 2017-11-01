@@ -2344,7 +2344,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                   ." left join %s aaaa on aaaa.parentid=aaa.id"
                                   ." left join %s s on s.userid=aaaa.userid"
                                   ." where %s "
-                                  ." group by phone1"
+                                  ." group by phone3"
                                   ,self::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
