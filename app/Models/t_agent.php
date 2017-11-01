@@ -2339,7 +2339,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['na.create_time<%u', $end_time, -1],
             's.is_test_user=0',
             'na.type in (1,3)',
-            'l.lesson_del_flag=0',
         ];
 
         if ($nickname) {
@@ -2372,7 +2371,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
             ." left join %s r on r.userid=na.userid"
             ." left join %s tq on tq.phone=na.phone and tq.id>0"
-            ." left join %s l on l.lessonid=na.test_lessonid"
+            ." left join %s l on l.lessonid=na.test_lessonid and l.lesson_del_flag=0 "
             ." where %s "
             ." group by a.id"
             ,self::DB_TABLE_NAME
