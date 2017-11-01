@@ -581,6 +581,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." and ll.lesson_start= "
                                   ." (select min(lesson_start) from %s where teacherid =l.teacherid and userid=l.userid and subject = l.subject and lesson_type in(0,3) and lesson_status =2 and confirm_flag in (0,1)) and ll.lesson_start>= %u and ll.lesson_start < %u) "
 
+                                  ." left join %s m on m.uid = tr.cur_require_adminid"
                                   ." where %s group by tr.cur_require_adminid",
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
@@ -590,6 +591,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   t_lesson_info::DB_TABLE_NAME,
                                   $start_time,
                                   $end_time,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
