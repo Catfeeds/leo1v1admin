@@ -769,7 +769,6 @@ class user_manage extends Controller
 
         $this->t_flow->flow_del_by_from_key_int($opt_adminid, E\Eflow_type::V_SELLER_ORDER_REQUIRE,$orderid);
 
-        //$this->cache_del_teacher_nick($id);
         $ret = $this->t_order_info->del_contract($orderid,$userid);
         if ($ret){
             //处理
@@ -794,7 +793,7 @@ class user_manage extends Controller
 
         return outputjson_ret($ret);
     }
-    //============================================================================================
+
     public function get_contract_count_by_courseid(){
         $courseid = $this->get_in_int_val("courseid") ;
 

@@ -1956,8 +1956,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function  del_contract ($orderid,$userid) {
         $sql = sprintf("delete from %s "
-                       . "where orderid = %u  and contract_status = 0 and userid=%u and pre_pay_time=0 ",
-                       self::DB_TABLE_NAME,$orderid,$userid);
+                       . "where orderid = %u "
+                       ." and contract_status = 0 "
+                       ." and userid=%u "
+                       ." and pre_pay_time=0 "
+                       ,self::DB_TABLE_NAME
+                       ,$orderid,$userid
+        );
         return $this->main_update($sql);
     }
 
