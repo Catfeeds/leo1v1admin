@@ -2320,6 +2320,40 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    //@desn:检测团员是否是会员
+    public function check_is_member($phone){
+        $sql = $this->gen_sql_new(
+            "select id from %s where type in (2,3) and phone = '%s' ",
+            self::DB_TABLE_NAME,
+            $phone
+        );
+        return $this->main_get_value($sql);
+    }
 
 
+    public function get_yxyx_member(){
+
+        $where_arr = [
+            'a.parentid=0',
+            's.is_test_user=0',
+        ];
+        $sql = $this->gen_sql_new("select a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,count(s.userid)"
+                                  ." from %s a "
+                                  ." left join %s aa on aa.parentid=a.id"
+                                  ." left join %s aaa on aaa.parentid=aa.id"
+                                  ." left join %s aaaa on aaaa.parentid=aaa.id"
+                                  ." left join %s s on s.userid=aaaa.userid"
+                                  ." where %s "
+                                  ." group by phone3"
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
 }

@@ -8,15 +8,35 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
 		parent::__construct();
 	}
 
+    public function check_money_is_exists($teacherid,$pay_time){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,0],
+            ["pay_time=%u",$pay_time,0],
+        ];
+        $sql = $this->gen_sql_new("select 1"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_salary_list($start_time,$end_time){
+        $where_arr = [
+            ["pay_time>=%u",$start_time,0],
+            ["pay_time<%u",$end_time,0],
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,"
+                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,money "
+                                  ." from %s ts "
+                                  ." left join %s t on ts.teacherid=t.teacherid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-

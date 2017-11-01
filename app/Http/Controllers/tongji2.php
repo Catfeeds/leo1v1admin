@@ -1439,4 +1439,16 @@ class tongji2 extends Controller
             "ret" => $ret,
         ]);
     }
+
+
+    //教学事业部核心数据
+    public function get_teaching_core_data(){
+        $list = $this->t_teaching_core_data->get_all_info(1);
+        foreach($list["list"] as &$val){
+            $val["month"] = date("Y年m月",$val["time"]);
+            
+        }
+        return $this->pageView(__METHOD__, $list);
+
+    }
 }

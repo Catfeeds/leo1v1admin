@@ -636,37 +636,35 @@ class wx_yxyx_common extends Controller
 
 
     public function check_is_login(){
-        $p_openid = $this->get_in_str_val('openid');
+        $p_phone    = $this->get_in_int_val('p_phone');
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?p_openid=".$p_openid );
+        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?p_phone=".$p_phone );
         $ret = $wx->goto_wx_login( $redirect_url );
     }
 
     public function get_openid(){
-        $p_openid   = $this->get_in_str_val('p_openid');
+        $p_phone    = $this->get_in_int_val('p_phone');
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
 
-        $p_info = $this->t_agent->get_agent_id_by_openid($p_openid); // 推荐人信息
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
-
-        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){
+        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
             // $agent_arr = [];
         }
 
-        // dd($openid);
         session(['yxyx_openid'=>$openid]);
 
-        if($agent_arr){ // ==> 活动页面
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?openid=".$openid);
-        }elseif(!$openid){ // 绑定会员的页面
-            header("Location: http://www.leo1v1.com/market-invite/index.html?p_phone=".$p_info['phone']."&type=2");
+        if(empty($agent_arr)){
+            $is_member = 2; // 不是会员
+        }else{
+            $is_member = 1;  // 是会员
         }
-	return $this->output_succ();
 
+        header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?is_member=".$is_member."&p_phone=".$p_phone);
     }
+
 }

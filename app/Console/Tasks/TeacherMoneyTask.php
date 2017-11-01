@@ -134,20 +134,31 @@ class TeacherMoneyTask extends TaskController
         if($timestamp==0){
             $timestamp = time();
         }
-        $month_range = \App\Helper\Utils::get_month_range($timestamp,true);
-        $start_time = $month_range['sdate'];
-        $end_time = $month_range['edate'];
-        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
+
         $teacher_money = new \App\Http\Controllers\teacher_money();
+        $month_range   = \App\Helper\Utils::get_month_range($timestamp,true);
+        $start_time    = $month_range['sdate'];
+        $end_time      = $month_range['edate'];
+
+        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         foreach($tea_list as $t_val){
             $salary_info = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
-            $lesson_1v1_money = $salary_info['lesson_normal']+$salary_info['lesson_trial']+$salary_info['lesson_reward']+$salary_info['lesson_reward_trial'];
+            $lesson_money = $salary_info['lesson_price_tax'];
 
-            $this->t_teacher_salary_list->row_insert([
-                "teacherid"    => $t_val['teacherid'],
-                "teacher_type" => $t_val['teacher_type'],
-                "pay_time"     => $start_time,
-            ]);
+            $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$start_time);
+            if(!$check_flag){
+                $this->t_teacher_salary_list->row_insert([
+                    "teacherid"          => $t_val['teacherid'],
+                    "teacher_type"       => $t_val['teacher_type'],
+                    "teacher_money_type" => $t_val['teacher_money_type'],
+                    "pay_time"           => $start_time,
+                    "money"              => $lesson_money,
+                ]);
+            }else{
+                $this->t_teacher_salary_list->field_update_list($t_val['teacherid'],[
+                    "money" => $lesson_money
+                ]);
+            }
         }
     }
 

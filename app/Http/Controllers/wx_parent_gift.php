@@ -365,7 +365,7 @@ class wx_parent_gift extends Controller
 
         $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
-        $winning_rate = ''; // 中奖率
+        $winning_rate = $this->get_win_rate($stu_type); // 中奖率
 
         $is_pass = 0;
 
@@ -390,6 +390,60 @@ class wx_parent_gift extends Controller
         }
 
 
+
+    }
+
+
+    public function get_win_rate($stu_type){ // 获取中奖概率
+        $ret_info = [];
+        $bag_num_rate = 0;
+        $three_free_num_rate = 0;
+        $test_lesson_num_rate = 0;
+        $fifty_coupon_num_rate = 0;
+        $one_hundred_coupon_num_rate = 0;
+        $five_hundred_coupon_num_rate = 0;
+        $three_hundred_coupon_num_rate = 0;
+
+        $today  = time();
+        $eleven = strtotime('2017-11-11');
+
+        if($stu_type == 1){ // 新用户
+            if($today < $eleven){
+                $bag_num_rate = 1000;
+                $three_free_num_rate = 0;
+                $test_lesson_num_rate = 0;
+                $fifty_coupon_num_rate = 0;
+                $one_hundred_coupon_num_rate = 0;
+                $five_hundred_coupon_num_rate = 0;
+                $three_hundred_coupon_num_rate = 0;
+            }elseif($today >= $eleven && $today<$twelve){
+                $bag_num_rate = 0;
+                $three_free_num_rate = 0;
+                $test_lesson_num_rate = 0;
+                $fifty_coupon_num_rate = 0;
+                $one_hundred_coupon_num_rate = 0;
+                $five_hundred_coupon_num_rate = 0;
+                $three_hundred_coupon_num_rate = 0;
+            }
+        }elseif($stu_type == 2){ // 老用户
+            if($today >= $six){
+                $bag_num = 5;
+                $fifty_coupon_num = 50;
+                $one_hundred_coupon_num = 10;
+                $three_hundred_coupon_num = 3;
+            }
+        }
+
+        $ret_info = [
+            "bag_num" => $bag_num,
+            "three_free_num"   => $three_free_num,
+            "fifty_coupon_num" => $fifty_coupon_num,
+            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
+            "three_hundred_coupon_num" => $three_hundred_coupon_num,
+            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
+        ];
+
+        return $ret_info;
 
     }
 
@@ -487,12 +541,8 @@ class wx_parent_gift extends Controller
 
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
-        session(['yxyx_openid'=>1]);
-
-
+        $openid = session('yxyx_openid');
         $start_time = 1509638400; // 2017-11-03
-        $openid = $this->get_in_str_val('openid');
-
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
 
@@ -500,16 +550,16 @@ class wx_parent_gift extends Controller
         $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
 
         $ret_info['invite_num'] = count($invite_info);
-        // $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0; // 测试版
+        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+        $ret_info['phone'] = $agent_info['phone'];
+
+
 
         if($ret_info['light_num'] == 1){  // 测试
             $ret_info['light_num']=4;
         }
-        $ret_info['light_num']=4;
 
 
-        $ret_info['phone'] = $agent_info['phone'];
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -517,9 +567,6 @@ class wx_parent_gift extends Controller
     public function do_luck_draw_yxyx(){ // 抽奖
 
         $openid = session('yxyx_openid');
-        return $this->output_succ(["data"=>$openid]);
-
-        $openid = $this->get_in_str_val('openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid   = $agent_info['userid'];
         $today = strtotime(date('Y-m-d'));

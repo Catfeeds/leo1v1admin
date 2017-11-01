@@ -771,9 +771,9 @@ class wx_yxyx_api extends Controller
         foreach($list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if($item['agent_status'] > 0 && $item['agent_status'] < 10)
-                $item['agent_status'] = 0;
+                $item['agent_status'] = "0";
             if($item['agent_status'] >30)
-                $item['agent_status'] = 30;
+                $item['agent_status'] = "30";
             $item['agent_status_money'] /=100;
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -781,6 +781,10 @@ class wx_yxyx_api extends Controller
         $data = $this->t_agent->member_invite($agent_id,$page_info,$page_count);
         foreach($data['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            if($item['agent_status'] > 0 && $item['agent_status'] < 10)
+                $item['agent_status'] = "0";
+            if($item['agent_status'] >30)
+                $item['agent_status'] = "30";
             $item['agent_status_money'] /=100;
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];

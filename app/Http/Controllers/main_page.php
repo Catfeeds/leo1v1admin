@@ -386,6 +386,7 @@ class main_page extends Controller
         $ret_info_first = [];
         $ret_info_two = [];
         foreach ($ret_info["list"] as $key=> &$item) {
+            $item["index"] = isset($item["index"])?$item["index"]:0;
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
             if($key == 0){
@@ -472,7 +473,6 @@ class main_page extends Controller
         //判断是不是总监
         $adminid   = $this->get_account_id();
         $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
