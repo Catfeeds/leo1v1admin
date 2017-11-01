@@ -60,38 +60,20 @@
                         </select>
                     </div>
                 </div>
+                @if(in_array($acc,["echo","adrian","ted","jim","michelle","sherry"]))
                 <div class="col-xs-6 col-md-10">
                     <div class="input-group">
-                        @if(in_array($acc,["echo","adrian","ted","jim","michelle","sherry"]))
                             <span class="input-group">课程收入</span>
                             <input id="id_lesson_price" value="0">
-                        @endif
-                        <span class="input-group">总课时</span>
-                        <input class="all_lesson_total" value="{{@$all_lesson_total}}">
-                        <span class="input-group">1对1</span>
-                        <input class="all_lesson_1v1" value="{{@$all_lesson_1v1}}">
-                        <span class="input-group">试听</span>
-                        <input class="all_lesson_trial" value="{{@$all_lesson_trial}}">
-                        <span class="input-group">课程扣款</span>
-                        <input id="id_teacher_cost" value="">
-                        <span class="input-group">工资扣税</span>
-                        <input id="id_teacher_cost_tax" value="">
                     </div>
                 </div>
+                @endif
                 <div class="col-xs-12 col-md-11">
                     <div class="input-group">
                         <span class="input-group">老师税前金额</span>
                         <input id="id_teacher_money_tax" value="">
                         <span class="input-group">老师税后金额</span>
                         <input id="id_teacher_money" value="">
-                        <span class="input-group">1对1金额</span>
-                        <input id="id_teacher_normal" value="">
-                        <span class="input-group">试听金额</span>
-                        <input id="id_teacher_trial" value="">
-                        <span class="input-group">课时奖励</span>
-                        <input id="id_teacher_reward" value="">
-                        <span class="input-group">荣誉榜</span>
-                        <input id="id_teacher_reward_ex" value="">
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-10">

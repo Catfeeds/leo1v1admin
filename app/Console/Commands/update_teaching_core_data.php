@@ -119,6 +119,10 @@ class update_teaching_core_data extends Command
             //$one_time = $task->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
             $train_through_time_all = $task->t_teacher_info->get_train_through_time_new($start_time,$end_time);
             $through_avg_time = round($train_through_time_all/86400,1);
+            $task->t_teaching_core_data->field_update_list_2($start_time,1,[
+                "new_train_through_time"=>$through_avg_time              
+            ]);
+
             // $num_total = 0;
             // $time_total=0;
             // foreach($video_time as $v){
