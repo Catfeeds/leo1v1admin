@@ -115,7 +115,7 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_seller(){
         $adminid = $this->get_account_id();
-        if($adminid==349){
+        if($adminid==349 ){
             $adminid=-1;
         }
         $this->set_in_value("limit_require_send_adminid",$adminid);
@@ -136,7 +136,7 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_jw_leader(){
         $adminid = $this->get_account_id();
-        if($adminid==349){
+        if($adminid==349 || $adminid==478){
             $adminid=-1;
         }
         $this->set_in_value("limit_require_send_adminid",$adminid);

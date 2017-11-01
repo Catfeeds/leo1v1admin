@@ -5,11 +5,11 @@ function load_data(){
     $.reload_self_page ( {
         order_by_str : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
-			  show_list_flag:	$('#id_show_list_flag').val(),
+        show_list_flag:	$('#id_show_list_flag').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
-			  call_phone_count:	$('#id_call_phone_count').val(),
-			  suc_test_count:	$('#id_suc_test_count').val(),
-			  call_count:	$('#id_call_count').val(),
+        call_phone_count:	$('#id_call_phone_count').val(),
+        suc_test_count:	$('#id_suc_test_count').val(),
+        call_count:	$('#id_call_count').val(),
         seller_level:	$('#id_seller_level').val(),
         publish_flag:	$('#id_publish_flag').val(),
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
@@ -100,20 +100,20 @@ $(function(){
     $('#id_origin').val(g_args.origin);
     $('#id_origin_ex').val(g_args.origin_ex);
 
-	  $('#id_grade').val(g_args.grade);
-	  $.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();},null,{
+    $('#id_grade').val(g_args.grade);
+    $.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();},null,{
         "小学": [100,101,102,103,104,105,106 ],
         "初中": [200,201,202,203 ],
         "高中": [300,301,302,303 ],
     } );
     $('#id_subject').val(g_args.subject);
     $('#id_phone_location').val(g_args.phone_location);
-	  $('#id_show_list_flag').val(g_args.show_list_flag);
+    $('#id_show_list_flag').val(g_args.show_list_flag);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
     $('#id_first_seller_adminid').val(g_args.first_seller_adminid);
 
-	  $('#id_seller_student_status').val(g_args.seller_student_status);
-	  $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();},null, {
+    $('#id_seller_student_status').val(g_args.seller_student_status);
+    $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();},null, {
         "已试听" :[290, 300, 301,302,420],
     } )
     $('#id_sys_invaild_flag').val(g_args.sys_invaild_flag);
@@ -122,9 +122,9 @@ $(function(){
     //wx
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
     $('#id_filter_flag').val(g_args.filter_flag);
-	  $('#id_call_phone_count').val(g_args.call_phone_count);
-	  $('#id_suc_test_count').val(g_args.suc_test_count);
-	  $('#id_call_count').val(g_args.call_count);
+    $('#id_call_phone_count').val(g_args.call_phone_count);
+    $('#id_suc_test_count').val(g_args.suc_test_count);
+    $('#id_call_count').val(g_args.call_count);
 
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "非S类": [0, 2 , 3,4,5 ]
@@ -213,7 +213,7 @@ $(function(){
     );
 
 
-    
+
     $.admin_select_user(
         $('#id_sub_assign_adminid_2'),
         "admin_group_master", load_data ,false, {
@@ -420,16 +420,32 @@ $(function(){
 
         var do_post= function (opt_adminid) {
             var $assign_time=$("<input/>");
-            var $arr=[
+            var arr=[
                 ["分配时间,(不填未当前)" ,  $assign_time ]
             ];
-            $.do_ajax(
-                '/ss_deal/set_adminid',
-                {
-                    'userid_list' : JSON.stringify(select_userid_list ),
-                    "opt_type" : 2,
-                    "opt_adminid" : opt_adminid,
+
+            $.show_key_value_table("分配时间", arr, {
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.do_ajax(
+                        '/ss_deal/set_adminid',
+                        {
+                            'userid_list' : JSON.stringify(select_userid_list ),
+                            "opt_type" : 2,
+                            "opt_adminid" : opt_adminid,
+                            "assign_time" : $assign_time.val(),
+                        });
+
+                }
+            },function(){
+                $assign_time.datetimepicker({
+                    datepicker:true,
+                    timepicker:false,
+                    format:'Y-m-d',
                 });
+            });
+
         }
 
         $.admin_select_user(
