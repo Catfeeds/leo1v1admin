@@ -398,7 +398,7 @@ class main_page extends Controller
             $ret_info["list"][0] = $ret_info_two;
             $ret_info["list"][1] = $ret_info_first;
         }
-
+        dd($ret_info);
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
         $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
@@ -472,7 +472,6 @@ class main_page extends Controller
         //判断是不是总监
         $adminid   = $this->get_account_id();
         $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
