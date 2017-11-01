@@ -346,7 +346,15 @@ class tongji2 extends Controller
         $adminid=$this->get_in_adminid(-1);
         //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
-        $month= strtotime( date("Y-m-01", $start_time));
+        $month = strtotime( date("Y-m-01", $start_time));
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if(date('m-d',$month)==date('m-d',$item['start_time'])){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
+            }
+        }
         $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
 
         $admin_list=&$ret_info["list"];
