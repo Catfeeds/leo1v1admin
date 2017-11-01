@@ -9777,4 +9777,13 @@ lesson_type in (0,1) "
         return $this->get_handle_identity_count($info);
     }
 
+    public function get_subject_for_teacherid($teacherid) {
+        $where = ['teacherid=%u',$teacherid,0];
+        $sql = $this->gen_sql_new("select subject,grade from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where
+        );
+        $info = $this->main_get_row($sql);
+    }
+
 }
