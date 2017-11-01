@@ -617,7 +617,6 @@ class wx_parent_gift extends Controller
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
-
         if($agent_info){
             $parentid    = $agent_info['userid'];
             $p_agent_id  = $agent_info['id'];
