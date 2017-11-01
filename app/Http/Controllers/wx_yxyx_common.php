@@ -341,7 +341,7 @@ class wx_yxyx_common extends Controller
             }
         }
 
-        if($type == 1){
+        if($type == 1 && $insert_flag == 0){
             $userid = null;
             $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if($userid_new){
@@ -356,7 +356,7 @@ class wx_yxyx_common extends Controller
             }else{
                 return $this->output_err("数据请求异常!");
             }
-        }else{
+        }elseif($type == 1 && $insert_flag == 1){
             return $this->output_succ("邀请成功!");
         }
     }
