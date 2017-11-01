@@ -1126,11 +1126,11 @@ class wx_yxyx_api extends Controller
 
         return $this->output_succ([
             'student_list' => $student_list,
-            'steudent_first_num' => count($student_list['list']),
+            'steudent_first_num' => $student_list['total_num'],
             'member_list' => $member_list,
-            'member_first_num' => count($member_list['list']),
+            'member_first_num' => $member_list['total_num'],
             'student_and_member_list' => $student_and_member_list,
-            'student_and_member_first_num' => count($student_and_member_list['list'])
+            'student_and_member_first_num' => $student_and_member_list['total_num']
         ]);
     }
 }
