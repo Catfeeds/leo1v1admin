@@ -818,6 +818,10 @@ class test_james extends Controller
 
 
     public function dd(){
+        dd(1==1.0);
+
+        dd(floor(5/5));
+
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
         $ret_info['seller_schedule_num_month'] = $this->t_test_lesson_subject_require->get_seller_schedule_num_month($start_time, $end_time); // 教务已排课['月排课数']

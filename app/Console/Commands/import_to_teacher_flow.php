@@ -43,7 +43,6 @@ class import_to_teacher_flow extends cmd_base
         $start_time = strtotime(date('Y-m-d 00:00:00', $time));
         $end_time = strtotime(date('Y-m-d 23:59:59', $time));
 
-
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
@@ -106,7 +105,9 @@ class import_to_teacher_flow extends cmd_base
             if (!isset($lecture[$item['teacherid']])) continue;
             if ($lecture[$item['teacherid']]['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
                 $task->t_teacher_flow->field_update_list($teacherid,[
-                    "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time']
+                    "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time'],
+                    "subject" => $lecture[$item['teacherid']]['subject'],
+                    'grade' => $lecture[$item['teacherid']]['grade']
                 ]);
             }
         }
