@@ -818,9 +818,10 @@ class test_james extends Controller
 
 
     public function dd(){
-        dd(1==1.0);
+        $a  = floor((5 - 20*4)/5)>0?floor((5 - 20*4)/5):0;
 
-        dd(floor(5/5));
+        dd($a);
+        dd(floor(-75/5));
 
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
