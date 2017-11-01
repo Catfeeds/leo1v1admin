@@ -545,6 +545,7 @@ class agent extends Controller
 
         $ret_info_first = [];
         $ret_info_two = [];
+        dd($ret_info);
         foreach ($ret_info["list"] as $key=> &$item) {
             $item["index"] = isset($item["index"])?$item["index"]:0;
             $item["index"]=$key+1;
@@ -559,7 +560,6 @@ class agent extends Controller
             $ret_info["list"][0] = $ret_info_two;
             $ret_info["list"][1] = $ret_info_first;
         }
-        dd($ret_info);
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
         $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
