@@ -10,13 +10,13 @@
             <thead>
                 <tr>
                     <td rowspan="2">时间</td>
-                    <td colspan="22">核心数据</td>
-                    <td colspan="13">招师数据</td>
-                    <td colspan="3">培训数据</td>
-                    <td colspan="16">教务数据</td>
-                    <td colspan="21">运营数据</td>                  
+                    <td colspan="22" align="center">核心数据</td>
+                    <td colspan="13" align="center">招师数据</td>
+                    <td colspan="3" align="center">培训数据</td>
+                    <td colspan="16" align="center">教务数据</td>
+                    <td colspan="21" align="center">运营数据</td>                  
                    
-                    <td rowspan="2" >操作</td>
+                    <td  >操作</td>
                 </tr>
                 <tr>
                     <td>新老师数(入职)</td>
@@ -69,6 +69,7 @@
                     <td>  抢课排课数</td>
 
                     <td>普通排课数</td>
+                    <td> 精排排课转化率(绿色通道)</td>
                     <td> 精排排课转化率</td>
                     <td> 绿色通道转化率</td>
                     <td> 抢课排课转化率</td>
@@ -102,6 +103,7 @@
 
                     <td>  老师投诉次数</td>
                     <td> 投诉处理时长</td>
+                    <td></td>
 
 
                 </tr>
@@ -109,72 +111,83 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
-                        <td > {{@$var["total_num"]}} </td>
-                        <td > {{@$var["total_test"]}} </td>
-                        <td > {{@$var["total_success"]}} </td>
-                        <td > {{@$var["total_order"]}} </td>
-                        <td > {{@$var["grade_str"]}} </td>
+                        <td > {{@$var["month"]}} </td>
+                        <td > {{@$var["new_train_through_num"]}} </td>
+                        <td > {{@$var["lesson_teacher_num"]}} </td>
+                        <td > {{@$var["new_lesson_teacher_num"]}} </td>
+                        <td > {{@$var["old_lesson_teacher_num"]}} </td>
+                        <td > {{@$var["lose_teacher_num"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three"]}} </td>
+                        <td > {{@$var["read_stu_num"]}} </td>
+                        <td > {{@$var["tea_stu_per"]}} </td>
+                        <td > {{@$var["test_teacher_num"]}} </td>
+                        <td > {{@$var["normal_teacher_num"]}} </td>
+                        <td > {{@$var["test_textbook_rate"]}}% </td>
+                        <td > {{@$var["new_train_through_per"]}}% </td>
+                        <td > {{@$var["new_train_through_time"]}}天 </td>
+                        <td > {{@$var["new_tea_thirty_stay_per"]}}% </td>
+                        <td > {{@$var["new_tea_sixty_stay_per"]}}% </td>
+                        <td > {{@$var["new_tea_ninty_stay_per"]}}% </td>
+                        <td > {{@$var["new_tea_thirty_tran_per"]}}% </td>
+                        <td > {{@$var["new_tea_sixty_tran_per"]}}% </td>
+                        <td > {{@$var["new_tea_ninty_tran_per"]}}% </td>
+                        <td > {{@$var["new_tea_thirty_lesson_count"]}} </td>
+                        <td > {{@$var["new_tea_sixty_lesson_count"]}} </td>
+                        <td > {{@$var["new_tea_ninty_lesson_count"]}} </td>
+                        <td > {{@$var["new_teacher_public"]}} </td>
+                        <td > {{@$var["new_teacher_college"]}} </td>
+                        <td > {{@$var["new_teacher_outfit"]}} </td>
+                        <td > {{@$var["appointment_num"]}} </td>
+                        <td > {{@$var["interview_pass_num"]}} </td>
+                        <td > {{@$var["new_teacher_train_num"]}} </td>
+                        <td > {{@$var["simulated_audition_num"]}} </td>
+                        <td > {{@$var["new_teacher_train_throuth_num"]}} </td>
+                        <td > {{@$var["appointment_time"]}}天 </td>
+                        <td > {{@$var["interview_pass_time"]}}天 </td>
+                        <td > {{@$var["new_teacher_train_time"]}}天 </td>
+                        <td > {{@$var["simulated_audition_time"]}}天 </td>
+                        <td > {{@$var["new_teacher_train_throuth_time"]}}天 </td>
+                        <td > {{@$var["all_new_train_num"]}} </td>
+                        <td > {{@$var["train_part_per"]}}% </td>
+                        <td > {{@$var["train_pass_per"]}}% </td>
+                        <td > {{@$var["set_count_all"]}} </td>
+                        <td > {{@$var["set_count_all_per"]}}% </td>
+                        <td > {{@$var["set_count_seller_per"]}}% </td>
+                        <td > {{@$var["set_count_expand_per"]}}% </td>
+                        <td > {{@$var["set_count_change_per"]}}% </td>
+                        <td > {{@$var["set_count_top"]}} </td>
+                        <td > {{@$var["set_count_green"]}} </td>
+                        <td > {{@$var["set_count_grab"]}} </td>
+                        <td > {{@$var["set_count_normal"]}} </td>
+                        <td > {{@$var["set_count_green_top_per"]}}% </td>
+                        <td > {{@$var["set_count_top_per"]}}% </td>
+                        <td > {{@$var["set_count_green_per"]}}% </td>
+                        <td > {{@$var["set_count_grab_per"]}}% </td>
+                        <td > {{@$var["set_count_normal_per"]}}% </td>
+                        <td > {{@$var["set_count_all_avg"]}} </td>
+                        <td > {{@$var["set_count_time_avg"]}}天 </td>
+                        <td > {{@$var["grab_success_per"]}}% </td>
+                        <td > {{@$var["teacher_late_num"]}} </td>
+                        <td > {{@$var["teacher_change_num"]}} </td>
+                        <td > {{@$var["teacher_leave_num"]}} </td>
+                        <td > {{@$var["change_tea_num"]}} </td>
+                        <td > {{@$var["teacher_refund_num"]}} </td>
+                        <td > {{@$var["teacher_late_per"]}}% </td>
+                        <td > {{@$var["teacher_change_per"]}}% </td>
+                        <td > {{@$var["teacher_leave_per"]}}% </td>
+                        <td > {{@$var["change_tea_per"]}}% </td>
+                        <td > {{@$var["thirty_lesson_tea_num"]}} </td>
+                        <td > {{@$var["sixty_lesson_tea_num"]}} </td>
+                        <td > {{@$var["ninty_lesson_tea_num"]}} </td>
+                        <td > {{@$var["hundred_twenty_lesson_tea_num"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three_chinese"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three_math"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three_english"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three_chem"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three_physics"]}} </td>
+                        <td > {{@$var["lose_teacher_num_three_multiple"]}} </td>
+                        <td > {{@$var["tea_complaint_num"]}} </td>
+                        <td > {{@$var["tea_complaint_deal_time"]}}天 </td>
 
                         <td>
                             <div class="opt-div" 

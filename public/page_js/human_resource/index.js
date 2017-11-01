@@ -68,7 +68,7 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject_plan") );
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
     Enum_map.append_option_list("identity", $("#id_identity") );
-    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[1,2,3,4,5]  );
+    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[6,7,8,9,10,11,12,13,14]  );
     Enum_map.append_option_list("region_version", $("#id_teacher_textbook") );
 
 
@@ -407,7 +407,7 @@ $(function(){
             ["每日最大排课数", id_limit_day_lesson_num],
             ["每周最大排课数", id_limit_week_lesson_num],
             ["每月最大排课数", id_limit_month_lesson_num],
-            ["教研老师周六排课数", id_saturday_lesson_num],
+            ["教研老师周六可排课时", id_saturday_lesson_num],
             ["教研周课时上限", id_week_lesson_count],
             ["是否CC要求",id_seller_require_flag]
         ];
@@ -2062,7 +2062,7 @@ $(function(){
                     "type"          : "admin",
                     "teacherid"     : data.teacherid,
                     "idcard"        : id_idcard.val(),
-                    "bankcard"     : id_bankcard.val(),
+                    "bankcard"      : id_bankcard.val(),
                     "bank_address"  : id_bank_address.val(),
                     "bank_account"  : id_bank_account.val(),
                     "bank_phone"    : id_bank_phone.val(),
@@ -2126,7 +2126,7 @@ $(function(){
 
     }
 
-    if(acc=="alina" || acc=="nina" || acc=="jack"){
+    if(acc=="alina" || acc=="nina" || acc=="jack" || $acc=="CoCo老师"){
          $("#id_plan_level").parent().parent().show();
     }else{
          $("#id_plan_level").parent().parent().hide();

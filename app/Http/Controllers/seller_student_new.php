@@ -1077,6 +1077,7 @@ class seller_student_new extends Controller
             E\Epad_type::set_item_value_str($item, "has_pad");
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
+            E\Eass_test_lesson_order_fail_flag::set_item_value_str($item);
             \App\Helper\Utils::hide_item_phone($item);
         }
 

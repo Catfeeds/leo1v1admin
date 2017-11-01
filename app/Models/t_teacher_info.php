@@ -4443,6 +4443,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    public function get_train_through_time_new($start_time,$end_time){
+        $where_arr = [
+            " is_quit=0 ",
+            " is_test_user =0",
+            "train_through_new_time>=".$start_time,
+            "train_through_new_time<".$end_time,
+            "train_through_new=1",
+            "la.id>0"
+        ];
+        $sql = $this->gen_sql_new("select AVG(t.train_through_new_time-la.answer_begin_time)"
+                                  ." from %s t left join %s la on t.phone = la.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     public function get_new_teacher_test_info($start_time,$end_time,$day_num){
         $day_time = $day_num*86400;
         $where_arr = [

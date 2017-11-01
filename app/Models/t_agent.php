@@ -2334,23 +2334,24 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_yxyx_member(){
 
         $where_arr = [
-            'a.parentid=0',
             's.is_test_user=0',
+            'na.type in (1,3)',
         ];
-        $sql = $this->gen_sql_new("select a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,count(s.userid)"
-                                  ." from %s a "
-                                  ." left join %s aa on aa.parentid=a.id"
-                                  ." left join %s aaa on aaa.parentid=aa.id"
-                                  ." left join %s aaaa on aaaa.parentid=aaa.id"
-                                  ." left join %s s on s.userid=aaaa.userid"
-                                  ." where %s "
-                                  ." group by phone3"
-                                  ,self::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,count(s.userid)"
+            ." from %s a "
+            ." left join %s aa on a.parentid=aa.id"
+            ." left join %s aaa on aa.parentid=aaa.id"
+            ." left join %s na on na.parentid=a.id"
+            ." left join %s s on s.userid=na.userid"
+            ." where %s "
+            ." group by phone1"
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
         );
 
         return $this->main_get_list($sql);
