@@ -298,6 +298,12 @@ class wx_parent_gift extends Controller
 
     ***/
 
+    public function get_prize_list(){
+        $parentid = $this->get_parentid();
+
+        // $prize_list = $
+    }
+
     public function get_draw_num($parentid){
         // 检查是否分享朋友圈
 
