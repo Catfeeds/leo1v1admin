@@ -2062,7 +2062,7 @@ $(function(){
                     "type"          : "admin",
                     "teacherid"     : data.teacherid,
                     "idcard"        : id_idcard.val(),
-                    "bankcard"     : id_bankcard.val(),
+                    "bankcard"      : id_bankcard.val(),
                     "bank_address"  : id_bank_address.val(),
                     "bank_account"  : id_bank_account.val(),
                     "bank_phone"    : id_bank_phone.val(),

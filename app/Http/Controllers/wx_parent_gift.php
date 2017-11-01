@@ -414,13 +414,12 @@ class wx_parent_gift extends Controller
     }
 
 
-    public function get_win_rate($stu_type){ // 获取中奖概率
+    public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
 
         $rate   = mt_rand(0,10000);
         $today  = time();
         $eleven = strtotime('2017-11-11');
         $prize_type = 0; // 奖品类型
-
 
         /**
            array(1,"","书包" ),
@@ -446,7 +445,12 @@ class wx_parent_gift extends Controller
                 }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
                     $prize_type=7;
                 }else{ // 10元折扣券/试听课
-
+                    $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                    if($is_test>0){
+                        $prize_type=2;
+                    }else{
+                        $prize_type=2;
+                    }
                 }
             }else{
                 if($rate>1000 && $rate<=2250){ // 书包 12.5
@@ -481,23 +485,25 @@ class wx_parent_gift extends Controller
                     $prize_type=2;
                 }
             }else{
-                if($rate>1000 && $rate<=2250){ // 书包 10
+                if($rate>100 && $rate<=200){ // 书包 10
                     $prize_type=1;
-                }elseif($rate>3000 && $rate<=4125){ // 50元折扣券  12.5
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
                     $prize_type=3;
-                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
                     $prize_type=4;
-                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
                     $prize_type=5;
-                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
                     $prize_type=7;
-                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
                     $prize_type=7;
-                }else{ // 10元折扣券/试听课
-
+                }else{ // 10元折扣券
+                    $prize_type=2;
                 }
             }
         }
+
+        return $prize_type;
 
 
     }

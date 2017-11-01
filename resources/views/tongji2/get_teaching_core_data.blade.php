@@ -159,6 +159,7 @@
                         <td > {{@$var["set_count_green"]}} </td>
                         <td > {{@$var["set_count_grab"]}} </td>
                         <td > {{@$var["set_count_normal"]}} </td>
+                        <td > {{@$var["set_count_green_top_per"]}}% </td>
                         <td > {{@$var["set_count_top_per"]}}% </td>
                         <td > {{@$var["set_count_green_per"]}}% </td>
                         <td > {{@$var["set_count_grab_per"]}}% </td>

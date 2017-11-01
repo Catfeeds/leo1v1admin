@@ -61,6 +61,7 @@
                     <td>上次回访时间</td>
                     <td>试听成功时间</td>
                     <td>回流公海时间</td>
+                    <td>未签单原因</td>
                     <td>最后一次备注</td>
                     <td>例子进入时间 </td>
                     <td>电话</td>
@@ -78,6 +79,7 @@
                         <td>{{@$var["last_revisit_time"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["free_time"]}} </td>
+                        <td>{{@$var["ass_test_lesson_order_fail_flag_str"]}}</td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["phone_hide"]}} </td>

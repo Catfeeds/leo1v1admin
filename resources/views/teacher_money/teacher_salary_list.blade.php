@@ -91,7 +91,7 @@
                     @foreach($table_data_list as $var)
                         <tr>
                             <td>{{$var['teacherid']}}</td>
-                            <td>{{$var['tea_nick']}}</td>
+                            <td>{{$var['realname']}}</td>
                             <td>{{$var['phone']}}</td>
                             <td>{{$var['bank_account']}}</td>
                             <td>身份证:{{$var['idcard']}}</td>

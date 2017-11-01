@@ -1492,7 +1492,8 @@ class tongji2 extends Controller
             }
         }
         foreach ($subject_list as $key => $value) {
-            $grade_str_1 = E\Egrade::get_desc($key);
+            $grade_str_1 = E\Egrade::get_desc($value['grade']);
+			//dd($grade_str_1);
             if(isset($list[$grade_str_1][$value['subject']])){
                 $list[$grade_str_1][$value['subject']] = $value['total'];
             }else{
