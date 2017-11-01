@@ -606,6 +606,7 @@ return array(
     'TTeacherInfoAddPhoneLocation' => $baseDir . '/database/migrations/2017_10_28_104311_t_teacher_info_add_phone_location.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTeacherSalaryAddPayColumn' => $baseDir . '/database/migrations/2017_10_28_193114_t_teacher_salary_add_pay_column.php',
+    'TTeacherSalaryListDrop' => $baseDir . '/database/migrations/2017_11_01_103117_t_teacher_salary_list_drop.php',
     'TTeachingCoreDataAddSimulatedAuditionTime' => $baseDir . '/database/migrations/2017_10_31_195157_t_teaching_core_data_add_simulated_audition_time.php',
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
     'TTestSubjectFreeListAddIndexAddTime' => $baseDir . '/database/migrations/2017_10_20_101727_t_test_subject_free_list_add_index_add_time.php',

@@ -178,9 +178,10 @@ class update_teaching_core_data extends Command
             $through_real_num=0;
             $through_time=0;
             foreach($ret_interview as $val){
-                $time = $val["confirm_time"]-$val["add_time"];
-                if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"]){
+                if($val["lesson_start"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["one_add_time"]>$val["lesson_start"]){
                     $time = $val["one_add_time"]-$val["lesson_start"];
+                }elseif($val["confirm_time"]>$val["add_time"]){
+                    $time = $val["confirm_time"]-$val["add_time"]; 
                 }
                 $interview_pass_time +=$time;
                 if($val["train_add_time"]>0 ){
