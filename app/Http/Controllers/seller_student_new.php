@@ -77,7 +77,6 @@ class seller_student_new extends Controller
             6 => array("tmk_assign_time","微信分配时间"),
             ], 0,0, true
         );
-
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
 
         $userid            = $this->get_in_userid(-1);
@@ -1039,15 +1038,14 @@ class seller_student_new extends Controller
     }
 
     public function get_free_seller_list_data() {
-        list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
-        // list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-        //     -30*6, 1, 0, [
-        //         0 => array( "add_time", "资源进来时间"),
-        //         4 => array("sub_assign_time_2","分配给主管时间"),
-        //         5 => array("admin_assign_time","分配给组员时间"),
-        //         6 => array("tmk_assign_time","微信分配时间"),
-        //     ], 0,0, true
-        // );
+        // list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -80,0,0,[
+                0 => array("n.add_time","资源进来时间"),
+                1 => array("l.lesson_start","试听成功时间"),
+                2 => array("n.free_time","回流公海时间"),
+            ], 0,0, true
+        );
         $page_num   = $this->get_in_page_num();
         $phone_name = trim($this->get_in_str_val("phone_name"));
         $nick  = "";
@@ -1068,7 +1066,7 @@ class seller_student_new extends Controller
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag);
+        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
