@@ -2167,6 +2167,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@desn:获取推荐用户上试听课信息
     public function get_child_test_lesson_info($in_str) {
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        if(\App\Helper\Utils::check_env_is_test())
+            $check_time = 1451606400;
 
         $sql = $this->gen_sql_new(
             "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "

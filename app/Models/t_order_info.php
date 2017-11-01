@@ -3641,6 +3641,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_status in (1,2)",
             "o.contract_type = 0",
             [ "o.sys_operator='%s'",  $sys_operator, "XXXX" ],
+            "o.price>0"
 
         ];
 

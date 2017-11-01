@@ -608,13 +608,15 @@ class wx_parent_gift extends Controller
 
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取学员信息
-
-        $openid = $this->get_in_int_val('o');
-
-        // $openid = session('yxyx_openid');
+        $openid = session('yxyx_openid');
         // $start_time = strtotime('2017-11-3'); 
+
+
         $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
+        // $openid = $this->get_in_str_val('o');//测试
+
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
+
 
         if($agent_info){
             $parentid    = $agent_info['userid'];
@@ -627,7 +629,7 @@ class wx_parent_gift extends Controller
             $ret_info['phone'] = $agent_info['phone'];
 
             if($ret_info['light_num'] == 1){  // 测试
-                $ret_info['light_num']=4;
+                // $ret_info['light_num']=4;
             }
         }else{
             $ret_info = [
