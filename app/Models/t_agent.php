@@ -2375,7 +2375,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s s on s.userid=na.userid"
             ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
-            // ." left join %s r on r.userid=na.userid"
             ." left join %s tq on tq.phone=na.phone and %s "
             ." left join %s l on l.lessonid=na.test_lessonid and l.lesson_del_flag=0 "
             ." where %s "
@@ -2387,7 +2386,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_student_info::DB_TABLE_NAME
             ,t_agent_order::DB_TABLE_NAME
             ,t_order_info::DB_TABLE_NAME
-            // ,t_revisit_info::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
