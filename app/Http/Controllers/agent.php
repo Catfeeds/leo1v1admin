@@ -1990,7 +1990,9 @@ class agent extends Controller
         }
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
-
+        $all_user = 0;
+        $order_user = 0;
+        $price = 0;
         foreach ($ret_info['list'] as &$item){
             $item['no_revisit_count']--;
             $item['ok_phone_count']--;
@@ -2009,10 +2011,16 @@ class agent extends Controller
             } else {
                 $item['order_rate'] = '0%';
             }
-
+            $all_user = $all_user+$item['user_count'];
+            $order_user = $order_user+$item['order_user_count'];
+            $price = $pirce+$item['pirce'];
 
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            'all_user' => $all_user,
+            'order_user' => $order_user,
+            'price' => $price,
+        ]);
         // dd($ret_info);
     }
 

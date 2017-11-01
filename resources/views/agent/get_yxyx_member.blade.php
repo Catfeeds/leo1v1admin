@@ -16,7 +16,16 @@
                     </div>
                 </div>
             </div>
+            <div class="row" id="">
+                <div class="col-xs-12">
+                    <br>
+                总例子数:{{$all_user}}
+                下单总人数:{{$order_user}}
+                金额总数:{{$price}}
+                </div>
+            </div>
         </div>
+
         <hr/>
         <table     class="common-table"  >
             <thead>
