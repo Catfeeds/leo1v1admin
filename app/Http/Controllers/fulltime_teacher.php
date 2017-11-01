@@ -302,6 +302,7 @@ class fulltime_teacher extends Controller
         $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
         $d = ($end_time - $start_time)/86400;
+
         $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type);
         $qz_tea_arr=[];
         foreach($ret_info as $yy=>$item){
@@ -311,6 +312,7 @@ class fulltime_teacher extends Controller
                 unset($ret_info[$yy]);
             }
         }
+
         $list = $ret_info;
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);

@@ -2183,22 +2183,22 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
     //获取我的邀请列表
-    public function my_invite($agent_id){
+    public function my_invite($agent_id,$page_info,$page_count){
         
         $sql = $this->gen_sql_new(
-            "select  a1.id  agent_id, concat('/',a1.phone,a1.nickname) as nickname, a1.agent_status,"
+            "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time "
             . " from %s a1"
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //会员邀请
-    public function member_invite($agent_id){
+    public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
-            "select a2.id as agent_id,concat('/',a2.phone,a2.nickname) as nickname,a2.agent_status,"
+            "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
             ."a2.pp_agent_status_money as agent_status_money,a2.create_time "
             ."from %s a2 "
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
@@ -2206,7 +2206,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
 
     public function get_invite_num($start_time, $pid){
@@ -2320,6 +2320,16 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    //@desn:检测团员是否是会员
+    public function check_is_member($phone){
+        $sql = $this->gen_sql_new(
+            "select id from %s where type in (2,3) and phone = '%s' ",
+            self::DB_TABLE_NAME,
+            $phone
+        );
+        return $this->main_get_value($sql);
+    }
+
 
     public function get_yxyx_member(){
 
@@ -2346,5 +2356,4 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
 
     }
-
 }

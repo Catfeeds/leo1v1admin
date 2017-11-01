@@ -39,7 +39,13 @@
                     </select>
                 </div>
             </div>
-
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">是否试听</span>
+                    <select class="opt-change form-control" id="id_test_lesson_count_flag" >
+                    </select>
+                </div>
+            </div>
 
         </div>
 
@@ -70,7 +76,7 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["has_pad_str"]}} </td>
                         <td>{{@$var["last_revisit_time"]}} </td>
-                        <td>{{@$var["last_lesson_time"]}} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["free_time"]}} </td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
