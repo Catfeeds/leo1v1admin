@@ -4450,7 +4450,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new_time>=".$start_time,
             "train_through_new_time<".$end_time,
             "train_through_new=1",
-            "la.id>0"
+            "la.id>0",
+            "t.train_through_new_time>la.answer_begin_time"
         ];
         $sql = $this->gen_sql_new("select AVG(t.train_through_new_time-la.answer_begin_time)"
                                   ." from %s t left join %s la on t.phone = la.phone"

@@ -1981,7 +1981,13 @@ class agent extends Controller
     public function get_yxyx_member(){
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $phone  = $this->get_in_int_val('phone',-1);
+        $nick_name = $this->get_in_str_val('phone','');
+        $phone     = $this->get_in_int_val('phone','');
+        if($phone > 100000) {
+            $nick_name ='';
+        } else {
+            $phone ='';
+        }
         $nickname = $this->get_in_str_val('nickname','');
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);

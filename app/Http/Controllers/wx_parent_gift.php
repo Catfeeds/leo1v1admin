@@ -309,7 +309,6 @@ class wx_parent_gift extends Controller
                 $item['exchanged'] = 0;
             }
         }
-
         return $this->output_succ(["data"=>$prize_list]);
     }
 
@@ -513,10 +512,7 @@ class wx_parent_gift extends Controller
                 }
             }
         }
-
         return $prize_type;
-
-
     }
 
 
