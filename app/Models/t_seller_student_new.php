@@ -1191,6 +1191,64 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
+    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1
+    ) {
+        $where_arr=[
+            ["s.grade=%u", $grade, -1 ],
+            ["has_pad=%u", $has_pad, -1 ],
+            ["subject=%u", $subject, -1 ],
+            "s.lesson_count_all=0",
+            "n.seller_resource_type=1",
+            "n.admin_revisiterid=0",
+            "t.seller_student_status <>  50",
+            "n.sys_invaild_flag=0",
+            ["origin like '%s%%'", $this->ensql( $origin), ""],
+            ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+        ];
+        if($nick || $phone) {
+            $where_arr[]= "f.adminid =$adminid ";
+        }
+        if (!($nick || $phone)) {
+            $now=time(NULL);
+            $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
+            $where_arr[]= "f.adminid is null ";
+        }
+        if($suc_test_flag == 0){
+            $where_arr[] = 'n.test_lesson_count=0';
+        }elseif($suc_test_flag == 1){
+            $where_arr[] = 'n.test_lesson_count>0';
+        }
+        $sql = $this->gen_sql_new(
+            "select t.test_lesson_subject_id,t.subject,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
+            ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
+            ."l.lesson_start, "
+            ."tss.ass_test_lesson_order_fail_flag"
+            ." from %s t "
+            ." left join %s n on t.userid=n.userid "
+            ." left join %s s on s.userid=n.userid "
+            ." left join %s m on n.admin_revisiterid=m.uid  "
+            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid ) "
+            ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
+            ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
+            ." where %s ",
+            t_test_lesson_subject::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_test_subject_free_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            $where_arr
+        );
+        if($nick || $phone) {
+            return $this->main_get_list_as_page($sql);
+        }else{
+            return $this->main_get_page_random($sql,2);
+        }
+    }
+
     public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$user_info
     ) {
         $where_arr=[
@@ -1893,7 +1951,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count,last_succ_test_lessonid");
         $invalid_flag = false;
         $add_time = $item_arr["add_time"];
         //连续3个人处理过了
@@ -1929,11 +1987,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ]);
             }
         }
-
+        //试听成功数
         $succ_test_info = $this->task->t_lesson_info_b2->get_succ_test_lesson_count($userid);
         $succ_count = $succ_test_info['count'];
         if($item_arr['test_lesson_count'] != $succ_count){
             $this->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+        }
+        //最后一次试听成功lessonid
+        $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
+        if($last_succ_test_lessonid != $item_arr['last_succ_test_lessonid']){
+            $this->field_update_list($userid,['last_succ_test_lessonid'=>$last_succ_test_lessonid]);
         }
 
         if ( $item_arr['global_tq_called_flag'] == 0 ) {
@@ -2306,7 +2369,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_all_list(){
         $sql = $this->gen_sql_new(
-            " select userid,phone,test_lesson_count,free_adminid,free_time "
+            " select userid,phone,test_lesson_count,free_adminid,free_time,last_succ_test_lessonid "
             ." from %s "
             ." order by userid "
             ,self::DB_TABLE_NAME

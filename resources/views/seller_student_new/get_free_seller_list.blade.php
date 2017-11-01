@@ -39,7 +39,13 @@
                     </select>
                 </div>
             </div>
-
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">是否试听</span>
+                    <select class="opt-change form-control" id="id_test_lesson_count_flag" >
+                    </select>
+                </div>
+            </div>
 
         </div>
 
@@ -55,6 +61,7 @@
                     <td>上次回访时间</td>
                     <td>试听成功时间</td>
                     <td>回流公海时间</td>
+                    <td>未签单原因</td>
                     <td>最后一次备注</td>
                     <td>例子进入时间 </td>
                     <td>电话</td>
@@ -70,8 +77,9 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["has_pad_str"]}} </td>
                         <td>{{@$var["last_revisit_time"]}} </td>
-                        <td>{{@$var["last_lesson_time"]}} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["free_time"]}} </td>
+                        <td>{{@$var["ass_test_lesson_order_fail_flag_str"]}}</td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["phone_hide"]}} </td>

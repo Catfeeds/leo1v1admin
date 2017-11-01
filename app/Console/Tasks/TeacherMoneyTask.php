@@ -127,22 +127,40 @@ class TeacherMoneyTask extends TaskController
     }
 
     /**
-     * 设置老师工资信息
+     * @param int type
+     * @param int timestamp 需重置的老师工资的时段
      */
-    public function set_teacher_salary_list($type,$start_time=0){
-        $start_time = $start_time==0?time():$start_time;
-        $month_time = \App\Helper\Utils::get_month_range($start_time,true);
-
-        $tea_list   = $this->t_teacher_info->get_need_set_teacher_salary_list($month_time['sdate'],$month_time['edate']);
-        $teacher_money = new \App\Http\Controllers\teacher_money();
-        foreach($tea_list as $t_val){
-            $teacherid   = $t_val['teacherid'];
-            $salary_info = $teacher_money->set_teacher_salary($teacherid);
-
+    public function set_teacher_salary_list($type,$timestamp=0){
+        if($timestamp==0){
+            $timestamp = time();
         }
 
-    }
+        $teacher_money = new \App\Http\Controllers\teacher_money();
+        $month_range   = \App\Helper\Utils::get_month_range($timestamp,true);
+        $start_time    = $month_range['sdate'];
+        $end_time      = $month_range['edate'];
 
+        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
+        foreach($tea_list as $t_val){
+            $salary_info = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
+            $lesson_money = $salary_info['lesson_price_tax'];
+
+            $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$start_time);
+            if(!$check_flag){
+                $this->t_teacher_salary_list->row_insert([
+                    "teacherid"          => $t_val['teacherid'],
+                    "teacher_type"       => $t_val['teacher_type'],
+                    "teacher_money_type" => $t_val['teacher_money_type'],
+                    "pay_time"           => $start_time,
+                    "money"              => $lesson_money,
+                ]);
+            }else{
+                $this->t_teacher_salary_list->field_update_list($t_val['teacherid'],[
+                    "money" => $lesson_money
+                ]);
+            }
+        }
+    }
 
 
 }

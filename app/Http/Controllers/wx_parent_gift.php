@@ -300,6 +300,7 @@ class wx_parent_gift extends Controller
 
     public function get_draw_num($parentid){
         // 检查是否分享朋友圈
+
         $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-13'); // 分享朋友圈有效时间
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
@@ -347,7 +348,7 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        $parentid = $this->get_parentid();
+        $parentid = $this->get_in_int_val('parentid');
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
@@ -364,11 +365,147 @@ class wx_parent_gift extends Controller
 
         $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
-        if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){
-            if($bag_tag>0){
+        $winning_rate = $this->get_win_rate($stu_type); // 中奖率
 
+        $is_pass = 0;
+
+        if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){ // 书包
+            $is_pass = 1;
+        }elseif($draw_num_arr['three_free_num'] >$limit_arr['three_free_num']){ // 3次免费课
+            $is_pass = 1;
+        }elseif($draw_num_arr['fifty_coupon_num'] >$limit_arr['fifty_coupon_num']){ // 50元
+            $is_pass = 1;
+        }elseif($draw_num_arr['one_hundred_coupon_num'] >$limit_arr['one_hundred_coupon_num']){ // 100元
+            $is_pass = 1;
+        }elseif($draw_num_arr['three_hundred_coupon_num'] >$limit_arr['three_hundred_coupon_num']){ // 300元
+            $is_pass = 1;
+        }elseif($draw_num_arr['five_hundred_coupon_num'] >$limit_arr['five_hundred_coupon_num']){ // 500元
+            $is_pass = 1;
+        }
+
+        if($bag_tag>0){ //11月6号试听过
+
+        }else{
+
+        }
+
+
+        // 抽奖
+
+        $rate = mt_rand(0,10000);
+
+        if($rate>1000 && $rate<=2000){ // 书包 10
+
+        }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
+
+        }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
+
+        }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
+
+        }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
+
+        }else{ // 10元折扣券/试听课
+
+        }
+
+
+
+
+    }
+
+
+    public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
+
+        $rate   = mt_rand(0,10000);
+        $today  = time();
+        $eleven = strtotime('2017-11-11');
+        $prize_type = 0; // 奖品类型
+
+        /**
+           array(1,"","书包" ),
+           array(2,"","10元折扣券" ),
+           array(3,"","50元折扣券" ),
+           array(4,"","100元折扣券" ),
+           array(5,"","300元折扣券" ),
+           array(6,"","500元折扣券" ),
+           array(7,"","免费3次正式课" ),
+           array(8,"","试听课" ),
+         **/
+
+        if($stu_type == 1){ // 新用户
+            if($today < $eleven){
+                if($rate>1000 && $rate<=2000){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
+                    $prize_type=3;
+                }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
+                    $prize_type=4;
+                }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
+                    $prize_type=7;
+                }else{ // 10元折扣券/试听课
+                    $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                    if($is_test>0){
+                        $prize_type=2;
+                    }else{
+                        $prize_type=2;
+                    }
+                }
+            }else{
+                if($rate>1000 && $rate<=2250){ // 书包 12.5
+                    $prize_type=1;
+                }elseif($rate>3000 && $rate<=4125){ // 50元折扣券  12.5
+                    $prize_type=3;
+                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                    $prize_type=7;
+                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                    $prize_type=7;
+                }else{ // 10元折扣券/试听课
+
+                }
+            }
+        }elseif($stu_type==2){ //老用户
+            if($today < $eleven){
+                if($rate>100 && $rate<=150){ // 书包 0.5
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>1500 && $rate<=1530){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5010){ // 3次免费课程 0.1
+                    $prize_type=7;
+                }else{ // 10元折扣券
+                    $prize_type=2;
+                }
+            }else{
+                if($rate>100 && $rate<=200){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
+                    $prize_type=7;
+                }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
+                    $prize_type=7;
+                }else{ // 10元折扣券
+                    $prize_type=2;
+                }
             }
         }
+
+        return $prize_type;
+
+
     }
 
 
@@ -465,9 +602,8 @@ class wx_parent_gift extends Controller
 
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取会员信息
+        $openid = session('yxyx_openid');
         $start_time = 1509638400; // 2017-11-03
-        $openid = $this->get_in_str_val('openid');
-
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $parentid = $agent_info['userid'];
 
@@ -475,20 +611,23 @@ class wx_parent_gift extends Controller
         $invite_info = $this->t_agent->get_invite_num($start_time, $parentid);
 
         $ret_info['invite_num'] = count($invite_info);
-        // $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0; // 测试版
+        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+        $ret_info['phone'] = $agent_info['phone'];
+
+
 
         if($ret_info['light_num'] == 1){  // 测试
             $ret_info['light_num']=4;
         }
 
-        $ret_info['phone'] = $agent_info['phone'];
+
         return $this->output_succ(["data"=>$ret_info]);
     }
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
-        $openid = $this->get_in_str_val('openid');
+
+        $openid = session('yxyx_openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid   = $agent_info['userid'];
         $today = strtotime(date('Y-m-d'));
@@ -575,10 +714,6 @@ class wx_parent_gift extends Controller
         return $this->output_succ(["money"=>$prize]);
     }
 
-    public function get_agentid(){
-        $agent_id = $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
-        return $agent_id;
-    }
 
     public function get_parentid(){
         $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");

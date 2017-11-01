@@ -11,7 +11,7 @@ class SetTeacherMoney extends cmd_base
      *
      * @var string
      */
-    protected $signature = 'command:SetTeacherMoney {--type=}{--day=}';
+    protected $signature = 'command:SetTeacherMoney {--type=}{--day=}{--date=}';
 
     /**
      * The console command description.
@@ -32,29 +32,24 @@ class SetTeacherMoney extends cmd_base
 
     /**
      * Execute the console command.
-     * @param type 1 每周二更新老师园丁奖  2,3 每天更新老师的试听签单奖励 4 更新老师工资列表
-     * @param day  老师签单奖更新的时间周期
+     * @param int type 1 每周二更新老师园丁奖  2,3 每天更新老师的试听签单奖励 4 更新老师工资列表
+     * @param int day  老师签单奖更新的时间周期
+     * @param int date 老师工资更新的时间戳
      * @return mixed
      */
     public function handle()
     {
         $task = new \App\Console\Tasks\TeacherMoneyTask();
-        $type = $this->option('type');
-        $day  = $this->option('day');
-
-        if($type===null){
-            $type = 2;
-        }
-        if($day===null){
-            $day = 0;
-        }
+        $type  = $this->get_in_value('type',2);
+        $day   = $this->get_in_value('day',0);
+        $date  = $this->get_in_value('date',time());
 
         if($type==1){
             $task->set_teacher_lesson_total_list();
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
         }elseif($type==4){
-            $task->set_teacher_salary_list($type);
+            $task->set_teacher_salary_list($type,$date);
         }
     }
 

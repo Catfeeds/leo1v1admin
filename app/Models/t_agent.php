@@ -2183,22 +2183,22 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
     //获取我的邀请列表
-    public function my_invite($agent_id){
+    public function my_invite($agent_id,$page_info,$page_count){
         
         $sql = $this->gen_sql_new(
-            "select  a1.id  agent_id, concat('/',a1.phone,a1.nickname) as nickname, a1.agent_status,"
+            "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time "
             . " from %s a1"
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //会员邀请
-    public function member_invite($agent_id){
+    public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
-            "select a2.id as agent_id,concat('/',a2.phone,a2.nickname) as nickname,a2.agent_status,"
+            "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
             ."a2.pp_agent_status_money as agent_status_money,a2.create_time "
             ."from %s a2 "
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
@@ -2206,14 +2206,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
 
     public function get_invite_num($start_time, $pid){
 
         $where_arr = [
             "a.create_time>=$start_time",
-            "a.parentid=$pid"
+            "a.parentid=$pid",
+            ""
         ];
 
         $sql = $this->gen_sql_new("  select create_time, phone from %s a"
@@ -2245,7 +2246,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_value($sql);
     }
     //@desn:获取我的邀请列表 [已获取]
-    public function my_had_invite($agent_id){
+    public function my_had_invite($agent_id,$page_info,$page_count){
         $where_arr = [
             ['a.parentid = %u',$agent_id,'-1'],
             ['a.agent_status >= %u',30]
@@ -2257,10 +2258,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:会员邀请奖励列表[已获取]
-    public function member_had_invite($agent_id){
+    public function member_had_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
             "select phone,nickname,pp_agent_status_money as agent_status_money "
             ."from %s "
@@ -2269,7 +2270,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
 
     public function get_info_by_pid($parentid){
@@ -2282,7 +2283,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //@desn:获取按邀请人列表 [一级]
     //@param 1:学员2：会员3：学员&会员
-    public function get_invite_type_list($agent_id,$type=1){
+    public function get_invite_type_list($agent_id,$type=1,$page_info,$page_count){
         $where_arr = [
             ['parentid = %u',$agent_id,'-1'],
             ['type = %u',$type,'1']
@@ -2292,7 +2293,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 self::DB_TABLE_NAME,
                 $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:获取邀请人
     public function get_second_invite_list($parentid){
@@ -2320,6 +2321,62 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    //@desn:检测团员是否是会员
+    public function check_is_member($phone){
+        $sql = $this->gen_sql_new(
+            "select id from %s where type in (2,3) and phone = '%s' ",
+            self::DB_TABLE_NAME,
+            $phone
+        );
+        return $this->main_get_value($sql);
+    }
 
 
+    public function get_yxyx_member(){
+
+        $where_arr = [
+            's.is_test_user=0',
+            'na.type in (1,3)',
+            'o.contract_type=0',
+            'o.contract_status>0',
+            'o.pay_time>0',
+            'tq.id>0',
+            'l.lesson_del_flag=0',
+        ];
+        $sql = $this->gen_sql_new(
+            "select a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
+            ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
+            ." count(distinct if(r.revisit_time<1,na.userid,0 ) ) revisit_count,"
+            ." count(distinct if(tq.is_called_phone=1,na.userid,0 ) ) ok_count,"
+            ." count(distinct if(tq.is_called_phone=0,na.userid,0 ) ) no_count,"
+            ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
+            ." count(distinct if(l.lesson_user_online_status=1,na.userid,0 ) ) test_lesson_count"
+            ." from %s a "
+            ." left join %s aa on aa.id=a.parentid"
+            ." left join %s aaa on aaa.id=aa.parentid"
+            ." left join %s na on na.parentid=a.id"
+            ." left join %s s on s.userid=na.userid"
+            ." left join %s ao on ao.pid=a.id"
+            ." left join %s o on o.orderid=ao.orderid"
+            ." left join %s r on r.userid=na.userid"
+            ." left join %s tq on tq.phone=na.phone"
+            ." left join %s l on l.lessonid=na.test_lessonid"
+            ." where %s "
+            ." group by phone1"
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
 }

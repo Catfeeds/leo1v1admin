@@ -2823,6 +2823,10 @@ trait TeaPower {
 
     /**
      * 获取时间段内老师额外奖金明细
+     * @param int teacherid 老师id
+     * @param int start_time 开始时间
+     * @param int end_time 结束时间
+     * @return array
      */
     public function get_teacher_reward_money_list($teacherid,$start_time,$end_time){
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
@@ -3877,7 +3881,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }elseif($renw_price<=110000){
             $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+($renw_price-80000)*0.04;
         }else{
-            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+(110000-80000)*0.04+($renw_price-80000)*0.045;
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+(110000-80000)*0.04+($renw_price-110000)*0.045;
         }
         $renw_money = round($renw_money,2);
         $tran_num_money=$list["hand_tran_num"]*200;
@@ -3913,7 +3917,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function test_jack_new($uid){
         $permission_info = $this->t_manager_info->field_get_list($uid,"permission,permission_backup");
         $this->t_manager_info->field_update_list($uid,[
-          "permission" =>""  
+            "permission" => ""
         ]);
         if(!$permission_info["permission_backup"]){
             $this->t_manager_info->field_update_list($uid,[
@@ -3930,12 +3934,18 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param string show_type 拉取老师工资的结束时间
      * @return array list
      */
-    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time,$show_type){
+    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
-        $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_money_type = $simple_info['teacher_money_type'];
-        $teacher_type       = $simple_info['teacher_type'];
+
+        $teacher_info       = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_type = $teacher_info['teacher_money_type'];
+        $teacher_ref_type   = $teacher_info['teacher_money_type'];
+        $teacher_type       = $teacher_info['teacher_type'];
+
+        $teacher_ref_rate = $this->get_teacher_ref_rate(
+            $start_time,$teacher_ref_type,$teacher_money_type
+        );
 
         $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
@@ -3983,7 +3993,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key => &$val){
                     $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
-
                     if($val['lesson_type'] != 2){
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
