@@ -56,15 +56,12 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        echo "aa";
-        exit;
-        foreach($this->userid_list as $val){
-            $ret = $this->task->t_open_lesson_user->check_lesson_has($this->lessonid,$val['userid']);
-            if($ret==0){
-                $t_open_lesson_user->row_insert([
-                    "lessonid" => $this->lessonid,
-                    "userid"   => $val['userid']
-                ]);
+        $ret = $this->task->t_seller_student_new->get_all_list();
+        foreach($ret as $item){
+            $userid = $item['userid'];
+            $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
+            if($last_succ_test_lessonid!=$item['last_succ_test_lessonid']){
+                $this->task->t_seller_student_new->field_update_list($userid,['last_succ_test_lessonid'=>$last_succ_test_lessonid]);
             }
         }
 
