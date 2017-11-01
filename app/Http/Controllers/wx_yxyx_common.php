@@ -637,7 +637,6 @@ class wx_yxyx_common extends Controller
 
     public function check_is_login(){
         $p_openid = $this->get_in_str_val('openid');
-        dd($p_openid);
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?p_openid=".$p_openid );

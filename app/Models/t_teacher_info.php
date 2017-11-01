@@ -2891,7 +2891,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     //获取每月上过课老师的类型统计(试听课,常规课)
-    public function get_lesson_teacher_total_info($start_time,$end_time,$tea_flag=-1,$two_month_time=0,$lesson_type=-1){
+    public function get_lesson_teacher_total_info($start_time,$end_time,$tea_flag=-1,$two_month_time=0,$lesson_type=-1,$subject=-1){
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
@@ -2924,6 +2924,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }elseif($lesson_type==2){
             $where_arr[] ="l.lesson_type =2";
         }
+        if($subject==-2){
+            $where_arr[] = "t.subject in (6,7,8,9,10)";
+        }else{
+            $where_arr[] = ["t.subject=%u",$subject,-1];
+        }
+
        
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
@@ -2973,12 +2979,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
     //按入职时间统计老师数量
-    public function get_tea_num_by_train_through_time($start_time){
+    public function get_tea_num_by_train_through_time($start_time,$subject=-1){
         $where_arr = [
             " train_through_new=1 ",
             " is_quit=0 ",
             " is_test_user =0"
         ];
+        if($subject==-2){
+            $where_arr[] = "subject in (6,7,8,9,10)";
+        }else{
+            $where_arr[] = ["subject=%u",$subject,-1];
+        }
 
         $where_arr[] =["train_through_new_time<%u",$start_time,0];
         $sql = $this->gen_sql_new("select count(1) from %s where %s ",self::DB_TABLE_NAME,$where_arr);

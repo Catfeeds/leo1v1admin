@@ -364,6 +364,9 @@ class wx_parent_gift extends Controller
 
         $bag_tag = $this->t_lesson_info_b3->get_lessonid_by_parentid($parentid); // 只有11月6号前试听过的人才可以抽到书包
 
+        $winning_rate = '';
+
+
         if($draw_num_arr['bag_num'] >$limit_arr['bag_num']){
             if($bag_tag>0){
 
@@ -476,20 +479,21 @@ class wx_parent_gift extends Controller
 
         $ret_info['invite_num'] = count($invite_info);
         // $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
-        $ret_info['light_num']=4; // 测试
-        $ret_info['phone'] = $agent_info['phone'];
+        $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0; // 测试版
 
+        if($ret_info['light_num'] == 1){  // 测试
+            $ret_info['light_num']=4;
+        }
+
+        $ret_info['phone'] = $agent_info['phone'];
         return $this->output_succ(["data"=>$ret_info]);
     }
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
         $openid = $this->get_in_str_val('openid');
-
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid   = $agent_info['userid'];
-
-
         $today = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);

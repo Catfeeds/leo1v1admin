@@ -41,18 +41,6 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        // 随机添加测试时间
-        // $begin = strtotime('2017-07-01');
-        // $end = time();
-        // $info = $task->t_teacher_flow->get_all_list();
-        // foreach($info as $teacherid => $item) {
-        //     $timestamp = rand($begin, $end);
-        //     $task->t_teacher_flow->field_update_list($teacherid,[
-        //         "trial_lecture_pass_time" => $timestamp,
-        //         "simul_test_lesson_pass_time" => $timestamp,
-        //         "train_through_new_time" => $timestamp
-        //     ]);
-        // }
         $add_time = time();
         $month = date('m') - 1;
         $begin = date("Y-$month-01 00:00:00");
@@ -64,7 +52,15 @@ class add_new_tea_entry extends Command
         $start_time = strtotime('2017-06-01');
         $end_time = time();
 
-        $tea_list = $task->t_teacher_flow->get_tea_list($start_time, $end_time);
+        $info = $this->array_init();
+        $tea_list = $task->t_teacher_flow->get_tea_list_for_subject($start_time, $end_time);
+        foreach($tea_list as $item) {
+            if ($item['subject'] == 1 && $item['grade'] == 100) {
+                $info[0] = $item;
+            }
+        }
+
+
         dd($tea_list);
 
         // 面试通过人数
@@ -175,5 +171,19 @@ class add_new_tea_entry extends Command
             'imit_listen_pass_lesson_num' => $type_total['adopt_sum'],
             'add_time' => $add_time
         ]);
+    }
+
+    public function array_init(){
+        $info = [['subject' => 1, 'grade' => 100],['subject' => 1, 'grade' => 200],['subject' => 3, 'grade' => 300],[
+        'subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
+        foreach ($info as $key => $item) {
+            $info[$key]['sum'] = 0;
+            $info[$key]['train_tea_sum'] = 0;
+            $info[$key]['train_qual_sum'] = 0;
+            $info[$key]['imit_sum'] = 0;
+            $info[$key]['attend_sum'] = 0;
+            $info[$key]['adopt_sum'] = 0;
+        }
+        return $info;
     }
 }
