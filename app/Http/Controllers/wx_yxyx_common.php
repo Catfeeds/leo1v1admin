@@ -273,6 +273,7 @@ class wx_yxyx_common extends Controller
         $pp_wx_openid = $ret_info_p['pp_wx_openid'];
         $pp_agent_level = $ret_info_p['pp_agent_level'];
         $pp_id = $ret_info_p['pp_id'];
+        $insert_flag = 0;
         if(isset($ret_info['id'])){//已存在,则更新父级和类型
             if($type == $ret_info['type'] or $ret_info['type']==3){
                 return $this->output_err("您已被邀请过!");
@@ -284,7 +285,6 @@ class wx_yxyx_common extends Controller
             ]);
             $agent_id = $ret_info['id'];
             $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
-            $insert_flag = 0;
             //判断用户是否已进入学员档案
             $is_student = $this->t_student_info->get_userid_by_phone($phone);
             if($is_student)
