@@ -9778,7 +9778,8 @@ lesson_type in (0,1) "
     }
 
     public function get_subject_for_teacherid($teacherid) {
-        $where = ['teacherid=%u',$teacherid,0];
+        $where = [['teacherid=%u',$teacherid,0]];
+        
         $sql = $this->gen_sql_new("select subject,grade from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where
