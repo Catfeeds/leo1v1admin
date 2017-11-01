@@ -76,7 +76,7 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["has_pad_str"]}} </td>
                         <td>{{@$var["last_revisit_time"]}} </td>
-                        <td>{{@$var["last_lesson_time"]}} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["free_time"]}} </td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
