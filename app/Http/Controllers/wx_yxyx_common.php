@@ -663,18 +663,17 @@ class wx_yxyx_common extends Controller
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
         if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
-            // $agent_arr = [];
+            $agent_arr = [];
         }
 
         session(['yxyx_openid'=>$openid]);
 
         if(empty($agent_arr)){
-            $is_member = 2; // 不是会员
+            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
         }else{
-            $is_member = 1;  // 是会员
+            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
         }
 
-        header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?is_member=".$is_member."&p_phone=".$p_phone);
     }
 
 }

@@ -4410,11 +4410,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." from %s t"
                                   ." where exists (select 1 from %s where %s)"
                                   ." or exists (select 1 from %s where %s)"
+                                  ." and %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$lesson_arr
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$reward_arr
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }
