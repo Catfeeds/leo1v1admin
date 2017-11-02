@@ -2402,7 +2402,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info){
 
         $where_arr = [
-            ['na.id=%u', $id, -1],
+            ['a.id=%u', $id, -1],
             ['na.create_time>=%u', $start_time, -1],
             ['na.create_time<%u', $end_time, -1],
             's.is_test_user=0',
@@ -2423,21 +2423,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
 
         $sql = $this->gen_sql_new(
-            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid"
-            .""
+            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid,"
+            ." tl.test_lesson_subject_id"
             ." from %s a "
             ." left join %s na on na.parentid=a.id"
             ." left join %s s on s.userid=na.userid"
             ." left join %s tq on tq.phone=na.phone and %s "
             ." left join %s l on l.lessonid=na.test_lessonid "
+            ." left join %s tl on tl.userid=na.userid "
             ." where %s "
-            ." group by a.id"
+            ." group by s.userid"
             ,self::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
             ,$where_arr
         );
 
