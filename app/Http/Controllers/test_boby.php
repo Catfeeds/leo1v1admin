@@ -806,11 +806,4 @@ class test_boby extends Controller
         }
     }
 
-    public function check_user(){
-
-        $start = strtotime('2017-10-1');
-        $end = strtotime('2017-11-1');
-        $ret_num = $this->t_student_info->get_user_list_by_lesson_count_new($start,$end);
-        echo '<br>',$ret_num;
-    }
 }

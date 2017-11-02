@@ -26,7 +26,7 @@ class test_sam  extends Controller
         dd(2);
         $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
         $renew_student_list = $this->t_order_info->get_renew_student_list_new(1506787200,1509465600);
-
+		dd($renew_student_list);
         $warning_num = 0;
         if($warning_list != 0){
             $warning_list = explode(",",$warning_list);
@@ -43,7 +43,7 @@ class test_sam  extends Controller
                 foreach($warning_list as $key => $value){
 
                     $userid = $value;
-                    if(in_array($userid, $list[$userid])){
+                    if(in_array($userid, $renew_student_list[$userid])){
                         ++$arr['plan_renew_num'];
                     }
                     /*if(isset($renew_student_list($value))){
