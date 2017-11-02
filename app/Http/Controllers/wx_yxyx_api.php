@@ -91,7 +91,11 @@ class wx_yxyx_api extends Controller
             "open_moeny" => $activity_money ,
         ];
 
-        $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
+        if($userid){
+            $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
+        }else{
+            $ruffian_money = 0;
+        }
 
         $data["ruffian_money_info"] =[
             "all_money" => $ruffian_money,
