@@ -15,7 +15,7 @@ class test_sam  extends Controller
     public function hello_list(){
 
         $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
-        $renew_student_list = $this->t_order_info->get_renew_student_list(1506787200,1509465600);
+        $renew_student_list = $this->t_order_info->get_renew_student_list_new(1506787200,1509465600);
 
         $warning_num = 0;
         if($warning_list != 0){
