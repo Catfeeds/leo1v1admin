@@ -29,15 +29,14 @@ class test_sam  extends Controller
         }else{
             
             $arr['plan_renew_num'] = 0;
-            if(!empty($waring_list)){
-                foreach($waring_list as $key => $value){
-                    echo $value;
+            if(!empty($warning_list)){
+                foreach($warning_list as $key => $value){
+                    //echo $value;
 
-                    /*if(isset($renew_student_list($value))){
 
                     if(isset($renew_student_list($value))){
                         ++$arr['plan_renew_num'];
-                    }*/
+                    }
                 }
             }
             $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
