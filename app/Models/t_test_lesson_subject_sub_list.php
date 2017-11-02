@@ -198,7 +198,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
         if($type==2){
             $where_arr[] = "l.teacher_money_type in (4,5,6) ";
-        }elseif($type==3 || $type==4){
+        }elseif($type==3){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,tls.require_admin_type"
