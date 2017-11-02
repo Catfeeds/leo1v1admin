@@ -20,6 +20,7 @@ class wx_parent_common extends Controller
         global $_SERVER;
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
+        dd($openid);
         if (!$openid) {
             dd( "请关闭 重进");
             exit;
