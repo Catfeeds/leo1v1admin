@@ -937,7 +937,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             // "tll.fail_greater_4_hour_flag=0",
             "ts.require_admin_type =2",
             "tlr.accept_flag=1",
-
         ];
 
         // $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
@@ -957,7 +956,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
 
         return $this->main_get_value($sql);
-        // return $this->main_get_list($sql);
     }
 
     public function get_test_succ_for_month($start_time,$end_time){
@@ -967,12 +965,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag = 0",
             "tll.fail_greater_4_hour_flag=0",
             "tlr.accept_flag=1",
-
         ];
 
         $this->where_arr_add_time_range($where_arr,"tll.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(l.lessonid) from %s l "
+        $sql = $this->gen_sql_new("  select count(distinct l.lessonid) from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"

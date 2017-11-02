@@ -1442,4 +1442,12 @@ class test_code extends Controller
         }
     }
 
+    public function test_data(){
+        $start_time = strtotime("2017-11-2");
+        $end_time = strtotime("2017-11-3");
+        $stu_list = $this->t_student_info->get_stu_has_lesson($start_time,$end_time);
+
+    }
+
+
 }

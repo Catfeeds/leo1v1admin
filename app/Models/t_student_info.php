@@ -698,7 +698,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             $str = $where . $str;
         }
         return $str;
-
     }
 
     public function get_user_list ( $id_list) {
@@ -3125,4 +3124,24 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_stu_has_lesson($lesson_start,$lesson_end){
+        $where_arr = [
+            ["lesson_start>%u",$lesson_start,0],
+            ["lesson_start<%u",$lesson_end,0],
+        ];
+
+        $sql = $this->gen_sql_new("select userid,user_agent"
+                                  ." from %s "
+                                  ." where %s"
+                                  ." and exists (select 1 from %s where %s)"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }
