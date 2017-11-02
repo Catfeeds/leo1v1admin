@@ -37,7 +37,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         $where_arr[] = ["l.assistantid=%u",$assistantid,-1];
         $where_arr[] = ["tls.accept_adminid=%u",$accept_adminid,-1];
         if($assistantid>0 || $accept_adminid>0){
-            $where_arr[] = " feedback_type >200 ";
+            $where_arr[] = " feedback_type in (204,205,206)";
         }
 
         $sql = $this->gen_sql_new("select tf.id,tf.teacherid,tf.lessonid,l.lesson_count,status,feedback_type,"
