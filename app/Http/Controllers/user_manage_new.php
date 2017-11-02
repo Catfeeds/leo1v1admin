@@ -2425,9 +2425,13 @@ class user_manage_new extends Controller
             $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
             if ($list['warning_stu_num'] != 0) {
                 $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
+                $list['warning_renow_rate'] = round( $list['warning_renow_stu_num']*100/$list['warning_stu_num'] ,2) .'%';
             }else {
                 $list['renow_rate'] = 0;
+                $list['warning_renow_rate'] = 0;
             }
+
+
         }
 
         return $this->pageView(__METHOD__,null, [
