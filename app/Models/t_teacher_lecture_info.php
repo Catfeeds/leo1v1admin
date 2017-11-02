@@ -519,7 +519,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
 
-    public function get_teacher_list_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1){
+    public function get_teacher_list_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1,$train_through_new=-1){
         $where_arr=[
             ["tl.confirm_time >= %u",$start_time,-1],
             ["tl.confirm_time <= %u",$end_time,-1],
@@ -531,6 +531,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["ta.teacher_type = %u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["ttt.teacherid = %u",$reference_teacherid,-1],
+            ["t.train_through_new = %u",$train_through_new,-1],
         ];
 
         if(!empty($tea_subject)){

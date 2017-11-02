@@ -198,8 +198,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
         if($type==2){
             $where_arr[] = "l.teacher_money_type in (4,5,6) ";
-            // $where_arr[] = "l.teacher_money_type in (5,6) ";
-        }elseif($type==3 || $type==4){
+        }elseif($type==3){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,tls.require_admin_type"
@@ -226,9 +225,10 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_del_flag=0 "
                                   ." and lesson_status=2 "
                                   ." ) "
-                                  ." and tl.lessonid not in ( "
-                                  ." select lessonid from %s "
-                                  ." where type=2 "
+                                  // ." and tl.lessonid not in ( "
+                                  ." and not exists ( "
+                                  ." select 1 from %s "
+                                  ." where type=2 and tl.lessonid=lessonid"
                                   ." ) "
                                   ." group by l.lessonid "
                                   ,self::DB_TABLE_NAME
@@ -245,6 +245,34 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             dd($sql);exit;
         }
         return $this->main_get_list($sql);
+    }
+
+    public function get_trial_reward_lesson_list($start_time,$type){
+        $where_arr = [
+            ["l.lesson_start>%u",$start,0],
+            "l.lesson_type=2",
+            "l.lesson_del_flag=0",
+        ];
+
+        if($type==2){
+            $where_arr[] = "l.teacher_money_type in (4,5,6) ";
+        }elseif($type==3){
+            $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
+        }
+
+        $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start"
+                                  // ." ,t.phone,tls.require_admin_type"
+                                  ." from %s l"
+                                  ." left join %s l"
+                                  ." where %s "
+                                  ." and exists (select 1 "
+                                  ." from "
+                                  .")"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 
     public function  tongji_lesson_count_list($start_time,$end_time){

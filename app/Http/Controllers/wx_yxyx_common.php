@@ -350,6 +350,8 @@ class wx_yxyx_common extends Controller
             $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
             if($ret){
                 $agent_id=$this->t_agent->get_last_insertid();
+                \App\Helper\Utils::logger("agent_id_agent_id: $agent_id");
+
                 dispatch( new \App\Jobs\agent_reset($agent_id) );
                 $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
                 return $this->output_succ("邀请成功!");
@@ -646,15 +648,15 @@ class wx_yxyx_common extends Controller
 
 
     public function check_is_login(){
-        $p_phone    = $this->get_in_int_val('p_phone');
+        // $p_phone    = $this->get_in_int_val('p_phone');
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?p_phone=".$p_phone );
+        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid" );
         $ret = $wx->goto_wx_login( $redirect_url );
     }
 
     public function get_openid(){
-        $p_phone    = $this->get_in_int_val('p_phone');
+        // $p_phone    = $this->get_in_int_val('p_phone');
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
@@ -662,12 +664,7 @@ class wx_yxyx_common extends Controller
         $openid     = @$token_info["openid"];
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
-        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
-            $agent_arr = [];
-        }
-
         session(['yxyx_openid'=>$openid]);
-
         if(empty($agent_arr)){ // 不是会员
             header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
         }else{ // 会员

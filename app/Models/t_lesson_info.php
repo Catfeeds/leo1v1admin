@@ -9657,13 +9657,15 @@ lesson_type in (0,1) "
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
     public function get_total_income($start_time,$end_time){
         $where_arr = [
-            ['lesson_start>%u',$start_time,-1],
+            ['lesson_start>=%u',$start_time,-1],
             ['lesson_start<%u',$end_time,-1],
             "lesson_type IN (0, 1, 3) ",
             "(s.is_test_user = 0 or s.is_test_user is null)",
-            "l.confirm_flag <> 2",
+            "l.confirm_flag in (0,1,3) ",
+            "l.lesson_user_online_status=1 ",
             "l.lesson_del_flag =0"
         ];
         $sql = $this->gen_sql_new("select  sum(o.price) as total_income ".
@@ -9775,6 +9777,16 @@ lesson_type in (0,1) "
         $info = $this->main_get_list($sql);
 
         return $this->get_handle_identity_count($info);
+    }
+
+    public function get_subject_for_teacherid($teacherid) {
+        $where = [['teacherid=%u',$teacherid,0]];
+        
+        $sql = $this->gen_sql_new("select subject,grade from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where
+        );
+        return $this->main_get_row($sql);
     }
 
 }

@@ -223,9 +223,7 @@
                     <td style="display:none;" >lesson_intro</td>
                     <td style="display:none;" >评价反馈</td>
                     <td style="display:none;" >试听申请人</td>
-                    <td style="display:none;" >用户版本</td>
                     <td style="display:none;" >声音记录服务器1</td>
-                    <td style="display:none;max-width:100px;" >本次课用户版本</td>
                     <td style="display:none" >课堂扣款</td>
                     <td style="display:none" >助教</td>
                     <td style="min-width:200px" >操作</td>
@@ -320,13 +318,11 @@
                         <td > {{$var["performance"]}} </td>
                         <td > {{$var["require_admin_nick"]}} </td>
                         <!-- <td > {{$var["cc_account"]}} </td> -->
-                        <td > {{$var["stu_user_agent"]}} </td>
                         <td >
                             {{$var["record_audio_server1"]}} <br/>
                             count:{{ $var["pcm_file_count"]}} <br/>
                             size:{{$var["pcm_file_all_size"]}} <br/>
                         </td>
-                        <td > {{$var["system_version"]}} </td>
                         <td > {{$var["lesson_deduct"]}} </td>
                         <td > {{$var["assistant_nick"]}} </td>
                         <td class="remove-for-xs">

@@ -585,7 +585,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
 
-    public function get_teacher_train_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1){
+    public function get_teacher_train_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1,$train_through_new=-1){
         $where_arr=[
             ["l.subject=%u",$subject,-1],
             ["l.lesson_start >= %u",$start_time,-1],
@@ -595,6 +595,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["tr.acc= '%s'",$account,""],
             ["ttt.teacherid = %u",$teacher_account,-1],
             ["taa.teacher_type = %u",$identity,-1],
+            ["t.train_through_new = %u",$train_through_new,-1],
             "(tr.acc is not null && tr.acc <> '')",
             "tr.trial_train_status =1"
         ];
@@ -1423,8 +1424,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         //select add_time from t_teacher_record_list where type=10 and trial_train_status=1
         //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
-        $sql = $this->gen_sql_new("select tr.teacherid,tr.add_time,l.subject,l.grade from %s left join %s on tr.train_lessonid=l.lessonid where %s ",
+        $sql = $this->gen_sql_new("select tr.teacherid,tr.add_time,l.subject,l.grade from %s tr left join %s l on tr.train_lessonid=l.lessonid where %s ",
                                   self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql, function( $item) {

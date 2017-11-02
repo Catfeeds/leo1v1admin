@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	id:	number;
 	phone:	string;
 	page_num:	number;
 	page_count:	number;
@@ -19,32 +20,22 @@ interface RowData {
 	id	:any;
 	phone1	:any;
 	nick1	:any;
-	phone2	:any;
-	nick2	:any;
-	phone3	:any;
-	nick3	:any;
-	user_count	:any;
-	order_user_count	:any;
-	price	:any;
-	no_revisit_count	:any;
-	ok_phone_count	:any;
-	rank_count	:any;
-	ok_lesson_count	:any;
-	del_lesson_count	:any;
-	ok_lesson_rate	:any;
-	order_rate	:any;
-	no_phone_count	:any;
-	ok_phone_no_lesson	:any;
-	ok_lesson_no_order	:any;
+	nick	:any;
+	phone	:any;
+	grade	:any;
+	subject_ex	:any;
+	userid	:any;
+	test_lesson_subject_id	:any;
+	grade_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../agent; vi  ../agent/get_yxyx_member.ts
+	 mkdir -p ../agent; vi  ../agent/get_yxyx_member_detail.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent-get_yxyx_member.d.ts" />
+/// <reference path="../g_args.d.ts/agent-get_yxyx_member_detail.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -54,6 +45,7 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
+		id:	$('#id_id').val(),
 		phone:	$('#id_phone').val()
     });
 }
@@ -70,6 +62,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_id').val(g_args.id);
 	$('#id_phone').val(g_args.phone);
 
 
@@ -80,6 +73,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id</span>
+                <input class="opt-change form-control" id="id_id" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

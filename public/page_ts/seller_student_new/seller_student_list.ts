@@ -758,7 +758,7 @@ function init_edit() {
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
             var id_school            = html_node.find("#id_stu_school");
-            var id_intention_level            = html_node.find("#id_intention_level");
+            var id_intention_level   = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
             var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");

@@ -2954,14 +2954,18 @@ class ss_deal extends Controller
 
         }else  {
             if ($free_flag) {
-
                 //持有个数
                 if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
                     return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
                 }
+                $start_time = strtotime(date("Y-m-d"));
+                $end_time = time(); 
+                $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid,$start_time,$end_time);
+                if($history_count>30){
+                    return $this->output_err("每人每天限制领取30个公海例子,您已领取".$history_count."个!");
+                }
                 $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT
                                      ,$adminid,$userid);
-
             }else{
                 $no_call_count=$this->t_seller_student_new->get_no_call_count($this->get_account_id());
                 if($no_call_count>=50) {
@@ -4092,6 +4096,7 @@ class ss_deal extends Controller
             $this->t_seller_student_new->field_update_list($item["userid"],[
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
+                "hand_free_count" => $item['hand_free_count']+1,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );
