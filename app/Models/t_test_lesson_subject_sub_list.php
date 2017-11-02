@@ -263,6 +263,8 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $normal_arr = [
             "lesson_type in (0,1,3)",
             "l.lesson_start<lesson_start",
+            "l.teacherid=teacherid",
+            "l.userid=userid",
             "confirm_flag!=2",
             "lesson_del_flag=0",
             "lesson_status=2",
@@ -272,9 +274,12 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "type=2",
         ];
         $first_lesson_arr = [
-            "l.lesson_start>lesson_start",
             "lesson_type=2",
-            ""
+            "l.lesson_start>lesson_start",
+            "l.teacherid=teacherid",
+            "l.userid=userid",
+            "lesson_del_flag=0",
+            "lesson_status=2",
         ];
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start"
                                   // ." ,t.phone,tls.require_admin_type"
