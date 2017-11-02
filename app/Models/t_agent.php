@@ -1412,7 +1412,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
         }
 
-        $level_count_info= $this-> get_level_count_info($id);
+        $level_count_info= $this->get_level_count_info($id);
         $agent_status_money =0;
         $l1_agent_status_test_lesson_succ_count=0;
         $l1_agent_status_all_money =0;
