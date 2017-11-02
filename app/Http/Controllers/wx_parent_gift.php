@@ -653,9 +653,8 @@ class wx_parent_gift extends Controller
         $light_num   = floor(($invite_num - 20*$prize_num)/5)>0?floor(($invite_num - 20*$prize_num)/5):0;
 
         if($light_num<4){
-            return $this->output_err("您未集齐四张卡片!");
+            return $this->output_err("您未集齐四张卡片,请继续加油!");
         }
-
 
         $rate  = mt_rand(1,100);
         $prize = 0;
@@ -698,6 +697,7 @@ class wx_parent_gift extends Controller
             "deposit_time" => 1,
             "is_deposit" => 1,
             "money"  => $prize,
+            // "agent_id" => $
         ]);
 
         //发送微信推送
@@ -721,7 +721,6 @@ class wx_parent_gift extends Controller
             "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
             "remark"    => "感谢您的参与",
         ];
-        // $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$agent_info['phone']."&type=2";
         $url = "http://wx-yxyx.leo1v1.com/wx_yxyx_web/index";
         $wx->send_template_msg($openid,$template_id,$data_msg ,$url);
         $prize = $prize/100;
