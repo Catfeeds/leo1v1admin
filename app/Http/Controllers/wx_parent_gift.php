@@ -700,8 +700,6 @@ class wx_parent_gift extends Controller
             $prize = 0;
         }
         // 中奖金额存入数据库
-
-        // $prize = 0;
         $this->t_agent->update_money($userid, $prize);
 
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
