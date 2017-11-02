@@ -281,10 +281,14 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     }
     
     //@desn:获取推荐学员签单量、签单金额[无下限限制下级]
-    public function get_cycle_child_order_info($in_str){
+    //@param:$in_str child  id串
+    //@param:$start_time  每月开始时间
+    //@param:$end_time  每月结束时间
+    public function get_cycle_child_order_info($in_str,$start_time,$end_time){
         $where_arr = [
             'ao.aid in '.$in_str,
         ];
+        $this->where_arr_add_time_range($where_arr,"ao.create_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             "select sum(ao.orderid>0) child_order_count,sum(oi.price) child_order_money ".
             "from %s ao ".

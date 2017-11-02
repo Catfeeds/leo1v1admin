@@ -333,6 +333,7 @@ class user_manage_new extends Controller
         $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
+        $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type
         );
@@ -566,6 +567,7 @@ class user_manage_new extends Controller
             "teacher_compensate"       => $teacher_compensate/100,
             "teacher_compensate_price" => $teacher_compensate_price/100,
             "teacher_reference"        => $teacher_reference/100,
+            "teacher_train"            => $teacher_train/100,
             "lesson_count"             => $lesson_total_arr,
         ]);
     }
@@ -2423,9 +2425,13 @@ class user_manage_new extends Controller
             $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
             if ($list['warning_stu_num'] != 0) {
                 $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
+                $list['warning_renow_rate'] = round( $list['warning_renow_stu_num']*100/$list['warning_stu_num'] ,2) .'%';
             }else {
                 $list['renow_rate'] = 0;
+                $list['warning_renow_rate'] = 0;
             }
+
+
         }
 
         return $this->pageView(__METHOD__,null, [
