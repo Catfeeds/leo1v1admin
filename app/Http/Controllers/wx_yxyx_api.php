@@ -92,7 +92,7 @@ class wx_yxyx_api extends Controller
         ];
 
         if($userid){
-            $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
+            $ruffian_money = (int)$this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
         }else{
             $ruffian_money = 0;
         }
@@ -101,8 +101,6 @@ class wx_yxyx_api extends Controller
             "all_money" => $ruffian_money,
             "open_moeny" => $ruffian_money ,
         ];
-
-
 
         $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
         $data["order_user_count"]= $agent_info["child_order_count"] ;

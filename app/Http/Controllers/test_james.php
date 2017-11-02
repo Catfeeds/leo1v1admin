@@ -818,6 +818,11 @@ class test_james extends Controller
 
 
     public function dd(){
+
+        $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money(211);
+        dd($ruffian_money);
+
+
         $a  = floor((5 - 20*4)/5)>0?floor((5 - 20*4)/5):0;
 
         dd($a);

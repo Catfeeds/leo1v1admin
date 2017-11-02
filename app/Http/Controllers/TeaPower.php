@@ -4056,6 +4056,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-    
+    public function add_reference_price($teacherid,$recommended_teacherid,$identity){
+
+    }
 
 }
