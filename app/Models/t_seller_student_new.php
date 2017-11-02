@@ -1211,13 +1211,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tss.ass_test_lesson_order_fail_flag',$test_lesson_fail_flag,-1],
         ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
-            $where_arr[]= "f.adminid =$adminid ";
-        }
-        if (!($nick || $phone)) {
-            $now=time(NULL);
-            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
-            $where_arr[]= "f.adminid is null ";
+            $where_arr[]= ['n.free_adminid =%u',$adminid];
         }
         if($suc_test_flag == 0){
             $where_arr[] = 'n.test_lesson_count=0';
@@ -1234,7 +1230,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s m on n.admin_revisiterid=m.uid  "
-            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid ) "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
             ." where %s ",
@@ -1242,7 +1237,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
-            t_test_subject_free_list::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             $where_arr
