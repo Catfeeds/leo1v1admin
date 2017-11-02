@@ -304,9 +304,6 @@
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
                             <input id="id_stu_request_test_lesson_time" class=" form-control "   />
                             <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消" >
-                                    <i class="fa fa-times"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -315,9 +312,6 @@
                             <span class="input-group-addon">上传试卷：</span>
                             <input type="text" class=" form-control "  id="id_test_paper"   / >
                             <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary upload_test_paper"  title="上传" >
-                                    上传
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -343,7 +337,6 @@
                     </div>
                     <div class="col-xs-12 col-md-5 ">
                         <a class="btn  " id="id_stu_rev_info" >回访记录</a>
-                        <a class="btn  btn-primary " id="id_send_sms" >发短信给家长</a>
                     </div>
                 </div>
                 <div class="row ">
@@ -352,9 +345,6 @@
                             <span class="input-group-addon">下次回访：</span>
                             <input id="id_next_revisit_time" class=" form-control " />
                             <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary " id="id_stu_reset_next_revisit_time"  title="取消下次回访">
-                                    <i class="fa fa-times"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
