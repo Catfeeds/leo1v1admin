@@ -48,7 +48,7 @@ class NoticeTeacherFeedbackToAdmin extends Command
 
         foreach($list as $val){
             $acc = "";
-            if(in_array($val['feedback_type'],[201,202,203,204,205])){
+            if(in_array($val['feedback_type'],[204,205])){
                 // if($val['accept_adminid']){
                 //     if(!in_array($val['accept_adminid'],$has_push)){
                 //         $acc = $task->t_manager_info->get_account($val['accept_adminid']);
