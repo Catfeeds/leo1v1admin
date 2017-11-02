@@ -1667,7 +1667,12 @@ $(function(){
                     title      : "精选维度",
                     width      : 50,
                     field_name : "fine_dimension"
+                },{
+                    title      : "地区",
+                    width      : 50,
+                    field_name : "address"
                 }
+
             ] ,
             //查询列表
             filter_list : [
@@ -2822,7 +2827,9 @@ $(function(){
         });
     }
 
-    download_hide();
+    if(g_adminid != 349){
+        download_hide();
+    }
     $(".opt-download-test-paper").show();
    // $(".page-opt-show-all-xls").hide();
 

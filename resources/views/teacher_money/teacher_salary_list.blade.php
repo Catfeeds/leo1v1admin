@@ -44,26 +44,10 @@
                 </div>
                 <div class="col-xs-6 col-md-10">
                     <div class="input-group">
-                            <span class="input-group">课程收入</span>
-                            <input id="id_lesson_price" value="0">
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-11">
-                    <div class="input-group">
-                        <span class="input-group">老师税前金额</span>
+                        <span class="input-group">课程收入</span>
+                        <input id="id_lesson_price" value="0">
+                        <span class="input-group">老师总工资</span>
                         <input id="id_teacher_money_tax" value="">
-                        <span class="input-group">老师税后金额</span>
-                        <input id="id_teacher_money" value="">
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-10">
-                    <div class="input-group">
-                        <span class="input-group">廖老师工作室</span>
-                        <input id="id_teacher_ref_money_1" value="0" >
-                        <span class="input-group">王老师工作室</span>
-                        <input id="id_teacher_ref_money_2" value="0">
-                        <span class="input-group">明日之星</span>
-                        <input id="id_teacher_ref_money_3" value="0">
                     </div>
                 </div>
             </div>
@@ -81,9 +65,7 @@
                         <td style="display:none">银行类型</td>
                         <td style="display:none">开户行</td>
                         <td style="display:none">预留手机</td>
-                        <td>代理工资</td>
-                        <td>税前</td>
-                        <td>状态</td>
+                        <td>总工资</td>
                         <td>操作</td>
                     </tr>
                 </thead>
@@ -99,9 +81,7 @@
                             <td>{{$var['bank_type']}}</td>
                             <td>{{$var['bank_address']}}</td>
                             <td>预留手机:{{$var['bank_phone']}}</td>
-                            <td>{{$var['agent_money']}}</td>
                             <td>{{$var['money']}}</td>
-                            <td>{{$var['pay_status']}}</td>
                             <td>
                                 <div class="opt-div"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

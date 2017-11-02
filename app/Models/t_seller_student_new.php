@@ -776,7 +776,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
     }
 
-    public function set_admin_info_new( $opt_type, $userid, $opt_adminid ,$self_adminid ,  $opt_account, $account ) {
+    public function set_admin_info_new( $opt_type, $userid, $opt_adminid ,$self_adminid ,  $opt_account, $account ,$assign_time =0  ) {
 
         $now=time(NULL);
         $ss_info= $this->task->t_seller_student_new->field_get_list($userid,"seller_resource_type,tmk_student_status,phone ,first_admin_master_adminid , first_admin_master_time ,first_admin_revisiterid ,first_admin_revisiterid_time");
@@ -863,16 +863,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
         }else if ( $opt_type==2) { //TMK
+            if(! $assign_time)  {
+                $assign_time=time(NULL);
+            }
             $set_arr=[
-                "tmk_assign_time"  => time(NULL) ,
+                "tmk_assign_time"  => $assign_time ,
                 "tmk_adminid"  => $opt_adminid,
                 "tmk_join_time"  => time(NULL),
                 "tmk_student_status"  => 0,
                 "hold_flag" => 1,
             ];
+
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,
-                "操作者: $account 状态: 分配给TMK [ $opt_account ] ",
+                "操作者: $account 状态: 分配给TMK [ $opt_account ], 分配时间:  " . \App\Helper\Utils::unixtime2date($assign_time),
                 "system"
             );
 

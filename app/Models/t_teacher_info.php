@@ -808,7 +808,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select t.wx_openid,need_test_lesson_flag,t.nick,realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,"
-                                  ." t.train_through_new, t.train_through_new_time,"
+                                  ." t.train_through_new, t.train_through_new_time,t.address,"
                                   ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,teacher_textbook,"
                                   ." create_meeting, t.level ,t.work_year,  advantage, base_intro,textbook_type,is_good_flag,"
                                   ." t.create_time,t.address,t.subject,second_subject,third_subject,t.school,tea_note,"
@@ -2125,7 +2125,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["create_time<%u",$start_time,0],
             ["teacher_ref_type=%u",$teacher_ref_type,-1],
             // "trial_lecture_is_pass=1",
-            "train_through_new=1",
+            // "train_through_new=1",
         ];
         $sql = $this->gen_sql_new("select count(1) as num"
                                   ." from %s "
@@ -4408,9 +4408,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
         $sql = $this->gen_sql_new("select teacherid,teacher_money_type,teacher_type "
                                   ." from %s t"
-                                  ." where exists (select 1 from %s where %s)"
+                                  ." where %s and ("
+                                  ." exists (select 1 from %s where %s)"
                                   ." or exists (select 1 from %s where %s)"
+                                  ." )"
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$lesson_arr
                                   ,t_teacher_money_list::DB_TABLE_NAME
@@ -4450,7 +4453,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new_time>=".$start_time,
             "train_through_new_time<".$end_time,
             "train_through_new=1",
-            "la.id>0"
+            "la.id>0",
+            "t.train_through_new_time>la.answer_begin_time"
         ];
         $sql = $this->gen_sql_new("select AVG(t.train_through_new_time-la.answer_begin_time)"
                                   ." from %s t left join %s la on t.phone = la.phone"

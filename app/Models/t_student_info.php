@@ -3121,7 +3121,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,self::DB_TABLE_NAME
                                   ,$parentid
         );
-
         return $this->main_get_value($sql);
     }
 }

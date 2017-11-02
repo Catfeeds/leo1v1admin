@@ -4,8 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	phone:	number;
-	nickname:	string;
+	phone:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -35,8 +34,7 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		phone:	$('#id_phone').val(),
-		nickname:	$('#id_nickname').val()
+		phone:	$('#id_phone').val()
     });
 }
 $(function(){
@@ -53,7 +51,6 @@ $(function(){
         }
     });
 	$('#id_phone').val(g_args.phone);
-	$('#id_nickname').val(g_args.nickname);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -68,13 +65,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">phone</span>
                 <input class="opt-change form-control" id="id_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">nickname</span>
-                <input class="opt-change form-control" id="id_nickname" />
             </div>
         </div>
 */

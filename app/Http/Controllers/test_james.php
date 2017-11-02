@@ -818,45 +818,16 @@ class test_james extends Controller
 
 
     public function dd(){
-        $prize = 100;
-        $appid     = \App\Helper\Config::get_yxyx_wx_appid();
-        $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();
-        $wx = new \App\Helper\Wx($appid, $appsecret);
+        $a  = floor((5 - 20*4)/5)>0?floor((5 - 20*4)/5):0;
 
-        $openid='oAJiDwHgwCP8Z2AVLneRSRCILCH4';
+        dd($a);
+        dd(floor(-75/5));
 
-        $template_id = "-jlgaNShu8zuil5ST1Qo5hY6RzaNyujwZ0fAnh2Te40";//活动结束提醒
-        $data_msg = [
-            "first"     => "您好，此次活动已经结束，你已经成功参与",
-            "keyword1"  => "双十一活动",
-            "keyword2"  => "2017.11.03 - 2017.11.10",
-            "keyword3"  => "活动结果：您获得了现金红包".($prize/100)."元，进入账号管理-个人中心-我的收入-实际收入即可查看",
-            "remark"    => "感谢您的参与",
-        ];
-        // $url = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$agent_info['phone']."&type=2";
-        $url = "http://www.wx-yxyx.leo1v1.com/wx_yxyx_web/index";
-        $wx->send_template_msg($openid,$template_id,$data_msg ,$url);
-
-
-        // $a = mt_rand(1,2);
-        // dd($a);
-        // dd(strtotime(date('Y-m-d')));
-        $today = strtotime(date('Y-m-d'));
-        dd($today);
-        
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
-
         $ret_info['seller_schedule_num_month'] = $this->t_test_lesson_subject_require->get_seller_schedule_num_month($start_time, $end_time); // 教务已排课['月排课数']
 
         dd($ret_info);
-        $ret_info['all_order_price'] = $this->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数签单总额
-
-        dd($ret_info);
-
-        $six = strtotime('2017-11-6');
-        dd($six);
-        dd(strtotime(date('Y-m-d ')));
     }
 
 

@@ -43,11 +43,10 @@ class import_to_teacher_flow extends cmd_base
         $start_time = strtotime(date('Y-m-d 00:00:00', $time));
         $end_time = strtotime(date('Y-m-d 23:59:59', $time));
 
-
         $start_time  = strtotime("2017-6-1");
         $end_time = time();
 
-        // $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
+        $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
         // if(!empty($tea_list)){
         //     foreach($tea_list as $val){
         //         $task->t_teacher_flow->row_insert_ignore([
@@ -106,22 +105,39 @@ class import_to_teacher_flow extends cmd_base
             if (!isset($lecture[$item['teacherid']])) continue;
             if ($lecture[$item['teacherid']]['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
                 $task->t_teacher_flow->field_update_list($teacherid,[
-                    "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time']
+                    "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time'],
+                    "subject" => $lecture[$item['teacherid']]['subject'],
+                    'grade' => $lecture[$item['teacherid']]['grade']
                 ]);
             }
         }
 
         // 模拟试听通过时间
         $where = ['simul_test_lesson_pass_time=0'];
-        $info = $task->t_teacher_flow->get_all_list($where);
+        $info  = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
             $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $teacherid);
-            if ($lecture && $lecture['add_time'] > $item['trial_lecture_pass_time']) {
-                $task->t_teacher_flow->field_update_list($teacherid, [
-                    "simul_test_lesson_pass_time" => $lecture['add_time'],
+            // if ($lecture && ($lecture['add_time'] > $item['trial_lecture_pass_time'] )) {
+            $task->t_teacher_flow->field_update_list($teacherid, [
+                "simul_test_lesson_pass_time" => $lecture['add_time'],
+            ]);
+            // }
+        }
+
+        // 刷科目年级
+        $where = ['grade=0'];
+        $info = $task->t_teacher_flow->get_all_list();
+        foreach($info as $teacherid => $item) {
+            $subject = $task->t_lesson_info->get_subject_for_teacherid($teacherid);
+            if ($subject) {
+                $task->t_teacher_flow->field_update_list($teacherid,[
+                    "subject" => $subject['subject'],
+                    "grade" => $subject['grade']
                 ]);
             }
         }
+
+
 
 
 

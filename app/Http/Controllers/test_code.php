@@ -710,12 +710,6 @@ class test_code extends Controller
         }
     }
 
-    public function test_email(){
-        $email = "wg392567893@163.com";
-        $ret= \App\Helper\Common::send_paper_mail_new($email,"测试邮件","is test email");
-        dd($ret);
-    }
-
     public function reset_test_appointment(){
         if(\App\Helper\Utils::check_env_is_test()){
             $phone     = $this->get_in_int_val("phone","99900020001");
@@ -1146,7 +1140,7 @@ class test_code extends Controller
      adrian
      */
     public function reset_teacher_info(){
-        $time  = strtotime("2017-9-26");
+        $time  = strtotime("2017-11-1");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
