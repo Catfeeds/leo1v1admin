@@ -1463,6 +1463,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         //双11活动
         if($userid){
+            //t_luck_draw_yxyx_for_ruffian
             $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
         }else{
             $ruffian_money = 0;
@@ -2238,7 +2239,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize"
                                   ." where userid=%s"
                                   ,self::DB_TABLE_NAME
                                   ,$parentid

@@ -102,7 +102,7 @@ class wx_yxyx_api extends Controller
 
         $data["ruffian_money_info"] =[
             "all_money" => $ruffian_money,
-            "open_moeny" => $ruffian_money ,
+            "open_moeny" => $ruffian_money,
         ];
 
         $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
