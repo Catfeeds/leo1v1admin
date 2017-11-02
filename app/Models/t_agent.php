@@ -2550,29 +2550,26 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr[]=sprintf(" a.phone like '%s%%' ", $this->ensql($phone));
         }
 
-        $tq_arr = [
-            ['tq.start_time>=%u', $start_time, -1],
-            ['tq.start_time<%u', $end_time, -1],
-        ];
-
         $sql = $this->gen_sql_new(
             "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid,"
-            ." tl.test_lesson_subject_id"
+            ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,"
+            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count"
             ." from %s a "
             ." left join %s na on na.parentid=a.id"
             ." left join %s s on s.userid=na.userid"
-            ." left join %s tq on tq.phone=na.phone and %s "
+            ." left join %s tq on tq.phone=na.phone"
             ." left join %s l on l.lessonid=na.test_lessonid "
             ." left join %s tl on tl.userid=na.userid "
+            ." left join %s r on r.userid=na.userid "
             ." where %s "
             ." group by s.userid"
             ,self::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
-            ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
             ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
             ,$where_arr
         );
 

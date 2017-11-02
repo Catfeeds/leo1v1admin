@@ -26,7 +26,11 @@ interface RowData {
 	subject_ex	:any;
 	userid	:any;
 	test_lesson_subject_id	:any;
+	test_lessonid	:any;
+	revisit_time	:any;
+	phone_count	:any;
 	grade_str	:any;
+	test_lesson	:any;
 }
 
 /*
