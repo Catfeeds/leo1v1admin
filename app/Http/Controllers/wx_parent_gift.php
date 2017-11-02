@@ -624,6 +624,8 @@ class wx_parent_gift extends Controller
             $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
             $ret_info['invite_num'] = count($invite_info);
             $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+
+            $ret_info['light_num'] =  $ret_info['light_num']>4?4: $ret_info['light_num'];
             $ret_info['phone'] = $agent_info['phone'];
 
         }else{
@@ -697,12 +699,8 @@ class wx_parent_gift extends Controller
 
         // 中奖金额存入数据库
         $ret = $this->t_agent->update_money($userid, $prize);
-        $is_save   = 0;
-        $save_time = 0;
-        if($ret){
-            $is_save = 1;
-            $save_time = time();
-        }
+        $is_save = 1;
+        $save_time = time();
 
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
             "luck_draw_adminid" => $userid,
