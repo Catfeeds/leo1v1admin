@@ -41,13 +41,13 @@ class update_teaching_core_data extends Command
         //
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        for($i=1;$i<=10;$i++){
+        // for($i=1;$i<=10;$i++){
 
-            $time =strtotime("2016-12-01");
-            $start_time=strtotime("+".$i." month",$time);
-            $end_time = strtotime("+".($i+1)." month",$time);
-            // $start_time =strtotime("2017-01-01");
-            //  $end_time =strtotime("2017-02-01");
+        //     $time =strtotime("2016-12-01");
+        //     $start_time=strtotime("+".$i." month",$time);
+        //     $end_time = strtotime("+".($i+1)." month",$time);
+        $start_time =strtotime("2017-01-01");
+         $end_time =strtotime("2017-02-01");
 
             //新老师数(入职)
             $train_through_all = $task->t_teacher_info->tongji_train_through_info($start_time,$end_time);
@@ -547,7 +547,7 @@ class update_teaching_core_data extends Command
                     "tea_complaint_deal_time"         =>$deal_time
                 ]);
  
-            }
+                //  }
 
            
 
