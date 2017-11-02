@@ -1199,17 +1199,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
-            ["has_pad=%u", $has_pad, -1 ],
-            ["subject=%u", $subject, -1 ],
+            ["n.has_pad=%u", $has_pad, -1 ],
+            ["t.subject=%u", $subject, -1 ],
             "s.lesson_count_all=0",
             "n.seller_resource_type=1",
             "n.admin_revisiterid=0",
             "t.seller_student_status <>  50",
             "n.sys_invaild_flag=0",
-            ["origin like '%s%%'", $this->ensql( $origin), ""],
+            ["s.origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
-            ['tss.ass_test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
+            ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
@@ -1228,13 +1228,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
-            ."tss.ass_test_lesson_order_fail_flag"
+            ."tr.test_lesson_order_fail_flag"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s m on n.admin_revisiterid=m.uid  "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
+            ." left join %s tr on tr.require_id=tss.require_id "
             ." where %s order by n.free_time desc ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
@@ -1242,12 +1243,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_manager_info::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
             $where_arr
         );
         if($nick || $phone) {
             return $this->main_get_list_as_page($sql);
         }else{
-            return $this->main_get_page_random($sql,2);
+            return $this->main_get_page_random($sql,5);
         }
     }
 

@@ -1462,9 +1462,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $activity_money=$this->t_agent_money_ex->get_all_money($id);
 
         //双11活动
-        $ruffian_money = $this->t_agent->get_ruffian_money($id);
+        $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
 
-        
+
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
@@ -2190,7 +2190,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //获取我的邀请列表
     public function my_invite($agent_id,$page_info,$page_count){
-        
+
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time "
@@ -2233,15 +2233,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
-                                  ." where userid=%s"
-                                  ,self::DB_TABLE_NAME
-                                  ,$parentid
-        );
+    // public function update_money($parentid, $prize){
+    //     $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
+    //                               ." where userid=%s"
+    //                               ,self::DB_TABLE_NAME
+    //                               ,$parentid
+    //     );
 
-        return $this->main_update($sql);
-    }
+    //     return $this->main_update($sql);
+    // }
     //@desn:获取可体现金额
     public function get_can_carry($agent_id){
         $sql = $this->gen_sql_new(
