@@ -613,7 +613,6 @@ class wx_parent_gift extends Controller
 
 
         $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
-        // $openid = $this->get_in_str_val('o');//测试
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
@@ -625,11 +624,10 @@ class wx_parent_gift extends Controller
             $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
             $ret_info['invite_num'] = count($invite_info);
             $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
+
+            $ret_info['light_num'] =  $ret_info['light_num']>=4?4:$ret_info['light_num'];
             $ret_info['phone'] = $agent_info['phone'];
 
-            // if($ret_info['light_num'] == 1){  // 测试
-                // $ret_info['light_num']=4;
-            // }
         }else{
             $ret_info = [
                 "invite_num" => 0,
@@ -644,13 +642,25 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
-
         $openid = session('yxyx_openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
-        $userid   = $agent_info['userid'];
-        $today = strtotime(date('Y-m-d'));
+        $userid = $agent_info['userid'];
+        $today  = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
+
+        // 检查是否可以抽奖
+        $p_agent_id  = $agent_info['id'];
+        $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($userid);
+        $start_time  = strtotime('2017-11-1'); // 2017-11-03 // 测试
+        $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
+        $invite_num  = count($invite_info);
+        $light_num   = floor(($invite_num - 20*$prize_num)/5)>0?floor(($invite_num - 20*$prize_num)/5):0;
+
+        if($light_num<4){
+            return $this->output_err("您未集齐四张卡片!");
+        }
+
 
         $rate  = mt_rand(1,100);
         $prize = 0;
@@ -689,12 +699,8 @@ class wx_parent_gift extends Controller
 
         // 中奖金额存入数据库
         $ret = $this->t_agent->update_money($userid, $prize);
-        $is_save   = 0;
-        $save_time = 0;
-        if($ret){
-            $is_save = 1;
-            $save_time = time();
-        }
+        $is_save = 1;
+        $save_time = time();
 
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
             "luck_draw_adminid" => $userid,
