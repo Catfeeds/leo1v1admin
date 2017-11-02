@@ -90,7 +90,7 @@
                         <td>{{@$var["last_revisit_time"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["free_time"]}} </td>
-                        <td>{{@$var["ass_test_lesson_order_fail_flag_str"]}}</td>
+                        <td>{{@$var["test_lesson_order_fail_flag_str"]}}</td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["phone_hide"]}} </td>
