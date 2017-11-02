@@ -2421,7 +2421,11 @@ class user_manage_new extends Controller
             }
             //续费率
             $renow_num = $list['warning_renow_stu_num'] + $list['no_warning_renow_stu_num'];
-            $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
+            if ($list['warning_stu_num'] != 0) {
+                $list['renow_rate'] = round( $renow_num*100/$list['warning_stu_num'] ,2) .'%';
+            }else {
+                $list['renow_rate'] = 0;
+            }
         }
 
         return $this->pageView(__METHOD__,null, [
