@@ -743,36 +743,6 @@ class tongji extends Controller
         $lesson_list = $this->t_month_student_count->get_month_money_info(strtotime($start_time), $end_time);
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
-            /*
-            $all_money=0;
-            if ($month=="2017-06"  ) {
-                $all_money=7406943;
-            }else if ($month=="2017-07") {
-                $all_money= 8210116.87;
-            }else if ($month=="2017-08") {
-                $all_money= 9020138.37;
-            }else if ($month=="2017-09") {
-                $all_money= 10583119.1;
-            }else if ($month=="2017-10") {
-                $all_money= intval($item["all_money"]*1.5);
-            }
-            if ($all_money) {
-                $v= $all_money/$item["all_money"];
-                $item["all_money"]= $all_money;
-                $item["order_total"]= intval(  $item["order_total"]*$v/100)*100;
-                $item["count"]=  intval($item["count"]*$v);
-            }
-            if ($month=="2017-01"  ) {
-                $item["all_money"]=1649660;
-            }else if ($month=="2017-03"  ) {
-                $item["all_money"]=3010315.6;
-            }else if ($month=="2017-04"  ) {
-                $item["all_money"]=4139886.1;
-
-            }else if ($month=="2017-05"  ) {
-                $item["all_money"]=4454107;
-            }
-            */
             $now = date('Y-m', time());
             if ( $month == $now ) {
                 $start = strtotime($now);
@@ -782,7 +752,6 @@ class tongji extends Controller
                 $item['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
                 $item['lesson_count_money'] = $lesson_money['lesson_count_money']/100;
             } else {
-
                 $tmp_arr = @$lesson_list[$month];
                 $item['lesson_count'] = @$tmp_arr['lesson_count']/100;
                 $item['lesson_stu_num'] = @$tmp_arr['lesson_stu_num'];

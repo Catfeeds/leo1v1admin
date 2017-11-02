@@ -1368,6 +1368,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function reset_user_info($id, $send_wx_flag=false ) {
+
         $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
         $agent_type= $agent_info["type"];
@@ -1376,6 +1377,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $old_agent_status = $agent_info["agent_status"];
         $agent_student_status=0;
         $agent_status=0;
+
+        \App\Helper\Utils::logger("t_agent_yxyx: $id");
+
+
         $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
@@ -1463,14 +1468,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         //双11活动
         if($userid){
+            //t_luck_draw_yxyx_for_ruffian
             $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
         }else{
             $ruffian_money = 0;
         }
 
 
+        \App\Helper\Utils::logger("yxyx_ruffian: $ruffian_money userid: $userid");
+
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money;
+        // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
