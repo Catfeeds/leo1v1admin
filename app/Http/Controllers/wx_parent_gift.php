@@ -652,6 +652,7 @@ class wx_parent_gift extends Controller
         $today  = strtotime(date('Y-m-d'));
         // 获取已中奖的总金额
         $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
+        $has_get_money = $this->t_luck_draw_yxyx_for_ruffian->get_total_money($today);
 
         // 检查是否可以抽奖
         $p_agent_id  = $agent_info['id'];
