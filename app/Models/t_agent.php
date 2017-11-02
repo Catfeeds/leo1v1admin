@@ -1368,6 +1368,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function reset_user_info($id, $send_wx_flag=false ) {
+
         $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
         $agent_type= $agent_info["type"];
@@ -1376,6 +1377,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $old_agent_status = $agent_info["agent_status"];
         $agent_student_status=0;
         $agent_status=0;
+
+        \App\Helper\Utils::logger("t_agent_yxyx: $id");
+
+
         $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
