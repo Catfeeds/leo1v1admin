@@ -1226,7 +1226,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"
-            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
             ."tr.test_lesson_order_fail_flag"

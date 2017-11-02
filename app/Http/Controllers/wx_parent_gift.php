@@ -666,7 +666,6 @@ class wx_parent_gift extends Controller
            71.11（1%）
            91.11（1%）
            111.1（1%）
-           每天优先小金额
            每日金额为1000元预算
         */
 

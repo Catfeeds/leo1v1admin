@@ -16,7 +16,7 @@ class seller_menu{
                     ["power_id"=>38, "name"=>"排课审核",   "url"=>"/test_lesson_review/test_lesson_review_list"],
                     ["power_id"=>7, "name"=>"抢新学生",   "url"=>"/seller_student_new/deal_new_user" ],
                     ["power_id"=>8, "name"=>"抢新学生-当前用户","url"=>"/seller_student_new/deal_new_user_tmk"],
-                    ["power_id"=>9, "name"=>"公海-抢学生","url"=>"/seller_student_new/get_free_seller_list"],
+                    ["power_id"=>9, "name"=>"藏经阁","url"=>"/seller_student_new/get_free_seller_list"],
                     ["power_id"=>10, "name"=>"试听未签-抢学生","url"=>"/seller_student_new/test_lesson_no_order_list"],
                     ["power_id"=>15, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
                     ["power_id"=>11, "name"=>"new-转介绍例子", "url"=>"/seller_student_new/seller_seller_student_list"],
