@@ -247,6 +247,21 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_list($sql);
     }
 
+    public function get_trial_reward_lesson_list($start_time,$type){
+        $where_arr = [
+            ["set_lesson_time>%u",$start,0],
+            "tl.success_flag<2",
+            "l.stu_attend>0",
+            "l.tea_attend>0",
+        ];
+
+        if($type==2){
+            $where_arr[] = "l.teacher_money_type in (4,5,6) ";
+        }elseif($type==3){
+            $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
+        }
+    }
+
     public function  tongji_lesson_count_list($start_time,$end_time){
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
