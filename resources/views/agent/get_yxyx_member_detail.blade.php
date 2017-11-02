@@ -18,9 +18,9 @@
                     <td>试听需求</td>
                     <td>备注</td>
                     <td>未签原因</td>
-                    <td>曾经复制的CC</td>
+                    <td>曾经负责的CC</td>
                     <td>回访次数(电话拨打次数)</td>
-                    <td> 操作  </td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -30,15 +30,15 @@
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["test_lesson"]}} </td>
+                        <td>{{@$var["revisit_time"]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["phone_count"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
