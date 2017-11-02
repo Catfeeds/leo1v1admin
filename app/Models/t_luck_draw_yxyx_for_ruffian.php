@@ -41,7 +41,7 @@ class t_luck_draw_yxyx_for_ruffian extends \App\Models\Zgen\z_t_luck_draw_yxyx_f
 
 
     public function get_ruffian_money_for_total($userid){
-        $sql = $this->gen_sql_new("  select money from %s ld"
+        $sql = $this->gen_sql_new("  select sum(money) from %s ld"
                                   ." where luck_draw_adminid = $userid"
                                   ,self::DB_TABLE_NAME
         );
