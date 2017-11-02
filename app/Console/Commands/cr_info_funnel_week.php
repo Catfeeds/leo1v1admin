@@ -92,7 +92,7 @@ class cr_info_funnel_week extends Command
                         }
                         $month_plan_renew_num = $arr['plan_renew_num'];
                         foreach ($month_renew_student_list as $key => $value) {
-                            if(!empty($warning_list[$value])){
+                            if(!empty($warning_list[$value['userid']])){
                                 ++$month_plan_renew_num;
                             }
                         }
