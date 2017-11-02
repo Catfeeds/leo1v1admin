@@ -3944,7 +3944,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_info_by_userid($userid){
-        $sql = "select * from t_order_info where userid = $userid and order_time >1506787200;";
+        $sql = "select * from t_order_info where userid = $userid and order_time >1506787200 and price > 0;";
         return $this->main_get_row($sql);
     }
 }
