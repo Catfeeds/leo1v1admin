@@ -40,6 +40,7 @@ class test_sam  extends Controller
             $arr['plan_renew_num'] = 0;
             if(!empty($warning_list)){
                 foreach($warning_list as $key => $value){
+
                     $userid = $value;
                     if(in_array($userid, $list[$userid])){
                         ++$arr['plan_renew_num'];

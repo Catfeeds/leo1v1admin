@@ -465,8 +465,10 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $today_free_count= $this->t_seller_student_new-> get_today_next_revisit_need_free_count($adminid=99);
-        dd($today_free_count);
+        $start_time = strtotime(date("Y-m-d"));
+        $end_time = time();
+        $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid=864,$start_time,$end_time);
+        dd($history_count);
     }
 
     //处理等级头像
