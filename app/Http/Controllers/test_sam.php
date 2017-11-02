@@ -13,6 +13,88 @@ class test_sam  extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function hello_li(){
+        $date_time = [
+            [
+                "start_time" => 1493568000, //5-1
+                "end_time"   => 1496246400, //6-1
+            ],
+            
+            [
+                "start_time" => 1496246400, //6-1
+                "end_time"   => 1498838400, //7-1
+            ],
+            /*
+            [
+                "start_time" => 1498838400, //7-1
+                "end_time"   => 1501516800, //8-1
+            ],
+            [
+                "start_time" => 1501516800, //8-1
+                "end_time"   => 1504195200, //9-1
+            ],
+            [
+                "start_time" => 1504195200, //9-1
+                "end_time"   => 1506787200, //10-1
+            ],
+            [
+                "start_time" => 1506787200, //10-1
+                "end_time"   => 1509465600, //11-1
+            ],
+            */
+        ];
+        $grade_list = ["(100,101,102,103,104,105,106)","(200,201,202,203)","(300,301,302,303)"];
+        $subject_list = [1,2,3,4,5,10];
+
+        foreach ($date_time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            foreach ($subject_list as $kkey => $kvalue) {
+                $subject = $kvalue;
+                
+                foreach ($grade_list as $vkey => $vvalue) {
+                    $grade = "a.grade in ".$vvalue;
+                    //echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/>';
+                    $ret_info = $this->t_cr_week_month_info->get_apply_info_month($start_time,$end_time,$subject,$grade);
+
+
+                    foreach ($ret_info as $key => &$value) {
+                        $value['date'] = date("Y-m-d",$value['stu_request_test_lesson_time']);
+                        $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+                        $value['subject_str'] = E\Esubject::get_desc($value['subject']);
+                        if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                            $value['phone_location'] = "其它";
+                        }else{
+                            $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                            $value['phone_location'] = $pro;
+                        }
+                    }
+                    echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/><br/><br/><br/><br/><br/>';
+                    echo "<table >";
+                    echo "<tr>"."<td width=30px>date</td>"
+                            ."<td width=30px>年级</td>"
+                            ."<td width=30px>科目</td>"
+                            ."<td width=200px>试听需求</td>"
+                            ."<td width=30px>教材版本</td>"
+                            ."<td width=30px>地区</td>";
+                    foreach ($ret_info as $key => $value) {
+                        echo "<tr>";
+                        echo "<td width=30px>".$value['date']."</td>";
+                        echo "<td width=30px>".$value['grade_str']."</td>";
+                        echo "<td width=30px>".$value['subject_str']."</td>";
+                        echo "<td width=200px>".$value['stu_request_test_lesson_demand']."</td>";
+                        echo "<td width=30px>".$value['textbook']."</td>";
+                        echo "<td width=30px>".$value['phone_location']."</td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>"; 
+
+                }
+            }
+            echo "<br/>";
+        }
+    }
+
     public function hello_world(){
         $ret_info = $this->t_cr_week_month_info->get_apply_info_a1();
         foreach ($ret_info as $key => &$value) {
