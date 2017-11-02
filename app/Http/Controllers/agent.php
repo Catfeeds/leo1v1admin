@@ -1915,6 +1915,8 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
+            $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
+            \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
         }
         return $this->pageView(__METHOD__,$ret_info);
     }

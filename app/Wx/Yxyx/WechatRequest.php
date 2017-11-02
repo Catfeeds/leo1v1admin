@@ -167,7 +167,7 @@ class WechatRequest  {
                 'title' => '双11点赞优质教育',
                 'description' => '邀请好友参与课程点亮卡片，立即抽取现金红包100%中奖。这个11.11让你毫无顾虑买买买！',
                 'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/webwxgetmsgimg%20%281%29.jpg",
-                'url' => "http://wx-yxyx.leo1v1.com/wx_yxyx_common/check_is_login?p_phone=",
+                'url' => "http://wx-yxyx.leo1v1.com/wx_yxyx_common/check_is_login",
                 // 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_int',
             );
             $item = array();
