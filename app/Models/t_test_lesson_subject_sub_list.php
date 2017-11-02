@@ -249,7 +249,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
     public function get_trial_reward_lesson_list($start_time,$type){
         $where_arr = [
-            ["l.lesson_start>%u",$start,0],
+            ["l.lesson_start>%u",$start_time,0],
             "l.lesson_type=2",
             "l.lesson_del_flag=0",
             "l.lesson_status=2",
@@ -298,9 +298,8 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,$money_arr
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$first_lesson_arr
-
-
         );
+        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
