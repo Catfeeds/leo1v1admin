@@ -467,6 +467,7 @@ class agent extends Controller
     public function test_new(){
         $sort = $this->t_order_info->get_sort_order_count_money_new($adminid=314,$start_time=1506960000,$end_time=1509465600);
         $sort_new = [];
+        $sort_new_two = [];
         $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
         foreach($parent_orderid_arr as $info){
             foreach($sort as $item){
@@ -475,16 +476,22 @@ class agent extends Controller
                 }
             }
         }
-        dd($sort,$sort_new);
-        foreach($sort_new as &$item){
+        foreach($sort_new as $item){
             foreach($item as $info){
                 $type = $info['child_order_type'];
+                $parent_orderid = $info['parent_orderid'];
+                $price = $info['price'];
                 if($type == 2){
-                    $item = $info;
+                    $sort_new_two[$parent_orderid]['stage_money'] = $price;
+                    $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
                     break;
+                }else{
+                    $sort_new_two[$parent_orderid]['stage_money'] = 0;
+                    $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
                 }
             }
         }
+        dd($sort,$sort_new,$sort_new_two);
     }
 
     //处理等级头像
