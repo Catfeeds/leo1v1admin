@@ -19,11 +19,15 @@
  .bg_train_lesson{
      background-color:#ccc;
  }
+ 
 </style>
 <section class="content">
-
     <div class="row">
-         <div class="col-xs-12 col-md-2">
+        <div class="col-xs-12 col-md-3"  data-title="时间段">
+            <div  id="id_date_range" >
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-2">
             <div class="input-group">
                 <span >团队名称</span>
                 <select id="id_group" class="opt-change">
