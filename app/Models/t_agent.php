@@ -1463,6 +1463,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         //双11活动
         if($userid){
+            //t_luck_draw_yxyx_for_ruffian
             $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
         }else{
             $ruffian_money = 0;
