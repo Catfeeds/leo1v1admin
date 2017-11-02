@@ -2256,6 +2256,9 @@ trait TeaPower {
             $teacher_type   = $reference_info['teacher_type'];
             if(!in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
                 $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
+                // $ref_price = $this->get_teacher_reference_price(
+                //     $reference_info['phone'],$teacher_info['identity']
+                // );
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
                     "money"      => $ref_price*100,
