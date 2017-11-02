@@ -697,7 +697,7 @@ class wx_parent_gift extends Controller
             "deposit_time" => 1,
             "is_deposit" => 1,
             "money"  => $prize,
-            // "agent_id" => $
+            "agent_id" => $agent_info['id']
         ]);
 
         //发送微信推送
