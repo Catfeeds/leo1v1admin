@@ -272,8 +272,8 @@ class cr_info_month extends Command
            $month_plan_renew_num = 0;
             if(!empty($month_warning_list)){
                 foreach($month_warning_list as $key => $value){
-                    if(in_array($value,$month_renew_student_list )){
-                        ++$month_plan_renew_num;
+                    if(!empty($month_renew_student_list[$value])){
+                         ++$month_plan_renew_num;
                     }
                 }
             }
