@@ -613,7 +613,6 @@ class wx_parent_gift extends Controller
 
 
         $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
-        // $openid = $this->get_in_str_val('o');//测试
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
@@ -627,9 +626,6 @@ class wx_parent_gift extends Controller
             $ret_info['light_num']  = floor(($ret_info['invite_num'] - 20*$prize_num)/5)>0?floor(($ret_info['invite_num'] - 20*$prize_num)/5):0;
             $ret_info['phone'] = $agent_info['phone'];
 
-            // if($ret_info['light_num'] == 1){  // 测试
-                // $ret_info['light_num']=4;
-            // }
         }else{
             $ret_info = [
                 "invite_num" => 0,
@@ -658,6 +654,10 @@ class wx_parent_gift extends Controller
         $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
         $invite_num  = count($invite_info);
         $light_num   = floor(($invite_num - 20*$prize_num)/5)>0?floor(($invite_num - 20*$prize_num)/5):0;
+
+        if($light_num<4){
+            return $this->output_err("您未集齐四张卡片!");
+        }
 
 
         $rate  = mt_rand(1,100);
