@@ -103,8 +103,8 @@ class cr_info_funnel_month extends Command
                   $arr['tranfer_success_per'] = 0;
                 }*/
                 //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($cur_month,$end_time);
-                $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($cur_month,$end_time); //月初至今
-                $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($cur_month,$end_time);
+                $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time); //月初至今
+                $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
                 //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
                 $tranfer_total_month['total_orderid'] = $month_tranfer_data['total_num'];
                 $tranfer_total_month['total_num']     = $month_tranfer;
