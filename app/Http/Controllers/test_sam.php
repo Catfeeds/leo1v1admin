@@ -24,11 +24,12 @@ class test_sam  extends Controller
                 "start_time" => 1496246400, //6-1
                 "end_time"   => 1498838400, //7-1
             ],
-            /*
+            
             [
                 "start_time" => 1498838400, //7-1
                 "end_time"   => 1501516800, //8-1
             ],
+
             [
                 "start_time" => 1501516800, //8-1
                 "end_time"   => 1504195200, //9-1
@@ -41,10 +42,18 @@ class test_sam  extends Controller
                 "start_time" => 1506787200, //10-1
                 "end_time"   => 1509465600, //11-1
             ],
+            /*
             */
         ];
         $grade_list = ["(100,101,102,103,104,105,106)","(200,201,202,203)","(300,301,302,303)"];
         $subject_list = [1,2,3,4,5,10];
+        echo "<table >";
+                    echo "<tr>"."<td width=30px>date</td>"
+                            ."<td width=30px>年级</td>"
+                            ."<td width=30px>科目</td>"
+                            ."<td width=200px>试听需求</td>"
+                            ."<td width=30px>教材版本</td>"
+                            ."<td width=30px>地区</td>";
 
         foreach ($date_time as $key => $value) {
             $start_time = $value['start_time'];
@@ -69,14 +78,8 @@ class test_sam  extends Controller
                             $value['phone_location'] = $pro;
                         }
                     }
-                    echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/><br/><br/><br/><br/><br/>';
-                    echo "<table >";
-                    echo "<tr>"."<td width=30px>date</td>"
-                            ."<td width=30px>年级</td>"
-                            ."<td width=30px>科目</td>"
-                            ."<td width=200px>试听需求</td>"
-                            ."<td width=30px>教材版本</td>"
-                            ."<td width=30px>地区</td>";
+                   // echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/><br/><br/><br/><br/><br/>';
+                    
                     foreach ($ret_info as $key => $value) {
                         echo "<tr>";
                         echo "<td width=30px>".$value['date']."</td>";
@@ -87,12 +90,10 @@ class test_sam  extends Controller
                         echo "<td width=30px>".$value['phone_location']."</td>";
                         echo "</tr>";
                     }
-                    echo "</table>"; 
-
                 }
             }
-            echo "<br/>";
         }
+        echo "</table>"; 
     }
 
     public function hello_world(){
