@@ -557,7 +557,8 @@ class agent extends Controller
                 $ret_info_two = $item;
             }
         }
-        if(count($ret_info["list"])>0){
+        $ret_info["list"] = array_filter($ret_info["list"]);
+        if(count($ret_info["list"])>2){
             $ret_info["list"][0] = $ret_info_two;
             $ret_info["list"][1] = $ret_info_first;
         }
