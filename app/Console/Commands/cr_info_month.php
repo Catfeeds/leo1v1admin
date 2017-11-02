@@ -231,7 +231,7 @@ class cr_info_month extends Command
         $student_list = trim($student_list,',');
         $arr['student_list'] = $student_list;
         //续费
-        $warning_list = $task->t_cr_week_month_info->get_student_list_new($type,$start_time);
+        $warning_list = $task->t_cr_week_month_info->get_student_list_new(1,$start_time);
         $renew_student_list = $task->t_order_info->get_renew_student_list($start_time,$end_time);
 
         $warning_num = 0;
@@ -244,6 +244,7 @@ class cr_info_month extends Command
             $arr['plan_renew_num'] = 0; //计划内续费学生数量
             $arr['other_renew_num'] = 0;//计划外续费学生数量
         }else{
+            var_dump($warning_list);
             $arr['plan_renew_num'] = 0;
             if(!empty($waring_list)){
                 foreach($waring_list as $key => $value){
@@ -254,6 +255,7 @@ class cr_info_month extends Command
             }
             $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
         }
+        dd($arr['plan_renew_num']);
         $arr['expect_finish_num'] = $warning_num; //预计结课学生数量
         //月初至今
         $month_warning_list = $task->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
