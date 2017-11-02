@@ -2237,15 +2237,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    // public function update_money($parentid, $prize){
-    //     $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
-    //                               ." where userid=%s"
-    //                               ,self::DB_TABLE_NAME
-    //                               ,$parentid
-    //     );
+    public function update_money($parentid, $prize){
+        $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
+                                  ." where userid=%s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$parentid
+        );
 
-    //     return $this->main_update($sql);
-    // }
+        return $this->main_update($sql);
+    }
     //@desn:获取可体现金额
     public function get_can_carry($agent_id){
         $sql = $this->gen_sql_new(
