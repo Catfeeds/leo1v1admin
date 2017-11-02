@@ -17,9 +17,10 @@ class test_sam  extends Controller
         $student = explode(",",$list);
         foreach ($student as $key => $value) {
             $ret_info = $this->t_order_info->get_info_by_userid($value);
-            echo "<pre>";
-            var_dump($ret_info);
-            echo "</pre>";
+            if($ret_info){
+                echo $ret_info['userid'].'-'.$ret_info['price'].'-'.$ret_info['contract_type']."-".$ret_info['contract_status'];
+                echo "<br/>";
+            }
         }
         dd($student);
     }
