@@ -4092,6 +4092,7 @@ class ss_deal extends Controller
             $this->t_seller_student_new->field_update_list($item["userid"],[
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
+                "hand_free_count" => $item['hand_free_count']+1,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );
