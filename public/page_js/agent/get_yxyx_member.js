@@ -26,26 +26,13 @@ $(function(){
             load_data();
         }
     });
-	$('#id_phone').val(g_args.phone);
 
+    $('.opt-a td').on('click',function(){
+        var test = $(this).parent().attr('opt-a');
+        console.log(test);
+    });
+
+
+	$('#id_phone').val(g_args.phone);
 	$('.opt-change').set_input_change_event(load_data);
 });
-
-
-
-/* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">phone</span>
-                <input class="opt-change form-control" id="id_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">nickname</span>
-                <input class="opt-change form-control" id="id_nickname" />
-            </div>
-        </div>
-*/

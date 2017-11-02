@@ -46,13 +46,12 @@
                     <td>MTD(签约人数)</td>
                     <td>MTD(签约率)</td>
                     <td>MTD(签约金额)</td>
-                    <td>MTD(回流公海数)</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr>
+                    <tr data-id="{{@$var['id']}}" class="opt-a">
                         <td>{{@$var["phone1"]}} <br/>/ {{@$var["nick1"]}} </td>
                         <td>{{@$var["phone2"]}} <br/>/ {{@$var["nick2"]}} </td>
                         <td>{{@$var["phone3"]}} <br/>/ {{@$var["nick3"]}} </td>
@@ -69,12 +68,10 @@
                         <td>{{@$var["order_user_count"]}} </td>
                         <td>{{@$var["order_rate"]}} </td>
                         <td>{{@$var["price"]}} </td>
-                        <td>{{@$var["back_user_count"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
                             </div>
                         </td>
                     </tr>
