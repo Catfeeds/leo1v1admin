@@ -2035,7 +2035,7 @@ class agent extends Controller
                 $item['order_rate'] = '0%';
             }
             $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
-            $item['ok_phone_no_lesson'] = $item['ok_phone'] - $item['ok_lesson_count'];
+            $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['ok_lesson_count'];
             $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $itme['order_user_count'];
             $all_user = $all_user+$item['user_count'];
             $order_user = $order_user+$item['order_user_count'];
