@@ -1498,14 +1498,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $test_lesson_info = $this->get_child_test_lesson_info($in_str);
             if($test_lesson_info){
                 foreach( $test_lesson_info as $item ) {
-                    $orderid=$item["orderid"];
-                    if ($orderid) { //有订单
-
+                    if ($item["lesson_user_online_status"] ==1 )
                         $cycle_test_lesson_count += 1;
-                    }else{
-                        if ($item["lesson_user_online_status"] ==1 )
-                            $cycle_test_lesson_count += 1;
-                    }
 
                 }
             }
@@ -2093,6 +2087,62 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
     //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
+    //@param:$this_parentid 起始父id
+    //@param:$month_first_day 每月开始时间戳
+    public function get_cycle_child_month($this_parentid,$month_first_day=0,$month_last_day=0){
+        //构造用户数组
+        $parent_arr = [
+            ['id'=>$this_parentid]
+        ];
+        list($child_arr,$student_count,$member_count,$error_flag)=$this->get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day);
+        if($error_flag)
+            echo $this_parentid.'推荐人循环!';
+
+        return [$child_arr,$student_count,$member_count];
+    }
+    //@desn:获取无限制下限信息
+    private function get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day){
+        $counter = 0;
+        if($counter == 0){
+            $child_arr = [];
+            $student_count = 0;
+            $member_count = 0;
+            $err_flag = false;
+            $id_map[$parent_arr[0]['id']] = true;
+        }
+        
+        foreach($parent_arr as $item){
+            $where_arr = [
+                ['parentid = %u',$item['id'],'-a'],
+            ];
+            $sql = $this->gen_sql_new(
+                "select id,type,create_time from %s where %s",self::DB_TABLE_NAME,$where_arr
+            );
+            $child_list=$this->main_get_list($sql);
+            foreach($child_list as $val){
+                if(isset($id_map[$val['id']])){
+                    $err_flag=true;
+                    break;
+                }
+                $id_map[$val['id']] = true;
+                $child_arr[] = $val['id'];
+                if(($val['type'] == 1 || $val['type'] == 3) && $val['create_time'] >= $month_first_day && $val['create_time'] < $month_last_day)
+                    $student_count ++;
+                if(($val['type'] == 2 || $val['type'] == 3) && $val['create_time'] > $month_first_day && $val['create_time'] < $month_last_day)
+                    $member_count ++;
+                
+            }
+
+            $counter++;
+
+            if($child_list)
+                $this->get_child_by_cycle($child_list,$month_first_day,$month_last_day);
+
+        }
+
+        return [$child_arr,$student_count,$member_count,$err_flag];
+    }
+    //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
     public function get_cycle_child($this_parentid){
         //构造用户数组
         $parent_arr = [
@@ -2189,14 +2239,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql = $this->gen_sql_new(
             "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
-            . " a.agent_status_money, ao.orderid  "
+            . " a.agent_status_money,l.lesson_start as l_time"
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
-            . " left join  %s ao on a.id =ao.aid "
             ." where  a.id in ".$in_str."  and a.create_time > %u  order by l.lesson_start asc ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
-            t_agent_order::DB_TABLE_NAME,
             $check_time
         );
         return $this->main_get_list($sql);
@@ -2406,6 +2454,82 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
+    }
+    //@desn:刷新团队每日业绩
+    public function reset_group_member_result($id){
+        $agent_info = $this->field_get_list($id,"*");
+        $userid  = $agent_info["userid"];
+
+        $child_arr = [];
+        $cycle_student_count = 0;
+        $cycle_member_count = 0;
+        //获取当前月份开始时间戳
+        $month_first_day = strtotime(date('Y-m-01'));
+        $month_first_day_format = date('Y-m-01');
+        $month_last_day = strtotime("$month_first_day_format +1 month -1 second");
+        //计算所有学员量、会员量[无下限限制下级]
+        list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child_month($id,$month_first_day,$month_last_day);
+        $cycle_test_lesson_count = 0;
+        $cycle_order_count = 0;
+        $cycle_order_money = 0;
+        //用户有推荐人
+        if($child_arr){
+            $in_str = '('.implode(',',$child_arr).')';
+            //获取该用户推荐人的试听量[无限制下架]
+            $test_lesson_info = $this->get_child_test_lesson_info($in_str);
+            if($test_lesson_info){
+                foreach( $test_lesson_info as $item ) {
+                    if ($item["lesson_user_online_status"] ==1 && $item['l_time'] >= $month_first_day && $item['l_time'] < $month_last_day)
+                        $cycle_test_lesson_count += 1;
+                }
+            }
+
+
+            //计算签单金额、签单量[无下限限制下级]
+            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
+            $cycle_order_count = $child_order_info['child_order_count'];
+            $cycle_order_money = $child_order_info['child_order_money'];
+
+        }
+
+        //获取该用户最后一条记录
+        $last_info = $this->task->t_agent_group_member_result->get_last_info($id);
+        //获取当前时间
+        $time_now = date('Y-m',$month_first_day);
+        $last_time = date('Y-m',$last_info['create_time']);
+        if($time_now == $last_time){
+            //更新信息
+            $this->task->t_agent_group_member_result->field_update_list($last_info['id'],[
+                "cycle_student_count" => $cycle_student_count,
+                "cycle_test_lesson_count" => $cycle_test_lesson_count,
+                "cycle_order_money " => $cycle_order_money ,
+                "cycle_member_count" => $cycle_member_count,
+                "cycle_order_count" => $cycle_order_count,
+            ]);
+        }else{
+            $this->task->t_agent_group_member_result->row_insert([
+                'agent_id' => $id,
+                'create_time' => $month_first_day,
+                "cycle_student_count" => $cycle_student_count,
+                "cycle_test_lesson_count" => $cycle_test_lesson_count,
+                "cycle_order_money " => $cycle_order_money ,
+                "cycle_member_count" => $cycle_member_count,
+                "cycle_order_count" => $cycle_order_count,
+
+            ]);
+        }
+    }
+    //@desn:获取团长一级推荐人
+    public function get_colconel_child_info($colconel_agent_id){
+        $where_arr = [
+            ['parentid = %u',$colconel_agent_id,'-1']
+        ];
+        $sql = $this->gen_sql_new(
+            "select id,type,create_time from %s where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
     public function get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info){

@@ -170,6 +170,7 @@ class Kernel extends ConsoleKernel
         Commands\CheckTeacherIsInRoom::class,
         Commands\seller_reset_no_call_to_new_user::class,
         Commands\update_test_lesson_opt_flag::class,
+        Commands\get_agent_group_member_result::class,
     ];
 
     /**
