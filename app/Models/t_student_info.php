@@ -1099,9 +1099,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_user_list_by_lesson_count_new($lesson_start,$lesson_end){
         $where_arr = [
-            "lesson_count_left=0",
+            // "lesson_count_left=0",
             ["last_lesson_time >=%u",$lesson_start,-1 ],
-            ["last_lesson_time <=%u",$lesson_end,-1 ],
+            ["last_lesson_time < %u",$lesson_end,-1 ],
             "is_test_user=0",
             'type=1',
         ];
