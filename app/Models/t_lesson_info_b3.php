@@ -1525,16 +1525,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.train_type=%u",$train_type,-1]
         ];
         $sql = $this->gen_sql_new("select l.lessonid,ta.userid,lo.opt_time,t.train_through_new_time "
+                                  ." ,tf.simul_test_lesson_pass_time "
                                   ." from %s l left join %s ta on l.lessonid=ta.lessonid"
                                   ." left join %s lo on l.lessonid = lo.lessonid and opt_type=1 and lo.userid = ta.userid and not"
                                   ." exists (select 1 from %s where lessonid = lo.lessonid and opt_type=1 and userid = lo.userid and opt_time < lo.opt_time)"
                                   ." left join %s t on ta.userid = t.teacherid"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list($sql);
     }

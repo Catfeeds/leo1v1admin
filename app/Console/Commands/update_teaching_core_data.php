@@ -106,13 +106,22 @@ class update_teaching_core_data extends Command
                     $teacher_list_ex[$k]=$k;
                 }
             }
-            $video_real =  $task->t_teacher_lecture_info->get_lecture_info_by_all(
-                -1,$start_time,$end_time,-1,-1,-1,"",-2);
-            $one_real = $task->t_teacher_record_list->get_train_teacher_interview_info_all(
-                -1,$start_time,$end_time,-1,-1,-1,"",-2);
-            @$video_real["all_count"] += $one_real["all_count"];
             $all_tea_ex = count($teacher_list_ex);
-            $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
+            $teacher_list_ex_through = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,-1,-1,-1,-1,"",-1,1);
+            $teacher_arr_ex_through = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,-1,"",-1,1);
+            foreach($teacher_arr_ex_through as $k=>$val){
+                if(!isset($teacher_list_ex_through[$k])){
+                    $teacher_list_ex_through[$k]=$k;
+                }
+            }
+            $all_tea_ex_through = count($teacher_list_ex_through);
+
+            // $video_real =  $task->t_teacher_lecture_info->get_lecture_info_by_all(
+            //     -1,$start_time,$end_time,-1,-1,-1,"",-2);
+            // $one_real = $task->t_teacher_record_list->get_train_teacher_interview_info_all(
+            //     -1,$start_time,$end_time,-1,-1,-1,"",-2);
+            // @$video_real["all_count"] += $one_real["all_count"];
+            $new_tea_through_per =  $all_tea_ex>0?round($all_tea_ex_through/$all_tea_ex*100,2):0;
 
             //新老师入职时长
             //$video_time = $task->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
@@ -150,7 +159,7 @@ class update_teaching_core_data extends Command
             $new_teacher_ninty = $task->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,90);
             $ninty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_ninty["tea_num"]/$train_through_all["through_all"]*100,2):0;
             $ninty_tran_per =  @$new_teacher_ninty["person_num"]>0?round(@$new_teacher_ninty["have_order"]/@$new_teacher_ninty["person_num"]*100,2):0;
-            $ninty_lesson_count_info = $task->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
+            $ninty_lesson_count_info = $task->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,90);
             $ninty_lesson_count = @$ninty_lesson_count_info["tea_num"]>0?round(@$ninty_lesson_count_info["all_count"]/$ninty_lesson_count_info["tea_num"]):0;
 
             //面试邀约数/面试邀约时长
@@ -209,8 +218,8 @@ class update_teaching_core_data extends Command
                 }
                 if($val["train_through_new"]==1){
                     $through_num++;
-                    if($val["trail_time"]>0 && $val["train_through_new_time"]>$val["trail_time"]){
-                        $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
+                    if($val["trail_time"]>0 && $val["simul_test_lesson_pass_time"]>$val["trail_time"]){
+                        $through_time += ($val["simul_test_lesson_pass_time"]-$val["trail_time"]);
                         $through_real_num++;
                     }
                 }
@@ -240,7 +249,7 @@ class update_teaching_core_data extends Command
                 if(!isset($train_tea_list[$val["userid"]])){
                     @$train_tea_list[$val["userid"]]=$val["userid"];
                     $train_tea_num++;
-                    if($val["train_through_new_time"]>0){
+                    if($val["simul_test_lesson_pass_time"]>0){
                         $train_through_num++;
                     }
                 }
