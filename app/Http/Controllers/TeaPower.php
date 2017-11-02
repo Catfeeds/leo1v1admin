@@ -3774,7 +3774,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 );
 
                 if($ret_row) {
-                    $error_lessonid=$ret_row["lessonid"];
+                    $error_lessonid = $ret_row["lessonid"];
                     $this->t_lesson_info->rollback();
                     $this->t_homework_info->rollback();
                     return $this->output_err(
@@ -3829,10 +3829,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->t_homework_info->commit();
             return $lessonid;
         }
-
-
-
-
     }
 
 
@@ -3887,20 +3883,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $cc_tran_money = $list["cc_tran_money"]/100*0.02;
         $cc_tran_money = round($cc_tran_money,2);
         $all_money = $lesson_money+$kk_money+$renw_money+$tran_num_money+$cc_tran_money;
-        $ret=[
-            "lesson_money"=>$lesson_money,
-            "kk_money"    =>$kk_money,
-            "renw_money"  =>$renw_money,
-            "tran_num_money"=>$tran_num_money,
-            "cc_tran_money" =>$cc_tran_money,
-            "all_money"     =>$all_money
+        $ret = [
+            "lesson_money"   => $lesson_money,
+            "kk_money"       => $kk_money,
+            "renw_money"     => $renw_money,
+            "tran_num_money" => $tran_num_money,
+            "cc_tran_money"  => $cc_tran_money,
+            "all_money"      => $all_money
         ];
         return $ret;
-
     }
 
     public function check_ass_leader_flag($account_id){
-        $is_master = $this->t_admin_main_group_name->check_is_master(1,$account_id); 
+        $is_master   = $this->t_admin_main_group_name->check_is_master(1,$account_id); 
         $is_master_2 = $this->t_admin_group_name->check_is_master(1,$account_id);
         if($is_master_2 || $is_master){
             return 1;
@@ -4057,5 +4052,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         return $list;
     }
+
+    
 
 }

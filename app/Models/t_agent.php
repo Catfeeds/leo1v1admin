@@ -1462,7 +1462,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $activity_money=$this->t_agent_money_ex->get_all_money($id);
 
         //双11活动
-        $ruffian_money = $this->t_agent->get_ruffian_money($id);
+        $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
 
         
         //总提成信息
@@ -2233,15 +2233,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
-                                  ." where userid=%s"
-                                  ,self::DB_TABLE_NAME
-                                  ,$parentid
-        );
+    // public function update_money($parentid, $prize){
+    //     $sql = $this->gen_sql_new("  update %s set ruffian_money = ruffian_money+$prize"
+    //                               ." where userid=%s"
+    //                               ,self::DB_TABLE_NAME
+    //                               ,$parentid
+    //     );
 
-        return $this->main_update($sql);
-    }
+    //     return $this->main_update($sql);
+    // }
     //@desn:获取可体现金额
     public function get_can_carry($agent_id){
         $sql = $this->gen_sql_new(
@@ -2366,8 +2366,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
             ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
             ." count(distinct if(l.lesson_del_flag=0 and l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count,"
-            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count,"
-            ." count(distinct if(ss.free_time>0,na.userid,0 ) ) back_user_count"
+            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count"
             ." from %s a "
             ." left join %s aa on aa.id=a.parentid"
             ." left join %s aaa on aaa.id=aa.parentid"
@@ -2377,7 +2376,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
             ." left join %s tq on tq.phone=na.phone and %s "
             ." left join %s l on l.lessonid=na.test_lessonid "
-            ." left join %s ss on ss.userid=na.userid "
             ." where %s "
             ." group by a.id"
             ,self::DB_TABLE_NAME
@@ -2390,11 +2388,57 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
-            ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
         );
 
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
     }
+
+    public function get_yxyx_member_detail_info($id,$start_time, $end_time,$nickname,$phone,$page_info){
+
+        $where_arr = [
+            ['na.id=%u', $id, -1],
+            ['na.create_time>=%u', $start_time, -1],
+            ['na.create_time<%u', $end_time, -1],
+            's.is_test_user=0',
+            'na.type in (1,3)',
+        ];
+
+        if ($nickname) {
+            $where_arr[]=sprintf(" a.nickname like '%s%%' ", $this->ensql($nickname));
+        }
+
+        if ($phone) {
+            $where_arr[]=sprintf(" a.phone like '%s%%' ", $this->ensql($phone));
+        }
+
+        $tq_arr = [
+            ['tq.start_time>=%u', $start_time, -1],
+            ['tq.start_time<%u', $end_time, -1],
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject,"
+            .""
+            ." from %s a "
+            ." left join %s na on na.parentid=a.id"
+            ." left join %s s on s.userid=na.userid"
+            ." left join %s tq on tq.phone=na.phone and %s "
+            ." left join %s l on l.lessonid=na.test_lessonid "
+            ." where %s "
+            ." group by a.id"
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+            ,$tq_arr
+            ,t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_info,10, true);
+
+    }
+
 }

@@ -698,15 +698,12 @@ class wx_parent_gift extends Controller
         }
 
         // 中奖金额存入数据库
-        $ret = $this->t_agent->update_money($userid, $prize);
-        $is_save = 1;
-        $save_time = time();
-
+        // $ret = $this->t_agent->update_money($userid, $prize);
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
             "luck_draw_adminid" => $userid,
             "luck_draw_time" => time(),
-            "deposit_time" => $save_time,
-            "is_deposit" => $is_save,
+            "deposit_time" => 1,
+            "is_deposit" => 1,
             "money"  => $prize,
         ]);
 
