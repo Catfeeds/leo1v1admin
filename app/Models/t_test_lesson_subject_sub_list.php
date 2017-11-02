@@ -263,8 +263,11 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start"
                                   // ." ,t.phone,tls.require_admin_type"
                                   ." from %s l"
-                                  ." left join %s "
-                                  ." where %s"
+                                  ." left join %s l"
+                                  ." where %s "
+                                  ." and exists (select 1 "
+                                  ." from "
+                                  .")"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );

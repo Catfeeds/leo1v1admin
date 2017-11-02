@@ -633,14 +633,6 @@ class wx_parent_gift extends Controller
             ];
         }
 
-        // if($openid=='oAJiDwHgwCP8Z2AVLneRSRCILCH4'){
-        //           $ret_info = [
-        //               "invite_num" => 26,
-        //               "light_num"  => 4,
-        //               "phone"      => 0
-        //           ];
-
-        // }
         return $this->output_succ(["data"=>$ret_info]);
     }
 
