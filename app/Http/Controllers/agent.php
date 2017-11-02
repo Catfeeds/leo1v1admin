@@ -476,7 +476,7 @@ class agent extends Controller
                 break;
             }
         }
-        $group_start_time=   $start_time;
+        $group_start_time = $start_time;
         $start_first = date('Y-m-01',$start_time);
         $adminid=$this->get_account_id();
 
@@ -562,7 +562,7 @@ class agent extends Controller
             $ret_info["list"][1] = $ret_info_first;
         }
         $ret_info["list"] = array_filter($ret_info["list"]);
-        dd($ret_info["list"]);
+        dd($ret_info);
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
         $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
@@ -636,7 +636,28 @@ class agent extends Controller
         //判断是不是总监
         $adminid   = $this->get_account_id();
         $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-
+        return $this->pageView(__METHOD__, $ret_info, [
+            "ret_info_num"           => $ret_info_num,
+            "group_list"             => $group_list,
+            "group_self_list"        => $group_self_list ,
+            "group_name"             => $group_name,
+            "self_info"              => $self_info,
+            "half_week_info"         => $half_week_info["list"],
+            "self_top_info"          => $self_top_info,
+            "self_groupid"           => $self_groupid,
+            "is_group_leader_flag"   => $is_group_leader_flag,
+            "test_lesson_need_count" => $this->t_seller_month_money_target->get_test_lesson_count($adminid,date("Y-m-01") ),
+            "self_money"             => $self_money,
+            "start_time"             => $week_start_time,
+            "end_time"               => $week_end_time,
+            "group_type"             => $group_type,
+            "seller_account"         => $seller_account,
+            "top_num"                => $top_num,
+            "seller_top_flag"        => $seller_top_flag,
+            "next_revisit_count"     => $next_revisit_count,
+            "next_time_str"          => $next_time_str,
+            "is_master"              => $is_master,
+        ]);
     }
 
     //处理等级头像
