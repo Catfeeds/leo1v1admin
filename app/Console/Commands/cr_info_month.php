@@ -245,8 +245,8 @@ class cr_info_month extends Command
             $arr['other_renew_num'] = 0;//计划外续费学生数量
         }else{
             $arr['plan_renew_num'] = 0;
-            if(!empty($waring_list)){
-                foreach($waring_list as $key => $value){
+            if(!empty($warning_list)){
+                foreach($warning_list as $key => $value){
                     $userid = $value;
                     if(!empty($renew_student_list[$userid])){
                         ++$arr['plan_renew_num'];
