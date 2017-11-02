@@ -633,14 +633,6 @@ class wx_parent_gift extends Controller
             ];
         }
 
-        // if($openid=='oAJiDwHgwCP8Z2AVLneRSRCILCH4'){
-        //           $ret_info = [
-        //               "invite_num" => 26,
-        //               "light_num"  => 4,
-        //               "phone"      => 0
-        //           ];
-
-        // }
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -700,8 +692,6 @@ class wx_parent_gift extends Controller
             $prize = 0;
         }
         // 中奖金额存入数据库
-
-        // $prize = 0;
         $this->t_agent->update_money($userid, $prize);
 
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
