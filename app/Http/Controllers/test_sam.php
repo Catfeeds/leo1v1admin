@@ -27,11 +27,10 @@ class test_sam  extends Controller
             $arr['plan_renew_num'] = 0; //计划内续费学生数量
             $arr['other_renew_num'] = 0;//计划外续费学生数量
         }else{
-            
+// 			dd($warning_list);           
             $arr['plan_renew_num'] = 0;
             if(!empty($warning_list)){
                 foreach($warning_list as $key => $value){
-                    //echo $value;
 
 
                     if(isset($renew_student_list($value))){
