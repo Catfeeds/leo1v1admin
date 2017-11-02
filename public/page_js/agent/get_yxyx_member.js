@@ -30,7 +30,7 @@ $(function(){
     $('.opt-a td').css('cursor','pointer');
     $('.opt-a td').on('click',function(){
         var id = $(this).parent().attr('data-id');
-        if ( localtion.search ) {
+        if ( location.search ) {
             window.open("http://admin.yb1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id);
         } else {
             window.open("http://admin.yb1v1.com/agent/get_yxyx_member_detail?id="+id);
