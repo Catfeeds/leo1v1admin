@@ -3782,7 +3782,33 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_flow::DB_TABLE_NAME
                                   ,t_child_order_info::DB_TABLE_NAME
                                   ,$where_arr);
+
         return $this->main_get_list($sql);
+    }
+    public function get_renew_student_list_new($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            "is_test_user = 0 ",
+            "contract_type = 3 ",
+            "contract_status <> 0",
+            "t1.price > 0"
+        ];
+        $sql = $this->gen_sql_new(" select t1.userid"
+                                  ." from %s t1 "
+                                  ." left join %s t2 on t1.userid = t2.userid "
+                                  ." left join %s f ON f.from_key_int = t1.orderid and  f.flow_type IN (2002, 3002)"
+                                  ." left join %s co ON co.parent_orderid = t1.orderid and co.child_order_type = 2 "
+                                  ." where %s order by t1.userid asc"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_flow::DB_TABLE_NAME
+                                  ,t_child_order_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql,function( $item){
+              return $item["userid"];
+        } );
+        //return $this->main_get_list($sql);
     }
 
     public function get_order_list_by_time($start_time,$end_time){
@@ -3800,24 +3826,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         
         return $this->main_get_list($sql);
     }
-    public function get_order_list_by_time_new($start_time,$end_time){
-        $where_arr = [
-            "contract_type in (0,3)"
-        ];
-
-        $this->where_arr_add_time_range($where_arr,"pay_time",$start_time,$end_time);
-
-        $sql = $this->gen_sql_new("select orderid from %s "
-                                  ." where contract_status>0 and order_status=1 and %s ",
-                                  self::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_list($sql,function( $item){
-              return $item["userid"];
-        } );
-        //return $this->main_get_list($sql);
-    }
-
+    
     // public function get_has_lesson_order_list($start_time,$end_time,$lesson_status=2){
     //     $where_arr=[
     //         ["lesson_start>%u",$start_time,-1],
