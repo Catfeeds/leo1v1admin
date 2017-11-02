@@ -2247,7 +2247,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize"
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize, all_open_cush_money=all_open_cush_money+$prize"
                                   ." where userid=%s"
                                   ,self::DB_TABLE_NAME
                                   ,$parentid
