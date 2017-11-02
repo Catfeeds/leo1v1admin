@@ -1480,7 +1480,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money;
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
         $child_arr = [];
@@ -2247,7 +2247,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize"
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize, all_open_cush_money=all_open_cush_money+$prize"
                                   ." where userid=%s"
                                   ,self::DB_TABLE_NAME
                                   ,$parentid

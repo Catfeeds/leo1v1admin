@@ -1038,6 +1038,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["s.last_lesson_time <=%u",$lesson_end,-1 ],
             ["s.assistantid=%u", $assistantid, -1] ,
             ["s.grade=%u",$grade,-1],
+            "s.is_test_user=0"
         ];
 
         // $refund_sql="true";

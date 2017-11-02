@@ -13,7 +13,16 @@ class test_sam  extends Controller
     use CacheNick;
     use TeaPower;
     public function hello_list(){
-
+        /*
+        $userid = 60872;
+        $list =  [
+            "60872" => [
+                "userid" => "60872"
+            ]
+        ];
+        if(in_array(60872, $list[$userid])){
+            echo 2;
+        }*/
         $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
         $renew_student_list = $this->t_order_info->get_renew_student_list_new(1506787200,1509465600);
 
@@ -27,19 +36,25 @@ class test_sam  extends Controller
             $arr['plan_renew_num'] = 0; //计划内续费学生数量
             $arr['other_renew_num'] = 0;//计划外续费学生数量
         }else{
-            var_dump($renew_student_list);
+// 			dd($warning_list);           
             $arr['plan_renew_num'] = 0;
-            if(!empty($waring_list)){
-                foreach($waring_list as $key => $value){
-                    echo $value;
-                    if(in_array($value,$renew_student_list)){
+            if(!empty($warning_list)){
+                foreach($warning_list as $key => $value){
+
+                    $userid = $value;
+                    if(in_array($userid, $list[$userid])){
                         ++$arr['plan_renew_num'];
                     }
+                    /*if(isset($renew_student_list($value))){
+                        ++$arr['plan_renew_num'];
+                    }*/
                 }
             }
             $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
         }
-        dd($arr['plan_renew_num']);
+        echo($arr['plan_renew_num']);
+        dd($renew_student_list);
+        
 
         $list = "53438,57625,58808,60607,62720,70502,72798,76535,77137,78663,78961,79968,80019,82064,87068,87949,88170,93576,93880,94197,94633,95563,97282,99086,99787,100580,101474,102265,103100,104761,104864,105452,109494,109613,111253,111887,113385,114104,115305,116906,117052,118248,118756,124831,127365,129393,129687,131854,135497,136949,137648,141988,142065,143199,146825,147080,148123,148193,148629,149113,150455,151208,152143,153082,155277,155472,155970,156325,156630,156938,158360,158763,158783,158967,159691,160637,160697,161341,161693,161929,163139,163295,163594,164961,164962,165566,165692,165703,165953,166031,167430,167758,167772,168650,169869,170119,170258,170899,170990,173707,174255,174861,175286,177305,177817,178851,179122,180057,181322,182334,188378,189133,189869,190585,190978,192344,198059,199145,199459,200219,200614,200874,201496,203228,211370,217827,219486,219758,220789,224581,225971,227626,229056,229559,229965,234117,234273,235081,241841,243476,244955,245274,247294,248099,250129,250208,255353,259789,263306,263686,273287,277667,284174,287480,291054,300739";
         $student = explode(",",$list);
