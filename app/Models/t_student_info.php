@@ -1125,6 +1125,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr
                                   ,$refund_sql
         );
+        echo $sql;
         return $this->main_get_value($sql);
     }
 
