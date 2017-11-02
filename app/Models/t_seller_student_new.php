@@ -1209,7 +1209,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
-            ['tss.ass_test_lesson_order_fail_flag',$test_lesson_fail_flag,-1],
+            ['tss.ass_test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
