@@ -492,12 +492,14 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
         $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,"
                                   ."tr.add_time one_add_time,ll.lesson_start train_add_time,"
-                                  ."lll.lesson_start trail_time,t.train_through_new,t.train_through_new_time "
+                                  ."lll.lesson_start trail_time,t.train_through_new,t.train_through_new_time, "
+                                  ." tf.simul_test_lesson_pass_time "
                                   ." from %s al "
                                   ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
                                   ." not exists (select 1 from %s where phone = tl.phone and status =1 and "
                                   ."is_test_flag=0 and add_time<tl.add_time )"
                                   ." left join %s t on al.phone = t.phone and t.is_test_user=0"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." left join %s tr on tr.trial_train_status =1 and tr.type=10 and tr.teacherid = t.teacherid "
                                   ." and  not exists(select 1 from %s where trial_train_status =1 and type=10 and "
                                   ."teacherid = tr.teacherid and add_time<tr.add_time)"
@@ -511,6 +513,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   t_teacher_lecture_info::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,

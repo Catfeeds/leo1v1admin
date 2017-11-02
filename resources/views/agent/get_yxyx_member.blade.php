@@ -37,12 +37,16 @@
                     <td>MTD(TQ全局未回访)</td>
                     <td>MTD(未接通)</td>
                     <td>MTD(已接通)</td>
+                    <td>MTD(已接通未排课)</td>
                     <td>MTD(已排课)</td>
+                    <td>MTD(已排课取消人数)</td>
                     <td>MTD(成功试听数)</td>
                     <td>MTD(到课率)</td>
+                    <td>MTD(成功试听未签约数)</td>
                     <td>MTD(签约人数)</td>
                     <td>MTD(签约率)</td>
                     <td>MTD(签约金额)</td>
+                    <td>MTD(回流公海数)</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -56,12 +60,16 @@
                         <td>{{@$var["no_revisit_count"]}} </td>
                         <td>{{@$var["no_phone_count"]}} </td>
                         <td>{{@$var["ok_phone_count"]}} </td>
+                        <td>{{@$var["ok_phone_no_lesson"]}} </td>
                         <td>{{@$var["rank_count"]}} </td>
+                        <td>{{@$var["del_lesson_count"]}} </td>
                         <td>{{@$var["ok_lesson_count"]}} </td>
                         <td>{{@$var["ok_lesson_rate"]}} </td>
+                        <td>{{@$var["ok_lesson_no_order"]}} </td>
                         <td>{{@$var["order_user_count"]}} </td>
                         <td>{{@$var["order_rate"]}} </td>
                         <td>{{@$var["price"]}} </td>
+                        <td>{{@$var["back_user_count"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

@@ -2906,15 +2906,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             /// "l.lesson_start<".$end_time
         ];
         if($tea_flag==1){
-            $where_arr[] =["t.train_through_new_time>=%u",$start_time,0];
-            $where_arr[]=["t.train_through_new_time<%u",$end_time,0];
+            $where_arr[] =["tf.simul_test_lesson_pass_time>=%u",$start_time,0];
+            $where_arr[]=["tf.simul_test_lesson_pass_time<%u",$end_time,0];
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
   
         }elseif($tea_flag==2){
-            $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
+            $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         }elseif($tea_flag==3){
-            $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
+            $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
             $this->where_arr_add_time_range($where_arr,"lesson_start",$two_month_time,$end_time);
         }else{
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time); 
@@ -2934,10 +2934,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_teacher_flow::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
@@ -2981,18 +2983,23 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //按入职时间统计老师数量
     public function get_tea_num_by_train_through_time($start_time,$subject=-1){
         $where_arr = [
-            " train_through_new=1 ",
-            " is_quit=0 ",
-            " is_test_user =0"
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0"
         ];
         if($subject==-2){
-            $where_arr[] = "subject in (6,7,8,9,10)";
+            $where_arr[] = "t.subject in (6,7,8,9,10)";
         }else{
-            $where_arr[] = ["subject=%u",$subject,-1];
+            $where_arr[] = ["t.subject=%u",$subject,-1];
         }
 
-        $where_arr[] =["train_through_new_time<%u",$start_time,0];
-        $sql = $this->gen_sql_new("select count(1) from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
+        $sql = $this->gen_sql_new("select count(1) "
+                                  ."from %s t left join %s tf on t.teacherid = tf.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
+                                  $where_arr);
         return $this->main_get_value($sql);
     }
 
@@ -4460,19 +4467,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_train_through_time_new($start_time,$end_time){
         $where_arr = [
-            " is_quit=0 ",
-            " is_test_user =0",
-            "train_through_new_time>=".$start_time,
-            "train_through_new_time<".$end_time,
-            "train_through_new=1",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tf.simul_test_lesson_pass_time>=".$start_time,
+            "tf.simul_test_lesson_pass_time<".$end_time,
+            "t.train_through_new=1",
             "la.id>0",
-            "t.train_through_new_time>la.answer_begin_time"
+            "tf.simul_test_lesson_pass_time>la.answer_begin_time"
         ];
-        $sql = $this->gen_sql_new("select AVG(t.train_through_new_time-la.answer_begin_time)"
+        $sql = $this->gen_sql_new("select AVG(tf.simul_test_lesson_pass_time-la.answer_begin_time)"
                                   ." from %s t left join %s la on t.phone = la.phone"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_value($sql);
@@ -4481,20 +4490,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_new_teacher_test_info($start_time,$end_time,$day_num){
         $day_time = $day_num*86400;
         $where_arr = [
-            " is_quit=0 ",
-            " is_test_user =0",
-            "train_through_new_time>=".$start_time,
-            "train_through_new_time<".$end_time,
-            "train_through_new=1",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tf.simul_test_lesson_pass_time>=".$start_time,
+            "tf.simul_test_lesson_pass_time<".$end_time,
+            "t.train_through_new=1",
             "l.lesson_del_flag=0",
             "l.lesson_type=2",
             "tss.success_flag<2",
-            "l.lesson_start>t.train_through_new_time",
-            "(l.lesson_start-t.train_through_new_time)<=".$day_time
+            "l.lesson_start>tf.simul_test_lesson_pass_time",
+            "(l.lesson_start-tf.simul_test_lesson_pass_time)<=".$day_time
         ];
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) tea_num, count(distinct l.userid,l.subject) person_num"
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s t left join %s l on l.teacherid=t.teacherid"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
                                   ." (l.userid = c.userid "
@@ -4504,6 +4514,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
                                   $where_arr
@@ -4516,25 +4527,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_new_teacher_lesson_count_info($start_time,$end_time,$day_num){
         $day_time = $day_num*86400;
         $where_arr = [
-            " is_quit=0 ",
-            " is_test_user =0",
-            "train_through_new_time>=".$start_time,
-            "train_through_new_time<".$end_time,
-            "train_through_new=1",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tf.simul_test_lesson_pass_time>=".$start_time,
+            "tf.simul_test_lesson_pass_time<".$end_time,
+            "t.train_through_new=1",
             "l.lesson_del_flag=0",
             "l.lesson_type <1000",
             "l.confirm_flag <>2",
             "(tss.success_flag<2 or tss.success_flag is null)",
-            "l.lesson_start>t.train_through_new_time",
-            "(l.lesson_start-t.train_through_new_time)<=".$day_time
+            "l.lesson_start>tf.simul_test_lesson_pass_time",
+            "(l.lesson_start-tf.simul_test_lesson_pass_time)<=".$day_time
         ];
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) tea_num, "
                                   ." sum(l.lesson_count) all_count"
                                   ." from %s t left join %s l on l.teacherid=t.teacherid"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
