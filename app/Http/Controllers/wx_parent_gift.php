@@ -610,8 +610,6 @@ class wx_parent_gift extends Controller
     public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
         // $start_time = strtotime('2017-11-3'); 
-
-
         $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
@@ -635,8 +633,6 @@ class wx_parent_gift extends Controller
                 "phone"      => 0
             ];
         }
-
-
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -696,9 +692,7 @@ class wx_parent_gift extends Controller
         if($has_get_money >=1000){ // 每日金额1000元
             $prize = 0;
         }
-
         // 中奖金额存入数据库
-        // $ret = $this->t_agent->update_money($userid, $prize);
         $this->t_luck_draw_yxyx_for_ruffian->row_insert([
             "luck_draw_adminid" => $userid,
             "luck_draw_time" => time(),
@@ -740,10 +734,5 @@ class wx_parent_gift extends Controller
         $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
         return $parentid;
     }
-
-
-
-
-
 
 }
