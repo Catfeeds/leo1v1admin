@@ -73,6 +73,7 @@
                 <tr> <td>新签未排课合同量(未分配助教)</td> <td>{{@$new["no_ass_num"]}}</td> </tr>
                 <tr> <td>本月预警学员续费数</td> <td>{{@$new["warning_renow_stu_num"]}}</td> </tr>
                 <tr> <td>本月非预警学员续费数 </td> <td>{{@$new["no_warning_renow_stu_num"]}}</td> </tr>
+                <tr> <td>本月预警续费率 </td> <td>{{@$new["warning_renow_rate"]}}</td> </tr>
                 <tr> <td>本月实际续费率 </td> <td>{{@$new["renow_rate"]}}</td> </tr>
             </tbody>
         </table>
