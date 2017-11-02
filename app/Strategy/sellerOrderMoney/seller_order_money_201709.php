@@ -102,7 +102,7 @@ class seller_order_money_201709  extends  seller_order_money_base
 
         //获取分期不分期金额
         // $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
-        $sort = $this->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
+        $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
         $sort_new = [];
         $sort_new_two = [];
         $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
