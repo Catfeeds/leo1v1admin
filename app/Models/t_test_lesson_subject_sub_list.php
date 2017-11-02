@@ -252,6 +252,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             ["l.lesson_start>%u",$start,0],
             "l.lesson_type=2",
             "l.lesson_del_flag=0",
+            "l.lesson_status=2",
         ];
 
         if($type==2){
@@ -270,12 +271,18 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "l.lessonid=lessonid",
             "type=2",
         ];
+        $first_lesson_arr = [
+            "l.lesson_start>lesson_start",
+            "lesson_type=2",
+            ""
+        ];
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start"
                                   // ." ,t.phone,tls.require_admin_type"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s "
                                   ." and exists (select 1 from %s where %s)"
+                                  ." and not exists (select 1 from %s where %s)"
                                   ." and not exists (select 1 from %s where %s)"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
@@ -284,6 +291,9 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,$normal_arr
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$money_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$first_lesson_arr
+
 
         );
         return $this->main_get_list($sql);
