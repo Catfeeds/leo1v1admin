@@ -1079,6 +1079,7 @@ class seller_student_new extends Controller
             E\Egrade::set_item_value_str($item);
             E\Etest_lesson_order_fail_flag::set_item_value_str($item);
             \App\Helper\Utils::hide_item_phone($item);
+            $item["free_nick"]= $this->cache_get_account_nick( $item["free_adminid"]);
         }
 
         return $ret_info;
@@ -1118,7 +1119,13 @@ class seller_student_new extends Controller
 
     public function get_free_seller_list () {
         $ret_info=$this->get_free_seller_list_data();
-        return $this->pageView(__METHOD__, $ret_info);
+        $log_type = E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT;
+        $adminid = $this->get_account_id();
+        $start_time = strtotime(date("Y-m-d"));
+        $end_time = time(); 
+        $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
+        $left_count = (30-$history_count)>0?30-$history_count:0;
+        return $this->pageView(__METHOD__, $ret_info,['left_count'=>$left_count]);
     }
 
     public function get_free_seller_test_fail_list () {
