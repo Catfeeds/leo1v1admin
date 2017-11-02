@@ -12,6 +12,8 @@ class CreateTTeacherSalaryList extends Migration
      */
     public function up()
     {
+
+        Schema::dropIfExists("db_weiyi.t_teacher_salary_list");
         Schema::create('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
         {
             t_field($table->integer("id"),"id");
