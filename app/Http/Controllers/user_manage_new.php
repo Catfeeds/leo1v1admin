@@ -567,6 +567,7 @@ class user_manage_new extends Controller
             "teacher_compensate"       => $teacher_compensate/100,
             "teacher_compensate_price" => $teacher_compensate_price/100,
             "teacher_reference"        => $teacher_reference/100,
+            "teacher_train"            => $teacher_train/100,
             "lesson_count"             => $lesson_total_arr,
         ]);
     }

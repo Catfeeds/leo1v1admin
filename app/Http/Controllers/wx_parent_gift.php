@@ -632,7 +632,6 @@ class wx_parent_gift extends Controller
                 "phone"      => 0
             ];
         }
-
         return $this->output_succ(["data"=>$ret_info]);
     }
 
