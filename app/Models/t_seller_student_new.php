@@ -1206,6 +1206,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "n.admin_revisiterid=0",
             "t.seller_student_status <>  50",
             "n.sys_invaild_flag=0",
+            "(n.hand_free_count+n.auto_free_count)<5",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
@@ -1789,7 +1790,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "is_test_user=0",
         ];
         $now=time(NULL);
-
         $sql=$this->gen_sql_new(
             "select add_time,  admin_revisiterid, n.userid, n.phone, n.user_desc, account, admin_assign_time ,global_tq_called_flag ,seller_student_status,seller_level  from %s n "
             ." join %s m on m.uid= n.admin_revisiterid  "
@@ -1812,7 +1812,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
-
     }
     public function free_to_new_user($userid,$account) {
         $this->t_seller_student_new->field_update_list($userid,[

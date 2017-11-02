@@ -465,36 +465,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $sort = $this->t_order_info->get_sort_order_count_money_new($adminid=314,$start_time=1506960000,$end_time=1509465600);
-                $sort_new = [];
-        $sort_new_two = [];
-        $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
-        foreach($parent_orderid_arr as $info){
-            foreach($sort as $item){
-                if($item['parent_orderid'] == $info){
-                    $sort_new[$info][] = $item;
-                }
-            }
-        }
-        foreach($sort_new as $item){
-            foreach($item as $info){
-                $type = $info['child_order_type'];
-                $parent_orderid = $info['parent_orderid'];
-                $price = $info['price'];
-                if($type == 2){
-                    $sort_new_two[$parent_orderid]['stage_money'] = $price;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
-                    break;
-                }else{
-                    $sort_new_two[$parent_orderid]['stage_money'] = 0;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
-                }
-            }
-        }
-        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money')):0;
-        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money')):0;
-
-        dd($sort,$sort_new,$sort_new_two,$stage_money,$no_stage_money);
+        $today_free_count= $this->t_seller_student_new-> get_today_next_revisit_need_free_count($adminid=99);
+        dd($today_free_count);
     }
 
     //处理等级头像
