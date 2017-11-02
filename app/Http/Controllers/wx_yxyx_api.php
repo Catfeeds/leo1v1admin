@@ -92,7 +92,10 @@ class wx_yxyx_api extends Controller
         ];
 
         if($userid){
-            $ruffian_money = (int)$this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
+            $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money($userid);
+            if(!$ruffian_money){
+                $ruffian_money = 0;
+            }
         }else{
             $ruffian_money = 0;
         }
