@@ -4056,8 +4056,46 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
+    /**
+     * 添加伯乐奖
+     * @param int teacherid 推荐人老师id
+     * @param int recommended_teacherid 被推荐老师id
+     * @param int identity 被推荐老师id
+     */
     public function add_reference_price($teacherid,$recommended_teacherid,$identity){
+        $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
+        $check_flag     = $this->check_is_special_reference($phone);
+        if($check_flag){
+            $begin_time = 0;
+        }else{
+            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+            $begin_time = strtotime($begin_date);
+        }
 
+        $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+            $phone,$reference_type,$begin_time
+        );
+        $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
+        $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
+        $this->t_teacher_money_list->row_insert([
+            "teacherid"  => $reference_info['teacherid'],
+            "money"      => $ref_price*100,
+            "money_info" => $teacher_info['teacherid'],
+            "add_time"   => time(),
+            "type"       => E\Ereward_type::V_6,
+            "recommended_teacherid" => $teacher_info['teacherid'],
+        ]);
+
+        if($wx_openid!=""){
+            $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+            $wx_data["first"]    = $teacher_info['nick']."已成功入职";
+            $wx_data["keyword1"] = "已入职";
+            $wx_data["keyword2"] = "";
+            $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
+                                 ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+                                 ."请及时绑定银行卡号，如未绑定将无法发放。";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
+        }
     }
 
 }
