@@ -4060,9 +4060,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * 添加伯乐奖
      * @param int teacherid 推荐人老师id
      * @param int recommended_teacherid 被推荐老师id
-     * @param int identity 被推荐老师id
      */
-    public function add_reference_price($teacherid,$recommended_teacherid,$identity){
+    public function add_reference_price($teacherid,$recommended_teacherid){
+        $check_flag = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
+        if(!$check_flag){
+            $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        }
         $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
         $check_flag     = $this->check_is_special_reference($phone);
         if($check_flag){
