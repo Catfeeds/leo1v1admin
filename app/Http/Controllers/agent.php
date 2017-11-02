@@ -1873,7 +1873,7 @@ class agent extends Controller
         ]);
     }
 
-    public function get_yxyx_member_info(){
+    public function get_yxyx_member_detail(){
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $id = $this->get_in_int_val('id','');
@@ -1885,7 +1885,7 @@ class agent extends Controller
             $phone = '';
         }
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_yxyx_member_detail_info($id,$start_time, $end_time,$nickname,$phone,$page_info);
+        $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info);
         dd($ret_info);
         $all_user = 0;
         $order_user = 0;

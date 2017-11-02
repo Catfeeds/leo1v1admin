@@ -625,7 +625,6 @@ class wx_parent_gift extends Controller
 
             $ret_info['light_num'] =  $ret_info['light_num']>=4?4:$ret_info['light_num'];
             $ret_info['phone'] = $agent_info['phone'];
-
         }else{
             $ret_info = [
                 "invite_num" => 0,
