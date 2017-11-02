@@ -826,6 +826,7 @@ class human_resource extends Controller
         foreach($ret_info["list"] as $val){
             $tea_list[] = $val["teacherid"];
         }
+
         $lesson_tea_list = $this->t_lesson_info->get_teacher_lesson_list_by_week($tea_list);
         $arr_tea_list    = [];
         foreach($lesson_tea_list as &$item){
@@ -836,8 +837,8 @@ class human_resource extends Controller
             $subject = $item['subject_str'];
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
+
         $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
-        // $label_list = $this->get_teacher_label($tea_list);
 
         foreach($ret_info['list'] as  &$item){
             $revisit_info = $this->t_teacher_record_list->get_jw_revisit_info($item["teacherid"]);

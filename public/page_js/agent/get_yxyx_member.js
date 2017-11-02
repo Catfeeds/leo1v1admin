@@ -26,26 +26,18 @@ $(function(){
             load_data();
         }
     });
-	$('#id_phone').val(g_args.phone);
 
+    $('.opt-a td').css('cursor','pointer');
+    $('.opt-a td').on('click',function(){
+        var id = $(this).parent().attr('data-id');
+        if ( location.search ) {
+            window.open("http://admin.yb1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id);
+        } else {
+            window.open("http://admin.yb1v1.com/agent/get_yxyx_member_detail?id="+id);
+        }
+    });
+
+
+	$('#id_phone').val(g_args.phone);
 	$('.opt-change').set_input_change_event(load_data);
 });
-
-
-
-/* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">phone</span>
-                <input class="opt-change form-control" id="id_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">nickname</span>
-                <input class="opt-change form-control" id="id_nickname" />
-            </div>
-        </div>
-*/

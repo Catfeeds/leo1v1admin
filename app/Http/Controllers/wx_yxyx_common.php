@@ -646,15 +646,15 @@ class wx_yxyx_common extends Controller
 
 
     public function check_is_login(){
-        $p_phone    = $this->get_in_int_val('p_phone');
+        // $p_phone    = $this->get_in_int_val('p_phone');
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid?p_phone=".$p_phone );
+        $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid" );
         $ret = $wx->goto_wx_login( $redirect_url );
     }
 
     public function get_openid(){
-        $p_phone    = $this->get_in_int_val('p_phone');
+        // $p_phone    = $this->get_in_int_val('p_phone');
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
@@ -662,12 +662,7 @@ class wx_yxyx_common extends Controller
         $openid     = @$token_info["openid"];
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
-        if($openid == 'oAJiDwHgwCP8Z2AVLneRSRCILCH4'){ // 测试
-            $agent_arr = [];
-        }
-
         session(['yxyx_openid'=>$openid]);
-
         if(empty($agent_arr)){ // 不是会员
             header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
         }else{ // 会员

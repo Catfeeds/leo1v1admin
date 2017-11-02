@@ -3039,7 +3039,6 @@ class user_manage_new extends Controller
 
             E\Eteacher_money_type::set_item_value_str($val);
             $val['level_str']=\App\Helper\Utils::get_teacher_letter_level($val['teacher_money_type'],$val['level']);
-            E\Elevel::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
             $val['lesson_1v1']   /= 100;
             $val['lesson_trial'] /= 100;
