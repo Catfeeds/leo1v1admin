@@ -29,10 +29,10 @@
                         <td>{{@$var["nick1"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_ex"]}} </td>
                         <td>{{@$var["test_lesson"]}} </td>
                         <td>{{@$var["revisit_time"]}} </td>
-                        <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
