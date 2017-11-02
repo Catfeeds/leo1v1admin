@@ -1235,7 +1235,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s m on n.admin_revisiterid=m.uid  "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
-            ." where %s ",
+            ." where %s order by n.free_time desc ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
