@@ -13,16 +13,17 @@ class test_sam  extends Controller
     use CacheNick;
     use TeaPower;
     public function hello_list(){
-        /*
+        
         $userid = 60872;
         $list =  [
             "60872" => [
                 "userid" => "60872"
             ]
         ];
-        if(in_array(60872, $list[$userid])){
+        if(!empty($list[$userid])){
             echo 2;
-        }*/
+        }
+        dd(2);
         $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
         $renew_student_list = $this->t_order_info->get_renew_student_list_new(1506787200,1509465600);
 
