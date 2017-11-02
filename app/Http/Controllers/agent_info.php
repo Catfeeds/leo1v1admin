@@ -166,22 +166,54 @@ class agent_info extends Controller
 
     //@desn:团队明细
     public function group_info(){
+        list($start_time, $end_time  ) =$this->get_in_date_range_month(0);
         $colconel_agent_id   = $this->get_login_agent();
-        $group_info =$this->t_agent_group_members->get_group_info($colconel_agent_id);
+        $group_info =$this->t_agent_group_members->get_group_info($colconel_agent_id,$start_time,$end_time);
+        //获取团长的一级推荐人信息   ---begin--
+        $colconel_child_info = $this->t_agent->get_colconel_child_info($colconel_agent_id);
         //团长业绩[一级]
-        $this_test_lesson_count = $this->t_agent->get_this_colconel_test_lesson_count($colconel_agent_id);
-        $this_invite_count = $this->t_agent->get_this_colconel_invite_count($colconel_agent_id);
-        $this_order_info = $this->t_agent_order->get_this_colconel_order_info($colconel_agent_id);
+        $colconel_student_count = 0;
+        $colconel_member_count = 0;
+        $colconel_child_arr = [];
+        foreach($colconel_child_info as &$item){
+            if(($item['type'] == 1||$item['type']==3) && $item['create_time'] >= $start_time && $item['create_time']<$end_time)
+                $colconel_student_count ++;
+            if(($item['type'] == 2||$item['type']==3) && $item['create_time'] >= $start_time && $item['create_time']<$end_time)
+                $colconel_member_count ++;
+            $colconel_child_arr[] = $item['id'];
+        }
+        $colconel_test_lesson_count = 0;
+        if($colconel_child_arr){
+            $colconel_child_str = '('.implode(',',$colconel_child_arr).')';
+            //获取一级试听信息
+            $test_lesson_info = $this->t_agent->get_child_test_lesson_info($colconel_child_str);
+            if($test_lesson_info){
+                foreach( $test_lesson_info as $item ) {
+                    if ($item["lesson_user_online_status"] ==1 && $item['l_time'] >= $start_time && $item['l_time'] < $end_time)
+                        $colconel_test_lesson_count += 1;
+                }
+            }
+
+
+            //计算签单金额、签单量
+            $child_order_info = $this->t_agent_order->get_cycle_child_order_info($colconel_child_str,$start_time,$end_time);
+            $colconel_order_count = $child_order_info['child_order_count'];
+            $colconel_order_money = $child_order_info['child_order_money'];
+        }
+
+        //获取团长的一级推荐人信息   ---end--
+
+        //团长信息
+        $colconel_info = $this->t_agent->get_agent_info_by_id($colconel_agent_id);
         $colconel_statistics = [
-            'colconel_id' => $this_test_lesson_count['colconel_id'],
-            'colconel_name' => $this_test_lesson_count['colconel_name'],
-            'test_lesson_count' => $this_test_lesson_count['test_lesson_count'],
-            'member_count' => $this_invite_count['member_count'],
-            'student_count' => $this_invite_count['student_count'],
-            'order_count' => $this_order_info['order_count'],
-            'order_money' => $this_order_info['order_money']/100,
+            'colconel_id' => $colconel_info['id'],
+            'colconel_name' => $colconel_info['phone'].'/'.$colconel_info['nickname'],
+            'test_lesson_count' => $colconel_test_lesson_count,
+            'member_count' => $colconel_member_count,
+            'student_count' => $colconel_student_count,
+            'order_count' => $colconel_order_count,
+            'order_money' => $colconel_order_money/100,
         ];
-        // $colconel_statistics = $this->t_agent->get_colconel_statistics($colconel_agent_id);
         $colconel_info = $colconel_statistics;
         //将团员的业绩加上团长的业绩
         foreach($group_info as &$item){
@@ -204,10 +236,11 @@ class agent_info extends Controller
     }
     //@desn:团员明细
     public function members_info(){
+        list($start_time, $end_time  ) =$this->get_in_date_range_month(0);
         $group_id= $this->get_in_int_val("group_id");
         $colconel_agent_id   = $this->get_login_agent();
         $page_info=$this->get_in_page_info();
-        $ret_info = $this->t_agent_group_members->get_members_info($colconel_agent_id,$page_info,$group_id);
+        $ret_info = $this->t_agent_group_members->get_members_info($colconel_agent_id,$page_info,$group_id,$start_time,$end_time);
         foreach($ret_info['list'] as &$item){
             $item['cycle_order_money'] = $item['cycle_order_money']/100;
         }

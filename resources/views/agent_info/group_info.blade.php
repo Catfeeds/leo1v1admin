@@ -19,17 +19,19 @@
  .bg_train_lesson{
      background-color:#ccc;
  }
+ .btn{
+     padding:9px 13px;
+ }
 </style>
 <section class="content li-section">
-
-    <!-- <div class="row">
-         <div class="col-xs-6 col-md-2">
-         <div class="input-group ">
-         <button id="id_add" class="btn btn-primary"> 建立优学优享团</button>
-         </div>
-         </div>
-         
-         </div> -->
+    <div>
+        <div class="row" >
+            <div class="col-xs-12 col-md-5"  data-title="时间段">
+                <div  id="id_date_range" >
+                </div>
+            </div>
+        </div>
+    </div>
     <hr/>
     <table class="common-table">
         <thead>

@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
+    'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
     'CreateTInterviewRemind' => $baseDir . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
     'CreateTLuckDrawYxyxForRuffian' => $baseDir . '/database/migrations/2017_10_27_173442_create_t_luck_draw_yxyx_for_Ruffian.php',
@@ -608,6 +609,7 @@ return array(
     'TTeacherSalaryAddPayColumn' => $baseDir . '/database/migrations/2017_10_28_193114_t_teacher_salary_add_pay_column.php',
     'TTeacherSalaryInfoAddUniqueIndex' => $baseDir . '/database/migrations/2017_11_01_113754_t_teacher_salary_info_add_unique_index.php',
     'TTeacherSalaryListDrop' => $baseDir . '/database/migrations/2017_11_01_103117_t_teacher_salary_list_drop.php',
+    'TTeachingCoreDataAddSetCountGreenTopPer' => $baseDir . '/database/migrations/2017_11_01_141350_t_teaching_core_data_add_set_count_green_top_per.php',
     'TTeachingCoreDataAddSimulatedAuditionTime' => $baseDir . '/database/migrations/2017_10_31_195157_t_teaching_core_data_add_simulated_audition_time.php',
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
     'TTestSubjectFreeListAddIndexAddTime' => $baseDir . '/database/migrations/2017_10_20_101727_t_test_subject_free_list_add_index_add_time.php',

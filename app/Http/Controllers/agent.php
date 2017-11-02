@@ -1846,21 +1846,53 @@ class agent extends Controller
     }
     //优学优享团队统计
     public function agent_group_statistics(){
-
+        list($start_time, $end_time  ) =$this->get_in_date_range_month(0);
         //获取一级数据  --begin---
         $colconel_list = $this->t_agent_group->get_colconel_list();
         for($i=0;$i<count($colconel_list);$i++){
-            $this_test_lesson_count = $this->t_agent->get_this_colconel_test_lesson_count($colconel_list[$i]['colconel_id']);
-            $this_invite_count = $this->t_agent->get_this_colconel_invite_count($colconel_list[$i]['colconel_id']);
-            $this_order_info = $this->t_agent_order->get_this_colconel_order_info($colconel_list[$i]['colconel_id']);
+            //获取团长的一级推荐人信息   ---begin--
+            $colconel_child_info = $this->t_agent->get_colconel_child_info($colconel_list[$i]['colconel_id']);
+            //团长业绩[一级]
+            $colconel_student_count = 0;
+            $colconel_member_count = 0;
+            $colconel_child_arr = [];
+            foreach($colconel_child_info as &$item){
+                if(($item['type'] == 1||$item['type']==3) && $item['create_time'] >= $start_time && $item['create_time']<$end_time)
+                    $colconel_student_count ++;
+                if(($item['type'] == 2||$item['type']==3) && $item['create_time'] >= $start_time && $item['create_time']<$end_time)
+                    $colconel_member_count ++;
+                $colconel_child_arr[] = $item['id'];
+            }
+            $colconel_test_lesson_count = 0;
+            if($colconel_child_arr){
+                $colconel_child_str = '('.implode(',',$colconel_child_arr).')';
+                //获取一级试听信息
+                $test_lesson_info = $this->t_agent->get_child_test_lesson_info($colconel_child_str);
+                if($test_lesson_info){
+                    foreach( $test_lesson_info as $item ) {
+                        if ($item["lesson_user_online_status"] ==1 && $item['l_time'] >= $start_time && $item['l_time'] < $end_time)
+                            $colconel_test_lesson_count += 1;
+                    }
+                }
+
+
+                //计算签单金额、签单量
+                $child_order_info = $this->t_agent_order->get_cycle_child_order_info($colconel_child_str,$start_time,$end_time);
+                $colconel_order_count = $child_order_info['child_order_count'];
+                $colconel_order_money = $child_order_info['child_order_money'];
+            }
+
+            //获取团长的一级推荐人信息   ---end--
+            //团长信息
+            $colconel_info = $this->t_agent->get_agent_info_by_id($colconel_list[$i]['colconel_id']);
             $colconel_result[] = [
-                'colconel_id' => $this_test_lesson_count['colconel_id'],
-                'colconel_name' => $this_test_lesson_count['colconel_name'],
-                'test_lesson_count' => $this_test_lesson_count['test_lesson_count'],
-                'member_count' => $this_invite_count['member_count'],
-                'student_count' => $this_invite_count['student_count'],
-                'order_count' => $this_order_info['order_count'],
-                'order_money' => $this_order_info['order_money']/100,
+                'colconel_id' => $colconel_info['id'],
+                'colconel_name' => $colconel_info['phone'].'/'.$colconel_info['nickname'],
+                'test_lesson_count' => $colconel_test_lesson_count,
+                'member_count' => $colconel_member_count,
+                'student_count' => $colconel_student_count,
+                'order_count' => $colconel_order_count,
+                'order_money' => $colconel_order_money/100,
                 'is_colconel' => 1,
                 'level' => 'l-1',
             ];
@@ -1870,11 +1902,29 @@ class agent extends Controller
         // dd($colconel_result);
         //获取一级数据  --end---
 
+        //获取所有团长的数据之和--begin--
+        $colconel_test_lesson_count = 0;
+        $colconel_member_count = 0;
+        $colconel_student_count = 0;
+        $colconel_order_count = 0;
+        $colconel_order_money = 0;
+        if(@$colconel_result){
+            foreach($colconel_result as &$item){
+                $colconel_test_lesson_count += $item['test_lesson_count'];
+                $colconel_member_count += $item['member_count'];
+                $colconel_student_count += $item['student_count'];
+                $colconel_order_count += $item['order_count'];
+                $colconel_order_money += $item['order_money'];
+            }
+        }
+        //获取所有团长的数据之和--end--
+
+
         //获取二级数据  ---begin---
         if(@$colconel_result){
             for($i=0;$i<count($colconel_result);$i++){
                 $group_list[] = $colconel_result[$i];
-                $group_result = $this->t_agent_group_members->get_group_info($colconel_result[$i]['colconel_id']);
+                $group_result = $this->t_agent_group_members->get_group_info($colconel_result[$i]['colconel_id'],$start_time,$end_time);
                 foreach($group_result as &$item){
                     $item['colconel_name'] = $colconel_result[$i]['colconel_name'];
                     $item['order_money'] /= 100;
@@ -1890,7 +1940,7 @@ class agent extends Controller
             for($i=0;$i<count($group_list);$i++){
                 $member_list[] = $group_list[$i];
                 if(@$group_list[$i]['is_group'] == 1){
-                    $member_result = $this->t_agent_group_members->get_member_result($group_list[$i]['group_id']);
+                    $member_result = $this->t_agent_group_members->get_member_result($group_list[$i]['group_id'],$start_time,$end_time);
                     foreach($member_result as &$item){
                         $item['colconel_name'] = $group_list[$i]['colconel_name'];
                         $item['group_name'] = $group_list[$i]['group_name'];
@@ -1939,24 +1989,15 @@ class agent extends Controller
         //分配层级类标识 ---end--
 
         //获取全部团员业绩[不包括团长]
-        $agent_member_result = $this->t_agent_group_members->get_agent_member_result();
-        //获取全部团长个人业绩[一级]
-        $colconel_test_lesson_count = $this->t_agent->get_colconel_test_lesson_count();
-        $colconel_invite_count = $this->t_agent->get_colconel_invite_count();
-        $colconel_order_info = $this->t_agent_order->get_colconel_order_info();
-        $agent_colconel_result['test_lesson_count'] = $colconel_test_lesson_count;
-        $agent_colconel_result['member_count'] = $colconel_invite_count['member_count'];
-        $agent_colconel_result['student_count'] = $colconel_invite_count['student_count'];
-        $agent_colconel_result['order_count'] = $colconel_order_info['order_count'];
-        $agent_colconel_result['order_money'] = $colconel_order_info['order_money'];
+        $agent_member_result = $this->t_agent_group_members->get_agent_member_result($start_time,$end_time);
+                
+        $agent_all_group_result['test_lesson_count'] = $agent_member_result['test_lesson_count']+$colconel_test_lesson_count;
+        $agent_all_group_result['member_count'] = $agent_member_result['member_count']+$colconel_member_count;
+        $agent_all_group_result['student_count'] = $agent_member_result['student_count']+$colconel_student_count;
 
-        $agent_all_group_result['test_lesson_count'] = $agent_member_result['test_lesson_count']+$agent_colconel_result['test_lesson_count'];
-        $agent_all_group_result['member_count'] = $agent_member_result['member_count']+$agent_colconel_result['member_count'];
-        $agent_all_group_result['student_count'] = $agent_member_result['student_count']+$agent_colconel_result['student_count'];
+        $agent_all_group_result['order_count'] = $agent_member_result['order_count']+$colconel_order_count;
 
-        $agent_all_group_result['order_count'] = $agent_member_result['order_count']+$agent_colconel_result['order_count'];
-
-        $agent_all_group_result['order_money'] = ($agent_member_result['order_money']+$agent_colconel_result['order_money'])/100;
+        $agent_all_group_result['order_money'] = ($agent_member_result['order_money']+$colconel_order_money)/100;
         $agent_all_group_result['name'] = '总计';
         // dd($agent_all_group_result);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info(@$member_list),[
