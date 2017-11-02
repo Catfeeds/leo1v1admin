@@ -32,7 +32,7 @@ class test_sam  extends Controller
             if(!empty($waring_list)){
                 foreach($waring_list as $key => $value){
                     echo $value;
-                    if(in_array($value,$renew_student_list)){
+                    if(isset($renew_student_list($value))){
                         ++$arr['plan_renew_num'];
                     }
                 }
