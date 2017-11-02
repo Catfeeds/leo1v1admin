@@ -2359,15 +2359,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select a.id,a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
             ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
             ." count(distinct if( tq.id is null,na.userid,0 ) ) no_revisit_count,"
-
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
-            // ." count(distinct if( tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
-
-            // ." count(distinct if( sum(tq.is_called_phone)>0,na.userid,0 ) ) ok_phone_count,"
-            // ." count(distinct if( sum(tq.is_called_phone)=0,na.userid,0 ) ) no_phone_count,"
-
             ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
-            ." count(distinct if(l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count"
+            ." count(distinct if(l.lesson_del_flag=0 and l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count,"
+            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count,"
+            ." count(distinct if(ss.free_time>0,na.userid,0 ) ) back_user_count"
             ." from %s a "
             ." left join %s aa on aa.id=a.parentid"
             ." left join %s aaa on aaa.id=aa.parentid"
@@ -2376,7 +2372,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
             ." left join %s tq on tq.phone=na.phone and %s "
-            ." left join %s l on l.lessonid=na.test_lessonid and l.lesson_del_flag=0 "
+            ." left join %s l on l.lessonid=na.test_lessonid "
+            ." left join %s ss on ss.userid=na.userid "
             ." where %s "
             ." group by a.id"
             ,self::DB_TABLE_NAME
@@ -2389,6 +2386,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
         );
 

@@ -1998,6 +1998,54 @@ class agent extends Controller
             $item['ok_phone_count']--;
             $item['rank_count']--;
             $item['ok_lesson_count']--;
+            $item['del_lesson_count']--;
+            $item['back_user_count']--;
+            $item['price'] = $item['price']/100;
+            // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+            if($item['rank_count']) {
+                $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
+            } else {
+                $item['ok_lesson_rate'] = '0%';
+            }
+            if($item['user_count']) {
+                $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
+            } else {
+                $item['order_rate'] = '0%';
+            }
+            $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
+            $item['ok_phone_no_lesson'] = $item['ok_phone'] - $item['ok_lesson_count'];
+            $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $itme['order_user_count'];
+            $all_user = $all_user+$item['user_count'];
+            $order_user = $order_user+$item['order_user_count'];
+            $price = $price+$item['price'];
+        }
+        return $this->pageView(__METHOD__,$ret_info,[
+            'all_user' => $all_user,
+            'order_user' => $order_user,
+            'price' => $price,
+        ]);
+    }
+
+    public function get_yxyx_member_info(){
+
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $phone = trim($this->get_in_str_val('phone',''));
+        if($phone > 100000) {
+            $nickname = '';
+        } else {
+            $nickname = $phone;
+            $phone = '';
+        }
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
+        $all_user = 0;
+        $order_user = 0;
+        $price = 0;
+        foreach ($ret_info['list'] as &$item){
+            $item['no_revisit_count']--;
+            $item['ok_phone_count']--;
+            $item['rank_count']--;
+            $item['ok_lesson_count']--;
             $item['price'] = $item['price']/100;
             // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
             if($item['rank_count']) {
@@ -2021,7 +2069,7 @@ class agent extends Controller
             'order_user' => $order_user,
             'price' => $price,
         ]);
-        // dd($ret_info);
     }
+
 
 }
