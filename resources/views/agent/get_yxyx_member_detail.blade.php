@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
+<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <section class="content ">
         <hr/>
         <table     class="common-table"  >
@@ -42,7 +43,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
+                                <a title="回访列表" class="fa-comments opt-return-back-list " ></a>
                                 <a title="录入回访信息" class="fa-edit opt-edit-new"></a>
 
 

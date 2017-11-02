@@ -2961,6 +2961,9 @@ class ss_deal extends Controller
                 $start_time = strtotime(date("Y-m-d"));
                 $end_time = time(); 
                 // $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid,$start_time,$end_time);
+                // if($history_count>30){
+                //     return $this->output_err("每人每天限制领取30个公海例子,您已领取[$history_count]个!");
+                // }
                 $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT
                                      ,$adminid,$userid);
             }else{

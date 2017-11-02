@@ -121,7 +121,7 @@ class update_month_student_count extends cmd_base
             }
         }
 
-        $cur_month['warning_stu_num']    = $warning_stu_num;
+        $cur_month['warning_stu_num'] = $warning_stu_num;
         //上月课耗和上月课耗收入
         $lesson_money = $task->t_lesson_info_b3->get_lesson_count_money_info_by_month($prev_start,$start_time);
         $prev_month['lesson_count']       = $lesson_money['lesson_count'];
