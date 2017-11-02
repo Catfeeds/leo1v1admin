@@ -2395,7 +2395,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     }
 
-    public function get_yxyx_member_detail_info($id,$start_time, $end_time,$nickname,$phone,$page_info){
+    public function get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info){
 
         $where_arr = [
             ['na.id=%u', $id, -1],
@@ -2419,7 +2419,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
 
         $sql = $this->gen_sql_new(
-            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject,"
+            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid"
             .""
             ." from %s a "
             ." left join %s na on na.parentid=a.id"
