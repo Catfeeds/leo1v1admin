@@ -1195,7 +1195,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
-    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag
+    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -1213,7 +1213,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
-            $where_arr[]= ['n.free_adminid =%u',$adminid];
+            $where_arr[] = ['n.free_adminid =%u',$adminid];
+        }
+        if($phone_location){
+            $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
         }
         if($suc_test_flag == 0){
             $where_arr[] = 'n.test_lesson_count=0';

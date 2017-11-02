@@ -20,6 +20,7 @@ $(function(){
             end_time:	$('#id_end_time').val(),
             grade:	$('#id_grade').val(),
             phone_name:	$('#id_phone_name').val(),
+            phone_location: $('#id_phone_location').val(),
             has_pad:	$('#id_has_pad').val(),
             subject:	$('#id_subject').val(),
             test_lesson_count_flag : $('#id_test_lesson_count_flag').val(),
@@ -46,6 +47,7 @@ $(function(){
     $('#id_grade').val(g_args.grade);
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_phone_name').val(g_args.phone_name);
+    $('#id_phone_location').val(g_args.phone_location);
     $('#id_subject').val(g_args.subject);
     $('#id_test_lesson_count_flag').val(g_args.test_lesson_count_flag),
     $('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
