@@ -31,6 +31,9 @@ $(function(){
             var show_noti_info_flag=false;
             var $note_info=html_node.find(".note-info");
             var note_msg="";
+            html_node.find("input").attr("readonly",true);
+            html_node.find("textarea").attr("readonly",true);
+            html_node.find("select").attr("disabled",true);
             if (data.test_lesson_count >0 ) {
                 show_noti_info_flag=true;
                 note_msg="已有试听课:"+data.test_lesson_count +"次" ;
@@ -98,7 +101,6 @@ $(function(){
             var id_status            = html_node.find("#id_stu_status");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
             var id_user_desc         = html_node.find("#id_stu_user_desc");
-           // var id_revisite_info     = html_node.find("#id_stu_revisite_info");
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
             var id_school            = html_node.find("#id_stu_school");
@@ -106,12 +108,7 @@ $(function(){
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
-          //  var id_stu_score_info = html_node.find("#id_stu_score_info");
-           // var id_stu_character_info = html_node.find("#id_stu_character_info");
-           // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
             var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
-           // var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
-           // var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
             var id_advice_flag = html_node.find("#id_advice_flag");
             var id_academic_goal = html_node.find("#id_academic_goal");
             var id_test_stress = html_node.find("#id_test_stress");
@@ -128,9 +125,6 @@ $(function(){
             var id_demand_urgency = html_node.find("#id_demand_urgency");
             var id_quotation_reaction = html_node.find("#id_quotation_reaction");
             var id_revisit_info_new = html_node.find("#id_revisit_info_new");
-            if(click_type==1){
-                //id_revisit_info_new.hide();
-            }
 
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
 
@@ -151,27 +145,6 @@ $(function(){
             Enum_map.append_option_list("intention_level", id_intention_level, true);
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-
-
-
-
-           /* id_stu_request_test_lesson_time.datetimepicker( {
-                lang:'ch',
-                timepicker:true,
-                format: "Y-m-d H:i",
-                onChangeDateTime :function(){
-                }
-            });*/
-
-            id_stu_request_test_lesson_time.datetimepicker({
-                lang             : 'ch',
-                timepicker       : true,
-                format:'Y-m-d H:i',
-                step             : 30,
-                onChangeDateTime : function(){
-                }
-            });
-
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
                 id_stu_request_test_lesson_time.val("");
@@ -671,10 +644,7 @@ $(function(){
 
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
             id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
-           // id_stu_score_info.val(data.stu_score_info);
-           // id_stu_test_lesson_level.val(data.stu_test_lesson_level);
             id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
-           // id_stu_character_info.val(data.stu_character_info);
 
             id_next_revisit_time.datetimepicker( {
                 lang:'ch',
@@ -801,111 +771,15 @@ $(function(){
                     action: function(dialog) {
                         dialog.close();
                     }
-                },{
-                    label: '提交',
-                    cssClass: 'btn-warning',
-                    action: function(dialog) {
-                        if (  id_seller_student_sub_status.find("option").length>1  && id_seller_student_sub_status.val()=="0" ) {
-                            alert("请选择回访状态的子分类");
-                            return;
-                        }
-
-                        var region = html_node.find("#province").find("option:selected").text();
-                        var province = html_node.find("#province").val();
-                        var city = html_node.find("#city").find("option:selected").text();
-                        var area = html_node.find("#area").find("option:selected").text();
-                        // alert(province);
-                        if(province==""){
-                            region="";
-                            city="";
-                            area="";
-                        }
-                        if(html_node.find("#city").val()==""){
-                             city="";
-                        }
-                        if(html_node.find("#area").val()==""){
-                            area="";
-                        }
-
-
-
-
-                        $.do_ajax("/ss_deal/save_user_info_new",{
-                            new_demand_flag   : 1,
-                            click_type        : click_type,
-                            userid            : opt_data.userid,
-                            test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                            phone: opt_data.phone,
-                            stu_nick      : id_stu_nick.val(),
-                            par_nick      : id_par_nick.val(),
-                            grade         : id_grade.val(),
-                            gender        : id_gender.val(),
-                            address       : id_address.val(),
-                            subject       : id_subject.val(),
-                            seller_student_status : id_status.val(),
-                            seller_student_sub_status : id_seller_student_sub_status.val(),
-                            user_desc     : id_user_desc.val(),
-                           // revisite_info : id_revisite_info.val(),
-                            next_revisit_time : id_next_revisit_time.val(),
-                            editionid : id_editionid.val(),
-                            school: id_school.val(),
-                            stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
-                           // stu_score_info:id_stu_score_info.val(),
-                           // stu_test_lesson_level:id_stu_test_lesson_level.val(),
-                            stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                          //  stu_character_info:id_stu_character_info.val(),
-                          //  stu_request_test_lesson_time_info:id_stu_request_test_lesson_time_info.data("v"),
-                          //  stu_request_lesson_time_info:id_stu_request_lesson_time_info.data("v"),
-                            has_pad       : id_has_pad.val(),
-                            intention_level       : id_intention_level.val(),
-                            class_rank: html_node.find("#id_class_rank").val(),
-                            grade_rank: html_node.find("#id_grade_rank").val(),
-                            academic_goal: html_node.find("#id_academic_goal").val(),
-                            test_stress: html_node.find("#id_test_stress").val(),
-                            entrance_school_type: html_node.find("#id_entrance_school_type").val(),
-                            interest_cultivation: html_node.find("#id_interest_cultivation").val(),
-                            extra_improvement : html_node.find("#id_extra_improvement").val(),
-                            habit_remodel: html_node.find("#id_habit_remodel").val(),
-                            study_habit : html_node.find("#id_study_habit").val(),
-                            interests_and_hobbies: html_node.find("#id_interests_hobbies").val(),
-                            character_type: html_node.find("#id_character_type").val(),
-                            need_teacher_style: html_node.find("#id_need_teacher_style").val(),
-                            demand_urgency: html_node.find("#id_demand_urgency").val(),
-                            quotation_reaction: html_node.find("#id_quotation_reaction").val(),
-                           // knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
-                            recent_results: html_node.find("#id_recent_results").val(),
-                            advice_flag: html_node.find("#id_advice_flag").val(),
-                            province: province,
-                            city: city,
-                            area: area,
-                            region: region,
-                            test_paper: html_node.find("#id_test_paper").val(),
-                        });
-
-                    }
                 }]
             });
-
-
             dlg.getModalDialog().css("width","78%");
-
 
             var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
             dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
             close_btn.on("click",function(){
                 dlg.close();
             } );
-            var th = setTimeout(function(){
-                $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
-                    var res = $.parseJSON(info);
-                    console.log(res);
-                    id_test_paper.val(res.key);
-
-                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
-                clearTimeout(th);
-            }, 1000);
-
 
         });
 
