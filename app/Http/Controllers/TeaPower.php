@@ -1344,12 +1344,7 @@ trait TeaPower {
             $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
             $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
             if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
-                if($reference_info['teacher_type']>30){
-                    $teacher_ref_type = $reference_info['teacher_ref_type'];
-                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2])){
-                    $teacher_ref_type = $reference_info['teacher_ref_type'];
-                    $teacher_money_type = E\Eteacher_money_type::V_5;
-                }
+                $teacher_ref_type = $reference_info['teacher_ref_type'];
             }
         }
 
