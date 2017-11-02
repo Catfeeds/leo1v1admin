@@ -96,4 +96,24 @@ class t_id_opt_log extends \App\Models\Zgen\z_t_id_opt_log
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_history_info($log_type,$adminid,$start_time,$end_time){
+        $where_arr=[
+            ["log_type=%u" ,$log_type, -1 ],
+            ["opt_id=%u" ,$adminid, -1 ],
+            ["n.admin_revisiterid=%u" ,$adminid, -1 ],
+        ];
+        $this->where_arr_add_time_range($where_arr,"log_time",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new(
+            " select l.* "
+            ." from %s l "
+            ." left join %s n on l.value=n.userid "
+            ." where  %s ",
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

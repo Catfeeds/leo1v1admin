@@ -467,9 +467,7 @@ class agent extends Controller
     public function test_new(){
         $start_time = strtotime(date("Y-m-d"));
         $end_time = time();
-        $start_time = strtotime(date("Y-m-d"));
-        $end_time = time(); 
-        $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid=1100,$start_time,$end_time);
+        $history_count = $this->t_id_opt_log->get_history_info(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid=1100,$start_time,$end_time);
         if($history_count>30){
             return $this->output_err("每人每天限制领取30个公海例子,您已领取[$history_count]个!");
         }
