@@ -466,7 +466,7 @@ class agent extends Controller
 
     public function test_new(){
         $start_time = strtotime(date("Y-m-d"));
-        $end_time = time(); 
+        $end_time = time();
         $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid=864,$start_time,$end_time);
         dd($history_count);
     }
