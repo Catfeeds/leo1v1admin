@@ -1380,6 +1380,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         \App\Helper\Utils::logger("t_agent_yxyx: $id");
 
+
         $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
@@ -1412,7 +1413,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
         }
 
-        $level_count_info= $this->get_level_count_info($id);
+        $level_count_info= $this-> get_level_count_info($id);
         $agent_status_money =0;
         $l1_agent_status_test_lesson_succ_count=0;
         $l1_agent_status_all_money =0;
@@ -2426,8 +2427,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
             ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
             ." count(distinct if(l.lesson_del_flag=0 and l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count,"
-            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count,na.test_lessonid,"
-            ." max(r.revisit_time) as revisit_time"
+            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count"
             ." from %s a "
             ." left join %s aa on aa.id=a.parentid"
             ." left join %s aaa on aaa.id=aa.parentid"
@@ -2436,7 +2436,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
             ." left join %s tq on tq.phone=na.phone and %s "
-            ." left join %s r on r.userid=na.userid "
+            ." left join %s l on l.lessonid=na.test_lessonid "
             ." where %s "
             ." group by a.id"
             ,self::DB_TABLE_NAME
@@ -2448,7 +2448,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_order_info::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
-            ,t_revisit_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
             ,$where_arr
         );
 
