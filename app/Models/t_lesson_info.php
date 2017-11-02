@@ -9660,7 +9660,7 @@ lesson_type in (0,1) "
 
     public function get_total_income($start_time,$end_time){
         $where_arr = [
-            ['lesson_start>%u',$start_time,-1],
+            ['lesson_start>=%u',$start_time,-1],
             ['lesson_start<%u',$end_time,-1],
             "lesson_type IN (0, 1, 3) ",
             "(s.is_test_user = 0 or s.is_test_user is null)",
