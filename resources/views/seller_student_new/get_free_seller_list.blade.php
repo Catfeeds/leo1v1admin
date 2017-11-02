@@ -58,6 +58,7 @@
                     <input class="opt-change form-control" style="display:block;" id="id_phone_location" placeholder="手机号码归属地,回车搜索"/>
                 </div>
             </div>
+            <button class="btn btn-primary" id="id_left_count"  title="可领个数" > {{$left_count}}
         </div>
 
         <hr/>
@@ -89,7 +90,7 @@
                         <td>{{@$var["has_pad_str"]}} </td>
                         <td>{{@$var["last_revisit_time"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
-                        <td>{{@$var["free_time"]}} </td>
+                        <td>{{@$var["free_time"]}}/@$var["free_nick"]}} </td>
                         <td>{{@$var["test_lesson_order_fail_flag_str"]}}</td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>

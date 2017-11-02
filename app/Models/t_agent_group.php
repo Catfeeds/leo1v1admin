@@ -61,7 +61,14 @@ class t_agent_group extends \App\Models\Zgen\z_t_agent_group
 
         return $this->main_get_list($sql);
     }
-    
+    //@desn:获取团长列表
+    public function get_agent_group_colconel_list(){
+        $sql = $this->gen_sql_new(
+            "select colconel_agent_id from %s group by colconel_agent_id",
+            self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }
 
 
