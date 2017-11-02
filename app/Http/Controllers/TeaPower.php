@@ -2246,39 +2246,16 @@ trait TeaPower {
             ]);
             $teacher_info['level']=0;
         }
-
         $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
-        $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
-        if(!empty($reference_info['teacherid']) && !$check_flag){
-            $wx_openid      = $reference_info['wx_openid'];
-            $teacher_type   = $reference_info['teacher_type'];
+        if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
             if(!in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
-                // $ref_price = $this->get_teacher_reference_price(
-                //     $reference_info['phone'],$teacher_info['identity']
-                // );
-                $this->t_teacher_money_list->row_insert([
-                    "teacherid"  => $reference_info['teacherid'],
-                    "money"      => $ref_price*100,
-                    "money_info" => $teacher_info['teacherid'],
-                    "add_time"   => time(),
-                    "type"       => E\Ereward_type::V_6,
-                    "recommended_teacherid" => $teacher_info['teacherid'],
-                ]);
-
-                if($wx_openid!=""){
-                    $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-                    $wx_data["first"]    = $teacher_info['nick']."已成功入职";
-                    $wx_data["keyword1"] = "已入职";
-                    $wx_data["keyword2"] = "";
-                    $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
-                                         ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
-                                         ."请及时绑定银行卡号，如未绑定将无法发放。";
-                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
-                }
+                $notice_flag = false;
+            }else{
+                $notice_flag = true;
             }
+            $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid'],$notice_flag);
         }
     }
 
@@ -2288,7 +2265,6 @@ trait TeaPower {
      */
     public function send_offer_info($teacher_info){
         $today_date  = date("Y年m月d日",time());
-        // $level_str = E\Elevel::get_desc($teacher_info['level']);
         $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";

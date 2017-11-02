@@ -1470,6 +1470,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
 
+        \App\Helper\Utils::logger("yxyx_ruffian: $ruffian_money userid: $userid");
+
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
