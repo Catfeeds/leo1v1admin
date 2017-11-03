@@ -1999,6 +1999,7 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
+            E\Esubject::set_item_value_str($item,'subject');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
             $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
