@@ -35,15 +35,19 @@ class wx_parent_gift extends Controller
         $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
-        $token = $wx->get_wx_token($p_appid,$p_appsecret,true);
-        // dd($token);
-
+        $token = $wx->get_wx_token($p_appid,$p_appsecret);
         $user_info = $wx->get_user_info($openid,$token);
-        dd($user_info);
-        dd($token_info);
-        session(["p_openid"=>$openid]);
 
+        session(["p_openid"=>$openid]);
+        $subscribe = $user_info['subscribe'];
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+
+        if($subscribe == 0){ //未关注
+            //跳转到活动页
+        }else{
+        }
+
+
         if($is_parent_flag){
             // header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);//周年庆活动页面
             // header("Location: ");//双11活动页面
