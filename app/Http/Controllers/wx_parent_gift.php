@@ -41,7 +41,7 @@ class wx_parent_gift extends Controller
         session(["wx_parent_openid" => $openid ] );
 
         $subscribe = $user_info['subscribe'];
-        $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        // $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
         if($subscribe == 0){ //未关注
             //跳转到登录页面
@@ -386,7 +386,8 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        $parentid = $this->get_parentid();
+        $openid = session('wx_parent_openid');
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
