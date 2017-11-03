@@ -358,7 +358,6 @@ class wx_parent_gift extends Controller
     }
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
-        // $parentid = $this->get_in_int_val('parentid');
         $parentid = $this->get_parentid();
         $left_num = $this->get_draw_num($parentid);
         return $this->output_succ(['left'=>$left_num]);
@@ -394,42 +393,37 @@ class wx_parent_gift extends Controller
         }
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
-        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
 
-        $is_pass = 0;
         $prize_type = $this->get_win_rate($stu_type,$parentid);
         //检测奖品是否抽完
         $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
 
         if($has_prize == 0){
-            $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
-            if($is_test>0){
-                $prize_type=2;
-            }else{
-                $prize_type=8;
-            }
-        }
-
-        // 抽奖
-        if($is_pass){
-            if($stu_type==1){ // 新用户
+            if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 if($is_test>0){
                     $prize_type=2;
                 }else{
                     $prize_type=8;
                 }
-            }elseif($stu_type==2){ //老用户
+            }elseif($stu_type ==2){
                 $prize_type=2;
             }
         }
 
-        $this->t_ruffian_activity->row_insert([
-            "parentid"   => $parentid,
-            "prize_list" => $prize_type,
-            "prize_time" => time(),
-            "stu_type"   => $stu_type
-        ]);
+        $unlimited_prize = [2,8];
+        if(in_array($prize_type,$unlimited_prize)){
+            $this->t_ruffian_activity->row_insert([
+                "parentid"   => $parentid,
+                "prize_list" => $prize_type,
+                "prize_time" => time(),
+                "stu_type"   => $stu_type
+            ]);
+        }else{
+            // $this->t_ruffian_activity->field_update_list($id,$set_field_arr);
+
+        }
+
 
 
         // 微信通知
