@@ -2482,7 +2482,7 @@ class main_page extends Controller
         ]);
     }
 
-    public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $type)
+    public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $type='')
     {
         if ($type) {
             if ($item['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
