@@ -124,6 +124,9 @@ class tongji_ex extends Controller
     public function get_lesson_user_ip_same_info(){
         list($start_time,$end_time) = $this->get_in_date_range_month(0 );
         $match_type = $this->get_in_int_val("match_type",0);
+        $company_ip_list=[
+            
+        ];
         $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type);
         
         $list=[];
