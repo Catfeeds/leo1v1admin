@@ -67,7 +67,7 @@ class test_lesson_review extends Controller
             $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
             $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
             $template_id     = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
-            $url = 'http://admin.yb1v1.com/test_lesson_review/test_lesson_review_list';
+            $url = 'http://admin.leo1v1.com/test_lesson_review/test_lesson_review_list';
             $wx              = new \App\Helper\Wx();
             if($group_wx_openid){
                 $ret             = $wx->send_template_msg($group_wx_openid,$template_id,[

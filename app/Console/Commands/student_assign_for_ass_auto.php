@@ -57,7 +57,7 @@ class student_assign_for_ass_auto extends Command
                     "销售-".$item["sys_operator"],
                     "交接单 更新 || 合同生效",
                     "学生".$item["nick"],
-                    "http://admin.yb1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
+                    "http://admin.leo1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
 
             }
 
@@ -106,7 +106,7 @@ class student_assign_for_ass_auto extends Command
                             "销售-".$userid_list["sys_operator"],
                             "交接单 更新 || 合同生效",
                             "学生".$userid_list["nick"],
-                            "http://admin.yb1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
+                            "http://admin.leo1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
                         break;
 
                     }

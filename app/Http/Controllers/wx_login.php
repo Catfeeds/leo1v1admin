@@ -67,7 +67,7 @@ class wx_login extends Controller
                 ] );
 
             }else{
-                $message="请重新打开admin.yb1v1.com页面, 微信重新扫一扫 , 拨打电话联系[jim]:15601830297" ;
+                $message="请重新打开admin.leo1v1.com页面, 微信重新扫一扫 , 拨打电话联系[jim]:15601830297" ;
                 return $this->pageView(__METHOD__,[],[
                     "message"=> $message,
                 ] );
@@ -92,6 +92,7 @@ class wx_login extends Controller
             "openid"     => "",
         ];
 
+        $url="http://admin.leo1v1.com/wx_login/login?admin_code=".$admin_code;
         if ($account) { //通知wx
             $ret=$this->t_manager_info->send_wx_todo_msg($account,"后台系统","后台系统登陆请求","",$url );
             \App\Helper\Utils::logger("XX account xjceshi:$account:$ret");

@@ -65,7 +65,7 @@ class teacher_limit_plan_lesson_info_wx extends Command
             foreach($tea_arr as $k=>$v){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"理优监课组","各学科老师转化率低被限制排课的通知",$v."老师你好,系统检查到如下 ".$num."位 老师10次以上试听课未转化,教研老师进行了限制排课操作,并已反馈老师
 
-具体名单是:".$teacher_name_list,"http://admin.yb1v1.com/tongji_ss/get_test_lesson_low_tra_teacher?subject=-1&is_record_flag=-1&is_do_sth=-1&limit_plan_lesson_type=-2&wx_type=1&start_time_ex=".$start_time."&end_time_ex=".time());
+具体名单是:".$teacher_name_list,"http://admin.leo1v1.com/tongji_ss/get_test_lesson_low_tra_teacher?subject=-1&is_record_flag=-1&is_do_sth=-1&limit_plan_lesson_type=-2&wx_type=1&start_time_ex=".$start_time."&end_time_ex=".time());
 
             }
         }

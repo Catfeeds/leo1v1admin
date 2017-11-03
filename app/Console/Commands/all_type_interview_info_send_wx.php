@@ -81,7 +81,7 @@ class all_type_interview_info_send_wx extends Command
         foreach($arr as $val){
             
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($val,"昨日面试信息报告","招聘月项目进度汇总","昨日面试数:".$all_day."人,当日完成率:".$all_day_per.";通过面试数:".$succ_day."人,当日完成率:".$succ_day_per.";本月面试数:".$all."人,完成率:".$all_per.";通过面试数:".$all_tea."人,KPI完成率:".$succ_per.";
-招聘月KPI指标:每日需面试人数:60人,面试通过18人,累计面试2200人,通过650人,考核周期6月18日到7月31号,大家加油冲锋!","http://admin.yb1v1.com/tongji_ss/teacher_interview_info_tongji?order_by_str=all_count desc&date_type=null&opt_date_type=0&start_time=".$s."&end_time=".$e); 
+招聘月KPI指标:每日需面试人数:60人,面试通过18人,累计面试2200人,通过650人,考核周期6月18日到7月31号,大家加油冲锋!","http://admin.leo1v1.com/tongji_ss/teacher_interview_info_tongji?order_by_str=all_count desc&date_type=null&opt_date_type=0&start_time=".$s."&end_time=".$e); 
 
         }
 

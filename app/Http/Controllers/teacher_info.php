@@ -200,7 +200,7 @@ class teacher_info extends Controller
     {
         $account           = $this->t_manager_info->get_account_by_uid($adminid);
         $question_type_str = $this->get_question_type_str($question_type);
-        $wx_url            = "http://admin.yb1v1.com/teacher_apply/teacher_apply_list_one";
+        $wx_url            = "http://admin.leo1v1.com/teacher_apply/teacher_apply_list_one";
         $teacher_nick      = $this->t_teacher_info->get_nick($teacherid);
         $msg               = "上课时间：".$lesson_time.";问题描述：".$question_content;
         $desc              = "为保证试听质量，请您尽快回访处理。";
@@ -212,7 +212,7 @@ class teacher_info extends Controller
             "url"        => $wx_url,
             "desc"       => $desc,                                                                        //底部内容
         ];
-        $post_url = "http://admin.yb1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($send_wx_data));
+        $post_url = "http://admin.leo1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($send_wx_data));
         return $this->send_curl_post($post_url);
     }
 
@@ -1161,7 +1161,7 @@ class teacher_info extends Controller
                 "url"        => "",
             ];
 
-            $post_url = "http://admin.yb1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($data));
+            $post_url = "http://admin.leo1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($data));
             $this->send_curl_post($post_url);
         }
 
@@ -1491,10 +1491,10 @@ class teacher_info extends Controller
             "from_user"  => urlencode($from_user),
             "header_msg" => urlencode($header_msg),
             "msg"        => "老师投诉内容:$msg",
-            "url"        => "http://admin.yb1v1.com/user_manage/qc_complaint/"
+            "url"        => "http://admin.leo1v1.com/user_manage/qc_complaint/"
         ];
 
-        $post_url = "http://admin.yb1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($data));
+        $post_url = "http://admin.leo1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($data));
         $qc_log   =  $this->send_curl_post($post_url);
 
     }

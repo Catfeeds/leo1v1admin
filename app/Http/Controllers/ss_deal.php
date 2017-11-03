@@ -1483,20 +1483,20 @@ class ss_deal extends Controller
         $realname = $this->t_teacher_info->get_realname($limit_require_teacherid);
         if($account_role==2 && $is_green_flag==1){
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($master_adminid,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
-请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
-请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (478,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
-请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
 
 
         }else{
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($master_adminid,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
-请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_jw_leader?require_id=".$require_id);
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_jw_leader?require_id=".$require_id);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
-请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_jw_leader?require_id=".$require_id);
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_jw_leader?require_id=".$require_id);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (478,$realname."老师申请解限老师并排课","限课特殊申请通知","申请理由:".$limit_require_reason."
-请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
+请总监认真做好解限审核,限课冻结的老师教学质量上一般存在较大问题,请谨慎排课","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_seller?require_id=".$require_id);
 
 
 
@@ -1519,12 +1519,12 @@ class ss_deal extends Controller
             "limit_accept_time"  =>time()
         ]);
         if($limit_accept_flag==1){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($limit_info["limit_require_adminid"],$tea_nick."老师的限课特殊申请审核通过","限课特殊申请审核通过通知","系统会在十分钟内根据教研审核情况自动处理,请及时确认!","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$tea_nick."老师的限课特殊申请审核通过","限课特殊申请审核通过通知","系统会在十分钟内根据教研审核情况自动处理,请及时确认!","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($limit_info["limit_require_adminid"],$tea_nick."老师的限课特殊申请审核通过","限课特殊申请审核通过通知","系统会在十分钟内根据教研审核情况自动处理,请及时确认!","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$tea_nick."老师的限课特殊申请审核通过","限课特殊申请审核通过通知","系统会在十分钟内根据教研审核情况自动处理,请及时确认!","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
 
         }else if($limit_accept_flag==2){
-             $this->t_manager_info->send_wx_todo_msg_by_adminid ($limit_info["limit_require_adminid"],$tea_nick."老师的限课特殊申请被驳回","限课特殊申请驳回通知",$tea_nick."老师由于教学质量或者态度存在较大问题,故排课被驳回,请更换其他老师","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
-             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$tea_nick."老师的限课特殊申请被驳回","限课特殊申请驳回通知",$tea_nick."老师由于教学质量或者态度存在较大问题,故排课被驳回,请更换其他老师","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
+             $this->t_manager_info->send_wx_todo_msg_by_adminid ($limit_info["limit_require_adminid"],$tea_nick."老师的限课特殊申请被驳回","限课特殊申请驳回通知",$tea_nick."老师由于教学质量或者态度存在较大问题,故排课被驳回,请更换其他老师","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
+             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$tea_nick."老师的限课特殊申请被驳回","限课特殊申请驳回通知",$tea_nick."老师由于教学质量或者态度存在较大问题,故排课被驳回,请更换其他老师","http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
         }
         return $this->output_succ();
     }
@@ -6171,7 +6171,7 @@ class ss_deal extends Controller
                 "keyword4"  => "$complaint_info_str",
                 "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
             ];
-            $url = 'http://admin.yb1v1.com/user_manage/complaint_department_deal_teacher/';
+            $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_teacher/';
             $wx=new \App\Helper\Wx();
             $qc_openid_arr = [
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
@@ -6373,7 +6373,7 @@ class ss_deal extends Controller
                     "keyword2"  => "QC投诉内容:$complaint_info",
                     "keyword3"  => "QC投诉时间 $log_time_date ",
                 ];
-                $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+                $url = 'http://admin.leo1v1.com/user_manage/qc_complaint/';
                 $wx=new \App\Helper\Wx();
 
                 $wx_openid_arr = [

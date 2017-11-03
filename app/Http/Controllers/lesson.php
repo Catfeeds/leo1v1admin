@@ -283,7 +283,7 @@ class lesson extends TeaWxController
 
         \App\Helper\Utils::logger("teacherid12:$teacherid");
 
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_money_list";
+        $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
         $post_data = array(
             "teacherid" => $teacherid,
             "start_time" => $start_time,
