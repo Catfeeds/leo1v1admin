@@ -3985,9 +3985,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function buy_ten_flag($parentid){
+
+        $where_arr = [];
+
         $sql = $this->gen_sql_new("  select 1 from %s o"
                                   ."　left join %s s on s.userid=o.userid"
                                   ." left　join %s p on p.userid=s.userid"
+                                  ." where p.parent=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$parentid
         );
+
+        return $this->main_get_value($sql);
     }
 }
