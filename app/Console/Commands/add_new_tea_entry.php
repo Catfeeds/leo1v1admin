@@ -43,7 +43,7 @@ class add_new_tea_entry extends Command
         $task = new \App\Console\Tasks\TaskController();
         $info = $task->t_teacher_lecture_appointment_info_b2->get_name_for_tea_name();
         foreach($info as $item){
-            echo $item['tname'].'   '.$item['name'];
+            echo $item['tname'].'   '.$item['name'].PHP_EOL;
         }
         exit;
         $add_time = time();
