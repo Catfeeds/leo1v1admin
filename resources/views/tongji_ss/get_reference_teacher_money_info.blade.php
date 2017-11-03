@@ -15,33 +15,22 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td rowspan="2">年月</td>
-                    <td rowspan="2">当月签约人数 </td>
-                    <td rowspan="2">当月新增课时费</td>
-                    <td rowspan="2">当月新增课时数</td>
-                    <td colspan="22" >课耗时点</td>
-                    
-                    <td rowspan="2"> 操作</td>
-                </tr>
-                <tr>
-                    @foreach ( $list as $var )
-                        <td>{{@$var["month"]}} </td>                          
-                    @endforeach
-                    
+                    <td>teacherid</td>                   
+                    <td>名字</td>                   
+                    <td>试听课数</td>                   
+                    <td>转化数</td>                   
+                    <td> 操作</td>
                 </tr>
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $list as $var )
                     <tr>
-                        <td>{{@$var["month"]}} </td>                          
-                        <td class="stu_num">{{@$var["stu_num"]}} </td>                          
-                        <td class="all_price">{{@$var["all_price"]/100}} </td>                          
-                        <td class="lesson_count_all">{{@$var["lesson_count_all"]/100}} </td>                          
-                        @foreach ( $list as $k=>$v )
-                            <td class="{{$k}}">{{@$var[$k]}} </td>                          
-                        @endforeach
+                        <td>{{@$var["teacherid"]}} </td>                          
+                        <td class="stu_num">{{@$var["realname"]}} </td>                          
+                        <td class="person_num"></td>                          
+                        <td class="have_order"> </td>                          
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["month_start"]}}" >
+                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
