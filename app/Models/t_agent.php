@@ -2136,7 +2136,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $counter++;
 
             if($child_list)
-                $this->get_child_by_cycle($child_list,$month_first_day,$month_last_day);
+                $this->get_child_by_cycle_month($child_list,$month_first_day,$month_last_day);
 
         }
 
@@ -2472,7 +2472,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
-        print_r($child_arr);
+        if($id == 1593)
+            print_r($child_arr);
         //用户有推荐人
         if($child_arr){
             $in_str = '('.implode(',',$child_arr).')';
@@ -2543,23 +2544,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'na.type in (1,3)',
         ];
 
-        if( $opt_type == 'no_revisit_count') {//没有拨打过电话
+        if( $opt_type === 'no_revisit_count') {//没有拨打过电话
             $where_arr[] = " tq.id is null ";
-        } else if ( $opt_type == 'no_phone_count' ) {//未拨通
+        } else if ( $opt_type === 'no_phone_count' ) {//未拨通
             $where_arr[] = " tq.id>0 and tq.is_called_phone=0";
-        } else if ( $opt_type == 'ok_phone_count' ) {//拨通
+        } else if ( $opt_type === 'ok_phone_count' ) {//拨通
             $where_arr[] = " tq.id>0 and tq.is_called_phone=1";
-        } else if ( $opt_type == 'ok_phone_no_lesson' ) {//拨通没排课
+        } else if ( $opt_type === 'ok_phone_no_lesson' ) {//拨通没排课
             $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid=0";
-        } else if ( $opt_type == 'rank_count' ) {//排课
+        } else if ( $opt_type === 'rank_count' ) {//排课
             $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid>0";
-        } else if ( $opt_type == 'del_lesson_count' ) {//排课取消
+        } else if ( $opt_type === 'del_lesson_count' ) {//排课取消
             $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid>0 and l.lesson_del_flag=1";
-        } else if ( $opt_type == 'ok_lesson_count' ) {//试听成功
+        } else if ( $opt_type === 'ok_lesson_count' ) {//试听成功
             $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1";
-        } else if ( $opt_type == 'ok_lesson_no_order' ) {//试听未签单
+        } else if ( $opt_type === 'ok_lesson_no_order' ) {//试听未签单
             $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid is null";
-        } else if ( $opt_type == 'order_user_count' ) {//签单
+        } else if ( $opt_type === 'order_user_count' ) {//签单
             $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid>0 ";
         }
 

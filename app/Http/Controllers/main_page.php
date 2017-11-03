@@ -2401,6 +2401,145 @@ class main_page extends Controller
         $history_data = $this->get_in_int_val('history_data');
 
         $total    = $this->t_new_tea_entry->get_total();
+        if ($history_data) { // 没有历史数据
+            $ret_info = $this->recruit_array_init(1);
+            $tea_list = $this->t_teacher_flow->get_tea_list($start_time, $end_time);
+            // 参训人数
+            $train_tea = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time);
+            //
+            $imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
+            $attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
+            foreach($tea_list as $id => $item) {
+                $ret_info = $this->accumulation_recruit($ret_info, $id, $item, $train_tea, $imit, $attend, 1);
+            }
+            $total['sum'] = 0;
+            $total['imit_sum'] = 0;
+            $total['attend_sum'] = 0;
+            $total['adopt_sum'] = 0;
+            $total['train_tea_sum'] = 0;
+            $total['train_qual_sum'] = 0;
+            foreach($ret_info as $key => &$item) {
+                if (isset($item['grade'])) {
+                    E\Esubject::set_item_value_str($item, "subject");
+                    E\Egrade::set_item_value_str($item, "grade");
+                } else {
+                    $item['grade_str'] = '';
+                    E\Esubject::set_item_value_str($item, "subject");
+                }
+                if ($recruit == 'train') {
+                    $total['train_tea_sum'] += $item['train_tea_sum'];
+                    $total['train_qual_sum'] += $item['train_qual_sum'];
+                }
+                $total['sum'] += $item['sum'];
+                $total['imit_sum'] += $item['imit_sum'];
+                $total['attend_sum'] += $item['attend_sum'];
+                $total['adopt_sum'] += $item['adopt_sum'];
+            }
+            $type_ret_info = $this->recruit_array_init();
+            foreach($tea_list as $id => $item) {
+                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $atten);
+            }
+            $type_total['sum'] = 0;
+            $type_total['train_tea_sum'] = 0;
+            $type_total['train_qual_sum'] = 0;
+            $type_total['imit_sum'] = 0;
+            $type_total['attend_sum'] = 0;
+            $type_total['adopt_sum'] = 0;
+            foreach($type_ret_info as $key => &$item) {
+                E\Eidentity::set_item_value_str($item, "identity");
+                if ($recruit == 'train') {
+                    $type_total['train_tea_sum'] += $item['train_tea_sum'];
+                    $type_total['train_qual_sum'] += $item['train_qual_sum'];
+                }
+                $type_total['sum'] += $item['sum'];
+                $type_total['imit_sum'] += $item['imit_sum'];
+                $type_total['attend_sum'] += $item['attend_sum'];
+                $type_total['adopt_sum'] += $item['adopt_sum'];
+            } 
+        } else {
+            $ret_info = $this->t_new_tea_entry->get_subject_list();
+            foreach($ret_info as &$item) {
+                if (isset($item['grade'])) {
+                    E\Esubject::set_item_value_str($item, "subject");
+                    E\Egrade::set_item_value_str($item, "grade");
+                } else {
+                    $item['grade_str'] = '';
+                    E\Esubject::set_item_value_str($item, "subject");
+                } 
+            }
+            $type_total = $this->t_new_tea_entry->get_identity_total();
+            $type_ret_info = $this->t_new_tea_entry->get_identity_list();
+            foreach($type_ret_info as &$item) {
+                E\Eidentity::set_item_value_str($item, "identity");
+            }
+        }
+        return $this->pageView(__METHOD__, null, [
+            "ret_info" => $ret_info,
+            "type_ret_info" => $type_ret_info,
+            "total" => $total,
+            "type_total" => $type_total,
+            'recruit' => $recruit
+        ]);
+    }
+
+    public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $type)
+    {
+        if ($type) {
+            if ($item['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
+            if ($item['subject'] == 1 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 1;
+            if ($item['subject'] == 1 && $item['grade'] >= 300) $key = 2;
+            if ($item['subject'] == 2 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 3;
+            if ($item['subject'] == 2 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 4;
+            if ($item['subject'] == 2 && $item['grade'] >= 300) $key = 5;
+            if ($item['subject'] == 3 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 6;
+            if ($item['subject'] == 3 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 7;
+            if ($item['subject'] == 3 && $item['grade'] >= 300) $key = 8;
+            if ($item['subject'] == 4) $key = 9;
+            if ($item['subject'] == 5) $key = 10;
+            if ($item['subject'] == 6) $key = 11;
+            if ($item['subject'] == 10) $key = 12;
+        } else {
+            if ($item['identity'] == 0) $key = 0;
+            if ($item['identity'] == 5) $key = 1;
+            if ($item['identity'] == 6) $key = 2;
+            if ($item['identity'] == 7) $key = 3;
+            if ($item['identity'] == 8) $key = 4;
+        }
+
+        $info[$key]['sum'] ++;
+        if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
+        $info[$key]['train_qual_sum'] ++;
+        if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
+        if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
+        $info[$key]['adopt_sum'] ++;
+        return $info;
+    }
+
+    public function recruit_array_init($type=''){
+        if($type) {
+            $info = [['subject'=>1, 'grade'=>100],['subject'=>1, 'grade'=>200],['subject'=>3, 'grade'=>300],['subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
+        } else {
+            $info = [['identity'=>0],['identity'=>5],['identity'=>6],['identity'=>7],['identity'=>8]];
+        }
+        foreach ($info as $key => $item) {
+            $info[$key]['sum'] = 0;
+            $info[$key]['train_tea_sum'] = 0;
+            $info[$key]['train_qual_sum'] = 0;
+            $info[$key]['imit_sum'] = 0;
+            $info[$key]['attend_sum'] = 0;
+            $info[$key]['adopt_sum'] = 0;
+        }
+        return $info;
+    }
+
+
+    public function recruit_old()
+    {
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $recruit      = $this->get_in_str_val("recruit");
+        $history_data = $this->get_in_int_val('history_data');
+
+        $total    = $this->t_new_tea_entry->get_total();
         $ret_info = [];
         if ($history_data) { // 没有历史数据
             // 面试通过人数

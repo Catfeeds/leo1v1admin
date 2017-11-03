@@ -401,7 +401,7 @@ class wx_parent_gift extends Controller
         $is_pass = 0;
         $prize_type = $this->get_win_rate($stu_type,$parentid);
         //检测奖品是否抽完
-        // $is_has = $this->
+        $is_has = $this->t_ruffian_activity->check_left($prize_type);
 
         // 抽奖
         if($is_pass){

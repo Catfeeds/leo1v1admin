@@ -122,9 +122,8 @@ class order_price_20171001 extends order_price_base
 
         }
 
-        (new Activity\activity_2017102702( $args ))->exec( $can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
-        (new Activity\activity_2017102701( $args ))->exec($can_period_flag,$price,$present_lesson_count,$desc_list) ;
+        (new Activity\activity_2017110301( $args ))->exec($can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
         //当配
         (new Activity\activity_2017080101( $args ))->exec($can_period_flag,$price,$present_lesson_count,$desc_list) ;

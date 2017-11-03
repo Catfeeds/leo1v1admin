@@ -19,6 +19,13 @@ class activity_base {
         $this->lesson_times  = $args["lesson_times"];
         $this->args = $args;
     }
+    static function check_use_count($max_count ) {
+        $task= self::get_task_controler();
+        $now_count= $task->t_order_activity_info->get_count_by_order_activity_type(static::$order_activity_type );
+        $activity_desc_cur_count="当前已用($now_count/$max_count) ";
+        $count_check_ok_flag= ($now_count<$max_count);
+        return array( $count_check_ok_flag,$now_count, $activity_desc_cur_count);
+    }
 
     static function check_now( $start_date, $end_date ) {
         $now=time(NULL);
