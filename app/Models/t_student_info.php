@@ -3029,7 +3029,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,editionid from %s where editionid=%u",self::DB_TABLE_NAME,$editionid);
         return $this->main_get_list($sql);
     }
-    public function get_finish_num_new($start_time,$end_time){
+    public function get_finish_num_new_list($start_time,$end_time){
         $where_arr = [
             [' last_lesson_time>=%u',$start_time,-1],
             [' last_lesson_time<=%u',$end_time,-1],

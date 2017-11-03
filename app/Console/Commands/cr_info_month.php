@@ -161,7 +161,7 @@ class cr_info_month extends Command
         //存档------------------------------------------------
         //概况 
         //$finish_num = $task->t_student_info->get_finish_num($start_time,$end_time);//A9-结课学员数
-        $finish_num = $task->t_student_info->get_finish_num_new($start_time,$end_time);//A9-结课学员数
+        $finish_num = $task->t_student_info->get_finish_num_new_list($start_time,$end_time);//A9-结课学员数
         $arr['finish_num'] = $finish_num;
         //课时消耗
         $read_num   = $task->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
