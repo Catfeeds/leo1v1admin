@@ -37,9 +37,18 @@ class wx_parent_gift extends Controller
         $openid   = @$token_info["openid"];
         $token = $wx->get_wx_token($p_appid,$p_appsecret);
         $user_info = $wx->get_user_info($openid,$token);
+
         dd($user_info);
         dd($token_info);
+
         session(["p_openid"=>$openid]);
+
+        $subscribe = $user_info['subscribe'];
+
+        if($subscribe == 0){ //未关注
+            //跳转到活动页
+        }
+
 
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         if($is_parent_flag){
