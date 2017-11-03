@@ -64,7 +64,7 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
             ["ul.login_time >=%u",$start_time,0],
             ["ul.login_time <%u",$end_time,0],
             "s2.userid>0",
-            "ul.ip not in ('123.57.153.80','123.57.153.95','116.226.191.120','101.81.224.61','121.43.230.95')"
+            "ul.ip not in ('123.57.153.80','123.57.153.95','116.226.191.120','101.81.224.61','121.43.230.95','116.226.191.6')"
         ];
         $order_flag=true;
         if(in_array($match_type,[0,1])){
