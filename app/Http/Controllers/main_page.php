@@ -533,7 +533,7 @@ class main_page extends Controller
         $start_time_date  = date("Y-m-d",$start_time);
         $account = $this->get_account();
         if($account=="jack"){
-            $account="zenghui";
+            $account="ninasun";
         }
         $assistantid=$this->t_assistant_info->get_assistantid( $account );
         if($assistantid==0){
@@ -644,6 +644,9 @@ class main_page extends Controller
             }
 
         }
+        $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
+        $used_assign_lesson_count = $this->t_order_info->get_assign_lesson_count_by_account($account);
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -660,7 +663,9 @@ class main_page extends Controller
             "warning"      => $warning_type_num,
             "month_info"   => $month_info,
             "today_info"   => $today_info,
-            "ass_month"    =>  $ass_month
+            "ass_month"    =>  $ass_month,
+            "assign_lesson_count"=>$assign_lesson_count,
+            "used_assign_lesson_count"=>$used_assign_lesson_count
         ]);
 
     }
@@ -2509,10 +2514,10 @@ class main_page extends Controller
         if (isset($key)) {
             $info[$key]['sum'] ++;
             if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
-            $info[$key]['train_qual_sum'] ++;
+            if ($item['train_through_new_time']) $info[$key]['train_qual_sum'] ++;
             if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
             if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
-            $info[$key]['adopt_sum'] ++;
+            if ($item['simul_test_lesson_pass_time']) $info[$key]['adopt_sum'] ++;
         }
         return $info;
     }
