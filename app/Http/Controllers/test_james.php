@@ -818,17 +818,24 @@ class test_james extends Controller
 
 
     public function dd(){
-        $type = $this->get_in_int_val('p_type');
-        $num = $this->get_in_int_val('n');
-        $validity_time = strtotime($this->get_in_str_val('t'));
-        $i = 1;
-        for($i;$i<=$num;$i++){
-            $this->t_ruffian_activity->row_insert([
-                "validity_time" => $validity_time ,
-                "prize_type"   => $type,
-                "create_time" =>  time()
-            ]);
-        }
+        // $type = $this->get_in_int_val('p_type');
+        // $num = $this->get_in_int_val('n');
+        // $validity_time = strtotime($this->get_in_str_val('t'));
+        // $stu_type = $this->get_in_int_val('s');
+        // $i = 1;
+        // for($i;$i<=$num;$i++){
+        //     $this->t_ruffian_activity->row_insert([
+        //         "validity_time" => $validity_time ,
+        //         "prize_type"   => $type,
+        //         "create_time" =>  time(),
+        //         "stu_type" => $stu_type
+        //     ]);
+        // }
+
+        /*
+
+
+         */
 
         exit;
 

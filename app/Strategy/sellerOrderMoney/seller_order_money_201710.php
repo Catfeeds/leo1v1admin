@@ -49,11 +49,11 @@ class seller_order_money_201710  extends  seller_order_money_base
                 }
             }
         }
-        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money')):0;
-        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money')):0;
-        $ret_arr['stage_money'] = $stage_money/100;
-        $ret_arr['no_stage_money'] = $no_stage_money/100;
-        $ret_arr["all_price"] = $ret_arr['stage_money']*0.8+$ret_arr['no_stage_money'];
+        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money'))/100:0;
+        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money'))/100:0;
+        $ret_arr['stage_money'] = $stage_money;
+        $ret_arr['no_stage_money'] = $no_stage_money;
+        // $ret_arr["all_price"] = $ret_arr['stage_money']*0.8+$ret_arr['no_stage_money'];
 
         $create_time= $tt->t_manager_info->get_create_time($adminid);
         $cur_month= date("m", $start_time );
@@ -113,13 +113,12 @@ class seller_order_money_201710  extends  seller_order_money_base
 
             $group_money_add_percent_val=$group_money_add_percent/100;
 
-            $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
-            $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
-            //$money=($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ;
-            //$desc="($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ";
-
+            // $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
+            // $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            $money= ($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
+            $desc= "($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
         }
-        
+
         $ret_arr["money"] =$money;
         $ret_arr["desc"] = $desc ;
         $ret_arr["cur_month_money"] =$money*0.8;
@@ -134,7 +133,6 @@ class seller_order_money_201710  extends  seller_order_money_base
         $ret_arr["new_account_value"] =  $new_account_value;
         $ret_arr["create_time"] = \App\Helper\Utils::unixtime2date($create_time, "Y-m-d"  );
 
-        
         // $ret_arr['stage_money'] = $sort['stage_money']/100;
         // $ret_arr['no_stage_money'] = $sort['no_stage_money']/100;
 
