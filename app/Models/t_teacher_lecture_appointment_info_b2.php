@@ -17,7 +17,7 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
                                 ,self::DB_TABLE_NAME
                                 ,t_manager_info::DB_TABLE_NAME
         );
-        echo $sql;
+       
         return $this->main_get_list($sql);
     }
 }
