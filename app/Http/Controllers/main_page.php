@@ -2506,12 +2506,15 @@ class main_page extends Controller
             if ($item['identity'] == 8) $key = 4;
         }
 
-        $info[$key]['sum'] ++;
-        if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
-        $info[$key]['train_qual_sum'] ++;
-        if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
-        if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
-        $info[$key]['adopt_sum'] ++;
+        if ($key) {
+            $info[$key]['sum'] ++;
+            if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
+            $info[$key]['train_qual_sum'] ++;
+            if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
+            if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
+            $info[$key]['adopt_sum'] ++;
+        }
+
         return $info;
     }
 
