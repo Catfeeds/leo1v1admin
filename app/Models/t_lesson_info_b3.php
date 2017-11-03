@@ -1566,7 +1566,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.confirm_flag <>2",
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
+            ["ul.login_time >=%u",$start_time,0],
+            ["ul.login_time <%u",$end_time,0],
         ];
+        $sql = $this->gen_sql_new("select distinct s.nick,l.userid,ul.ip"
+                                  ." from %s l left join %s s on l.userid = s.userid"
+                                  ." left join %s ul on l.userid = ul.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_user_login_log::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }
