@@ -398,9 +398,11 @@ class wx_parent_gift extends Controller
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
         $limit_arr = $this->get_limit_num($stu_type);
 
+
         $is_pass = 0;
-        if($draw_num_arr['bag_num']>=$limit_arr['bag_num']){ // 书包
-            $is_pass = 1;
+        $enable_list=[];
+        if($draw_num_arr['bag_num']>$limit_arr['bag_num']){ // 书包
+            $enable_list=[ ];
         }elseif($draw_num_arr['three_free_num'] >=$limit_arr['three_free_num']){ // 3次免费课
             $is_pass = 1;
         }elseif($draw_num_arr['fifty_coupon_num'] >=$limit_arr['fifty_coupon_num']){ // 50元
