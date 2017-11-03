@@ -423,10 +423,11 @@ class wx_parent_gift extends Controller
         }
 
         $this->t_ruffian_activity->row_insert([
-            "parentid"  => $parentid,
-            "prize_list"
-        ]
-        );
+            "parentid"   => $parentid,
+            "prize_list" => $prize_list,
+            "prize_time" => time(),
+            "stu_type"   => $stu_type
+        ]);
 
 
         // 微信通知
@@ -441,7 +442,6 @@ class wx_parent_gift extends Controller
         $wx=new \App\Helper\Wx();
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
-
 
         return $this->output_succ(['prize'=>$prize_type]);
     }
