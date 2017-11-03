@@ -70,6 +70,8 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+
+        return $this->main_get_value($sql);
     }
 
 }

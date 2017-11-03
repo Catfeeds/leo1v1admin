@@ -401,6 +401,10 @@ class wx_parent_gift extends Controller
         //检测奖品是否抽完
         $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
 
+        if($has_prize == 0){
+         
+        }
+
         // 抽奖
         if($is_pass){
             if($stu_type==1){ // 新用户
