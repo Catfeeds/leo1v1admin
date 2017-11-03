@@ -1570,7 +1570,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["ul.login_time >=%u",$start_time,0],
             ["ul.login_time <%u",$end_time,0],
             "s2.userid>0",
-            "ul.ip not in ('123.57.153.80','123.57.153.80123.57.153.95','116.226.191.120')"
+            "ul.ip not in ('123.57.153.80','123.57.153.95','116.226.191.120','101.81.224.61','121.43.230.95')"
         ];
         $sql = $this->gen_sql_new("select distinct s.nick,l.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"
                                   ." from %s l left join %s s on l.userid = s.userid"
