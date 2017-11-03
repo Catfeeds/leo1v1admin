@@ -125,6 +125,12 @@ class tongji_ex extends Controller
         $page_info= $this->get_in_page_info();
         list($start_time,$end_time) = $this->get_in_date_range_month(0 );
         $ret_info = $this->t_lesson_info_b3->get_lesson_stu_ip_list($start_time,$end_time);
+        $list=[];
+        foreach($ret_info as $val){
+            @$list[$val["ip"]]++; 
+        }
+        rsort($list);
+        dd($list);
         dd($ret_info);;
 
     }
