@@ -466,7 +466,7 @@ class agent extends Controller
 
     public function test_new(){
         $time = time(null);
-        $ret_time = $this->task->t_month_def_type->get_all_list();
+        $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
