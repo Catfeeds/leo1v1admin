@@ -50,8 +50,7 @@ class save_seller_info_by_week extends Command
         }
 
 
-        // $month_start_time_funnel = strtotime(date('Y-m-01'));
-        $month_start_time_funnel = strtotime('2017-10-1');
+        $month_start_time_funnel = strtotime(date('Y-m-01'));
 
         // if($month_start_time_funnel<$start_time){
         //     $month_start_time_funnel = $start_time;
