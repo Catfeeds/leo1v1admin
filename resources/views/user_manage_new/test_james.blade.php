@@ -69,7 +69,7 @@
                     <tr>
                         <td>{{@$var['url_name']}} </td>
                         <td>{{@$var["pid"]}} </td>
-                        <td>http://admin.yb1v1.com{{@$var["url"]}} </td>
+                        <td>http://admin.leo1v1.com{{@$var["url"]}} </td>
                         <td>
                             {{@$var["user_info"]}}
                         </td>
