@@ -395,9 +395,8 @@ class wx_parent_gift extends Controller
         }
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
-        $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
-        $limit_arr = $this->get_limit_num($stu_type);
-
+        // $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
+        // $limit_arr = $this->get_limit_num($stu_type);
 
         $is_pass = 0;
         $enable_list=[];
