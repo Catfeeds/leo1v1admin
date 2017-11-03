@@ -46,6 +46,9 @@ class wx_parent_gift extends Controller
 
         if($parentid>0){
             $type = 1;
+            session(["parentid" => $parentid ] );
+        }else{
+            session(["parentid" => -1 ] );
         }
 
         header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
