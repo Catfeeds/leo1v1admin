@@ -12,6 +12,9 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function ll(){
+        $ret_info = $this->t_student_info->get_user_list_by_lesson_count_new(1506787200,1509465600);
+    }
     public function hello_list(){
         
         $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
