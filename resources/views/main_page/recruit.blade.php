@@ -173,7 +173,7 @@
                                     @foreach($ret_info as $var)
                                         
                                         <tr>
-                                            <td>{{@$var['grade_str'].$var['subject_str']}}</td>
+                                            <td>{{@$var['grade_str'].@$var['subject_str']}}</td>
                                             <td>{{$var['sum']}}</td>
                                             @if($recruit == 'train')
                                             @if($var['sum'] != 0)
