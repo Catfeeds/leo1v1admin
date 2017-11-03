@@ -265,6 +265,8 @@ $(function(){
         });
 	});
 
+    download_hide();
+
  
 
 

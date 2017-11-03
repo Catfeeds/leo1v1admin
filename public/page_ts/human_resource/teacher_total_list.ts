@@ -40,6 +40,7 @@ $(function(){
 	  $('#id_trial_lecture_is_pass').val(g_args.trial_lecture_is_pass);
 
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
+    download_hide();
 
 	  $('.opt-change').set_input_change_event(load_data);
 });
