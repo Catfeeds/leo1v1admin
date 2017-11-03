@@ -34,8 +34,8 @@
                         <td>{{@$var["test_lesson"]}} </td>
                         <td>{{@$var["revisit_time"]}} </td>
                         <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["stu_request_test_lesson_demand"]}} </td>
+                        <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
