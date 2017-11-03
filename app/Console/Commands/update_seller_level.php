@@ -29,7 +29,6 @@ class update_seller_level extends cmd_base
     {
         $reduce_flag = 0;
         $time = time(null);
-        $time = 1509501600;
         $ret_time = $this->task->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
@@ -119,7 +118,7 @@ class update_seller_level extends cmd_base
                     "new"         => $next_level,
                     "create_time" => $time,
                 ],false,false,true );
-                echo $account.':'.$this_level."=>".$next_level.','.date('Y-m-d H:i:s',$time)."\n";
+                // echo $account.':'.$this_level."=>".$next_level.','.date('Y-m-d H:i:s',$time)."\n";
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
