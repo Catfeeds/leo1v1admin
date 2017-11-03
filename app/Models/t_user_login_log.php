@@ -58,15 +58,14 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
 
     }
 
-    public function get_pay_stu_ip_list($start_time,$end_time,$match_type,$company_ip_list){
+    public function get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str){
         $where_arr=[
             "s.is_test_user=0",
             ["ul.login_time >=%u",$start_time,0],
             ["ul.login_time <%u",$end_time,0],
             "s2.userid>0",
-            //  "ul.ip not in ('123.57.153.80','123.57.153.95','116.226.191.120','101.81.224.61','121.43.230.95','116.226.191.6','222.64.63.129')"
+            "ul.ip not in ".$ip_str
         ];
-        $this->where_arr_adminid_in_list($where_arr,"ul.ip",$company_ip_list);
         $order_flag=true;
         if(in_array($match_type,[0,1])){
             if($match_type==1){
@@ -80,11 +79,6 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
             );
         }
 
-        // if($match_type==0){
-        //     $order_flag="and exists (select 1 from %s where contract_status>0 and contract_type in (0,3) and userid = s2.userid and price>0)";
-        // }elseif($match_type==1){
-        //      $order_flag="and not exists (select 1 from %s where contract_status>0 and contract_type in (0,3) and userid = s2.userid and price>0)";
-        // }
         $sql = $this->gen_sql_new("select distinct s.nick,ul.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"
                                   ." from %s ul "
                                   ." left join %s s on ul.userid = s.userid and exists (select 1 from %s where contract_status>0 and contract_type in (0,3) and userid = s.userid and price>0)"
