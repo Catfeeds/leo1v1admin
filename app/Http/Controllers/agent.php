@@ -544,9 +544,8 @@ class agent extends Controller
                     $update_flag = 1;
                 }
             }
-            E\Eseller_level::V_200;
             if($adminid == 710){
-                dd($reduce_flag,$update_flag,$this_level,$next_level,$price,$level_goal,$next_goal,$level_face);
+                dd($reduce_flag,$update_flag,$this_level,$price,$level_goal,$next_goal);
             }
             // if($update_flag == 1){//修改等级
             //     $face_pic_str = substr($face_pic,-12,5);
