@@ -9688,7 +9688,7 @@ lesson_type in (0,1) "
             "lesson_type=1100",
             "train_type=4"
         ];
-        $sql = $this->gen_sql_new("select teacherid from %s  where %s ",
+        $sql = $this->gen_sql_new("select teacherid,lesson_start from %s  where %s ",
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
@@ -9700,14 +9700,14 @@ lesson_type in (0,1) "
     // 上课
     public function get_attend_lesson_count($start_time, $end_time) {
          $whereArr = [
-            ["lesson_start>%u",$start_time,0],
-            ["lesson_start<%u",$end_time,0],
+             //["lesson_start>%u",$start_time,0],
+             //["lesson_start<%u",$end_time,0],
             //["l.teacherid=%u",$teacherid,0],
             "tea_attend>0"
          ];
 
 
-        $sql = $this->gen_sql_new("select l.teacherid"
+        $sql = $this->gen_sql_new("select l.teacherid,l.lesson_start"
                                   ." from %s l left join %s lo on l.lessonid=lo.lessonid "
                                   ." where %s  group by l.teacherid",
                                   self::DB_TABLE_NAME,
