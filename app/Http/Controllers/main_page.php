@@ -2415,7 +2415,10 @@ class main_page extends Controller
             $imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
             $attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
             foreach($tea_list as $id => $val) {
+<<<<<<< HEAD
                 dd();
+=======
+>>>>>>> 933eff16d85d8eb0c67a6f698680019db9892b34
                 $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, 1);
             }
             $total['sum'] = 0;

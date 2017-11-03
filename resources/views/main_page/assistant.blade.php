@@ -157,6 +157,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow ">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-shopping-cart  fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{$ret_info["send"]*1}}/{{$ret_info["sent"]*1}}</div>
+                                    <div> 赠送课时详情</div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+
 
 
 
