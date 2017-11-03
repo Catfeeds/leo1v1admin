@@ -1619,7 +1619,7 @@ class ajax_deal2 extends Controller
         $start_time = strtotime("2017-09-01");
         $end_time = strtotime("2017-10-01");
         $tea_arr =[$teacherid];
-        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,200,$tea_arr,2);
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,$tea_arr,2);
         if(!empty($cc_list)){
             $cc_list = $cc_list[$teacherid];
             // $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
