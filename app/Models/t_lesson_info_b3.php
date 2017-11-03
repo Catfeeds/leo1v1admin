@@ -821,7 +821,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname"
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
-                                  ." left join %s m on %s tr.cur_require_adminid=m.uid"
+                                  ." left join %s m on tr.cur_require_adminid=m.uid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,

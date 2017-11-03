@@ -471,14 +471,15 @@ class wx_parent_gift extends Controller
                     $prize_type=5;
                 }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
                     $prize_type=7;
-                }else{ // 10元折扣券/试听课
-                    $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
-                    if($is_test>0){
-                        $prize_type=2;
-                    }else{
-                        $prize_type=8;
-                    }
                 }
+                // else{ // 10元折扣券/试听课
+                //     $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                //     if($is_test>0){
+                //         $prize_type=2;
+                //     }else{
+                //         $prize_type=8;
+                //     }
+                // }
             }else{
                 if($rate>1000 && $rate<=2250){ // 书包 12.5
                     $prize_type=1;
@@ -492,8 +493,6 @@ class wx_parent_gift extends Controller
                     $prize_type=7;
                 }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
                     $prize_type=7;
-                }else{ // 10元折扣券/试听课
-
                 }
             }
         }elseif($stu_type==2){ //老用户
@@ -508,8 +507,6 @@ class wx_parent_gift extends Controller
                     $prize_type=5;
                 }elseif($rate>5000 && $rate<=5010){ // 3次免费课程 0.1
                     $prize_type=7;
-                }else{ // 10元折扣券
-                    $prize_type=2;
                 }
             }else{
                 if($rate>100 && $rate<=200){ // 书包 10
@@ -524,8 +521,6 @@ class wx_parent_gift extends Controller
                     $prize_type=7;
                 }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
                     $prize_type=7;
-                }else{ // 10元折扣券
-                    $prize_type=2;
                 }
             }
         }
