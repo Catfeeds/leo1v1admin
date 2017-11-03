@@ -2511,7 +2511,7 @@ class main_page extends Controller
         $info[$key]['train_qual_sum'] ++;
         if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
         if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
-        $info[$key]['adopt'] ++;
+        $info[$key]['adopt_sum'] ++;
         return $info;
     }
 
