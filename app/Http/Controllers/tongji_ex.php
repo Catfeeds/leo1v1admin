@@ -133,6 +133,7 @@ class tongji_ex extends Controller
              '116.226.191.6',
              '222.64.63.129'
         ];
+        dd($company_ip_list);
         $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$company_ip_list);
         
         $list=[];
