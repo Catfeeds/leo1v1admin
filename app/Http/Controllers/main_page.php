@@ -533,7 +533,7 @@ class main_page extends Controller
         $start_time_date  = date("Y-m-d",$start_time);
         $account = $this->get_account();
         if($account=="jack"){
-            $account="zenghui";
+            $account="ninasun";
         }
         $assistantid=$this->t_assistant_info->get_assistantid( $account );
         if($assistantid==0){

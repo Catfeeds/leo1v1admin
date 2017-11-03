@@ -195,7 +195,7 @@ class ss_deal2 extends Controller
             $test_subject_free_type=3;
         }
 
-        $this->t_test_subject_free_list ->row_insert([
+        $this->t_test_subject_free_list->row_insert([
             "add_time" => time(NULL),
             "userid" =>   $item["userid"],
             "adminid" => $this->get_account_id(),

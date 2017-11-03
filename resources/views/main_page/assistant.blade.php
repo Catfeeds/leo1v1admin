@@ -72,7 +72,7 @@
             </div>
             <hr/>
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="panel panel-primary  ">
                         <div class="panel-heading">
                             <div class="row">
@@ -95,7 +95,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="panel panel-yellow ">
                         <div class="panel-heading">
                             <div class="row">
@@ -117,9 +117,26 @@
                         </a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-yellow ">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-shopping-cart  fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{$used_assign_lesson_count/100}}/{{$assign_lesson_count/100}}</div>
+                                    <div> 赠送课时详情 已赠送/待赠送</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
 
 
-                <div class="col-lg-5 col-md-6">
+
+                <div class="col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
                             本月-回访进度
@@ -157,23 +174,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-yellow ">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart  fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$assign_lesson_count/100}}/{{$used_assign_lesson_count/100}}</div>
-                                    <div> 赠送课时详情</div>
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
-                </div>
-
+               
 
 
 
