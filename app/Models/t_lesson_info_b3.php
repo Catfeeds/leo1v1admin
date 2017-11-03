@@ -800,7 +800,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
-    public function get_test_lesson_teacher_list($start_time,$end_time){
+    public function get_test_lesson_teacher_list($start_time,$end_time,$grade){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type =2",
