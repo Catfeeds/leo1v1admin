@@ -2136,7 +2136,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $counter++;
 
             if($child_list)
-                $this->get_child_by_cycle($child_list,$month_first_day,$month_last_day);
+                $this->get_child_by_cycle_month($child_list,$month_first_day,$month_last_day);
 
         }
 
@@ -2472,7 +2472,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
-        print_r($child_arr);
+        if($id == 1593)
+            print_r($child_arr);
         //用户有推荐人
         if($child_arr){
             $in_str = '('.implode(',',$child_arr).')';
