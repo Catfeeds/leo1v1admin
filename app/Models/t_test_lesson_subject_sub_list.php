@@ -201,6 +201,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         }elseif($type==3){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }
+
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,tls.require_admin_type"
                                   ." from %s tl force index(t_test_lesson_subject_sub_list_set_lesson_time_index)"
                                   ." left join %s tr on tl.require_id=tr.require_id"
@@ -225,7 +226,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_del_flag=0 "
                                   ." and lesson_status=2 "
                                   ." ) "
-                                  // ." and tl.lessonid not in ( "
                                   ." and not exists ( "
                                   ." select 1 from %s "
                                   ." where type=2 and tl.lessonid=lessonid"
