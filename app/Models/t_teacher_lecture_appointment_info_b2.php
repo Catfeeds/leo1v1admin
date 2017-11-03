@@ -14,13 +14,20 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
         $where_arr = [
             ["ta.name= '%s' ",$name, '']
         ];
-        $sql=$this->gen_sql_new("select m.name"
-                                ." from %s ta left join %s m on ta.accept_adminid=m.uid "
+        $sql=$this->gen_sql_new("select ta.accept_adminid,tf.subject,tf.grade "
+                                ." from %s ta left join %s tf on ta.phone=tf.phone "
                                 ." where %s"
                                 ,self::DB_TABLE_NAME
-                                ,t_manager_info::DB_TABLE_NAME
+                                ,t_teacher_flow::DB_TABLE_NAME
                                 ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
+    }
+
+    public function get_name_data() { // 招师名单
+        $sql=$this->gen_sql_new("select uid,name from %s where account_role=8",t_manager_info::DB_TABLE_NAME);
+        return $this->main_get_list($sql, function( $item) {
+            return $item['uid'];
+        });
     }
 }

@@ -2569,9 +2569,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
         $sql = $this->gen_sql_new(
-            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.userid,group_concat(distinct b.sys_operator) sys_operator,"
+            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.userid,ss.admin_revisiterid,"
+            ." group_concat( distinct if(b.sys_operator!='system',b.sys_operator,'') ) sys_operator,"
             ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,ss.admin_revisiterid ,"
-            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc,"
+            ." count(distinct if(tq.is_called_phone=1,tq.id,0) )-1 phone_count,stu_request_test_lesson_demand,ss.user_desc,"
             ." ss.last_revisit_time,ss.add_time,tl.subject,tr.test_lesson_order_fail_flag,tr.test_lesson_order_fail_desc "
             ." from %s a "
             ." left join %s na on na.parentid=a.id"

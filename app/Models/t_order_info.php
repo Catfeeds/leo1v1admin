@@ -3983,4 +3983,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = "select * from t_order_info where userid = $userid and order_time >1506787200 and price > 0;";
         return $this->main_get_row($sql);
     }
+
+    public function buy_ten_flag($parentid){
+
+        $where_arr = [
+            "p.parentid=$parentid",
+            "o.contract_type in (0,3)",
+            "o.lesson_total >=10"
+        ];
+
+        $sql = $this->gen_sql_new("  select 1 from %s o"
+                                  ."　left join %s s on s.userid=o.userid"
+                                  ." left　join %s p on p.userid=s.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

@@ -1995,7 +1995,6 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
-        // $operator_note = $this->t_seller_student_new->get_tmk_desc($userid);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
             E\Esubject::set_item_value_str($item,'subject');

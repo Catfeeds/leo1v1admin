@@ -132,12 +132,15 @@ class tongji_ex extends Controller
             @$list[$k]["userid"]=$val["userid"]; 
             @$list[$k]["nick"]=$val["nick"]; 
             @$list[$k]["ip"]=$val["ip"];
+            if(!$val["s2_nick"]){
+                $val["s2_nick"] = $val["s2_userid"]; 
+            }
             @$list[$k]["same_name_list"] .=$val["s2_nick"].",";
         }
         foreach($list as &$item){
             $item["same_name_list"] = trim($item["same_name_list"],",");
         }
-        dd($list);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list)  );
 
     }
 

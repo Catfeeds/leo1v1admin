@@ -78,51 +78,68 @@ class import_to_teacher_flow extends cmd_base
         //     } 
         // }
 
-        // 面试通过时间
-        $start_time = strtotime("2017-10-1");
-        $end_time = time();
-        $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time,$end_time);
-        echo "length: ".count($lecture);
-
-        $where = ["trial_lecture_pass_time=0"];
-        $info = $task->t_teacher_flow->get_all_list($where);
-        foreach($info as $teacherid => $item) {
-            if (!isset($lecture[$item['phone']])) continue;
-            $task->t_teacher_flow->field_update_list($teacherid, [
-                "trial_lecture_pass_time" => $lecture[$item['phone']]['confirm_time'],
-                "subject" => $lecture[$item['phone']]['subject'],
-                "grade" => $lecture[$item['phone']]['grade']
-            ]);
-        }
-
-        //面试试讲通过时间
-        $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, E\Etrain_type::V_5);
-        echo "length: ".count($lecture);
-
-        // $where = ['trial_lecture_pas=0'];
-        $info = $task->t_teacher_flow->get_all_list();
-        foreach($info as $teacherid => $item) {
-            if (!isset($lecture[$item['teacherid']])) continue;
-            if ($lecture[$item['teacherid']]['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
-                $task->t_teacher_flow->field_update_list($teacherid,[
-                    "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time'],
-                    "subject" => $lecture[$item['teacherid']]['subject'],
-                    'grade' => $lecture[$item['teacherid']]['grade']
-                ]);
-            }
-        }
-
-        // 模拟试听通过时间
-        $where = ['simul_test_lesson_pass_time=0'];
+        $where = ['subject!=0'];
         $info  = $task->t_teacher_flow->get_all_list($where);
         foreach($info as $teacherid => $item) {
-            $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $teacherid);
-            // if ($lecture && ($lecture['add_time'] > $item['trial_lecture_pass_time'] )) {
-            $task->t_teacher_flow->field_update_list($teacherid, [
-                "simul_test_lesson_pass_time" => $lecture['add_time'],
+            $task->t_teacher_flow->field_update_list($teacherid,[
+                'subject' => 0,
+                'grade' => 0
             ]);
-            // }
         }
+        $where = ['grade!=0'];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $task->t_teacher_flow->field_update_list($teacherid,[
+                'subject' => 0,
+                'grade' => 0
+            ]);
+        }
+
+        // 面试通过时间
+        // $start_time = strtotime("2017-10-1");
+        // $end_time = time();
+        // $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time,$end_time);
+        // echo "length: ".count($lecture);
+
+        // $where = ["trial_lecture_pass_time=0"];
+        // $info = $task->t_teacher_flow->get_all_list($where);
+        // foreach($info as $teacherid => $item) {
+        //     if (!isset($lecture[$item['phone']])) continue;
+        //     $task->t_teacher_flow->field_update_list($teacherid, [
+        //         "trial_lecture_pass_time" => $lecture[$item['phone']]['confirm_time'],
+        //         "subject" => $lecture[$item['phone']]['subject'],
+        //         "grade" => $lecture[$item['phone']]['grade']
+        //     ]);
+        // }
+
+        // //面试试讲通过时间
+        // $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, E\Etrain_type::V_5);
+        // echo "length: ".count($lecture);
+
+        // // $where = ['trial_lecture_pas=0'];
+        // $info = $task->t_teacher_flow->get_all_list();
+        // foreach($info as $teacherid => $item) {
+        //     if (!isset($lecture[$item['teacherid']])) continue;
+        //     if ($lecture[$item['teacherid']]['add_time'] < $item['trial_lecture_pass_time'] || $item['trial_lecture_pass_time'] == 0) {
+        //         $task->t_teacher_flow->field_update_list($teacherid,[
+        //             "trial_lecture_pass_time" => $lecture[$item['teacherid']]['add_time'],
+        //             //"subject" => $lecture[$item['teacherid']]['subject'],
+        //             //'grade' => $lecture[$item['teacherid']]['grade']
+        //         ]);
+        //     }
+        // }
+
+        // // 模拟试听通过时间
+        // $where = ['simul_test_lesson_pass_time=0'];
+        // $info  = $task->t_teacher_flow->get_all_list($where);
+        // foreach($info as $teacherid => $item) {
+        //     $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $teacherid);
+        //     // if ($lecture && ($lecture['add_time'] > $item['trial_lecture_pass_time'] )) {
+        //     $task->t_teacher_flow->field_update_list($teacherid, [
+        //         "simul_test_lesson_pass_time" => $lecture['add_time'],
+        //     ]);
+        //     // }
+        // }
 
         // 刷科目年级
         $where = ['grade=0'];
@@ -136,93 +153,6 @@ class import_to_teacher_flow extends cmd_base
                 ]);
             }
         }
-
-
-
-
-
-        // $info = $task->t_teacher_lecture_appointment_info->get_data_to_teacher_flow($start_time, $end_time,$tea_phone);
-        // foreach($info as $item) {
-        //     $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
-        //     if ($teacherid) {
-        //         $task->t_teacher_flow->field_update_list($teacherid, [
-        //             'answer_begin_time' => $item['answer_begin_time'],
-        //             "accept_adminid" => $item['accept_adminid']
-        //         ]);
-        //     }
-        // }
-
-        // $where = ["trial_lecture_pass_time=0"];
-        // $info = $task->t_teacher_flow->get_all_list($where);
-        // foreach($info as $item) {
-        //     if ($item['teacherid']) {
-        //         $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time, $end_time, $item['phone']);
-                
-        //         if ($lecture) {
-        //             $task->t_teacher_flow->field_update_list($item['teacherid'], [
-        //                 "trial_lecture_pass_time" => $lecture['confirm_time'],
-        //                 'subject' => $lecture['subject'],
-        //                 'grade' => $lecture['grade']
-        //             ]);
-        //         }
-        //     }
-        // }
-
-        // // 录制试讲
-        // $where = ["trial_lecture_pass_time=0"];
-        // $info = $task->t_teacher_flow->get_all_list($where);
-        // foreach($info as $item) {
-        //     if ($item['teacherid']) {
-        //         $lecture = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 5, $item['teacherid']);
-        //         if ($lecture) {
-        //             $task->t_teacher_flow->field_update_list($item['teacherid'], [
-        //                 "trial_lecture_pass_time" => $lecture['add_time'],
-        //                 'subject' => $lecture['subject'],
-        //                 'grade' => $lecture['grade']
-        //             ]);
-        //         }
-
-        //     }
-        // }
-
-        // // trial_lecture_pass_time通过试讲时间subject通过试讲科目grade通过试讲年级
-        // $lecture = $task->t_teacher_lecture_info->get_data_to_teacher_flow($start_time, $end_time);
-        // foreach($lecture as $item) {
-        //     $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
-        //     if ($teacherid) {
-        //         $task->t_teacher_flow->field_update_list($teacherid, [
-        //             "trial_lecture_pass_time" => $item['confirm_time'],
-        //             'subject' => $item['subject'],
-        //             'grade' => $item['grade']
-        //         ]);
-        //     }
-        // }
-
-        // $info = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 5);
-        // foreach($info as $item) {
-        //     $time = $task->t_teacher_flow->get_trial_lecture_pass_time($item['phone']);
-        //     if ($item['add_time']>$time) {
-        //         // if ($time > $item['add_time']) {
-        //         //     $task->t_teacher_flow->field_update_list($item['id'],[
-        //         //         'trial_lecture_pass_time' => $time
-        //         //     ]);
-        //         // }
-        //         $task->t_teacher_flow->field_update_list($item['teacherid'],[
-        //             'trial_lecture_pass_time' => $item['add_time'],
-        //             'subject' => $item['subject'],
-        //             'grade' => $item['grade'],
-        //         ]);
-        //     }
-        // }
-
-        //simul_test_lesson_pass_time模拟试听通过时间
-        // $info = $task->t_teacher_record_list->get_data_to_teacher_flow($start_time, $end_time, 4);
-        // foreach($info as $item) {
-        //     // $teacherid = $task->t_teacher_flow->get_id_for_phone($item['phone']);
-        //     $task->t_teacher_flow->field_update_list($item['teacherid'],[
-        //         "simul_test_lesson_pass_time" => $item['add_time']
-        //     ]);
-        // }
 
     }
 }
