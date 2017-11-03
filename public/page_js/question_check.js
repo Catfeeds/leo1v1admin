@@ -362,8 +362,8 @@ $(function(){
     //ipad 审核通知重新加载
     //ipad 审核通知重新加载
     var noti_url=window.location.hostname;
-    if (  noti_url=="question.yb1v1.com") {
-         noti_url="admin.yb1v1.com";
+    if (  noti_url=="question.leo1v1.com") {
+         noti_url="admin.leo1v1.com";
     }
 
 

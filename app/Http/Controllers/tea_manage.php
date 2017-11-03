@@ -2128,7 +2128,7 @@ class tea_manage extends Controller
         $subject       = $this->get_in_int_val("subject",-1);
         $teacherid     = $this->get_in_int_val("teacherid",-1);
         $is_test       = $this->get_in_int_val("is_test",0);
-        $teacher_type  = $this->get_in_int_val("teacher_type",0);
+        $teacher_type  = $this->get_in_int_val("teacher_type",-1);
         $page_num      = $this->get_in_page_num();
         $acc           = $this->get_account();
         $tea_subject = $this->get_admin_subject($this->get_account_id(),1);

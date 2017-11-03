@@ -18,11 +18,11 @@
          
         </script>
 
-        <script src="http://admin.yb1v1.com/js/jquery-2.1.4.js" type="text/javascript"></script>
-        <script type="text/javascript" src="http://admin.yb1v1.com/js/jquery.md5.js"></script>
-        <script type="text/javascript" src="http://admin.yb1v1.com/js/jquery.query.js"></script>
+        <script src="http://admin.leo1v1.com/js/jquery-2.1.4.js" type="text/javascript"></script>
+        <script type="text/javascript" src="http://admin.leo1v1.com/js/jquery.md5.js"></script>
+        <script type="text/javascript" src="http://admin.leo1v1.com/js/jquery.query.js"></script>
         <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-        <script src="http://admin.yb1v1.com/js/wx_parent.js"></script>
+        <script src="http://admin.leo1v1.com/js/wx_parent.js"></script>
 
         <script nonce="933014691" type="text/javascript">
          var MutationObserver=window.WebKitMutationObserver||window.MutationObserver||window.MozMutationObserver,isDangerSrc=function(t){

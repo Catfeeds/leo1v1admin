@@ -26,7 +26,7 @@ class teaching_menu{
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[
-                    [ "name"=>"师资管理部核心数据", "url" => "/tongji2/get_teaching_core_data" ],
+                    [ "name"=>"核心数据", "url" => "/tongji2/get_teaching_core_data" ],
                     [ "name"=>"招师组",  "list"=>[
                         [ "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                         [ "name"=>"面试转化信息",   "url"=>"/main_page/zs_teacher_old" ],

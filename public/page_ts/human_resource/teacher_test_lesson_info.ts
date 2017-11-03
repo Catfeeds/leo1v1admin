@@ -697,7 +697,7 @@ $(function(){
                         +"试卷:"+item["stu_test_paper_flag_str"]+"</td>"
                         +"<td>"
                         +"<a class=\"url_video\"  data-nick=\""+nick+"\" data-lessonid=\""+lessonid+"\">点击回放</a><br><br><br>"
-                        +"<a class=\"url_class\" data-subject=\""+item["subject"]+"\" data-time=\""+item["lesson_start"]+"\" data-grade=\""+item["grade"]+"\" data-url=\"http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(item["draw_url"])+"&audio="+encodeURIComponent(item["audio_url"])+"&start="+item["real_begin_time"]+"\">推荐视频</a><br><br><br>"
+                        +"<a class=\"url_class\" data-subject=\""+item["subject"]+"\" data-time=\""+item["lesson_start"]+"\" data-grade=\""+item["grade"]+"\" data-url=\"http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(item["draw_url"])+"&audio="+encodeURIComponent(item["audio_url"])+"&start="+item["real_begin_time"]+"\">推荐视频</a><br><br><br>"
                         +"<a href=\"javascript:;\" class=\"add_record\" data-lessonid=\""+lessonid+"\" data-teacherid=\""+teacherid+"\">反馈</a><br><br><br>"
                         +"<a class=\"stu_test_paper\"  data-nick=\""+nick+"\" data-lessonid=\""+lessonid+"\">试卷下载</a>"
                         +"</td>"

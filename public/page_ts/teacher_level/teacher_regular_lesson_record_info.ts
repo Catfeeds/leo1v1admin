@@ -45,15 +45,15 @@ $(function(){
                     data     : {"lessonid":lessonid},
                     success  : function(result){
                         if(result.ret == 0){
-                            console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                            console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                         +"&audio="+encodeURIComponent(result.audio_url)
                                         +"&start="+result.real_begin_time);
                             if ( false && !$.check_in_phone() ) {
 
-                                // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                // console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                 //             +"&audio="+encodeURIComponent(result.audio_url)
                                 //             +"&start="+result.real_begin_time);
-                                window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                window.open("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                             +"&audio="+encodeURIComponent(result.audio_url)
                                             +"&start="+result.real_begin_time,"_blank");
                             }else{
@@ -107,15 +107,15 @@ $(function(){
                     data     : {"lessonid":lessonid},
                     success  : function(result){
                         if(result.ret == 0){
-                            console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                            console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                         +"&audio="+encodeURIComponent(result.audio_url)
                                         +"&start="+result.real_begin_time);
                             if ( false && !$.check_in_phone() ) {
 
-                                // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                // console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                 //             +"&audio="+encodeURIComponent(result.audio_url)
                                 //             +"&start="+result.real_begin_time);
-                                window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                window.open("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                             +"&audio="+encodeURIComponent(result.audio_url)
                                             +"&start="+result.real_begin_time,"_blank");
                             }else{
@@ -170,15 +170,15 @@ $(function(){
                     data     : {"lessonid":lessonid},
                     success  : function(result){
                         if(result.ret == 0){
-                            console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                            console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                         +"&audio="+encodeURIComponent(result.audio_url)
                                         +"&start="+result.real_begin_time);
                             if ( false && !$.check_in_phone() ) {
 
-                                // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                // console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                 //             +"&audio="+encodeURIComponent(result.audio_url)
                                 //             +"&start="+result.real_begin_time);
-                                window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                window.open("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                             +"&audio="+encodeURIComponent(result.audio_url)
                                             +"&start="+result.real_begin_time,"_blank");
                             }else{

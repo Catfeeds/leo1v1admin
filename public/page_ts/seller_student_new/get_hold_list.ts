@@ -136,7 +136,7 @@ $(function(){
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_mul",{} ,function(ret){
             if(ret.ret){
                 alert("回流前签单失败原因不能为'考虑中',请重新设置!");
-                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+ret.userid;
+                window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+ret.userid;
             }else{
                 if (g_account != "jim"  ) {
                     if ($("#id_hold_cur_count").data("value")>50 ) {
