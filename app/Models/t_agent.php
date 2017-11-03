@@ -2571,7 +2571,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql = $this->gen_sql_new(
             "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid,"
             ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,ss.admin_revisiterid ,"
-            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc"
+            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc,"
+            ." ss.last_revisit_time,ss.add_time"
             ." from %s a "
             ." left join %s na on na.parentid=a.id"
             ." left join %s s on s.userid=na.userid"
