@@ -274,9 +274,10 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "l.lessonid=lessonid",
             "type=2",
         ];
-        $first_lesson_arr = [
+        //试听课取常规课前最后一节
+        $last_lesson_arr = [
             "lesson_type=2",
-            "l.lesson_start>lesson_start",
+            "l.lesson_start<lesson_start",
             "l.teacherid=teacherid",
             "l.userid=userid",
             "lesson_del_flag=0",
@@ -298,7 +299,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$money_arr
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,$first_lesson_arr
+                                  ,$last_lesson_arr
         );
         echo $sql;exit;
         return $this->main_get_list($sql);
