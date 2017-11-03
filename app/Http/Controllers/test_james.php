@@ -818,19 +818,14 @@ class test_james extends Controller
 
 
     public function dd(){
-
         $type = $this->get_in_int_val('p_type');
-
         $num = $this->get_in_int_val('n');
-
-        $num = 3;
-        $a = [];
         $i = 1;
         for($i;$i<=$num;$i++){
-            echo 1;
-
             $this->t_ruffian_activity->row_insert([
-                ""
+                "validity_time" => 1514649600,
+                "prize_type"   => $type,
+                "create_time" =>  time()
             ]);
         }
 
