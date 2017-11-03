@@ -55,23 +55,23 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
         return $this->main_get_list($sql);
     }
 
-    public function check_has_left($prize_type){
+    public function check_has_left($prize_type,$stu_type){
         $today = strtotime(date('Y-m-d'));
-
         $where_arr = [
             "prize_type=$prize_type",
             "validity_time=$today",
             "get_prize_time=0",
-            "parentid=0"
+            "parentid=0",
+            "stu_type=$stu_type"
         ];
 
-        $sql = $this->gen_sql_new(" select count(*) from %s ru"
-                                  ." where %s"
+        $sql = $this->gen_sql_new(" select id, prize_type from %s ru"
+                                  ." where %s limit 1"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 }

@@ -2409,8 +2409,8 @@ class main_page extends Controller
             //
             $imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
             $attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
-            foreach($tea_list as $id => $item) {
-                $ret_info = $this->accumulation_recruit($ret_info, $id, $item, $train_tea, $imit, $attend, 1);
+            foreach($tea_list as $id => $val) {
+                $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, 1);
             }
             $total['sum'] = 0;
             $total['imit_sum'] = 0;
@@ -2418,7 +2418,7 @@ class main_page extends Controller
             $total['adopt_sum'] = 0;
             $total['train_tea_sum'] = 0;
             $total['train_qual_sum'] = 0;
-            foreach($ret_info as $key => &$item) {
+            foreach($ret_info as &$item) {
                 if (isset($item['grade'])) {
                     E\Esubject::set_item_value_str($item, "subject");
                     E\Egrade::set_item_value_str($item, "grade");
@@ -2436,8 +2436,8 @@ class main_page extends Controller
                 $total['adopt_sum'] += $item['adopt_sum'];
             }
             $type_ret_info = $this->recruit_array_init();
-            foreach($tea_list as $id => $item) {
-                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $attend);
+            foreach($tea_list as $id => $val) {
+                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $val, $train_tea, $imit, $attend);
             }
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
@@ -2509,10 +2509,10 @@ class main_page extends Controller
         if (isset($key)) {
             $info[$key]['sum'] ++;
             if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
-            $info[$key]['train_qual_sum'] ++;
+            if ($item['train_trough_new_time'] > 0) $info[$key]['train_qual_sum'] ++;
             if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
             if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
-            $info[$key]['adopt_sum'] ++;
+            if ($item['simul_test_lesson_pass_time']) $info[$key]['adopt_sum'] ++;
         }
         return $info;
     }
