@@ -229,7 +229,7 @@ class Wx{
         $appid=$this->appid;
         $appsecret=$this->appsecret;
 
-        $cmd = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$token&openid=$openid&lang=zh_CN"; 
+        $cmd = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=yb1v1&openid=$openid&lang=zh_CN"; 
 
         // $cmd="https://api.weixin.qq.com/sns/userinfo?appid=$appid&secret=$appsecret&access_token=$token&openid=$openid";
         $json_data=file_get_contents($cmd);
