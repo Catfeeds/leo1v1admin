@@ -254,6 +254,8 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "l.lesson_del_flag=0",
             "l.lesson_status=2",
             "t.is_test_user=0",
+            "l.stu_attend>0",
+            "l.tea_attend>0",
         ];
 
         if($type==5){

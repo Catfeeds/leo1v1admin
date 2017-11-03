@@ -834,8 +834,7 @@ class test_james extends Controller
 
         /*
 
-          http://admin.leo1v1.com/test_james/dd?p_type=3&n=80&s=1&t=2017-11-7
-          http://admin.leo1v1.com/test_james/dd?p_type=5&n=10&s=1&t=2017-11-7
+          http://admin.leo1v1.com/test_james/dd?p_type=6&n=1&s=1&t=2017-11-8
 
          */
 
