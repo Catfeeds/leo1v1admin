@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ex-top_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ex-get_lesson_user_ip_same_info.d.ts" />
 
 $(function(){
     function load_data(){
