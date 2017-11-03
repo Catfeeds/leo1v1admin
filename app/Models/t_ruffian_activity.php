@@ -56,7 +56,9 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     }
 
     public function check_has_left($prize_type){
-
+        $sql = $this->gen_sql_new(" select count(*) from %s ru"
+                                  ." where prize_type"
+        );
     }
 
 }

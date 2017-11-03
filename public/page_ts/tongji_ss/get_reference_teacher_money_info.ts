@@ -41,7 +41,7 @@ $(function(){
                         "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                        var data = resp.data;
+                        var data = resp;
                         $tr.find(".person_num").text(data.person_num); 
                         $tr.find(".have_order").text(data.have_order); 
                                               
