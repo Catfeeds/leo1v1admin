@@ -247,7 +247,9 @@ $(function(){
         } ,function(ret){
             if(ret){
                 alert('您有签单失败原因未填写,请先填写完哦!');
-                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
+                var jump_url_1="/seller_student_new/test_lesson_order_fail_list_seller";
+                $.wopen(jump_url_1+"?"+"order_flag="+0);
+                // window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
             }
         });
 
