@@ -287,7 +287,7 @@ this[e](t,r);
                         </div>
                         
                         <div class="rich_media_tool" id="js_toobar3">
-                            <a class="media_tool_meta meta_primary" id="js_view_source" href="http://admin.yb1v1.com/article_wx/leo_teacher_agent">阅读原文</a>
+                            <a class="media_tool_meta meta_primary" id="js_view_source" href="http://admin.leo1v1.com/article_wx/leo_teacher_agent">阅读原文</a>
                                 <div id="js_read_area3" class="media_tool_meta tips_global meta_primary" style="display:none;">阅读 <span id="readNum3"></span></div>
 
                 <span style="display:none;" class="media_tool_meta meta_primary tips_global meta_praise" id="like3">

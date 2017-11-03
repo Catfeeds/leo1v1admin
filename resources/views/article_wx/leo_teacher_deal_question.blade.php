@@ -2898,7 +2898,7 @@
                                             <p>
                                                 <span style="font-size: 14px;">
                                                     答：[讲课白板]查看详情：
-                                                    <a href="http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard">http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard</a>
+                                                    <a href="http://admin.leo1v1.com/article_wx/leo_teacher_whiteboard">http://admin.leo1v1.com/article_wx/leo_teacher_whiteboard</a>
                                                 </span>
                                             </p>
                                             <p>

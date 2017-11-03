@@ -36,6 +36,8 @@ class wx_parent_gift extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
 
+        session(["p_openid"=>$openid]);
+
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         if($is_parent_flag){
             // header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);//周年庆活动页面
