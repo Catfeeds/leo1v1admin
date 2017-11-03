@@ -2547,8 +2547,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if( $opt_type === 'no_revisit_count') {//没有拨打过电话
             $where_arr[] = " tq.id is null ";
         } else if ( $opt_type === 'no_phone_count' ) {//未拨通
-            $where_arr[] = sprintf(' tq.id>0 and tq.is_called_phone=0 and not exists (select 1 from t_tq_call_info where phone=%u and start_time >= %u and start_time<%u)',
-                                   $this->ensql($phone),
+            $where_arr[] = sprintf(' tq.id>0 and tq.is_called_phone=0 and not exists (select 1 from %s where phone=na.phone and start_time >= %u and start_time<%u and tq.is_called_phone=1)',
+                                   t_tq_call_info::DB_TABLE_NAME,
                                    $this->ensql($start_time),
                                    $this->ensql($end_time));
         } else if ( $opt_type === 'ok_phone_count' ) {//拨通
