@@ -663,7 +663,9 @@ class main_page extends Controller
             "warning"      => $warning_type_num,
             "month_info"   => $month_info,
             "today_info"   => $today_info,
-            "ass_month"    =>  $ass_month
+            "ass_month"    =>  $ass_month,
+            "assign_lesson_count"=>$assign_lesson_count,
+            "used_assign_lesson_count"=>$used_assign_lesson_count
         ]);
 
     }

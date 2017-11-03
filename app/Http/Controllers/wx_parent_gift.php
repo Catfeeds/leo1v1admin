@@ -423,7 +423,6 @@ class wx_parent_gift extends Controller
             $this->t_ruffian_activity->field_update_list($has_prize['id'],[
                 "parentid"   => $parentid,
                 "prize_time" => time(),
-                "stu_type"   => $stu_type
             ]);
         }
 
