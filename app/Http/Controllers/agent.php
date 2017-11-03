@@ -2005,7 +2005,7 @@ class agent extends Controller
             $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
             $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
             $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
-
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
 
         }
         return $this->pageView(__METHOD__,$ret_info);

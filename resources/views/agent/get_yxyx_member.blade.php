@@ -33,19 +33,19 @@
                     <td>电话/微信名</td>
                     <td>上级电话/微信名</td>
                     <td>上上级电话/微信名</td>
-                    <td>TMD例子数</td>
-                    <td>MTD(TQ全局未回访)</td>
-                    <td>MTD(未接通)</td>
-                    <td>MTD(已接通)</td>
-                    <td>MTD(已接通未排课)</td>
-                    <td>MTD(已排课)</td>
-                    <td>MTD(已排课取消人数)</td>
-                    <td>MTD(成功试听数)</td>
-                    <td>MTD(到课率)</td>
-                    <td>MTD(成功试听未签约数)</td>
-                    <td>MTD(签约人数)</td>
-                    <td>MTD(签约率)</td>
-                    <td>MTD(签约金额)</td>
+                    <td>例子数</td>
+                    <td>TQ全局未回访</td>
+                    <td>未接通</td>
+                    <td>已接通</td>
+                    <td>已接通未排课</td>
+                    <td>已排课</td>
+                    <td>已排课取消人数</td>
+                    <td>成功试听数</td>
+                    <td>到课率</td>
+                    <td>成功试听未签约数</td>
+                    <td>签约人数</td>
+                    <td>签约率</td>
+                    <td>签约金额</td>
                     <td> 操作  </td>
                 </tr>
             </thead>

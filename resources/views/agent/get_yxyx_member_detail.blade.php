@@ -17,7 +17,8 @@
                     <td>回访间隔</td>
                     <td>试听需求</td>
                     <td>备注</td>
-                    <td>未签原因</td>
+                    <td>签单失败分类  </td>
+                    <td>签单失败特别说明  </td>
                     <td>曾经负责的CC</td>
                     <td>回访次数(电话拨打次数)</td>
                     <td>操作</td>
@@ -36,7 +37,8 @@
                         <td>{{@$var["last_call_time_space"]}}天</td>
                         <td>{{@$var["stu_request_test_lesson_demand"]}} </td>
                         <td>{{@$var["user_desc"]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["test_lesson_order_fail_flag"]? $var["test_lesson_order_fail_flag_str"]:""}} </td>
+                        <td>{{@$var["test_lesson_order_fail_desc"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
                         <td>
