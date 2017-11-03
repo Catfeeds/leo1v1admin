@@ -160,7 +160,8 @@ class cr_info_month extends Command
         $arr['wait_num'] = $kk['wait_num'];                                           //E4-扩科未成单数量
         //存档------------------------------------------------
         //概况 
-        $finish_num = $task->t_student_info->get_finish_num($start_time,$end_time);//A9-结课学员数
+        //$finish_num = $task->t_student_info->get_finish_num($start_time,$end_time);//A9-结课学员数
+        $finish_num = $task->t_student_info->get_user_list_by_lesson_count_new_b1($start_time,$end_time);//A9-结课学员数
         $arr['finish_num'] = $finish_num;
         //课时消耗
         $read_num   = $task->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
