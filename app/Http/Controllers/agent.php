@@ -505,7 +505,7 @@ class agent extends Controller
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
-        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag,$time);
+        // dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag,$time);
         foreach($seller_list as $item){
             $update_flag = 0;
             $adminid = $item['uid'];
@@ -544,25 +544,29 @@ class agent extends Controller
                     $update_flag = 1;
                 }
             }
-            if($update_flag == 1){//修改等级
-                $face_pic_str = substr($face_pic,-12,5);
-                $ex_str = $next_level.$face_pic_str;
-                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-                $this->t_manager_info->field_update_list($adminid,[
-                    'seller_level'=>$next_level,
-                    'level_face_pic'=>$level_face_pic,
-                ]);
-                $this->t_seller_edit_log->row_insert([
-                    "uid"         => $adminid,
-                    "type"        => 2,
-                    "old"         => $this_level,
-                    "new"         => $next_level,
-                    "create_time" => time(NULL),
-                ],false,false,true );
-                $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
+            E\Eseller_level::V_200;
+            if($adminid == 710){
+                dd($reduce_flag,$update_flag,$this_level,$next_level,$price,$level_goal,$next_goal,$level_face);
             }
+            // if($update_flag == 1){//修改等级
+            //     $face_pic_str = substr($face_pic,-12,5);
+            //     $ex_str = $next_level.$face_pic_str;
+            //     $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+            //     $this->t_manager_info->field_update_list($adminid,[
+            //         'seller_level'=>$next_level,
+            //         'level_face_pic'=>$level_face_pic,
+            //     ]);
+            //     $this->t_seller_edit_log->row_insert([
+            //         "uid"         => $adminid,
+            //         "type"        => 2,
+            //         "old"         => $this_level,
+            //         "new"         => $next_level,
+            //         "create_time" => time(NULL),
+            //     ],false,false,true );
+            //     $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
+            //     $this->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
+            //     $this->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
+            // }
         }
 
     }

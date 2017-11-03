@@ -2437,7 +2437,7 @@ class main_page extends Controller
             }
             $type_ret_info = $this->recruit_array_init();
             foreach($tea_list as $id => $item) {
-                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $atten);
+                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $attend);
             }
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
@@ -2482,10 +2482,10 @@ class main_page extends Controller
         ]);
     }
 
-    public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $type)
+    public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $type='')
     {
         if ($type) {
-            if ($itme['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
+            if ($item['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
             if ($item['subject'] == 1 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 1;
             if ($item['subject'] == 1 && $item['grade'] >= 300) $key = 2;
             if ($item['subject'] == 2 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 3;
@@ -2506,18 +2506,20 @@ class main_page extends Controller
             if ($item['identity'] == 8) $key = 4;
         }
 
-        $info[$key]['sum'] ++;
-        if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
-        $info[$key]['train_qual_sum'] ++;
-        if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
-        if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
-        $info[$key]['adopt'] ++;
+        if (isset($key)) {
+            $info[$key]['sum'] ++;
+            if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
+            $info[$key]['train_qual_sum'] ++;
+            if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
+            if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
+            $info[$key]['adopt_sum'] ++;
+        }
         return $info;
     }
 
     public function recruit_array_init($type=''){
         if($type) {
-            $info = [['subject'=>1, 'grade'=>100],['subject'=>1, 'grade'=>200],['subject'=>3, 'grade'=>300],['subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
+            $info = [['subject'=>1,'grade'=>100],['subject'=>1,'grade'=>200],['subject'=>1,'grade'=>300],['subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>2,'grade'=>300],['subject'=>3,'grade'=>100],['subject'=>3,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
         } else {
             $info = [['identity'=>0],['identity'=>5],['identity'=>6],['identity'=>7],['identity'=>8]];
         }

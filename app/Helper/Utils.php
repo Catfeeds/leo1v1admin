@@ -675,7 +675,9 @@ class Utils  {
             $start_time = $item["lesson_start"]- $item["lesson_start"]%300 ;
             $end_time   = $item["lesson_end"]+300;
             for( ; $start_time<=$end_time; $start_time+=300 ) {
-                $time_list[$start_time]++;
+                if ( isset( $time_list[$start_time]) ) {
+                    $time_list[$start_time]++;
+                }
             }
         }
         return $time_list;
