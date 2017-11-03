@@ -21,6 +21,7 @@
                     <td>签单失败特别说明  </td>
                     <td>曾经负责的CC</td>
                     <td>回访次数(电话拨打次数)</td>
+                    <td>录入原因（市场操作）</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -41,12 +42,14 @@
                         <td>{{@$var["test_lesson_order_fail_desc"]}} </td>
                         <td>{{@$var["sys_operator"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
+                        <td>{{@$var["add_reason"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="回访列表" class="fa-comments opt-return-back-list " ></a>
+                                <a title="回访列表" class="fa-comments opt-return-back-list cc-flag" ></a>
                                 <a title="录入回访信息" class="fa-edit opt-edit-new"></a>
+                                <a title="录入原因(市场操作)" class="fa-edit opt-add-reason"></a>
                                 <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
 
                             </div>

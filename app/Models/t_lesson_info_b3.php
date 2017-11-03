@@ -800,6 +800,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_test_lesson_teacher_list($start_time,$end_time){
+        
+    }
     public function get_teacher_stu_three_month_info(){
         $end_time = time();
         $start_time = time()-90*86400;

@@ -283,20 +283,10 @@ class wx_parent_gift extends Controller
     }
 
 
-
-
-
-
-
-    // public function get_share_num_for_book () {
-
-    //     return @$_SESSION['check_flag'];
-    //     $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
-    //     $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
-    //     $wx->goto_wx_login( $redirect_url );
-
-
-    // }
+    /**
+     *市场部赠送图书活动
+     *
+    **/
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
@@ -319,13 +309,14 @@ class wx_parent_gift extends Controller
 
 
     /***
-        双11活动 理优在线
-
-    ***/
+     *双11活动 理优在线
+    **/
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
+
+        $is_buy = $this->t_order_info->buy_ten_flag($parentid);
 
         foreach($prize_list as &$item){
             if($item['get_prize_time']>0){
@@ -391,6 +382,11 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
+
+        //检查是否可以抽奖
+        $left_num = $this->get_draw_num($parentid);
+        if($left_num <= 0){ return $this->output_err("您的抽奖次数已用完!"); }
+
         $stu_type = 1;
         if($check_time>$reg_time && $has_buy>0){
             $stu_type = 2; // 老用户
@@ -400,22 +396,12 @@ class wx_parent_gift extends Controller
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
-        $limit_arr = $this->get_limit_num($stu_type);
+        // $limit_arr = $this->get_limit_num($stu_type);
 
         $is_pass = 0;
-        if($draw_num_arr['bag_num']>$limit_arr['bag_num']){ // 书包
-            $is_pass = 1;
-        }elseif($draw_num_arr['three_free_num'] >$limit_arr['three_free_num']){ // 3次免费课
-            $is_pass = 1;
-        }elseif($draw_num_arr['fifty_coupon_num'] >$limit_arr['fifty_coupon_num']){ // 50元
-            $is_pass = 1;
-        }elseif($draw_num_arr['one_hundred_coupon_num'] >$limit_arr['one_hundred_coupon_num']){ // 100元
-            $is_pass = 1;
-        }elseif($draw_num_arr['three_hundred_coupon_num'] >$limit_arr['three_hundred_coupon_num']){ // 300元
-            $is_pass = 1;
-        }elseif($draw_num_arr['five_hundred_coupon_num'] >$limit_arr['five_hundred_coupon_num']){ // 500元
-            $is_pass = 1;
-        }
+        $prize_type = $this->get_win_rate($stu_type,$parentid);
+        //检测奖品是否抽完
+        // $is_has = $this->
 
         // 抽奖
         if($is_pass){
@@ -429,9 +415,15 @@ class wx_parent_gift extends Controller
             }elseif($stu_type==2){ //老用户
                 $prize_type=2;
             }
-        }else{
-            $prize_type = $this->get_win_rate($parentid);
         }
+
+        $this->t_ruffian_activity->row_insert([
+            "parentid"   => $parentid,
+            "prize_list" => $prize_type,
+            "prize_time" => time(),
+            "stu_type"   => $stu_type
+        ]);
+
 
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
@@ -543,6 +535,12 @@ class wx_parent_gift extends Controller
 
     public function get_limit_num($stu_type){
         $ret_info = [];
+        $config=[
+            "20171111" => [
+
+            ]
+        ];
+
         $bag_num = 0;
         $three_free_num = 0;
         $test_lesson_num = 0;

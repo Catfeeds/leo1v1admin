@@ -3856,7 +3856,6 @@ class user_deal extends Controller
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                  $month, $adminid, $start_time, $end_time ) ;
             break;
-
         case "201705" :
         case "201706" :
         case "201707" :
@@ -3864,8 +3863,11 @@ class user_deal extends Controller
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201705", $adminid, $start_time, $end_time ) ;
             break;
+        case "201709" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201709", $adminid, $start_time, $end_time );
+            break;
         default:
-
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
             break;
@@ -3970,20 +3972,21 @@ class user_deal extends Controller
         return json_encode($data);
     }
     public function  lesson_require_set_confirm_flag_4 () {
-        $lessonid= $this->get_in_lessonid();
-        $reason = $this->get_in_str_val( "reason");
+        $lessonid = $this->get_in_lessonid();
+        $reason   = $this->get_in_str_val("reason");
 
         $flow_type=E\Eflow_type::V_ASS_LESSON_CONFIRM_FLAG_4 ;
         if (!$this->t_flow->get_info_by_key($flow_type,$lessonid)) {
             $this->t_flow->add_flow(
                 E\Eflow_type::V_ASS_LESSON_CONFIRM_FLAG_4 ,
-                $this->get_account_id(),$reason, $lessonid );
-
+                $this->get_account_id(),$reason, $lessonid
+            );
             return $this->output_succ();
         }else{
             return $this->output_err("已经添加了");
         }
     }
+
     public function get_flow_info_by_key( ) {
         $from_key_int=$this->get_in_int_val("from_key_int",0);
         $from_key2_int=$this->get_in_int_val("from_key2_int",0);

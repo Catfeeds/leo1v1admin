@@ -122,15 +122,39 @@ class tongji_ex extends Controller
     }
 
     public function get_lesson_user_ip_same_info(){
-        $page_info= $this->get_in_page_info();
         list($start_time,$end_time) = $this->get_in_date_range_month(0 );
-        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time);
-        dd($ret_info);
+        $match_type = $this->get_in_int_val("match_type",0);
+        $company_ip_list=[
+             '123.57.153.80',
+             '123.57.153.95',
+             '116.226.191.120',
+             '101.81.224.61',
+             '121.43.230.95',
+             '116.226.191.6',
+             '222.64.63.129'
+        ];
+        $str ="";
+        foreach($company_ip_list as $val){
+            $str  .="'".$val."',";           
+        }
+        $ip_str = "(".trim($str,",").")";
+        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str);
+        
         $list=[];
         foreach($ret_info as $val){
-            @$list[$val["ip"]]++; 
+            $k = $val["userid"]."-".$val["ip"];
+            @$list[$k]["userid"]=$val["userid"]; 
+            @$list[$k]["nick"]=$val["nick"]; 
+            @$list[$k]["ip"]=$val["ip"];
+            if(!$val["s2_nick"]){
+                $val["s2_nick"] = $val["s2_userid"]; 
+            }
+            @$list[$k]["same_name_list"] .=$val["s2_nick"].",";
         }
-        dd($ret_info);;
+        foreach($list as &$item){
+            $item["same_name_list"] = trim($item["same_name_list"],",");
+        }
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list)  );
 
     }
 

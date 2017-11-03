@@ -997,13 +997,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $sql = $this->gen_sql_new("select g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
-
                                   ." where ".
                                   " o.userid = s.userid   and   ".
                                   " o.sys_operator =m.account   and   ".
                                   " m.uid=gu.adminid  and   ".
                                   " gu.groupid =g.groupid and   ".
-
                                   "  %s group by g.groupid order by all_price desc  ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
@@ -3958,6 +3956,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s p on p.userid=s.userid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -3981,5 +3980,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_info_by_userid($userid){
         $sql = "select * from t_order_info where userid = $userid and order_time >1506787200 and price > 0;";
         return $this->main_get_row($sql);
+    }
+
+    public function buy_ten_flag($parentid){
+
+        $where_arr = [
+            "p.parentid=$parentid",
+            "o.contract_type in (0,3)",
+            "o.lesson_total >=10"
+        ];
+
+        $sql = $this->gen_sql_new("  select 1 from %s o"
+                                  ."　left join %s s on s.userid=o.userid"
+                                  ." left　join %s p on p.userid=s.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }

@@ -176,9 +176,9 @@ $(function(){
         var par = 'check_value=' + $(this).attr("data-val");
         if ($(this).attr("data-val") !== ''){
             if(location.search){
-                window.open("http://admin.leo1v1.com/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par);
+                $.wopen("/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par);
             } else {
-                window.open("http://admin.leo1v1.com/tongji_ss/origin_count_"+opt_type+"_info?"+par);
+                $.wopen("/tongji_ss/origin_count_"+opt_type+"_info?"+par);
             }
         }
 

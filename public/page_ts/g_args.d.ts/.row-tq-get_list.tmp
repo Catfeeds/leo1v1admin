@@ -6,8 +6,12 @@
 	duration	:any;
 	is_called_phone	:any;
 	record_url	:any;
-	account	:any;
+	adminid	:any;
+	admin_role	:any;
+	obj_start_time	:any;
 	seller_student_status	:any;
 	load_wav_self_flag	:any;
 	is_called_phone_str	:any;
+	admin_role_str	:any;
 	seller_student_status_str	:any;
+	admin_nick	:any;

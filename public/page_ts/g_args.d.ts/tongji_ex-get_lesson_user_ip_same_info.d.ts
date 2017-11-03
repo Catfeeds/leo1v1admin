@@ -4,10 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	id:	number;
-	page_num:	number;
-	page_count:	number;
-	opt_type:	string;
+	match_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -22,10 +19,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../agent; vi  ../agent/get_yxyx_member_detail.ts
+	 mkdir -p ../tongji_ex; vi  ../tongji_ex/get_lesson_user_ip_same_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent-get_yxyx_member_detail.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ex-get_lesson_user_ip_same_info.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -35,8 +32,7 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		id:	$('#id_id').val(),
-		opt_type:	$('#id_opt_type').val()
+		match_type:	$('#id_match_type').val()
     });
 }
 $(function(){
@@ -52,8 +48,7 @@ $(function(){
             load_data();
         }
     });
-	$('#id_id').val(g_args.id);
-	$('#id_opt_type').val(g_args.opt_type);
+	$('#id_match_type').val(g_args.match_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -66,15 +61,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">id</span>
-                <input class="opt-change form-control" id="id_id" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">opt_type</span>
-                <input class="opt-change form-control" id="id_opt_type" />
+                <span class="input-group-addon">match_type</span>
+                <input class="opt-change form-control" id="id_match_type" />
             </div>
         </div>
 */

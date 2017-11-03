@@ -502,6 +502,7 @@ class menu{
                 ["power_id"=>11, "name"=>"登入", "list"=>[
                     ["power_id"=>10, "name"=>"用户登录统计",   "url"=>"/tongji_ex/user_login"],
                     ["power_id"=>11, "name"=>"用户登录明细",   "url"=>"/tongji_ex/user_login_list"],
+                    ["power_id"=>12, "name"=>"用户登录统计-new",   "url"=>"/tongji_ex/get_lesson_user_ip_same_info"],
                     ["power_id"=>1, "name"=>"后台详情",   "url"=>"/user_manage/user_login_list"],
                     ["power_id"=>2, "name"=>"后台统计",   "url"=>"/user_manage/tongji_login_ip_info"],
                 ]],
