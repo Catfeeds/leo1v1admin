@@ -467,7 +467,8 @@ class agent extends Controller
     public function test_new(){
         $reduce_flag = 0;
         $time = time(null);
-        $time = 1509501600;
+        // $time = 1509501600;
+        $time = 1509588000;
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
@@ -504,7 +505,7 @@ class agent extends Controller
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
-        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag);
+        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag,$time);
         foreach($seller_list as $item){
             $update_flag = 0;
             $adminid = $item['uid'];
