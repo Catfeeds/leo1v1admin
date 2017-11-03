@@ -466,7 +466,7 @@ class agent extends Controller
 
     public function test_new(){
         $time = time(null);
-        $time = 1506960000;
+        $time = 1506873600;
         $reduce_flag = 0;
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
@@ -481,7 +481,7 @@ class agent extends Controller
                 $end_time_this = $item['end_time'];
             }
         }
-        dd($reduce_flag);
+        dd($time,$reduce_flag);
         $timestamp = strtotime(date("Y-m-01"));
         $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
         $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
