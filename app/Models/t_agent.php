@@ -2239,7 +2239,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql = $this->gen_sql_new(
             "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
-            . " a.agent_status_money,l.lesson_start as l_time"
+            . " a.agent_status_money,l.lesson_start as l_time,a.agent_student_status"
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
             ." where  a.id in ".$in_str."  and a.create_time > %u  order by l.lesson_start asc ",
@@ -2266,7 +2266,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
             "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
-            ."a2.pp_agent_status_money as agent_status_money,a2.create_time "
+            ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a.agent_student_status "
             ."from %s a2 "
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
             self::DB_TABLE_NAME,
@@ -2365,7 +2365,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@desn:获取邀请人
     public function get_second_invite_list($parentid){
         $sql = $this->gen_sql_new(
-            "select a.phone,a.nickname,a.create_time,a.agent_status,oi.price ".
+            "select a.phone,a.nickname,a.create_time,a.agent_status,oi.price,a.agent_student_status ".
             "from %s a ".
             "left join %s ao on ao.aid = a.id ".
             "left join %s oi on ao.orderid = oi.orderid ".
