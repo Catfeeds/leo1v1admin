@@ -466,14 +466,14 @@ class agent extends Controller
 
     public function test_new(){
         $time = time(null);
-        $time = 1506873600;
+        $time = 1509465600;
         $reduce_flag = 0;
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
-            if(strtotime(date('Y-m-d',$time).'00:00:00') == $item['start_time']){
+            if(strtotime(date('Y-m-d',$time)) == $item['start_time']){//降级标志
                 $reduce_flag = 1;
             }
             if($time>=$item['start_time'] && $time<$item['end_time']){
@@ -481,7 +481,6 @@ class agent extends Controller
                 $end_time_this = $item['end_time'];
             }
         }
-        dd($time,$reduce_flag);
         $timestamp = strtotime(date("Y-m-01"));
         $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
         $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
@@ -503,7 +502,7 @@ class agent extends Controller
             }
         }
         $start_time_arr = array_unique(array_column($ret_time,'start_time'));
-        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$start_time_arr);
+        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag);
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->task->t_seller_level_goal->get_all_list_new();
@@ -529,7 +528,7 @@ class agent extends Controller
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
             // if($price>$next_goal && !in_array($adminid,[380,457])){
-            if($price>$next_goal){
+            if($price>$next_goal){//升级
                 foreach($ret_level_goal as $item){
                     if($price >= $item['level_goal']){
                         $next_level = $item['seller_level'];
@@ -554,11 +553,17 @@ class agent extends Controller
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+            }else{//月头降级
+                if($reduce_flag == 1){
+
+                }
             }
             //统计上个月
-
+            $price_last = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
+            $price_last = $price/100;
             //统计上上个月
-
+            $price_very_last = $this->task->t_order_info->get_seller_price($start_time_very_last,$end_time_very_last,$adminid);
+            $price_very_last = $price_very_last/100;
         }
 
     }
@@ -1914,7 +1919,7 @@ class agent extends Controller
 
         //获取全部团员业绩[不包括团长]
         $agent_member_result = $this->t_agent_group_members->get_agent_member_result($start_time,$end_time);
-                
+
         $agent_all_group_result['test_lesson_count'] = $agent_member_result['test_lesson_count']+$colconel_test_lesson_count;
         $agent_all_group_result['member_count'] = $agent_member_result['member_count']+$colconel_member_count;
         $agent_all_group_result['student_count'] = $agent_member_result['student_count']+$colconel_student_count;
@@ -1997,15 +2002,16 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
+        // $operator_note = $this->t_seller_student_new->get_tmk_desc($userid);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
             E\Esubject::set_item_value_str($item,'subject');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
-            $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
+            // $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
             $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
             $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
-
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
 
         }
         return $this->pageView(__METHOD__,$ret_info);

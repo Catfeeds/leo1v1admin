@@ -121,5 +121,18 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__, null, ["report_info"=> $item]);
     }
 
+    public function get_lesson_user_ip_same_info(){
+        $page_info= $this->get_in_page_info();
+        list($start_time,$end_time) = $this->get_in_date_range_month(0 );
+        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time);
+        dd($ret_info);
+        $list=[];
+        foreach($ret_info as $val){
+            @$list[$val["ip"]]++; 
+        }
+        dd($ret_info);;
+
+    }
+
 
 }
