@@ -36,6 +36,9 @@ class wx_parent_gift extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
 
+        $user_info = $wx->get_user_info_from_token($openid,$token_info['access_token']);
+        dd($user_info);
+        dd($token_info);
         session(["p_openid"=>$openid]);
 
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);

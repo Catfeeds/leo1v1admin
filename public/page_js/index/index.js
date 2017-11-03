@@ -111,7 +111,7 @@ $(function(){
         var account=$('#id_account').val();
         var admin_code="AD_"+Math.random()*10000+"_"+Math.random()*10000;
 
-        var url="http://admin.yb1v1.com/wx_login/login?admin_code="+admin_code;
+        var url="http://admin.leo1v1.com/wx_login/login?admin_code="+admin_code;
 
         $.ajax({
             'url': "/wx_login/init",
