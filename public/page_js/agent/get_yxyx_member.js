@@ -33,7 +33,7 @@ $(function(){
         if ( location.search ) {
             window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id+"&opt_type="+opt_type);
         } else {
-            window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail?id="+id+"&type="+opt_type);
+            window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail?id="+id+"&opt_type="+opt_type);
         }
     });
 

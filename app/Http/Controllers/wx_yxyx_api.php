@@ -1148,4 +1148,29 @@ class wx_yxyx_api extends Controller
             'student_and_member_first_num' => $student_and_member_list['total_num']
         ]);
     }
+    //@desn:获取全部活动奖励
+    //@param:is_cash 是否可提现标识  0 全部 2：可提现
+    public function get_activity_rewards(){
+        $is_cash = $this->get_in_int_val('is_cash',0);
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $page_info = $this->get_in_page_info();
+        $page_count = 5;
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        $reward_list = $this->t_agent_money_ex->get_reward_list($agent_id,$page_info,$page_count,$is_cash);
+        foreach($reward_list['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time",'',"Y-m-d");
+            E\Eagent_money_ex_type::set_item_value_str($item);
+            $item['money'] /= 100;
+        }
+
+        return $this->output_succ(['reward_list' => $reward_list]);
+    }
 }

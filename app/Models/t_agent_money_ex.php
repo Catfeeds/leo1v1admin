@@ -66,4 +66,24 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         
         return $this->main_get_value($sql);
     }
+    //@desn:获取该用户当前所有奖励
+    //@param:$is_cash   0所有 2可提现
+    public function get_reward_list($agent_id,$page_info,$page_count,$is_cash){
+        $where_arr = [
+            ['agent_id = %u',$agent_id,'-1']
+        ];
+        if($is_cash)
+            $this->where_arr_add_int_field($where_arr,'flow_status',$is_cash);
+        $sql = $this->gen_sql_new(
+            "select ame.agent_money_ex_type,ame.money,ame.add_time ".
+            "from %s ame ".
+            "left join %s f on ame.id = f.from_key_int and f.flow_type = %u ".
+            "where %s",
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE,
+            $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
+    }
 }
