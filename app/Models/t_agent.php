@@ -2472,6 +2472,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
+        print_r($child_arr);
         //用户有推荐人
         if($child_arr){
             $in_str = '('.implode(',',$child_arr).')';
