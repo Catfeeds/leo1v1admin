@@ -828,6 +828,10 @@ class test_james extends Controller
         $i = 1;
         for($i;$i<=$num;$i++){
             echo 1;
+
+            $this->t_ruffian_activity->row_insert([
+                ""
+            ]);
         }
 
         exit;
