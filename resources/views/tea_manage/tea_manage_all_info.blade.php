@@ -67,7 +67,7 @@
 
 
             <div > <font color="red"> 请复制 以下链接 到 问题报告群: </font> </div>
-            <div  style="color:blue;" > http://admin.yb1v1.com/supervisor/lesson_all_info?lessonid={{$var["lessonid"]}}
+            <div  style="color:blue;" > http://admin.leo1v1.com/supervisor/lesson_all_info?lessonid={{$var["lessonid"]}}
             </div>
         <br/>
 
