@@ -174,17 +174,6 @@ class tea_manage extends Controller
     }
 
 
-    public function test_video(){
-        $account = $this->get_account_id();
-
-        if($account == 480){
-            return $this->lesson_list();
-        }else{
-
-        }
-
-    }
-
 
     public function lesson_list()
     {

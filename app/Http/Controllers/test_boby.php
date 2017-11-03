@@ -795,9 +795,12 @@ class test_boby extends Controller
 
         $s = $this->table_end($s);
         echo $s;
+$all =0;
         foreach($zu as $k=>$v){
-            echo $k,'--',$v,'<br>';
+$all = $all+$v;        
+    echo $k,'--',$v,'<br>';
         }
+echo $all;
 
     }
 
