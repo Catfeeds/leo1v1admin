@@ -2415,7 +2415,7 @@ class main_page extends Controller
             //$imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
             // 上课人数
             //$attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
-            $train_tea=$imit=$attend;
+            $train_tea=$imit=$attend='';
             foreach($tea_list as $id => $val) {
                 $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, $end_time, 1);
             }
