@@ -29,9 +29,9 @@ $(function(){
 
     $('.opt-a td a').on('click',function(){
         var id = $(this).parent().parent().attr('data-id');
-        var opt_type = $(this).parent().attr('data-type');
+        var opt_type = $(this).attr('data-type');
         if ( location.search ) {
-            window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id+"&type="+opt_type);
+            window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id+"&opt_type="+opt_type);
         } else {
             window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail?id="+id+"&type="+opt_type);
         }

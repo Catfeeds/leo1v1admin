@@ -243,13 +243,7 @@ $(function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
 
-        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
-        } ,function(ret){
-            if(ret){
-                alert('您有签单失败原因未填写,请先填写完哦!');
-                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
-            }
-        });
+        
 
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
@@ -426,7 +420,15 @@ $(function(){
                 $(me).parent().find(".opt-seller-qr-code").click();
                 return;
             }
-
+            $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
+            } ,function(ret){
+                if(ret){
+                    alert('您有签单失败原因未填写,请先填写完哦!');
+                    var jump_url_1="/seller_student_new/test_lesson_order_fail_list_seller";
+                    window.location.href = jump_url_1+"?"+"order_flag="+0;
+                    return;
+                }
+            });
             $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{"userid" : opt_data.userid},function(resp){
                 if(g_args.account_role != 12){
                     if(resp.ret==1){
