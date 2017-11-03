@@ -465,15 +465,15 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $time = time(null);
-        $time = 1509465600;
         $reduce_flag = 0;
+        $time = time(null);
+        $time = 1509501600;
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
-            if(strtotime(date('Y-m-d',$time)) == $item['start_time']){//降级标志
+            if(strtotime(date('Y-m-d',$time)) == $item['start_time']){//月头标志
                 $reduce_flag = 1;
             }
             if($time>=$item['start_time'] && $time<$item['end_time']){
@@ -501,15 +501,15 @@ class agent extends Controller
                 $end_time_very_last = $item['end_time'];
             }
         }
-        $start_time_arr = array_unique(array_column($ret_time,'start_time'));
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
+        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag);
         foreach($seller_list as $item){
-            $next_level = 0;
+            $update_flag = 0;
             $adminid = $item['uid'];
             $account = $item['account'];
-            $face_pic = $face_pic!=''?$item['face_pic']:'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
+            $face_pic = $item['face_pic']!=''?$item['face_pic']:'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
             $this_level = $item['seller_level'];
             $num = isset($item['num'])?$item['num']:0;
             $level_goal = isset($item['level_goal'])?$item['level_goal']:0;
@@ -518,7 +518,7 @@ class agent extends Controller
             $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
             if($reduce_flag == 1){//月头
                 //统计上个月
-                $price = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
+                $price = $this->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
                 $price = $price/100;
                 if($price<$level_goal){//降级
                     foreach($ret_level_goal as $item){
@@ -527,6 +527,7 @@ class agent extends Controller
                             $level_face = $item['level_face'];
                         }
                     }
+                    $update_flag = 1;
                 }
             }else{//月中
                 //统计本月
@@ -539,9 +540,10 @@ class agent extends Controller
                             $level_face = $item['level_face'];
                         }
                     }
+                    $update_flag = 1;
                 }
             }
-            if($this_level != $next_level){//修改等级
+            if($update_flag == 1){//修改等级
                 $face_pic_str = substr($face_pic,-12,5);
                 $ex_str = $next_level.$face_pic_str;
                 $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
