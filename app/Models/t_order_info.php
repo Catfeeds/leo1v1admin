@@ -3958,6 +3958,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s p on p.userid=s.userid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$where_arr
         );

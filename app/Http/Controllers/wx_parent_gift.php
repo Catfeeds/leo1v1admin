@@ -283,20 +283,10 @@ class wx_parent_gift extends Controller
     }
 
 
-
-
-
-
-
-    // public function get_share_num_for_book () {
-
-    //     return @$_SESSION['check_flag'];
-    //     $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
-    //     $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
-    //     $wx->goto_wx_login( $redirect_url );
-
-
-    // }
+    /**
+     *市场部赠送图书活动
+     *
+    **/
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
@@ -319,9 +309,8 @@ class wx_parent_gift extends Controller
 
 
     /***
-        双11活动 理优在线
-
-    ***/
+     *双11活动 理优在线
+    **/
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
@@ -430,8 +419,13 @@ class wx_parent_gift extends Controller
                 $prize_type=2;
             }
         }else{
-            $prize_type = $this->get_win_rate($parentid);
+            $prize_type = $this->get_win_rate($stu_type,$parentid);
         }
+
+        $this->t_ruffian_activity->row_insert(
+            ["parentid"]
+        );
+
 
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
@@ -445,6 +439,7 @@ class wx_parent_gift extends Controller
         $wx=new \App\Helper\Wx();
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
+
 
         return $this->output_succ(['prize'=>$prize_type]);
     }
