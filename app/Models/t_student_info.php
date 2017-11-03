@@ -3029,7 +3029,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,editionid from %s where editionid=%u",self::DB_TABLE_NAME,$editionid);
         return $this->main_get_list($sql);
     }
-    public function get_finish_num($start_time,$end_time){
+    public function get_finish_num_new($start_time,$end_time){
         $where_arr = [
             [' last_lesson_time>=%u',$start_time,-1],
             [' last_lesson_time<=%u',$end_time,-1],
@@ -3042,6 +3042,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
                                   ,t_order_refund::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
+    public function get_finish_num_new($start_time,$end_time){
+        $sql = "select count(distinct(s.userid )) from db_weiyi.t_student_info s  left join db_weiyi.t_order_refund r on s.userid = r.userid and r.contract_type in (0,3)  and not exists (select 1 from db_weiyi.t_order_refund where userid=r.userid and r.contract_type in (0,3) and apply_time>r.apply_time) left join db_weiyi.t_order_info o on s.userid= o.userid and o.contract_type in (0,3) where s.last_lesson_time >=$start_time and s.last_lesson_time <=$end_time and s.is_test_user=0 and (r.apply_time is null or r.apply_time<s.last_lesson_time) and s.type=1 ";
         return $this->main_get_value($sql);
     }
     public function get_read_num($start_time,$end_time){
