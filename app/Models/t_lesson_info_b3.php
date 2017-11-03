@@ -1564,18 +1564,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type in (0,1,3)",
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
+            "l.lesson_status>0",
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             ["ul.login_time >=%u",$start_time,0],
             ["ul.login_time <%u",$end_time,0],
+            "s2.userid>0",
+            "ul.ip not in ('123.57.153.80','123.57.153.95','116.226.191.120','101.81.224.61','121.43.230.95')"
         ];
-        $sql = $this->gen_sql_new("select distinct s.nick,l.userid,ul.ip"
+        $sql = $this->gen_sql_new("select distinct s.nick,l.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s ul on l.userid = ul.userid"
+                                  ." left join %s ul2 on ul.ip = ul2.ip and ul.userid != ul2.userid"
+                                  ." left join %s s2 on ul2.userid = s2.userid and s2.is_test_user=0 and exists (select 1 from %s where contract_status>0 and contract_type in (0,3) and userid = s2.userid and price>0)"                                  
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_user_login_log::DB_TABLE_NAME,
+                                  t_user_login_log::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

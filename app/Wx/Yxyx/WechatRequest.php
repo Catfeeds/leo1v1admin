@@ -395,7 +395,7 @@ class WechatRequest  {
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/parent_side_manual',
+                'url' => 'http://admin.leo1v1.com/article_wx/parent_side_manual',
 
             );
 
@@ -468,7 +468,7 @@ class WechatRequest  {
                 'title' => '常见问题Q&A',
                 'description' => '',
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b3291e92621199f457028e10dc7de8e51500964583043.png',
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
+                'url' => 'http://admin.leo1v1.com/article_wx/leo_yxyx_question',
            );
         }elseif ($eventKey == 'invitation') {
             $t_agent = new \App\Models\t_agent();
@@ -610,7 +610,7 @@ class WechatRequest  {
                 'title' => '上海理优教育科技有限公司图片简介',
                 'description' => '',
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/eef708bdb1d02310c9ab7ba5a3605c071501040957308.jpg',
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_introduction',
+                'url' => 'http://admin.leo1v1.com/article_wx/leo_yxyx_introduction',
             );
 
             // $tuwenList[] = array(

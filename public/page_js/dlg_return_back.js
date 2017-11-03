@@ -91,8 +91,8 @@ $(function(){
                             item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
                             item.operator_note+"</td><td><a class = \"opt_detail\" data-userid=\""+userid+"\" data-revisit_time=\""+revisit_time+"\">详情</a></td></tr>";
                     }else{
-                        html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
-                            item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
+                        var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
+                            item.revisit_type+"</td><td>"+item.revisit_path+"<td></td>"+ 
                             item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
                             item.operator_note+"</td><td></td></tr>";
                     }

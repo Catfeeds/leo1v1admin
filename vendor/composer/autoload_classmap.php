@@ -594,6 +594,7 @@ return array(
     'TSellerStudentNewAddHandGetAdminid' => $baseDir . '/database/migrations/2017_10_24_112850_t_seller_student_new_add_hand_get_adminid.php',
     'TSellerStudentNewAddIndexFirstCallTimeAddTime' => $baseDir . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
     'TSellerStudentNewAddLastSuccTestLessonid' => $baseDir . '/database/migrations/2017_11_01_105442_t_seller_student_new_add_last_succ_test_lessonid.php',
+    'TSellerStudentNewAddOriginCount' => $baseDir . '/database/migrations/2017_11_03_121842_t_seller_student_new_add_origin_count.php',
     'TSellerStudentNewAddTestLessonOptFlag' => $baseDir . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
     'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
     'TSellerTongjiForMonthAddColumons' => $baseDir . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',

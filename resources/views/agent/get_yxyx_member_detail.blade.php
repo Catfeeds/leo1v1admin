@@ -39,7 +39,7 @@
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["test_lesson_order_fail_flag"]? $var["test_lesson_order_fail_flag_str"]:""}} </td>
                         <td>{{@$var["test_lesson_order_fail_desc"]}} </td>
-                        <td>{{@$var["account"]}} </td>
+                        <td>{{@$var["tmk_desc"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
                         <td>
                             <div
