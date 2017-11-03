@@ -2435,6 +2435,7 @@ class main_page extends Controller
                 $total['attend_sum'] += $item['attend_sum'];
                 $total['adopt_sum'] += $item['adopt_sum'];
             }
+            dd($ret_info);
             $type_ret_info = $this->recruit_array_init();
             foreach($tea_list as $id => $item) {
                 $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $attend);
