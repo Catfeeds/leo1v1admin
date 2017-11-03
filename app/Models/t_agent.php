@@ -2558,7 +2558,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1";
         } else if ( $opt_type == 'ok_lesson_no_order' ) {//试听未签单
             $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid is null";
-        } else if ( $opt_tyep == 'order_user_count' ) {//签单
+        } else if ( $opt_type == 'order_user_count' ) {//签单
             $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid>0 ";
         }
 
