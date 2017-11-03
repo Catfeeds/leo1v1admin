@@ -2008,7 +2008,7 @@ class agent extends Controller
             $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
             E\Etest_lesson_order_fail_flag::set_item_value_str($item);
 
-            if ($item['no_tq'] == 0) {
+            if ($item['no_tq'] > 0) {
                 $item['phone_count'] = $item['phone_count'] - 1;
             }
         }
