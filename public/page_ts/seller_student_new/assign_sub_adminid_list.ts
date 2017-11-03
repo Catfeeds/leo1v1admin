@@ -15,6 +15,7 @@ function load_data(){
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
         admin_del_flag:	$('#id_admin_del_flag').val(),
         start_time:	$('#id_start_time').val(),
+		    origin_count:	$('#id_origin_count').val(),
         account_role:	$('#id_account_role').val(),
         end_time:	$('#id_end_time').val(),
         userid:	$('#id_userid').val(),
@@ -111,6 +112,7 @@ $(function(){
     $('#id_show_list_flag').val(g_args.show_list_flag);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
     $('#id_first_seller_adminid').val(g_args.first_seller_adminid);
+	  $('#id_origin_count').val(g_args.origin_count);
 
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();},null, {

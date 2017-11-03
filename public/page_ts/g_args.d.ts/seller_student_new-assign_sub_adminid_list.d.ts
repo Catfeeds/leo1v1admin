@@ -39,6 +39,7 @@ interface GargsStatic {
 	call_count:	string;
 	suc_test_count:	string;
 	main_master_flag:	number;
+	origin_count:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -169,7 +170,8 @@ function load_data(){
 		call_phone_count:	$('#id_call_phone_count').val(),
 		call_count:	$('#id_call_count').val(),
 		suc_test_count:	$('#id_suc_test_count').val(),
-		main_master_flag:	$('#id_main_master_flag').val()
+		main_master_flag:	$('#id_main_master_flag').val(),
+		origin_count:	$('#id_origin_count').val()
     });
 }
 $(function(){
@@ -235,6 +237,7 @@ $(function(){
 	$('#id_call_count').val(g_args.call_count);
 	$('#id_suc_test_count').val(g_args.suc_test_count);
 	$('#id_main_master_flag').val(g_args.main_master_flag);
+	$('#id_origin_count').val(g_args.origin_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -485,6 +488,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">main_master_flag</span>
                 <input class="opt-change form-control" id="id_main_master_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">origin_count</span>
+                <input class="opt-change form-control" id="id_origin_count" />
             </div>
         </div>
 */

@@ -279,6 +279,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     public static $classMap = array (
         'AddVotesToTAgent' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
         'CreateTAgentGroup' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
+        'CreateTAgentGroupMemberResult' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
         'CreateTAgentGroupMembers' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
         'CreateTInterviewRemind' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
         'CreateTLuckDrawYxyxForRuffian' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_173442_create_t_luck_draw_yxyx_for_Ruffian.php',
@@ -864,6 +865,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerStudentNewAddHandGetAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_112850_t_seller_student_new_add_hand_get_adminid.php',
         'TSellerStudentNewAddIndexFirstCallTimeAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
         'TSellerStudentNewAddLastSuccTestLessonid' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_105442_t_seller_student_new_add_last_succ_test_lessonid.php',
+        'TSellerStudentNewAddOriginCount' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_121842_t_seller_student_new_add_origin_count.php',
         'TSellerStudentNewAddTestLessonOptFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
         'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
