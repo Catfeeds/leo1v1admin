@@ -467,8 +467,8 @@ class agent extends Controller
     public function test_new(){
         $reduce_flag = 0;
         $time = time(null);
-        // $time = 1509501600;
-        $time = 1509588000;
+        $time = 1509501600;
+        // $time = 1509588000;
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
@@ -544,6 +544,7 @@ class agent extends Controller
                     $update_flag = 1;
                 }
             }
+            E\Eseller_level::V_100;
             if($adminid == 710){
                 dd($reduce_flag,$update_flag,$this_level,$price,$level_goal,$next_goal);
             }
