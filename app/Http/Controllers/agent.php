@@ -913,6 +913,23 @@ class agent extends Controller
 
     }
 
+    //@desn:新版微信信息
+    public function user_center_info(){
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+        return $this->pageView(__METHOD__,NULL);
+    }
+
     public function get_my_num(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
