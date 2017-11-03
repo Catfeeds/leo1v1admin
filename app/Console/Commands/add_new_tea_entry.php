@@ -41,6 +41,11 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+        $info = $task->t_teacher_lecture_appointment_info_b2->get_name_for_tea_name();
+        foreach($info as $item){
+            echo $item['tname'].'   '.$item['name'].PHP_EOL;
+        }
+        exit;
         $add_time = time();
         $month = date('m') - 1;
         $begin = date("Y-$month-01 00:00:00");

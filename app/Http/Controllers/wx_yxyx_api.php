@@ -785,7 +785,7 @@ class wx_yxyx_api extends Controller
         $list = $this->t_agent->my_invite($agent_id,$page_info,$page_count);
         foreach($list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if($item['agent_status'] > 0 && $item['agent_status'] < 10)
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                 $item['agent_status'] = "0";
             if($item['agent_status'] >30)
                 $item['agent_status'] = "30";
@@ -796,7 +796,7 @@ class wx_yxyx_api extends Controller
         $data = $this->t_agent->member_invite($agent_id,$page_info,$page_count);
         foreach($data['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if($item['agent_status'] > 0 && $item['agent_status'] < 10)
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                 $item['agent_status'] = "0";
             if($item['agent_status'] >30)
                 $item['agent_status'] = "30";
@@ -1098,8 +1098,8 @@ class wx_yxyx_api extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
                 if(empty($val['nickname']))
                     $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 10)
-                    $val['agent_status'] = 1;
+                if($val['agent_status'] < 2)
+                    $val['agent_status'] = "0";
                 $val['price'] /= 100;
             }
             $item['second_num'] = count($item['child']);
@@ -1115,8 +1115,8 @@ class wx_yxyx_api extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
                 if(empty($val['nickname']))
                     $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 10)
-                    $val['agent_status'] = 1;
+                if($val['agent_status'] < 2)
+                    $val['agent_status'] = "0";
                 $val['price'] /= 100;
             }
             $item['second_num'] = count($item['child']);
@@ -1132,8 +1132,8 @@ class wx_yxyx_api extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
                 if(empty($val['nickname']))
                     $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 10)
-                    $val['agent_status'] = 1;
+                if($val['agent_status'] < 2)
+                    $val['agent_status'] = "0";
                 $val['price'] /= 100;
             }
             $item['second_num'] = count($item['child']);

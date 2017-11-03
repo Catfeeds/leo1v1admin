@@ -35,8 +35,10 @@ class wx_parent_gift extends Controller
         $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
+        $token = $wx->get_wx_token($p_appid,$p_appsecret,true);
+        // dd($token);
 
-        $user_info = $wx->get_user_info($openid,$token_info['access_token']);
+        $user_info = $wx->get_user_info($openid,$token);
         dd($user_info);
         dd($token_info);
         session(["p_openid"=>$openid]);
