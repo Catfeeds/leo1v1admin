@@ -399,17 +399,17 @@ class wx_parent_gift extends Controller
         $limit_arr = $this->get_limit_num($stu_type);
 
         $is_pass = 0;
-        if($draw_num_arr['bag_num']>$limit_arr['bag_num']){ // 书包
+        if($draw_num_arr['bag_num']>=$limit_arr['bag_num']){ // 书包
             $is_pass = 1;
-        }elseif($draw_num_arr['three_free_num'] >$limit_arr['three_free_num']){ // 3次免费课
+        }elseif($draw_num_arr['three_free_num'] >=$limit_arr['three_free_num']){ // 3次免费课
             $is_pass = 1;
-        }elseif($draw_num_arr['fifty_coupon_num'] >$limit_arr['fifty_coupon_num']){ // 50元
+        }elseif($draw_num_arr['fifty_coupon_num'] >=$limit_arr['fifty_coupon_num']){ // 50元
             $is_pass = 1;
-        }elseif($draw_num_arr['one_hundred_coupon_num'] >$limit_arr['one_hundred_coupon_num']){ // 100元
+        }elseif($draw_num_arr['one_hundred_coupon_num'] >=$limit_arr['one_hundred_coupon_num']){ // 100元
             $is_pass = 1;
-        }elseif($draw_num_arr['three_hundred_coupon_num'] >$limit_arr['three_hundred_coupon_num']){ // 300元
+        }elseif($draw_num_arr['three_hundred_coupon_num'] >=$limit_arr['three_hundred_coupon_num']){ // 300元
             $is_pass = 1;
-        }elseif($draw_num_arr['five_hundred_coupon_num'] >$limit_arr['five_hundred_coupon_num']){ // 500元
+        }elseif($draw_num_arr['five_hundred_coupon_num'] >=$limit_arr['five_hundred_coupon_num']){ // 500元
             $is_pass = 1;
         }
 
@@ -547,6 +547,12 @@ class wx_parent_gift extends Controller
 
     public function get_limit_num($stu_type){
         $ret_info = [];
+        $config=[
+            "20171111" => [
+
+            ]
+        ];
+
         $bag_num = 0;
         $three_free_num = 0;
         $test_lesson_num = 0;

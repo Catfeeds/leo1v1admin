@@ -132,6 +132,9 @@ class tongji_ex extends Controller
             @$list[$k]["userid"]=$val["userid"]; 
             @$list[$k]["nick"]=$val["nick"]; 
             @$list[$k]["ip"]=$val["ip"];
+            if(!$val["s2_nick"]){
+                $val["s2_nick"] = $val["s2_userid"]; 
+            }
             @$list[$k]["same_name_list"] .=$val["s2_nick"].",";
         }
         foreach($list as &$item){
