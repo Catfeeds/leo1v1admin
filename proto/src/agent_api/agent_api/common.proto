@@ -200,3 +200,12 @@ message second_child{
   uint32 agent_status = 3;//状态 0无1已报名10已回访20安排试听30成功试听40成功购课
   float price = 4;//购课金额[agent_status = 40时使用该参数]
 }
+message agent_reward_money{
+  common.yxyx_page page_info = 1;//分页信息
+  common.money_list list = 2;//活动奖励列表
+}
+message money_list{
+  string agent_money_ex_type_str = 1;//活动名称
+  string add_time = 2;//时间
+  float money = 3;//奖金金额
+}

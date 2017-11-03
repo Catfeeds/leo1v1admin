@@ -50,7 +50,7 @@
                     <td>{{$agent_all_group_result['order_money']}}</td>
                     <td>{{$agent_all_group_result['member_count']}}</td>
                 </tr>
-                @if($table_data_list){
+                @if($table_data_list)
                     @foreach ( @$table_data_list as $var )
                         <tr class="{{$var["level"]}}">
                             <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
