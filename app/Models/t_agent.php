@@ -2543,14 +2543,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             's.is_test_user=0',
             'na.type in (1,3)',
         ];
-
+        $having = '';
         if( $opt_type === 'no_revisit_count') {//没有拨打过电话
             $where_arr[] = " tq.id is null ";
         } else if ( $opt_type === 'no_phone_count' ) {//未拨通
-            $where_arr[] = sprintf(' tq.id>0 and tq.is_called_phone=0 and not exists (select 1 from %s where phone=na.phone and start_time >= %u and start_time<%u and tq.is_called_phone=1)',
-                                   t_tq_call_info::DB_TABLE_NAME,
-                                   $this->ensql($start_time),
-                                   $this->ensql($end_time));
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=0";
+            $having = ' having ok_phone=0';
         } else if ( $opt_type === 'ok_phone_count' ) {//拨通
             $where_arr[] = " tq.id>0 and tq.is_called_phone=1";
         } else if ( $opt_type === 'ok_phone_no_lesson' ) {//拨通没排课
@@ -2579,6 +2577,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,ss.admin_revisiterid ,"
             ." count(distinct if(tq.is_called_phone=1,tq.id,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc,"
             ." sum( if(tq.id is null,1,0) ) no_tq,"
+            ." sum( if(tq.id>0 and tq.is_called_phone=1,1,0) ) ok_phone,"
             ." ss.last_revisit_time,ss.add_time,tl.subject,tr.test_lesson_order_fail_flag,tr.test_lesson_order_fail_desc "
             ." from %s na "
             ." left join %s a on a.id=na.parentid"
@@ -2592,7 +2591,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s ss on ss.userid=na.userid "
             ." left join %s b on b.phone=ss.phone "
             ." where %s "
-            ." group by s.userid"
+            ." group by na.userid %s"
             ,self::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
@@ -2606,6 +2605,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_seller_student_new::DB_TABLE_NAME
             ,t_book_revisit::DB_TABLE_NAME
             ,$where_arr
+            ,$having
         );
 
         return $this->main_get_list_by_page($sql,$page_info,10, true);
