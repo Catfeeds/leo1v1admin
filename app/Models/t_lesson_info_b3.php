@@ -40,8 +40,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
     public function get_grade_first_test_lesson($userid, $grade ) {
-        //E\Eflow_status::S_PASS
-        //无效试听课不算
         $sql = $this->gen_sql_new(
             "select lesson_start from %s  l"
             . " where userid= %u and  grade=%u and lesson_start>0 "
@@ -57,7 +55,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_grade_last_test_lesson($userid, $grade ) {
         $sql = $this->gen_sql_new(
             "select lesson_start from %s"
-            . " where userid= %u and  grade=%u and lesson_start>0  order by lesson_start desc limit 1  ",
+            . " where userid= %u and  grade=%u and lesson_start>0 "
+            . " and confirm_flag<>2  and lesson_del_flag =0  "
+            . " order by lesson_start desc limit 1  ",
             self::DB_TABLE_NAME,
             $userid, $grade
         ) ;
