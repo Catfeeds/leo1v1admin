@@ -2075,6 +2075,42 @@ $(function(){
 
     });
 
+    $('.opt-add-reason').on('click', function() {
+
+        var opt_data=$(this).get_opt_data();
+        var id_add_reason = $("<textarea/>");
+
+        id_add_reason.val(opt_data.add_reason);
+
+        var arr= [
+            ["录入原因：", id_add_reason],
+        ];
+
+        $.show_key_value_table('录入原因(市场操作)', arr,{
+            label    : '确认',
+            cssClass : 'btn-info col-xs-2',
+            action   : function() {
+                        $.ajax({
+                            type     : "post",
+                            url      : "/agent/update_add_reason",
+                            dataType : "json",
+                            data : {
+                                'id'         : opt_data.id,
+                                'add_reason' : id_add_reason.val(),
+                            } ,
+                            success : function(result){
+                                if(result.ret==0){
+                                    window.location.reload();
+                                }else{
+                                    BootstrapDialog.alert(result.info);
+                                }
+                            }
+                        });
+                    }
+        },'',false,600);
+
+    });
+
 });
 
 
