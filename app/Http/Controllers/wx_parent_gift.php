@@ -401,6 +401,19 @@ class wx_parent_gift extends Controller
         //检测奖品是否抽完
         $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
 
+        if($has_prize == 0){
+            if($stu_type == 1){
+                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                if($is_test>0){
+                    $prize_type=2;
+                }else{
+                    $prize_type=8;
+                }
+            }elseif($stu_type ==2){
+                $prize_type=2;
+            }
+        }
+
         // 抽奖
         if($is_pass){
             if($stu_type==1){ // 新用户
@@ -414,6 +427,14 @@ class wx_parent_gift extends Controller
                 $prize_type=2;
             }
         }
+
+        $unlimited_prize = [];
+
+
+        if(1){
+            
+        }
+        // $this->t_ruffian_activity->field_update_list($id,$set_field_arr);
 
         $this->t_ruffian_activity->row_insert([
             "parentid"   => $parentid,

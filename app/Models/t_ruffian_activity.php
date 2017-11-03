@@ -60,12 +60,18 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
 
         $where_arr = [
             "prize_type=$prize_type",
-            "validity_time=$today" 
+            "validity_time=$today",
+            "get_prize_time=0",
+            "parentid=0"
         ];
 
         $sql = $this->gen_sql_new(" select count(*) from %s ru"
-                                  ." where prize_type"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_value($sql);
     }
 
 }
