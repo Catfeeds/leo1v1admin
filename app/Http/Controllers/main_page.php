@@ -2485,7 +2485,7 @@ class main_page extends Controller
     public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $type)
     {
         if ($type) {
-            if ($itme['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
+            if ($item['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
             if ($item['subject'] == 1 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 1;
             if ($item['subject'] == 1 && $item['grade'] >= 300) $key = 2;
             if ($item['subject'] == 2 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 3;
