@@ -380,6 +380,14 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
+
+        //检查是否可以抽奖
+        $left_num = $this->get_draw_num($parentid);
+
+        if($left_num <= 0){
+            
+        }
+
         $stu_type = 1;
         if($check_time>$reg_time && $has_buy>0){
             $stu_type = 2; // 老用户
@@ -424,7 +432,7 @@ class wx_parent_gift extends Controller
 
         $this->t_ruffian_activity->row_insert([
             "parentid"   => $parentid,
-            "prize_list" => $prize_list,
+            "prize_list" => $prize_type,
             "prize_time" => time(),
             "stu_type"   => $stu_type
         ]);
