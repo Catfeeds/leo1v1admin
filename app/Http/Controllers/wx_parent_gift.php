@@ -42,16 +42,14 @@ class wx_parent_gift extends Controller
 
         $subscribe = $user_info['subscribe'];
         $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        $type = 0;
 
-        if($parentid>0){ //已关注绑定
-            //跳转到登录页面  链接待定
-            header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index");
-            return ;
-        }else{ //未关注 登录页
-            header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index");
-            return ;
+        if($parentid>0){
+            $type = 1;
         }
 
+        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
+        return ;
 
         // if($is_parent_flag){
         //     // header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);//周年庆活动页面
@@ -382,6 +380,7 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
+        $now = time();
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
@@ -396,12 +395,20 @@ class wx_parent_gift extends Controller
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
-        // $limit_arr = $this->get_limit_num($stu_type);
 
         $is_pass = 0;
         $prize_type = $this->get_win_rate($stu_type,$parentid);
         //检测奖品是否抽完
         $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
+
+        if($has_prize == 0){
+            $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+            if($is_test>0){
+                $prize_type=2;
+            }else{
+                $prize_type=8;
+            }
+        }
 
         // 抽奖
         if($is_pass){
