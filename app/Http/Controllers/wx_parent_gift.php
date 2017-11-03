@@ -396,7 +396,7 @@ class wx_parent_gift extends Controller
 
         $prize_type = $this->get_win_rate($stu_type,$parentid);
         //检测奖品是否抽完
-        $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
+        $has_prize = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
 
         if(!$has_prize['id']){
             if($stu_type == 1){
@@ -421,11 +421,11 @@ class wx_parent_gift extends Controller
             ]);
         }else{
             $this->t_ruffian_activity->field_update_list($has_prize['id'],[
-                ""
+                "parentid"   => $parentid,
+                "prize_time" => time(),
+                "stu_type"   => $stu_type
             ]);
         }
-
-
 
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
