@@ -43,15 +43,8 @@ class wx_parent_gift extends Controller
         $subscribe = $user_info['subscribe'];
         $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
-        if($parentid>0){ //已关注绑定
-            //跳转到登录页面  链接待定
-            header("location: http://wx-parent-web.leo1v1.com/m11/m11.html");
-            return ;
-        }else{ //未关注 登录页
-            header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index");
-            return ;
-        }
-
+        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html");
+        return ;
 
         // if($is_parent_flag){
         //     // header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);//周年庆活动页面
