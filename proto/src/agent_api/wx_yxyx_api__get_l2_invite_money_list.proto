@@ -7,7 +7,7 @@ import "agent_api/common.proto";
 
 message in  {
     uint32  agent_status_money_open_flag =1 ; //是否可提现
-    uint32  test_lesson_succ_flag =1 ; //是否试听成功
+    uint32  test_lesson_succ_flag =2 ; //是否试听成功
 }
 
 message out {

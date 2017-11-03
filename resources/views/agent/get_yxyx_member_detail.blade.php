@@ -45,7 +45,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="回访列表" class="fa-comments opt-return-back-list " ></a>
+                                <a title="回访列表" class="fa-comments opt-return-back-list cc-flag" ></a>
                                 <a title="录入回访信息" class="fa-edit opt-edit-new"></a>
                                 <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
 
