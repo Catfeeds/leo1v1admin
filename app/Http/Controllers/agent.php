@@ -2009,5 +2009,15 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function update_add_reason(){
+        $id = $this->get_in_int_val('id','');
+        $add_reason = $this->get_in_str_val('add_reason','');
+        if ($id <= 0) {
+            return $this->output_err('信息有误!提交失败!');
+        }
 
+        $res = $this->t_agent->field_update_list($id,['add_reason' => $add_reason]);
+
+        return $this->output_succ();
+    }
 }

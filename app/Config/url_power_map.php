@@ -350,6 +350,7 @@ class url_power_map {
 			'/user_manage/zan_info'	=>1100402,
 			'/tongji_ex/user_login'	=>1101110,
 			'/tongji_ex/user_login_list'	=>1101111,
+			'/tongji_ex/get_lesson_user_ip_same_info'	=>1101112,
 			'/user_manage/user_login_list'	=>1101101,
 			'/user_manage/tongji_login_ip_info'	=>1101102,
 			'/self_manage/todo_list'	=>1200400,
