@@ -301,7 +301,9 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$last_lesson_arr
         );
-        echo $sql;exit;
+        if(\App\Helper\Utils::check_env_is_local()){
+            dd($sql);exit;
+        }
         return $this->main_get_list($sql);
     }
 
