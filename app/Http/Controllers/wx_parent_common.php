@@ -27,10 +27,6 @@ class wx_parent_common extends Controller
         }
         session(["wx_parent_openid" => $openid ] );
 
-        \App\Helper\Utils::logger("HOST:" . $_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("wx_parent_openid:$openid ");
-        \App\Helper\Utils::logger("wx_parent_openid:".session("wx_parent_openid"));
-
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
         $goto_url_arr = preg_split("/\//", $goto_url);
         $action       = @$goto_url_arr[2];

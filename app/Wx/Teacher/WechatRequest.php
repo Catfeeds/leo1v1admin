@@ -151,13 +151,13 @@ class WechatRequest  {
 
         $content = "
 老师您好，如果有什么疑问，您可以点击以下问题分类查看答案。
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_wages'>薪资问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_train'>教师培训问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_software_download'>下载／登录问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_before'>课前问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lessoning'>课堂问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_after'>课后问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_equipment'>设备问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_wages'>薪资问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_train'>教师培训问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_lesson_software_download'>下载／登录问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_lesson_before'>课前问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_lessoning'>课堂问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_lesson_after'>课后问题【点击查看】</a>
+<a href='http://admin.leo1v1.com/article_wx/leo_teacher_lesson_equipment'>设备问题【点击查看】</a>
 如以上回答还不能解决您的问题，请添加理优问题答疑QQ群（请在入职邮件内查看群号）
 ";
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
@@ -184,7 +184,6 @@ class WechatRequest  {
 
         //     'pic_url' => '',
 
-        //     'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
 
         // );
 
@@ -219,7 +218,7 @@ class WechatRequest  {
                         "title"=>"TEST MSG",
                         "description"=>"Is Really A Happy Day",
                         "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-                        "picurl"=>"http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
                     ]
                 ]
             ]
@@ -345,7 +344,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
             'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg',
 
-            'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_agent',
+            'url' => 'http://admin.leo1v1.com/article_wx/leo_teacher_agent',
 
         );
 
@@ -451,7 +450,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/parent_side_manual',
+                'url' => 'http://admin.leo1v1.com/article_wx/parent_side_manual',
 
             );
 
@@ -496,7 +495,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD/%E8%80%81%E5%B8%88%E7%AB%AF%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD_%E5%B0%81%E9%9D%A2.png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_software',
                 'url' => 'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_software.html'
 
             );
@@ -510,7 +508,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-ipad%E7%AB%AF/%E5%B0%81%E9%9D%A2',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_ipad',
                 'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_ipad.html",
 
             );
@@ -523,7 +520,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-PC%E7%AB%AF/0.png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_pc',
                 'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_pc.html"
 
             );
@@ -537,13 +533,14 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E7%99%BD%E6%9D%BF/%E7%99%BD%E6%9D%BF.png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard',
                 'url' => 'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_whiteboard.html',
             );
 
 
 
         } elseif ($eventKey == 'video') {
+            \App\Helper\Utils::logger("video_xj11");
+
             $tuwenList[] = array(
 
                 'title' => '[数学] 试听课案例鉴赏',
@@ -552,7 +549,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4sqb8Xr7LTXMyUia5bFziaqyaqfslQr5sWpTc3hqz3KF0QLpAmmLjeI6xNGlNic2PibPynJSIHrU903w/0?wx_fmt=png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_math',
                 'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_math.html"
             );
 
@@ -564,7 +560,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4eLBb4Cluv6icfGh2Z5u8fO6LBGO3Q2EpBErwkFCXzKgLd5qeCibagCSo0SxM6enfzNhGYoicCcxwdw/0?wx_fmt=png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_english',
                 'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_english.html"
             );
 
@@ -576,7 +571,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml6MUooCw5Ylg8H04YNM6kv5keTjRg7iaibwzgMHDx9TWm7nAoAiab35nudc8WAFELeRLg3SqvPx5picsg/0?wx_fmt=png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_chinese',
                 'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_chinese.html"
             );
 
@@ -588,7 +582,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5wfZguFN5Sib6H0sHGzE77PqBg0wvSLgwQmiaByySeb7W1OmwknKgH3VGFcOjoicHPsdlCZmPKv7D7Q/0?wx_fmt=png',
 
-                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_physics',
                 'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_physics.html"
             );
 
@@ -605,7 +598,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5ticciaEDNHDsQ66rd1sibEhSVp4uUk6ZuzuwGByOLricbBloLr1qUOEIaIjOMBENrWdpqtGZpuoab7Q/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_deal_question',
+                'url' => 'http://admin.leo1v1.com/article_wx/leo_teacher_deal_question',
 
             );
 
@@ -617,12 +610,12 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5ticciaEDNHDsQ66rd1sibEhSU1QAFDC79vNel7s6NHPj0iaksAr7QibGic2JdAic6UDWWQHmfRx6HEdK2w/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
+                'url' => 'http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
 
             );
 
         } elseif ($eventKey == 'invitation') {
-            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa99d0de03f407627&redirect_uri=http%3A%2F%2Fwx-teacher.leo1v1.com%2Fcommon%2Fgoto_url%3Furl%3Dhttp%3A%2F%2Fadmin.yb1v1.com%2Farticle_wx%2Fget_openid%3F&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect';
+            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa99d0de03f407627&redirect_uri=http%3A%2F%2Fwx-teacher.leo1v1.com%2Fcommon%2Fgoto_url%3Furl%3Dhttp%3A%2F%2Fadmin.leo1v1.com%2Farticle_wx%2Fget_openid%3F&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect';
 
             $openid = $request['fromusername'];
 
@@ -648,7 +641,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
                 return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
             }
 
-            $url = "http://admin.yb1v1.com/common/get_teacher_qr?wx_openid=".$openid;
+            $url = "http://admin.leo1v1.com/common/get_teacher_qr?wx_openid=".$openid;
 
             $img_url = self::get_img_url($url);
 
