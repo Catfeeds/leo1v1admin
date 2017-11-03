@@ -419,10 +419,8 @@ $(function(){
         }, function(ret){
            // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
             console.log("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
-            return;
             $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
         });
-        return;
         $.do_ajax("/tea_manage/set_teacher_record_account",{
             "id" : id
         });

@@ -116,7 +116,7 @@
                                 <tr>
                                     <td>今日需回访个数</td>
                                     <td colspan="2">
-                                        <a href="http://admin.yb1v1.com/seller_student_new/seller_student_list_all?{{@$next_time_str}}" target="_blank" style="text-decoration:none;">
+                                        <a href="http://admin.leo1v1.com/seller_student_new/seller_student_list_all?{{@$next_time_str}}" target="_blank" style="text-decoration:none;">
                                             {{@$next_revisit_count}}
                                         </a>
                                     </td>

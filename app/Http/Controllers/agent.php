@@ -2001,6 +2001,7 @@ class agent extends Controller
             E\Egrade::set_item_value_str($item,'grade');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
+            $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid ']);
         }
         return $this->pageView(__METHOD__,$ret_info);
     }

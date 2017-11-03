@@ -87,11 +87,11 @@ $(function(){
                         alert('该试听课已回访!');
                     }else{
                         alert('刷新成功!');
-                        window.location.href = "http://admin.yb1v1.com/seller_student_new/deal_new_user";
+                        window.location.href = "http://admin.leo1v1.com/seller_student_new/deal_new_user";
                     }
                 }else{
                     alert('还有试听课未回访!');
-                    $(location).attr('href','http://admin.yb1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.admin_revisiterid);
+                    $(location).attr('href','http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.admin_revisiterid);
                 }
             });
         }else{
@@ -247,7 +247,7 @@ $(function(){
         } ,function(ret){
             if(ret){
                 alert('您有签单失败原因未填写,请先填写完哦!');
-                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
+                window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
             }
         });
 
@@ -651,7 +651,7 @@ $(function(){
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
             if(ret){
                 alert("回流前签单失败原因不能为'考虑中',请重新设置!");
-                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
+                window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
             }
         });
 
