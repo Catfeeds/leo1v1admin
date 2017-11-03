@@ -3577,7 +3577,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num, count(o.orderid) order_num_new   from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct o.sys_operator) total_num, count(o.orderid) order_num_new   from %s o "
         // $sql = $this->gen_sql_new( "  select o.sys_operator as account from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
@@ -3713,10 +3713,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_order_sign_month($start_time, $end_time){
         $where_arr = [
             "tq.is_called_phone=1",
-            "tq.admin_role=2"
+            "tq.admin_role=2",
+            "contract_status <> 0 ",
+            "price>0",
+            "contract_type=0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(distinct(o.userid)) from %s o "
                                   ." left join %s ss on ss.userid=o.userid"
@@ -3739,7 +3742,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_order_trans_month($start_time, $end_time){
         $where_arr = [
-            "l.lesson_user_online_status=1"
+            "l.lesson_user_online_status=1",
+            "ts.require_admin_type =2",
+            "contract_status<> 0",
+            "contract_type=0",
+            "price>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);

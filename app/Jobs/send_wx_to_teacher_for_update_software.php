@@ -36,7 +36,7 @@ class send_wx_to_teacher_for_update_software extends Job implements ShouldQueue
 
         $date_time = date("Y-m-d");
 
-        $url_teacher = "http://admin.yb1v1.com/article_wx/leo_teacher_software";
+        $url_teacher = "http://admin.leo1v1.com/article_wx/leo_teacher_software";
 
         $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $data_teacher['first']      = "PC老师端软件更新";

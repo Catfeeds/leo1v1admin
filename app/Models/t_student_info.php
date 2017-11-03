@@ -698,7 +698,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             $str = $where . $str;
         }
         return $str;
-
     }
 
     public function get_user_list ( $id_list) {
@@ -1127,6 +1126,37 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$refund_sql
         );
         echo $sql;
+        return $this->main_get_value($sql);
+    }
+
+    public function get_user_list_by_lesson_count_new_b1($lesson_start,$lesson_end){
+        $where_arr = [
+            // "lesson_count_left=0",
+            ["last_lesson_time >=%u",$lesson_start,-1 ],
+            ["last_lesson_time < %u",$lesson_end,-1 ],
+            "is_test_user=0",
+            'type=1',
+        ];
+
+        $refund_sql="true";
+        $type = 1;
+        if(in_array($type,[1,2])){
+            if($type==1){
+                $exists_str = "not exists";
+            }elseif($type==2){
+                $exists_str = "exists";
+            }
+            $refund_sql = $this->gen_sql_new("%s (select 1 from %s where s.userid=userid)"
+                                             ,$exists_str
+                                             ,t_order_refund::DB_TABLE_NAME
+            );
+        }
+
+        $sql = $this->gen_sql_new("select count( distinct userid)  from %s s where %s  and %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$refund_sql
+        );
         return $this->main_get_value($sql);
     }
 
@@ -1654,7 +1684,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                         "销售-".$account,
                         "交接单 更新 || 合同生效",
                         "学生".$nick,
-                        "http://admin.yb1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
+                        "http://admin.leo1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
 
                     $group_name = $this->task->t_admin_group_name->get_group_name_by_master_adminid( $master_adminid);
                     $wx_id = $this->task->t_manager_info->get_wx_id($master_adminid);
@@ -3124,5 +3154,41 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$parentid
         );
         return $this->main_get_value($sql);
+    }
+
+    public function get_stu_has_lesson($lesson_start,$lesson_end){
+        $where_arr = [
+            ["lesson_start>%u",$lesson_start,0],
+            ["lesson_start<%u",$lesson_end,0],
+            "lesson_type<1000",
+            " user_agent not like '%iPad%'"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick,l.lessonid,l.lesson_start,user_agent,l.lesson_type"
+                                  ." from %s s"
+                                  ." left join %s l on s.userid=l.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_tea_has_lesson($lesson_start,$lesson_end){
+        $where_arr = [
+            ["lesson_start>%u",$lesson_start,0],
+            ["lesson_start<%u",$lesson_end,0],
+            "lesson_type<1000",
+            " user_agent not like '%iPad%'"
+        ];
+        $sql = $this->gen_sql_new("select s.teacherid,s.nick,l.lessonid,l.lesson_start,user_agent,l.lesson_type"
+                                  ." from %s s"
+                                  ." left join %s l on s.teacherid=l.teacherid"
+                                  ." where %s"
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

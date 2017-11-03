@@ -60,8 +60,8 @@ class limit_require_deal extends Command
             //检查时间是否冲突
             if ($ret_row1) {
                 $error_lessonid=$ret_row1["lessonid"];
-                $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的学生课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.yb1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
-                $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_send_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的学生课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.yb1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
+                $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的学生课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.leo1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
+                $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_send_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的学生课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.leo1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
                 $task->t_test_lesson_subject_require->field_update_list($require_id,[
                     "limit_accept_flag"  =>2,
                     "limit_accept_time"  =>time()
@@ -74,8 +74,8 @@ class limit_require_deal extends Command
                 $teacherid,0,$lesson_start,$lesson_end);
             if($ret_row2){
                 $error_lessonid = $ret_row2["lessonid"];
-                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的老师课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.yb1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
-                $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_send_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的老师课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.yb1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
+                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的老师课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.leo1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
+                $task->t_manager_info->send_wx_todo_msg_by_adminid ($val["limit_require_send_adminid"],$realname."老师限课特殊申请排课异常通知","排课异常通知","有现存的老师课程与".$val["nick"]."学生,".$realname."老师".$lesson_time."的课程冲突！现已驳回申请","http://admin.leo1v1.com/tea_manage/lesson_list?lessonid=".$error_lessonid);
                 $task->t_test_lesson_subject_require->field_update_list($require_id,[
                     "limit_accept_flag"  =>2,
                     "limit_accept_time"  =>time()

@@ -64,7 +64,7 @@ class teacher_train_interview_lesson_wx extends Command
 面试时间:".$lesson_time_str."
 老师姓名:".$val["train_realname"]."
 年级科目:".$grade_str."".$subject_str."
-日期:".$time_str,"http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
+日期:".$time_str,"http://admin.leo1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
  
             }else{
                 //老师未到,系统判断

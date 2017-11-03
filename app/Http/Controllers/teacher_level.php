@@ -616,10 +616,10 @@ class teacher_level extends Controller
         }
         $realname  = $this->t_teacher_info->get_realname($teacherid);
         if($teacherid==392077){
-             $this->t_manager_info->send_wx_todo_msg_by_adminid (1122,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid."&is_test_user=-1");
+             $this->t_manager_info->send_wx_todo_msg_by_adminid (1122,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid."&is_test_user=-1");
         }else{
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
  
         }
        
@@ -632,8 +632,8 @@ class teacher_level extends Controller
         $start_time_str = '2017-07-01';
         $teacherid = $this->get_in_int_val("teacherid");       
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
 
         return $this->output_succ();
 
@@ -654,8 +654,8 @@ class teacher_level extends Controller
             "require_time"   =>time(),
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"教研质监老师晋升申请","教研质监老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.leo1v1.com/teacher_level/teacher_advance_info_list?start_time=".$start_time_str."&teacherid=".$teacherid);
 
         return $this->output_succ();
     }
@@ -713,7 +713,7 @@ class teacher_level extends Controller
                    ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
-                $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
@@ -743,7 +743,7 @@ class teacher_level extends Controller
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "";
                 // $url = "";
-                $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
@@ -1338,7 +1338,7 @@ class teacher_level extends Controller
                             ."\n建       议:".$record_info
                             ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
 
-            $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
+            $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
                  ."&type=".$record_type."&add_time=".$add_time;
             \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
         }else{

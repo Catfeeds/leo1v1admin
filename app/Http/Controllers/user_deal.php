@@ -3178,348 +3178,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-10-16");
-        $end_time = strtotime("2017-11-01");
-        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
-
-
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($kk_suc));
-
-      
-        dd($kk_suc);
-
-        $this->switch_tongji_database();
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
-        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,30);        
-
-        dd($thirty_tea_list);
-        //新老师数(入职)
-        $train_through_all = $this->t_teacher_info->tongji_train_through_info($start_time,$end_time);
-        //本月上课老师数
-        $tea_num_all = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time);
-        //本月新增上课老师数
-        $tea_num_new = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,1);
-        //本月留存上课老师数
-        $tea_num_old = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,2);
-        //本月之前老师总数
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time);
-        //本月流失上课老师数
-        $tea_num_lose = $tea_num_all_old-$tea_num_old;
-
-        //流失老师数(三个月未上课)
-        $two_month_time = strtotime(date("Y-m-01",$start_time-45*86400));
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time);
-        $tea_num_lose_three = $tea_num_all_old-$tea_num_old_three;
-
-        //在读学生数
-        $tea_lesson_info = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
-        $read_stu_num = @$tea_lesson_info["stu_num"];
-        //师生比
-        $tea_stu_num = $tea_lesson_info["stu_num"]>0?round(@$tea_lesson_info["tea_num"]/@$tea_lesson_info["stu_num"],1):0;       
-        $tea_stu_per = !empty($tea_stu_num)?"1:".$tea_stu_num:"";
-
-        //试听课老师数
-        $tea_num_all_test = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,2);
-        //常规课老师数
-        $tea_num_all_normal = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,-1,0,-2);
-
-
-        //试听课学生与教材匹配度
-        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
-        $all_num   = 0;
-        $match_num = 0;
-        foreach($list as $val){
-            $all_num++;
-            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
-                $stu_textbook = $region_version[$val['textbook']];
-            }else{
-                $stu_textbook = $val['editionid'];
-            }
-            $tea_textbook = explode(",",$val['teacher_textbook']);
-            if(in_array($stu_textbook,$tea_textbook)){
-                $match_num++;
-            }       
-        }
-        $match_rate = $all_num>0?round($match_num/$all_num*100,2):0;
-
-        //新老师入职通过率
-        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
-        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
-        foreach($teacher_arr_ex as $k=>$val){
-            if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k;
-            }
-        }
-        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
-            -1,$start_time,$end_time,-1,-1,-1,"",-2);
-        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
-            -1,$start_time,$end_time,-1,-1,-1,"",-2);
-        @$video_real["all_count"] += $one_real["all_count"];
-        $all_tea_ex = count($teacher_list_ex);
-        $new_tea_through_per = $video_real["all_count"]>0?round($all_tea_ex/$video_real["all_count"]*100,2):0;
-
-        //新老师入职时长
-        $video_time = $this->t_teacher_lecture_info->get_teacher_througn_detail($start_time,$end_time);
-        $one_time = $this->t_teacher_record_list->get_teacher_througn_detail($start_time,$end_time);
-        $num_total = 0;
-        $time_total=0;
-        foreach($video_time as $v){
-            $num_total++;
-            $time_total +=$v["time"];
-        }
-        foreach($one_time as $v){
-            $num_total++;
-            $time_total +=$v["time"];
-        }
-        $through_avg_time = $num_total>0?round($time_total/$num_total/86400,1):0;
-
-        //新老师30天留存率/转化率/平均课耗数
-        $new_teacher_thirty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,30);
-        $thirty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_thirty["tea_num"]/$train_through_all["through_all"]*100,2):0;
-        $thirty_tran_per =  @$new_teacher_thirty["person_num"]>0?round(@$new_teacher_thirty["have_order"]/@$new_teacher_thirty["person_num"]*100,2):0;
-        $thirty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,30);
-        $thirty_lesson_count = @$thirty_lesson_count_info["tea_num"]>0?round(@$thirty_lesson_count_info["all_count"]/$thirty_lesson_count_info["tea_num"]):0;
-        //新老师60天留存率/转化率
-        $new_teacher_sixty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,60);
-        $sixty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_sixty["tea_num"]/$train_through_all["through_all"]*100,2):0;
-        $sixty_tran_per =  @$new_teacher_sixty["person_num"]>0?round(@$new_teacher_sixty["have_order"]/@$new_teacher_sixty["person_num"]*100,2):0;
-        $sixty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
-        $sixty_lesson_count = @$sixty_lesson_count_info["tea_num"]>0?round(@$sixty_lesson_count_info["all_count"]/$sixty_lesson_count_info["tea_num"]):0;
-
-        //新老师90天留存率/转化率
-        $new_teacher_ninty = $this->t_teacher_info->get_new_teacher_test_info($start_time,$end_time,90);
-        $ninty_stay_per =  @$train_through_all["through_all"]>0?round(@$new_teacher_ninty["tea_num"]/$train_through_all["through_all"]*100,2):0;
-        $ninty_tran_per =  @$new_teacher_ninty["person_num"]>0?round(@$new_teacher_ninty["have_order"]/@$new_teacher_ninty["person_num"]*100,2):0;
-        $ninty_lesson_count_info = $this->t_teacher_info->get_new_teacher_lesson_count_info($start_time,$end_time,60);
-        $ninty_lesson_count = @$ninty_lesson_count_info["tea_num"]>0?round(@$ninty_lesson_count_info["all_count"]/$ninty_lesson_count_info["tea_num"]):0;
-
-        //面试邀约数/面试邀约时长
-        $ret = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_info($start_time,$end_time);
-        $app_num = count($ret);
-        $plan_num=$plan_time =0;
-        foreach($ret as $val){
-            $time = $val["add_time"];
-            if($val["lesson_start"]>0 && $val["lesson_start"]<$val["add_time"]){
-                $time = $val["lesson_start"];
-            }
-            if($time>0){
-                $plan_num++;
-                $plan_time += ($time-$val["answer_begin_time"]);
-            }
-            
-        }
-        $app_time = $plan_num>0?round($plan_time/$plan_num/86400,1):0;
-        //面试通过数/面试通过时长
-        $ret_interview = $this->t_teacher_lecture_appointment_info->get_teacher_appoinment_interview_pass_info($start_time,$end_time);
-        $interview_pass_num = count($ret_interview);
-        $interview_pass_time =0;
-        $train_num=0;
-        $train_time=0;
-        $train_real_num=0;
-        $trail_num=0;
-        $trail_time=0;
-        $through_num=0;
-        $through_real_num=0;
-        $through_time=0;
-        foreach($ret_interview as $val){
-            $time = $val["confirm_time"]-$val["add_time"];
-            if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"]){
-                $time = $val["one_add_time"]-$val["lesson_start"];
-            }
-            $interview_pass_time +=$time;
-            if($val["train_add_time"]>0 ){
-                $train_num++;
-                $tr_time=0;
-                if($val["one_add_time"]>0 && $val["one_add_time"]<$val["confirm_time"] && $val["train_add_time"]>$val["one_add_time"]){
-                    $tr_time= $val["train_add_time"]-$val["one_add_time"];
-                    $train_real_num++;
-                }elseif($val["confirm_time"]>0 && $val["train_add_time"]>$val["confirm_time"]){
-                    $tr_time= $val["train_add_time"]-$val["confirm_time"];
-                    $train_real_num++;
-                }
-                $train_time +=$tr_time;
-
-                if($val["trail_time"]>0){
-                    $trail_num++;
-                    $trail_time += ($val["trail_time"]-$val["train_add_time"]);
-                }
-
-                
-            }
-            if($val["train_through_new"]==1){
-                $through_num++;
-                if($val["trail_time"]>0 && $val["train_through_new_time"]>$val["trail_time"]){
-                    $through_time += ($val["train_through_new_time"]-$val["trail_time"]);
-                    $through_real_num++;
-                }
-            }
-            
-        }
-
-        $interview_pass_time = $interview_pass_num>0?round($interview_pass_time/$interview_pass_num/86400,1):0;
-
-        //新师培训数/时间
-        $train_time = $train_real_num>0?round($train_time/$train_real_num/86400,1):0;
-        $trail_time = $trail_num>0?round($trail_time/$trail_num/86400,1):0;
-        $through_time = $through_real_num>0?round($through_time/$through_real_num/86400,1):0;
-
-
-        //培训数
-        $train_lesson_num = $this->t_lesson_info_b3->get_train_lesson_num($start_time,$end_time);
-        //培训参与率,培训通过数
-        $train_lesson_part_info = $this->t_lesson_info_b3->get_train_lesson_part_info($start_time,$end_time);
-        $all_num= $part_num=$train_tea_num =$train_through_num=0;
-        $train_tea_list = [];
-        
-        foreach($train_lesson_part_info as $val){
-            $all_num++;
-            if($val["opt_time"]>0){
-                $part_num++; 
-            }
-            if(!isset($train_tea_list[$val["userid"]])){
-                @$train_tea_list[$val["userid"]]=$val["userid"];
-                $train_tea_num++;
-                if($val["train_through_new_time"]>0){
-                    $train_through_num++;
-                }
-            }
-        }
-        $train_part_per =  $all_num>0?round($part_num/$all_num*100,2):0;
-        $train_through_per =  $train_tea_num>0?round($train_through_num/$train_tea_num*100,2):0;
-
-
-        //教务数据
-        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
-        $set_count_seller =$set_count_kk=$set_count_hls=0;
-        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        foreach($ret_info as $val){
-            $set_count_all+=$val["set_count"];
-            $set_count_top+=$val["top_count"];
-            $set_count_green+=$val["green_count"];
-            $set_count_grab+=$val["grab_count"];
-            $set_lesson_time_all+=$val["set_lesson_time_all"];
-            $set_count_seller+=$val["set_count_seller"];
-            $set_count_kk+=$val["ass_kk_count_set"];
-            $set_count_hls+=$val["ass_hls_count_set"];
-        }
-        $set_count_normal=$set_count_all-$set_count_top- $set_count_green-$set_count_grab;
-        $all_tran    = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time);
-        $seller_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,2);
-        $kk_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,1);
-        $hls_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,1,2);
-        $top_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,1);
-        $green_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,2);
-        $grab_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,3);
-        $normal_tran = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type_total($start_time,$end_time,-1,-1,4);
-        $all_tran_per =  $set_count_all>0?round($all_tran/$set_count_all*100,2):0;
-        $seller_tran_per =  $set_count_seller>0?round($seller_tran/$set_count_seller*100,2):0;
-        $kk_tran_per =  $set_count_kk>0?round($kk_tran/$set_count_kk*100,2):0;
-        $hls_tran_per =  $set_count_hls>0?round($hls_tran/$set_count_hls*100,2):0;
-        $top_tran_per =  $set_count_top>0?round($top_tran/$set_count_top*100,2):0;
-        $green_tran_per =  $set_count_green>0?round($green_tran/$set_count_green*100,2):0;
-        $grab_tran_per =  $set_count_grab>0?round($grab_tran/$set_count_grab*100,2):0;
-        $normal_tran_per =  $set_count_normal>0?round($normal_tran/$set_count_normal*100,2):0;
-        $jw_num = count($ret_info);
-        $set_count_avg = $jw_num>0?round($set_count_all/$jw_num,1):0;
-        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
-
-        //抢课数据
-        $grab_info = $this->t_grab_lesson_link_visit_operation->get_teacher_grab_result_info($start_time,$end_time);
-        $grab_success_per =  @$grab_info["all_num"]>0?round(@$grab_info["success_num"]/$grab_info["all_num"]*100,2):0;
-
-        //运营数据
-        $lesson_list = $this->t_lesson_info_b2->get_lesson_info_teacher_check_total($start_time,$end_time,$is_full_time,$teacher_money_type );
-        $teacher_come_late_count = @$lesson_list["teacher_come_late_count"];
-        $teacher_change_lesson = @$lesson_list["teacher_change_lesson"];
-        $teacher_leave_lesson = @$lesson_list["teacher_leave_lesson"];
-        $teacher_come_late_per = @$lesson_list["all_num"]>0?round(@$teacher_come_late_count/$lesson_list["all_num"]*100,2):0;
-        $teacher_change_per = @$lesson_list["normal_num"]>0?round(@$teacher_change_lesson/$lesson_list["normal_num"]*100,2):0;
-        $teacher_leave_per = @$lesson_list["normal_num"]>0?round(@$teacher_leave_lesson/$lesson_list["normal_num"]*100,2):0;
-
-        //换老师申请
-        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
-        $change_tea_num = @$change_test_person_num["change_order"];
-        $change_tea_per = $tea_num_all_normal>0?round($change_tea_num/$tea_num_all_normal*100,2):0;
-
-        //老师退费人数
-        $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,[],1);
-        $arr=[];
-        foreach($list as $val){
-            if(($val["value"]=="教学部" || $val["value"]=="老师管理") && $val["score"]>0){
-                @$arr[$val["teacherid"]]++;
-            }
-        }
-        $refund_tea_num = count($arr);
-
-        //常规课数大于30/60/90/120人数
-        $thirty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,30);        
-        $thirty = count($thirty_tea_list);
-        $sixty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,60);
-        $sixty = count($sixty_tea_list);
-        $ninty_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,90);
-        $ninty = count($ninty_tea_list);
-        $twl_tea_list = $this->t_teacher_info->get_lesson_teacher_total_by_count($start_time,$end_time,120);
-        $twl = count($twl_tea_list);
-
-        //流失老师按科目分
-        $subject=1;
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
-        $tea_num_lose_three_yuwen = $tea_num_all_old-$tea_num_old_three;
-        $subject=2;
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
-        $tea_num_lose_three_shuxue = $tea_num_all_old-$tea_num_old_three;
-        $subject=3;
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
-        $tea_num_lose_three_yingyu = $tea_num_all_old-$tea_num_old_three;
-        $subject=4;
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
-        $tea_num_lose_three_huaxue = $tea_num_all_old-$tea_num_old_three;
-        $subject=5;
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
-        $tea_num_lose_three_wuli = $tea_num_all_old-$tea_num_old_three;
-        $subject=-2;
-        $tea_num_all_old = $this->t_teacher_info->get_tea_num_by_train_through_time($start_time,$subject);
-        $tea_num_old_three = $this->t_teacher_info->get_lesson_teacher_total_info($start_time,$end_time,3,$two_month_time,$subject);
-        $tea_num_lose_three_zonghe = $tea_num_all_old-$tea_num_old_three;
-
-        //老师投诉处理
-
-        $complaint_info   = $this->t_complaint_info->get_tea_complaint_list_by_product($start_time,$end_time);
-        $complaint_num = count($complaint_info);
-        $deal_num = $deal_time=0;
-        foreach($complaint_info as $val){
-            if($val["deal_time"]>0){
-                $deal_time +=($val["deal_time"]-$val["add_time"]);
-                $deal_num++;
-            }
-        }
-        $deal_time = $deal_num>0?round($deal_time/$deal_num/86400,1):0;
-
-
-        
-
-        
-
-
-
-
-
-
-
-
-
-        
-
-
-
-        dd($tea_stu_per);
        
+              
     }
 
        
@@ -4427,7 +4087,7 @@ class user_deal extends Controller
                 $account_role = $this->t_manager_info->get_account_role($adminid);
                 $account_role_str = E\Eaccount_role::get_desc ($account_role);
                 $this->t_change_teacher_list->field_update_list($id,["wx_send_time"=>time()]);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","推荐老师申请",$account_role_str."-".$account."老师申请推荐老师,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","推荐老师申请",$account_role_str."-".$account."老师申请推荐老师,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
                 return outputJson(array('ret' => 1, 'info' =>  "<div>申请成功,本月可申请15次,当前已申请".$num."次<a href='/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=$id/' target='_blank'>点击查看申请信息<a/><div>"));
 
             }
@@ -4464,10 +4124,10 @@ class user_deal extends Controller
         $nick = $this->t_student_info->get_nick($userid);
         if($res){
             if($accept_flag==1){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","推荐老师申请反馈","您为学生".$nick."的推荐老师申请已处理完成,点击查看详情","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","推荐老师申请反馈","您为学生".$nick."的推荐老师申请已处理完成,点击查看详情","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","推荐老师申请反馈","您为学生".$nick."的推荐老师申请已被驳回,理由如下:
-".$accept_reason.",点击查看详情","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
+".$accept_reason.",点击查看详情","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
             }
 
         }
@@ -4544,7 +4204,7 @@ class user_deal extends Controller
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         $id= $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
         if($res){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
             $realname = $this->t_teacher_info->get_realname($teacherid);
             $record_info = "当前老师:".$realname."<br>换老师原因:".$change_reason."<br>期望老师:".$except_teacher;
             $this->t_revisit_info->row_insert([
@@ -4578,10 +4238,10 @@ class user_deal extends Controller
         $realname = $this->t_teacher_info->get_realname($teacherid);
         if($res){
             if($accept_flag==1){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","更换老师申请反馈","您更换".$realname."老师的申请已处理完成,点击查看详情","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","更换老师申请反馈","您更换".$realname."老师的申请已处理完成,点击查看详情","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","更换老师申请反馈","您更换".$realname."老师的申请已被驳回,理由如下:
-".$accept_reason.",点击查看详情","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
+".$accept_reason.",点击查看详情","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
             }
 
         }
@@ -4691,7 +4351,7 @@ class user_deal extends Controller
         $id= $this->t_seller_and_ass_record_list->check_is_exist($lessonid);
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         if($res){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 
         }
         return $this->output_succ(["account"=>$accept_account]);
@@ -4787,15 +4447,15 @@ class user_deal extends Controller
 
         if($ret){
             if($account_role==2 || $require_adminid==349){
-                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info_seller?id=".$id);
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info_seller?id=".$id);
 
             }elseif($account_role==1){
-                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info_ass?id=".$id);
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info_ass?id=".$id);
 
             }
             $leader_adminid = $this->t_admin_group_user->get_main_master_adminid($adminid);
             if($leader_adminid != $adminid){
-                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈结果",$require_account."提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈结果",$require_account."提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
             }
 
         }
@@ -4827,7 +4487,7 @@ class user_deal extends Controller
         $require_account = $this->t_manager_info->get_account($require_adminid);
         $account = $this->get_account();
         if($ret){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","投诉老师结果反馈","您提交的老师投诉已由".$account."老师处理完毕,点击查看","http://admin.yb1v1.com/tea_manage_new/get_teacher_complaints_info_jw?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","投诉老师结果反馈","您提交的老师投诉已由".$account."老师处理完毕,点击查看","http://admin.leo1v1.com/tea_manage_new/get_teacher_complaints_info_jw?id=".$id);
         }
 
         return $this->output_succ();
@@ -4950,7 +4610,7 @@ class user_deal extends Controller
                 "accept_adminid"     =>$accept_adminid
             ]);
             $id= $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请(再次提交)","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请(再次提交)","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
 
         }
 
@@ -4994,9 +4654,9 @@ class user_deal extends Controller
         $leader_adminid = $this->get_account_leader_adminid($accept_adminid);
         if($is_resubmit_flag==0){
             if($ret){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 if($leader_adminid != 1){
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 }
 
             }
@@ -5028,9 +4688,9 @@ class user_deal extends Controller
             $account = $this->get_account();
             $id= $this->t_seller_and_ass_record_list->check_is_exist($lessonid);
             if($res){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 if($leader_adminid != 1){
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,将由".$accept_account."老师处理","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,将由".$accept_account."老师处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 }
             }
 
@@ -5290,7 +4950,7 @@ class user_deal extends Controller
         $id= $this->t_teacher_complaints_info->check_is_exist($teacherid,$adminid);
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         if($res){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","老师投诉待处理",$account."老师提交了一条老师投诉,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_teacher_complaints_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","老师投诉待处理",$account."老师提交了一条老师投诉,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_teacher_complaints_info?id=".$id);
 
         }
 
@@ -5496,8 +5156,8 @@ class user_deal extends Controller
         ]);
         if($ret){
             $name = $this->t_manager_info->get_name($adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
 
         }
@@ -5517,12 +5177,12 @@ class user_deal extends Controller
 
         if($master_deal_flag==2){
 
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
         }elseif($master_deal_flag==1){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
         }
         return $this->output_succ();
     }
@@ -5544,12 +5204,12 @@ class user_deal extends Controller
                 //微信通知主管和老师
                  $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
             }elseif($main_master_deal_flag==2){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
             }
 
         }else{
@@ -5579,12 +5239,12 @@ class user_deal extends Controller
                 //微信通知主管和老师
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
 
             }elseif($main_master_deal_flag==2){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
             }
 
         }
@@ -5840,7 +5500,7 @@ class user_deal extends Controller
                     "keyword2"  => "助教$acc_nick 驳回交接单, 交接单合同号$orderid,驳回原因:$reject_info",
                     "keyword3"  => "$now_date",
                 ];
-                $url = 'http://admin.yb1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
+                $url = 'http://admin.leo1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
                 $wx  = new \App\Helper\Wx();
                 $result = $wx->send_template_msg($cc_openid,$template_id,$data_msg,$url);
             }

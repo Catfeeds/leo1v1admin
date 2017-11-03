@@ -175,7 +175,7 @@ class wx_parent_common extends Controller
 
         ***/
         $parent_appid = "wx636f1058abca1bc1";
-        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
+        $url = "http://admin.leo1v1.com/wx_parent_common/check_parent_info";
 
         $redirect_url = urlencode($url);
 

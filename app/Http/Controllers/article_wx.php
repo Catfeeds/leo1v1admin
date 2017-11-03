@@ -184,7 +184,7 @@ class  article_wx extends Controller
         $userInfo = UserManage::getUserInfo($openid);
 
         // dd($userInfo);
-        $url = "http://admin.yb1v1.com/common/get_teacher_qr?wx_openid=".$openid;
+        $url = "http://admin.leo1v1.com/common/get_teacher_qr?wx_openid=".$openid;
         $img_url = $this->get_img_url($url);
         $type = 'image';
 

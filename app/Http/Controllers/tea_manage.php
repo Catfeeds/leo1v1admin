@@ -2027,7 +2027,7 @@ class tea_manage extends Controller
                     ."<div style=\"text-indent:2em\">无论身处何地,都能及时准确地了解您孩子的辅导情况!</div><br>"
                     ."<div style=\"text-indent:2em\">家长端APP下载"
                     ."<span style=\"color:#545454;ext-indent:2em\" >(请用手机的二维码扫描工具扫描下载)</span></div><br>"
-                    ."<img src=\" http://admin.yb1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">";
+                    ."<img src=\" http://admin.leo1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">";
 
         $lesson_info = $this->t_lesson_info->get_lesson_info_for_send_email_by_lessonid($lessonid);
         if(!empty($lesson_info)){

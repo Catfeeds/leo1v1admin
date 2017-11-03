@@ -1,5 +1,6 @@
 <?php
 return [
+    "admin_url" => "https://admin.leo1v1.com/",
     'qiniu' => [
         "public" => [
             "url"    => env('QINIU_PUBLIC_URL','http://7u2f5q.com2.z0.glb.qiniucdn.com'),
