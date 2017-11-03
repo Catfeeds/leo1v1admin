@@ -2520,7 +2520,7 @@ class main_page extends Controller
             //if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
             if ($item['train_through_new_time'] && $item['train_through_new_time'] < $end_time) $info[$key]['train_qual_sum'] ++;
             // 模拟试听总排课人数
-            $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($id);
+            $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($end_time, $id);
             if ($imit_sum) {$info[$key]['imit_sum']++; $info[$key]['attend_sum']++;}
             //if (isset($imit[$id]) && $imit[$id]['lesson_start'] < $end_time) $info[$key]['imit_sum'] ++;
             //if (isset($attend[$id]) && $attend[$id]['lesson_start'] < $end_time) $info[$key]['attend_sum'] ++;
