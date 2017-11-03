@@ -2110,7 +2110,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $err_flag = false;
             $id_map[$parent_arr[0]['id']] = true;
         }
-        
+
         foreach($parent_arr as $item){
             $where_arr = [
                 ['parentid = %u',$item['id'],'-a'],
@@ -2130,7 +2130,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $student_count ++;
                 if(($val['type'] == 2 || $val['type'] == 3) && $val['create_time'] > $month_first_day && $val['create_time'] < $month_last_day)
                     $member_count ++;
-                
+
             }
 
             $counter++;
