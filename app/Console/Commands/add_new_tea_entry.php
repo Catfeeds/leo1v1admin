@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
-
+use \App\Enums as E;
 use Illuminate\Console\Command;
 
 class add_new_tea_entry extends Command
