@@ -2443,35 +2443,35 @@ class main_page extends Controller
 
                 // 语文
                 if ($item['subject'] == 1) {
-                    if ($item['grade'] == 100) {
+                    if ($item['grade'] >= 100 && $item['grade'] < 200) {
                         $primary_china = $this->accumulation($primary_china, $item);
                     }
-                    if ($item['grade'] == 200) {
+                    if ($item['grade'] >= 200 && $item['grade'] < 300) {
                         $middle_china = $this->accumulation($middle_china, $item);
                     }
-                    if ($item['grade'] == 300) {
+                    if ($item['grade'] >= 300) {
                         $high_china = $this->accumulation($high_china, $item);
                     }
                 }
                 if ($item['subject'] == 2) {
-                    if ($item['grade'] == 100) {
+                    if ($item['grade'] >= 100 && $item['grade'] < 200) {
                         $primary_math = $this->accumulation($primary_math, $item);
                     }
-                    if ($item['grade'] == 200) {
+                    if ($item['grade'] >= 200 && $item['grade'] < 300) {
                         $middle_math = $this->accumulation($middle_math, $item);
                     }
-                    if ($item['grade'] == 300) {
+                    if ($item['grade'] >= 300) {
                         $high_math = $this->accumulation($high_math, $item);
                     }
                 }
                 if ($item['subject'] == 3) {
-                    if ($item['grade'] == 100) {
+                    if ($item['grade'] >= 100 && $item['grade'] < 200) {
                         $primary_eng = $this->accumulation($primary_eng, $item);
                     }
-                    if ($item['grade'] == 200) {
+                    if ($item['grade'] >= 200 && $item['grade'] < 300) {
                         $middle_eng = $this->accumulation($middle_eng, $item);
                     }
-                    if ($item['grade'] == 300) {
+                    if ($item['grade'] >= 300) {
                         $high_eng = $this->accumulation($high_eng, $item);
                     }
                 }
