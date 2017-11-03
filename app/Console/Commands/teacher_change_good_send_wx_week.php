@@ -58,7 +58,7 @@ class teacher_change_good_send_wx_week extends Command
               // $all_arr=["349"=>"Jack"];
             foreach($all_arr as $k=>$val){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"理优教研组","老师推荐通知",$val."老师你好,系统检查到上周有".$all["num"]."位老师推荐,名单如下:
-".$all["name"],"http://admin.yb1v1.com/human_resource/index_seller");
+".$all["name"],"http://admin.leo1v1.com/human_resource/index_seller");
 
             }
         }
@@ -72,7 +72,7 @@ class teacher_change_good_send_wx_week extends Command
               $subject_str = E\Esubject::get_desc($k);
               foreach($tea_arr as $kk=>$vv){
                   $task->t_manager_info->send_wx_todo_msg_by_adminid ($kk,"理优教研组","老师推荐通知",$vv."老师你好,系统检查到".$subject_str."学科上周有".$num."位老师推荐,名单如下:
-".$teacher_name_list,"http://admin.yb1v1.com/human_resource/index_tea_qua?is_good_flag=1&subject=".$k);
+".$teacher_name_list,"http://admin.leo1v1.com/human_resource/index_tea_qua?is_good_flag=1&subject=".$k);
               }
           }
 

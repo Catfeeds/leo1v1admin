@@ -370,7 +370,7 @@ class common extends Controller
                 $data["keyword2"] = "理优教育";
                 $data["keyword3"] = date("Y-m-d",time());
                 $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-                $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacherid;
+                $offer_url        = "http://admin.leo1v1.com/common/show_offer_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
             }
         }
@@ -399,7 +399,7 @@ class common extends Controller
                 $data["keyword2"] = "理优教育";
                 $data["keyword3"] = date("Y-m-d",time());
                 $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-                $offer_url        = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                $offer_url        = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
             }
         }
@@ -427,7 +427,7 @@ class common extends Controller
                 $data["keyword2"] = "理优教育";
                 $data["keyword3"] = date("Y-m-d",time());
                 $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-                $offer_url        = "http://admin.yb1v1.com/common/show_ruzhi_html?teacherid=".$teacherid;
+                $offer_url        = "http://admin.leo1v1.com/common/show_ruzhi_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
             }
         }
@@ -1452,7 +1452,7 @@ class common extends Controller
     }
 
     public function get_teacher_hornor_list(){ //1016
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_lesson_total_list";
+        $url = "http://admin.leo1v1.com/teacher_money/get_teacher_lesson_total_list";
         $post_data = [];
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);

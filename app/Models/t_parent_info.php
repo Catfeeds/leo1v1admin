@@ -161,9 +161,9 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         return $ret;
     }
 
-    public function send_template_msg ($parentid,  $template_id, $data ,$url="http://admin.yb1v1.com" ) {
+    public function send_template_msg ($parentid,  $template_id, $data ,$url="http://admin.leo1v1.com" ) {
         if (substr($url,0,7 )!="http://") {
-            $url="http://admin.yb1v1.com/".trim($url,"/ \t");
+            $url="http://admin.leo1v1.com/".trim($url,"/ \t");
         }
         $openid= $this->get_wx_openid($parentid);
         $wx     = new \App\Helper\Wx();

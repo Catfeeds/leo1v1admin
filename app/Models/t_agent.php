@@ -1380,6 +1380,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         \App\Helper\Utils::logger("t_agent_yxyx: $id");
 
+
         $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
@@ -1412,7 +1413,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
         }
 
-        $level_count_info= $this->get_level_count_info($id);
+        $level_count_info= $this-> get_level_count_info($id);
         $agent_status_money =0;
         $l1_agent_status_test_lesson_succ_count=0;
         $l1_agent_status_all_money =0;
@@ -1505,7 +1506,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
             //计算签单金额、签单量[无下限限制下级]
-            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str);
+            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,0, 0xFFFFFFFF );
             $cycle_order_count = $child_order_info['child_order_count'];
             $cycle_order_money = $child_order_info['child_order_money'];
 
@@ -2426,8 +2427,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
             ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
             ." count(distinct if(l.lesson_del_flag=0 and l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count,"
-            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count,na.test_lessonid,"
-            ." max(r.revisit_time) as revisit_time"
+            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count"
             ." from %s a "
             ." left join %s aa on aa.id=a.parentid"
             ." left join %s aaa on aaa.id=aa.parentid"
@@ -2436,7 +2436,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
             ." left join %s tq on tq.phone=na.phone and %s "
-            ." left join %s r on r.userid=na.userid "
+            ." left join %s l on l.lessonid=na.test_lessonid "
             ." where %s "
             ." group by a.id"
             ,self::DB_TABLE_NAME
@@ -2448,7 +2448,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_order_info::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
-            ,t_revisit_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
             ,$where_arr
         );
 
@@ -2532,7 +2532,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info){
+    public function get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info){
 
         $where_arr = [
             ['a.id=%u', $id, -1],
@@ -2542,12 +2542,24 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'na.type in (1,3)',
         ];
 
-        if ($nickname) {
-            $where_arr[]=sprintf(" a.nickname like '%s%%' ", $this->ensql($nickname));
-        }
-
-        if ($phone) {
-            $where_arr[]=sprintf(" a.phone like '%s%%' ", $this->ensql($phone));
+        if( $opt_type == 'no_revisit_count') {//没有拨打过电话
+            $where_arr[] = " tq.id is null ";
+        } else if ( $opt_type == 'no_phone_count' ) {//未拨通
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=0";
+        } else if ( $opt_type == 'ok_phone_count' ) {//拨通
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1";
+        } else if ( $opt_type == 'ok_phone_no_lesson' ) {//拨通没排课
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid=0";
+        } else if ( $opt_type == 'rank_count' ) {//排课
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid>0";
+        } else if ( $opt_type == 'del_lesson_count' ) {//排课取消
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid>0 and l.lesson_del_flag=1";
+        } else if ( $opt_type == 'ok_lesson_count' ) {//试听成功
+            $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1";
+        } else if ( $opt_type == 'ok_lesson_no_order' ) {//试听未签单
+            $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid is null";
+        } else if ( $opt_type == 'order_user_count' ) {//签单
+            $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid>0 ";
         }
 
         $tq_arr = [
@@ -2555,15 +2567,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['tq.start_time<%u', $end_time, -1],
         ];
 
+
         $sql = $this->gen_sql_new(
             "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid,"
-            ." tl.test_lesson_subject_id"
+            ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,"
+            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count"
             ." from %s a "
             ." left join %s na on na.parentid=a.id"
             ." left join %s s on s.userid=na.userid"
-            ." left join %s tq on tq.phone=na.phone and %s "
+            ." left join %s tq on tq.phone=na.phone and %s"
             ." left join %s l on l.lessonid=na.test_lessonid "
             ." left join %s tl on tl.userid=na.userid "
+            ." left join %s r on r.userid=na.userid "
+            ." left join %s ao on ao.aid=na.id "
             ." where %s "
             ." group by s.userid"
             ,self::DB_TABLE_NAME
@@ -2573,6 +2589,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
             ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
             ,$where_arr
         );
 

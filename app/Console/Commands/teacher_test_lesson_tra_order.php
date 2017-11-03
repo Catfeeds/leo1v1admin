@@ -120,7 +120,7 @@ class teacher_test_lesson_tra_order extends Command
 
 具体名单是:".$teacher_name_list."
 
-请赶紧监听该老师课程并进行冻结或者课程反馈处理,期待通过监课和培训打造强大稳定的在线".$subject_str."教学Team","http://admin.yb1v1.com/tongji_ss/get_test_lesson_low_tra_teacher?subject=".$k);
+请赶紧监听该老师课程并进行冻结或者课程反馈处理,期待通过监课和培训打造强大稳定的在线".$subject_str."教学Team","http://admin.leo1v1.com/tongji_ss/get_test_lesson_low_tra_teacher?subject=".$k);
 
 
             }

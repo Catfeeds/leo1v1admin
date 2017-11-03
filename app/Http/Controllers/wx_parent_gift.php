@@ -30,6 +30,8 @@ class wx_parent_gift extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
 
+        dd($openid);
+
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         if($is_parent_flag){
             header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);
@@ -410,7 +412,7 @@ class wx_parent_gift extends Controller
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
         $data_msg = [
-            "first"     => " 您好，您的双十一奖品券已存放进您的账户",
+            "first"     => "您好，您的双十一奖品券已存放进您的账户",
             "keyword1"  => "获奖详情",
             "keyword2"  => "点击服务中心→奖品区即可兑换奖券",
             "keyword3"  => date('Y-m-d H:i:s'),
@@ -609,8 +611,7 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
-        // $start_time = strtotime('2017-11-3');
-        $start_time = strtotime('2017-11-1'); // 2017-11-03 // 测试
+        $start_time = strtotime('2017-11-3'); // 2017-11-03 
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
@@ -647,7 +648,7 @@ class wx_parent_gift extends Controller
         // 检查是否可以抽奖
         $p_agent_id  = $agent_info['id'];
         $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($userid);
-        $start_time  = strtotime('2017-11-1'); // 2017-11-03 // 测试
+        $start_time  = strtotime('2017-11-3'); // 2017-11-03 
         $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
         $invite_num  = count($invite_info);
         $light_num   = floor(($invite_num - 20*$prize_num)/5)>0?floor(($invite_num - 20*$prize_num)/5):0;
@@ -667,7 +668,6 @@ class wx_parent_gift extends Controller
            71.11（1%）
            91.11（1%）
            111.1（1%）
-           每天优先小金额
            每日金额为1000元预算
         */
 

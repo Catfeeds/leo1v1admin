@@ -27,13 +27,13 @@ $(function(){
         }
     });
 
-    $('.opt-a td').css('cursor','pointer');
-    $('.opt-a td').on('click',function(){
-        var id = $(this).parent().attr('data-id');
+    $('.opt-a td a').on('click',function(){
+        var id = $(this).parent().parent().attr('data-id');
+        var opt_type = $(this).attr('data-type');
         if ( location.search ) {
-            window.open("http://admin.yb1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id);
+            window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail"+location.search+"&id="+id+"&opt_type="+opt_type);
         } else {
-            window.open("http://admin.yb1v1.com/agent/get_yxyx_member_detail?id="+id);
+            window.open("http://admin.leo1v1.com/agent/get_yxyx_member_detail?id="+id+"&type="+opt_type);
         }
     });
 

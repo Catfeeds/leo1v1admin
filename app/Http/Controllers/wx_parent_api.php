@@ -104,13 +104,13 @@ class wx_parent_api extends Controller
             $this->cache_set_item_teacher_nick($item);
             $item["lesson_time"]=\App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
             if ( $item["ass_comment_audit"]) {
-                $item["teacher_report_url"]="http://www.api.yb1v1.com/show_teacher_comment.html?lessonid=$lessonid&userid=$userid";
+                $item["teacher_report_url"]="http://www.api.leo1v1.com/show_teacher_comment.html?lessonid=$lessonid&userid=$userid";
             }else{
                 $item["teacher_report_url"]="";
             }
 
             if ($item["parent_report_level"]) {
-                $item["parent_report_url"]="http://www.api.yb1v1.com/show_parent_comment.html?lessonid=$lessonid&userid=$userid";
+                $item["parent_report_url"]="http://www.api.leo1v1.com/show_parent_comment.html?lessonid=$lessonid&userid=$userid";
             } else {
                 $item['parent_report_url'] = '';
             }
@@ -1079,7 +1079,7 @@ class wx_parent_api extends Controller
                 "keyword2"  => "点击详情进行查看",
                 "keyword3"  => date('Y-m-d H:i:s'),
             ];
-            $url = 'http://admin.yb1v1.com/stu_manage/score_list?sid='.$userid;
+            $url = 'http://admin.leo1v1.com/stu_manage/score_list?sid='.$userid;
             $wx = new \App\Helper\Wx();
 
 

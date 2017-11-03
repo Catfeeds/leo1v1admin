@@ -55,18 +55,18 @@
                         <td>{{@$var["phone1"]}} <br/>/ {{@$var["nick1"]}} </td>
                         <td>{{@$var["phone2"]}} <br/>/ {{@$var["nick2"]}} </td>
                         <td>{{@$var["phone3"]}} <br/>/ {{@$var["nick3"]}} </td>
-                        <td>{{@$var["user_count"]}} </td>
-                        <td>{{@$var["no_revisit_count"]}} </td>
-                        <td>{{@$var["no_phone_count"]}} </td>
-                        <td>{{@$var["ok_phone_count"]}} </td>
-                        <td>{{@$var["ok_phone_no_lesson"]}} </td>
-                        <td>{{@$var["rank_count"]}} </td>
-                        <td>{{@$var["del_lesson_count"]}} </td>
-                        <td>{{@$var["ok_lesson_count"]}} </td>
-                        <td>{{@$var["ok_lesson_rate"]}} </td>
-                        <td>{{@$var["ok_lesson_no_order"]}} </td>
-                        <td>{{@$var["order_user_count"]}} </td>
-                        <td>{{@$var["order_rate"]}} </td>
+                        <td><a href="javascript:;" data-type="user_count"> {{@$var["user_count"]}} </a> </td>
+                        <td><a href="javascript:;" data-type="no_revisit_count"> {{@$var["no_revisit_count"]}}</a> </td>
+                        <td><a href="javascript:;" data-type="no_phone_count"> {{@$var["no_phone_count"]}}</a> </td>
+                        <td><a href="javascript:;" data-type="ok_phone_count"> {{@$var["ok_phone_count"]}}</a> </td>
+                        <td><a href="javascript:;" data-type="ok_phone_no_lesson"> {{@$var["ok_phone_no_lesson"]}} </a></td>
+                        <td><a href="javascript:;" data-type="rank_count"> {{@$var["rank_count"]}} </a></td>
+                        <td><a href="javascript:;" data-type="del_lesson_count"> {{@$var["del_lesson_count"]}}</a> </td>
+                        <td><a href="javascript:;" data-type="ok_lesson_count"> {{@$var["ok_lesson_count"]}}</a> </td>
+                        <td>{{@$var["ok_lesson_rate"]}}</td>
+                        <td><a href="javascript:;" data-type="ok_lesson_no_order"> {{@$var["ok_lesson_no_order"]}}</a> </td>
+                        <td><a href="javascript:;" data-type="order_user_count"> {{@$var["order_user_count"]}}</a> </td>
+                        <td>{{@$var["order_rate"]}}</td>
                         <td>{{@$var["price"]}} </td>
                         <td>
                             <div

@@ -82,7 +82,7 @@ class teacher_first_test_lesson_wx extends Command
 
 具体名单是:".$teacher_name_list."
 
-请赶紧监听该老师课程,期待通过监课和培训打造强大稳定的在线教学Team","http://admin.yb1v1.com/tongji_ss/teacher_first_test_lesson_week?date_type=null&opt_date_type=0&start_time=".$start."&end_time=".$end."&subject=".$k);
+请赶紧监听该老师课程,期待通过监课和培训打造强大稳定的在线教学Team","http://admin.leo1v1.com/tongji_ss/teacher_first_test_lesson_week?date_type=null&opt_date_type=0&start_time=".$start."&end_time=".$end."&subject=".$k);
 
             }
 

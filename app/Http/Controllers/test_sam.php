@@ -12,6 +12,9 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function ll(){
+        $ret_info = $this->t_student_info->get_finish_num(1506787200,1509465600);
+    }
     public function hello_list(){
         
         $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
@@ -98,14 +101,14 @@ class test_sam  extends Controller
                             ."<td width=200px>试听需求</td>"
                             ."<td width=30px>教材版本</td>"
                             ."<td width=30px>地区</td>";
-        foreach ($subject_list as $kkey => $kvalue) {
-        //foreach ($date_time as $key => $value) {
-            
-            //foreach ($subject_list as $kkey => $kvalue) {
-            foreach ($date_time as $key => $value) {
+        //foreach ($subject_list as $kkey => $kvalue) {
+        foreach ($date_time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            foreach ($subject_list as $kkey => $kvalue) {
+            //foreach ($date_time as $key => $value) {
                 $subject = $kvalue;
-                $start_time = $value['start_time'];
-                $end_time   = $value['end_time'];
+                
                 foreach ($grade_list as $vkey => $vvalue) {
                     $grade = "a.grade in ".$vvalue;
                     //echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/>';
@@ -121,7 +124,7 @@ class test_sam  extends Controller
                             $value['phone_location'] = $pro;
                         }
                     }
-                    echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/><br/><br/><br/><br/><br/>';
+                    //echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/><br/><br/><br/><br/><br/>';
                     
                     foreach ($ret_info as $key => $value) {
                         echo "<tr>";

@@ -467,9 +467,7 @@ class agent extends Controller
     public function test_new(){
         $start_time = strtotime(date("Y-m-d"));
         $end_time = time();
-        $start_time = strtotime(date("Y-m-d"));
-        $end_time = time(); 
-        $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid=1100,$start_time,$end_time);
+        $history_count = $this->t_id_opt_log->get_history_info(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid=1100,$start_time,$end_time);
         if($history_count>30){
             return $this->output_err("每人每天限制领取30个公海例子,您已领取[$history_count]个!");
         }
@@ -1906,17 +1904,13 @@ class agent extends Controller
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $id = $this->get_in_int_val('id','');
-        $phone = trim($this->get_in_str_val('phone',''));
-        if($phone > 100000) {
-            $nickname = '';
-        } else {
-            $nickname = $phone;
-            $phone = '';
-        }
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info);
+        $opt_type = $this->get_in_str_val('opt_type','');
+        $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
+            $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
+            \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
         }
         return $this->pageView(__METHOD__,$ret_info);
     }

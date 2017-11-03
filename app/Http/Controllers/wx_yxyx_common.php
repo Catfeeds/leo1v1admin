@@ -648,7 +648,6 @@ class wx_yxyx_common extends Controller
 
 
     public function check_is_login(){
-        // $p_phone    = $this->get_in_int_val('p_phone');
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_openid" );
@@ -656,7 +655,6 @@ class wx_yxyx_common extends Controller
     }
 
     public function get_openid(){
-        // $p_phone    = $this->get_in_int_val('p_phone');
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );

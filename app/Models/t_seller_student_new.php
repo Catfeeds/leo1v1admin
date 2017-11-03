@@ -1226,7 +1226,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"
-            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
             ."tr.test_lesson_order_fail_flag"
@@ -2511,16 +2511,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function get_tq_succ_num_for_sign($start_time, $end_time){
-
         $where_arr = [
             "tq.is_called_phone=1",
             "tq.admin_role=2"
-
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(tq.id) from %s tq "
+        $sql = $this->gen_sql_new("  select count( distinct (ss.userid)) from %s tq "
                                   ." left join %s ss on tq.phone=ss.phone"
                                   ." left join %s ts on ts.userid=ss.userid"
                                   ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"

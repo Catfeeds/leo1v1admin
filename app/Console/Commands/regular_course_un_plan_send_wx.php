@@ -68,7 +68,7 @@ class regular_course_un_plan_send_wx extends Command
             $account = $task->t_manager_info->get_account($gg);
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($gg,"三周常规课未排学生信息","三周常规课未排学生信息通知",$account."老师你好,系统检查到如下 ".$num."位 学生未来三周有常规课未排
 
-具体名单是:".$ss,"http://admin.yb1v1.com/user_manage_new/user_regular_course_check_info?ass_adminid=".$gg);
+具体名单是:".$ss,"http://admin.leo1v1.com/user_manage_new/user_regular_course_check_info?ass_adminid=".$gg);
  
         }
 

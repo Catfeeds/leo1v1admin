@@ -58,7 +58,7 @@ class teacher_stu_paper_download_warn extends Command
                 $data['keyword2'] = date("Y-m-d H:i:s",$item["lesson_start"]-3600);
                 $data['remark'] = "请认真分析试卷，对学生学习情况全面了解是高转化率的基础，老师加油！";
 
-                // $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
+                // $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
                 //   ."&type=1&add_time=".$add_time;
                 //$data['remark']   = "如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
                 \App\Helper\Utils::send_teacher_msg_for_wx($item["wx_openid"],$template_id,$data);

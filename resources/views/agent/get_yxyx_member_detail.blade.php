@@ -18,9 +18,9 @@
                     <td>试听需求</td>
                     <td>备注</td>
                     <td>未签原因</td>
-                    <td>曾经复制的CC</td>
+                    <td>曾经负责的CC</td>
                     <td>回访次数(电话拨打次数)</td>
-                    <td> 操作  </td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -29,23 +29,23 @@
                         <td>{{@$var["nick1"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["test_lesson"]}} </td>
+                        <td>{{@$var["revisit_time"]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["phone_count"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a title="回访列表" class="fa-comments opt-return-back-list " ></a>
                                 <a title="录入回访信息" class="fa-edit opt-edit-new"></a>
-
+                                <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
 
                             </div>
                         </td>
