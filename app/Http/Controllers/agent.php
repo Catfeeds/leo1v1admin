@@ -465,177 +465,94 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $order_by_str = $this->get_in_str_val('order_by_str','');
-        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
+        $firstday = date("Y-m-01");
+        $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
+        list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
             if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time = $item['start_time'];
-                $end_time = $item['end_time'];
-                break;
+                $start_time_this = $item['start_time'];
+                $end_time_this = $item['end_time'];
             }
         }
-        $group_start_time=   $start_time;
-        $start_first = date('Y-m-01',$start_time);
-        $adminid=$this->get_account_id();
-
-        //判断top25,排课情况每月40
-        $account_role = $this->t_manager_info->get_account_role($adminid);
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $group_start_time );
-        if(isset($self_top_info[6]["top_index"]) || $adminid == 349){
-            $rank = @$self_top_info[6]["top_index"];
-            if(($account_role ==2 && $rank<=25) || $adminid == 349){
-                $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($start_time,$end_time,$adminid);
-                $seller_top_flag=1;
-            }else{
-                $seller_top_flag=0;
-                $top_num =0;
-            }
-        }else{
-            $seller_top_flag=0;
-            $top_num =0;
-        }
-
-
-
-        //组长&主管
-        $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
-
-        $seller_account = $this->t_manager_info->get_account($test_seller_id);
-        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
-        $son_adminid_arr = [];
-        foreach($son_adminid as $item){
-            $son_adminid_arr[] = $item['adminid'];
-        }
-        array_unshift($son_adminid_arr,$adminid);
-        $require_adminid_arr = array_unique($son_adminid_arr);
-        $group_type = count($require_adminid_arr)>1?1:0;
-
-        $adminid = in_array($test_seller_id,$require_adminid_arr)?$test_seller_id:$adminid;
-        /* if($adminid==349){
-           $adminid=397;
-           }*/
-        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
-        $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
-        if($adminid == $get_self_adminid){
-            $is_group_leader_flag = 1;
-        }else{
-            $is_group_leader_flag = 0;
-        }
-        $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
-                                                              $start_time,$end_time );
-
-        $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
-
-        $groupid =$this->get_in_int_val("groupid",-1);
-
-        if($groupid == -1) {
-            $groupid=$this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
-            $group_name="组内";
-        }else{
-            $group_name=$this->t_admin_group_name->get_group_name($groupid);
-        }
-        $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
-        foreach($group_list as &$item){
-            $item['all_price'] = $item['all_price']/100;
-            $all_price = $item['all_price'];
-            $month_money = isset($item['month_money'])?$item['month_money']:0;
-            $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
-            $item['finish_per'] = round($item['finish_per']*100,1);
-        }
-
-        $ret_info_first = [];
-        $ret_info_two = [];
-        foreach ($ret_info["list"] as $key=> &$item) {
-            $item["index"]=$key+1;
-            $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
-            if($key == 0){
-                $ret_info_first = $item;
-            }elseif($key == 1){
-                $ret_info_two = $item;
+        $timestamp = strtotime(date("Y-m-01"));
+        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
+        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
+        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
+        foreach($ret_time as $item){//上月
+            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
+                $start_time_last = $item['start_time'];
+                $end_time_last = $item['end_time'];
             }
         }
-        if(count($ret_info["list"])>0){
-            $ret_info["list"][0] = $ret_info_two;
-            $ret_info["list"][1] = $ret_info_first;
+        $timestamp_very_last=strtotime(date("Y-m-01"));
+        $firstday_very_last=date('Y-m-01',strtotime(date('Y',$timestamp_very_last).'-'.(date('m',$timestamp_very_last)-2).'-01'));
+        $lastday_very_last=date('Y-m-d',strtotime("$firstday_very_last +1 month -1 day"));
+        list($start_time_very_last,$end_time_very_last)= [strtotime($firstday_very_last),strtotime($lastday_very_last)];
+        foreach($ret_time as $item){//上上月
+            if($start_time_last-1>=$item['start_time'] && $start_time_last-1<$item['end_time']){
+                $start_time_very_last = $item['start_time'];
+                $end_time_very_last = $item['end_time'];
+            }
         }
-        $ret_info["list"] = array_filter($ret_info["list"]);
-        dd($ret_info["list"]);
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
-        $this->get_in_int_val("self_groupid",$self_groupid);
-        $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
+        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last);
+        $account_role = E\Eaccount_role::V_2;
+        $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
+        $ret_level_goal = $this->task->t_seller_level_goal->get_all_list_new();
+        foreach($seller_list as $item){
+            $adminid = $item['uid'];
+            $face_pic = $item['face_pic'];
+            if($face_pic == ''){
+                $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
+            }
+            $account = $this->task->t_manager_info->get_account_by_uid($adminid);
+            $this_level = $item['seller_level'];
+            $become_member_time = $item['create_time'];
+            $ret_this = $this->task->t_seller_level_goal->field_get_list($item['seller_level'],'*');
+            $num = isset($ret_this['num'])?$ret_this['num']:0;
+            $level_goal = isset($ret_this['level_goal'])?$ret_this['level_goal']:0;
+            $next_goal = $level_goal;
+            $next_num = $num + 1;
+            $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
+            if($ret_next){
+                $next_goal = $ret_next['level_goal'];
+            }
+            //统计本月
+            $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
+            $price = $price/100;
+            // if($price>$next_goal && !in_array($adminid,[380,457])){
+            if($price>$next_goal){
+                foreach($ret_level_goal as $item){
+                    if($price >= $item['level_goal']){
+                        $next_level = $item['seller_level'];
+                        $level_face = $item['level_face'];
+                    }
+                }
+                $face_pic_str = substr($face_pic,-12,5);
+                $ex_str = $next_level.$face_pic_str;
+                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+                $this->task->t_manager_info->field_update_list($adminid,[
+                    'seller_level'=>$next_level,
+                    'level_face_pic'=>$level_face_pic,
+                ]);
 
-        //得到预期的试听成功数
-        //date("y-m-01");
+                $this->task->t_seller_edit_log->row_insert([
+                    "uid"         => $adminid,
+                    "type"        => 2,
+                    "old"         => $this_level,
+                    "new"         => $next_level,
+                    "create_time" => time(NULL),
+                ],false,false,true );
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+            }
+            //统计上个月
 
-        // 本月签单率
-        list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01") );
-        $tongji_type=$this->get_in_int_val("tongji_type",5, E\Etongji_type::class); //5 代表查询本月签单率
-        $ret_info_num = $this->t_tongji_seller_top_info->get_list_top($tongji_type,$start_time);
-        foreach($ret_info_num as &$item) {
-            $this->cache_set_item_account_nick($item);
-            $item['value'] = $item['value'].'%';
+            //统计上上个月
+
         }
-
-
-        $day= strtotime(date("Y-m-d") );
-        $w=  date("w") ;
-        if ($w==0)  $w=7;
-
-        if (in_array($w,[5,6,7])) {
-            $hw_start_time=$day-($w-5)*86400;
-            $hw_end_time= $hw_start_time + 3*86400;
-        }else{
-            $hw_start_time=$day-($w-1)*86400;
-            $hw_end_time= $hw_start_time + 4*86400;
-        }
-
-
-
-        $half_week_info= $this->t_order_info->get_1v1_order_seller_list($hw_start_time,$hw_end_time, [-1],"limit 5" );
-
-
-        foreach ($half_week_info["list"] as $key=> &$item) {
-            $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
-        }
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
-        //提成刺激
-        $money_info = $this->seller_month_money_list($adminid);
-        $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
-        $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
-        //上周试听取消率
-        $time = strtotime(date('Y-m-d',time()).'00:00:00');
-        $week = date('w',$time);
-        if($week == 0){
-            $week = 7;
-        }elseif($week == 1){
-            $week = 8;
-        }
-        // dd($self_top_info);
-
-        $end_time = $time-3600*24*($week-2);
-        $start_time = $end_time-3600*24*7;
-        $week_start_time = date('m/d',$start_time);
-        $week_end_time = date('m/d',$end_time);
-        $test_fail_info = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
-        $self_top_info[13]["value"] = isset($test_fail_info[13]["value"])?$test_fail_info[13]["value"]:0;
-        $self_top_info[14]["value"] = isset($test_fail_info[14]["value"])?$test_fail_info[14]["value"]:0;
-        $self_top_info[15]["value"] = isset($test_fail_info[15]["value"])?$test_fail_info[15]["value"]:0;
-        $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
-
-
-        //今日需回访
-        $today = date('Y-m-d',time());
-        $before_week_today = date('Y-m-d',strtotime($today."00:00:00")-3600*24*7);
-        $row_item = $this->t_seller_student_new-> get_lesson_status_count($adminid );
-        $next_revisit_count = isset($row_item['next_revisit_count'])?$row_item['next_revisit_count']:0;
-        $next_time_str = "date_type=1&opt_date_type=0&start_time=".$before_week_today."&end_time=".$today;
-        // dd($ret_info);
-        //判断是不是总监
-        $adminid   = $this->get_account_id();
-        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
 
     }
 
@@ -1846,21 +1763,53 @@ class agent extends Controller
     }
     //优学优享团队统计
     public function agent_group_statistics(){
-
+        list($start_time, $end_time  ) =$this->get_in_date_range_month(0);
         //获取一级数据  --begin---
         $colconel_list = $this->t_agent_group->get_colconel_list();
         for($i=0;$i<count($colconel_list);$i++){
-            $this_test_lesson_count = $this->t_agent->get_this_colconel_test_lesson_count($colconel_list[$i]['colconel_id']);
-            $this_invite_count = $this->t_agent->get_this_colconel_invite_count($colconel_list[$i]['colconel_id']);
-            $this_order_info = $this->t_agent_order->get_this_colconel_order_info($colconel_list[$i]['colconel_id']);
+            //获取团长的一级推荐人信息   ---begin--
+            $colconel_child_info = $this->t_agent->get_colconel_child_info($colconel_list[$i]['colconel_id']);
+            //团长业绩[一级]
+            $colconel_student_count = 0;
+            $colconel_member_count = 0;
+            $colconel_child_arr = [];
+            foreach($colconel_child_info as &$item){
+                if(($item['type'] == 1||$item['type']==3) && $item['create_time'] >= $start_time && $item['create_time']<$end_time)
+                    $colconel_student_count ++;
+                if(($item['type'] == 2||$item['type']==3) && $item['create_time'] >= $start_time && $item['create_time']<$end_time)
+                    $colconel_member_count ++;
+                $colconel_child_arr[] = $item['id'];
+            }
+            $colconel_test_lesson_count = 0;
+            if($colconel_child_arr){
+                $colconel_child_str = '('.implode(',',$colconel_child_arr).')';
+                //获取一级试听信息
+                $test_lesson_info = $this->t_agent->get_child_test_lesson_info($colconel_child_str);
+                if($test_lesson_info){
+                    foreach( $test_lesson_info as $item ) {
+                        if ($item["lesson_user_online_status"] ==1 && $item['l_time'] >= $start_time && $item['l_time'] < $end_time)
+                            $colconel_test_lesson_count += 1;
+                    }
+                }
+
+
+                //计算签单金额、签单量
+                $child_order_info = $this->t_agent_order->get_cycle_child_order_info($colconel_child_str,$start_time,$end_time);
+                $colconel_order_count = $child_order_info['child_order_count'];
+                $colconel_order_money = $child_order_info['child_order_money'];
+            }
+
+            //获取团长的一级推荐人信息   ---end--
+            //团长信息
+            $colconel_info = $this->t_agent->get_agent_info_by_id($colconel_list[$i]['colconel_id']);
             $colconel_result[] = [
-                'colconel_id' => $this_test_lesson_count['colconel_id'],
-                'colconel_name' => $this_test_lesson_count['colconel_name'],
-                'test_lesson_count' => $this_test_lesson_count['test_lesson_count'],
-                'member_count' => $this_invite_count['member_count'],
-                'student_count' => $this_invite_count['student_count'],
-                'order_count' => $this_order_info['order_count'],
-                'order_money' => $this_order_info['order_money']/100,
+                'colconel_id' => $colconel_info['id'],
+                'colconel_name' => $colconel_info['phone'].'/'.$colconel_info['nickname'],
+                'test_lesson_count' => $colconel_test_lesson_count,
+                'member_count' => $colconel_member_count,
+                'student_count' => $colconel_student_count,
+                'order_count' => $colconel_order_count,
+                'order_money' => $colconel_order_money/100,
                 'is_colconel' => 1,
                 'level' => 'l-1',
             ];
@@ -1870,11 +1819,29 @@ class agent extends Controller
         // dd($colconel_result);
         //获取一级数据  --end---
 
+        //获取所有团长的数据之和--begin--
+        $colconel_test_lesson_count = 0;
+        $colconel_member_count = 0;
+        $colconel_student_count = 0;
+        $colconel_order_count = 0;
+        $colconel_order_money = 0;
+        if(@$colconel_result){
+            foreach($colconel_result as &$item){
+                $colconel_test_lesson_count += $item['test_lesson_count'];
+                $colconel_member_count += $item['member_count'];
+                $colconel_student_count += $item['student_count'];
+                $colconel_order_count += $item['order_count'];
+                $colconel_order_money += $item['order_money'];
+            }
+        }
+        //获取所有团长的数据之和--end--
+
+
         //获取二级数据  ---begin---
         if(@$colconel_result){
             for($i=0;$i<count($colconel_result);$i++){
                 $group_list[] = $colconel_result[$i];
-                $group_result = $this->t_agent_group_members->get_group_info($colconel_result[$i]['colconel_id']);
+                $group_result = $this->t_agent_group_members->get_group_info($colconel_result[$i]['colconel_id'],$start_time,$end_time);
                 foreach($group_result as &$item){
                     $item['colconel_name'] = $colconel_result[$i]['colconel_name'];
                     $item['order_money'] /= 100;
@@ -1890,7 +1857,7 @@ class agent extends Controller
             for($i=0;$i<count($group_list);$i++){
                 $member_list[] = $group_list[$i];
                 if(@$group_list[$i]['is_group'] == 1){
-                    $member_result = $this->t_agent_group_members->get_member_result($group_list[$i]['group_id']);
+                    $member_result = $this->t_agent_group_members->get_member_result($group_list[$i]['group_id'],$start_time,$end_time);
                     foreach($member_result as &$item){
                         $item['colconel_name'] = $group_list[$i]['colconel_name'];
                         $item['group_name'] = $group_list[$i]['group_name'];
@@ -1939,24 +1906,15 @@ class agent extends Controller
         //分配层级类标识 ---end--
 
         //获取全部团员业绩[不包括团长]
-        $agent_member_result = $this->t_agent_group_members->get_agent_member_result();
-        //获取全部团长个人业绩[一级]
-        $colconel_test_lesson_count = $this->t_agent->get_colconel_test_lesson_count();
-        $colconel_invite_count = $this->t_agent->get_colconel_invite_count();
-        $colconel_order_info = $this->t_agent_order->get_colconel_order_info();
-        $agent_colconel_result['test_lesson_count'] = $colconel_test_lesson_count;
-        $agent_colconel_result['member_count'] = $colconel_invite_count['member_count'];
-        $agent_colconel_result['student_count'] = $colconel_invite_count['student_count'];
-        $agent_colconel_result['order_count'] = $colconel_order_info['order_count'];
-        $agent_colconel_result['order_money'] = $colconel_order_info['order_money'];
+        $agent_member_result = $this->t_agent_group_members->get_agent_member_result($start_time,$end_time);
+                
+        $agent_all_group_result['test_lesson_count'] = $agent_member_result['test_lesson_count']+$colconel_test_lesson_count;
+        $agent_all_group_result['member_count'] = $agent_member_result['member_count']+$colconel_member_count;
+        $agent_all_group_result['student_count'] = $agent_member_result['student_count']+$colconel_student_count;
 
-        $agent_all_group_result['test_lesson_count'] = $agent_member_result['test_lesson_count']+$agent_colconel_result['test_lesson_count'];
-        $agent_all_group_result['member_count'] = $agent_member_result['member_count']+$agent_colconel_result['member_count'];
-        $agent_all_group_result['student_count'] = $agent_member_result['student_count']+$agent_colconel_result['student_count'];
+        $agent_all_group_result['order_count'] = $agent_member_result['order_count']+$colconel_order_count;
 
-        $agent_all_group_result['order_count'] = $agent_member_result['order_count']+$agent_colconel_result['order_count'];
-
-        $agent_all_group_result['order_money'] = ($agent_member_result['order_money']+$agent_colconel_result['order_money'])/100;
+        $agent_all_group_result['order_money'] = ($agent_member_result['order_money']+$colconel_order_money)/100;
         $agent_all_group_result['name'] = '总计';
         // dd($agent_all_group_result);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info(@$member_list),[
@@ -1996,9 +1954,9 @@ class agent extends Controller
         foreach ($ret_info['list'] as &$item){
             $item['no_revisit_count']--;
             $item['ok_phone_count']--;
-            $item['no_phone_count']--;
             $item['rank_count']--;
             $item['ok_lesson_count']--;
+            $item['del_lesson_count']--;
             $item['price'] = $item['price']/100;
             // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
             if($item['rank_count']) {
@@ -2011,17 +1969,34 @@ class agent extends Controller
             } else {
                 $item['order_rate'] = '0%';
             }
+            $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
+            $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
+            $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
             $all_user = $all_user+$item['user_count'];
             $order_user = $order_user+$item['order_user_count'];
             $price = $price+$item['price'];
-
         }
         return $this->pageView(__METHOD__,$ret_info,[
             'all_user' => $all_user,
             'order_user' => $order_user,
             'price' => $price,
         ]);
-        // dd($ret_info);
     }
+
+    public function get_yxyx_member_detail(){
+
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $id = $this->get_in_int_val('id','');
+        $page_info = $this->get_in_page_info();
+        $opt_type = $this->get_in_str_val('opt_type','');
+        $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
+        foreach ($ret_info['list'] as &$item){
+            E\Egrade::set_item_value_str($item,'grade');
+            $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
+            \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 
 }

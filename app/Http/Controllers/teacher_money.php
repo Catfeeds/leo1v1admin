@@ -360,6 +360,7 @@ class teacher_money extends Controller
     }
 
     /**
+     * 添加老师额外奖金
      * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
      * @param teacherid 老师id
      * @param money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
@@ -387,8 +388,9 @@ class teacher_money extends Controller
             "money_info" => $money_info,
             "acc"        => $acc,
         ];
-
-        if($type != E\Ereward_type::V_1){
+        if($type==E\Ereward_type::V_6){
+            $this->add_reference_price($teacherid,$money_info,false);
+        }elseif($type != E\Ereward_type::V_1){
             $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
             if($check_flag){
                 return $this->output_err("此类型奖励已存在!");
@@ -423,8 +425,6 @@ class teacher_money extends Controller
                 $update_arr['money'] = $money;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
-            }elseif($type==E\Ereward_type::V_6){
-                $update_arr['recommended_teacherid'] = $money_info;
             }
         }
 
@@ -672,4 +672,6 @@ class teacher_money extends Controller
 
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+
 }

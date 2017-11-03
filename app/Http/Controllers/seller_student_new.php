@@ -1048,6 +1048,7 @@ class seller_student_new extends Controller
         );
         $page_num   = $this->get_in_page_num();
         $phone_name = trim($this->get_in_str_val("phone_name"));
+        $phone_location = trim($this->get_in_str_val("phone_location"));
         $nick  = "";
         $phone = "";
         if($phone_name){
@@ -1062,12 +1063,12 @@ class seller_student_new extends Controller
         $grade=$this->get_in_grade(-1);
         $has_pad=$this->get_in_has_pad(-1);
         $subject=$this->get_in_subject(-1);
-        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',-1);
+        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',E\Etest_lesson_count_flag::V_1);
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class,-1);
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag);
+        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
@@ -1076,8 +1077,9 @@ class seller_student_new extends Controller
             E\Epad_type::set_item_value_str($item, "has_pad");
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-            E\Eass_test_lesson_order_fail_flag::set_item_value_str($item);
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
             \App\Helper\Utils::hide_item_phone($item);
+            $item["free_nick"]= $this->cache_get_account_nick( $item["free_adminid"]);
         }
 
         return $ret_info;
@@ -1117,7 +1119,13 @@ class seller_student_new extends Controller
 
     public function get_free_seller_list () {
         $ret_info=$this->get_free_seller_list_data();
-        return $this->pageView(__METHOD__, $ret_info);
+        $log_type = E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT;
+        $adminid = $this->get_account_id();
+        $start_time = strtotime(date("Y-m-d"));
+        $end_time = time(); 
+        $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
+        $left_count = (30-$history_count)>0?30-$history_count:0;
+        return $this->pageView(__METHOD__, $ret_info,['left_count'=>$left_count]);
     }
 
     public function get_free_seller_test_fail_list () {

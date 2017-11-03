@@ -41,6 +41,20 @@
             <script src="/AdminLTE-2.4.0-rc/https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+
+        <style>
+         .content  .row  .input-group >select {
+             display:table-cell;
+         }
+         .content  .row  .input-group >input{
+             display:table-cell;
+         }
+         
+
+        </style>
+
+
+
     </head>
     <body class="hold-transition skin-teacher sidebar-mini">
         <div class="wrapper">
@@ -71,7 +85,7 @@
                                                 </a>
                                                 </li> --}}
                             <li class="dropdown messages-menu">
-                                <a href="http://admin.yb1v1.com/login/teacher?download=1" class="dropdown-toggle" target="_blank">
+                                <a href="http://admin.leo1v1.com/login/teacher?download=1" class="dropdown-toggle" target="_blank">
                                     <i class="fa  fa-download color-lyblue"></i>
                                 </a>
                             </li>

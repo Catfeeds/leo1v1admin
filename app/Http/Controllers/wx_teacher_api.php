@@ -64,7 +64,7 @@ class wx_teacher_api extends Controller
                 "keyword2"  => "老师投诉内容:$report_msg",
                 "keyword3"  => "投诉时间 $log_time_date ",
             ];
-            $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+            $url = 'http://admin.leo1v1.com/user_manage/qc_complaint/';
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
@@ -193,7 +193,7 @@ class wx_teacher_api extends Controller
                 "keyword2"  => "老师投诉内容:$complaint_info",
                 "keyword3"  => "投诉时间 $log_time_date ",
             ];
-            $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+            $url = 'http://admin.leo1v1.com/user_manage/qc_complaint/';
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
@@ -294,7 +294,7 @@ class wx_teacher_api extends Controller
                 "keyword2"  => "老师反馈内容:$complaint_info",
                 "keyword3"  => "反馈时间 $log_time_date ",
             ];
-            $url = 'http://admin.yb1v1.com/user_manage/complaint_department_deal_product';
+            $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_product';
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
@@ -350,7 +350,7 @@ class wx_teacher_api extends Controller
 
         $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
 
-        // $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        // $url = "http://admin.leo1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
         // $ret =\App\Helper\Utils::send_curl_post($url);
         // $ret = json_decode($ret,true);
         // if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
@@ -463,7 +463,7 @@ class wx_teacher_api extends Controller
         $end_time = date("Y-m-01",time());
         $start_time = date("Y-m-d",strtotime("-1 month",strtotime($end_time)));
 
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid
+        $url = "http://admin.leo1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid
              ."&start_time=".$start_time."&end_time=".$end_time;
         $ret = \App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);

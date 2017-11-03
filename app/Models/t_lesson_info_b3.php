@@ -937,7 +937,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             // "tll.fail_greater_4_hour_flag=0",
             "ts.require_admin_type =2",
             "tlr.accept_flag=1",
-
         ];
 
         // $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
@@ -957,7 +956,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
 
         return $this->main_get_value($sql);
-        // return $this->main_get_list($sql);
     }
 
     public function get_test_succ_for_month($start_time,$end_time){
@@ -967,12 +965,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag = 0",
             "tll.fail_greater_4_hour_flag=0",
             "tlr.accept_flag=1",
-
+            "ts.require_admin_type =2",
         ];
 
         $this->where_arr_add_time_range($where_arr,"tll.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(l.lessonid) from %s l "
+        $sql = $this->gen_sql_new("  select count(distinct l.lessonid) from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"
@@ -1318,14 +1316,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["l.lesson_start >=%u ",$start_time,-1],
             ["l.lesson_start < %u ",$end_time,-1],
-            "l.confirm_flag in (0,1,3,4)",
+            "l.confirm_flag in (0,1,3)",
             "l.lesson_type in (0,1,3)",
             "s.is_test_user=0",
             "l.lesson_user_online_status=1 ",
             "l.lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new(
-            "select sum(l.lesson_count ) lesson_count,count(distinct l.userid) lesson_stu_num,sum(ol.price) lesson_count_money "
+            "select sum(l.lesson_count) lesson_count,count(distinct l.userid) lesson_stu_num,sum(ol.price) lesson_count_money "
             ." from %s l"
             ." left join %s s on s.userid=l.userid"
             ." left join %s ol on ol.lessonid=l.lessonid"
@@ -1337,7 +1335,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
 
         return $this->main_get_row($sql);
-
     }
 
     public function get_lesson_count_sum($userid,$start_time,$end_time){
@@ -1525,16 +1522,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.train_type=%u",$train_type,-1]
         ];
         $sql = $this->gen_sql_new("select l.lessonid,ta.userid,lo.opt_time,t.train_through_new_time "
+                                  ." ,tf.simul_test_lesson_pass_time "
                                   ." from %s l left join %s ta on l.lessonid=ta.lessonid"
                                   ." left join %s lo on l.lessonid = lo.lessonid and opt_type=1 and lo.userid = ta.userid and not"
                                   ." exists (select 1 from %s where lessonid = lo.lessonid and opt_type=1 and userid = lo.userid and opt_time < lo.opt_time)"
                                   ." left join %s t on ta.userid = t.teacherid"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list($sql);
     }

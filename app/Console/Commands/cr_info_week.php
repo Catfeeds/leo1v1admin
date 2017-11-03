@@ -170,7 +170,8 @@ class cr_info_week extends Command
         $arr['wait_num'] = $kk['wait_num'];                                           //E4-扩科未成单数量
         //存档------------------------------------------------
         //概况 
-        $finish_num = $task->t_student_info->get_finish_num($start_time,$end_time);//A9-结课学员数
+        //$finish_num = $task->t_student_info->get_finish_num($start_time,$end_time);//A9-结课学员数
+        $finish_num = $task->t_student_info->get_finish_num_new_list($start_time,$end_time);//A9-结课学员数
         $arr['finish_num'] = $finish_num;
         //课时消耗
         $read_num   = $task->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
@@ -246,9 +247,10 @@ class cr_info_week extends Command
             $arr['other_renew_num'] = 0;//计划外续费学生数量
         }else{
             $arr['plan_renew_num'] = 0;
-            if(!empty($waring_list)){
-                foreach($waring_list as $key => $value){
-                    if(in_array($value,$renew_student_list)){
+            if(!empty($warning_list)){
+                foreach($warning_list as $key => $value){
+                    $userid = $value;
+                    if(!empty($renew_student_list[$userid])){
                         ++$arr['plan_renew_num'];
                     }
                 }
@@ -272,8 +274,8 @@ class cr_info_week extends Command
            $month_plan_renew_num = 0;
             if(!empty($month_warning_list)){
                 foreach($month_warning_list as $key => $value){
-                    if(in_array($value,$month_renew_student_list )){
-                        ++$month_plan_renew_num;
+                    if(!empty($month_renew_student_list[$value])){
+                         ++$month_plan_renew_num;
                     }
                 }
             }

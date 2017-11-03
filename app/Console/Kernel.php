@@ -16,13 +16,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\test_command::class,
+        Commands\test_command::class,
         Commands\update_month_student_count::class,
         Commands\import_to_teacher_flow::class,
         Commands\add_new_tea_entry::class,
         Commands\send_interview_remind_for_wx::class,
         Commands\check_modify_lesson_time::class,
-        Commands\get_agent_parent_id::class,
         Commands\save_seller_info_by_week::class,
         Commands\update_teaching_core_data::class,
         Commands\save_seller_info::class,
@@ -172,6 +171,7 @@ class Kernel extends ConsoleKernel
         Commands\CheckTeacherIsInRoom::class,
         Commands\seller_reset_no_call_to_new_user::class,
         Commands\update_test_lesson_opt_flag::class,
+        Commands\get_agent_group_member_result::class,
     ];
 
     /**

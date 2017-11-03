@@ -12,6 +12,135 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function ll(){
+        $ret_info = $this->t_student_info->get_finish_num(1506787200,1509465600);
+    }
+    public function hello_list(){
+        
+        $warning_list = $this->t_cr_week_month_info->get_student_list_new(1,1506787200);
+        $renew_student_list = $this->t_order_info->get_renew_student_list_new(1506787200,1509465600);
+        $warning_num = 0;
+        if($warning_list != 0){
+            $warning_list = explode(",",$warning_list);
+            $warning_num = empty($warning_list) ? 0 : count($warning_list);
+        }
+        $arr['real_renew_num'] = empty($renew_student_list)?0: count($renew_student_list); //   实际续费学生数量
+        if($arr['real_renew_num'] == 0){
+            $arr['plan_renew_num'] = 0; //计划内续费学生数量
+            $arr['other_renew_num'] = 0;//计划外续费学生数量
+        }else{
+// 			dd($warning_list);           
+            $arr['plan_renew_num'] = 0;
+            if(!empty($warning_list)){
+                foreach($warning_list as $key => $value){
+
+                    $userid = $value;
+                    if(!empty($renew_student_list[$userid])){
+                        ++$arr['plan_renew_num'];
+                    }
+                    /*if(isset($renew_student_list($value))){
+                        ++$arr['plan_renew_num'];
+                    }*/
+                }
+            }
+            $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
+        }
+        echo($arr['plan_renew_num']);
+        dd($renew_student_list);
+        
+
+        $list = "53438,57625,58808,60607,62720,70502,72798,76535,77137,78663,78961,79968,80019,82064,87068,87949,88170,93576,93880,94197,94633,95563,97282,99086,99787,100580,101474,102265,103100,104761,104864,105452,109494,109613,111253,111887,113385,114104,115305,116906,117052,118248,118756,124831,127365,129393,129687,131854,135497,136949,137648,141988,142065,143199,146825,147080,148123,148193,148629,149113,150455,151208,152143,153082,155277,155472,155970,156325,156630,156938,158360,158763,158783,158967,159691,160637,160697,161341,161693,161929,163139,163295,163594,164961,164962,165566,165692,165703,165953,166031,167430,167758,167772,168650,169869,170119,170258,170899,170990,173707,174255,174861,175286,177305,177817,178851,179122,180057,181322,182334,188378,189133,189869,190585,190978,192344,198059,199145,199459,200219,200614,200874,201496,203228,211370,217827,219486,219758,220789,224581,225971,227626,229056,229559,229965,234117,234273,235081,241841,243476,244955,245274,247294,248099,250129,250208,255353,259789,263306,263686,273287,277667,284174,287480,291054,300739";
+        $student = explode(",",$list);
+        foreach ($student as $key => $value) {
+            $ret_info = $this->t_order_info->get_info_by_userid($value);
+            if($ret_info){
+                echo $ret_info['userid'].'-'.$ret_info['price'].'-'.$ret_info['contract_type']."-".$ret_info['contract_status'];
+                echo "<br/>";
+            }
+        }
+        dd($student);
+    }
+    public function hello_li(){
+        $date_time = [
+            [
+                "start_time" => 1493568000, //5-1
+                "end_time"   => 1496246400, //6-1
+            ],
+            
+            [
+                "start_time" => 1496246400, //6-1
+                "end_time"   => 1498838400, //7-1
+            ],
+            
+            [
+                "start_time" => 1498838400, //7-1
+                "end_time"   => 1501516800, //8-1
+            ],
+
+            [
+                "start_time" => 1501516800, //8-1
+                "end_time"   => 1504195200, //9-1
+            ],
+            [
+                "start_time" => 1504195200, //9-1
+                "end_time"   => 1506787200, //10-1
+            ],
+            [
+                "start_time" => 1506787200, //10-1
+                "end_time"   => 1509465600, //11-1
+            ],
+            /*
+            */
+        ];
+        $grade_list = ["(100,101,102,103,104,105,106)","(200,201,202,203)","(300,301,302,303)"];
+        $subject_list = [1,2,3,4,5,10];
+        echo "<table >";
+                    echo "<tr>"."<td width=30px>date</td>"
+                            ."<td width=30px>年级</td>"
+                            ."<td width=30px>科目</td>"
+                            ."<td width=200px>试听需求</td>"
+                            ."<td width=30px>教材版本</td>"
+                            ."<td width=30px>地区</td>";
+        //foreach ($subject_list as $kkey => $kvalue) {
+        foreach ($date_time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            foreach ($subject_list as $kkey => $kvalue) {
+            //foreach ($date_time as $key => $value) {
+                $subject = $kvalue;
+                
+                foreach ($grade_list as $vkey => $vvalue) {
+                    $grade = "a.grade in ".$vvalue;
+                    //echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/>';
+                    $ret_info = $this->t_cr_week_month_info->get_apply_info_month($start_time,$end_time,$subject,$grade);
+                    foreach ($ret_info as $key => &$value) {
+                        $value['date'] = date("Y-m-d",$value['stu_request_test_lesson_time']);
+                        $value['grade_str'] = E\Egrade::get_desc($value['grade']);
+                        $value['subject_str'] = E\Esubject::get_desc($value['subject']);
+                        if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+                            $value['phone_location'] = "其它";
+                        }else{
+                            $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                            $value['phone_location'] = $pro;
+                        }
+                    }
+                    //echo date("Y-m-d",$start_time).'-'.date("Y-m-d",$end_time).'-'.E\Esubject::get_desc($subject).'-'.$grade.'<br/><br/><br/><br/><br/><br/>';
+                    
+                    foreach ($ret_info as $key => $value) {
+                        echo "<tr>";
+                        echo "<td width=30px>".$value['date']."</td>";
+                        echo "<td width=30px>".$value['grade_str']."</td>";
+                        echo "<td width=30px>".$value['subject_str']."</td>";
+                        echo "<td width=200px>".$value['stu_request_test_lesson_demand']."</td>";
+                        echo "<td width=30px>".$value['textbook']."</td>";
+                        echo "<td width=30px>".$value['phone_location']."</td>";
+                        echo "</tr>";
+                    }
+                }
+            }
+        }
+        echo "</table>"; 
+    }
 
     public function hello_world(){
         $ret_info = $this->t_cr_week_month_info->get_apply_info_a1();

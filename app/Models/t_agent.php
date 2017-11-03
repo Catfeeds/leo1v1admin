@@ -1368,6 +1368,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function reset_user_info($id, $send_wx_flag=false ) {
+
         $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
         $agent_type= $agent_info["type"];
@@ -1376,6 +1377,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $old_agent_status = $agent_info["agent_status"];
         $agent_student_status=0;
         $agent_status=0;
+
+        \App\Helper\Utils::logger("t_agent_yxyx: $id");
+
+
         $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
@@ -1459,11 +1464,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
         //活动奖励
-        $activity_money=$this->t_agent_money_ex-> get_all_money($id);
+        $activity_money=$this->t_agent_money_ex->get_all_money($id);
+
+        //双11活动
+        if($userid){
+            //t_luck_draw_yxyx_for_ruffian
+            $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money_for_total($userid);
+        }else{
+            $ruffian_money = 0;
+        }
+
+
+        \App\Helper\Utils::logger("yxyx_ruffian: $ruffian_money userid: $userid");
 
         //总提成信息
-        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money;
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
+        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money;
+        // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
         $child_arr = [];
@@ -1481,21 +1498,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $test_lesson_info = $this->get_child_test_lesson_info($in_str);
             if($test_lesson_info){
                 foreach( $test_lesson_info as $item ) {
-                    $orderid=$item["orderid"];
-                    if ($orderid) { //有订单
-
+                    if ($item["lesson_user_online_status"] ==1 )
                         $cycle_test_lesson_count += 1;
-                    }else{
-                        if ($item["lesson_user_online_status"] ==1 )
-                            $cycle_test_lesson_count += 1;
-                    }
 
                 }
             }
 
 
             //计算签单金额、签单量[无下限限制下级]
-            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str);
+            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,0, 0xFFFFFFFF );
             $cycle_order_count = $child_order_info['child_order_count'];
             $cycle_order_money = $child_order_info['child_order_money'];
 
@@ -2076,6 +2087,62 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
     //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
+    //@param:$this_parentid 起始父id
+    //@param:$month_first_day 每月开始时间戳
+    public function get_cycle_child_month($this_parentid,$month_first_day=0,$month_last_day=0){
+        //构造用户数组
+        $parent_arr = [
+            ['id'=>$this_parentid]
+        ];
+        list($child_arr,$student_count,$member_count,$error_flag)=$this->get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day);
+        if($error_flag)
+            echo $this_parentid.'推荐人循环!';
+
+        return [$child_arr,$student_count,$member_count];
+    }
+    //@desn:获取无限制下限信息
+    private function get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day){
+        $counter = 0;
+        if($counter == 0){
+            $child_arr = [];
+            $student_count = 0;
+            $member_count = 0;
+            $err_flag = false;
+            $id_map[$parent_arr[0]['id']] = true;
+        }
+        
+        foreach($parent_arr as $item){
+            $where_arr = [
+                ['parentid = %u',$item['id'],'-a'],
+            ];
+            $sql = $this->gen_sql_new(
+                "select id,type,create_time from %s where %s",self::DB_TABLE_NAME,$where_arr
+            );
+            $child_list=$this->main_get_list($sql);
+            foreach($child_list as $val){
+                if(isset($id_map[$val['id']])){
+                    $err_flag=true;
+                    break;
+                }
+                $id_map[$val['id']] = true;
+                $child_arr[] = $val['id'];
+                if(($val['type'] == 1 || $val['type'] == 3) && $val['create_time'] >= $month_first_day && $val['create_time'] < $month_last_day)
+                    $student_count ++;
+                if(($val['type'] == 2 || $val['type'] == 3) && $val['create_time'] > $month_first_day && $val['create_time'] < $month_last_day)
+                    $member_count ++;
+                
+            }
+
+            $counter++;
+
+            if($child_list)
+                $this->get_child_by_cycle($child_list,$month_first_day,$month_last_day);
+
+        }
+
+        return [$child_arr,$student_count,$member_count,$err_flag];
+    }
+    //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
     public function get_cycle_child($this_parentid){
         //构造用户数组
         $parent_arr = [
@@ -2172,21 +2239,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql = $this->gen_sql_new(
             "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
-            . " a.agent_status_money, ao.orderid  "
+            . " a.agent_status_money,l.lesson_start as l_time"
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
-            . " left join  %s ao on a.id =ao.aid "
             ." where  a.id in ".$in_str."  and a.create_time > %u  order by l.lesson_start asc ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
-            t_agent_order::DB_TABLE_NAME,
             $check_time
         );
         return $this->main_get_list($sql);
     }
     //获取我的邀请列表
     public function my_invite($agent_id,$page_info,$page_count){
-        
+
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time "
@@ -2230,7 +2295,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function update_money($parentid, $prize){
-        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize"
+        $sql = $this->gen_sql_new("  update %s set all_yxyx_money = all_yxyx_money+$prize, all_open_cush_money=all_open_cush_money+$prize"
                                   ." where userid=%s"
                                   ,self::DB_TABLE_NAME
                                   ,$parentid
@@ -2359,15 +2424,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select a.id,a.phone phone1,a.nickname nick1,aa.phone phone2,aa.nickname nick2,aaa.phone phone3,aaa.nickname nick3,"
             ." count(distinct s.userid) user_count,count(distinct ao.aid) order_user_count,sum(o.price) price,"
             ." count(distinct if( tq.id is null,na.userid,0 ) ) no_revisit_count,"
-
             ." count(distinct if( tq.is_called_phone=1,na.userid,0 ) ) ok_phone_count,"
-            ." count(distinct if( tq.is_called_phone=0,na.userid,0 ) ) no_phone_count,"
-
-            // ." count(distinct if( sum(tq.is_called_phone)>0,na.userid,0 ) ) ok_phone_count,"
-            // ." count(distinct if( sum(tq.is_called_phone)=0,na.userid,0 ) ) no_phone_count,"
-
             ." count(distinct if(na.test_lessonid>0,na.userid,0 ) ) rank_count,"
-            ." count(distinct if(l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count"
+            ." count(distinct if(l.lesson_del_flag=0 and l.lesson_user_online_status=1,na.userid,0 ) ) ok_lesson_count,"
+            ." count(distinct if(l.lesson_del_flag=1,na.userid,0 ) ) del_lesson_count"
             ." from %s a "
             ." left join %s aa on aa.id=a.parentid"
             ." left join %s aaa on aaa.id=aa.parentid"
@@ -2375,9 +2435,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s s on s.userid=na.userid"
             ." left join %s ao on ao.pid=a.id and ao.aid=na.id"
             ." left join %s o on o.orderid=ao.orderid and o.contract_type=0 and o.contract_status>0 and o.pay_time>0"
-            // ." left join %s r on r.userid=na.userid"
             ." left join %s tq on tq.phone=na.phone and %s "
-            ." left join %s l on l.lessonid=na.test_lessonid and l.lesson_del_flag=0 "
+            ." left join %s l on l.lessonid=na.test_lessonid "
             ." where %s "
             ." group by a.id"
             ,self::DB_TABLE_NAME
@@ -2387,7 +2446,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,t_student_info::DB_TABLE_NAME
             ,t_agent_order::DB_TABLE_NAME
             ,t_order_info::DB_TABLE_NAME
-            // ,t_revisit_info::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
@@ -2397,4 +2455,147 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
     }
+    //@desn:刷新团队每日业绩
+    public function reset_group_member_result($id){
+        $agent_info = $this->field_get_list($id,"*");
+        $userid  = $agent_info["userid"];
+
+        $child_arr = [];
+        $cycle_student_count = 0;
+        $cycle_member_count = 0;
+        //获取当前月份开始时间戳
+        $month_first_day = strtotime(date('Y-m-01'));
+        $month_first_day_format = date('Y-m-01');
+        $month_last_day = strtotime("$month_first_day_format +1 month -1 second");
+        //计算所有学员量、会员量[无下限限制下级]
+        list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child_month($id,$month_first_day,$month_last_day);
+        $cycle_test_lesson_count = 0;
+        $cycle_order_count = 0;
+        $cycle_order_money = 0;
+        //用户有推荐人
+        if($child_arr){
+            $in_str = '('.implode(',',$child_arr).')';
+            //获取该用户推荐人的试听量[无限制下架]
+            $test_lesson_info = $this->get_child_test_lesson_info($in_str);
+            if($test_lesson_info){
+                foreach( $test_lesson_info as $item ) {
+                    if ($item["lesson_user_online_status"] ==1 && $item['l_time'] >= $month_first_day && $item['l_time'] < $month_last_day)
+                        $cycle_test_lesson_count += 1;
+                }
+            }
+
+
+            //计算签单金额、签单量[无下限限制下级]
+            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
+            $cycle_order_count = $child_order_info['child_order_count'];
+            $cycle_order_money = $child_order_info['child_order_money'];
+
+        }
+
+        //获取该用户最后一条记录
+        $last_info = $this->task->t_agent_group_member_result->get_last_info($id);
+        //获取当前时间
+        $time_now = date('Y-m',$month_first_day);
+        $last_time = date('Y-m',$last_info['create_time']);
+        if($time_now == $last_time){
+            //更新信息
+            $this->task->t_agent_group_member_result->field_update_list($last_info['id'],[
+                "cycle_student_count" => $cycle_student_count,
+                "cycle_test_lesson_count" => $cycle_test_lesson_count,
+                "cycle_order_money " => $cycle_order_money ,
+                "cycle_member_count" => $cycle_member_count,
+                "cycle_order_count" => $cycle_order_count,
+            ]);
+        }else{
+            $this->task->t_agent_group_member_result->row_insert([
+                'agent_id' => $id,
+                'create_time' => $month_first_day,
+                "cycle_student_count" => $cycle_student_count,
+                "cycle_test_lesson_count" => $cycle_test_lesson_count,
+                "cycle_order_money " => $cycle_order_money ,
+                "cycle_member_count" => $cycle_member_count,
+                "cycle_order_count" => $cycle_order_count,
+
+            ]);
+        }
+    }
+    //@desn:获取团长一级推荐人
+    public function get_colconel_child_info($colconel_agent_id){
+        $where_arr = [
+            ['parentid = %u',$colconel_agent_id,'-1']
+        ];
+        $sql = $this->gen_sql_new(
+            "select id,type,create_time from %s where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info){
+
+        $where_arr = [
+            ['a.id=%u', $id, -1],
+            ['na.create_time>=%u', $start_time, -1],
+            ['na.create_time<%u', $end_time, -1],
+            's.is_test_user=0',
+            'na.type in (1,3)',
+        ];
+
+        if( $opt_type == 'no_revisit_count') {//没有拨打过电话
+            $where_arr[] = " tq.id is null ";
+        } else if ( $opt_type == 'no_phone_count' ) {//未拨通
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=0";
+        } else if ( $opt_type == 'ok_phone_count' ) {//拨通
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1";
+        } else if ( $opt_type == 'ok_phone_no_lesson' ) {//拨通没排课
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid=0";
+        } else if ( $opt_type == 'rank_count' ) {//排课
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid>0";
+        } else if ( $opt_type == 'del_lesson_count' ) {//排课取消
+            $where_arr[] = " tq.id>0 and tq.is_called_phone=1 and na.test_lessonid>0 and l.lesson_del_flag=1";
+        } else if ( $opt_type == 'ok_lesson_count' ) {//试听成功
+            $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1";
+        } else if ( $opt_type == 'ok_lesson_no_order' ) {//试听未签单
+            $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid is null";
+        } else if ( $opt_type == 'order_user_count' ) {//签单
+            $where_arr[] = " na.test_lessonid>0 and l.lesson_del_flag=0 and l.lesson_user_online_status=1 and ao.orderid>0 ";
+        }
+
+        $tq_arr = [
+            ['tq.start_time>=%u', $start_time, -1],
+            ['tq.start_time<%u', $end_time, -1],
+        ];
+
+
+        $sql = $this->gen_sql_new(
+            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid,"
+            ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,"
+            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count"
+            ." from %s a "
+            ." left join %s na on na.parentid=a.id"
+            ." left join %s s on s.userid=na.userid"
+            ." left join %s tq on tq.phone=na.phone and %s"
+            ." left join %s l on l.lessonid=na.test_lessonid "
+            ." left join %s tl on tl.userid=na.userid "
+            ." left join %s r on r.userid=na.userid "
+            ." left join %s ao on ao.aid=na.id "
+            ." where %s "
+            ." group by s.userid"
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+            ,$tq_arr
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_info,10, true);
+
+    }
+
 }

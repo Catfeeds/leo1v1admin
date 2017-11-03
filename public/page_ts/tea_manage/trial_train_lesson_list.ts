@@ -174,7 +174,7 @@ $(function(){
                     success  : function(result){
                         if(result.ret == 0){
                             if ( false && !$.check_in_phone() ) {
-                                window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                window.open("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                             +"&audio="+encodeURIComponent(result.audio_url)
                                             +"&start="+result.real_begin_time,"_blank");
                             }else{
@@ -418,8 +418,11 @@ $(function(){
             "text" : lessonid
         }, function(ret){
            // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            console.log("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+            return;
             $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
         });
+        return;
         $.do_ajax("/tea_manage/set_teacher_record_account",{
             "id" : id
         });

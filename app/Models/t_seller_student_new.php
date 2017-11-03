@@ -1195,29 +1195,29 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
-    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag
+    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
-            ["has_pad=%u", $has_pad, -1 ],
-            ["subject=%u", $subject, -1 ],
+            ["n.has_pad=%u", $has_pad, -1 ],
+            ["t.subject=%u", $subject, -1 ],
             "s.lesson_count_all=0",
             "n.seller_resource_type=1",
             "n.admin_revisiterid=0",
             "t.seller_student_status <>  50",
             "n.sys_invaild_flag=0",
-            ["origin like '%s%%'", $this->ensql( $origin), ""],
+            "(n.hand_free_count+n.auto_free_count)<5",
+            ["s.origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
-            ['tss.ass_test_lesson_order_fail_flag',$test_lesson_fail_flag,-1],
+            ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
-            $where_arr[]= "f.adminid =$adminid ";
+            $where_arr[] = ['n.free_adminid =%u',$adminid];
         }
-        if (!($nick || $phone)) {
-            $now=time(NULL);
-            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
-            $where_arr[]= "f.adminid is null ";
+        if($phone_location){
+            $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
         }
         if($suc_test_flag == 0){
             $where_arr[] = 'n.test_lesson_count=0';
@@ -1226,31 +1226,31 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"
-            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
-            ."tss.ass_test_lesson_order_fail_flag"
+            ."tr.test_lesson_order_fail_flag"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s m on n.admin_revisiterid=m.uid  "
-            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid ) "
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
-            ." where %s ",
+            ." left join %s tr on tr.require_id=tss.require_id "
+            ." where %s order by n.free_time desc ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
-            t_test_subject_free_list::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
             $where_arr
         );
         if($nick || $phone) {
             return $this->main_get_list_as_page($sql);
         }else{
-            return $this->main_get_page_random($sql,2);
+            return $this->main_get_page_random($sql,5);
         }
     }
 
@@ -1668,7 +1668,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //
     public function get_user_info_for_free($userid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  n.userid=%u limit 1 ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1679,7 +1679,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_no_hold_list($admin_revisiterid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  hold_flag=0  and admin_revisiterid=%u ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1790,7 +1790,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "is_test_user=0",
         ];
         $now=time(NULL);
-
         $sql=$this->gen_sql_new(
             "select add_time,  admin_revisiterid, n.userid, n.phone, n.user_desc, account, admin_assign_time ,global_tq_called_flag ,seller_student_status,seller_level  from %s n "
             ." join %s m on m.uid= n.admin_revisiterid  "
@@ -1813,7 +1812,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
-
     }
     public function free_to_new_user($userid,$account) {
         $this->t_seller_student_new->field_update_list($userid,[
@@ -2513,16 +2511,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function get_tq_succ_num_for_sign($start_time, $end_time){
-
         $where_arr = [
             "tq.is_called_phone=1",
             "tq.admin_role=2"
-
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(tq.id) from %s tq "
+        $sql = $this->gen_sql_new("  select count( distinct (ss.userid)) from %s tq "
                                   ." left join %s ss on tq.phone=ss.phone"
                                   ." left join %s ts on ts.userid=ss.userid"
                                   ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"

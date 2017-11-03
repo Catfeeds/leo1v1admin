@@ -130,6 +130,7 @@ $(function(){
         var arr = [
             ["老师",id_teacherid],
             ["类型",id_type],
+            ["---","伯乐奖不用填写金额"],
             ["金额",id_money],
             ["金额信息",id_money_info],
             ["添加时间",id_add_time],

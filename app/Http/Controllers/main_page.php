@@ -397,11 +397,11 @@ class main_page extends Controller
                 $ret_info_two = $item;
             }
         }
-        if(count($ret_info["list"])>0){
+        $ret_info["list"] = array_filter($ret_info["list"]);
+        if(count($ret_info["list"])>2){
             $ret_info["list"][0] = $ret_info_two;
             $ret_info["list"][1] = $ret_info_first;
         }
-        $ret_info["list"] = array_filter($ret_info["list"]);
 
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);

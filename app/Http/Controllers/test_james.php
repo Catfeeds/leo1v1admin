@@ -352,7 +352,7 @@ class test_james extends Controller
                         "title"=>"TEST MSG",
                         "description"=>"Is Really A Happy Day",
                         "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-                        "picurl"=>"http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
                     ]
                 ]
             ]
@@ -719,7 +719,7 @@ class test_james extends Controller
             'remark'   => "测试信息!"
         ];
 
-        $url_leo = 'http://admin.yb1v1.com/test_james/jilu?test=1';
+        $url_leo = 'http://admin.leo1v1.com/test_james/jilu?test=1';
 
         urldecode();
 
@@ -818,6 +818,33 @@ class test_james extends Controller
 
 
     public function dd(){
+
+        $end_time = strtotime('2017-11-1');
+        $start_time = strtotime('2017-10-1');
+
+        $ret_info['order_sign_month'] = $this->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
+
+        dd($ret_info);
+        $ret_info['order_trans_month'] = $this->t_order_info->get_order_trans_month($start_time, $end_time); // 合同人数[月试听转化率]
+
+        dd($ret_info);
+        $new_order_info = $this->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
+
+        dd($new_order_info);
+        $ret_info['seller_test_succ_month'] = $this->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
+
+        dd($ret_info);
+
+
+
+        $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money(211);
+        if(!$ruffian_money){
+            $ruffian_money = 0;
+        }
+
+        dd($ruffian_money);
+
+
         $a  = floor((5 - 20*4)/5)>0?floor((5 - 20*4)/5):0;
 
         dd($a);

@@ -18,7 +18,7 @@ class user extends TeaWxController
         \App\Helper\Utils::logger("teacherid_wx: $teacherid ");
 
 
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money";
+        $url = "http://admin.leo1v1.com/teacher_money/get_teacher_total_money";
         $post_data = array(
             "teacherid" => $teacherid,
         );

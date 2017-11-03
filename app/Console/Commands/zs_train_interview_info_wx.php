@@ -60,7 +60,7 @@ class zs_train_interview_info_wx extends Command
 老师姓名:".$val["train_realname"]."
 联系电话:".$val["phone_spare"]."
 年级科目:".$grade_str."".$subject_str."
-日期:".$time_str,"http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lesson_status=-1&lessonid=".$lessonid);
+日期:".$time_str,"https://admin.leo1v1.com/tea_manage/train_lecture_lesson?lesson_status=-1&lessonid=".$lessonid);
             }
         }
 

@@ -211,7 +211,7 @@ class add_train_lesson extends Job implements ShouldQueue
 面试时间:".$lesson_time_str."
 面试老师:".$realname."
 年级科目:".$grade_str."".$subject_str."
-请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
+请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.leo1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
 
 
         //邮件通知面试老师
@@ -236,7 +236,7 @@ class add_train_lesson extends Job implements ShouldQueue
  1、理优老师客户端<a href='http://www.leo1v1.com/common/download'>点击下载</a><br>
  2、指定内容<a href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>点击下载</a><br>
  [结果通知]<br>
-  <img src='http://admin.yb1v1.com/images/lsb.png' alt='对不起,图片失效了'><br>
+  <img src='http://admin.leo1v1.com/images/lsb.png' alt='对不起,图片失效了'><br>
 
 （关注并绑定理优1对1老师帮公众号：随时了解入职进度）<br>
  [通关攻略]<br>
@@ -250,7 +250,7 @@ class add_train_lesson extends Job implements ShouldQueue
  1、备课  —  2、试讲  —  3、培训  —  4、入职<br>
 【联系我们】<br>
 如有疑问请加QQ群 : 608794924<br>
-  <img src='http://admin.yb1v1.com/images/sjdy.png' alt='对不起,图片失效了'><br>
+  <img src='http://admin.leo1v1.com/images/sjdy.png' alt='对不起,图片失效了'><br>
 
 【LEO】试讲-答疑QQ群<br><br>
 

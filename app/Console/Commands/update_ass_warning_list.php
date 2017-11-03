@@ -79,7 +79,7 @@ class update_ass_warning_list extends Command
                 ]);
                 $nick = $task->t_student_info->get_nick($userid);
                 $id = $task->t_month_ass_warning_student_info->get_last_insertid();
-                $task->t_manager_info->send_wx_todo_msg_by_adminid ($item["uid"],"新增预警学员","新增预警学员","学生:".$nick,"http://admin.yb1v1.com/user_manage_new/ass_warning_stu_info_new?id=".$id);
+                $task->t_manager_info->send_wx_todo_msg_by_adminid ($item["uid"],"新增预警学员","新增预警学员","学生:".$nick,"http://admin.leo1v1.com/user_manage_new/ass_warning_stu_info_new?id=".$id);
 
  
             }
