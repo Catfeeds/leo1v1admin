@@ -827,7 +827,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
    public function get_jw_teacher_list_leader(){
        $sql = $this->gen_sql_new("select uid from %s ".
-                                 " where account_role = 3 and admin_work_status = 1 and uid in (436,343) "
+                                 " where account_role = 3 and admin_work_status = 1 and uid in (436,343,434,436,723) "
                                  ,self::DB_TABLE_NAME
        );
         $res =  $this->main_get_list($sql);

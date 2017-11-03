@@ -801,7 +801,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_test_lesson_teacher_list($start_time,$end_time){
-        
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type =2",
+            "l.confirm_flag <2",
+            "l.lesson_user_online_status<2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "t.is_test_user=0",
+            "m.account_role=2"
+        ];
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname"
+                                  ." from %s l left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s m on %s tr.cur_require_adminid=m.uid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
     public function get_teacher_stu_three_month_info(){
         $end_time = time();
