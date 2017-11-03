@@ -832,6 +832,11 @@ class test_james extends Controller
             ]);
         }
 
+        /*
+
+          http://admin.leo1v1.com/test_james/dd?p_type=6&n=1&s=1&t=2017-11-8
+
+         */
 
         exit;
 
