@@ -37,7 +37,7 @@
                         <td>{{@$var["stu_request_test_lesson_demand"]}} </td>
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["account"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
                         <td>
                             <div
