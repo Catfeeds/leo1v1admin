@@ -42,8 +42,13 @@ class wx_parent_gift extends Controller
 
         $subscribe = $user_info['subscribe'];
         $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        $type = 0;
 
-        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html");
+        if($parentid>0){
+            $type = 1;
+        }
+
+        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
         return ;
 
         // if($is_parent_flag){
