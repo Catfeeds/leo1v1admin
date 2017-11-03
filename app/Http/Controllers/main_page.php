@@ -2413,6 +2413,7 @@ class main_page extends Controller
             $imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
             $attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
             foreach($tea_list as $id => $val) {
+                dd()
                 $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, 1);
             }
             $total['sum'] = 0;
@@ -2508,11 +2509,11 @@ class main_page extends Controller
             if ($item['identity'] == 7) $key = 3;
             if ($item['identity'] == 8) $key = 4;
         }
-
+        dd($item);
         if (isset($key)) {
             $info[$key]['sum'] ++;
             if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
-            if ($item['train_trough_new_time'] > 0) $info[$key]['train_qual_sum'] ++;
+            if ($item['train_trough_new_time']) $info[$key]['train_qual_sum'] ++;
             if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
             if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
             if ($item['simul_test_lesson_pass_time']) $info[$key]['adopt_sum'] ++;
