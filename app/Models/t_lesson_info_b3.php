@@ -822,14 +822,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
                                   ." left join %s m on tr.cur_require_adminid=m.uid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_as_page($sql);
+        return $this->main_get_list($sql);
 
     }
     public function get_teacher_stu_three_month_info(){

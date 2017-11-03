@@ -17,8 +17,8 @@
                 <tr>
                     <td>teacherid</td>                   
                     <td>名字</td>                   
-                    <td>名字</td>                   
-                    <td>名字</td>                   
+                    <td>试听课数</td>                   
+                    <td>转化数</td>                   
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -27,10 +27,10 @@
                     <tr>
                         <td>{{@$var["teacherid"]}} </td>                          
                         <td class="stu_num">{{@$var["realname"]}} </td>                          
-                        <td class="stu_num">{{@$var["realname"]}} </td>                          
-                        <td class="stu_num">{{@$var["realname"]}} </td>                          
+                        <td class="person_num"></td>                          
+                        <td class="have_order"> </td>                          
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["month_start"]}}" >
+                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

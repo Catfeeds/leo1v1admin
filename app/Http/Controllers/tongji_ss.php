@@ -8135,7 +8135,9 @@ class tongji_ss extends Controller
        //      }
 
        //  }
-        return $this->pageView(__METHOD__,$list);
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
 
         // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
         //  foreach($ret_info["list"] as &$item){
