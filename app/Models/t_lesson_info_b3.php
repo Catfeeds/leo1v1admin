@@ -965,6 +965,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag = 0",
             "tll.fail_greater_4_hour_flag=0",
             "tlr.accept_flag=1",
+            "ts.require_admin_type =2",
         ];
 
         $this->where_arr_add_time_range($where_arr,"tll.set_lesson_time",$start_time,$end_time);

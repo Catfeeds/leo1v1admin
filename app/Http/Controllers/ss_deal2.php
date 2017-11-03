@@ -694,7 +694,7 @@ class ss_deal2 extends Controller
             //         'keyword1' => '换老师统计-调试',
             //         'keyword2' => "换老师统计-调试 $now"
             //     ];
-            //     $teacher_url = 'http://admin.yb1v1.com/tongji_ss/tongji_change_teacher_info';
+            //     $teacher_url = 'http://admin.leo1v1.com/tongji_ss/tongji_change_teacher_info';
             //     \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc','rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o', $data,$teacher_url);
             // }
 

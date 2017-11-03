@@ -165,9 +165,9 @@ class index extends Controller
                     $to_url=$this->get_in_str_val("to_url");
                     $bin_to_url= @hex2bin($to_url );
                     if (   $bin_to_url ) {
-                        $to_url=bin2hex( "http://admin.yb1v1.com" . $bin_to_url ) ;
+                        $to_url=bin2hex( "http://admin.leo1v1.com" . $bin_to_url ) ;
                     }else{
-                        $to_url=bin2hex( "http://admin.yb1v1.com" . $to_url ) ;
+                        $to_url=bin2hex( "http://admin.leo1v1.com" . $to_url ) ;
                     }
 
                     \App\Helper\Utils::logger("TO URL:$to_url ");
@@ -177,7 +177,7 @@ class index extends Controller
                     return;
                 }else{
                     if ( $_SERVER["HTTP_HOST"] == "wx-parent.leo1v1.com" ) {
-                        $url="http://admin.yb1v1.com{$_SERVER["REQUEST_URI"]}";
+                        $url="http://admin.leo1v1.com{$_SERVER["REQUEST_URI"]}";
                         header("Location: $url");
                         return ;
                     }

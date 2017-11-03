@@ -253,9 +253,10 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "l.lesson_type=2",
             "l.lesson_del_flag=0",
             "l.lesson_status=2",
+            "t.is_test_user=0",
         ];
 
-        if($type==2){
+        if($type==5){
             $where_arr[] = "l.teacher_money_type in (4,5,6) ";
         }elseif($type==3){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";

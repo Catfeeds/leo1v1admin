@@ -87,7 +87,7 @@ class teacher_advance_send_wx extends Command
                    ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
-                $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }

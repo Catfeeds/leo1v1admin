@@ -162,16 +162,16 @@ class send_tea_record_by_email_week extends Command
         $email_arr = ["fly@leoedu.cn","leowang@leoedu.com","chenhongji@leoedu.com","xixi@leoedu.cn","michael@leoedu.cn","jim@leoedu.cn","Louis@leoedu.com","erick@leoedu.cn","nick@leoedu.cn","coco@leoedu.cn","melody@leoedu.cn","cocozhang@leoedu.cn","jw@leoedu.com","wander@leoedu.cn","Jack@leoedu.cn","atom@leoedu.com","gonghaotian@leoedu.com"];
          foreach($email_arr as $email){
              dispatch( new \App\Jobs\SendEmailNew(
-                 $email,"教学质量反馈报告(".$start."-".$end.")","Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作<br>2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节<br>简要情况见下表<br>".$qq."<br>详情请点击:<a href=\"http://admin.yb1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
+                 $email,"教学质量反馈报告(".$start."-".$end.")","Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作<br>2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节<br>简要情况见下表<br>".$qq."<br>详情请点击:<a href=\"http://admin.leo1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
              ));
   
          }
         /*dispatch( new \App\Jobs\SendEmailNew(
-            "erick@leoedu.cn","教学质量反馈报告(".$start."-".$end.")","Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作<br>2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节<br>简要情况见下表<br>".$qq."<br>详情请点击:<a href=\"http://admin.yb1v1.com/human_resource/teacher_record_detail_list/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
+            "erick@leoedu.cn","教学质量反馈报告(".$start."-".$end.")","Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作<br>2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节<br>简要情况见下表<br>".$qq."<br>详情请点击:<a href=\"http://admin.leo1v1.com/human_resource/teacher_record_detail_list/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
             ));*/
 
         dispatch( new \App\Jobs\SendEmailNew(
-            [0=>"Jack@leoedu.cn",1=>"429710405@qq.com",2=>"jhp0416@163.com"],"教学质量反馈报告(".$start."-".$end.")","Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作<br>2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节<br>简要情况见下表<br>".$qq."<br>详情请点击:<a href=\"http://admin.yb1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
+            [0=>"Jack@leoedu.cn",1=>"429710405@qq.com",2=>"jhp0416@163.com"],"教学质量反馈报告(".$start."-".$end.")","Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作<br>2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节<br>简要情况见下表<br>".$qq."<br>详情请点击:<a href=\"http://admin.leo1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
         ));
 
         $admin_arr1=[349,72,448,74,303,188,60,325,329,379,478,310];
@@ -179,7 +179,7 @@ class send_tea_record_by_email_week extends Command
         foreach($admin_arr1 as $qq){
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($qq,"理优监课组","教学质量反馈报告(".$start."-".$end.")","本周教学监课情况如下:
 1.本周超过10次以上未转化的老师共".$un_num."位,其中".$freeze_num."位已进行冻结排课操作
-2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节","http://admin.yb1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date);
+2.本周监课数量".$all."节,其中新入职老师监课数量".$new."节","http://admin.leo1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date);
 
         }
        

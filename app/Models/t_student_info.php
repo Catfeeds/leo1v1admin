@@ -1653,7 +1653,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                         "销售-".$account,
                         "交接单 更新 || 合同生效",
                         "学生".$nick,
-                        "http://admin.yb1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
+                        "http://admin.leo1v1.com/user_manage_new/ass_contract_list?studentid=$userid");
 
                     $group_name = $this->task->t_admin_group_name->get_group_name_by_master_adminid( $master_adminid);
                     $wx_id = $this->task->t_manager_info->get_wx_id($master_adminid);
@@ -3129,19 +3129,35 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             ["lesson_start>%u",$lesson_start,0],
             ["lesson_start<%u",$lesson_end,0],
+            "lesson_type<1000",
+            " user_agent not like '%iPad%'"
         ];
-
-        $sql = $this->gen_sql_new("select userid,user_agent"
-                                  ." from %s "
+        $sql = $this->gen_sql_new("select s.userid,s.nick,l.lessonid,l.lesson_start,user_agent,l.lesson_type"
+                                  ." from %s s"
+                                  ." left join %s l on s.userid=l.userid"
                                   ." where %s"
-                                  ." and exists (select 1 from %s where %s)"
                                   ,self::DB_TABLE_NAME
-                                  ,$where_arr
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,$lesson_arr
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
+    public function get_tea_has_lesson($lesson_start,$lesson_end){
+        $where_arr = [
+            ["lesson_start>%u",$lesson_start,0],
+            ["lesson_start<%u",$lesson_end,0],
+            "lesson_type<1000",
+            " user_agent not like '%iPad%'"
+        ];
+        $sql = $this->gen_sql_new("select s.teacherid,s.nick,l.lessonid,l.lesson_start,user_agent,l.lesson_type"
+                                  ." from %s s"
+                                  ." left join %s l on s.teacherid=l.teacherid"
+                                  ." where %s"
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

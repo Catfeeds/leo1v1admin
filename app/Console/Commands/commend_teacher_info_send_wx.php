@@ -55,7 +55,7 @@ class commend_teacher_info_send_wx extends Command
 
             if($check_lesson_on != 1){
                 $task->t_change_teacher_list->field_update_list($id,["wx_send_time"=>time()]);
-                $task->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","销售推荐老师申请","销售".$account."老师申请推荐老师,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
+                $task->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","销售推荐老师申请","销售".$account."老师申请推荐老师,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
                 
             }
             

@@ -4427,7 +4427,7 @@ class user_deal extends Controller
                 $account_role = $this->t_manager_info->get_account_role($adminid);
                 $account_role_str = E\Eaccount_role::get_desc ($account_role);
                 $this->t_change_teacher_list->field_update_list($id,["wx_send_time"=>time()]);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","推荐老师申请",$account_role_str."-".$account."老师申请推荐老师,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","推荐老师申请",$account_role_str."-".$account."老师申请推荐老师,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
                 return outputJson(array('ret' => 1, 'info' =>  "<div>申请成功,本月可申请15次,当前已申请".$num."次<a href='/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=$id/' target='_blank'>点击查看申请信息<a/><div>"));
 
             }
@@ -4464,10 +4464,10 @@ class user_deal extends Controller
         $nick = $this->t_student_info->get_nick($userid);
         if($res){
             if($accept_flag==1){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","推荐老师申请反馈","您为学生".$nick."的推荐老师申请已处理完成,点击查看详情","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","推荐老师申请反馈","您为学生".$nick."的推荐老师申请已处理完成,点击查看详情","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","推荐老师申请反馈","您为学生".$nick."的推荐老师申请已被驳回,理由如下:
-".$accept_reason.",点击查看详情","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
+".$accept_reason.",点击查看详情","http://admin.leo1v1.com/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=".$id);
             }
 
         }
@@ -4544,7 +4544,7 @@ class user_deal extends Controller
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         $id= $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
         if($res){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
             $realname = $this->t_teacher_info->get_realname($teacherid);
             $record_info = "当前老师:".$realname."<br>换老师原因:".$change_reason."<br>期望老师:".$except_teacher;
             $this->t_revisit_info->row_insert([
@@ -4578,10 +4578,10 @@ class user_deal extends Controller
         $realname = $this->t_teacher_info->get_realname($teacherid);
         if($res){
             if($accept_flag==1){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","更换老师申请反馈","您更换".$realname."老师的申请已处理完成,点击查看详情","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","更换老师申请反馈","您更换".$realname."老师的申请已处理完成,点击查看详情","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
             }else{
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid,"理优教育","更换老师申请反馈","您更换".$realname."老师的申请已被驳回,理由如下:
-".$accept_reason.",点击查看详情","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
+".$accept_reason.",点击查看详情","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info_ass?id=".$id);
             }
 
         }
@@ -4691,7 +4691,7 @@ class user_deal extends Controller
         $id= $this->t_seller_and_ass_record_list->check_is_exist($lessonid);
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         if($res){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 
         }
         return $this->output_succ(["account"=>$accept_account]);
@@ -4787,15 +4787,15 @@ class user_deal extends Controller
 
         if($ret){
             if($account_role==2 || $require_adminid==349){
-                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info_seller?id=".$id);
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info_seller?id=".$id);
 
             }elseif($account_role==1){
-                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info_ass?id=".$id);
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","教学质量反馈结果","您提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info_ass?id=".$id);
 
             }
             $leader_adminid = $this->t_admin_group_user->get_main_master_adminid($adminid);
             if($leader_adminid != $adminid){
-                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈结果",$require_account."提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈结果",$require_account."提交的教学质量反馈已由".$account."老师处理完毕,请确认是否解决!","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
             }
 
         }
@@ -4827,7 +4827,7 @@ class user_deal extends Controller
         $require_account = $this->t_manager_info->get_account($require_adminid);
         $account = $this->get_account();
         if($ret){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","投诉老师结果反馈","您提交的老师投诉已由".$account."老师处理完毕,点击查看","http://admin.yb1v1.com/tea_manage_new/get_teacher_complaints_info_jw?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($require_adminid,"理优教育","投诉老师结果反馈","您提交的老师投诉已由".$account."老师处理完毕,点击查看","http://admin.leo1v1.com/tea_manage_new/get_teacher_complaints_info_jw?id=".$id);
         }
 
         return $this->output_succ();
@@ -4950,7 +4950,7 @@ class user_deal extends Controller
                 "accept_adminid"     =>$accept_adminid
             ]);
             $id= $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请(再次提交)","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.yb1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","更换老师申请(再次提交)","助教".$account."老师申请更换老师,请尽快协调处理","http://admin.leo1v1.com/user_manage_new/get_ass_change_teacher_info?id=".$id);
 
         }
 
@@ -4994,9 +4994,9 @@ class user_deal extends Controller
         $leader_adminid = $this->get_account_leader_adminid($accept_adminid);
         if($is_resubmit_flag==0){
             if($ret){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 if($leader_adminid != 1){
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈处理完成",$account."老师提交的教学质量反馈已处理完成,辛苦了","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 }
 
             }
@@ -5028,9 +5028,9 @@ class user_deal extends Controller
             $account = $this->get_account();
             $id= $this->t_seller_and_ass_record_list->check_is_exist($lessonid);
             if($res){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 if($leader_adminid != 1){
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,将由".$accept_account."老师处理","http://admin.yb1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($leader_adminid,"理优教育","教学质量反馈(再次提交)",$account."老师重新提交了一条教学质量反馈,将由".$accept_account."老师处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
                 }
             }
 
@@ -5290,7 +5290,7 @@ class user_deal extends Controller
         $id= $this->t_teacher_complaints_info->check_is_exist($teacherid,$adminid);
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         if($res){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","老师投诉待处理",$account."老师提交了一条老师投诉,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_teacher_complaints_info?id=".$id);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","老师投诉待处理",$account."老师提交了一条老师投诉,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_teacher_complaints_info?id=".$id);
 
         }
 
@@ -5496,8 +5496,8 @@ class user_deal extends Controller
         ]);
         if($ret){
             $name = $this->t_manager_info->get_name($adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
 
         }
@@ -5517,12 +5517,12 @@ class user_deal extends Controller
 
         if($master_deal_flag==2){
 
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
         }elseif($master_deal_flag==1){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
         }
         return $this->output_succ();
     }
@@ -5544,12 +5544,12 @@ class user_deal extends Controller
                 //微信通知主管和老师
                  $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
             }elseif($main_master_deal_flag==2){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
             }
 
         }else{
@@ -5579,12 +5579,12 @@ class user_deal extends Controller
                 //微信通知主管和老师
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
 
             }elseif($main_master_deal_flag==2){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
             }
 
         }
@@ -5840,7 +5840,7 @@ class user_deal extends Controller
                     "keyword2"  => "助教$acc_nick 驳回交接单, 交接单合同号$orderid,驳回原因:$reject_info",
                     "keyword3"  => "$now_date",
                 ];
-                $url = 'http://admin.yb1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
+                $url = 'http://admin.leo1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
                 $wx  = new \App\Helper\Wx();
                 $result = $wx->send_template_msg($cc_openid,$template_id,$data_msg,$url);
             }

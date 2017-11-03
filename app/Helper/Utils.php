@@ -1091,7 +1091,7 @@ class Utils  {
 
     static public  function wx_send_todo_msg( $openid, $from_user, $header_msg,$msg="",$url="",$desc="点击进入管理系统操作") {
         if (substr($url,0,7 )!="http://") {
-            $url="http://admin.yb1v1.com/".trim($url,"/ \t");
+            $url="http://admin.leo1v1.com/".trim($url,"/ \t");
         }
 
         $template_id=" SqAHV3G2UM71LmLFRYeE0ub1-lDU0_JgrDNhdDd-FTA";

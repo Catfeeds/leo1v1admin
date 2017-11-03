@@ -48,7 +48,7 @@ class wx_teacher extends Controller
     }
 
     public function set_menu() {
-        $str='{"button":[{"type":"click", "name":"xx", "key":"V1001_TODAY_MUSIC"}, {"name":"老师", "sub_button":[{"type":"view", "name":"管理系统", "url":"http://admin.yb1v1.com/wx_teacher_info/index"}, {"type":"view", "name":"抢课设置", "url":"http://admin.yb1v1.com/wx_teacher_info/test_lesson_config"}, {"type":"click", "name":"q23reqe", "key":"V1001_GOOD"}]}]}';
+        $str='{"button":[{"type":"click", "name":"xx", "key":"V1001_TODAY_MUSIC"}, {"name":"老师", "sub_button":[{"type":"view", "name":"管理系统", "url":"http://admin.leo1v1.com/wx_teacher_info/index"}, {"type":"view", "name":"抢课设置", "url":"http://admin.leo1v1.com/wx_teacher_info/test_lesson_config"}, {"type":"click", "name":"q23reqe", "key":"V1001_GOOD"}]}]}';
 
         $token=$this->get_token();
         $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$token";
@@ -80,7 +80,7 @@ class wx_teacher extends Controller
                     case "V1001_TODAY_MUSIC":
                         $openid=$object->FromUserName;
                         //$content = array();
-                        $content = " 你可以绑定在这里绑定 老师账号 <a href=\"http://admin.yb1v1.com/wx_teacher/bind?openid=" . $openid."\" > 点击这里</a>  然后就可以相关功能 ";
+                        $content = " 你可以绑定在这里绑定 老师账号 <a href=\"http://admin.leo1v1.com/wx_teacher/bind?openid=" . $openid."\" > 点击这里</a>  然后就可以相关功能 ";
                         break;
                     default:
                         $content = "点击菜单：".$object->EventKey;
@@ -237,7 +237,7 @@ class wx_teacher extends Controller
 
             $jsapi_ticket = $ret_arr["ticket"];
 
-            $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo123&timestamp=1494474414&url=http://admin.yb1v1.com/wx_teacher/imgupload";
+            $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo123&timestamp=1494474414&url=http://admin.leo1v1.com/wx_teacher/imgupload";
 
             $signature_str = sha1($signature);
             \App\Helper\Common::redis_set_json($key_str,$signature_str );

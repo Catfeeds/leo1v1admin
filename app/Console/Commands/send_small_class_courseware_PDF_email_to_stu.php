@@ -82,7 +82,7 @@ class send_small_class_courseware_PDF_email_to_stu extends Command
                                     "<div style=\"text-indent:2em\">通过下载并使用\"上海升学帮\"可以全过程透明化的进行教学反馈,随时随地查看学员的上课情况、作业情况".
                                     "以及学员针对性的反馈与评价。</div><br><div style=\"text-indent:2em\">无论身处何地,都能及时准确地了解您孩子的辅导情况!</div><br><div style=\"text-indent:2em\">家长端APP下载".
                                     "<span style=\"color:#545454;ext-indent:2em\" >(请用手机的二维码扫描工具扫描下载)</span></div><br>".
-                                    "<img src=\" http://admin.yb1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">"
+                                    "<img src=\" http://admin.leo1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">"
                                 )); 
 
                             }else if($work_status == 0){
@@ -98,7 +98,7 @@ class send_small_class_courseware_PDF_email_to_stu extends Command
                                     "<div style=\"text-indent:2em\">通过下载并使用\"上海升学帮\"可以全过程透明化的进行教学反馈,随时随地查看学员的上课情况、作业情况".
                                     "以及学员针对性的反馈与评价。</div><br><div style=\"text-indent:2em\">无论身处何地,都能及时准确地了解您孩子的辅导情况!</div><br><div style=\"text-indent:2em\">家长端APP下载".
                                     "<span style=\"color:#545454;ext-indent:2em\" >(请用手机的二维码扫描工具扫描下载)</span></div><br>".
-                                    "<img src=\" http://admin.yb1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">"
+                                    "<img src=\" http://admin.leo1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">"
                                 )); 
 
                             }else{
@@ -115,7 +115,7 @@ class send_small_class_courseware_PDF_email_to_stu extends Command
                                     "<div style=\"text-indent:2em\">通过下载并使用\"上海升学帮\"可以全过程透明化的进行教学反馈,随时随地查看学员的上课情况、作业情况".
                                     "以及学员针对性的反馈与评价。</div><br><div style=\"text-indent:2em\">无论身处何地,都能及时准确地了解您孩子的辅导情况!</div><br><div style=\"text-indent:2em\">家长端APP下载".
                                     "<span style=\"color:#545454;ext-indent:2em\" >(请用手机的二维码扫描工具扫描下载)</span></div><br>".
-                                    "<img src=\" http://admin.yb1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">"
+                                    "<img src=\" http://admin.leo1v1.com/images/shsxb.png\" alt=\" 对不起,图片失效了\">"
                                 )); 
 
                             }
