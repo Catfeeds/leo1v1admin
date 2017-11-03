@@ -1558,4 +1558,27 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_stu_ip_list($start_time,$end_time){
+        $where_arr=[
+            "s.is_test_user=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <>2",
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["ul.login_time >=%u",$start_time,0],
+            ["ul.login_time <%u",$end_time,0],
+        ];
+        $sql = $this->gen_sql_new("select distinct s.nick,l.userid,ul.ip"
+                                  ." from %s l left join %s s on l.userid = s.userid"
+                                  ." left join %s ul on l.userid = ul.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_user_login_log::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

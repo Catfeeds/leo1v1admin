@@ -2239,7 +2239,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql = $this->gen_sql_new(
             "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
-            . " a.agent_status_money,l.lesson_start as l_time"
+            . " a.agent_status_money,l.lesson_start as l_time,a.agent_student_status"
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
             ." where  a.id in ".$in_str."  and a.create_time > %u  order by l.lesson_start asc ",
@@ -2266,7 +2266,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
             "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
-            ."a2.pp_agent_status_money as agent_status_money,a2.create_time "
+            ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a.agent_student_status "
             ."from %s a2 "
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
             self::DB_TABLE_NAME,
@@ -2365,7 +2365,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@desn:获取邀请人
     public function get_second_invite_list($parentid){
         $sql = $this->gen_sql_new(
-            "select a.phone,a.nickname,a.create_time,a.agent_status,oi.price ".
+            "select a.phone,a.nickname,a.create_time,a.agent_status,oi.price,a.agent_student_status ".
             "from %s a ".
             "left join %s ao on ao.aid = a.id ".
             "left join %s oi on ao.orderid = oi.orderid ".
@@ -2569,15 +2569,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
         $sql = $this->gen_sql_new(
-            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.subject_ex,s.userid,"
+            "select a.id,a.phone phone1,a.nickname nick1,s.nick,s.phone,s.grade,s.userid,"
             ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,ss.admin_revisiterid ,"
-            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc"
+            ." sum( if(tq.is_called_phone=1,1,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc,"
+            ." ss.last_revisit_time,ss.add_time,tl.subject,tr.test_lesson_order_fail_flag,tr.test_lesson_order_fail_desc "
             ." from %s a "
             ." left join %s na on na.parentid=a.id"
             ." left join %s s on s.userid=na.userid"
             ." left join %s tq on tq.phone=na.phone and %s"
             ." left join %s l on l.lessonid=na.test_lessonid "
             ." left join %s tl on tl.userid=na.userid "
+            ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "
             ." left join %s r on r.userid=na.userid "
             ." left join %s ao on ao.aid=na.id "
             ." left join %s ss on ss.userid=na.userid "
@@ -2590,6 +2592,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,$tq_arr
             ,t_lesson_info::DB_TABLE_NAME
             ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_revisit_info::DB_TABLE_NAME
             ,t_agent_order::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
