@@ -2411,8 +2411,9 @@ class main_page extends Controller
             $tea_list = $this->t_teacher_flow->get_tea_list($start_time, $end_time);
             // 参训人数
             $train_tea = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time);
-            //
+            // 排课人数
             $imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
+            // 上课人数
             $attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
             foreach($tea_list as $id => $val) {
                 $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, $end_time, 1);
@@ -2515,8 +2516,8 @@ class main_page extends Controller
             $info[$key]['sum'] ++;
             if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
             if ($item['train_through_new_time'] && $item['train_through_new_time'] < $end_time) $info[$key]['train_qual_sum'] ++;
-            if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
-            if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
+            if (isset($imit[$id]) && $imit[$id]['lesson_start'] < $end_time) $info[$key]['imit_sum'] ++;
+            if (isset($attend[$id]) && $attend[$id]['lesson_start'] < $end_time) $info[$key]['attend_sum'] ++;
             if ($item['simul_test_lesson_pass_time'] && $item['simul_test_lesson_pass_time'] < $end_time) $info[$key]['adopt_sum'] ++;
         }
         return $info;
