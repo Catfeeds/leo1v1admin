@@ -58,5 +58,9 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
 
     }
 
+    public function get_pay_stu_ip_list($start_time,$end_time){
+        
+    }
+
 
 }
