@@ -385,7 +385,7 @@ class wx_parent_gift extends Controller
         $left_num = $this->get_draw_num($parentid);
 
         if($left_num <= 0){
-            
+            return $this->output_err("您的抽奖次数已用完!");
         }
 
         $stu_type = 1;
