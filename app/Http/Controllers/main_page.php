@@ -644,6 +644,9 @@ class main_page extends Controller
             }
 
         }
+        $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
+        $used_assign_lesson_count = $this->t_order_info->get_assign_lesson_count_by_account($account);
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
