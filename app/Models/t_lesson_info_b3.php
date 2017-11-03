@@ -811,7 +811,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "t.is_test_user=0",
             "m.account_role=2"
         ];
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname"
+        if($grade==1){
+            $where_arr[]="l.grade>=100 and l.grade<200";
+        }elseif($grade==2){
+             $where_arr[]="l.grade>=200 and l.grade<300";
+        }elseif($grade==3){
+             $where_arr[]="l.grade>=300 and l.grade<400";
+        }
+        $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname"
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
                                   ." left join %s m on %s tr.cur_require_adminid=m.uid"
@@ -822,7 +829,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_as_page($sql);
 
     }
     public function get_teacher_stu_three_month_info(){
