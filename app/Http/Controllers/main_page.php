@@ -2437,7 +2437,7 @@ class main_page extends Controller
             }
             $type_ret_info = $this->recruit_array_init();
             foreach($tea_list as $id => $item) {
-                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $atten);
+                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $item, $train_tea, $imit, $attend);
             }
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
@@ -2519,7 +2519,7 @@ class main_page extends Controller
 
     public function recruit_array_init($type=''){
         if($type) {
-            $info = [['subject'=>1, 'grade'=>100],['subject'=>1, 'grade'=>200],['subject'=>3, 'grade'=>300],['subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
+            $info = [['subject'=>1,'grade'=>100],['subject'=>1,'grade'=>200],['subject'=>1,'grade'=>300],['subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>2,'grade'=>300],['subject'=>3,'grade'=>100],['subject'=>3,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
         } else {
             $info = [['identity'=>0],['identity'=>5],['identity'=>6],['identity'=>7],['identity'=>8]];
         }
