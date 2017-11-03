@@ -398,7 +398,7 @@ class wx_parent_gift extends Controller
         //检测奖品是否抽完
         $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
 
-        if($has_prize == 0){
+        if(!$has_prize['id']){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 if($is_test>0){
@@ -420,8 +420,9 @@ class wx_parent_gift extends Controller
                 "stu_type"   => $stu_type
             ]);
         }else{
-            // $this->t_ruffian_activity->field_update_list($id,$set_field_arr);
-
+            $this->t_ruffian_activity->field_update_list($has_prize['id'],[
+                ""
+            ]);
         }
 
 

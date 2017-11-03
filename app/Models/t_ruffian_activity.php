@@ -65,13 +65,13 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
             "parentid=0"
         ];
 
-        $sql = $this->gen_sql_new(" select count(*) from %s ru"
-                                  ." where %s"
+        $sql = $this->gen_sql_new(" select id, prize_type from %s ru"
+                                  ." where %s limit 1"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 }
