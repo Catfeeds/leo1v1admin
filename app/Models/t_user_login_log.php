@@ -58,7 +58,7 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
 
     }
 
-    public function get_pay_stu_ip_list($start_time,$end_time,$match_type){
+    public function get_pay_stu_ip_list($start_time,$end_time,$match_type,$company_ip_list){
         $where_arr=[
             "s.is_test_user=0",
             ["ul.login_time >=%u",$start_time,0],
