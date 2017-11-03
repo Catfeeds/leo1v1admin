@@ -316,6 +316,8 @@ class wx_parent_gift extends Controller
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
 
+        $is_buy = $this->get();
+
         foreach($prize_list as &$item){
             if($item['get_prize_time']>0){
                 $item['exchanged'] = 1;// 已兑换
