@@ -19,22 +19,29 @@ class wx_parent_gift extends Controller
     private $appid ;
     private $secret ;
     public function get_gift_for_parent () {
-        $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+
+        $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
         $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_parent_info" );
         $wx->goto_wx_login( $redirect_url );
     }
 
     public function check_parent_info(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+
         $code = $this->get_in_str_val('code');
-        $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
+        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
 
-        dd($openid);
+        session(["p_openid"=>$openid]);
 
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         if($is_parent_flag){
-            header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);
+            // header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);//周年庆活动页面
+
             return ;
         }else{
             header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index&type=1&openid=$openid");
@@ -43,8 +50,10 @@ class wx_parent_gift extends Controller
     }
 
 
-    public function upload_excel(){
 
+
+
+    public function upload_excel(){
         $file = Input::file('file');
         // dd($file);
         if ($file->isValid()) {
@@ -611,7 +620,7 @@ class wx_parent_gift extends Controller
     // 双11优学优享活动
     public function get_member_info_list(){ // 获取学员信息
         $openid = session('yxyx_openid');
-        $start_time = strtotime('2017-11-3'); // 2017-11-03 
+        $start_time = strtotime('2017-11-3'); // 2017-11-03
 
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
 
@@ -648,7 +657,7 @@ class wx_parent_gift extends Controller
         // 检查是否可以抽奖
         $p_agent_id  = $agent_info['id'];
         $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($userid);
-        $start_time  = strtotime('2017-11-3'); // 2017-11-03 
+        $start_time  = strtotime('2017-11-3'); // 2017-11-03
         $invite_info = $this->t_agent->get_invite_num($start_time, $p_agent_id);
         $invite_num  = count($invite_info);
         $light_num   = floor(($invite_num - 20*$prize_num)/5)>0?floor(($invite_num - 20*$prize_num)/5):0;

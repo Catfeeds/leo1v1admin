@@ -37,7 +37,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td><a href="http://admin.yb1v1.com/stu_manage/score_list?sid={{$var['userid']}}">{{@$var["nick"]}}</a> </td>
+                        <td><a href="http://admin.leo1v1.com/stu_manage/score_list?sid={{$var['userid']}}">{{@$var["nick"]}}</a> </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["create_nick"]}}/{{@$var["account_type"]}} </td>
                         <td>{{@$var['admin_type_str']}}</td>

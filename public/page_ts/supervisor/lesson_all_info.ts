@@ -155,7 +155,7 @@ $(function(){
         });
         $.ajax({
             type: "get",
-            url: "http://admin.yb1v1.com:9501/pc_phone_noti_user_lesson_info",
+            url: "http://admin.leo1v1.com:9501/pc_phone_noti_user_lesson_info",
             dataType: "text",
             data: {
                 'username': g_account,
