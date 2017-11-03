@@ -43,7 +43,7 @@ $(function(){
             "id"             : opt_data.id,
             'status'         : 2,
         },function(){
-            window.open('http://admin.yb1v1.com/tea_manage/show_lesson_video?lessonid=204d0094wDsOuLV15QU1VW');
+            window.open('http://admin.leo1v1.com/tea_manage/show_lesson_video?lessonid=204d0094wDsOuLV15QU1VW');
         });
     });
 

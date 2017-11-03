@@ -265,6 +265,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "lesson_type in (0,1,3)",
             "l.lesson_start<lesson_start",
             "l.teacherid=teacherid",
+            "l.subject=subject",
             "l.userid=userid",
             "confirm_flag!=2",
             "lesson_del_flag=0",

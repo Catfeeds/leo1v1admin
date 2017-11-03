@@ -39,7 +39,7 @@ $(function(){
         },function(resp) {
             var userid_list = resp.data;
             $.each(userid_list,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["teac_nick"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.yb1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
+                html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["teac_nick"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.leo1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
             });
         });
 
@@ -76,7 +76,7 @@ $(function(){
         },function(resp) {
             var userid_list = resp.data;
             $.each(userid_list,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["account"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.yb1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
+                html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["account"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.leo1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
             });
         });
 
