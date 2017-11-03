@@ -1613,9 +1613,7 @@ $(function(){
     $(".opt-require_set_confirm_flag_4").on("click",function(){
         var opt_data=$(this).get_opt_data();
         $.flow_dlg_show("申请 学生课时不扣，付老师工资 ",function(){
-
-            if  ($.inArray( opt_data.lesson_type*1 , [0,1, 3] ) != -1 ) {
-
+            if($.inArray( opt_data.lesson_type*1 , [0,1, 3] ) != -1 ) {
                 var $input=$("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
                 $.show_input( "要申请 学生课时不扣，付老师工资 :"+
                               opt_data.stu_nick +"-"+ opt_data.tea_nick +"-" +opt_data.lesson_time,
@@ -1625,13 +1623,10 @@ $(function(){
                                       'reason'  :val
                                   });
                               }, $input  );
-
             }else{
                 alert("不可申请");
             }
-
         } ,3001, opt_data.lessonid );
-
     });
 
     $(".opt-require_lesson_success").on("click",function(){

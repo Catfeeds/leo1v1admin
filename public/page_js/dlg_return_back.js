@@ -1,6 +1,6 @@
 $(function(){
   // 录入回访
-  $(".opt-return-back").on("click",function(){
+    $(".opt-return-back").on("click",function(){
         var userid=$(this).parent().data("userid");
         BootstrapDialog.show({
             title: '回访录入',
@@ -24,29 +24,29 @@ $(function(){
                 cssClass: 'btn-warning',
                 action: function(dialog) {
 
-                var revisit_type   = $.trim(dlg_get_val_by_id("id_return_record_type") );
-                var revisit_person = $.trim(dlg_get_val_by_id("id_return_record_person") );
-                var operator_note  = $.trim(dlg_get_val_by_id("id_return_record_record"));
+                    var revisit_type   = $.trim(dlg_get_val_by_id("id_return_record_type") );
+                    var revisit_person = $.trim(dlg_get_val_by_id("id_return_record_person") );
+                    var operator_note  = $.trim(dlg_get_val_by_id("id_return_record_record"));
                     if (operator_note =="" ){
                         alert("还没有内容") ;
                     }
-                  $.ajax({
-                  type     :"post",
-                  url      :"/revisit/add_revisit_record",
-                  dataType :"json",
-                  data     :{'userid':userid,
+                    $.ajax({
+                        type     :"post",
+                        url      :"/revisit/add_revisit_record",
+                        dataType :"json",
+                        data     :{'userid':userid,
                                    'operator_note':operator_note,
                                    'revisit_person':revisit_person,
                                    'revisit_type':revisit_type
                                   },
-                  success  : function(result){
+                        success  : function(result){
                             if(result.ret != 0){
                                 alert(result.info);
                             }else{
-                        window.location.reload();
+                                window.location.reload();
                             }
-                  }
-                });
+                        }
+                    });
                 }
             }]
         });
@@ -54,6 +54,8 @@ $(function(){
 
     //回访记录
     $(".opt-return-back-list").on("click",function(){
+        //添加跳转销售回访列表判断标识
+        var cc_flag = $(this).hasClass('cc-flag');
         var agent_user_link = $(this).parent().data("agent_user_link");
         if(agent_user_link){
             //  /agent/agent_user_link  专用
@@ -92,7 +94,7 @@ $(function(){
                             item.operator_note+"</td><td><a class = \"opt_detail\" data-userid=\""+userid+"\" data-revisit_time=\""+revisit_time+"\">详情</a></td></tr>";
                     }else{
                         var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
-                            item.revisit_type+"</td><td>"+item.revisit_path+"<td></td>"+ 
+                            item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
                             item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
                             item.operator_note+"</td><td></td></tr>";
                     }
@@ -107,7 +109,11 @@ $(function(){
                         label: '查看全部',
                         cssClass : 'btn-warning',
                         action   : function(dialog) {
-                            $.wopen("/stu_manage/return_record?sid="+userid);
+                            if (cc_flag == true) {
+                                $.wopen("/stu_manage/return_book_record?sid="+userid);
+                            }else {
+                                $.wopen("/stu_manage/return_record?sid="+userid);
+                            }
                         }
                     },{
                         label  : '返回',

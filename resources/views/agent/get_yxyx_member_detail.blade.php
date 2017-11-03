@@ -39,13 +39,13 @@
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["test_lesson_order_fail_flag"]? $var["test_lesson_order_fail_flag_str"]:""}} </td>
                         <td>{{@$var["test_lesson_order_fail_desc"]}} </td>
-                        <td>{{@$var["tmk_desc"]}} </td>
+                        <td>{{@$var["sys_operator"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="回访列表" class="fa-comments opt-return-back-list " ></a>
+                                <a title="回访列表" class="fa-comments opt-return-back-list cc-flag" ></a>
                                 <a title="录入回访信息" class="fa-edit opt-edit-new"></a>
                                 <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
 
