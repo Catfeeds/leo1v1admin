@@ -2136,7 +2136,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $counter++;
 
             if($child_list)
-                $this->get_child_by_cycle($child_list,$month_first_day,$month_last_day);
+                $this->get_child_by_cycle_month($child_list,$month_first_day,$month_last_day);
 
         }
 
@@ -2472,6 +2472,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
+        if($id == 1593)
+            print_r($child_arr);
         //用户有推荐人
         if($child_arr){
             $in_str = '('.implode(',',$child_arr).')';
@@ -2573,6 +2575,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." group_concat( distinct if(b.sys_operator!='system',b.sys_operator,'') ) sys_operator,na.add_reason,"
             ." tl.test_lesson_subject_id,na.test_lessonid,max(r.revisit_time) revisit_time,ss.admin_revisiterid ,"
             ." count(distinct if(tq.is_called_phone=1,tq.id,0) ) phone_count,stu_request_test_lesson_demand,ss.user_desc,"
+            ." sum( if(tq.id is null,1,0) ) no_tq,"
             ." ss.last_revisit_time,ss.add_time,tl.subject,tr.test_lesson_order_fail_flag,tr.test_lesson_order_fail_desc "
             ." from %s a "
             ." left join %s na on na.parentid=a.id"

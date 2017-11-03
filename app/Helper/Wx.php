@@ -149,6 +149,7 @@ class Wx{
                             "xcwenn@qq.com","WX ERR: $template_id ", json_encode($ret)  ));
                         dispatch( new \App\Jobs\send_error_mail(
                             "wg392567893@163.com","WX ERR: $template_id ", json_encode($ret)  ));
+
                     }
                 }
                 return false;
