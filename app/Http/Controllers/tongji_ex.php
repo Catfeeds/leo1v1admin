@@ -144,12 +144,9 @@ class tongji_ex extends Controller
         foreach($ret_info as $val){
             $k = $val["userid"]."-".$val["ip"];
             @$list[$k]["userid"]=$val["userid"]; 
-            @$list[$k]["nick"]=$val["nick"]; 
+            @$list[$k]["nick"]=$val["phone"]; 
             @$list[$k]["ip"]=$val["ip"];
-            if(!$val["s2_nick"]){
-                $val["s2_nick"] = $val["s2_userid"]; 
-            }
-            @$list[$k]["same_name_list"] .=$val["s2_nick"].",";
+            @$list[$k]["same_name_list"] .=$val["s2_phone"].",";
         }
         foreach($list as &$item){
             $item["same_name_list"] = trim($item["same_name_list"],",");

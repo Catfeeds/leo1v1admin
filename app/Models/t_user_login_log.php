@@ -80,6 +80,7 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
         }
 
         $sql = $this->gen_sql_new("select distinct s.nick,ul.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"
+                                  ." ,s.phone,s2.phone s2_phone"
                                   ." from %s ul "
                                   ." left join %s s on ul.userid = s.userid and exists (select 1 from %s where contract_status>0 and contract_type in (0,3) and userid = s.userid and price>0)"
                                   ." left join %s ul2 on ul.ip = ul2.ip and ul.userid != ul2.userid"
