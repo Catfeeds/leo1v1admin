@@ -8,7 +8,9 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         parent::__construct();
     }
     public function get_all_list($uid){
-        $where_arr = [];
+        $where_arr = [
+            ['type=%u',E\Eseller_edit_log_type::V_2],
+        ];
         if($uid){
             $this->where_arr_add_int_or_idlist($where_arr,'uid',$uid);
         }
