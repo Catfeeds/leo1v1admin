@@ -2088,7 +2088,7 @@ $(function(){
 
         $.show_key_value_table('录入原因(市场操作)', arr,{
             label    : '确认',
-            cssClass : 'btn-info col-xs-2',
+            cssClass : 'btn-info',
             action   : function() {
                         $.ajax({
                             type     : "post",
