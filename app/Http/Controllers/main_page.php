@@ -2510,7 +2510,7 @@ class main_page extends Controller
             if ($item['identity'] == 7) $key = 3;
             if ($item['identity'] == 8) $key = 4;
         }
-        dd($item);
+
         if (isset($key)) {
             $info[$key]['sum'] ++;
             if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
