@@ -422,8 +422,10 @@ class wx_parent_gift extends Controller
             $prize_type = $this->get_win_rate($stu_type,$parentid);
         }
 
-        $this->t_ruffian_activity->row_insert(
-            ["parentid"]
+        $this->t_ruffian_activity->row_insert([
+            "parentid"  => $parentid,
+            "prize_list"
+        ]
         );
 
 
