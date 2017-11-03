@@ -1906,15 +1906,9 @@ class agent extends Controller
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $id = $this->get_in_int_val('id','');
-        $phone = trim($this->get_in_str_val('phone',''));
-        if($phone > 100000) {
-            $nickname = '';
-        } else {
-            $nickname = $phone;
-            $phone = '';
-        }
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$nickname,$phone,$page_info);
+        $opt_type = $this->get_in_str_val('opt_type','');
+        $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
