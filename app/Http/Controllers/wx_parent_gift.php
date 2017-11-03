@@ -380,6 +380,7 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
+        $now = time();
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
@@ -394,7 +395,6 @@ class wx_parent_gift extends Controller
         $start_time = strtotime(date('Y-m-d'));
         $end_time   = $start_time+86400;
         $draw_num_arr = $this->t_ruffian_activity->get_draw_num($start_time, $end_time, $stu_type);
-        // $limit_arr = $this->get_limit_num($stu_type);
 
         $is_pass = 0;
         $prize_type = $this->get_win_rate($stu_type,$parentid);
