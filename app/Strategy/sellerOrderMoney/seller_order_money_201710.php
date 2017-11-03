@@ -21,6 +21,39 @@ class seller_order_money_201710  extends  seller_order_money_base
         /** @var  \App\Console\Tasks\TaskController  $tt*/
         $tt= new \App\Console\Tasks\TaskController();
         $ret_arr=$tt->t_order_info->get_seller_money_info($adminid,$start_time,$end_time);
+        //获取分期不分期金额
+        // $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
+        $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
+        $sort_new = [];
+        $sort_new_two = [];
+        $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
+        foreach($parent_orderid_arr as $info){
+            foreach($sort as $item){
+                if($item['parent_orderid'] == $info){
+                    $sort_new[$info][] = $item;
+                }
+            }
+        }
+        foreach($sort_new as $item){
+            foreach($item as $info){
+                $type = $info['child_order_type'];
+                $parent_orderid = $info['parent_orderid'];
+                $price = $info['price'];
+                if($type == 2){
+                    $sort_new_two[$parent_orderid]['stage_money'] = $price;
+                    $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
+                    break;
+                }else{
+                    $sort_new_two[$parent_orderid]['stage_money'] = 0;
+                    $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
+                }
+            }
+        }
+        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money')):0;
+        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money')):0;
+        $ret_arr['stage_money'] = $stage_money/100;
+        $ret_arr['no_stage_money'] = $no_stage_money/100;
+        $ret_arr["all_price"] = $ret_arr['stage_money']*0.8+$ret_arr['no_stage_money'];
 
         $create_time= $tt->t_manager_info->get_create_time($adminid);
         $cur_month= date("m", $start_time );
@@ -86,6 +119,7 @@ class seller_order_money_201710  extends  seller_order_money_base
             //$desc="($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ";
 
         }
+        
         $ret_arr["money"] =$money;
         $ret_arr["desc"] = $desc ;
         $ret_arr["cur_month_money"] =$money*0.8;
@@ -100,39 +134,7 @@ class seller_order_money_201710  extends  seller_order_money_base
         $ret_arr["new_account_value"] =  $new_account_value;
         $ret_arr["create_time"] = \App\Helper\Utils::unixtime2date($create_time, "Y-m-d"  );
 
-        //获取分期不分期金额
-        // $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
-        $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
-        $sort_new = [];
-        $sort_new_two = [];
-        $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
-        foreach($parent_orderid_arr as $info){
-            foreach($sort as $item){
-                if($item['parent_orderid'] == $info){
-                    $sort_new[$info][] = $item;
-                }
-            }
-        }
-        foreach($sort_new as $item){
-            foreach($item as $info){
-                $type = $info['child_order_type'];
-                $parent_orderid = $info['parent_orderid'];
-                $price = $info['price'];
-                if($type == 2){
-                    $sort_new_two[$parent_orderid]['stage_money'] = $price;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
-                    break;
-                }else{
-                    $sort_new_two[$parent_orderid]['stage_money'] = 0;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
-                }
-            }
-        }
-        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money')):0;
-        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money')):0;
-        $ret_arr['stage_money'] = $stage_money/100;
-        $ret_arr['no_stage_money'] = $no_stage_money/100;
-
+        
         // $ret_arr['stage_money'] = $sort['stage_money']/100;
         // $ret_arr['no_stage_money'] = $sort['no_stage_money']/100;
 

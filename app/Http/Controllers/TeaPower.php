@@ -4056,14 +4056,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
                 $teacher_info['phone'],$reference_type,$begin_time
             );
-            $reference_price = \App\Helper\Utils::get_reference_money($recommend_info['identity'],$reference_num);
+            $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
                 "money"      => $reference_price*100,
-                "money_info" => $recommend_teacherid,
+                "money_info" => $recommended_teacherid,
                 "add_time"   => time(),
                 "type"       => E\Ereward_type::V_6,
-                "recommended_teacherid" => $recommend_teacherid,
+                "recommended_teacherid" => $recommended_teacherid,
             ]);
 
             if($need_flag && $teacher_info['wx_openid']!=""){
