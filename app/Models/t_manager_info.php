@@ -748,7 +748,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "m.del_flag =0 ",
         ];
         $sql=$this->gen_sql_new(
-            "select uid,account_role,m.create_time,m.seller_level,face_pic,level_face,level_face_pic "
+            "select uid,account,account_role,m.create_time,m.seller_level,m.face_pic,m.level_face_pic,"
+            ."g.level_face,g.level_goal,g.num"
             ." from %s m "
             ." left join %s g on g.seller_level=m.seller_level "
             ." where %s "
