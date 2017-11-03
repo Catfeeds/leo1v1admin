@@ -162,7 +162,7 @@ class WechatRequest  {
                 $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
             }
             return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
-        }elseif($content == '测试'){
+        }elseif($content == '双11'){
             $tuwenList[] = array(
                 'title' => '双11点赞优质教育',
                 'description' => '邀请好友参与课程点亮卡片，立即抽取现金红包100%中奖。这个11.11让你毫无顾虑买买买！',
