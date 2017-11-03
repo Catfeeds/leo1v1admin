@@ -9684,7 +9684,7 @@ lesson_type in (0,1) "
     public function get_imit_audi_sched_count($end_time, $teacherid)
     {
         $whereArr = [
-            ['lesson_start<%u',$end_time,0]
+            ['lesson_start<%u',$end_time,0],
             ['teacherid=%u',$teacherid,0],
             "lesson_type=1100",
             "train_type=4"
