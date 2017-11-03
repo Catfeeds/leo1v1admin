@@ -410,7 +410,7 @@ class wx_parent_gift extends Controller
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
         $data_msg = [
-            "first"     => " 您好，您的双十一奖品券已存放进您的账户",
+            "first"     => "您好，您的双十一奖品券已存放进您的账户",
             "keyword1"  => "获奖详情",
             "keyword2"  => "点击服务中心→奖品区即可兑换奖券",
             "keyword3"  => date('Y-m-d H:i:s'),

@@ -819,6 +819,9 @@ class test_james extends Controller
 
     public function dd(){
 
+        $ret_info['seller_test_succ_month'] = $task->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
+
+
         $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money(211);
         if(!$ruffian_money){
             $ruffian_money = 0;
