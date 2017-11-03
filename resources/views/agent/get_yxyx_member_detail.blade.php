@@ -49,7 +49,7 @@
                             >
                                 <a title="回访列表" class="fa-comments opt-return-back-list cc-flag" ></a>
                                 <a title="录入回访信息" class="fa-edit opt-edit-new"></a>
-                                <a title="录入回访信息" class="fa-edit opt-add-reason"></a>
+                                <a title="录入原因(市场操作)" class="fa-edit opt-add-reason"></a>
                                 <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
 
                             </div>
