@@ -316,6 +316,8 @@ class wx_parent_gift extends Controller
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
 
+        $is_buy = $this->t_order_info->buy_ten_flag($parentid);
+
         foreach($prize_list as &$item){
             if($item['get_prize_time']>0){
                 $item['exchanged'] = 1;// 已兑换
@@ -383,10 +385,7 @@ class wx_parent_gift extends Controller
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
-
-        if($left_num <= 0){
-            return $this->output_err("您的抽奖次数已用完!");
-        }
+        if($left_num <= 0){ return $this->output_err("您的抽奖次数已用完!"); }
 
         $stu_type = 1;
         if($check_time>$reg_time && $has_buy>0){
