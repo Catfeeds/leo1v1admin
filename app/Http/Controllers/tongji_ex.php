@@ -137,7 +137,7 @@ class tongji_ex extends Controller
         foreach($list as &$item){
             $item["same_name_list"] = trim($item["same_name_list"],",");
         }
-        dd($list);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list)  );
 
     }
 
