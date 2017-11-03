@@ -819,6 +819,19 @@ class test_james extends Controller
 
     public function dd(){
 
+        $type = $this->get_in_int_val('p_type');
+
+        $num = $this->get_in_int_val('n');
+
+        $num = 3;
+        $a = [];
+        $i = 1;
+        for($i;$i<=$num;$i++){
+            echo 1;
+        }
+
+        exit;
+
         $end_time = strtotime('2017-11-1');
         $start_time = strtotime('2017-10-1');
 

@@ -66,7 +66,7 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
             "s2.userid>0",
             //  "ul.ip not in ('123.57.153.80','123.57.153.95','116.226.191.120','101.81.224.61','121.43.230.95','116.226.191.6','222.64.63.129')"
         ];
-        $where_arr[]=$this->where_get_in_str("ul.ip",$company_ip_list);
+        $this->where_arr_adminid_in_list($where_arr,"ul.ip",$company_ip_list);
         $order_flag=true;
         if(in_array($match_type,[0,1])){
             if($match_type==1){
