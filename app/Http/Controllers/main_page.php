@@ -663,7 +663,9 @@ class main_page extends Controller
             "warning"      => $warning_type_num,
             "month_info"   => $month_info,
             "today_info"   => $today_info,
-            "ass_month"    =>  $ass_month
+            "ass_month"    =>  $ass_month,
+            "assign_lesson_count"=>$assign_lesson_count,
+            "used_assign_lesson_count"=>$used_assign_lesson_count
         ]);
 
     }
@@ -2413,7 +2415,7 @@ class main_page extends Controller
             $imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
             $attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
             foreach($tea_list as $id => $val) {
-                dd()
+                dd();
                 $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, 1);
             }
             $total['sum'] = 0;

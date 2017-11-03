@@ -819,13 +819,6 @@ class test_james extends Controller
 
     public function dd(){
 
-        $this->t_ruffian_activity->row_insert([
-            "validity_time" =>1510502400 ,
-            "prize_type"   => 6,
-            "create_time" =>  time(),
-            "stu_type" => 2
-        ]);
-
 
 
         // $type = $this->get_in_int_val('p_type');

@@ -4002,4 +4002,17 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         return $this->main_get_value($sql);
     }
+
+    public function get_assign_lesson_count_by_account($sys_operator){
+        $where_arr=[
+            "contract_type=1",
+            "from_parent_order_type=7",
+            ["sys_operator=%s",$sys_operator,""]
+        ];
+        $sql = $this->gen_sql_new("select sum(default_lesson_count*lesson_total) from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
