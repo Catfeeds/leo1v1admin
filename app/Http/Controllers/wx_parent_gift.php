@@ -402,7 +402,12 @@ class wx_parent_gift extends Controller
         $has_prize = $this->t_ruffian_activity->check_has_left($prize_type);
 
         if($has_prize == 0){
-         
+            $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+            if($is_test>0){
+                $prize_type=2;
+            }else{
+                $prize_type=8;
+            }
         }
 
         // 抽奖
