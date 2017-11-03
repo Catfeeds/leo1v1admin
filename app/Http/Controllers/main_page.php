@@ -2512,7 +2512,7 @@ class main_page extends Controller
         if (isset($key)) {
             $info[$key]['sum'] ++;
             if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
-            if ($item['train_trough_new_time']) $info[$key]['train_qual_sum'] ++;
+            if ($item['train_through_new_time']) $info[$key]['train_qual_sum'] ++;
             if (isset($imit[$id])) $info[$key]['imit_sum'] ++;
             if (isset($attend[$id])) $info[$key]['attend_sum'] ++;
             if ($item['simul_test_lesson_pass_time']) $info[$key]['adopt_sum'] ++;
