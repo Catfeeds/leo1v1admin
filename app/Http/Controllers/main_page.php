@@ -2516,7 +2516,7 @@ class main_page extends Controller
         if (isset($key)) {
             $info[$key]['sum'] ++;
             $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($id);
-            if ($train_tea_sum) $info['train_tea_sum'] ++;
+            if ($train_tea_sum) $info[$key]['train_tea_sum'] ++;
             //if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
             if ($item['train_through_new_time'] && $item['train_through_new_time'] < $end_time) $info[$key]['train_qual_sum'] ++;
             // 模拟试听总排课人数
