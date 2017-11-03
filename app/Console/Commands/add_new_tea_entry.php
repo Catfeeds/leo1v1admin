@@ -48,7 +48,7 @@ class add_new_tea_entry extends Command
             if (!$info) continue;
             if ($info['grade'] >= 100 && $info['grade'] < 200) $info['grade'] = E\Egrade::get_desc(200);
             if ($info['grade'] >= 200 && $info['grade'] < 300) $info['grade'] = E\Egrade::get_desc(200);
-            if ($info['grade'] > 300) $info['grade'] = E\Egrade::get_desc(300);
+            if ($info['grade'] >= 300) $info['grade'] = E\Egrade::get_desc(300);
             //$name = $info[count($info) - 1]['name'];
             echo $item.'   '.$name[$info['accept_adminid']]['name'].'   '.E\Esubject::get_desc($info['subject']).'   '.$info['grade'].',';
         }
