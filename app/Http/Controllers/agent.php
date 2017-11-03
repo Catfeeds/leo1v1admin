@@ -1995,13 +1995,12 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
-        // $operator_note = $this->t_seller_student_new->get_tmk_desc($userid);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
             E\Esubject::set_item_value_str($item,'subject');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
-            // $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
+            $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
             $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
             $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
             E\Etest_lesson_order_fail_flag::set_item_value_str($item);

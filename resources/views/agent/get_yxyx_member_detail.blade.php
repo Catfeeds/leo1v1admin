@@ -19,6 +19,7 @@
                     <td>备注</td>
                     <td>签单失败分类  </td>
                     <td>签单失败特别说明  </td>
+                    <td>现在负责的CC</td>
                     <td>曾经负责的CC</td>
                     <td>回访次数(电话拨打次数)</td>
                     <td>操作</td>
@@ -39,6 +40,7 @@
                         <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var["test_lesson_order_fail_flag"]? $var["test_lesson_order_fail_flag_str"]:""}} </td>
                         <td>{{@$var["test_lesson_order_fail_desc"]}} </td>
+                        <td>{{@$var["account"]}} </td>
                         <td>{{@$var["sys_operator"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
                         <td>
