@@ -96,7 +96,7 @@ class  parent_wx_server extends Controller
           global $_SERVER;
           if (!$code) {
           $to_url=bin2hex($this->get_in_str_val("to_url"));
-          $redirect_url=urlencode("http://admin.yb1v1.com?to_url=$to_url" );
+          $redirect_url=urlencode("http://admin.leo1v1.com?to_url=$to_url" );
           $wx->goto_wx_login( $redirect_url );
         */
 

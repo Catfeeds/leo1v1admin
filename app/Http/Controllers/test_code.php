@@ -319,7 +319,7 @@ class test_code extends Controller
         $data['keyword2'] = "\n-增加课堂中一键pdf上传功能";
         $data['keyword3'] = date("Y-m-d",time());
         $data['remark']   = "为了保证授课正常进行，请您参考【帮助中心】的【使用手册】教程尽快更新。";
-        $url              = "http://admin.yb1v1.com/article_wx/leo_teacher_ipad";
+        $url              = "http://admin.leo1v1.com/article_wx/leo_teacher_ipad";
 
         // \App\Helper\Utils::send_teacher_msg_for_wx($tea_list['wx_openid'] ,$template_id,$data,$url);
         // $job = new \App\Jobs\SendTeacherWx($tea_list,$template_id,$data,$url);
@@ -1441,5 +1441,29 @@ class test_code extends Controller
             }
         }
     }
+
+    public function test_data(){
+        $start_time = strtotime("2017-11-2 18:00");
+        $end_time = strtotime("2017-11-3");
+        $stu_list = $this->t_student_info->get_stu_has_lesson($start_time,$end_time);
+        $tea_list = $this->t_student_info->get_tea_has_lesson($start_time,$end_time);
+        echo "学生";
+        echo $this->br;
+        foreach($stu_list as $val){
+            $lesson_time = date("Y-m-d H:i",$val['lesson_start']);
+            $lesson_type_str =E\Econtract_type::get_desc($val['lesson_type']);
+            echo $val['userid']."|".$val['nick']."|".$val['user_agent']."|".$val['lessonid']."|".$lesson_time."|".$lesson_type_str;
+            echo $this->br;
+        }
+        echo "老师";
+        echo $this->br;
+        foreach($tea_list as $val){
+            $lesson_time = date("Y-m-d H:i",$val['lesson_start']);
+            $lesson_type_str =E\Econtract_type::get_desc($val['lesson_type']);
+            echo $val['teacherid']."|".$val['nick']."|".$val['user_agent']."|".$val['lessonid']."|".$lesson_time."|".$lesson_type_str;
+            echo $this->br;
+        }
+    }
+
 
 }

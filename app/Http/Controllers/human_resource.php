@@ -1889,7 +1889,7 @@ class human_resource extends Controller
         ];
         $header_msg  = "老师".$info_str."通知";
         $from_user   = "理优面试组";
-        $admin_url   = "http://admin.yb1v1.com/human_resource/teacher_lecture_list/?phone=".$teacher_info["phone"];
+        $admin_url   = "http://admin.leo1v1.com/human_resource/teacher_lecture_list/?phone=".$teacher_info["phone"];
         $subject_str = E\Esubject::get_desc($teacher_info['subject']);
 
         foreach($admin_arr as $id => $name){
@@ -2450,7 +2450,7 @@ class human_resource extends Controller
                                 ."\n建       议:".$record_info
                                 ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
 
-                $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
+                $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
                      ."&type=1&add_time=".$add_time;
                 //$data['remark']   = "如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
@@ -2582,7 +2582,7 @@ class human_resource extends Controller
                                 ."\n建       议:".$record_info
                                 ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
 
-                $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
+                $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
                      ."&type=".$type."&add_time=".$add_time;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
             }else{
@@ -2694,7 +2694,7 @@ class human_resource extends Controller
                 $data['keyword2'] = $level_degree;
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "\n升级原因:".$record_info."\n您将获得20元的课时奖励,愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
-                $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
@@ -2738,7 +2738,7 @@ class human_resource extends Controller
                 $data['keyword2'] = $keyword2;
                 $data['keyword3'] = date("Y-m-d H:i:s");
                 $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
-                $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
+                $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?id=".$id;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
             }
             $ret = $this->add_trial_train_lesson($teacher_info,1,2);
@@ -3383,7 +3383,7 @@ class human_resource extends Controller
                 ];
                 $header_msg  = "老师视频录制失败,重审通知";
                 $from_user   = "理优面试组";
-                $admin_url   = "http://admin.yb1v1.com/human_resource/teacher_lecture_list/?phone=".$teacher_info["phone"];
+                $admin_url   = "http://admin.leo1v1.com/human_resource/teacher_lecture_list/?phone=".$teacher_info["phone"];
                 $subject_str = E\Esubject::get_desc($teacher_info['subject']);
 
                 foreach($admin_arr as $id=>$name){

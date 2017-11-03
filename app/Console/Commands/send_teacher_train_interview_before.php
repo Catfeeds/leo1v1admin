@@ -96,7 +96,7 @@ class send_teacher_train_interview_before extends Command
 面试时间:".$lesson_time_str."
 面试老师:".$val["train_realname"]."
 年级科目:".$grade_str."".$subject_str."
-请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
+请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.leo1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
 
 
             $task->t_lesson_info->field_update_list($lessonid,[

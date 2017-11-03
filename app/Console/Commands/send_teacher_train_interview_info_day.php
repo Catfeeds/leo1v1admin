@@ -96,7 +96,7 @@ class send_teacher_train_interview_info_day extends Command
 面试时间:".$lesson_start_str."
 老师姓名:".$val["train_realname"]."
 年级科目:".$grade_str."".$subject_str."
-日期:".$time_str,"http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);*/
+日期:".$time_str,"http://admin.leo1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);*/
             @$arr[$val["uid"]]["time"] .= $start_str."-".$end_str."、";
             @$arr[$val["uid"]]["num"] ++;
             @$arr[$val["uid"]]["teacherid"] = $val["teacherid"];
@@ -109,7 +109,7 @@ class send_teacher_train_interview_info_day extends Command
             $str = trim($item["time"],"、");
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"1对1面试课程",$name."老师您好,您明天有".$item["num"]."节面试课程","
 面试时间:".date("Y-m-d",$start_time)."
- ".$str,"http://admin.yb1v1.com/tea_manage/train_lecture_lesson?date_type_config=undefined&date_type=1&opt_date_type=1&start_time=".date("Y-m-d",$start_time)."&end_time=".date("Y-m-d",$start_time)."&lesson_status=-1&res_teacherid=".$item["teacherid"]);
+ ".$str,"http://admin.leo1v1.com/tea_manage/train_lecture_lesson?date_type_config=undefined&date_type=1&opt_date_type=1&start_time=".date("Y-m-d",$start_time)."&end_time=".date("Y-m-d",$start_time)."&lesson_status=-1&res_teacherid=".$item["teacherid"]);
 
         }
        

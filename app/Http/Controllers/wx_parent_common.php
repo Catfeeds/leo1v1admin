@@ -20,7 +20,7 @@ class wx_parent_common extends Controller
         global $_SERVER;
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
-        dd($openid);
+        // dd($openid);
         if (!$openid) {
             dd( "请关闭 重进");
             exit;
@@ -175,7 +175,7 @@ class wx_parent_common extends Controller
 
         ***/
         $parent_appid = "wx636f1058abca1bc1";
-        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
+        $url = "http://admin.leo1v1.com/wx_parent_common/check_parent_info";
 
         $redirect_url = urlencode($url);
 

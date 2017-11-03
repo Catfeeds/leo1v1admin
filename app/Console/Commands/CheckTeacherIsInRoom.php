@@ -75,7 +75,7 @@ class CheckTeacherIsInRoom extends Command
                                 $header_msg = "有一节公开课已经开始，但老师不在课堂内！";
                                 $from_user  = "公开课老师检测";
                                 $msg        = "\n老师：".$teacher_nick."\n课程时间:".$lesson_time;
-                                $url        = "http://admin.yb1v1.com/tea_manage/lesson_list?lessonid=".$lessonid;
+                                $url        = "http://admin.leo1v1.com/tea_manage/lesson_list?lessonid=".$lessonid;
                                 $task->t_manager_info->send_wx_todo_msg("amanda",$from_user,$header_msg,$msg,$url);
                                 // $task->t_manager_info->send_wx_todo_msg("yueyue",$from_user,$header_msg,$msg,$url);
                                 $task->t_manager_info->send_wx_todo_msg("adrian",$from_user,$header_msg,$msg,$url);
