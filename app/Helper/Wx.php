@@ -232,7 +232,7 @@ class Wx{
         $cmd = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$token&openid=$openid&lang=zh_CN"; 
 
         // $cmd="https://api.weixin.qq.com/sns/userinfo?appid=$appid&secret=$appsecret&access_token=$token&openid=$openid";
-        $json_data=file_get_contents( $cmd  );
+        $json_data=file_get_contents($cmd);
 
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
         return $ret_arr;
