@@ -66,7 +66,7 @@
 
 
             <div > <font color="red"> 请复制 以下链接 到 问题报告群: </font> </div>
-            <div  style="color:blue;" > http://admin.yb1v1.com/supervisor/lesson_all_info?lessonid={{$var["lessonid"]}}
+            <div  style="color:blue;" > http://admin.leo1v1.com/supervisor/lesson_all_info?lessonid={{$var["lessonid"]}}
             </div>
         <br/>
 
@@ -104,8 +104,8 @@
                     <span >老师版本:</span> {{$stu_info["tea_user_agent"]}} <br/>
                     <span >学生版本:</span> {{$stu_info["stu_user_agent"]}} <br/>
 
-                    <div> <a href="http://admin.yb1v1.com/supervisor/monitor?userid={{$var["userid"]}}">课程信息 </a> </div>
-                    <div> <a href="http://admin.yb1v1.com/tea_manage/lesson_list?lessonid={{$var["lessonid"]}}">课程状态 </a> </div>
+                    <div> <a href="http://admin.leo1v1.com/supervisor/monitor?userid={{$var["userid"]}}">课程信息 </a> </div>
+                    <div> <a href="http://admin.leo1v1.com/tea_manage/lesson_list?lessonid={{$var["lessonid"]}}">课程状态 </a> </div>
                 </div>
             @else
                 <div class="row wb_monitor_item">

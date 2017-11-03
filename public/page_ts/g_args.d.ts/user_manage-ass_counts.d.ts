@@ -32,6 +32,7 @@ interface RowData {
 	phone	:any;
 	originid	:any;
 	grade	:any;
+	duration	:any;
 	originid_str	:any;
 	assistant_nick	:any;
 	revisit_type_str	:any;

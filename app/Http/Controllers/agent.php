@@ -466,16 +466,22 @@ class agent extends Controller
 
     public function test_new(){
         $time = time(null);
+        $time = 1506873600;
+        $reduce_flag = 0;
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
+            if(strtotime(date('Y-m-d',$time).'00:00:00') == $item['start_time']){
+                $reduce_flag = 1;
+            }
             if($time>=$item['start_time'] && $time<$item['end_time']){
                 $start_time_this = $item['start_time'];
                 $end_time_this = $item['end_time'];
             }
         }
+        dd($time,$reduce_flag);
         $timestamp = strtotime(date("Y-m-01"));
         $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
         $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
@@ -496,7 +502,8 @@ class agent extends Controller
                 $end_time_very_last = $item['end_time'];
             }
         }
-        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last);
+        $start_time_arr = array_unique(array_column($ret_time,'start_time'));
+        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$start_time_arr);
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->task->t_seller_level_goal->get_all_list_new();
@@ -1992,8 +1999,14 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
+            E\Esubject::set_item_value_str($item,'subject');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
+            $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
+            $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
+            $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
+
+
         }
         return $this->pageView(__METHOD__,$ret_info);
     }

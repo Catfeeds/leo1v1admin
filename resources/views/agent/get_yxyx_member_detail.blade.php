@@ -30,14 +30,14 @@
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
-                        <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["test_lesson"]}} </td>
                         <td>{{@$var["revisit_time"]}} </td>
+                        <td>{{@$var["last_call_time_space"]}}天</td>
+                        <td>{{@$var["stu_request_test_lesson_demand"]}} </td>
+                        <td>{{@$var["user_desc"]}} </td>
                         <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["account"]}} </td>
                         <td>{{@$var["phone_count"]}} </td>
                         <td>
                             <div

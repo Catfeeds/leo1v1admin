@@ -107,7 +107,7 @@ function countly_log(key,count){
     if (!count ) {
         count=1;
     }
-    $.get("http://countly.yb1v1.com/i", {
+    $.get("http://countly.leo1v1.com/i", {
         app_key:"891f21003e1f2c904fd93a9f2fecbd90a6da1c52",
         device_id:"js",
         events: JSON.stringify( [
@@ -836,7 +836,7 @@ $(function(){
 
 
     $("#id_new_seller_system").on("click",function(){
-        $.wopen("http://admincc.yb1v1.com");
+        $.wopen("http://admincc.leo1v1.com");
     });
 
     $("#id_self_menu_add").on("click",function(){

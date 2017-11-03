@@ -373,7 +373,7 @@ $(function(){
                         Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
                         Cwhiteboard.loadData(w,h,start,draw_url,audio_url,html_node);
                     }else{
-                        window.open("http://admin.yb1v1.com/player/playback.html?draw="+draw_url
+                        window.open("http://admin.leo1v1.com/player/playback.html?draw="+draw_url
                                     +"&audio="+audio_url
                                     +"&start="+start,"_blank");
                         window.location.reload();
@@ -396,7 +396,7 @@ $(function(){
                         Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
                         Cwhiteboard.loadData(w,h,start,draw_url,audio_url,html_node);
                     }else{
-                        window.open("http://admin.yb1v1.com/player/playback.html?draw="+draw_url
+                        window.open("http://admin.leo1v1.com/player/playback.html?draw="+draw_url
                                     +"&audio="+audio_url
                                     +"&start="+start,"_blank");
                         window.location.reload(); 
@@ -427,7 +427,7 @@ $(function(){
                                 Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
                                 Cwhiteboard.loadData(w,h,start,draw_url,audio_url,html_node);
                             }else{
-                                window.open("http://admin.yb1v1.com/player/playback.html?draw="+draw_url
+                                window.open("http://admin.leo1v1.com/player/playback.html?draw="+draw_url
                                             +"&audio="+audio_url
                                             +"&start="+start,"_blank");
                                 window.location.reload(); 

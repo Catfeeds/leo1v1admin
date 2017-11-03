@@ -67,9 +67,6 @@ class wx_parent_common extends Controller
         $phone = trim($this->get_in_str_val('phone'));
         $market_activity_type = $this->get_in_str_val('type',-1); // 区分是否是市场的活动
 
-        if (session("")) {
-        }
-
         if ( strlen($phone) != 11) {
             return $this->output_err("电话号码出错");
         }

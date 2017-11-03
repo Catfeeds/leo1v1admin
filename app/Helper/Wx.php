@@ -210,6 +210,8 @@ class Wx{
         $appid=$this->appid;
         $appsecret=$this->appsecret;
 
+        //https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN 
+
         $cmd="https://api.weixin.qq.com/sns/userinfo?appid=$appid&secret=$appsecret&access_token=$token&openid=$openid";
         $json_data=file_get_contents( $cmd  );
 
@@ -221,6 +223,21 @@ class Wx{
         return $ret_arr;
         //https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
     }
+
+
+    public function get_user_info($openid,$token) {
+        $appid=$this->appid;
+        $appsecret=$this->appsecret;
+
+        $cmd = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$token&openid=$openid&lang=zh_CN"; 
+
+        // $cmd="https://api.weixin.qq.com/sns/userinfo?appid=$appid&secret=$appsecret&access_token=$token&openid=$openid";
+        $json_data=file_get_contents( $cmd  );
+
+        $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
+        return $ret_arr;
+    }
+
 
 
 
