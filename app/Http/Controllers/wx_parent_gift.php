@@ -369,13 +369,14 @@ class wx_parent_gift extends Controller
     }
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
-        $parentid = $this->get_in_int_val('parentid');
+        // $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
         $left_num = $this->get_draw_num($parentid);
         return $this->output_succ(['left'=>$left_num]);
     }
 
     public function update_share_status(){ // 分享朋友圈
-        $parentid = $this->get_in_int_val('parentid');//
+        $parentid = $this->get_parentid();
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
@@ -386,8 +387,7 @@ class wx_parent_gift extends Controller
     }
 
     public function ruffian_activity(){ // 双11活动
-        $openid = session('wx_parent_openid');
-        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        $parentid = $this->get_parentid();
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');

@@ -129,7 +129,6 @@ class tongji_ex extends Controller
         foreach($ret_info as $val){
             @$list[$val["ip"]]++; 
         }
-        dd($list);
         dd($ret_info);;
 
     }
