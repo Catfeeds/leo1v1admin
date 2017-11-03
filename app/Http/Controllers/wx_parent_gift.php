@@ -41,13 +41,13 @@ class wx_parent_gift extends Controller
         session(["wx_parent_openid" => $openid ] );
 
         $subscribe = $user_info['subscribe'];
-        $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
-        if($subscribe == 0){ //未关注
-            //跳转到登录页面
+        if($parentid>0){ //已关注绑定
+            //跳转到登录页面  链接待定
             header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index");
             return ;
-        }else{ //已关注 跳转到活动页面
+        }else{ //未关注 登录页
             header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index");
             return ;
         }
@@ -369,13 +369,14 @@ class wx_parent_gift extends Controller
     }
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
-        $parentid = $this->get_in_int_val('parentid');
+        // $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
         $left_num = $this->get_draw_num($parentid);
         return $this->output_succ(['left'=>$left_num]);
     }
 
     public function update_share_status(){ // 分享朋友圈
-        $parentid = $this->get_in_int_val('parentid');//
+        $parentid = $this->get_parentid();
         $this->t_ruffian_share->delete_row_by_pid($parentid);
         $this->t_ruffian_share->row_insert([
             "is_share_flag" => 1,
