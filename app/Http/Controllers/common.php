@@ -700,9 +700,9 @@ class common extends Controller
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_ppx_new.png";
+            $phone_qr_name = $phone."_qr_agent_pxx_new.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_ppx_new.png";
+            $phone_qr_name = $phone."_qr_agent_pxx_new.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
         \App\Helper\Utils::logger("CHECK is_exists start");
