@@ -1447,7 +1447,6 @@ class test_code extends Controller
         // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
         $phone = "18790256265";
         $teacher_info = $this->t_teacher_info->get_wx_openid_by_phone($phone);
-        dd($teacher_info);
         $tea_list[] = [
             "wx_openid" => $teacher_info
         ];
@@ -1474,8 +1473,8 @@ class test_code extends Controller
         $job = new \App\Jobs\SendTeacherWx($tea_list,$tea_template_id,$tea_data,"");
         dispatch($job);
 
-
-
+        $parentid = $this->t_parent_info->get_parentid_by_phone($phone);
+        $parent_info = $this->t_parent_info->get_wx_openid_by_parentid($parentid);
         /**
          * 模板ID   : 9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU
          * 标题课程 : 待办事项提醒
@@ -1485,17 +1484,18 @@ class test_code extends Controller
          * 日期：{{keyword3.DATA}}
          * {{remark.DATA}}
          */
-        $tea_template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        $tea_data = [
+        $parent_template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+        $parent_data = [
             "first"    => "【学生端】现已全面升级，请及时更新版本。",
             "keyword1" => "【学生端】版本更新",
             "keyword2" => "\n 电脑：版本4.2.0，下载： www.leoedu.com/download"
             ."\n苹果平板精简版：版本5.2.1，下载：https://www.pgyer.com/istudent"
-            ."\n安卓平板：版本5.3.0，下载：http://www.leoedu.com/download.html",
+            ."\n安卓平板：版本5.3.0，下载：http://www.leoedu.com/download.html"
+            ."\n苹果平板：版本5.3.0，审核中",
             "keyword3" => $date,
             "remark"   => "请更新版本后，及时进行声音设备的设置。",
         ];
-        $job = new \App\Jobs\SendParentWx($tea_list,$tea_template_id,$tea_data,"");
+        $job = new \App\Jobs\SendParentWx($parent_list,$parent_template_id,$parent_data,"");
         dispatch($job);
     }
 
