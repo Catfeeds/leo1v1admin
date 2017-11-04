@@ -66,7 +66,6 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
             ["prize_type=%u",$prize_type,0],
             ["validity_time=%u",$today,0],
             ["stu_type=%u",$stu_type,0],
-            "get_prize_time=0",
             "parentid=0",
         ];
 

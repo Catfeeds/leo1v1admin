@@ -316,10 +316,16 @@ class wx_parent_gift extends Controller
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
-        // $is_buy = $this->t_order_info->buy_ten_flag($parentid);
+        $has_buy    = $this->t_order_info->check_is_buy($parentid);
 
         foreach($prize_list as &$item){
-            if(item['prize_type'] != 1){
+            if($has_buy){
+                $item['stu_type'] = 2;
+            }else{
+                $item['stu_type'] = 1;
+            }
+
+            if($item['prize_type'] != 1){
                 $item['str'] = "购课满十课时即可使用，仅限".$item['nick']."使用。";
             }else{
                 $item['str'] = "";
@@ -433,7 +439,6 @@ class wx_parent_gift extends Controller
         }
 
         $this->t_ruffian_activity->commit();
-
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
         $data_msg = [

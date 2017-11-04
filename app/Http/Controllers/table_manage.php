@@ -363,7 +363,10 @@ class table_manage extends Controller
         if ($sql) {
 
             if (preg_match("/^[ \t]*select/i",$sql) )   {
-                if (preg_match("/\blimit[ \t]+[0-9]+/i", $sql ))  {
+                if (
+                    preg_match("/\blimit[ \t]+[0-9]+/i", $sql )
+                    || preg_match("/\bgroup[ \t]+by[ \t]+[0-9]+/i", $sql )
+                )  {
                     $ret_info=$this->t_admin_group->main_get_list_as_page($sql);
                 }else{
                     $ret_info=$this->t_admin_group->main_get_list_by_page($sql,$page_info);
