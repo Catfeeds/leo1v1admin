@@ -397,18 +397,17 @@ class wx_parent_gift extends Controller
             $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
         }
 
-
         return $this->output_succ(['left'=>$left_num,"is_share"=>$has_share]);
     }
 
     public function update_share_status(){ // 分享朋友圈
-        $parentid = $this->get_parentid();
-        $this->t_ruffian_share->delete_row_by_pid($parentid);
-        $this->t_ruffian_share->row_insert([
-            "is_share_flag" => 1,
-            "share_time"    => time(),
-            "parentid"      => $parentid
-        ]);
+        // $parentid = $this->get_parentid();
+        // $this->t_ruffian_share->delete_row_by_pid($parentid);
+        // $this->t_ruffian_share->row_insert([
+        //     "is_share_flag" => 1,
+        //     "share_time"    => time(),
+        //     "parentid"      => $parentid
+        // ]);
         return $this->output_succ();
     }
 
