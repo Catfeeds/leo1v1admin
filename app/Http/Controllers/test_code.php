@@ -1478,7 +1478,6 @@ class test_code extends Controller
         $parent_list[] = [
             "wx_openid" => $parent_info
         ];
-        dd($parent_list);
         /**
          * 模板ID   : 9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU
          * 标题课程 : 待办事项提醒
