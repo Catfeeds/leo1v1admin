@@ -18,7 +18,6 @@ class SendTeacherWx extends Job implements ShouldQueue
      */
     public function __construct($tea_list,$template_id,$data,$url)
     {
-        //
         $this->wx_info=[
             "template_id" => $template_id,
             "data"        => $data,
