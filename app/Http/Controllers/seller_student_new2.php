@@ -864,7 +864,7 @@ class seller_student_new2 extends Controller
             $adminid = $item['adminid'];
             $res[$adminid]['free_count'] = isset($item['free_count'])?$item['free_count']:0;
         }
-        $history_count = $this->t_id_opt_log->get_history_info(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$start_time,$end_time,$origin_ex);
+        $history_count = $this->t_id_opt_log->get_history_info($start_time,$end_time,$origin_ex);
         foreach($history_count as $item){
             $adminid = $item['opt_id'];
             $res[$adminid]['get_free_count'] = isset($item['get_free_count'])?$item['get_free_count']:0;
