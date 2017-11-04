@@ -361,7 +361,6 @@ class wx_parent_gift extends Controller
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
 
 
-
         if(!$parentid){
             $parentid = -1;
         }
@@ -369,6 +368,8 @@ class wx_parent_gift extends Controller
         $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
 
         $left_num = $draw_num-$consume_num;
+
+        $left_num = $left_num<0?0:$left_num;
 
         return $left_num;
     }
