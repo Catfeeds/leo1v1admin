@@ -150,7 +150,9 @@ class TeacherMoneyTask extends TaskController
 
             $is_full = \App\Helper\Utils::check_teacher_is_full($t_val['teacher_money_type'],$t_val['teacher_type']);
             if($is_full){
-                
+                $pay_time = strtotime("+1 month",$start_time);
+            }else{
+                $pay_time = $start_time;
             }
 
             $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$start_time);
@@ -159,15 +161,14 @@ class TeacherMoneyTask extends TaskController
                     "teacherid"          => $t_val['teacherid'],
                     "teacher_type"       => $t_val['teacher_type'],
                     "teacher_money_type" => $t_val['teacher_money_type'],
-                    "pay_time"           => $start_time,
+                    "pay_time"           => $pay_time,
                     "money"              => $lesson_money,
                 ]);
             }else{
-                $this->t_teacher_salary_list->field_update_list($t_val['teacherid'],[
-                    "money" => $lesson_money
-                ]);
+                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$t_val['pay_time'],$lesson_money);
             }
         }
+
     }
 
 

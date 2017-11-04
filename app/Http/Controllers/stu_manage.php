@@ -61,6 +61,7 @@ class stu_manage extends Controller
             'grade_str'         => E\Egrade::get_desc( $ret_db['grade'] ),
             'type'              => $ret_db['type'],
             'parent_name'       => $ret_db['parent_name'],
+            'parentid'       => $ret_db['parentid'],
             'parent_type'       => $ret_db['parent_type'],
             'parent_wx_openid'       => $ret_db['parent_wx_openid']?"已绑定":"未绑定",
             'parent_type_str'   => E\Erelation_ship::get_desc( $ret_db['parent_type']),

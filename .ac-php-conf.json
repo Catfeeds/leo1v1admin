@@ -4,11 +4,32 @@
     "php-file-ext-list": [
       "php"
     ],
-    "php-path-list": [
-        "./app",
-        "./tests",
-        "./vendor/laravel/framework/src/Illuminate/Database/Schema/"
-    ],
+      "php-path-list": [
+          "./app/Config",
+          "./app/Console",
+          "./app/Core",
+          "./app/Enums",
+          "./app/Events",
+          "./app/Exceptions",
+          "./app/FileStore",
+          "./app/Flow",
+          "./app/Functions",
+          "./app/Helper",
+          "./app/Http",
+          "./app/Jobs",
+          "./app/Listeners",
+          "./app/Models",
+          "./app/OrderPdf",
+          "./app/OrderPrice",
+          "./app/Policies",
+          "./app/proto",
+          "./app/Providers",
+          "./app/Strategy",
+          "./app/Todo",
+          "./app/Wx",
+          "./tests",
+          "./vendor/laravel/framework/src/Illuminate/Database/Schema/"
+      ],
     "php-path-list-without-subdir": []
   }
 }

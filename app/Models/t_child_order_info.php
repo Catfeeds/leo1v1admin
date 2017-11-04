@@ -175,7 +175,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         ];
         $sql = $this->gen_sql_new("select c.child_order_type,c.child_orderid,"
                                   ."c.pay_status,c.pay_time,c.from_orderno,c.channel,"
-                                  ." s.nick "
+                                  ." s.nick,o.orderid parent_orderid,c.price "
                                   ." from %s c left join %s o on c.parent_orderid = o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." where %s",
@@ -228,6 +228,16 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                             ,$userid
         );
         return $this->main_get_list($sql);
+    }
+
+    public function check_parent_order_is_period($parent_orderid){
+        $where_arr=[
+            ["parent_orderid = %u",$parent_orderid,-1],
+            "child_order_type=2",
+            "price>0"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
     }
 
 

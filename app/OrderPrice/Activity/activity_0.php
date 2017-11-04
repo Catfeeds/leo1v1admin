@@ -9,7 +9,7 @@ class activity_0 extends  activity_base {
         parent::__construct($args);
     }
 
-    protected function do_exec (&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec ( &$out_args,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
         $old_price = $this->args["old_price"];
         $lesson_count = $this->args["lesson_count"];
         $grade_price = $this->args["grade_price"];

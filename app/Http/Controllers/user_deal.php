@@ -3177,8 +3177,21 @@ class user_deal extends Controller
 
 
     public function cancel_lesson_by_userid()
-    {
-       
+    {       
+        $end_time = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-3 month",$end_time);
+        dd(date("Y-m-d H:i:s",$start_time));
+        $all_throuth_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($start_time);
+        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+        $no_lesson_tea_list=[];
+        $lesson_tea_list=[];
+        foreach($all_throuth_teacher as $k=>$v){
+            if(!isset($all_train_through_lesson_teacher[$k])){
+                $no_lesson_tea_list[$k]=$v["teacherid"];
+            }else{
+                $lesson_tea_list[$k]=$v["teacherid"];
+            }
+        }
               
     }
 

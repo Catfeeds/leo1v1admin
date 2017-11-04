@@ -9,7 +9,7 @@ class activity_2017100701 extends  activity_base {
         parent::__construct($args);
     }
 
-    protected function do_exec (&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec (  &$out_args,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
         if ( $can_period_flag ) {
             $grade=$this->args["grade"] ;
             $grade_str=E\Egrade::get_desc($grade);

@@ -817,67 +817,95 @@ class test_james extends Controller
     }
 
 
+    public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
+        $rate   = mt_rand(1,10000);
+        $today  = time();
+        $eleven = strtotime('2017-11-11');
+        $prize_type = 0; // 奖品类型
+
+        /**
+           array(1,"","书包" ),
+           array(2,"","10元折扣券" ),
+           array(3,"","50元折扣券" ),
+           array(4,"","100元折扣券" ),
+           array(5,"","300元折扣券" ),
+           array(6,"","500元折扣券" ),
+           array(7,"","免费3次正式课" ),
+           array(8,"","试听课" ),
+        **/
+
+        if($stu_type == 1){ // 新用户
+            if($today < $eleven){
+                if($rate>1000 && $rate<=2000){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
+                    $prize_type=3;
+                }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
+                    $prize_type=4;
+                }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
+                    $prize_type=7;
+                }
+            }else{
+                if($rate>1000 && $rate<=2500){ // 书包 12.5
+                    $prize_type=1;
+                }elseif($rate>3000 && $rate<=4250){ // 50元折扣券  12.5
+                    $prize_type=3;
+                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                    $prize_type=6;
+                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                    $prize_type=7;
+                }
+            }
+        }elseif($stu_type==2){ //老用户
+            if($today < $eleven){
+                if($rate>100 && $rate<=150){ // 书包 0.5
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>1500 && $rate<=1530){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5010){ // 3次免费课程 0.1
+                    $prize_type=7;
+                }
+            }else{
+                if($rate>100 && $rate<=200){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
+                    $prize_type=6;
+                }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
+                    $prize_type=7;
+                }
+            }
+        }
+        return $prize_type;
+    }
+
+
+
     public function dd(){
+        $a = [];
 
-
-
-        // $type = $this->get_in_int_val('p_type');
-        // $num = $this->get_in_int_val('n');
-        // $validity_time = strtotime($this->get_in_str_val('t'));
-        // $stu_type = $this->get_in_int_val('s');
-        // $i = 1;
-        // for($i;$i<=$num;$i++){
-        //     $this->t_ruffian_activity->row_insert([
-        //         "validity_time" => $validity_time ,
-        //         "prize_type"   => $type,
-        //         "create_time" =>  time(),
-        //         "stu_type" => $stu_type
-        //     ]);
-        // }
-
-        /*
-
-
-         */
-
-        exit;
-
-        $end_time = strtotime('2017-11-1');
-        $start_time = strtotime('2017-10-1');
-
-        $ret_info['order_sign_month'] = $this->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
-
-        dd($ret_info);
-        $ret_info['order_trans_month'] = $this->t_order_info->get_order_trans_month($start_time, $end_time); // 合同人数[月试听转化率]
-
-        dd($ret_info);
-        $new_order_info = $this->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
-
-        dd($new_order_info);
-        $ret_info['seller_test_succ_month'] = $this->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
-
-        dd($ret_info);
-
-
-
-        $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money(211);
-        if(!$ruffian_money){
-            $ruffian_money = 0;
+        for($i=0;$i<=9999;$i++){
+            // $a[] = $this->get_win_rate();
+            echo $i."<br>";
         }
 
-        dd($ruffian_money);
 
 
-        $a  = floor((5 - 20*4)/5)>0?floor((5 - 20*4)/5):0;
-
-        dd($a);
-        dd(floor(-75/5));
-
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
-        $ret_info['seller_schedule_num_month'] = $this->t_test_lesson_subject_require->get_seller_schedule_num_month($start_time, $end_time); // 教务已排课['月排课数']
-
-        dd($ret_info);
     }
 
 

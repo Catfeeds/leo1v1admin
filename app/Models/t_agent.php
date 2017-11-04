@@ -2086,34 +2086,36 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                     self::DB_TABLE_NAME,  $where_arr );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+    private $id_map = [];
+    private $student_count = 0;
+    private $member_count = 0;
+    private $err_flag = false;
+    private $child_arr = [];
     //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
     //@param:$this_parentid 起始父id
     //@param:$month_first_day 每月开始时间戳
     public function get_cycle_child_month($this_parentid,$month_first_day=0,$month_last_day=0){
+        $this->id_map = [];
+        $this->student_count = 0;
+        $this->member_count = 0;
+        $this->err_flag = false;
+        $this->child_arr = [];
         //构造用户数组
         $parent_arr = [
             ['id'=>$this_parentid]
         ];
-        list($child_arr,$student_count,$member_count,$error_flag)=$this->get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day);
-        if($error_flag)
+        $this->get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day);
+        if($this->err_flag)
             echo $this_parentid.'推荐人循环!';
 
-        return [$child_arr,$student_count,$member_count];
+        return [$this->child_arr,$this->student_count,$this->member_count];
     }
     //@desn:获取无限制下限信息
     private function get_child_by_cycle_month($parent_arr,$month_first_day,$month_last_day){
-        $counter = 0;
-        if($counter == 0){
-            $child_arr = [];
-            $student_count = 0;
-            $member_count = 0;
-            $err_flag = false;
-            $id_map[$parent_arr[0]['id']] = true;
-        }
-
         foreach($parent_arr as $item){
+            $this->id_map[$item['id']] = true;
             $where_arr = [
-                ['parentid = %u',$item['id'],'-a'],
+                ['parentid = %u',$item['id'],'-1'],
             ];
             $sql = $this->gen_sql_new(
                 "select id,type,create_time from %s where %s",self::DB_TABLE_NAME,$where_arr
@@ -2121,26 +2123,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $child_list=$this->main_get_list($sql);
             foreach($child_list as $val){
                 if(isset($id_map[$val['id']])){
-                    $err_flag=true;
+                    $this->err_flag=true;
                     break;
                 }
-                $id_map[$val['id']] = true;
-                $child_arr[] = $val['id'];
+                $this->child_arr[] = $val['id'];
                 if(($val['type'] == 1 || $val['type'] == 3) && $val['create_time'] >= $month_first_day && $val['create_time'] < $month_last_day)
-                    $student_count ++;
+                    ++$this->student_count;
                 if(($val['type'] == 2 || $val['type'] == 3) && $val['create_time'] > $month_first_day && $val['create_time'] < $month_last_day)
-                    $member_count ++;
-
+                    ++$this->member_count;
+                
             }
-
-            $counter++;
-
             if($child_list)
                 $this->get_child_by_cycle_month($child_list,$month_first_day,$month_last_day);
 
         }
-
-        return [$child_arr,$student_count,$member_count,$err_flag];
     }
     //@desn:获取用户无限制下级[会员数、学员数、下级字符串]
     public function get_cycle_child($this_parentid){
@@ -2254,7 +2250,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
-            ."a1.agent_status_money,a1.create_time "
+            ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
@@ -2266,7 +2262,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
             "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
-            ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a.agent_student_status "
+            ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a2.agent_student_status "
             ."from %s a2 "
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
             self::DB_TABLE_NAME,
@@ -2472,8 +2468,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
-        if($id == 1593)
-            print_r($child_arr);
         //用户有推荐人
         if($child_arr){
             $in_str = '('.implode(',',$child_arr).')';
@@ -2485,7 +2479,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         $cycle_test_lesson_count += 1;
                 }
             }
-
 
             //计算签单金额、签单量[无下限限制下级]
             $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);

@@ -805,7 +805,6 @@ class Utils  {
         ]);
     }
 
-
     static public function sms_common($phone,$type,$data,$user_ip=0,$sign_name="理优教育")
     {
         $phone = (string)$phone;
@@ -819,7 +818,6 @@ class Utils  {
         }
         $receive_content="";
 
-        //$test_flag=true;
         $test_flag=false;
 
         if ($is_success==0) {

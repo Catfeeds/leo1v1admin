@@ -19,6 +19,7 @@ interface GargsStatic {
 	lesson_hold_flag:	number;
 	train_through_new:	number;
 	seller_flag:	number;
+	sleep_teacher_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -186,6 +187,8 @@ interface RowData {
 	speciality	:any;
 	train_type	:any;
 	new_train_flag	:any;
+	phone_location	:any;
+	sleep_flag	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
@@ -237,7 +240,8 @@ function load_data(){
 		limit_plan_lesson_type:	$('#id_limit_plan_lesson_type').val(),
 		lesson_hold_flag:	$('#id_lesson_hold_flag').val(),
 		train_through_new:	$('#id_train_through_new').val(),
-		seller_flag:	$('#id_seller_flag').val()
+		seller_flag:	$('#id_seller_flag').val(),
+		sleep_teacher_flag:	$('#id_sleep_teacher_flag').val()
     });
 }
 $(function(){
@@ -266,6 +270,7 @@ $(function(){
 	$('#id_lesson_hold_flag').val(g_args.lesson_hold_flag);
 	$('#id_train_through_new').val(g_args.train_through_new);
 	$('#id_seller_flag').val(g_args.seller_flag);
+	$('#id_sleep_teacher_flag').val(g_args.sleep_teacher_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -364,6 +369,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_flag</span>
                 <input class="opt-change form-control" id="id_seller_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sleep_teacher_flag</span>
+                <input class="opt-change form-control" id="id_sleep_teacher_flag" />
             </div>
         </div>
 */

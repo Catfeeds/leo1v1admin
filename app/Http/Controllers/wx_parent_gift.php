@@ -51,6 +51,7 @@ class wx_parent_gift extends Controller
             session(["parentid" => -1 ] );
         }
 
+
         header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
         return ;
 
@@ -316,22 +317,29 @@ class wx_parent_gift extends Controller
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
-
-        $is_buy = $this->t_order_info->buy_ten_flag($parentid);
+        $has_buy    = $this->t_order_info->check_is_buy($parentid);
 
         foreach($prize_list as &$item){
-            if($item['get_prize_time']>0){
-                $item['exchanged'] = 1;// 已兑换
+            if($has_buy){
+                $item['stu_type'] = 2;
             }else{
-                $item['exchanged'] = 0;
+                $item['stu_type'] = 1;
             }
+
+            if($item['prize_type'] != 1){
+                $item['str'] = "购课满十课时即可使用，仅限".$item['phone']."使用。";
+            }else{
+                $item['str'] = "";
+            }
+            $item['prize_type_str'] = E\Eruffian_prize_type::get_desc($item['prize_type']);
         }
+
         return $this->output_succ(["data"=>$prize_list]);
     }
 
     public function get_draw_num($parentid){ //
         // 检查是否分享朋友圈 11.6-11.13[包含13号]
-        $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
+        $start_time = strtotime('2017-11-04'); // 2017-11-06  测试 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
 
@@ -339,7 +347,8 @@ class wx_parent_gift extends Controller
         $is_reading = $this->t_student_info->check_is_reading($parentid);
 
         //检查是否新签
-        $order_start = strtotime('2017-11-11');
+        $order_start = strtotime('2017-11-4'); // 测试
+        // $order_start = strtotime('2017-11-11');
         $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
@@ -353,6 +362,7 @@ class wx_parent_gift extends Controller
 
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
 
+
         if(!$parentid){
             $parentid = -1;
         }
@@ -361,15 +371,25 @@ class wx_parent_gift extends Controller
 
         $left_num = $draw_num-$consume_num;
 
+        $left_num = $left_num<0?0:$left_num;
+
         return $left_num;
     }
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
         $parentid = $this->get_parentid();
 
-        $left_num = $this->get_draw_num($parentid);
+        if($parentid>0){
+            $left_num = $this->get_draw_num($parentid);
+        }else{
+            $left_num = 0;
+        }
 
-        return $this->output_succ(['left'=>$left_num]);
+        $start_time = strtotime('2017-11-04'); // 2017-11-06  测试 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+
+        return $this->output_succ(['left'=>$left_num,"is_share"=>$has_share]);
     }
 
     public function update_share_status(){ // 分享朋友圈
@@ -388,25 +408,23 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
-        $now = time();
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
         if($left_num <= 0){ return $this->output_err("您的抽奖次数已用完!"); }
 
-        $stu_type = 1;
         if($check_time>$reg_time && $has_buy>0){
             $stu_type = 2; // 老用户
         }else{
             $stu_type = 1; // 新用户
         }
-        $start_time = strtotime(date('Y-m-d'));
-        $end_time   = $start_time+86400;
 
         $prize_type = $this->get_win_rate($stu_type,$parentid);
+
+        $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
-        $has_prize = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
-        if(!$has_prize['id']){
+        $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+        if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 if($is_test>0){
@@ -417,23 +435,23 @@ class wx_parent_gift extends Controller
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
-        }
 
-        $unlimited_prize = [2,8];
-        if(in_array($prize_type,$unlimited_prize)){
             $this->t_ruffian_activity->row_insert([
                 "parentid"   => $parentid,
                 "prize_type" => $prize_type,
                 "prize_time" => time(),
-                "stu_type"   => $stu_type
+                "stu_type"   => $stu_type,
+                "validity_time" => strtotime(date('Y-m-d'))
             ]);
+
         }else{
-            $this->t_ruffian_activity->field_update_list($has_prize['id'],[
+            $this->t_ruffian_activity->field_update_list($has_prize_id,[
                 "parentid"   => $parentid,
                 "prize_time" => time(),
             ]);
         }
 
+        $this->t_ruffian_activity->commit();
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
         $data_msg = [
@@ -443,7 +461,7 @@ class wx_parent_gift extends Controller
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
 
-        $url = '';
+        $url = "http://wx-parent-web.leo1v1.com/prizes";
         $wx=new \App\Helper\Wx();
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
@@ -453,7 +471,7 @@ class wx_parent_gift extends Controller
 
 
     public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
-        $rate   = mt_rand(0,10000);
+        $rate   = mt_rand(1,10000);
         $today  = time();
         $eleven = strtotime('2017-11-11');
         $prize_type = 0; // 奖品类型
@@ -636,7 +654,8 @@ class wx_parent_gift extends Controller
         }
 
         if($has_get_money >=1000){ // 每日金额1000元
-            $prize = 0;
+            // $prize = 0;
+            return $this->output_err('今日红包红包已被抢光，请明天再接再厉！');
         }
         // 中奖金额存入数据库
         $this->t_agent->update_money($userid, $prize);
@@ -682,5 +701,50 @@ class wx_parent_gift extends Controller
         $parentid = $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
         return $parentid;
     }
+
+
+    // 测试区
+
+
+
+    public function get_draw_num_test(){ //
+        $parentid = $this->get_parentid();
+        // 检查是否分享朋友圈 11.6-11.13[包含13号]
+        $start_time = strtotime('2017-11-04'); // 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+
+        // 检查是否在读学生
+        $is_reading = $this->t_student_info->check_is_reading($parentid);
+
+        //检查是否新签
+        $order_start = strtotime('2017-11-11');
+        $order_end   = strtotime('2017-11-14');
+        $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
+
+        $draw_num = 0; //抽奖次数
+
+
+        if($has_share){ $draw_num++;}
+
+        if($is_reading){$draw_num++;}
+
+        if($is_new_order){$draw_num++;}
+
+        $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
+
+
+        if(!$parentid){
+            $parentid = -1;
+        }
+
+        $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
+
+        $left_num = $draw_num-$consume_num;
+        echo $parentid."<br>".$has_share."<br>".$is_reading."<br>".$is_new_order."<br>".$consume_num;
+
+        return $left_num;
+    }
+
 
 }

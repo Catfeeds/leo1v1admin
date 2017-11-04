@@ -287,6 +287,8 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     public function get_cycle_child_order_info($in_str,$start_time,$end_time){
         $where_arr = [
             'ao.aid in '.$in_str,
+            'oi.order_status in (1,2)',
+            'oi.contract_type in (0,3) ',
         ];
         $this->where_arr_add_time_range($where_arr,"ao.create_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(

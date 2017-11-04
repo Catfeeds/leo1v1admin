@@ -75,7 +75,7 @@ class test_code extends Controller
         $order_name = "/tmp/order_list.txt";
         $lesson_name = "/tmp/lesson_list.txt";
 
-        $order_flag = $this->get_file_flag($order_name);
+        $order_flag  = $this->get_file_flag($order_name);
         $lesson_flag = $this->get_file_flag($lesson_name);
 
         if($order_flag){
@@ -1442,28 +1442,10 @@ class test_code extends Controller
         }
     }
 
-    public function test_data(){
-        $start_time = strtotime("2017-11-2 18:00");
-        $end_time = strtotime("2017-11-3");
-        $stu_list = $this->t_student_info->get_stu_has_lesson($start_time,$end_time);
-        $tea_list = $this->t_student_info->get_tea_has_lesson($start_time,$end_time);
-        echo "学生";
-        echo $this->br;
-        foreach($stu_list as $val){
-            $lesson_time = date("Y-m-d H:i",$val['lesson_start']);
-            $lesson_type_str =E\Econtract_type::get_desc($val['lesson_type']);
-            echo $val['userid']."|".$val['nick']."|".$val['user_agent']."|".$val['lessonid']."|".$lesson_time."|".$lesson_type_str;
-            echo $this->br;
-        }
-        echo "老师";
-        echo $this->br;
-        foreach($tea_list as $val){
-            $lesson_time = date("Y-m-d H:i",$val['lesson_start']);
-            $lesson_type_str =E\Econtract_type::get_desc($val['lesson_type']);
-            echo $val['teacherid']."|".$val['nick']."|".$val['user_agent']."|".$val['lessonid']."|".$lesson_time."|".$lesson_type_str;
-            echo $this->br;
-        }
-    }
+    public function test_send_wx(){
+        $parent_list = $this->t_parent_info->get_openid_list();
+        // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
 
+    }
 
 }

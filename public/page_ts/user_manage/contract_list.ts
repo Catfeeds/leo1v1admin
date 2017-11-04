@@ -971,6 +971,7 @@ $(function(){
 
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
+                userid : data.userid,
                 competition_flag:$competition_flag.val(),
                 lesson_count:$lesson_count.val()*100,
                 order_promotion_type: order_promotion_type,
@@ -1039,7 +1040,7 @@ $(function(){
                             userid                        : data.userid,
                             pre_money                     : $pre_money.val(),
                             grade                         : data.grade,
-                            subject                       : data.subject,
+                            subject                       : $subject.val(),
                             period_flag : $period_flag.val(),
                             origin                        : data.origin,
                             order_promotion_type          : $order_promotion_type.val(),
@@ -2705,6 +2706,7 @@ $(function(){
             var order_promotion_type=  $order_promotion_type.val();
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
+                userid : data.userid,
                 competition_flag:$competition_flag.val(),
                 lesson_count:$lesson_count.val()*100,
                 order_promotion_type: order_promotion_type,
@@ -2839,7 +2841,7 @@ $(function(){
                         userid                        : data.userid,
                         pre_money                     : $pre_money.val(),
                         grade                         : data.grade,
-                        subject                       : data.subject,
+                        subject                       : $subject.val(),
                         origin                        : data.origin,
                         order_promotion_type          : $order_promotion_type.val(),
                         promotion_spec_discount       : $promotion_spec_discount_price.val()*100,

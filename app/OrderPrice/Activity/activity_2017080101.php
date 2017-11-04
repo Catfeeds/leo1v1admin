@@ -9,7 +9,7 @@ class activity_2017080101 extends  activity_base {
         parent::__construct($args);
     }
 
-    protected function do_exec ( &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec (  &$out_args, &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list )   {
 
         $free_money=0;
         if($this->from_test_lesson_id ){
