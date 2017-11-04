@@ -828,14 +828,14 @@ class common extends Controller
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
         //判断是否更新微信头像
-        if ($old_headimgurl != $headimgurl) {
-            $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
-            if($is_exists) {
-                //删除七牛图片
-                \App\Helper\Utils::qiniu_del_file($qiniu_url,$phone_qr_name);
-            }
-            $is_exists = false;
-        }
+        // if ($old_headimgurl != $headimgurl) {
+        //     $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
+        //     if($is_exists) {
+        //         //删除七牛图片
+        //         \App\Helper\Utils::qiniu_del_file($qiniu_url,$phone_qr_name);
+        //     }
+        //     $is_exists = false;
+        // }
 
         if(!$is_exists){
             if (\App\Helper\Utils::check_env_is_test() ) {
@@ -867,7 +867,7 @@ class common extends Controller
 
             $r = 80; //圆半径
             for ($x = 0; $x < 160; $x++) {
-                for ($y = 0; $y < 160; $y++) {
+                for ($y = 0; $y <= 160; $y++) {
                     $rgbColor = imagecolorat($image_6, $x, $y);
                     $a = $x-$r;
                     $b = $y-$r;
