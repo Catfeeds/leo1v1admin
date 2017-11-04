@@ -95,7 +95,7 @@
                         </td>
                         <td >
                             <a href="javascript:;" class="" >
-                                {{@$var[""]}}
+                                {{@$var["get_free_count"]}}
                             </a>
                         </td>
                         <td >
