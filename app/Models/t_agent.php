@@ -2252,7 +2252,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
-            ." where  a1.parentid=%u group  by a1.id  ",
+            ." where  a1.parentid=%u group  by a1.id  order by a1.create_time desc",
             self::DB_TABLE_NAME,
             $agent_id
         );
@@ -2264,7 +2264,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
             ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a2.agent_student_status "
             ."from %s a2 "
-            ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
+            ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  order by a2.create_time desc",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $agent_id
@@ -2317,7 +2317,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql = $this->gen_sql_new(
             "select  id,a.phone,a.nickname,a.agent_status_money "
             . " from %s a"
-            ." where %s",
+            ." where %s order by a.id desc",
             self::DB_TABLE_NAME,
             $where_arr
         );
@@ -2328,7 +2328,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql = $this->gen_sql_new(
             "select phone,nickname,pp_agent_status_money as agent_status_money "
             ."from %s "
-            ." where  parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1",
+            ." where  parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1 "
+            ."order by create_time desc",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $agent_id
@@ -2352,7 +2353,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['type = %u',$type,'1']
         ];
         $sql = $this->gen_sql_new(
-                "select id,phone,nickname,create_time from %s where %s",
+                "select id,phone,nickname,create_time from %s where %s order by id desc",
                 self::DB_TABLE_NAME,
                 $where_arr
         );
@@ -2365,7 +2366,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "from %s a ".
             "left join %s ao on ao.aid = a.id ".
             "left join %s oi on ao.orderid = oi.orderid ".
-            "where a.parentid = %u",
+            "where a.parentid = %u order by a.id desc",
             self::DB_TABLE_NAME,
             t_agent_order::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,
