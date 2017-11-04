@@ -243,13 +243,7 @@ $(function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
 
-        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
-        } ,function(ret){
-            if(ret){
-                alert('您有签单失败原因未填写,请先填写完哦!');
-                window.location.href = 'http://admin.leo1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
-            }
-        });
+
 
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
@@ -438,9 +432,18 @@ $(function(){
                         alert("您本周的取消率已达20%,大于25%下周将被限制排课,每天将只能排1节试听课,请谨慎处理");
                     }
                 }
-                do_add_test_lesson();
             });
 
+            $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
+            } ,function(ret){
+                if(ret){
+                    alert('您有签单失败原因未填写,请先填写完哦!');
+                    var jump_url_1="/seller_student_new/test_lesson_order_fail_list_seller";
+                    window.location.href = jump_url_1+"?"+"order_flag="+0;
+                    return;
+                }
+                do_add_test_lesson();
+            });
             // do_add_test_lesson();
         });
     });
@@ -2176,9 +2179,48 @@ function init_edit() {
                 timepicker       : true,
                 format:'Y-m-d H:i',
                 step             : 30,
-                onChangeDateTime : function(){
+                onGenerate       : function(){
+                    // check_disable_time();
                 }
+
             });
+            //检测该时间该人是否排课
+            var check_disable_time = function() {
+
+                var cur_time = id_stu_request_test_lesson_time.val();
+                var cur_day = new Date(cur_time).getTime() / 1000;
+
+                $.do_ajax("/seller_student_new/get_stu_request_test_lesson_time_by_adminid",{
+                    "cur_day" : cur_day
+                },function(res){
+                    var ret = res.list;
+                    $(ret).each(function(i){
+                        var dis_time = ret[i];
+                        console.log(dis_time)
+                        $('.xdsoft_time').each(function(){
+                            var add_attr = function(obj){
+                                $(obj).css('border','1px solid red');
+                                $(obj).css('background-color','#ccc');
+                                $(obj).on('click',function(){
+                                    BootstrapDialog.alert('你已经在该时间段内排过一节课!');
+                                    return false;
+                                });
+                            };
+
+                            if ( $(this).text() == dis_time ) {
+                                var that = $(this);
+                                var prev_that = $(this).prev();
+                                var next_that = $(this).next();
+                                add_attr(prev_that);
+                                add_attr(that);
+                                add_attr(next_that);
+                            }
+
+                        });
+                    });
+                });
+
+            };
 
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){

@@ -1791,4 +1791,27 @@ class seller_student_new extends Controller
         $arr['total_new_list_num']      = $this->t_yxyx_new_list->get_total();
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
+
+    public function get_stu_request_test_lesson_time_by_adminid(){
+        $cur_day = $this->get_in_int_val('cur_day','');
+        $adminid = $this->get_account_id();
+        if($cur_day == '') {
+            $cur_day = strtotime('today');
+        } else {
+            $cur_day = strtotime( date('Y-m-d', $cur_day) );
+        }
+
+        $end_time = $cur_day + 84600;
+        $ret_info = $this->t_test_lesson_subject->get_stu_request_test_lesson_time_by_adminid($adminid, $cur_day, $end_time);
+        $list = [];
+        if(count($ret_info) > 0) {
+            foreach($ret_info as $item){
+                $time = date('H:i',$item['stu_request_test_lesson_time']);
+                if(!in_array($time, $list)) {
+                    $list[] = $time;
+                }
+            }
+        }
+        return $this->output_succ(['list' => $list]);
+    }
 }

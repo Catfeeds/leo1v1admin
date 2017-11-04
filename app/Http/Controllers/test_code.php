@@ -1446,7 +1446,6 @@ class test_code extends Controller
         $parent_list = $this->t_parent_info->get_openid_list();
         // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
 
-
     }
 
 }
