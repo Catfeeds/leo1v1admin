@@ -2105,8 +2105,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         }
         $ret_arr["all_price"]=$all_price/100;
-        $ret_arr["all_stage_price"]=$all_stage_price/100;
-        $ret_arr["all_no_stage_price"]=$all_no_stage_price/100;
+        $ret_arr["stage_money"]=$all_stage_price/100;
+        $ret_arr["no_stage_money"]=$all_no_stage_price/100;
         $ret_arr["require_all_price"]=$require_all_price/100;
         $ret_arr["24_hour_all_price"] = $v_24_hour_all_price/100 ;
         $ret_arr["require_and_24_hour_price"] = $require_and_24_hour_price/100 ;
