@@ -706,7 +706,7 @@ class wx_parent_gift extends Controller
     public function get_draw_num_test(){ //
         $parentid = $this->get_parentid();
         // 检查是否分享朋友圈 11.6-11.13[包含13号]
-        $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
+        $start_time = strtotime('2017-11-04'); // 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
 
