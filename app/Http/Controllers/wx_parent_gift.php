@@ -344,7 +344,7 @@ class wx_parent_gift extends Controller
         }
 
         // 检查是否分享朋友圈 11.6-11.13[包含13号]
-        $start_time = strtotime('2017-11-04'); // 2017-11-06  测试 分享朋友圈有效时间
+        $start_time = strtotime('2017-11-7'); // 2017-11-07 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
 
 
@@ -354,8 +354,7 @@ class wx_parent_gift extends Controller
         $is_reading = $this->t_student_info->check_is_reading($parentid);
 
         //检查是否新签
-        $order_start = strtotime('2017-11-4'); // 测试
-        // $order_start = strtotime('2017-11-11');
+        $order_start = strtotime('2017-11-11');
         $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
@@ -401,13 +400,13 @@ class wx_parent_gift extends Controller
     }
 
     public function update_share_status(){ // 分享朋友圈
-        // $parentid = $this->get_parentid();
-        // $this->t_ruffian_share->delete_row_by_pid($parentid);
-        // $this->t_ruffian_share->row_insert([
-        //     "is_share_flag" => 1,
-        //     "share_time"    => time(),
-        //     "parentid"      => $parentid
-        // ]);
+        $parentid = $this->get_parentid();
+        $this->t_ruffian_share->delete_row_by_pid($parentid);
+        $this->t_ruffian_share->row_insert([
+            "is_share_flag" => 1,
+            "share_time"    => time(),
+            "parentid"      => $parentid
+        ]);
         return $this->output_succ();
     }
 
@@ -431,8 +430,7 @@ class wx_parent_gift extends Controller
             $stu_type = 2;
         }
 
-        $prize_type = $this->get_win_rate_test($stu_type,$parentid); // 测试
-        // $prize_type = $this->get_win_rate($stu_type,$parentid);
+        $prize_type = $this->get_win_rate($stu_type,$parentid);
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
