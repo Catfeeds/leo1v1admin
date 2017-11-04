@@ -66,7 +66,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                        self::DB_TABLE_NAME,
                        $cond_str
         );
-        //log::write("get_tea_list_for_tea_manage: ".$sql);
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
@@ -90,14 +89,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $str = $where . $str;
         }
         return $str."  order by teacherid desc";
-    }
-
-    public function get_teacher_nick_list()
-    {
-        $sql = sprintf("select nick from %s order by nick asc",
-                       self::DB_TABLE_NAME
-        );
-        return $this->main_get_list( $sql  );
     }
 
     public function get_teacher_simple_list()
