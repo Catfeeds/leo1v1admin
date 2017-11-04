@@ -305,7 +305,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_teacher_flag=-1
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_tea_list=[]
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -336,6 +336,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+        $where_arr[]= $this->where_get_in_str("teacherid", $sleep_tea_list);
 
 
         $sql = $this->gen_sql_new("select * "
@@ -4568,7 +4569,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "tf.simul_test_lesson_pass_time<".$time,
             "t.train_through_new=1",            
         ];
-        $sql = $this->gen_sql_new("select teacherid"
+        $sql = $this->gen_sql_new("select t.teacherid"
                                   ." from %s t "
                                   ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s",

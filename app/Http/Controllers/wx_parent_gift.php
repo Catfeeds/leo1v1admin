@@ -51,6 +51,7 @@ class wx_parent_gift extends Controller
             session(["parentid" => -1 ] );
         }
 
+
         header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
         return ;
 
@@ -377,7 +378,12 @@ class wx_parent_gift extends Controller
     public function get_luck_parent_info(){ // 获取家长抽奖信息
         $parentid = $this->get_parentid();
 
-        $left_num = $this->get_draw_num($parentid);
+        if($parentid>0){
+            $left_num = $this->get_draw_num($parentid);
+        }else{
+            $left_num = 0;
+        }
+
 
         return $this->output_succ(['left'=>$left_num]);
     }
