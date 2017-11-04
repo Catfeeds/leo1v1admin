@@ -4585,15 +4585,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tf.simul_test_lesson_pass_time<".$time,
+            "tf.simul_test_lesson_pass_time<".$end_time,
             "t.train_through_new=1",            
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000",
+            "l.confirm_flag <>2",
+            "(tss.success_flag<2 or tss.success_flag is null)",
+            ['l.lesson_start>=%u',$start_time,0],
+            ['l.lesson_start<%u',$end_time,0],
         ];
-        $sql = $this->gen_sql_new("select teacherid"
+        $sql = $this->gen_sql_new("select distinct l.teacherid"
                                   ." from %s t "
                                   ." left join %s tf on t.teacherid = tf.teacherid"
+                                  ." left join %s l on t.teacherid = l.teacherid"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_flow::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
