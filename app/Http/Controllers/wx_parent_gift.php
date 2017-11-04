@@ -636,7 +636,8 @@ class wx_parent_gift extends Controller
         }
 
         if($has_get_money >=1000){ // 每日金额1000元
-            $prize = 0;
+            // $prize = 0;
+            return $this->output_err('今日红包红包已被抢光，请明天再接再厉！');
         }
         // 中奖金额存入数据库
         $this->t_agent->update_money($userid, $prize);

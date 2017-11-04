@@ -287,10 +287,11 @@ class wx_yxyx_common extends Controller
             $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             //判断用户是否已进入学员档案
             $is_student = $this->t_student_info->get_userid_by_phone($phone);
-            if($is_student)
+            if($is_student){
                 return $this->output_succ("邀请成功!");
-            else
+            } else {
                 $insert_flag = 1;
+            }
         }
         if($type == 1 || $insert_flag == 1){//进例子
             $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
@@ -359,6 +360,8 @@ class wx_yxyx_common extends Controller
                 return $this->output_err("数据请求异常!");
             }
         }elseif($type == 1 && $insert_flag == 1){
+            return $this->output_succ("邀请成功!");
+        }else{
             return $this->output_succ("邀请成功!");
         }
     }
