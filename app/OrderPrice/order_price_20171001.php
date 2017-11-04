@@ -108,25 +108,35 @@ class order_price_20171001 extends order_price_base
         $args["lesson_count"] =$lesson_count;
         $args["grade_price"] =$grade_price;
         $args["grade"] =$grade;
+        $args["contract_type"] =$contract_type;
 
-        (new Activity\activity_0($args))->exec($can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag) ;
+        $out_args=[];
 
-        (new Activity\activity_2017100701($args))->exec($can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag) ;
+        (new Activity\activity_0($args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag) ;
+
+        (new Activity\activity_2017100701($args))->exec( $out_args,$can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag) ;
 
 
         //$off_86_flag=false;
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
-            (new Activity\activity_2017090101( $args ))->exec( $can_period_flag,$price,$present_lesson_count,$desc_list) ;
+            (new Activity\activity_2017090101( $args ))->exec( $out_args, $can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
 
         }
 
 
-        (new Activity\activity_2017110301( $args ))->exec($can_period_flag,$price,$present_lesson_count,$desc_list) ;
+        //2017-1103 11.3-6 回流活动   每满10000减500 66个名额
+        (new Activity\activity_2017110301( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
+
+        //2017-1104 11.4-6 助教 报读 送课 60->6, 90->8, 120->10, 150->11,180->12 
+        (new Activity\activity_2017110401( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
+
+        //优学优享活动
+        (new Activity\activity_yxyx( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
         //当配
-        (new Activity\activity_2017080101( $args ))->exec($can_period_flag,$price,$present_lesson_count,$desc_list) ;
+        (new Activity\activity_2017080101( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
 
         return [
@@ -140,6 +150,7 @@ class order_price_20171001 extends order_price_base
              "lesson_count"         => $lesson_count,
              "desc_list"           => $desc_list,
              "can_period_flag"     => $can_period_flag ,
+             "out_args"      =>$out_args,
         ];
     }
     static public function get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args)

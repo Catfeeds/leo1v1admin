@@ -1536,6 +1536,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "order_partition_flag"           => $order_partition_flag,
             "can_period_flag"               => $can_period_flag
         ]);
+        $orderid=$this->get_last_insertid();
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
             $nick=$this->t_student_info->get_nick($userid);
@@ -1561,7 +1562,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 "购买课时[{$lesson_total_str}],价格[{$price_str}]" , "/user_manage_new/money_contract_list_stu?studentid=$userid"
             );
         }
-        return $this->get_last_insertid();
+        return $orderid;
     }
 
     public function has_1v1_order($userid) {
@@ -2105,8 +2106,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         }
         $ret_arr["all_price"]=$all_price/100;
-        $ret_arr["all_stage_price"]=$all_stage_price/100;
-        $ret_arr["all_no_stage_price"]=$all_no_stage_price/100;
+        $ret_arr["stage_money"]=$all_stage_price/100;
+        $ret_arr["no_stage_money"]=$all_no_stage_price/100;
         $ret_arr["require_all_price"]=$require_all_price/100;
         $ret_arr["24_hour_all_price"] = $v_24_hour_all_price/100 ;
         $ret_arr["require_and_24_hour_price"] = $require_and_24_hour_price/100 ;
@@ -2125,6 +2126,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr["group_all_price"] = $group_all_price/100;
         $ret_arr["group_all_stage_price"] = $group_all_stage_price/100;
         $ret_arr["group_all_no_stage_price"] = $group_all_no_stage_price/100;
+        $ret_time = $this->task->t_month_def_type->get_all_list();//销售自定义月份时间
+        foreach($ret_time as $item){
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
+                $start_time = $item['def_time'];
+            }
+        }
         $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
         // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
         $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time  )  ;
@@ -3986,7 +3993,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function check_is_buy($parentid){
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s p on p.userid=o.userid"
-                                  ." where p.parentid=%d"
+                                  ." where p.parentid=%d and o.contract_type=0 and o.contract_status<>0"
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$parentid

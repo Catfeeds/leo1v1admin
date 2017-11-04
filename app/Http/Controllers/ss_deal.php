@@ -1992,6 +1992,16 @@ class ss_deal extends Controller
         $userid= $this->t_test_lesson_subject_require->get_userid($require_id);
         $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
 
+        if (!$userid) {
+            $userid= $this->get_in_userid();
+        }
+        if (!$userid) {
+            return $this->output_err("用户不存在");
+
+        }
+        if ($lesson_count==0 ) {
+            return $this->output_err("课时数不能=0;");
+        }
         //$before_lesson_count = $this->t_order_info->get_order_all_lesson_count($userid, $account )/100;
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
@@ -2001,6 +2011,7 @@ class ss_deal extends Controller
             [
                 "from_test_lesson_id"=> $from_test_lesson_id ,
                 "period_flag" =>$period_flag,
+                "userid" => $userid,
             ]
             );
         return $this->output_succ(["data"=>$ret]);
@@ -2094,6 +2105,9 @@ class ss_deal extends Controller
                 $this->get_account_id(),$this->get_account(),$test_lesson_subject_id,$origin,$seller_student_status
             );
         }
+        if ($subject <=0) {
+            return $this->output_err("没有科目.");
+        }
 
         $from_parent_order_type=0;
         $parent_order_id=0 ;
@@ -2103,7 +2117,12 @@ class ss_deal extends Controller
         $account = $this->get_account();
         //$before_lesson_count= $this->t_order_info->get_order_all_lesson_count($userid, $account);
         $before_lesson_count=0;
-        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, ["from_test_lesson_id" => $from_test_lesson_id ,"period_flag"=>$period_flag] );
+        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, [
+            "from_test_lesson_id" => $from_test_lesson_id ,
+            "period_flag"=>$period_flag,
+            "userid"=>$userid,
+            "contract_type"=>$contract_type,
+        ] );
         if ( $period_flag != $price_ret["can_period_flag"] ) {
             return $this->output_err("课时数过少不支持分期,请不要启用分期");
         }
@@ -2173,16 +2192,10 @@ class ss_deal extends Controller
         }
         $pre_price=0;
 
-        if ($pre_money   ) {
-            if( $price<=100000 ) {
-                return $this->output_err("订单金额大于1000,才支持定金");
-            }else{
-                $pre_price=100000;
-            }
-        }
         $from_parent_order_lesson_count=0;
         //8月营销活动
         //$price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
+        $this->t_order_info->start_transaction();
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
@@ -2230,6 +2243,12 @@ class ss_deal extends Controller
             "price"            => $price
         ]);
         $this->t_order_activity_info-> add_order_info( $orderid, $order_activity_list );
+        $out_args= $price_ret["out_args"];
+        if (isset($out_args["ruffian_activity_use_id"])) { //优学优享现金券
+            $this->t_ruffian_activity->set_to_orderid( $out_args["ruffian_activity_use_id"],$orderid);
+        }
+
+        $this->t_order_info->commit();
         return $this->output_succ();
     }
 
@@ -2333,7 +2352,7 @@ class ss_deal extends Controller
 
         //设置主合同是否分期
         $this->set_order_partition_flag($parent_orderid);
-       
+
 
         return $this->output_succ();
 
@@ -2977,7 +2996,7 @@ class ss_deal extends Controller
                 }
                 //限制公海抢个数
                 // $start_time = strtotime(date("Y-m-d"));
-                // $end_time = time(); 
+                // $end_time = time();
                 // $history_count = $this->t_id_opt_log->get_history_count(E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT,$adminid,$start_time,$end_time);
                 // if($history_count>30){
                 //     return $this->output_err("每人每天限制领取30个公海例子,您已领取".$history_count."个!");
@@ -3365,7 +3384,7 @@ class ss_deal extends Controller
 
     public function upload_permission_info_from_xls(){
         $file = Input::file('file');
-        
+
         if ($file->isValid()) {
             //处理列
             $realPath = $file -> getRealPath();
@@ -3378,45 +3397,45 @@ class ss_deal extends Controller
                 if(empty($val[0]) || $k==0){
                     unset($arr[$k]);
                 }
-               
+
             }
             $list=[];
 
             //用户权限更新
             // foreach($arr as $item){
-            //     @$list[$item[1]] .= $item[0].","; 
+            //     @$list[$item[1]] .= $item[0].",";
             // }
             // foreach($list as $k=>$v){
             //     $v= trim($v,",");
             //     $permission_info = $this->t_manager_info->field_get_list($k,"permission,permission_backup");
             //     $this->t_manager_info->field_update_list($k,[
-            //         "permission" =>$v  
+            //         "permission" =>$v
             //     ]);
             //     if(!$permission_info["permission_backup"]){
             //         $this->t_manager_info->field_update_list($k,[
             //             "permission_backup" => $permission_info["permission"]
             //         ]);
-  
+
             //     }
- 
-                              
+
+
             // }
 
-            
+
 
             //角色更新
             // foreach($arr as $item){
-            //     @$list[$item[0]] .= $item[1].","; 
+            //     @$list[$item[0]] .= $item[1].",";
             // }
             // foreach($list as $k=>$v){
             //     $v= trim($v,",");
             //     $this->t_authority_group->field_update_list($k,[
-            //        "group_authority"=>$v 
+            //        "group_authority"=>$v
             //     ]);
-                
+
             // }
 
-          
+
             // $arr = json_encode($list);
             // \App\Helper\Utils::logger(" PHONE:$arr ");
             // dd($arr);
@@ -3429,7 +3448,7 @@ class ss_deal extends Controller
             return outputjson_ret(false);
         }
 
-       
+
 
     }
 

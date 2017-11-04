@@ -4092,12 +4092,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         ]);
     }
 
-    //获取(非)沉睡老师名单
-    public function get_sleep_teacher_list($sleep_teacher_flag){
-        $end_time = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-3 month",$end_time);
-        $all_train_through_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($end_time);
-    }
-
+   
 
 }

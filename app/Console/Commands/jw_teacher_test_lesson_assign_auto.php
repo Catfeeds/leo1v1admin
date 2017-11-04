@@ -122,9 +122,9 @@ class jw_teacher_test_lesson_assign_auto extends Command
 
                         $task->t_manager_info->send_wx_todo_msg_by_adminid($val,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"],$url);
                         // $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"].",教务:".$val,$url);
-                        if($item["seller_top_flag"]==1 && !in_array($val,[436,343])){
-                            $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,学生:".$item["nick"].",教务:".$val.",途径:seller",$url);
-                        }
+                        // if($item["seller_top_flag"]==1 && !in_array($val,[436,343])){
+                        //     $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,学生:".$item["nick"].",教务:".$val.",途径:seller",$url);
+                        // }
 
                         break;
                

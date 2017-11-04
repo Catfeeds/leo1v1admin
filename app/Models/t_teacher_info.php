@@ -305,7 +305,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_teacher_flag=-1
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -318,6 +318,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "limit_plan_lesson_type=%u ", $limit_plan_lesson_type, -1 ),
             array( "train_through_new=%u ", $train_through_new, -1 ),
             array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
+            array( "sleep_flag=%u ", $sleep_flag, -1 ),
             // array( "through_new_time>%u ", $through_start, 0 ),
             // array( "through_new_time<%u ", $through_end, 0 ),
         );
@@ -4568,7 +4569,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "tf.simul_test_lesson_pass_time<".$time,
             "t.train_through_new=1",            
         ];
-        $sql = $this->gen_sql_new("select teacherid"
+        $sql = $this->gen_sql_new("select t.teacherid"
                                   ." from %s t "
                                   ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s",
@@ -4581,6 +4582,37 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
  
     }
+    public function get_all_train_through_lesson_teacher_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tf.simul_test_lesson_pass_time<".$start_time,
+            "t.train_through_new=1",            
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000",
+            "l.confirm_flag <>2",
+            "(tss.success_flag<2 or tss.success_flag is null)",
+            ['l.lesson_start>=%u',$start_time,0],
+            ['l.lesson_start<%u',$end_time,0],
+        ];
+        $sql = $this->gen_sql_new("select distinct l.teacherid"
+                                  ." from %s t "
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
+                                  ." left join %s l on t.teacherid = l.teacherid"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+ 
+    }
+
 
 
 }
