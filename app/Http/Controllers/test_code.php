@@ -1463,7 +1463,13 @@ class test_code extends Controller
          * {{remark.DATA}}
          */
         $tea_template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        $job = new \App\Jobs\SendTeacherWx($tea_list,$template_id,$data,"");
+        $data = [
+            "first"=>"老师您好，【老师端】现已全面升级，为了达到更好的上课效果，请按照需要更新版本。",
+            "keyword1"=>"【老师端】版本更新",
+            "keyword2"=>"\nPC（电脑）：版本4.3.0，下载地址：http://www.leo1v1.com/common/download
+ \niOS（苹果平板）：版本5.3.0，下载地址： https://www.pgyer.com/iteacher"
+        ];
+        $job = new \App\Jobs\SendTeacherWx($tea_list,$tea_template_id,$data,"");
         dispatch($job);
     }
 
