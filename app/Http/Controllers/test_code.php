@@ -1492,13 +1492,24 @@ class test_code extends Controller
             "first"    => "【学生端】现已全面升级，请及时更新版本。",
             "keyword1" => "【学生端】版本更新",
             "keyword2" => "\n 电脑：版本4.2.0，下载： www.leoedu.com/download"
-            ."\n苹果平板精简版：版本5.2.1，下载：https://www.pgyer.com/istudent"
-            ."\n安卓平板：版本5.3.0，下载：http://www.leoedu.com/download.html"
+            ."\n苹果平板精简版：版本5.2.1，下载：www.pgyer.com/istudent"
+            ."\n安卓平板：版本5.3.0，下载：www.leoedu.com/download.html"
             ."\n苹果平板：版本5.3.0，审核中",
             "keyword3" => $date,
-            "remark"   => "请更新版本后，及时进行声音设备的设置。",
+            "remark"   => "",
         ];
         $job = new \App\Jobs\SendParentWx($parent_list,$parent_template_id,$parent_data,"");
+        dispatch($job);
+
+        $parent_data2 = [
+            "first"    => "【理优升学帮】现已全面升级，请及时更新版本。",
+            "keyword1" => "【理优升学帮】版本更新",
+            "keyword2" => "\n 安卓：版本4.4.0，下载地址：www.leoedu.com/download.html"
+            ."\n苹果：版本4.4.0，审核中",
+            "keyword3" => $date,
+            "remark"   => "",
+        ];
+        $job = new \App\Jobs\SendParentWx($parent_list,$parent_template_id,$parent_data2,"");
         dispatch($job);
     }
 
