@@ -49,7 +49,6 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        dd($sql);
         return $this->main_get_list($sql);
     }
 
