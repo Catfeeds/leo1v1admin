@@ -663,11 +663,19 @@ class wx_yxyx_common extends Controller
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
         session(['yxyx_openid'=>$openid]);
-        if(empty($agent_arr)){ // 不是会员
-            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
-        }else{ // 会员
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
+
+        $type = 0;
+        if(!empty($agent_arr)){
+            $type = 1;
         }
+
+        header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?type=".$type);
+
+
+        // if(empty($agent_arr)){ // 不是会员
+        //     header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
+        // }else{ // 会员
+        // }
 
     }
 

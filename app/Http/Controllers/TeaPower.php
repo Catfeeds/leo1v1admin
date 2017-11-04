@@ -4066,7 +4066,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 "recommended_teacherid" => $recommended_teacherid,
             ]);
 
-            if($need_flag && $teacher_info['wx_openid']!=""){
+            if($notice_flag && $teacher_info['wx_openid']!=""){
                 $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
                 $wx_data["first"]    = $recommended_info['nick']."已成功入职";
                 $wx_data["keyword1"] = "已入职";

@@ -32,11 +32,14 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     }
 
     public function get_has_done($parentid){
+        $where_arr = [
+            ["parentid=%u",$parentid,0]
+        ];
         $sql = $this->gen_sql_new("  select count(*) from %s ru"
-                                  ." where parentid=$parentid"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
-
         return $this->main_get_value($sql);
     }
 
@@ -58,11 +61,11 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     public function check_has_left($prize_type,$stu_type){
         $today = strtotime(date('Y-m-d'));
         $where_arr = [
-            "prize_type=$prize_type",
-            "validity_time=$today",
+            ["prize_type=%u",$prize_type,0],
+            ["validity_time=%u",$today,0],
+            ["stu_type=%u",$stu_type,0],
             "get_prize_time=0",
             "parentid=0",
-            "stu_type=$stu_type"
         ];
 
         $sql = $this->gen_sql_new(" select id, prize_type from %s ru"
