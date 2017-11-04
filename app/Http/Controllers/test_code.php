@@ -1443,13 +1443,18 @@ class test_code extends Controller
     }
 
     public function test_send_wx(){
-        $parent_list = $this->t_parent_info->get_openid_list();
-        $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
-        $test_tea = [
-            
-        ]''
+        // $parent_list = $this->t_parent_info->get_openid_list();
+        // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
+        $phone = "18790256265";
+        $teacher_info = $this->t_teacher_info->get_wx_openid_by_phone($phone);
+        $test_tea[] = [
+            "wx_openid" => $teacher_info['wx_openid']
+        ];
 
 
+
+        $job = new \App\Jobs\SendTeacherWx($tea_list,$template_id,$data,"");
+        dispatch($job);
     }
 
 }
