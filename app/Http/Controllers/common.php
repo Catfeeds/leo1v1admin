@@ -828,11 +828,12 @@ class common extends Controller
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
         //判断是否更新微信头像
+        $agent_qr_url = "/tmp/".$phone_qr_name;
         if ($old_headimgurl != $headimgurl) {
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
             if($is_exists) {
                 //删除七牛图片
-                \App\Helper\Utils::qiniu_del_file($phone_qr_name);
+                \App\Helper\Utils::qiniu_del_file($agent_qr_url);
             }
             $is_exists = false;
         }
@@ -847,7 +848,6 @@ class common extends Controller
             $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-            $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_5 = imagecreatefromjpeg($headimgurl);
