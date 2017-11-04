@@ -150,9 +150,30 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 ';
 
 
-        if($request['content'] == '知识库'){
+        if($request['content'] == '测试'){
             $content = "http://wx-parent.leo1v1.com/wx_parent/zhishiku";
+
+            $tuwenList[] = array(
+
+                'title' => '家长端下载手册',
+
+                'description' => '家长端下载手册',
+
+                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
+                'url' => 'http://wx-parent.leo1v1.com/article_wx/parent_side_manual',
+
+            );
+
+            $item = array();
+            foreach($tuwenList as $tuwen){
+                $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
+            }
         }
+
+        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+
+
+
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }
