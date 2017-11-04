@@ -52,32 +52,35 @@ $(function(){
     //@desn:获取用户邀请奖励[全部]
     $("#id_all_invite").on("click",function() {
         $("#id_title").text('邀请奖励>>我的邀请');
-        $("#id_title").text('邀请奖励>>会员邀请');
+        $("#id_title_two").text('邀请奖励>>会员邀请');
         $.ajax({
             type : "get",
-            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_invite_list?_agent_id="+g_args.id,
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_invite_list?_agent_id="+g_args.id+"&page_count=1000",
             dataType : "jsonp",//数据类型为jsonp
             success : function(data){
-                var str="" ;
-                $.each( data.list, function(){
-                    var sub_str="";
-                    var agent_type= this.agent_type;
-                    if( agent_type ==1 || agent_type==3 )  {
-                        sub_str +="状态:" + this.agent_student_status_str + "<br>";
-                    }
-                    if( agent_type ==2 || agent_type==3 )  {
-                        sub_str += "邀请:" + this.child_count + "<br>";
-                    }
-
-                    str+="<tr style=\"\" data-agent_type="+this.agent_type +" data-agent_id="+this.agent_id +" ><td>"
-                        +"加入时间:" + this.create_time  + "<br>"
-                        +"姓名:" + this.name+ "<br>"
-                        +"类别:" + this.agent_type_str + "<br>"
-                        +sub_str
+                var my_str="" ;
+                var member_str="" ;
+                //遍历我的邀请
+                $.each( data.my_invite.list, function(){
+                    my_str+="<tr style=\"\" ><td>"
+                        +"姓名:" + this.nickname  + "<br>"
+                        +"时间:" + this.create_time+ "<br>"
+                        +"状态:" + this.agent_status + "<br>"
+                        +"收入:" + this.agent_status_money + "<br>"
                         +" </td> </tr>";
-                } );
-                $("#id_level2_list").html(str);
+                });
+                //遍历会员邀请
+                $("#id_detail_info").html(my_str);
+                $.each( data.member_invite.list, function(){
+                    member_str+="<tr style=\"\" ><td>"
+                        +"姓名:" + this.nickname  + "<br>"
+                        +"时间:" + this.create_time+ "<br>"
+                        +"状态:" + this.agent_status + "<br>"
+                        +"收入:" + this.agent_status_money + "<br>"
+                        +" </td> </tr>";
 
+                });
+                $("#id_detail_info_two").html(member_str);
             },
             error:function(){
                 alert('fail');
