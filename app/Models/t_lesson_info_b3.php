@@ -1592,5 +1592,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
-   
+    /**
+     * 获取学生或老师未进入课堂的有效课程 (command:SetLessonStuAttend)
+     *
+     */
+    public function get_lesson_with_zero_attend($start_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            "lesson_type=2",
+            "stu_attend=0",
+            "opt_time>0",
+            "lesson_status=2",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select l.lessonid,l.stu_attend,lo.opt_time"
+                                  ." from %s l "
+                                  ." left join %s lo on l.lessonid=lo.lessonid and l.userid=lo.userid and opt_type=1 "
+                                  ." where %s"
+                                  ." group by l.lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_opt_log::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

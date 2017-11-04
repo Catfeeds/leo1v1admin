@@ -783,17 +783,32 @@ class test_boby extends Controller
         $th_arr = ['年级','科目','人数'];
         $s = $this->table_start($th_arr);
         $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $zu = [];
         foreach ($ret_info as $item){
             $sub = E\Esubject::get_desc($item['subject']);
             $gra = E\Egrade::get_desc($item['grade']);
             $tim = \App\Helper\Utils::unixtime2date($item["set_lesson_time"]);
-
+            $b = $this->fenzu( $item['set_lesson_time'] );
+            @$zu[$b]++;
             $s= $this->tr_add($s, $gra,$sub,$tim);
         }
 
         $s = $this->table_end($s);
         echo $s;
+        $all =0;
+        foreach($zu as $k=>$v){
+            $all = $all+$v;
+            echo $k,'--',$v,'<br>';
+        }
+        echo $all;
 
+    }
+
+    public function fenzu($time){
+        $ling = strtotime(date('Y-m-d',$time));
+        $a = $time - $ling;
+        $b = floor($a / 1800);
+        return $b;
     }
 
     public function add_user_to_lesson(){

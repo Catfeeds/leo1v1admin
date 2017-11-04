@@ -46,6 +46,9 @@ class wx_parent_gift extends Controller
 
         if($parentid>0){
             $type = 1;
+            session(["parentid" => $parentid ] );
+        }else{
+            session(["parentid" => -1 ] );
         }
 
         header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
@@ -313,16 +316,23 @@ class wx_parent_gift extends Controller
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
-
-        $is_buy = $this->t_order_info->buy_ten_flag($parentid);
+        $has_buy    = $this->t_order_info->check_is_buy($parentid);
 
         foreach($prize_list as &$item){
-            if($item['get_prize_time']>0){
-                $item['exchanged'] = 1;// 已兑换
+            if($has_buy){
+                $item['stu_type'] = 2;
             }else{
-                $item['exchanged'] = 0;
+                $item['stu_type'] = 1;
             }
+
+            if($item['prize_type'] != 1){
+                $item['str'] = "购课满十课时即可使用，仅限".$item['nick']."使用。";
+            }else{
+                $item['str'] = "";
+            }
+            $item['prize_type_str'] = E\Eruffian_prize_type::get_desc($item['prize_type']);
         }
+
         return $this->output_succ(["data"=>$prize_list]);
     }
 
@@ -350,6 +360,10 @@ class wx_parent_gift extends Controller
 
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
 
+        if(!$parentid){
+            $parentid = -1;
+        }
+
         $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
 
         $left_num = $draw_num-$consume_num;
@@ -359,7 +373,9 @@ class wx_parent_gift extends Controller
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
         $parentid = $this->get_parentid();
+
         $left_num = $this->get_draw_num($parentid);
+
         return $this->output_succ(['left'=>$left_num]);
     }
 
@@ -379,26 +395,23 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
-        $now = time();
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
         if($left_num <= 0){ return $this->output_err("您的抽奖次数已用完!"); }
 
-        $stu_type = 1;
         if($check_time>$reg_time && $has_buy>0){
             $stu_type = 2; // 老用户
         }else{
             $stu_type = 1; // 新用户
         }
-        $start_time = strtotime(date('Y-m-d'));
-        $end_time   = $start_time+86400;
 
         $prize_type = $this->get_win_rate($stu_type,$parentid);
-        //检测奖品是否抽完
-        $has_prize = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
 
-        if(!$has_prize['id']){
+        $this->t_ruffian_activity->start_transaction();
+        //检测奖品是否抽完
+        $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+        if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 if($is_test>0){
@@ -409,23 +422,23 @@ class wx_parent_gift extends Controller
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
-        }
 
-        $unlimited_prize = [2,8];
-        if(in_array($prize_type,$unlimited_prize)){
             $this->t_ruffian_activity->row_insert([
                 "parentid"   => $parentid,
-                "prize_list" => $prize_type,
+                "prize_type" => $prize_type,
                 "prize_time" => time(),
-                "stu_type"   => $stu_type
+                "stu_type"   => $stu_type,
+                "validity_time" => strtotime(date('Y-m-d'))
             ]);
+
         }else{
-            $this->t_ruffian_activity->field_update_list($has_prize['id'],[
+            $this->t_ruffian_activity->field_update_list($has_prize_id,[
                 "parentid"   => $parentid,
                 "prize_time" => time(),
             ]);
         }
 
+        $this->t_ruffian_activity->commit();
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
         $data_msg = [
@@ -434,7 +447,8 @@ class wx_parent_gift extends Controller
             "keyword2"  => "点击服务中心→奖品区即可兑换奖券",
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
-        $url = '';
+
+        $url = "http://wx-parent-web.leo1v1.com/prizes";
         $wx=new \App\Helper\Wx();
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
@@ -444,7 +458,7 @@ class wx_parent_gift extends Controller
 
 
     public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
-        $rate   = mt_rand(0,10000);
+        $rate   = mt_rand(1,10000);
         $today  = time();
         $eleven = strtotime('2017-11-11');
         $prize_type = 0; // 奖品类型
@@ -473,25 +487,17 @@ class wx_parent_gift extends Controller
                 }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
                     $prize_type=7;
                 }
-                // else{ // 10元折扣券/试听课
-                //     $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
-                //     if($is_test>0){
-                //         $prize_type=2;
-                //     }else{
-                //         $prize_type=8;
-                //     }
-                // }
             }else{
-                if($rate>1000 && $rate<=2250){ // 书包 12.5
+                if($rate>1000 && $rate<=2500){ // 书包 12.5
                     $prize_type=1;
-                }elseif($rate>3000 && $rate<=4125){ // 50元折扣券  12.5
+                }elseif($rate>3000 && $rate<=4250){ // 50元折扣券  12.5
                     $prize_type=3;
                 }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
                     $prize_type=4;
                 }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
                     $prize_type=5;
                 }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
-                    $prize_type=7;
+                    $prize_type=6;
                 }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
                     $prize_type=7;
                 }
@@ -519,7 +525,7 @@ class wx_parent_gift extends Controller
                 }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
                     $prize_type=5;
                 }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
-                    $prize_type=7;
+                    $prize_type=6;
                 }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
                     $prize_type=7;
                 }
@@ -529,80 +535,6 @@ class wx_parent_gift extends Controller
     }
 
 
-    public function get_limit_num($stu_type){
-        $ret_info = [];
-        $config=[
-            "20171111" => [
-
-            ]
-        ];
-
-        $bag_num = 0;
-        $three_free_num = 0;
-        $test_lesson_num = 0;
-        $fifty_coupon_num = 0;
-        $one_hundred_coupon_num = 0;
-        $five_hundred_coupon_num = 0;
-        $three_hundred_coupon_num = 0;
-
-        $today  = time();
-        $six    = strtotime('2017-11-6');
-        $seven  = strtotime('2017-11-7');
-        $eight  = strtotime('2017-11-8');
-        $nine   = strtotime('2017-11-9');
-        $ten    = strtotime('2017-11-10');
-        $eleven = strtotime('2017-11-11');
-        $twelve = strtotime('2017-11-12');
-        $Thirteen = strtotime('2017-11-13');
-
-        if($stu_type == 1){ // 新用户
-            if($today < $eleven){
-                $bag_num = 80;
-                $fifty_coupon_num = 80;
-                $one_hundred_coupon_num = 30;
-                $three_hundred_coupon_num = 10;
-            }elseif($today >= $eleven && $today<$twelve){
-                $bag_num = 100;
-                $fifty_coupon_num = 100;
-                $one_hundred_coupon_num = 80;
-                $three_hundred_coupon_num = 20;
-            }elseif($today >= $twelve){
-                $bag_num = 100;
-                $fifty_coupon_num = 100;
-                $one_hundred_coupon_num = 50;
-                $three_hundred_coupon_num = 20;
-            }
-        }elseif($stu_type == 2){ // 老用户
-            if($today >= $six){
-                $bag_num = 5;
-                $fifty_coupon_num = 50;
-                $one_hundred_coupon_num = 10;
-                $three_hundred_coupon_num = 3;
-            }
-        }
-
-        if($today < $eleven){ // 免费3次课
-            $three_free_num = 1;
-        }elseif($today >= $eleven){
-            $three_free_num = 2;
-        }
-
-        if( $today>=$eight){ // 5百
-            $five_hundred_coupon_num = 1;
-        }
-
-        $ret_info = [
-            "bag_num" => $bag_num,
-            "three_free_num"   => $three_free_num,
-            "fifty_coupon_num" => $fifty_coupon_num,
-            "one_hundred_coupon_num"   => $one_hundred_coupon_num,
-            "three_hundred_coupon_num" => $three_hundred_coupon_num,
-            "five_hundred_coupon_num"  => $five_hundred_coupon_num,
-        ];
-
-        return $ret_info;
-
-    }
     /**
        双11活动 理优在线
      **/
@@ -635,6 +567,9 @@ class wx_parent_gift extends Controller
 
         if($agent_info){
             $parentid    = $agent_info['userid'];
+            if(!$parentid){
+                $parentid = -1;
+            }
             $p_agent_id  = $agent_info['id'];
             $prize_num   = $this->t_luck_draw_yxyx_for_ruffian->get_prize_num($parentid);
 
@@ -679,8 +614,8 @@ class wx_parent_gift extends Controller
         $prize = 0;
         /**
            金额分别为
-           1.11（80%）
-           11.11（11%）
+           11.11（51%）
+           21.11（40%）
            31.11（4%）
            51.11（2%）
            71.11（1%）
@@ -689,10 +624,10 @@ class wx_parent_gift extends Controller
            每日金额为1000元预算
         */
 
-        if($rate>20 && $rate<=100){ //中奖金额 1.11  [80]
-            $prize = 111;
-        }elseif($rate>9 & $rate<=20){ // 中奖金额 11.11 [11]
+        if($rate>49 && $rate<=100){ //中奖金额 11.11  [80]
             $prize = 1111;
+        }elseif($rate>9 & $rate<=49){ // 中奖金额 21.11 [11]
+            $prize = 2111;
         }elseif($rate>5 & $rate<=9){ // 中奖金额 31.11  [4]
             $prize = 3111;
         }elseif($rate>3 & $rate<=5){ // 中奖金额 51.11 [2]
@@ -706,7 +641,8 @@ class wx_parent_gift extends Controller
         }
 
         if($has_get_money >=1000){ // 每日金额1000元
-            $prize = 0;
+            // $prize = 0;
+            return $this->output_err('今日红包红包已被抢光，请明天再接再厉！');
         }
         // 中奖金额存入数据库
         $this->t_agent->update_money($userid, $prize);
@@ -749,7 +685,7 @@ class wx_parent_gift extends Controller
 
 
     public function get_parentid(){
-        $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
+        $parentid = $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
         return $parentid;
     }
 

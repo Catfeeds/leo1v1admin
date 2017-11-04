@@ -287,10 +287,11 @@ class wx_yxyx_common extends Controller
             $this->send_agent_p_pp_msg_for_wx( $agent_id, $parentid, $pp_id,   $phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             //判断用户是否已进入学员档案
             $is_student = $this->t_student_info->get_userid_by_phone($phone);
-            if($is_student)
+            if($is_student){
                 return $this->output_succ("邀请成功!");
-            else
+            } else {
                 $insert_flag = 1;
+            }
         }
         if($type == 1 || $insert_flag == 1){//进例子
             $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
@@ -341,7 +342,9 @@ class wx_yxyx_common extends Controller
             }
         }
 
-        if($type == 1 && $insert_flag == 0){
+
+
+        if( ($type ==2 ||  $type == 1) && $insert_flag == 0){
             $userid = null;
             $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if($userid_new){
@@ -360,6 +363,8 @@ class wx_yxyx_common extends Controller
             }
         }elseif($type == 1 && $insert_flag == 1){
             return $this->output_succ("邀请成功!");
+        }else{
+            return $this->output_succ("系统出错!");
         }
     }
 
@@ -663,11 +668,19 @@ class wx_yxyx_common extends Controller
 
         $agent_arr = $this->t_agent->get_agent_id_by_openid($openid);
         session(['yxyx_openid'=>$openid]);
-        if(empty($agent_arr)){ // 不是会员
-            header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
-        }else{ // 会员
-            header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html");
+
+        $type = 0;
+        if(!empty($agent_arr)){
+            $type = 1;
         }
+
+        header("Location: http://wx-yxyx-web.leo1v1.com/m11/m11.html?type=".$type);
+
+
+        // if(empty($agent_arr)){ // 不是会员
+        //     header("Location: http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind");
+        // }else{ // 会员
+        // }
 
     }
 

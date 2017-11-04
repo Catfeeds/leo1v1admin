@@ -75,7 +75,7 @@ class test_code extends Controller
         $order_name = "/tmp/order_list.txt";
         $lesson_name = "/tmp/lesson_list.txt";
 
-        $order_flag = $this->get_file_flag($order_name);
+        $order_flag  = $this->get_file_flag($order_name);
         $lesson_flag = $this->get_file_flag($lesson_name);
 
         if($order_flag){

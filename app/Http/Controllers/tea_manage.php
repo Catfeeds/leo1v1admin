@@ -158,6 +158,8 @@ class tea_manage extends Controller
         return $this->lesson_list();
     }
 
+
+
     public function lesson_list_zj() {
         return $this->lesson_list_research();
     }
@@ -170,6 +172,8 @@ class tea_manage extends Controller
         $this->set_in_value("fulltime_flag",1);
         return $this->lesson_list();
     }
+
+
 
     public function lesson_list()
     {
@@ -1862,7 +1866,7 @@ class tea_manage extends Controller
         $grade      = $this->get_in_int_val("grade",-1);
         $subject    = $this->get_in_int_val("subject",-1);
         $is_pass    = $this->get_in_int_val("is_pass",-1);
-        
+
         if($is_all==1){
             $start_time = 0;
             $end_time   = 0;
@@ -2277,7 +2281,7 @@ class tea_manage extends Controller
 
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
         $id_train_through_new      = $this->get_in_int_val("id_train_through_new",$id_train_through_new);
-        
+
         if($fulltime_flag==1){
             $full_time=1;
         }
@@ -2291,7 +2295,7 @@ class tea_manage extends Controller
             }
         }
 
-       
+
 
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
