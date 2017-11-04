@@ -2746,7 +2746,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ["order_time > %u ", $create_time,0 ],
             'order_status in (1,2)',
-            'contract_type =0 ',
+            'contract_type in (0,3) ',
             ['userid=%u',  $userid ],
         ];
         $sql= $this->gen_sql_new("select pay_time, orderid, price from %s where %s limit 1 ",

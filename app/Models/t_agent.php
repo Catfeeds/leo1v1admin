@@ -2482,7 +2482,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }
             }
 
-
             //计算签单金额、签单量[无下限限制下级]
             $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
             $cycle_order_count = $child_order_info['child_order_count'];
