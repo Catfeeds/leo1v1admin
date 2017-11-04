@@ -182,6 +182,7 @@
                                 <a style="display:block;" class="fa fa-times opt-del" title="删除"> </a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
+                                <a class="fa fa-wechat opt-wechat-new-desc"  title="微信数据新版"> </a>
                             </div>
                         </td>
                     </tr>

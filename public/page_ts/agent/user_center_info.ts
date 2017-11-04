@@ -26,7 +26,7 @@ $(function(){
             $("#id_wx_headimgurl").attr("src", user.wx_headimgurl );
             $("#id_wx_nick").text( user.usernick );
             $("#id_all_money_info").text(""+ user. all_money );
-            $("#id_child_all_count").html(user.child_all_count +" "+"<a id='id_child_all_detail'>邀请个数详情</a>");
+            $("#id_child_all_count").text(user.child_all_count);
 
         },
         error:function(){
@@ -51,8 +51,8 @@ $(function(){
     });
     //@desn:获取用户邀请奖励[全部]
     $("#id_all_invite").on("click",function() {
-        $("#id_title").text('邀请奖励>>我的邀请');
-        $("#id_title_two").text('邀请奖励>>会员邀请');
+        $("#id_title").text('总收入金额>>邀请奖励>>我的邀请');
+        $("#id_title_two").text('总收入金额>>邀请奖励>>会员邀请');
         $.ajax({
             type : "get",
             url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_invite_list?_agent_id="+g_args.id+"&page_count=1000",
@@ -89,162 +89,217 @@ $(function(){
 
 
     });
+    //@desn:获取用户佣金奖励[全部]
+    $("#id_all_commission").on("click",function() {
+        $("#id_title").text('总收入金额>>佣金奖励>>我的邀请');
+        $("#id_title_two").text('总收入金额>>佣金奖励>>会员邀请');
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_commission_reward?_agent_id="+g_args.id+"&page_count=1000",
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var my_str="" ;
+                var member_str="" ;
+                //遍历我的邀请
+                $.each( data.child_reward.list, function(){
+                    my_str+="<tr style=\"\" ><td>"
+                        +"姓名:" + this.nickname  + "<br>"
+                        +"时间:" + this.create_time+ "<br>"
+                        +"购买课程:" + this.price + "<br>"
+                        +"收入:" + this.p_price + "<br>"
+                        +"上课节数:" + this.count + "<br>"
+                        +" </td> </tr>";
+                });
+                //遍历会员邀请
+                $("#id_detail_info").html(my_str);
+                $.each( data.member_reward.list, function(){
+                    member_str+="<tr style=\"\" ><td>"
+                        +"姓名:" + this.nickname  + "<br>"
+                        +"时间:" + this.create_time+ "<br>"
+                        +"购买课程:" + this.price + "<br>"
+                        +"收入:" + this.p_price + "<br>"
+                        +"上课节数:" + this.count + "<br>"
+                        +" </td> </tr>";
+
+                });
+                $("#id_detail_info_two").html(member_str);
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+
+
+    });
+    //@desn:获取活动奖励[全部]
+    $("#id_all_activity").on("click",function() {
+        $("#id_title").text('总收入金额>>活动奖励');
+        $("#id_title_two").text('值');
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_activity_rewards?_agent_id="+g_args.id+"&page_count=1000",
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var my_str="" ;
+                //遍历我的邀请
+                $.each( data.reward_list.list, function(){
+                    my_str+="<tr style=\"\" ><td>"
+                        +"活动:" + this.agent_money_ex_type_str  + "<br>"
+                        +"时间:" + this.add_time+ "<br>"
+                        +"奖励:" + this.money + "<br>"
+                        +" </td> </tr>";
+                });
+                $("#id_detail_info").html(my_str);
+                $("#id_detail_info_two").html('');
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+
+
+    });
 
 
 
-    // function load_invite_list(test_lesson_succ_flag,  agent_status_money_open_flag , field_str ){
-    //     $.ajax({
-    //         type : "get",
-    //         url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_"+field_str+"_invite_money_list?_agent_id="+g_args.id+"&test_lesson_succ_flag="+ test_lesson_succ_flag + "&agent_status_money_open_flag=" + agent_status_money_open_flag,
-    //         dataType : "jsonp",//数据类型为jsonp
-    //         success : function(data){
-    //             var invite_list= data.list;
-    //             var new_desc_list_str="";
-    //             $.each( invite_list, function(){
-    //                 new_desc_list_str+= "<tr><td>"
-    //                     + "加入时间:" + this.create_time
-    //                     + "<br/>学员:" + this.nick
-    //                     + "<br/>状态:" + this.agent_status_str
-    //                     + "<br/>提成:" + this.agent_status_money
-    //                     + "<br/>可提现:" + this.agent_status_money_open_flag_str
-    //                     +"</td></tr>";
-    //             });
-    //             $("#id_new_desc_list").html(new_desc_list_str);
-    //         },
-    //         error:function(){
-    //             alert('fail');
-    //         }
-    //     });
+    //@desn:获取用户邀请奖励[全部]
+    $("#id_cash_invite").on("click",function() {
+        $("#id_title").text('可提现>>邀请奖励>>我的邀请');
+        $("#id_title_two").text('可提现>>邀请奖励>>会员邀请');
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_had_invite_rewards?_agent_id="+g_args.id+"&page_count=1000",
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var my_str="" ;
+                var member_str="" ;
+                //遍历我的邀请
+                $.each( data.my_invite.list, function(){
+                    my_str+="<tr style=\"\" ><td>"
+                        +"学员姓名:" + this.nickname  + "<br>"
+                        +"奖励金额:" + this.agent_status_money+ "<br>"
+                        +" </td> </tr>";
+                });
+                //遍历会员邀请
+                $("#id_detail_info").html(my_str);
+                $.each( data.member_invite.list, function(){
+                    member_str+="<tr style=\"\" ><td>"
+                        +"学员姓名:" + this.nickname  + "<br>"
+                        +"奖励金额:" + this.agent_status_money+ "<br>"
+                        +" </td> </tr>";
 
-    // };
-
-    // $("#id_invite_money_not_open_not_lesson_succ").on("click",function(){
-    //     load_invite_list(-1,0,"l1");
-    // });
-
-
-
-    // $("#id_invite_money_info").on("click",function(){
-    //     load_invite_list(1,1,"l1");
-    // });
+                });
+                $("#id_detail_info_two").html(member_str);
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
 
 
-    // $("#id_l2_invite_money_not_open_not_lesson_succ").on("click",function(){
-    //     load_invite_list(-1,0,"l2");
-    // });
+    });
+    //@desn:获取用户佣金奖励[全部]
+    $("#id_cash_commission").on("click",function() {
+        $("#id_title").text('可提现>>佣金奖励>>我的邀请');
+        $("#id_title_two").text('可提现>>佣金奖励>>会员邀请');
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_can_cash_commission?_agent_id="+g_args.id+"&page_count=1000",
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var my_str="" ;
+                var member_str="" ;
+                //遍历我的邀请
+                $.each( data.child_reward.list, function(){
+                    my_str+="<tr style=\"\" ><td>"
+                        +"姓名:" + this.nickname  + "<br>"
+                        +"时间:" + this.create_time+ "<br>"
+                        +"购买课程:" + this.price + "<br>"
+                        +"收入:" + this.p_open_price + "<br>"
+                        +"状态:学生已上" + this.count + "节课<br>"
+                        +" </td> </tr>";
+                });
+                //遍历会员邀请
+                $("#id_detail_info").html(my_str);
+                $.each( data.member_reward.list, function(){
+                    member_str+="<tr style=\"\" ><td>"
+                        +"姓名:" + this.nickname  + "<br>"
+                        +"时间:" + this.create_time+ "<br>"
+                        +"购买课程:" + this.price + "<br>"
+                        +"收入:" + this.p_open_price + "<br>"
+                        +"状态:学生已上" + this.count + "节课<br>"
+                        +" </td> </tr>";
 
-    // $("#id_l2_invite_money_info").on("click",function(){
-    //     load_invite_list(1,1,"l2");
-    // });
+                });
+                $("#id_detail_info_two").html(member_str);
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
 
 
+    });
+    //@desn:获取活动奖励[全部]
+    $("#id_cash_activity").on("click",function() {
+        $("#id_title").text('可提现>>活动奖励');
+        $("#id_title_two").text('值');
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_activity_rewards?_agent_id="+g_args.id+"&page_count=1000&is_cash=2",
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var my_str="" ;
+                //遍历我的邀请
+                $.each( data.reward_list.list, function(){
+                    my_str+="<tr style=\"\" ><td>"
+                        +"活动:" + this.agent_money_ex_type_str  + "<br>"
+                        +"时间:" + this.add_time+ "<br>"
+                        +"奖励:" + this.money + "<br>"
+                        +" </td> </tr>";
+                });
+                $("#id_detail_info").html(my_str);
+                $("#id_detail_info_two").html('');
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
 
+
+    });
+
+    //@desn:获取已提现列表
+    $("#id_have_cash_list").on("click",function() {
+        $("#id_title").text('已提现>>已提现列表');
+        $("#id_title_two").text('值');
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_have_cash?_agent_id="+g_args.id,
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var my_str="" ;
+                var is_suc_flag = '结算中';
+                //遍历已提现列表
+                $.each( data.list, function(){
+                    if(this.is_suc_flag == 1)
+                        is_suc_flag = '已结算';
+                    my_str+="<tr style=\"\" ><td>"
+                        +"提现日期:" + this.create_time  + "<br>"
+                        +"提现金额:" + this.cash+ "<br>"
+                        +"状态:" + is_suc_flag + "<br>"
+                        +" </td> </tr>";
+                });
+                $("#id_detail_info").html(my_str);
+                $("#id_detail_info_two").html('');
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+
+
+    });
 
     
-
-
-
-
-   // $.ajax({
-   //      type : "get",
-   //      url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_1_user_list?_agent_id="+g_args.id ,
-   //      dataType : "jsonp",//数据类型为jsonp
-   //      success : function(data){
-   //          var str="" ;
-   //          $.each( data.list, function(){
-   //              var sub_str="";
-   //              var agent_type= this.agent_type;
-   //              if( agent_type ==1 || agent_type==3 )  {
-   //                  sub_str +="状态:" + this.agent_student_status_str + "<br>";
-   //              }
-   //              var css="";
-   //              if( agent_type ==2 || agent_type==3 )  {
-   //                  sub_str += "邀请:" + this.child_count + "<br>";
-
-   //                  css="color:red;";
-   //              }
-
-   //              str+="<tr  data-agent_type="+this.agent_type +" data-agent_id="+this.agent_id +" ><td style=\""+css+"\">"
-   //                  +"加入时间:" + this.create_time  + "<br>"
-   //                  +"姓名:" + this.name+ "<br>"
-   //                  +"类别:" + this.agent_type_str + "<br>"
-   //                  +sub_str
-   //                  +" </td> </tr>";
-   //          } );
-   //          $("#id_level1_list").html(str);
-
-   //      },
-   //      error:function(){
-   //          alert('fail');
-   //      }
-   //  });
-
-
-   // $.ajax({
-   //      type : "get",
-   //      url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_cash?_agent_id="+g_args.id ,
-   //      dataType : "jsonp",//数据类型为jsonp
-   //      success : function(data){
-   //          var cash = data.cash    ;
-   //          $("#id_f_cash_2").text(cash);
-
-   //          var str="" ;
-   //          $.each( data.list, function(){
-   //              str+="<tr><td> "
-   //                  +" 购买时间："+this.pay_time + "<br/>"
-   //                  +" 购买金额："+this.pay_price + "<br/>"
-   //                  +" 家长姓名："+this.parent_name+ "<br/>"
-   //                  +" 上课次数："+this.count+ "<br/>"
-   //                  +" 单笔提成："+this.price + "<br/>"
-   //                  +" 单笔提现金额："+this.order_cash+ "<br/>"
-   //                  +" 上满2次课可提现金额："+this.level1_cash + "<br/>"
-   //                  +" 上满8次课可提现金额："+this.level2_cash + "<br/>"
-   //                  +" </tr>";
-   //          });
-   //          $("#id_cash_list").html(str);
-
-   //      },
-   //      error:function(){
-   //          alert('fail');
-   //      }
-   //  });
-    // $("#id_level1_list").on("click", "tr", function() {
-    //     var agent_id=$(this).data("agent_id");
-    //     var agent_type=$(this).data("agent_type");
-
-
-    //     $.ajax({
-    //         type : "get",
-    //         url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_2_user_list?_agent_id="+g_args.id + "&sub_agent_id="+ agent_id  ,
-    //         dataType : "jsonp",//数据类型为jsonp
-    //         success : function(data){
-    //             var str="" ;
-    //             $.each( data.list, function(){
-    //                 var sub_str="";
-    //                 var agent_type= this.agent_type;
-    //                 if( agent_type ==1 || agent_type==3 )  {
-    //                     sub_str +="状态:" + this.agent_student_status_str + "<br>";
-    //                 }
-    //                 if( agent_type ==2 || agent_type==3 )  {
-    //                     sub_str += "邀请:" + this.child_count + "<br>";
-    //                 }
-
-    //                 str+="<tr style=\"\" data-agent_type="+this.agent_type +" data-agent_id="+this.agent_id +" ><td>"
-    //                     +"加入时间:" + this.create_time  + "<br>"
-    //                     +"姓名:" + this.name+ "<br>"
-    //                     +"类别:" + this.agent_type_str + "<br>"
-    //                     +sub_str
-    //                     +" </td> </tr>";
-    //             } );
-    //             $("#id_level2_list").html(str);
-
-    //         },
-    //         error:function(){
-    //             alert('fail');
-    //         }
-    //     });
-
-
-    // });
-
 });
