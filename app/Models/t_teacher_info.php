@@ -4569,7 +4569,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "tf.simul_test_lesson_pass_time<".$time,
             "t.train_through_new=1",            
         ];
-        $sql = $this->gen_sql_new("select t.teacherid"
+        $sql = $this->gen_sql_new("select t.teacherid,t.sleep_flag"
                                   ." from %s t "
                                   ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." where %s",
