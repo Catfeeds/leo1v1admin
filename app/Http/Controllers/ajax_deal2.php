@@ -1624,10 +1624,11 @@ class ajax_deal2 extends Controller
             $cc_list = $cc_list[$teacherid];
             // $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
         }
-        $order_num = $this->t_teacher_money_list->get_order_num_by_time($teacherid);
+        $order_num = $this->t_teacher_money_list->get_order_num_by_time($teacherid,300,$start_time,$end_time);
         return $this->output_succ([
             "person_num" =>$cc_list["person_num"],
-            "have_order"   =>$cc_list["have_order"],
+            // "have_order"   =>$cc_list["have_order"],
+            "have_order"   =>$order_num ,
         ]);
 
 
