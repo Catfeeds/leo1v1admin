@@ -43,13 +43,15 @@ class add_new_tea_entry extends Command
 
         $task = new \App\Console\Tasks\TaskController();
         // 拉取数据 (用于拉取学生老师版本)
-        $teacher = $task->t_teacher_lecture_appointment_info_b2->get_teacher_list();
+        $start_time = strtotime("2017-8-1");
+        $end_time = strtotime('2017-11-1');
+        $teacher = $task->t_teacher_lecture_appointment_info_b2->get_teacher_list($start_time, $end_time);
         foreach($teacher as $item) {
             if (stripos($item['user_agent'],'mac') ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['teacherid'].'   '.$item['realname'].'   mac   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['teacherid'].'   '.$item['realname'].'   '.$item['phone'].'   mac   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
             }
@@ -57,7 +59,7 @@ class add_new_tea_entry extends Command
                     $version = json_decode($item['user_agent'], true);
                     if (isset($version['device_model'])) {
                         if($version['version'] < 4.3) {
-                            echo $item['teacherid'].'   '.$item['realname'].'   windows   '.$version['version'].','.PHP_EOL;
+                            echo $item['teacherid'].'   '.$item['realname'].'   '.$item['phone'].'   windows   '.$version['version'].','.PHP_EOL;
                             }
                     }
                 }
@@ -65,27 +67,32 @@ class add_new_tea_entry extends Command
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['teacherid'].'   '.$item['realname'].'   android   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['teacherid'].'   '.$item['realname'].'   '.$item['phone'].'   android   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
 
             }
         }
         echo PHP_EOL.'=================学生================='.PHP_EOL;
-        $student = $task->t_teacher_lecture_appointment_info_b2->get_student_list();
-        foreach($student as $item) {
+        $student = $task->t_teacher_lecture_appointment_info_b2->get_student_list($start_time, $end_time);
+        $assistant = $task->t_teacher_lecture_appointment_info_b2->get_assistant_info();
+        foreach($student as $id=>$item) {
+            $nick = '';
+            if ($id && isset($assistant[$id])) {
+                $nick = $assistant[$id]['nick'];
+            }
             if (stripos($item['user_agent'],'mac') ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['userid'].'   '.$item['realname'].'   mac   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].'   '.$item['realname'].'   '.$item['phone'].'   '.$nick.'   mac   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
             }  elseif(stripos($item['user_agent'],"windows") ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['userid'].'   '.$item['realname'].'   windows   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].'   '.$item['realname'].'   '.$item['phone'].'   '.$nick.'   windows   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
             }
@@ -94,7 +101,7 @@ class add_new_tea_entry extends Command
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['userid'].'   '.$item['realname'].'   android   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].'   '.$item['realname'].'   '.$item['phone'].'   '.$nick.'   android   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
 

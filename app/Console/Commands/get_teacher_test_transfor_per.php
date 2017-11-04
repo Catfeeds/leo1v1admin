@@ -72,6 +72,36 @@ class get_teacher_test_transfor_per extends Command
         }
 
 
+        //每月1号至5号,更新沉睡老师信息
+        $d = date("d",time());
+        if($d>=1 && $d <=5){
+            $end_time = strtotime(date("Y-m-01",time()));
+            $start_time = strtotime("-3 month",$end_time);
+            $all_throuth_teacher = $task->t_teacher_info->get_all_train_through_teacher_list($start_time);
+            $all_train_through_lesson_teacher= $task->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+            $no_lesson_tea_list=[];
+            $lesson_tea_list=[];
+            foreach($all_throuth_teacher as $k=>$v){
+                if(!isset($all_train_through_lesson_teacher[$k]) && $v["sleep_flag"]==0){
+                    $no_lesson_tea_list[$k]=$v["teacherid"];
+                }elseif(isset($all_train_through_lesson_teacher[$k]) && $v["sleep_flag"]==1){
+                    $lesson_tea_list[$k]=$v["teacherid"];
+                }
+            }
+
+            foreach($no_lesson_tea_list as $k=>$v){
+                $task->t_teacher_info->field_update_list($k,[
+                   "sleep_flag" =>1 
+                ]);
+            }
+            foreach($lesson_tea_list as $k=>$v){
+                $task->t_teacher_info->field_update_list($k,[
+                    "sleep_flag" =>0
+                ]);
+            }
+
+        }
+
         
 
         //dd($teacher_test_per_list);

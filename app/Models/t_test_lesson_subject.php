@@ -957,4 +957,17 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     }
 
 
+    public function get_stu_request_test_lesson_time_by_adminid($adminid, $start_time, $end_time){
+        $where_arr = [
+            ['require_adminid=%u', $adminid, -1],
+            ['stu_request_test_lesson_time>=%u', $start_time, -1],
+            ['stu_request_test_lesson_time<=%u', $end_time, -1],
+        ];
+        $sql = $this->gen_sql_new("select stu_request_test_lesson_time from %s where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }
