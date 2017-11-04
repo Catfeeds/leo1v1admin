@@ -47,6 +47,7 @@ class add_new_tea_entry extends Command
         $end_time = strtotime('2017-11-1');
         $teacher = $task->t_teacher_lecture_appointment_info_b2->get_teacher_list($start_time, $end_time);
         foreach($teacher as $item) {
+            if (stripos($item['user_agent'],'ipad')) continue;
             if (stripos($item['user_agent'],'mac') ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
@@ -77,6 +78,7 @@ class add_new_tea_entry extends Command
         $student = $task->t_teacher_lecture_appointment_info_b2->get_student_list($start_time, $end_time);
         $assistant = $task->t_teacher_lecture_appointment_info_b2->get_assistant_info();
         foreach($student as $item) {
+            if (stripos($item['user_agent'],'ipad')) continue;
             $nick = '';
             $id = $item['assistantid'];
             if ($id && isset($assistant[$id])) {
