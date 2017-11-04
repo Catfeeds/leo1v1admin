@@ -78,4 +78,29 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
         return $this->main_get_value($sql);
     }
 
+    public function get_order_max_prize_type($parentid ) {
+        /*
+          E\Eruffian_prize_type
+
+          2 => "10元折扣券",
+          3 => "50元折扣券",
+          4 => "100元折扣券",
+          5 => "300元折扣券",
+          6 => "500元折扣券",
+        */
+        $sql = $this->gen_sql_new(
+            " select id , prize_type from %s ru "
+            ." where parentid = %u"
+            . " and  prize_type in(2,3,4,5,6 ) "
+            ." and  to_orderid=0 "
+            . " order by prize_type desc limit 1   "
+            ,self::DB_TABLE_NAME , $parentid);
+        return $this->main_get_row($sql);
+    }
+    public function set_to_orderid( $id, $to_orderid) {
+        return $this->field_update_list($id,[
+            "to_orderid" => $to_orderid,
+        ]);
+    }
+
 }

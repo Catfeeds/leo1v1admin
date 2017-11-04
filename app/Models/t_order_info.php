@@ -1536,6 +1536,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "order_partition_flag"           => $order_partition_flag,
             "can_period_flag"               => $can_period_flag
         ]);
+        $orderid=$this->get_last_insertid();
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
             $nick=$this->t_student_info->get_nick($userid);
@@ -1561,7 +1562,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 "购买课时[{$lesson_total_str}],价格[{$price_str}]" , "/user_manage_new/money_contract_list_stu?studentid=$userid"
             );
         }
-        return $this->get_last_insertid();
+        return $orderid;
     }
 
     public function has_1v1_order($userid) {

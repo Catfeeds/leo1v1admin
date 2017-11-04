@@ -971,6 +971,7 @@ $(function(){
 
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
+                userid : data.userid,
                 competition_flag:$competition_flag.val(),
                 lesson_count:$lesson_count.val()*100,
                 order_promotion_type: order_promotion_type,
@@ -2705,6 +2706,7 @@ $(function(){
             var order_promotion_type=  $order_promotion_type.val();
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
+                userid : data.userid,
                 competition_flag:$competition_flag.val(),
                 lesson_count:$lesson_count.val()*100,
                 order_promotion_type: order_promotion_type,
