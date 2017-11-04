@@ -1914,6 +1914,10 @@ class agent extends Controller
             if ($item['no_tq'] > 0) {
                 $item['phone_count'] = $item['phone_count'] - 1;
             }
+            if ($item['no_tq'] == 0 && $item['ok_phone'] == 0) {
+                $item['phone_count'] = $item['phone_count'] - 1;
+            }
+
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
