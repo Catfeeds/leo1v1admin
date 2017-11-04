@@ -3177,15 +3177,11 @@ class user_deal extends Controller
 
 
     public function cancel_lesson_by_userid()
-    {
-       
-        $child_list = $this->t_child_order_info->get_period_list(-1,-1);
-        foreach($child_list as $val){
-            $this->t_order_info->field_update_list($val["parent_orderid"],[
-               "order_partition_flag"=>1 
-            ]);
-        }
-        dd($child_list);
+    {       
+        $end_time = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-3 month",$end_time);
+        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+        dd($all_train_through_lesson_teacher);
               
     }
 

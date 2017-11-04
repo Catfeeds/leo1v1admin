@@ -4039,12 +4039,11 @@ class human_resource extends Controller
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $lstart    = $date_week["sdate"];
         $lend      = $date_week["edate"];
-        $sleep_tea_list = $this->get_sleep_teacher_list($sleep_teacher_flag);
         $ret_info  = $this->t_teacher_info->get_teacher_detail_list_new(
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr,$through_start,$through_end,$sleep_tea_list
+            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag
         );
 
         foreach($ret_info['list'] as  &$item){

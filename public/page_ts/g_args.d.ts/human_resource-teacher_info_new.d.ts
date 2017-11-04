@@ -188,6 +188,7 @@ interface RowData {
 	train_type	:any;
 	new_train_flag	:any;
 	phone_location	:any;
+	sleep_flag	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
