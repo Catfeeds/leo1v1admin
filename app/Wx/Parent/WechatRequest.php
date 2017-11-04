@@ -155,12 +155,12 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
             $tuwenList[] = array(
 
-                'title' => '家长端下载手册',
+                'title' => "理优双11  点赞优质教育",
 
-                'description' => '家长端下载手册',
+                'description' => "福利来就送  100%中奖率！",
 
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
-                'url' => 'http://wx-parent.leo1v1.com/article_wx/parent_side_manual',
+                'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/800%2A800.png",
+                'url' => "http://wx-parent.leo1v1.com/wx_parent_gift/get_gift_for_parent",
 
             );
 
