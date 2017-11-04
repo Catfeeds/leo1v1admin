@@ -252,6 +252,7 @@ class url_power_map {
 			'/user_manage/complaint_department_deal_teacher_qc'	=>1070634,
 			'/agent/agent_list'	=>1070410,
 			'/agent/agent_user_wechat'	=>1070414,
+			'/agent/user_center_info'	=>1070492,
 			'/agent/agent_user_link'	=>1070407,
 			'/agent/agent_order_list'	=>1070408,
 			'/agent/agent_cash_list'	=>1070411,
