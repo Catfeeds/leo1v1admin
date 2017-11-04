@@ -795,9 +795,12 @@ class test_boby extends Controller
 
         $s = $this->table_end($s);
         echo $s;
+        $all =0;
         foreach($zu as $k=>$v){
+            $all = $all+$v;
             echo $k,'--',$v,'<br>';
         }
+        echo $all;
 
     }
 
@@ -807,7 +810,7 @@ class test_boby extends Controller
         $b = floor($a / 1800);
         return $b;
     }
-    
+
     public function add_user_to_lesson(){
         $old_lessonid = '371545';
         $new_lessonid = '398579';

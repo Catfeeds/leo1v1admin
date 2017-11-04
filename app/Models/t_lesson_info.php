@@ -9681,20 +9681,22 @@ lesson_type in (0,1) "
     }
 
     // t_teacher_info add_time have_test_lesson_flag
-    public function get_imit_audi_sched_count($start_time, $end_time)
+    public function get_imit_audi_sched_count($end_time, $teacherid)
     {
         $whereArr = [
-            //['teacherid=%u',$teacherid,0],
+            ['lesson_start<%u',$end_time,0],
+            ['teacherid=%u',$teacherid,0],
             "lesson_type=1100",
             "train_type=4"
         ];
-        $sql = $this->gen_sql_new("select teacherid,lesson_start from %s  where %s ",
+        $sql = $this->gen_sql_new("select teacherid from %s  where %s ",
                                   self::DB_TABLE_NAME,
                                   $whereArr
         );
-        return $this->main_get_list($sql, function( $item) {
-            return $item['teacherid'];
-        });
+        return $this->main_get_value($sql);
+            //return $this->main_get_list($sql, function( $item) {
+            //   return $item['teacherid'];
+            //});
     }
 
     // 上课
