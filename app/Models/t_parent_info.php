@@ -249,7 +249,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
 
     public function get_openid_list(){
-        $sql = $this->gen_sql_new("  select wx_openid, parentid from %s "
+        $sql = $this->gen_sql_new(" select wx_openid, parentid from %s "
                                   ." where wx_openid <> '' "
                                   ,self::DB_TABLE_NAME
         );
