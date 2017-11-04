@@ -78,7 +78,7 @@ class add_new_tea_entry extends Command
         $assistant = $task->t_teacher_lecture_appointment_info_b2->get_assistant_info();
         foreach($student as $item) {
             $nick = '';
-            $id = $item['assistant'];
+            $id = $item['assistantid'];
             if ($id && isset($assistant[$id])) {
                 $nick = $assistant[$id]['nick'];
             }
