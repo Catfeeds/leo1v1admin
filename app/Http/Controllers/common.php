@@ -808,11 +808,10 @@ class common extends Controller
         if(isset($row['phone'])){
             $phone = $row['phone'];
         }
+        $old_headimgurl = $row['headimgurl'];
         if(!$phone || $wx_openid==""){
             return "";
         }
-
-
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
 
@@ -824,6 +823,26 @@ class common extends Controller
         $qiniu_url     = $qiniu['public']['url'];
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+
+        //请求微信头像
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        $headimgurl = $data['headimgurl'];
+
+        if($headimgurl !== $old_headimgurl) {
+            $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
+            $is_exists = false;
+        }
+
         if(!$is_exists){
             if (\App\Helper\Utils::check_env_is_test() ) {
                 $www_url="test.www.leo1v1.com";
@@ -836,19 +855,7 @@ class common extends Controller
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-            //请求微信头像
-            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
-            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $output = curl_exec($ch);
-            curl_close($ch);
-            $data = json_decode($output,true);
-            $headimgurl = $data['headimgurl'];
+
             $datapath ="/tmp/".$phone."_headimg.jpeg";
             $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
             shell_exec($wgetshell);
