@@ -866,7 +866,7 @@ class seller_student_new2 extends Controller
         }
         $history_count = $this->t_id_opt_log->get_history_info($start_time,$end_time,$origin_ex);
         foreach($history_count as $item){
-            $adminid = $item['opt_id'];
+            $adminid = $item['adminid'];
             $res[$adminid]['get_free_count'] = isset($item['get_free_count'])?$item['get_free_count']:0;
         }
         $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);//分配

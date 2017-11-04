@@ -105,7 +105,7 @@ class t_id_opt_log extends \App\Models\Zgen\z_t_id_opt_log
         $where_arr[]= $ret_in_str;
         $this->where_arr_add_time_range($where_arr,"l.log_time",$start_time,$end_time);
         $sql=$this->gen_sql_new(
-            " select count(distinct(l.value)) get_free_count "
+            " select l.opt_id adminid,count(distinct(l.value)) get_free_count "
             ." from %s l "
             ." left join %s s on s.userid=l.value "
             ." where %s group by l.opt_id ",
