@@ -3180,8 +3180,15 @@ class user_deal extends Controller
     {       
         $end_time = strtotime(date("Y-m-01",time()));
         $start_time = strtotime("-3 month",$end_time);
+        $all_throuth_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($start_time);
         $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
-        dd($all_train_through_lesson_teacher);
+        $tea_list=[];
+        foreach($all_throuth_teacher as $k=>$v){
+            if(!isset($all_train_through_lesson_teacher[$k])){
+                $tea_list[$k]=$v["teacherid"];
+            }
+        }
+        dd($tea_list);
               
     }
 
