@@ -1474,7 +1474,7 @@ class test_code extends Controller
         // dispatch($job);
 
         $parentid = $this->t_parent_info->get_parentid_by_phone($phone);
-        $parent_info = $this->t_parent_info->get_wx_openid_by_parentid($parentid);
+        $parent_info = $this->t_parent_info->get_wx_openid_by_parentid($parentid['parentid']);
         $parent_list[] = [
             "wx_openid" => $parent_info
         ];
