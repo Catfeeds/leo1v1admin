@@ -53,7 +53,7 @@ class add_new_tea_entry extends Command
             //         }
             //     }
             // }
-            elseif(stripos($item['user_agent'],"windows") ) {
+            if(stripos($item['user_agent'],"windows") ) {
                     $version = json_decode($item['user_agent'], true);
                     if (isset($version['device_model'])) {
                         if($version['version'] < 4.3) {
