@@ -168,9 +168,10 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             foreach($tuwenList as $tuwen){
                 $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
             }
+            return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+
         }
 
-        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
 
 
 

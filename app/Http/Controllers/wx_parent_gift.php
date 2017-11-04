@@ -16,6 +16,14 @@ class wx_parent_gift extends Controller
         $this->secret = "756ca8483d61fa9582d9cdedf202e73e"; // 理由教育在线学习
     }
 
+
+    public function get_parentid(){
+        $parentid = $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid"):session("parentid");
+        return $parentid;
+    }
+
+
+
     private $appid ;
     private $secret ;
     public function get_gift_for_parent () {
@@ -386,7 +394,7 @@ class wx_parent_gift extends Controller
             $left_num = 0;
         }
 
-        $start_time = strtotime('2017-11-04'); // 2017-11-06  测试 分享朋友圈有效时间
+        $start_time = strtotime('2017-11-7'); // 2017-11-7 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
 
         if(!$parentid){
@@ -708,11 +716,6 @@ class wx_parent_gift extends Controller
         return $this->output_succ(["money"=>$prize]);
     }
 
-
-    public function get_parentid(){
-        $parentid = $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
-        return $parentid;
-    }
 
 
     // 测试区
