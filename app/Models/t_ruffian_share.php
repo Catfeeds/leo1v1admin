@@ -19,12 +19,15 @@ class t_ruffian_share extends \App\Models\Zgen\z_t_ruffian_share
     }
 
     public function get_share_num($parentid, $start_time, $end_time){
-        $where_arr = [];
+        $where_arr = [
+            "parentid = $parentid",
+            "is_share_flag = 1"
+        ];
         $this->where_arr_add_time_range($where_arr,"share_time",$start_time, $end_time);
         $sql = $this->gen_sql_new("  select count(*) from %s ru "
-                                  ." where parentid = %d and is_share_flag=1"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,$parentid
+                                  ,$where_arr
         );
 
         return $this->main_get_value($sql);

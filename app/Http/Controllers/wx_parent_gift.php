@@ -360,6 +360,8 @@ class wx_parent_gift extends Controller
 
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
 
+
+
         if(!$parentid){
             $parentid = -1;
         }
@@ -711,6 +713,8 @@ class wx_parent_gift extends Controller
 
         $draw_num = 0; //抽奖次数
 
+
+        echo $has_share."<br>".$is_reading."<br>".$is_new_order;
         if($has_share){ $draw_num++;}
 
         if($is_reading){$draw_num++;}
@@ -718,6 +722,7 @@ class wx_parent_gift extends Controller
         if($is_new_order){$draw_num++;}
 
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
+
 
         if(!$parentid){
             $parentid = -1;
