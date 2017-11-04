@@ -465,6 +465,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $start_time = $this->t_month_def_type->get_def_time($start_time=1506960000);
+        dd($start_time);
     }
 
     //处理等级头像

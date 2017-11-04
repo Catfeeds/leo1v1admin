@@ -2127,6 +2127,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr["group_all_no_stage_price"] = $group_all_no_stage_price/100;
         $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
         // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
+        // $start_time = $this->task->t_month_def_type->get_def_time($start_time);
         $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time  )  ;
         return $ret_arr;
     }
