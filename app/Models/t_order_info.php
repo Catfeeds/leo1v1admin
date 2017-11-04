@@ -2061,11 +2061,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_seller_money_info ( $adminid , $start_time,$end_time )
     {
+        $start_time_new = $start_time;
+        $ret_time = $this->task->t_month_def_type->get_all_list();//销售自定义月份时间
+        foreach($ret_time as $item){
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
+                $start_time_new = $item['def_time'];
+            }
+        }
+
         $sys_operator= $this->t_manager_info->get_account($adminid);
         //$groupid= $this->t_ma
 
         $ret_arr=[];
-        $self_group_info = $this->task->t_group_user_month->get_group_info_by_adminid(-1 , $adminid ,$start_time);
+        $self_group_info = $this->task->t_group_user_month->get_group_info_by_adminid(-1 , $adminid ,$start_time_new);
         // $self_group_info= $this->t_admin_group_user->get_group_info_by_adminid(-1 , $adminid );
 
         $order_list=$this-> get_1v1_order_seller_month_money($sys_operator, $start_time, $end_time );
@@ -2126,15 +2134,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr["group_all_price"] = $group_all_price/100;
         $ret_arr["group_all_stage_price"] = $group_all_stage_price/100;
         $ret_arr["group_all_no_stage_price"] = $group_all_no_stage_price/100;
-        $ret_time = $this->task->t_month_def_type->get_all_list();//销售自定义月份时间
-        foreach($ret_time as $item){
-            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
-                $start_time = $item['def_time'];
-            }
-        }
-        $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
+        
+        $ret_arr["group_default_money"] = $this->t_admin_group_month_time->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time_new )  );
         // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
-        $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time  )  ;
+        $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time_new  )  ;
         return $ret_arr;
     }
 

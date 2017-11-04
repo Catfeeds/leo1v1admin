@@ -22,7 +22,6 @@
           "./app/OrderPdf",
           "./app/OrderPrice",
           "./app/Policies",
-          "./app/proto",
           "./app/Providers",
           "./app/Strategy",
           "./app/Todo",
