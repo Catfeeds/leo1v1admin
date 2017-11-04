@@ -250,6 +250,22 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["add_time>%u",$start_time,0],
             ["add_time<%u",$end_time,0],
         ];
+        if($grade==100){
+            $where_arr[]="l.grade>=100 and l.grade <200";
+        }elseif($grade==200){
+            $where_arr[]="l.grade>=200 and l.grade <300";
+        }elseif($grade==300){
+            $where_arr[]="l.grade>=300 and l.grade <400";
+        }
+        $sql = $this->gen_sql_new("select count(1) from % tm"
+                                  ." left join %s l on tm.teacherid = l.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
     }
 
 
