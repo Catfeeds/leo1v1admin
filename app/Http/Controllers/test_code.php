@@ -1443,9 +1443,28 @@ class test_code extends Controller
     }
 
     public function test_send_wx(){
-        $parent_list = $this->t_parent_info->get_openid_list();
+        // $parent_list = $this->t_parent_info->get_openid_list();
         // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
+        $phone = "18790256265";
+        $teacher_info = $this->t_teacher_info->get_wx_openid_by_phone($phone);
+        $test_tea[] = [
+            "wx_openid" => $teacher_info['wx_openid']
+        ];
 
+
+
+        /**
+         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+         * 标题课程 : 待办事项提醒
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        $tea_template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        $job = new \App\Jobs\SendTeacherWx($tea_list,$template_id,$data,"");
+        dispatch($job);
     }
 
 }
