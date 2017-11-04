@@ -28,13 +28,16 @@ $(function(){
     });
 
     $('.opt-a td a').on('click',function(){
-        var id = $(this).parent().parent().attr('data-id');
-        var opt_type = $(this).attr('data-type');
-        if ( location.search ) {
-            $.wopen("/agent/get_yxyx_member_detail"+location.search+"&id="+id+"&opt_type="+opt_type);
-        } else {
-            $.wopen("/agent/get_yxyx_member_detail?id="+id+"&opt_type="+opt_type);
-        }
+        var id = $(this).parent().parent().data('id');
+        var opt_type      = $(this).data('type');
+        var date_type     = g_args.date_type;
+        var opt_date_type = g_args.opt_date_type
+        var start_time    = g_args.start_time;
+        var end_time      = g_args.end_time;
+
+        var par = '?id='+id+'&opt_type='+opt_type+'&date_type='+date_type+'&opt_date_type='
+            +opt_date_type+'&start_time='+start_time+'&end_time='+end_time;
+        $.wopen("/agent/get_yxyx_member_detail"+par);
     });
 
 
