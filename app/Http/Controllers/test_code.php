@@ -1470,11 +1470,15 @@ class test_code extends Controller
             "keyword3" => $date,
             "remark"   => "请更新版本后，及时进行声音设备的设置。",
         ];
-        $job = new \App\Jobs\SendTeacherWx($tea_list,$tea_template_id,$tea_data,"");
-        dispatch($job);
+        // $job = new \App\Jobs\SendTeacherWx($tea_list,$tea_template_id,$tea_data,"");
+        // dispatch($job);
 
         $parentid = $this->t_parent_info->get_parentid_by_phone($phone);
         $parent_info = $this->t_parent_info->get_wx_openid_by_parentid($parentid);
+        $parent_list[] = [
+            "wx_openid" => $parent_info
+        ];
+        dd($parent_list);
         /**
          * 模板ID   : 9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU
          * 标题课程 : 待办事项提醒
