@@ -806,11 +806,10 @@ class common extends Controller
         $qiniu         = \App\Helper\Config::get_config("qiniu");
 
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_new_pic_t1.png";
+            $phone_qr_name = $phone."_qr_agent_merber1.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_new_pic.png";
+            $phone_qr_name = $phone."_qr_agent_merber.png";
         }
-        $qiniu_url     = $qiniu['public']['url'];
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
 
@@ -828,6 +827,7 @@ class common extends Controller
         $data = json_decode($output,true);
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
+        //判断是否更新微信头像
         if ($old_headimgurl != $headimgurl) {
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
             if($is_exists) {
