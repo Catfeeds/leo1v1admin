@@ -832,7 +832,7 @@ class common extends Controller
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
             if($is_exists) {
                 //删除七牛图片
-                \App\Helper\Utils::qiniu_del_file($phone_qr_name);
+                \App\Helper\Utils::qiniu_del_file($qiniu_url,$phone_qr_name);
             }
             $is_exists = false;
         }
