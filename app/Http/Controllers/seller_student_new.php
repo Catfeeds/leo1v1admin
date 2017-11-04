@@ -204,7 +204,7 @@ class seller_student_new extends Controller
     }
 
     //TMK例子库
-    public function tmk_sellser_student_new(){
+    public function tmk_seller_student_new(){
         $self_groupid = $this->get_in_int_val("self_groupid",-1);
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
