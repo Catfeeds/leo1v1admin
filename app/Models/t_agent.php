@@ -2250,7 +2250,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
-            ."a1.agent_status_money,a1.create_time "
+            ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
@@ -2262,7 +2262,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
             "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
-            ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a.agent_student_status "
+            ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a2.agent_student_status "
             ."from %s a2 "
             ." where  a2.parentid in (select id from %s where parentid = %u ) group  by a2.id  ",
             self::DB_TABLE_NAME,
