@@ -19,7 +19,7 @@ class SendParentWx extends Job implements ShouldQueue
     {
         //
         $this->wx_info=[
-            "user_list "  => $user_list,
+            "parent_list"  => $user_list,
             "template_id" => $template_id,
             "data"        => $data,
             "url"         => $url,
@@ -36,7 +36,7 @@ class SendParentWx extends Job implements ShouldQueue
         $wx_info     = $this->wx_info;
         $template_id = $wx_info['template_id'];
         $data        = $wx_info['data'];
-        $user_list   = $wx_info['user_list'];
+        $user_list   = $wx_info['parent_list'];
         $url         = $wx_info['url'];
 
         foreach($user_list as $user_val){
