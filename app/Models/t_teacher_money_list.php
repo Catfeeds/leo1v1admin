@@ -257,8 +257,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         }elseif($grade==300){
             $where_arr[]="l.grade>=300 and l.grade <400";
         }
-        $sql = $this->gen_sql_new("select count(1) from % tm"
-                                  ." left join %s l on tm.teacherid = l.teacherid"
+        $sql = $this->gen_sql_new("select count(*) num"
+                                  ." from %s tm "
+                                  ." left join %s l on tm.lessonid = l.lessonid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
