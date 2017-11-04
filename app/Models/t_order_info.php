@@ -2125,14 +2125,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr["group_all_price"] = $group_all_price/100;
         $ret_arr["group_all_stage_price"] = $group_all_stage_price/100;
         $ret_arr["group_all_no_stage_price"] = $group_all_no_stage_price/100;
+        $ret_time = $this->task->t_month_def_type->get_all_list();//销售自定义月份时间
+        foreach($ret_time as $item){
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
+                $start_time = $item['def_time'];
+            }
+        }
         $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
         // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
-        // $ret_time = $this->task->t_month_def_type->get_all_list();
-        // foreach($ret_time as $item){//自定义月份时间
-        //     if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
-        //         $start_time = $item['def_time'];
-        //     }
-        // }
         $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time  )  ;
         return $ret_arr;
     }
