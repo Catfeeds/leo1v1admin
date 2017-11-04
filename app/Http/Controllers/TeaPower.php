@@ -4094,10 +4094,28 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //获取(非)沉睡老师名单
     public function get_sleep_teacher_list($sleep_teacher_flag){
+        if($sleep_teacher_flag==-1){
+            return [];
+        }
         $end_time = strtotime(date("Y-m-01",time()));
         $start_time = strtotime("-3 month",$end_time);
         $all_train_through_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($end_time);
-        $all_train_through_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+        $no_lesson_list=[];
+        $lesson_list=[];
+        foreach($all_train_through_teacher as $k=>$val){
+            if(!isset($all_train_through_lesson_teacher[$k])){
+                $no_lesson_list[$k]=$val["teacherid"];
+            }
+        }
+        foreach($all_train_through_lesson_teacher as $k=>$v){
+            $lesson_list[$k]=$v["teacherid"];
+        }
+        if($sleep_teacher_flag==1){
+            return $no_lesson_list;
+        }elseif($sleep_teacher_flag==0){
+            return $lesson_list;
+        }
     }
 
 
