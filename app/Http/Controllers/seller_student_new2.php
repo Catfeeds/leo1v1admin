@@ -860,14 +860,14 @@ class seller_student_new2 extends Controller
             $res[$adminid]['tmk_count'] = $item['tmk_count'];
         }
         $free_list = $this->t_test_subject_free_list->get_free_count($start_time,$end_time,$origin_ex);
-        foreach($seller_student_new_list as $item){
+        foreach($free_list as $item){
             $adminid = $item['adminid'];
-            $res[$adminid]['free_count'] = isset($item['free_count'])?$item['free_count']:0;
+            $res[$adminid]['free_count'] = $item['free_count'];
         }
         $history_count = $this->t_id_opt_log->get_history_info($start_time,$end_time,$origin_ex);
         foreach($history_count as $item){
             $adminid = $item['adminid'];
-            $res[$adminid]['get_free_count'] = isset($item['get_free_count'])?$item['get_free_count']:0;
+            $res[$adminid]['get_free_count'] = $item['get_free_count'];
         }
         $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);//分配
         foreach($seller_distribution_list as $item){
