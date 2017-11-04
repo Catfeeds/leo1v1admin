@@ -137,6 +137,9 @@ class activity_base {
             throw new \Exception() ;
         }
     }
+    public function get_desc(){
+        return "";
+    }
 
 
 }
