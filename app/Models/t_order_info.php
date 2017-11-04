@@ -3993,7 +3993,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function check_is_buy($parentid){
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s p on p.userid=o.userid"
-                                  ." where p.parentid=%d"
+                                  ." where p.parentid=%d and o.contract_type=0 and o.contract_status<>0"
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$parentid

@@ -49,7 +49,7 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
             "ra.parentid=$parentid"
         ];
 
-        $sql = $this->gen_sql_new("  select prize_type, p.nick, get_prize_time from %s ra"
+        $sql = $this->gen_sql_new("  select prize_type, p.phone, get_prize_time from %s ra"
                                   ." left join %s p on p.parentid=ra.parentid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
