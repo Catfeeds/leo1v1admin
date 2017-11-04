@@ -828,7 +828,6 @@ class common extends Controller
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
         //判断是否更新微信头像
-        $agent_qr_url = "/tmp/".$phone_qr_name;
         if ($old_headimgurl != $headimgurl) {
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
             if($is_exists) {
@@ -880,6 +879,7 @@ class common extends Controller
                 }
             }
 
+            $agent_qr_url = "/tmp/".$phone_qr_name;
             imagepng($image_3,$agent_qr_url);
 
 
