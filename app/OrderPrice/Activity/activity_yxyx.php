@@ -10,6 +10,9 @@ class activity_yxyx extends  activity_base {
     }
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
+        if ($this->lesson_times  <10  ) {
+            return ;
+        }
         //优学优享活动
         $userid=$this->userid;
         if ($userid) {
