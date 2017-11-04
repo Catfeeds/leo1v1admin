@@ -387,7 +387,14 @@ class wx_parent_gift extends Controller
 
         $start_time = strtotime('2017-11-04'); // 2017-11-06  测试 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
-        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+
+        if(!$parentid){
+            $left_num = 0;
+            $has_share = 0;
+        }else{
+            $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+        }
+
 
         return $this->output_succ(['left'=>$left_num,"is_share"=>$has_share]);
     }

@@ -100,15 +100,14 @@ class t_id_opt_log extends \App\Models\Zgen\z_t_id_opt_log
     public function get_history_info($start_time,$end_time,$origin_ex){
         $where_arr=[
             ["log_type=%u" ,E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT],
-            ["n.admin_revisiterid=%u" ,$adminid, -1 ],
         ];
         $this->where_arr_add_time_range($where_arr,"log_time",$start_time,$end_time);
         $sql=$this->gen_sql_new(
-            " select l.* "
+            " select count(distinct(l.value)) get_free_count "
             ." from %s l "
             ." left join %s s "
             ." left join %s s on s.userid=l.value "
-            ." where  %s ",
+            ." where %s group by l.opt_id ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $where_arr
