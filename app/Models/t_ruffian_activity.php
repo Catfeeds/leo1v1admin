@@ -103,4 +103,8 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
         ]);
     }
 
+    public function check_is_has_test($parentid){
+        
+    }
+
 }
