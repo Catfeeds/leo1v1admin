@@ -689,4 +689,46 @@ class wx_parent_gift extends Controller
         return $parentid;
     }
 
+
+    // 测试区
+
+
+
+    public function get_draw_num_test(){ //
+        $parentid = $this->get_parentid();
+        // 检查是否分享朋友圈 11.6-11.13[包含13号]
+        $start_time = strtotime('2017-11-06'); // 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-14'); // 分享朋友圈有效时间
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+
+        // 检查是否在读学生
+        $is_reading = $this->t_student_info->check_is_reading($parentid);
+
+        //检查是否新签
+        $order_start = strtotime('2017-11-11');
+        $order_end   = strtotime('2017-11-14');
+        $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
+
+        $draw_num = 0; //抽奖次数
+
+        if($has_share){ $draw_num++;}
+
+        if($is_reading){$draw_num++;}
+
+        if($is_new_order){$draw_num++;}
+
+        $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
+
+        if(!$parentid){
+            $parentid = -1;
+        }
+
+        $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
+
+        $left_num = $draw_num-$consume_num;
+
+        return $left_num;
+    }
+
+
 }

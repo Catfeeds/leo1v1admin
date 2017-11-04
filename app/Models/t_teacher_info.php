@@ -305,7 +305,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_teacher_flag=-1
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -336,6 +336,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+
 
         $sql = $this->gen_sql_new("select * "
                                   ." from %s "

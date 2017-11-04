@@ -899,9 +899,9 @@ class test_james extends Controller
     public function dd(){
         $a = [];
 
-        for($i=0;$i<9999;$i++){
+        for($i=0;$i<=9999;$i++){
             // $a[] = $this->get_win_rate();
-            echo $i;
+            echo $i."<br>";
         }
 
 

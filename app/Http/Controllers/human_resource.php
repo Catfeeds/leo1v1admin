@@ -4016,6 +4016,7 @@ class human_resource extends Controller
         $lesson_hold_flag       = $this->get_in_int_val("lesson_hold_flag",-1);
         $train_through_new      = $this->get_in_int_val("train_through_new",-1);
         $seller_flag            = $this->get_in_int_val("seller_flag",0);
+        $sleep_teacher_flag     = $this->get_in_int_val("sleep_teacher_flag",-1);
         $adminid                = $this->get_account_id();
 
         $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
@@ -4038,11 +4039,12 @@ class human_resource extends Controller
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $lstart    = $date_week["sdate"];
         $lend      = $date_week["edate"];
+        $sleep_tea_list = $this->get_sleep_teacher_list($sleep_teacher_flag);
         $ret_info  = $this->t_teacher_info->get_teacher_detail_list_new(
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr,$through_start,$through_end
+            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag
         );
 
         foreach($ret_info['list'] as  &$item){

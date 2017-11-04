@@ -102,6 +102,17 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >是否沉睡老师</span>
+                        <select id="id_sleep_teacher_flag" class ="opt-change" >
+                            <option value="-1">全部</option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-3" style="display:block">
                     <div class="input-group ">
                         <span >空闲时间筛选 </span>
