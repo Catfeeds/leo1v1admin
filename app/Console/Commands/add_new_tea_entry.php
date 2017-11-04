@@ -57,7 +57,7 @@ class add_new_tea_entry extends Command
                     $version = json_decode($item['user_agent'], true);
                     if (isset($version['device_model'])) {
                         if($version['version'] < 4.3) {
-                            echo $item['teacherid'].'   '.$item['realname'].'   '.'windows'.'   '.$version['version'].'.'.PHP_EOL;
+                            echo $item['teacherid'].'   '.$item['realname'].'   '.'windows'.'   '.$version['version'].','.PHP_EOL;
                         }
                     }
                 }
