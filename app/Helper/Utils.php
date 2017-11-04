@@ -725,6 +725,30 @@ class Utils  {
     }
 
     /**
+     * 删除七牛文件
+     * @param file    需要删除的文件名
+     * @return boolean
+     */
+    static public function qiniu_del_file($file){
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $bucket    = $qiniu['public']['bucket'];
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+
+        $auth      = new \Qiniu\Auth ($accessKey, $secretKey);
+        $bucketMgr = new \Qiniu\Storage\BucketManager($auth);
+
+        $err = $bucketMgr->delete($bucket, $file);
+
+        if($err !== null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
      * 获取七牛文件状态
      * @param bucket 需要测试的七牛空间
      * @param key    需要测试的文件名
@@ -747,6 +771,8 @@ class Utils  {
             return true;
         }
     }
+
+
 
     static public function send_reference_msg_for_wx($openid,$record_info,$status_str){
         $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
