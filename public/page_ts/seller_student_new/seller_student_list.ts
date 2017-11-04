@@ -243,7 +243,7 @@ $(function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
 
-        
+
 
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
@@ -251,7 +251,7 @@ $(function(){
                 "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
             },function(ret){
                 ret=ret.data;
-                
+
                 if( ret.editionid == 0) {
                     alert("没有设置教材版本!");
                     $(me).parent().find(".opt-edit-new").click();
@@ -420,7 +420,7 @@ $(function(){
                 $(me).parent().find(".opt-seller-qr-code").click();
                 return;
             }
-            
+
             $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{"userid" : opt_data.userid},function(resp){
                 if(g_args.account_role != 12){
                     if(resp.ret==1){
@@ -2179,9 +2179,48 @@ function init_edit() {
                 timepicker       : true,
                 format:'Y-m-d H:i',
                 step             : 30,
-                onChangeDateTime : function(){
+                onGenerate       : function(){
+                    // check_disable_time();
                 }
+
             });
+            //检测该时间该人是否排课
+            var check_disable_time = function() {
+
+                var cur_time = id_stu_request_test_lesson_time.val();
+                var cur_day = new Date(cur_time).getTime() / 1000;
+
+                $.do_ajax("/seller_student_new/get_stu_request_test_lesson_time_by_adminid",{
+                    "cur_day" : cur_day
+                },function(res){
+                    var ret = res.list;
+                    $(ret).each(function(i){
+                        var dis_time = ret[i];
+                        console.log(dis_time)
+                        $('.xdsoft_time').each(function(){
+                            var add_attr = function(obj){
+                                $(obj).css('border','1px solid red');
+                                $(obj).css('background-color','#ccc');
+                                $(obj).on('click',function(){
+                                    BootstrapDialog.alert('你已经在该时间段内排过一节课!');
+                                    return false;
+                                });
+                            };
+
+                            if ( $(this).text() == dis_time ) {
+                                var that = $(this);
+                                var prev_that = $(this).prev();
+                                var next_that = $(this).next();
+                                add_attr(prev_that);
+                                add_attr(that);
+                                add_attr(next_that);
+                            }
+
+                        });
+                    });
+                });
+
+            };
 
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
