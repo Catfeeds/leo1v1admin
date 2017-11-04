@@ -465,14 +465,22 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time=1506960000;
+        $order_by_str = $this->get_in_str_val('order_by_str','');
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
-        foreach($ret_time as $item){//自定义月份时间
-            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
-                $start_time = $item['def_time'];
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
             }
         }
-        dd($start_time);
+        $group_start_time = $start_time;
+        $start_first = date('Y-m-01',$start_time);
+
+        $group_list = $this->t_order_info->get_1v1_order_seller_list_group_new($start_time,$end_time,-1,$start_first,$order_by_str);
+        dd($group_list);
     }
 
     //处理等级头像
@@ -818,6 +826,23 @@ class agent extends Controller
         $this->set_filed_for_js("id",$id);
         return $this->pageView(__METHOD__,NULL);
 
+    }
+
+    //@desn:新版微信信息
+    public function user_center_info(){
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+        return $this->pageView(__METHOD__,NULL);
     }
 
     public function get_my_num(){

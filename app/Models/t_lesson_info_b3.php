@@ -805,10 +805,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "l.lesson_type =2",
             "l.confirm_flag <2",
-            "l.lesson_user_online_status<2",
+            //  "l.lesson_user_online_status<2",
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             ["lesson_start>%u",$start_time,-1],
             ["lesson_start<%u",$end_time,-1],
             "t.is_test_user=0",
+            "l.lesson_status>1",
             "m.account_role=2"
         ];
         if($grade==1){

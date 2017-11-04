@@ -241,7 +241,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         if($sys_operator_uid>0){
             $where_arr=[
-              "t3.uid=".$sys_operator_uid  
+              "t3.uid=".$sys_operator_uid
             ];
         }
         $sql = $this->gen_sql_new(
@@ -1036,7 +1036,45 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "g.master_adminid not in(364,416)",
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
-                                  ."if(gm.month_money,gm.month_money,0) month_money "
+                                  ." if(gm.month_money,gm.month_money,0) month_money "
+                                  ." from %s o "
+                                  ." left join %s s on o.userid = s.userid "
+                                  ." left join %s m on o.sys_operator =m.account "
+                                  ." left join %s gu on m.uid=gu.adminid "
+                                  ." left join %s g on gu.groupid =g.groupid "
+                                  ." left join %s gm on gm.groupid =g.groupid and gm.month = '%s' "
+                                  ." where %s "
+                                  ."  group by g.groupid order by %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_group_month_time::DB_TABLE_NAME,
+                                  $start_first,
+                                  $where_arr,
+                                  $order_by_str
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_1v1_order_seller_list_group_new( $start_time,$end_time,$groupid=-1,$start_first,$order_by_str) {
+        if(!$order_by_str){
+            // $order_by_str = 'sum(price) desc';
+            $order_by_str = 'if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc';
+        }
+        $where_arr = [
+            ["order_time>=%u" , $start_time, -1],
+            ["order_time<=%u" , $end_time, -1],
+            ["is_test_user=%u" , 0, -1],
+            ["g.groupid=%u" , $groupid, -1],
+            "contract_type in(0,3)",
+            "contract_status in(1,2)",
+            "m.account_role=2",
+            // "g.master_adminid not in(364,416)",
+        ];
+        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
+                                  ." if(gm.month_money,gm.month_money,0) month_money "
                                   ." from %s o "
                                   ." left join %s s on o.userid = s.userid "
                                   ." left join %s m on o.sys_operator =m.account "
@@ -3855,10 +3893,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        
+
         return $this->main_get_list($sql);
     }
-    
+
     // public function get_has_lesson_order_list($start_time,$end_time,$lesson_status=2){
     //     $where_arr=[
     //         ["lesson_start>%u",$start_time,-1],

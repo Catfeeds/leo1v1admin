@@ -434,6 +434,7 @@ class wx_parent_gift extends Controller
         if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                $is_has_test = $this->t_ruffian_activity->check_is_has_test($parentid);
                 if($is_test>0){
                     $prize_type=2;
                 }else{
@@ -729,7 +730,6 @@ class wx_parent_gift extends Controller
         $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
-        dd($is_new_order);
         $draw_num = 0; //抽奖次数
 
 
