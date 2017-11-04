@@ -53,7 +53,7 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
     }
 
     public function get_student_list($start_time, $end_time) {
-        $whrer_arr = [
+        $where_arr = [
             ['l.lesson_start>%u',$start_time,0],
             ['l.lesson_start<%u',$end_time,0],
             "s.user_agent!='' ",
@@ -73,7 +73,7 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
     }
 
     public function get_assistant_info() {
-        $sql = $this->gen_sql_new("select nick from %s",t_assistant_info::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select assistantid,nick from %s",t_assistant_info::DB_TABLE_NAME);
         return $this->main_get_list($sql, function( $item) {
             return $item['assistantid'];
         });
