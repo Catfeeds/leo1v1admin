@@ -1,11 +1,15 @@
 <?php
 namespace App\OrderPrice\Activity;
+/**
+ * @property   \App\Console\Tasks\TaskController $task
+ */
 class activity_base {
     /**
      * 购买课程次数
      */
     public  $lesson_times;
 
+    public  $userid;
 
     /**
      *   试听课  lessonid
@@ -14,9 +18,11 @@ class activity_base {
 
     public  $args;
 
+
     public function __construct(  $args   ) {
         $this->from_test_lesson_id= $args["from_test_lesson_id"];
         $this->lesson_times  = $args["lesson_times"];
+        $this->userid = $args["userid"];
         $this->args = $args;
     }
     static function check_use_count($max_count ) {
@@ -77,17 +83,17 @@ class activity_base {
 
 
     //需要实现
-    protected function do_exec ( &$can_period_flag,  &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec ( &$out_args, &$can_period_flag,  &$price,  &$present_lesson_count,  &$desc_list )   {
 
 
     }
 
-    public function exec (  &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list  )   {
+    public function exec ( &$out_args, &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list  )   {
         $old_price= $price;
         $old_present_lesson_count= $present_lesson_count;
         $old_desc_list = $desc_list;
 
-        $this->do_exec($can_period_flag, $price,$present_lesson_count,$desc_list);
+        $this->do_exec( $out_args,$can_period_flag, $price,$present_lesson_count,$desc_list);
         if ( count($desc_list ) - count($old_desc_list )  > 1 ) {
             throw  new \Exception(" desc_list 增加　超过１，出错　" )  ;
         }
@@ -117,5 +123,17 @@ class activity_base {
         }
 
     }
+
+    public function __get( $name ) {
+        if ($name == "task" ) {
+            return $this->$name= new \App\Console\Tasks\TaskController();
+        }else if (substr($name ,0,2  ) == "t_") {
+            $reflectionObj = new \ReflectionClass( "App\\Models\\$name");
+            return $this->$name= $reflectionObj->newInstanceArgs();
+        }else{
+            throw new \Exception() ;
+        }
+    }
+
 
 }

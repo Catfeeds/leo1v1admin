@@ -185,7 +185,9 @@
                                     <span >家长:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{$stu_info["parent_name"]}} </span>
+                                    <span  >{{$stu_info["parent_name"]}}(
+                                        {{$stu_info["parentid"]}}
+                                        ) </span>
                                 </div>
                             </div>
                         </div>

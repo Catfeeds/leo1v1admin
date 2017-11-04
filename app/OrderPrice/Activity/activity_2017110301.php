@@ -9,7 +9,7 @@ class activity_2017110301 extends  activity_base {
         parent::__construct($args);
     }
 
-    protected function do_exec (&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec (  &$out_args,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
 
         //2017-1103 11.3-6 回流活动   每满10000减500 66个名额 
         if (!$this->check_now("2017-11-03","2017-11-07"))   {
