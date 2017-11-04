@@ -52,7 +52,7 @@ class wx_parent_gift extends Controller
         }
 
 
-        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type."&parentid=".$parentid);
+        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
         return ;
 
         // if($is_parent_flag){
