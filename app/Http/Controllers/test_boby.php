@@ -825,17 +825,25 @@ class test_boby extends Controller
     public function get_tea_free_info(){
         $time = strtotime('2017-08-01');
         $end = strtotime('2017-11-01');
-        $sql = " select t.subject,t.grade,t.teacherid  from t_teacher_info t left join t_lesson_info l on l.teacherid=t.teacherid where t.trial_lecture_is_pass=1 and t.is_quit=0 and t.train_through_new_time>$time and t.is_test_user=0 and l.lessonid is null and l.lesson_start>$time and l.lesson_start<$end group by t.teacherid";
+        // $sql = " select t.subject,t.grade,t.teacherid  from t_teacher_info t left join t_lesson_info l on l.teacherid=t.teacherid where t.trial_lecture_is_pass=1 and t.is_quit=0 and t.train_through_new_time<$time and t.is_test_user=0 and l.lessonid is null and l.lesson_start>$time and l.lesson_start<$end group by t.teacherid";
 
+        $sql1 = 'select t.subject,t.grade,t.teacherid  from t_teacher_info t  where t.trial_lecture_is_pass=1  and t.train_through_new_time<1501516800 and t.is_test_user=0 ';
+        $sql2 = 'select teacherid  from  t_lesson_info l  where  l.lesson_start>1501516800 and l.lesson_start<1509465600  group by teacherid';
         $th_arr = ['年级科目','人数'];
         $s = $this->table_start($th_arr);
-        $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $ret_info1 = $this->t_grab_lesson_link_info->get_info_test($sql1);
+        $ret_info2 = $this->t_grab_lesson_link_info->get_info_test($sql2);
+        foreach ($ret_info2 as $k) {
+            $n[] = $k;
+        }
         $zu = [];
-        foreach ($ret_info as $item){
-            $sub = E\Esubject::get_desc($item['subject']);
-            $gra = E\Egrade::get_desc($item['grade']);
-            $key = $gra.$sub;
-            $zu[$key]++;
+        foreach ($ret_info1 as $item){
+            if (!in_array($item['teacherid'], $n)){
+                $sub = E\Esubject::get_desc($item['subject']);
+                $gra = E\Egrade::get_desc($item['grade']);
+                $key = $gra.$sub;
+                $zu[$key]++;
+            }
         }
 
         foreach($zu as $k=>$v){
