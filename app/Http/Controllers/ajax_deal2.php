@@ -1616,8 +1616,8 @@ class ajax_deal2 extends Controller
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
         $teacherid             = $this->get_in_int_val("teacherid",50272);
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
         $tea_arr =[$teacherid];
         $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
         if(!empty($cc_list)){
