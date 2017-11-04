@@ -3946,11 +3946,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function check_is_new($parentid,$order_start, $order_end){
         $where_arr = [
             "o.contract_type=0",
-            "p.parentid=$parentid"
+            ["p.parentid=%u",$parentid,0],
         ];
 
         $this->where_arr_add_time_range($where_arr,"o.order_time",$order_start,$order_end);
-
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s s on s.userid=o.userid"
                                   ." left join %s p on p.userid=s.userid"
