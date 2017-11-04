@@ -57,8 +57,8 @@
 
 
                         <td class="all_price" ></td>
-                        <td class="all_stage_money" ></td>
-                        <td class="all_no_stage_money" ></td>
+                        <td class="stage_money" ></td>
+                        <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>
                         <td class="group_all_price"  ></td>
                         <td class="group_all_stage_price"  ></td>
