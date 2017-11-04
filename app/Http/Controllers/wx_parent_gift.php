@@ -725,10 +725,11 @@ class wx_parent_gift extends Controller
         $is_reading = $this->t_student_info->check_is_reading($parentid);
 
         //检查是否新签
-        $order_start = strtotime('2017-11-11');
+        $order_start = strtotime('2017-11-4');
         $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
+        dd($is_new_order);
         $draw_num = 0; //抽奖次数
 
 
@@ -739,7 +740,6 @@ class wx_parent_gift extends Controller
         if($is_new_order){$draw_num++;}
 
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
-
 
         if(!$parentid){
             $parentid = -1;
