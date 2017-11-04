@@ -465,22 +465,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $order_by_str = $this->get_in_str_val('order_by_str','');
-        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-        $time = time(null);
-        $ret_time = $this->t_month_def_type->get_all_list();
-        foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time = $item['start_time'];
-                $end_time = $item['end_time'];
-                break;
-            }
-        }
-        $group_start_time = $start_time;
-        $start_first = date('Y-m-01',$start_time);
-
-        $group_list = $this->t_order_info->get_1v1_order_seller_list_group_new($start_time,$end_time,-1,$start_first,$order_by_str);
-        dd($group_list);
     }
 
     //处理等级头像
