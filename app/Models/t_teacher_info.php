@@ -4581,6 +4581,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
  
     }
+    public function get_all_train_through_lesson_teacher_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tf.simul_test_lesson_pass_time<".$time,
+            "t.train_through_new=1",            
+        ];
+        $sql = $this->gen_sql_new("select teacherid"
+                                  ." from %s t "
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+ 
+    }
+
 
 
 }
