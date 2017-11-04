@@ -89,14 +89,10 @@
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="" >
-                                {{@$var["free_count"]}}
-                            </a>
+                            {{@$var["free_count"]}}
                         </td>
                         <td >
-                            <a href="javascript:;" class="" >
-                                {{@$var["get_free_count"]}}
-                            </a>
+                            {{@$var["get_free_count"]}}
                         </td>
                         <td >
                             <a href="javascript:;" class="count" >

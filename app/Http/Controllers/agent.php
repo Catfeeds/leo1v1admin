@@ -465,14 +465,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time=1506960000;
-        $ret_time = $this->t_month_def_type->get_all_list();
-        foreach($ret_time as $item){//自定义月份时间
-            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
-                $start_time = $item['def_time'];
-            }
-        }
-        dd($start_time);
     }
 
     //处理等级头像
@@ -818,6 +810,23 @@ class agent extends Controller
         $this->set_filed_for_js("id",$id);
         return $this->pageView(__METHOD__,NULL);
 
+    }
+
+    //@desn:新版微信信息
+    public function user_center_info(){
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+        return $this->pageView(__METHOD__,NULL);
     }
 
     public function get_my_num(){

@@ -743,15 +743,8 @@ class common extends Controller
             curl_close($ch);
             $data = json_decode($output,true);
             $headimgurl = $data['headimgurl'];
-            $datapath ="/tmp/".$phone."_headimg.jpeg";
-            $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-            shell_exec($wgetshell);
 
-            $imgg = $this->yuan_img($datapath);
-            $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-            imagejpeg($imgg,$datapath_new);
-            $image_4 = imagecreatefromjpeg($datapath_new);
-
+            $image_4 = imagecreatefromjpeg($headimgurl);
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             $color = imagecolorallocate($image_5, 255, 255, 255);
             imagefill($image_5, 0, 0, $color);
@@ -773,8 +766,6 @@ class common extends Controller
                     }
                 }
             }
-            // imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
-            // imagecopy($image_3,$image_4,0,0,0,0,190,190);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -812,18 +803,41 @@ class common extends Controller
             return "";
         }
 
-
-
         $qiniu         = \App\Helper\Config::get_config("qiniu");
 
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_new_pic_t1.png";
+            $phone_qr_name = $phone."_qr_agent_merber1.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_new_pic.png";
+            $phone_qr_name = $phone."_qr_agent_merber.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
-        $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+
+        //请求微信头像
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        $old_headimgurl = $row['headimgurl'];
+        $headimgurl = $data['headimgurl'];
+        //判断是否更新微信头像
+        $agent_qr_url = "/tmp/".$phone_qr_name;
+        if ($old_headimgurl != $headimgurl) {
+            $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
+            if($is_exists) {
+                //删除七牛图片
+                \App\Helper\Utils::qiniu_del_file($agent_qr_url);
+            }
+            $is_exists = false;
+        }
+
         if(!$is_exists){
             if (\App\Helper\Utils::check_env_is_test() ) {
                 $www_url="test.www.leo1v1.com";
@@ -834,30 +848,9 @@ class common extends Controller
             $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-            $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-            //请求微信头像
-            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
-            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $output = curl_exec($ch);
-            curl_close($ch);
-            $data = json_decode($output,true);
-            $headimgurl = $data['headimgurl'];
-            $datapath ="/tmp/".$phone."_headimg.jpeg";
-            $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-            shell_exec($wgetshell);
 
-            $imgg = $this->yuan_img($datapath);
-            $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-            imagejpeg($imgg,$datapath_new);
-            $image_5 = imagecreatefromjpeg($datapath_new);
-
+            $image_5 = imagecreatefromjpeg($headimgurl);
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
@@ -952,6 +945,7 @@ class common extends Controller
         unlink($url);
         return $dest_path;
     }
+
 
 
     public function send_charge_info(){

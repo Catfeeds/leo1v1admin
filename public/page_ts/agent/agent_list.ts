@@ -199,6 +199,12 @@ $(function(){
         $.wopen("/agent/agent_user_wechat?id="+ opt_data.id  );
     });
 
+    //@desn:获取微信数据新版
+    $(".opt-wechat-new-desc").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/user_center_info?id="+ opt_data.id  );
+    });
+
 
     $(".opt-user-link").on("click",function(){
         var opt_data=$(this).get_opt_data();

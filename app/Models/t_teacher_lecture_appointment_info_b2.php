@@ -44,12 +44,14 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
         // 拉取所有数据
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.user_agent,t.phone "
                                   ."from %s t left join %s l "
-                                  ."on t.teacherid=l.teacherid where %s group by t.realname",
+                                  ."on t.teacherid=l.teacherid where %s ",
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql, function( $item) {
+            return $item['teacherid'];
+        });
     }
 
     public function get_student_list($start_time, $end_time) {
@@ -62,13 +64,13 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
         ];
 
         $sql = $this->gen_sql_new("select s.userid,s.realname,s.user_agent,s.phone,l.assistantid "
-                                  ."from %s s left join %s l on s.userid=l.userid where %s group by s.realname",
+                                  ."from %s s left join %s l on s.userid=l.userid where %s ",
                                   t_student_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql, function( $item) {
-            return $item['assistantid'];
+            return $item['userid'];
         });
     }
 

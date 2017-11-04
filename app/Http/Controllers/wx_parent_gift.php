@@ -426,7 +426,12 @@ class wx_parent_gift extends Controller
             $stu_type = 1; // 新用户
         }
 
-        $prize_type = $this->get_win_rate($stu_type,$parentid);
+        if($parentid == 335719){
+            $stu_type = 2;
+        }
+
+        $prize_type = $this->get_win_rate_test($stu_type,$parentid); // 测试
+        // $prize_type = $this->get_win_rate($stu_type,$parentid);
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
@@ -434,7 +439,8 @@ class wx_parent_gift extends Controller
         if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
-                if($is_test>0){
+                $is_has_test = $this->t_ruffian_activity->check_is_has_test($parentid);
+                if($is_test>0 || $is_has_test){
                     $prize_type=2;
                 }else{
                     $prize_type=8;
@@ -725,7 +731,7 @@ class wx_parent_gift extends Controller
         $is_reading = $this->t_student_info->check_is_reading($parentid);
 
         //检查是否新签
-        $order_start = strtotime('2017-11-11');
+        $order_start = strtotime('2017-11-4');
         $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
@@ -740,7 +746,6 @@ class wx_parent_gift extends Controller
 
         $draw_num = ($draw_num>=2)?2:$draw_num; // 获取的最大次数
 
-
         if(!$parentid){
             $parentid = -1;
         }
@@ -752,6 +757,86 @@ class wx_parent_gift extends Controller
 
         return $left_num;
     }
+
+
+    public function get_win_rate_test($stu_type,$parentid){ // 获取中奖概率
+        $rate   = mt_rand(1,10000);
+        $today  = time();
+        $eleven = strtotime('2017-11-11');
+        $prize_type = 7; // 奖品类型
+
+        return $prize_type ;
+        /**
+           array(1,"","书包" ),
+           array(2,"","10元折扣券" ),
+           array(3,"","50元折扣券" ),
+           array(4,"","100元折扣券" ),
+           array(5,"","300元折扣券" ),
+           array(6,"","500元折扣券" ),
+           array(7,"","免费3次正式课" ),
+           array(8,"","试听课" ),
+        **/
+
+        if($stu_type == 1){ // 新用户
+            if($today < $eleven){
+                if($rate>1000 && $rate<=2000){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
+                    $prize_type=3;
+                }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
+                    $prize_type=4;
+                }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
+                    $prize_type=7;
+                }
+            }else{
+                if($rate>1000 && $rate<=2500){ // 书包 12.5
+                    $prize_type=1;
+                }elseif($rate>3000 && $rate<=4250){ // 50元折扣券  12.5
+                    $prize_type=3;
+                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
+                    $prize_type=6;
+                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
+                    $prize_type=7;
+                }
+            }
+        }elseif($stu_type==2){ //老用户
+            if($today < $eleven){
+                if($rate>100 && $rate<=2500){ // 书包 0.5
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>1500 && $rate<=1530){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>5000 && $rate<=5010){ // 3次免费课程 0.1
+                    $prize_type=7;
+                }
+            }else{
+                if($rate>100 && $rate<=200){ // 书包 10
+                    $prize_type=1;
+                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
+                    $prize_type=3;
+                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
+                    $prize_type=4;
+                }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
+                    $prize_type=5;
+                }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
+                    $prize_type=6;
+                }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
+                    $prize_type=7;
+                }
+            }
+        }
+        return $prize_type;
+    }
+
 
 
 }

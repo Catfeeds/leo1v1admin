@@ -61,7 +61,8 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     }
 
     public function check_has_left($prize_type,$stu_type){
-        $today = strtotime(date('Y-m-d'));
+        // $today = strtotime(date('Y-m-d'));
+        $today = '1509724800'; //测试
         $where_arr = [
             ["prize_type=%u",$prize_type,0],
             ["validity_time=%u",$today,0],
@@ -101,6 +102,16 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
         return $this->field_update_list($id,[
             "to_orderid" => $to_orderid,
         ]);
+    }
+
+    public function check_is_has_test($parentid){
+        $sql = $this->gen_sql_new("  select 1 from %s ru "
+                                  ." where parentid=%d and prize_type=8"
+                                  ,self::DB_TABLE_NAME
+                                  ,$parentid
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

@@ -59,6 +59,7 @@ class menu{
             ["power_id"=>15, "name"=>"例子-新版", "list"=>[
                 ["power_id"=>1, "name"=>"分配例子",   "url"=>"/seller_student_new/assign_sub_adminid_list"],
                 ["power_id"=>2, "name"=>"分配例子-主管",   "url"=>"/seller_student_new/assign_member_list"],
+                ["power_id"=>25, "name"=>"TMK例子库",   "url"=>"/seller_student_new/tmk_seller_student_new"],
                 ["power_id"=>5, "name"=>"转介绍待分配例子-总监",   "url"=>"/seller_student_new/assign_member_list_master"],
                 ["power_id"=>3, "name"=>"转介绍例子-全部",   "url"=>"/seller_student_new/ass_master_seller_student_list"],
                 ["power_id"=>31, "name"=>"转介绍例子-主管",   "url"=>"/seller_student_new/ass_master_seller_master_student_list"],
@@ -352,6 +353,7 @@ class menu{
                 ["power_id"=>4, "name"=>"优学优享", "list"=> [
                     ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
                     ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
+                    ["power_id"=>92, "name"=>"微信信息[新版]",   "url"=>"/agent/user_center_info"],
                     ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
