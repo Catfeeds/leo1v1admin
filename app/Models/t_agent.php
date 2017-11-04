@@ -2246,7 +2246,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
     //获取我的邀请列表
-    public function my_invite($agent_id,$page_info){
+    public function my_invite($agent_id,$page_info,$page_count){
 
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
@@ -2256,7 +2256,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             self::DB_TABLE_NAME,
             $agent_id
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //会员邀请
     public function member_invite($agent_id,$page_info,$page_count){
