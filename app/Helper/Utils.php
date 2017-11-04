@@ -726,11 +726,10 @@ class Utils  {
 
     /**
      * 删除七牛文件
-     * @param bucket 需要测试的七牛空间
      * @param file    需要删除的文件名
      * @return boolean
      */
-    static public function qiniu_del_file($bucket,$file){
+    static public function qiniu_del_file($file){
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $bucket    = $qiniu['public']['bucket'];
         $accessKey = $qiniu['access_key'];
