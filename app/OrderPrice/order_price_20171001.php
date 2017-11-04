@@ -108,6 +108,8 @@ class order_price_20171001 extends order_price_base
         $args["lesson_count"] =$lesson_count;
         $args["grade_price"] =$grade_price;
         $args["grade"] =$grade;
+        $args["contract_type"] =$contract_type;
+
         $out_args=[];
 
         (new Activity\activity_0($args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag) ;
@@ -126,6 +128,11 @@ class order_price_20171001 extends order_price_base
 
         //2017-1103 11.3-6 回流活动   每满10000减500 66个名额
         (new Activity\activity_2017110301( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
+
+        //2017-1104 11.4-6 助教 报读 送课 60->6, 90->8, 120->10, 150->11,180->12 
+        (new Activity\activity_2017110401( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
+
+        //优学优享活动
         (new Activity\activity_yxyx( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
 
         //当配

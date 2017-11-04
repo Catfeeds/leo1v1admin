@@ -10,6 +10,7 @@ class activity_base {
     public  $lesson_times;
 
     public  $userid;
+    public  $contract_type;
 
     /**
      *   试听课  lessonid
@@ -22,6 +23,8 @@ class activity_base {
     public function __construct(  $args   ) {
         $this->from_test_lesson_id= $args["from_test_lesson_id"];
         $this->lesson_times  = $args["lesson_times"];
+
+        $this->contract_type = $args["contract_type"];
         $this->userid = $args["userid"];
         $this->args = $args;
     }
@@ -35,7 +38,7 @@ class activity_base {
 
     static function check_now( $start_date, $end_date ) {
         $now=time(NULL);
-        return (strtotime($start_date ) <= $now && $now < strtotime($end_date )   );
+        return (strtotime($start_date ) <= $now && $now < (strtotime($end_date )+86400 )   );
     }
     /**
      * @return \App\Console\Tasks\TaskController

@@ -17,7 +17,6 @@
           "./app/Helper",
           "./app/Http",
           "./app/Jobs",
-          "./app/Libs",
           "./app/Listeners",
           "./app/Models",
           "./app/OrderPdf",

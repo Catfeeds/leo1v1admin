@@ -2105,6 +2105,9 @@ class ss_deal extends Controller
                 $this->get_account_id(),$this->get_account(),$test_lesson_subject_id,$origin,$seller_student_status
             );
         }
+        if ($subject <=0) {
+            return $this->output_err("没有科目.");
+        }
 
         $from_parent_order_type=0;
         $parent_order_id=0 ;
@@ -2117,7 +2120,8 @@ class ss_deal extends Controller
         $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, [
             "from_test_lesson_id" => $from_test_lesson_id ,
             "period_flag"=>$period_flag,
-            "userid"=>$userid
+            "userid"=>$userid,
+            "contract_type"=>$contract_type,
         ] );
         if ( $period_flag != $price_ret["can_period_flag"] ) {
             return $this->output_err("课时数过少不支持分期,请不要启用分期");

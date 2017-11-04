@@ -12,7 +12,11 @@ class activity_2017110301 extends  activity_base {
     protected function do_exec (  &$out_args,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
 
         //2017-1103 11.3-6 回流活动   每满10000减500 66个名额 
-        if (!$this->check_now("2017-11-03","2017-11-07"))   {
+        if (!$this->check_now("2017-11-03","2017-11-06"))   {
+            return ;
+        }
+        //续费
+        if ($this->contract_type != E\Econtract_type::V_0 ) {
             return ;
         }
 
