@@ -44,6 +44,7 @@ class url_power_map {
 			'/user_manage_new/notify_phone'	=>1010706,
 			'/seller_student_new/assign_sub_adminid_list'	=>1150100,
 			'/seller_student_new/assign_member_list'	=>1150200,
+			'/seller_student_new/tmk_seller_student_new'	=>1152500,
 			'/seller_student_new/assign_member_list_master'	=>1150500,
 			'/seller_student_new/ass_master_seller_student_list'	=>1150300,
 			'/seller_student_new/ass_master_seller_master_student_list'	=>1153100,

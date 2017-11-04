@@ -4358,10 +4358,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_all_has_wx_tea(){
         $where_arr = [
-            'is_test_user=0',
-            'trial_lecture_is_pass=1',
+            // 'is_test_user=0',
+            // 'trial_lecture_is_pass=1',
             'wx_openid!=""',
-            'train_through_new=1',
+            // 'train_through_new=1',
         ];
         $sql = $this->gen_sql_new("select nick,wx_openid,grade_start,subject,grade_part_ex "
                                   ." from %s "
