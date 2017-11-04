@@ -811,9 +811,7 @@ class common extends Controller
             $phone_qr_name = $phone."_qr_agent_merber.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
-        $agent_qr_url = "/tmp/".$phone_qr_name;
-        $key = basename($agent_qr_url);
-        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$key);
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
@@ -830,10 +828,13 @@ class common extends Controller
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
         //判断是否更新微信头像
+        $agent_qr_url = "/tmp/".$phone_qr_name;
         if ($old_headimgurl != $headimgurl) {
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
+            if($is_exists) {
                 //删除七牛图片
-            \App\Helper\Utils::qiniu_del_file($key);
+                \App\Helper\Utils::qiniu_del_file($agent_qr_url);
+            }
             $is_exists = false;
         }
 
