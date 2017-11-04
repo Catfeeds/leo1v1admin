@@ -1474,6 +1474,8 @@ class test_code extends Controller
         $job = new \App\Jobs\SendTeacherWx($tea_list,$tea_template_id,$tea_data,"");
         dispatch($job);
 
+
+
         /**
          * 模板ID   : 9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU
          * 标题课程 : 待办事项提醒
@@ -1485,10 +1487,11 @@ class test_code extends Controller
          */
         $tea_template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $tea_data = [
-            "first"    => "老师您好，【老师端】现已全面升级，为了达到更好的上课效果，请及时更新版本。",
-            "keyword1" => "【老师端】版本更新",
-            "keyword2" => "\n 电脑：版本4.3.0，下载：http://www.leo1v1.com/common/download"
-            ."\n苹果平板：版本5.3.0，下载：https://www.pgyer.com/iteacher",
+            "first"    => "【学生端】现已全面升级，请及时更新版本。",
+            "keyword1" => "【学生端】版本更新",
+            "keyword2" => "\n 电脑：版本4.2.0，下载： www.leoedu.com/download"
+            ."\n苹果平板精简版：版本5.2.1，下载：https://www.pgyer.com/istudent"
+            ."\n安卓平板：版本5.3.0，下载：http://www.leoedu.com/download.html",
             "keyword3" => $date,
             "remark"   => "请更新版本后，及时进行声音设备的设置。",
         ];
