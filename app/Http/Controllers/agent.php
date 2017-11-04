@@ -465,7 +465,13 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = $this->t_month_def_type->get_def_time($start_time=1506960000);
+        $start_time=1506960000;
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//自定义月份时间
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
+                $start_time = $item['def_time'];
+            }
+        }
         dd($start_time);
     }
 
