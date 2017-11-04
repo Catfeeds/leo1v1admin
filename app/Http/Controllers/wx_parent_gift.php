@@ -721,7 +721,6 @@ class wx_parent_gift extends Controller
         $draw_num = 0; //抽奖次数
 
 
-        echo $has_share."<br>".$is_reading."<br>".$is_new_order;
         if($has_share){ $draw_num++;}
 
         if($is_reading){$draw_num++;}
@@ -738,6 +737,7 @@ class wx_parent_gift extends Controller
         $consume_num = $this->t_ruffian_activity->get_has_done($parentid); //已消耗抽奖次数
 
         $left_num = $draw_num-$consume_num;
+        echo $parentid."<br>".$has_share."<br>".$is_reading."<br>".$is_new_order."<br>".$consume_num;
 
         return $left_num;
     }
