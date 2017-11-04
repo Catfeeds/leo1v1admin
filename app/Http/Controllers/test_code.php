@@ -1443,13 +1443,15 @@ class test_code extends Controller
     }
 
     public function test_send_wx(){
-        // $parent_list = $this->t_parent_info->get_openid_list();
-        // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
-        $phone = "18790256265";
-        $teacher_info = $this->t_teacher_info->get_wx_openid_by_phone($phone);
-        $tea_list[] = [
-            "wx_openid" => $teacher_info
-        ];
+        $parent_list = $this->t_parent_info->get_openid_list();
+        $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
+        dd($parent_list);
+        dd($tea_list);
+        // $phone = "18790256265";
+        // $teacher_info = $this->t_teacher_info->get_wx_openid_by_phone($phone);
+        // $tea_list[] = [
+        //     "wx_openid" => $teacher_info
+        // ];
         $date = date("Y-m-d H:i:s");
 
         /**
@@ -1473,11 +1475,11 @@ class test_code extends Controller
         // $job = new \App\Jobs\SendTeacherWx($tea_list,$tea_template_id,$tea_data,"");
         // dispatch($job);
 
-        $parentid = $this->t_parent_info->get_parentid_by_phone($phone);
-        $parent_info = $this->t_parent_info->get_wx_openid_by_parentid($parentid['parentid']);
-        $parent_list[] = [
-            "wx_openid" => $parent_info
-        ];
+        // $parentid = $this->t_parent_info->get_parentid_by_phone($phone);
+        // $parent_info = $this->t_parent_info->get_wx_openid_by_parentid($parentid['parentid']);
+        // $parent_list[] = [
+        //     "wx_openid" => $parent_info
+        // ];
         /**
          * 模板ID   : 9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU
          * 标题课程 : 待办事项提醒

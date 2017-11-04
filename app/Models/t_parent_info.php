@@ -250,9 +250,15 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
 
     public function get_openid_list(){
+        $where_arr=[
+            "wx_openid!=''",
+            "wx_openid!='0'",
+        ];
+
         $sql = $this->gen_sql_new(" select wx_openid, parentid from %s "
-                                  ." where wx_openid <> '' "
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }

@@ -243,5 +243,14 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
+    public function get_order_num_by_time($teacherid,$grade,$start_time,$end_time){
+        $where_arr=[
+            ["tm.teacherid = %u",$teacherid,-1],
+            "tm.type=2",
+            ["add_time>%u",$start_time,0],
+            ["add_time<%u",$end_time,0],
+        ];
+    }
+
 
 }
