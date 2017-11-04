@@ -8109,8 +8109,8 @@ class tongji_ss extends Controller
         // ]);
 
        
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
         $grade = $this->get_in_int_val("grade",1);
         $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
         // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
