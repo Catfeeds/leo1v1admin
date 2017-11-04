@@ -828,12 +828,11 @@ class common extends Controller
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
         //判断是否更新微信头像
-        $agent_qr_url = "/tmp/".$phone_qr_name;
         if ($old_headimgurl != $headimgurl) {
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
             if($is_exists) {
                 //删除七牛图片
-                \App\Helper\Utils::qiniu_del_file($agent_qr_url);
+                \App\Helper\Utils::qiniu_del_file($qiniu_url,$phone_qr_name);
             }
             $is_exists = false;
         }
@@ -880,6 +879,7 @@ class common extends Controller
                 }
             }
 
+            $agent_qr_url = "/tmp/".$hone_qr_name;
             imagepng($image_3,$agent_qr_url);
 
 
