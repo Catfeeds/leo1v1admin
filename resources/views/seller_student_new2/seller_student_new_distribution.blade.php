@@ -56,6 +56,8 @@
                     <td>是否离职 </td>
                     <td>拨打认领</td>
                     <td>手动认领</td>
+                    <td>回流公海数</td>
+                    <td>公海领取数</td>
                     <td>被其他分配</td>
                     <td>被TMK分配</td>
                     <td>分配</td>
@@ -84,6 +86,16 @@
                         <td >
                             <a href="javascript:;" class="hand_get_count" >
                                 {{@$var["hand_get_count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="" >
+                                {{@$var["free_count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="" >
+                                {{@$var[""]}}
                             </a>
                         </td>
                         <td >

@@ -23,36 +23,39 @@ class seller_order_money_201710  extends  seller_order_money_base
         $ret_arr=$tt->t_order_info->get_seller_money_info($adminid,$start_time,$end_time);
         //获取分期不分期金额
         // $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
-        $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
-        $sort_new = [];
-        $sort_new_two = [];
-        $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
-        foreach($parent_orderid_arr as $info){
-            foreach($sort as $item){
-                if($item['parent_orderid'] == $info){
-                    $sort_new[$info][] = $item;
-                }
-            }
-        }
-        foreach($sort_new as $item){
-            foreach($item as $info){
-                $type = $info['child_order_type'];
-                $parent_orderid = $info['parent_orderid'];
-                $price = $info['price'];
-                if($type == 2){
-                    $sort_new_two[$parent_orderid]['stage_money'] = $price;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
-                    break;
-                }else{
-                    $sort_new_two[$parent_orderid]['stage_money'] = 0;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
-                }
-            }
-        }
-        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money'))/100:0;
-        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money'))/100:0;
-        $ret_arr['stage_money'] = $stage_money;
-        $ret_arr['no_stage_money'] = $no_stage_money;
+        // $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
+        // $sort_new = [];
+        // $sort_new_two = [];
+        // $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
+        // foreach($parent_orderid_arr as $info){
+        //     foreach($sort as $item){
+        //         if($item['parent_orderid'] == $info){
+        //             $sort_new[$info][] = $item;
+        //         }
+        //     }
+        // }
+        // foreach($sort_new as $item){
+        //     foreach($item as $info){
+        //         $type = $info['child_order_type'];
+        //         $parent_orderid = $info['parent_orderid'];
+        //         $price = $info['price'];
+        //         if($type == 2){
+        //             $sort_new_two[$parent_orderid]['stage_money'] = $price;
+        //             $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
+        //             break;
+        //         }else{
+        //             $sort_new_two[$parent_orderid]['stage_money'] = 0;
+        //             $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
+        //         }
+        //     }
+        // }
+        // $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money'))/100:0;
+        // $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money'))/100:0;
+        // $ret_arr['stage_money'] = $stage_money;
+        // $ret_arr['no_stage_money'] = $no_stage_money;
+        $stage_money = $ret_arr['stage_money'];
+        $no_stage_money = $ret_arr['no_stage_money'];
+
         // $ret_arr["all_price"] = $ret_arr['stage_money']*0.8+$ret_arr['no_stage_money'];
 
         $create_time= $tt->t_manager_info->get_create_time($adminid);
@@ -99,6 +102,8 @@ class seller_order_money_201710  extends  seller_order_money_base
             $percent_value=$percent/100;
             $group_all_price= $ret_arr[ "group_all_price"];
             $all_price= $ret_arr["all_price"];
+            $group_all_stage_price= $ret_arr["group_all_stage_price"];
+            $group_all_no_stage_price= $ret_arr["group_all_no_stage_price"];
             //$v_24_hour_all_price= $ret_arr["24_hour_all_price"];
             $require_all_price=$ret_arr["require_all_price"];
             $require_and_24_hour_price=$ret_arr["require_and_24_hour_price"];
@@ -115,8 +120,8 @@ class seller_order_money_201710  extends  seller_order_money_base
 
             // $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
             // $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
-            $money= ($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
-            $desc= "($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            $money= ($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_stage_price *  $group_money_add_percent_val * 0.8 + $group_all_no_stage_price * $group_money_add_percent_val  ;
+            $desc ="($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_stage_price *  $group_money_add_percent_val * 0.8 + $group_all_no_stage_price * $group_money_add_percent_val  ";
         }
 
         $ret_arr["money"] =$money;
@@ -144,6 +149,8 @@ class seller_order_money_201710  extends  seller_order_money_base
         /** @var  \App\Console\Tasks\TaskController  $tt*/
         $tt= new \App\Console\Tasks\TaskController();
         $ret_arr=$tt->t_order_info->get_seller_money_info($adminid,$start_time,$end_time);
+        $stage_money = $ret_arr['stage_money'];
+        $no_stage_money = $ret_arr['no_stage_money'];
 
         $next_all_price = static::$percent_config;
         foreach($next_all_price as $key=>$info){
@@ -197,6 +204,8 @@ class seller_order_money_201710  extends  seller_order_money_base
             $percent_value = $percent/100;
             $group_all_price= $ret_arr[ "group_all_price"];
             $all_price= $ret_arr["all_price"];
+            $group_all_stage_price= $ret_arr["group_all_stage_price"];
+            $group_all_no_stage_price= $ret_arr["group_all_no_stage_price"];
             //$v_24_hour_all_price= $ret_arr["24_hour_all_price"];
             $require_all_price=$ret_arr["require_all_price"];
             $require_and_24_hour_price=$ret_arr["require_and_24_hour_price"];
@@ -211,8 +220,10 @@ class seller_order_money_201710  extends  seller_order_money_base
 
             $group_money_add_percent_val=$group_money_add_percent/100;
 
-            $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
-            $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            // $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
+            // $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            $money= ($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_stage_price *  $group_money_add_percent_val * 0.8 + $group_all_no_stage_price * $group_money_add_percent_val  ;
+            $desc ="($stage_money * $percent_value * 0.8 + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_stage_price *  $group_money_add_percent_val * 0.8 + $group_all_no_stage_price * $group_money_add_percent_val  ";
             //$money=($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ;
             //$desc="($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ";
 

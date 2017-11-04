@@ -3161,39 +3161,4 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
-    public function get_stu_has_lesson($lesson_start,$lesson_end){
-        $where_arr = [
-            ["lesson_start>%u",$lesson_start,0],
-            ["lesson_start<%u",$lesson_end,0],
-            "lesson_type<1000",
-            " user_agent not like '%iPad%'"
-        ];
-        $sql = $this->gen_sql_new("select s.userid,s.nick,l.lessonid,l.lesson_start,user_agent,l.lesson_type"
-                                  ." from %s s"
-                                  ." left join %s l on s.userid=l.userid"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_tea_has_lesson($lesson_start,$lesson_end){
-        $where_arr = [
-            ["lesson_start>%u",$lesson_start,0],
-            ["lesson_start<%u",$lesson_end,0],
-            "lesson_type<1000",
-            " user_agent not like '%iPad%'"
-        ];
-        $sql = $this->gen_sql_new("select s.teacherid,s.nick,l.lessonid,l.lesson_start,user_agent,l.lesson_type"
-                                  ." from %s s"
-                                  ." left join %s l on s.teacherid=l.teacherid"
-                                  ." where %s"
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
 }

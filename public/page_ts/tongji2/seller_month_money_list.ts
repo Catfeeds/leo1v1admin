@@ -53,6 +53,8 @@ $(function(){
 
 
                     $tr.find(".group_all_price").text(data["group_all_price"]);
+                    $tr.find(".group_all_stage_price").text(data["group_all_stage_price"]);
+                    $tr.find(".group_all_no_stage_price").text(data["group_all_no_stage_price"]);
                     $tr.find(".group_default_money").text(data["group_default_money"]);
                     $tr.find(".require_all_price").text(data["require_all_price"]);
 

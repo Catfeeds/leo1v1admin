@@ -2468,8 +2468,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $cycle_test_lesson_count = 0;
         $cycle_order_count = 0;
         $cycle_order_money = 0;
-        if($id == 1593)
-            print_r($child_arr);
         //用户有推荐人
         if($child_arr){
             $in_str = '('.implode(',',$child_arr).')';
@@ -2481,7 +2479,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         $cycle_test_lesson_count += 1;
                 }
             }
-
 
             //计算签单金额、签单量[无下限限制下级]
             $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);

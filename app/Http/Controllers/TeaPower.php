@@ -4078,7 +4078,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
         }
     }
-
+    
+    //设置主合同是否分期
     public function set_order_partition_flag($parent_orderid){
         $check_parent_order_is_period= $this->t_child_order_info->check_parent_order_is_period($parent_orderid);             
         if($check_parent_order_is_period){
@@ -4089,6 +4090,32 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $this->t_order_info->field_update_list($parent_orderid,[
            "order_partition_flag" =>$order_partition_flag  
         ]);
+    }
+
+    //获取(非)沉睡老师名单
+    public function get_sleep_teacher_list($sleep_teacher_flag){
+        if($sleep_teacher_flag==-1){
+            return [];
+        }
+        $end_time = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-3 month",$end_time);
+        $all_train_through_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($end_time);
+        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+        $no_lesson_list=[];
+        $lesson_list=[];
+        foreach($all_train_through_teacher as $k=>$val){
+            if(!isset($all_train_through_lesson_teacher[$k])){
+                $no_lesson_list[$k]=$val["teacherid"];
+            }
+        }
+        foreach($all_train_through_lesson_teacher as $k=>$v){
+            $lesson_list[$k]=$v["teacherid"];
+        }
+        if($sleep_teacher_flag==1){
+            return $no_lesson_list;
+        }elseif($sleep_teacher_flag==0){
+            return $lesson_list;
+        }
     }
 
 
