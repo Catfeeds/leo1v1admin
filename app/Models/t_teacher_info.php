@@ -305,7 +305,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_teacher_flag=-1
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -336,6 +336,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+
 
         $sql = $this->gen_sql_new("select * "
                                   ." from %s "
@@ -644,9 +645,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "month_stu_num >=4";
         }
 
-
-
-
         if($test_transfor_per ==1){
             $where_arr[] = "t.test_transfor_per <10";
         }else if($test_transfor_per==2){
@@ -905,8 +903,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
-
     }
 
     public function get_teacher_nick($teacher)
@@ -4563,6 +4559,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_all_train_through_teacher_list($time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tf.simul_test_lesson_pass_time<".$time,
+            "t.train_through_new=1",            
+        ];
+        $sql = $this->gen_sql_new("select teacherid"
+                                  ." from %s t "
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+ 
     }
 
 

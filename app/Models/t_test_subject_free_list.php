@@ -62,5 +62,23 @@ class t_test_subject_free_list extends \App\Models\Zgen\z_t_test_subject_free_li
         return $this->main_get_row($sql);
     }
 
+    public function get_free_count($start_time,$end_time,$origin_ex) {
+        $where_arr = [];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_add_time_range($where_arr,'f.add_time',$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            " select "
+            ." count(distinct(f.userid)) free_count "
+            ." from %s f "
+            ." left join %s s on s.userid=f.userid "
+            ." where %s "
+            ." group by f.adminid "
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

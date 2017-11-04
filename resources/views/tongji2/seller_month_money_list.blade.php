@@ -25,6 +25,8 @@
                     <td >非分期金额 </td>
                     <td >一天内签约金额 </td>
                     <td >团队签约金额</td>
+                    <td >团队签约分期金额</td>
+                    <td >团队签约非分期金额</td>
                     <td >团队签约目标</td>
                     <td >特殊申请金额</td>
 
@@ -59,6 +61,8 @@
                         <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>
                         <td class="group_all_price"  ></td>
+                        <td class="group_all_stage_price"  ></td>
+                        <td class="group_all_no_stage_price"  ></td>
                         <td class="group_default_money"  ></td>
                         <td class="require_all_price" ></td>
                         <td class="all_price_1" ></td>

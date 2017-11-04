@@ -900,7 +900,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["o1.sys_operator='%s'" ,$account,""],
         ];
         $sql = $this->gen_sql_new(
-            "select  o1.order_time,o1.orderid ,o1.price ,flowid, o1.grade , o1.default_lesson_count* o1.lesson_total/100 as lesson_count , lesson_start, o1.promotion_spec_is_not_spec_flag "
+            " select  o1.order_time,o1.orderid ,o1.price ,flowid, o1.grade,"
+            ." o1.default_lesson_count* o1.lesson_total/100 as lesson_count,lesson_start,o1.promotion_spec_is_not_spec_flag,"
+            ." if(o1.price>0 and o1.can_period_flag=1,o1.price,0) stage_price,"
+            ." if(o1.price>0 and o1.can_period_flag=0,o1.price,0) no_stage_price"
             ." from %s o1 "
             ." left join %s s2 on o1.userid = s2.userid "
             ." left join %s f on (f.from_key_int = o1.orderid  and f.flow_type=2002  ) "
@@ -995,7 +998,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "stu_from_type=0",
             "m.account_role=2",
         ];
-        $sql = $this->gen_sql_new("select g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
+        $sql = $this->gen_sql_new(" select g.groupid, group_name , sum(price) all_price,"
+                                  ." sum(if(price>0 and can_period_flag=1,price,0)) all_stage_price,"
+                                  ." sum(if(price>0 and can_period_flag=0,price,0)) all_no_stage_price,"
+                                  ." count(*)as all_count "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
                                   ." where ".
                                   " o.userid = s.userid   and   ".
@@ -2063,6 +2069,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $order_list=$this-> get_1v1_order_seller_month_money($sys_operator, $start_time, $end_time );
         $all_price = 0;
+        $all_stage_price = 0;
+        $all_no_stage_price = 0;
 
         $id_list=[];
         $require_all_price=0;
@@ -2073,6 +2081,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $require_flag=false;
             $v_24_hour_flag=false;
             $all_price+= $item["price"];
+            $all_stage_price+= $item["stage_price"];
+            $all_no_stage_price+= $item["no_stage_price"];
             //高中 < 90课时 不算
             if  ($item["flowid"] && !$item["promotion_spec_is_not_spec_flag"] && !(in_array($item["grade"]*1, [300,301,302,303]) &&  $item["lesson_count"] < 90) ) {
                 $require_all_price+= $item["price"];
@@ -2095,6 +2105,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         }
         $ret_arr["all_price"]=$all_price/100;
+        $ret_arr["all_stage_price"]=$all_stage_price/100;
+        $ret_arr["all_no_stage_price"]=$all_no_stage_price/100;
         $ret_arr["require_all_price"]=$require_all_price/100;
         $ret_arr["24_hour_all_price"] = $v_24_hour_all_price/100 ;
         $ret_arr["require_and_24_hour_price"] = $require_and_24_hour_price/100 ;
@@ -2102,11 +2114,17 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $group_list= $this->month_get_1v1_order_seller_list_group($start_time, $end_time, $adminid );
         $group_all_price=0;
+        $group_all_stage_price = 0;
+        $group_all_no_stage_price = 0;
         if ( count ( $group_list) ==1 ) {
-            $group_all_price=$group_list[0]["all_price"];
+            $group_all_price          = $group_list[0]["all_price"];
+            $group_all_stage_price    = $group_list[0]["all_stage_price"];
+            $group_all_no_stage_price = $group_list[0]["all_no_stage_price"];
         }
 
         $ret_arr["group_all_price"] = $group_all_price/100;
+        $ret_arr["group_all_stage_price"] = $group_all_stage_price/100;
+        $ret_arr["group_all_no_stage_price"] = $group_all_no_stage_price/100;
         $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
         // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
         $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time  )  ;
@@ -3651,6 +3669,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             " where %s "
             ,t_child_order_info::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
+
             ,$where_arr
         );
 

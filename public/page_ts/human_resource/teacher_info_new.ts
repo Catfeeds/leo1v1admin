@@ -16,7 +16,8 @@ $(function(){
             address                : $('#id_address').val(),
             limit_plan_lesson_type : $('#id_limit_plan_lesson_type').val(),
             lesson_hold_flag       : $('#id_lesson_hold_flag').val(),
-            train_through_new      : $('#id_train_through_new').val()
+            train_through_new      : $('#id_train_through_new').val(),
+		    sleep_teacher_flag:	$('#id_sleep_teacher_flag').val()
         });
     }
 
@@ -41,6 +42,7 @@ $(function(){
     $('#id_limit_plan_lesson_type').val(g_args.limit_plan_lesson_type);
     $('#id_lesson_hold_flag').val(g_args.lesson_hold_flag);
     $('#id_train_through_new').val(g_args.train_through_new);
+	$('#id_sleep_teacher_flag').val(g_args.sleep_teacher_flag);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
 
     $(".opt-edit").on("click",function(){
