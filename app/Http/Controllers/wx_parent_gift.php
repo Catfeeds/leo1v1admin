@@ -48,7 +48,7 @@ class wx_parent_gift extends Controller
             $type = 1;
             session(["parentid" => $parentid ] );
         }else{
-            session(["parentid" => -1 ] );
+            session(["parentid" => "-1" ] );
         }
 
 
