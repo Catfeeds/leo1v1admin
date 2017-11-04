@@ -123,6 +123,10 @@ class NoticeTeacher extends Command
             // 模拟试听课旷课微信推送
             $wx->train_lesson_absenteeism_set($type);
             break;
+        case 22:
+            // 课程前一天20：00提醒老师上课
+            $wx->notice_teacher_for_tomorrow_lesson($type);
+            break;
         default:
             break;
         }

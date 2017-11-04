@@ -1164,11 +1164,9 @@ class TeacherTask extends TaskController
                         "absenteeism_flag"      => $absenteeism_flag
                     ]);
                 }
-
             }
         }
     }
-
 
 
 
