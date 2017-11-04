@@ -729,7 +729,6 @@ class wx_parent_gift extends Controller
         $order_end   = strtotime('2017-11-14');
         $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
 
-        dd($is_new_order);
         $draw_num = 0; //抽奖次数
 
 
