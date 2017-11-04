@@ -49,34 +49,34 @@ class add_new_tea_entry extends Command
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['teacherid'].'  '.$item['realname'].'   '.$version['version'].',';
+                        echo $item['teacherid'].'  '.$item['realname'].'   '.$version['version'].','.PHP_EOL;
                     }
                 }
             } elseif(stripos($item['user_agent'],"android")) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['teacherid'].'  '.$item['realname'].'   '.$version['version'].',';
+                        echo $item['teacherid'].'  '.$item['realname'].'   '.$version['version'].','.PHP_EOL;
                     }
                 }
 
             }
         }
-        echo PHP_EOL.'=================================='.PHP_EOL;
+        echo PHP_EOL.'=================学生================='.PHP_EOL;
         $student = $task->t_teacher_lecture_appointment_info_b2->get_student_list();
         foreach($student as $item) {
             if (stripos($item['user_agent'],'mac') || stripos($item['user_agent'],"windos")) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['userid'].'  '.$item['realname'].'   '.$version['version'].',';
+                        echo $item['userid'].'  '.$item['realname'].'   '.$version['version'].','.PHP_EOL;
                     }
                 }
             } elseif(stripos($item['user_agent'],"android")) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['userid'].'  '.$item['realname'].'   '.$version['version'].',';
+                        echo $item['userid'].'  '.$item['realname'].'   '.$version['version'].','.PHP_EOL;
                     }
                 }
 
