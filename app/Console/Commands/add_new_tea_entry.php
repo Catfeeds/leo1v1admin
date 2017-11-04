@@ -45,18 +45,26 @@ class add_new_tea_entry extends Command
         // 拉取数据 (用于拉取学生老师版本)
         $teacher = $task->t_teacher_lecture_appointment_info_b2->get_teacher_list();
         foreach($teacher as $item) {
-            if (stripos($item['user_agent'],'mac') || stripos($item['user_agent'],"windows")) {
+            if (stripos($item['user_agent'],'mac') ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['teacherid'].',   '.$item['realname'].',   '.$version['device_model'].',   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['teacherid'].'   '.$item['realname'].'   mac   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
-            } elseif(stripos($item['user_agent'],"android")) {
+            } elseif(stripos($item['user_agent'],"windows") ) {
+                    $version = json_decode($item['user_agent'], true);
+                    if (isset($version['device_model'])) {
+                        if($version['version'] < 4.3) {
+                            echo $item['teacherid'].'   '.$item['realname'].'   windows   '.$version['version'].'.'.PHP_EOL;
+                        }
+                    }
+                }
+            elseif(stripos($item['user_agent'],"android")) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['teacherid'].',   '.$item['realname'].',   android,   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['teacherid'].'   '.$item['realname'].'   android   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
 
@@ -65,18 +73,27 @@ class add_new_tea_entry extends Command
         echo PHP_EOL.'=================学生================='.PHP_EOL;
         $student = $task->t_teacher_lecture_appointment_info_b2->get_student_list();
         foreach($student as $item) {
-            if (stripos($item['user_agent'],'mac') || stripos($item['user_agent'],"windows")) {
+            if (stripos($item['user_agent'],'mac') ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['userid'].',   '.$item['realname'].',   '.$version['device_model'].',   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].'   '.$item['realname'].'   mac   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
-            } elseif(stripos($item['user_agent'],"android")) {
+            }  elseif(stripos($item['user_agent'],"windows") ) {
+                $version = json_decode($item['user_agent'], true);
+                if (isset($version['device_model'])) {
+                    if($version['version'] < 4.3) {
+                        echo $item['userid'].'   '.$item['realname'].'   windows   '.$version['version'].'.'.PHP_EOL;
+                    }
+                }
+            }
+
+            elseif(stripos($item['user_agent'],"android")) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['userid'].',   '.$item['realname'].',   android,   '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].'   '.$item['realname'].'   android   '.$version['version'].'.'.PHP_EOL;
                     }
                 }
 
