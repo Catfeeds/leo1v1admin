@@ -58,7 +58,39 @@ class t_teacher_flow extends \App\Models\Zgen\z_t_teacher_flow
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        return $this->main_get_list($sql, function( $item) {
+            return $item['teacherid'];
+        });
+    }
+
+    public function get_tea_info($start_time, $end_time, $type='') {
+        $where_arr = [
+            ['tf.trial_lecture_pass_time>%u', $start_time, 0],
+            ['tf.trial_lecture_pass_time<%u', $end_time, 0],
+            'tf.subject>0',
+            'tf.grade>0'
+        ];
+        if ($type) {
+            $column = 'tf.subject,tf.grade';
+            $group = ' group by tf.subject,tf.grade';
+        } else {
+            $column = 'tf.identity';
+            $group = ' group by tf.identity';
+        }
+        $sql = $this->gen_sql_new("select %s,sum(tf.trial_lecture_pass_time>0) sum,"
+                                  ." sum(tf.simul_test_lesson_pass_time>0) train_qual_sum,(tf.train_through_new_time>0) adopt_sum"
+                                  ." from %s tf "
+                                  ." left join %s t on tf.teacherid=t.teacherid "
+                                  ." where %s %s",
+                                  $column,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  $group
+        );
+        dd($sql);
         return $this->main_get_list($sql);
+
     }
 
     public function get_tea_list_for_subject($start_time, $end_time) {

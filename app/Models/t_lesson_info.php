@@ -9681,9 +9681,10 @@ lesson_type in (0,1) "
     }
 
     // t_teacher_info add_time have_test_lesson_flag
-    public function get_imit_audi_sched_count($time, $teacherid)
+    public function get_imit_audi_sched_count($end_time, $teacherid)
     {
         $whereArr = [
+            ['lesson_start<%u',$end_time,0],
             ['teacherid=%u',$teacherid,0],
             "lesson_type=1100",
             "train_type=4"
@@ -9693,27 +9694,31 @@ lesson_type in (0,1) "
                                   $whereArr
         );
         return $this->main_get_value($sql);
-        //return $this->get_handle_other_subject($info, $res);
+            //return $this->main_get_list($sql, function( $item) {
+            //   return $item['teacherid'];
+            //});
     }
 
     // 上课
-    public function get_attend_lesson_count($time, $teacherid) {
+    public function get_attend_lesson_count($start_time, $end_time) {
          $whereArr = [
-             //["lesson_start<%u",$start_time,0],
-             //["lesson_start>%u",$time,0],
-            ["l.teacherid=%u",$teacherid,0],
-            //"tea_attend>0"
+             //["lesson_start>%u",$start_time,0],
+             //["lesson_start<%u",$end_time,0],
+            //["l.teacherid=%u",$teacherid,0],
+            "tea_attend>0"
          ];
 
 
-        $sql = $this->gen_sql_new("select l.teacherid"
+        $sql = $this->gen_sql_new("select l.teacherid,l.lesson_start"
                                   ." from %s l left join %s lo on l.lessonid=lo.lessonid "
                                   ." where %s  group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   $whereArr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_row($sql, function( $item) {
+            return $item['teacherid'];
+        });
         //return $this->get_handle_other_subject($info, $res);
     }
 

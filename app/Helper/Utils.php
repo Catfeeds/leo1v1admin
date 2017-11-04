@@ -675,7 +675,9 @@ class Utils  {
             $start_time = $item["lesson_start"]- $item["lesson_start"]%300 ;
             $end_time   = $item["lesson_end"]+300;
             for( ; $start_time<=$end_time; $start_time+=300 ) {
-                $time_list[$start_time]++;
+                if ( isset( $time_list[$start_time]) ) {
+                    $time_list[$start_time]++;
+                }
             }
         }
         return $time_list;
@@ -1008,6 +1010,23 @@ class Utils  {
         }
         return $type;
     }
+
+    /**
+     * 检测老师是否为公司全职老师
+     * @param int teacher_money_type 老师工资类型
+     * @param int teacher_type 老师类型
+     * @return boolean
+     */
+    public function check_teacher_is_full($teacher_money_type,$teacher_type){
+        $is_full = false;
+        if(($teacher_money_type==E\Eteacher_money_type::V_0 && $teacher_type==E\Eteacher_type::V_3)
+           || $teacher_money_type==E\Eteacher_money_type::V_7
+        ){
+            $is_full = true;
+        }
+        return $is_full;
+    }
+
 
     /**
      * 获取短信签名

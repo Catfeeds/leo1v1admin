@@ -40,8 +40,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
     public function get_grade_first_test_lesson($userid, $grade ) {
-        //E\Eflow_status::S_PASS
-        //无效试听课不算
         $sql = $this->gen_sql_new(
             "select lesson_start from %s  l"
             . " where userid= %u and  grade=%u and lesson_start>0 "
@@ -57,7 +55,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_grade_last_test_lesson($userid, $grade ) {
         $sql = $this->gen_sql_new(
             "select lesson_start from %s"
-            . " where userid= %u and  grade=%u and lesson_start>0  order by lesson_start desc limit 1  ",
+            . " where userid= %u and  grade=%u and lesson_start>0 "
+            . " and confirm_flag<>2  and lesson_del_flag =0  "
+            . " order by lesson_start desc limit 1  ",
             self::DB_TABLE_NAME,
             $userid, $grade
         ) ;
@@ -800,7 +800,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
-    public function get_test_lesson_teacher_list($start_time,$end_time){
+    public function get_test_lesson_teacher_list($start_time,$end_time,$grade){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type =2",
@@ -811,15 +811,24 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "t.is_test_user=0",
             "m.account_role=2"
         ];
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname"
+        if($grade==1){
+            $where_arr[]="l.grade>=100 and l.grade<200";
+        }elseif($grade==2){
+             $where_arr[]="l.grade>=200 and l.grade<300";
+        }elseif($grade==3){
+             $where_arr[]="l.grade>=300 and l.grade<400";
+        }
+        $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname"
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
-                                  ." left join %s m on %s tr.cur_require_adminid=m.uid"
+                                  ." left join %s m on tr.cur_require_adminid=m.uid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -1583,5 +1592,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
-   
+    /**
+     * 获取学生或老师未进入课堂的有效课程 (command:SetLessonStuAttend)
+     *
+     */
+    public function get_lesson_with_zero_attend($start_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            "lesson_type=2",
+            "stu_attend=0",
+            "opt_time>0",
+            "lesson_status=2",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select l.lessonid,l.stu_attend,lo.opt_time"
+                                  ." from %s l "
+                                  ." left join %s lo on l.lessonid=lo.lessonid and l.userid=lo.userid and opt_type=1 "
+                                  ." where %s"
+                                  ." group by l.lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_opt_log::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

@@ -4103,9 +4103,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // }
 
     // 培训参训新师
-    public function get_train_inter_teacher_count($time, $teacherid) {
+    public function get_train_inter_teacher_count($teacherid) {
+        // $where_arr = [
+        //     ["add_time>%u", $start_time, 0],
+        //     ["add_time<%u", $end_time, 0],
+        //     "train_type=1"
+        // ];
+        // $sql = $this->gen_sql_new("select add_time,userid teacherid from %s where %s",
+        //                           t_train_lesson_user::DB_TABLE_NAME,
+        //                           $where_arr
+        // );
+        // return $this->main_get_list($sql, function( $item) {
+        //     return $item['teacherid'];
+        // });
         $whereArr = [
-            ["add_time>%u",$time,0],
             ["userid=%u", $teacherid, 0],
             "train_type=1"
         ];

@@ -38,6 +38,9 @@ class tq extends Controller
         $phone           = $this->get_in_phone();
         $is_called_phone = $this->get_in_int_val("is_called_phone",-1, E\Eboolean::class );
         $uid             = $this->get_in_int_val("uid",-1);
+        if($uid>0){
+            $uid = $this->t_manager_info->field_get_value($uid,'tquin');
+        }
         $page_num        = $this->get_in_page_num();
         $seller_student_status  = $this->get_in_el_seller_student_status();
 

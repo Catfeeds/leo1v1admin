@@ -818,6 +818,9 @@ class test_james extends Controller
 
 
     public function dd(){
+
+
+
         // $type = $this->get_in_int_val('p_type');
         // $num = $this->get_in_int_val('n');
         // $validity_time = strtotime($this->get_in_str_val('t'));

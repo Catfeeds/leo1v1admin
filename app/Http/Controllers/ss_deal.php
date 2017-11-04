@@ -2330,6 +2330,11 @@ class ss_deal extends Controller
             "period_num"       => $period_num
         ]);
 
+
+        //设置主合同是否分期
+        $this->set_order_partition_flag($parent_orderid);
+       
+
         return $this->output_succ();
 
     }
@@ -2354,6 +2359,10 @@ class ss_deal extends Controller
             "parent_orderid"   =>$parent_orderid,
             "price"            => $price
         ]);
+
+        //设置主合同是否分期
+        $this->set_order_partition_flag($parent_orderid);
+
         return $this->output_succ();
 
 
@@ -2378,6 +2387,10 @@ class ss_deal extends Controller
         $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
             "price"  =>$new_price
         ]);
+
+        //设置主合同是否分期
+        $this->set_order_partition_flag($parent_orderid);
+
 
         return $this->output_succ();
 
@@ -2435,6 +2448,10 @@ class ss_deal extends Controller
         $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
             "price"  =>$new_price
         ]);
+
+        //设置主合同是否分期
+        $this->set_order_partition_flag($parent_orderid);
+
 
         return $this->output_succ();
 

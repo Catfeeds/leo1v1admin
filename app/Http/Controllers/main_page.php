@@ -533,7 +533,7 @@ class main_page extends Controller
         $start_time_date  = date("Y-m-d",$start_time);
         $account = $this->get_account();
         if($account=="jack"){
-            $account="zenghui";
+            $account="ninasun";
         }
         $assistantid=$this->t_assistant_info->get_assistantid( $account );
         if($assistantid==0){
@@ -644,6 +644,9 @@ class main_page extends Controller
             }
 
         }
+        $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
+        $used_assign_lesson_count = $this->t_order_info->get_assign_lesson_count_by_account($account);
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -660,7 +663,9 @@ class main_page extends Controller
             "warning"      => $warning_type_num,
             "month_info"   => $month_info,
             "today_info"   => $today_info,
-            "ass_month"    =>  $ass_month
+            "ass_month"    =>  $ass_month,
+            "assign_lesson_count"=>$assign_lesson_count,
+            "used_assign_lesson_count"=>$used_assign_lesson_count
         ]);
 
     }
@@ -2401,128 +2406,26 @@ class main_page extends Controller
         $history_data = $this->get_in_int_val('history_data');
 
         $total    = $this->t_new_tea_entry->get_total();
-        $ret_info = [];
         if ($history_data) { // 没有历史数据
-            // 面试通过人数
+            $ret_info = $this->recruit_array_init(1);
             $tea_list = $this->t_teacher_flow->get_tea_list($start_time, $end_time);
-            $primary_china = $this->recruit_init([], E\Esubject::V_1, E\Egrade::V_100);
-            $middle_china = $this->recruit_init([], 1, 200);
-            $high_china = $this->recruit_init([], 1, 300);
-            $primary_math = $this->recruit_init([], 2, 100);
-            $middle_math = $this->recruit_init([], 2, 200);
-            $high_math = $this->recruit_init([], 2, 300);
-            $primary_eng = $this->recruit_init([], 3, 100);
-            $middle_eng = $this->recruit_init([], 3, 200);
-            $high_eng = $this->recruit_init([], 3, 300);
-            $chemistry = $this->recruit_init([], 4);
-            $physics = $this->recruit_init([], 5);
-            $biology = $this->recruit_init([], 6);
-            $science = $this->recruit_init([], 10);
-
-            // 老师身份
-            $identity_no_set = $this->recruit_init([], '', '', 0);
-            $identity_organ = $this->recruit_init([], '', '', 5);
-            $identity_public = $this->recruit_init([], '', '', 6);
-            $identity_stu = $this->recruit_init([], '', '', 7);
-            $identity_other = $this->recruit_init([], '', '', 8);
-            foreach($tea_list as $item) {
-                //var_dump($item);
-                // $t_subject = $item['subject'];
-                // $t_grade = $item['grade'];
-                // $t_identity = E\Eidentity::$item['identity'];
-
-                // \App\Helper\Utils::check_isset_data($ret_list["all"]["all"],1);
-                // \App\Helper\Utils::check_isset_data($ret_list[$t_subject][$t_grade],1);
-                // \App\Helper\Utils::check_isset_data($ret_list[$t_grade][$t_subject],1);
-                // \App\Helper\Utils::check_isset_data($ret_list[$t_identity],1);
-
-                // if($item['train_through_new_time']>0){
-                //     \App\Helper\Utils::check_isset_data($ret_list[$t_subject][$t_grade]['train_through_new'],1);
-                //     \App\Helper\Utils::check_isset_data($ret_list["all"]["all"]['train_through_new'],1);
-                // }
-
-                // 语文
-                if ($item['subject'] == 1) {
-                    if ($item['grade'] >= 100 && $item['grade'] < 200) {
-                        $primary_china = $this->accumulation($primary_china, $item);
-                    }
-                    if ($item['grade'] >= 200 && $item['grade'] < 300) {
-                        $middle_china = $this->accumulation($middle_china, $item);
-                    }
-                    if ($item['grade'] >= 300) {
-                        $high_china = $this->accumulation($high_china, $item);
-                    }
-                }
-                if ($item['subject'] == 2) {
-                    if ($item['grade'] >= 100 && $item['grade'] < 200) {
-                        $primary_math = $this->accumulation($primary_math, $item);
-                    }
-                    if ($item['grade'] >= 200 && $item['grade'] < 300) {
-                        $middle_math = $this->accumulation($middle_math, $item);
-                    }
-                    if ($item['grade'] >= 300) {
-                        $high_math = $this->accumulation($high_math, $item);
-                    }
-                }
-                if ($item['subject'] == 3) {
-                    if ($item['grade'] >= 100 && $item['grade'] < 200) {
-                        $primary_eng = $this->accumulation($primary_eng, $item);
-                    }
-                    if ($item['grade'] >= 200 && $item['grade'] < 300) {
-                        $middle_eng = $this->accumulation($middle_eng, $item);
-                    }
-                    if ($item['grade'] >= 300) {
-                        $high_eng = $this->accumulation($high_eng, $item);
-                    }
-                }
-                if ($item['subject'] == 4) {
-                    $chemistry = $this->accumulation($chemistry, $item);
-                }
-                if ($item['subject'] == 5) {
-                    $physics = $this->accumulation($physics, $item);
-                }
-                if ($item['subject'] == 6) {
-                    $biology = $this->accumulation($biology, $item);
-                }
-                if ($item['subject'] == 10) {
-                    $science = $this->accumulation($science, $item);
-                }
-                if ($item['identity'] == 0) {
-                    $identity_no_set = $this->accumulation($identity_no_set, $item);
-                }
-                if ($item['identity'] == 5) {
-                    $identity_organ = $this->accumulation($identity_organ, $item);
-                }
-                if ($item["identity"] == 6) {
-                    $identity_public = $this->accumulation($identity_public, $item);
-                }
-                if ($item['identity'] == 7) {
-                    $identity_other = $this->accumulation($identity_other, $item);
-                }
-                if ($item['identity'] == 8) {
-                    $identity_stu = $this->accumulation($identity_stu, $item);
-                }
+            // 参训人数
+            //$train_tea = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time);
+            // 排课人数
+            //$imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
+            // 上课人数
+            //$attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
+            $train_tea=$imit=$attend='';
+            foreach($tea_list as $id => $val) {
+                $ret_info = $this->accumulation_recruit($ret_info, $id, $val, $train_tea, $imit, $attend, $end_time, 1);
             }
-            array_push($ret_info, $primary_china);
-            array_push($ret_info, $middle_china);
-            array_push($ret_info, $high_china);
-            array_push($ret_info, $primary_math);
-            array_push($ret_info, $middle_math);
-            array_push($ret_info, $high_math);
-            array_push($ret_info, $primary_eng);
-            array_push($ret_info, $middle_eng);
-            array_push($ret_info, $high_eng);
-            array_push($ret_info, $chemistry);
-            array_push($ret_info, $physics);
-            array_push($ret_info, $biology);
-            array_push($ret_info, $science);
             $total['sum'] = 0;
             $total['imit_sum'] = 0;
             $total['attend_sum'] = 0;
             $total['adopt_sum'] = 0;
             $total['train_tea_sum'] = 0;
             $total['train_qual_sum'] = 0;
-            foreach($ret_info as $key => &$item) {
+            foreach($ret_info as &$item) {
                 if (isset($item['grade'])) {
                     E\Esubject::set_item_value_str($item, "subject");
                     E\Egrade::set_item_value_str($item, "grade");
@@ -2539,19 +2442,16 @@ class main_page extends Controller
                 $total['attend_sum'] += $item['attend_sum'];
                 $total['adopt_sum'] += $item['adopt_sum'];
             }
-
+            $type_ret_info = $this->recruit_array_init();
+            foreach($tea_list as $id => $val) {
+                $type_ret_info = $this->accumulation_recruit($type_ret_info, $id, $val, $train_tea, $imit, $attend, $end_time);
+            }
             $type_total['sum'] = 0;
             $type_total['train_tea_sum'] = 0;
             $type_total['train_qual_sum'] = 0;
             $type_total['imit_sum'] = 0;
             $type_total['attend_sum'] = 0;
             $type_total['adopt_sum'] = 0;
-            $type_ret_info = [];
-            array_push($type_ret_info, $identity_no_set);
-            array_push($type_ret_info, $identity_organ);
-            array_push($type_ret_info, $identity_public);
-            array_push($type_ret_info, $identity_stu);
-            array_push($type_ret_info, $identity_other);
             foreach($type_ret_info as $key => &$item) {
                 E\Eidentity::set_item_value_str($item, "identity");
                 if ($recruit == 'train') {
@@ -2589,36 +2489,60 @@ class main_page extends Controller
         ]);
     }
 
-    public function recruit_init($info, $subject = '', $grade = '', $identity = '') {
-        $info['sum'] = $info['train_tea_sum'] = $info['train_qual_sum'] = $info['imit_sum'] = $info['attend_sum'] = $info['adopt_sum'] = 0;
-        if ($subject <= 3)
-        {
-            $info['subject'] = $subject;
-            $info['grade'] = $grade;
+    public function accumulation_recruit($info, $id, $item, $train_tea, $imit, $attend, $end_time, $type='')
+    {
+        if ($type) {
+            if ($item['subject'] == 1 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 0;
+            if ($item['subject'] == 1 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 1;
+            if ($item['subject'] == 1 && $item['grade'] >= 300) $key = 2;
+            if ($item['subject'] == 2 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 3;
+            if ($item['subject'] == 2 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 4;
+            if ($item['subject'] == 2 && $item['grade'] >= 300) $key = 5;
+            if ($item['subject'] == 3 && $item['grade'] >= 100 && $item['grade'] < 200) $key = 6;
+            if ($item['subject'] == 3 && $item['grade'] >= 200 && $item['grade'] < 300) $key = 7;
+            if ($item['subject'] == 3 && $item['grade'] >= 300) $key = 8;
+            if ($item['subject'] == 4) $key = 9;
+            if ($item['subject'] == 5) $key = 10;
+            if ($item['subject'] == 6) $key = 11;
+            if ($item['subject'] == 10) $key = 12;
         } else {
-            $info['subject'] = $subject;
+            if ($item['identity'] == 0) $key = 0;
+            if ($item['identity'] == 5) $key = 1;
+            if ($item['identity'] == 6) $key = 2;
+            if ($item['identity'] == 7) $key = 3;
+            if ($item['identity'] == 8) $key = 4;
         }
-        if ($identity || $identity == 0) {
-            $info['identity'] = $identity;
+
+        if (isset($key)) {
+            $info[$key]['sum'] ++;
+            $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($id);
+            if ($train_tea_sum) $info[$key]['train_tea_sum'] ++;
+            //if (isset($train_tea[$id])) $info[$key]['train_tea_sum'] ++;
+            if ($item['train_through_new_time'] && $item['train_through_new_time'] < $end_time) $info[$key]['train_qual_sum'] ++;
+            // 模拟试听总排课人数
+            $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($end_time, $id);
+            if ($imit_sum) {$info[$key]['imit_sum']++; $info[$key]['attend_sum']++;}
+            //if (isset($imit[$id]) && $imit[$id]['lesson_start'] < $end_time) $info[$key]['imit_sum'] ++;
+            //if (isset($attend[$id]) && $attend[$id]['lesson_start'] < $end_time) $info[$key]['attend_sum'] ++;
+            if ($item['simul_test_lesson_pass_time'] && $item['simul_test_lesson_pass_time'] < $end_time) $info[$key]['adopt_sum'] ++;
         }
         return $info;
     }
 
-    public function accumulation($info, $item) {
-        $info['sum'] ++;
-        // 新师参训
-        $train_tea_sum = $this->t_teacher_info->get_train_inter_teacher_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        if ($train_tea_sum) $info['train_tea_sum'] ++;
-        if ($item['train_through_new_time']) $info['train_qual_sum'] ++;
-
-        // 模拟试听总排课人数
-        $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        if ($imit_sum) {
-            $info['imit_sum']++; $info['attend_sum']++;
+    public function recruit_array_init($type=''){
+        if($type) {
+            $info = [['subject'=>1,'grade'=>100],['subject'=>1,'grade'=>200],['subject'=>1,'grade'=>300],['subject'=>2,'grade'=>100],['subject'=>2,'grade'=>200],['subject'=>2,'grade'=>300],['subject'=>3,'grade'=>100],['subject'=>3,'grade'=>200],['subject'=>3,'grade'=>300],['subject'=>4],['subject'=>5],['subject'=>6],['subject'=>10]];
+        } else {
+            $info = [['identity'=>0],['identity'=>5],['identity'=>6],['identity'=>7],['identity'=>8]];
         }
-        //$attend_sum = $this->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
-        //if ($attend_sum) $info['attend_sum']++;
-        if ($item['simul_test_lesson_pass_time'] && $item['simul_test_lesson_pass_time'] > $item['train_through_new_time']) $info['adopt_sum']++;
+        foreach ($info as $key => $item) {
+            $info[$key]['sum'] = 0;
+            $info[$key]['train_tea_sum'] = 0;
+            $info[$key]['train_qual_sum'] = 0;
+            $info[$key]['imit_sum'] = 0;
+            $info[$key]['attend_sum'] = 0;
+            $info[$key]['adopt_sum'] = 0;
+        }
         return $info;
     }
 }

@@ -3946,11 +3946,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function check_is_new($parentid,$order_start, $order_end){
         $where_arr = [
             "o.contract_type=0",
-            "p.parentid=$parentid"
+            ["p.parentid=%u",$parentid,0],
         ];
 
         $this->where_arr_add_time_range($where_arr,"o.order_time",$order_start,$order_end);
-
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s s on s.userid=o.userid"
                                   ." left join %s p on p.userid=s.userid"
@@ -4000,6 +3999,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,$where_arr
         );
 
+        return $this->main_get_value($sql);
+    }
+
+    public function get_assign_lesson_count_by_account($sys_operator){
+        $where_arr=[
+            "contract_type=1",
+            "from_parent_order_type=6",
+            ["sys_operator='%s'",$sys_operator,""]
+        ];
+        $sql = $this->gen_sql_new("select sum(default_lesson_count*lesson_total) from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
         return $this->main_get_value($sql);
     }
 }

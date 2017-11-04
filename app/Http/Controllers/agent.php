@@ -465,106 +465,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $reduce_flag = 0;
-        $time = time(null);
-        // $time = 1509501600;
-        $time = 1509588000;
-        $ret_time = $this->t_month_def_type->get_all_list();
-        $firstday = date("Y-m-01");
-        $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
-        list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
-        foreach($ret_time as $item){//本月
-            if(strtotime(date('Y-m-d',$time)) == $item['start_time']){//月头标志
-                $reduce_flag = 1;
-            }
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time_this = $item['start_time'];
-                $end_time_this = $item['end_time'];
-            }
-        }
-        $timestamp = strtotime(date("Y-m-01"));
-        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
-        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
-        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
-        foreach($ret_time as $item){//上月
-            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
-                $start_time_last = $item['start_time'];
-                $end_time_last = $item['end_time'];
-            }
-        }
-        $timestamp_very_last=strtotime(date("Y-m-01"));
-        $firstday_very_last=date('Y-m-01',strtotime(date('Y',$timestamp_very_last).'-'.(date('m',$timestamp_very_last)-2).'-01'));
-        $lastday_very_last=date('Y-m-d',strtotime("$firstday_very_last +1 month -1 day"));
-        list($start_time_very_last,$end_time_very_last)= [strtotime($firstday_very_last),strtotime($lastday_very_last)];
-        foreach($ret_time as $item){//上上月
-            if($start_time_last-1>=$item['start_time'] && $start_time_last-1<$item['end_time']){
-                $start_time_very_last = $item['start_time'];
-                $end_time_very_last = $item['end_time'];
-            }
-        }
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
-        dd($start_time_this,$end_time_this,$start_time_last,$end_time_last,$start_time_very_last,$end_time_very_last,$reduce_flag,$time);
-        foreach($seller_list as $item){
-            $update_flag = 0;
-            $adminid = $item['uid'];
-            $account = $item['account'];
-            $face_pic = $item['face_pic']!=''?$item['face_pic']:'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
-            $this_level = $item['seller_level'];
-            $num = isset($item['num'])?$item['num']:0;
-            $level_goal = isset($item['level_goal'])?$item['level_goal']:0;
-            $become_member_time = $item['create_time'];
-            $ret_next = $this->t_seller_level_goal->get_next_level_by_num($num+1);
-            $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
-            if($reduce_flag == 1){//月头
-                //统计上个月
-                $price = $this->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
-                $price = $price/100;
-                if($price<$level_goal){//降级
-                    foreach($ret_level_goal as $item){
-                        if($price >= $item['level_goal']){
-                            $next_level = $item['seller_level'];
-                            $level_face = $item['level_face'];
-                        }
-                    }
-                    $update_flag = 1;
-                }
-            }else{//月中
-                //统计本月
-                $price = $this->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
-                $price = $price/100;
-                if($price>$next_goal){//升级
-                    foreach($ret_level_goal as $item){
-                        if($price >= $item['level_goal']){
-                            $next_level = $item['seller_level'];
-                            $level_face = $item['level_face'];
-                        }
-                    }
-                    $update_flag = 1;
-                }
-            }
-            if($update_flag == 1){//修改等级
-                $face_pic_str = substr($face_pic,-12,5);
-                $ex_str = $next_level.$face_pic_str;
-                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-                $this->t_manager_info->field_update_list($adminid,[
-                    'seller_level'=>$next_level,
-                    'level_face_pic'=>$level_face_pic,
-                ]);
-                $this->t_seller_edit_log->row_insert([
-                    "uid"         => $adminid,
-                    "type"        => 2,
-                    "old"         => $this_level,
-                    "new"         => $next_level,
-                    "create_time" => time(NULL),
-                ],false,false,true );
-                $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-            }
-        }
-
     }
 
     //处理等级头像
@@ -2014,6 +1914,10 @@ class agent extends Controller
             if ($item['no_tq'] > 0) {
                 $item['phone_count'] = $item['phone_count'] - 1;
             }
+            if ($item['no_tq'] == 0 && $item['ok_phone'] == 0) {
+                $item['phone_count'] = $item['phone_count'] - 1;
+            }
+
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
