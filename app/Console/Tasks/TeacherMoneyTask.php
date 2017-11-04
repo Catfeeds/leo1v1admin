@@ -165,11 +165,10 @@ class TeacherMoneyTask extends TaskController
                     "money"              => $lesson_money,
                 ]);
             }else{
-                $this->t_teacher_salary_list->field_update_list($t_val['teacherid'],[
-                    "money" => $lesson_money
-                ]);
+                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$t_val['pay_time'],$lesson_money);
             }
         }
+
     }
 
 

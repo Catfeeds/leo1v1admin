@@ -45,13 +45,13 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
             ["teacherid=%u",$teacherid,0],
             ["pay_time=%u",$pay_time,0],
         ];
-        $sql = $this->gen_sql_new("update %s set "
+        $sql = $this->gen_sql_new("update %s set money=%u"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,$money
                                   ,$where_arr
         );
         return $this->main_update($sql);
-
     }
 
 

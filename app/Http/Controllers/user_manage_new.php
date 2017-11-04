@@ -4675,6 +4675,9 @@ class user_manage_new extends Controller
         }
 
 
+        //设置目标合同是否分期
+        $this->set_order_partition_flag($orderid_goal);
+
         if(!$ret){
             $this->t_order_info->rollback();
             return $this->output_err("合并失败！");
@@ -4714,6 +4717,9 @@ class user_manage_new extends Controller
            "price"  => $new_price
         ]);
 
+
+        //设置主合同是否分期
+        $this->set_order_partition_flag($orderid);
 
 
 

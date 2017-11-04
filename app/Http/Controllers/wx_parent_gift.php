@@ -316,16 +316,7 @@ class wx_parent_gift extends Controller
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
         $prize_list = $this->t_ruffian_activity->get_prize_list($parentid);
-
         $is_buy = $this->t_order_info->buy_ten_flag($parentid);
-
-        foreach($prize_list as &$item){
-            if($item['get_prize_time']>0){
-                $item['exchanged'] = 1;// 已兑换
-            }else{
-                $item['exchanged'] = 0;
-            }
-        }
         return $this->output_succ(["data"=>$prize_list]);
     }
 
@@ -388,25 +379,23 @@ class wx_parent_gift extends Controller
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-6');
-        $now = time();
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
         if($left_num <= 0){ return $this->output_err("您的抽奖次数已用完!"); }
 
-        $stu_type = 1;
         if($check_time>$reg_time && $has_buy>0){
             $stu_type = 2; // 老用户
         }else{
             $stu_type = 1; // 新用户
         }
-        $start_time = strtotime(date('Y-m-d'));
-        $end_time   = $start_time+86400;
 
         $prize_type = $this->get_win_rate($stu_type,$parentid);
+
+        $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
-        $has_prize = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
-        if(!$has_prize['id']){
+        $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+        if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 if($is_test>0){
@@ -417,22 +406,23 @@ class wx_parent_gift extends Controller
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
-        }
 
-        $unlimited_prize = [2,8];
-        if(in_array($prize_type,$unlimited_prize)){
             $this->t_ruffian_activity->row_insert([
                 "parentid"   => $parentid,
                 "prize_type" => $prize_type,
                 "prize_time" => time(),
-                "stu_type"   => $stu_type
+                "stu_type"   => $stu_type,
+                "validity_time" => strtotime(date('Y-m-d'))
             ]);
+
         }else{
-            $this->t_ruffian_activity->field_update_list($has_prize['id'],[
+            $this->t_ruffian_activity->field_update_list($has_prize_id,[
                 "parentid"   => $parentid,
                 "prize_time" => time(),
             ]);
         }
+
+        $this->t_ruffian_activity->commit();
 
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
@@ -443,7 +433,7 @@ class wx_parent_gift extends Controller
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
 
-        $url = '';
+        $url = "http://wx-parent-web.leo1v1.com/prizes";
         $wx=new \App\Helper\Wx();
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
@@ -453,7 +443,7 @@ class wx_parent_gift extends Controller
 
 
     public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
-        $rate   = mt_rand(0,10000);
+        $rate   = mt_rand(1,10000);
         $today  = time();
         $eleven = strtotime('2017-11-11');
         $prize_type = 0; // 奖品类型

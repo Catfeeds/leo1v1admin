@@ -230,6 +230,16 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_list($sql);
     }
 
+    public function check_parent_order_is_period($parent_orderid){
+        $where_arr=[
+            ["parent_orderid = %u",$parent_orderid,-1],
+            "child_order_type=2",
+            "price>0"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 
 
 }

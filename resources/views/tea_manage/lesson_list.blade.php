@@ -218,9 +218,10 @@
                     <td style="display:none;" >课时确认人</td>
                     <td style="display:none;" >课时确认时间</td>
                     <td style="display:none;" >课时确认原因</td>
-                    <td style="display:none;" >lesson_name</td>
-                    <td style="display:none;" >tea_cw_name</td>
-                    <td style="display:none;" >lesson_intro</td>
+                    <td style="display:none;" >学生设备</td>
+                    <td style="display:none;" >课程名称</td>
+                    <td style="display:none;" >老师课件名称</td>
+                    <td style="display:none;" >课程介绍</td>
                     <td style="display:none;" >评价反馈</td>
                     <td style="display:none;" >试听申请人</td>
                     <td style="display:none;" >声音记录服务器1</td>
@@ -306,12 +307,13 @@
                             <td > {{$var["test_confirm_time"]}} </td>
                             <td > {{$var["fail_reason"]}} </td>
                         @else
-                        <td > {{$var["confirm_flag_str"]}} </td>
-                        <td > {{$var["lesson_cancel_reason_type_str"]}} </td>
-                        <td > {{$var["confirm_admin_nick"]}} </td>
-                        <td > {{$var["confirm_time"]}} </td>
-                        <td > {{$var["confirm_reason"]}} </td>
+                            <td > {{$var["confirm_flag_str"]}} </td>
+                            <td > {{$var["lesson_cancel_reason_type_str"]}} </td>
+                            <td > {{$var["confirm_admin_nick"]}} </td>
+                            <td > {{$var["confirm_time"]}} </td>
+                            <td > {{$var["confirm_reason"]}} </td>
                         @endif
+                        <td > {{$var["stu_user_agent"]}} </td>
                         <td > {{$var["lesson_name"]}} </td>
                         <td > {{$var["tea_cw_name"]}} </td>
                         <td > {{$var["lesson_intro"]}} </td>
