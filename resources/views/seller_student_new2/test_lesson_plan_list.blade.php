@@ -226,7 +226,7 @@
                 <div class="col-xs-3 col-md-1">
                     <div class="input-group ">
                         <button class="btn btn-primary " id="id_add">试听申请</button>
-                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60]))
+                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60,1118]))
                             <button class="btn btn-primary " id="id_add_new">试听申请-new</button>
                         @endif
                     </div>
@@ -486,7 +486,7 @@
                                     @if ($cur_page =="ass_test_lesson_list" || $cur_page =="ass_test_lesson_list_tran" )
                                         <a title="上传试卷" id="upload-test-paper-{{$var["require_id"]}}" class="fa-upload opt-upload-test-paper show_flag"></a>
                                         <a title="编辑" class=" fa-edit opt-edit show_flag"></a>
-                                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60]))
+                                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60,1118]))
                                             <a title="编辑-new" class=" fa-edit opt-edit-new show_flag"></a>
                                         @endif
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>

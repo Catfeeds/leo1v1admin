@@ -305,7 +305,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_tea_list=[]
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -318,6 +318,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "limit_plan_lesson_type=%u ", $limit_plan_lesson_type, -1 ),
             array( "train_through_new=%u ", $train_through_new, -1 ),
             array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
+            array( "sleep_flag=%u ", $sleep_flag, -1 ),
             // array( "through_new_time>%u ", $through_start, 0 ),
             // array( "through_new_time<%u ", $through_end, 0 ),
         );
@@ -336,7 +337,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
-        $where_arr[]= $this->where_get_in_str("teacherid", $sleep_tea_list);
 
 
         $sql = $this->gen_sql_new("select * "
@@ -4586,7 +4586,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tf.simul_test_lesson_pass_time<".$end_time,
+            "tf.simul_test_lesson_pass_time<".$start_time,
             "t.train_through_new=1",            
             "l.lesson_del_flag=0",
             "l.lesson_type <1000",
