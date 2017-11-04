@@ -61,22 +61,32 @@ $(function(){
             success : function(data){
                 var my_str="" ;
                 var member_str="" ;
+                var agent_status_str = '';
                 //遍历我的邀请
                 $.each( data.my_invite.list, function(){
+                    if(this.agent_student_status == 100)
+                        agent_status_str = this.agent_status_str+'['+this.agent_student_status_str+']'; 
+                    else
+                        agent_status_str = this.agent_status_str;
                     my_str+="<tr style=\"\" ><td>"
                         +"姓名:" + this.nickname  + "<br>"
                         +"时间:" + this.create_time+ "<br>"
-                        +"状态:" + this.agent_status + "<br>"
+                        +"状态:" + agent_status_str + "<br>"
                         +"收入:" + this.agent_status_money + "<br>"
                         +" </td> </tr>";
                 });
                 //遍历会员邀请
                 $("#id_detail_info").html(my_str);
                 $.each( data.member_invite.list, function(){
+                    if(this.agent_student_status == 100)
+                        agent_status_str = this.agent_status_str+'['+this.agent_student_status_str+']'; 
+                    else
+                        agent_status_str = this.agent_status_str;
+
                     member_str+="<tr style=\"\" ><td>"
                         +"姓名:" + this.nickname  + "<br>"
                         +"时间:" + this.create_time+ "<br>"
-                        +"状态:" + this.agent_status + "<br>"
+                        +"状态:" + agent_status_str + "<br>"
                         +"收入:" + this.agent_status_money + "<br>"
                         +" </td> </tr>";
 
