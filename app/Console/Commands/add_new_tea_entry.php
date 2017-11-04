@@ -46,7 +46,6 @@ class add_new_tea_entry extends Command
         $start_time = strtotime("2017-8-1");
         $end_time = strtotime('2017-11-1');
         $teacher = $task->t_teacher_lecture_appointment_info_b2->get_teacher_list($start_time, $end_time);
-        array_unique($teacher);
         foreach($teacher as $item) {
             if (stripos($item['user_agent'],'mac') ) {
                 $version = json_decode($item['user_agent'], true);
@@ -76,10 +75,10 @@ class add_new_tea_entry extends Command
         }
         echo PHP_EOL.'=================学生================='.PHP_EOL;
         $student = $task->t_teacher_lecture_appointment_info_b2->get_student_list($start_time, $end_time);
-        array_unique($student);
         $assistant = $task->t_teacher_lecture_appointment_info_b2->get_assistant_info();
-        foreach($student as $id=>$item) {
+        foreach($student as $item) {
             $nick = '';
+            $id = $item['assistant'];
             if ($id && isset($assistant[$id])) {
                 $nick = $assistant[$id]['nick'];
             }
