@@ -700,9 +700,9 @@ class common extends Controller
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_test_new.png";
+            $phone_qr_name = $phone."_qr_agent_pxx_new.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_gkk_new.png";
+            $phone_qr_name = $phone."_qr_agent_pxx_new.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
         \App\Helper\Utils::logger("CHECK is_exists start");
@@ -743,16 +743,8 @@ class common extends Controller
             curl_close($ch);
             $data = json_decode($output,true);
             $headimgurl = $data['headimgurl'];
-            $datapath ="/tmp/".$phone."_headimg.jpeg";
-            $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-            shell_exec($wgetshell);
 
-            // $imgg = $this->yuan_img($datapath);
-            // $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-            // imagejpeg($imgg,$datapath_new);
-            // $image_4 = imagecreatefromjpeg($datapath);
             $image_4 = imagecreatefromjpeg($headimgurl);
-
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             $color = imagecolorallocate($image_5, 255, 255, 255);
             imagefill($image_5, 0, 0, $color);
@@ -774,8 +766,6 @@ class common extends Controller
                     }
                 }
             }
-            // imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
-            // imagecopy($image_3,$image_4,0,0,0,0,190,190);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -816,11 +806,10 @@ class common extends Controller
         $qiniu         = \App\Helper\Config::get_config("qiniu");
 
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_new_pic_t1.png";
+            $phone_qr_name = $phone."_qr_agent_merber1.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_new_pic.png";
+            $phone_qr_name = $phone."_qr_agent_merber.png";
         }
-        $qiniu_url     = $qiniu['public']['url'];
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
 
@@ -838,11 +827,12 @@ class common extends Controller
         $data = json_decode($output,true);
         $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
-        if ($old_headimgurl !== $headimgurl) {
+        //判断是否更新微信头像
+        if ($old_headimgurl != $headimgurl) {
             $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
             if($is_exists) {
                 //删除七牛图片
-                \App\Helper\Utils::qiniu_del_file($agent_qr_url);
+                \App\Helper\Utils::qiniu_del_file($qiniu_url,$phone_qr_name);
             }
             $is_exists = false;
         }
@@ -857,14 +847,9 @@ class common extends Controller
             $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-            $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
-            $datapath ="/tmp/".$phone."_headimg.jpeg";
-            $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-            shell_exec($wgetshell);
             $image_5 = imagecreatefromjpeg($headimgurl);
-
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
@@ -894,6 +879,7 @@ class common extends Controller
                 }
             }
 
+            $agent_qr_url = "/tmp/".$hone_qr_name;
             imagepng($image_3,$agent_qr_url);
 
 

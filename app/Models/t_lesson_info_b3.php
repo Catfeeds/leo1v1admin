@@ -811,7 +811,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start<%u",$end_time,-1],
             "t.is_test_user=0",
             "l.lesson_status>1",
-            "m.account_role=2"
+            "m.account_role=2 or tr.origin like '%%转介绍%%'"
         ];
         if($grade==1){
             $where_arr[]="l.grade>=100 and l.grade<200";
