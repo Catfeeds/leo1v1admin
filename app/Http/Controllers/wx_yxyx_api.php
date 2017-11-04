@@ -777,7 +777,7 @@ class wx_yxyx_api extends Controller
     //@desn:获取我的邀请、会员邀请奖励列表
     public function get_invite_list(){
         $agent_id   = $this->get_agent_id();
-        $page_count = 5;
+        $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         $page_info = $this->get_in_page_info();
         if (!$agent_id){
             return $this->output_err("没有信息");
@@ -871,7 +871,7 @@ class wx_yxyx_api extends Controller
         $agent_id = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
-        $page_count = 5;
+        $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -999,7 +999,7 @@ class wx_yxyx_api extends Controller
         $agent_id = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
-        $page_count = 5;
+        $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -1033,7 +1033,7 @@ class wx_yxyx_api extends Controller
         $agent_id = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
-        $page_count = 5;
+        $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -1077,7 +1077,7 @@ class wx_yxyx_api extends Controller
         $agent_id = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
-        $page_count = 5;
+        $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -1155,7 +1155,7 @@ class wx_yxyx_api extends Controller
         $agent_id = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
-        $page_count = 5;
+        $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{

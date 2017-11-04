@@ -953,6 +953,7 @@ class common extends Controller
         return $dest_path;
     }
 
+
     public function send_charge_info(){
         $orderid = $this->get_in_int_val("orderid");
         $channel = $this->get_in_str_val("channel");
