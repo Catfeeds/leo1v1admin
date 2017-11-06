@@ -462,7 +462,8 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                <a title="录入回访信息" class="  fa-edit opt-edit-new"></a>
+                                <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
+                                <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
                                 <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
