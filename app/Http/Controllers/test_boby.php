@@ -834,7 +834,7 @@ class test_boby extends Controller
         $ret_info1 = $this->t_grab_lesson_link_info->get_info_test($sql1);
         $ret_info2 = $this->t_grab_lesson_link_info->get_info_test($sql2);
         foreach ($ret_info2 as $k) {
-            $n[] = $k;
+            $n[] = $k['teacherid'];
         }
         $zu = [];
         foreach ($ret_info1 as $item){
@@ -842,7 +842,7 @@ class test_boby extends Controller
                 $sub = E\Esubject::get_desc($item['subject']);
                 $gra = E\Egrade::get_desc($item['grade']);
                 $key = $gra.$sub;
-                $zu[$key]++;
+                @$zu[$key]++;
             }
         }
 

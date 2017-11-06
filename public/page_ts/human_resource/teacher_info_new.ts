@@ -448,6 +448,6 @@ $(function(){
         BootstrapDialog.alert(url);
     });
 
-    download_hide();
+ download_hide();
 
 });

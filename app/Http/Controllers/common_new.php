@@ -1083,6 +1083,8 @@ class common_new extends Controller
             //admin
             "114.215.66.38",
             "118.190.65.189",
+
+"116.230.86.25",
         ];
 
         $login_flag=false;

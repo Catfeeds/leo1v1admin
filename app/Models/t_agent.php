@@ -2023,11 +2023,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
         $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
-        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+        $template_id = 'o2-tyCQY0oopNiLolOq_6HgiMd8cntAtNlt9i_w_EL0';
         $data = [
             'first'    => '恭喜您获得邀请奖金',
-            'keyword1' => $get_money.'元',
-            'keyword2' => $phone,
+            'keyword1' => '理优１ｖ１课程',
+            'keyword2' => $price ."元" ,
             'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$get_money.'元。',
         ];
         $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );

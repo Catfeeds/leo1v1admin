@@ -897,6 +897,11 @@ class test_james extends Controller
 
 
     public function dd(){
+        $a = -1;
+        if(!$a){
+
+            dd(1);
+                }
         $openid = '111kisfkjedrjh';
 
         $prize_list = $this->t_ruffian_activity->get_prize_list(-1);

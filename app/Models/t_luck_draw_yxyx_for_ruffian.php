@@ -10,9 +10,7 @@ class t_luck_draw_yxyx_for_ruffian extends \App\Models\Zgen\z_t_luck_draw_yxyx_f
 
 
     public function get_total_money($today){
-
         $where_arr = [];
-
         $end_time = $today+86400;
 
         $this->where_arr_add_time_range($where_arr,"luck_draw_time",$today,$end_time);
