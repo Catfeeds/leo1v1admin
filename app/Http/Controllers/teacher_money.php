@@ -322,7 +322,7 @@ class teacher_money extends Controller
      * 获取春晖奖
      */
     public function get_teacher_chunhui_reward(){
-        $start_time = strtotime("2017-11-1");
+        $start_time = strtotime("2017-9-1");
         $chunhui_list = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
 
         $ret_list   = [];
@@ -330,10 +330,12 @@ class teacher_money extends Controller
         $rank_lis   = [];
         $chunhui = array_flip(E\Echunhui_reward::$desc_map);
         foreach($chunhui_list as $val){
-            $year  = date("Y",$val['add_time']);
-            $month = date("m",$val['add_time']);
-            $grade = $val['grade'];
-            $money = $val['money'];
+            $year      = date("Y",$val['add_time']);
+            $month     = date("n月",$val['add_time']);
+            $data_key  = $year."_".$month;
+            $grade     = $val['grade'];
+            $grade_str = E\Egrade::get_desc($grade);
+            $money     = $val['money'];
 
             if(isset($chunhui[$money])){
                 $rank = $chunhui[$money];
@@ -341,27 +343,21 @@ class teacher_money extends Controller
                 continue;
             }
 
-            $rank_list[]=[
-                "rank"  => $rank,
-                "grade" => $grade,
+            $grade_list[$grade][] = [
+                "rank" => $rank,
+                "name" => $val['nick'],
             ];
-
+            if(!isset($ret_list[$data_key])){
+                $ret_list[$data_key] = [
+                    "year"      => $year,
+                    "month"     => $month,
+                    "rank_info" => $grade_list
+                ];
+            }else{
+                $ret_list[$data_key]["rank_info"] = $grade_list;
+            }
         }
-
-        $rank_info[]=[
-            "rank"=>$rank,
-            "name"=>$nick,
-        ];
-        $grade_info[] = [
-            "100"=>$grade_info,
-            "200"=>$grade_info,
-            "300"=>$grade_info,
-        ];
-        $ret_list[] = [
-            "year"=>$year,
-            "month"=>$month,
-            "rank_info"=>$rank_info,
-        ];
+        $ret_list = array_values($ret_list);
 
         return $this->output_succ(["data"=>$ret_list]);
     }

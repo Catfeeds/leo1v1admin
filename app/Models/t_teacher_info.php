@@ -4580,7 +4580,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
  
     }
     public function get_all_train_through_lesson_teacher_list($start_time,$end_time,$research_teacher_flag=-1){
-        $time = time();
+        //$time = time();
+        $time = $start_time;
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",

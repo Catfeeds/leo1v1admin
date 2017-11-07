@@ -356,7 +356,6 @@ class wx_parent_gift extends Controller
         // 检查是否分享朋友圈 11.7-11.15[包含14号]
         $start_time = strtotime('2017-11-7'); // 2017-11-07 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-15'); // 分享朋友圈有效时间
-
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
 
         // 检查是否在读学生
@@ -464,8 +463,8 @@ class wx_parent_gift extends Controller
                 "prize_time" => time(),
             ]);
         }
-
         $this->t_ruffian_activity->commit();
+
         // 微信通知
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
         $data_msg = [
@@ -480,8 +479,42 @@ class wx_parent_gift extends Controller
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
 
+
+        // 检查是否分享朋友圈 11.7-11.15[包含14号]
+        $start_time = strtotime('2017-11-7');
+        $end_time   = strtotime('2017-11-15');
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+
+        //检查是否新签
+        $order_start = strtotime('2017-11-11');
+        $order_end   = strtotime('2017-11-15');
+        $is_new_order = $this->t_order_info->check_is_new($parentid, $order_start, $order_end);
+
+        $active_num = $this->t_ruffian_activity->get_active_num($parentid);
+
+        if($active_num == 1){
+            if($stu_type == 1 && $is_new_order<=0){ // 新用户
+                $data_info = [
+                    "first"     => "您好，购课即可再次获得翻牌机会",
+                    "keyword1"  => "购课赢翻牌机会",
+                    "keyword2"  => "2017.11.11-2017.11.13期间，购课即可再次获得双十一翻牌机会",
+                    "keyword3"  => date('Y-m-d H:i:s'),
+                    "remark"    => "活动时间：2017.11.7-2017.11.14"
+                ];
+            }elseif($stu_type == 2 && $has_share <= 0){ //老用户
+                $data_info = [
+                    "first"     => "您好，分享即可再次获得翻牌机会",
+                    "keyword1"  => "分享赢翻牌机会",
+                    "keyword2"  => "点击双十一活动页面右上角，分享到微信朋友圈即可获得翻牌机会",
+                    "keyword3"  => date('Y-m-d H:i:s'),
+                ];
+            }
+            $wx->send_template_msg($p_openid,$template_id,$data_info ,"");
+        }
+
         return $this->output_succ(['prize'=>$prize_type]);
     }
+
 
 
     public function get_win_rate($stu_type,$parentid){ // 获取中奖概率

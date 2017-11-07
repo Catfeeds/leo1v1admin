@@ -80,7 +80,10 @@ class grab_lesson extends Controller
         $requireids = $this->get_in_str_val('requireids');
         if($requireids) {
             //检查每个教务抛链接的量已做限制
-            // $check_flag = $this->check_jw_plan_limit($requireids);
+            $check_flag = $this->check_jw_plan_limit($requireids);
+            if($check_flag){
+                return $check_flag;
+            }
                 
             $this->t_grab_lesson_link_info->row_insert([
                 'grab_lesson_link' => 0,

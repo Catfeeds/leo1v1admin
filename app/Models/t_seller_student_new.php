@@ -769,7 +769,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=$this->where_get_in_str_query("s.grade",$grade);
             $where_arr[]='ss.cc_no_called_count>2';
             // $this->where_arr_add_int_or_idlist($where_arr,"origin_level",$origin_level );
-            $where_arr[]='((origin_level in (1,2,3) and ss.cc_no_called_count>3) or (origin_level=4 and ss.cc_no_called_count>2))';
+            if($origin_level==[1,2,3]){
+                $where_arr[]='origin_level in (1,2,3) and ss.cc_no_called_count>3';
+            }elseif($origin_level == [4]){
+                $where_arr[]='origin_level=4 and ss.cc_no_called_count>2';
+            }else{
+                $where_arr[]='((origin_level in (1,2,3) and ss.cc_no_called_count>3) or (origin_level=4 and ss.cc_no_called_count>2))';
+            }
             $this->where_arr_add_int_field($where_arr,"sys_invaild_flag",$sys_invaild_flag);
             $this->where_arr_add_int_or_idlist ($where_arr,"seller_level",$seller_level);
             $this->where_arr_add_int_or_idlist ($where_arr,"call_phone_count",$call_phone_count);
@@ -1630,8 +1636,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $set_arr["cc_called_count"]=$item['cc_called_count']+1;
                 $set_arr["cc_no_called_count"] = 0;
             }else{ //未接通
-                $set_arr["called_time"] = $item["called_time"]+1;
-                $set_arr["cc_no_called_count"] = $item["cc_no_called_count"]+1;
+                if($call_time>0){
+                    $set_arr["called_time"] = $item["called_time"]+1;
+                    $set_arr["cc_no_called_count"] = $item["cc_no_called_count"]+1;
+                }
             }
 
 
