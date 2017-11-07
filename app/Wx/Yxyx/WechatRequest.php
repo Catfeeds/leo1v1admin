@@ -570,7 +570,9 @@ class WechatRequest  {
             $txt_ret = self::https_post($url,$txt);
 
             $url = "$base_url/agent/get_agent_phone_by_wx_openid";//获取电话
-            $phone = self::https_post($url,['wx_openid' => $openid]);
+            $data = ['wx_openid' => $openid];
+            $txt = self::ch_json_encode($data);
+            $phone = self::https_post($url,$txt);
             $img_url = \App\Helper\Utils::get_agent_qr_new($openid,$phone);//得到图片资源
             $type = 'image';
             // $num = rand();
