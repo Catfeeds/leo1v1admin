@@ -323,22 +323,33 @@ class teacher_money extends Controller
      */
     public function get_teacher_chunhui_reward(){
         $start_time = strtotime("2017-11-1");
-        $ret_list   = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
+        $chunhui_list = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
 
-        // \App\Helper\Utils::debug_to_html( $ret_list );
-        $list = [];
-        $chunhui = E\Echunhui_reward::$desc_map;
-        dd($chunhui);
-        foreach($ret_list as $val){
+        $ret_list   = [];
+        $grade_list = [];
+        $chunhui = array_flip(E\Echunhui_reward::$desc_map);
+        foreach($chunhui_list as $val){
             $year  = date("Y",$val['add_time']);
             $month = date("m",$val['add_time']);
             $grade = $val['grade'];
-            $list  = [
-            ];
+            $money = $val['money'];
+
+            if(isset($chunhui[$money])){
+                $rank = $chunhui[$money];
+                $rank_info[$grade] = [
+                    "rank" =>$rank,
+                    "name" =>$val['nick'],
+                ];
+                $ret_list[] = $rank_info;
+            }else{
+                continue;
+            }
         }
 
         return $this->output_succ(["data"=>$ret_list]);
     }
+
+
     /**
      * 获取老师指定月份各个扣款免责次数
      */

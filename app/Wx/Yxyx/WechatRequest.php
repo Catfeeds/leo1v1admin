@@ -569,9 +569,15 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;//获取七牛图片地址
+            // $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;//获取七牛图片地址
 
-            $img_url = self::get_img_url($url);//得到图片资源
+            // $img_url = self::get_img_url($url);//得到图片资源
+
+            $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+            dispatch( new \App\Jobs\make_and_send_wx_img($openid,$phone,$bg_url) );
+
+
+            $img_url = '/tmp/yxyx_'.$phone.'.png';
             $type = 'image';
             $num = rand();
             $img_Long = file_get_contents($img_url);

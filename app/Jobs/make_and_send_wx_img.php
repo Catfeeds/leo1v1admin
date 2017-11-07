@@ -15,19 +15,17 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     var $wx_openid;
     var $phone;
     var $bg_url;
-    var $qr_code_url;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($wx_openid,$phone,$bg_url, $qr_code_url  )
+    public function __construct($wx_openid,$phone,$bg_url  )
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
         $this->phone       = $phone;
         $this->bg_url      = $bg_url;
-        $this->qr_code_url = $qr_code_url;
     }
 
     /**
@@ -91,11 +89,11 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_".$this->phone.'.png';
+        $agent_qr_url = "/tmp/yxyx_".$this->phone.".png";
         imagepng($image_3,$agent_qr_url);
 
-        // $cmd_rm = "rm /tmp/".$this->phone."*.png";
-        // \App\Helper\Utils::exec_cmd($cmd_rm);
+        $cmd_rm = "rm /tmp/".$this->phone.".png";
+        \App\Helper\Utils::exec_cmd($cmd_rm);
 
         imagedestroy($image_1);
         imagedestroy($image_2);
@@ -103,7 +101,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imagedestroy($image_4);
         imagedestroy($image_5);
         imagedestroy($image_6);
-        return $agent_qr_url;
+        // return $agent_qr_url;
 
     }
 
