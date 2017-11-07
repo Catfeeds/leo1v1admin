@@ -14,11 +14,10 @@ class assistant_performance extends Controller
     public function ass_revisit_info_month() {
         $account = $this->get_account();
         if($account=="jack"){
-            $account=="eros";
+            $account="eros";
         }
         $assistantid = $this->t_assistant_info->get_assistantid( $account);
         $ret_info = $this->t_student_info->get_assistant_read_stu_info($assistantid);
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
