@@ -893,6 +893,9 @@ class common extends Controller
             imagedestroy($image_1);
             imagedestroy($image_2);
             imagedestroy($image_3);
+            imagedestroy($image_4);
+            imagedestroy($image_5);
+            imagedestroy($image_6);
         }else{
             $file_name=$phone_qr_name;
         }
@@ -901,6 +904,14 @@ class common extends Controller
         return $file_url;
     }
 
+    public function del_qiniu_img(){
+        $name = $this->get_in_str_val('name','');
+        if ($name != '') {
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $qiniu_url = $qiniu['public']['url'];
+            \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
+        }
+    }
     public function resize_img($url,$path='/tmp/'){
         $imgname = $path.uniqid().'.jpg';
         $file = $url;
