@@ -1518,6 +1518,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 }
                 $set_arr["called_time"]=$call_time;
                 $set_arr["cc_called_count"]=$item['cc_called_count']+1;
+                $set_arr["cc_no_called_count"] = 0;
             }else{ //未接通
                 $set_arr["called_time"] = $item["called_time"]+1;
                 $set_arr["cc_no_called_count"] = $item["cc_no_called_count"]+1;
