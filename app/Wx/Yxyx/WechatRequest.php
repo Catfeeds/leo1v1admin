@@ -569,24 +569,20 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $img_url = \App\Helper\Utils::get_agent_qr_new($openid,$phone);//得到图片资源
+            $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;//获取七牛图片地址
+
+            $img_url = self::get_img_url($url);//得到图片资源
             $type = 'image';
-            // $num = rand();
-            // $img_Long = file_get_contents($img_url);
-            // file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
-            // $img_url = public_path().'/wximg/'.$num.'.png';
-            // $img_url = realpath($img_url);
+            $num = rand();
+            $img_Long = file_get_contents($img_url);
+            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+            $img_url = public_path().'/wximg/'.$num.'.png';
+            $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
             \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
-
-            // $del_arr = explode('/',$url);
-            // $name    = array_pop($del_arr);
-            // $del_url = "$base_url/common/del_qiniu_img";//删除七牛图片地址
-            // $del_arr = ['name' => $name];
-            // self::https_post($del_url,$del_arr);
 
             $t_agent->set_add_type_2( $agent["id"]);
             if ( \App\Helper\Utils::check_env_is_release() ) {
