@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config;
 
+include(app_path("Wx/Yxyx/lanewechat_yxyx.php"));
+
 use Illuminate\Support\Facades\Mail;
 class test_boby extends Controller
 {
