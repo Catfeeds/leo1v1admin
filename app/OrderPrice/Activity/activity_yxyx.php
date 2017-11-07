@@ -1,21 +1,25 @@
 <?php
 namespace App\OrderPrice\Activity;
 use \App\Enums as E;
-class activity_yxyx extends  activity_base {
+class activity_yxyx extends  activity_config_base {
 
     public static $order_activity_type= E\Eorder_activity_type::V_YXYX;
 
     public function __construct(  $args   ) {
         parent::__construct($args);
+        $this->date_range=[ "2017-10-27"  , "2017-12-31"];
+        $this->period_flag_list= [false, true];
+        $this->contract_type_list = [E\Econtract_type::V_0 ,  E\Econtract_type::V_3];
+        $this->lesson_times_range = [10 ,  10000];
+
+
     }
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
-        if(!$this->check_now("2017-11-04", "2017-12-31")) {
+        if ( !parent::do_exec($out_args,$can_period_flag,$price,$present_lesson_count,$desc_list)){
             return ;
-        }
-        if ($this->lesson_times  <10  ) {
-            return ;
-        }
+        };
+
         //优学优享活动
         $userid=$this->userid;
         if ($userid) {
