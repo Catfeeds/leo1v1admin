@@ -110,7 +110,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $type = 'image';
         $num = rand();
         $img_Long = file_get_contents($agent_qr_url);
-        file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+        file_put_contents( public_path().'/wximg/'.$num.'.png',$img_Long );
         $img_url = public_path().'/wximg/'.$num.'.png';
         $img_url = realpath($img_url);
 
@@ -120,7 +120,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
+        $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
         \App\Helper\Utils::exec_cmd($cmd_rm);
 
         $t_agent = new \App\Models\t_agent();
