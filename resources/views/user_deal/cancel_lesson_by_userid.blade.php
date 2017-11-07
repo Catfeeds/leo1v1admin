@@ -44,8 +44,19 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["name"]}} </td>
-                        <td>{{@$var["lesson_count"]}}</td>
+                        <td>{{@$var["realname"]}} </td>
+                        <td>{{@$var["t_subject_str"]}} </td>
+                        <td>
+                            @if($val["grade_start"]>0)
+                                {{$var["grade_start_str"]}}--{{$var["grade_end_str"]}}
+                            @else
+                                {{$var["grade_part_ex_str"]}}
+                            @endif
+                        </td>
+                        <td>{{@$var["lesson_type_str"]}}</td>
+                        <td>{{@$var["subject_str"]}}</td>
+                        <td>{{@$var["grade_str"]}}</td>
+                        <td>{{@$var["lesson_start_str"]}}</td>
                        
                        
                                         
