@@ -133,6 +133,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
                 "media_id" => "$mediaId"
             ],
         ];
+
         $txt = self::ch_json_encode($txt_arr);
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
