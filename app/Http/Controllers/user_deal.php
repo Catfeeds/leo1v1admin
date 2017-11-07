@@ -3178,10 +3178,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
-                $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
-
-                   $check_flag = $this->check_jw_plan_limit($requireids);
-                $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($check_flag);
+        $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
+        $requireid_list =[];
+        $arr=explode(",",$requireids);
+        foreach($arr as $v){
+            $requireid_list[$v]=$v;
+        }
+        
+        $start_time = strtotime(date("Y-m-d",time()));
+        $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
+        
+        $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($check_flag);
 
         dd($check_flag);
 

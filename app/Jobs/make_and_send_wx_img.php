@@ -103,7 +103,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imagedestroy($image_4);
         imagedestroy($image_5);
         imagedestroy($image_6);
-        // return $agent_qr_url;
+        return $agent_qr_url;
 
     }
 

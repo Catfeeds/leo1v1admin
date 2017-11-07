@@ -328,9 +328,11 @@ class teacher_money extends Controller
         \App\Helper\Utils::debug_to_html( $ret_list );
         $list = [];
         foreach($ret_list as $val){
-            $year  = date("Y");
-            $month = date("m");
+            $year  = date("Y",$val['add_time']);
+            $month = date("m",$val['add_time']);
             $grade = $val['grade'];
+            $list  = [
+            ];
         }
 
         return $this->output_succ(["data"=>$ret_list]);
