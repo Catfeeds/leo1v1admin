@@ -834,20 +834,20 @@ class common extends Controller
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
-        //请求微信头像
-        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
-        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $data = json_decode($output,true);
-//        $old_headimgurl = $row['headimgurl'];
-        $headimgurl = $data['headimgurl'];
+            //请求微信头像
+            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            //        $old_headimgurl = $row['headimgurl'];
+            $headimgurl = $data['headimgurl'];
 
 
             $image_5 = imagecreatefromjpeg($headimgurl);
