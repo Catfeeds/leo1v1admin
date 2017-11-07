@@ -2183,7 +2183,7 @@ function init_edit() {
                 format:'Y-m-d H:i',
                 step             : 30,
                 onGenerate       : function(){
-                    // check_disable_time();
+                    check_disable_time();
                 }
 
             });
