@@ -4422,7 +4422,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "subject!=11",
             "is_test_user=0",
         ];
-        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,teacher_type "
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,teacher_type"
                                   ." from %s t"
                                   ." where %s and ("
                                   ." exists (select 1 from %s where %s)"

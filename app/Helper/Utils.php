@@ -1037,9 +1037,11 @@ class Utils  {
      * @param int teacher_type 老师类型
      * @return boolean
      */
-    public function check_teacher_is_full($teacher_money_type,$teacher_type){
+    static public function check_teacher_is_full($teacher_money_type,$teacher_type,$teacherid){
         $is_full = false;
-        if(($teacher_money_type==E\Eteacher_money_type::V_0 && $teacher_type==E\Eteacher_type::V_3)
+        if(($teacher_money_type==E\Eteacher_money_type::V_0
+            && $teacher_type==E\Eteacher_type::V_3
+            && !in_array($teacherid,[51094,99504,97313]))
            || $teacher_money_type==E\Eteacher_money_type::V_7
         ){
             $is_full = true;
