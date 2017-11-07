@@ -499,7 +499,6 @@ class wx_parent_gift extends Controller
                     "keyword1"  => "购课赢翻牌机会",
                     "keyword2"  => "2017.11.11-2017.11.13期间，购课即可再次获得双十一翻牌机会",
                     "keyword3"  => date('Y-m-d H:i:s'),
-                    "remark"    => "活动时间：2017.11.7-2017.11.14"
                 ];
             }elseif($stu_type == 2 && $has_share <= 0){ //老用户
                 $data_info = [
