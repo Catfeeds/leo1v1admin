@@ -3463,4 +3463,16 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    public function get_planed_lesson_num($requireid_list,$accept_adminid){
+        $where_arr=[];
+        $where_arr[]=$this->where_get_not_in_str( "require_id", $requireid_list);
+        $sql =$this->gen_sql_new("select require_id,accept_adminid"
+                                 ." from %s where %s",
+                                 self::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }

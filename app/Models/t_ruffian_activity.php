@@ -114,9 +114,8 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
         return $this->main_get_value($sql);
     }
 
-
-    public function update_item(){
-        $sql = $this->gen_sql_new("  update %s set prize_time=0,parentid=0 ");
+    public function get_active_num($parentid){
+        
     }
 
 }
