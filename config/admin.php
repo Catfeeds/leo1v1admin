@@ -22,9 +22,9 @@ return [
             "bucket" =>'lessonpic',
         ],
     ],
-    'api_url'                   => env('API_URL', 'http://api.yb1v1.com/'),
+    'api_url'                   => env('API_URL', 'http://api.leo1v1.com/'),
     'monitor_url'               => env('MONITOR_URL', 'http://monitor.yb1v1.com/'),
-    'monitor_new_url'           => env('MONITOR_NEW_URL', 'http://admin.yb1v1.com'),
+    'monitor_new_url'           => env('MONITOR_NEW_URL', 'http://admin.leo1v1.com'),
     //课时审查时间节点
     "lesson_confirm_start_time" => "2017-08-01",
     //老师伯乐奖累计计算时间

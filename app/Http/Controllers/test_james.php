@@ -897,7 +897,24 @@ class test_james extends Controller
 
 
     public function dd(){
+        $a = -1;
+        if(!$a){
+
+            dd(1);
+                }
+        $openid = '111kisfkjedrjh';
+
+        $prize_list = $this->t_ruffian_activity->get_prize_list(-1);
+
+        dd($prize_list);
+
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+
+        dd($parentid);
+
         $a = [];
+
+        $this->t_ruffian_activity->update_item();
 
         for($i=0;$i<=9999;$i++){
             // $a[] = $this->get_win_rate();

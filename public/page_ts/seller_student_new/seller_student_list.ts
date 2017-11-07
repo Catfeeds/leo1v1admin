@@ -14,28 +14,28 @@ function load_data(){
     }
 
     $.reload_self_page ( {
-        date_type:	$('#id_date_type').val(),
-        opt_date_type:	$('#id_opt_date_type').val(),
-        start_time:	$('#id_start_time').val(),
-        group_seller_student_status:	$('#id_group_seller_student_status').val(),
-        seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-        end_time:	$('#id_end_time').val(),
-        userid:	$('#id_userid').val(),
-        success_flag:	$('#id_success_flag').val(),
-        phone_name:	$('#id_phone_name').val(),
-        seller_student_status:	$('#id_seller_student_status').val(),
-        phone_location:	$('#id_phone_location').val(),
-        subject:	$('#id_subject').val(),
-        origin_assistant_role:	$('#id_origin_assistant_role').val(),
-        has_pad:	$('#id_has_pad').val(),
-        tq_called_flag:	$('#id_tq_called_flag').val(),
-        origin_assistantid:	$('#id_origin_assistantid').val(),
-        origin_userid:	$('#id_origin_userid').val(),
-        seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
-        tmk_student_status:	$('#id_tmk_student_status').val(),
+        date_type:  $('#id_date_type').val(),
+        opt_date_type:  $('#id_opt_date_type').val(),
+        start_time: $('#id_start_time').val(),
+        group_seller_student_status:    $('#id_group_seller_student_status').val(),
+        seller_groupid_ex:  $('#id_seller_groupid_ex').val(),
+        end_time:   $('#id_end_time').val(),
+        userid: $('#id_userid').val(),
+        success_flag:   $('#id_success_flag').val(),
+        phone_name: $('#id_phone_name').val(),
+        seller_student_status:  $('#id_seller_student_status').val(),
+        phone_location: $('#id_phone_location').val(),
+        subject:    $('#id_subject').val(),
+        origin_assistant_role:  $('#id_origin_assistant_role').val(),
+        has_pad:    $('#id_has_pad').val(),
+        tq_called_flag: $('#id_tq_called_flag').val(),
+        origin_assistantid: $('#id_origin_assistantid').val(),
+        origin_userid:  $('#id_origin_userid').val(),
+        seller_require_change_flag: $('#id_seller_require_change_flag').val(),
+        tmk_student_status: $('#id_tmk_student_status').val(),
        // end_class_flag:$("#id_end_class_flag").val(),
-        seller_resource_type:	$('#id_seller_resource_type').val(),
-        favorite_flag:	$('#id_favorite_flag').val(),
+        seller_resource_type:   $('#id_seller_resource_type').val(),
+        favorite_flag:  $('#id_favorite_flag').val(),
     });
 }
 
@@ -475,7 +475,7 @@ $(function(){
             "phone": opt_data.phone
         } );
         //
-        $(me).parent().find(".opt-edit-new").click();
+        $(me).parent().find(".opt-edit-new_new").click();
 
     });
 
@@ -2022,16 +2022,19 @@ function init_edit() {
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
         var click_type=1;
-
         edit_user_info_new(opt_data,opt_obj,click_type);
-
+    });
+    $(".opt-edit-new_new").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var opt_obj=this;
+        var click_type=2;
+        edit_user_info_new(opt_data,opt_obj,click_type);
     });
 
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
        // var opt_data=$(this).get_opt_data();
         //var opt_obj=this;
        // alert(opt_data.test_lesson_subject_id);
-
         $.do_ajax("/ss_deal/get_user_info",{
             "userid" : opt_data.userid ,
             "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
@@ -2747,97 +2750,101 @@ function init_edit() {
             //     title= title+"-渠道:["+origin+"]";
             // }
 
-            if(html_node.find("#id_stu_editionid").val() == 0){
-                html_node.find("#id_stu_editionid").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_stu_request_test_lesson_time").val() == 0){
-                html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_stu_subject").val() <= 0){
-                html_node.find("#id_stu_subject").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_stu_request_test_lesson_time").val() == '无'){
-                html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }else{
-                var require_time= $.strtotime(html_node.find("#id_stu_request_test_lesson_time").val());
-                var need_start_time=0;
-                var now=(new Date()).getTime()/1000;
-                var min_date_time="";
-                var nowDayOfWeek = (new Date()).getDay();
-                if ( (new Date()).getHours() <18 ) {
-                    min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
-                }else{
-                    if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
-                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
-                    }else{
-                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
-                    }
+            if(click_type == 1){
+                if(html_node.find("#id_stu_editionid").val() == 0){
+                    html_node.find("#id_stu_editionid").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
-                need_start_time=$.strtotime(min_date_time );
-                if (require_time < need_start_time ) {
+                if(html_node.find("#id_stu_request_test_lesson_time").val() == 0){
                     html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
+                if(html_node.find("#id_stu_subject").val() <= 0){
+                    html_node.find("#id_stu_subject").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_stu_request_test_lesson_time").val() == '无'){
+                    html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }else{
+                    var require_time= $.strtotime(html_node.find("#id_stu_request_test_lesson_time").val());
+                    var need_start_time=0;
+                    var now=(new Date()).getTime()/1000;
+                    var min_date_time="";
+                    var nowDayOfWeek = (new Date()).getDay();
+                    if ( (new Date()).getHours() <18 ) {
+                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
+                    }else{
+                        if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+                        }else{
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
+                        }
+                    }
+                    need_start_time=$.strtotime(min_date_time );
+                    if (require_time < need_start_time ) {
+                        html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                    }
+                }
+                if(html_node.find("#id_stu_nick").val() == ''){
+                    html_node.find("#id_stu_nick").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_stu_grade").val() <= 0){
+                    html_node.find("#id_stu_grade").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_stu_gender").val() == 0){
+                    html_node.find("#id_stu_gender").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(data.region == ''){
+                    html_node.find("#province").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(data.city == ''){
+                    html_node.find("#city").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(data.area == ''){
+                    html_node.find("#area").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_class_rank").val() == ''){
+                    html_node.find("#id_class_rank").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_grade_rank").val() == ''){
+                    html_node.find("#id_grade_rank").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_academic_goal").val() <= 0){
+                    html_node.find("#id_academic_goal").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_test_stress").val() <= 0){
+                    html_node.find("#id_test_stress").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_entrance_school_type").val() <= 0){
+                    html_node.find("#id_entrance_school_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_entrance_school_type").val() <= 0){
+                    html_node.find("#id_entrance_school_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_study_habit").val() == ''){
+                    html_node.find("#id_study_habit").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_character_type").val() == ''){
+                    html_node.find("#id_character_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_need_teacher_style").val() == ''){
+                    html_node.find("#id_need_teacher_style").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_intention_level").val() <= 0){
+                    html_node.find("#id_intention_level").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_demand_urgency").val() <= 0){
+                    html_node.find("#id_demand_urgency").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_quotation_reaction").val() <= 0){
+                    html_node.find("#id_quotation_reaction").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_stu_request_test_lesson_demand").val() == ''){
+                    html_node.find("#id_stu_request_test_lesson_demand").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
+                if(html_node.find("#id_recent_results").val() == ''){
+                    html_node.find("#id_recent_results").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                }
             }
-            if(html_node.find("#id_stu_nick").val() == ''){
-                html_node.find("#id_stu_nick").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_stu_grade").val() <= 0){
-                html_node.find("#id_stu_grade").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_stu_gender").val() == 0){
-                html_node.find("#id_stu_gender").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(data.region == ''){
-                html_node.find("#province").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(data.city == ''){
-                html_node.find("#city").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(data.area == ''){
-                html_node.find("#area").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_class_rank").val() == ''){
-                html_node.find("#id_class_rank").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_grade_rank").val() == ''){
-                html_node.find("#id_grade_rank").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_academic_goal").val() <= 0){
-                html_node.find("#id_academic_goal").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_test_stress").val() <= 0){
-                html_node.find("#id_test_stress").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_entrance_school_type").val() <= 0){
-                html_node.find("#id_entrance_school_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_entrance_school_type").val() <= 0){
-                html_node.find("#id_entrance_school_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_study_habit").val() == ''){
-                html_node.find("#id_study_habit").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_character_type").val() == ''){
-                html_node.find("#id_character_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_need_teacher_style").val() == ''){
-                html_node.find("#id_need_teacher_style").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_intention_level").val() <= 0){
-                html_node.find("#id_intention_level").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_demand_urgency").val() <= 0){
-                html_node.find("#id_demand_urgency").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_quotation_reaction").val() <= 0){
-                html_node.find("#id_quotation_reaction").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_stu_request_test_lesson_demand").val() == ''){
-                html_node.find("#id_stu_request_test_lesson_demand").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
-            if(html_node.find("#id_recent_results").val() == ''){
-                html_node.find("#id_recent_results").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-            }
+
+            
 
 
 
