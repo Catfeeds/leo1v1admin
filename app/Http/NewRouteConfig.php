@@ -80,6 +80,7 @@ class NewRouteConfig {
         "/login/agent"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
         "/common/add_trial_train_lesson_by_admin" => true,
+        "/common/del_qiniu_img"                   => true,
         "/common/get_teacher_hornor_list"         => true,
         "/common/upload_qiniu"                    => true,
         "/common/notify"                          => true,
