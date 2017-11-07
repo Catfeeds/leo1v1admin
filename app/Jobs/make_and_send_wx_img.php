@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-//include(app_path("App/Wx/Yxyx/lanewechat_yxyx.php"));
+include( app_path("Wx/Yxyx/lanewechat_yxyx.php") );
 use Yxyx\Core\Media;
 use Yxyx\Core\AccessToken;
 use LaneWeChat\Core\ResponsePassive;
