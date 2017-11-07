@@ -332,6 +332,7 @@ class teacher_money extends Controller
         foreach($chunhui_list as $val){
             $year  = date("Y",$val['add_time']);
             $month = date("m",$val['add_time']);
+            $data_key  = $year."_".$month;
             $grade = $val['grade'];
             $money = $val['money'];
 
@@ -341,27 +342,20 @@ class teacher_money extends Controller
                 continue;
             }
 
-            $rank_list[]=[
-                "rank"  => $rank,
-                "grade" => $grade,
+            $grade_list[$grade][] = [
+                "rank" => $rank,
+                "name" => $val['nick'],
             ];
-
+            if(!isset($ret_list[$data_key])){
+                $ret_list[$data_key] = [
+                    "year"      => $year,
+                    "month"     => $month,
+                    "rank_info" => $grade_list
+                ];
+            }else{
+                $ret_list[$data_key]["rank_info"] = $grade_list;
+            }
         }
-
-        $rank_info[]=[
-            "rank"=>$rank,
-            "name"=>$nick,
-        ];
-        $grade_info[] = [
-            "100"=>$grade_info,
-            "200"=>$grade_info,
-            "300"=>$grade_info,
-        ];
-        $ret_list[] = [
-            "year"=>$year,
-            "month"=>$month,
-            "rank_info"=>$rank_info,
-        ];
 
         return $this->output_succ(["data"=>$ret_list]);
     }
