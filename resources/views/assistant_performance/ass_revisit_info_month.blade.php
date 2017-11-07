@@ -23,26 +23,28 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
-                </div>
             </div>
         </div>
         <hr/>
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td>学生 </td>
+                    <td>{{$last_time_str}}--应回访 </td>
+                    <td>{{$last_time_str}}--实际回访 </td>
+                    <td>{{$cur_time_str}}--应回访 </td>
+                    <td>{{$cur_time_str}}--实际回访 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["nick"]}} </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
