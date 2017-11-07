@@ -869,14 +869,15 @@ class test_boby extends Controller
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
 
-        $phone = '1969696';
+        $phone = '18898881852';
         if ( \App\Helper\Utils::check_env_is_test() ) {
             $phone_qr_name = $phone."_qr_agent_merber1.png";
         }else{
             $phone_qr_name = $phone."_qr_agent_merber.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
-        // $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        echo 'exists--',$is_exists,'<br>';
 
         //判断是否更新微信头像
         // if ($old_headimgurl != $headimgurl) {
@@ -888,7 +889,7 @@ class test_boby extends Controller
         //     $is_exists = false;
         // }
 
-        // if(!$is_exists){
+        if(!$is_exists){
 
             if (\App\Helper\Utils::check_env_is_test() ) {
                 $www_url="test.www.leo1v1.com";
@@ -964,13 +965,23 @@ class test_boby extends Controller
             imagedestroy($image_5);
             imagedestroy($image_4);
             imagedestroy($image_6);
-        // }else{
-        //     $file_name=$phone_qr_name;
-        // }
+        }else{
+            $file_name=$phone_qr_name;
+        }
 
         $file_url = $qiniu_url."/".$file_name;
         return $file_url;
     }
 
+    public function del_img(){
+        $url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/19699696_qr_agent_merber.png';
+        $del_arr = explode('/',$url);
+        $name    = array_pop($del_arr);
+        return $name;
+        $del_url = "$base_url/common/del_qiniu_img?name=".$url;//删除七牛图片地址
+        self::https_post($del_url,$txt);
+
+
+    }
 
 }
