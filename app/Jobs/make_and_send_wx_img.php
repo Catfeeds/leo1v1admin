@@ -22,12 +22,13 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     var $request;
     var $phone;
     var $bg_url;
+    var $qr_code_url;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id,$wx_openid,$phone,$bg_url,$request )
+    public function __construct($id,$wx_openid,$phone,$bg_url,$qr_code_url,$request )
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
@@ -35,6 +36,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $this->bg_url      = $bg_url;
         $this->id          = $id;
         $this->request     = $request;
+        $this->qr_code_url = $qr_code_url;
     }
 
     /**
@@ -45,7 +47,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     public function handle()
     {
         $qr_url       = "/tmp/".$this->phone.".png";
-        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+        \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
