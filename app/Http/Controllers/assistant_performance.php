@@ -12,6 +12,8 @@ class assistant_performance extends Controller
     use CacheNick;
     use TeaPower;
     public function ass_revisit_info_month() {
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+
         $account = $this->get_account();
         if($account=="jack"){
             $account="eros";

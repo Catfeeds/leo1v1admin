@@ -431,7 +431,11 @@ class wx_parent_gift extends Controller
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
-        $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+
+        if($prize_type>0 ){
+            $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+        }
+
         if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
