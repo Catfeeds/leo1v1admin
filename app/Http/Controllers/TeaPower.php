@@ -4037,9 +4037,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
                 $item['teacher_ref_rate']  = $teacher_ref_rate;
             }
-
-            $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
-            $item['lesson_price'] -= $item['lesson_cost_tax'];
+            if($item['lesson_price']>0){
+                $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
+                $item['lesson_price'] -= $item['lesson_cost_tax'];
+            }
         }
         array_multisort($start_list,SORT_DESC,$list);
 
