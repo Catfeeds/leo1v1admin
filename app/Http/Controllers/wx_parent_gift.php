@@ -499,6 +499,7 @@ class wx_parent_gift extends Controller
         $active_num = $this->t_ruffian_activity->get_active_num($parentid);
 
         if($active_num == 1){
+            $data_info = [];
             if($stu_type == 1 && $is_new_order<=0){ // 新用户
                 $data_info = [
                     "first"     => "您好，购课即可再次获得翻牌机会",
@@ -514,7 +515,10 @@ class wx_parent_gift extends Controller
                     "keyword3"  => date('Y-m-d H:i:s'),
                 ];
             }
-            $wx->send_template_msg($p_openid,$template_id,$data_info ,"");
+
+            if(!empty($data_info)){
+                $wx->send_template_msg($p_openid,$template_id,$data_info ,"");
+            }
         }
 
         return $this->output_succ(['prize'=>$prize_type]);

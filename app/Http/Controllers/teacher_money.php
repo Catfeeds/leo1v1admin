@@ -722,11 +722,15 @@ class teacher_money extends Controller
         }
 
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
+        $all_money = 0;
         foreach($ret_info['list'] as &$t_val){
-            $t_val['money']/=100;
+            $t_val['money'] /= 100;
+            $all_money      += $t_val['money'];
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "all_money" => $all_money
+        ]);
     }
 
 
