@@ -70,7 +70,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         \App\Helper\Utils::logger("make_img_start");
 
-        $datapath = "/tmp/".$this->phone.".png";
+        $datapath = "/tmp/".$this->phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
        
