@@ -432,13 +432,18 @@ class wx_parent_gift extends Controller
         }
 
         $prize_type = $this->get_win_rate($stu_type,$parentid);
+        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+
+        if($prize_type == 1 && $is_test <=0){ // 未试听过的人不能获得书包
+            $prize_type = 2;
+        }
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
         $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
         if(!$has_prize_id){
             if($stu_type == 1){
-                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                // $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 $is_has_test = $this->t_ruffian_activity->check_is_has_test($parentid);
                 if($is_test>0 || $is_has_test){
                     $prize_type=2;
