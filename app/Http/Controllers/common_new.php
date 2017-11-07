@@ -1024,7 +1024,7 @@ class common_new extends Controller
 
         $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
 
-        if($lesson_info['wx_openid'] ){
+        if($lesson_info['wx_openid'] && $lesson_info['userid']>0){
             $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_msg ,'');
         }
 
