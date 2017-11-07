@@ -59,7 +59,9 @@ class Handler extends ExceptionHandler
 
         $ip=@$_SERVER["REMOTE_ADDR"];
 
-        if ( strpos($url,"." ) ===false ) { //找文件,
+        if ( strpos($url,"." ) ===false
+             and (!( $e instanceof  ModelNotFoundException) )
+        ) { //找文件,
             if( \App\Helper\Utils::check_env_is_release()  ) {
                 $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
                 if ( !in_array( $ip_fix ,["59.173.189","140.205.201","121.42.0", "140.205.225" ])   ) { //阿里云盾
