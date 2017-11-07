@@ -885,8 +885,6 @@ class common extends Controller
 
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-            sleep(3);
-
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
                 \App\Helper\Utils::exec_cmd($cmd_rm);
@@ -911,8 +909,7 @@ class common extends Controller
         if ($name != '') {
             $qiniu     = \App\Helper\Config::get_config("qiniu");
             $qiniu_url = $qiniu['public']['url'];
-            $ret = \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
-            return $ret;
+            \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
         }
     }
     public function resize_img($url,$path='/tmp/'){

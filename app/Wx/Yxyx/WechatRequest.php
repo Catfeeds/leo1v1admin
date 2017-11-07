@@ -584,10 +584,11 @@ class WechatRequest  {
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
 
-            $del_arr = explode('/',$url);
-            $name    = array_pop($del_arr);
-            $del_url = "$base_url/common/del_qiniu_img?name='".$name."'";//删除七牛图片地址
-            self::https_post($del_url,$txt);
+            // $del_arr = explode('/',$url);
+            // $name    = array_pop($del_arr);
+            // $del_url = "$base_url/common/del_qiniu_img";//删除七牛图片地址
+            // $del_arr = ['name' => $name];
+            // self::https_post($del_url,$del_arr);
 
             $t_agent->set_add_type_2( $agent["id"]);
             if ( \App\Helper\Utils::check_env_is_release() ) {

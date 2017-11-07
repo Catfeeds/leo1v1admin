@@ -10,12 +10,9 @@ class activity_2017102702 extends  activity_base {
         parent::__construct($args);
     }
 
-    protected function do_exec (&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
+    protected function do_exec (&$out_args,  &$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {
         //2017-102702 27-31  15号前试听的 30,45次课 全款9折
 
-        if (!$this->check_now("2017-10-27"  , "2017-11-01")) {
-            return ;
-        }
 
         $from_test_lesson_id=$this->from_test_lesson_id;
         if($from_test_lesson_id ) {

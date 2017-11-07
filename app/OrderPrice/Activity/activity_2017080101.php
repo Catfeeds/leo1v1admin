@@ -1,15 +1,24 @@
 <?php
 namespace App\OrderPrice\Activity;
 use \App\Enums as E;
-class activity_2017080101 extends  activity_base {
+class activity_2017080101 extends  activity_config_base {
 
     public static $order_activity_type= E\Eorder_activity_type::V_2017080101;
 
     public function __construct(  $args   ) {
         parent::__construct($args);
+        $this->date_range=[ "2017-08-01"  , "2018-12-31"];
+        $this->period_flag_list= [false, true];
+        $this->contract_type_list = [E\Econtract_type::V_0 ,  E\Econtract_type::V_3];
+        $this->lesson_times_range = [1 ,  10000];
+
+
     }
 
     protected function do_exec (  &$out_args, &$can_period_flag, &$price,  &$present_lesson_count,  &$desc_list )   {
+        if (!parent::do_exec($out_args,$can_period_flag,$price,$present_lesson_count,$desc_list)){
+            return ;
+        };
 
         $free_money=0;
         if($this->from_test_lesson_id ){
@@ -46,6 +55,12 @@ class activity_2017080101 extends  activity_base {
             $desc_list[]=static::gen_activity_item(0, $activity_desc ,  $price,  $present_lesson_count,$can_period_flag );
         }
 
+    }
+    function get_desc() {
+        $ret_arr=parent::get_desc();
+
+        $ret_arr[]=["", " 试听后一天内下单 立减 300元 " ];
+        return $ret_arr;
     }
 
 }
