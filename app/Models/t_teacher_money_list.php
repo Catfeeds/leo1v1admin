@@ -46,7 +46,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                 ." from %s l"
                                 ." left join %s t on l.teacherid=t.teacherid"
                                 ." where %s"
-                                ." order by add_time desc,grade,money desc"
+                                ." order by add_time desc,grade asc,money desc"
                                 ,self::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
