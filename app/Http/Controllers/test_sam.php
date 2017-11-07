@@ -12,6 +12,11 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+
+    public function test_api(){
+        
+    }
+
     public function ll(){
         $ret_info = $this->t_student_info->get_finish_num_new_list(1506787200,1509465600);
     }
