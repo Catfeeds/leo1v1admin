@@ -109,7 +109,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         // $img_url = '/tmp/yxyx_'.$phone.'.png';
         $type = 'image';
         $num = rand();
-        $img_Long = file_get_contents($agent_qu_url);
+        $img_Long = file_get_contents($agent_qr_url);
         file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
         $img_url = public_path().'/wximg/'.$num.'.png';
         $img_url = realpath($img_url);
