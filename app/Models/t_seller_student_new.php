@@ -1509,7 +1509,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
             if ($tq_called_flag ==2) {//拨通
-                if (!$item["first_contact_time"]) {
+                if ($item["first_contact_time"] == 0) {
                     $set_arr["first_contact_time"]=$call_time;
                 }
 

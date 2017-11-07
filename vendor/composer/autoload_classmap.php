@@ -592,6 +592,7 @@ return array(
     'TSellerLevelGoalAddLevelIcon' => $baseDir . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',
     'TSellerLevelGoalAddNum' => $baseDir . '/database/migrations/2017_10_10_163653_t_seller_level_goal_add_num.php',
     'TSellerStudentNewAddAssLeaderCreateGlag' => $baseDir . '/database/migrations/2017_10_12_105759_t_seller_student_new_add_ass_leader_create_glag.php',
+    'TSellerStudentNewAddCcCallCount' => $baseDir . '/database/migrations/2017_11_07_111904_t_seller_student_new_add_cc_call_count.php',
     'TSellerStudentNewAddHandFreeCount' => $baseDir . '/database/migrations/2017_11_02_150420_t_seller_student_new_add_hand_free_count.php',
     'TSellerStudentNewAddHandGetAdminid' => $baseDir . '/database/migrations/2017_10_24_112850_t_seller_student_new_add_hand_get_adminid.php',
     'TSellerStudentNewAddIndexFirstCallTimeAddTime' => $baseDir . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
