@@ -26,9 +26,11 @@ class assistant_performance extends Controller
         $last_end =  $month_start+15*86400;
         $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
         $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
-        dd($cur_time_str);
 
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "last_time_str"=>$last_time_str,
+            "cur_time_str" =>$cur_time_str
+        ]);
     }
 
 }
