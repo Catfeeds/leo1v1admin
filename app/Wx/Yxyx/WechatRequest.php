@@ -577,9 +577,7 @@ class WechatRequest  {
             $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
 
             $img_url = '/tmp/yxyx_'.$phone.'.png';
-            if ( $cur_headimgurl !== $old_headimgurl ) {//换头像了
-                $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
-                \App\Helper\Utils::exec_cmd($cmd_rm);
+            if ( $cur_headimgurl !== $old_headimgurl ) {
                 dispatch( new \App\Jobs\make_and_send_wx_img($openid,$phone,$bg_url,$cur_headimgurl) );
             }
             $type = 'image';

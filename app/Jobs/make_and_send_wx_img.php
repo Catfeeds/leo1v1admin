@@ -77,6 +77,9 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             }
         }
 
+        $cmd_rm = "rm /tmp/yxyx_".$phone.".png";//删除老图
+        \App\Helper\Utils::exec_cmd($cmd_rm);
+
         $agent_qr_url = "/tmp/yxyx_".$this->phone.".png";
         imagepng($image_3,$agent_qr_url);
 
