@@ -450,7 +450,6 @@ class wx_parent_gift extends Controller
                 if($prize_type == 1 && $is_test ==0){ // 未试听过的人不能获得书包
                     $prize_type = 8;
                 }
-
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
@@ -475,7 +474,6 @@ class wx_parent_gift extends Controller
                 if($prize_type == 1 && $is_test ==0){ // 未试听过的人不能获得书包
                     $prize_type = 8;
                 }
-
             }
 
             $this->t_ruffian_activity->field_update_list($has_prize_id,[
@@ -483,6 +481,7 @@ class wx_parent_gift extends Controller
                 "prize_time" => time(),
             ]);
         }
+
         $this->t_ruffian_activity->commit();
 
         // 微信通知
