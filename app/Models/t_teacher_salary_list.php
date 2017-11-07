@@ -22,11 +22,12 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_value($sql);
     }
 
-    public function get_salary_list($start_time,$end_time){
+    public function get_salary_list($start_time,$end_time,$reference=""){
         $where_arr = [
             ["pay_time>=%u",$start_time,0],
             ["pay_time<%u",$end_time,0],
-            "is_test_user=0"
+            "is_test_user=0",
+            ["reference='%s'",$reference,""],
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,t.idcard,"
                                   ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,ts.money,ts.pay_status "
