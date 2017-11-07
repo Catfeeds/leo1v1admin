@@ -465,7 +465,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_seller_student_new->get_all_list_new();
+        $ret = $this->t_seller_student_new->get_all_list_new_two();
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;
