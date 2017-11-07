@@ -3160,5 +3160,13 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_value($sql);
     }
+    public function get_list_test( $page_info, $userid=-1 ) {
+        $where_arr=[
+            ["userid=%u", $userid, -1 ]
+        ];
+        $sql= $this->gen_sql_new("select * from %s where %s   ",
+                                 self::DB_TABLE_NAME, $where_arr  );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 
 }

@@ -8,9 +8,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use \App\Wx\Yxyx\Core\Media;
-use \App\Wx\Yxyx\Core\AccessToken;
-use \App\Wx\Yxyx\LaneWeChat\Core\ResponsePassive;
+use App\Wx\Yxyx\Core\Media;
+use App\Wx\Yxyx\Core\AccessToken;
+use App\Wx\Yxyx\LaneWeChat\Core\ResponsePassive;
 
 
 class make_and_send_wx_img extends Job implements ShouldQueue
