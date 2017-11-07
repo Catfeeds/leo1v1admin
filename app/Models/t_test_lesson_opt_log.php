@@ -36,7 +36,7 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
             ." left join %s t on t.teacherid=o.userid and o.role=%u "
             ." left join %s m on m.phone=t.phone "
             ." left join %s s on s.userid=o.userid and o.role=%u "
-            ." where %s "
+            ." where %s order by o.opt_time desc"
             ,self::DB_TABLE_NAME
             ,t_teacher_info::DB_TABLE_NAME
             ,$role_c
