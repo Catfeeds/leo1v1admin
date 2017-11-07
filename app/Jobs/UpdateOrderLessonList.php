@@ -111,6 +111,11 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
                             $contract_status   = 2;
                         }
 
+                        $old_contract_status= $t_order_info->get_contract_status($val['orderid']);
+                        if($old_contract_status==3){
+                            $contract_status=3;
+                        }
+
                         $t_order_info->field_update_list($val['orderid'],[
                             "lesson_left"     => $lesson_left*100,
                             "contract_status" => $contract_status,
