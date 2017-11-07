@@ -792,6 +792,8 @@ class wx_yxyx_api extends Controller
             $item['agent_status_money'] /=100;
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
+            E\Eagent_student_status::set_item_value_str($item);
+            E\Eagent_status::set_item_value_str($item);
         }
         $data = $this->t_agent->member_invite($agent_id,$page_info,$page_count);
         foreach($data['list'] as &$item){
@@ -803,6 +805,8 @@ class wx_yxyx_api extends Controller
             $item['agent_status_money'] /=100;
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
+            E\Eagent_student_status::set_item_value_str($item);
+            E\Eagent_status::set_item_value_str($item);
         }
 
         return $this->output_succ([
@@ -1170,7 +1174,12 @@ class wx_yxyx_api extends Controller
             E\Eagent_money_ex_type::set_item_value_str($item);
             $item['money'] /= 100;
         }
-
-        return $this->output_succ(['reward_list' => $reward_list]);
+        //获取活动奖励总金额
+        $activity_total_money = $this->t_agent_money_ex->get_activity_total_money($agent_id,$is_cash);
+        $activity_total_money /=100;
+        return $this->output_succ([
+            'reward_list' => $reward_list,
+            'activity_total_money' => $activity_total_money
+        ]);
     }
 }

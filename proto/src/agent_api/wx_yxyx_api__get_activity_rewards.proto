@@ -11,4 +11,5 @@ message in  {
 
 message out {
   common.agent_reward_money reward_list = 1;//奖励列表
+  float activity_total_money = 2;//总奖金
 }

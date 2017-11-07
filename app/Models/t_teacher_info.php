@@ -4358,10 +4358,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_all_has_wx_tea(){
         $where_arr = [
-            'is_test_user=0',
-            'trial_lecture_is_pass=1',
+            // 'is_test_user=0',
+            // 'trial_lecture_is_pass=1',
             'wx_openid!=""',
-            'train_through_new=1',
+            // 'train_through_new=1',
         ];
         $sql = $this->gen_sql_new("select nick,wx_openid,grade_start,subject,grade_part_ex "
                                   ." from %s "
@@ -4557,7 +4557,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tf.simul_test_lesson_pass_time<".$time,
+            "t.train_through_new_time<".$time,
+            "t.train_through_new_time>0",
             "t.train_through_new=1",            
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.sleep_flag"
@@ -4577,7 +4578,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tf.simul_test_lesson_pass_time<".$start_time,
+            "t.train_through_new_time<".$start_time,
+            "t.train_through_new_time>0",
             "t.train_through_new=1",            
             "l.lesson_del_flag=0",
             "l.lesson_type <1000",

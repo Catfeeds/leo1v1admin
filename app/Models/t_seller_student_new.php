@@ -1508,8 +1508,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $set_arr["last_revisit_time"]=$call_time;//最后回访时间
 
 
-            if ($tq_called_flag ==2) {
-                if (!$item["first_contact_time"]) {
+            if ($tq_called_flag ==2) {//拨通
+                if ($item["first_contact_time"] == 0) {
                     $set_arr["first_contact_time"]=$call_time;
                 }
 

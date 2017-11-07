@@ -729,7 +729,7 @@ class Utils  {
      * @param file    需要删除的文件名
      * @return boolean
      */
-    static public function qiniu_del_file($file){
+    static public function qiniu_del_file($bucket,$file){
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $bucket    = $qiniu['public']['bucket'];
         $accessKey = $qiniu['access_key'];
@@ -740,11 +740,7 @@ class Utils  {
 
         $err = $bucketMgr->delete($bucket, $file);
 
-        if($err !== null) {
-            return false;
-        } else {
-            return true;
-        }
+        return $err;
     }
 
 

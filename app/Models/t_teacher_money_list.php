@@ -8,7 +8,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 		parent::__construct();
 	}
 
-
     public function check_is_exists($money_info,$type=-1){
         $where_arr = [
             ["money_info='%s'",$money_info,""],
@@ -22,16 +21,32 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     }
 
     public function get_teacher_lesson_total_list($time){
-        $where_arr=[
+        $where_arr = [
             ["add_time>%u",$time,0],
             "type=1"
         ];
-
         $sql=$this->gen_sql_new("select t.realname,t.nick,add_time,money,money_info as lesson_total"
                                 ." from %s l"
                                 ." left join %s t on l.teacherid=t.teacherid"
                                 ." where %s"
                                 ." order by add_time desc,money desc"
+                                ,self::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_chunhui_list($time){
+        $where_arr = [
+            ["add_time>%u",$time,0],
+            "type=7"
+        ];
+        $sql=$this->gen_sql_new("select t.realname,t.nick,add_time,money,money_info,tm.grade"
+                                ." from %s tm"
+                                ." left join %s t on tm.teacherid=t.teacherid"
+                                ." where %s"
+                                ." order by add_time desc,tm.grade asc,money desc"
                                 ,self::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
@@ -241,6 +256,32 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$lesson_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_order_num_by_time($teacherid,$grade,$start_time,$end_time){
+        $where_arr=[
+            ["tm.teacherid = %u",$teacherid,-1],
+            "tm.type=2",
+            ["add_time>%u",$start_time,0],
+            ["add_time<%u",$end_time,0],
+        ];
+        if($grade==100){
+            $where_arr[]="l.grade>=100 and l.grade <200";
+        }elseif($grade==200){
+            $where_arr[]="l.grade>=200 and l.grade <300";
+        }elseif($grade==300){
+            $where_arr[]="l.grade>=300 and l.grade <400";
+        }
+        $sql = $this->gen_sql_new("select count(*) num"
+                                  ." from %s tm "
+                                  ." left join %s l on tm.lessonid = l.lessonid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
     }
 
 

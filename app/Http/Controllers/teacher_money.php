@@ -319,6 +319,24 @@ class teacher_money extends Controller
     }
 
     /**
+     * 获取春晖奖
+     */
+    public function get_teacher_chunhui_reward(){
+        $start_time = strtotime("2017-11-1");
+        $ret_list   = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
+
+        \App\Helper\Utils::debug_to_html( $ret_list );
+        $list = [];
+        foreach($ret_list as $val){
+            $year  = date("Y");
+            $month = date("m");
+            $grade = $val['grade'];
+
+        }
+
+        return $this->output_succ(["data"=>$ret_list]);
+    }
+    /**
      * 获取老师指定月份各个扣款免责次数
      */
     private function get_cost_num($teacherid,$start_time){
@@ -368,12 +386,14 @@ class teacher_money extends Controller
      */
     public function add_teacher_reward(){
         $type       = $this->get_in_int_val("type");
+        $grade      = $this->get_in_int_val("grade");
         $teacherid  = $this->get_in_int_val("teacherid");
         $money_info = $this->get_in_str_val("money_info");
         $money      = $this->get_in_int_val("money");
         $add_date   = $this->get_in_str_val("add_time",date("Y-m-d",time()));
-        $add_time   = strtotime($add_date);
         $acc        = $this->get_account();
+
+        $add_time   = strtotime($add_date);
         if(in_array($type,[E\Ereward_type::V_1,E\Ereward_type::V_4])){
             if(!in_array($acc,["adrian","jim","sunny"])){
                 return $this->output_err("此用户没有添加奖励权限！");
@@ -388,8 +408,11 @@ class teacher_money extends Controller
             "money_info" => $money_info,
             "acc"        => $acc,
         ];
+
         if($type==E\Ereward_type::V_6){
             $this->add_reference_price($teacherid,$money_info,false);
+        }elseif($type == E\Ereward_type::V_7){
+            $update_arr['grade'] = $grade;
         }elseif($type != E\Ereward_type::V_1){
             $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
             if($check_flag){
@@ -660,6 +683,10 @@ class teacher_money extends Controller
     public function get_teacher_salary($teacherid,$start_time,$end_time){
         $salary_info = $this->get_teacher_lesson_money_list($teacherid,$start_time,$end_time);
         return $salary_info[0];
+    }
+
+    public function get_teacher_trial_rate_money_list(){
+
     }
 
     public function teacher_salary_list(){
