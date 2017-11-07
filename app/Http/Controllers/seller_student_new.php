@@ -334,14 +334,7 @@ class seller_student_new extends Controller
         }
         // $this->set_filed_for_js('adminid',$this->get_account_id());
         // dd($ret_info);
-        $userid_arr = array_unique(array_column($ret_info['list'],'userid'));
-        $tq_list = $this->t_tq_call_info->get_no_called_list($userid_arr);
-        dd($tq_list);
-        foreach($tq_list as $item){
-            $userid = $item['userid'];
-            $count = $item['count'];
-            $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$count]);
-        }
+        
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,
