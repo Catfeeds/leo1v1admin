@@ -47,7 +47,7 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["t_subject_str"]}} </td>
                         <td>
-                            @if($val["grade_start"]>0)
+                            @if($var["grade_start"]>0)
                                 {{$var["grade_start_str"]}}--{{$var["grade_end_str"]}}
                             @else
                                 {{$var["grade_part_ex_str"]}}
