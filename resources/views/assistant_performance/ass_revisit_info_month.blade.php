@@ -41,12 +41,13 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["nick"]}} </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="first_need"></td>
+                        <td class="first_real"></td>
+                        <td class="second_need"></td>
+                        <td class="second_real"></td>
                         <td>
-                            <div class="row-data" data-userid ="{{$var["userid"]}}"
+                            <div class="row-data" data-userid ="{{$var["userid"]}}" data-account ="{{$var["account"]}}"
+                                 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>

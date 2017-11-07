@@ -33,12 +33,13 @@ $(function(){
             var $tr=$(row_list[do_index]);
             var opt_data=$tr.find(".row-data");
             var userid = opt_data.data("userid");
+            var account = opt_data.data("account");
             if(userid>0){
                 alert(userid);
                 $.do_ajax("/ajax_deal2/get_ass_revisit_info_detail",{
                     "userid"       : userid,
                     "start_time"   : g_args.start_time,
-                    "account"      : 
+                    "account"      : account
                 },function(resp){
                     console.log(resp.data);
                     var data = resp;
