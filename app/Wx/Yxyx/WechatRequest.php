@@ -578,6 +578,9 @@ class WechatRequest  {
 
 
             $img_url = '/tmp/yxyx_'.$phone.'.png';
+            if ( !file_exists($img_url) ) {
+                sleep(5);
+            }
             $type = 'image';
             $num = rand();
             $img_Long = file_get_contents($img_url);
@@ -589,6 +592,10 @@ class WechatRequest  {
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
+
+            $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+
 
             $t_agent->set_add_type_2( $agent["id"]);
             if ( \App\Helper\Utils::check_env_is_release() ) {
