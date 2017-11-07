@@ -13,22 +13,20 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     var $wx_openid;
-    var $header_img ;
     var $phone;
-    var $back_img;
+    var $bg_url;
     var $qr_code_url;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($wx_openid,$header_img , $phone,$back_img, $qr_code_url  )
+    public function __construct($wx_openid,$phone,$bg_url, $qr_code_url  )
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
-        $this->header_img  = $header_img;
         $this->phone       = $phone;
-        $this->back_img    = $back_img;
+        $this->bg_url      = $bg_url;
         $this->qr_code_url = $qr_code_url;
     }
 
@@ -39,6 +37,73 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      */
     public function handle()
     {
+        if (\App\Helper\Utils::check_env_is_test() ) {
+            $www_url="test.www.leo1v1.com";
+        }else{
+            $www_url="www.leo1v1.com";
+        }
+
+        $text         = "http://$www_url/market-invite/index.html?p_phone=".$this->phone."&type=2";
+        $qr_url       = "/tmp/".$this->phone.".png";
+        // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+        //请求微信头像
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        $headimgurl = $data['headimgurl'];
+
+        $image_5 = imagecreatefromjpeg($headimgurl);
+        $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
+        $color = imagecolorallocate($image_6, 255, 255, 255);
+        imagefill($image_6, 0, 0, $color);
+        imageColorTransparent($image_6, $color);
+        imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+
+        $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+        $image_2 = imagecreatefrompng($qr_url);     //二维码
+        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+        $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
+        imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+        imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
+        imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
+
+        $r = 80; //圆半径
+        for ($x = 0; $x < 160; $x++) {
+            for ($y = 0; $y < 160; $y++) {
+                $rgbColor = imagecolorat($image_6, $x, $y);
+                $a = $x-$r;
+                $b = $y-$r;
+                if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
+                    $n_x = $x+295;
+                    $n_y = $y+28;
+                    imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+                }
+            }
+        }
+
+        $agent_qr_url = "/tmp/yxyx_".$this->phone.'.png';
+        imagepng($image_3,$agent_qr_url);
+
+        // $cmd_rm = "rm /tmp/".$this->phone."*.png";
+        // \App\Helper\Utils::exec_cmd($cmd_rm);
+
+        imagedestroy($image_1);
+        imagedestroy($image_2);
+        imagedestroy($image_3);
+        imagedestroy($image_4);
+        imagedestroy($image_5);
+        imagedestroy($image_6);
+        // return $agent_qr_url;
 
     }
 
