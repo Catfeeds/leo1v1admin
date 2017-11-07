@@ -897,6 +897,11 @@ class test_james extends Controller
 
 
     public function dd(){
+
+        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(419491);
+
+        dd($is_test);
+
         $list    = E\Eregion_version::$desc_map;
         dd(array_flip($list));
         $list_new =[];

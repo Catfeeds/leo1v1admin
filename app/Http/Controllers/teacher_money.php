@@ -712,10 +712,6 @@ class teacher_money extends Controller
         return $salary_info[0];
     }
 
-    public function get_teacher_trial_rate_money_list(){
-
-    }
-
     public function teacher_salary_list(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
         $reference = $this->get_in_str_val("reference");
