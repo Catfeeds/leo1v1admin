@@ -3174,7 +3174,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["s.assistantid=%u",$assistantid,-1],
             "s.type=0"
         ];
-        $sql = $this->gen_sql_new("select s.userid,s.nick,s.assistant,a.nick ass_nick"
+        $sql = $this->gen_sql_new("select s.userid,s.nick,s.assistant,a.nick ass_nick,s.ass_assign_time"
                                   ." from %s s left join %s a on s.assistantid = a.assistantid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
