@@ -4110,9 +4110,39 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //教务抢课链接限制
     public function check_jw_plan_limit($requireids){
         $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
-        $requireid_list = explode(",",$requireids);
+        $requireid_list =[];
+        $arr=explode(",",$requireids);
+        foreach($arr as $v){
+            $requireid_list[$v]=$v;
+        }
+        
+        $start_time = strtotime(date("Y-m-d",time()));
+        $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
+        foreach($grab_list as $val){
+            $ret =   explode(",",$val["requireids"]);
+            foreach($ret as $item){
+                if(!isset($requireid_list[$item])){
+                    $requireid_list[$item]= $item;
+                }
+            }
+        }
+        
         $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
-        dd($list);
+        $data = [];
+        foreach($list as $val){
+            @$data[$val["accept_adminid"]][]=$val["require_id"];
+        }
+
+        foreach($data as $k=>$item){
+            $grab_num = count($item);
+            $plan_num = $this->t_test_lesson_subject_require->get_planed_lesson_num($item,$k,$start_time,time());
+            $per = $grab_num/($plan_num+$grab_num);
+            $account = $this->t_manager_info->get_account($k);
+            if($per>0.25){
+                return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
+            }
+        }
+      
     }
 
    

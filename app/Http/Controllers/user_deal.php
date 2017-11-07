@@ -3178,7 +3178,19 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-11-01");
+        $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
+        foreach($all_train_through_lesson_teacher as &$item){
+            E\Esubject::set_item_value_str($item,"subject"); 
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+        }
+
+        dd($all_train_through_lesson_teacher);
+
         $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
+        $rr =$this->check_jw_plan_limit($requireids);
+        dd($rr);
         $requireid_list =[];
         $arr=explode(",",$requireids);
         foreach($arr as $v){
@@ -3197,11 +3209,27 @@ class user_deal extends Controller
         }
         
         $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
+        $data = [];
+        foreach($list as $val){
+            @$data[$val["accept_adminid"]][]=$val["require_id"];
+        }
+
+        foreach($data as $k=>$item){
+            $grab_num = count($item);
+            $plan_num = $this->t_test_lesson_subject_require->get_planed_lesson_num($item,$k,$start_time,time());
+            $per = $grab_num/($plan_num+$grab_num);
+            $account = $this->t_manager_info->get_account($k);
+            if($per>0.25){
+                return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
+            }
+        }
        
-        dd($list);
+        dd($data);
 
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
+        $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
+
         //教务数据
         $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
         $set_count_seller =$set_count_kk=$set_count_hls=0;

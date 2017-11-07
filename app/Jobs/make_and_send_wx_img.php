@@ -11,8 +11,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class make_and_send_wx_img extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
+    use Yxyx\Core\Media;
+    use Yxyx\Core\AccessToken;
+    use LaneWeChat\Core\ResponsePassive;
+
 
     var $wx_openid;
+    var $id;
+    var $request;
     var $phone;
     var $bg_url;
     /**
@@ -20,12 +26,14 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($wx_openid,$phone,$bg_url  )
+    public function __construct($id,$wx_openid,$phone,$bg_url,$request )
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
         $this->phone       = $phone;
         $this->bg_url      = $bg_url;
+        $this->id          = $id;
+        $this->request     = $request;
     }
 
     /**
@@ -103,6 +111,58 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imagedestroy($image_6);
         // return $agent_qr_url;
 
+        // $img_url = '/tmp/yxyx_'.$phone.'.png';
+        $type = 'image';
+        $num = rand();
+        $img_Long = file_get_contents($agent_qu_url);
+        file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+        $img_url = public_path().'/wximg/'.$num.'.png';
+        $img_url = realpath($img_url);
+
+        $mediaId = Media::upload($img_url, $type);
+        \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
+
+        $mediaId = $mediaId['media_id'];
+        unlink($img_url);
+
+        $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
+        \App\Helper\Utils::exec_cmd($cmd_rm);
+
+        $t_agent = new \App\Models\t_agent();
+        $t_agent->set_add_type_2( $this->id );
+        if ( \App\Helper\Utils::check_env_is_release() ) {
+            return ResponsePassive::image($this->request['fromusername'], $this->request['tousername'], $mediaId);
+        }else{
+
+            if (\App\Helper\Utils::check_env_is_test()) {
+                $txt_arr = [
+                    'touser'   => $this->request['tousername'] ,
+                    'msgtype'  => 'image',
+                    "image"=> [
+                        "media_id" => "$mediaId"
+                    ],
+                ];
+                $txt = self::ch_json_encode($txt_arr);
+                $token = AccessToken::getAccessToken();
+                $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+                $txt_ret = self::https_post($url,$txt);
+                \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+
+            }
+            return ResponsePassive::image($this->request['fromusername'], $this->request['tousername'], $mediaId);
+        }
+
     }
+
+    public static function https_post($url,$data){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
 
 }
