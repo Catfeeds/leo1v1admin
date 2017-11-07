@@ -121,21 +121,24 @@ $(function(){
     });
 
     $("#id_add_teacher_money").on("click",function(){
-	    var id_teacherid  = $("<input/>");
-	    var id_type       = $("<select/>");
-	    var id_money      = $("<input/>");
-	    var id_money_info = $("<input/>");
-	    var id_add_time   = $("<input/>");
+	      var id_teacherid  = $("<input/>");
+	      var id_type       = $("<select/>");
+	      var id_money      = $("<input/>");
+	      var id_money_info = $("<input/>");
+	      var id_grade      = $("<input/>");
+	      var id_add_time   = $("<input/>");
 
         var arr = [
             ["老师",id_teacherid],
             ["类型",id_type],
-            ["---","伯乐奖不用填写金额"],
+            ["年级",id_grade],
             ["金额",id_money],
             ["金额信息",id_money_info],
             ["添加时间",id_add_time],
         ];
+
         Enum_map.append_option_list("reward_type",id_type,true);
+        Enum_map.append_option_list("grade",id_grade,true);
 
         $.show_key_value_table("添加奖励",arr,{
             label    : "确认",
@@ -147,6 +150,7 @@ $(function(){
                     "money_info" : id_money_info.val(),
                     "money"      : id_money.val()*100,
                     "add_time"   : id_add_time.val(),
+                    "grade"      : id_grade.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
@@ -162,9 +166,19 @@ $(function(){
 		            format     : 'Y-m-d H:i',
 	          });
             $.admin_select_user(id_teacherid,"teacher");
+
+            var reward_type = id_type.val();
+
+            if(reward_type==7){
+                id_grade.show();
+            }else if(reward_type==6){
+                id_money.hide();
+            }else{
+                id_grade.hide();
+                id_money.show();
+            }
+
         });
-
-
     });
 
 });
