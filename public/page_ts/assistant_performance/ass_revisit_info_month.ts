@@ -36,7 +36,9 @@ $(function(){
             if(userid>0){
                 alert(userid);
                 $.do_ajax("/ajax_deal2/get_ass_revisit_info_detail",{
-                    "userid"       : userid
+                    "userid"       : userid,
+                    "start_time"   : g_args.start_time,
+                    "account"      : 
                 },function(resp){
                     console.log(resp.data);
                     var data = resp;
