@@ -909,7 +909,8 @@ class common extends Controller
         if ($name != '') {
             $qiniu     = \App\Helper\Config::get_config("qiniu");
             $qiniu_url = $qiniu['public']['url'];
-            \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
+            $ret = \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
+            return $ret;
         }
     }
     public function resize_img($url,$path='/tmp/'){

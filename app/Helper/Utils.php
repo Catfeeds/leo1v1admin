@@ -740,11 +740,7 @@ class Utils  {
 
         $err = $bucketMgr->delete($bucket, $file);
 
-        if($err !== null) {
-            return false;
-        } else {
-            return true;
-        }
+        return $err;
     }
 
 
