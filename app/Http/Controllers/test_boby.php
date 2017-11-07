@@ -953,6 +953,12 @@ class test_boby extends Controller
 
     public function del_img(){
 
+
+        $openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
+        $phone = '18898881852';
+        $img_url = \App\Helper\Utils::get_agent_qr_new($openid,$phone);//得到图片资源
+        return $img_url;
+
     }
 
 }
