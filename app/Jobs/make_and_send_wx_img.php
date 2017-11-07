@@ -121,8 +121,8 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
+        // $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
+        // \App\Helper\Utils::exec_cmd($cmd_rm);
 
         $t_agent = new \App\Models\t_agent();
         $t_agent->set_add_type_2( $this->id );
