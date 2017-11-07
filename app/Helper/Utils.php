@@ -1906,7 +1906,7 @@ class Utils  {
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_".$phone_qr_name;
+        $agent_qr_url = "/tmp/yxyx_".$phone.'.png';
         imagepng($image_3,$agent_qr_url);
 
         $cmd_rm = "rm /tmp/".$phone."*.png";
