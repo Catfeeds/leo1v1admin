@@ -331,6 +331,10 @@ class teacher_money extends Controller
             $year  = date("Y");
             $month = date("m");
             $grade = $val['grade'];
+            $list[] = [
+                "year"=>$year,
+                "month"=>$month,
+            ];
         }
 
         return $this->output_succ(["data"=>$ret_list]);
