@@ -7,12 +7,12 @@ use App\Enums as E;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Yxyx\Core\Media;
 
 class make_and_send_wx_img extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    use Yxyx\Core\Media;
     use LaneWeChat\Core\ResponsePassive;
     use Yxyx\Core\AccessToken;
     var $wx_openid;
