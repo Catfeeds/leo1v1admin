@@ -969,7 +969,8 @@ class test_boby extends Controller
         $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
 
         $request = [];
-        $task= \App\Jobs\make_and_send_wx_img(4117,$wx_openid,$phone,$bg_url,$qr_code_url,$request);
+
+        $task=new \App\Jobs\make_and_send_wx_img(4117,$wx_openid,$phone,$bg_url,$qr_code_url,$request);
         $task->handle();
 
     }
