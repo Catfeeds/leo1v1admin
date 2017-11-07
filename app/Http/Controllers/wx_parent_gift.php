@@ -431,7 +431,7 @@ class wx_parent_gift extends Controller
         }
 
         // $prize_type = $this->get_win_rate($stu_type,$parentid);
-        $prize_type =1;//测试
+        $prize_type = 8; //测试
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
@@ -446,7 +446,7 @@ class wx_parent_gift extends Controller
                     $prize_type=8;
                 }
                 if($prize_type == 1 && $is_test <=0){ // 未试听过的人不能获得书包
-                    $prize_type = 2;
+                    $prize_type = 8;
                 }
 
             }elseif($stu_type ==2){
