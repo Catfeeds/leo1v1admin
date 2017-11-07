@@ -30,8 +30,13 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>助教</td>
-                    <td>数量</td>
+                    <td>老师</td>
+                    <td>第一科目</td>
+                    <td>第一年级</td>
+                    <td>类型</td>
+                    <td>课的科目</td>
+                    <td>课的年级</td>
+                    <td>上课时间</td>
                                                                     
                     <td>操作 </td>
                 </tr>

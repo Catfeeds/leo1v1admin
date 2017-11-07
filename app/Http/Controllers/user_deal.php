@@ -3183,8 +3183,16 @@ class user_deal extends Controller
         $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
         foreach($all_train_through_lesson_teacher as &$item){
             E\Esubject::set_item_value_str($item,"subject"); 
+            E\Esubject::set_item_value_str($item,"t_subject"); 
             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");           
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+
         }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($all_train_through_lesson_teacher));
 
         dd($all_train_through_lesson_teacher);
 
