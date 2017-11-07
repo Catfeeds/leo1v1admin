@@ -3466,6 +3466,7 @@ ORDER BY require_time ASC";
     public function get_planed_lesson_num($requireid_list,$accept_adminid,$start_time,$end_time){
         $where_arr=[
             ["tr.accept_adminid=%u",$accept_adminid,-1],            
+            "tr.test_lesson_student_status in(210,220,290,300,301,302,420)"
         ];
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_not_in_str( "tr.require_id", $requireid_list);

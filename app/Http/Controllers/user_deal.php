@@ -3179,6 +3179,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {       
         $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
+        $rr =$this->check_jw_plan_limit($requireids);
+        dd($rr);
         $requireid_list =[];
         $arr=explode(",",$requireids);
         foreach($arr as $v){
@@ -3204,7 +3206,12 @@ class user_deal extends Controller
 
         foreach($data as $k=>$item){
             $grab_num = count($item);
-            $plan_num = $this->t_test_lesson_subject_require->get_planed_lesson_num($item);
+            $plan_num = $this->t_test_lesson_subject_require->get_planed_lesson_num($item,$k,$start_time,time());
+            $per = $grab_num/($plan_num+$grab_num);
+            $account = $this->t_manager_info->get_account($k);
+            if($per>0.25){
+                return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
+            }
         }
        
         dd($data);
