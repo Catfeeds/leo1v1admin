@@ -2771,10 +2771,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_agent_order_info($userid,$create_time ) {
+
+        $check_time=strtotime("2017-10-30");
         $where_arr = [
             ["order_time > %u ", $create_time,0 ],
             'order_status in (1,2)',
-            'contract_type in (0,3) ',
+            "((contract_type in (0,3) and  order_time < $check_time ) or contract_type in (0)  )",
             ['userid=%u',  $userid ],
         ];
         $sql= $this->gen_sql_new("select pay_time, orderid, price from %s where %s limit 1 ",

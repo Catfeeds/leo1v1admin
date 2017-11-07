@@ -700,9 +700,9 @@ class common extends Controller
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         if ( \App\Helper\Utils::check_env_is_test() ) {
-            $phone_qr_name = $phone."_qr_agent_pxx_new.png";
+            $phone_qr_name = $phone."_qr_agent_test_new.png";
         }else{
-            $phone_qr_name = $phone."_qr_agent_pxx_new.png";
+            $phone_qr_name = $phone."_qr_agent_gkk_new.png";
         }
         $qiniu_url     = $qiniu['public']['url'];
         \App\Helper\Utils::logger("CHECK is_exists start");
@@ -812,6 +812,27 @@ class common extends Controller
         }
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        //判断是否更新微信头像
+        // if ($old_headimgurl != $headimgurl) {
+        //     $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
+        //     if($is_exists) {
+        //         //删除七牛图片
+        //         \App\Helper\Utils::qiniu_del_file($qiniu_url,$phone_qr_name);
+        //     }
+        //     $is_exists = false;
+        // }
+
+        if(!$is_exists){
+            if (\App\Helper\Utils::check_env_is_test() ) {
+                $www_url="test.www.leo1v1.com";
+            }else{
+                $www_url="www.leo1v1.com";
+            }
+
+            $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
+            $qr_url       = "/tmp/".$phone.".png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
@@ -825,30 +846,9 @@ class common extends Controller
         $output = curl_exec($ch);
         curl_close($ch);
         $data = json_decode($output,true);
-        $old_headimgurl = $row['headimgurl'];
+//        $old_headimgurl = $row['headimgurl'];
         $headimgurl = $data['headimgurl'];
-        //判断是否更新微信头像
-        $agent_qr_url = "/tmp/".$phone_qr_name;
-        if ($old_headimgurl != $headimgurl) {
-            $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
-            if($is_exists) {
-                //删除七牛图片
-                \App\Helper\Utils::qiniu_del_file($agent_qr_url);
-            }
-            $is_exists = false;
-        }
 
-        if(!$is_exists){
-            if (\App\Helper\Utils::check_env_is_test() ) {
-                $www_url="test.www.leo1v1.com";
-            }else{
-                $www_url="www.leo1v1.com";
-            }
-
-            $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
-            $qr_url       = "/tmp/".$phone.".png";
-            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_5 = imagecreatefromjpeg($headimgurl);
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
@@ -880,6 +880,7 @@ class common extends Controller
                 }
             }
 
+            $agent_qr_url = "/tmp/".$phone_qr_name;
             imagepng($image_3,$agent_qr_url);
 
 
