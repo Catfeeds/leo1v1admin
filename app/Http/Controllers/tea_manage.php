@@ -2292,6 +2292,8 @@ class tea_manage extends Controller
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];
+            }else{
+                $teacherid=0;
             }
         }
 
