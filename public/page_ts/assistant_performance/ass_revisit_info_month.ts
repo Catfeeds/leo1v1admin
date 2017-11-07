@@ -41,10 +41,9 @@ $(function(){
                     "start_time"   : g_args.start_time,
                     "account"      : account
                 },function(resp){
-                    console.log(resp.data);
                     var data = resp;
-                    $tr.find(".person_num").text(data.person_num); 
-                    $tr.find(".have_order").text(data.have_order); 
+                    $tr.find(".first_need").text(data.first_need); 
+                    $tr.find(".first_real").text(data.first_real); 
                 
                 
                 do_index++;

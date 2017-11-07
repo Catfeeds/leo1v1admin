@@ -1958,4 +1958,20 @@ class ajax_deal2 extends Controller
         $this->test_jack_new($adminid);
         return $this->output_succ();
     }
+
+    public function get_ass_revisit_info_detail(){
+        $userid= $this->get_in_int_val("userid");
+        $start_time= $this->get_in_str_val("start_time");
+        $account= $this->get_in_int_val("account");
+        $month_start = strtotime($start_time);
+        $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
+        $cur_start = $month_start+15*86400;
+        $cur_end =  $month_end;
+        $last_start = $month_start;
+        $last_end =  $month_start+15*86400;
+        $ass_assign_time= $this->t_student_info->get_ass_assign_time($userid);
+        // $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
+        // $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
+
+    }
 }
