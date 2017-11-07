@@ -61,8 +61,7 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     }
 
     public function check_has_left($prize_type,$stu_type){
-        // $today = strtotime(date('Y-m-d'));
-        $today = '1509897600'; //测试
+        $today = strtotime(date('Y-m-d'));
         $where_arr = [
             ["prize_type=%u",$prize_type,0],
             ["validity_time=%u",$today,0],
