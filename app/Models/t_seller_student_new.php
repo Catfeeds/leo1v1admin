@@ -2521,7 +2521,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." tq.is_called_phone "
             ." from %s n"
             ." left join %s tq on tq.phone=n.phone"
-            ." where n.add_time>=1506787200 and n.add_time<1510070400 order by n.add_time and n.userid=418571 "
+            ." where n.add_time>=1506787200 and n.add_time<1510070400 and n.userid=418571 order by n.add_time "
             ,self::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
         );
