@@ -123,6 +123,8 @@ class wx_parent_common extends Controller
                 "wx_openid" => $wx_openid
             ]);
 
+            session(["parentid" => $parentid]);
+
             return $this->output_succ(["type"=>$market_activity_type,"parentid"=> $parentid]);
         }
 
