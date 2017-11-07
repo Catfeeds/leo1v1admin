@@ -250,6 +250,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 $where_arr[]="tr.seller_top_flag=0 and tr.is_green_flag=1";
             }elseif($lesson_plan_style==3){
                 $where_arr[]="tr.seller_top_flag=0 and tr.is_green_flag=0";
+            }elseif($lesson_plan_style==4){
+                $where_arr[]="tss.grab_flag =1";
             }
 
 

@@ -194,6 +194,7 @@
                             <option value="1">top25</option>
                             <option value="2">绿色通道</option>
                             <option value="3">常规排课</option>
+                            <option value="4">抢课排课</option>
                         </select>
                     </div>
                 </div>
