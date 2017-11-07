@@ -1970,6 +1970,10 @@ class ajax_deal2 extends Controller
         $last_start = $month_start;
         $last_end =  $month_start+15*86400;
         $ass_assign_time= $this->t_student_info->get_ass_assign_time($userid);
+        if($ass_assign_time <= $last_start){
+            $first_need=1;
+            $second_need=1;
+        }
         // $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
         // $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
 

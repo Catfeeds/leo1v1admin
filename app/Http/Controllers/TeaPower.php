@@ -4040,8 +4040,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             if($item['lesson_price']>0){
                 $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
-            }else{
-                $item['lesson_cost_tax'] = 0;
             }
         }
         array_multisort($start_list,SORT_DESC,$list);
