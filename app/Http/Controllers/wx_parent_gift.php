@@ -487,6 +487,14 @@ class wx_parent_gift extends Controller
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
         // 发送推送
 
+        if($active_num == 1){
+            if($stu_type == 1){ // 新用户
+
+            }elseif($stu_type == 2){ //老用户
+
+            }
+        }
+
         return $this->output_succ(['prize'=>$prize_type]);
     }
 

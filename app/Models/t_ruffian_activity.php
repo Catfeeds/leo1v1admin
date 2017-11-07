@@ -115,7 +115,13 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     }
 
     public function get_active_num($parentid){
-        
+        $sql = $this->gen_sql_new("  select count(*) from %s ru "
+                                  ." where parentid = %d"
+                                  ,self::DB_TABLE_NAME
+                                  ,$parentid
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

@@ -322,7 +322,7 @@ class teacher_money extends Controller
      * 获取春晖奖
      */
     public function get_teacher_chunhui_reward(){
-        $start_time = strtotime("2017-11-1");
+        $start_time = strtotime("2017-9-1");
         $chunhui_list = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
 
         $ret_list   = [];
