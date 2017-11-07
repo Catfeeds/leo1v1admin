@@ -418,8 +418,7 @@ class wx_parent_gift extends Controller
         $parentid = $this->get_parentid();
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
-        $check_time = strtotime('2017-11-4'); // 测试
-        // $check_time = strtotime('2017-11-7');
+        $check_time = strtotime('2017-11-7');
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
@@ -445,6 +444,10 @@ class wx_parent_gift extends Controller
                 }else{
                     $prize_type=8;
                 }
+                if($prize_type == 1 && $is_test <=0){ // 未试听过的人不能获得书包
+                    $prize_type = 2;
+                }
+
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
