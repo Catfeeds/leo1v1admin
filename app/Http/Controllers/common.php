@@ -803,16 +803,15 @@ class common extends Controller
             return "";
         }
 
-        // $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
 
-        // if ( \App\Helper\Utils::check_env_is_test() ) {
-        //     $phone_qr_name = $phone."_qr_agent_merber1.png";
-        // }else{
-        //     $phone_qr_name = $phone."_qr_agent_merber.png";
-        // }
-        // $qiniu_url     = $qiniu['public']['url'];
-        // $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-
+        if ( \App\Helper\Utils::check_env_is_test() ) {
+            $phone_qr_name = $phone."_qr_agent_merber1.png";
+        }else{
+            $phone_qr_name = $phone."_qr_agent_merber.png";
+        }
+        $qiniu_url     = $qiniu['public']['url'];
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         //判断是否更新微信头像
         // if ($old_headimgurl != $headimgurl) {
         //     $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
@@ -823,7 +822,7 @@ class common extends Controller
         //     $is_exists = false;
         // }
 
-        // if(!$is_exists){
+        if(!$is_exists){
             if (\App\Helper\Utils::check_env_is_test() ) {
                 $www_url="test.www.leo1v1.com";
             }else{
@@ -881,17 +880,15 @@ class common extends Controller
                 }
             }
 
-            $agent_qr_url = "/tmp/yxyx_".$phone_qr_name;
+            $agent_qr_url = "/tmp/".$phone_qr_name;
             imagepng($image_3,$agent_qr_url);
 
 
-            // $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-            // sleep(3);
-
-            // if($file_name!=''){
+            $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
+            if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
                 \App\Helper\Utils::exec_cmd($cmd_rm);
-            // }
+            }
 
             imagedestroy($image_1);
             imagedestroy($image_2);
@@ -899,24 +896,20 @@ class common extends Controller
             imagedestroy($image_4);
             imagedestroy($image_5);
             imagedestroy($image_6);
-        // }else{
-        //     $file_name=$phone_qr_name;
-        // }
+        }else{
+            $file_name=$phone_qr_name;
+        }
 
-        $file_url = $www_url."/".$agent_qu_url;
+        $file_url = $qiniu_url."/".$file_name;
         return $file_url;
     }
 
     public function del_qiniu_img(){
         $name = $this->get_in_str_val('name','');
         if ($name != '') {
-            // $qiniu     = \App\Helper\Config::get_config("qiniu");
-            // $qiniu_url = $qiniu['public']['url'];
-            // $ret = \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
-            // return $ret;
-            $cmd_rm = "rm /tmp/".$name;
-            \App\Helper\Utils::exec_cmd($cmd_rm);
-
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $qiniu_url = $qiniu['public']['url'];
+            \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
         }
     }
     public function resize_img($url,$path='/tmp/'){
