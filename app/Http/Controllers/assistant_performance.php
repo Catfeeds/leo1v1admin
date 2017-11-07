@@ -19,7 +19,7 @@ class assistant_performance extends Controller
         $assistantid = $this->t_assistant_info->get_assistantid( $account);
         $ret_info = $this->t_student_info->get_assistant_read_stu_info($assistantid);
         $month_start = strtotime(date("Y-m-01",time()));
-        $month_end = strtotime(date($month_end_str));
+        $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
         $cur_start = $month_start+15*86400;
         $cur_end =  $month_end;
         $last_start = $month_start;

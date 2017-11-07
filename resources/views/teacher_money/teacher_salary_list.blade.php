@@ -10,29 +10,8 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span>工资类型</span>
-                        <select class="opt-change" id="id_teacher_money_type">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span>老师身份</span>
-                        <select class="opt-change" id="id_teacher_type">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
                         <span>推荐人</span>
                         <input class="opt-change" id="id_reference"/>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span>等级</span>
-                        <select class="opt-change" id="id_level">
-                        </select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-10">
