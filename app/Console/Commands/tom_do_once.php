@@ -56,6 +56,7 @@ class tom_do_once extends Command
      */
     public function handle()
     {
+        $userid_arr = [];
         $ret = $this->task->t_seller_student_new->get_all_list();
         foreach($ret as $item){
             $num = 0;
@@ -72,8 +73,10 @@ class tom_do_once extends Command
                     $num += 1;
                 }
             }
-            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            // $userid_arr[] = $userid;
             echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+            // $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            // echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
 
 
