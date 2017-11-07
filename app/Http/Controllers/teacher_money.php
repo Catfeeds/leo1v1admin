@@ -325,8 +325,13 @@ class teacher_money extends Controller
         $start_time = strtotime("2017-11-1");
         $ret_list   = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
 
+        \App\Helper\Utils::debug_to_html( $ret_list );
+        $list = [];
         foreach($ret_list as $val){
-            
+            $year  = date("Y");
+            $month = date("m");
+            $grade = $val['grade'];
+
         }
 
         return $this->output_succ(["data"=>$ret_list]);

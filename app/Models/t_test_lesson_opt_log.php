@@ -19,7 +19,7 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
         if($test_lesson_type == E\Etest_lesson_type::V_1){
             $where_arr[] = 'o.lessonid>0';
         }elseif($test_lesson_type == E\Etest_lesson_type::V_2){
-            $where_arr[] = 'o.roomid>0';
+            $where_arr[] = 'o.roomid>0 and o.lessonid=0';
         }
         if ($user_name) {
             $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or s.phone like '%s%%' )",
@@ -36,7 +36,7 @@ class t_test_lesson_opt_log extends \App\Models\Zgen\z_t_test_lesson_opt_log
             ." left join %s t on t.teacherid=o.userid and o.role=%u "
             ." left join %s m on m.phone=t.phone "
             ." left join %s s on s.userid=o.userid and o.role=%u "
-            ." where %s "
+            ." where %s order by o.opt_time desc"
             ,self::DB_TABLE_NAME
             ,t_teacher_info::DB_TABLE_NAME
             ,$role_c
