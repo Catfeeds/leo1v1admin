@@ -23,38 +23,38 @@ class seller_order_money_201710  extends  seller_order_money_base
         $ret_arr=$tt->t_order_info->get_seller_money_info($adminid,$start_time,$end_time);
         //获取分期不分期金额
         // $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
-        $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
-        $sort_new = [];
-        $sort_new_two = [];
-        $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
-        foreach($parent_orderid_arr as $info){
-            foreach($sort as $item){
-                if($item['parent_orderid'] == $info){
-                    $sort_new[$info][] = $item;
-                }
-            }
-        }
-        foreach($sort_new as $item){
-            foreach($item as $info){
-                $type = $info['child_order_type'];
-                $parent_orderid = $info['parent_orderid'];
-                $price = $info['price'];
-                if($type == 2){
-                    $sort_new_two[$parent_orderid]['stage_money'] = $price;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
-                    break;
-                }else{
-                    $sort_new_two[$parent_orderid]['stage_money'] = 0;
-                    $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
-                }
-            }
-        }
-        $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money'))/100:0;
-        $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money'))/100:0;
-        $ret_arr['stage_money'] = $stage_money;
-        $ret_arr['no_stage_money'] = $no_stage_money;
-        $stage_money = $ret_arr['stage_money'];
-        $no_stage_money = $ret_arr['no_stage_money'];
+        // $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
+        // $sort_new = [];
+        // $sort_new_two = [];
+        // $parent_orderid_arr = array_unique(array_column($sort,'parent_orderid'));
+        // foreach($parent_orderid_arr as $info){
+        //     foreach($sort as $item){
+        //         if($item['parent_orderid'] == $info){
+        //             $sort_new[$info][] = $item;
+        //         }
+        //     }
+        // }
+        // foreach($sort_new as $item){
+        //     foreach($item as $info){
+        //         $type = $info['child_order_type'];
+        //         $parent_orderid = $info['parent_orderid'];
+        //         $price = $info['price'];
+        //         if($type == 2){
+        //             $sort_new_two[$parent_orderid]['stage_money'] = $price;
+        //             $sort_new_two[$parent_orderid]['no_stage_money'] = 0;
+        //             break;
+        //         }else{
+        //             $sort_new_two[$parent_orderid]['stage_money'] = 0;
+        //             $sort_new_two[$parent_orderid]['no_stage_money'] = $price;
+        //         }
+        //     }
+        // }
+        // $stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'stage_money'))/100:0;
+        // $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money'))/100:0;
+        // $ret_arr['stage_money'] = $stage_money;
+        // $ret_arr['no_stage_money'] = $no_stage_money;
+        // $stage_money = $ret_arr['stage_money'];
+        // $no_stage_money = $ret_arr['no_stage_money'];
 
         // $ret_arr["all_price"] = $ret_arr['stage_money']*0.8+$ret_arr['no_stage_money'];
 
