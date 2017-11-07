@@ -26,7 +26,6 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $this->wx_openid   = $wx_openid;
         $this->phone       = $phone;
         $this->bg_url      = $bg_url;
-        $this->qr_code_url = $qr_code_url;
     }
 
     /**
