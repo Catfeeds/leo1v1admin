@@ -579,7 +579,7 @@ class WechatRequest  {
 
             $img_url = '/tmp/yxyx_'.$phone.'.png';
             if ( !file_exists($img_url) ) {
-                sleep(3);
+                sleep(5);
             }
             $type = 'image';
             $num = rand();
