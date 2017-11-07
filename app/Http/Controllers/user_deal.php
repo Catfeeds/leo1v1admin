@@ -3178,13 +3178,22 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-11-01");
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
         $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
         foreach($all_train_through_lesson_teacher as &$item){
             E\Esubject::set_item_value_str($item,"subject"); 
+            E\Esubject::set_item_value_str($item,"t_subject"); 
             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");           
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Econtract_type::set_item_value_str($item,"lesson_type");
+
         }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($all_train_through_lesson_teacher));
 
         dd($all_train_through_lesson_teacher);
 
