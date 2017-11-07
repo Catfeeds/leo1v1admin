@@ -18,6 +18,7 @@ interface GargsStatic {
 	fulltime_flag:	number;
 	id_train_through_new_time:	number;
 	id_train_through_new:	number;
+	zs_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -106,7 +107,8 @@ function load_data(){
 		full_time:	$('#id_full_time').val(),
 		fulltime_flag:	$('#id_fulltime_flag').val(),
 		id_train_through_new_time:	$('#id_id_train_through_new_time').val(),
-		id_train_through_new:	$('#id_id_train_through_new').val()
+		id_train_through_new:	$('#id_id_train_through_new').val(),
+		zs_flag:	$('#id_zs_flag').val()
     });
 }
 $(function(){
@@ -134,6 +136,7 @@ $(function(){
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 	$('#id_id_train_through_new_time').val(g_args.id_train_through_new_time);
 	$('#id_id_train_through_new').val(g_args.id_train_through_new);
+	$('#id_zs_flag').val(g_args.zs_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -225,6 +228,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">id_train_through_new</span>
                 <input class="opt-change form-control" id="id_id_train_through_new" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">zs_flag</span>
+                <input class="opt-change form-control" id="id_zs_flag" />
             </div>
         </div>
 */
