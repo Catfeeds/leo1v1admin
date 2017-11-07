@@ -867,7 +867,7 @@ class test_boby extends Controller
         //     return "";
         // }
 
-        // $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
 
         $phone = '1969696';
         if ( \App\Helper\Utils::check_env_is_test() ) {
@@ -875,7 +875,7 @@ class test_boby extends Controller
         }else{
             $phone_qr_name = $phone."_qr_agent_merber.png";
         }
-        // $qiniu_url     = $qiniu['public']['url'];
+        $qiniu_url     = $qiniu['public']['url'];
         // $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
 
         //判断是否更新微信头像
