@@ -2496,7 +2496,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(
             " select userid,phone,test_lesson_count,free_adminid,free_time,last_succ_test_lessonid,cc_no_called_count "
             ." from %s "
-            ." order by userid "
+            ." where add_time>=1501516800 and add_time<1510070400 order by userid "
             ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
