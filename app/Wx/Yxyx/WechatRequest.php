@@ -576,9 +576,8 @@ class WechatRequest  {
             // $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             // $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
             // dispatch( new \App\Jobs\make_and_send_wx_img($agent['id'],$openid,$phone,$bg_url,$qr_code_url,$request) );
+            // $img_url = '/tmp/yxyx_'.$phone.'.png';
 
-
-            $img_url = '/tmp/yxyx_'.$phone.'.png';
             $type = 'image';
             $num = rand();
             $img_Long = file_get_contents($img_url);
