@@ -465,6 +465,17 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $sort = $this->t_order_info->get_sort_order_count_money_new_two($start_time=1506960000,$end_time=1509465600);
+        $sort_new = [];
+        foreach($sort as $info){
+            $parent_orderid = $info['parent_orderid'];
+            $type = $info['child_order_type'];
+            if($type == 2){
+                $sort_new[] = $info;
+                $this->t_order_info->field_update_list($parent_orderid,['can_period_flag'=>1]);
+            }
+        }
+        dd($sort,$sort_new);
     }
 
     //处理等级头像
