@@ -146,7 +146,7 @@ class Wx{
                 if (\App\Helper\Utils::check_env_is_release() ) {
                     if (!in_array(  $ret["errcode"], [43004  ,40003])) {
                         dispatch( new \App\Jobs\send_error_mail(
-                            "","WX ERR: $template_id ", json_encode($ret)  ));
+                            "","KK WX ERR: $template_id ", json_encode($ret)  ));
                     }
                 }
                 return false;
