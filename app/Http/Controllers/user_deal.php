@@ -3178,6 +3178,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-11-01");
+        $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
+        dd($all_train_through_lesson_teacher);
+
         $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
         $rr =$this->check_jw_plan_limit($requireids);
         dd($rr);
@@ -3218,6 +3223,8 @@ class user_deal extends Controller
 
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
+        $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
+
         //教务数据
         $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
         $set_count_seller =$set_count_kk=$set_count_hls=0;

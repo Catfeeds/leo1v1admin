@@ -1620,12 +1620,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_all_train_through_lesson_teacher_list($start_time,$end_time,$research_teacher_flag=-1){
-        //$time = time();
-        $time = $start_time;
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "t.train_through_new_time<".$time,
             "t.train_through_new_time>0",
             "t.train_through_new=1",            
             "l.lesson_del_flag=0",
@@ -1639,16 +1636,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]="(m.account_role is null or m.account_role !=4)";
         }
 
-        $sql = $this->gen_sql_new("select distinct l.teacherid"
-                                  ." from %s t "
-                                  ." left join %s tf on t.teacherid = tf.teacherid"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.subject,t.subject t_subject,"
+                                  ." l.lesson_type,l.lesson_start"
+                                  ." from %s l "
                                   ." left join %s l on t.teacherid = l.teacherid"
+                                  ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s m on t.phone = m.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_flow::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
