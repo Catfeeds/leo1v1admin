@@ -3181,6 +3181,11 @@ class user_deal extends Controller
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
         $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
+        foreach($all_train_through_lesson_teacher as &$item){
+            E\Esubject::set_item_value_str($item,"subject"); 
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+        }
+
         dd($all_train_through_lesson_teacher);
 
         $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";

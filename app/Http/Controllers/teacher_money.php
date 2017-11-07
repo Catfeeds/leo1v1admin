@@ -330,11 +330,12 @@ class teacher_money extends Controller
         $rank_lis   = [];
         $chunhui = array_flip(E\Echunhui_reward::$desc_map);
         foreach($chunhui_list as $val){
-            $year  = date("Y",$val['add_time']);
-            $month = date("n月",$val['add_time']);
+            $year      = date("Y",$val['add_time']);
+            $month     = date("n月",$val['add_time']);
             $data_key  = $year."_".$month;
-            $grade_str = E\Egrade::get_desc($val['grade']);
-            $money = $val['money'];
+            $grade     = $val['grade'];
+            $grade_str = E\Egrade::get_desc($grade);
+            $money     = $val['money'];
 
             if(isset($chunhui[$money])){
                 $rank = $chunhui[$money];
@@ -342,7 +343,7 @@ class teacher_money extends Controller
                 continue;
             }
 
-            $grade_list[$grade_str][] = [
+            $grade_list[$grade][] = [
                 "rank" => $rank,
                 "name" => $val['nick'],
             ];

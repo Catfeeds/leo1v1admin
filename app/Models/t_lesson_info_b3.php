@@ -1637,13 +1637,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }
 
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.subject,t.subject t_subject,"
-                                  ." l.lesson_type,l.lesson_start"
+                                  ." l.lesson_type,l.lesson_start,l.lessonid"
                                   ." from %s l "
-                                  ." left join %s l on t.teacherid = l.teacherid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
                                   ." left join %s tf on t.teacherid = tf.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s m on t.phone = m.phone"
-                                  ." where %s",
+                                  ." where %s order by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_flow::DB_TABLE_NAME,
@@ -1651,9 +1651,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql,function($item){
-            return $item["teacherid"];
-        });
+        return $this->main_get_list($sql);
     }
 
 
