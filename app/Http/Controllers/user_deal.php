@@ -3178,8 +3178,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-08-16");
+        $end_time = strtotime("2017-09-01");
         $all_train_through_lesson_teacher= $this->t_lesson_info_b3->get_all_train_through_lesson_teacher_list($start_time,$end_time,0);
         foreach($all_train_through_lesson_teacher as &$item){
             E\Esubject::set_item_value_str($item,"subject"); 

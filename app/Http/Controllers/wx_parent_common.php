@@ -112,7 +112,7 @@ class wx_parent_common extends Controller
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
-        if($market_activity_type == 1){
+        if($market_activity_type >= 1 ){
             $passwd = 111111;
             $reg_channel = '';
             $ip = 0;
