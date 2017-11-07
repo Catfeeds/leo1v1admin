@@ -3189,6 +3189,7 @@ class user_deal extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");           
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Econtract_type::set_item_value_str($item,"lesson_type");
 
         }
 
