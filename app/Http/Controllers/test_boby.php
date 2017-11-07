@@ -967,8 +967,8 @@ class test_boby extends Controller
         $phone = uniqid();
         $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
         $qr_code_url = '';
-        $job=(new \App\Jobs\make_and_send_wx_img($wx_openid,$phone,$bg_url,$qr_code_url))->delay(3);
-        dispatch($job);
+        // $job=(new \App\Jobs\make_and_send_wx_img($wx_openid,$phone,$bg_url,$qr_code_url))->delay(3);
+        // dispatch($job);
 
     }
 
