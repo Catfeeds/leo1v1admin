@@ -1849,7 +1849,7 @@ class Utils  {
         }
     }
 
-   static public function get_headimgurl($wx_openid){
+   static public function et_headimgurl($wx_openid){
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
