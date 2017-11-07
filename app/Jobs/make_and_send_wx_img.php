@@ -70,7 +70,11 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         \App\Helper\Utils::logger("make_img_start");
 
-        $image_5 = imagecreatefromjpeg($headimgurl);
+        $datapath = "/tmp/".$this->phone.".png";
+        $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
+        shell_exec($wgetshell);
+       
+        $image_5 = imagecreatefromjpeg($datapath);
         \App\Helper\Utils::logger("get_head");
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         \App\Helper\Utils::logger("make_new");
