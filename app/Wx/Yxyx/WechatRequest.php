@@ -586,7 +586,7 @@ class WechatRequest  {
 
             $del_arr = explode('/',$url);
             $name    = array_pop($del_arr);
-            $del_url = "$base_url/common/del_qiniu_img?name=".$url;//删除七牛图片地址
+            $del_url = "$base_url/common/del_qiniu_img?name='".$url."'";//删除七牛图片地址
             self::https_post($del_url,$txt);
 
             $t_agent->set_add_type_2( $agent["id"]);
