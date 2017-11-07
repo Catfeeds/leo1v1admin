@@ -2055,8 +2055,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $wx->send_template_msg($xy_openid,$template_id,$data,$url);
 
             //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
-            $jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
-            $wx->send_template_msg($jim_openid,$template_id,$data,$url);
+            //$jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
+            //$wx->send_template_msg($jim_openid,$template_id,$data,$url);
 
             $succ_flag=false;
             $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
