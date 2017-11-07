@@ -898,11 +898,13 @@ class test_james extends Controller
 
     public function dd(){
 
-        $has_prize_id = $this->t_ruffian_activity->check_has_left(0,1);
+        // $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
 
-        dd($has_prize_id);
+        // $has_prize_id = $this->t_ruffian_activity->check_has_left(0,1);
 
-        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(419491);
+        // dd($has_prize_id);
+
+        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(179776);
 
         dd($is_test);
 

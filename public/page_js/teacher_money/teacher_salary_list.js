@@ -24,8 +24,9 @@ $(function(){
             load_data();
         }
     });
-    $.admin_select_user($("#id_reference"),"teacher",load_data);
+
     $("#id_reference").val(g_args.reference);
+    $.admin_select_user($("#id_reference"),"teacher",load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
 });

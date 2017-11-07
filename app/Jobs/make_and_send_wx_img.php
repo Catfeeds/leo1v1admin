@@ -47,6 +47,8 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      */
     public function handle()
     {
+        \App\Helper\Utils::logger("handle_start");
+
         $qr_url       = "/tmp/".$this->phone.".png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
@@ -128,7 +130,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $t_agent->set_add_type_2( $this->id );
 
         $txt_arr = [
-            'touser'   => $this->request['tousername'] ,
+            'touser'   => $this->request['fromusername'] ,
             'msgtype'  => 'image',
             "image"=> [
                 "media_id" => "$mediaId"
@@ -139,6 +141,8 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
+
+        \App\Helper\Utils::logger("handle_END");
         \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
 
 
