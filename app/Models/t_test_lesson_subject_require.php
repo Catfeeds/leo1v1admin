@@ -3452,4 +3452,9 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    public function get_require_info_by_requireid($requireid_list){
+        $where_arr=[];
+        
+    }
+
 }
