@@ -422,13 +422,13 @@
                                 老师是否可看到该课程: {!!  $var["lesson_used_flag_str"] !!} <br/>
                                 老师:{{$var["teacher_nick"]}} <br/>
                                 上课时间:{{$var["lesson_start"]}} <br/>
+                                @if($var["grab_flag"]==1)
+                                    是否抢课产生:{{$var["grab_flag_str"]}}<br>
+                                @endif
                                 <br/>
                                 课时确认(是否成功):{!!$var["success_flag_str"]!!} <br/>
                                 确认人:{!!$var["confirm_admin_nick"]!!} <br/>
                                 确认时间:{!!$var["confirm_time"]!!} <br/>
-                                @if($var["grab_flag"]==1)
-                                   是否抢课产生:{{$var["grab_flag_str"]}}
-                                @endif
                                 @if ($var["success_flag"]==2)
                                     是否付工资:
                                     @if ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
