@@ -61,9 +61,10 @@ class tom_do_once extends Command
             $num = 0;
             $userid = $item['userid'];
             $phone = $item['phone'];
+            $cc_no_called_count = $item['cc_no_called_count'];
             $tq_list = $this->task->t_tq_call_info->get_no_called_list($phone);
-            foreach($tq_list as $item){
-                $is_called_phone = $item['is_called_phone'];
+            foreach($tq_list as $info){
+                $is_called_phone = $info['is_called_phone'];
                 if($is_called_phone == 1){
                     $num = 0;
                     break;
@@ -72,7 +73,7 @@ class tom_do_once extends Command
                 }
             }
             $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-            echo $userid.':'.$item['cc_no_called_count']."=>".$num."\n";
+            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
 
 
