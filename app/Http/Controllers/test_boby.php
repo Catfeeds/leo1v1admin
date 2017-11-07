@@ -952,10 +952,6 @@ class test_boby extends Controller
     }
 
     public function del_img(){
-        $url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/19699696_qr_agent_merber.png';
-        $del_arr = explode('/',$url);
-        $name    = array_pop($del_arr);
-        $del_url = "leo1v1.com/common/del_qiniu_img?name=".$name;//删除七牛图片地址
 
     }
 
