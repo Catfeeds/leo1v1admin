@@ -337,7 +337,7 @@ class wx_parent_gift extends Controller
                 $item['stu_type'] = 1;
             }
 
-            if($item['prize_type'] != 1){
+            if($item['prize_type'] != 8  ){
                 $item['str'] = "购课满十课时即可使用，仅限".$item['phone']."使用。";
             }else{
                 $item['str'] = "";
