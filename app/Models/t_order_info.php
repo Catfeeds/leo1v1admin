@@ -2771,10 +2771,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_agent_order_info($userid,$create_time ) {
+
+        $check_time=strtotime("2017-10-30");
         $where_arr = [
             ["order_time > %u ", $create_time,0 ],
             'order_status in (1,2)',
-            'contract_type in (0,3) ',
+            "((contract_type in (0,3) and  order_time < $check_time ) or contract_type in (0)  )",
             ['userid=%u',  $userid ],
         ];
         $sql= $this->gen_sql_new("select pay_time, orderid, price from %s where %s limit 1 ",
@@ -3702,6 +3704,28 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             " select co.child_orderid,co.parent_orderid,co.child_order_type,o.price ".
             " from %s co ".
             " join %s o on co.parent_orderid = o.orderid".
+            " where %s "
+            ,t_child_order_info::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_sort_order_count_money_new_two($start_time,$end_time){
+        $where_arr = [
+            "o.contract_status in (1,2)",
+            "o.contract_type = 0",
+            // [ "o.sys_operator='%s'",  $sys_operator, "XXXX" ],
+            "o.price>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select co.child_orderid,co.parent_orderid,co.child_order_type,o.price ".
+            " from %s co ".
+            " left join %s o on co.parent_orderid = o.orderid".
             " where %s "
             ,t_child_order_info::DB_TABLE_NAME
             ,self::DB_TABLE_NAME

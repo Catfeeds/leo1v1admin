@@ -897,6 +897,16 @@ class test_james extends Controller
 
 
     public function dd(){
+
+        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(98191999);
+
+        dd($is_test);
+
+        $a = -1;
+        if(!$a){
+
+            dd(1);
+                }
         $openid = '111kisfkjedrjh';
 
         $prize_list = $this->t_ruffian_activity->get_prize_list(-1);

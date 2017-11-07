@@ -319,6 +319,43 @@ class teacher_money extends Controller
     }
 
     /**
+     * 获取春晖奖
+     */
+    public function get_teacher_chunhui_reward(){
+        $start_time = strtotime("2017-11-1");
+        $tea_list   = $this->t_teacher_money_list->get_teacher_chunhui_reward($start_time);
+
+        $list     = [];
+        $ret_list = [];
+        $add_time = 0;
+        if(is_array($tea_list)){
+            foreach($tea_list as $key=>$val){
+                if($add_time!=$val['add_time']){
+                    if(!empty($list)){
+                        $ret_list[]=$list;
+                        $list = [];
+                    }
+                    $add_time     = $val['add_time'];
+                    $list["year"] = date("Y",$val['add_time']);
+                    $end_time     = strtotime("-1 week",$val['add_time']);
+                    $list["time"] = date("m.d",$end_time)."-".date("m.d",($val['add_time']-86400));
+                }
+
+                $teacher["tea_nick"]     = $val['nick']==""?$val['realname']:$val['nick'];
+                $teacher["lesson_total"] = strval($val['lesson_total']/100);
+                $teacher["money"]        = strval($val['money']/100);
+                $list["list"][]          = $teacher;
+
+                if(($key+1)==count($tea_list)){
+                    $ret_list[]=$list;
+                    $list = [];
+                }
+            }
+        }
+
+        return $this->output_succ(["data"=>$ret_list]);
+    }
+    /**
      * 获取老师指定月份各个扣款免责次数
      */
     private function get_cost_num($teacherid,$start_time){

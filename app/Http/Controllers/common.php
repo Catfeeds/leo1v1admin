@@ -812,21 +812,6 @@ class common extends Controller
         }
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-
-        //请求微信头像
-        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
-        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $data = json_decode($output,true);
-        $old_headimgurl = $row['headimgurl'];
-        $headimgurl = $data['headimgurl'];
         //判断是否更新微信头像
         // if ($old_headimgurl != $headimgurl) {
         //     $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
@@ -849,6 +834,22 @@ class common extends Controller
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
+            //请求微信头像
+            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            //        $old_headimgurl = $row['headimgurl'];
+            $headimgurl = $data['headimgurl'];
+
+
             $image_5 = imagecreatefromjpeg($headimgurl);
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
@@ -867,7 +868,7 @@ class common extends Controller
 
             $r = 80; //圆半径
             for ($x = 0; $x < 160; $x++) {
-                for ($y = 0; $y <= 160; $y++) {
+                for ($y = 0; $y < 160; $y++) {
                     $rgbColor = imagecolorat($image_6, $x, $y);
                     $a = $x-$r;
                     $b = $y-$r;
@@ -892,6 +893,9 @@ class common extends Controller
             imagedestroy($image_1);
             imagedestroy($image_2);
             imagedestroy($image_3);
+            imagedestroy($image_4);
+            imagedestroy($image_5);
+            imagedestroy($image_6);
         }else{
             $file_name=$phone_qr_name;
         }
@@ -900,6 +904,14 @@ class common extends Controller
         return $file_url;
     }
 
+    public function del_qiniu_img(){
+        $name = $this->get_in_str_val('name','');
+        if ($name != '') {
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $qiniu_url = $qiniu['public']['url'];
+            \App\Helper\Utils::qiniu_del_file($qiniu_url,$name);
+        }
+    }
     public function resize_img($url,$path='/tmp/'){
         $imgname = $path.uniqid().'.jpg';
         $file = $url;
