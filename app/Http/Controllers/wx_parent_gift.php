@@ -354,8 +354,7 @@ class wx_parent_gift extends Controller
         }
 
         // 检查是否分享朋友圈 11.7-11.15[包含14号]
-        $start_time = strtotime('2017-11-4'); // 2017-11-07 分享朋友圈有效时间
-        // $start_time = strtotime('2017-11-7'); // 2017-11-07 分享朋友圈有效时间
+        $start_time = strtotime('2017-11-7'); // 2017-11-07 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-15'); // 分享朋友圈有效时间
 
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
@@ -389,8 +388,7 @@ class wx_parent_gift extends Controller
 
     public function get_luck_parent_info(){ // 获取家长抽奖信息
         $parentid   = $this->get_parentid();
-        $start_time = strtotime('2017-11-4'); // 2017-11-7 分享朋友圈有效时间
-        // $start_time = strtotime('2017-11-7'); // 2017-11-7 分享朋友圈有效时间
+        $start_time = strtotime('2017-11-7'); // 2017-11-7 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-15'); // 分享朋友圈有效时间
 
         if($parentid>0){
@@ -445,7 +443,7 @@ class wx_parent_gift extends Controller
                     $prize_type=8;
                 }
                 if($prize_type == 1 && $is_test <=0){ // 未试听过的人不能获得书包
-                    $prize_type = 2;
+                    $prize_type = 8;
                 }
 
             }elseif($stu_type ==2){

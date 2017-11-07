@@ -318,36 +318,15 @@ class teacher_money extends Controller
         return $this->output_succ(["data"=>$ret_list]);
     }
 
+    /**
+     * 获取春晖奖
+     */
     public function get_teacher_chunhui_reward(){
         $start_time = strtotime("2017-11-1");
-        $tea_list   = $this->t_teacher_money_list->get_teacher_lesson_total_list($start_time);
+        $ret_list   = $this->t_teacher_money_list->get_teacher_chunhui_reward($start_time);
 
-        $list     = [];
-        $ret_list = [];
-        $add_time = 0;
-        if(is_array($tea_list)){
-            foreach($tea_list as $key=>$val){
-                if($add_time!=$val['add_time']){
-                    if(!empty($list)){
-                        $ret_list[]=$list;
-                        $list = [];
-                    }
-                    $add_time     = $val['add_time'];
-                    $list["year"] = date("Y",$val['add_time']);
-                    $end_time     = strtotime("-1 week",$val['add_time']);
-                    $list["time"] = date("m.d",$end_time)."-".date("m.d",($val['add_time']-86400));
-                }
-
-                $teacher["tea_nick"]     = $val['nick']==""?$val['realname']:$val['nick'];
-                $teacher["lesson_total"] = strval($val['lesson_total']/100);
-                $teacher["money"]        = strval($val['money']/100);
-                $list["list"][]          = $teacher;
-
-                if(($key+1)==count($tea_list)){
-                    $ret_list[]=$list;
-                    $list = [];
-                }
-            }
+        foreach($ret_list as $val){
+            
         }
 
         return $this->output_succ(["data"=>$ret_list]);
@@ -402,12 +381,14 @@ class teacher_money extends Controller
      */
     public function add_teacher_reward(){
         $type       = $this->get_in_int_val("type");
+        $grade      = $this->get_in_int_val("grade");
         $teacherid  = $this->get_in_int_val("teacherid");
         $money_info = $this->get_in_str_val("money_info");
         $money      = $this->get_in_int_val("money");
         $add_date   = $this->get_in_str_val("add_time",date("Y-m-d",time()));
-        $add_time   = strtotime($add_date);
         $acc        = $this->get_account();
+
+        $add_time   = strtotime($add_date);
         if(in_array($type,[E\Ereward_type::V_1,E\Ereward_type::V_4])){
             if(!in_array($acc,["adrian","jim","sunny"])){
                 return $this->output_err("此用户没有添加奖励权限！");
@@ -422,8 +403,11 @@ class teacher_money extends Controller
             "money_info" => $money_info,
             "acc"        => $acc,
         ];
+
         if($type==E\Ereward_type::V_6){
             $this->add_reference_price($teacherid,$money_info,false);
+        }elseif($type == E\Ereward_type::V_7){
+            $update_arr['grade'] = $grade;
         }elseif($type != E\Ereward_type::V_1){
             $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
             if($check_flag){

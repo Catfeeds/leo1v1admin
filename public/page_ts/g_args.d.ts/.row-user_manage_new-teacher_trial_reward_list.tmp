@@ -5,7 +5,17 @@
 	type	:any;
 	teacherid	:any;
 	userid	:any;
+	acc	:any;
+	bankcard	:any;
+	bank_address	:any;
+	bank_account	:any;
+	bank_phone	:any;
+	bank_type	:any;
+	bank_province	:any;
+	bank_city	:any;
+	realname	:any;
+	identity	:any;
 	tea_nick	:any;
 	add_time_str	:any;
 	type_str	:any;
-	stu_nick	:any;
+	money_info_extra	:any;

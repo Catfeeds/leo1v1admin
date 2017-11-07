@@ -4558,7 +4558,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_quit=0 ",
             " t.is_test_user =0",
             "t.train_through_new_time<".$time,
-"t.train_through_new_time>0",
+            "t.train_through_new_time>0",
             "t.train_through_new=1",            
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.sleep_flag"
@@ -4579,7 +4579,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_quit=0 ",
             " t.is_test_user =0",
             "t.train_through_new_time<".$start_time,
-"t.train_through_new_time>0",
+            "t.train_through_new_time>0",
             "t.train_through_new=1",            
             "l.lesson_del_flag=0",
             "l.lesson_type <1000",
