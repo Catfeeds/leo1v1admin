@@ -4,6 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -18,10 +20,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../fulltime_teacher; vi  ../fulltime_teacher/fulltime_teacher_data.ts
+	 mkdir -p ../fulltime_teacher; vi  ../fulltime_teacher/get_fulltime_teacher_train_lesson_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/fulltime_teacher-fulltime_teacher_data.d.ts" />
+/// <reference path="../g_args.d.ts/fulltime_teacher-get_fulltime_teacher_train_lesson_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
