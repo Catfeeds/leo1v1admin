@@ -63,9 +63,9 @@ class t_ruffian_activity extends \App\Models\Zgen\z_t_ruffian_activity
     public function check_has_left($prize_type,$stu_type){
         $today = strtotime(date('Y-m-d'));
         $where_arr = [
-            ["prize_type=%u",$prize_type,0],
-            ["validity_time=%u",$today,0],
-            ["stu_type=%u",$stu_type,0],
+            ["prize_type=%u",$prize_type,-1],
+            ["validity_time=%u",$today,-1],
+            ["stu_type=%u",$stu_type,-1],
             "parentid=0",
         ];
 

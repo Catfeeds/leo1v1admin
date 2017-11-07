@@ -9,6 +9,7 @@ function load_data(){
 		    opt_date_type:	$('#id_opt_date_type').val(),
 		    start_time:	$('#id_start_time').val(),
 		    end_time:	$('#id_end_time').val()
+		    reference:	$('#id_reference').val()
     });
 }
 
@@ -23,7 +24,7 @@ $(function(){
             load_data();
         }
     });
-
+    $("#id_reference").val(g_args.reference);
 
 	$('.opt-change').set_input_change_event(load_data);
 });
