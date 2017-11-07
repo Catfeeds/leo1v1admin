@@ -471,7 +471,7 @@ class wx_parent_gift extends Controller
         $data_msg = [
             "first"     => "您好，您的双十一奖品券已存放进您的账户",
             "keyword1"  => "获奖详情",
-            "keyword2"  => "点击服务中心→奖品区即可兑换奖券",
+            "keyword2"  => "点击 个人中心→奖品区 即可兑换奖券",
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
 
