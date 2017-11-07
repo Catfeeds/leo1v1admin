@@ -68,7 +68,7 @@ class tom_do_once extends Command
                     if($is_called_phone == 1){
                         $num = 0;
                         break;
-                    }elseif($is_called_phone === 0){
+                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
                         $num += 1;
                     }
                 }
