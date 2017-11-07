@@ -53,8 +53,8 @@ class seller_order_money_201710  extends  seller_order_money_base
         // $no_stage_money = count($sort)>0?array_sum(array_column($sort_new_two,'no_stage_money'))/100:0;
         // $ret_arr['stage_money'] = $stage_money;
         // $ret_arr['no_stage_money'] = $no_stage_money;
-        // $stage_money = $ret_arr['stage_money'];
-        // $no_stage_money = $ret_arr['no_stage_money'];
+        $stage_money = $ret_arr['stage_money'];
+        $no_stage_money = $ret_arr['no_stage_money'];
 
         // $ret_arr["all_price"] = $ret_arr['stage_money']*0.8+$ret_arr['no_stage_money'];
 
