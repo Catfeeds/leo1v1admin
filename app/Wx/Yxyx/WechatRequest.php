@@ -574,7 +574,8 @@ class WechatRequest  {
             $img_url = self::get_img_url($url);//得到图片资源
 
             // $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-            // dispatch( new \App\Jobs\make_and_send_wx_img($agent['id'],$openid,$phone,$bg_url,$request ) );
+            // $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
+            // dispatch( new \App\Jobs\make_and_send_wx_img($agent['id'],$openid,$phone,$bg_url,$qr_code_url,$request) );
 
 
             $img_url = '/tmp/yxyx_'.$phone.'.png';

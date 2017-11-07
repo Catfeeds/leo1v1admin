@@ -3169,4 +3169,19 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_assistant_read_stu_info($assistantid){
+        $where_arr=[
+            ["s.assistantid=%u",$assistantid,-1],
+            "s.type=0"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick,s.assistantid,a.nick ass_nick,s.ass_assign_time"
+                                  ." from %s s left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
 }
