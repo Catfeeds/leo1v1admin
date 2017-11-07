@@ -3195,12 +3195,10 @@ class user_deal extends Controller
                 }
             }
         }
-        dd($requireid_list);
-
         
-        $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($check_flag);
+        $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
        
-        dd($check_flag);
+        dd($list);
 
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
