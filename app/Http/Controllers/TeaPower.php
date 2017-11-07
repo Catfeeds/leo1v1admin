@@ -3955,6 +3955,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money'];
             //伯乐奖
             $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money'];
+            //春晖奖
+            $list[$i]['lesson_reward_chunhui'] = $reward_list[E\Ereward_type::V_7]['money'];
+            //微课工资
+            $list[$i]['lesson_reward_weike'] = $reward_list[E\Ereward_type::V_8]['money'];
+            //小班课工资
+            $list[$i]['lesson_reward_small_class'] = $reward_list[E\Ereward_type::V_9]['money'];
+            //公开课工资
+            $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
 
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
@@ -4017,12 +4025,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $item['lesson_cost_normal']  = strval($item['lesson_cost_normal']);
             $item['lesson_total']        = strval($item['lesson_total']);
             $item['lesson_price_tax']    = strval($item['lesson_price']);
+
+
             //计算平台合作的抽成费用
             if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
                 $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
                 $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
                 $item['teacher_ref_rate']  = $teacher_ref_rate;
             }
+
 
             $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
             $item['lesson_price'] -= $item['lesson_cost_tax'];

@@ -3178,8 +3178,27 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-11-01");
+        //教务数据
+        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+        $set_count_seller =$set_count_kk=$set_count_hls=0;
+        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+        foreach($ret_info as $val){
+            $set_count_all+=$val["set_count"];
+           
+            $set_lesson_time_all+=$val["set_lesson_time_all"];
+           
+        }
+     
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
+        dd($set_time_avg);
+
+        $time = time();
+        $all_throuth_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($time);
+        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
+        dd([count($all_train_through_lesson_teacher),count($all_throuth_teacher)]);
+
         $tea_arr =[76127];
         $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,$tea_arr,2);
         dd($cc_list);

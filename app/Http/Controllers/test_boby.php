@@ -955,4 +955,10 @@ class test_boby extends Controller
 
     }
 
+    public function test_img(){
+
+
+    }
+
+
 }
