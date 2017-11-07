@@ -869,11 +869,11 @@ class test_boby extends Controller
 
         // $qiniu         = \App\Helper\Config::get_config("qiniu");
 
-        // if ( \App\Helper\Utils::check_env_is_test() ) {
-        //     $phone_qr_name = $phone."_qr_agent_merber1.png";
-        // }else{
-        //     $phone_qr_name = $phone."_qr_agent_merber.png";
-        // }
+        if ( \App\Helper\Utils::check_env_is_test() ) {
+            $phone_qr_name = $phone."_qr_agent_merber1.png";
+        }else{
+            $phone_qr_name = $phone."_qr_agent_merber.png";
+        }
         // $qiniu_url     = $qiniu['public']['url'];
         // $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
 
