@@ -446,9 +446,6 @@ class wx_parent_gift extends Controller
                 }else{
                     $prize_type=8;
                 }
-                // if($prize_type == 1 && $is_test ==0){ // 未试听过的人不能获得书包
-                //     $prize_type = 8;
-                // }
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
@@ -466,6 +463,8 @@ class wx_parent_gift extends Controller
                 $is_has_test = $this->t_ruffian_activity->check_is_has_test($parentid);
                 if($prize_type == 1 && $is_test ==0){ // 未试听过的人不能获得书包
                     $prize_type = 8;
+                }elseif($is_test>0 || $is_has_test){
+                    $prize_type=2;
                 }
             }
 
