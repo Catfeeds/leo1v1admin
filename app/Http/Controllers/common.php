@@ -885,6 +885,8 @@ class common extends Controller
 
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
+            sleep(3);
+
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
                 \App\Helper\Utils::exec_cmd($cmd_rm);
