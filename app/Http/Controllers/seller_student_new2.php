@@ -246,6 +246,7 @@ class seller_student_new2 extends Controller
             E\Etest_lesson_level::set_item_value_str($item,"stu_test_lesson_level");
             E\Etest_lesson_order_fail_flag::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"stu_test_ipad_flag");
+            E\Eboolean::set_item_value_str($item,"grab_flag");
             E\Eset_boolean::set_item_value_str($item,"accept_flag");
             E\Eaccept_flag::set_item_value_str($item,"limit_accept_flag");
 
