@@ -428,7 +428,8 @@ class wx_parent_gift extends Controller
             $stu_type = 1; // 新用户
         }
 
-        $prize_type = $this->get_win_rate($stu_type,$parentid);
+        // $prize_type = $this->get_win_rate($stu_type,$parentid);
+        $prize_type = 1;//测试
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完

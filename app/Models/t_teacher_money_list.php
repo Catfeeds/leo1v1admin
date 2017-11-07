@@ -42,11 +42,11 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["add_time>%u",$time,0],
             "type=7"
         ];
-        $sql=$this->gen_sql_new("select t.realname,t.nick,add_time,money,money_info as lesson_total"
+        $sql=$this->gen_sql_new("select t.realname,t.nick,add_time,money,money_info as lesson_total,grade"
                                 ." from %s l"
                                 ." left join %s t on l.teacherid=t.teacherid"
                                 ." where %s"
-                                ." order by add_time desc,money desc"
+                                ." order by add_time desc,grade,money desc"
                                 ,self::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
