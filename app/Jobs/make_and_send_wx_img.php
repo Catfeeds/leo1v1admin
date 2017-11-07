@@ -92,6 +92,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         \App\Helper\Utils::logger("make_9");
         imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
 
+        \App\Helper\Utils::logger("for_roop");
         $r = 80; //圆半径
         for ($x = 0; $x < 160; $x++) {
             for ($y = 0; $y < 160; $y++) {
