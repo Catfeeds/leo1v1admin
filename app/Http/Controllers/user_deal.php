@@ -3197,8 +3197,17 @@ class user_deal extends Controller
         }
         
         $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
+        $data = [];
+        foreach($list as $val){
+            @$data[$val["accept_adminid"]][]=$val["require_id"];
+        }
+
+        foreach($data as $k=>$item){
+            $grab_num = count($item);
+            $plan_num = $this->t_test_lesson_subject_require->get_planed_lesson_num($item);
+        }
        
-        dd($list);
+        dd($data);
 
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");

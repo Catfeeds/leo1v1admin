@@ -356,7 +356,6 @@ class wx_parent_gift extends Controller
         // 检查是否分享朋友圈 11.7-11.15[包含14号]
         $start_time = strtotime('2017-11-7'); // 2017-11-07 分享朋友圈有效时间
         $end_time   = strtotime('2017-11-15'); // 分享朋友圈有效时间
-
         $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
 
         // 检查是否在读学生
@@ -479,6 +478,14 @@ class wx_parent_gift extends Controller
         $wx=new \App\Helper\Wx();
         $p_openid = $this->t_parent_info->get_wx_openid($parentid);
         $wx->send_template_msg($p_openid,$template_id,$data_msg ,$url);
+
+
+        $active_num = $this->t_ruffian_activity->get_active_num($parentid);
+        // 检查是否分享朋友圈 11.7-11.15[包含14号]
+        $start_time = strtotime('2017-11-7'); // 2017-11-07 分享朋友圈有效时间
+        $end_time   = strtotime('2017-11-15'); // 分享朋友圈有效时间
+        $has_share  = $this->t_ruffian_share->get_share_num($parentid,$start_time, $end_time);
+        // 发送推送
 
         return $this->output_succ(['prize'=>$prize_type]);
     }
