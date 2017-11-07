@@ -477,12 +477,13 @@ class agent extends Controller
                     if($is_called_phone == 1){
                         $num = 0;
                         break;
-                    }elseif($is_called_phone === 0){
+                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
                         $num += 1;
                     }
+                    // dd($num);
                 }
             }
-            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
             echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
     }
