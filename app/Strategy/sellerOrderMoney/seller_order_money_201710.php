@@ -22,7 +22,7 @@ class seller_order_money_201710  extends  seller_order_money_base
         $tt= new \App\Console\Tasks\TaskController();
         $ret_arr=$tt->t_order_info->get_seller_money_info($adminid,$start_time,$end_time);
         //获取分期不分期金额
-        $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
+        // $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
         $sort = $tt->t_order_info->get_sort_order_count_money_new($adminid,$start_time,$end_time);
         $sort_new = [];
         $sort_new_two = [];

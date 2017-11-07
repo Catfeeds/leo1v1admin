@@ -3713,6 +3713,28 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_sort_order_count_money_new_two($start_time,$end_time){
+        $where_arr = [
+            "o.contract_status in (1,2)",
+            "o.contract_type = 0",
+            // [ "o.sys_operator='%s'",  $sys_operator, "XXXX" ],
+            "o.price>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select co.child_orderid,co.parent_orderid,co.child_order_type,o.price ".
+            " from %s co ".
+            " left join %s o on co.parent_orderid = o.orderid".
+            " where %s "
+            ,t_child_order_info::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
     public function get_cr_to_cc_order_num($start_time,$end_time){
         $where_arr = [
             "contract_status <> 0 ",
