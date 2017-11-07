@@ -715,8 +715,8 @@ class teacher_money extends Controller
     public function teacher_salary_list(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
         $reference = $this->get_in_int_val("reference");
-        if($reference!=""){
-            $reference_phone = $this->t_teacher_info->get_teacherid_by_phone($reference);
+        if($reference!=0){
+            $reference_phone = $this->t_teacher_info->get_phone($reference);
         }else{
             $reference_phone = "";
         }

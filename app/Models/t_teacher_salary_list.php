@@ -40,7 +40,6 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
                                   ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list_as_page($sql);
     }
 
