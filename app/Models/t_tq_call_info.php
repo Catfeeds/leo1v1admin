@@ -554,18 +554,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         });
     }
 
-    public function get_no_called_list($userid_arr){
+    public function get_no_called_list($phone){
         $where_arr=[
-            's.userid>0',
+            ['phone = %d',$phone,''],
         ];
-        $this->where_arr_add_int_or_idlist($where_arr,'s.userid',$userid_arr);
         $sql=$this->gen_sql_new(
-            " select sum(if(t.is_called_phone=0,1,0)) count,s.userid "
-            ." from %s t "
-            ." left join %s s on s.phone=t.phone "
-            ." where  %s group by t.phone ",
+            " select is_called_phone,phone "
+            ." from %s "
+            ." where %s ",
             self::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
