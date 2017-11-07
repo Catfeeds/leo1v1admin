@@ -12,22 +12,27 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    use Yxyx\Core\Media;
+    use LaneWeChat\Core\ResponsePassive;
+    use Yxyx\Core\AccessToken;
     var $wx_openid;
+    var $id;
+    var $request;
     var $phone;
     var $bg_url;
-    var $headimgurl;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($wx_openid,$phone,$bg_url,$headimgurl )
+    public function __construct($id,$wx_openid,$phone,$bg_url,$request )
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
         $this->phone       = $phone;
         $this->bg_url      = $bg_url;
-        $this->headimgurl  = $headimgurl;
+        $this->id          = $id;
+        $this->request     = $request;
     }
 
     /**
@@ -48,7 +53,21 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
         \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
-        $image_5 = imagecreatefromjpeg($this->headimgurl);
+        //请求微信头像
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        $headimgurl = $data['headimgurl'];
+
+        $image_5 = imagecreatefromjpeg($headimgurl);
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         $color = imagecolorallocate($image_6, 255, 255, 255);
         imagefill($image_6, 0, 0, $color);
@@ -91,6 +110,58 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imagedestroy($image_6);
         // return $agent_qr_url;
 
+        // $img_url = '/tmp/yxyx_'.$phone.'.png';
+        $type = 'image';
+        $num = rand();
+        $img_Long = file_get_contents($agent_qu_url);
+        file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+        $img_url = public_path().'/wximg/'.$num.'.png';
+        $img_url = realpath($img_url);
+
+        $mediaId = Media::upload($img_url, $type);
+        \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
+
+        $mediaId = $mediaId['media_id'];
+        unlink($img_url);
+
+        $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
+        \App\Helper\Utils::exec_cmd($cmd_rm);
+
+        $t_agent = new \App\Models\t_agent();
+        $t_agent->set_add_type_2( $this->id );
+        if ( \App\Helper\Utils::check_env_is_release() ) {
+            return ResponsePassive::image($this->request['fromusername'], $this->request['tousername'], $mediaId);
+        }else{
+
+            if (\App\Helper\Utils::check_env_is_test()) {
+                $txt_arr = [
+                    'touser'   => $this->request['tousername'] ,
+                    'msgtype'  => 'image',
+                    "image"=> [
+                        "media_id" => "$mediaId"
+                    ],
+                ];
+                $txt = self::ch_json_encode($txt_arr);
+                $token = AccessToken::getAccessToken();
+                $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+                $txt_ret = self::https_post($url,$txt);
+                \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+
+            }
+            return ResponsePassive::image($this->request['fromusername'], $this->request['tousername'], $mediaId);
+        }
+
     }
+
+    public static function https_post($url,$data){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
 
 }
