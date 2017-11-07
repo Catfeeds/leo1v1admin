@@ -148,14 +148,16 @@ class TeacherMoneyTask extends TaskController
             $salary_info  = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
             $lesson_money = $salary_info['lesson_price_tax']*100;
 
-            $is_full = \App\Helper\Utils::check_teacher_is_full($t_val['teacher_money_type'],$t_val['teacher_type']);
+            $is_full = \App\Helper\Utils::check_teacher_is_full(
+                $t_val['teacher_money_type'],$t_val['teacher_type'],$t_val['teacherid']
+            );
             if($is_full){
                 $pay_time = strtotime("+1 month",$start_time);
             }else{
                 $pay_time = $start_time;
             }
 
-            $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$start_time);
+            $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$pay_time);
             if(!$check_flag){
                 $this->t_teacher_salary_list->row_insert([
                     "teacherid"          => $t_val['teacherid'],
@@ -165,7 +167,7 @@ class TeacherMoneyTask extends TaskController
                     "money"              => $lesson_money,
                 ]);
             }else{
-                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$t_val['pay_time'],$lesson_money);
+                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$pay_time,$lesson_money);
             }
         }
 

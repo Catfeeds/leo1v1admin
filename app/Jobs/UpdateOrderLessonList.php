@@ -89,6 +89,7 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
                         "contract_status" => $contract_status,
                     ]);
                 }
+                $old_contract_status= $t_order_info->get_contract_status($val['orderid']);
 
                 if($lesson_left>0){
                     for(;$i<=$length-1;$i++){
@@ -111,7 +112,6 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
                             $contract_status   = 2;
                         }
 
-                        $old_contract_status= $t_order_info->get_contract_status($val['orderid']);
                         if($old_contract_status==3){
                             $contract_status=3;
                         }

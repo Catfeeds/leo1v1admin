@@ -194,6 +194,7 @@
                             <option value="1">top25</option>
                             <option value="2">绿色通道</option>
                             <option value="3">常规排课</option>
+                            <option value="4">抢课排课</option>
                         </select>
                     </div>
                 </div>
@@ -421,6 +422,9 @@
                                 老师是否可看到该课程: {!!  $var["lesson_used_flag_str"] !!} <br/>
                                 老师:{{$var["teacher_nick"]}} <br/>
                                 上课时间:{{$var["lesson_start"]}} <br/>
+                                @if($var["grab_flag"]==1)
+                                    是否抢课产生:{{$var["grab_flag_str"]}}<br>
+                                @endif
                                 <br/>
                                 课时确认(是否成功):{!!$var["success_flag_str"]!!} <br/>
                                 确认人:{!!$var["confirm_admin_nick"]!!} <br/>
