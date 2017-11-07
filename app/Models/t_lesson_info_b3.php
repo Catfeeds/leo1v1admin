@@ -1637,7 +1637,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }
 
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.subject,t.subject t_subject,"
-                                  ." l.lesson_type,l.lesson_start,l.lessonid"
+                                  ." l.lesson_type,l.lesson_start,l.lessonid,t.grade_end,"
+                                  ." t.grade_start,t.grade_part_ex,l.grade "
                                   ." from %s l "
                                   ." left join %s t on t.teacherid = l.teacherid"
                                   ." left join %s tf on t.teacherid = tf.teacherid"

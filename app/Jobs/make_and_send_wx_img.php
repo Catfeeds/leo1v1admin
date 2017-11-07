@@ -8,12 +8,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class make_and_send_wx_img extends Job implements ShouldQueue
-{
-    use InteractsWithQueue, SerializesModels;
     use Yxyx\Core\Media;
     use Yxyx\Core\AccessToken;
     use LaneWeChat\Core\ResponsePassive;
+class make_and_send_wx_img extends Job implements ShouldQueue
+{
+    use InteractsWithQueue, SerializesModels;
 
 
     var $wx_openid;
