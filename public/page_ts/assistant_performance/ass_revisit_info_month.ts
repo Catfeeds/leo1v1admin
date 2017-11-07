@@ -28,8 +28,7 @@ $(function(){
     $.do_ajax("/user_manage_new/get_last_change_type_info",{
         "userid" : -1
     },function(result){
-        alert(111); 
-        do_one();
+       // alert(111); 
     });
     var row_list=$("#id_tbody tr");
     var do_index=0;
