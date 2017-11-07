@@ -418,8 +418,7 @@ class wx_parent_gift extends Controller
         $parentid = $this->get_parentid();
         $has_buy  = $this->t_order_info->check_is_buy($parentid);
         $reg_time = $this->t_user_info->get_reg_time($parentid);
-        $check_time = strtotime('2017-11-4'); // 测试
-        // $check_time = strtotime('2017-11-7');
+        $check_time = strtotime('2017-11-7');
 
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
@@ -432,24 +431,23 @@ class wx_parent_gift extends Controller
         }
 
         $prize_type = $this->get_win_rate($stu_type,$parentid);
-        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
-
-        if($prize_type == 1 && $is_test <=0){ // 未试听过的人不能获得书包
-            $prize_type = 2;
-        }
 
         $this->t_ruffian_activity->start_transaction();
         //检测奖品是否抽完
         $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
         if(!$has_prize_id){
             if($stu_type == 1){
-                // $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
                 $is_has_test = $this->t_ruffian_activity->check_is_has_test($parentid);
                 if($is_test>0 || $is_has_test){
                     $prize_type=2;
                 }else{
                     $prize_type=8;
                 }
+                if($prize_type == 1 && $is_test <=0){ // 未试听过的人不能获得书包
+                    $prize_type = 2;
+                }
+
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
