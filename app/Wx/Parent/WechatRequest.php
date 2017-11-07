@@ -151,7 +151,6 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
 
         if($request['content'] == '测试'){
-            $content = "http://wx-parent.leo1v1.com/wx_parent/zhishiku";
 
             $tuwenList[] = array(
 
@@ -170,13 +169,15 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             }
             return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
 
+        }elseif($request['content'] == '知识库'){
+            $content = "http://wx-parent.leo1v1.com/wx_parent/zhishiku";
         }
 
-
-
-
-
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+
+
+
+
     }
 
     /**

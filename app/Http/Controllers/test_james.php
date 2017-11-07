@@ -897,6 +897,11 @@ class test_james extends Controller
 
 
     public function dd(){
+
+        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(98191999);
+
+        dd($is_test);
+
         $a = -1;
         if(!$a){
 
