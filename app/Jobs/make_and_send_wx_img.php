@@ -68,21 +68,28 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
-        \App\Helper\Utils::logger("get_wx_head_END");
         \App\Helper\Utils::logger("make_img_start");
+
         $image_5 = imagecreatefromjpeg($headimgurl);
+        \App\Helper\Utils::logger("get_head");
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
+        \App\Helper\Utils::logger("make_new");
         $color = imagecolorallocate($image_6, 255, 255, 255);
+        \App\Helper\Utils::logger("make_image6");
         imagefill($image_6, 0, 0, $color);
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
+        \App\Helper\Utils::logger("make_image7");
         $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+        \App\Helper\Utils::logger("make_bg");
         $image_2 = imagecreatefrompng($qr_url);     //二维码
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
         $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
+        \App\Helper\Utils::logger("make_8");
         imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
         imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
+        \App\Helper\Utils::logger("make_9");
         imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
 
         $r = 80; //圆半径
