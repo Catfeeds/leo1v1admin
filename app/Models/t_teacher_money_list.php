@@ -8,7 +8,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 		parent::__construct();
 	}
 
-
     public function check_is_exists($money_info,$type=-1){
         $where_arr = [
             ["money_info='%s'",$money_info,""],
@@ -22,11 +21,10 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     }
 
     public function get_teacher_lesson_total_list($time){
-        $where_arr=[
+        $where_arr = [
             ["add_time>%u",$time,0],
             "type=1"
         ];
-
         $sql=$this->gen_sql_new("select t.realname,t.nick,add_time,money,money_info as lesson_total"
                                 ." from %s l"
                                 ." left join %s t on l.teacherid=t.teacherid"
@@ -39,6 +37,22 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_chunhui_list($time){
+        $where_arr = [
+            ["add_time>%u",$time,0],
+            "type=7"
+        ];
+        $sql=$this->gen_sql_new("select t.realname,t.nick,add_time,money,money_info as lesson_total"
+                                ." from %s l"
+                                ." left join %s t on l.teacherid=t.teacherid"
+                                ." where %s"
+                                ." order by add_time desc,money desc"
+                                ,self::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
     /**
      * 获取老师的额外奖励薪资总和
      * @param teacherid 老师id
