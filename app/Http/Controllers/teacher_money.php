@@ -381,12 +381,14 @@ class teacher_money extends Controller
      */
     public function add_teacher_reward(){
         $type       = $this->get_in_int_val("type");
+        $grade      = $this->get_in_int_val("grade");
         $teacherid  = $this->get_in_int_val("teacherid");
         $money_info = $this->get_in_str_val("money_info");
         $money      = $this->get_in_int_val("money");
         $add_date   = $this->get_in_str_val("add_time",date("Y-m-d",time()));
-        $add_time   = strtotime($add_date);
         $acc        = $this->get_account();
+
+        $add_time   = strtotime($add_date);
         if(in_array($type,[E\Ereward_type::V_1,E\Ereward_type::V_4])){
             if(!in_array($acc,["adrian","jim","sunny"])){
                 return $this->output_err("此用户没有添加奖励权限！");
@@ -404,6 +406,8 @@ class teacher_money extends Controller
 
         if($type==E\Ereward_type::V_6){
             $this->add_reference_price($teacherid,$money_info,false);
+        }elseif($type == E\Ereward_type::V_7){
+            $update_arr['grade'] = $grade;
         }elseif($type != E\Ereward_type::V_1){
             $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
             if($check_flag){
