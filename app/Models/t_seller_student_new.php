@@ -739,8 +739,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     ) {
 
 
-        if (count($userid_arr)>0) {
-            $this->where_arr_add_int_or_idlist($where_arr,'ss.userid',$userid_arr);
+        if ($userid>0) {
+            $where_arr=[
+                ["ss.userid=%u",$userid, -1],
+            ];
+
             if ( $sub_assign_adminid_2 >0 ) { //
                 $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
             }
@@ -753,7 +756,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["ss.seller_resource_type = %d " ,$seller_resource_type, -1],
                 ["ss.tq_called_flag = %d " ,$tq_called_flag, -1],
                 ["ss.global_tq_called_flag = %d " ,$global_tq_called_flag, -1],
-                'ss.cc_no_called_count>2',
                 // "t.require_admin_type=2",
             ];
 
@@ -765,11 +767,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=$this->where_get_in_str_query("m.account_role",$account_role);
 
             $where_arr[]=$this->where_get_in_str_query("s.grade",$grade);
-            $this->where_arr_add_int_or_idlist($where_arr,"origin_level",[1,2,3,4]);
+            $this->where_arr_add_int_or_idlist($where_arr,"origin_level",$origin_level );
             $this->where_arr_add_int_field($where_arr,"sys_invaild_flag",$sys_invaild_flag);
             $this->where_arr_add_int_or_idlist ($where_arr,"seller_level",$seller_level);
             $this->where_arr_add_int_or_idlist ($where_arr,"call_phone_count",$call_phone_count);
             $this->where_arr_add_int_or_idlist ($where_arr,"test_lesson_count",$suc_test_count);
+            $this->where_arr_add_int_or_idlist ($where_arr,"origin_count",$origin_count);
+            $this->where_arr_add_int_or_idlist ($where_arr,"cur_adminid_call_count",$call_count);
             //wx
             $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
             if ($has_pad==-2) {
@@ -812,7 +816,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $sql=$this->gen_sql_new(
             "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
-            . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status "
+            . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status,cur_adminid_call_count as call_count "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
@@ -831,6 +835,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         // dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
+
 
     public function get_assign_list_new_test($page_num,$page_count){
         $sql = "select  "
