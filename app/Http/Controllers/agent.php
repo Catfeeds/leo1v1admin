@@ -465,17 +465,26 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $sort = $this->t_order_info->get_sort_order_count_money_new_two($start_time=1506960000,$end_time=1509465600);
-        $sort_new = [];
-        foreach($sort as $info){
-            $parent_orderid = $info['parent_orderid'];
-            $type = $info['child_order_type'];
-            if($type == 2){
-                $sort_new[] = $info;
-                $this->t_order_info->field_update_list($parent_orderid,['can_period_flag'=>1]);
+        $ret = $this->t_seller_student_new->get_all_list_new();
+        $userid_arr = array_unique(array_column($ret,'userid'));
+        foreach($userid_arr as $item){
+            $num = 0;
+            $userid = $item;
+            foreach($ret as $info){
+                if($item == $info['userid']){
+                    $is_called_phone = $info['is_called_phone'];
+                    $cc_no_called_count = $info['cc_no_called_count'];
+                    if($is_called_phone == 1){
+                        $num = 0;
+                        break;
+                    }elseif($is_called_phone === 0){
+                        $num += 1;
+                    }
+                }
             }
+            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
-        dd($sort,$sort_new);
     }
 
     //处理等级头像
