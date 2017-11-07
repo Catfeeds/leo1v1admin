@@ -2233,6 +2233,7 @@ lesson_type in (0,1) "
     public function get_user_lesson_list_sum($userid,$competition){
         $where_str=$this->where_str_gen([
             ["competition_flag=%u",$competition,-1],
+            "lesson_del_flag=0"
         ]);
         $sql=$this->gen_sql_new("select format(sum(lesson_count)/100,1) as lesson_sum"
                                 ." from %s"
