@@ -30,7 +30,7 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
             "is_test_user=0",
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,t.idcard,"
-                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,ts.money,ts.pay_status "
+                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,ts.money,ts.pay_status,ts.is_negative "
                                   ." from %s ts "
                                   ." left join %s t on ts.teacherid=t.teacherid "
                                   ." left join %s ta on t.phone=ta.phone"
@@ -43,15 +43,16 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_list_as_page($sql);
     }
 
-    public function update_teacher_money($teacherid,$pay_time,$money){
+    public function update_teacher_money($teacherid,$pay_time,$money,$is_negative){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
             ["pay_time=%u",$pay_time,0],
         ];
-        $sql = $this->gen_sql_new("update %s set money=%u"
+        $sql = $this->gen_sql_new("update %s set money=%u,is_negative=%u"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$money
+                                  ,$is_negative
                                   ,$where_arr
         );
         return $this->main_update($sql);

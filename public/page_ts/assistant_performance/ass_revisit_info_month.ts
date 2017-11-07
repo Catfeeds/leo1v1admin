@@ -35,7 +35,6 @@ $(function(){
             var userid = opt_data.data("userid");
             var account = opt_data.data("account");
             if(userid>0){
-                alert(userid);
                 $.do_ajax("/ajax_deal2/get_ass_revisit_info_detail",{
                     "userid"       : userid,
                     "start_time"   : g_args.start_time,
@@ -43,7 +42,7 @@ $(function(){
                 },function(resp){
                     var data = resp;
                     $tr.find(".first_need").text(data.first_need); 
-                    $tr.find(".first_real").text(data.first_real); 
+                    $tr.find(".second_need").text(data.second_need); 
                 
                 
                 do_index++;

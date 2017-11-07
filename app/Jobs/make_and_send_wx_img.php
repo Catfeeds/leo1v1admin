@@ -47,6 +47,8 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      */
     public function handle()
     {
+        \App\Helper\Utils::logger("handle_start");
+
         $qr_url       = "/tmp/".$this->phone.".png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
@@ -64,6 +66,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
+        \App\Helper\Utils::logger("get_wx_head_end");
         $image_5 = imagecreatefromjpeg($headimgurl);
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         $color = imagecolorallocate($image_6, 255, 255, 255);
@@ -96,6 +99,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $agent_qr_url = "/tmp/yxyx_".$this->phone.".png";
         imagepng($image_3,$agent_qr_url);
 
+        \App\Helper\Utils::logger("make_img_end");
         $cmd_rm = "rm /tmp/".$this->phone.".png";
         \App\Helper\Utils::exec_cmd($cmd_rm);
 
@@ -118,17 +122,18 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = Media::upload($img_url, $type);
         \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
 
+        \App\Helper\Utils::logger("upload_img_get_id");
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        // $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
-        // \App\Helper\Utils::exec_cmd($cmd_rm);
+        $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
+        \App\Helper\Utils::exec_cmd($cmd_rm);
 
         $t_agent = new \App\Models\t_agent();
         $t_agent->set_add_type_2( $this->id );
 
         $txt_arr = [
-            'touser'   => $this->request['tousername'] ,
+            'touser'   => $this->request['fromusername'] ,
             'msgtype'  => 'image',
             "image"=> [
                 "media_id" => "$mediaId"
@@ -139,6 +144,8 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
+
+        \App\Helper\Utils::logger("handle_END");
         \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
 
 

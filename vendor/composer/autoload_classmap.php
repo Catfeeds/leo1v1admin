@@ -617,6 +617,7 @@ return array(
     'TTeacherMoneyListAddGrade' => $baseDir . '/database/migrations/2017_11_07_105807_t_teacher_money_list_add_grade.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTeacherSalaryAddPayColumn' => $baseDir . '/database/migrations/2017_10_28_193114_t_teacher_salary_add_pay_column.php',
+    'TTeacherSalaryAddPayFlag' => $baseDir . '/database/migrations/2017_11_07_184957_t_teacher_salary_add_pay_flag.php',
     'TTeacherSalaryInfoAddUniqueIndex' => $baseDir . '/database/migrations/2017_11_01_113754_t_teacher_salary_info_add_unique_index.php',
     'TTeacherSalaryListAlterUnique' => $baseDir . '/database/migrations/2017_11_07_181343_t_teacher_salary_list_alter_unique.php',
     'TTeacherSalaryListDrop' => $baseDir . '/database/migrations/2017_11_01_103117_t_teacher_salary_list_drop.php',
