@@ -325,26 +325,43 @@ class teacher_money extends Controller
         $start_time = strtotime("2017-11-1");
         $chunhui_list = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
 
-        $ret_list = [];
-        $list = [];
+        $ret_list   = [];
+        $grade_list = [];
+        $rank_lis   = [];
         $chunhui = array_flip(E\Echunhui_reward::$desc_map);
         foreach($chunhui_list as $val){
             $year  = date("Y",$val['add_time']);
             $month = date("m",$val['add_time']);
             $grade = $val['grade'];
             $money = $val['money'];
+
             if(isset($chunhui[$money])){
                 $rank = $chunhui[$money];
-                $rank_info = [
-                    "rank" =>$rank,
-                    "name" =>$val['nick'],
-                ];
-                $grade_list[$grade][]=$rank_info;
-                $ret_list[] = $grade_list;
             }else{
                 continue;
             }
+
+            $rank_list[]=[
+                "rank"  => $rank,
+                "grade" => $grade,
+            ];
+
         }
+
+        $rank_info[]=[
+            "rank"=>$rank,
+            "name"=>$nick,
+        ];
+        $grade_info[] = [
+            "100"=>$grade_info,
+            "200"=>$grade_info,
+            "300"=>$grade_info,
+        ];
+        $ret_list[] = [
+            "year"=>$year,
+            "month"=>$month,
+            "rank_info"=>$rank_info,
+        ];
 
         return $this->output_succ(["data"=>$ret_list]);
     }

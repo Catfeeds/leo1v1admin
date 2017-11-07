@@ -190,7 +190,7 @@ class stu_manage extends Controller
         $assistantid=$this->get_in_assistantid();
         $account_role = $this->get_account_role();
         $sys_operator = $this->get_in_str_val("sys_operator","");
-        if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster","jim"])
+        if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster","jim","eros"])            
             && !in_array($account_role,[12])
         ){
             return $this->output_err("没有权限");
