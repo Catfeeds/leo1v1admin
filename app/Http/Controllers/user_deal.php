@@ -3178,6 +3178,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
+                   $check_flag = $this->check_jw_plan_limit($requireids);
+        dd($check_flag);
+
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
         //教务数据

@@ -4108,6 +4108,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         ]);
     }
 
+
+    //教务抢课链接限制
+    public function check_jw_plan_limit($requireids){
+        $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
+        $list = explode(",",$requireids);
+        dd($list);
+    }
+
    
 
 }
