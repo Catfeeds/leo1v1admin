@@ -40,15 +40,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/t_yxyx_test_pic_info-get_all_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		test_type:	$('#id_test_type').val(),
+		order_by_str:	$('#id_order_by_str').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			subject:	$('#id_subject').val(),
-			test_type:	$('#id_test_type').val(),
-			order_by_str:	$('#id_order_by_str').val()
-        });
-    }
 
 
 	$('#id_grade').val(g_args.grade);
