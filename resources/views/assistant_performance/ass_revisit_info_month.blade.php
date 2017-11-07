@@ -37,7 +37,7 @@
                     <td> 操作  </td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["nick"]}} </td>
@@ -46,7 +46,7 @@
                         <td></td>
                         <td></td>
                         <td>
-                            <div
+                            <div class="row-data" data-userid ="{{$var["userid"]}}"
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
