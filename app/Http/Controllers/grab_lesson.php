@@ -11,6 +11,7 @@ class grab_lesson extends Controller
 {
 
     use CacheNick;
+    use TeaPower;
     var $check_login_flag=true;
 
     function __construct( )  {
@@ -78,6 +79,9 @@ class grab_lesson extends Controller
         $adminid    = $this->get_account_id();
         $requireids = $this->get_in_str_val('requireids');
         if($requireids) {
+            //检查每个教务抛链接的量已做限制
+            // $check_flag = $this->check_jw_plan_limit($requireids);
+                
             $this->t_grab_lesson_link_info->row_insert([
                 'grab_lesson_link' => 0,
                 'live_time'        => 0,

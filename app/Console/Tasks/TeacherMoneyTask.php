@@ -146,8 +146,7 @@ class TeacherMoneyTask extends TaskController
         $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         foreach($tea_list as $t_val){
             $salary_info  = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
-            $lesson_money = $salary_info['lesson_price_tax']*100;
-            
+            $lesson_money = ($salary_info['lesson_price_tax']+$salary_info['lesson_reward_admin'])*100;
 
             $is_full = \App\Helper\Utils::check_teacher_is_full(
                 $t_val['teacher_money_type'],$t_val['teacher_type'],$t_val['teacherid']

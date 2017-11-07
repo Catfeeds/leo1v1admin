@@ -4026,12 +4026,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $item['lesson_total']        = strval($item['lesson_total']);
             $item['lesson_price_tax']    = strval($item['lesson_price']);
 
-            $item['lesson_reward_admin'] = strval(
-                $item['lesson_reward_chunhui']
-                +$item['lesson_reward_weike']
-                +$item['lesson_reward_small_class']
-                +$item['lesson_reward_open_class']
-            );
+            $item['lesson_reward_admin'] = $item['lesson_reward_chunhui']
+                                         +$item['lesson_reward_weike']
+                                         +$item['lesson_reward_small_class']
+                                         +$item['lesson_reward_open_class'];
 
             //计算平台合作的抽成费用
             if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
@@ -4106,6 +4104,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $this->t_order_info->field_update_list($parent_orderid,[
            "order_partition_flag" =>$order_partition_flag  
         ]);
+    }
+
+
+    //教务抢课链接限制
+    public function check_jw_plan_limit($requireids){
+        $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
+        $requireid_list = explode(",",$requireids);
+        $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
+        dd($list);
     }
 
    
