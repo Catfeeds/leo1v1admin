@@ -569,54 +569,54 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            // $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;//获取七牛图片地址
+            $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;//获取七牛图片地址
 
-            // $img_url = self::get_img_url($url);//得到图片资源
+            $img_url = self::get_img_url($url);//得到图片资源
 
-            $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-            $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
-            dispatch( new \App\Jobs\make_and_send_wx_img($agent['id'],$openid,$phone,$bg_url,$request ) );
-
-
-            // $img_url = '/tmp/yxyx_'.$phone.'.png';
-            // $type = 'image';
-            // $num = rand();
-            // $img_Long = file_get_contents($img_url);
-            // file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
-            // $img_url = public_path().'/wximg/'.$num.'.png';
-            // $img_url = realpath($img_url);
-            // $mediaId = Media::upload($img_url, $type);
-            // \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
-
-            // $mediaId = $mediaId['media_id'];
-            // unlink($img_url);
-
-            // $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
-            // \App\Helper\Utils::exec_cmd($cmd_rm);
+            // $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+            // $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
+            // dispatch( new \App\Jobs\make_and_send_wx_img($agent['id'],$openid,$phone,$bg_url,$request ) );
 
 
-            // $t_agent->set_add_type_2( $agent["id"]);
-            // if ( \App\Helper\Utils::check_env_is_release() ) {
-            //     return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
-            // }else{
+            $img_url = '/tmp/yxyx_'.$phone.'.png';
+            $type = 'image';
+            $num = rand();
+            $img_Long = file_get_contents($img_url);
+            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+            $img_url = public_path().'/wximg/'.$num.'.png';
+            $img_url = realpath($img_url);
+            $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
 
-            //     if (\App\Helper\Utils::check_env_is_test()) {
-            //         $txt_arr = [
-            //             'touser'   => $request['tousername'] ,
-            //             'msgtype'  => 'image',
-            //             "image"=> [
-            //                 "media_id" => "$mediaId"
-            //             ],
-            //         ];
-            //         $txt = self::ch_json_encode($txt_arr);
-            //         $token = AccessToken::getAccessToken();
-            //         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-            //         $txt_ret = self::https_post($url,$txt);
-            //         \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+            $mediaId = $mediaId['media_id'];
+            unlink($img_url);
 
-            //     }
-            //     return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
-            // }
+            $cmd_rm = "rm /tmp/yxyx_".$phone.".png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+
+
+            $t_agent->set_add_type_2( $agent["id"]);
+            if ( \App\Helper\Utils::check_env_is_release() ) {
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            }else{
+
+                if (\App\Helper\Utils::check_env_is_test()) {
+                    $txt_arr = [
+                        'touser'   => $request['tousername'] ,
+                        'msgtype'  => 'image',
+                        "image"=> [
+                            "media_id" => "$mediaId"
+                        ],
+                    ];
+                    $txt = self::ch_json_encode($txt_arr);
+                    $token = AccessToken::getAccessToken();
+                    $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+                    $txt_ret = self::https_post($url,$txt);
+                    \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+
+                }
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            }
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
                 'title' => '上海理优教育科技有限公司图片简介',
