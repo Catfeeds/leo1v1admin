@@ -569,15 +569,15 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;//获取七牛图片地址
+            $phone = "$base_url/agent/get_agent_phone_by_wx_openid?wx_openid=".$openid;//获取电话
 
-            $img_url = self::get_img_url($url);//得到图片资源
+            $img_url = \App\Helper\Utils::get_agent_qr_new($openid,$phone);//得到图片资源
             $type = 'image';
-            $num = rand();
-            $img_Long = file_get_contents($img_url);
-            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
-            $img_url = public_path().'/wximg/'.$num.'.png';
-            $img_url = realpath($img_url);
+            // $num = rand();
+            // $img_Long = file_get_contents($img_url);
+            // file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+            // $img_url = public_path().'/wximg/'.$num.'.png';
+            // $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
             \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
 

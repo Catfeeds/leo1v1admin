@@ -1961,4 +1961,13 @@ class agent extends Controller
 
         return $this->output_succ();
     }
+
+    public function get_agent_phone_by_wx_openid(){
+        $wx_openid = $this->get_in_str_val($wx_openid,'');
+        if ($wx_openid !== '') {
+            $ret = $this->t_agent->get_agent_info_by_openid($wx_openid);
+            return $ret['phone'];
+        }
+        return false;
+    }
 }
