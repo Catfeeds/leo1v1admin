@@ -767,6 +767,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=$this->where_get_in_str_query("m.account_role",$account_role);
 
             $where_arr[]=$this->where_get_in_str_query("s.grade",$grade);
+            $where_arr[]='ss.cc_no_called_count>2';
             // $this->where_arr_add_int_or_idlist($where_arr,"origin_level",$origin_level );
             $this->where_arr_add_int_or_idlist($where_arr,"origin_level",[1,2,3,4]);
             $this->where_arr_add_int_field($where_arr,"sys_invaild_flag",$sys_invaild_flag);
