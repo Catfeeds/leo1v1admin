@@ -869,6 +869,7 @@ class test_boby extends Controller
 
         // $qiniu         = \App\Helper\Config::get_config("qiniu");
 
+        $phone = '1969696';
         if ( \App\Helper\Utils::check_env_is_test() ) {
             $phone_qr_name = $phone."_qr_agent_merber1.png";
         }else{
@@ -889,7 +890,6 @@ class test_boby extends Controller
 
         // if(!$is_exists){
 
-        $phone = '1969696';
             if (\App\Helper\Utils::check_env_is_test() ) {
                 $www_url="test.www.leo1v1.com";
             }else{
