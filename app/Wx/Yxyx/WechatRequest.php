@@ -569,8 +569,8 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $phone = "$base_url/agent/get_agent_phone_by_wx_openid?wx_openid=".$openid;//获取电话
-
+            $url = "$base_url/agent/get_agent_phone_by_wx_openid?wx_openid=".$openid;//获取电话
+            $phone = self::get_img_url($url);
             $img_url = \App\Helper\Utils::get_agent_qr_new($openid,$phone);//得到图片资源
             $type = 'image';
             // $num = rand();
