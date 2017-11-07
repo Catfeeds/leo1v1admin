@@ -478,9 +478,10 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-
+                                <a class="fa fa-edit opt-edit"  title="编辑" > </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
                                 <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
+                                <a class="fa fa-phone opt-telphone_call " title="拨打电话"> </a>
                                 <a class="fa fa-list   opt-seller-list " title="拨打cc列表"> </a>
                                 <a class="fa fa-refresh  opt-reset-sys_invaild_flag" title="刷新无效状态"> </a>
                                 <a class="fa fa-flag opt-publish-flag " title="设置是否出现在公海"> </a>
