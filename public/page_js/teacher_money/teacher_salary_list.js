@@ -23,7 +23,9 @@ $(function(){
             load_data();
         }
     });
-
+    Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"));
+    Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
+    Enum_map.append_option_list("level",$("#id_level"));
 
 	$('.opt-change').set_input_change_event(load_data);
 });
