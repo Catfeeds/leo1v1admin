@@ -46,6 +46,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
            {{remark.DATA}}
         ***/
         $t_lesson_info_b3  = new \App\Models\t_lesson_info_b3();
+        $t_assistant_info  = new \App\Models\t_assistant_info();
+
         $tea_lesson_list = $t_lesson_info_b3->get_teacher_tomorrow_lesson_list($this->lesson_start, $this->lesson_end);
         $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk';
         foreach($tea_lesson_list as $item){
@@ -84,6 +86,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 $keyword1 .=$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d',$v['lesson_start'])."~".date('Y-m-d',$v['lesson_end']);
             }
 
+            $ass_phone = $t_assistant_info->get_phone($item['assistantid']);
+
             $data_par = [
                 "first" => "家长您好，请注意明天的课程安排",
                 "keyword1" => $keyword1,
@@ -93,11 +97,9 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "remark"   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
             ];
             \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_parent, $data_par,'');
+            $wx  = new \App\Helper\Wx();
+            $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+
         }
-
-
-
-
-
     }
 }
