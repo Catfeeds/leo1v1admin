@@ -1324,7 +1324,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
             "n.seller_resource_type=1",
-            "n.free_time+432000<unix_timestamp(now())",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
@@ -1337,6 +1336,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if($userid>0){//历史回流人
                 $where_arr[] = ['n.userid =%u',$userid];
             }
+        }else{
+            $where_arr[] = "n.free_time+432000<unix_timestamp(now())";
         }
         if($phone_location){
             $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
