@@ -74,18 +74,20 @@ class activity_config_base extends  activity_base {
             }
         }
 
+        $activity_desc='';
         //用户加入时间检查
         if (count($this->user_join_time_range )==2 ) {
             $user_add_time= $this->task->t_seller_student_new->get_add_time($this->userid);
+            $user_add_time_str=date("Y-m-d");
             if  ( !($user_add_time >= strtotime( $this->user_join_time_range [0])
                     && $user_add_time <= strtotime( $this->user_join_time_range[1]))) {
-                $user_add_tim_str=date("Y-m-d");
-                $desc_list[]=static::gen_activity_item(0,  "用户加入时间[$user_add_tim_str]不匹配" , $price,  $present_lesson_count, $can_period_flag );
+                $desc_list[]=static::gen_activity_item(0,  "用户加入时间[$user_add_time_str]不匹配" , $price,  $present_lesson_count, $can_period_flag );
                 return false ;
+            }else{
+                $activity_desc.=" 加入时间:$user_add_time_str, ";
             }
         }
 
-        $activity_desc='';
 
         if (count($this->last_test_lesson_range)==2) {
             $from_test_lesson_id=$this->from_test_lesson_id;
