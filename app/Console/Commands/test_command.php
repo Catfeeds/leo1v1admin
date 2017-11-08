@@ -12,7 +12,7 @@ class test_command extends cmd_base
      *
      * @var string
      */
-    protected $signature = 'command:test_command {--data=}';
+    protected $signature = 'command:test_command';
 
     /**
      * The console command description.
@@ -38,15 +38,25 @@ class test_command extends cmd_base
      */
     public function handle()
     {
-        $data = $this->get_in_value("data","");
-        $begin_time = strtotime("2017-7-1");
-
-        $reference_num = $this->task->t_teacher_lecture_appointment_info->get_reference_num(
-            $data,1,$begin_time
-        );
-        echo $reference_num;
-        echo PHP_EOL;
+        $start_time = strtotime("2017-11-2 18:00");
+        $end_time = strtotime("2017-11-2 23:59");
+        $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start_time,$end_time);
+        foreach($lesson_list as $l_val){
+            if($l_val['confirm_flag']==4){
+                $diff_time = $l_val['lesson_end']-$l_val['lesson_start'];
+                if($diff_time==5400){
+                    $real_lesson_count = 100;
+                }else{
+                    $real_lesson_count = $diff_time/2400*100/2;
+                }
+                if($real_lesson_count!=$l_val['lesson_count']){
+                    echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
+                    echo PHP_EOL;
+                    // $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
+                    //     "lesson_count"=>$real_lesson_count
+                    // ]);
+                }
+            }
+        }
     }
-
-
 }
