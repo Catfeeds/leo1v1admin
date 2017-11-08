@@ -49,7 +49,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     {
         \App\Helper\Utils::logger("erweima_start");
 
-        $qr_url       = "/tmp/".$this->phone.".png";
+        $qr_url       = "/tmp/yxyx_wx_".$this->phone.".png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
         \App\Helper\Utils::logger("erweima_END");
@@ -70,10 +70,10 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         \App\Helper\Utils::logger("make_img_start");
 
-        $datapath = "/tmp/".$this->phone."_headimg.jpg";
+        $datapath = "/tmp/yxyx_wx_".$this->phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
-       
+
         $image_5 = imagecreatefromjpeg($datapath);
         \App\Helper\Utils::logger("get_head");
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
@@ -111,12 +111,10 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_".$this->phone.".png";
+        $agent_qr_url = "/tmp/yxyx_wx_member_".$this->phone.".png";
         imagepng($image_3,$agent_qr_url);
 
         \App\Helper\Utils::logger("make_img_END");
-        $cmd_rm = "rm /tmp/".$this->phone.".png";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
 
         imagedestroy($image_1);
         imagedestroy($image_2);
@@ -142,7 +140,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
+        $cmd_rm = "rm /tmp/yxyx_wx_".$this->phone."*";
         \App\Helper\Utils::exec_cmd($cmd_rm);
 
         $t_agent = new \App\Models\t_agent();
