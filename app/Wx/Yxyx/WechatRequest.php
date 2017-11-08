@@ -560,7 +560,7 @@ class WechatRequest  {
             // dispatch( new \App\Jobs\make_and_send_wx_img($openid,$bg_url,$qr_code_url,$request,$agent) );
             \App\Helper\Utils::wx_make_and_send_img($openid,$bg_url,$qr_code_url,$request,$agent);
 
-             return ResponsePassive::text($request['fromusername'], $request['tousername'], "①长按下方图片并保存\n②将图片发给朋友或朋友圈");
+             return ResponsePassive::text($request['fromusername'], $request['tousername'], "①长按上方图片并保存\n②将图片发给朋友或朋友圈");
 
 
              /* 
