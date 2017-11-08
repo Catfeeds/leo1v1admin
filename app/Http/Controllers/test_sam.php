@@ -21,8 +21,8 @@ class test_sam  extends Controller
     public function test_api(){
 
         $this->t_manager_info->send_wx_todo_msg_by_adminid (944,
-            "你收到1个例子",
             "来自：知识库",
+            "你收到1个例子",
             "需要你及时联系",
             "http://admin.leo1v1.com/seller_student_new/seller_student_list_all"); //erick
 
