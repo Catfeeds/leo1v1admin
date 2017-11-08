@@ -42,8 +42,17 @@ class test_command extends cmd_base
         $end_time = strtotime("2017-11-2 21:20");
         $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(0,$start_time,$end_time);
         foreach($lesson_list as $l_val){
-            $diff_time = $l_val['lesson_start']-$l_val['lesson_end'];
-
+            if($l_val['confirm_flag']==4){
+                $diff_time = $l_val['lesson_start']-$l_val['lesson_end'];
+                if($diff_time==5400){
+                    $real_lesson_count = 100;
+                }else{
+                    $real_lesson_count = $diff_time/2400*100/2;
+                }
+                if($real_lesson_count!=$l_val['lesson_count']){
+                    echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
+                }
+            }
         }
     }
 }
