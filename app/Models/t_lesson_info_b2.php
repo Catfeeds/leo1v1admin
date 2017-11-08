@@ -4088,6 +4088,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
