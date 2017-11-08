@@ -3030,12 +3030,12 @@ trait TeaPower {
                     <br/>
                     ​二：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：提交前可反复回看并重新录制（提交后不可重新录制），回看满意后再提交</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容进行一对一在线面试。<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可以把面试官当您的学生进行互动。</span><br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前物理、化学、政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>
                     <br/>
                 </div>
                 <div>

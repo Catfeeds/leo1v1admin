@@ -1061,12 +1061,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function check_lesson_record_exist($lessonid,$type,$lesson_style){
+        $where_arr=[
+            ["lesson_style=%u",$lesson_style,-1]  
+        ];
         $sql = $this->gen_sql_new("select id from %s "
-                                  ."where train_lessonid=%u and type= %u and lesson_style=%u",
+                                  ."where train_lessonid=%u and type= %u and %s",
                                   self::DB_TABLE_NAME,
                                   $lessonid,
                                   $type,
-                                  $lesson_style
+                                  $where_arr
         );
         return $this->main_get_value($sql);
     }
