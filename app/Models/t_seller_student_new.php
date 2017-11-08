@@ -1324,8 +1324,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
-            // ["s.nick like '%s%%'",$this->ensql($nick), ""],
-            // ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+            ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
