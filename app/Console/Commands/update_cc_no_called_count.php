@@ -13,14 +13,14 @@ use \App\Enums as E;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-class tom_do_once extends Command
+class cc_no_called_count extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:tom_do_once';
+    protected $signature = 'command:cc_no_called_count';
 
     /**
      * The console command description.
@@ -45,7 +45,6 @@ class tom_do_once extends Command
     public function __construct()
     {
         parent::__construct();
-
         $this->task        = new \App\Console\Tasks\TaskController();
     }
 
@@ -56,7 +55,9 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $ret = $this->task->t_seller_student_new->get_all_list();
+        $start_time = time(null)-3600*24*30;
+        $end_time = time(null);
+        $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;

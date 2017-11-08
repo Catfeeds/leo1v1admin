@@ -8,7 +8,8 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		assistantid:	$('#id_assistantid').val()
     });
 }
 $(function(){
@@ -24,6 +25,11 @@ $(function(){
             load_data();
         }
     });
+
+    $.admin_select_user($("#id_assistantid"), "assistant",function(){
+        load_data();
+    });
+
 
     var row_list=$("#id_tbody tr");
     var do_index=0;
@@ -42,8 +48,20 @@ $(function(){
                 },function(resp){
                     var data = resp;
                     $tr.find(".first_need").text(data.first_need); 
+                    $tr.find(".first_real").text(data.first_real); 
+                    if(data.first_need == data.first_real){
+                        $tr.find(".first_real").css("color","green"); 
+                    }else{
+                        $tr.find(".first_real").css("color","red"); 
+                    }
                     $tr.find(".second_need").text(data.second_need); 
-                
+                    $tr.find(".second_real").text(data.second_real); 
+                    if(data.second_need == data.second_real){
+                        $tr.find(".second_real").css("color","green"); 
+                    }else{
+                        $tr.find(".second_real").css("color","red"); 
+                    }
+
                 
                 do_index++;
                 do_one();

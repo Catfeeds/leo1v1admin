@@ -51,7 +51,7 @@ class wx_parent_gift extends Controller
 
         session(["wx_parent_openid" => $openid ] );
 
-        $subscribe = $user_info['subscribe'];
+        $subscribe = @$user_info['subscribe'];
         $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         $type = 0;
 
@@ -707,17 +707,17 @@ class wx_parent_gift extends Controller
 
         if($rate>75 && $rate<=100){ //中奖金额 31.11  [25]
             $prize = 3111;
-        }elseif($rate>50 & $rate<=75){ // 中奖金额 41.11 [25]
+        }elseif($rate>50 && $rate<=75){ // 中奖金额 41.11 [25]
             $prize = 4111;
-        }elseif($rate>40 & $rate<=50){ // 中奖金额 51.11  [40]
+        }elseif($rate>40 && $rate<=50){ // 中奖金额 51.11  [40]
             $prize = 5111;
-        }elseif($rate>30 & erate<=40){ // 中奖金额 61.11 [20]
+        }elseif($rate>30 && $rate<=40){ // 中奖金额 61.11 [20]
             $prize = 6111;
-        }elseif($rate>20 & $rate<=30){ // 中奖金额 71.11 [10]
+        }elseif($rate>20 && $rate<=30){ // 中奖金额 71.11 [10]
             $prize = 7111;
-        }elseif($rate>10 & $rate<=20){ // 中奖金额 91.11 [10]
+        }elseif($rate>10 && $rate<=20){ // 中奖金额 91.11 [10]
             $prize = 9111;
-        }elseif($rate>0 & $rate<=10){ // 中奖金额 111.11  [10]
+        }elseif($rate>0 && $rate<=10){ // 中奖金额 111.11  [10]
             $prize = 11111;
         }
 
