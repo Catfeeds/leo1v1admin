@@ -3900,7 +3900,7 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_teacher_test_person_num_list( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[],$account_role=2){
+    public function get_teacher_test_person_num_list( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[],$account_role=2,$check_flag=true){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -3936,7 +3936,7 @@ lesson_type in (0,1) "
             $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
         }
 
-        $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list);
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list,$check_flag);
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject) person_num,count(l.lessonid) lesson_num,l.teacherid "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "

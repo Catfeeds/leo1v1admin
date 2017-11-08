@@ -96,10 +96,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "keyword4" => $ass_phone,
                 "remark"   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
             ];
-            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_parent, $data_par,'');
             $wx  = new \App\Helper\Wx();
-            $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
-
+            $wx->send_template_msg($item['wx_openid'],$template_id_parent, $data_par,'');
         }
     }
 }

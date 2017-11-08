@@ -6,7 +6,7 @@ import "agent_api/common.proto";
 //__TAGS: for_wx_yxyx 
 
 message in  {
-
+  uint32 check_money_flag = 1;//体现状态 0/null 提现中 1 已结算
 }
 
 message out {

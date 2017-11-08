@@ -416,6 +416,7 @@ class wx_yxyx_api extends Controller
     public function get_have_cash(){
         $agent_id = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $check_money_flag = $this->get_in_int_val('check_money_flag');
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -425,7 +426,7 @@ class wx_yxyx_api extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
         $ret_list = [];
-        $ret = $this->t_agent_cash->get_cash_list_by_phone($phone);
+        $ret = $this->t_agent_cash->get_cash_list_by_phone($phone,$check_money_flag);
         foreach($ret as $key=>$item){
             $ret_list[$key]['cash'] = $item['cash']/100;
             $ret_list[$key]['is_suc_flag'] = $item['check_money_flag'];
