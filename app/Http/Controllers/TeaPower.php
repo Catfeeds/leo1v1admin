@@ -4056,8 +4056,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
         $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
         if(!$check_is_exists){
-            $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+            $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
             $recommended_info = $this->t_teacher_info->get_teacher_info($recommended_teacherid);
+            $teacher_ref_type = $teacher_info['teacher_ref_type'];
 
             $reference_type = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
             $check_flag     = $this->check_is_special_reference($teacher_info['phone']);
@@ -4071,7 +4072,24 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
                 $teacher_info['phone'],$reference_type,$begin_time
             );
+
+            /**
+             * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
+             * 明日之星推荐的在职老师起步都是50元/个
+             */
+            if($reference_type==2){
+                switch($teacher_ref_type){
+                case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
+                    $reference_num += 30;
+                    break;
+                case E\Eteacher_ref_type::V_3:
+                    $reference_num += 10;
+                    break;
+                }
+            }
+
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
+
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
                 "money"      => $reference_price*100,

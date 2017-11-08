@@ -1169,11 +1169,9 @@ class teacher_level extends Controller
     public function check_is_have_record(){
         $lessonid                         = $this->get_in_int_val("lessonid",0);
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,1,-1);
-        if($id>0){
-            return $this->output_err("该课程已有反馈");
-        }else{
-            return $this->output_succ();
-        }
+        
+        
+        return $this->output_succ(["id"=>$id]);
  
     }
 
