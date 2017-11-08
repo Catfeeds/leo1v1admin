@@ -2235,6 +2235,7 @@ class ss_deal extends Controller
             ]);
         }
 
+        //生成默认子合同
         $this->t_child_order_info->row_insert([
             "child_order_type" =>0,
             "pay_status"       =>0,
