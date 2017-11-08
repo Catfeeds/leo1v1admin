@@ -82,6 +82,13 @@ class assistant_performance extends Controller
                 $list[$v][$k]=1; 
             }
         }
+        foreach($list as &$item){
+            foreach($time_list as $k=>$v){
+                if(!isset($item[$k])){
+                    $item[$k]=0;
+                }
+            }
+        }
         dd($list);
         
 
