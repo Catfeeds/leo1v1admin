@@ -19,6 +19,14 @@ class test_sam  extends Controller
      * @return - access_token string.
      */
     public function test_api(){
+
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (944,
+            "你收到1个例子",
+            "来自：知识库",
+            "需要你及时联系",
+            "http://admin.leo1v1.com/seller_student_new/seller_student_list_all"); //erick
+
+        dd(2);
         /*
         $url = 'https://aip.baidubce.com/oauth/2.0/token';
         $post_data = array();
