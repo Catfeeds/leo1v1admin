@@ -1320,7 +1320,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "s.lesson_count_all=0",
             "n.seller_resource_type=1",
             "n.admin_revisiterid=0",
-            "t.seller_student_status <>  50",
+            "t.seller_student_status <> 50",
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
@@ -1330,7 +1330,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
-            $userid = $this->task->t_test_subject_free_list->field_get_value($adminid,'userid');
+            $userid = $this->task->t_test_subject_free_list->get_userid_by_amdinid($adminid);
             if($userid>0){//历史回流人
                 $where_arr[] = ['n.userid =%u',$userid];
             }

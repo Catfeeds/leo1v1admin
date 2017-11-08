@@ -81,4 +81,15 @@ class t_test_subject_free_list extends \App\Models\Zgen\z_t_test_subject_free_li
         return $this->main_get_list($sql);
     }
 
+    public function get_userid_by_adminid($adminid) {
+        $sql=$this->gen_sql_new(
+            " select userid "
+            ." from %s"
+            ." where adminid=%u "
+            ,self::DB_TABLE_NAME
+            ,$adminid
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
