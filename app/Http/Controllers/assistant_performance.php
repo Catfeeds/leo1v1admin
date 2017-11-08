@@ -82,16 +82,21 @@ class assistant_performance extends Controller
                 $list[$v][$k]=1; 
             }
         }
-        foreach($list as &$item){
+        foreach($list as $key=>&$item){
             foreach($time_list as $k=>$v){
                 if(!isset($item[$k])){
-                    $item[$k]=0;
+                    $item[$k]="否";
+                }else{
+                     $item[$k]="是";
                 }
             }
-        }
-        dd($list);
-        
+            $item["nick"] = $this->cache_get_student_nick($key);
 
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),[
+            "time_arr" =>$time_arr
+        ]);
 
     }
 
