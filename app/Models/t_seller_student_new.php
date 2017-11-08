@@ -2549,7 +2549,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "sub_assign_adminid_1"       => 0,
             "sub_assign_time_1"          => time(),
             "first_admin_master_adminid" => 0,
-            "first_admin_master_time"    => time()
+            "first_admin_master_time"    => time(),
+            "auto_allot_adminid"         => $opt_adminid,
         ];
 
 

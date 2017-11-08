@@ -1944,14 +1944,7 @@ class agent extends Controller
 
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
-            =$this->get_in_order_by_str([
-
-                "no_phone_count"     => false,
-                "ok_phone_no_lesson" => false,
-                "ok_lesson_rate"     => false,
-                "ok_lesson_no_order" => false,
-                "order_rate"         => false,
-            ],"",[
+            =$this->get_in_order_by_str(["no_phone_count", "ok_phone_no_lesson", "ok_lesson_rate", "ok_lesson_no_order", "order_rate",],"",[
                 "user_count"         => "user_count" ,
                 "no_revisit_count"   => "no_revisit_count",
                 "no_phone_count"     => "no_phone_count",
