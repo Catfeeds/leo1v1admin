@@ -267,6 +267,11 @@ class wx_parent_common extends Controller
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
             $this->t_seller_student_new->set_admin_id_ex([$new_userid],$opt_adminid,0);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($account_id;,
+            "来自：知识库",
+            "你收到1个例子",
+            "需要你及时联系",
+            "http://admin.leo1v1.com/seller_student_new/seller_student_list_all");
             //$task->t_manager_info->send_wx_todo_msg_by_adminid ($account_id,"国庆延休统计","全职老师国庆延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); 
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }else{
