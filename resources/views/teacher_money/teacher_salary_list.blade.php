@@ -19,7 +19,9 @@
                         <span class="input-group">课程收入</span>
                         <input id="id_lesson_price" value="0">
                         <span class="input-group">老师总工资</span>
-                        <input id="id_teacher_money_tax" value="{{$all_money}}">
+                        <input id="id_teacher_money" value="{{$all_money}}">
+                        <span class="input-group">税后老师总工资</span>
+                        <input id="id_teacher_money_tax" value="{{$all_money_tax}}">
                     </div>
                 </div>
             </div>
@@ -31,6 +33,7 @@
                         <td width="100px">老师id</td>
                         <td width="100px">姓名</td>
                         <td >手机号</td>
+                        <td >科目</td>
                         <td style="display:none">持卡人</td>
                         <td style="display:none">身份证</td>
                         <td style="display:none">银行卡</td>
@@ -47,6 +50,7 @@
                             <td>{{$var['teacherid']}}</td>
                             <td>{{$var['realname']}}</td>
                             <td>{{$var['phone']}}</td>
+                            <td>{{$var['subject_str']}}</td>
                             <td>{{$var['bank_account']}}</td>
                             <td>身份证:{{$var['idcard']}}</td>
                             <td>银行卡:{{$var['bankcard']}}</td>

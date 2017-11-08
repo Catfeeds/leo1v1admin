@@ -41,5 +41,9 @@ class test_command extends cmd_base
         $start_time = strtotime("2017-11-2 18:00");
         $end_time = strtotime("2017-11-2 21:20");
         $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(0,$start_time,$end_time);
+        foreach($lesson_list as $l_val){
+            $diff_time = $l_val['lesson_start']-$l_val['lesson_end'];
+
+        }
     }
 }

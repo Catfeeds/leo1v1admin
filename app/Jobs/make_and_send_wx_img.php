@@ -77,7 +77,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $is_change = $old_headimgurl !== $headimgurl ? true : false;
         if ( !$is_exists || $is_change ){
 
-            $t_agent->field_update_list($id,['headimgulr' => $headimgurl]);
+            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
             $cmd_rm = "rm /tmp/yxyx_wx_member_".$phone.".png";
             \App\Helper\Utils::exec_cmd($cmd_rm);
 
