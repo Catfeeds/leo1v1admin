@@ -52,6 +52,9 @@ class test_command extends cmd_base
                 if($real_lesson_count!=$l_val['lesson_count']){
                     echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
                     echo PHP_EOL;
+                    $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
+                        "lesson_count"=>$real_lesson_count
+                    ]);
                 }
             }
         }
