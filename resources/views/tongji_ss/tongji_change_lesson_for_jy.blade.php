@@ -8,6 +8,18 @@
 
      var g_data_ex_list= <?php  echo json_encode($table_data_list); ?> ;
     </script>
+    <style>
+     .bg_red,.bg_red td{
+         background-color:#ff3451 !important;
+     }
+     .bg_orange,.bg_orange td{
+         background-color:#0bceff !important;
+     }
+     .bg_orange_red,.bg_orange_red td{
+         background-color:#F8E81C !important;
+     }
+    </style>
+
 
     <section class="content ">
         <div class="row">
