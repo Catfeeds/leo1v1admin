@@ -1890,7 +1890,12 @@ class Utils  {
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
-        $image_1 = imagecreatefrompng($bg_url);     //背景图
+        $ext     = pathinfo($bg_url);
+        if ($ext['extension'] == 'jpg') {
+            $image_1 = imagecreatefromjpeg($bg_url);     //背景图
+        }else{
+            $image_1 = imagecreatefrompng($bg_url);     //背景图
+        }
         $image_2 = imagecreatefrompng($qr_url);     //二维码
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
         $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
