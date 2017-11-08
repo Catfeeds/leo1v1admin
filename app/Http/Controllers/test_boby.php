@@ -965,15 +965,17 @@ class test_boby extends Controller
 
     public function test_img(){
         $wx_openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
-         $phone = '18898881852';
+        $agent = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $phone = '18898881852';
         //$phone = uniqid();
         $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
         $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
 
         $request = ['fromusername'=>'tset'];
 
-        $task=new \App\Jobs\make_and_send_wx_img(4117,$wx_openid,$phone,$bg_url,$qr_code_url,$request);
-        $task->handle();
+        \App\Helper\Utils::wx_make_and_send_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
+        // $task=new \App\Jobs\make_and_send_wx_img(4117,$wx_openid,$phone,$bg_url,$qr_code_url,$request);
+        // $task->handle();
 
     }
 
