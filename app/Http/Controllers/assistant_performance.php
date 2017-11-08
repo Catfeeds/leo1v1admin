@@ -38,8 +38,9 @@ class assistant_performance extends Controller
 
     public function get_ass_stu_lesson_month(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $week_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-        dd($week_info);
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info =  = \App\Helper\Utils::get_week_range($end_time,1 );
 
 
     }

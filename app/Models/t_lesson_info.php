@@ -1528,9 +1528,10 @@ lesson_type in (0,1) "
 	    ["lesson_start<%u",$end,0],
 	    ["userid=%u",$userid,-1],
 	    ["lesson_status=%u",$lesson_status,-1],
-	    "lesson_del_flag=0",
             "lesson_type<1000"
 	];
+        $where_arr = $this->lesson_common_where_arr($where_arr);
+
 
         $sql = $this->gen_sql_new("select lessonid,userid,teacherid,assistantid,lesson_start,lesson_num,stu_attend, lesson_end,lesson_count, "
                        ." teacher_score,teacher_comment,teacher_effect,teacher_quality,teacher_interact,stu_performance,"
