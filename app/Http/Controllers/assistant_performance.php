@@ -40,7 +40,16 @@ class assistant_performance extends Controller
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
         $first_week = $start_info["sdate"];
-        $end_info =  = \App\Helper\Utils::get_week_range($end_time,1 );
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+        for($i=0;$i<$n;$i++){
+           $week = $first_week+$i*7*86400;
+        }
 
 
     }
