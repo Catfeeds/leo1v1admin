@@ -49,9 +49,11 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
         foreach($tea_lesson_list as $item){
             $tea_lesson_info = $t_lesson_info_b3->get_tea_lesson_info($this->lesson_start, $this->lesson_end,$item['teacherid']);
             $keyword1 = '';
-            foreach($tea_lesson_info as $v){
-                $keyword1 .=E\Esubject::get_desc($v['subject'])." - ";
+            foreach($tea_lesson_info as $i=> $v){
+                $keyword1 .=$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d',$v['lesson_start'])."~".date('Y-m-d',$v['lesson_end']);
             }
+            $keyword2 = "常规课";
+
 
         }
 

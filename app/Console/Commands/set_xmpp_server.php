@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class test_command extends cmd_base
+class set_xmpp_server extends cmd_base
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:test_command {--data=}';
+    protected $signature = 'command:set_xmpp_server {--day=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '测试命令';
+    protected $description = 'Command description';
+
 
     /**
      * Create a new command instance.
@@ -31,17 +31,20 @@ class test_command extends cmd_base
         parent::__construct();
     }
 
+
+
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle()
+    public function do_handle()
     {
-        $data = $this->get_in_value("data","");
+        $start_time=$this->get_arg_day();
+        $end_time = $start_time +86400;
 
-        $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            $data,$reference_type,$begin_time
-        );
+
     }
+
+
 }

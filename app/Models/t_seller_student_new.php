@@ -2912,4 +2912,24 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+
+    public function get_today_yxyx_stu($start_time){
+        $where_arr = [
+            ['ss.add_time>=%u', $start_time, -1],
+            's.is_test_user=0',
+            "s.origin='优学优享'",
+        ];
+        $sql = $this->gen_sql_new(
+            "select ss.userid,ss.add_time,ss.auto_allot_adminid,ss.admin_revisiterid,ss.admin_assign_time"
+            ." from %s ss"
+            ." left join %s s on s.userid=ss.userid"
+            ." where %s"
+            ." order by ss.add_time"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

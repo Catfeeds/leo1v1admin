@@ -4071,6 +4071,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
                 $teacher_info['phone'],$reference_type,$begin_time
             );
+
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
