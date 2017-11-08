@@ -308,8 +308,8 @@
                          </td>
                          <td  class="td-phone">
                              <div class="phone-data">
-                                 @if($var['origin'] == '优学优享')
-                                     {{$var["origin"]}}/{{$var["nickname"]}}
+                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库')
+                                     <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
                                  @endif
                              </div>
                          </td>
