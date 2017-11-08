@@ -56,7 +56,10 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $ret = $this->task->t_seller_student_new->get_all_list_new();
+        $start_time = 1506787200;
+        $end_time = 1510156800;
+        $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
+        // echo count($ret)."\n";
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;
@@ -65,17 +68,19 @@ class tom_do_once extends Command
                 if($item == $info['userid']){
                     $is_called_phone = $info['is_called_phone'];
                     $cc_no_called_count = $info['cc_no_called_count'];
-                    if($is_called_phone == 1){
+                    $admin_role = $info['admin_role'];
+                    if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
                         $num = 0;
                         break;
-                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
+                    }elseif($is_called_phone == 0 && isset($info['is_called_phone']) && $admin_role==E\Eaccount_role::V_2){
                         $num += 1;
                     }
                 }
             }
-            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            // $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
             echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
+
 
 
         // $account_role = E\Eaccount_role::V_2;

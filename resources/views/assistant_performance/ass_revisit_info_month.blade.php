@@ -22,6 +22,12 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span >助教</span>
+                        <input id="id_assistantid"  /> 
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -40,7 +46,7 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["nick"]}} </td>
+                        <td><a href="/user_manage/ass_archive?user_name={{$var["userid"]}}" target="_blank">{{@$var["nick"]}}</a> </td>
                         <td class="first_need"></td>
                         <td class="first_real"></td>
                         <td class="second_need"></td>
@@ -50,9 +56,7 @@
                                  
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
-
+                                
                             </div>
                         </td>
                     </tr>

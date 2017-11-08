@@ -1741,6 +1741,13 @@ class teacher_info_www extends TeaController
             $opt_nick      = $this->cache_get_teacher_nick($teacherid);
 
             $qc_openid_arr = [
+                "郑璞",
+                "孙佳旭",
+                "童宇周",
+                "王洪艳",
+                "leowang",
+                "班洁",
+                "louis",
                 "wenbin",
                 "李珉劼",
                 "夏宏东",

@@ -19,25 +19,23 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     var $wx_openid;
-    var $id;
     var $request;
-    var $phone;
     var $bg_url;
     var $qr_code_url;
+    var $agent;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id,$wx_openid,$phone,$bg_url,$qr_code_url,$request )
+    public function __construct($wx_openid,$bg_url,$qr_code_url,$request,$agent)
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
-        $this->phone       = $phone;
         $this->bg_url      = $bg_url;
-        $this->id          = $id;
         $this->request     = $request;
         $this->qr_code_url = $qr_code_url;
+        $this->agent       = $agent;
     }
 
     /**
@@ -47,11 +45,15 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $t_agent = new \App\Models\t_agent();
+        $phone   = $this->agent['phone'];
+        $id      = $this->agent['id'];
+        $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
+        $old_headimgurl = $this->agent['headimgurl'];
+
         \App\Helper\Utils::logger("erweima_start");
 
-        $qr_url       = "/tmp/yxyx_wx_".$this->phone.".png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
-
         \App\Helper\Utils::logger("erweima_END");
         \App\Helper\Utils::logger("get_wx_head_start");
         //请求微信头像
@@ -68,9 +70,9 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
+        //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
-
-        $datapath = "/tmp/yxyx_wx_".$this->phone."_headimg.jpg";
+        $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
@@ -85,7 +87,14 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
         \App\Helper\Utils::logger("make_image7");
-        $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+
+        $ext = pathinfo($this->bg_url);
+        if ($ext['extension'] == 'jpg') {
+            $image_1 = imagecreatefromjpeg($this->bg_url);     //背景图
+        }else{
+            $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+        }
+
         \App\Helper\Utils::logger("make_bg");
         $image_2 = imagecreatefrompng($qr_url);     //二维码
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
@@ -111,7 +120,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_wx_member_".$this->phone.".png";
+        $agent_qr_url = "/tmp/yxyx_wx_".$phone."_member.png";
         imagepng($image_3,$agent_qr_url);
 
         \App\Helper\Utils::logger("make_img_END");
@@ -124,8 +133,8 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imagedestroy($image_6);
         // return $agent_qr_url;
 
-        // $img_url = '/tmp/yxyx_'.$phone.'.png';
-        \App\Helper\Utils::logger("upload_img_start");
+
+
         $type = 'image';
         $num = rand();
         $img_Long = file_get_contents($agent_qr_url);
@@ -140,11 +149,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        $cmd_rm = "rm /tmp/yxyx_wx_".$this->phone."*";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
-
-        $t_agent = new \App\Models\t_agent();
-        $t_agent->set_add_type_2( $this->id );
+        $t_agent->set_add_type_2( $id );
 
         $txt_arr = [
             'touser'   => $this->request['fromusername'] ,
@@ -161,6 +166,13 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
 
+        $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
+        \App\Helper\Utils::exec_cmd($cmd_rm);
+
+        //判断是否更换头像
+        if ( $old_headimgurl !== $headimgurl ){
+            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
+        }
 
     }
 

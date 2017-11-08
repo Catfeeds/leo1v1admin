@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class send_wx_msg_for_trial_train_lesson_next_day extends Command
+class send_lesson_plan_tomorrow extends Command
 {
     /**
      * The name and signature of the console command.
@@ -37,6 +37,9 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
      */
     public function handle()
     {
+        //
+
+
         $task = new \App\Console\Tasks\TaskController();
 
         // 前一天晚上8点上课推送
@@ -57,9 +60,14 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
             老师姓名：x老师
             请保持网络畅通，提前做好上课准备。
 
+
          **/
 
-        $trial_test_lesson_lists = $task->t_teacher_record_list->get_lesson_list_for_next_day();
+        $lesson_start = strtotime('+1 day',strtotime(date('Y-m-d')));
+        $lesson_end = $lesson_start+86400;
+
+        $tea_lesson_list = $task->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
+
 
         if(empty($trial_test_lesson_lists)){
             foreach($trial_test_lesson_lists as $item){
@@ -76,8 +84,5 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
 
             }
         }
-
-
-
     }
 }

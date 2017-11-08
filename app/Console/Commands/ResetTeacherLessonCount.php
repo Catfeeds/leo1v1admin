@@ -17,7 +17,7 @@ class ResetTeacherLessonCount extends cmd_base
      *
      * @var string
      */
-    protected $description = '重置全职老师课程的累计课时，只累计常规课时，时听课试不累计';
+    protected $description = '重置全职老师课程的累计课时，只累计常规课时，试听课试不累计';
 
     /**
      * Create a new command instance.

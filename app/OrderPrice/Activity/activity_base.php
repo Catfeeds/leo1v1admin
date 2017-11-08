@@ -16,6 +16,7 @@ class activity_base {
         E\Eorder_activity_type::V_2017102702  =>  activity_2017102702::class,
         E\Eorder_activity_type::V_2017110301  =>  activity_2017110301::class,
         E\Eorder_activity_type::V_2017110401  =>  activity_2017110401::class,
+        E\Eorder_activity_type::V_2017110801  =>  activity_2017110801::class,
     ];
 
     /**
@@ -92,6 +93,8 @@ class activity_base {
     }
 
     static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag ) {
+        \App\Helper\Utils::logger("  $desc ");
+
         return [ "order_activity_type" => static::$order_activity_type ,
                  "succ_flag"=> $succ_flag ,
                  "activity_desc"=>$desc,

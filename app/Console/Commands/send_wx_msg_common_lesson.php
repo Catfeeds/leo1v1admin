@@ -3,19 +3,15 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Helper\Common;
-use \App\Enums as E;
 
-
-
-class send_wx_msg_for_test_lesson extends Command
+class send_wx_msg_common_lesson extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:send_wx_msg_for_test_lesson';
+    protected $signature = 'command:name';
 
     /**
      * The console command description.
@@ -39,6 +35,7 @@ class send_wx_msg_for_test_lesson extends Command
      *
      * @return mixed
      */
+
     public function handle()
     {
         //
@@ -363,3 +360,5 @@ class send_wx_msg_for_test_lesson extends Command
  {{remark.DATA}}
 
 **/
+
+}

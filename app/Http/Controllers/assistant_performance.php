@@ -19,6 +19,7 @@ class assistant_performance extends Controller
             $account="eros";
         }
         $assistantid = $this->t_assistant_info->get_assistantid( $account);
+        $assistantid  = $this->get_in_int_val("assistantid",$assistantid);
         $ret_info = $this->t_student_info->get_assistant_read_stu_info($assistantid);
         $month_start = strtotime(date("Y-m-01",$start_time));
         $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
@@ -33,6 +34,49 @@ class assistant_performance extends Controller
             "last_time_str"=>$last_time_str,
             "cur_time_str" =>$cur_time_str
         ]);
+    }
+
+    public function get_ass_stu_lesson_month(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $account = $this->get_account();
+        if($account=="jack"){
+            $account="eros";
+        }
+        $assistantid = $this->t_assistant_info->get_assistantid( $account);
+        $assistantid  = $this->get_in_int_val("assistantid",$assistantid);
+        $adminid = $this->t_manager_info->get_ass_adminid($assistantid);
+
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+        $userid_list = $this->t_student_info->get_read_student_ass_info();
+        $time_list=[];
+        for($i=0;$i<$n;$i++){
+           $week = $first_week+$i*7*86400;
+            $id =$this->t_ass_weekly_info->get_id_by_unique_record($adminid,$week,1);
+            if($id>0){
+                $read_student_list = $this->t_ass_weekly_info->field_get_list($id,"read_student_list");
+                $read_student_list= @$read_student_list["read_student_list"];
+            }else{
+                $read_student_list = @$userid_list[$adminid];
+            }
+            if($read_student_list){
+                $read_student_list = json_decode($read_student_list,true);
+            }else{
+                $read_student_list=[];
+            }
+            $time_list[$week]=$read_student_list;
+
+        }
+        dd($time_list);
+
+
     }
 
 }

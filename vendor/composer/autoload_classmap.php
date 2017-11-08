@@ -627,6 +627,7 @@ return array(
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
     'TTestLessonSubjectRequireAddIndexTestLessonOrderFailFlag' => $baseDir . '/database/migrations/2017_11_02_133537_t_test_lesson_subject_require_add_index_test_lesson_order_fail_flag.php',
     'TTestSubjectFreeListAddIndexAddTime' => $baseDir . '/database/migrations/2017_10_20_101727_t_test_subject_free_list_add_index_add_time.php',
+    'TTqCallInfoAddIndexAdminRole' => $baseDir . '/database/migrations/2017_11_08_134149_t_tq_call_info_add_index_admin_role.php',
     'TTqCallInfoAddObjStartTime' => $baseDir . '/database/migrations/2017_10_09_182200_t_tq_call_info_add_obj_start_time.php',
     'TUserLog' => $baseDir . '/database/migrations/2017_10_24_132146_t_user_log.php',
     'TWxGiveBookModifyColumon' => $baseDir . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',

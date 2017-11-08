@@ -345,7 +345,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
             "from %s ao ".
             "left join %s a on ao.aid=a.id ".
             "left join %s oi on oi.orderid = ao.orderid ".
-            "where %s order ao.create_time",
+            "where %s order by ao.create_time",
             self::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,

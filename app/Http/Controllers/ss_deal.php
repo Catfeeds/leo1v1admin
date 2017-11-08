@@ -2235,6 +2235,7 @@ class ss_deal extends Controller
             ]);
         }
 
+        //生成默认子合同
         $this->t_child_order_info->row_insert([
             "child_order_type" =>0,
             "pay_status"       =>0,
@@ -3816,13 +3817,18 @@ class ss_deal extends Controller
             "nick"=>$nick,
             "grade"=>$grade,
         ]);
-        if($tmk_student_status != $tmk_student_status_old && $tmk_student_status == 3){//tmk更改例子为有效
+        if($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_3){//tmk更改例子为有效
             $this->t_seller_student_new->field_update_list($userid,[
                 "tmk_student_status"=>$tmk_student_status,
                 "tmk_next_revisit_time"=>$tmk_next_revisit_time,
                 "tmk_desc"=>$tmk_desc,
                 "first_tmk_set_valid_admind"=>$adminid,
                 "first_tmk_set_valid_time"=>time(null),
+                "cc_no_called_count"=>0,
+            ]);
+        }elseif($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_2){//tmk无效
+            $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+                "seller_student_status"=>E\Eseller_student_status::V_50,
             ]);
         }else{
             $this->t_seller_student_new->field_update_list($userid,[
@@ -6211,6 +6217,13 @@ class ss_deal extends Controller
             $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_teacher/';
             $wx=new \App\Helper\Wx();
             $qc_openid_arr = [
+                "orwGAs4dM5Z-nc2VKAnG1oP0VfuQ", //谢汝毅
+                "orwGAs08kfcXpQ4HZxeNV7_UqyBE", //班洁
+                "orwGAs4HRuV3DIrMqWLazE0WKStY", //王皎嵘
+                "orwGAs0oIUoS4fyZ2rUnMCaRro4Y",//王洪艳
+                "orwGAs1KiLCE4Gdp4IZ07_6lCjpU", //童宇周
+                "orwGAs16c87dXRwE5b5vE9N6zZCk", // 孙佳旭
+                "orwGAs5S7U5N-FDA9ydoTpofkpCU", // 郑璞
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣

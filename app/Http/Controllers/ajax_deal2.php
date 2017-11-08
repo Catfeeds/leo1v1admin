@@ -1314,7 +1314,7 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
                 }else{
-                    $tr_str.= " <tr><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
+                    $tr_str.= " <tr><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$item["order_activity_type"]}\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                         . "<td>  ". $period_str
@@ -1962,7 +1962,7 @@ class ajax_deal2 extends Controller
     public function get_ass_revisit_info_detail(){
         $userid= $this->get_in_int_val("userid");
         $start_time= $this->get_in_str_val("start_time");
-        $account= $this->get_in_int_val("account");
+        $account= $this->get_in_str_val("account");
         $month_start = strtotime($start_time);
         $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
         $cur_start = $month_start+15*86400;

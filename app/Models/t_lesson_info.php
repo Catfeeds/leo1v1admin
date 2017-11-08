@@ -1510,7 +1510,6 @@ lesson_type in (0,1) "
         $server_type=2;
 
 
-        //check
         $sql = sprintf("update %s set lesson_start = %u, lesson_end = %u,lesson_status=%u  ,lesson_upload_time=0 "
                        .",server_type=%u  where lessonid = %u "
                        ,self::DB_TABLE_NAME, $start, $end, $lesson_status,$server_type , $lessonid);
@@ -1522,36 +1521,40 @@ lesson_type in (0,1) "
         return $ret;
     }
 
-    public function  get_lesson_list_info($userid,$start,$end)
+    public function get_lesson_list_info($userid,$start,$end,$lesson_status=2)
     {
-        $lesson_str=sprintf("and lesson_start>%u and lesson_start<%u",$start,$end);
-        $sql = sprintf("select lessonid,userid,teacherid,assistantid,lesson_start,lesson_num,stu_attend, lesson_end, "
+	$where_arr = [
+	    ["lesson_start>%u",$start,0],
+	    ["lesson_start<%u",$end,0],
+	    ["userid=%u",$userid,-1],
+	    ["lesson_status=%u",$lesson_status,-1],
+            "lesson_type<1000",
+	    "lesson_del_flag=0",
+	];
+        $sql = $this->gen_sql_new("select lessonid,userid,teacherid,assistantid,lesson_start,lesson_num,stu_attend, lesson_end,lesson_count, "
                        ." teacher_score,teacher_comment,teacher_effect,teacher_quality,teacher_interact,stu_performance,"
-                       ." stu_score,stu_comment,stu_attitude,stu_attention,stu_ability,stu_stability "
+                       ." stu_score,stu_comment,stu_attitude,stu_attention,stu_ability,stu_stability,confirm_flag "
                        ." from %s "
-                       ." where userid = %u "
-                       ." and lesson_status = 2 %s"
-                       . " and lesson_del_flag=0 "
+                       ." where %s "
                        ,self::DB_TABLE_NAME
-                       ,$userid
-                       ,$lesson_str
+                       ,$where_arr
         );
         return $this->main_get_list($sql);
     }
 
     public function get_confirm_lesson_list($start_time,$end_time) {
-        $sql=$this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, count(distinct l.userid ) as user_count,a.nick assistant_nick from  %s  l, %s s,%s a  ".
+        $sql = $this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, count(distinct l.userid ) as user_count,a.nick assistant_nick from  %s  l, %s s,%s a  ".
                             " where  l.userid=s.userid  and l.assistantid = a.assistantid and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2)  and lesson_type in (0,1,3)"
-                            . " and lesson_del_flag=0 and l.assistantid <> 59329  "
+                            ." and lesson_del_flag=0 and l.assistantid <> 59329  "
                             ." group by l.assistantid  order by lesson_count desc",
                             self::DB_TABLE_NAME,
                             t_student_info::DB_TABLE_NAME,
                             t_assistant_info::DB_TABLE_NAME,
                             $start_time,$end_time
         );
-
         return $this->main_get_list_as_page($sql);
     }
+
     public function get_confirm_lesson_list_user($page_num, $start_time,$end_time,$assistantid) {
         $where_arr=[
             ["s.assistantid= %u",$assistantid, -1  ],
