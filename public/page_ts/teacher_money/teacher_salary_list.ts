@@ -4,12 +4,12 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val()
-		    reference:	$('#id_reference').val()
+		    date_type_config : $('#id_date_type_config').val(),
+		    date_type        : $('#id_date_type').val(),
+		    opt_date_type    : $('#id_opt_date_type').val(),
+		    start_time       : $('#id_start_time').val(),
+		    end_time         : $('#id_end_time').val(),
+		    reference        : $('#id_reference').val(),
     });
 }
 
@@ -24,7 +24,9 @@ $(function(){
             load_data();
         }
     });
-    $("#id_reference").val(g_args.reference);
 
-	$('.opt-change').set_input_change_event(load_data);
+    $("#id_reference").val(g_args.reference);
+    $.admin_select_user($("#id_reference"),"teacher",load_data);
+
+	  $('.opt-change').set_input_change_event(load_data);
 });

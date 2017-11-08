@@ -714,14 +714,27 @@ class teacher_money extends Controller
 
     public function teacher_salary_list(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
-        $reference = $this->get_in_str_val("reference");
-
-        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference);
-        foreach($ret_info['list'] as &$t_val){
-            $t_val['money']/=100;
+        $reference = $this->get_in_int_val("reference",-1);
+        if($reference>0){
+            $reference_phone = $this->t_teacher_info->get_phone($reference);
+        }else{
+            $reference_phone = "";
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
+        $all_money = 0;
+        foreach($ret_info['list'] as &$t_val){
+            $t_val['money'] /= 100;
+            if($t_val['is_negative']==1){
+                $t_val['money'] = 0-$t_val['money'];
+            }
+
+            $all_money += $t_val['money'];
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "all_money" => $all_money
+        ]);
     }
 
 

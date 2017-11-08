@@ -19,13 +19,13 @@
                         <span class="input-group">课程收入</span>
                         <input id="id_lesson_price" value="0">
                         <span class="input-group">老师总工资</span>
-                        <input id="id_teacher_money_tax" value="">
+                        <input id="id_teacher_money_tax" value="{{$all_money}}">
                     </div>
                 </div>
             </div>
         </div>
         <hr/>
-            <table class="common-table"> 
+            <table class="common-table">
                 <thead>
                     <tr>
                         <td width="100px">老师id</td>

@@ -818,12 +818,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         if ( !$order_by_str ) {
-            $order_by_str= " order by $opt_date_str desc";
+            $order_by_str= " order by $opt_date_str desc,origin_level";
         }
 
 
         $sql=$this->gen_sql_new(
-            "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
+            "select  tmk_desc,tmk_next_revisit_time,aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
             . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status,cur_adminid_call_count as call_count "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
@@ -1636,7 +1636,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $set_arr["cc_called_count"]=$item['cc_called_count']+1;
                 $set_arr["cc_no_called_count"] = 0;
             }else{ //未接通
-                if($call_time>0){
+                if($tq_called_flag ==1){
                     $set_arr["called_time"] = $item["called_time"]+1;
                     $set_arr["cc_no_called_count"] = $item["cc_no_called_count"]+1;
                 }
@@ -2502,6 +2502,31 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list_new(){
+        $sql = $this->gen_sql_new(
+            " select n.userid,n.phone,n.cc_no_called_count,"
+            ." tq.is_called_phone "
+            ." from %s n"
+            ." left join %s tq on tq.phone=n.phone"
+            ." where n.add_time>=1506787200 and n.add_time<1510070400 order by n.add_time "
+            ,self::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_list_new_two(){
+        $sql = $this->gen_sql_new(
+            " select n.userid,n.phone,n.cc_no_called_count,"
+            ." tq.is_called_phone "
+            ." from %s n"
+            ." left join %s tq on tq.phone=n.phone"
+            ." where n.add_time>=1506787200 and n.add_time<1510070400 and n.userid=419507 order by n.add_time "
+            ,self::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 
     public function allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account){
 

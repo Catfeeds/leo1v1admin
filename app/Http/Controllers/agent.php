@@ -465,17 +465,27 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $sort = $this->t_order_info->get_sort_order_count_money_new_two($start_time=1506960000,$end_time=1509465600);
-        $sort_new = [];
-        foreach($sort as $info){
-            $parent_orderid = $info['parent_orderid'];
-            $type = $info['child_order_type'];
-            if($type == 2){
-                $sort_new[] = $info;
-                $this->t_order_info->field_update_list($parent_orderid,['can_period_flag'=>1]);
+        $ret = $this->t_seller_student_new->get_all_list_new_two();
+        $userid_arr = array_unique(array_column($ret,'userid'));
+        foreach($userid_arr as $item){
+            $num = 0;
+            $userid = $item;
+            foreach($ret as $info){
+                if($item == $info['userid']){
+                    $is_called_phone = $info['is_called_phone'];
+                    $cc_no_called_count = $info['cc_no_called_count'];
+                    if($is_called_phone == 1){
+                        $num = 0;
+                        break;
+                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
+                        $num += 1;
+                    }
+                    // dd($num);
+                }
             }
+            $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
-        dd($sort,$sort_new);
     }
 
     //处理等级头像
@@ -1934,6 +1944,8 @@ class agent extends Controller
             E\Esubject::set_item_value_str($item,'subject');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
+            \App\Helper\Utils::unixtime2date_for_item($item,'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
             // $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
             $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
             $item['last_call_time_space'] = (int)($lass_call_time_space/86400);

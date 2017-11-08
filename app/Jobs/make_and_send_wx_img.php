@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+include( app_path("Wx/Yxyx/lanewechat_yxyx.php") );
 use Yxyx\Core\Media;
 use Yxyx\Core\AccessToken;
 use LaneWeChat\Core\ResponsePassive;
@@ -46,9 +47,13 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $qr_url       = "/tmp/".$this->phone.".png";
+        \App\Helper\Utils::logger("erweima_start");
+
+        $qr_url       = "/tmp/yxyx_wx_".$this->phone.".png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
+        \App\Helper\Utils::logger("erweima_END");
+        \App\Helper\Utils::logger("get_wx_head_start");
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
         $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
@@ -63,21 +68,35 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
-        $image_5 = imagecreatefromjpeg($headimgurl);
+        \App\Helper\Utils::logger("make_img_start");
+
+        $datapath = "/tmp/yxyx_wx_".$this->phone."_headimg.jpg";
+        $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
+        shell_exec($wgetshell);
+
+        $image_5 = imagecreatefromjpeg($datapath);
+        \App\Helper\Utils::logger("get_head");
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
+        \App\Helper\Utils::logger("make_new");
         $color = imagecolorallocate($image_6, 255, 255, 255);
+        \App\Helper\Utils::logger("make_image6");
         imagefill($image_6, 0, 0, $color);
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
+        \App\Helper\Utils::logger("make_image7");
         $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+        \App\Helper\Utils::logger("make_bg");
         $image_2 = imagecreatefrompng($qr_url);     //二维码
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
         $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
+        \App\Helper\Utils::logger("make_8");
         imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
         imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
+        \App\Helper\Utils::logger("make_9");
         imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
 
+        \App\Helper\Utils::logger("for_roop");
         $r = 80; //圆半径
         for ($x = 0; $x < 160; $x++) {
             for ($y = 0; $y < 160; $y++) {
@@ -92,11 +111,10 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_".$this->phone.".png";
+        $agent_qr_url = "/tmp/yxyx_wx_member_".$this->phone.".png";
         imagepng($image_3,$agent_qr_url);
 
-        $cmd_rm = "rm /tmp/".$this->phone.".png";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
+        \App\Helper\Utils::logger("make_img_END");
 
         imagedestroy($image_1);
         imagedestroy($image_2);
@@ -107,6 +125,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         // return $agent_qr_url;
 
         // $img_url = '/tmp/yxyx_'.$phone.'.png';
+        \App\Helper\Utils::logger("upload_img_start");
         $type = 'image';
         $num = rand();
         $img_Long = file_get_contents($agent_qr_url);
@@ -117,17 +136,18 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = Media::upload($img_url, $type);
         \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
 
+        \App\Helper\Utils::logger("upload_img_END");
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        $cmd_rm = "rm /tmp/yxyx_".$this->phone.".png";
+        $cmd_rm = "rm /tmp/yxyx_wx_".$this->phone."*";
         \App\Helper\Utils::exec_cmd($cmd_rm);
 
         $t_agent = new \App\Models\t_agent();
         $t_agent->set_add_type_2( $this->id );
 
         $txt_arr = [
-            'touser'   => $this->request['tousername'] ,
+            'touser'   => $this->request['fromusername'] ,
             'msgtype'  => 'image',
             "image"=> [
                 "media_id" => "$mediaId"
@@ -138,6 +158,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
+
         \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
 
 
@@ -153,5 +174,32 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         return $output;
     }
 
+    public static function ch_json_encode($data) {
 
+
+        $ret = self::ch_urlencode($data);
+        $ret = json_encode($ret);
+
+        return urldecode($ret);
+    }
+
+    public static function ch_urlencode($data) {
+        if (is_array($data) || is_object($data)) {
+            foreach ($data as $k => $v) {
+                if (is_scalar($v)) {
+                    if (is_array($data)) {
+                        $data[$k] = urlencode($v);
+                    } else if (is_object($data)) {
+                        $data->$k = urlencode($v);
+                    }
+                } else if (is_array($data)) {
+                    $data[$k] = self::ch_urlencode($v); //递归调用该函数
+                } else if (is_object($data)) {
+                    $data->$k = self::ch_urlencode($v);
+                }
+            }
+        }
+
+        return $data;
+    }
 }

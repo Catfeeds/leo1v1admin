@@ -157,6 +157,13 @@ class TeacherMoneyTask extends TaskController
                 $pay_time = $start_time;
             }
 
+            if($lesson_money<0){
+                $is_negative  = 1;
+                $lesson_money = abs($lesson_money);
+            }else{
+                $is_negative=0;
+            }
+
             $check_flag = $this->t_teacher_salary_list->check_money_is_exists($t_val['teacherid'],$pay_time);
             if(!$check_flag){
                 $this->t_teacher_salary_list->row_insert([
@@ -165,9 +172,10 @@ class TeacherMoneyTask extends TaskController
                     "teacher_money_type" => $t_val['teacher_money_type'],
                     "pay_time"           => $pay_time,
                     "money"              => $lesson_money,
+                    "is_negative"        => $is_negative,
                 ]);
             }else{
-                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$pay_time,$lesson_money);
+                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$pay_time,$lesson_money,$is_negative);
             }
         }
 

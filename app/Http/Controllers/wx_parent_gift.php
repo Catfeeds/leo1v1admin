@@ -51,7 +51,7 @@ class wx_parent_gift extends Controller
 
         session(["wx_parent_openid" => $openid ] );
 
-        $subscribe = $user_info['subscribe'];
+        $subscribe = @$user_info['subscribe'];
         $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         $type = 0;
 
@@ -430,8 +430,13 @@ class wx_parent_gift extends Controller
         $prize_type = $this->get_win_rate($stu_type,$parentid);
 
         $this->t_ruffian_activity->start_transaction();
-        //检测奖品是否抽完
-        $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+
+        if($prize_type>0){  //检测奖品是否抽完
+            $has_prize_id = $this->t_ruffian_activity->check_has_left($prize_type,$stu_type);
+        }else{
+            $has_prize_id = '';
+        }
+
         if(!$has_prize_id){
             if($stu_type == 1){
                 $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
@@ -441,10 +446,6 @@ class wx_parent_gift extends Controller
                 }else{
                     $prize_type=8;
                 }
-                if($prize_type == 1 && $is_test ==0){ // 未试听过的人不能获得书包
-                    $prize_type = 8;
-                }
-
             }elseif($stu_type ==2){
                 $prize_type=2;
             }
@@ -456,13 +457,35 @@ class wx_parent_gift extends Controller
                 "stu_type"   => $stu_type,
                 "validity_time" => strtotime(date('Y-m-d'))
             ]);
-
         }else{
-            $this->t_ruffian_activity->field_update_list($has_prize_id,[
-                "parentid"   => $parentid,
-                "prize_time" => time(),
-            ]);
+            if($stu_type == 1){
+                $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
+                $is_has_test = $this->t_ruffian_activity->check_is_has_test($parentid);
+                if($prize_type == 1 && $is_test ==0){ // 未试听过的人不能获得书包
+                    $prize_type = 8;
+                }
+                if($prize_type == 8 && $is_has_test){
+                    $prize_type = 2;
+                }
+            }
+
+            $list = [2,8];
+            if(in_array($prize_type,$list)){
+                $this->t_ruffian_activity->row_insert([
+                    "parentid"   => $parentid,
+                    "prize_type" => $prize_type,
+                    "prize_time" => time(),
+                    "stu_type"   => $stu_type,
+                    "validity_time" => strtotime(date('Y-m-d'))
+                ]);
+            }else{
+                $this->t_ruffian_activity->field_update_list($has_prize_id,[
+                    "parentid"   => $parentid,
+                    "prize_time" => time(),
+                ]);
+            }
         }
+
         $this->t_ruffian_activity->commit();
 
         // 微信通知
@@ -493,6 +516,7 @@ class wx_parent_gift extends Controller
         $active_num = $this->t_ruffian_activity->get_active_num($parentid);
 
         if($active_num == 1){
+            $data_info = [];
             if($stu_type == 1 && $is_new_order<=0){ // 新用户
                 $data_info = [
                     "first"     => "您好，购课即可再次获得翻牌机会",
@@ -508,7 +532,10 @@ class wx_parent_gift extends Controller
                     "keyword3"  => date('Y-m-d H:i:s'),
                 ];
             }
-            $wx->send_template_msg($p_openid,$template_id,$data_info ,"");
+
+            if(!empty($data_info)){
+                $wx->send_template_msg($p_openid,$template_id,$data_info ,"");
+            }
         }
 
         return $this->output_succ(['prize'=>$prize_type]);
@@ -680,17 +707,17 @@ class wx_parent_gift extends Controller
 
         if($rate>75 && $rate<=100){ //中奖金额 31.11  [25]
             $prize = 3111;
-        }elseif($rate>50 & $rate<=75){ // 中奖金额 41.11 [25]
+        }elseif($rate>50 && $rate<=75){ // 中奖金额 41.11 [25]
             $prize = 4111;
-        }elseif($rate>40 & $rate<=50){ // 中奖金额 51.11  [40]
+        }elseif($rate>40 && $rate<=50){ // 中奖金额 51.11  [40]
             $prize = 5111;
-        }elseif($rate>30 & erate<=40){ // 中奖金额 61.11 [20]
+        }elseif($rate>30 && $rate<=40){ // 中奖金额 61.11 [20]
             $prize = 6111;
-        }elseif($rate>20 & $rate<=30){ // 中奖金额 71.11 [10]
+        }elseif($rate>20 && $rate<=30){ // 中奖金额 71.11 [10]
             $prize = 7111;
-        }elseif($rate>10 & $rate<=20){ // 中奖金额 91.11 [10]
+        }elseif($rate>10 && $rate<=20){ // 中奖金额 91.11 [10]
             $prize = 9111;
-        }elseif($rate>0 & $rate<=10){ // 中奖金额 111.11  [10]
+        }elseif($rate>0 && $rate<=10){ // 中奖金额 111.11  [10]
             $prize = 11111;
         }
 

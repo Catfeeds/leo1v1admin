@@ -56,20 +56,21 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $ret = $this->task->t_seller_student_new->get_all_list();
-        foreach($ret as $item){
+        $ret = $this->task->t_seller_student_new->get_all_list_new();
+        $userid_arr = array_unique(array_column($ret,'userid'));
+        foreach($userid_arr as $item){
             $num = 0;
-            $userid = $item['userid'];
-            $phone = $item['phone'];
-            $cc_no_called_count = $item['cc_no_called_count'];
-            $tq_list = $this->task->t_tq_call_info->get_no_called_list($phone);
-            foreach($tq_list as $info){
-                $is_called_phone = $info['is_called_phone'];
-                if($is_called_phone == 1){
-                    $num = 0;
-                    break;
-                }else{
-                    $num += 1;
+            $userid = $item;
+            foreach($ret as $info){
+                if($item == $info['userid']){
+                    $is_called_phone = $info['is_called_phone'];
+                    $cc_no_called_count = $info['cc_no_called_count'];
+                    if($is_called_phone == 1){
+                        $num = 0;
+                        break;
+                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
+                        $num += 1;
+                    }
                 }
             }
             $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
