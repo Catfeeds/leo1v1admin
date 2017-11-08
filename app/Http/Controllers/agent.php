@@ -467,9 +467,8 @@ class agent extends Controller
     public function test_new(){
         $start_time = 1506787200;
         $end_time = 1510156800;
-        $ret_info = ['called_count'=>0,'no_called_count'=>0];
+        $ret_info = [['called_count'=>0,'no_called_count'=>0]];
         $ret = $this->t_tq_call_info->get_no_called_count_list($start_time,$end_time);
-        dd(count($ret));
         foreach($ret as $info){
             $phone = $info['phone'];
             $is_called_phone = $info['is_called_phone'];
@@ -479,6 +478,7 @@ class agent extends Controller
                 $ret_info[$phone]['no_called_count']+=1;
             }
         }
+        dd($ret_info);
         // $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
         dd($ret);
 
