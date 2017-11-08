@@ -3182,13 +3182,13 @@ class user_deal extends Controller
         $start_time = strtotime("2017-10-01");
         $end_time = time();
         $list = $this->t_ass_weekly_info->get_all_info_by_time($start_time,$end_time,1);
-        foreach($list as $val){
-            $adminid = $val["adminid"];
-            $read_student_list = @$userid_list[$adminid];
-            $this->t_ass_weekly_info->field_update_list($val["id"],[
-               "read_student_list" =>$read_student_list 
-            ]);
-        }
+        // foreach($list as $val){
+        //     $adminid = $val["adminid"];
+        //     $read_student_list = @$userid_list[$adminid];
+        //     $this->t_ass_weekly_info->field_update_list($val["id"],[
+        //        "read_student_list" =>$read_student_list 
+        //     ]);
+        // }
         dd($list);
 
               
