@@ -55,7 +55,7 @@ class update_cc_no_called_count extends Command
      */
     public function handle()
     {
-        $start_time = time(null)-3600*24*30;
+        $start_time = time(null)-3600*24*7;
         $end_time = time(null);
         $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $userid_arr = array_unique(array_column($ret,'userid'));
