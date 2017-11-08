@@ -1964,7 +1964,6 @@ class Utils  {
             $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
         }
 
-
     }
 
     public static function https_post($url,$data){
