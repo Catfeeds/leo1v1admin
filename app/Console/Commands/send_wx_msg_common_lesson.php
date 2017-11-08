@@ -361,4 +361,4 @@ class send_wx_msg_common_lesson extends Command
 
 **/
 
-}
+

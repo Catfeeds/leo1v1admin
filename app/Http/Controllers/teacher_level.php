@@ -1166,6 +1166,17 @@ class teacher_level extends Controller
 
     }
 
+    public function check_is_have_record(){
+        $lessonid                         = $this->get_in_int_val("lessonid",0);
+        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,1,-1);
+        if($id>0){
+            return $this->output_err("该课程已有反馈");
+        }else{
+            return $this->output_succ();
+        }
+ 
+    }
+
     public function set_teacher_record_info(){
         $teacherid                        = $this->get_in_int_val("teacherid",0);
         $userid                           = $this->get_in_int_val("userid",0);
@@ -1315,9 +1326,13 @@ class teacher_level extends Controller
             }elseif($lesson_style==4){
                 $nick = $this->t_student_info->get_nick($userid);
                 $str = "学生:".$nick."的第五次常规课教学反馈";
-            }elseif($lesson_style==6){
+            }elseif($lesson_style=6){
                 // $openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
                 $str = "教学反馈";
+            }elseif($lesson_style==7){
+                $str = "试听课教学反馈";
+            }elseif($lesson_style==8){
+                $str = "常规课教学反馈";
             }
 
             /**

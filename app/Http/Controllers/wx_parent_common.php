@@ -267,7 +267,7 @@ class wx_parent_common extends Controller
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
             $this->t_seller_student_new->set_admin_id_ex([$new_userid],$opt_adminid,0);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid ($account_id;,
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($account_id,
             "来自：知识库",
             "你收到1个例子",
             "需要你及时联系",

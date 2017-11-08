@@ -1998,13 +1998,13 @@ $(function(){
         if(opt_data.lesson_type==2){
             lesson_style=7;
         }
-        $.do_ajax("/teacher_level/set_teacher_record_acc",{
-            "teacherid"    : opt_data.teacherid,
-            "type"         : 1,
-            "lesson_style" : lesson_style,
-            "lessonid"     :opt_data.lessonid,
-            "lesson_list"  :JSON.stringify(opt_data.lessonid),
+        $.do_ajax("/teacher_level/check_is_have_record",{
+            "lessonid"     :opt_data.lessonid
         },function(result){
+            if(result.ret==-1){
+                alert(result.info);
+                return;
+            }
            
             var lessonid = opt_data.lessonid;
             var teacherid = opt_data.teacherid;
@@ -2119,7 +2119,7 @@ $(function(){
                         "userid"    : opt_data.stu_id,
                        // "id"    : opt_data.id,
                         "type"         : 1,
-                        "lesson_style" : 3,
+                        "lesson_style" : lesson_style,
                         "tea_process_design_score"         : id_jysj.val(),
                         "language_performance_score"         : id_yybd.val(),
                         "knw_point_score"         : id_zyzs.val(),
