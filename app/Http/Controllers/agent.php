@@ -1944,6 +1944,8 @@ class agent extends Controller
             E\Esubject::set_item_value_str($item,'subject');
             $item['test_lesson'] = $item['test_lessonid'] ? '是': '否';
             \App\Helper\Utils::unixtime2date_for_item($item,'revisit_time');
+            \App\Helper\Utils::unixtime2date_for_item($item,'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
             // $item['account'] = $this->cache_get_account_nick($item['admin_revisiterid']);
             $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
             $item['last_call_time_space'] = (int)($lass_call_time_space/86400);

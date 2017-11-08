@@ -42,7 +42,9 @@ $(function(){
                 },function(resp){
                     var data = resp;
                     $tr.find(".first_need").text(data.first_need); 
+                    $tr.find(".first_real").text(data.first_real); 
                     $tr.find(".second_need").text(data.second_need); 
+                    $tr.find(".second_real").text(data.second_real); 
                 
                 
                 do_index++;
