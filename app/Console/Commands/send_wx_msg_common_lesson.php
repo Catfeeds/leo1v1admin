@@ -72,17 +72,15 @@ class send_wx_msg_common_lesson extends Command
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
         // 获取常规课 课前30分钟
-        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+        $common_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
-        if(!empty($test_lesson_list_halfhour)){
-            foreach($test_lesson_list_halfhour as $item){
+        if(!empty($common_lesson_list_halfhour)){
+            foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
                 $data_tea = $this->get_data($item,2,1);
-                $data_ass = $this->get_data($item,3,1);
 
                 $this->send_wx_msg_tea($item,1,$data_tea);
                 $this->send_wx_msg_par($item,1,$data_par);
-                $this->send_wx_msg_ass($item,1,$data_ass);
             }
         }
 
@@ -310,8 +308,10 @@ class send_wx_msg_common_lesson extends Command
     public function send_wx_msg_tea($item, $type, $data_tea){ // 给老师发送
         if($type == 1){
             $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk'; // 上课提醒
-        }else{
+        }elseif($type == 2){
             $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
+        }elseif($type == 3){
+            $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk'; //课前提醒
         }
 
         if($type !=3 ){
