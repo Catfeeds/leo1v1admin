@@ -4116,7 +4116,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         foreach($arr as $v){
             $requireid_list[$v]=$v;
         }
-        
+
         $start_time = strtotime(date("Y-m-d",time()));
         $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
         foreach($grab_list as $val){
@@ -4127,7 +4127,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 }
             }
         }
-        
+
         $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
         $data = [];
         foreach($list as $val){
