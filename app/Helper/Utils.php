@@ -1882,7 +1882,7 @@ class Utils  {
         //判断是否已经存在图片
         $is_exists = file_exists($agent_qr_url);
         //判断是否更换头像
-        $is_change = $old_headimgurl !== $headimgurl ? true : false;
+        $is_change =  $old_headimgurl !== $headimgurl ? true : false;
         if ( !$is_exists || $is_change ){
             $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
             $cmd_rm = "rm /tmp/yxyx_wx_member_".$phone.".png";
@@ -1946,7 +1946,6 @@ class Utils  {
             self::exec_cmd($cmd_rm);
 
         }
-
 
         $type = 'image';
         $num = rand();
