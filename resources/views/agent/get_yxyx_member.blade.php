@@ -33,19 +33,23 @@
                     <td>电话/微信名</td>
                     <td>上级电话/微信名</td>
                     <td>上上级电话/微信名</td>
-                    <td>例子数</td>
-                    <td>TQ全局未回访</td>
-                    <td>未接通</td>
-                    <td>已接通</td>
-                    <td>已接通未排课</td>
-                    <td>已排课</td>
-                    <td>已排课取消人数</td>
-                    <td>成功试听数</td>
-                    <td>到课率</td>
-                    <td>成功试听未签约数</td>
-                    <td>签约人数</td>
-                    <td>签约率</td>
-                    <td>签约金额</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+
+
+                        ["例子数" , "user_count"],
+                        ["TQ全局未回访" , "no_revisit_count"],
+                        ["未接通" , "no_phone_count"],
+                        ["已接通" , "ok_phone_count"],
+                        ["已接通未排课" , "ok_phone_no_lesson"],
+                        ["已排课" , "rank_count"],
+                        ["已排课取消人数" , "del_lesson_count"],
+                        ["成功试听数" , "ok_lesson_count"],
+                        ["到课率" , "ok_lesson_rate"],
+                        ["成功试听未签约数" , "ok_lesson_no_order"],
+                        ["签约人数" , "order_user_count"],
+                        ["签约率" , "order_rate"],
+                        ["签约金额" , "price"],
+                       ]) !!}
                     <td> 操作  </td>
                 </tr>
             </thead>

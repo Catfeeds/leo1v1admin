@@ -1941,7 +1941,27 @@ class agent extends Controller
             $phone = '';
         }
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
+
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
+            =$this->get_in_order_by_str([],"",["user_count"         => "user_count" ,
+                                               "no_revisit_count"   => "no_revisit_count",
+                                               "no_phone_count"     => "no_phone_count",
+                                               "ok_phone_count"     => "ok_phone_count",
+                                               "ok_phone_no_lesson" => "ok_phone_no_lesson",
+                                               "rank_count"         => "rank_count",
+                                               "del_lesson_count"   => "del_lesson_count",
+                                               "ok_lesson_count"    => "ok_lesson_count",
+                                               // "ok_lesson_rate"     => "ok_lesson_rate",
+                                               "ok_lesson_no_order" => "ok_lesson_no_order",
+                                               "order_user_count"   => "order_user_count",
+                                               // "order_rate"         => "order_rate",
+                                               "price"              => "price",
+            ]);
+
+
+
+        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str);
         $all_user = 0;
         $order_user = 0;
         $price = 0;
@@ -1983,6 +2003,7 @@ class agent extends Controller
         $id = $this->get_in_int_val('id','');
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
+
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
