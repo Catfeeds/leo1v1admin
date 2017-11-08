@@ -898,50 +898,7 @@ class test_james extends Controller
 
     public function dd(){
 
-        // $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid($parentid);
-
-        // $has_prize_id = $this->t_ruffian_activity->check_has_left(0,1);
-
-        // dd($has_prize_id);
-
-        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(179776);
-
-        dd($is_test);
-
-        $list    = E\Eregion_version::$desc_map;
-        dd(array_flip($list));
-        $list_new =[];
-        foreach($list as $k=>$i){
-            $list_new[$i] = $k;
-        }
-        dd($list_new);
-        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(98191999);
-
-        dd($is_test);
-
-        $a = -1;
-        if(!$a){
-
-            dd(1);
-                }
-        $openid = '111kisfkjedrjh';
-
-        $prize_list = $this->t_ruffian_activity->get_prize_list(-1);
-
-        dd($prize_list);
-
-        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
-
-        dd($parentid);
-
-        $a = [];
-
-        $this->t_ruffian_activity->update_item();
-
-        for($i=0;$i<=9999;$i++){
-            // $a[] = $this->get_win_rate();
-            echo $i."<br>";
-        }
+        $now = strtotime('+1 day');
 
 
 

@@ -81,6 +81,7 @@ class order_price_20171001 extends order_price_base
 
         $old_price = $grade_price/3*$lesson_count;
 
+        \App\Helper\Utils::logger( "old price:$old_price");
         $desc_list =  [];
         $price=0;
         $args["old_price"] =$old_price;
@@ -91,23 +92,22 @@ class order_price_20171001 extends order_price_base
 
         $out_args=[];
 
-        //原价
-        (new Activity\activity_0($args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag) ;
+        $do_activity_fun= function($class_name ) use ( &$args, &$out_args, &$can_period_flag, &$price,&$present_lesson_count,&$desc_list ) {
+            return (new $class_name($args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list) ;
+        };
+        $do_activity_fun ( Activity\activity_0::class  );
+        $do_activity_fun ( Activity\activity_2017100701::class  );
 
-        //是否可用分期
-        (new Activity\activity_2017100701($args))->exec( $out_args,$can_period_flag, $price,$present_lesson_count,$desc_list, $can_period_flag);
-
-
-        //常规打折
-        (new Activity\activity_2017090101( $args ))->exec( $out_args, $can_period_flag,$price,$present_lesson_count,$desc_list) ;
-
-
-
-        //优学优享活动
-        (new Activity\activity_yxyx( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
-
-        //当配
-        (new Activity\activity_2017080101( $args ))->exec( $out_args,$can_period_flag,$price,$present_lesson_count,$desc_list) ;
+        //11.11打折
+        $off_ret=$do_activity_fun ( Activity\activity_2017110801::class  );
+        if (!$off_ret) {
+            //常规打折
+            $do_activity_fun ( Activity\activity_2017090101::class  );
+            //优学优享活动
+            $do_activity_fun ( Activity\activity_yxyx::class  );
+            //当配
+            $do_activity_fun ( Activity\activity_2017080101::class  );
+        }
 
 
         return [

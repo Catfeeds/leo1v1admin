@@ -60,7 +60,12 @@ class send_lesson_plan_tomorrow extends Command
             老师姓名：x老师
             请保持网络畅通，提前做好上课准备。
 
+
          **/
+
+        $now = strtotime('+1 day');
+
+        $tea_lesson_list = $task->t_lesson_info_b3->get_teacher_tomorrow_lesson_list();
 
         $trial_test_lesson_lists = $task->t_teacher_record_list->get_lesson_list_for_next_day();
 

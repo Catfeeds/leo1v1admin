@@ -11,6 +11,8 @@ class activity_2017090101 extends  activity_base {
 
     protected function do_exec (  &$out_args,&$can_period_flag , &$price,  &$present_lesson_count,  &$desc_list )   {
         $new_discount_config= $this->args["new_discount_config"] ;
+        \App\Helper\Utils::logger(" do price: $price");
+
 
         list($find_count_level ,$off_value)=static::get_value_from_config_ex($new_discount_config, $this->lesson_times, [1,100] );
         $price=$price*$off_value/100;
