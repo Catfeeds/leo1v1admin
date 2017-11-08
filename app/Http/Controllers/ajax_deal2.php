@@ -1980,7 +1980,15 @@ class ajax_deal2 extends Controller
             $first_need=0;
             $second_need=0; 
         }
-        return $this->output_succ(["first_need"=>$first_need,"second_need"=>$second_need]);
+        $second_real = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$cur_start,$cur_end,$account);
+        $first_real = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$last_start,$last_end,$account);
+
+        return $this->output_succ([
+            "first_need"=>$first_need==1?"是":"否",
+            "second_need"=>$second_need==1?"是":"否",
+            "second_real"=>$second_real==1?"是":"否",
+            "first_real"=>$first_real==1?"是":"否",
+        ]);
         // $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
         // $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
 
