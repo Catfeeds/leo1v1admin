@@ -66,7 +66,7 @@ class update_cc_no_called_count extends Command
                 if($item == $info['userid']){
                     $is_called_phone = $info['is_called_phone'];
                     $cc_no_called_count = $info['cc_no_called_count'];
-                    $admin_role = $info['account_role'];
+                    $admin_role = $info['admin_role'];
                     if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
                         $num = 0;
                         break;
