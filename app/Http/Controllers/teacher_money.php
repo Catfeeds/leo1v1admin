@@ -728,12 +728,13 @@ class teacher_money extends Controller
             if($t_val['is_negative']==1){
                 $t_val['money'] = 0-$t_val['money'];
             }
-
+            E\Esubject::set_item_value_str($t_val);
             $all_money += $t_val['money'];
         }
-
+        $all_money_tax = $all_money*0.98;
         return $this->pageView(__METHOD__,$ret_info,[
-            "all_money" => $all_money
+            "all_money" => $all_money,
+            "all_money_tax" => $all_money_tax,
         ]);
     }
 

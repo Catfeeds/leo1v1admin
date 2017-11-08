@@ -465,6 +465,11 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $start_time = 1506787200;
+        $end_time = 1510156800;
+        $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
+        dd($ret);
+
         $ret = $this->t_seller_student_new->get_all_list_new_two();
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
