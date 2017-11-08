@@ -465,7 +465,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = 1506787200;
+        // $start_time = 1506787200;
+        $start_time = 1509984000;
         $end_time = 1510156800;
         $ret_info = [['called_count'=>0,'no_called_count'=>0]];
         $ret = $this->t_tq_call_info->get_no_called_count_list($start_time,$end_time);
