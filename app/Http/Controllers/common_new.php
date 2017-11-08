@@ -63,6 +63,8 @@ class common_new extends Controller
     }
     public function download_xls ()  {
         $xls_data= session("xls_data" );
+
+
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
         }
