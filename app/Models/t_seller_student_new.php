@@ -1333,7 +1333,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $userid = $this->task->t_phone_to_user->get_userid($phone);
             $userid = $this->task->t_test_subject_free_list->get_userid_by_adminid($adminid,$userid);
             if($userid>0){//历史回流人
-                $where_arr = ["n.userid=%u",$userid];
+                $where_arr[] = ['n.userid =%u',$userid];
             }
         }
         if($phone_location){
