@@ -15,7 +15,7 @@ class TTeacherSalaryListAlterUnique extends Migration
         //
         Schema::table('db_weiyi.t_teacher_salary_list', function( Blueprint $table)
         {
-            $table->dropUnique(["teacherid","pay_time"]);
+            // $table->dropUnique(["teacherid","pay_time"]);
             $table->unique(["teacherid","pay_time"],"unique_key");
         });
     }
