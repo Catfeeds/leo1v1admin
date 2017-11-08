@@ -43,6 +43,12 @@ class set_xmpp_server extends cmd_base
         $start_time=$this->get_arg_day();
         $end_time = $start_time +86400;
 
+        $check_start_time= time(NULL) +3600*4 ;
+        if ( $start_time < $check_start_time  ){
+            $start_time = $check_start_time;
+        }
+
+        $this->task->t_lesson_info_b3->get_lesson_list($start_time ,$end_time);
 
     }
 

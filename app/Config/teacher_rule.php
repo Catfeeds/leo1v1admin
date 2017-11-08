@@ -132,12 +132,13 @@ class teacher_rule{
 
     /**
      * 检测老师的推荐类型
+
      */
     static public function check_reference_type($identity){
         if(in_array($identity,[5,6,7])){
-            $reference_type = 2;
+            $reference_type = 2;//公校老师
         }else{
-            $reference_type = 1;
+            $reference_type = 1;//大学生
         }
         return $reference_type;
     }

@@ -53,7 +53,15 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 $keyword1 .=$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d',$v['lesson_start'])."~".date('Y-m-d',$v['lesson_end']);
             }
             $keyword2 = "常规课";
+            $keyword3 = "常规课";
 
+            $date_msg = [
+                "first" => "老师您好，请注意明天的课程安排",
+                "keyword1" => $keyword1,
+                "keyword2" => '常规课',
+                "keyword3" => $item['nick']."老师",
+                "remark"   => "请确保讲义已上传，保持网络畅通，提前做好上课准备。"
+            ];
 
         }
 
