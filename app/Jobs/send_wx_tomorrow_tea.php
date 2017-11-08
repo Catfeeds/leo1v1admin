@@ -80,18 +80,19 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
         foreach($par_lesson_list as $item){
             $par_lesson_info = $t_lesson_info_b3->get_par_lesson_info($this->lesson_start, $this->lesson_end,$item['parentid']);
             $keyword1 = '';
-            foreach($tea_lesson_info as $i=> $v){
+            foreach($par_lesson_info as $i=> $v){
                 $keyword1 .=$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d',$v['lesson_start'])."~".date('Y-m-d',$v['lesson_end']);
             }
 
-            $data_tea = [
+            $data_par = [
                 "first" => "家长您好，请注意明天的课程安排",
                 "keyword1" => $keyword1,
                 "keyword2" => '常规课',
                 "keyword3" => "学生端",
+                "keyword4" => $ass_phone,
                 "remark"   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
             ];
-            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_parent, $data_par,'');
         }
 
 
