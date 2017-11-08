@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use \App\Enums as E;
 
 class ResetStudentLessonCount extends cmd_base
 {
