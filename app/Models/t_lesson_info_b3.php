@@ -1724,8 +1724,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select  l.subject, lesson_start, l.lesson_end, l.teacherid, t.nick from %s l "
-                                  ." left join %s s on s.userid=l.userid"
+        $sql = $this->gen_sql_new("  select  l.subject, l.lesson_start, l.lesson_end, l.teacherid, t.nick from %s l "
+                                  ." left join %s t on t.teacherid=l.teacherid"
                                   ." left join %s pc on pc.userid=l.userid"
                                   ." left join %s p on p.parentid=pc.userid"
                                   ." where %s "
