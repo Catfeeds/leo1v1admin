@@ -8,7 +8,6 @@ use \App\Enums as E;
 class activity_base {
     static public  $class_map=[
         E\Eorder_activity_type::V_0 =>  activity_0::class,
-        E\Eorder_activity_type::V_YXYX  =>  activity_yxyx::class,
         E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
         E\Eorder_activity_type::V_2017090101  =>  activity_2017090101::class,
         E\Eorder_activity_type::V_2017100701  =>  activity_2017100701::class,
@@ -17,6 +16,8 @@ class activity_base {
         E\Eorder_activity_type::V_2017110301  =>  activity_2017110301::class,
         E\Eorder_activity_type::V_2017110401  =>  activity_2017110401::class,
         E\Eorder_activity_type::V_2017110801  =>  activity_2017110801::class,
+        E\Eorder_activity_type::V_2017110802  =>  activity_2017110802::class,
+        E\Eorder_activity_type::V_2017110803  =>  activity_2017110803::class,
     ];
 
     /**
