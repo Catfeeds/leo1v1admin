@@ -1884,7 +1884,7 @@ class Utils  {
         //判断是否更换头像
         $is_change = $old_headimgurl !== $headimgurl ? true : false;
         if ( !$is_exists || $is_change ){
-            $t_agent->field_update_list($id,['headimgulr' => $headimgurl]);
+            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
             $cmd_rm = "rm /tmp/yxyx_wx_member_".$phone.".png";
             self::exec_cmd($cmd_rm);
 
