@@ -3177,7 +3177,12 @@ class user_deal extends Controller
 
 
     public function cancel_lesson_by_userid()
-    {       
+    {
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
+        $list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,[],2,false);
+        dd($list);
+
         $userid_list = $this->t_student_info->get_read_student_ass_info();
         $start_time = strtotime("2017-10-01");
         $end_time = time();
