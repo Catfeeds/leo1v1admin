@@ -469,6 +469,7 @@ class agent extends Controller
         $end_time = 1510156800;
         $ret_info = ['called_count'=>0,'no_called_count'=>0];
         $ret = $this->t_tq_call_info->get_no_called_count_list($start_time,$end_time);
+        dd($ret);
         foreach($ret as $info){
             $phone = $info['phone'];
             $is_called_phone = $info['is_called_phone'];
