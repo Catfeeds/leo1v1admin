@@ -488,6 +488,15 @@ class WechatRequest  {
                 return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
             }
 
+
+
+            $bg_url      = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
+            $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
+            \App\Helper\Utils::wx_make_and_send_img($openid,$bg_url,$qr_code_url,$request,$agent);
+
+            return ResponsePassive::text($request['fromusername'], $request['tousername'], "①长按上方图片并保存\n②将图片发给朋友或朋友圈");
+
+            /*
             //使用客服接口发送消息
             $txt_arr = [
                 'touser'   => $openid,
@@ -536,6 +545,7 @@ class WechatRequest  {
             }
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
 
+            */
         }elseif ($eventKey == 'invitation_member') {
             $t_agent = new \App\Models\t_agent();
             $agent = $t_agent->get_agent_info_by_openid($openid);
@@ -563,7 +573,7 @@ class WechatRequest  {
              return ResponsePassive::text($request['fromusername'], $request['tousername'], "①长按上方图片并保存\n②将图片发给朋友或朋友圈");
 
 
-             /* 
+             /*
 
             $type = 'image';
             $num = rand();
