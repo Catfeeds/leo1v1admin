@@ -12,11 +12,77 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
-
+    /**
+     * 获取API访问授权码
+     * @param ak: ak from 
+     * @param sk: sk from
+     * @return - access_token string.
+     */
     public function test_api(){
-        
+        /*
+        $url = 'https://aip.baidubce.com/oauth/2.0/token';
+        $post_data = array();
+        $post_data['grant_type']  = 'client_credentials';
+        $post_data['client_id']   = "DnWrWPzs2ttw1i4gz5Fw3DDW";
+        $post_data['client_secret'] = "P3Pv2nGctlWo0aMdmhBI2BQfiFdG7aD0";
+
+        //$res = request_post($url, $post_data);
+        $paramsString = http_build_query($post_data);//生成 URL-encode 之后的请求字符串
+        $content = @file_get_contents($url.'?'.$paramsString);
+        $result = json_decode($content,true);
+        dd($result['access_token']);
+        */
+        //access_token = 24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868
+        $url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
+        $access_token = "24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868";
+
+
+        $token = '#####调用鉴权接口获取的token#####';
+        $url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=' . $token;
+        $img = file_get_contents('########本地文件路径########');
+        $img = base64_encode($img);
+        $bodys = array(
+            "image" => $img
+        );
+        $res = request_post($url, $bodys);
+
+        var_dump($res);
+
+        dd(2);
+        if (!!$res) {
+            $res = json_decode($res, true);
+            return $res['access_token'];
+        } else {
+            return false;
+        }
     }
 
+    function request_post($url = '', $param = '')
+    {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+
+        $postUrl = $url;
+        $curlPost = $param;
+        // 初始化curl
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $postUrl);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        // 要求结果为字符串且输出到屏幕上
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // post提交方式
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $curlPost);
+        // 运行curl
+        $data = curl_exec($curl);
+        curl_close($curl);
+
+        return $data;
+    }
+
+    
     public function ll(){
         $ret_info = $this->t_student_info->get_finish_num_new_list(1506787200,1509465600);
     }
