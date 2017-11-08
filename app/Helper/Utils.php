@@ -1878,8 +1878,10 @@ class Utils  {
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
+        //唯一标识，防止多次点击删除的图片不对
+        $mark = uniqid();
         //下载头像，制作图片
-        $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
+        $datapath = "/tmp/yxyx_wx_".$phone.$mark.".jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
@@ -1890,7 +1892,7 @@ class Utils  {
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
-        $ext     = pathinfo($bg_url);
+        $ext = pathinfo($bg_url);
         if ($ext['extension'] == 'jpg') {
             $image_1 = imagecreatefromjpeg($bg_url);     //背景图
         }else{
@@ -1917,7 +1919,7 @@ class Utils  {
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_wx_".$phone."_member.png";
+        $agent_qr_url = "/tmp/yxyx_wx_".$phone.$mark."_member.png";
         imagepng($image_3,$agent_qr_url);
 
         imagedestroy($image_1);
@@ -1941,7 +1943,7 @@ class Utils  {
         unlink($img_url);
         $t_agent->set_add_type_2( $id );
 
-        $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
+        $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
         self::exec_cmd($cmd_rm);
 
         $txt_arr = [
