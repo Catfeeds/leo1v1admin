@@ -1763,4 +1763,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function check_has_tea_cw_url($four_start,$four_end){
+        $where_arr = [
+            "l.tea_cw_url = ''"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$four_start,$four_end);
+        $sql = $this->gen_sql_new("  select l.lessonid, l.subject, l.lesson_start, l.lesson_end, t.wx_openid from %s l"
+                                  ." left join t on l.teacherid = t.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

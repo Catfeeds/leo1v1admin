@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use \App\Enums as E;
+
 class send_wx_msg_common_lesson extends Command
 {
     /**
@@ -46,8 +48,23 @@ class send_wx_msg_common_lesson extends Command
         $four_start = $now+3600*4;
         $four_end   = $four_start+60;
 
-        $list = $task->t_lesson_info_b3->check_has_tea_cw_url;
+        $upload_list = $task->t_lesson_info_b3->check_has_tea_cw_url($four_start,$four_end);
 
+        /**
+           {{first.DATA}}
+           待办主题：{{keyword1.DATA}}
+           待办内容：{{keyword2.DATA}}
+           日期：{{keyword3.DATA}}
+           {{remark.DATA}}
+         **/
+
+        foreach($upload_list as $item){
+            $data_upload = [
+                "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.$subject.'课未上传讲义',
+
+            ];
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
+        }
 
 
         $lesson_begin_halfhour = $now+30*60;
@@ -368,5 +385,3 @@ class send_wx_msg_common_lesson extends Command
  {{remark.DATA}}
 
 **/
-
-
