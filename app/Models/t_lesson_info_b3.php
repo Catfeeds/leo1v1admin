@@ -1659,13 +1659,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end){
 
         $where_arr = [
-            // "l.lesson_type = 0"
+            "l.lesson_type = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
         $sql = $this->gen_sql_new("  select subject, lesson_start, lesson_end, teacherid, userid from %s l "
-                                  ." where %s group by teacherid "
+                                  ." where %s  "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
