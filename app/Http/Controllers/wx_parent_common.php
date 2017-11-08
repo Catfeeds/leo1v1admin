@@ -267,6 +267,7 @@ class wx_parent_common extends Controller
         if($cc_type == 2){ //分配例子给销售
             $opt_adminid = $account_id; // ccid
             $this->t_seller_student_new->set_admin_id_ex([$new_userid],$opt_adminid,0);
+            //$task->t_manager_info->send_wx_todo_msg_by_adminid ($account_id,"国庆延休统计","全职老师国庆延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); 
             //$this->t_seller_student_new->allow_userid_to_cc($opt_adminid, $opt_account, $new_userid);
         }else{
             //$opt_adminid = 212; // ccid
@@ -287,6 +288,8 @@ class wx_parent_common extends Controller
             "public_num"      => "021或158",
             "public_telphone" => $public_telphone,
         ];
+
+
         return $this->output_succ("恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系");
     }
 }
