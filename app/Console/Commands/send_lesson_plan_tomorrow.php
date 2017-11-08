@@ -70,7 +70,12 @@ class send_lesson_plan_tomorrow extends Command
 
 
         if(!empty($tea_lesson_list)){
-            foreach($trial_test_lesson_lists as $item){
+            foreach($tea_lesson_list as $item){
+
+                $tea_lesson_info = $this->t_lesson_info_b3->get_tea_lesson_info($lesson_start, $lesson_end,$ite['teacherid']);
+                //get_tea_lesson_info($lesson_start, $lesson_end,$teacherid)
+
+
                 $lesson_begin_time = date("H:i:s",$item['lesson_start']);
                 $lesson_end_time   = date("H:i:s",$item['lesson_end']);
 
