@@ -1990,6 +1990,10 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        if(opt_data.lesson_type>=1000){
+            alert("该课程不能反馈!");
+            return;
+        }
         var lesson_style=8;
         if(opt_data.lesson_type==2){
             lesson_style=7;
@@ -2112,7 +2116,7 @@ $(function(){
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
                         "lesson_invalid_flag":id_lesson_invalid_flag.val(),
-                        "userid"    : opt_data.userid,
+                        "userid"    : opt_data.stu_id,
                        // "id"    : opt_data.id,
                         "type"         : 1,
                         "lesson_style" : 3,
