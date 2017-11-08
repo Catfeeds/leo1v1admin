@@ -38,6 +38,7 @@
 
 
 
+                        <td>编号</td>
                         {!!\App\Helper\Utils::th_order_gen([
                             ["老师 ","teacher_nick" ],
                             ["学生数","stu_num" ],
@@ -60,7 +61,7 @@
                 <tbody>
                     @foreach ( $table_data_list as $var )
                         <tr>
-
+                            <td>{{@$var["index_num"]}}</td>
                             <td>
                                 <a  href="/human_resource/index_ass?teacherid={{@$var["teacherid"]}}" target="_blank">
                                     {{@$var["teacher_nick"]}}

@@ -7943,7 +7943,10 @@ class tongji_ss extends Controller
         $stu_num_all = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time,$teacher_money_type);
 
         // dd($ret_info);
+        $index_num=1;
         foreach($ret_info as &$item_list){
+            $item_list["index_num"] = $index_num;
+            $index_num++;
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
             if($item_list['train_through_new_time'] !=0){
@@ -8006,6 +8009,7 @@ class tongji_ss extends Controller
         foreach($ret_info as &$p_item){
             if($p_item["teacher_nick"]=="全部"){
                 $p_item["stu_num"]=$stu_num_all;
+                $p_item["index_num"]=0;
             }
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
