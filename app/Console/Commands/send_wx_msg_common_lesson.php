@@ -43,7 +43,10 @@ class send_wx_msg_common_lesson extends Command
         $now = time();
 
         // 课前四小时未上传讲义
-        $four_ = '';
+        $four_start = $now+3600*4;
+        $four_end   = $four_start+60;
+
+        $list = $task->t_lesson_info_b3->check_has_tea_cw_url;
 
 
 
