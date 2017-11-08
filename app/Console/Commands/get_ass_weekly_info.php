@@ -57,6 +57,9 @@ class get_ass_weekly_info extends Command
 
         $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
 
+        //类型在读学生列表
+        $userid_list = $task->t_student_info->get_read_student_ass_info();
+
         foreach($ass_list as $k=>&$item){
             $item["read_student"] = isset($stu_info_all[$k])?$stu_info_all[$k]["read_count"]:0;
             $item["lesson_student"] =  isset($lesson_info[$k])?$lesson_info[$k]["user_count"]:0;
@@ -86,6 +89,9 @@ class get_ass_weekly_info extends Command
             $item["end_stu_num"] = isset($end_info[$k])?$end_info[$k]["num"]:0;
 
             $week_exist = $task->t_ass_weekly_info->get_id_by_unique_record($k,$start_time,1);
+
+            $item["read_student_list"]  = @$userid_list[$k];
+
             if($week_exist>0){
                 $task->t_ass_weekly_info->field_update_list($week_exist,[
                     "read_student"    => $item["read_student"],
@@ -104,6 +110,7 @@ class get_ass_weekly_info extends Command
                     "renw_price"               => $item["renw_money"],
                     "new_stu_num"              =>$item["new_stu_num"],
                     "end_stu_num"              =>$item["end_stu_num"],
+                    "read_student_list"        =>$item["read_student_list"]
                 ]);
             }else{
                 $task->t_ass_weekly_info->row_insert([
@@ -125,7 +132,8 @@ class get_ass_weekly_info extends Command
                     "renw_price"               => $item["renw_money"],
                     "new_stu_num"              =>$item["new_stu_num"],
                     "end_stu_num"              =>$item["end_stu_num"],
-                    "time_type"                =>1
+                    "time_type"                =>1,
+                    "read_student_list"        =>$item["read_student_list"]
                 ]);
             }
 

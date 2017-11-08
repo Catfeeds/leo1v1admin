@@ -9,6 +9,7 @@ class activity_yxyx extends  activity_config_base {
         parent::__construct($args);
         $this->date_range=[ "2017-10-27"  , "2017-12-31"];
         $this->period_flag_list= [false, true];
+        $this->period_flag_list= [ E\Eperiod_flag::V_0 , E\Eperiod_flag::V_1  ];
         $this->contract_type_list = [E\Econtract_type::V_0 ,  E\Econtract_type::V_3];
         $this->lesson_times_range = [10 ,  10000];
 

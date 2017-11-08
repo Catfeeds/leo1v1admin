@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class send_wx_msg_for_trial_train_lesson_next_day extends Command
+class send_lesson_plan_tomorrow extends Command
 {
     /**
      * The name and signature of the console command.
@@ -37,6 +37,9 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
      */
     public function handle()
     {
+        //
+
+
         $task = new \App\Console\Tasks\TaskController();
 
         // 前一天晚上8点上课推送
@@ -57,27 +60,32 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
             老师姓名：x老师
             请保持网络畅通，提前做好上课准备。
 
+
          **/
 
-        $trial_test_lesson_lists = $task->t_teacher_record_list->get_lesson_list_for_next_day();
+        $lesson_start = strtotime('+1 day',strtotime(date('Y-m-d')));
+        $lesson_end = $lesson_start+86400;
 
-        if(empty($trial_test_lesson_lists)){
-            foreach($trial_test_lesson_lists as $item){
-                $lesson_begin_time = date("H:i:s",$item['lesson_start']);
-                $lesson_end_time   = date("H:i:s",$item['lesson_end']);
+        $tea_lesson_list = $task->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
 
-                $template_id_teacher   = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
-                $data_teacher['first'] = "老师您好，您于明天 $lesson_begin_time 有一节模拟试听课! ";
-                $data_teacher['keyword1']   = "$lesson_begin_time ";
-                $data_teacher['keyword2']   = "处理人:$deal_account  处理方案:$deal_info";
-                $data_teacher['remark']     = "";
-
-                \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
-
-            }
-        }
+        $job = new \App\Jobs\send_wx_tomorrow_tea($lesson_start, $lesson_end);
+        dispatch($job);
 
 
+        // if(!empty($tea_lesson_list)){
+        //     foreach($tea_lesson_list as $item){
 
+        //         $tea_lesson_info = $this->t_lesson_info_b3->get_tea_lesson_info($lesson_start, $lesson_end,$ite['teacherid']);
+
+        //         $template_id_teacher   = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
+        //         $data_teacher['first'] = "老师您好，您于明天 $lesson_begin_time 有一节模拟试听课! ";
+        //         $data_teacher['keyword1']   = "$lesson_begin_time ";
+        //         $data_teacher['keyword2']   = "处理人:$deal_account  处理方案:$deal_info";
+        //         $data_teacher['remark']     = "";
+
+        //         \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
+
+        //     }
+        // }
     }
 }
