@@ -39,6 +39,8 @@
                         <td style="display:none">银行卡</td>
                         <td style="display:none">银行类型</td>
                         <td style="display:none">开户行</td>
+                        <td style="display:none">开户省</td>
+                        <td style="display:none">开户市</td>
                         <td style="display:none">预留手机</td>
                         <td>总工资</td>
                         <td>操作</td>
@@ -56,6 +58,8 @@
                             <td>银行卡:{{$var['bankcard']}}</td>
                             <td>{{$var['bank_type']}}</td>
                             <td>{{$var['bank_address']}}</td>
+                            <td>{{$var['bank_province']}}</td>
+                            <td>{{$var['bank_city']}}</td>
                             <td>预留手机:{{$var['bank_phone']}}</td>
                             <td>{{$var['money']}}</td>
                             <td>
