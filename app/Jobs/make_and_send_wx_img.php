@@ -19,25 +19,23 @@ class make_and_send_wx_img extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     var $wx_openid;
-    var $id;
     var $request;
-    var $phone;
     var $bg_url;
     var $qr_code_url;
+    var $agent;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id,$wx_openid,$phone,$bg_url,$qr_code_url,$request )
+    public function __construct($wx_openid,$bg_url,$qr_code_url,$request,$agent)
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
-        $this->phone       = $phone;
         $this->bg_url      = $bg_url;
-        $this->id          = $id;
         $this->request     = $request;
         $this->qr_code_url = $qr_code_url;
+        $this->agent       = $agent;
     }
 
     /**
@@ -47,11 +45,16 @@ class make_and_send_wx_img extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $t_agent = new \App\Models\t_agent();
+        $phone   = $this->agent['phone'];
+        $id      = $this->agent['id'];
+        $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
+        $old_headimgurl = $this->agent['headimgurl'];
+        $agent_qr_url = "/tmp/yxyx_wx_member_".$phone.".png";
+
         \App\Helper\Utils::logger("erweima_start");
 
-        $qr_url       = "/tmp/yxyx_wx_".$this->phone.".png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
-
         \App\Helper\Utils::logger("erweima_END");
         \App\Helper\Utils::logger("get_wx_head_start");
         //请求微信头像
@@ -68,64 +71,77 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
-        \App\Helper\Utils::logger("make_img_start");
+        //判断是否已经存在图片
+        $is_exists = file_exists($agent_qr_url);
+        //判断是否更换头像
+        $is_change = $old_headimgurl !== $headimgurl ? true : false;
+        if ( !$is_exists || $is_change ){
 
-        $datapath = "/tmp/yxyx_wx_".$this->phone."_headimg.jpg";
-        $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
-        shell_exec($wgetshell);
+            $t_agent->field_update_list($id,['headimgulr' => $headimgurl]);
+            $cmd_rm = "rm /tmp/yxyx_wx_member_".$phone.".png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
 
-        $image_5 = imagecreatefromjpeg($datapath);
-        \App\Helper\Utils::logger("get_head");
-        $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
-        \App\Helper\Utils::logger("make_new");
-        $color = imagecolorallocate($image_6, 255, 255, 255);
-        \App\Helper\Utils::logger("make_image6");
-        imagefill($image_6, 0, 0, $color);
-        imageColorTransparent($image_6, $color);
-        imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+            //下载头像，制作图片
+            \App\Helper\Utils::logger("make_img_start");
+            $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
+            $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
+            shell_exec($wgetshell);
 
-        \App\Helper\Utils::logger("make_image7");
-        $image_1 = imagecreatefrompng($this->bg_url);     //背景图
-        \App\Helper\Utils::logger("make_bg");
-        $image_2 = imagecreatefrompng($qr_url);     //二维码
-        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-        $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
-        \App\Helper\Utils::logger("make_8");
-        imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-        imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
-        \App\Helper\Utils::logger("make_9");
-        imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
+            $image_5 = imagecreatefromjpeg($datapath);
+            \App\Helper\Utils::logger("get_head");
+            $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
+            \App\Helper\Utils::logger("make_new");
+            $color = imagecolorallocate($image_6, 255, 255, 255);
+            \App\Helper\Utils::logger("make_image6");
+            imagefill($image_6, 0, 0, $color);
+            imageColorTransparent($image_6, $color);
+            imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
-        \App\Helper\Utils::logger("for_roop");
-        $r = 80; //圆半径
-        for ($x = 0; $x < 160; $x++) {
-            for ($y = 0; $y < 160; $y++) {
-                $rgbColor = imagecolorat($image_6, $x, $y);
-                $a = $x-$r;
-                $b = $y-$r;
-                if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
-                    $n_x = $x+295;
-                    $n_y = $y+28;
-                    imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+            \App\Helper\Utils::logger("make_image7");
+            $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+            \App\Helper\Utils::logger("make_bg");
+            $image_2 = imagecreatefrompng($qr_url);     //二维码
+            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
+            \App\Helper\Utils::logger("make_8");
+            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
+            \App\Helper\Utils::logger("make_9");
+            imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
+
+            \App\Helper\Utils::logger("for_roop");
+            $r = 80; //圆半径
+            for ($x = 0; $x < 160; $x++) {
+                for ($y = 0; $y < 160; $y++) {
+                    $rgbColor = imagecolorat($image_6, $x, $y);
+                    $a = $x-$r;
+                    $b = $y-$r;
+                    if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
+                        $n_x = $x+295;
+                        $n_y = $y+28;
+                        imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+                    }
                 }
             }
+
+            imagepng($image_3,$agent_qr_url);
+
+            \App\Helper\Utils::logger("make_img_END");
+
+            imagedestroy($image_1);
+            imagedestroy($image_2);
+            imagedestroy($image_3);
+            imagedestroy($image_4);
+            imagedestroy($image_5);
+            imagedestroy($image_6);
+            // return $agent_qr_url;
+
+            $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+
         }
 
-        $agent_qr_url = "/tmp/yxyx_wx_member_".$this->phone.".png";
-        imagepng($image_3,$agent_qr_url);
 
-        \App\Helper\Utils::logger("make_img_END");
-
-        imagedestroy($image_1);
-        imagedestroy($image_2);
-        imagedestroy($image_3);
-        imagedestroy($image_4);
-        imagedestroy($image_5);
-        imagedestroy($image_6);
-        // return $agent_qr_url;
-
-        // $img_url = '/tmp/yxyx_'.$phone.'.png';
-        \App\Helper\Utils::logger("upload_img_start");
         $type = 'image';
         $num = rand();
         $img_Long = file_get_contents($agent_qr_url);
@@ -140,11 +156,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
 
-        $cmd_rm = "rm /tmp/yxyx_wx_".$this->phone."*";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
-
-        $t_agent = new \App\Models\t_agent();
-        $t_agent->set_add_type_2( $this->id );
+        $t_agent->set_add_type_2( $id );
 
         $txt_arr = [
             'touser'   => $this->request['fromusername'] ,
