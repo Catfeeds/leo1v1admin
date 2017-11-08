@@ -78,8 +78,7 @@ class send_wx_msg_common_lesson extends Command
             foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
                 $data_tea = $this->get_data($item,2,1);
-
-                $this->send_wx_msg_tea($item,1,$data_tea);
+                $this->send_wx_msg_tea($item,3,$data_tea);
                 $this->send_wx_msg_par($item,1,$data_par);
             }
         }
@@ -173,7 +172,7 @@ class send_wx_msg_common_lesson extends Command
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
                 $data = [
-                    "first"    => "家长您好，".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
+                    "first"    => "家长您好，".$item['stu_nick']."同学于30分钟后有一节 ".$item['teacher_nick']."老师的 $subject_str 课。",
                     "keyword1" => "$subject_str",
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "keyword3" => '学生端',
@@ -204,8 +203,8 @@ class send_wx_msg_common_lesson extends Command
                 $data = [
                     "first"    => "老师您好，您于30分钟后有一节 $subject_str 课。",
                     "keyword1" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "keyword2" => '试听课',
-                    "keyword3" => "'".$item['teacher_nick']."'",
+                    "keyword2" => '常规课',
+                    "keyword3" => $item['teacher_nick'],
                     "remark"   => "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作。"
                 ];
             }elseif($type == 2){ //超时5分钟
