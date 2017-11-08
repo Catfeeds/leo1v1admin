@@ -3452,4 +3452,33 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    public function get_require_info_by_requireid($requireid_list){
+        $where_arr=[];
+        $where_arr[]=$this->where_get_in_str( "require_id", $requireid_list);
+        $sql =$this->gen_sql_new("select require_id,accept_adminid"
+                                 ." from %s where %s",
+                                 self::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_planed_lesson_num($requireid_list,$accept_adminid,$start_time,$end_time){
+        $where_arr=[
+            ["tr.accept_adminid=%u",$accept_adminid,-1],            
+            "tr.test_lesson_student_status in(210,220,290,300,301,302,420)"
+        ];
+        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $where_arr[]=$this->where_get_not_in_str( "tr.require_id", $requireid_list);
+        $sql =$this->gen_sql_new("select count(*) num"
+                                 ." from %s tr left join %s tss on tr.current_lessonid = tss.lessonid"
+                                 ." where %s",
+                                 self::DB_TABLE_NAME,
+                                 t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
 }

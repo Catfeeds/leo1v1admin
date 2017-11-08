@@ -21,14 +21,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_level-get_teacher_level_quarter_info_fulltime.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		quarter_start:	$('#id_quarter_start').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			order_by_str:	$('#id_order_by_str').val(),
-			quarter_start:	$('#id_quarter_start').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-        });
-    }
 
 
 	$('#id_order_by_str').val(g_args.order_by_str);

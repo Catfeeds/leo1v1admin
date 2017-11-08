@@ -61,6 +61,7 @@ class grab_lesson extends Controller
         if ( $live_time >= $max_num ) {
             $live_time = 2147483647;
         }
+
         $grabid = base64_decode($text);
 
         $ret = $this->t_grab_lesson_link_info->field_update_list( $grabid, [
@@ -80,7 +81,10 @@ class grab_lesson extends Controller
         $requireids = $this->get_in_str_val('requireids');
         if($requireids) {
             //检查每个教务抛链接的量已做限制
-            // $check_flag = $this->check_jw_plan_limit($requireids);
+            $check_flag = $this->check_jw_plan_limit($requireids);
+            if($check_flag){
+                return $check_flag;
+            }
                 
             $this->t_grab_lesson_link_info->row_insert([
                 'grab_lesson_link' => 0,

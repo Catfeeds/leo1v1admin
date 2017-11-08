@@ -40,7 +40,7 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 前一天晚上8点上课推送
-        /***
+        /**
             gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
             {{first.DATA}}
             上课时间：{{keyword1.DATA}}

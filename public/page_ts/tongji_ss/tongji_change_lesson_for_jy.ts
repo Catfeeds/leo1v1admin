@@ -88,6 +88,17 @@ $(function(){
 
     });
 
+    $.each($("tr"),function(i,item){
+        var leave_num = $(this).children().find(".row-data").data("teacher_leave_num");
+       
+       if(leave_num>=3){
+            $(this).addClass("bg_red");
+        }
+
+        
+    });
+
+
 
 	  $('.opt-change').set_input_change_event(load_data);
 });

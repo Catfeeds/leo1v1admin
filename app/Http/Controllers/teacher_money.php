@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
@@ -322,23 +321,47 @@ class teacher_money extends Controller
      * 获取春晖奖
      */
     public function get_teacher_chunhui_reward(){
-        $start_time = strtotime("2017-11-1");
-        $ret_list   = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
+        $start_time = strtotime("2017-9-1");
+        $chunhui_list = $this->t_teacher_money_list->get_teacher_chunhui_list($start_time);
 
-        \App\Helper\Utils::debug_to_html( $ret_list );
-        $list = [];
-        foreach($ret_list as $val){
-            $year  = date("Y");
-            $month = date("m");
-            $grade = $val['grade'];
-            $list[] = [
-                "year"=>$year,
-                "month"=>$month,
+        $ret_list   = [];
+        $grade_list = [];
+        $rank_lis   = [];
+        $chunhui = array_flip(E\Echunhui_reward::$desc_map);
+        foreach($chunhui_list as $val){
+            $year      = date("Y",$val['add_time']);
+            $month     = date("n月",$val['add_time']);
+            $data_key  = $year."_".$month;
+            $grade     = $val['grade'];
+            $grade_str = E\Egrade::get_desc($grade);
+            $money     = $val['money'];
+
+            if(isset($chunhui[$money])){
+                $rank = $chunhui[$money];
+            }else{
+                continue;
+            }
+
+            $grade_list[$grade][] = [
+                "rank" => $rank,
+                "name" => $val['nick'],
             ];
+            if(!isset($ret_list[$data_key])){
+                $ret_list[$data_key] = [
+                    "year"      => $year,
+                    "month"     => $month,
+                    "rank_info" => $grade_list
+                ];
+            }else{
+                $ret_list[$data_key]["rank_info"] = $grade_list;
+            }
         }
+        $ret_list = array_values($ret_list);
 
         return $this->output_succ(["data"=>$ret_list]);
     }
+
+
     /**
      * 获取老师指定月份各个扣款免责次数
      */
@@ -688,19 +711,30 @@ class teacher_money extends Controller
         return $salary_info[0];
     }
 
-    public function get_teacher_trial_rate_money_list(){
-
-    }
-
     public function teacher_salary_list(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
-
-        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time);
-        foreach($ret_info['list'] as &$t_val){
-            $t_val['money']/=100;
+        $reference = $this->get_in_int_val("reference",-1);
+        if($reference>0){
+            $reference_phone = $this->t_teacher_info->get_phone($reference);
+        }else{
+            $reference_phone = "";
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
+        $all_money = 0;
+        foreach($ret_info['list'] as &$t_val){
+            $t_val['money'] /= 100;
+            if($t_val['is_negative']==1){
+                $t_val['money'] = 0-$t_val['money'];
+            }
+            E\Esubject::set_item_value_str($t_val);
+            $all_money += $t_val['money'];
+        }
+        $all_money_tax = $all_money*0.98;
+        return $this->pageView(__METHOD__,$ret_info,[
+            "all_money" => $all_money,
+            "all_money_tax" => $all_money_tax,
+        ]);
     }
 
 

@@ -24,6 +24,13 @@ use OSS\Core\OssException;
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
+
+require_once ( app_path("Wx/Yxyx/lanewechat_yxyx.php") );
+use Yxyx\Core\Media;
+use Yxyx\Core\AccessToken;
+use LaneWeChat\Core\ResponsePassive;
+
+
 class Utils  {
 
     static function init_hour_list(&$list, $init_item=[]) {
@@ -1849,18 +1856,13 @@ class Utils  {
         }
     }
 
-   static public function get_agent_qr_new($wx_openid,$phone){
-
-        if (\App\Helper\Utils::check_env_is_test() ) {
-            $www_url="test.www.leo1v1.com";
-        }else{
-            $www_url="www.leo1v1.com";
-        }
-
-        $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
-        $qr_url       = "/tmp/".$phone.".png";
-        $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+    static public function wx_make_and_send_img($wx_openid,$bg_url,$qr_code_url,$request,$agent) {
+        $t_agent = new \App\Models\t_agent();
+        $phone   = $agent['phone'];
+        $id      = $agent['id'];
+        $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
+        $old_headimgurl = $agent['headimgurl'];
+        self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
@@ -1876,21 +1878,32 @@ class Utils  {
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
-        $image_5 = imagecreatefromjpeg($headimgurl);
+        //唯一标识，防止多次点击删除的图片不对
+        $mark = uniqid();
+        //下载头像，制作图片
+        $datapath = "/tmp/yxyx_wx_".$phone.$mark.".jpg";
+        $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
+        shell_exec($wgetshell);
+
+        $image_5 = imagecreatefromjpeg($datapath);
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         $color = imagecolorallocate($image_6, 255, 255, 255);
         imagefill($image_6, 0, 0, $color);
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
-        $image_1 = imagecreatefrompng($bg_url);     //背景图
+        $ext = pathinfo($bg_url);
+        if ($ext['extension'] == 'jpg') {
+            $image_1 = imagecreatefromjpeg($bg_url);     //背景图
+        }else{
+            $image_1 = imagecreatefrompng($bg_url);     //背景图
+        }
         $image_2 = imagecreatefrompng($qr_url);     //二维码
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
         $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
         imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
         imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
-        // imagecopymerge($image_3,$image_6,295,29,0,0,160,160,100);
 
         $r = 80; //圆半径
         for ($x = 0; $x < 160; $x++) {
@@ -1906,11 +1919,8 @@ class Utils  {
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_".$phone.'.png';
+        $agent_qr_url = "/tmp/yxyx_wx_".$phone.$mark."_member.png";
         imagepng($image_3,$agent_qr_url);
-
-        $cmd_rm = "rm /tmp/".$phone."*.png";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
 
         imagedestroy($image_1);
         imagedestroy($image_2);
@@ -1918,7 +1928,81 @@ class Utils  {
         imagedestroy($image_4);
         imagedestroy($image_5);
         imagedestroy($image_6);
-        return $agent_qr_url;
+
+        $type = 'image';
+        $num = rand();
+        $img_Long = file_get_contents($agent_qr_url);
+        file_put_contents( public_path().'/wximg/'.$num.'.png',$img_Long );
+        $img_url = public_path().'/wximg/'.$num.'.png';
+        $img_url = realpath($img_url);
+
+        $mediaId = Media::upload($img_url, $type);
+        self::logger("mediaId info:". json_encode($mediaId));
+
+        $mediaId = $mediaId['media_id'];
+        unlink($img_url);
+        $t_agent->set_add_type_2( $id );
+
+        $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
+        self::exec_cmd($cmd_rm);
+
+        $txt_arr = [
+            'touser'   => $request['fromusername'] ,
+            'msgtype'  => 'image',
+            "image"=> [
+                "media_id" => "$mediaId"
+            ],
+        ];
+
+        $txt = self::ch_json_encode($txt_arr);
+        $token = AccessToken::getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        $txt_ret = self::https_post($url,$txt);
+        //判断是否更换头像
+        $is_change =  $old_headimgurl !== $headimgurl ? true : false;
+        if ( $is_change ){
+            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
+        }
+
+    }
+
+    public static function https_post($url,$data){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
+    public static function ch_json_encode($data) {
+
+
+        $ret = self::ch_urlencode($data);
+        $ret = json_encode($ret);
+
+        return urldecode($ret);
+    }
+
+    public static function ch_urlencode($data) {
+        if (is_array($data) || is_object($data)) {
+            foreach ($data as $k => $v) {
+                if (is_scalar($v)) {
+                    if (is_array($data)) {
+                        $data[$k] = urlencode($v);
+                    } else if (is_object($data)) {
+                        $data->$k = urlencode($v);
+                    }
+                } else if (is_array($data)) {
+                    $data[$k] = self::ch_urlencode($v); //递归调用该函数
+                } else if (is_object($data)) {
+                    $data->$k = self::ch_urlencode($v);
+                }
+            }
+        }
+
+        return $data;
     }
 
 

@@ -30,21 +30,22 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-get_fulltime_teacher_attendance_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		attendance_type:	$('#id_attendance_type').val(),
+		teacherid:	$('#id_teacherid').val(),
+		adminid:	$('#id_adminid').val(),
+		account_role:	$('#id_account_role').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			attendance_type:	$('#id_attendance_type').val(),
-			teacherid:	$('#id_teacherid').val(),
-			adminid:	$('#id_adminid').val(),
-			account_role:	$('#id_account_role').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

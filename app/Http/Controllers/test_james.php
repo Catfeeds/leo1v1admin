@@ -898,33 +898,7 @@ class test_james extends Controller
 
     public function dd(){
 
-        $is_test = $this->t_lesson_info_b3->get_lessonid_by_pid(98191999);
-
-        dd($is_test);
-
-        $a = -1;
-        if(!$a){
-
-            dd(1);
-                }
-        $openid = '111kisfkjedrjh';
-
-        $prize_list = $this->t_ruffian_activity->get_prize_list(-1);
-
-        dd($prize_list);
-
-        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
-
-        dd($parentid);
-
-        $a = [];
-
-        $this->t_ruffian_activity->update_item();
-
-        for($i=0;$i<=9999;$i++){
-            // $a[] = $this->get_win_rate();
-            echo $i."<br>";
-        }
+        $now = strtotime('+1 day');
 
 
 
@@ -933,7 +907,180 @@ class test_james extends Controller
 
 
 
+    public function upload_subject_grade_textbook_from_xls(){ // 测试区
+        $file = Input::file('file');
+        $list    = E\Eregion_version::$desc_map;
+        $list_new =[];
+        foreach($list as $k=>$i){
+            $list_new[$i] = $k;
+        }
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
 
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0 || $k==1 || $k==2){
+                    unset($arr[$k]);
+                }
+            }
+            foreach($arr as $item){
+                $small = $item[2];
+                $small_arr = explode("、",$small);
+                $small_list=[];
+                foreach($small_arr as $v){
+                    if(isset($list_new[$v])){
+                        $small_list[] = $list_new[$v];
+                    }
+                }
+
+                $small_str =  implode(",",$small_list);
+
+                // $is_exist3 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],100,2);
+                $is_exist3=0;
+                if($is_exist3>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist3,[
+                        "teacher_textbook" =>$small_str
+                    ]);
+                }else{
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>100,
+                        "teacher_textbook"=>$small_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
+
+                $middle = $item[3];
+                $middle_arr = explode("、",$middle);
+                $middle_list=[];
+                foreach($middle_arr as $v){
+                    if(isset($list_new[$v])){
+                        $middle_list[] = $list_new[$v];
+                    }
+                }
+
+                $middle_str =  implode(",",$middle_list);
+
+                //$is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],200,2);
+                $is_exist=0;
+                if($is_exist>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist,[
+                       "teacher_textbook" =>$middle_str
+                    ]);
+                }else{
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>200,
+                        "teacher_textbook"=>$middle_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
+
+
+                $senior = $item[4];
+                $senior_arr = explode("、",$senior);
+                $senior_list=[];
+                foreach($senior_arr as $v){
+                    if(isset($list_new[$v])){
+                        $senior_list[] = $list_new[$v];
+                    }
+                }
+                $senior_str =  implode(",",$senior_list);
+                // $is_exist2 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],300,2);
+                $is_exist2=0;
+                if($is_exist2>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist2,[
+                        "teacher_textbook" =>$senior_str
+                    ]);
+
+                }else{
+
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>300,
+                        "teacher_textbook"=>$senior_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
+
+
+
+            }
+
+
+            //dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+
+    }
+
+
+
+    public function download_xls ()  { // 测试
+        // $xls_data= session("xls_data" );
+        $xsl_date = '
+[["Field","Type","Collation","Null","Key","Default","Extra","Privileges","Comment"],["id","int(10) unsigned","","NO","PRI","","auto_increment","select,insert,update",""],["parentid","int(11)","","NO","MUL","","","select,insert,update","家长id"],["get_prize_time","varchar(255)","latin1_bin","NO","MUL","","","select,insert,update","领奖时间"],["presenterid","int(11)","","NO","MUL","","","select,insert,update","发奖人"],["prize_time","int(11)","","NO","","","","select,insert,update","抽奖时间"],["stu_type","tinyint(4)","","NO","","","","select,insert,update","学员类型 1:新用户 2:老用户"],["create_time","int(11)","","NO","","","","select,insert,update","后台奖品录入时间"],["validity_time","int(11)","","NO","","","","select,insert,update","有效期"],["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id"],["prize_type","int(11)","","NO","","","","select,insert,update","ruffian_prize_type 枚举类"]]
+';
+
+        $arr = json_decode($xsl_date,true);
+
+        dd($arr);
+
+        if(!is_array($xls_data)) {
+            return $this->output_err("download error");
+        }
+
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setCreator("jim ")
+                             ->setLastModifiedBy("jim")
+                             ->setTitle("jim title")
+                             ->setSubject("jim subject")
+                             ->setDescription("jim Desc")
+                             ->setKeywords("jim key")
+                             ->setCategory("jim  category");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $col_list=[
+            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T", "U","V","W","X","Y","Z"
+            ,"AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ"
+            ,"BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ"
+            ,"CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ"
+
+        ];
+
+        foreach( $xls_data as $index=> $item ) {
+            foreach ( $item as $key => $cell_data ) {
+                $index_str = $index+1;
+                $pos_str   = $col_list[$key].$index_str;
+                $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
+            }
+        }
+
+      $date=\App\Helper\Utils::unixtime2date (time(NULL));
+      header('Content-type: application/vnd.ms-excel');
+      header( "Content-Disposition:attachment;filename=\"$date.xlsx\"");
+
+      $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+      $objWriter->save('php://output');
+    }
 
 
 }

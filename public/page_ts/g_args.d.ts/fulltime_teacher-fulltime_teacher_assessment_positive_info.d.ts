@@ -31,10 +31,12 @@ interface RowData {
 	main_mater_adminid	:any;
 	main_master_assess_time	:any;
 	positive_type	:any;
+	add_time	:any;
 	create_time_str	:any;
 	become_full_member_time_str	:any;
 	assess_time_str	:any;
 	master_assess_time_str	:any;
+	add_time_str	:any;
 	main_master_assess_time_str	:any;
 	assess_admin_nick	:any;
 	mater_admin_nick	:any;
@@ -53,15 +55,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/fulltime_teacher-fulltime_teacher_assessment_positive_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		adminid:	$('#id_adminid').val(),
+		main_flag:	$('#id_main_flag').val(),
+		become_full_member_flag:	$('#id_become_full_member_flag').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			adminid:	$('#id_adminid').val(),
-			main_flag:	$('#id_main_flag').val(),
-			become_full_member_flag:	$('#id_become_full_member_flag').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-        });
-    }
 
 
 	$('#id_adminid').val(g_args.adminid);

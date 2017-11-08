@@ -73,13 +73,23 @@ class get_ass_warning_stu_info_update extends Command
                 $userid_list=[];
                 $userid_list = json_encode($userid_list);
             }
-            $task->t_ass_weekly_info->row_insert([
-                "adminid"   =>$k,
-                "week"      =>$lstart,
-                "warning_student" =>$warning_student,
-                "warning_student_list" =>$userid_list,
-                "time_type"    =>1
-            ]);
+            $id =$task->t_ass_weekly_info->get_id_by_unique_record($k,$lstart,1);
+            if($id >0){
+                $task->t_ass_weekly_info->field_update_list($id,[
+                    "warning_student" =>$warning_student,
+                    "warning_student_list" =>$userid_list,
+                ]);     
+            }else{
+                $task->t_ass_weekly_info->row_insert([
+                    "adminid"   =>$k,
+                    "week"      =>$lstart,
+                    "warning_student" =>$warning_student,
+                    "warning_student_list" =>$userid_list,
+                    "time_type"    =>1
+                ]);
+ 
+            }
+
         }
 
 

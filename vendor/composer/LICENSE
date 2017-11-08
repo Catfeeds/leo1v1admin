@@ -3,14 +3,10 @@ Upstream-Name: Composer
 Upstream-Contact: Jordi Boggiano <j.boggiano@seld.be>
 Source: https://github.com/composer/composer
 
-<<<<<<< HEAD
-Copyright (c) 2015 Nils Adermann, Jordi Boggiano
-=======
 Files: *
 Copyright: 2016, Nils Adermann <naderman@naderman.de>
            2016, Jordi Boggiano <j.boggiano@seld.be>
 License: Expat
->>>>>>> dfea65e2d2c5d254c5199a5266dbf13acf6841f3
 
 Files: src/Composer/Util/TlsHelper.php
 Copyright: 2016, Nils Adermann <naderman@naderman.de>

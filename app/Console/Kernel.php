@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\test_command::class,
+        Commands\ResetStudentLessonCount::class,
         Commands\SetLessonStuAttend::class,
         Commands\update_month_student_count::class,
         Commands\import_to_teacher_flow::class,
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
         Commands\update_teaching_core_data::class,
         Commands\save_seller_info::class,
         Commands\update_ass_call_count::class,
+        Commands\update_cc_no_called_count::class,
         Commands\add_warning_overtime::class,
         Commands\get_ass_stu_by_month::class,
         Commands\reset_parent_call_status::class,

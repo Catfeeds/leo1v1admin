@@ -8002,10 +8002,16 @@ class tongji_ss extends Controller
             $all_item['lesson_change_rate'] = 0;
         }
 
+        
         array_unshift($ret_info, $all_item);
+        $index_num=0;
         foreach($ret_info as &$p_item){
+            $p_item["index_num"] = $index_num;
+            $index_num++;
+
             if($p_item["teacher_nick"]=="全部"){
                 $p_item["stu_num"]=$stu_num_all;
+                $p_item["index_num"]=0;
             }
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);

@@ -63,6 +63,8 @@ class common_new extends Controller
     }
     public function download_xls ()  {
         $xls_data= session("xls_data" );
+
+
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
         }
@@ -983,8 +985,7 @@ class common_new extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
         $type = $this->get_in_int_val('type'); // 1:试卷 2:作业
 
-        /***
-
+        /**
             待办事项提醒
             x月x日
 
@@ -993,7 +994,6 @@ class common_new extends Controller
             待办内容：xx课学生讲义已上传
             日期：2017/06/01
             可登录学生端进行课前预习。
-
 
             {{first.DATA}}
             待办主题：{{keyword1.DATA}}
@@ -1026,7 +1026,7 @@ class common_new extends Controller
 
         $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
 
-        if($lesson_info['wx_openid']){
+        if($lesson_info['wx_openid'] && $lesson_info['userid']>0){
             $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_msg ,'');
         }
 

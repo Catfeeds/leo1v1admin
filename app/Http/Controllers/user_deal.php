@@ -3178,55 +3178,19 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {       
-        $requireids = "51119,51100,51277,51271,51257,51122,51258,51273,51001,51275";
+        $userid_list = $this->t_student_info->get_read_student_ass_info();
+        $start_time = strtotime("2017-10-01");
+        $end_time = time();
+        $list = $this->t_ass_weekly_info->get_all_info_by_time($start_time,$end_time,1);
+        // foreach($list as $val){
+        //     $adminid = $val["adminid"];
+        //     $read_student_list = @$userid_list[$adminid];
+        //     $this->t_ass_weekly_info->field_update_list($val["id"],[
+        //        "read_student_list" =>$read_student_list 
+        //     ]);
+        // }
+        dd($list);
 
-        $check_flag = $this->check_jw_plan_limit($requireids);
-        
-        $start_time = strtotime(date("Y-m-d",time()));
-        $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
-        
-        $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($check_flag);
-
-        dd($check_flag);
-
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-11-01");
-        //教务数据
-        $set_count_all=$set_count_top=$set_count_green=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
-        $set_count_seller =$set_count_kk=$set_count_hls=0;
-        $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        foreach($ret_info as $val){
-            $set_count_all+=$val["set_count"];
-           
-            $set_lesson_time_all+=$val["set_lesson_time_all"];
-           
-        }
-     
-        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
-        dd($set_time_avg);
-
-        $time = time();
-        $all_throuth_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($time);
-        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
-        dd([count($all_train_through_lesson_teacher),count($all_throuth_teacher)]);
-
-        $tea_arr =[76127];
-        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,$tea_arr,2);
-        dd($cc_list);
-
-        $end_time = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-3 month",$end_time);
-        $all_throuth_teacher = $this->t_teacher_info->get_all_train_through_teacher_list($start_time);
-        $all_train_through_lesson_teacher= $this->t_teacher_info->get_all_train_through_lesson_teacher_list($start_time,$end_time);
-        $no_lesson_tea_list=[];
-        $lesson_tea_list=[];
-        foreach($all_throuth_teacher as $k=>$v){
-            if(!isset($all_train_through_lesson_teacher[$k])){
-                $no_lesson_tea_list[$k]=$v["teacherid"];
-            }else{
-                $lesson_tea_list[$k]=$v["teacherid"];
-            }
-        }
               
     }
 

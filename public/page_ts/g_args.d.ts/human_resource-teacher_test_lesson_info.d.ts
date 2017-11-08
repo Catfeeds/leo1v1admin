@@ -94,28 +94,29 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-teacher_test_lesson_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacherid:	$('#id_teacherid').val(),
+		subject:	$('#id_subject').val(),
+		teacher_subject:	$('#id_teacher_subject').val(),
+		identity:	$('#id_identity').val(),
+		grade_part_ex:	$('#id_grade_part_ex').val(),
+		tea_status:	$('#id_tea_status').val(),
+		teacher_account:	$('#id_teacher_account').val(),
+		qzls_flag:	$('#id_qzls_flag').val(),
+		fulltime_flag:	$('#id_fulltime_flag').val(),
+		create_now:	$('#id_create_now').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			order_by_str:	$('#id_order_by_str').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			subject:	$('#id_subject').val(),
-			teacher_subject:	$('#id_teacher_subject').val(),
-			identity:	$('#id_identity').val(),
-			grade_part_ex:	$('#id_grade_part_ex').val(),
-			tea_status:	$('#id_tea_status').val(),
-			teacher_account:	$('#id_teacher_account').val(),
-			qzls_flag:	$('#id_qzls_flag').val(),
-			fulltime_flag:	$('#id_fulltime_flag').val(),
-			create_now:	$('#id_create_now').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

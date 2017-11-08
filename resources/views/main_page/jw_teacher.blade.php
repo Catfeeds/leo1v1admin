@@ -116,6 +116,7 @@
                                         <td>已排课程(绿色)</td>
                                         <td>已排课程(销售绿色)</td>
                                         <td>已排课程(助教绿色)</td>
+                                        <td>已排课程(抢课)</td>
                                         <td>待排量</td>
                                         <td>挂起量</td>
                                         <td>退回量</td>
@@ -147,6 +148,7 @@
                                             <td>{{@$var["green_count"]}} </td>
                                             <td>{{@$var["seller_green_count"]}} </td>
                                             <td>{{@$var["ass_green_count"]}} </td>
+                                            <td>{{@$var["grab_count"]}} </td>
                                             <td>{{@$var["un_count"]}} </td>
                                             <td>{{@$var["gz_count"]}} </td>
                                             <td>{{@$var["back_count"]}} </td>

@@ -57,19 +57,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-train_lesson_list_fulltime.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacherid:	$('#id_teacherid').val(),
+		lesson_status:	$('#id_lesson_status').val(),
+		train_type:	$('#id_train_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			lesson_status:	$('#id_lesson_status').val(),
-			train_type:	$('#id_train_type').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

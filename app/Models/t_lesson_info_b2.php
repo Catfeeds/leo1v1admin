@@ -3227,7 +3227,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
 
-        $sql=$this->gen_sql_new("select t.teacher_type, m.account_role, count(distinct l.userid) stu_num, FORMAT(sum(if(confirm_flag <> 2,lesson_count/100,0)),2) valid_count,  FORMAT(sum(if(deduct_come_late=1,lesson_count/100,0)),2) teacher_come_late_count, FORMAT(sum(if(lesson_cancel_reason_type=21,lesson_count/100,0)),2) teacher_cut_class_count, FORMAT(sum(if(lesson_cancel_reason_type=2,lesson_count/100,0)),2) teacher_change_lesson,  FORMAT(sum(if(lesson_cancel_reason_type=12,lesson_count/100,0)),2) teacher_leave_lesson, t.teacher_money_type, t.train_through_new_time, l.lesson_cancel_reason_type,  l.teacherid"
+        $sql=$this->gen_sql_new("select t.teacher_type, m.account_role, count(distinct l.userid) stu_num, FORMAT(sum(if(confirm_flag <> 2,lesson_count/100,0)),2) valid_count,  FORMAT(sum(if(deduct_come_late=1,lesson_count/100,0)),2) teacher_come_late_count, FORMAT(sum(if(lesson_cancel_reason_type=21,lesson_count/100,0)),2) teacher_cut_class_count, FORMAT(sum(if(lesson_cancel_reason_type=2,lesson_count/100,0)),2) teacher_change_lesson,  FORMAT(sum(if(lesson_cancel_reason_type=12,lesson_count/100,0)),2) teacher_leave_lesson, sum(if(lesson_cancel_reason_type=12,1,0)) teacher_leave_num,t.teacher_money_type, t.train_through_new_time, l.lesson_cancel_reason_type,  l.teacherid"
                                 ." from %s l "
                                 ." left join %s s on l.userid=s.userid "
                                 ." left join %s tll on tll.lessonid = l.lessonid"
@@ -3965,17 +3965,24 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_lesson_info_by_lessonid($lessonid){
-        $sql = $this->gen_sql_new("  select t.nick as tea_nick, p.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick from %s l"
+        $where_arr=[
+            ["lessonid=%u",$lessonid,0],
+            "lesson_type <1000"
+        ];
+
+        $sql = $this->gen_sql_new("  select t.nick as tea_nick, p.wx_openid, l.lesson_start, l.lesson_end, l.subject,"
+                                  ." s.nick as stu_nick,l.userid "
+                                  ." from %s l"
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid=s.parentid "
-                                  ." left join %s t on t.teacherid=l.teacherid where l.lessonid=%d "
+                                  ." left join %s t on t.teacherid=l.teacherid "
+                                  ." where l.lessonid=%d "
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$lessonid
         );
-
         return $this->main_get_row($sql);
     }
 

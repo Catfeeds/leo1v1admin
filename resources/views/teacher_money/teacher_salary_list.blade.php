@@ -10,36 +10,8 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span>工资类型</span>
-                        <select class="opt-change" id="id_teacher_money_type">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span>老师身份</span>
-                        <select class="opt-change" id="id_teacher_type">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
                         <span>推荐人</span>
                         <input class="opt-change" id="id_reference"/>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span>等级</span>
-                        <select class="opt-change" id="id_level">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span>老师平台类型</span>
-                        <select class="opt-change" id="id_teacher_ref_type">
-                        </select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-10">
@@ -47,18 +19,21 @@
                         <span class="input-group">课程收入</span>
                         <input id="id_lesson_price" value="0">
                         <span class="input-group">老师总工资</span>
-                        <input id="id_teacher_money_tax" value="">
+                        <input id="id_teacher_money" value="{{$all_money}}">
+                        <span class="input-group">税后老师总工资</span>
+                        <input id="id_teacher_money_tax" value="{{$all_money_tax}}">
                     </div>
                 </div>
             </div>
         </div>
         <hr/>
-            <table class="common-table"> 
+            <table class="common-table">
                 <thead>
                     <tr>
                         <td width="100px">老师id</td>
                         <td width="100px">姓名</td>
                         <td >手机号</td>
+                        <td >科目</td>
                         <td style="display:none">持卡人</td>
                         <td style="display:none">身份证</td>
                         <td style="display:none">银行卡</td>
@@ -75,6 +50,7 @@
                             <td>{{$var['teacherid']}}</td>
                             <td>{{$var['realname']}}</td>
                             <td>{{$var['phone']}}</td>
+                            <td>{{$var['subject_str']}}</td>
                             <td>{{$var['bank_account']}}</td>
                             <td>身份证:{{$var['idcard']}}</td>
                             <td>银行卡:{{$var['bankcard']}}</td>

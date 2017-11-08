@@ -22,15 +22,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/fulltime_teacher-full_assessment_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		fulltime_adminid:	$('#id_fulltime_adminid').val(),
+		tea_adminid:	$('#id_tea_adminid').val(),
+		time_flag:	$('#id_time_flag').val(),
+		acc:	$('#id_acc').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			fulltime_adminid:	$('#id_fulltime_adminid').val(),
-			tea_adminid:	$('#id_tea_adminid').val(),
-			time_flag:	$('#id_time_flag').val(),
-			acc:	$('#id_acc').val()
-        });
-    }
 
 
 	$('#id_fulltime_adminid').val(g_args.fulltime_adminid);
