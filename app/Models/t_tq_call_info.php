@@ -18,6 +18,18 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             if ($admin_info){
                 $adminid= $admin_info["uid"];
                 $admin_role= $admin_info["account_role"];
+                //update t_seller_student_new.cc_no_called_count
+                // if($admin_role == E\Eaccount_role::V_2){
+                //     $userid = $this->task->t_phone_to_user->get_userid($phone);
+                //     if($userid>0){
+                //         if($is_called_phone==1){//拨通
+                //             $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>0]);
+                //         }elseif($is_called_phone==0){//未拨通
+                //             $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count');
+                //             $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$count+1]);
+                //         }
+                //     }
+                // }
             }
         }
         $sql=$this->gen_sql_new(
