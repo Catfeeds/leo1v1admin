@@ -109,10 +109,10 @@ class send_wx_msg_common_lesson extends Command
         }
 
 
-        // 课程中途退出10分钟以上
-        $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_lesson_list_for_minute();
+        // 课程中途退出15分钟以上
+        $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
-        if($cut_class_lesson_list ){
+        if(!empty($cut_class_lesson_list)){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -120,12 +120,12 @@ class send_wx_msg_common_lesson extends Command
                 $opt_time_stu_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['userid']);
                 $opt_time_tea_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['teacherid']);
 
-                if(($opt_time_stu>$opt_time_stu_login)&&($opt_time_stu > $item['lesson_start']) && ($opt_time_stu<=$now-600) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [10分钟]
+                if(($opt_time_stu>$opt_time_stu_login)&&($opt_time_stu > $item['lesson_start']) && ($opt_time_stu<=$now-900) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [15分钟]
                     $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
                     $this->send_wx_msg_ass($item,3,$data_ass);
                 }
 
-                if(($opt_time_tea>$opt_time_tea_login)&&($opt_time_tea > $item['lesson_start']) && ($opt_time_tea<=$now-600)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [10分钟]
+                if(($opt_time_tea>$opt_time_tea_login)&&($opt_time_tea > $item['lesson_start']) && ($opt_time_tea<=$now-900)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [15分钟]
                     $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
                     $this->send_wx_msg_ass($item,3,$data_ass);
                 }
@@ -212,7 +212,7 @@ class send_wx_msg_common_lesson extends Command
                     "first"    => "老师您好,请尽快进入课堂。 ",
                     "keyword1" => '课程提醒',
                     "keyword2" => date('H:i',$item['lesson_start'])."的 $subject_str 课程已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系助教老师",
-                    "keyword3" => "'".date('Y-m-d H:i:s')."'",
+                    "keyword3" => date('Y-m-d H:i:s'),
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系助教老师。"
                 ];
             }elseif($type == 4){

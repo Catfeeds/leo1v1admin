@@ -275,9 +275,9 @@ class Common {
         $mail->Host = "smtp.leoedu.cn"; // 您的企业邮局域名
         // $mail->Host = "mail.leoedu.com"; // 您的企业邮局域名
         $mail->SMTPAuth = true; // 启用SMTP验证功能
-
         $mail->Username = "trc@leoedu.cn"; // 邮局用户名(请填写完整的email地址)
         $mail->Password = "xcwen@142857"; // 邮局密码
+
         $mail->From = "emd@leoedu.com"; //邮件发送者email地址
         $mail->FromName = "理优教学管理部";
 

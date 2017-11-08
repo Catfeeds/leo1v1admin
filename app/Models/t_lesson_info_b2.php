@@ -4097,5 +4097,36 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
+    public function get_common_lesson_list_for_minute(){
+        $now = time();
+        $next = time()+60;
+
+        $where_arr = [
+            "l.lesson_type=0", //常规课
+            "l.lesson_del_flag=0",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'lesson_start',$now, $next);
+
+        $sql = $this->gen_sql_new(" select l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+                                  ." left join %s t on t.teacherid = l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." left join %s p on p.parentid= s.parentid "
+                                  ." left join %s a on a.assistantid = s.assistantid"
+                                  ." left join %s m on m.phone = a.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+
 
 }
