@@ -467,7 +467,20 @@ class agent extends Controller
     public function test_new(){
         $start_time = 1506787200;
         $end_time = 1510156800;
-        $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
+        $ret = $this->t_tq_call_info->get_no_called_count_list($start_time,$end_time);
+        dd($ret);
+        $phone_arr = array_unique(array_column($ret,'phone'));
+        foreach($phone_arr as $item){
+            foreach($ret as $info){
+                $phone = $info['phone'];
+                $is_called_phone = $info['is_called_phone'];
+                $admin_role = $info['admin_role'];
+                if($admin_role == E\Eaccount_role::V_2 && $is_called_phone){
+                    
+                }
+            }
+        }
+        // $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
         dd($ret);
 
         $ret = $this->t_seller_student_new->get_all_list_new_two();
