@@ -475,17 +475,15 @@ class agent extends Controller
                 $userid = $this->t_phone_to_user->get_userid($phone='13856012531');
                 if($userid>0){
                     if($is_called_phone==1){//拨通
-                        dd($userid);
                         $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>0]);
                     }elseif($is_called_phone==0){//未拨通
-                        dd($is_called_phone);
                         $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count');
                         $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$count+1]);
                     }
                 }
             }
         }
-        dd('b');
+        dd($userid);
         $start_time = 1506787200;
         // $start_time = 1509984000;
         $end_time = 1510156800;
