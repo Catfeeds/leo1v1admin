@@ -1384,7 +1384,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $sql = $this->gen_sql_new("select sum(lesson_count) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
- 
+
     }
 
     public function get_lesson_count_list_new($userid,$start_time,$end_time){
@@ -1400,7 +1400,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   self::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list($sql);
- 
+
     }
 
 
@@ -1432,10 +1432,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             }
         }
         return $ret;
- 
+
     }
 
-   
+
     public function get_first_lesson_start($userid,$start_time){
         $where_arr = [
             ["userid=%u",$userid,-1],
@@ -1624,7 +1624,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             " t.is_quit=0 ",
             " t.is_test_user =0",
             "t.train_through_new_time>0",
-            "t.train_through_new=1",            
+            "t.train_through_new=1",
             "l.lesson_del_flag=0",
             "l.lesson_type <1000",
             "l.confirm_flag <>2",
@@ -1659,14 +1659,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end){
 
         $where_arr = [
-            "l.lesson_type"
+            "l.lesson_type = 0"
         ];
 
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
+
         $sql = $this->gen_sql_new("  select subject, lesson_start, lesson_end, teacherid, userid from %s l "
-                                  ." where %s "
+                                  ." where %s group by teacherid "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+
+        return $this->main_get_list($sql);
     }
 
 }
