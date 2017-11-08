@@ -214,7 +214,6 @@ class send_wx_msg_for_test_lesson extends Command
 
         }else{ // 助教
             if($type == 1){ // 课前30分钟
-
                 $data = [
                     "first"    => "您好，您的学员".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
                     "keyword1" => "$subject_str",
@@ -291,7 +290,7 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
 
-        if($type !=3  ){
+        if($type !=3 ){
             \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,'');
         }
 
@@ -361,7 +360,5 @@ class send_wx_msg_for_test_lesson extends Command
  上课地点：{{keyword3.DATA}}
  联系电话：{{keyword4.DATA}}
  {{remark.DATA}}
-
-
 
 **/
