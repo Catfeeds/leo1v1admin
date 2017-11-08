@@ -488,11 +488,13 @@ abstract class NewModel
         }
     }
 
-    public function where_arr_teacherid(&$where_arr,$field_name, $teacherid_arr ) {
+    public function where_arr_teacherid(&$where_arr,$field_name, $teacherid_arr,$check_flag=true ) {
         if (count ($teacherid_arr)>0)  {
             $where_arr[]=sprintf(  "$field_name in (%s) ",  join(",", $teacherid_arr ));
-        }else{
+        }elseif($check_flag){
             $where_arr[] = $field_name ."= -100";
+        }else{
+            
         }
     }
 
