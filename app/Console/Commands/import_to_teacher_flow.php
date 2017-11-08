@@ -54,6 +54,18 @@ class import_to_teacher_flow extends cmd_base
             }
         }
 
+        // 刷培训合格时间
+        $where = ["train_through_new_time=0"];
+        $info = $task->t_teacher_flow->get_all_list($where);
+        foreach($info as $teacherid => $item) {
+            $ret = $task->t_teacher_info->get_train_through_new_time($teacherid);
+            if ($ret) {
+                $task->t_teacher_flow->field_update_list($teacherid, [
+                    'train_through_new_time' => $ret
+                ]);
+            }
+        }
+
         // 导入老师报名时间 accept_adminid招师专员的id
         $where = ["answer_begin_time=0"];
         $info = $task->t_teacher_flow->get_all_list($where);
