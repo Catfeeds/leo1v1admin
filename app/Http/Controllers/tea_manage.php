@@ -385,6 +385,7 @@ class tea_manage extends Controller
             "is_tea"                => $is_tea,
             "adminid"               => $adminid,
             "acc"                   => $acc,
+            "account_role"          => $this->get_account_role()
         ]);
         $response = new \Illuminate\Http\Response($ret_str);
 

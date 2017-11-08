@@ -1990,6 +1990,11 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        if(opt_data.lesson_type<1000){
+            alert("该课程不能反馈!");
+            return;
+        }
+        alert(opt_data.userid);
         var lesson_style=8;
         if(opt_data.lesson_type==2){
             lesson_style=7;

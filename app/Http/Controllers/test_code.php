@@ -31,7 +31,7 @@ class test_code extends Controller
     var $teacher_money_type_month_key      = "teacher_money_type_month";
 
     public function __construct(){
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";

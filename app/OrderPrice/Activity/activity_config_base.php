@@ -78,7 +78,7 @@ class activity_config_base extends  activity_base {
         //用户加入时间检查
         if (count($this->user_join_time_range )==2 ) {
             $user_add_time= $this->task->t_seller_student_new->get_add_time($this->userid);
-            $user_add_time_str=date("Y-m-d");
+            $user_add_time_str=date("Y-m-d",$user_add_time );
             if  ( !($user_add_time >= strtotime( $this->user_join_time_range [0])
                     && $user_add_time <= strtotime( $this->user_join_time_range[1]))) {
                 $desc_list[]=static::gen_activity_item(0,  "用户加入时间[$user_add_time_str]不匹配" , $price,  $present_lesson_count, $can_period_flag );
