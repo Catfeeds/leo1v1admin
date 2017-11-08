@@ -304,6 +304,7 @@ class send_wx_msg_for_test_lesson extends Command
         }else{
             $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
+
         // 给家长发送
         if($type !=3  ){
             $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
