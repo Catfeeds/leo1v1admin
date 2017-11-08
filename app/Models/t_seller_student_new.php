@@ -2497,7 +2497,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(
             " select n.userid,n.phone,n.cc_no_called_count,"
             ." tq.is_called_phone,"
-            ." m.uid,m,account_role "
+            ." m.uid,m.account_role "
             ." from %s n"
             ." left join %s tq on tq.phone=n.phone "
             ." left join %s m on m.tquin=tq.uid "
