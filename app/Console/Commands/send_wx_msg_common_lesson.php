@@ -120,7 +120,7 @@ class send_wx_msg_common_lesson extends Command
                 $opt_time_stu_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['userid']);
                 $opt_time_tea_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['teacherid']);
 
-                if(($opt_time_stu>$opt_time_stu_login)&&($opt_time_stu > $item['lesson_start']) && ($opt_time_stu<=$now-900) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [15分钟]
+                if(($opt_time_stu_logout>$opt_time_stu_login)&&($opt_time_stu_logout > $item['lesson_start']) && ($opt_time_stu_logout<=$now-900) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [15分钟]
                     $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
                     $this->send_wx_msg_ass($item,3,$data_ass);
                 }

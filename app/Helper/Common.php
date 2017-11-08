@@ -298,7 +298,7 @@ class Common {
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
         $ret=$mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger("email err:". $mail->ErrorInfo);
+            \App\Helper\Utils::logger("email err2:". $mail->ErrorInfo);
         }
         return $ret;
     }
