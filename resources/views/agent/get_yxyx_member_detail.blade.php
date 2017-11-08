@@ -8,11 +8,13 @@
             <thead>
                 <tr>
                     <td>介绍人</td>
+                    <td>加入时间</td>
                     <td>电话</td>
                     <td>姓名</td>
                     <td>年级</td>
                     <td>科目</td>
                     <td>是否试听</td>
+                    <td>试听时间</td>
                     <td>最后一次回访时间</td>
                     <td>回访间隔</td>
                     <td>试听需求</td>
@@ -29,11 +31,13 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["nick1"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["test_lesson"]}} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["revisit_time"]}} </td>
                         <td>{{@$var["last_call_time_space"]}}天</td>
                         <td>{{@$var["stu_request_test_lesson_demand"]}} </td>
