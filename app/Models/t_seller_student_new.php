@@ -1605,7 +1605,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
 
-            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,tmk_called_count,tmk_no_called_count ");
+            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,tmk_called_count,tmk_no_called_count,last_revisit_time ");
 
             $set_arr=[];
             if ($item["tq_called_flag"]<$tq_called_flag) {
@@ -1635,10 +1635,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $set_arr["cc_called_count"]=$item['cc_called_count']+1;
                 $set_arr["cc_no_called_count"] = 0;
             }else{ //未接通
-                // if(){
+                if($item['last_revisit_time'] != $call_time){
                     $set_arr["called_time"] = $item["called_time"]+1;
                     $set_arr["cc_no_called_count"] = $item["cc_no_called_count"]+1;
-                // }
+                }
             }
 
 

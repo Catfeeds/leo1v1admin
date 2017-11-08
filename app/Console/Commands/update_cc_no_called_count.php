@@ -13,14 +13,14 @@ use \App\Enums as E;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-class cc_no_called_count extends Command
+class update_cc_no_called_count extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:cc_no_called_count';
+    protected $signature = 'command:update_cc_no_called_count';
 
     /**
      * The console command description.
