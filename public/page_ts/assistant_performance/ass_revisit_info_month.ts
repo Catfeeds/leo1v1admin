@@ -26,6 +26,7 @@ $(function(){
         }
     });
 
+	$('#id_assistantid').val(g_args.assistantid);
     $.admin_select_user($("#id_assistantid"), "assistant",function(){
         load_data();
     });

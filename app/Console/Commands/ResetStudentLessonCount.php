@@ -41,12 +41,22 @@ class ResetStudentLessonCount extends cmd_base
         $end = strtotime("+1 day",$start);
 
         $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(0,$start,$end,E\Elesson_status::V_0);
-        echo count($lesson_list);
-        echo PHP_EOL;
+
         if(is_array($lesson_list) && !empty($lesson_list)){
             foreach($lesson_list as $l_val){
                 $diff_time = $t_val['lesson_end']-$t_val['lesson_start'];
-                $lesson_count = $diff_time/40;
+                if($diff_time == 90){
+                    $real_lesson_count = 200;
+                }else{
+                    $real_lesson_count = $diff_time/40*100;
+                }
+                if($real_lesson_count != $t_val['lesson_count']){
+                    echo $t_val['lessonid'];
+                    echo PHP_EOL;
+                    // $this->task->t_lesson_info->field_update_list($t_val['lessonid'],[
+                    //     "lesson_count" => $real_lesson_count
+                    // ]);
+                }
             }
         }
     }
