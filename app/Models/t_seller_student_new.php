@@ -1331,7 +1331,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
             $userid = $this->task->t_test_subject_free_list->field_get_value($adminid,'userid');
-            if($usreid>0){//历史回流人
+            if($userid>0){//历史回流人
                 $where_arr[] = ['n.userid =%u',$userid];
             }
         }
