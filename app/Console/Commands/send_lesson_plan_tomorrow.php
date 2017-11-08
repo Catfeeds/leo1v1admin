@@ -69,7 +69,7 @@ class send_lesson_plan_tomorrow extends Command
         $tea_lesson_list = $task->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
 
 
-        if(empty($trial_test_lesson_lists)){
+        if(!empty($tea_lesson_list)){
             foreach($trial_test_lesson_lists as $item){
                 $lesson_begin_time = date("H:i:s",$item['lesson_start']);
                 $lesson_end_time   = date("H:i:s",$item['lesson_end']);
