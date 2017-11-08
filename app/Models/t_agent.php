@@ -23,9 +23,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
+    //@desn:获取优学优享会员列表
     public function get_agent_info($page_info, $order_by_str, $phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
     {
-        $where_arr = [];
+        $where_arr = [
+            'a.type in (2,3)'
+        ];
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
         }else if ( $phone ) {
@@ -34,7 +37,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             else
                 $where_arr[] = ["a.nickname like '%s%%'", $phone, ""];
         }else {
-            $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+            if($type)
+                $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
             $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
             $this->where_arr_add_int_or_idlist($where_arr,"a.l1_child_count",$l1_child_count);
             $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
@@ -42,35 +46,115 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
         }
 
-        $sql=$this->gen_sql_new (" select a.*,"
-                                 ."aa.nickname p_nickname,aa.phone p_phone,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ."s.origin,s.type student_stu_type,s.is_test_user,"
-                                 ."l.lesson_start,l.lesson_user_online_status, "
-                                 ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
-                                 ."o.price, "
-                                 ."n.admin_revisiterid,a.userid"
-                                 ." from %s a "
-                                 ." left join %s aa on aa.id = a.parentid"
-                                 ." left join %s aaa on aaa.id = aa.parentid"
-                                 ." left join %s s on s.userid = a.userid"
-                                 ." left join %s n on n.userid = a.userid"
-                                 ." left join %s l on l.lessonid = a.test_lessonid"
-                                 ." left join %s ao on ao.aid = a.id "
-                                 ." left join %s o on o.orderid = ao.orderid "
-                                 ." where %s  $order_by_str "
-                                 ,self::DB_TABLE_NAME
-                                 ,self::DB_TABLE_NAME
-                                 ,self::DB_TABLE_NAME
-                                 ,t_student_info::DB_TABLE_NAME
-                                 ,t_seller_student_new::DB_TABLE_NAME
-                                 ,t_lesson_info::DB_TABLE_NAME
-                                 ,t_agent_order::DB_TABLE_NAME
-                                 ,t_order_info::DB_TABLE_NAME
-                                 ,$where_arr
+        $sql=$this->gen_sql_new (
+            " select a.id,a.phone,a.nickname,a.agent_level,a.all_yxyx_money,"
+            ."a.all_open_cush_money,a.all_have_cush_money,a.create_time,a.test_lessonid,"
+            ."aa.nickname p_nickname,aa.phone p_phone,"
+            ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
+            ."l.lesson_start,l.lesson_user_online_status, "
+            ."a.userid,a.parentid,"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid"
+            ." left join %s aaa on aaa.id = aa.parentid"
+            ." left join %s s on s.userid = a.userid"
+            ." left join %s l on l.lessonid = a.test_lessonid"
+            ." left join %s ao on ao.aid = a.id "
+            ." left join %s o on o.orderid = ao.orderid "
+            ." left join %s mi on s.assistantid = mi.uid "
+            ." where %s $order_by_str "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }
+    //@desn:获取全部会员
+    public function get_all_agent_member_count(){
+        $where_arr = [
+            'type in (2,3)'
+        ];
+        $sql = $this->gen_sql_new(
+            "selct count(1) from %s where %s",self::DB_TABLE_NAME,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取推荐人详情
+    //@param type 1:学员 2：会员 3：学员+会员
+    //@param parentid 推荐人id
+    public function get_child_info($parentid,$type,$page_info){
+        $where_arr = [
+            ['a.parentid = %u',$parentid,'0'],
+            ['a.type = %u ',$type,'-1']
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.id,a.phone,a.nickname,a.test_lessonid,count(o.orderid) as self_order_count,"
+            ."sum(o.price) as self_order_price,o.sys_operator,mi.account,mi.name,mi.account_role "
+            .",a.userid"
+            ." from %s a "
+            ." left join %s s on s.userid = a.userid"
+            ." left join %s ao on ao.aid = a.id "
+            ." left join %s o on o.orderid = ao.orderid "
+            ." left join %s mi on s.assistantid = mi.uid "
+            ." where %s group by a.id"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page( $sql,$page_info);
+    }
+
+    //@desn:获取优学优享学员列表
+    public function get_student_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
+    {
+        $where_arr = [
+            'a.type in (1,3)'
+        ];
+        if($p_phone){
+            $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
+        }else if ( $phone ) {
+            if(is_numeric($phone) && strlen($phone))
+                $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+            else
+                $where_arr[] = ["a.nickname like '%s%%'", $phone, ""];
+        }else {
+            if($type)
+                $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.l1_child_count",$l1_child_count);
+            $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
+            $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
+            $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
+        }
+
+        $sql=$this->gen_sql_new (
+            "select a.id,a.phone,a.nickname,a.userid,a.test_lessonid,"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ." from %s a"
+            ." left join %s s on s.userid = a.userid"
+            ." left join %s ao on ao.aid = a.id "
+            ." left join %s o on ao.orderid = o.orderid"
+            ." left join %s mi on s.assistantid = mi.uid"
+            ." where %s",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_by_page( $sql,$page_info);
+    }
+
 
     public function get_agent_info_two(){
         $where_arr = [];
@@ -2605,5 +2689,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
     }
-
+    //@desn:获取用户不同身份推荐人个数
+    //@param:$parentid 推荐人id
+    public function get_invite_sort_num($parentid){
+        $sql = $this->gen_sql_new(
+            "select sum(if(type=1,1,0)) as child_student_count,".
+            "sum(if(type=2,1,0)) as child_member_count,".
+            "sum(if(type=3,1,0)) as child_student_member_count ".
+            "from %s where parentid = %u ",self::DB_TABLE_NAME,$parentid
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:根据用户昵称获取用户信息
+    //@param:$nickname 用户昵称
+    public function get_agent_info_by_nickname($nickname){
+        $sql = $this->gen_sql_new(
+            "select * from %s where nickname like '%%%s%%'",self::DB_TABLE_NAME,$nickname
+        );
+        return $this->main_get_row($sql);
+    }
 }

@@ -351,7 +351,8 @@ class menu{
                     ["power_id"=>34, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_qc"],
                 ]],
                 ["power_id"=>4, "name"=>"优学优享", "list"=> [
-                    ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>10, "name"=>"会员列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>93, "name"=>"学员列表",   "url"=>"/agent/student_list"],
                     ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
                     ["power_id"=>92, "name"=>"微信信息[新版]",   "url"=>"/agent/user_center_info"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],

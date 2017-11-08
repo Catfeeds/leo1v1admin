@@ -24,57 +24,69 @@ class agent extends Controller
         $l1_child_count   = $this->get_in_intval_range("l1_child_count");
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
-            =$this->get_in_order_by_str([],"",["l1_child_count" => "a.l1_child_count" ,
-                                               "l2_child_count" => "a.l2_child_count",
-                                               "l1_agent_status_all_money" => "a.l1_agent_status_all_money",
-                                               "l1_agent_status_all_open_money" => "a.l1_agent_status_all_open_money",
-
-                                               "l2_agent_status_all_money" => "a.l2_agent_status_all_money",
-                                               "l2_agent_status_all_open_money" => "a.l2_agent_status_all_open_money",
-                                               "all_money" => "a.all_money",
-
-                                               "all_yxyx_money" => "a.all_yxyx_money",
+            =$this->get_in_order_by_str([],"",["all_yxyx_money" => "a.all_yxyx_money",
                                                "all_open_cush_money" => "a.all_open_cush_money",
-                                               "order_open_all_money" => "a.order_open_all_money",
                                                "all_have_cush_money" => "a.all_have_cush_money",
-                                               "child_order_count" => "a.child_order_count",
             ]);
+        \App\Helper\Utils::logger("orderby_str: $order_by_str ");
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
-        $userid_arr = [];
         foreach($ret_info['list'] as &$item){
+            //获取用户签单量及签单金额
+            $agent_order_sum = $this->t_order_info->get_agent_order_sum($item['userid']);
+            $item['self_order_count'] = $agent_order_sum['self_order_count'];
+            $item['self_order_price'] = $agent_order_sum['self_order_price']/100;
+            //获取用户推荐学员、会员、会员+学员量
+            $agent_invite_sort_info = $this->t_agent->get_invite_sort_num($item['id']);
+            $item['child_student_count'] = $agent_invite_sort_info['child_student_count'];
+            $item['child_member_count'] = $agent_invite_sort_info['child_member_count'];
+            $item['child_student_member_count'] = $agent_invite_sort_info['child_student_member_count'];
             $status = $item["lesson_user_online_status"];
             if($status == 2){
                 $item["lesson_user_online_status"] = 0;
             }
-            $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;
-            $item['agent_type'] = $item['type'];
-            E\Eagent_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
-            E\Eagent_status::set_item_value_str($item);
-            E\Estudent_stu_type::set_item_value_str($item);
-            E\Eboolean::set_item_value_str($item,"agent_status_money_open_flag");
-
             E\Eagent_student_status::set_item_value_str($item);
-            $item["cc_nick"]= $this->cache_get_account_nick( $item["admin_revisiterid"]);
-            $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
-            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
-            $item["price"]/= 100;
-            $item["all_money"]/= 100;
-            $item["l1_agent_status_all_money"]/= 100;
-            $item["l1_agent_status_all_open_money"]/= 100;
-
-            $item["l2_agent_status_all_money"]/= 100;
-            $item["l2_agent_status_all_open_money"]/= 100;
             $item["all_yxyx_money"]/= 100;
             $item["all_open_cush_money"]/= 100;
             $item["all_have_cush_money"]/= 100;
-            $item["order_open_all_money"]/= 100;
 
-            $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
-            $item["p_off_info"] =  ($item["p_price"]/100 ) ."/". E\Eagent_level::get_desc($item["p_level"] )  ;
+            $item['agent_type_str'] = empty($item['parentid']) ? '注册':'邀请';
+            $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
+            if($item['account_role'] == 1)
+                $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
+            $item['agent_info'] = 1;
+        }
+        $agent_total_num = $ret_info['total_num'];
+        return $this->pageView(__METHOD__,$ret_info,['agent_total_num'=>$agent_total_num]);
+    }
+    //@desn:学员列表
+    public function student_list() {
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $userid           = $this->get_in_userid(-1);
+        $phone            = $this->get_in_phone();
+        $p_phone          = $this->get_in_str_val('p_phone');
+        $type             = $this->get_in_int_val('agent_type');
+        $page_info        = $this->get_in_page_info();
+        $test_lesson_flag = $this->get_in_e_boolean(-1, "test_lesson_flag" );
+        $agent_type       = $this->get_in_el_agent_type();
+        $agent_level      = $this->get_in_el_agent_level();
+        $order_flag       = $this->get_in_e_boolean(-1, "order_flag" );
+        $l1_child_count   = $this->get_in_intval_range("l1_child_count");
+        
+        $ret_info = $this->t_agent->get_student_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
+        foreach($ret_info['list'] as &$item){
+            //获取用户签单量及签单金额
+            $agent_order_sum = $this->t_order_info->get_agent_order_sum($item['userid']);
+            $item['self_order_count'] = $agent_order_sum['self_order_count'];
+            $item['self_order_price'] = $agent_order_sum['self_order_price']/100;
+
+            $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
+            if($item['account_role'] == 1)
+                $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
+            $item['agent_info'] = 1;
 
         }
         return $this->pageView(__METHOD__,$ret_info);
@@ -814,11 +826,16 @@ class agent extends Controller
 
     //@desn:新版微信信息
     public function user_center_info(){
+        $nickname=$this->get_in_str_val('id_nickname');
         $phone=$this->get_in_phone();
         $id=$this->get_in_id();
         if ($phone) {
             $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
             $id=$agent_info["id"];
+        }
+        if($nickname){
+            $agent_info=$this->t_agent->get_agent_info_by_nickname($nickname);
+            $id = $agent_info['id'];
         }
         if ($id) {
             $phone=$this->t_agent->get_phone($id);
@@ -1949,5 +1966,37 @@ class agent extends Controller
         $res = $this->t_agent->field_update_list($id,['add_reason' => $add_reason]);
 
         return $this->output_succ();
+    }
+    //@desn:用户推荐人详情
+    //@param type 1:学员 2：会员 3：学员+会员
+    //@param parentid 推荐人id
+    public function agent_child_info(){
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+        $page_info = $this->get_in_page_info();
+        $type = $this->get_in_int_val('type',-1);
+        $parentid = $this->get_in_int_val('id');
+        if($type <= 0)
+            $this->output_err('传入学员类型有误!');
+        $ret_info = $this->t_agent->get_child_info($parentid,$type,$page_info);
+        if($ret_info['total_num']<1)
+            $ret_info['list'] = [];
+        foreach($ret_info['list'] as &$item){
+            $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
+            if($item['account_role'] == 1)
+                $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
+            $item['self_order_price'] /= 100; 
+            $item['agent_info'] = 1;
+        }
+        return $this->pageView(__METHOD__,$ret_info,['type'=>$type]);
     }
 }

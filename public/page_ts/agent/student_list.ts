@@ -211,25 +211,6 @@ $(function(){
         $.wopen("/agent/agent_user_link?id="+ opt_data.id  );
 
     });
-    //@desn:学员明细
-    $(".student_info").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        $.wopen("/agent/agent_child_info?id="+ opt_data.id+"&type=1"  );
-
-    });
-    //@desn:会员明细
-    $(".member_info").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        $.wopen("/agent/agent_child_info?id="+ opt_data.id+"&type=2"  );
-
-    });
-    //@desn:会员+学员明细
-    $(".member_student_info").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        $.wopen("/agent/agent_child_info?id="+ opt_data.id+"&type=3" );
-
-    });
-
 
 
     $(".opt-reset-info").on("click",function(){
@@ -246,4 +227,5 @@ $(function(){
 
     });
     
+
 });
