@@ -83,13 +83,13 @@ class send_wx_msg_common_lesson extends Command
             }
         }
 
-        // 试听课超时5分钟
+        // 常规课超时5分钟
         $lesson_begin_five = $now-5*60;
         $lesson_end_five   = $now-4*60;
-        $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
+        $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
-        if($test_lesson_list_five){
-            foreach($test_lesson_list_five as $item){
+        if($common_lesson_list_five){
+            foreach($common_lesson_list_five as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
                 if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
