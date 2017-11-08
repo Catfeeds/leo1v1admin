@@ -38,7 +38,7 @@ class test_command extends cmd_base
      */
     public function handle()
     {
-        $email = "wg392567893@163.com";
+        $email = "2769730432@qq.com";
         $title = "test_title";
         $html  = "测试内容";
         $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);

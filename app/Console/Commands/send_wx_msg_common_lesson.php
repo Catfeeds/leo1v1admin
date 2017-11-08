@@ -114,8 +114,8 @@ class send_wx_msg_common_lesson extends Command
 
         if(!empty($cut_class_lesson_list)){
             foreach($cut_class_lesson_list as $item){
-                $opt_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
-                $opt_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+                $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+                $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
                 $opt_time_stu_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['userid']);
                 $opt_time_tea_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['teacherid']);
@@ -125,7 +125,7 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_ass($item,3,$data_ass);
                 }
 
-                if(($opt_time_tea>$opt_time_tea_login)&&($opt_time_tea > $item['lesson_start']) && ($opt_time_tea<=$now-900)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [15分钟]
+                if(($opt_time_tea_logout>$opt_time_tea_login)&&($opt_time_tea_logout > $item['lesson_start']) && ($opt_time_tea_logout<=$now-900)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [15分钟]
                     $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
                     $this->send_wx_msg_ass($item,3,$data_ass);
                 }
