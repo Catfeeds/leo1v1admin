@@ -826,7 +826,8 @@ class agent extends Controller
 
     //@desn:新版微信信息
     public function user_center_info(){
-        $nickname=$this->get_in_str_val('id_nickname');
+        $nickname=$this->get_in_str_val('nickname');
+        \App\Helper\Utils::logger("nickname:$nickname"); 
         $phone=$this->get_in_phone();
         $id=$this->get_in_id();
         if ($phone) {
@@ -836,12 +837,14 @@ class agent extends Controller
         if($nickname){
             $agent_info=$this->t_agent->get_agent_info_by_nickname($nickname);
             $id = $agent_info['id'];
+            $nickname = $agent_info['nickname'];
         }
         if ($id) {
             $phone=$this->t_agent->get_phone($id);
         }
 
         $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("nickname",$nickname);
         $this->set_filed_for_js("id",$id);
         return $this->pageView(__METHOD__,NULL);
     }

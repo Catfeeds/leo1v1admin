@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+    'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_160045_create_t_agent_cash_money_freeze.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
     'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
@@ -548,6 +549,7 @@ return array(
     'SebastianBergmann\\RecursionContext\\Exception' => $vendorDir . '/sebastian/recursion-context/src/Exception.php',
     'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => $vendorDir . '/sebastian/recursion-context/src/InvalidArgumentException.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
+    'TAgentAddAddReason' => $baseDir . '/database/migrations/2017_11_03_155654_t_agent_add_add_reason.php',
     'TAgentAddHoudong' => $baseDir . '/database/migrations/2017_11_02_105724_t_agent_add_houdong.php',
     'TAgentDropRuffianMoney' => $baseDir . '/database/migrations/2017_11_02_115728_t_agent_drop_ruffian_money.php',
     'TAgentMoneyEx' => $baseDir . '/database/migrations/2017_10_10_145509_t_agent_money_ex.php',
@@ -582,6 +584,7 @@ return array(
     'TRequirementInfoUpdateProductComment' => $baseDir . '/database/migrations/2017_10_17_101814_t_requirement_info_update_product_comment.php',
     'TRevisitAssessInfoDropRevisitNumCallCount' => $baseDir . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
     'TRevisitCallCountDrop' => $baseDir . '/database/migrations/2017_10_12_183545_t_revisit_call_count_drop.php',
+    'TRuffianActivityAddItem' => $baseDir . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
     'TRuffianActivityAddStuType' => $baseDir . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
     'TRuffianActivityDropAddTime' => $baseDir . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
     'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
@@ -610,6 +613,7 @@ return array(
     'TTeacherFlow' => $baseDir . '/database/migrations/2017_10_26_120629_t_teacher_flow.php',
     'TTeacherFlowAddId' => $baseDir . '/database/migrations/2017_10_26_183054_t_teacher_flow_add_id.php',
     'TTeacherInfoAddPhoneLocation' => $baseDir . '/database/migrations/2017_10_28_104311_t_teacher_info_add_phone_location.php',
+    'TTeacherInfoAddSleepFlag' => $baseDir . '/database/migrations/2017_11_04_140027_t_teacher_info_add_sleep_flag.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTeacherSalaryAddPayColumn' => $baseDir . '/database/migrations/2017_10_28_193114_t_teacher_salary_add_pay_column.php',
     'TTeacherSalaryInfoAddUniqueIndex' => $baseDir . '/database/migrations/2017_11_01_113754_t_teacher_salary_info_add_unique_index.php',

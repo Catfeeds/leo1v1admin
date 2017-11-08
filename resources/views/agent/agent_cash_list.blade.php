@@ -88,7 +88,8 @@
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
                                 <a class="fa-gavel opt-money-check " title="财务确认" ></a>
                                 <!--  <a class="fa fa-times opt-del" title="删除"> </a> -->
-
+                                <a class="fa fa-hourglass-2 opt-freeze" title="冻结"> </a>
+                                
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>
                             </div>

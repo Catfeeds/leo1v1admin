@@ -98,4 +98,59 @@ $(function(){
 
 
     $('.opt-change').set_input_change_event(load_data);
+    $('.opt-freeze').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var $freeze_money = $("<input/>");
+        var $phone = $("<input/>")
+        var $agent_freeze_type= $("<select id='id_agent_freeze_type'/>" );
+        Enum_map.append_option_list("agent_freeze_type", $agent_freeze_type,true);
+        var $agent_money_ex_type= $("<select/>" );
+        Enum_map.append_option_list("agent_money_ex_type", $agent_money_ex_type,true);
+        // var $agent_activity_time = $("<div id='id_date_range'></div>");
+        var $agent_activity_time = $("<input/>");
+        
+        $(".table").append($agent_activity_time);
+        // $('#id_date_range').select_date_range({
+        //     'date_type' : g_args.date_type,
+        //     'opt_date_type' : g_args.opt_date_type,
+        //     'start_time'    : g_args.start_time,
+        //     'end_time'      : g_args.end_time,
+        //     date_type_config : JSON.parse( g_args.date_type_config),
+        //     onQuery :function() {
+        //         load_data();
+        //     }
+        // });    
+        var arr=[
+            ["冻结金额" ,$freeze_money ],
+            ["冻结类型" ,$agent_freeze_type ],
+            ["违规学员手机号",$phone],
+            ["活动类型",$agent_money_ex_type],
+            ["活动日期",$agent_activity_time]
+        ] ;
+        // console.log($agent_freeze_type.val());
+        // if($agent_freeze_type.val() == 1 || $agent_freeze_type.val() == 2)
+        //     arr.push(["违规学员手机号",$phone]);
+        // else if($agent_freeze_type.val() == 2){
+        //     arr.push(["违规学员手机号",$phone]);
+        //     arr.push(["活动名称",$agent_money_ex_type]);
+
+        // }else
+        //     arr.push(["违规学员手机号",$phone]);
+
+        $.show_key_value_table("冻结体现金额", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/agent/agent_money_freeze",{
+                    "id" : opt_data.id,
+                    "freeze_money" : $freeze_money.val(),
+                    "agent_freeze_type" : $agent_freeze_type.val(),
+                    "phone" : $phone.val(),
+                    "agent_money_ex_type" : $agent_money_ex_type.val(),
+                    "agent_activity" : $agent_activity_time.val()
+                });
+            }
+        });
+    })
+    
 });
