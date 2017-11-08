@@ -77,7 +77,7 @@ class assistant_performance extends Controller
 
         }
         $list=[];
-        foreach($list as $k=>$val){
+        foreach($time_list as $k=>$val){
             foreach($val as $v){
                 $list[$v][$k]=1; 
             }
