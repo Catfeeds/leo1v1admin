@@ -103,8 +103,8 @@ class order_price_20171001 extends order_price_base
         if (!$off_ret) {
             //常规打折
             $do_activity_fun ( Activity\activity_2017090101::class  );
-            //优学优享活动
-            $do_activity_fun ( Activity\activity_yxyx::class  );
+            //优惠券
+
             //当配
             $do_activity_fun ( Activity\activity_2017080101::class  );
         }

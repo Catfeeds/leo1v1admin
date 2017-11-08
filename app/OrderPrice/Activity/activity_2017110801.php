@@ -12,7 +12,7 @@ class activity_2017110801 extends  activity_config_base {
         $this->contract_type_list = [E\Econtract_type::V_0 ];
         $this->lesson_times_range = [10 ,  10000];
         $this->user_join_time_range=["2015-01-10", "2017-10-31" ];
-        $this->max_count=10;
+        $this->max_count=20;
 
         $not_period_perent=78;
         $period_perent= $not_period_perent+6;

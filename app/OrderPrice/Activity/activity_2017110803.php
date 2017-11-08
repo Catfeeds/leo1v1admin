@@ -1,9 +1,9 @@
 <?php
 namespace App\OrderPrice\Activity;
 use \App\Enums as E;
-class activity_yxyx extends  activity_config_base {
+class activity_2017110803 extends  activity_config_base {
 
-    public static $order_activity_type= E\Eorder_activity_type::V_YXYX;
+    public static $order_activity_type= E\Eorder_activity_type::V_2017110803;
 
     public function __construct(  $args   ) {
         parent::__construct($args);
@@ -20,7 +20,8 @@ class activity_yxyx extends  activity_config_base {
             return ;
         };
 
-        //优学优享活动
+        //2017-1108  双11,优惠券  续费可用
+
         $userid=$this->userid;
         if ($userid) {
             $parentid=$this->task->t_student_info->get_parentid($userid);

@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use \App\Enums as E;
+
 class send_wx_msg_common_lesson extends Command
 {
     /**
@@ -46,14 +48,31 @@ class send_wx_msg_common_lesson extends Command
         $four_start = $now+3600*4;
         $four_end   = $four_start+60;
 
-        $list = $task->t_lesson_info_b3->check_has_tea_cw_url;
 
+        /**
+           {{first.DATA}}
+           待办主题：{{keyword1.DATA}}
+           待办内容：{{keyword2.DATA}}
+           日期：{{keyword3.DATA}}
+           {{remark.DATA}}
+         **/
+        $upload_list = $task->t_lesson_info_b3->check_has_tea_cw_url($four_start,$four_end);
+        $template_id_upload = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+        foreach($upload_list as $item){
+            $data_upload = [
+                "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
+                "keyword1" => '讲义上传提醒',
+                "keyword2" => date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义，请尽快登录老师后台上传讲义',
+                "keyword3" => date('Y-m-d H:i:s')
+            ];
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
+        }
 
 
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
-        // 获取试听课 课前30分钟
-        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+        // 获取常规课 课前30分钟
+        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
         if(!empty($test_lesson_list_halfhour)){
             foreach($test_lesson_list_halfhour as $item){
@@ -368,5 +387,3 @@ class send_wx_msg_common_lesson extends Command
  {{remark.DATA}}
 
 **/
-
-

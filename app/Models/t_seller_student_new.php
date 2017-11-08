@@ -2538,6 +2538,36 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
     }
 
+    public function auto_allot_yxyx_userid($opt_adminid, $opt_account, $userid, $account,$phone){
+
+        $set_arr = [
+            "admin_assignerid"           => 973,
+            "sub_assign_adminid_2"       => 0,
+            "sub_assign_time_2"          => time(),
+            "admin_revisiterid"          => $opt_adminid,
+            "admin_assign_time "         => time(),
+            "sub_assign_adminid_1"       => 0,
+            "sub_assign_time_1"          => time(),
+            "first_admin_master_adminid" => 0,
+            "first_admin_master_time"    => time()
+        ];
+
+
+        $ret_update = $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: $account 状态: 分配给 [ $opt_account ] ",
+            "system"
+        );
+
+        $set_str=$this->get_sql_set_str( $set_arr);
+        $sql=sprintf("update %s set %s where userid=%u",
+                     self::DB_TABLE_NAME,
+                     $set_str,
+                     $userid );
+        return $this->main_update($sql);
+    }
+
+
     public function allow_userid_to_cc($adminid, $opt_account, $userid){
 
         //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规
@@ -2920,23 +2950,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_today_yxyx_stu($start_time){
+    public function get_today_auto_allot_num($start_time){
         $where_arr = [
-            ['ss.add_time>=%u', $start_time, -1],
-            's.is_test_user=0',
-            "s.origin='优学优享'",
+            ['add_time>=%u', $start_time, -1],
+            'auto_allot_adminid>0',
         ];
-        $sql = $this->gen_sql_new(
-            "select ss.userid,ss.add_time,ss.auto_allot_adminid,ss.admin_revisiterid,ss.admin_assign_time"
-            ." from %s ss"
-            ." left join %s s on s.userid=ss.userid"
-            ." where %s"
-            ." order by ss.add_time"
+
+        $sql = $this->gen_sql_new("select count(userid) from %s where %s  order by ss.add_time"
             ,self::DB_TABLE_NAME
-            ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 }
