@@ -63,11 +63,11 @@ class send_lesson_plan_tomorrow extends Command
 
          **/
 
-        $now = strtotime('+1 day');
+        $lesson_start = strtotime('+1 day',strtotime(date('Y-m-d')));
+        $lesson_end = $lesson_start+86400;
 
-        $tea_lesson_list = $task->t_lesson_info_b3->get_teacher_tomorrow_lesson_list();
+        $tea_lesson_list = $task->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
 
-        $trial_test_lesson_lists = $task->t_teacher_record_list->get_lesson_list_for_next_day();
 
         if(empty($trial_test_lesson_lists)){
             foreach($trial_test_lesson_lists as $item){

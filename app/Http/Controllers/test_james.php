@@ -898,8 +898,9 @@ class test_james extends Controller
 
     public function dd(){
 
-        $now = strtotime('+1 day');
+        $now = strtotime('+1 day',strtotime(date('Y-m-d')));
 
+        dd($now);
 
 
     }
