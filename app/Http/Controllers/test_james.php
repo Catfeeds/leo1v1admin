@@ -1074,14 +1074,17 @@ class test_james extends Controller
     }
 
 
-    
-    public function download_xls ()  {
-        $xls_data= session("xls_data" );
+
+    public function download_xls ()  { // 测试
+        // $xls_data= session("xls_data" );
         $xsl_date = '
-
 [["Field","Type","Collation","Null","Key","Default","Extra","Privileges","Comment"],["id","int(10) unsigned","","NO","PRI","","auto_increment","select,insert,update",""],["parentid","int(11)","","NO","MUL","","","select,insert,update","家长id"],["get_prize_time","varchar(255)","latin1_bin","NO","MUL","","","select,insert,update","领奖时间"],["presenterid","int(11)","","NO","MUL","","","select,insert,update","发奖人"],["prize_time","int(11)","","NO","","","","select,insert,update","抽奖时间"],["stu_type","tinyint(4)","","NO","","","","select,insert,update","学员类型 1:新用户 2:老用户"],["create_time","int(11)","","NO","","","","select,insert,update","后台奖品录入时间"],["validity_time","int(11)","","NO","","","","select,insert,update","有效期"],["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id"],["prize_type","int(11)","","NO","","","","select,insert,update","ruffian_prize_type 枚举类"]]
-
 ';
+
+        $arr = json_decode($xsl_date,true);
+
+        dd($arr);
+
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
         }

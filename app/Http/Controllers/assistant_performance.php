@@ -45,6 +45,7 @@ class assistant_performance extends Controller
         $assistantid = $this->t_assistant_info->get_assistantid( $account);
         $assistantid  = $this->get_in_int_val("assistantid",$assistantid);
         $adminid = $this->t_manager_info->get_ass_adminid($assistantid);
+        dd($adminid);
 
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
         $first_week = $start_info["sdate"];
@@ -56,10 +57,25 @@ class assistant_performance extends Controller
         }
         $n = ($last_week-$first_week)/(7*86400)+1;
         $userid_list = $this->t_student_info->get_read_student_ass_info();
-
+        $time_list=[];
         for($i=0;$i<$n;$i++){
            $week = $first_week+$i*7*86400;
+            $id =$this->t_ass_weekly_info->get_id_by_unique_record($adminid,$week,1);
+            if($id>0){
+                $read_student_list = $this->t_ass_weekly_info->field_get_list($id,"read_student_list");
+                $read_student_list= @$read_student_list["read_student_list"];
+            }else{
+                $read_student_list = @$userid_list[$adminid];
+            }
+            if($read_student_list){
+                $read_student_list = json_decode($read_student_list,true);
+            }else{
+                $read_student_list=[];
+            }
+            $time_list[$week]=$read_student_list;
+
         }
+        dd($time_list);
 
 
     }
