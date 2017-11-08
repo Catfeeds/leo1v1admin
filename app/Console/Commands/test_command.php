@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use \App\Enums as E;
 
-class test_command extends Command
+class test_command extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -18,7 +19,7 @@ class test_command extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '测试命令';
 
     /**
      * Create a new command instance.
@@ -37,7 +38,12 @@ class test_command extends Command
      */
     public function handle()
     {
-        $admin_url = \App\Helper\Config::get_config("admin_url");
-        echo $admin_url;
+        $start_time = strtotime("2017-11-2 18:00");
+        $end_time = strtotime("2017-11-2 21:20");
+        $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(0,$start_time,$end_time);
+        foreach($lesson_list as $l_val){
+            $diff_time = $l_val['lesson_start']-$l_val['lesson_end'];
+
+        }
     }
 }
