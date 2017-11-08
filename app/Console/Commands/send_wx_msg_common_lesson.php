@@ -46,7 +46,7 @@ class send_wx_msg_common_lesson extends Command
         $four_start = $now+3600*4;
         $four_end   = $four_start+60;
 
-        $list = '';
+        $list = $task->t_lesson_info_b3;
 
 
 
