@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\test_command::class,
+        Commands\ResetStudentLessonCount::class,
         Commands\SetLessonStuAttend::class,
         Commands\update_month_student_count::class,
         Commands\import_to_teacher_flow::class,

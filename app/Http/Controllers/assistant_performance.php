@@ -19,6 +19,7 @@ class assistant_performance extends Controller
             $account="eros";
         }
         $assistantid = $this->t_assistant_info->get_assistantid( $account);
+        $assistantid  = $this->get_in_int_val("assistantid",-1);
         $ret_info = $this->t_student_info->get_assistant_read_stu_info($assistantid);
         $month_start = strtotime(date("Y-m-01",$start_time));
         $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
