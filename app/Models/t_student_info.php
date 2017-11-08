@@ -862,10 +862,15 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
         }
+        $where_str=$this->where_str_gen( $where_arr);
 
-        $sql = sprintf("select userid as id , nick, phone,gender,realname  from %s  where %s",
-                       self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
-        return $this->main_get_list_by_page($sql,$page_num,10);
+        if ( trim($where_str) <> "true" ) {
+            $sql = sprintf("select userid as id , nick, phone,gender,realname  from %s  where %s",
+                           self::DB_TABLE_NAME, $where_str );
+            return $this->main_get_list_by_page($sql,$page_num,10);
+        }else {
+            return \App\Helper\Utils::list_to_page_info([]);
+        }
     }
 
     public function get_student_list($page_num){
