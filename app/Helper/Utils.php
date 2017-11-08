@@ -1878,12 +1878,6 @@ class Utils  {
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
-        //判断是否更换头像
-        $is_change =  $old_headimgurl !== $headimgurl ? true : false;
-        if ( $is_change ){
-            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
-        }
-
         //下载头像，制作图片
         $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
@@ -1957,7 +1951,12 @@ class Utils  {
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
-        self::logger("IMAGE_RET $txt_ret ");
+        //判断是否更换头像
+        $is_change =  $old_headimgurl !== $headimgurl ? true : false;
+        if ( $is_change ){
+            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
+        }
+
 
     }
 
