@@ -798,7 +798,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }else if($publish_flag ==1 ){
                 $where_arr[]="t.seller_student_status <>50";
             }
-
             $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
             $where_arr[]= $ret_in_str;
 
@@ -2496,21 +2495,24 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(
             " select userid,phone,test_lesson_count,free_adminid,free_time,last_succ_test_lessonid,cc_no_called_count "
             ." from %s "
-            ." where add_time>=1506787200 and add_time<1510070400 order by userid "
+            ." where add_time>=1506787200 and add_time<1510156800 order by userid "
             ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list_new(){
+    public function get_all_list_new($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select n.userid,n.phone,n.cc_no_called_count,"
             ." tq.is_called_phone "
             ." from %s n"
             ." left join %s tq on tq.phone=n.phone"
-            ." where n.add_time>=1506787200 and n.add_time<1510070400 order by n.add_time "
+            ." where %s order by n.add_time "
             ,self::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list($sql);
     }
