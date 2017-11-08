@@ -374,6 +374,8 @@
                                 <a class="fa fa-list-alt opt-manage-all" title="课程管理信息汇总" ></a>
                                 <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a>
                                 <a class="fa-sitemap opt-set-server " title="xmpp" ></a>
+                                
+                                <a class="opt-first-lesson-record" >质监反馈</a>
                             </div>
                         </td>
                     </tr>
