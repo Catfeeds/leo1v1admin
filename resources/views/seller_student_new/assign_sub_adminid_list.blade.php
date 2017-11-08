@@ -260,7 +260,7 @@
                         <input class="opt-change form-control" id="id_suc_test_count" />
                     </div>
                 </div>
-                
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">负责人联系次数</span>
@@ -438,13 +438,13 @@
                             <td>
                                 {{$var["has_pad_str"]}} <br/>
                             </td>
-                            
+
 
                             <td>
                                 {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
                                 <br/>
                             </td>
-                            
+
                             <td>
                                 {{$var["call_count"]}} <br/>
                             </td>

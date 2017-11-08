@@ -89,6 +89,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         \App\Helper\Utils::logger("make_image7");
 
         $ext = pathinfo($this->bg_url);
+
         if ($ext['extension'] == 'jpg') {
             $image_1 = imagecreatefromjpeg($this->bg_url);     //背景图
         }else{
