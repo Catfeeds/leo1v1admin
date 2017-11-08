@@ -61,6 +61,7 @@ class grab_lesson extends Controller
         if ( $live_time >= $max_num ) {
             $live_time = 2147483647;
         }
+
         $grabid = base64_decode($text);
 
         $ret = $this->t_grab_lesson_link_info->field_update_list( $grabid, [
