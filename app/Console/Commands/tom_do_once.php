@@ -56,10 +56,9 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $start_time = 1506787200;
+        $start_time = 1509465600;
         $end_time = 1510156800;
         $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        // echo count($ret)."\n";
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;
@@ -77,7 +76,7 @@ class tom_do_once extends Command
                     }
                 }
             }
-            // $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
             echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
 
