@@ -90,8 +90,8 @@ class send_wx_msg_common_lesson extends Command
 
         if($common_lesson_list_five){
             foreach($common_lesson_list_five as $item){
-                $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
-                $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
+                $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
+                $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
                 if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
                     $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
                     $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
@@ -183,7 +183,7 @@ class send_wx_msg_common_lesson extends Command
                 $data = [
                     "first"    => "家长您好，请提醒".$item['stu_nick']."同学尽快进入课堂.",
                     "keyword1" => "课程提醒",
-                    "keyword2" =>  date("H:i",$item['lesson_start'])."$subject_str 课程已开始5分钟，".$item['stu_nick']." 同学还未进入课堂,请尽快进入课堂，如有紧急情况请尽快联系咨询老师.",
+                    "keyword2" =>  date("H:i",$item['lesson_start'])."$subject_str 课程已开始5分钟，".$item['stu_nick']." 同学还未进入课堂,请尽快进入课堂，如有紧急情况请尽快联系助教老师.",
                     "keyword3" => date('Y-m-d H:i:s'),
                     "remark"   => ""
                 ];
@@ -194,7 +194,7 @@ class send_wx_msg_common_lesson extends Command
                     "keyword1" => "旷课提醒",
                     "keyword2" => "未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s'),
-                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师"
+                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系助教老师"
                 ];
             }
 
@@ -211,9 +211,9 @@ class send_wx_msg_common_lesson extends Command
                 $data = [
                     "first"    => "老师您好,请尽快进入课堂。 ",
                     "keyword1" => '课程提醒',
-                    "keyword2" => "'".date('H:i',$item['lesson_start'])."'"."$subject_str 课程已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系咨询老师",
+                    "keyword2" => date('H:i',$item['lesson_start'])."的 $subject_str 课程已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系助教老师",
                     "keyword3" => "'".date('Y-m-d H:i:s')."'",
-                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
+                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系助教老师。"
                 ];
             }elseif($type == 4){
                 $data = [
