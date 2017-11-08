@@ -293,6 +293,7 @@ class wx_yxyx_common extends Controller
                 $insert_flag = 1;
             }
         }
+
         if($type == 1 || $insert_flag == 1){//进例子
             $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
 

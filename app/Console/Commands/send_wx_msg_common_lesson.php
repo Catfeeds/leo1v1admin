@@ -40,8 +40,16 @@ class send_wx_msg_common_lesson extends Command
     {
         //
         $task = new \App\Console\Tasks\TaskController();
-
         $now = time();
+
+        // 课前四小时未上传讲义
+        $four_start = $now+3600*4;
+        $four_end   = $four_start+60;
+
+        $list = '';
+
+
+
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
         // 获取试听课 课前30分钟
@@ -361,4 +369,4 @@ class send_wx_msg_common_lesson extends Command
 
 **/
 
-}
+

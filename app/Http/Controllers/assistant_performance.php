@@ -57,6 +57,7 @@ class assistant_performance extends Controller
         $n = ($last_week-$first_week)/(7*86400)+1;
         $userid_list = $this->t_student_info->get_read_student_ass_info();
         $time_list=[];
+        $time_arr=[];
         for($i=0;$i<$n;$i++){
            $week = $first_week+$i*7*86400;
             $id =$this->t_ass_weekly_info->get_id_by_unique_record($adminid,$week,1);
@@ -72,10 +73,30 @@ class assistant_performance extends Controller
                 $read_student_list=[];
             }
             $time_list[$week]=$read_student_list;
+            $time_arr[$week]=date("Y.m.d",$week)."-".date("Y.m.d",$week+7*86400-100);
 
         }
-        dd($time_list);
+        $list=[];
+        foreach($time_list as $k=>$val){
+            foreach($val as $v){
+                $list[$v][$k]=1; 
+            }
+        }
+        foreach($list as $key=>&$item){
+            foreach($time_list as $k=>$v){
+                if(!isset($item[$k])){
+                    $item[$k]="否";
+                }else{
+                     $item[$k]="是";
+                }
+            }
+            $item["nick"] = $this->cache_get_student_nick($key);
 
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),[
+            "time_arr" =>$time_arr
+        ]);
 
     }
 

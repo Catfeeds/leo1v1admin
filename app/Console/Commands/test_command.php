@@ -39,7 +39,7 @@ class test_command extends cmd_base
     public function handle()
     {
         $start_time = strtotime("2017-11-2 18:00");
-        $end_time = strtotime("2017-11-2 21:20");
+        $end_time = strtotime("2017-11-2 23:59");
         $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start_time,$end_time);
         foreach($lesson_list as $l_val){
             if($l_val['confirm_flag']==4){

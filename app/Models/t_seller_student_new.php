@@ -1320,17 +1320,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "s.lesson_count_all=0",
             "n.seller_resource_type=1",
             "n.admin_revisiterid=0",
-            "t.seller_student_status <>  50",
+            "t.seller_student_status <> 50",
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
-            ["s.nick like '%s%%'",$this->ensql($nick), ""],
-            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+            // ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            // ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($nick || $phone) {
-            $where_arr[] = ['n.free_adminid =%u',$adminid];
+            $userid = $this->task->t_phone_to_user->get_userid($phone);
+            $userid = $this->task->t_test_subject_free_list->get_userid_by_adminid($adminid,$userid);
+            if($userid>0){//历史回流人
+                $where_arr = ["n.userid=%u",$userid];
+            }
         }
         if($phone_location){
             $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
@@ -1632,8 +1636,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     $set_arr["last_contact_time"]=$call_time;
                 }
                 $set_arr["called_time"]=$call_time;
-                $set_arr["cc_called_count"]=$item['cc_called_count']+1;
-                $set_arr["cc_no_called_count"] = 0;
             }
 
             if (count($set_arr) >0 ) {
@@ -2913,5 +2915,25 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_today_yxyx_stu($start_time){
+        $where_arr = [
+            ['ss.add_time>=%u', $start_time, -1],
+            's.is_test_user=0',
+            "s.origin='优学优享'",
+        ];
+        $sql = $this->gen_sql_new(
+            "select ss.userid,ss.add_time,ss.auto_allot_adminid,ss.admin_revisiterid,ss.admin_assign_time"
+            ." from %s ss"
+            ." left join %s s on s.userid=ss.userid"
+            ." where %s"
+            ." order by ss.add_time"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 }

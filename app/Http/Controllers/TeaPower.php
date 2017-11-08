@@ -3030,12 +3030,12 @@ trait TeaPower {
                     <br/>
                     ​二：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：提交前可反复回看并重新录制（提交后不可重新录制），回看满意后再提交</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容进行一对一在线面试。<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可以把面试官当您的学生进行互动。</span><br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前物理、化学、政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>
                     <br/>
                 </div>
                 <div>
@@ -4056,8 +4056,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
         $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
         if(!$check_is_exists){
-            $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+            $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
             $recommended_info = $this->t_teacher_info->get_teacher_info($recommended_teacherid);
+            $teacher_ref_type = $teacher_info['teacher_ref_type'];
 
             $reference_type = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
             $check_flag     = $this->check_is_special_reference($teacher_info['phone']);
@@ -4071,7 +4072,24 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
                 $teacher_info['phone'],$reference_type,$begin_time
             );
+
+            /**
+             * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
+             * 明日之星推荐的在职老师起步都是50元/个
+             */
+            if($reference_type==2){
+                switch($teacher_ref_type){
+                case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
+                    $reference_num += 30;
+                    break;
+                case E\Eteacher_ref_type::V_3:
+                    $reference_num += 10;
+                    break;
+                }
+            }
+
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
+
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
                 "money"      => $reference_price*100,
@@ -4116,7 +4134,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         foreach($arr as $v){
             $requireid_list[$v]=$v;
         }
-        
+
         $start_time = strtotime(date("Y-m-d",time()));
         $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
         foreach($grab_list as $val){
@@ -4127,7 +4145,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 }
             }
         }
-        
+
         $list = $this->t_test_lesson_subject_require->get_require_info_by_requireid($requireid_list);
         $data = [];
         foreach($list as $val){
