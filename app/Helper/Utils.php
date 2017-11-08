@@ -24,6 +24,13 @@ use OSS\Core\OssException;
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
+
+require_once ( app_path("Wx/Yxyx/lanewechat_yxyx.php") );
+use Yxyx\Core\Media;
+use Yxyx\Core\AccessToken;
+use LaneWeChat\Core\ResponsePassive;
+
+
 class Utils  {
 
     static function init_hour_list(&$list, $init_item=[]) {
@@ -1856,7 +1863,7 @@ class Utils  {
         $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
         $old_headimgurl = $agent['headimgurl'];
         $agent_qr_url = "/tmp/yxyx_wx_member_".$phone.".png";
-        \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
+        self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
@@ -1877,39 +1884,39 @@ class Utils  {
         //判断是否更换头像
         $is_change = $old_headimgurl !== $headimgurl ? true : false;
         if ( !$is_exists || $is_change ){
-            $t_agent->field_update_list($id,['headimgulr' => $headimgurl]);
+            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
             $cmd_rm = "rm /tmp/yxyx_wx_member_".$phone.".png";
-            \App\Helper\Utils::exec_cmd($cmd_rm);
+            self::exec_cmd($cmd_rm);
 
             //下载头像，制作图片
-            \App\Helper\Utils::logger("make_img_start");
+            self::logger("make_img_start");
             $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
             $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
             shell_exec($wgetshell);
 
             $image_5 = imagecreatefromjpeg($datapath);
-            \App\Helper\Utils::logger("get_head");
+            self::logger("get_head");
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
-            \App\Helper\Utils::logger("make_new");
+            self::logger("make_new");
             $color = imagecolorallocate($image_6, 255, 255, 255);
-            \App\Helper\Utils::logger("make_image6");
+            self::logger("make_image6");
             imagefill($image_6, 0, 0, $color);
             imageColorTransparent($image_6, $color);
             imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
-            \App\Helper\Utils::logger("make_image7");
-            $image_1 = imagecreatefrompng($this->bg_url);     //背景图
-            \App\Helper\Utils::logger("make_bg");
+            self::logger("make_image7");
+            $image_1 = imagecreatefrompng($bg_url);     //背景图
+            self::logger("make_bg");
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
-            \App\Helper\Utils::logger("make_8");
+            self::logger("make_8");
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
-            \App\Helper\Utils::logger("make_9");
+            self::logger("make_9");
             imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
 
-            \App\Helper\Utils::logger("for_roop");
+            self::logger("for_roop");
             $r = 80; //圆半径
             for ($x = 0; $x < 160; $x++) {
                 for ($y = 0; $y < 160; $y++) {
@@ -1926,7 +1933,7 @@ class Utils  {
 
             imagepng($image_3,$agent_qr_url);
 
-            \App\Helper\Utils::logger("make_img_END");
+            self::logger("make_img_END");
 
             imagedestroy($image_1);
             imagedestroy($image_2);
@@ -1936,7 +1943,7 @@ class Utils  {
             imagedestroy($image_6);
 
             $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
-            \App\Helper\Utils::exec_cmd($cmd_rm);
+            self::exec_cmd($cmd_rm);
 
         }
 
@@ -1949,16 +1956,14 @@ class Utils  {
         $img_url = realpath($img_url);
 
         $mediaId = Media::upload($img_url, $type);
-        \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
+        self::logger("mediaId info:". json_encode($mediaId));
 
-        \App\Helper\Utils::logger("upload_img_END");
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
-
         $t_agent->set_add_type_2( $id );
 
         $txt_arr = [
-            'touser'   => $this->request['fromusername'] ,
+            'touser'   => $request['fromusername'] ,
             'msgtype'  => 'image',
             "image"=> [
                 "media_id" => "$mediaId"
@@ -1969,7 +1974,7 @@ class Utils  {
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
-        \App\Helper\Utils::logger("IMAGE_RET $txt_ret ");
+        self::logger("IMAGE_RET $txt_ret ");
 
     }
 
