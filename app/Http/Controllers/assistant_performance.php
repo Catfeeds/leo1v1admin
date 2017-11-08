@@ -45,7 +45,6 @@ class assistant_performance extends Controller
         $assistantid = $this->t_assistant_info->get_assistantid( $account);
         $assistantid  = $this->get_in_int_val("assistantid",$assistantid);
         $adminid = $this->t_manager_info->get_ass_adminid($assistantid);
-        dd($adminid);
 
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
         $first_week = $start_info["sdate"];
