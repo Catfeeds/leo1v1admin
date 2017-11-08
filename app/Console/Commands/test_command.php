@@ -41,7 +41,7 @@ class test_command extends cmd_base
         $data = $this->get_in_value("data","");
         $begin_time = strtotime("2017-7-1");
 
-        $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+        $reference_num = $this->task->t_teacher_lecture_appointment_info->get_reference_num(
             $data,1,$begin_time
         );
         echo $reference_num;

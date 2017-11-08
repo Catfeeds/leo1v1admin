@@ -1663,7 +1663,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select  teacherid,t.nick  from %s l "
+        $sql = $this->gen_sql_new("  select  teacherid,t.nick, wx_openid from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid"
                                   ." where %s group by l.teacherid "
                                   ,self::DB_TABLE_NAME
@@ -1694,5 +1694,68 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+
+    public function get_parent_tomorrow_lesson_list($lesson_start, $lesson_end){
+        $where_arr = [
+            "l.lesson_type = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
+
+        $sql = $this->gen_sql_new("  select  p.parentid, p.nick, p.wx_openid  from %s l "
+                                  ." left join %s pc on pc.userid=l.userid"
+                                  ." left join %s p on p.parentid=pc.userid"
+                                  ." where %s group by p.parentid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+
+
+    public function get_par_lesson_info($lesson_start, $lesson_end, $parentid){
+        $where_arr = [
+            "l.lesson_type = 0",
+            "p.parentid=$parentid"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
+
+        $sql = $this->gen_sql_new("  select  l.subject, lesson_start, l.lesson_end, l.teacherid, t.nick from %s l "
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." left join %s pc on pc.userid=l.userid"
+                                  ." left join %s p on p.parentid=pc.userid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+
+
+
+    public function get_lesson_list_for_set_xmpp_server( $start_time,$end_time) {
+        $where_arr= [
+        ];
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql =  $this->gen_sql_new(
+
+            "select l.lessonid, c.current_server "
+            . " from %s l "
+
+            . " left join  %s c on l.courseid = c.courseid "
+            . " where %s ",
+            self::DB_TABLE_NAME,
+            t_course_order::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
