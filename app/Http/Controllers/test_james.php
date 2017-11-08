@@ -897,6 +897,12 @@ class test_james extends Controller
 
 
     public function dd(){
+        $lesson_start = $this->get_in_int_val('s');
+        $lesson_end = $this->get_in_int_val('e');
+        $tea_lesson_list = $this->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
+
+
+        dd($tea_lesson_list);
 
         $now = strtotime('+1 day',strtotime(date('Y-m-d')));
 
