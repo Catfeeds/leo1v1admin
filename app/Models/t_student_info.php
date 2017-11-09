@@ -372,7 +372,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
-    public function get_student_list_archive( $userid,$grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num,$student_type,$revisit_flag,$warning_stu=-1,$sum_start=0)
+    public function get_student_list_archive( $userid,$grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num,$student_type,$revisit_flag,$warning_stu=-1,$sum_start=0,$revisit_warn_flag=1,$warn_list=[]
+)
     {
         $where_arr=[
             ["a.userid=%u", $userid, -1] ,
@@ -424,6 +425,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             $have = "(sum(b.lesson_count) - sum(a.lesson_count_left)/count(*)/24) >=0";
         }else{
             $have = true;
+        }
+
+        if($revisit_warn_flag==0){
+            $where_arr[]=$this->where_get_not_in_str("a.userid",$warn_list);
         }
 
 

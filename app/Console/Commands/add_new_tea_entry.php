@@ -52,7 +52,7 @@ class add_new_tea_entry extends Command
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['teacherid'].' '.$item['realname'].' '.$item['phone'].' mac '.$version['version'].'.'.PHP_EOL;
+                        echo $item['teacherid'].' '.$item['realname'].' mac '.$version['version'].','.PHP_EOL;
                     }
                 }
             }
@@ -60,7 +60,7 @@ class add_new_tea_entry extends Command
                     $version = json_decode($item['user_agent'], true);
                     if (isset($version['device_model'])) {
                         if($version['version'] < 4.3) {
-                            echo $item['teacherid'].' '.$item['realname'].' '.$item['phone'].' windows '.$version['version'].','.PHP_EOL;
+                            echo $item['teacherid'].' '.$item['realname'].' windows '.$version['version'].','.PHP_EOL;
                             }
                     }
                 }
@@ -68,7 +68,7 @@ class add_new_tea_entry extends Command
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['teacherid'].' '.$item['realname'].' '.$item['phone'].' android '.$version['version'].'.'.PHP_EOL;
+                        echo $item['teacherid'].' '.$item['realname'].' android '.$version['version'].','.PHP_EOL;
                     }
                 }
 
@@ -88,21 +88,21 @@ class add_new_tea_entry extends Command
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['userid'].' '.$item['realname'].' '.$item['phone'].' '.$nick.' mac '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].' '.$item['realname'].' '.$item['nick'].' '.$nick.' mac '.$version['version'].','.PHP_EOL;
                     }
                 }
             }  elseif(stripos($item['user_agent'],"windows") ) {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 4.3) {
-                        echo $item['userid'].' '.$item['realname'].' '.$item['phone'].' '.$nick.' windows '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].' '.$item['realname'].' '.$item['nick'].' '.$nick.' windows '.$version['version'].','.PHP_EOL;
                     }
                 }
             } else {
                 $version = json_decode($item['user_agent'], true);
                 if (isset($version['device_model'])) {
                     if($version['version'] < 5.3) {
-                        echo $item['userid'].' '.$item['realname'].' '.$item['phone'].' '.$nick.' android '.$version['version'].'.'.PHP_EOL;
+                        echo $item['userid'].' '.$item['realname'].' '.$item['nick'].' '.$nick.' android '.$version['version'].','.PHP_EOL;
                     }
                 }
 

@@ -3021,6 +3021,7 @@ class ss_deal extends Controller
             "tq_called_flag"    =>0,
             "hold_flag" => 1,
             "seller_resource_type" => $seller_resource_type ,
+            "hand_get_adminid" => E\Ehand_get_adminid::V_5,
         ]);
 
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
@@ -3463,6 +3464,22 @@ class ss_deal extends Controller
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
+            // foreach($arr as $k=>&$val){
+            //     if(empty($val[0]) || $k==0){
+            //         unset($arr[$k]);
+            //     }
+
+            // }
+            // $str="";
+            // foreach($arr as $item){
+            //     $str .= $item[6].",";               
+            // }
+            // $str = trim($str,",");
+            // $this->t_teacher_info->field_update_list(240314,[
+            //     "part_remarks"=>$str 
+            // ]);
+            // return;
+
             foreach($arr as $k=>&$val){
                 if(empty($val[0]) || $k==0){
                     unset($arr[$k]);
@@ -4118,6 +4135,14 @@ class ss_deal extends Controller
         $user_list=$this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
         foreach($user_list as $item) {
             $phone=$item["phone"];
+            //公海领取的例子,回流拨打限制
+            if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5){
+                $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
+                if(!$ret){
+                    return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+                    break;
+                }
+            }
             $seller_student_status= $item["seller_student_status"];
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,
@@ -4140,6 +4165,7 @@ class ss_deal extends Controller
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
                 "hand_free_count" => $item['hand_free_count']+1,
+                "hand_get_adminid" => 0,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );

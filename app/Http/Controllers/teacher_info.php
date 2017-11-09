@@ -2110,8 +2110,9 @@ class teacher_info extends Controller
             $need_test_lesson_flag = 0;
         }
 
-        $res_info = $this->t_teacher_info->field_update_list($teacherid, ["need_test_lesson_flag" => $need_test_lesson_flag,]
-        );
+        $res_info = $this->t_teacher_info->field_update_list($teacherid, [
+            "need_test_lesson_flag" => $need_test_lesson_flag
+        ]);
 
         if ($res_info) {
             return outputjson_success();

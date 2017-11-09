@@ -1612,7 +1612,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
 
-            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,tmk_called_count,tmk_no_called_count,last_revisit_time ");
+            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,last_revisit_time ");
 
             $set_arr=[];
             if ($item["tq_called_flag"]<$tq_called_flag) {
@@ -1788,7 +1788,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //
     public function get_user_info_for_free($userid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  n.userid=%u limit 1 ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1799,7 +1799,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_no_hold_list($admin_revisiterid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  hold_flag=0  and admin_revisiterid=%u ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -2168,7 +2168,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 
         $sql=$this->gen_sql_new(
-            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad  ".
+            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad,n.tmk_last_revisit_time ".
             " from %s t "
             ." left join %s n on  n.userid = t.userid "
             ." left join %s s on n.userid=s.userid "

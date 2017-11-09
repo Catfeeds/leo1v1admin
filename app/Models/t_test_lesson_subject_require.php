@@ -988,7 +988,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr[]= $ret_in_str;
 
         $sql=$this->gen_sql_new(
-            "select  cur_require_adminid as admin_revisiterid, count(*) as test_lesson_count,   sum( test_lesson_fail_flag in (1,2,3) ) as fail_need_pay_count  "
+            "select cur_require_adminid as admin_revisiterid, count(*) as test_lesson_count,   sum( test_lesson_fail_flag in (1,2,3) ) as fail_need_pay_count  "
             .", sum( lesson_user_online_status =2 and  (f.flow_status is null  or f.flow_status <>2 ) ) fail_all_count "
             .", sum( lesson_user_online_status in (0,1) or  f.flow_status = 2  ) succ_all_count "
             .",sum(green_channel_teacherid>0) green_lesson_count"
@@ -1011,7 +1011,35 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             $where_arr);
 
         return $this->main_get_list_as_page($sql);
+    }
 
+    public function get_suc_test_lesson_by_adminid($start_time,$end_time,$adminid) {
+        $where_arr=[
+            "accept_flag=1",
+            "require_admin_type=2",
+            "is_test_user=0",
+            ['cur_require_adminid=%u',$adminid,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new(
+            "select cur_require_adminid as admin_revisiterid,"
+            .", sum( lesson_user_online_status in (0,1) or f.flow_status=2) succ_all_count "
+            ." from %s tr "
+            ." join %s l on tr.current_lessonid=l.lessonid "
+            ." join %s tss on tr.current_lessonid=tss.lessonid "
+            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s s  on l.userid=s.userid"
+            ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_value($sql);
     }
 
     public function set_notify_lesson_flag($require_id,$notify_flag, $sys_operator) {
@@ -1794,7 +1822,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " sum(if(o.orderid>0 and tr.seller_top_flag=1 and tr.is_green_flag=0,1,0)) order_num,".
                                   " sum(if(test_lesson_student_status in(210,220,290,300,301,302,420),tss.set_lesson_time-tr.require_time,0)) set_lesson_time_all,".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and (FROM_UNIXTIME(tr.require_time, '%%H')>=21 or FROM_UNIXTIME(tr.require_time, '%%H') <=1),1,0)) set_count_late,".
-                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and (FROM_UNIXTIME(tr.require_time, '%%H')>=21 or FROM_UNIXTIME(tr.require_time, '%%H') <=1),tss.set_lesson_time-tr.require_time,0)) set_count_late_time".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and (FROM_UNIXTIME(tr.require_time, '%%H')>=21 or FROM_UNIXTIME(tr.require_time, '%%H') <=1),tss.set_lesson_time-tr.require_time,0)) set_count_late_time,".
                                   "count(*) all_count ".
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".

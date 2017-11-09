@@ -38,12 +38,12 @@ $(function(){
                         do_one();
                         });*/
                     $.do_ajax("/ajax_deal2/get_three_month_stu_num",{
-                        "teacherid"       : teacherid
+                        "phone"       : teacherid
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".person_num").text(data.person_num); 
-                        $tr.find(".have_order").text(data.have_order); 
+                        $tr.find(".realname").text(data.realname); 
+                        $tr.find(".tea_phone").text(data.tea_phone); 
                                               
                         
                         do_index++;

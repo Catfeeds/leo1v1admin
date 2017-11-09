@@ -185,6 +185,14 @@ class ss_deal2 extends Controller
 
         $phone=$item["phone"];
         $seller_student_status= $item["seller_student_status"];
+
+        //公海领取例子,拨打回流限制
+        if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5){
+            $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
+            if(!$ret){
+                return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+            }
+        }
         $ret_update = $this->t_book_revisit->add_book_revisit(
             $phone,
             "操作者:$account 状态: 回到公海 ",
@@ -207,6 +215,7 @@ class ss_deal2 extends Controller
             "free_adminid" => $this->get_account_id(),
             "free_time" => time(),
             "hand_free_count" => $item['hand_free_count']+1,
+            "hand_get_adminid" => 0,
         ]);
         return $this->output_succ();
 
@@ -244,7 +253,7 @@ class ss_deal2 extends Controller
                 "free_time" => time(),
             ]);
         }
-        
+
         return $this->output_succ();
 
     }

@@ -493,7 +493,7 @@ class WechatRequest  {
             $bg_url      = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0404fa8aeb8160820d2709baee4909871510113929932.jpg";
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
             dispatch( new \App\Jobs\make_and_send_wx_img($openid,$bg_url,$qr_code_url,$request,$agent) );
-            // \App\Helper\Utils::wx_make_and_send_img($openid,$bg_url,$qr_code_url,$request,$agent);
+            // \App\Helper\Utils::wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent);
 
             return ResponsePassive::text($request['fromusername'], $request['tousername'], "①长按下方图片并保存\n②将图片发给朋友或朋友圈");
 
@@ -569,7 +569,8 @@ class WechatRequest  {
             $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
             dispatch( new \App\Jobs\make_and_send_wx_img($openid,$bg_url,$qr_code_url,$request,$agent) );
-            // \App\Helper\Utils::wx_make_and_send_img($openid,$bg_url,$qr_code_url,$request,$agent);
+
+            // \App\Helper\Utils::wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent);
 
              return ResponsePassive::text($request['fromusername'], $request['tousername'], "①长按下方图片并保存\n②将图片发给朋友或朋友圈");
 

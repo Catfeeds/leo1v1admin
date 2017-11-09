@@ -172,9 +172,10 @@ class user_manage extends Controller
         }
         $adminid = $this->get_account_id();
         if($adminid==349){
-            $assistantid = 240321;
+            $assistantid = 146764;
         }
         $this->set_in_value("assistantid",$assistantid );
+        $this->set_in_value("revisit_warn_flag",1 );
         return $this->ass_archive();
     }
 
@@ -208,13 +209,18 @@ class user_manage extends Controller
         $user_name    = trim($this->get_in_str_val('user_name',''));
         $phone        = trim($this->get_in_str_val('phone',''));
         $teacherid    = $this->get_in_int_val("teacherid",-1);
-        $student_type = $this->get_in_int_val("student_type",-1);
+        $student_type = $this->get_in_int_val("student_type",0);
         $assistantid  = $this->get_in_int_val("assistantid",-1);
         $page_num     = $this->get_in_page_num();
         $status       = -1;
         $userid       = $this->get_in_userid(-1);
         $revisit_flag = $this->get_in_int_val('revisit_flag',-1);
         $warning_stu  = $this->get_in_int_val('warning_stu',-1);
+        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',0);
+
+        //回访预警名单
+        $warn_list = $this->t_revisit_info->get_warn_stu_list();
+
         $now  = strtotime(date("Y-m-d",time()));
         $date = \App\Helper\Utils::get_week_range($now,1);
         $day  = $date["edate"];
@@ -262,7 +268,9 @@ class user_manage extends Controller
 
         $ret_info = $this->t_student_info->get_student_list_archive( $userid, $grade, $status, $user_name, $phone, $teacherid,
                                                                      $assistantid, $test_user, $originid, $page_num, $student_type,
-                                                                     $revisit_flag, $warning_stu,$sum_start);
+                                                                     $revisit_flag, $warning_stu,$sum_start,$revisit_warn_flag,
+                                                                     $warn_list
+        );
         $userid_list=[];
         foreach($ret_info['list'] as $t_item) {
             $userid_list[]=$t_item["userid"];
