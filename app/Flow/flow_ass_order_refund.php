@@ -98,20 +98,15 @@ class flow_ass_order_refund  extends flow_base{
 
     static function next_node_process_8 ($flowid, $adminid){ //
         $flag=\App\Helper\Utils::check_env_is_release() ;
-        return $flag? "jim":"jim" ;
+        return $flag? "echo":"jim" ;
     }
 
 
 
     static function next_node_process_2 ($flowid, $adminid){ //
-        //list($flow_info,$self_info)=static::get_info($flowid);
-        //301   echo
-        if (\App\Helper\Utils::check_env_is_release() ){
-            return 301;
-        }else{
-            //jim
-            return 99;
-        }
+        $flag=\App\Helper\Utils::check_env_is_release() ;
+        return $flag? "zero":"jim" ;
+
     }
 
     static function next_node_process_3 ($flowid, $adminid){ //
