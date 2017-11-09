@@ -1003,36 +1003,54 @@ class common_new extends Controller
             {{remark.DATA}}
 
          **/
-
-
         $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
+        $subject_str = E\Esubject::get_desc($lesson_info['subject']);
 
-        if($type == 1){ // 试卷
-            $keyword1 = '讲义已上传';
+        if($type == 1){ // 讲义
+            $data_msg = [
+                'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课讲义，".$lesson_info['tea_nick']."老师已经上传",
+                'keyword1' => "讲义已上传",
+                'keyword2' => $subject_str."课讲义已上传",
+                'keyword3' => date('Y-m-d H:i:s'),
+                'remark'   => '可登录学生端进行课前预习。'
+            ];
         }elseif($type==2){ // 作业
-            $keyword1 = '课后作业已上传';
+            $data_msg = [
+                'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课后作业，".$lesson_info['tea_nick']."老师已经上传",
+                'keyword1' => "课后作业已上传",
+                'keyword2' => $subject_str."课课后后作业已上传",
+                'keyword3' => date('Y-m-d H:i:s'),
+                'remark'   => '请督促孩子及时完成课后作业，谢谢！'
+            ];
         }
 
         $wx = new \App\Helper\Wx();
-        $now = date('Y-m-d');
-
-        $subject_str = E\Esubject::get_desc($lesson_info['subject']);
-        $data_msg = [
-            'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课讲义，".$lesson_info['tea_nick']."老师已经上传",
-            'keyword1' => "$keyword1",
-            'keyword2' => "$subject_str 课课后后作业已上传",
-            'keyword3' => "$now",
-            'remark'   => '可登录学生端进行课前预习。'
-        ];
-
         $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
 
         if($lesson_info['wx_openid'] && $lesson_info['userid']>0){
             $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_msg ,'');
         }
+    }
+
+
+    public function send_wx_to_par(){
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        /**
+         // bW8mP8cCxszBrM2qLBIlj0MOsGgTGwQtWbvoGYhhGtw
+           {{first.DATA}}
+           课程名称：{{keyword1.DATA}}
+           课程时间：{{keyword2.DATA}}
+           学生姓名：{{keyword3.DATA}}
+           {{remark.DATA}}
+         */
+
+        $tea_openid = $this->t_teacher_info->get_teacher_openid($lessonid);
 
 
     }
+
+
 
     public function add_teacher(){
         $info = hex2bin($this->get_in_str_val("info"));
@@ -1513,7 +1531,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $room_del_flag =   ($now-$lesson_end >3600);
                 return $this->output_succ([
                     "lesson_end" => $lesson_end,
-                    "room_del_flag" =>$room_del_flag 
+                    "room_del_flag" =>$room_del_flag
                 ]);
             }
         }

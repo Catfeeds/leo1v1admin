@@ -1886,9 +1886,8 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
 
 
-        $db_flag = ["no_phone_count", "ok_phone_no_lesson", "ok_lesson_rate", "ok_lesson_no_order", "order_rate"];
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
-            =$this->get_in_order_by_str($db_flag,"",[
+        $db_arr = ["no_phone_count", "ok_phone_no_lesson", "ok_lesson_rate", "ok_lesson_no_order", "order_rate"];
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type) = $this->get_in_order_by_str($db_arr,"",[
                 "user_count"         => "user_count" ,
                 "no_revisit_count"   => "no_revisit_count",
                 "no_phone_count"     => "no_phone_count",
@@ -1906,7 +1905,7 @@ class agent extends Controller
 
 
 
-        if( in_array($order_field_name, $db_flag) ){
+        if( in_array($order_field_name, $db_arr) ){
             $page_flag = false;
         } else {
             $page_flag = true;
@@ -1926,14 +1925,14 @@ class agent extends Controller
                 $item['price'] = $item['price']/100;
                 // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
                 if($item['rank_count']) {
-                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
+                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2);
                 } else {
-                    $item['ok_lesson_rate'] = '0%';
+                    $item['ok_lesson_rate'] = 0;
                 }
                 if($item['user_count']) {
-                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
+                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2);
                 } else {
-                    $item['order_rate'] = '0%';
+                    $item['order_rate'] = 0;
                 }
                 $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
                 $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
@@ -1954,28 +1953,29 @@ class agent extends Controller
                 $item['price'] = $item['price']/100;
                 // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
                 if($item['rank_count']) {
-                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
+                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2);
                 } else {
-                    $item['ok_lesson_rate'] = '0%';
+                    $item['ok_lesson_rate'] = 0;
                 }
                 if($item['user_count']) {
-                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
+                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2);
                 } else {
-                    $item['order_rate'] = '0%';
+                    $item['order_rate'] = 0;
                 }
                 $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
                 $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
                 $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
-                $all_user = $all_user+$item['user_count'];
-                $order_user = $order_user+$item['order_user_count'];
-                $price = $price+$item['price'];
             }
 
             $ret_info = \App\Helper\Utils::order_list_new( $ret_info, $order_field_name, $order_type ,$page_info);
 
+            foreach($ret_info['list'] as $item){
+                $all_user = $all_user+$item['user_count'];
+                $order_user = $order_user+$item['order_user_count'];
+                $price = $price+$item['price'];
+            }
         }
 
-        dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             'all_user' => $all_user,
