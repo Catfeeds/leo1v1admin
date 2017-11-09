@@ -2088,14 +2088,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     /**
      * 家长端发送试卷邮件
      * @param string to 发送的邮箱地址 
-     * @param string paperid_list 家长选择的试卷id
-     * @param string is_push      秘钥检测
+     * @param string paper_str 加密的卷子id
      */
     public function send_papers_email(){
         $to           = $this->get_in_str_val("to");
         $paperid_list = $this->get_in_str_val("paperid_list");
-        $is_push      = $this->get_in_str_val("is_push");
-
 
     }
 
