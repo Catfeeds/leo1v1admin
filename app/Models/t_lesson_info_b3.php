@@ -1813,7 +1813,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.tea_rate_time=0",
             "l.lesson_type in (0,1,3)",
             "l.lesson_end < $late_time",
-            "l.lesson_end > $late_time_begin",
+            "l.lesson_end >= $late_time_begin",
         ];
 
         $sql = $this->gen_sql_new("  select t.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick, t.nick as tea_nick from %s l"
