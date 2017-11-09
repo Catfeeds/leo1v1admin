@@ -172,7 +172,7 @@ class user_manage extends Controller
         }
         $adminid = $this->get_account_id();
         if($adminid==349){
-            $assistantid = 240321;
+            $assistantid = 146764;
         }
         $this->set_in_value("assistantid",$assistantid );
         $this->set_in_value("revisit_warn_flag",1 );
@@ -209,7 +209,7 @@ class user_manage extends Controller
         $user_name    = trim($this->get_in_str_val('user_name',''));
         $phone        = trim($this->get_in_str_val('phone',''));
         $teacherid    = $this->get_in_int_val("teacherid",-1);
-        $student_type = $this->get_in_int_val("student_type",-1);
+        $student_type = $this->get_in_int_val("student_type",0);
         $assistantid  = $this->get_in_int_val("assistantid",-1);
         $page_num     = $this->get_in_page_num();
         $status       = -1;
