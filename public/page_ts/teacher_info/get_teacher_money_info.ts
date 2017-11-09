@@ -132,6 +132,30 @@ $(function(){
         var id_feedback_type = $("<select/>");
         var id_feedback_info = $("<input/>");
 
+        Enum_map.append_option_list("feedback_type",id_feedback_type);
+        var arr = [
+            ["申诉项目",id_feedback_type],
+            ["问题详情",id_feedback_info],
+        ];
+
+        $.show_key_value_table("添加申诉",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("",{
+                    "":
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+
+            }
+        });
+
+
     });
 
 

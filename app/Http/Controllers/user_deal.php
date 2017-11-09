@@ -3179,6 +3179,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
 
+        $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        dd($warn_list);
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
         $list   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
