@@ -2096,7 +2096,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $paperid_str = \App\Helper\Utils::decode_str($paper_str);
 
-        \App\Helper\Utils::logger("email data:".$to."paper data:".$paperid_str);
+        \App\Helper\Utils::logger("email_data:".$to);
 
         $ret_info = $this->t_paper_info->get_paper_list_by_id_str($paperid_str);
 

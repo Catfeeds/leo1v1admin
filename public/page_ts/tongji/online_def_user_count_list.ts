@@ -38,6 +38,9 @@ $(function(){
         } )
     });
 
+    console.log(online_count_list);
+
+
     $("#id_pic_user_count").css({
         "height"  : "400px",
         "width"  : "95%"

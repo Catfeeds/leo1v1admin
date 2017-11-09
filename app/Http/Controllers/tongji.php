@@ -864,7 +864,7 @@ class tongji extends Controller
             $time_list[]=\App\Helper\Utils::get_online_line($def_time_list, $date_time_list );
         }
 
-        // dd($time_list);
+        // dd($date_time_list);
 
         return $this->pageView(__METHOD__,null,[
             "data_ex_list" =>[
