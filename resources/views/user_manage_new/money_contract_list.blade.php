@@ -136,7 +136,13 @@
                         <td >{{$var["order_time_1_day_flag_str"]}}</td>
                         <td >{{$var["check_money_time_1_day_flag_str"]}}</td>
                         <td >{{$var["order_time"]}} </td>
-                        <td >{{$var["sys_operator"]}}</td>
+                        <td >
+                            @if($var["order_set_name"])
+                                {{$var["order_set_name"]}}
+                            @else
+                                {{$var["sys_operator"]}}
+                            @endif
+                        </td>
                         <td class="stu_nick" >{{$var["stu_nick"]}} </td>
                         <td >{{$var["origin"]}}</td>
                         <td >{{$var["parent_nick"]}}</td>
