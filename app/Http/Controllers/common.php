@@ -2092,11 +2092,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function send_papers_email(){
         $paper_str = $this->get_in_str_val("paper_str");
 
-        $paperid_str = \App\Helper\Utils::decode_str($paper_str);
+        $paper_data   = json_decode(\App\Helper\Utils::decode_str($paper_str),true);
+        $to           = $paper_data['to'];
+        $paperid_list = $paper_data['paperid_list'];
 
-        \App\Helper\Utils::logger("email_data:".$to);
-
-        $ret_info = $this->t_paper_info->get_paper_list_by_id_str($paperid_str);
+        $ret_info = $this->t_paper_info->get_paper_list_by_id_str($paperid_list);
 
         $title  = "理优升学帮试卷下载";
         $header = "
@@ -2230,10 +2230,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 	</body>";
 
         $html = $header.$body.$footer;
-        $mail_ret = \App\Helper\Common::send_paper_mail($to,$title,$html);
+        $mail_ret = \App\Helper\Common::send_paper_mail_new($to,$title,$html);
 
         if ($mail_ret ) {
-            $this->t_paper_info->paper_grow_down($paperid_str);
+            $this->t_paper_info->paper_grow_down($paperid_list);
             return $this->output_succ();
         }else{
             return $this->output_err("发送失败");

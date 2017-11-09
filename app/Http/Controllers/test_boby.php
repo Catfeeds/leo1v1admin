@@ -995,6 +995,7 @@ class test_boby extends Controller
         }else {
             $group_by = 'tr.origin';
         }
+        $ret_info = $this->t_test_lesson_subject->get_sign_count($start_time, $end_time,$group_by);
         $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
         $is_down = $this->get_in_int_val('is_down', -1);
         $user_agent = $this->get_in_str_val('user_agent', '');
