@@ -504,6 +504,7 @@ class NewRouteConfig {
         "/human_resource/teacher_test_lesson_info"            => true,
         "/human_resource/teacher_test_lesson_info_zj"         => true,
         "/human_resource/teacher_test_lesson_info_fulltime"   => true,
+        "/human_resource/get_broken_line_order_rate"      => true,
         "/human_resource/teacher_test_lesson_info_total"      => true,
         "/human_resource/teacher_test_lesson_info_total_fulltime"    => true,
         "/human_resource/get_avg_conversion_time"             => true,

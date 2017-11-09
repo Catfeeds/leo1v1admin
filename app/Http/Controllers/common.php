@@ -2087,32 +2087,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     /**
      * 家长端发送试卷邮件
-     * @param string to 发送的邮箱地址 
+     * @param string to 发送的邮箱地址
      * @param string paper_str 加密的卷子id
      */
     public function send_papers_email(){
         $to        = $this->get_in_str_val("to");
         $paper_str = $this->get_in_str_val("paper_str");
 
-        $paperid_list = \App\Helper\Utils::decode_str($paper_str);
-        $paperid_list = split("," ,$paperid_list);
+        $paperid_str = \App\Helper\Utils::decode_str($paper_str);
 
-    }
+        $ret_info = $this->t_paper_info->get_paper_list_by_id_str($paperid_str);
 
-    public function papers_send_email(){
-        $reset_list=[];
-        foreach ($paperid_list as $paperid) {
-            $reset_list[]=intval($paperid);
-        }
-        $id_in_str=join(",",$reset_list);
-
-        $ret_info=$this->school_info_model->paper_get_list_by_paperid_list($id_in_str);
-
-        //$title="理优教育";
-        $title=$ret_info[0]['paper_name'];
-        $body= "";
-        $i=1;
-        $header= "
+        $title  = "理优升学帮试卷下载";
+        $header = "
   		<meta charset='UTF-8'>
 		<title>试卷下载</title>
 		<style>
@@ -2195,17 +2182,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 			<div id='main'>
 				<div class='header'>亲爱的家长你好：</div>
 				<div class='description'>以下是您选择下载的试卷，希望对您有所帮助</div>
-				<div class='description'>本邮件是由“<span class='highlight'>上海升学帮</span>”发送，若想了解更多，请您通过以下方式了解我们。</div>
+				<div class='description'>本邮件是由“<span class='highlight'>理优升学帮</span>”发送，若想了解更多，请您通过以下方式了解我们。</div>
 				<div class='header'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/title_start.png' height='18px'/>&nbsp;&nbsp;&nbsp;试卷下载</div>";
-        
+        $i = 1;
         $body ="<ul>";
         foreach ($ret_info as $item){
             $body.="<li><a href=".$item["paper_url"] ." >$i :  ".$item["paper_name"] ." </a>";
             $i++;
         }
-        $body.="</ul>";
-        
-        $footer="<div class='description'>单击试卷名称下载，一份文档中包含试卷及答案。</div>
+        $body .= "</ul>";
+        $footer= "<div class='description'>单击试卷名称下载，一份文档中包含试卷及答案。</div>
 				<div class='description'>(如果下载中遇到任何问题，请关注下方订阅号“上海升学帮”，并回复相关问题)</div>
 				<div class='header'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/title_start.png' height='18px'/>&nbsp;&nbsp;&nbsp;关于我们</div>
 				<div class='description_important'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。</div>
@@ -2243,8 +2229,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 		</div>
 	</body>";
 
-        $html=$header.$body.$footer;
-        $mail_ret = send_mail($to,$title,$html,true);
+        $html = $header.$body.$footer;
+        $mail_ret = \App\Helper\Common::send_paper_mail($to,$title,$html);
 
         if ($mail_ret ) {
             for($i=0;$i<count($ret_info);$i++){
@@ -2252,9 +2238,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $str .= sprintf("when %u then %u ",$ret_info[$i]['paperid'],$ret_info[$i]['paper_down']);
             }
             $this->school_info_model->paper_grow_down($str,$id_in_str);
-            outputjson_success();
+            return $this->output_succ();
         }else{
-            outputjson_error("发送失败");
+            return $this->output_err("发送失败");
         }
     }
 }

@@ -68,7 +68,7 @@ $(function(){
             [ "开始时间",  id_start_time ] ,
             [ "结束时间",   id_end_time  ] ,
             [ "userid",   id_userid] ,
-          //  [ "课时数",   id_count] ,
+            [ "课时数",   id_count] ,
             [ "类型",   id_competition_flag] ,
         ];
 
@@ -115,7 +115,7 @@ $(function(){
                     'userid'     : id_userid.val(),
                     'old_userid'     : old_userid,
                     'old_week'     : old_week,
-                  //  'lesson_count'     : 100*(id_count.val()),
+                    'lesson_count'     : 100*(id_count.val()),
                     'competition_flag'     : id_competition_flag.val()
                 },function(data){
                     if (data.ret!=0) {
