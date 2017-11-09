@@ -222,6 +222,8 @@ class test_sam  extends Controller
     }
 
     public function hello_world(){
+        echo 1;
+        echo 2;
         $ret_info = $this->t_cr_week_month_info->get_apply_info_a1();
         foreach ($ret_info as $key => &$value) {
             $value['grade_str'] = E\Egrade::get_desc($value['grade']);
