@@ -80,13 +80,17 @@ $(function(){
         } catch(e){
         };
         var timestamp = Date.parse(new Date())/1000;
+        var last_time = timestamp-opt_data.tmk_last_revisit_time-1800;
+        alert(Math.floor(last_time/60));
+
         if(timestamp-opt_data.tmk_last_revisit_time>1800){
             $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
             });
         }else{
             var last_time = timestamp-opt_data.tmk_last_revisit_time-1800;
-            alert('拨打间隔要超过30分钟,请'+last_time/60+'分钟后再拨打');
+            alert(Math.floor(last_time/60));
+            alert('拨打间隔要超过30分钟,请'+Math.floor(last_time/60)+'分钟后再拨打');
         }
     });
 
