@@ -67,10 +67,10 @@
                         <td><a href="javascript:;" data-type="rank_count"> {{@$var["rank_count"]}} </a></td>
                         <td><a href="javascript:;" data-type="del_lesson_count"> {{@$var["del_lesson_count"]}}</a> </td>
                         <td><a href="javascript:;" data-type="ok_lesson_count"> {{@$var["ok_lesson_count"]}}</a> </td>
-                        <td>{{@$var["ok_lesson_rate"]}}</td>
+                        <td>{{@$var["ok_lesson_rate"]}}%</td>
                         <td><a href="javascript:;" data-type="ok_lesson_no_order"> {{@$var["ok_lesson_no_order"]}}</a> </td>
                         <td><a href="javascript:;" data-type="order_user_count"> {{@$var["order_user_count"]}}</a> </td>
-                        <td>{{@$var["order_rate"]}}</td>
+                        <td>{{@$var["order_rate"]}}%</td>
                         <td>{{@$var["price"]}} </td>
                         <td>
                             <div
