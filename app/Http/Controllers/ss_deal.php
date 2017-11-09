@@ -3885,6 +3885,13 @@ class ss_deal extends Controller
 
         $item=$this->t_seller_student_new->field_get_list($userid,"tmk_next_revisit_time,tmk_student_status,phone ");
         $phone=$item["phone"];
+
+        if($tmk_student_status==E\Etmk_student_status::V_3) { //拨通标记有效限制
+            $ret = $this->t_tq_call_info->get_call_info_list($this->get_account_id(),$phone);
+            if(!$ret){
+                return $this->output_err('拨通后才可标记有效!');
+            }
+        }
         if ($item["tmk_student_status"] !=  $tmk_student_status || $item["tmk_next_revisit_time"] !=  $tmk_next_revisit_time) {
             $account=$this->get_account();
              $this->t_book_revisit->add_book_revisit(
