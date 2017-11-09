@@ -25,14 +25,16 @@ class t_paper_info extends \App\Models\Zgen\z_t_paper_info
         return $this->main_get_list($sql);
     }
 
-    public function paper_grow_down($str,$id_in_str){
-
-        $sql=sprintf("update %s set paper_down = case paperid %s end where paperid in (%s)",
-                     $this->t_paper_info,
-                     $this->ensql($str),
-                     $this->ensql($id_in_str)
+    public function paper_grow_down($paperid_str){
+        $where_arr = [
+            ["paperid in (%s)",$paperid_str,""],
+        ];
+        $sql = $this->gen_sql_new("update %s set paper_down=paper_down+1"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_update($sql);
     }
 
 }
