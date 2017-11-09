@@ -158,7 +158,7 @@
 
             --}}
 
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-6">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading">
                         本月-个人排行榜
@@ -287,7 +287,7 @@
 
 
             </div>
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-6">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading">
                         本月-团队排行榜
