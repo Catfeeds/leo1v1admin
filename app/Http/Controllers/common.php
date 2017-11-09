@@ -2233,11 +2233,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $mail_ret = \App\Helper\Common::send_paper_mail($to,$title,$html);
 
         if ($mail_ret ) {
-            for($i=0;$i<count($ret_info);$i++){
-                $ret_info[$i]['paper_down'] +=1;
-                $str .= sprintf("when %u then %u ",$ret_info[$i]['paperid'],$ret_info[$i]['paper_down']);
-            }
-            $this->school_info_model->paper_grow_down($str,$id_in_str);
+            $this->t_paper_info->paper_grow_down($paperid_str);
             return $this->output_succ();
         }else{
             return $this->output_err("发送失败");

@@ -1852,6 +1852,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_test_list_for_month($start_time,$end_time){
-        
+
+        $where_arr = [
+            "l.lesson_type = 2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("  select count(*) from %s l "
+                                  ." where %s  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }
