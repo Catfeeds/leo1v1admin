@@ -128,6 +128,9 @@ $(function(){
     });
 
     $(".opt_feedback").on("click",function(){
+        var data = $(this).get_opt_data();
+        var id_feedback_type = $("<select/>");
+        var id_feedback_info = $("<input/>");
 
     });
 
