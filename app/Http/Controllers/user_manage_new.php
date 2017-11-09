@@ -379,6 +379,7 @@ class user_manage_new extends Controller
         ];
         $check_init_map_item($data_map,"","");
         foreach ($old_list as $row_id => &$item) {
+            if ($item['lesson_type']!=2) $item['lesson_type']=0;
             $studentid    = $item["userid"];
             $grade        = $item["grade"];
             $pre_price    = \App\Helper\Utils::get_teacher_base_money($teacherid,$item);
