@@ -1896,7 +1896,12 @@ class agent extends Controller
 
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
-            =$this->get_in_order_by_str(["no_phone_count", "ok_phone_no_lesson", "ok_lesson_rate", "ok_lesson_no_order", "order_rate",],"",[
+            =$this->get_in_order_by_str(["no_phone_count",
+                                         "ok_phone_no_lesson",
+                                         "ok_lesson_rate",
+                                         "ok_lesson_no_order",
+                                         "order_rate",
+            ],"",[
                 "user_count"         => "user_count" ,
                 "no_revisit_count"   => "no_revisit_count",
                 "no_phone_count"     => "no_phone_count",
@@ -1943,6 +1948,12 @@ class agent extends Controller
             $order_user = $order_user+$item['order_user_count'];
             $price = $price+$item['price'];
         }
+
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
+        }
+
+
         return $this->pageView(__METHOD__,$ret_info,[
             'all_user' => $all_user,
             'order_user' => $order_user,
