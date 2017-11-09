@@ -242,7 +242,8 @@ class activity_config_base extends  activity_base {
         }
 
         if ($this->max_count){
-            $arr[]=["合同最大个数",  $this->max_count  ];
+            list( $count_check_ok_flag,$now_count, $activity_desc_cur_count)= static::check_use_count($this->max_count );
+            $arr[]=["合同最大个数",  $activity_desc_cur_count  ];
         }
 
 
