@@ -592,7 +592,7 @@ class Utils  {
         $list = [];
         $start = ($page_info['page_num']-1) * $page_info['page_count'];
         $end = $start+$page_info['page_count'];
-        for($i = $num; $i<$end; $i++){
+        for($i = $start; $i<$end; $i++){
             $list[$i] = $new_list['$i'];
         }
 
