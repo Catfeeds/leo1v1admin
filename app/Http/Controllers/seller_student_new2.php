@@ -1309,7 +1309,7 @@ class seller_student_new2 extends Controller
             if($item['lesson_succ_count'])
                 $item['sign_rate'] = $item['order_count'] / $item['lesson_succ_count'];
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
 
     }
 
