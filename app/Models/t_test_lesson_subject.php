@@ -987,14 +987,14 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         $sql = $this->gen_sql_new(
             "select count(ss.userid) as all_ss,l.teacherid,tl.require_adminid,tr.origin,"
-            ."count( distinct if(l.lesson_user_online_status=1 and l.lesson_del_flag=0,l.lessonid,0) ) as lesson_succ_count,"
-            ."count( distinct if(o.orderid>0,o.userid,0) ) as order_user_count"
+            ."count( distinct if(l.lesson_user_online_status=1 and l.lesson_del_flag=0,l.lessonid,0) )-1 as lesson_succ_count,"
+            ."count( distinct if(o.orderid>0,o.userid,0) )-1 as order_user_count"
             ." from %s tl "
             ." left join %s ss on ss.userid=tl.userid"
             ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "
             ." left join %s tss on tss.require_id=tr.require_id"
             ." left join %s l on l.lessonid=tss.lessonid"
-            ." left join %s o on o.from_test_lesson_id=l.lessonid"
+            ." left join %s o on o.from_test_lesson_id=l.lessonid and o.contract_type in (0,1,3) and o.contract_status>0"
             ." left join %s s on s.userid=tl.userid"
             ." left join %s t on t.teacherid=l.teacherid and t.is_test_user=0"
             ." where %s group by %s"
