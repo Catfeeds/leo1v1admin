@@ -4119,6 +4119,14 @@ class ss_deal extends Controller
         $user_list=$this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
         foreach($user_list as $item) {
             $phone=$item["phone"];
+            //公海领取的例子,回流拨打限制
+            if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5){
+                $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
+                if(!$ret){
+                    return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+                    break;
+                }
+            }
             $seller_student_status= $item["seller_student_status"];
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,
