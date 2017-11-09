@@ -3906,7 +3906,7 @@ class human_resource extends Controller
         $grade_part_ex              =$this->get_in_int_val('grade_part_ex',-1);
         $tea_status                 =$this->get_in_int_val('tea_status',-1);
         $teacher_account            = $this->get_in_int_val('teacher_account', -1);
-        $fulltime_flag            = $this->get_in_int_val('fulltime_flag', -1);
+        $fulltime_flag            = 1; //全职老师
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
 
         $adminid      = $this->get_account_id();
@@ -3917,27 +3917,18 @@ class human_resource extends Controller
 
         $this->t_lesson_info->switch_tongji_database();
 
+        $math_order = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $math_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $china_order = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $china_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-        dd($success_test_lesson_list_total);
+        $english_order = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $english_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-
-
-        $math_order = $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $math_success = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-
-
-
-
-        $china_order = $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $china_success = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-
-
-
-        $english_order = $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $english_success = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-
+        $list = [
+            "china_rate" => $a
+        ];
 
 
 
