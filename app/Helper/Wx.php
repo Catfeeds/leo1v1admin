@@ -86,7 +86,7 @@ class Wx{
         $now     = time(NULL);
         \App\Helper\Utils::logger('gettoken1');
 
-        if (!$ret_arr || !isset($ret_arr["access_token"])  ||   $ret_arr["get_time"]+7000 <  $now  || $reset_flag ) {
+        if (!$ret_arr || !isset($ret_arr["access_token"])  ||   $ret_arr["get_time"]+600 <  $now  || $reset_flag ) {
             \App\Helper\Utils::logger('gettoken2');
 
 
