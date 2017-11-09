@@ -1980,7 +1980,7 @@ class agent extends Controller
                 $price = $price+$item['price'];
             }
 
-            $ret_info = \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type ,$page_info);
+            $ret_info = \App\Helper\Utils::order_list_new( $ret_info, $order_field_name, $order_type ,$page_info);
 
         }
 
