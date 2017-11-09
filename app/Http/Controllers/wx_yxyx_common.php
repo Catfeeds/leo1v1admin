@@ -354,6 +354,7 @@ class wx_yxyx_common extends Controller
 
             $account = '系统';
             $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
+            $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
         }
 
 
