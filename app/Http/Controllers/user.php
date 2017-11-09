@@ -309,6 +309,7 @@ class user extends TeaWxController
         $lesson_count  = $this->get_in_str_val("lesson_count");
         $tea_reason    = $this->get_in_str_val("tea_reason");
 
+        \App\Helper\Utils::logger("feedback_info_begin ");
         $feedback = new teacher_feedback;
         $ret = $feedback->add_teacher_feedback($teacherid,$lessonid,$feedback_type,$lesson_count,$tea_reason);
         \App\Helper\Utils::logger("feedback_info :".$ret);
