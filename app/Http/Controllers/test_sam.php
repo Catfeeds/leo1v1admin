@@ -178,8 +178,8 @@ class test_sam  extends Controller
             /*
             */
         ];
-        $grade_list = ["(100,101,102,103,104,105,106)","(200,201,202,203)","(300,301,302,303)"];
-        $subject_list = [1,2,3,4,5,10];
+        $grade_list = ["(300,301,302,303)"];
+        $subject_list = [2];
         echo "<table >";
                     echo "<tr>"."<td width=30px>date</td>"
                             ."<td width=30px>年级</td>"
