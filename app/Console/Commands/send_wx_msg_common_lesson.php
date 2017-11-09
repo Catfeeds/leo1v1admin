@@ -123,13 +123,11 @@ class send_wx_msg_common_lesson extends Command
                     $template_id_parent = '9mxyc2khg9bsivl16cjgxfvsi35hiqffpslsjfyckru';
                     $ass_leader_openid = $task->t_manager_info->get_ass_leader_opneid($item['uid']);
                     $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_leader ,'');
-
                 }
 
                 if($opt_time_tea>=$now){ // 判断老师是否超时  [15分钟]
                     $data_ass = $this->get_data($item,3,6,$item['teacher_nick'],'');
                     $this->send_wx_msg_ass($item,2,$data_ass);
-
                     //向助教主管发送
                     $data_leader = $this->get_data($item,3,7,$item['teacher_nick'],"");
                     $template_id_parent = '9mxyc2khg9bsivl16cjgxfvsi35hiqffpslsjfyckru';
@@ -138,8 +136,6 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }
-
-
 
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
@@ -213,7 +209,7 @@ class send_wx_msg_common_lesson extends Command
                 $data['keyword2'] = "距离评价截止时间还有15分钟  \n 课程时间:".$lesson_day."\n 学生姓名:".$val['stu_nick']
                                   ."\n 老师姓名".$val['tea_nick'];
                 $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "请尽块登录老师端,进行评价!";
+                $data['remark']   = "请尽快登录老师端,进行评价!";
                 $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
             }

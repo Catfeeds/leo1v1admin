@@ -177,9 +177,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 ["t1.grade=%u" , $grade, -1],
                 ["t1.subject=%u" , $subject, -1],
                 ["need_receipt=%u" , $need_receipt, -1],
-                ["t1.sys_operator like '%%%s%%'" , $sys_operator, ""],
+                // ["t1.sys_operator like '%%%s%%'" , $sys_operator, ""],
                 ["l.teacherid=%u" , $teacherid, -1],
             ];
+            if ($sys_operator) {
+                $sys_operator=$this->ensql($sys_operator);
+                $where_arr[]="(t1.sys_operator like '%%".$sys_operator."%%' or t3.name like '%%".$sys_operator."%%')";
+            }
+
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
@@ -260,7 +265,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
             ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
-            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price"
+            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price,t3.name order_set_name"
             // ." ,if(co.child_order_type = 2, 1, 0) is_staged_flag "
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
