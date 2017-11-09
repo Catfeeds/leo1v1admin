@@ -4184,4 +4184,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
+    //根据课程开始以及结束时间来计算课时
+    public function get_lesson_count_by_lesson_time($start_time,$end_time){
+        
+    }
+
 }
