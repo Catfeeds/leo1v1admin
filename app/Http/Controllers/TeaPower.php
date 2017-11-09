@@ -3721,24 +3721,26 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacherid = $item["teacherid"];
         $userid    = $item["userid"];
 
-        /* 设置lesson_count */
+        //设置lesson_count
         if($lesson_count==0){
-            $diff=($lesson_end-$lesson_start)/60;
-            if ($diff<=20) {
-                $lesson_count=50;
-            } else if ($diff<=40) {
-                $lesson_count=100;
-            } else if ( $diff <= 60) {
-                $lesson_count=150;
-            } else if ( $diff <=90 ) {
-                $lesson_count=200;
-            } else if ( $diff <=100 ) {
-                $lesson_count=250;
-            }else{
-                $lesson_count= ceil($diff/40)*100 ;
-            }
+            // $diff=($lesson_end-$lesson_start)/60;
+            // if ($diff<=20) {
+            //     $lesson_count=50;
+            // } else if ($diff<=40) {
+            //     $lesson_count=100;
+            // } else if ( $diff <= 60) {
+            //     $lesson_count=150;
+            // } else if ( $diff <=90 ) {
+            //     $lesson_count=200;
+            // } else if ( $diff <=100 ) {
+            //     $lesson_count=250;
+            // }else{
+            //     $lesson_count= ceil($diff/40)*100 ;
+            // }
+            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
 
         }
+
 
         if($lesson_start>0){
             if ($lesson_start <= time()) {
