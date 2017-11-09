@@ -1003,10 +1003,7 @@ class common_new extends Controller
             {{remark.DATA}}
 
          **/
-
-
         $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
-
         if($type == 1){ // 试卷
             $keyword1 = '讲义已上传';
         }elseif($type==2){ // 作业

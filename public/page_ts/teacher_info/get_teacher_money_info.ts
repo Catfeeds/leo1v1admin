@@ -130,27 +130,30 @@ $(function(){
     $(".opt_feedback").on("click",function(){
         var data = $(this).get_opt_data();
         var id_feedback_type = $("<select/>");
-        var id_feedback_info = $("<input/>");
+        var id_feedback_info = $("<textarea/>");
 
-        Enum_map.append_option_list("feedback_type",id_feedback_type);
+        Enum_map.append_option_list("feedback_type",id_feedback_type,false,[101,102,104,105,201,202,203,204,205,206]);
+
         var arr = [
             ["申诉项目",id_feedback_type],
             ["问题详情",id_feedback_info],
         ];
 
-        $.show_key_value_table("添加申诉",arr,{
+        $.tea_show_key_value_table("添加申诉",arr,{
             label    : "确认",
-            cssClass : "btn-warning",
+            cssClass : "btn-info col-xs-2 margin-lr-20",
             action   : function(dialog) {
-                $.do_ajax("",{
-                    "":
+                $.do_ajax("/teacher_feedback/add_teacher_feedback",{
+                    "lessonid"      : data.lessonid,
+                    "feedback_type" : id_feedback_type.val(),
+                    "feedback_info" : id_feedback_info.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
                     }else{
                         BootstrapDialog.alert(result.info);
                     }
-                })
+                });
 
             }
         });

@@ -215,6 +215,7 @@ class ss_deal2 extends Controller
             "free_adminid" => $this->get_account_id(),
             "free_time" => time(),
             "hand_free_count" => $item['hand_free_count']+1,
+            "hand_get_adminid" => 0,
         ]);
         return $this->output_succ();
 

@@ -4149,6 +4149,7 @@ class ss_deal extends Controller
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
                 "hand_free_count" => $item['hand_free_count']+1,
+                "hand_get_adminid" => 0,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );
