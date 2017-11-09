@@ -1806,12 +1806,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
   
     }
 
-    public function get_late_lesson_info($late_start, $late_end){
+    public function get_late_lesson_info($late_time){
+        $now = time();
         $where_arr = [
             "l.lesson_del_flag = 0",
-            "l.tea_rate_time=0"
+            "l.tea_rate_time=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_end < $late_time"
         ];
-        $this->where_arr_add_time_range($where_arr,"lesson_start",$late_start,$late_end);
+
         $sql = $this->gen_sql_new("  select t.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick, t.nick as tea_nick from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s t on t.teacherid=l.teacherid"
@@ -1846,5 +1849,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_value($sql);
 
+    }
+
+    public function get_test_list_for_month($start_time,$end_time){
+        
     }
 }

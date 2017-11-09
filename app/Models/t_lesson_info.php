@@ -4251,7 +4251,7 @@ lesson_type in (0,1) "
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_course_order::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME, //c
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,

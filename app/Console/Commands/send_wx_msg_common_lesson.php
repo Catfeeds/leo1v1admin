@@ -189,11 +189,8 @@ class send_wx_msg_common_lesson extends Command
 
 
         // 常规课 15分钟提示
-
-        $late_start = $now+15*60;
-        $late_end   = $late_start+60;
-        $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_start, $late_end);
-
+        $late_time = $now-86400*2-15*60;
+        $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_time);
         if(!empty($late_lesson_info)){
             foreach($late_lesson_info as $val){
                 $subject_str  = E\Esubject::get_desc($val["subject"]);
@@ -209,7 +206,6 @@ class send_wx_msg_common_lesson extends Command
                  * 日期：{{keyword3.DATA}}
                  * {{remark.DATA}}
                  */
-
                 $data=[];
                 $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
                 $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
