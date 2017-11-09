@@ -1975,7 +1975,6 @@ class agent extends Controller
 
         }
 
-        dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             'all_user' => $all_user,

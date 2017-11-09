@@ -573,7 +573,7 @@ class Utils  {
 
     static function order_list_new( $list, $order_field_name,$is_asc_flag,$page_info) {
         if ($is_asc_flag) {
-            $new_list = usort( $list , function ($a,$b) use ($order_field_name)
+            usort( $list , function ($a,$b) use ($order_field_name)
             {
                 $a_v=@$a[$order_field_name] ;
                 $b_v=@$b[$order_field_name] ;
@@ -581,7 +581,7 @@ class Utils  {
                 return $a_v>$b_v? 1:-1;
             });
         }else{
-            $new_list = usort($list, function ($a,$b) use ($order_field_name)
+            usort($list, function ($a,$b) use ($order_field_name)
             {
                 $a_v=@$a[$order_field_name] ;
                 $b_v=@$b[$order_field_name] ;
@@ -589,15 +589,15 @@ class Utils  {
                 return $a_v>$b_v? -1:1;
             });
         }
-        $list = [];
+        $new_list = [];
         $start = ($page_info['page_num']-1) * $page_info['page_count'];
-        $end = $start+$page_info['page_count'];
+        $end = ($start+$page_info['page_count']) < count($list)? ($start+$page_info['page_count']) :count($list) ;
         for($i = $start; $i<$end; $i++){
-            $list[$i] = $new_list['$i'];
+            $new_list[$i] = $list[$i];
         }
 
-        $ret_info['list'] = $list;
-        $page_info['total_num'] = count($list)/$page_info['page_count']?:1000;
+        $ret_info['list'] = $new_list;
+        $page_info['total_num'] = count($list);
         $page_info['per_page_count'] = $page_info['page_count'];
         $ret_info['page_info'] = $page_info;
         $ret_info['total_num'] = $page_info['total_num'];
