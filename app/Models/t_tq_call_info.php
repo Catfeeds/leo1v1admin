@@ -34,6 +34,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                         }
                     }
                 }
+                //update t_seller_student_new.tmk_last_revisit_time
+                if($admin_role == E\Eaccount_role::V_7){
+                    $userid = $this->task->t_phone_to_user->get_userid($phone);
+                    if($userid>0){
+                        $this->task->t_seller_student_new->field_update_list($userid,[
+                            'tmk_last_revisit_time'=>$start_time,
+                        ]);
+                    }
+                }
             }
         }
         $sql=$this->gen_sql_new(
