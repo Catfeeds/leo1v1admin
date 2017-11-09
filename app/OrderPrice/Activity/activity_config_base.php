@@ -9,6 +9,8 @@ class activity_config_base extends  activity_base {
 
     public  $period_flag_list =[ ];//分期,true, false
 
+    //是否可不使用
+    public $can_disable_flag =true;
 
 
     public  $max_count=0;//
@@ -49,12 +51,24 @@ class activity_config_base extends  activity_base {
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
+        //开启检查
+
+        if ($this->can_disable_flag ) {
+            if ( in_array( static::$order_activity_type ,$this->args["disable_activity_list"] ) ) {
+
+                $desc_list[]=static::gen_activity_item(2,  "手动不开启" , $price,  $present_lesson_count, $can_period_flag );
+                return false;
+            }
+        }
+
+
         //时间检查
         if (count($this->date_range)==2 ) {
             if (!$this->check_now( $this->date_range[0], $this->date_range[1] )) {
                 return false;
             }
         }
+
         //分期,不分期检查
         if ( !in_array( $can_period_flag, $this->period_flag_list ) ) {
             return false;
