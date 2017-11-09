@@ -4039,6 +4039,10 @@ class human_resource extends Controller
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $lstart    = $date_week["sdate"];
         $lend      = $date_week["edate"];
+
+        //晋升老师名单
+        $advance_list = $this->t_teacher_advance_list->get_all_advance_teacher();
+
         $ret_info  = $this->t_teacher_info->get_teacher_detail_list_new(
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
