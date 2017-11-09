@@ -1056,11 +1056,12 @@ class common_new extends Controller
         $subject_str = E\Esubject::get_desc($teacher_info['subject']);
         $data = [
             "first" => date('m月d日 H:i:s',$teacher_info['lesson_start'])."的".$subject_str."课".$teacher_info['tea_nick']."老师已提交了课程评价",
-            "keyword2" => '',
+            "keyword1" => $subject_str,
+            "keyword2" => date('m月d日 H:i')." ~ ".date('H:i'),
+            "keyword3" => $teacher_info['stu_nick'],
+            "remark"   => '可登录学生端查看详情，谢谢！',
         ];
-
-        $ret_teacher = \App\Helper\Utils::send_teacher_msg_for_wx($tea_openid,$template_id_teacher, $data,$teacher_url);
-
+        $ret_teacher = \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id_teacher, $data,'');
     }
 
 
