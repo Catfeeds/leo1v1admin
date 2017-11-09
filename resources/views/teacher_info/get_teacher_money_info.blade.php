@@ -137,44 +137,46 @@
                                     <th class='text-cen' >操作</th>
                                 </tr>
                             </thead>
-                            @foreach($money_list as $list_key=>$list_val)
-                                <tbody data-date="{{$list_val['date']}}" class="date-tbody">
-                                    @if(isset($list_val['list']) && is_array($list_val['list']))
-                                        @foreach($list_val['list'] as $l_key=>$l_val)
-                                            <tr>
-                                                <td>
-                                                    <button type='button' class="btn btn-box-tool show_key"
-                                                            data-show_key="{{$l_key}}_{{$list_val['date']}}">
-                                                        <i class='fa fa-plus'></i>
-                                                    </button>
-                                                </td>
-                                                <td>{{$l_val['key_str']}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            @foreach($l_val as $k=>$v)
-                                                @if($k!=="key_str")
-                                                    <tr class="{{$l_key}}_{{$list_val['date']}}">
-                                                        <td></td>
-                                                        <td>——</td>
-                                                        <td>{{$v['name']}}</td>
-                                                        <td>{{$v['time']}}</td>
-                                                        <td>{{$v['status_info']}}</td>
-                                                        <td>{{$v['cost']}}</td>
-                                                        <td>{{$v['money']}}</td>
-                                                        <td>
-                                                            <a class="fa-headphones opt-test-room" title="设置试听"></a>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+                            @if(!empty($money_list))
+                                @foreach($money_list as $list_key=>$list_val)
+                                    <tbody data-date="{{$list_val['date']}}" class="date-tbody">
+                                        @if(isset($list_val['list']) && is_array($list_val['list']))
+                                            @foreach($list_val['list'] as $l_key=>$l_val)
+                                                <tr>
+                                                    <td>
+                                                        <button type='button' class="btn btn-box-tool show_key"
+                                                                data-show_key="{{$l_key}}_{{$list_val['date']}}">
+                                                            <i class='fa fa-plus'></i>
+                                                        </button>
+                                                    </td>
+                                                    <td>{{$l_val['key_str']}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                @foreach($l_val as $k=>$v)
+                                                    @if($k!=="key_str")
+                                                        <tr class="{{$l_key}}_{{$list_val['date']}}">
+                                                            <td></td>
+                                                            <td>——</td>
+                                                            <td>{{$v['name']}}</td>
+                                                            <td>{{$v['time']}}</td>
+                                                            <td>{{$v['status_info']}}</td>
+                                                            <td>{{$v['cost']}}</td>
+                                                            <td>{{$v['money']}}</td>
+                                                            <td>
+                                                                <a class="opt_feedback" title="反馈">反馈</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
                                             @endforeach
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            @endforeach
+                                        @endif
+                                    </tbody>
+                                @endforeach
+                            @endif
                         </table>
                     </div>
                 </div>

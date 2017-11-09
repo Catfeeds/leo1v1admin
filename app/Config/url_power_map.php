@@ -363,7 +363,6 @@ class url_power_map {
 			'/self_manage/self_menu_list'	=>1201100,
 			'/requirement/requirement_info_new'	=>1201200,
 			'/self_manage/upload_face_pic'	=>1201300,
-			'/seller_student_new/share_knowledge'	=>1201400,
 			'/main_page/seller'	=>1116000,
 			'/test_lesson_opt/test_opt_list'	=>1114900,
 			'/human_resource/teacher_info_for_seller'	=>1116700,
