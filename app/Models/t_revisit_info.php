@@ -667,7 +667,11 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr);
-         return $this->main_get_list($sql);
+        $arr= $this->main_get_list($sql);
+        $list=[];
+        foreach($arr as $val){
+            $list[]=$val["userid"];
+        }
     }
 
 
