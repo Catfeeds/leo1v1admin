@@ -247,5 +247,11 @@ class teacher_feedback extends Controller
         }
     }
 
+    /**
+     * 添加老师反馈
+     */
+    public function add_teacher_feedback(){
+
+    }
 
 }
