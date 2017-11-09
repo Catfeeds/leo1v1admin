@@ -973,52 +973,10 @@ class test_boby extends Controller
 
         $request = ['fromusername'=>'tset'];
 
-        \App\Helper\Utils::wx_make_and_send_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
-        // $task=new \App\Jobs\make_and_send_wx_img(4117,$wx_openid,$phone,$bg_url,$qr_code_url,$request);
-        // $task->handle();
+        // \App\Helper\Utils::wx_make_and_send_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
+        $task=new \App\Jobs\make_and_send_wx_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
+        $task->handle();
 
     }
 
-    public function auto_allot_seller_adminid(){
-        $time = strtotime('today');
-        $list = $this->t_seller_student_new->get_today_yxyx_stu($time);
-        if ( $list == false ){
-            exit;
-        }
-        if( count($list) <= 15 ){//分给张龙 384
-
-            foreach($list as $item){
-                if ( $item['auto_allot_adminid'] != 0 ) {
-                    $this->t_seller_student_new->field_update_list($item['userid'], [
-                        'auto_allot_adminid'     => 384,
-                        'admin_revisiterid'      => 384,
-                        'admin_revisiterid_time' => time(),
-                    ]);
-                }
-            }
-
-        } else { //分配给邵少鹏759和蒋文武689
-
-            foreach($list as $k => $item){
-
-                if ( $k>14 && $item['auto_allot_adminid'] != 0 ) {
-                    if ( $k%2 ==0 ) {
-                        $this->t_seller_student_new->field_update_list($item['userid'], [
-                            'auto_allot_adminid'     => 759,
-                            'admin_revisiterid'      => 759,
-                            'admin_revisiterid_time' => time(),
-                        ]);
-                    } else {
-                        $this->t_seller_student_new->field_update_list($item['userid'], [
-                            'auto_allot_adminid'     => 689,
-                            'admin_revisiterid'      => 689,
-                            'admin_revisiterid_time' => time(),
-                        ]);
-                    }
-                }
-            }
-
-        }
-
-    }
 }

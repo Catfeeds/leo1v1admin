@@ -148,10 +148,10 @@ $(function(){
                         var info_share   = html_node.find(".add_info_share").val();
                         var start_time   = html_node.find(".add_start_date").val();
                         var end_time     = html_node.find(".add_end_date").val();
-                        if(usage_type==207){
+                        // if(usage_type==207){
                             grade   = html_node.find(".add_pic_grade").val();
                             subject = html_node.find(".add_pic_subject").val();
-                        }
+                        // }
                         $.ajax({
 			                      type     : "post",
 			                      url      : "/pic_manage/add_pic_info",
@@ -212,12 +212,10 @@ $(function(){
         var id=$(this).get_opt_data( "id" );
         $.ajax({
             type     :"post",
-			url      :"/pic_manage/get_pic_info",
-			dataType :"json",
-			data     :{"id":id},
+			      url      :"/pic_manage/get_pic_info",
+			      dataType :"json",
+			      data     :{"id":id},
             success: function(data){
-
-
                 do_add_or_update("update", data.ret_info);
             }
         });

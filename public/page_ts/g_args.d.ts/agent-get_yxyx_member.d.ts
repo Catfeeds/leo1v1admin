@@ -7,6 +7,7 @@ interface GargsStatic {
 	phone:	string;
 	page_num:	number;
 	page_count:	number;
+	order_by_str:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -54,7 +55,8 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		phone:	$('#id_phone').val()
+		phone:	$('#id_phone').val(),
+		order_by_str:	$('#id_order_by_str').val()
     });
 }
 $(function(){
@@ -71,6 +73,7 @@ $(function(){
         }
     });
 	$('#id_phone').val(g_args.phone);
+	$('#id_order_by_str').val(g_args.order_by_str);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -85,6 +88,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">phone</span>
                 <input class="opt-change form-control" id="id_phone" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
 */

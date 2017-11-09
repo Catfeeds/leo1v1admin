@@ -275,9 +275,9 @@ class Common {
         $mail->Host = "smtp.leoedu.cn"; // 您的企业邮局域名
         // $mail->Host = "mail.leoedu.com"; // 您的企业邮局域名
         $mail->SMTPAuth = true; // 启用SMTP验证功能
-
         $mail->Username = "trc@leoedu.cn"; // 邮局用户名(请填写完整的email地址)
         $mail->Password = "xcwen@142857"; // 邮局密码
+
         $mail->From = "emd@leoedu.com"; //邮件发送者email地址
         $mail->FromName = "理优教学管理部";
 
@@ -298,7 +298,7 @@ class Common {
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
         $ret=$mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger("email err:". $mail->ErrorInfo);
+            \App\Helper\Utils::logger("email err2:". $mail->ErrorInfo);
         }
         return $ret;
     }
