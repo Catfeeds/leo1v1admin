@@ -1034,8 +1034,18 @@ class common_new extends Controller
 
 
     public function send_wx_to_par(){
-        // $post_url = "http://admin.leo1v1.com/common_new/send_wx_to_par?lessonid=$lessonid";
-        
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        /**
+         // bW8mP8cCxszBrM2qLBIlj0MOsGgTGwQtWbvoGYhhGtw
+           {{first.DATA}}
+           课程名称：{{keyword1.DATA}}
+           课程时间：{{keyword2.DATA}}
+           学生姓名：{{keyword3.DATA}}
+           {{remark.DATA}}
+         */
+
+        $teacher_info = $this->t_teacher_info->get_teacher_openid($lessonid);
     }
 
 
@@ -1519,7 +1529,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $room_del_flag =   ($now-$lesson_end >3600);
                 return $this->output_succ([
                     "lesson_end" => $lesson_end,
-                    "room_del_flag" =>$room_del_flag 
+                    "room_del_flag" =>$room_del_flag
                 ]);
             }
         }
