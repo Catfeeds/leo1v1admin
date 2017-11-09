@@ -7,9 +7,8 @@ interface GargsStatic {
 	flag:	number;
 	is_green_flag:	number;
 	is_down:	number;
-	user_agent:	string;
-	subject:	number;
-	phone_location:	string;
+	subject:	string;//枚举列表: \App\Enums\Esubject
+ 	phone_location:	string;
 	grade:	string;//枚举列表: \App\Enums\Egrade
  	has_pad:	number;//App\Enums\Epad_type
 }
@@ -42,7 +41,6 @@ function load_data(){
 		flag:	$('#id_flag').val(),
 		is_green_flag:	$('#id_is_green_flag').val(),
 		is_down:	$('#id_is_down').val(),
-		user_agent:	$('#id_user_agent').val(),
 		subject:	$('#id_subject').val(),
 		phone_location:	$('#id_phone_location').val(),
 		grade:	$('#id_grade').val(),
@@ -66,8 +64,8 @@ $(function(){
 	$('#id_flag').val(g_args.flag);
 	$('#id_is_green_flag').val(g_args.is_green_flag);
 	$('#id_is_down').val(g_args.is_down);
-	$('#id_user_agent').val(g_args.user_agent);
 	$('#id_subject').val(g_args.subject);
+	$.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
 	$('#id_phone_location').val(g_args.phone_location);
 	$('#id_grade').val(g_args.grade);
 	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
@@ -100,13 +98,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">is_down</span>
                 <input class="opt-change form-control" id="id_is_down" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">user_agent</span>
-                <input class="opt-change form-control" id="id_user_agent" />
             </div>
         </div>
 
