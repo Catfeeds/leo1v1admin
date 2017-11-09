@@ -1276,4 +1276,39 @@ class seller_student_new2 extends Controller
         }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list));
     }
+
+
+    public function tongji_sign_rate(){
+
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $flag = $this->get_in_int_val('flag',1);
+        if($flag == 1) {
+            $group_by = 'l.teacherid';
+        }else if ($flag == 2){
+            $group_by = 'tl.require_adminid';
+        }else {
+            $group_by = 'tr.origin';
+        }
+        $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
+        $is_down = $this->get_in_int_val('is_down', -1);
+        $user_agent = $this->get_in_str_val('user_agent', '');
+        $subject = $this->get_in_int_val('subject', '-1');
+        $phone_location = trim($this->get_in_str_val("phone_location"));
+        $grade   = $this->get_in_el_grade();
+        $has_pad = $this->get_in_has_pad(-1);
+        $ret_info = $this->t_test_lesson_subject->get_sign_count(
+            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+        );
+
+        // <div class="col-xs-6 col-md-2">
+        // <div class="input-group ">
+        // <span class="input-group-addon">年级</span>
+        // <input class="opt-change form-control" id="id_grade" />
+        // </div>
+        // </div>
+
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
 }

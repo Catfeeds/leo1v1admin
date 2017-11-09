@@ -3918,8 +3918,11 @@ class human_resource extends Controller
         $this->t_lesson_info->switch_tongji_database();
 
         $begin_month = 3;
-        $now = date('m');
+        $now = date('n');
+
+        dd($now);
         $month_list = [
+            
 
         ];
 

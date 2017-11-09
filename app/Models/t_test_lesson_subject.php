@@ -978,12 +978,24 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_update($sql);
     }
 
-    public function get_sign_count($start_time, $end_time,$group_by){
+    public function get_sign_count(
+        $start_time, $end_time,$group_by,$is_green_flag,$is_down,$user_agent,$phone_location,$grade,$subject
+    ){
         $where_arr = [
             ["ss.add_time>=%u",$start_time,-1],
             ["ss.add_time<%u",$end_time,-1],
             "s.is_test_user=0",
+            ["tr.is_green_flag=%u", $is_green_flag, -1],
         ];
+        if($is_down == 0){
+            $where_arr[] = "tl.tea_download_paper_time=0";
+        } else if($is_down == 1) {
+            $where_arr[] = "tl.tea_download_paper_time>0";
+        }
+
+        if($phone_location){
+            $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
+        }
 
         $sql = $this->gen_sql_new(
             "select count(ss.userid) as all_ss,l.teacherid,tl.require_adminid,tr.origin,"
