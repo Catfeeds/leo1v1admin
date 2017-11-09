@@ -838,6 +838,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TMonthStudentCountAddPayOrderNumRefundOrderNum' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_184712_t_month_student_count_add_pay_order_num_refund_order_num.php',
         'TMonthStudentCountAddWarningStuNum' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_160713_t_month_student_count_add_warning_stu_num.php',
         'TMsgLogForWx' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_181217_t_msg_log_for_wx.php',
+        'TNew' => __DIR__ . '/../..' . '/database/migrations/2017_11_09_112635_t_new.php',
         'TNewTeaEntry' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_131431_t_new_tea_entry.php',
         'TOnlineCountXmppLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_184809_t_online_count_xmpp_log.php',
         'TOrderActivityInfoCanPeriodFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_163754_t_order_activity_info_can_period_flag.php',
