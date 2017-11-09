@@ -186,7 +186,7 @@ class ss_deal2 extends Controller
         $phone=$item["phone"];
         $seller_student_status= $item["seller_student_status"];
 
-        //查询拨打记录
+        //公海领取例子,拨打回流限制
         if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5){
             $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
             if(!$ret){
