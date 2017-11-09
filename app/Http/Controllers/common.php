@@ -2087,13 +2087,158 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     /**
      * 家长端发送试卷邮件
-     * @param string to 发送的邮箱地址 
+     * @param string to 发送的邮箱地址
      * @param string paper_str 加密的卷子id
      */
     public function send_papers_email(){
-        $to           = $this->get_in_str_val("to");
-        $paperid_list = $this->get_in_str_val("paperid_list");
+        $to        = $this->get_in_str_val("to");
+        $paper_str = $this->get_in_str_val("paper_str");
 
+        $paperid_str = \App\Helper\Utils::decode_str($paper_str);
+
+        \App\Helper\Utils::logger("email data:".$to."paper data:".$paperid_str);
+
+        $ret_info = $this->t_paper_info->get_paper_list_by_id_str($paperid_str);
+
+        $title  = "理优升学帮试卷下载";
+        $header = "
+  		<meta charset='UTF-8'>
+		<title>试卷下载</title>
+		<style>
+			body{
+				text-align: center;
+			  font-family: 'Microsoft YaHei', 微软雅黑, 'Microsoft JhengHei', Helvetica, Arial, FreeSans, Arimo, 'Droid Sans','wenquanyi micro hei','Hiragino Sans GB', 'Hiragino Sans GB W3', Arial, sans-serif;
+			  -webkit-font-smoothing: antialiased;
+			  -moz-osx-font-smoothing: grayscale;
+			}
+			#main{
+				padding: 10px 0px 50px 0px;
+				width: 80%;
+				margin: 0 auto;
+			}
+			.header{
+				color: #333333;
+				font-size: 20px;
+				margin: 40px 0 10px 0;
+				text-align: left;
+			}
+			.header img{
+				margin-bottom: 3px;
+				vertical-align: middle;
+			}
+			.description{
+				color: #999999;
+				font-size: 15px;
+				margin: 3px;
+				text-align: left;
+			}
+			.description_important{
+				color: #000000;
+				font-size: 15px;
+				margin: 3px 3px 8px 3px;
+				text-align: left;
+			}
+			a{
+				color: #0bceff;
+				text-decoration: none;
+				text-decoration: underline;
+			}
+			table{
+				width: 100%;
+			}
+			td{
+				vertical-align: top;
+			}
+			td div.description_important{
+				margin-top: 15px;
+			}
+			td img{
+				margin-right: 5px;
+				padding-right: 5px;
+			}
+			.tdwrap{
+				width: 150px;
+			}
+			ul{
+				font-size: 15px;
+				color: #0bceff;
+				text-align: left;
+			}
+			li {
+				font-size: 15px;
+				margin: 3px;
+				padding: 4px;
+			}
+			li a{
+				font-size: 15px;
+				margin: 3px;
+			}
+			.highlight{
+				color: #f26173;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='email_exam_papers'>
+			<img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/header.png' style='width:100%'/>
+			<div id='main'>
+				<div class='header'>亲爱的家长你好：</div>
+				<div class='description'>以下是您选择下载的试卷，希望对您有所帮助</div>
+				<div class='description'>本邮件是由“<span class='highlight'>理优升学帮</span>”发送，若想了解更多，请您通过以下方式了解我们。</div>
+				<div class='header'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/title_start.png' height='18px'/>&nbsp;&nbsp;&nbsp;试卷下载</div>";
+        $i = 1;
+        $body ="<ul>";
+        foreach ($ret_info as $item){
+            $body.="<li><a href=".$item["paper_url"] ." >$i :  ".$item["paper_name"] ." </a>";
+            $i++;
+        }
+        $body .= "</ul>";
+        $footer= "<div class='description'>单击试卷名称下载，一份文档中包含试卷及答案。</div>
+				<div class='description'>(如果下载中遇到任何问题，请关注下方订阅号“上海升学帮”，并回复相关问题)</div>
+				<div class='header'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/title_start.png' height='18px'/>&nbsp;&nbsp;&nbsp;关于我们</div>
+				<div class='description_important'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。</div>
+				<div class='description'>咨询电话：400-680-6180</div>
+				<div class='description'>官方店铺：<a href='https://shop123923740.taobao.com/'>https://shop123923740.taobao.com/</a></div>
+				<div class='description'>理优官网：<a href='http://www.leo1v1.com/'>http://www.leo1v1.com/</a></div>
+				<div class='description'>联系地址：上海市闵行区宜山路2016号合川大厦13楼F室</div>
+				<div class='header'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/title_start.png' height='18px'/>&nbsp;&nbsp;&nbsp;APP下载</div>
+
+				<table>
+					<tr><td class='tdwrap'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/qr_parent.png' width='150px' height='150px' /></td>
+						<td>
+							<div class='description_padding'></div>
+							<div class='description_important'>订阅号(升学版)</div>
+							<div class='description'>请用微信扫码关注</div>
+						</td>
+					</tr>
+					<tr><td class='tdwrap'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/qr_stu.png' width='150px' height='150px' /></td>
+						<td>
+							<div class='description_padding'></div>
+							<div class='description_important'>学生端下载</div>
+							<div class='description'>请用Pad的二维码扫描工具扫描下载</div>
+						</td>
+					</tr>
+					<tr><td class='tdwrap'><img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/qr_index.png' width='150px' height='150px'/></td>
+						<td>
+							<div class='description_padding'></div>
+							<div class='description_important'>手机官网</div>
+							<div class='description'>请用手机的二维码扫描工具领取课程</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/email_exam_papers/footer.png' style='width:100%'/>
+		</div>
+	</body>";
+
+        $html = $header.$body.$footer;
+        $mail_ret = \App\Helper\Common::send_paper_mail($to,$title,$html);
+
+        if ($mail_ret ) {
+            $this->t_paper_info->paper_grow_down($paperid_str);
+            return $this->output_succ();
+        }else{
+            return $this->output_err("发送失败");
+        }
     }
-
 }

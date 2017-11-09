@@ -26,6 +26,8 @@
 	record_rank	:any;
 	record_score	:any;
 	record_lesson_list	:any;
+	no_tea_related_score	:any;
+	lesson_invalid_flag	:any;
 	subject_str	:any;
 	create_time_str	:any;
 	fkqk	:any;

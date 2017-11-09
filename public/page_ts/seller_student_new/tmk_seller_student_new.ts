@@ -149,7 +149,7 @@ $(function(){
                 label    : '确认',
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
-                    $.do_ajax("/ss_deal/tmk_save_user_info",{
+                    $.do_ajax("/ss_deal/tmk_save_user_info_new",{
                         'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
                         'userid'                 : opt_data.userid,
                         'nick'                   : $nick.val(),

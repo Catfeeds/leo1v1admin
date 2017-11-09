@@ -278,7 +278,7 @@ where a.stu_request_test_lesson_time > 1483200000 and a.grade in (101,102,103) a
         return $this->main_get_list($sql);
     }
     public function get_apply_info_month($start_time,$end_time,$subject,$grade){
-        $sql = "select   a.stu_request_test_lesson_time,a.grade, a.subject ,a.stu_request_test_lesson_demand,a.textbook  ,s.phone_location from t_test_lesson_subject   a  left join t_student_info s on s.userid = a.userid left join t_test_lesson_subject_require t on t.require_id = a.current_require_id left join t_test_lesson_subject_sub_list k on k.require_id  = t.require_id left join t_lesson_info l on l.lessonid = k.lessonid left join t_order_info o on o.from_test_lesson_id  = l.lessonid where a.stu_request_test_lesson_time >$start_time and a.stu_request_test_lesson_time < $end_time  and $grade and s.is_test_user = 0 and a.subject=$subject limit 500";
+        $sql = "select   a.stu_request_test_lesson_time,a.grade, a.userid,a.subject ,a.stu_request_test_lesson_demand,a.textbook  ,s.phone_location from t_test_lesson_subject   a  left join t_student_info s on s.userid = a.userid left join t_test_lesson_subject_require t on t.require_id = a.current_require_id left join t_test_lesson_subject_sub_list k on k.require_id  = t.require_id left join t_lesson_info l on l.lessonid = k.lessonid left join t_order_info o on o.from_test_lesson_id  = l.lessonid where a.stu_request_test_lesson_time >$start_time and a.stu_request_test_lesson_time < $end_time  and $grade and s.is_test_user = 0 and a.subject=$subject ";
         return $this->main_get_list($sql);
     }
     public function get_apply_info_new($page_info,$start_time,$end_time){
