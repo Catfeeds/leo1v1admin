@@ -970,4 +970,11 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_list($sql);
     }
+
+    public function auto_allot_yxyx_userid($userid, $auto_allot_adminid){
+        $sql = $this->gen_sql_new("update %s set require_adminid=$auto_allot_adminid where userid=$userid",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
 }
