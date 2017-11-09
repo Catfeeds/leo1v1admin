@@ -390,11 +390,16 @@ class TeacherTask extends TaskController
         if(is_array($lesson_list)){
             foreach($lesson_list as &$val){
                 $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
-                $val['info'] = "老师由于您的1对1未在课程结束后2天内,未给出反馈，对家长了解孩子情况造成不便，扣款"
-                             .$val['cost']."元,请下次注意及时给出反馈";
+                // $val['info'] = "老师由于您的1对1未在课程结束后2天内,未给出反馈，对家长了解孩子情况造成不便，扣款"
+                //              .$val['cost']."元,请下次注意及时给出反馈";
+
+                $val['info'] = "由于您未在规定时间内向进行评价反馈，依据《理优薪资规则》扣款".$val['cost']."元，请下次注意并及时给出评价反馈。";
                 $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
                 if($openid){
-                    $val['reason'] = "1对1未及时评价";
+                    // $val['reason'] = "1对1未及时评价";
+                    // 扣费通知不再老师上课时间发送
+                    // $check_is_reading = $this->get
+                    $val['reason'] = "常规课未及时评价";
                     $this->teacher_wx_data($openid,$val,$type);
                     $wx_rate_late_flag=1;
                 }else{

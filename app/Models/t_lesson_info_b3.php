@@ -1789,7 +1789,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             //  ["l.lesson_start>%u",$start_time,0],
             // ["l.lesson_start<%u",$end_time,0],
             ["s.phone='%s'",$phone,0],
-            "l.lesson_type=2",
+            "l.lesson_type in (0,1,3)",
             "l.lesson_del_flag=0",
             "l.confirm_flag <2"
         ];
@@ -1802,7 +1802,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
   
+    }
+
+    public function get_late_lesson_info($late_start, $late_end){
+        $where_arr = [
+            "l.lesson_del_flag = 0",
+            "l.tea_rate_time=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$late_start,$late_end);
+        $sql = $this->gen_sql_new("  select t.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick, t.nick as tea_nick from %s l"
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 }

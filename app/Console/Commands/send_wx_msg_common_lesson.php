@@ -195,40 +195,41 @@ class send_wx_msg_common_lesson extends Command
 
         // 常规课 15分钟提示
 
-        $subject_str   = E\Esubject::get_desc($val["subject"]);
-        $lesson_time = date("H:i",$val['lesson_start']);
-        $lesson_day = date("Y-m-d H:i",$val['lesson_start']);
+        $late_start = $now+15*60;
+        $late_end   = $late_start+60;
+        $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_start, $late_end);
 
-        /**
-         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-         * 标题课程 : 待办事项提醒
-         * {{first.DATA}}
-         * 待办主题：{{keyword1.DATA}}
-         * 待办内容：{{keyword2.DATA}}
-         * 日期：{{keyword3.DATA}}
-         * {{remark.DATA}}
-         */
+        if(!empty($late_lesson_info)){
+            foreach($late_lesson_info as $val){
+                $subject_str  = E\Esubject::get_desc($val["subject"]);
+                $lesson_time  = date("H:i",$val['lesson_start']);
+                $lesson_day   = date("Y-m-d H:i",$val['lesson_start']);
 
-        $data=[];
-        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
-        $data['keyword1'] = "课程评价";
-        $data['keyword2'] = "\n 课程时间:".$lesson_day."\n评价方式:老师后台"
-                          ."\n距离评价截止时间只剩15分钟，请尽快进行评价。";
-        $data['keyword3'] = date("Y-m-d H:i",time());
-        $data['remark']   = "";
-        $url = "";
-        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
 
-        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
-
-
-
-
-
+                $data=[];
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
+                $data['keyword1'] = "课程评价";
+                $data['keyword2'] = "距离评价截止时间还有15分钟  \n 课程时间:".$lesson_day."\n 学生姓名:".$val['stu_nick']
+                                  ."\n 老师姓名".$val['tea_nick'];
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "请尽块登录老师端,进行评价!";
+                $url = "";
+                \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
+            }
+        }
     }
 
-   
+
 
 
     public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){
