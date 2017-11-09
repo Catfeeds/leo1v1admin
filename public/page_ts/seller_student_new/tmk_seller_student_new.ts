@@ -78,10 +78,8 @@ $(function(){
                 "app:1234567@"+phone+"");
         } catch(e){
         };
-        var timestamp = Date.parse(new Date()); 
-        alert(Date.parse(new Date()));
-        alert(opt_data.tmk_last_revisit_time);
-        if(timestamp-1800>opt_data.tmk_last_revisit_time){
+        var timestamp = Date.parse(new Date())/1000; 
+        if(timestamp-opt_data.tmk_last_revisit_time<1800){
             $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
             });
