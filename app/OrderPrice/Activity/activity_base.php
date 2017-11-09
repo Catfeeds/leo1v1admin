@@ -18,6 +18,9 @@ class activity_base {
         E\Eorder_activity_type::V_2017110801  =>  activity_2017110801::class,
         E\Eorder_activity_type::V_2017110802  =>  activity_2017110802::class,
         E\Eorder_activity_type::V_2017110803  =>  activity_2017110803::class,
+
+        E\Eorder_activity_type::V_2017110901  =>  activity_2017110901::class,
+        E\Eorder_activity_type::V_2017111002  =>  activity_2017111002::class,
     ];
 
     /**
@@ -34,6 +37,7 @@ class activity_base {
     public  $from_test_lesson_id ;
 
     public  $args;
+    public  $grade;
 
 
     public function __construct(  $args   ) {
@@ -43,6 +47,7 @@ class activity_base {
 
             $this->contract_type = $args["contract_type"];
             $this->userid = $args["userid"];
+            $this->grade= $args["grade"];
             $this->args = $args;
         }
 

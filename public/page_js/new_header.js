@@ -320,7 +320,9 @@ function table_init() {
                 }else{
                     field_name=input.attr("id").substr(3);
                     if (show_all_flag) {
-                        input.parent().parent().show();
+                        if ( !input.parent().parent().data("always_hide") ) {
+                            input.parent().parent().show();
+                        }
                     }else{
                         if (g_args[field_name] == -1 ) {
                             if ( !input.parent().parent().data("always_show") ) {
