@@ -3931,8 +3931,9 @@ class human_resource extends Controller
             "2017-5-1",
             "2017-6-1",
             "2017-7-1",
-            "2017-7-1",
-            "2017-7-1",
+            "2017-8-1",
+            "2017-9-1",
+            "2017-9-1",
         ];
 
         for($begin_month; $begin_month<=$now;$begin_month++){
