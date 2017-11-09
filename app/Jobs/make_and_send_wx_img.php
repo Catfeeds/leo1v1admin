@@ -51,6 +51,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
         $old_headimgurl = $this->agent['headimgurl'];
 
+       
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
         //请求微信头像
