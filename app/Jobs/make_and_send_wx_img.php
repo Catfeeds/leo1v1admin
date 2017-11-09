@@ -51,7 +51,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
         $old_headimgurl = $this->agent['headimgurl'];
 
-       
+
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
         \App\Helper\Utils::logger("yxyx_sss_aaa:".$this->wx_openid);
 
@@ -60,6 +60,9 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
         $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+
+        \App\Helper\Utils::logger("url info:". $url);
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
