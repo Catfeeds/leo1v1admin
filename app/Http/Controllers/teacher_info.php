@@ -1991,9 +1991,10 @@ class teacher_info extends Controller
             $lesson_arr = [
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
-                "status_info" => $val['lesson_cost_info'],
+                "status_info"=> $val['lesson_cost_info'],
                 "cost"       => $val['lesson_cost'],
                 "money"      => $lesson_money,
+                "lessonid"   => $val['lessonid'],
             ];
             $list[$month_key]['list'][$list_lesson_key]["key_str"] = $list_lesson_key_str;
             $list[$month_key]['list'][$list_lesson_key][]  = $lesson_arr;
@@ -2007,6 +2008,10 @@ class teacher_info extends Controller
             $add_time  = date("Y-m-d H:i",$r_val['add_time']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["reward_money"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["level_str"],$teacher_level_str,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["trial_lesson_total"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["normal_lesson_total"],0,0);
 
             $reward_money = $r_val['money']/100;
             $reward_arr = [
@@ -2018,11 +2023,11 @@ class teacher_info extends Controller
             ];
             switch($r_val['type']){
             case E\Ereward_type::V_6:
-                $reward_arr["name"]=$this->cache_get_teacher_nick($r_val['money_info']);
-                $list_reward_key = "reference";
+                $reward_arr["name"]  = $this->cache_get_teacher_nick($r_val['money_info']);
+                $list_reward_key     = "reference";
                 $list_reward_key_str = "伯乐奖";
                 break;
-            case E\Ereward_type::V_1: case E\Ereward_type::V_2: case E\Ereward_type::V_5:
+            case E\Ereward_type::V_1: case E\Ereward_type::V_2: case E\Ereward_type::V_5: case E\Ereward_type::V_7:
                 $list_reward_key = "reward";
                 $list_reward_key_str = "工资奖励";
                 break;
@@ -2041,10 +2046,9 @@ class teacher_info extends Controller
         foreach($list as $m_val){
             $money_list[] = $m_val;
         }
-        // dd($money_list);
+
         return $this->pageView(__METHOD__,[],[
-            "money_list"        => $money_list,
-            "teacher_level_str" => $teacher_level_str
+            "money_list" => $money_list,
         ]);
     }
 

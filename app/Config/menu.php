@@ -525,7 +525,7 @@ class menu{
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
 
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
-                ["power_id"=>14, "name"=>"分享知识库", "url"=>"/seller_student_new/share_knowledge"],
+                //                ["power_id"=>14, "name"=>"分享知识库", "url"=>"/seller_student_new/share_knowledge"],
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[

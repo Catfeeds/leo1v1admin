@@ -655,6 +655,10 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql);
     }
 
+    public function get_warn_stu_list(){
+        
+    }
+
 
 
 }

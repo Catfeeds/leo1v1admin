@@ -1876,6 +1876,7 @@ class Utils  {
         $output = curl_exec($ch);
         curl_close($ch);
         $data = json_decode($output,true);
+        dd($data);
         $headimgurl = $data['headimgurl'];
 
         //唯一标识，防止多次点击删除的图片不对
