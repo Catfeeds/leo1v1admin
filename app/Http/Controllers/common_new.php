@@ -1004,32 +1004,41 @@ class common_new extends Controller
 
          **/
         $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
-        if($type == 1){ // 试卷
-            $keyword1 = '讲义已上传';
+        $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+
+        if($type == 1){ // 讲义
+            $data_msg = [
+                'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课讲义，".$lesson_info['tea_nick']."老师已经上传",
+                'keyword1' => "讲义已上传",
+                'keyword2' => $subject_str."课讲义已上传",
+                'keyword3' => date('Y-m-d H:i:s'),
+                'remark'   => '可登录学生端进行课前预习。'
+            ];
         }elseif($type==2){ // 作业
-            $keyword1 = '课后作业已上传';
+            $data_msg = [
+                'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课后作业，".$lesson_info['tea_nick']."老师已经上传",
+                'keyword1' => "课后作业已上传",
+                'keyword2' => $subject_str."课课后后作业已上传",
+                'keyword3' => date('Y-m-d H:i:s'),
+                'remark'   => '请督促孩子及时完成课后作业，谢谢！'
+            ];
         }
 
         $wx = new \App\Helper\Wx();
-        $now = date('Y-m-d');
-
-        $subject_str = E\Esubject::get_desc($lesson_info['subject']);
-        $data_msg = [
-            'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课讲义，".$lesson_info['tea_nick']."老师已经上传",
-            'keyword1' => "$keyword1",
-            'keyword2' => "$subject_str 课课后后作业已上传",
-            'keyword3' => "$now",
-            'remark'   => '可登录学生端进行课前预习。'
-        ];
-
         $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
 
         if($lesson_info['wx_openid'] && $lesson_info['userid']>0){
             $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_msg ,'');
         }
-
-
     }
+
+
+    public function send_wx_to_par(){
+        // $post_url = "http://admin.leo1v1.com/common_new/send_wx_to_par?lessonid=$lessonid";
+        
+    }
+
+
 
     public function add_teacher(){
         $info = hex2bin($this->get_in_str_val("info"));
