@@ -571,6 +571,36 @@ class Utils  {
         }
     }
 
+    static function order_list_new( $list, $order_field_name,$is_asc_flag,$page_info) {
+        if ($is_asc_flag) {
+            $new_list = usort( $list , function ($a,$b) use ($order_field_name)
+            {
+                $a_v=@$a[$order_field_name] ;
+                $b_v=@$b[$order_field_name] ;
+                if ($a_v==$b_v) return 0;
+                return $a_v>$b_v? 1:-1;
+            });
+        }else{
+            $new_list = usort($list, function ($a,$b) use ($order_field_name)
+            {
+                $a_v=@$a[$order_field_name] ;
+                $b_v=@$b[$order_field_name] ;
+                if ($a_v==$b_v) return 0;
+                return $a_v>$b_v? -1:1;
+            });
+        }
+        $list = [];
+        $start = ($page_info['page_num']-1) * $page_info['page_count'];
+        $end = $start+$page_info['page_count'];
+        for($i = $num; $i<$end; $i++){
+            $list[$i] = $new_list['$i'];
+        }
+
+        $ret_info['list'] = $list;
+        $ret_info['page_info'] = $page_info;
+        return $ret_info;
+    }
+
     static function date_list_set_value( &$date_list , &$from_list , $date_key, $field_name, $from_field_name ) {
 
         foreach ($from_list as $item) {
