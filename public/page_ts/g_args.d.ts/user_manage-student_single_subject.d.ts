@@ -27,6 +27,7 @@ interface RowData {
 	grade	:any;
 	lesson_count	:any;
 	count	:any;
+	price	:any;
 	num	:any;
 	student_nick	:any;
 	assistant_nick	:any;

@@ -2956,8 +2956,7 @@ class user_manage extends Controller
         $arr['list'] = $ret_student_subject;
         return $this->pageView(__METHOD__, $arr);
     }
-
-     /**
+        /**
      * @author    sam
      * @function  学生单科目统计
      */
