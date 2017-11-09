@@ -1615,6 +1615,14 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
+        $phone            = $this->get_in_str_val("phone","13958068506");
+        $tea_info = $this->t_lesson_info_b3->get_tea_info_by_stu_phone($phone);
+        dd($tea_info);
+
+
+
+
+        
         $teacherid             = $this->get_in_int_val("teacherid",50272);
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");
