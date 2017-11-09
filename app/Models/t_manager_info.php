@@ -2101,5 +2101,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+
+        return $this->main_get_value($sql);
     }
 }
