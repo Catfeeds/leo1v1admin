@@ -79,14 +79,15 @@ $(function(){
                 "app:1234567@"+phone+"");
         } catch(e){
         };
+        var timestamp = Date.parse(new Date())/1000;
+        var last_time = timestamp-opt_data.tmk_last_revisit_time;
 
-        if(timestamp-opt_data.tmk_last_revisit_time>1800){
+        if(last_time>1800){
             $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
             });
         }else{
-            var last_time = timestamp-opt_data.tmk_last_revisit_time;
-            var last_time = last_time-1800;
+            last_time = last_time-1800;
             alert('拨打间隔要超过30分钟,请'+Math.floor(last_time/60)+'分钟后再拨打');
         }
     });
