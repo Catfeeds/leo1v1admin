@@ -2957,7 +2957,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             'auto_allot_adminid>0',
         ];
 
-        $sql = $this->gen_sql_new("select count(userid) from %s where %s  order by ss.add_time"
+        $sql = $this->gen_sql_new("select count(userid) from %s where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
