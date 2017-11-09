@@ -656,7 +656,12 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
     }
 
     public function get_warn_stu_list(){
-        
+        $where_arr=[
+            "is_warning_flag=1",
+            "revisit_type=0"
+        ] ;
+        $sql = $this->gen_sql_new("select distinct userid from %s where %s",self::DB_TABLE_NAME,$where_arr);
+         return $this->main_get_list($sql);
     }
 
 

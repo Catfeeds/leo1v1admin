@@ -297,7 +297,6 @@ class user extends TeaWxController
 
 
     public function set_teacher_feedback(){ //1020
-
         $teacherid     = $this->get_teacherid();
         $lessonid      = $this->get_in_int_val("lessonid");
         $feedback_type = $this->get_in_int_val("feedback_type");
@@ -313,7 +312,6 @@ class user extends TeaWxController
         $add_time = time(NULL);
 
         $ret_flag = $this->t_teacher_feedback_list->get_feedback_count($teacherid, $lessonid, $feedback_type);
-
         if($ret_flag == 0){
             $ret_affect = $this->t_teacher_feedback_list->set_feedback( $teacherid, $lessonid, $feedback_type, $lesson_count, $tea_reason, $add_time);
             if($ret_affect){
