@@ -530,6 +530,7 @@ class menu{
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
                 ["power_id"=>60, "name"=>"排行榜",   "url"=>"/main_page/seller" ],
+                ["power_id"=>61, "name"=>"藏金阁签约排名",   "url"=>"/main_page/seller_gold_room" ],
                 ["power_id"=>49, "name"=>"测试课堂列表",   "url"=>"/test_lesson_opt/test_opt_list"],
                 ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
                 ["power_id"=>75, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
@@ -875,6 +876,7 @@ class menu{
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
+                ["power_id"=>20, "name"=>"全职老师转化折线",   "url"=>"/human_resource/get_broken_line_order_rate"],
                 ["power_id"=>4, "name"=>"全职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_fulltime"],
 
                 ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],

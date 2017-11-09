@@ -40,7 +40,9 @@
                 <thead>
                     <tr>
                         <td>老师 </td>
-                        <td>面试通过人数 </td>
+                        <td>面试通过人数(视频) </td>
+                        <td>面试通过人数(试讲) </td>
+                        <td>面试通过人数(总) </td>
                         <td>模拟试听审核(一审)</td>
                         <td>模拟试听审核(二审) </td>
                         <td>第一次试听课</td>
@@ -65,6 +67,8 @@
                         <tr>
                            
                             <td> {{@$var["name"]}}</td>
+                            <td> {{@$var["lecture_inter_num"]}}/{{@$var["lecture_succ"]}}</td>
+                            <td> {{@$var["one_inter_num"]}}/{{@$var["one_succ"]}}</td>
                             <td> {{@$var["real_num"]}}/{{@$var["suc_count"]}}</td>
                             <td> {{@$var["train_first_all"]}}/{{@$var["train_first_pass"]}}</td>
                             <td> {{@$var["train_second_all"]}}</td>

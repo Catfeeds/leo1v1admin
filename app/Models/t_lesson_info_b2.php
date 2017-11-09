@@ -4071,7 +4071,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_common_lesson_info_for_time($lesson_begin, $lesson_end){  // 常规课开课前半个小时 通知
         $where_arr = [
-            "l.lesson_type=0", //常规课
+            "l.lesson_type in (0,1,3)", //常规课
             "l.lesson_del_flag=0",
         ];
 
@@ -4081,7 +4081,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s t on t.teacherid = l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid= s.parentid "
-                                  ." left join %s a a.assistantid = s.assistantid"
+                                  ." left join %s a on a.assistantid = s.assistantid"
                                   ." left join %s m on m.phone = a.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
@@ -4102,8 +4102,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $next = time()+60;
 
         $where_arr = [
-            "l.lesson_type=0", //常规课
             "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)"
         ];
 
         $this->where_arr_add_time_range($where_arr,'lesson_start',$now, $next);

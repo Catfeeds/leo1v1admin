@@ -80,17 +80,15 @@ $(function(){
         } catch(e){
         };
         var timestamp = Date.parse(new Date())/1000;
-        var last_time = timestamp-opt_data.tmk_last_revisit_time-1800;
-        alert(Math.floor(last_time/60));
+        var last_time = timestamp-opt_data.tmk_last_revisit_time;
 
-        if(timestamp-opt_data.tmk_last_revisit_time>1800){
+        if(last_time>1800){
             $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
             });
         }else{
-            var last_time = timestamp-opt_data.tmk_last_revisit_time-1800;
-            alert(Math.floor(last_time/60));
-            alert('拨打间隔要超过30分钟,请'+Math.floor(last_time/60)+'分钟后再拨打');
+            last_time = last_time-1800;
+            alert('拨打间隔要超过30分钟,请'+Math.abs(Math.floor(last_time/60))+'分钟后再拨打');
         }
     });
 
@@ -151,7 +149,7 @@ $(function(){
                 label    : '确认',
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
-                    $.do_ajax("/ss_deal/tmk_save_user_info",{
+                    $.do_ajax("/ss_deal/tmk_save_user_info_new",{
                         'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
                         'userid'                 : opt_data.userid,
                         'nick'                   : $nick.val(),

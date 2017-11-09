@@ -305,7 +305,7 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         $where_arr=[
             "lo.opt_type=1", // 登录记录
             "userid = $userid",
-            "l.lessonid = $lessonid"
+            "lessonid = $lessonid"
         ];
 
         $sql = $this->gen_sql_new(" select min(opt_time) from %s lo "

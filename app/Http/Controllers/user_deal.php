@@ -608,20 +608,23 @@ class user_deal extends Controller
 
         
         /* 设置lesson_count */
-        $diff=($lesson_end-$lesson_start)/60;
-        if ($diff<=20) {
-            $lesson_count=50;
-        } else if ($diff<=40) {
-            $lesson_count=100;
-        } else if ( $diff <= 60) {
-            $lesson_count=150;
-        } else if ( $diff <=90 ) {
-            $lesson_count=200;
-        } else if ( $diff <=100 ) {
-            $lesson_count=250;
-        }else{
-            $lesson_count= ceil($diff/40)*100 ;
-        }
+        // $diff=($lesson_end-$lesson_start)/60;
+        // if ($diff<=20) {
+        //     $lesson_count=50;
+        // } else if ($diff<=40) {
+        //     $lesson_count=100;
+        // } else if ( $diff <= 60) {
+        //     $lesson_count=150;
+        // } else if ( $diff <=90 ) {
+        //     $lesson_count=200;
+        // } else if ( $diff <=100 ) {
+        //     $lesson_count=250;
+        // }else{
+        //     $lesson_count= ceil($diff/40)*100 ;
+        // }
+
+        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
 
 
         //百度分期用户首月排课限制
@@ -3178,7 +3181,25 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-
+        $list = $this->t_week_regular_course->get_teacher_student_time(-1,-1);
+        foreach($list as $val){
+            $arr              = explode("-",$val["start_time"]);
+            $week = $arr[0];
+            $start = @$arr[1];
+            $end_time = $val["end_time"];
+            $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
+            $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
+            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+            if($lesson_end<=$lesson_start){
+                echo $val["start_time"]."/".$val["teacherid"]."<br>";
+            }
+ 
+        }
+        dd(111);
+        dd($list);
+        
+        $rr = $this->get_lesson_count_by_lesson_time(0,900);
+        dd($rr);
         // $tea_list = $this->t_teacher_advance_list->get_all_advance_teacher();
         // dd($tea_list);
         // $warn_list = $this->t_revisit_info->get_warn_stu_list();
