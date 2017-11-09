@@ -1824,4 +1824,27 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_list($sql);
     }
+
+    public function check_is_doing($teacherid){
+        $now = time();
+        $end = $now + 60;
+
+        $where_arr = [
+            'l.lesson_del_flag=0',
+            "l.teacherid=$teacherid"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$now,$end);
+
+        $sql = $this->gen_sql_new("  select 1 from %s l "
+                                  ." left join %s t on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
 }
