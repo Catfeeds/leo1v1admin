@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\send_lesson_plan_tomorrow::class,
+        Commands\send_wx_msg_common_lesson::class,
         Commands\test_command::class,
         Commands\ResetStudentLessonCount::class,
         Commands\SetLessonStuAttend::class,

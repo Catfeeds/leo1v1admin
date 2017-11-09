@@ -11,7 +11,7 @@ class send_lesson_plan_tomorrow extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:send_lesson_plan_tomorrow';
 
     /**
      * The console command description.

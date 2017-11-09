@@ -3179,6 +3179,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
 
+        $rr = $this->get_lesson_count_by_lesson_time(0,900);
+        dd($rr);
         // $tea_list = $this->t_teacher_advance_list->get_all_advance_teacher();
         // dd($tea_list);
         // $warn_list = $this->t_revisit_info->get_warn_stu_list();
