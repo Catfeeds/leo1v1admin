@@ -3196,5 +3196,4 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
-
 }
