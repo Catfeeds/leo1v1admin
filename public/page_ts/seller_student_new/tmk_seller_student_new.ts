@@ -88,7 +88,7 @@ $(function(){
             });
         }else{
             last_time = last_time-1800;
-            alert('拨打间隔要超过30分钟,请'+Math.floor(last_time/60)+'分钟后再拨打');
+            alert('拨打间隔要超过30分钟,请'+Math.abs(Math.floor(last_time/60))+'分钟后再拨打');
         }
     });
 
