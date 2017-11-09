@@ -296,7 +296,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[]
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -314,13 +314,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             // array( "through_new_time<%u ", $through_end, 0 ),
         );
 
-        if ($address) {
-            $address=$this->ensql($address);
-            $where_arr[]="(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
-                ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
-                ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
-                ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')";
-        }
         if($seller_flag==1){
             $where_arr[] = "is_good_flag=1 and change_good_time>0 and is_good_wx_flag=1 ";
         }
@@ -328,6 +321,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+        $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
+        if($teacherid>0){
+            $where_arr=[array( "teacherid=%u", $teacherid, -1 )];
+        }
+        if ($address) {
+            $address=$this->ensql($address);
+            $where_arr=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
+                        ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
+                        ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
+                        ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')"];
+        }
+
 
 
         $sql = $this->gen_sql_new("select * "

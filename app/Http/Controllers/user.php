@@ -295,11 +295,8 @@ class user extends TeaWxController
         }
     }
 
-    /**
-     * 添加老师反馈
-     */
     public function set_teacher_feedback(){ //1020
-        $from_type     = $this->get_in_str_val("from_type","wx");
+        $from_type = $this->get_in_str_val("from_type","wx");
         if($from_type=="wx"){
             $teacherid = $this->get_teacherid();
         }elseif($from_type=="admin"){
@@ -313,8 +310,10 @@ class user extends TeaWxController
         $tea_reason    = $this->get_in_str_val("tea_reason");
 
         $feedback = new teacher_feedback;
-        $ret =  $feedback->add_teacher_feedback($teacherid,$lessonid,$feedback_type,$lesson_count,$tea_reason);
+        $ret = $feedback->add_teacher_feedback($teacherid,$lessonid,$feedback_type,$lesson_count,$tea_reason);
+
         return $ret;
+
         // if($feedback_type == 101 || $feedback_type == 102){
         //     $lesson_count = 100*$lesson_count;
         // }else{

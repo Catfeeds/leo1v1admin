@@ -4047,7 +4047,7 @@ class human_resource extends Controller
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag
+            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,$advance_list
         );
 
         foreach($ret_info['list'] as  &$item){
