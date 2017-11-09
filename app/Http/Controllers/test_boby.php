@@ -987,7 +987,14 @@ class test_boby extends Controller
         // list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
         $start_time = strtotime('2017-11-1');
         $end_time = strtotime('2017-12-1');
-        $group_by = 'l.teacherid';
+        $flag = $this->get_in_int_val('flag',1);
+        if($flag == 1) {
+            $group_by = 'l.teacherid';
+        }else if ($flag == 2){
+            $group_by = 'tl.require_adminid';
+        }else {
+            $order_by = 'tr.origin';
+        }
         $ret_info = $this->t_test_lesson_subject->get_sign_count($start_time, $end_time,$group_by);
         dd($ret_info);
 
