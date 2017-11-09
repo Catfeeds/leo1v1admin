@@ -1617,6 +1617,12 @@ class ajax_deal2 extends Controller
     public function get_three_month_stu_num(){
         $phone            = $this->get_in_str_val("phone","13958068506");
         $tea_info = $this->t_lesson_info_b3->get_tea_info_by_stu_phone($phone);
+        return $this->output_succ([
+            "realname" =>$tea_info["realname"],
+            // "have_order"   =>$cc_list["have_order"],
+            "tea_phone"   =>$tea_info["phone"],
+        ]);
+
         dd($tea_info);
 
 

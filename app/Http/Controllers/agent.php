@@ -1911,6 +1911,7 @@ class agent extends Controller
             $page_flag = true;
         }
         $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str,$page_flag);
+
         $all_user = 0;
         $order_user = 0;
         $price = 0;
@@ -1990,7 +1991,6 @@ class agent extends Controller
         $id = $this->get_in_int_val('id','');
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
-
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
