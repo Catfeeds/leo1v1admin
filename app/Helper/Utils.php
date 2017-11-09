@@ -1890,11 +1890,16 @@ class Utils  {
         }
     }
 
-    static public function wx_make_and_send_img($wx_openid,$bg_url,$qr_code_url,$request,$agent) {
+    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent) {
+        $wx_openid = $agent['wx_openid'];
         $t_agent = new \App\Models\t_agent();
         $phone   = $agent['phone'];
         $id      = $agent['id'];
-        $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
+
+        //唯一标识，防止多次点击删除的图片不对
+        $mark = uniqid();
+
+        $qr_url  = "/tmp/yxyx_wx_".$phone.$mark."_qr.png";
         $old_headimgurl = $agent['headimgurl'];
         self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
 
@@ -1910,17 +1915,15 @@ class Utils  {
         $output = curl_exec($ch);
         curl_close($ch);
         $data = json_decode($output,true);
-        dd($data);
         $headimgurl = $data['headimgurl'];
 
-        //唯一标识，防止多次点击删除的图片不对
-        $mark = uniqid();
         //下载头像，制作图片
-        $datapath = "/tmp/yxyx_wx_".$phone.$mark.".jpg";
+        $datapath = "/tmp/yxyx_wx_".$phone.$mark."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
         $image_5 = imagecreatefromjpeg($datapath);
+
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         $color = imagecolorallocate($image_6, 255, 255, 255);
         imagefill($image_6, 0, 0, $color);
@@ -1965,10 +1968,9 @@ class Utils  {
         imagedestroy($image_6);
 
         $type = 'image';
-        $num = rand();
         $img_Long = file_get_contents($agent_qr_url);
-        file_put_contents( public_path().'/wximg/'.$num.'.png',$img_Long );
-        $img_url = public_path().'/wximg/'.$num.'.png';
+        file_put_contents( public_path().'/wximg/'.$mark.'.png',$img_Long );
+        $img_url = public_path().'/wximg/'.$mark.'.png';
         $img_url = realpath($img_url);
 
         $mediaId = Media::upload($img_url, $type);
