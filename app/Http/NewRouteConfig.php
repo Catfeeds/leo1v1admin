@@ -381,6 +381,7 @@ class NewRouteConfig {
         "/stu_manage/regular_course_stu"       => true,
         "/stu_manage/user_login_list"          => true,
         "/stu_manage/one_three_grade_student"  => true,
+        "/stu_manage/score_list1"              => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
 
