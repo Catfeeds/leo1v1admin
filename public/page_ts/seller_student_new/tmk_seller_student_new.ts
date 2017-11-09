@@ -80,7 +80,7 @@ $(function(){
         } catch(e){
         };
         var timestamp = Date.parse(new Date())/1000;
-        var last_time = timestamp-opt_data.tmk_last_revisit_time-1800;
+        var last_time = timestamp-opt_data.tmk_last_revisit_time;
         alert(Math.floor(last_time/60));
 
         if(timestamp-opt_data.tmk_last_revisit_time>1800){
