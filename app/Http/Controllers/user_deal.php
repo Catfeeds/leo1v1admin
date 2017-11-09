@@ -3197,8 +3197,8 @@ class user_deal extends Controller
            
         }
 
-        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,1):0;
-        $set_time_late_avg = $set_count_late>0?round($set_count_late_time/$set_count_late/86400,1):0;
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,2):0;
+        $set_time_late_avg = $set_count_late>0?round($set_count_late_time/$set_count_late/86400,2):0;
         dd([$set_time_avg,$set_time_late_avg]);
 
         $userid_list = $this->t_student_info->get_read_student_ass_info();
