@@ -36,9 +36,9 @@ $(function(){
         $.each(item_list ,function(i, item){
             online_count_list[j].push([i*300000, item]);
         } )
-            });
-    
-    console.log(online_count_list);
+    });
+
+    // console.log(online_count_list);
 
 
     $("#id_pic_user_count").css({
@@ -47,7 +47,7 @@ $(function(){
     });
 
 
-    var show_plot=function( ) {
+    var show_plot=function() {
         var id_name="id_pic_user_count";
         var plot_data_list=[];
         var start_time=$.strtotime( g_args.start_time);

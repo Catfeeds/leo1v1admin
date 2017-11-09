@@ -993,7 +993,7 @@ class test_boby extends Controller
         }else if ($flag == 2){
             $group_by = 'tl.require_adminid';
         }else {
-            $order_by = 'tr.origin';
+            $group_by = 'tr.origin';
         }
         $ret_info = $this->t_test_lesson_subject->get_sign_count($start_time, $end_time,$group_by);
         dd($ret_info);

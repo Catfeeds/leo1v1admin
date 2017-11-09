@@ -11,7 +11,6 @@ interface GargsStatic {
 	grade_part_ex:	number;
 	tea_status:	number;
 	teacher_account:	number;
-	fulltime_flag:	number;
 	fulltime_teacher_type:	number;
 }
 declare module "g_args" {
@@ -47,7 +46,6 @@ function load_data(){
 		grade_part_ex:	$('#id_grade_part_ex').val(),
 		tea_status:	$('#id_tea_status').val(),
 		teacher_account:	$('#id_teacher_account').val(),
-		fulltime_flag:	$('#id_fulltime_flag').val(),
 		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
     });
 }
@@ -71,7 +69,6 @@ $(function(){
 	$('#id_grade_part_ex').val(g_args.grade_part_ex);
 	$('#id_tea_status').val(g_args.tea_status);
 	$('#id_teacher_account').val(g_args.teacher_account);
-	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
@@ -129,13 +126,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacher_account</span>
                 <input class="opt-change form-control" id="id_teacher_account" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">fulltime_flag</span>
-                <input class="opt-change form-control" id="id_fulltime_flag" />
             </div>
         </div>
 
