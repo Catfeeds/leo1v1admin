@@ -124,15 +124,22 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_ass($item,2,$data_ass);
 
                     //向助教主管发送
-                    $template_id_parent = '';
+                    $data_leader = $this->get_data($item,3,7,'',$item['stu_nick']);
+                    $template_id_parent = '9mxyc2khg9bsivl16cjgxfvsi35hiqffpslsjfyckru';
                     $ass_leader_openid = $task->t_manager_info->get_ass_leader_opneid($item['uid']);
-                    $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_ass ,'');
+                    $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_leader ,'');
 
                 }
 
                 if($opt_time_tea>=$now){ // 判断老师是否超时  [15分钟]
                     $data_ass = $this->get_data($item,3,6,$item['teacher_nick'],'');
                     $this->send_wx_msg_ass($item,2,$data_ass);
+
+                    //向助教主管发送
+                    $data_leader = $this->get_data($item,3,7,'',$item['stu_nick']);
+                    $template_id_parent = '9mxyc2khg9bsivl16cjgxfvsi35hiqffpslsjfyckru';
+                    $ass_leader_openid = $task->t_manager_info->get_ass_leader_opneid($item['uid']);
+                    $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_leader ,'');
                 }
             }
         }
@@ -314,20 +321,36 @@ class send_wx_msg_common_lesson extends Command
                 ];
             }elseif($type == 6){ // 课时超过15分钟
                 if($tea_nick_cut_class){
-                    $first = "您好，$subject_str 课程已开始5分钟，".$tea_nick_cut_class."老师还未进入课堂。";
+                    $first = "您好，$subject_str 课程已开始15分钟，".$tea_nick_cut_class."老师还未进入课堂。";
                     $name_tmp = '老师';
                 }else{
-                    $first = "您好，$subject_str 课程已开始5分钟，".$stu_nick_cut_class."同学还未进入课堂。";
+                    $first = "您好，$subject_str 课程已开始15分钟，".$stu_nick_cut_class."同学还未进入课堂。";
                     $name_tmp = '同学';
                 }
                 $data = [
                     "first"    => "$first",
                     "keyword1" => '课程提醒',
                     "keyword2" => "$subject_str 课程已开始5分钟，$name_tmp 还未进入课堂 ",
-                    "keyword3" => "课程时间: ".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "keyword3" => "课程时间: ".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."学生姓名:".$item['stu_nick']." 老师姓名:".$item['teacher_nick'],
                     "remark"   => "请立刻联系 $name_tmp"
                 ];
-            }
+            }elseif($type == 7){ // 课时超过15分钟 [助教组长]
+                if($tea_nick_cut_class){
+                    $first = "您好，$subject_str 课程已开始15分钟，".$tea_nick_cut_class."老师还未进入课堂。";
+                    $name_tmp = '老师';
+                }else{
+                    $first = "您好，$subject_str 课程已开始15分钟，".$stu_nick_cut_class."同学还未进入课堂。";
+                    $name_tmp = '同学';
+                }
+                $data = [
+                    "first"    => "$first",
+                    "keyword1" => '课程提醒',
+                    "keyword2" => "$subject_str 课程已开始5分钟，$name_tmp 还未进入课堂 ",
+                    "keyword3" => "课程时间: ".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."学生姓名:".$item['stu_nick']." 老师姓名:".$item['teacher_nick']."助教姓名:".$item['ass_nick'],
+                    "remark"   => "请立刻联系 $name_tmp"
+                ];
+        }
+
         }
         return $data;
     }
