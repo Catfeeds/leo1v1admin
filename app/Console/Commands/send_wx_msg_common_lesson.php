@@ -47,8 +47,6 @@ class send_wx_msg_common_lesson extends Command
         // 课前四小时未上传讲义
         $four_start = $now+3600*4;
         $four_end   = $four_start+60;
-
-
         /**
            {{first.DATA}}
            待办主题：{{keyword1.DATA}}

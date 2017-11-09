@@ -500,6 +500,203 @@ class main_page extends Controller
         ]);
     }
 
+    public function seller_gold_room()
+    {
+        $order_by_str = $this->get_in_str_val('order_by_str','');
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $time = time(null);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
+            }
+        }
+        $group_start_time = $start_time;
+        $start_first = date('Y-m-01',$start_time);
+        $adminid=$this->get_account_id();
+
+        //判断top25,排课情况每月40
+        $account_role = $this->t_manager_info->get_account_role($adminid);
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $group_start_time );
+        if(isset($self_top_info[6]["top_index"]) || $adminid == 349){
+            $rank = @$self_top_info[6]["top_index"];
+            if(($account_role ==2 && $rank<=25) || $adminid == 349){
+                $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($start_time,$end_time,$adminid);
+                $seller_top_flag=1;
+            }else{
+                $seller_top_flag=0;
+                $top_num =0;
+            }
+        }else{
+            $seller_top_flag=0;
+            $top_num =0;
+        }
+
+
+
+        //组长&主管
+        $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
+
+        $seller_account = $this->t_manager_info->get_account($test_seller_id);
+        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+        $son_adminid_arr = [];
+        foreach($son_adminid as $item){
+            $son_adminid_arr[] = $item['adminid'];
+        }
+        array_unshift($son_adminid_arr,$adminid);
+        $require_adminid_arr = array_unique($son_adminid_arr);
+        $group_type = count($require_adminid_arr)>1?1:0;
+
+        $adminid = in_array($test_seller_id,$require_adminid_arr)?$test_seller_id:$adminid;
+        /* if($adminid==349){
+           $adminid=397;
+           }*/
+        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
+        $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
+        if($adminid == $get_self_adminid){
+            $is_group_leader_flag = 1;
+        }else{
+            $is_group_leader_flag = 0;
+        }
+        $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
+                                                              $start_time,$end_time );
+
+        $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
+
+        $groupid =$this->get_in_int_val("groupid",-1);
+
+        if($groupid == -1) {
+            $groupid=$this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
+            $group_name="组内";
+        }else{
+            $group_name=$this->t_admin_group_name->get_group_name($groupid);
+        }
+        $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
+        foreach($group_list as &$item){
+            $item['all_price'] = $item['all_price']/100;
+            $all_price = $item['all_price'];
+            $month_money = isset($item['month_money'])?$item['month_money']:0;
+            $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
+            $item['finish_per'] = round($item['finish_per']*100,1);
+        }
+
+        $ret_info_first = [];
+        $ret_info_two = [];
+        foreach ($ret_info["list"] as $key=> &$item) {
+            $item["index"]=$key+1;
+            $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
+            if($key == 0){
+                $ret_info_first = $item;
+            }elseif($key == 1){
+                $ret_info_two = $item;
+            }
+        }
+        $ret_info["list"] = array_filter($ret_info["list"]);
+        if(count($ret_info["list"])>2){
+            $ret_info["list"][0] = $ret_info_two;
+            $ret_info["list"][1] = $ret_info_first;
+        }
+
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
+        $this->get_in_int_val("self_groupid",$self_groupid);
+        $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
+
+        //得到预期的试听成功数
+        //date("y-m-01");
+
+        // 本月签单率
+        list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01") );
+        $tongji_type=$this->get_in_int_val("tongji_type",5, E\Etongji_type::class); //5 代表查询本月签单率
+        $ret_info_num = $this->t_tongji_seller_top_info->get_list_top($tongji_type,$start_time);
+        foreach($ret_info_num as &$item) {
+            $this->cache_set_item_account_nick($item);
+            $item['value'] = $item['value'].'%';
+        }
+
+
+        $day= strtotime(date("Y-m-d") );
+        $w=  date("w") ;
+        if ($w==0)  $w=7;
+
+        if (in_array($w,[5,6,7])) {
+            $hw_start_time=$day-($w-5)*86400;
+            $hw_end_time= $hw_start_time + 3*86400;
+        }else{
+            $hw_start_time=$day-($w-1)*86400;
+            $hw_end_time= $hw_start_time + 4*86400;
+        }
+
+
+
+        $half_week_info= $this->t_order_info->get_1v1_order_seller_list($hw_start_time,$hw_end_time, [-1],"limit 5" );
+
+
+        foreach ($half_week_info["list"] as $key=> &$item) {
+            $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
+        }
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
+        //提成刺激
+        $money_info = $this->seller_month_money_list($adminid);
+        $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
+        $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
+        //上周试听取消率
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        // dd($self_top_info);
+
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        $week_start_time = date('m/d',$start_time);
+        $week_end_time = date('m/d',$end_time);
+        $test_fail_info = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
+        $self_top_info[13]["value"] = isset($test_fail_info[13]["value"])?$test_fail_info[13]["value"]:0;
+        $self_top_info[14]["value"] = isset($test_fail_info[14]["value"])?$test_fail_info[14]["value"]:0;
+        $self_top_info[15]["value"] = isset($test_fail_info[15]["value"])?$test_fail_info[15]["value"]:0;
+        $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
+
+
+        //今日需回访
+        $today = date('Y-m-d',time());
+        $before_week_today = date('Y-m-d',strtotime($today."00:00:00")-3600*24*7);
+        $row_item = $this->t_seller_student_new-> get_lesson_status_count($adminid );
+        $next_revisit_count = isset($row_item['next_revisit_count'])?$row_item['next_revisit_count']:0;
+        $next_time_str = "date_type=1&opt_date_type=0&start_time=".$before_week_today."&end_time=".$today;
+        // dd($ret_info);
+        //判断是不是总监
+        $adminid   = $this->get_account_id();
+        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        return $this->pageView(__METHOD__, $ret_info, [
+            "ret_info_num"           => $ret_info_num,
+            "group_list"             => $group_list,
+            "group_self_list"        => $group_self_list ,
+            "group_name"             => $group_name,
+            "self_info"              => $self_info,
+            "half_week_info"         => $half_week_info["list"],
+            "self_top_info"          => $self_top_info,
+            "self_groupid"           => $self_groupid,
+            "is_group_leader_flag"   => $is_group_leader_flag,
+            "test_lesson_need_count" => $this->t_seller_month_money_target->get_test_lesson_count($adminid,date("Y-m-01") ),
+            "self_money"             => $self_money,
+            "start_time"             => $week_start_time,
+            "end_time"               => $week_end_time,
+            "group_type"             => $group_type,
+            "seller_account"         => $seller_account,
+            "top_num"                => $top_num,
+            "seller_top_flag"        => $seller_top_flag,
+            "next_revisit_count"     => $next_revisit_count,
+            "next_time_str"          => $next_time_str,
+            "is_master"              => $is_master,
+        ]);
+    }
+
     public function seller_month_money_list($adminid) {
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $month= date("Ym",$start_time);
