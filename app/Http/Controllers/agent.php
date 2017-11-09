@@ -1965,13 +1965,15 @@ class agent extends Controller
                 $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
                 $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
                 $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
-                $all_user = $all_user+$item['user_count'];
-                $order_user = $order_user+$item['order_user_count'];
-                $price = $price+$item['price'];
             }
 
             $ret_info = \App\Helper\Utils::order_list_new( $ret_info, $order_field_name, $order_type ,$page_info);
 
+            foreach($ret_info['list'] as $item){
+                $all_user = $all_user+$item['user_count'];
+                $order_user = $order_user+$item['order_user_count'];
+                $price = $price+$item['price'];
+            }
         }
 
 
