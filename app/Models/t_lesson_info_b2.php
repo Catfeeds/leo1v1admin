@@ -4081,7 +4081,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s t on t.teacherid = l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid= s.parentid "
-                                  ." left join %s a a.assistantid = s.assistantid"
+                                  ." left join %s a on a.assistantid = s.assistantid"
                                   ." left join %s m on m.phone = a.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
