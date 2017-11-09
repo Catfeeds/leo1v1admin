@@ -249,8 +249,12 @@ class teacher_feedback extends Controller
 
     /**
      * 添加老师反馈
+     * @param int teacherid 添加反馈的老师id
+     * @param int lessonid  反馈的课程id
+     * @param int feedback_type 反馈类型
+     * @param int lesson_count  补录课时数(暂时无用)
      */
-    public function add_teacher_feedback(){
+    public function add_teacher_feedback($teacherid,$lessonid,$feedback_type,$lesson_count,$tea_reason){
 
     }
 
