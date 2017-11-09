@@ -1328,5 +1328,12 @@ $(function(){
 
     });
 
+    if(window.location.pathname=="/user_manage/ass_archive" || window.location.pathname=="/user_manage/ass_archive/"){
+        $("#id_assistantid").parent().parent().parent().hide();
+
+    }else{
+    }
+
+
 
 });

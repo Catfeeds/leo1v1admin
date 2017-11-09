@@ -110,20 +110,31 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         }
         
         if($id>0){
-            foreach($ass_leader_arr as $k=>$val){
-                $json_ret=\App\Helper\Common::redis_get_json("ZS_AUTO_ASSIGN_$k");
-                if($json_ret==0){
-                    $ret =  $task->t_teacher_lecture_appointment_info->field_update_list($id,[
-                        "accept_adminid"  => $val,
-                        "accept_time"     => time()
-                    ]);
+            $app_info = $task->t_teacher_lecture_appointment_info->field_get_list($id,"grade_ex,subject_ex,teacher_type");
+            $assign_flag = $task->check_lecture_appointment_assign_flag($app_info["grade_ex"],$app_info["subject_ex"],$app_info["teacher_type"]);
+            if($assign_flag==1){
 
-                    if($ret){
-                        \App\Helper\Common::redis_set_json("ZS_AUTO_ASSIGN_$k", 1);
-                        break;
-                    }
+                foreach($ass_leader_arr as $k=>$val){
+                    $json_ret=\App\Helper\Common::redis_get_json("ZS_AUTO_ASSIGN_$k");
+                    if($json_ret==0){
+                        $ret =  $task->t_teacher_lecture_appointment_info->field_update_list($id,[
+                            "accept_adminid"  => $val,
+                            "accept_time"     => time()
+                        ]);
+
+                        if($ret){
+                            \App\Helper\Common::redis_set_json("ZS_AUTO_ASSIGN_$k", 1);
+                            break;
+                        }
                
+                    }
                 }
+            }else{
+                $task->t_teacher_lecture_appointment_info->field_update_list($id,[
+                    "accept_adminid"  => 1250,
+                    "accept_time"     => time()
+                ]);
+ 
             }
 
 

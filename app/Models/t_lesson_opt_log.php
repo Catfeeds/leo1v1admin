@@ -301,7 +301,7 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
     }
 
 
-    public function get_common_lesson_for_login($lessonid,$userid, $lesson_start, $lesson_end){ // 课程开始五分钟
+    public function get_common_lesson_for_login($lessonid,$userid){ // 课程开始五分钟
         $where_arr=[
             "lo.opt_type=1", // 登录记录
             "userid = $userid",

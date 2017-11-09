@@ -3035,7 +3035,7 @@ trait TeaPower {
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容进行一对一在线面试。<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可以把面试官当您的学生进行互动。</span><br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前物理、化学、政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前物理、化学、政治、历史、地理、生物、科学七门学科不支持面试试讲，只能选择录制试讲。</span><br>
                     <br/>
                 </div>
                 <div>
@@ -4165,5 +4165,23 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
    
+    //确认老师例子是否入库(分配招师专员)
+    public function check_lecture_appointment_assign_flag($grade,$subject,$teacher_type){
+        $flag=0;
+        if(in_array($subject,[1,3]) && in_array($grade,[100,200])){
+            $flag=1;
+        }elseif($subject==1 && $grade==300 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif($subject==2 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif(in_array($subject,[3,4,5]) && $grade==300 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif($subject==5 && $grade==200 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif($subject==10){
+            $flag=1;
+        }
+        return $flag;
+    }
 
 }

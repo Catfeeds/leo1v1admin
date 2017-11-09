@@ -82,7 +82,7 @@ $(function(){
 
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
-        } );
+        });
     });
 
 

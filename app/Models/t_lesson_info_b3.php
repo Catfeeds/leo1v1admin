@@ -1781,4 +1781,28 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_tea_info_by_stu_phone($phone){
+        $start_time = time()-90*86400;
+        $end_time = time();
+        $where_arr = [
+            //  ["l.lesson_start>%u",$start_time,0],
+            // ["l.lesson_start<%u",$end_time,0],
+            ["s.phone='%s'",$phone,0],
+            "l.lesson_type=2",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2"
+        ];
+        $sql = $this->gen_sql_new("select t.realname,t.phone "
+                                  ." from %s l left join %s s on l.userid = s.userid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s order by lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+  
+    }
 }

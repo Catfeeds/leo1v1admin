@@ -95,11 +95,4 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         return $this->main_get_value($sql);
     }
 
-    public function set_feedback( $teacherid, $lessonid, $feedback_type, $lesson_count, $tea_reason, $add_time){
-        $sql = $this->gen_sql_new( "insert into %s (teacherid ,lessonid, feedback_type, lesson_count ,tea_reason, add_time)".
-                                   " VALUES (%d, %d, %d, %d, '%s', %d) ",
-                                   self::DB_TABLE_NAME, $teacherid, $lessonid, $feedback_type, $lesson_count, $tea_reason, $add_time);
-        return $this->main_update($sql);
-    }
-
 }
