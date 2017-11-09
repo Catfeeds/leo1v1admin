@@ -255,7 +255,13 @@ class teacher_feedback extends Controller
      * @param int lesson_count  补录课时数(暂时无用)
      * @param int tea_reason    问题详情
      */
-    public function add_teacher_feedback($teacherid,$lessonid,$feedback_type,$lesson_count,$tea_reason){
+    public function add_teacher_feedback(){
+        $teacherid     = $this->get_login_teacher();
+        $lessonid      = $this->get_in_int_val("lessonid");
+        $feedback_type = $this->get_in_int_val("feedback_type");
+        $lesson_count  = $this->get_in_int_val("lesson_count");
+        $tea_reason    = $this->get_in_str_val("tea_reason");
+
         if(in_array($feedback_type,[E\Efeedback_type::V_101,E\Efeedback_type::V_102])){
             $lesson_count *= 100;
         }else{

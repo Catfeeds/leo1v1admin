@@ -130,13 +130,13 @@ $(function(){
     $(".opt_feedback").on("click",function(){
         var data = $(this).get_opt_data();
         var id_feedback_type = $("<select/>");
-        var id_feedback_info = $("<textarea/>");
+        var id_tea_reason = $("<textarea/>");
 
         Enum_map.append_option_list("feedback_type",id_feedback_type,false,[101,102,104,105,201,202,203,204,205,206]);
 
         var arr = [
             ["申诉项目",id_feedback_type],
-            ["问题详情",id_feedback_info],
+            ["问题详情",id_tea_reason],
         ];
 
         $.tea_show_key_value_table("添加申诉",arr,{
@@ -146,7 +146,7 @@ $(function(){
                 $.do_ajax("/teacher_feedback/add_teacher_feedback",{
                     "lessonid"      : data.lessonid,
                     "feedback_type" : id_feedback_type.val(),
-                    "feedback_info" : id_feedback_info.val(),
+                    "tea_reason"    : id_tea_reason.val(),
                 },function(result){
                     BootstrapDialog.alert(result.info);
                 });
