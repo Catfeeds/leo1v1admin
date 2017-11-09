@@ -134,6 +134,7 @@
                                     <th class='text-cen' >状态</th>
                                     <th class='text-cen' >扣款</th>
                                     <th class='text-cen' >到账金额</th>
+                                    <th class='text-cen' >操作</th>
                                 </tr>
                             </thead>
                             @foreach($money_list as $list_key=>$list_val)
@@ -164,6 +165,9 @@
                                                         <td>{{$v['status_info']}}</td>
                                                         <td>{{$v['cost']}}</td>
                                                         <td>{{$v['money']}}</td>
+                                                        <td>
+                                                            <a class="fa-headphones opt-test-room" title="设置试听"></a>
+                                                        </td>
                                                     </tr>
                                                 @endif
                                             @endforeach

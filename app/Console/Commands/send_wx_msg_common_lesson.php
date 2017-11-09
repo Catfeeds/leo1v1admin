@@ -142,8 +142,7 @@ class send_wx_msg_common_lesson extends Command
                     $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
                     $this->send_wx_msg_ass($item,4,$data_ass);
 
-                    // $data_par = $this->get_data($item,1,4,'','');
-
+                    $data_tea = $this->get_data($item,2,4,'','');
                     // $this->send_wx_msg_tea($item,2,$data_ass);
                 }
 
