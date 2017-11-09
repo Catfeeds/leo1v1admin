@@ -662,8 +662,8 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "s.is_test_user=0"
         ] ;
         $sql = $this->gen_sql_new("select distinct r.userid "
-                                  ."from %s r left join %s s on r.userid=s.userid"
-                                  ."where %s",
+                                  ." from %s r left join %s s on r.userid=s.userid"
+                                  ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr);
@@ -672,6 +672,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         foreach($arr as $val){
             $list[]=$val["userid"];
         }
+        return $list;
     }
 
 

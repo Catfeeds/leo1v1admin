@@ -313,21 +313,29 @@ class user extends TeaWxController
         $tea_reason    = $this->get_in_str_val("tea_reason");
 
         if($feedback_type == 101 || $feedback_type == 102){
-            $lesson_count = 100.0*$lesson_count;
+            $lesson_count = 100*$lesson_count;
         }else{
             $lesson_count = 0;
         }
 
         $add_time = time(NULL);
-
         $ret_flag = $this->t_teacher_feedback_list->get_feedback_count($teacherid, $lessonid, $feedback_type);
         if($ret_flag == 0){
-            $ret_affect = $this->t_teacher_feedback_list->set_feedback( $teacherid, $lessonid, $feedback_type, $lesson_count, $tea_reason, $add_time);
+            $ret_affect = $this->t_teacher_feedback_list->row_insert([
+                "teacherid"     => $teacherid,
+                "lessonid"      => $lessonid,
+                "feedback_type" => $feedback_type,
+                "lesson_count"  => $lesson_count,
+                "tea_reason"    => $tea_reason,
+                "add_time"      => $add_time,
+            ]);
             if($ret_affect){
                 return $this->output_succ(['data'=>$ret_affect]);
+            }else{
+                return $this->output_err("添加失败，请重试！");
             }
         }else{
-            return $this->output_err("回馈条目已存在!");
+            return $this->output_err("申诉条目已存在!");
         }
     }
 

@@ -124,7 +124,9 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_ass($item,2,$data_ass);
 
                     //向助教主管发送
+                    $template_id_parent = '';
                     $ass_leader_openid = $task->t_manager_info->get_ass_leader_opneid($item['uid']);
+                    $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_ass ,'');
 
                 }
 
