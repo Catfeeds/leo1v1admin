@@ -4165,5 +4165,23 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
    
+    //确认老师例子是否入库(分配招师专员)
+    public function check_lecture_appointment_assign_flag($grade,$subject,$teacher_type){
+        $flag=0;
+        if(in_array($subject,[1,3]) && in_array($grade,[100,200])){
+            $flag=1;
+        }elseif($subject==1 && $grade==300 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif($subject==2 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif(in_array($subject,[3,4,5]) && $grade==300 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif($subject==5 && $grade==200 && in_array($teacher_type,[5,6])){
+            $flag=1;
+        }elseif($subject==10){
+            $flag=1;
+        }
+        return $flag;
+    }
 
 }

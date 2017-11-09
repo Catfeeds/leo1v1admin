@@ -1037,15 +1037,31 @@ class common_new extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
 
         /**
-         // bW8mP8cCxszBrM2qLBIlj0MOsGgTGwQtWbvoGYhhGtw
+           //课程反馈通知
+           // bW8mP8cCxszBrM2qLBIlj0MOsGgTGwQtWbvoGYhhGtw
            {{first.DATA}}
            课程名称：{{keyword1.DATA}}
            课程时间：{{keyword2.DATA}}
            学生姓名：{{keyword3.DATA}}
            {{remark.DATA}}
+           xx:xx的xx课xx老师已经提交了课程评价
+           课程名称：{课程名称}
+           课程时间：xx-xx xx:xx~xx:xx
+           学生姓名：xxx
+           可登录学生端查看详情，谢谢！
          */
 
-        $teacher_info = $this->t_teacher_info->get_teacher_openid($lessonid);
+        $template_id_teacher = 'bW8mP8cCxszBrM2qLBIlj0MOsGgTGwQtWbvoGYhhGtw';
+        $teacher_info = $this->t_teacher_info->get_info_to_teacher($lessonid);
+        $subject_str = E\Esubject::get_desc($teacher_info['subject']);
+        $data = [
+            "first" => date('m月d日 H:i:s',$teacher_info['lesson_start'])."的".$subject_str."课".$teacher_info['tea_nick']."老师已提交了课程评价",
+            "keyword1" => $subject_str,
+            "keyword2" => date('m月d日 H:i')." ~ ".date('H:i'),
+            "keyword3" => $teacher_info['stu_nick'],
+            "remark"   => '可登录学生端查看详情，谢谢！',
+        ];
+        $ret_teacher = \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id_teacher, $data,'');
     }
 
 
