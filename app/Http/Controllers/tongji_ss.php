@@ -8115,10 +8115,16 @@ class tongji_ss extends Controller
         // ]);
 
        
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-11-01");
-        $grade = $this->get_in_int_val("grade",1);
-        $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
+        // $start_time = strtotime("2017-10-01");
+        // $end_time = strtotime("2017-11-01");
+        // $grade = $this->get_in_int_val("grade",1);
+        // $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
+        $list = $this->t_teacher_info->get_part_remarks(240314);
+        $arr= explode(",",$list);
+        $ret_info=[];
+        foreach($arr as  $val){
+            $ret_info[]=["phone"=>$val];
+        }
         // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
         // $list = $this->t_teacher_info->get_teacher_openid_list_new();
         //$list["list"][]=["teacherid"=>240314,"realname"=>"hahah","wx_openid"=>1111];
@@ -8142,7 +8148,7 @@ class tongji_ss extends Controller
 
        //  }
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list
+            "list"  =>$ret_info
         ]);
 
         // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));

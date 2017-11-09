@@ -3468,25 +3468,41 @@ class ss_deal extends Controller
                 if(empty($val[0]) || $k==0){
                     unset($arr[$k]);
                 }
-                // $val[-1] = strlen($val[1]);
-                if(strlen($val[1])==4){
-                    $val[1]="0".$val[1];
-                }
-                if(strlen($val[2])==4){
-                    $val[2]="0".$val[2];
-                }
 
             }
-
+            $str="";
             foreach($arr as $item){
-                $day = strtotime($item[0]);
-                $this->t_psychological_teacher_time_list->row_insert([
-                    "day"  =>$day,
-                    "start"=>$item[1],
-                    "end"  =>$item[2],
-                    "teacher_phone_list"=>$item[3]
-                ]);
+                $str .= $item[6].",";               
             }
+            $str = trim($str,",");
+            $this->t_teacher_info->field_update_list(240314,[
+                "part_remarks"=>$str 
+            ]);
+            // return;
+
+            // foreach($arr as $k=>&$val){
+            //     if(empty($val[0]) || $k==0){
+            //         unset($arr[$k]);
+            //     }
+            //     // $val[-1] = strlen($val[1]);
+            //     if(strlen($val[1])==4){
+            //         $val[1]="0".$val[1];
+            //     }
+            //     if(strlen($val[2])==4){
+            //         $val[2]="0".$val[2];
+            //     }
+
+            // }
+
+            // foreach($arr as $item){
+            //     $day = strtotime($item[0]);
+            //     $this->t_psychological_teacher_time_list->row_insert([
+            //         "day"  =>$day,
+            //         "start"=>$item[1],
+            //         "end"  =>$item[2],
+            //         "teacher_phone_list"=>$item[3]
+            //     ]);
+            // }
 
             // dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
