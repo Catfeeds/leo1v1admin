@@ -977,4 +977,39 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         return $this->main_update($sql);
     }
+
+    public function get_sign_count($start_time, $end_time,$group_by){
+        $where_arr = [
+            ["ss.add_time>=%u",$start_time,-1],
+            ["ss.add_time<%u",$end_time,-1],
+            "s.is_test_user=0",
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select count(ss.userid) as all_ss,l.teacherid,tl.require_adminid,tr.origin,"
+            ."count( distinct if(l.lesson_user_online_status=1 and l.lesson_del_flag=0,l.lessonid,0) ) as lesson_succ_count,"
+            ."count( distinct if(o.orderid>0,o.userid,0) ) as order_user_count"
+            ." from %s tl "
+            ." left join %s ss on ss.userid=tl.userid"
+            ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "
+            ." left join %s tss on tss.require_id=tr.require_id"
+            ." left join %s l on l.lessonid=tss.lessonid"
+            ." left join %s o on o.from_test_lesson_id=l.lessonid"
+            ." left join %s s on s.userid=tl.userid"
+            ." left join %s t on t.teacherid=l.teacherid and t.is_test_user=0"
+            ." where %s group by %s"
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            ,$where_arr
+            ,$group_by
+        );
+
+        return $this->main_get_list($sql);
+    }
 }
