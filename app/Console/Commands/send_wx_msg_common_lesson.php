@@ -179,7 +179,6 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_ass($item,4,$data_ass);
                     $this->send_wx_msg_par($item,2,$data_par);
                 }
-
             }
         }
 
