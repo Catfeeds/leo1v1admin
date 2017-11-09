@@ -148,17 +148,10 @@ $(function(){
                     "feedback_type" : id_feedback_type.val(),
                     "feedback_info" : id_feedback_info.val(),
                 },function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        BootstrapDialog.alert(result.info);
-                    }
+                    BootstrapDialog.alert(result.info);
                 });
-
             }
         });
-
-
     });
 
 
