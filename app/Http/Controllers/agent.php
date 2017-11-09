@@ -465,16 +465,15 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_tq_call_info->get_call_info_row_new(831,'13771764892','1510196017');
-        if($ret){
-            dd('a');
-        }else{
-            dd('b');
+        $item=$this->t_seller_student_new->get_user_info_for_free($userid=396035);
+        $phone=$item["phone"];
+        //查询拨打记录
+        if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5){
+            $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
+            if(!$ret){
+                $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+            }
         }
-        
-        $start_time = time();
-        $end_time = time();
-        $this->t_test_lesson_subject_require->get_suc_test_lesson_by_adminid($start_time,$end_time,$adminid);
     }
 
     //处理等级头像
