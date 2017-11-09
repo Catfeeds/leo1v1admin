@@ -375,18 +375,19 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
-        $diff=($lesson_end-$lesson_start)/60;
-        if(empty($lesson_count)){
-            if ($diff<=40) {
-                $lesson_count=100;
-            } else if ( $diff <= 60) {
-                $lesson_count=150;
-            } else if ( $diff <=90 ) {
-                $lesson_count=200;
-            }else{
-                $lesson_count= ceil($diff/40)*100 ;
-            }
-        }
+        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+        // $diff=($lesson_end-$lesson_start)/60;
+        // if(empty($lesson_count)){
+        //     if ($diff<=40) {
+        //         $lesson_count=100;
+        //     } else if ( $diff <= 60) {
+        //         $lesson_count=150;
+        //     } else if ( $diff <=90 ) {
+        //         $lesson_count=200;
+        //     }else{
+        //         $lesson_count= ceil($diff/40)*100 ;
+        //     }
+        // }
 
 
         if($opt_type=="add"){
