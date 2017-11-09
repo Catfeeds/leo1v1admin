@@ -1335,7 +1335,7 @@ class Utils  {
     }
 
 
-    
+
 
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
@@ -1900,7 +1900,7 @@ class Utils  {
         $mark = uniqid();
 
         $qr_url  = "/tmp/yxyx_wx_".$phone.$mark."_qr.png";
-        $old_headimgurl = $agent['headimgurl'];
+        $old_headimgurl = @$agent['headimgurl'];
         self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
 
         //请求微信头像
@@ -1915,58 +1915,69 @@ class Utils  {
         $output = curl_exec($ch);
         curl_close($ch);
         $data = json_decode($output,true);
-        $headimgurl = $data['headimgurl'];
+        $headimgurl = @$data['headimgurl'];
 
-        //下载头像，制作图片
-        $datapath = "/tmp/yxyx_wx_".$phone.$mark."_headimg.jpg";
-        $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
-        shell_exec($wgetshell);
+        $agent_qr_url = "/tmp/yxyx_wx_member_".$phone.".png";
+        $is_exists = file_exists($agent_qr_url);
+        if( $old_headimgurl !== $headimgurl && !$is_exists ){
 
-        $image_5 = imagecreatefromjpeg($datapath);
+            $cmd_rm = "rm ".$agent_qr_url;
+            self::exec_cmd($cmd_rm);
 
-        $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
-        $color = imagecolorallocate($image_6, 255, 255, 255);
-        imagefill($image_6, 0, 0, $color);
-        imageColorTransparent($image_6, $color);
-        imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+            //下载头像，制作图片
+            $datapath = "/tmp/yxyx_wx_".$phone.$mark."_headimg.jpg";
+            $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
+            shell_exec($wgetshell);
 
-        $ext = pathinfo($bg_url);
-        if ($ext['extension'] == 'jpg') {
-            $image_1 = imagecreatefromjpeg($bg_url);     //背景图
-        }else{
-            $image_1 = imagecreatefrompng($bg_url);     //背景图
-        }
-        $image_2 = imagecreatefrompng($qr_url);     //二维码
-        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-        $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
-        imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-        imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
-        imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
+            $image_5 = imagecreatefromjpeg($datapath);
 
-        $r = 80; //圆半径
-        for ($x = 0; $x < 160; $x++) {
-            for ($y = 0; $y < 160; $y++) {
-                $rgbColor = imagecolorat($image_6, $x, $y);
-                $a = $x-$r;
-                $b = $y-$r;
-                if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
-                    $n_x = $x+295;
-                    $n_y = $y+28;
-                    imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+            $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
+            $color = imagecolorallocate($image_6, 255, 255, 255);
+            imagefill($image_6, 0, 0, $color);
+            imageColorTransparent($image_6, $color);
+            imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+
+            $ext = pathinfo($bg_url);
+            if ($ext['extension'] == 'jpg') {
+                $image_1 = imagecreatefromjpeg($bg_url);     //背景图
+            }else{
+                $image_1 = imagecreatefrompng($bg_url);     //背景图
+            }
+            $image_2 = imagecreatefrompng($qr_url);     //二维码
+            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
+            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
+            imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
+
+            $r = 80; //圆半径
+            for ($x = 0; $x < 160; $x++) {
+                for ($y = 0; $y < 160; $y++) {
+                    $rgbColor = imagecolorat($image_6, $x, $y);
+                    $a = $x-$r;
+                    $b = $y-$r;
+                    if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
+                        $n_x = $x+295;
+                        $n_y = $y+28;
+                        imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
+                    }
                 }
             }
+
+            imagepng($image_3,$agent_qr_url);
+
+            imagedestroy($image_1);
+            imagedestroy($image_2);
+            imagedestroy($image_3);
+            imagedestroy($image_4);
+            imagedestroy($image_5);
+            imagedestroy($image_6);
+
+            $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
+            self::exec_cmd($cmd_rm);
+
+
         }
-
-        $agent_qr_url = "/tmp/yxyx_wx_".$phone.$mark."_member.png";
-        imagepng($image_3,$agent_qr_url);
-
-        imagedestroy($image_1);
-        imagedestroy($image_2);
-        imagedestroy($image_3);
-        imagedestroy($image_4);
-        imagedestroy($image_5);
-        imagedestroy($image_6);
-
         $type = 'image';
         $img_Long = file_get_contents($agent_qr_url);
         file_put_contents( public_path().'/wximg/'.$mark.'.png',$img_Long );
@@ -1979,9 +1990,6 @@ class Utils  {
         $mediaId = $mediaId['media_id'];
         unlink($img_url);
         $t_agent->set_add_type_2( $id );
-
-        $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
-        self::exec_cmd($cmd_rm);
 
         $txt_arr = [
             'touser'   => $request['fromusername'] ,
