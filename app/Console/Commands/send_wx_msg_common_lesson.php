@@ -136,7 +136,7 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_ass($item,2,$data_ass);
 
                     //向助教主管发送
-                    $data_leader = $this->get_data($item,3,7,'',$item['stu_nick']);
+                    $data_leader = $this->get_data($item,3,7,$item['teacher_nick'],"");
                     $template_id_parent = '9mxyc2khg9bsivl16cjgxfvsi35hiqffpslsjfyckru';
                     $ass_leader_openid = $task->t_manager_info->get_ass_leader_opneid($item['uid']);
                     $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_leader ,'');
