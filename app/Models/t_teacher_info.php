@@ -4624,6 +4624,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_openid($lessonid){
-        
+        $sql = $this->gen_sql_new("  select wx_openid from %s t "
+                                  ." left join %s l on l.teacherid=t.teacherid"
+                                  ." where l.lessonid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$lessonid
+        );
+        return $this->main_get_value($sql);
     }
 }

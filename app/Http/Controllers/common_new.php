@@ -1045,7 +1045,9 @@ class common_new extends Controller
            {{remark.DATA}}
          */
 
-        $teacher_info = $this->t_teacher_info->get_teacher_openid($lessonid);
+        $tea_openid = $this->t_teacher_info->get_teacher_openid($lessonid);
+
+
     }
 
 
