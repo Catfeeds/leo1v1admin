@@ -169,15 +169,16 @@
                                 <tr>
                                     <td><strong><font class="font_thead" >排名</font></strong></td>
                                     <td><strong><font class="font_thead" >销售人</font></strong> </td>
+                                    <td><strong><font class="font_thead" >公海获取例子数</font></strong> </td>
                                     <td><strong><font class="font_thead" >签单数</font></strong> </td>
-                                    <td><strong><font class="font_thead" >总金额</font></strong> </td>
+                                    <td><strong><font class="font_thead" >签单金额</font></strong> </td>
                                 </tr>
                             </thead>
                             <tbody id="id_person_body">
                                 @foreach ( $table_data_list as $var )
                                     @if($var['index'] == 2 && count($table_data_list)>2)
                                         <tr>
-                                            <td colspan="4">
+                                            <td colspan="5">
                                                 <div class="row">
                                                     <div class="col-xs-4" style="width:110px:height:240px;top:60px;">
                                                         <p>
@@ -186,6 +187,7 @@
                                                         </p>
                                                         <span style="color:#9EB0C2;">
                                                             <p> {{$var["sys_operator"]}} </p>
+                                                            <p> {{@$var["stu_count"]}} </p>
                                                             <p>{{$var["all_count"]}} </p>
                                                             <p>{{$var["all_price"]}} </p>
                                                         </span>
@@ -197,9 +199,8 @@
                                                             <img src="{{$var["level_face_pic"]}}" width="100%"  alt="" />
                                                         </p>
                                                         <span style="color:#F6A623;">
-                                                            <p>
-                                                                {{$var["sys_operator"]}}
-                                                            </p>
+                                                            <p> {{$var["sys_operator"]}} </p>
+                                                            <p> {{@$var["stu_count"]}} </p>
                                                             <p>{{$var["all_count"]}} </p>
                                                             <p>{{$var["all_price"]}} </p>
                                                         </span>
@@ -212,6 +213,7 @@
                                                         </p>
                                                         <span style="color:#CB7F31;">
                                                             <p> {{$var["sys_operator"]}} </p>
+                                                            <p> {{@$var["stu_count"]}} </p>
                                                             <p>{{$var["all_count"]}} </p>
                                                             <p>{{$var["all_price"]}} </p>
                                                         </span>
@@ -228,6 +230,7 @@
                                             <img src="{{$var["face_pic"]}}" width="30px" height="30px" alt="" />
                                             <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
+                                        <td><font style="color:#000000;">{{@$var["stu_count"]}}</font> </td>
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
                                         <td>
                                             <font style="color:#000000;">{{$var["all_price"]}}</font>
@@ -303,7 +306,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <strong><font class="font_thead" >总金额</font></strong>
+                                        <strong><font class="font_thead" >签约金额</font></strong>
                                         <a href="javascript:;" id="id_order_by_all_price">
                                             <img style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
                                         </a>
