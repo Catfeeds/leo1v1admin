@@ -73,6 +73,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         curl_close($ch);
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
+        \App\Helper\Utils::logger("yxyx_sss_data:".$data);
 
         //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
