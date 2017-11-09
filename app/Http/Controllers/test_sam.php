@@ -215,6 +215,7 @@ class test_sam  extends Controller
                     foreach ($ret_info as $key => $value) {
                         echo "<tr>";
                         echo "<td width=30px>".$value['date']."</td>";
+                        echo "<td width=30px>".$value['userid']."</td>";
                         echo "<td width=30px>".$value['grade_str']."</td>";
                         echo "<td width=30px>".$value['subject_str']."</td>";
                         echo "<td width=200px>".$value['stu_request_test_lesson_demand']."</td>";
