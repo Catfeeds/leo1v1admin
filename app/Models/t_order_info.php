@@ -939,7 +939,41 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
+        $sql = $this->gen_sql_new("select sys_operator,uid adminid,sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
+                                  ." m.level_face_pic, "
+                                  ." g.level_icon "
+                                  ." from %s o "
+                                  ."left join %s s on o.userid = s.userid "
+                                  ."left join %s n on n.userid = s.userid "
+                                  ."left join %s m on o.sys_operator = m.account "
+                                  ."left join %s g on g.seller_level = m.seller_level "
+                                  ." where %s      group by sys_operator order by all_price desc $limit_info ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_seller_level_goal::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page ($sql);
+    }
+
+    public function get_1v1_order_seller_list_new( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
+        $where_arr = [
+            "is_test_user=0",
+            "contract_type =0 ",
+            "m.account_role=2",
+            "sys_operator<>'jim'",
+            "contract_status <> 0",
+            ['n.hand_get_adminid=%u',E\Ehand_get_adminid::V_5],
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"n.tmk_student_status",$tmk_student_status);
+        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
+        $this->where_arr_add_int_or_idlist($where_arr, "o.grade",$grade_list);
+        $this->where_arr_add_int_or_idlist($where_arr, "s.origin_level",$origin_level);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new("select sys_operator,uid adminid,sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
                                   ." m.level_face_pic, "
                                   ." g.level_icon "
                                   ." from %s o "
@@ -1047,6 +1081,47 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ."  group by g.groupid order by %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_group_month_time::DB_TABLE_NAME,
+                                  $start_first,
+                                  $where_arr,
+                                  $order_by_str
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_1v1_order_seller_list_group_new( $start_time,$end_time,$groupid=-1,$start_first,$order_by_str) {
+        if(!$order_by_str){
+            // $order_by_str = 'sum(price) desc';
+            $order_by_str = 'if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc';
+        }
+        $where_arr = [
+            ["order_time>=%u" , $start_time, -1],
+            ["order_time<=%u" , $end_time, -1],
+            ["is_test_user=%u" , 0, -1],
+            ["g.groupid=%u" , $groupid, -1],
+            ["n.hand_get_adminid=%u" ,E\Ehand_get_adminid::V_5],
+            "contract_type in(0,3)",
+            "contract_status in(1,2)",
+            "m.account_role=2",
+            // "g.master_adminid not in(364,416)",
+        ];
+        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
+                                  ." if(gm.month_money,gm.month_money,0) month_money "
+                                  ." from %s o "
+                                  ." left join %s s on o.userid = s.userid "
+                                  ." left join %s n on o.userid = n.userid "
+                                  ." left join %s m on o.sys_operator =m.account "
+                                  ." left join %s gu on m.uid=gu.adminid "
+                                  ." left join %s g on gu.groupid =g.groupid "
+                                  ." left join %s gm on gm.groupid =g.groupid and gm.month = '%s' "
+                                  ." where %s "
+                                  ."  group by g.groupid order by %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_admin_group_user::DB_TABLE_NAME,
                                   t_admin_group_name::DB_TABLE_NAME,

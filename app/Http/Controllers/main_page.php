@@ -533,12 +533,8 @@ class main_page extends Controller
             $seller_top_flag=0;
             $top_num =0;
         }
-
-
-
         //组长&主管
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
-
         $seller_account = $this->t_manager_info->get_account($test_seller_id);
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
@@ -550,9 +546,6 @@ class main_page extends Controller
         $group_type = count($require_adminid_arr)>1?1:0;
 
         $adminid = in_array($test_seller_id,$require_adminid_arr)?$test_seller_id:$adminid;
-        /* if($adminid==349){
-           $adminid=397;
-           }*/
         $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
         $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
         if($adminid == $get_self_adminid){
@@ -560,13 +553,9 @@ class main_page extends Controller
         }else{
             $is_group_leader_flag = 0;
         }
-        $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
-                                                              $start_time,$end_time );
-
-        $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
-
+        $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),$start_time,$end_time );
+        $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time,$end_time);
         $groupid =$this->get_in_int_val("groupid",-1);
-
         if($groupid == -1) {
             $groupid=$this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
             $group_name="组内";
@@ -574,7 +563,7 @@ class main_page extends Controller
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group_new($start_time,$end_time,-1,$start_first,$order_by_str);
         foreach($group_list as &$item){
             $item['all_price'] = $item['all_price']/100;
             $all_price = $item['all_price'];
