@@ -53,7 +53,9 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
 
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
-        \App\Helper\Utils::logger("yxyx_sss_aaa:".$this->wx_openid);
+        \App\Helper\Utils::logger("erweima_END");
+        \App\Helper\Utils::logger("get_wx_head_start");
+        \App\Helper\Utils::logger("yxyx_sss:".$this->wx_openid);
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
