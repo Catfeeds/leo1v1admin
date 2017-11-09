@@ -13,7 +13,7 @@ class send_wx_msg_common_lesson extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:send_wx_msg_common_lesson';
 
     /**
      * The console command description.
