@@ -4186,7 +4186,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //根据课程开始以及结束时间来计算课时
     public function get_lesson_count_by_lesson_time($start_time,$end_time){
-        
+        $diff = $end_time-$start_time;
+        if($diff == 5400){
+            $lesson_count = 200;
+        }else{
+            $lesson_count = round($diff/2400,2)*100;
+        }
+        return $lesson_count;
     }
 
 }
