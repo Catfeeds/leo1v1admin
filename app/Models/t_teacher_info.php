@@ -942,7 +942,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
         ];
-        $sql = $this->gen_sql(
+        $sql = $this->gen_sql_new(
             "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,"
             ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
             ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"

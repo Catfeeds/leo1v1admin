@@ -133,14 +133,15 @@ $(function(){
         var id_feedback_info = $("<input/>");
 
         Enum_map.append_option_list("feedback_type",id_feedback_type);
+
         var arr = [
             ["申诉项目",id_feedback_type],
             ["问题详情",id_feedback_info],
         ];
 
-        $.show_key_value_table("添加申诉",arr,{
+        $.tea_show_key_value_table("添加申诉",arr,{
             label    : "确认",
-            cssClass : "btn-warning",
+            cssClass : "btn-info col-xs-2 margin-lr-20",
             action   : function(dialog) {
                 $.do_ajax("",{
                     "":

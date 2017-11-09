@@ -76,10 +76,9 @@ $(function(){
     $('.opt-edit').on('click', function () {
         var title_type = $(this).attr('data-name');
         edit_info(title_type);
-
     });
-    var edit_info = function(title_type){
 
+    var edit_info = function(title_type){
         var bank_select = '<select name="bank_type" class="form-control">'
             +' <option>中国建设银行</option>'
             +' <option>中国工商银行</option>'
@@ -174,8 +173,8 @@ $(function(){
                 [required+"卡号：",       id_bankcard],
                 [required+"预留手机号：", id_bank_phone],
             ];
-
         }
+
         $.tea_show_key_value_table(modal_title, arr,{
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
