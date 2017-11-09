@@ -135,15 +135,15 @@ class activity_base {
                 throw  new \Exception("有修改数据，却没有设置desc_list　" )  ;
             }else {
                 $last_item=$desc_list[count($desc_list) -1 ];
-                if ( !$last_item["succ_flag"]  ) { //
-                    throw  new \Exception(" desc_list item succ_flag err,有修改数据， succ_flag 却为false " )  ;
+                if ( $last_item["succ_flag"] <>1 ) { //
+                    throw  new \Exception( "  desc_list item succ_flag err,有修改数据， succ_flag 却为false  ". json_encode($last_item) )  ;
                 }
                 return true;
             }
         } else {
             if ( count($desc_list ) - count($old_desc_list )  ==1 ) {
                 $last_item=$desc_list[count($desc_list) -1 ];
-                if ( $last_item["succ_flag"]  ) { //
+                if ( $last_item["succ_flag"] ==1  ) { //
                     throw  new \Exception(" desc_list item succ_flag err,无修改数据， succ_flag 却为 true" )  ;
                 }
                 return false;

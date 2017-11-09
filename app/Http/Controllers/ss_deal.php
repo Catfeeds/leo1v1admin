@@ -1991,6 +1991,7 @@ class ss_deal extends Controller
         $require_id =$this->get_in_require_id();
         $userid= $this->t_test_lesson_subject_require->get_userid($require_id);
         $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
+        $disable_activity_list= $this->get_in_int_list( "disable_activity_list" );
 
         if (!$userid) {
             $userid= $this->get_in_userid();
@@ -2012,6 +2013,7 @@ class ss_deal extends Controller
                 "from_test_lesson_id"=> $from_test_lesson_id ,
                 "period_flag" =>$period_flag,
                 "userid" => $userid,
+                "disable_activity_list" => $disable_activity_list
             ]
             );
         return $this->output_succ(["data"=>$ret]);
@@ -2080,6 +2082,7 @@ class ss_deal extends Controller
         $contract_from_type = $this->get_in_e_contract_from_type();
         $order_partition_flag = $this->get_in_int_val("order_partition_flag",0);
         $period_flag = $this->get_in_int_val("period_flag",0);
+        $disable_activity_list= $this->get_in_int_list( "disable_activity_list" );
         // $child_order_info = $this->get_in_str_val("child_order_info");
 
         $sys_operator        = $this->get_account();
@@ -2122,6 +2125,7 @@ class ss_deal extends Controller
             "period_flag"=>$period_flag,
             "userid"=>$userid,
             "contract_type"=>$contract_type,
+            "disable_activity_list" =>$disable_activity_list,
         ] );
         if ( $period_flag != $price_ret["can_period_flag"] ) {
             return $this->output_err("课时数过少不支持分期,请不要启用分期");
