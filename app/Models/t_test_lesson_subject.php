@@ -998,9 +998,9 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         }
 
         $sql = $this->gen_sql_new(
-            "select count(ss.userid) as all_ss,l.teacherid,tl.require_adminid,tr.origin,"
+            "select count(ss.userid) as stu_count,l.teacherid,tl.require_adminid,tr.origin,t.nick,"
             ."count( distinct if(l.lesson_user_online_status=1 and l.lesson_del_flag=0,l.lessonid,0) )-1 as lesson_succ_count,"
-            ."count( distinct if(o.orderid>0,o.userid,0) )-1 as order_user_count"
+            ."count( distinct if(o.orderid>0,o.userid,0) )-1 as order_count"
             ." from %s tl "
             ." left join %s ss on ss.userid=tl.userid"
             ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "
