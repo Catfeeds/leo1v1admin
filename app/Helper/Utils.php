@@ -598,7 +598,10 @@ class Utils  {
 
         $ret_info['list'] = $list;
         $page_info['total_num'] = count($list)/$page_info['page_count']?:1000;
+        $page_info['per_page_count'] = $page_info['page_count'];
         $ret_info['page_info'] = $page_info;
+        $ret_info['total_num'] = $page_info['total_num'];
+        $ret_info['per_page_count'] = $page_info['page_count'];
         return $ret_info;
     }
 
