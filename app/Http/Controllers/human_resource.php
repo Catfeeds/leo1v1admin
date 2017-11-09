@@ -3917,6 +3917,13 @@ class human_resource extends Controller
 
         $this->t_lesson_info->switch_tongji_database();
 
+
+        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+
+        dd($success_test_lesson_list_total);
+
+
+
         $math_order = $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $math_success = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
@@ -3933,9 +3940,6 @@ class human_resource extends Controller
 
 
 
-        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-
-        dd($success_test_lesson_list_total);
 
         $test_list = $this->t_lesson_info_b3->get_test_list_for_month($start_time,$end_time);
 
