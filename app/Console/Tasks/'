@@ -398,12 +398,10 @@ class TeacherTask extends TaskController
                 if($openid){
                     // $val['reason'] = "1对1未及时评价";
                     // 扣费通知不再老师上课时间发送
-                    $check_is_doing = $this->t_lesson_info_b3->check_is_doing($val['teacherid']);
-                    if($check_is_doing != 1){
-                        $val['reason'] = "常规课未及时评价";
-                        $this->teacher_wx_data($openid,$val,$type);
-                        $wx_rate_late_flag=1;
-                    }
+                    $check_is_doing = $this->t_lesson_info_b3->check_is_doing();
+                    $val['reason'] = "常规课未及时评价";
+                    $this->teacher_wx_data($openid,$val,$type);
+                    $wx_rate_late_flag=1;
                 }else{
                     $wx_rate_late_flag=2;
                 }
