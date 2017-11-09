@@ -172,7 +172,7 @@ class user_manage extends Controller
         }
         $adminid = $this->get_account_id();
         if($adminid==349){
-            $assistantid = 240321;
+            $assistantid = 146764;
         }
         $this->set_in_value("assistantid",$assistantid );
         $this->set_in_value("revisit_warn_flag",1 );
