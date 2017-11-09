@@ -66,7 +66,6 @@ class send_wx_msg_common_lesson extends Command
             \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
         }
 
-
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
         // 获取常规课 课前30分钟
@@ -105,8 +104,6 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }
-
-
 
         // 常规课超时15分钟
         $lesson_begin_five = $now-15*60;
