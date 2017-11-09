@@ -109,6 +109,34 @@ class send_wx_msg_common_lesson extends Command
         }
 
 
+
+        // 常规课超时15分钟
+        $lesson_begin_five = $now-15*60;
+        $lesson_end_five   = $now-14*60;
+        $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
+
+        if($common_lesson_list_five){
+            foreach($common_lesson_list_five as $item){
+                $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
+                $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
+                if($opt_time_stu>=$now){ // 判断学生是否超时 [15分钟]
+                    $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
+                    $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
+                    $this->send_wx_msg_par($item,2,$data_par);
+                    $this->send_wx_msg_ass($item,2,$data_ass);
+                }
+
+                if($opt_time_tea>=$now){ // 判断老师是否超时  [15分钟]
+                    $data_tea = $this->get_data($item,2,2,$item['teacher_nick'],'');
+                    $data_ass = $this->get_data($item,3,2,$item['teacher_nick'],'');
+                    $this->send_wx_msg_tea($item,2,$data_tea);
+                    $this->send_wx_msg_ass($item,2,$data_ass);
+                }
+            }
+        }
+
+
+
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
@@ -172,14 +200,7 @@ class send_wx_msg_common_lesson extends Command
                     "keyword4" => '" 助教电话: '.$item['ass_phone'].'"',
                     "remark"   => "可登录学生端提前预习讲义，做好课前准备工作，保持网络畅通，开课前五分钟可提前进入课堂，祝学习愉快！"
                 ];
-            }elseif($type == 2){ // 超时5分钟
-                $data = [
-                    "first"    => "家长您好，请提醒".$item['stu_nick']."同学尽快进入课堂.",
-                    "keyword1" => "课程提醒",
-                    "keyword2" =>  date("H:i",$item['lesson_start'])."$subject_str 课程已开始5分钟，".$item['stu_nick']." 同学还未进入课堂,请尽快进入课堂，如有紧急情况请尽快联系助教老师.",
-                    "keyword3" => date('Y-m-d H:i:s'),
-                    "remark"   => ""
-                ];
+
 
             }elseif($type == 4){ // 旷课通知
                 $data = [
@@ -391,4 +412,3 @@ class send_wx_msg_common_lesson extends Command
 //         }
 //     }
 // }
-

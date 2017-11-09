@@ -2007,6 +2007,7 @@ class teacher_info extends Controller
             $add_time  = date("Y-m-d H:i",$r_val['add_time']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["reward_money"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
 
             $reward_money = $r_val['money']/100;
             $reward_arr = [
@@ -2041,7 +2042,7 @@ class teacher_info extends Controller
         foreach($list as $m_val){
             $money_list[] = $m_val;
         }
-
+        dd($list);
         return $this->pageView(__METHOD__,[],[
             "money_list"        => $money_list,
             "teacher_level_str" => $teacher_level_str
