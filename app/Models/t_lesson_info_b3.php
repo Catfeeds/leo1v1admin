@@ -1807,12 +1807,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_late_lesson_info($late_time){
-        $now = time();
+        $late_time_begin = $late_time-60;
         $where_arr = [
             "l.lesson_del_flag = 0",
             "l.tea_rate_time=0",
             "l.lesson_type in (0,1,3)",
-            "l.lesson_end < $late_time"
+            "l.lesson_end < $late_time",
+            "l.lesson_end >= $late_time_begin",
         ];
 
         $sql = $this->gen_sql_new("  select t.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick, t.nick as tea_nick from %s l"
@@ -1899,7 +1900,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid) success_lesson"
+        $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson"
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
@@ -1917,7 +1918,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_value($sql);
 
     }
 
@@ -2079,8 +2080,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
-                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
                                   ." left join %s tq on tq.require_id = tss.require_id"
@@ -2104,7 +2104,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_value($sql);
 
     }
 

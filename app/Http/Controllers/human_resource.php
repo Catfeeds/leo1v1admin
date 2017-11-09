@@ -3917,14 +3917,40 @@ class human_resource extends Controller
 
         $this->t_lesson_info->switch_tongji_database();
 
-        $math_order = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $math_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $begin_month = 3;
+        $now = date('n');
 
-        $china_order = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $china_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $list = [];
+        $start_time  = strtotime(date('Y-m-d'));
 
-        $english_order = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $english_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        dd($start_time);
+
+        $month_list = [
+            "2017-3-1",
+            "2017-4-1",
+            "2017-5-1",
+            "2017-6-1",
+            "2017-7-1",
+            "2017-8-1",
+            "2017-9-1",
+            "2017-9-1",
+        ];
+
+        for($begin_month; $begin_month<=$now;$begin_month++){
+
+            $start_time  = strtotime(date($begin_month));
+
+            $list['math_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+            $list['math_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+
+            $list['china_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+            $list['china_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+
+            $list['english_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+            $list['english_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+ 
+        }
+
 
         $list = [
             "china_rate" => ''
@@ -3935,7 +3961,7 @@ class human_resource extends Controller
         $test_list = $this->t_lesson_info_b3->get_test_list_for_month($start_time,$end_time);
 
         return $this->pageView(__METHOD__,[],[
-            'data_ex_list' => $test_person_num_total
+            'data_ex_list' => $list
         ]);
 
 

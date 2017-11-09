@@ -978,17 +978,29 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_update($sql);
     }
 
-    public function get_sign_count($start_time, $end_time,$group_by){
+    public function get_sign_count(
+        $start_time, $end_time,$group_by,$is_green_flag,$is_down,$user_agent,$phone_location,$grade,$subject
+    ){
         $where_arr = [
             ["ss.add_time>=%u",$start_time,-1],
             ["ss.add_time<%u",$end_time,-1],
             "s.is_test_user=0",
+            ["tr.is_green_flag=%u", $is_green_flag, -1],
         ];
+        if($is_down == 0){
+            $where_arr[] = "tl.tea_download_paper_time=0";
+        } else if($is_down == 1) {
+            $where_arr[] = "tl.tea_download_paper_time>0";
+        }
+
+        if($phone_location){
+            $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
+        }
 
         $sql = $this->gen_sql_new(
-            "select count(ss.userid) as all_ss,l.teacherid,tl.require_adminid,tr.origin,"
+            "select count(ss.userid) as stu_count,l.teacherid,tl.require_adminid,tr.origin,t.nick,"
             ."count( distinct if(l.lesson_user_online_status=1 and l.lesson_del_flag=0,l.lessonid,0) )-1 as lesson_succ_count,"
-            ."count( distinct if(o.orderid>0,o.userid,0) )-1 as order_user_count"
+            ."count( distinct if(o.orderid>0,o.userid,0) )-1 as order_count"
             ." from %s tl "
             ." left join %s ss on ss.userid=tl.userid"
             ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "

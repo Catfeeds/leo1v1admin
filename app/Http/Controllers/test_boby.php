@@ -993,10 +993,28 @@ class test_boby extends Controller
         }else if ($flag == 2){
             $group_by = 'tl.require_adminid';
         }else {
-            $order_by = 'tr.origin';
+            $group_by = 'tr.origin';
         }
         $ret_info = $this->t_test_lesson_subject->get_sign_count($start_time, $end_time,$group_by);
+        $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
+        $is_down = $this->get_in_int_val('is_down', -1);
+        $user_agent = $this->get_in_str_val('user_agent', '');
+        $subject = $this->get_in_int_val('subject', '-1');
+        $phone_location = trim($this->get_in_str_val("phone_location"));
+        $grade   = $this->get_in_el_grade();
+        $has_pad=$this->get_in_has_pad(-1);
+        $ret_info = $this->t_test_lesson_subject->get_sign_count(
+            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+        );
         dd($ret_info);
+
+        // <div class="col-xs-6 col-md-2">
+        // <div class="input-group ">
+        // <span class="input-group-addon">年级</span>
+        // <input class="opt-change form-control" id="id_grade" />
+        // </div>
+        // </div>
+
 
     }
 
