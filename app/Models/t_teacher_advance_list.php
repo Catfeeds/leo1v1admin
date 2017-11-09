@@ -117,6 +117,21 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
  
     }
 
+    public function get_all_advance_teacher(){
+        $sql = $this->gen_sql_new("select distinct a.teacherid "
+                                  ."from %s a left join %s t on a.teacherid=t.teacherid"
+                                  ." where t.is_test_user=0 and a.accept_flag=1",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
+        );
+        $arr=$this->main_get_list($sql);
+        $list=[];
+        foreach($arr as $val){
+            $list[]=$val["teacherid"];
+        }
+        return $list;
+    }
+
 }
 
 

@@ -3179,12 +3179,27 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
 
-        $warn_list = $this->t_revisit_info->get_warn_stu_list();
-        dd($warn_list);
+        // $tea_list = $this->t_teacher_advance_list->get_all_advance_teacher();
+        // dd($tea_list);
+        // $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        // dd($warn_list);
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-11-01");
         $list   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        dd($list);
+        $set_count_all=$set_count_late=$set_count_late_time=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+        $set_count_seller =$set_count_kk=$set_count_hls=0;
+        foreach($list as $val){
+            $set_count_all+=$val["set_count"];
+            $set_count_late+=$val["set_count_late"];
+            $set_count_late_time+=$val["set_count_late_time"];
+           
+            $set_lesson_time_all+=$val["set_lesson_time_all"];
+           
+        }
+
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,2):0;
+        $set_time_late_avg = $set_count_late>0?round($set_count_late_time/$set_count_late/86400,2):0;
+        dd([$set_time_avg,$set_time_late_avg]);
 
         $userid_list = $this->t_student_info->get_read_student_ass_info();
         $start_time = strtotime("2017-10-01");

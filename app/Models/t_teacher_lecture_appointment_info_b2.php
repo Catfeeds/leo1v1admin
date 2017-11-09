@@ -63,7 +63,7 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
             "l.lesson_type in (0,1,3) " // 常规课
         ];
 
-        $sql = $this->gen_sql_new("select s.userid,s.realname,s.user_agent,s.phone,l.assistantid "
+        $sql = $this->gen_sql_new("select s.userid,s.nick,s.realname,s.user_agent,s.phone,l.assistantid "
                                   ."from %s s left join %s l on s.userid=l.userid where %s ",
                                   t_student_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,

@@ -663,6 +663,7 @@ class common_new extends Controller
             'pdf_url'     => $pdf_url,
             'create_time' => time()
         ]);
+
     }
 
     public function get_banner_pic_list(){

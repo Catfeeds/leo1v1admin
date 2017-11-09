@@ -527,6 +527,19 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_value($sql);
     }
 
+    public function get_call_info_row_new($adminid,$phone,$start_time){
+        $where_arr = [
+            ['adminid = %d',$adminid,-1],
+            ['phone = %d',$phone,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,'start_time',$start_time,time(null));
+        $sql = $this->gen_sql_new(" select id from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
     /*
      *@desn:获取负责人联系次数
      *@date:2017-09-28

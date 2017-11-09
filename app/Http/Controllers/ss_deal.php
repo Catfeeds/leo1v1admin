@@ -3021,6 +3021,7 @@ class ss_deal extends Controller
             "tq_called_flag"    =>0,
             "hold_flag" => 1,
             "seller_resource_type" => $seller_resource_type ,
+            "hand_get_adminid" => E\Ehand_get_adminid::V_5,
         ]);
 
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[

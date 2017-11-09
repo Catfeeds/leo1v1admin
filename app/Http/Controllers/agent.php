@@ -465,24 +465,16 @@ class agent extends Controller
     }
 
     public function test_new(){
-        //请求微信头像
-        $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
-        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
-        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $data = json_decode($output,true);
-        dd($data);
-
-        $start_time = time();
-        $end_time = time();
-        $this->t_test_lesson_subject_require->get_suc_test_lesson_by_adminid($start_time,$end_time,$adminid);
+        $item=$this->t_seller_student_new->get_user_info_for_free($userid=396035);
+        $phone=$item["phone"];
+        //查询拨打记录
+        if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5){
+            $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
+            dd($ret);
+            if(!$ret){
+                $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+            }
+        }
     }
 
     //处理等级头像

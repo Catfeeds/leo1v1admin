@@ -2095,16 +2095,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "au.adminid=$assid"
         ];
         $sql = $this->gen_sql_new("  select wx_openid from %s m "
-                                  ." left join %s au on au.adminid=m.uid "
-                                  ." left join %s an on an.groupid=au.groupid"
-                                  ." left join %s m on an.master_adminid=m.uid"
+                                  ." left join %s an on an.master_adminid=m.uid"
+                                  ." left join %s au on au.groupid=an.groupid "
                                   ." where %s"
-                                  ,t_admin_group_user::DB_TABLE_NAME
-                                  ,t_admin_group_name::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
                                   ,$where_arr
         );
-
         return $this->main_get_value($sql);
     }
 }
