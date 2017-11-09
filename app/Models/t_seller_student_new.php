@@ -1799,7 +1799,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_no_hold_list($admin_revisiterid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count,,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  hold_flag=0  and admin_revisiterid=%u ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
