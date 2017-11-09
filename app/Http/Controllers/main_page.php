@@ -1380,6 +1380,10 @@ class main_page extends Controller
 
             $arr["real_num"] = $real_num;
             $arr["suc_count"] = $suc_count;
+            $arr["lecture_succ"] = $lecture_succ;
+            $arr["one_succ"] = $one_succ;
+            $arr["lecture_inter_num"] = $lecture_inter_num;
+            $arr["one_inter_num"] = $one_inter_num;
             $arr["train_first_all"] = $train_first_all;
             $arr["train_first_pass"] = $train_first_pass;
             $arr["train_second_all"] = $train_second_all;

@@ -68,7 +68,7 @@
                            
                             <td> {{@$var["name"]}}</td>
                             <td> {{@$var["lecture_inter_num"]}}/{{@$var["lecture_succ"]}}</td>
-                            <td> {{@$var["one_inter_num"]}}/{{@$var["lone_succ"]}}</td>
+                            <td> {{@$var["one_inter_num"]}}/{{@$var["one_succ"]}}</td>
                             <td> {{@$var["real_num"]}}/{{@$var["suc_count"]}}</td>
                             <td> {{@$var["train_first_all"]}}/{{@$var["train_first_pass"]}}</td>
                             <td> {{@$var["train_second_all"]}}</td>

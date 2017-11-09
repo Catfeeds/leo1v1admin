@@ -299,7 +299,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[]
     ){
         $where_arr = array(
-            array( "teacherid=%u", $teacherid, -1 ),
+            // array( "teacherid=%u", $teacherid, -1 ),
             array( "gender=%u ", $gender, -1 ),
             array( "grade_part_ex=%u ", $grade_part_ex, -1 ),
             array( "subject=%u ", $subject, -1 ),
@@ -310,6 +310,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "train_through_new=%u ", $train_through_new, -1 ),
             array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
             array( "sleep_flag=%u ", $sleep_flag, -1 ),
+            "teacherid <> 139081 "
             // array( "through_new_time>%u ", $through_start, 0 ),
             // array( "through_new_time<%u ", $through_end, 0 ),
         );
@@ -321,6 +322,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+         
         $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
         if($teacherid>0){
             $where_arr=[array( "teacherid=%u", $teacherid, -1 )];

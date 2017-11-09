@@ -3927,7 +3927,7 @@ class human_resource extends Controller
         $english_success = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
         $list = [
-            "china_rate" => $a
+            "china_rate" => ''
         ];
 
 
