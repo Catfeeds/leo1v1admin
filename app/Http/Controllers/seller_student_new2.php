@@ -1300,11 +1300,14 @@ class seller_student_new2 extends Controller
         );
 
         foreach($ret_info as &$item){
-            if($flag == 3) {
+            if($flag == 3)
                 $item['nick'] = $itme['origin'];
-            }
-            $item['lesson_succ_rate'] = $item['lesson_succ_count'] / $item['stu_count'];
-            $item['sign_rate'] = $item['order_count'] / $item['lesson_succ_count'];
+
+            if($item['stu_count'])
+                $item['lesson_succ_rate'] = $item['lesson_succ_count'] / $item['stu_count'];
+
+            if($item['lesson_succ_count'])
+                $item['sign_rate'] = $item['order_count'] / $item['lesson_succ_count'];
         }
         return $this->pageView(__METHOD__, $ret_info);
 
