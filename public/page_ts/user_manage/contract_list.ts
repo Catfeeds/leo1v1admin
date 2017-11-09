@@ -3139,7 +3139,9 @@ $(function(){
 
     });
 
-
+    if ($.get_action_str() == "contract_list_seller" ) {
+        $("#id_order_activity_type").parent().parent().data( "always_hide",1);
+    }
 
 
 });

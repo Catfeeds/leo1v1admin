@@ -1911,6 +1911,7 @@ class agent extends Controller
             $page_flag = true;
         }
         $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str,$page_flag);
+
         $all_user = 0;
         $order_user = 0;
         $price = 0;
@@ -1951,7 +1952,7 @@ class agent extends Controller
                 $item['ok_lesson_count']--;
                 $item['del_lesson_count']--;
                 $item['price'] = $item['price']/100;
-                // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+
                 if($item['rank_count']) {
                     $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2);
                 } else {
@@ -1970,9 +1971,9 @@ class agent extends Controller
             $ret_info = \App\Helper\Utils::order_list_new( $ret_info, $order_field_name, $order_type ,$page_info);
 
             foreach($ret_info['list'] as $item){
-                $all_user = $all_user+$item['user_count'];
+                $all_user   = $all_user+$item['user_count'];
                 $order_user = $order_user+$item['order_user_count'];
-                $price = $price+$item['price'];
+                $price      = $price+$item['price'];
             }
         }
 
@@ -1990,7 +1991,6 @@ class agent extends Controller
         $id = $this->get_in_int_val('id','');
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
-
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);
         foreach ($ret_info['list'] as &$item){
             E\Egrade::set_item_value_str($item,'grade');
