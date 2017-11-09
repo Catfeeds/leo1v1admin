@@ -1887,13 +1887,9 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
 
 
+        $db_flag = ["no_phone_count", "ok_phone_no_lesson", "ok_lesson_rate", "ok_lesson_no_order", "order_rate"];
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
-            =$this->get_in_order_by_str(["no_phone_count",
-                                         "ok_phone_no_lesson",
-                                         "ok_lesson_rate",
-                                         "ok_lesson_no_order",
-                                         "order_rate",
-            ],"",[
+            =$this->get_in_order_by_str($db_flag,"",[
                 "user_count"         => "user_count" ,
                 "no_revisit_count"   => "no_revisit_count",
                 "no_phone_count"     => "no_phone_count",
@@ -1911,38 +1907,73 @@ class agent extends Controller
 
 
 
-        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str);
+        if( in_array($order_field_name, $db_flag) ){
+            $page_flag = false;
+        } else {
+            $page_flag = true;
+        }
+        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str,$page_flag);
         $all_user = 0;
         $order_user = 0;
         $price = 0;
-        foreach ($ret_info['list'] as &$item){
-            $item['no_revisit_count']--;
-            $item['ok_phone_count']--;
-            $item['rank_count']--;
-            $item['ok_lesson_count']--;
-            $item['del_lesson_count']--;
-            $item['price'] = $item['price']/100;
-            // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
-            if($item['rank_count']) {
-                $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
-            } else {
-                $item['ok_lesson_rate'] = '0%';
-            }
-            if($item['user_count']) {
-                $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
-            } else {
-                $item['order_rate'] = '0%';
-            }
-            $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
-            $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
-            $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
-            $all_user = $all_user+$item['user_count'];
-            $order_user = $order_user+$item['order_user_count'];
-            $price = $price+$item['price'];
-        }
+        if ( $page_flag ) {
 
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
+            foreach ($ret_info['list'] as &$item){
+                $item['no_revisit_count']--;
+                $item['ok_phone_count']--;
+                $item['rank_count']--;
+                $item['ok_lesson_count']--;
+                $item['del_lesson_count']--;
+                $item['price'] = $item['price']/100;
+                // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+                if($item['rank_count']) {
+                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
+                } else {
+                    $item['ok_lesson_rate'] = '0%';
+                }
+                if($item['user_count']) {
+                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
+                } else {
+                    $item['order_rate'] = '0%';
+                }
+                $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
+                $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
+                $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
+                $all_user = $all_user+$item['user_count'];
+                $order_user = $order_user+$item['order_user_count'];
+                $price = $price+$item['price'];
+            }
+
+        } else {
+
+            foreach ($ret_info as &$item){
+                $item['no_revisit_count']--;
+                $item['ok_phone_count']--;
+                $item['rank_count']--;
+                $item['ok_lesson_count']--;
+                $item['del_lesson_count']--;
+                $item['price'] = $item['price']/100;
+                // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+                if($item['rank_count']) {
+                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
+                } else {
+                    $item['ok_lesson_rate'] = '0%';
+                }
+                if($item['user_count']) {
+                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
+                } else {
+                    $item['order_rate'] = '0%';
+                }
+                $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
+                $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
+                $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
+                $all_user = $all_user+$item['user_count'];
+                $order_user = $order_user+$item['order_user_count'];
+                $price = $price+$item['price'];
+            }
+
+            $ret_info = \App\Helper\Utils::order_list_new( $ret_info, $order_field_name, $order_type ,$page_info);
+
         }
 
 
