@@ -2089,4 +2089,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_ass_leader_opneid($assid){
+        $sql = $this->gen_sql_new("  select wx_openid from %s m "
+                                  ." left join %s au on au.adminid=m.uid "
+                                  ." left join %s an on an.groupid=au.groupid"
+                                  ." left join %s m on an.master_adminid=m.uid"
+                                  ." where %s"
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+    }
 }

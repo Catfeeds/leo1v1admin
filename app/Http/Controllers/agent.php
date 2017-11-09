@@ -465,72 +465,24 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $is_called_phone = 1;
-        $admin_info=$this->t_manager_info->get_user_info_for_tq($uid=9786714);
-        if ($admin_info){
-            $adminid= $admin_info["uid"];
-            $admin_role= $admin_info["account_role"];
-            //update t_seller_student_new.cc_no_called_count
-            if($admin_role == E\Eaccount_role::V_2){
-                $userid = $this->t_phone_to_user->get_userid($phone='13856012531');
-                if($userid>0){
-                    if($is_called_phone==1){//拨通
-                        $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>0]);
-                    }elseif($is_called_phone==0){//未拨通
-                        $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count');
-                        $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$count+1]);
-                    }
-                }
-            }
-        }
-        dd($userid);
-        $start_time = 1506787200;
-        // $start_time = 1509984000;
-        $end_time = 1510156800;
-        $ret_info = [];
-        $ret = $this->t_tq_call_info->get_no_called_count_list($start_time,$end_time);
-        dd($ret);
-        $phone_arr = array_unique(array_column($ret,'phone'));
-        foreach($phone_arr as $item){
-            $ret_info[$item]['called_count']=0;
-            $ret_info[$item]['no_called_count']=0;
-            foreach($ret as $info){
-                $phone = $info['phone'];
-                $is_called_phone = $info['is_called_phone'];
-                if($phone == $item){
-                    if($is_called_phone == 1){
-                        $ret_info[$item]['called_count']+=1;
-                    }elseif($is_called_phone == 0){
-                        $ret_info[$item]['no_called_count']+=1;
-                    }
-                }
-            }
-        }
-        dd($ret_info);
-        // $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        dd($ret);
+        //请求微信头像
+        $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        dd($data);
 
-        $ret = $this->t_seller_student_new->get_all_list_new_two();
-        $userid_arr = array_unique(array_column($ret,'userid'));
-        foreach($userid_arr as $item){
-            $num = 0;
-            $userid = $item;
-            foreach($ret as $info){
-                if($item == $info['userid']){
-                    $is_called_phone = $info['is_called_phone'];
-                    $cc_no_called_count = $info['cc_no_called_count'];
-                    if($is_called_phone == 1){
-                        $num = 0;
-                        break;
-                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
-                        $num += 1;
-                    }
-                    // dd($num);
-                }
-            }
-            $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
-        }
+        $start_time = time();
+        $end_time = time();
+        $this->t_test_lesson_subject_require->get_suc_test_lesson_by_adminid($start_time,$end_time,$adminid);
     }
 
     //处理等级头像

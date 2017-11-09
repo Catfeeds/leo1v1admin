@@ -166,8 +166,12 @@
                                                             <td>{{$v['status_info']}}</td>
                                                             <td>{{$v['cost']}}</td>
                                                             <td>{{$v['money']}}</td>
-                                                            <td>
-                                                                <a class="opt_feedback" title="反馈">反馈</a>
+                                                            <td >
+                                                                <div {{!! \App\Helper\Utils::gen_jquery_data($v) !!}}} >
+                                                                    @if(isset($v['lessonid']) && $v['lessonid']>0)
+                                                                        <a class="opt_feedback" title="添加申诉">添加申诉</a>
+                                                                    @endif
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     @endif
