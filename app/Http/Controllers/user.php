@@ -295,9 +295,18 @@ class user extends TeaWxController
         }
     }
 
-
+    /**
+     * 添加老师反馈
+     */
     public function set_teacher_feedback(){ //1020
-        $teacherid     = $this->get_teacherid();
+        $from_type     = $this->get_in_str_val("from_type","wx");
+        if($from_type=="wx"){
+            $teacherid = $this->get_teacherid();
+        }elseif($from_type=="admin"){
+            $teacherid = $this->get_login_teacher();
+        }else{
+            return $this->output_err("类型出错！");
+        }
         $lessonid      = $this->get_in_int_val("lessonid");
         $feedback_type = $this->get_in_int_val("feedback_type");
         $lesson_count  = $this->get_in_str_val("lesson_count");
