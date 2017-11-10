@@ -62,9 +62,7 @@ class Wx{
         return $ret_arr;
     }
 
-
-
-    static public function  gen_temp_data( $openid,$template_id,$url,$data, $topcolor="#FF0000" ) {
+    static public function gen_temp_data( $openid,$template_id,$url,$data, $topcolor="#FF0000" ) {
         $data = [
             "touser"      => $openid,
             "template_id" => $template_id,
@@ -86,14 +84,12 @@ class Wx{
         if (!$ret_arr || !isset($ret_arr["access_token"])  ||   $ret_arr["get_time"]+7000 <  $now  || $reset_flag ) {
             \App\Helper\Utils::logger('gettoken2');
 
-
             $json_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret"  );
             $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
             $ret_arr["get_time"]=time(NULL);
             \App\Helper\Common::redis_set_json($key,$ret_arr );
         }
         \App\Helper\Utils::logger('gettoken4:' .json_encode( $ret_arr) );
-
 
         return @$ret_arr["access_token"];
     }
