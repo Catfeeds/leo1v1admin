@@ -858,6 +858,33 @@ class user_manage extends Controller
                 return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
             }
             $this->delete_teacher_regular_lesson($userid);
+
+            //结课未续费人数增加
+            $refund_time = $this->t_order_refund->get_last_apply_time($userid);
+            $last_lesson_time = $this->t_student_info->get_last_lesson_time($userid);
+            
+            if(empty($refund_time) || $refund_time>$last_lesson_time){
+                $assistantid = $this->t_student_info->get_assistantid($userid);
+                $adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                $month = strtotime(date("Y-m-01",time()));
+                $ass_info = $this->t_month_ass_student_info->get_ass_month_info($month,$adminid,1);
+                if($ass_info){
+                    $num = @$ass_info[$adminid]["end_no_renw_num"]+1;
+                    $this->t_month_ass_student_info->get_field_update_arr($adminid,$month,1,[
+                        "end_no_renw_num" =>$num
+                    ]);
+
+                }else{
+                    $this->t_month_ass_student_info->row_insert([
+                        "adminid" =>$adminid,
+                        "month"   =>$month,
+                        "end_no_renw_num"=>1
+                    ]);
+                }
+
+ 
+            }
+
         }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);
