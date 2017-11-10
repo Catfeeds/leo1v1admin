@@ -93,4 +93,18 @@ class t_test_subject_free_list extends \App\Models\Zgen\z_t_test_subject_free_li
         return $this->main_get_value($sql);
     }
 
+    public function get_row_by_userid_adminid($adminid,$userid){
+        $where_arr = [
+            ['adminid=%u',$adminid],
+            ['userid=%u',$userid],
+        ];
+        $sql=$this->gen_sql_new(
+            " select add_time "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
