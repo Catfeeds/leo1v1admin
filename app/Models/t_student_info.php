@@ -1986,7 +1986,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["m.uid=%u",$adminid,-1]
         ];
 
-        $sql = $this->gen_sql_new("select m.uid,sum(if(type in (0,2,3,4,5,6),1,0)) all_count,sum(if(type=0,1,0)) read_count,sum(if(type=2,1,0)) stop_count,sum(i.week_lesson_num>0 and i.except_lesson_count >0) except_num,sum(if(i.week_lesson_num>0 and i.except_lesson_count >0,week_lesson_num*except_lesson_count,0)) except_count"
+        $sql = $this->gen_sql_new("select m.uid,sum(if(type in (0,2,3,4,5,6),1,0)) all_count,sum(if(type=0,1,0)) read_count,sum(if(type=2,1,0)) stop_count,sum(i.week_lesson_num>0 and i.except_lesson_count >0) except_num,sum(if(i.week_lesson_num>0 and i.except_lesson_count >0,week_lesson_num*except_lesson_count,0)) except_count,count(*) all_stu_num"
                                   ." from %s s left join %s a on a.assistantid = s.assistantid "
                                   ." left join %s m on a.phone = m.phone"
                                   ." left join %s i on s.userid = i.userid"
