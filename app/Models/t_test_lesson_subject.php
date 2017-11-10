@@ -970,4 +970,60 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_list($sql);
     }
+
+    public function auto_allot_yxyx_userid($userid, $auto_allot_adminid){
+        $sql = $this->gen_sql_new("update %s set require_adminid=$auto_allot_adminid where userid=$userid",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
+
+    public function get_sign_count(
+        $start_time, $end_time,$group_by,$is_green_flag,$is_down,$user_agent,$phone_location,$grade,$subject
+    ){
+        $where_arr = [
+            ["ss.add_time>=%u",$start_time,-1],
+            ["ss.add_time<%u",$end_time,-1],
+            "s.is_test_user=0",
+            ["tr.is_green_flag=%u", $is_green_flag, -1],
+            ["tl.subject in (%s)", $subject, -1],
+            ["tl.grade in (%s)", $grade, -1],
+        ];
+        if($is_down == 0){
+            $where_arr[] = "tl.tea_download_paper_time=0";
+        } else if($is_down == 1) {
+            $where_arr[] = "tl.tea_download_paper_time>0";
+        }
+
+        if($phone_location){
+            $where_arr[] = ["tl.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
+        }
+
+        $sql = $this->gen_sql_new(
+            "select count(ss.userid) as stu_count,l.teacherid,tl.require_adminid,tr.origin,t.nick,"
+            ."count( distinct if(l.lesson_user_online_status=1 and l.lesson_del_flag=0,l.lessonid,0) )-1 as lesson_succ_count,"
+            ."count( distinct if(o.orderid>0,o.userid,0) )-1 as order_count"
+            ." from %s tl "
+            ." left join %s ss on ss.userid=tl.userid"
+            ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "
+            ." left join %s tss on tss.require_id=tr.require_id"
+            ." left join %s l on l.lessonid=tss.lessonid"
+            ." left join %s o on o.from_test_lesson_id=l.lessonid and o.contract_type in (0,1,3) and o.contract_status>0"
+            ." left join %s s on s.userid=tl.userid"
+            ." left join %s t on t.teacherid=l.teacherid and t.is_test_user=0"
+            ." where %s group by %s"
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            ,$where_arr
+            ,$group_by
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

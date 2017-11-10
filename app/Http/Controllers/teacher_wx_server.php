@@ -20,7 +20,6 @@ use LaneWeChat\Core\TemplateMessage;
 
 include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
-
 class  teacher_wx_server extends Controller
 {
     var $check_login_flag =false;//是否需要验证
@@ -105,7 +104,6 @@ class  teacher_wx_server extends Controller
         $content = $output;
         // dd($output);
         var_dump( $output );
-
     }
 
 

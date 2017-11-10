@@ -377,15 +377,16 @@ class human_resource extends Controller
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
         $diff=($lesson_end-$lesson_start)/60;
         if(empty($lesson_count)){
-            if ($diff<=40) {
-                $lesson_count=100;
-            } else if ( $diff <= 60) {
-                $lesson_count=150;
-            } else if ( $diff <=90 ) {
-                $lesson_count=200;
-            }else{
-                $lesson_count= ceil($diff/40)*100 ;
-            }
+            // if ($diff<=40) {
+            //     $lesson_count=100;
+            // } else if ( $diff <= 60) {
+            //     $lesson_count=150;
+            // } else if ( $diff <=90 ) {
+            //     $lesson_count=200;
+            // }else{
+            //     $lesson_count= ceil($diff/40)*100 ;
+            // }
+            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
         }
 
 
@@ -466,18 +467,20 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
-        $diff=($lesson_end-$lesson_start)/60;
-        if(empty($lesson_count)){
-            if ($diff<=40) {
-                $lesson_count=100;
-            } else if ( $diff <= 60) {
-                $lesson_count=150;
-            } else if ( $diff <=90 ) {
-                $lesson_count=200;
-            }else{
-                $lesson_count= ceil($diff/40)*100 ;
-            }
-        }
+        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+        // $diff=($lesson_end-$lesson_start)/60;
+        // if(empty($lesson_count)){
+        //     if ($diff<=40) {
+        //         $lesson_count=100;
+        //     } else if ( $diff <= 60) {
+        //         $lesson_count=150;
+        //     } else if ( $diff <=90 ) {
+        //         $lesson_count=200;
+        //     }else{
+        //         $lesson_count= ceil($diff/40)*100 ;
+        //     }
+        // }
 
 
         if($opt_type=="add"){
@@ -556,18 +559,19 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
-        $diff=($lesson_end-$lesson_start)/60;
-        if(empty($lesson_count)){
-            if ($diff<=40) {
-                $lesson_count=100;
-            } else if ( $diff <= 60) {
-                $lesson_count=150;
-            } else if ( $diff <=90 ) {
-                $lesson_count=200;
-            }else{
-                $lesson_count= ceil($diff/40)*100 ;
-            }
-        }
+        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+        // $diff=($lesson_end-$lesson_start)/60;
+        // if(empty($lesson_count)){
+        //     if ($diff<=40) {
+        //         $lesson_count=100;
+        //     } else if ( $diff <= 60) {
+        //         $lesson_count=150;
+        //     } else if ( $diff <=90 ) {
+        //         $lesson_count=200;
+        //     }else{
+        //         $lesson_count= ceil($diff/40)*100 ;
+        //     }
+        // }
 
 
         if($opt_type=="add"){
@@ -1545,7 +1549,7 @@ class human_resource extends Controller
 
         $id_train_through_new      = $this->get_in_int_val("id_train_through_new", $id_train_through_new);
         $zs_flag = $this->get_in_int_val('zs_flag',0);
-        
+
         if($fulltime_flag==1){
             $full_time=1;
         }
@@ -2010,7 +2014,7 @@ class human_resource extends Controller
 
     public function teacher_lecture_appointment_info(){
         $this->switch_tongji_database();
-        
+
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(-7,0,1,[
             1 => array("la.answer_begin_time","入库时间"),
             2 => array("ta.lesson_start", "面试时间"),
@@ -2039,7 +2043,7 @@ class human_resource extends Controller
         if($show_full_time ==1){
             $interview_type             = $this->get_in_int_val("interview_type",-1);
         }else{
-            $interview_type             = $this->get_in_int_val("interview_type",0); 
+            $interview_type             = $this->get_in_int_val("interview_type",0);
         }
 
         $adminid = $this->get_account_id();
@@ -3892,6 +3896,80 @@ class human_resource extends Controller
 
     }
 
+    public function get_broken_line_order_rate(){ //折线
+        list($start_time,$end_time)=$this->get_in_date_range(-10,0);
+
+        $teacherid                  = $this->get_in_int_val('teacherid', -1);
+        $subject                    = $this->get_in_int_val('subject', -1);
+        $teacher_subject            = $this->get_in_int_val('teacher_subject', -1);
+        $identity                   = $this->get_in_int_val('identity', -1);
+        $grade_part_ex              =$this->get_in_int_val('grade_part_ex',-1);
+        $tea_status                 =$this->get_in_int_val('tea_status',-1);
+        $teacher_account            = $this->get_in_int_val('teacher_account', -1);
+        $fulltime_flag            = 1; //全职老师
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+
+        $adminid      = $this->get_account_id();
+        $right_list = $this->get_tea_subject_and_right_by_adminid($adminid);
+        $tea_subject = $right_list["tea_subject"];
+        $tea_right  = $right_list["tea_right"];
+        $qz_flag = $right_list["qz_flag"];
+
+        $this->t_lesson_info->switch_tongji_database();
+
+        $begin_month = 3;
+        $now = date('n');
+
+        $list = [];
+        $start_time  = strtotime(date('Y-m-d'));
+
+        $end_time = strtotime(date('Y-m-d', strtotime(" 1510156800 +1 month -1 day")));
+
+        dd($end_time);
+
+        $month_list = [
+            "2017-3-1",
+            "2017-4-1",
+            "2017-5-1",
+            "2017-6-1",
+            "2017-7-1",
+            "2017-8-1",
+            "2017-9-1",
+            "2017-10-1",
+            "2017-11-1",
+        ];
+
+        foreach($month_list as $item){
+            $start_time  = strtotime($item);
+            $end_time = strtotime(date('Y-m-d', strtotime("$start_time +1 month -1 day")));
+
+            $list['math_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+            $list['math_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+
+            $list['china_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+            $list['china_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+
+            $list['english_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+            $list['english_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        }
+
+
+
+        $list = [
+            "china_rate" => ''
+        ];
+
+
+
+        $test_list = $this->t_lesson_info_b3->get_test_list_for_month($start_time,$end_time);
+
+        return $this->pageView(__METHOD__,[],[
+            'data_ex_list' => $list
+        ]);
+
+
+    }
+
 
     public function get_assign_jw_adminid_list(){
         $this->switch_tongji_database();
@@ -4039,11 +4117,15 @@ class human_resource extends Controller
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $lstart    = $date_week["sdate"];
         $lend      = $date_week["edate"];
+
+        //晋升老师名单
+        $advance_list = $this->t_teacher_advance_list->get_all_advance_teacher();
+
         $ret_info  = $this->t_teacher_info->get_teacher_detail_list_new(
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag
+            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,$advance_list
         );
 
         foreach($ret_info['list'] as  &$item){

@@ -61,11 +61,12 @@ echo "start url\n";
 $url= "http://$url_fix.admin.leo1v1.com/common_new/show_create_table_list";
 $json_data= send_post_data($url,  ["table_list" =>  json_encode($table_list) ]  );
 echo "end url\n";
-// echo $url;
+
+ echo $url;
 // exit;
 //echo $json_data;
 //echo $url;
-//exit;
+exit;
 
 
 $table_map = json_decode($json_data,true);

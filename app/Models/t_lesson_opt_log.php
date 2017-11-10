@@ -301,4 +301,24 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
     }
 
 
+    public function get_common_lesson_for_login($lessonid,$userid){ // 课程开始五分钟
+        $where_arr=[
+            "lo.opt_type=1", // 登录记录
+            "userid = $userid",
+            "lessonid = $lessonid"
+        ];
+
+        $sql = $this->gen_sql_new(" select min(opt_time) from %s lo "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+
+
+
 }

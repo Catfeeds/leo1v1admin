@@ -608,20 +608,23 @@ class user_deal extends Controller
 
         
         /* 设置lesson_count */
-        $diff=($lesson_end-$lesson_start)/60;
-        if ($diff<=20) {
-            $lesson_count=50;
-        } else if ($diff<=40) {
-            $lesson_count=100;
-        } else if ( $diff <= 60) {
-            $lesson_count=150;
-        } else if ( $diff <=90 ) {
-            $lesson_count=200;
-        } else if ( $diff <=100 ) {
-            $lesson_count=250;
-        }else{
-            $lesson_count= ceil($diff/40)*100 ;
-        }
+        // $diff=($lesson_end-$lesson_start)/60;
+        // if ($diff<=20) {
+        //     $lesson_count=50;
+        // } else if ($diff<=40) {
+        //     $lesson_count=100;
+        // } else if ( $diff <= 60) {
+        //     $lesson_count=150;
+        // } else if ( $diff <=90 ) {
+        //     $lesson_count=200;
+        // } else if ( $diff <=100 ) {
+        //     $lesson_count=250;
+        // }else{
+        //     $lesson_count= ceil($diff/40)*100 ;
+        // }
+
+        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
 
 
         //百度分期用户首月排课限制
@@ -3178,10 +3181,51 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-11-01");
-        $list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,[],2,false);
+                $start_time = strtotime(date("Y-m-d",time()));
+
+              $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
+        dd($grab_list);
+ 
+        $list = $this->t_week_regular_course->get_teacher_student_time(-1,-1);
+        foreach($list as $val){
+            $arr              = explode("-",$val["start_time"]);
+            $week = $arr[0];
+            $start = @$arr[1];
+            $end_time = $val["end_time"];
+            $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
+            $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
+            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+            if($lesson_end<=$lesson_start){
+                echo $val["start_time"]."/".$val["teacherid"]."<br>";
+            }
+ 
+        }
+        dd(111);
         dd($list);
+        
+        $rr = $this->get_lesson_count_by_lesson_time(0,900);
+        dd($rr);
+        // $tea_list = $this->t_teacher_advance_list->get_all_advance_teacher();
+        // dd($tea_list);
+        // $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        // dd($warn_list);
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-11-01");
+        $list   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
+        $set_count_all=$set_count_late=$set_count_late_time=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
+        $set_count_seller =$set_count_kk=$set_count_hls=0;
+        foreach($list as $val){
+            $set_count_all+=$val["set_count"];
+            $set_count_late+=$val["set_count_late"];
+            $set_count_late_time+=$val["set_count_late_time"];
+           
+            $set_lesson_time_all+=$val["set_lesson_time_all"];
+           
+        }
+
+        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,2):0;
+        $set_time_late_avg = $set_count_late>0?round($set_count_late_time/$set_count_late/86400,2):0;
+        dd([$set_time_avg,$set_time_late_avg]);
 
         $userid_list = $this->t_student_info->get_read_student_ass_info();
         $start_time = strtotime("2017-10-01");

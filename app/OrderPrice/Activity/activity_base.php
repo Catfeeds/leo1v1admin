@@ -8,7 +8,6 @@ use \App\Enums as E;
 class activity_base {
     static public  $class_map=[
         E\Eorder_activity_type::V_0 =>  activity_0::class,
-        E\Eorder_activity_type::V_YXYX  =>  activity_yxyx::class,
         E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
         E\Eorder_activity_type::V_2017090101  =>  activity_2017090101::class,
         E\Eorder_activity_type::V_2017100701  =>  activity_2017100701::class,
@@ -17,6 +16,11 @@ class activity_base {
         E\Eorder_activity_type::V_2017110301  =>  activity_2017110301::class,
         E\Eorder_activity_type::V_2017110401  =>  activity_2017110401::class,
         E\Eorder_activity_type::V_2017110801  =>  activity_2017110801::class,
+        E\Eorder_activity_type::V_2017110802  =>  activity_2017110802::class,
+        E\Eorder_activity_type::V_2017110803  =>  activity_2017110803::class,
+
+        E\Eorder_activity_type::V_2017110901  =>  activity_2017110901::class,
+        E\Eorder_activity_type::V_2017111002  =>  activity_2017111002::class,
     ];
 
     /**
@@ -33,6 +37,7 @@ class activity_base {
     public  $from_test_lesson_id ;
 
     public  $args;
+    public  $grade;
 
 
     public function __construct(  $args   ) {
@@ -42,6 +47,7 @@ class activity_base {
 
             $this->contract_type = $args["contract_type"];
             $this->userid = $args["userid"];
+            $this->grade= $args["grade"];
             $this->args = $args;
         }
 
@@ -129,15 +135,15 @@ class activity_base {
                 throw  new \Exception("有修改数据，却没有设置desc_list　" )  ;
             }else {
                 $last_item=$desc_list[count($desc_list) -1 ];
-                if ( !$last_item["succ_flag"]  ) { //
-                    throw  new \Exception(" desc_list item succ_flag err,有修改数据， succ_flag 却为false " )  ;
+                if ( $last_item["succ_flag"] <>1 ) { //
+                    throw  new \Exception( "  desc_list item succ_flag err,有修改数据， succ_flag 却为false  ". json_encode($last_item) )  ;
                 }
                 return true;
             }
         } else {
             if ( count($desc_list ) - count($old_desc_list )  ==1 ) {
                 $last_item=$desc_list[count($desc_list) -1 ];
-                if ( $last_item["succ_flag"]  ) { //
+                if ( $last_item["succ_flag"] ==1  ) { //
                     throw  new \Exception(" desc_list item succ_flag err,无修改数据， succ_flag 却为 true" )  ;
                 }
                 return false;

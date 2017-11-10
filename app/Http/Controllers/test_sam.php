@@ -19,15 +19,21 @@ class test_sam  extends Controller
      * @return - access_token string.
      */
     public function test_api(){
-
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (944,
-            "来自：知识库",
-            "你收到1个例子",
-            "需要你及时联系",
-            "http://admin.leo1v1.com/seller_student_new/seller_student_list_all"); //erick
-
-        dd(2);
         /*
+        $url = 'https://aip.baidubce.com/oauth/2.0/token';
+        $post_data = array();
+        $post_data['grant_type']  = 'client_credentials';
+        $post_data['client_id']   = "DnWrWPzs2ttw1i4gz5Fw3DDW";
+        $post_data['client_secret'] = "P3Pv2nGctlWo0aMdmhBI2BQfiFdG7aD0";
+
+        //$res = request_post($url, $post_data);
+        $paramsString = http_build_query($post_data);//生成 URL-encode 之后的请求字符串
+        $content = @file_get_contents($url.'?'.$paramsString);
+        $result = json_decode($content,true);
+        dd($result['access_token']);
+        */
+        //access_token = 24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868
+         /*
         $url = 'https://aip.baidubce.com/oauth/2.0/token';
         $post_data = array();
         $post_data['grant_type']  = 'client_credentials';
@@ -45,17 +51,18 @@ class test_sam  extends Controller
         $access_token = "24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868";
 
 
-        $token = '#####调用鉴权接口获取的token#####';
-        $url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=' . $token;
-        $img = file_get_contents('########本地文件路径########');
+        //        $token = '#####调用鉴权接口获取的token#####';
+        //$url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=' . $token;
+        $url = $url .'?access_token='.$access_token;
+        $img_url = "https://www.sy8.com/image/banner0.jpg";
+        $img = file_get_contents($img_url);
         $img = base64_encode($img);
         $bodys = array(
             "image" => $img
         );
-        $res = request_post($url, $bodys);
-
+        $res = $this->request_post($url, $bodys);
+        dd($res);
         var_dump($res);
-
         dd(2);
         if (!!$res) {
             $res = json_decode($res, true);
@@ -171,8 +178,8 @@ class test_sam  extends Controller
             /*
             */
         ];
-        $grade_list = ["(100,101,102,103,104,105,106)","(200,201,202,203)","(300,301,302,303)"];
-        $subject_list = [1,2,3,4,5,10];
+        $grade_list = ["(300,301,302,303)"];
+        $subject_list = [2];
         echo "<table >";
                     echo "<tr>"."<td width=30px>date</td>"
                             ."<td width=30px>年级</td>"
@@ -208,6 +215,7 @@ class test_sam  extends Controller
                     foreach ($ret_info as $key => $value) {
                         echo "<tr>";
                         echo "<td width=30px>".$value['date']."</td>";
+                        echo "<td width=30px>".$value['userid']."</td>";
                         echo "<td width=30px>".$value['grade_str']."</td>";
                         echo "<td width=30px>".$value['subject_str']."</td>";
                         echo "<td width=200px>".$value['stu_request_test_lesson_demand']."</td>";
@@ -222,6 +230,8 @@ class test_sam  extends Controller
     }
 
     public function hello_world(){
+        echo 1;
+        echo 2;
         $ret_info = $this->t_cr_week_month_info->get_apply_info_a1();
         foreach ($ret_info as $key => &$value) {
             $value['grade_str'] = E\Egrade::get_desc($value['grade']);

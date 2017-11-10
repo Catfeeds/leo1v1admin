@@ -40,6 +40,7 @@ class testbb extends Controller
 
     public function test1() {
         $account_id = $this->get_in_int_val('id');
+
         $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
         $ass_list = array_column($ass_list,'adminid');
         $ass_list_str = implode(',',$ass_list);

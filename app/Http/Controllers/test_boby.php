@@ -965,47 +965,59 @@ class test_boby extends Controller
 
     public function test_img(){
         $wx_openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
+        $phone = 18898881852;
         $agent = $this->t_agent->get_agent_info_by_openid($wx_openid);
-        $phone = '18898881852';
+        $agent['wx_openid'] = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
+        $agent['phone'] = 18898881852;
+        $agent['id'] = 45;
         //$phone = uniqid();
         $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
         $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
 
         $request = ['fromusername'=>'tset'];
 
-        \App\Helper\Utils::wx_make_and_send_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
-        // $task=new \App\Jobs\make_and_send_wx_img(4117,$wx_openid,$phone,$bg_url,$qr_code_url,$request);
+        \App\Helper\Utils::wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent);
+        // $task=new \App\Jobs\make_and_send_wx_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
         // $task->handle();
 
     }
 
-    public function auto_allot_seller_adminid(){
-        $time = strtotime('today');
-        $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-        if( $count <= 15 ){//分给张龙 384
+    public function tongji_sign_rate(){
 
-            $this->t_seller_student_new->field_update_list($item['userid'], [
-                'auto_allot_adminid'     => 384,
-                'admin_revisiterid'      => 384,
-                'admin_revisiterid_time' => time(),
-            ]);
-
-        } else { //分配给邵少鹏759和蒋文武689
-
-            if ( $count%2 ==0 ) {
-                $this->t_seller_student_new->field_update_list($item['userid'], [
-                    'auto_allot_adminid'     => 759,
-                    'admin_revisiterid'      => 759,
-                    'admin_revisiterid_time' => time(),
-                ]);
-            } else {
-                $this->t_seller_student_new->field_update_list($item['userid'], [
-                    'auto_allot_adminid'     => 689,
-                    'admin_revisiterid'      => 689,
-                    'admin_revisiterid_time' => time(),
-                ]);
-            }
+        // list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $start_time = strtotime('2017-11-1');
+        $end_time = strtotime('2017-12-1');
+        $flag = $this->get_in_int_val('flag',1);
+        if($flag == 1) {
+            $group_by = 'l.teacherid';
+        }else if ($flag == 2){
+            $group_by = 'tl.require_adminid';
+        }else {
+            $group_by = 'tr.origin';
         }
+        $ret_info = $this->t_test_lesson_subject->get_sign_count($start_time, $end_time,$group_by);
+        $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
+        $is_down = $this->get_in_int_val('is_down', -1);
+        $user_agent = $this->get_in_str_val('user_agent', '');
+        $subject = $this->get_in_int_val('subject', '-1');
+        $phone_location = trim($this->get_in_str_val("phone_location"));
+        $grade   = $this->get_in_el_grade();
+        $has_pad=$this->get_in_has_pad(-1);
+        $ret_info = $this->t_test_lesson_subject->get_sign_count(
+            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+        );
+        dd($ret_info);
+
+        // <div class="col-xs-6 col-md-2">
+        // <div class="input-group ">
+        // <span class="input-group-addon">年级</span>
+        // <input class="opt-change form-control" id="id_grade" />
+        // </div>
+        // </div>
+
 
     }
+
+
+
 }

@@ -142,7 +142,6 @@ class wx_parent_api extends Controller
     }
 
     public function set_lesson_evaluate () {
-
         $interaction        = $this->get_in_str_val("interaction");
         $class_atmos        = $this->get_in_str_val("class_atmos");
         $tea_standard       = $this->get_in_str_val("tea_standard");
@@ -182,17 +181,12 @@ class wx_parent_api extends Controller
         if($insert_ret){
             /**
                向老师发送微信推送
-
-
                课程评价通知
                x月x日
-
                xx:xx的xx课xx同学已经提交了课程评价
                课程：{时间课程名称}
                时间：xx-xx xx:xx~xx:xx
                请登录老师端查看详情，谢谢！
-
-
                D5MRwT7Cq-Eri19auVEBuR-_LMJprScEigWab7Eox2A
 
                {{first.DATA}}
@@ -209,7 +203,7 @@ class wx_parent_api extends Controller
 
             $data_tea = [
                 'first'    => date('H:i',$lesson_info['lesson_start'])."的 $subject_str 课 ".$lesson_info['stu_nick']."同学已经提交了课程评价",
-                'keyword1' => " $subject_str ",
+                'keyword1' => $subject_str,
                 'keyword2' => date('m-d H:i',$lesson_info['lesson_start']).' ~ '.date('H:i', $lesson_info['lesson_end']),
                 'remark'   => "请登录老师端查看详情，谢谢！",
             ];
@@ -285,12 +279,22 @@ class wx_parent_api extends Controller
 
             $jssdk    = $this->get_wx_jsapi_ticket($token);
             $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
+            \App\Helper\Utils::logger("JSSDK RET_ARR:". json_encode( $ret_arr ) );
+
+            if ($ret_arr["errcode"]==45009 ) {
+                return "";
+            }
+
             $ret_arr["get_time"] = time(NULL);
             \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
 
+
         }
 
-        $jsapi_ticket = $ret_arr["ticket"];
+        $jsapi_ticket = @$ret_arr["ticket"];
+        if (!$jsapi_ticket) {
+            return "";
+        }
 
         if(isset($_SERVER["HTTP_REFERER"])){
             $http_ref = $_SERVER["HTTP_REFERER"];
@@ -393,6 +397,10 @@ class wx_parent_api extends Controller
         $ref=$this->get_in_str_val("ref");
 
         $signature_str = $this->get_signature_str($ref);
+        if (!$signature_str) {
+            return $this->output_err("微信限制")  ;
+        }
+
         $config = [
             'debug' => 'false',
             'appId' => 'wxa99d0de03f407627', // 必填，公众号的唯一标识
@@ -628,7 +636,7 @@ class wx_parent_api extends Controller
             ];
             $ret_parent = $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
 
-            
+
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
@@ -1063,7 +1071,7 @@ class wx_parent_api extends Controller
             "grade_rank"            => $grade_rank,
             "rank_up"               => $rank_up,
             "rank_down"             => $rank_down,
-            "admin_type"            => 1 
+            "admin_type"            => 1
         ],false,false,true);
 
 
@@ -1071,7 +1079,7 @@ class wx_parent_api extends Controller
         if($ret_info){
             $send_openid = $this->t_student_info->get_ass_openid($userid);
 
-            if(!$send_openid){ 
+            if(!$send_openid){
                 $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
             }
 

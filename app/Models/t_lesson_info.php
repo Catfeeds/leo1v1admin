@@ -1523,14 +1523,14 @@ lesson_type in (0,1) "
 
     public function get_lesson_list_info($userid,$start,$end,$lesson_status=2)
     {
-	$where_arr = [
-	    ["lesson_start>%u",$start,0],
-	    ["lesson_start<%u",$end,0],
-	    ["userid=%u",$userid,-1],
-	    ["lesson_status=%u",$lesson_status,-1],
+    $where_arr = [
+        ["lesson_start>%u",$start,0],
+        ["lesson_start<%u",$end,0],
+        ["userid=%u",$userid,-1],
+        ["lesson_status=%u",$lesson_status,-1],
             "lesson_type<1000",
-	    "lesson_del_flag=0",
-	];
+        "lesson_del_flag=0",
+    ];
         $sql = $this->gen_sql_new("select lessonid,userid,teacherid,assistantid,lesson_start,lesson_num,stu_attend, lesson_end,lesson_count, "
                        ." teacher_score,teacher_comment,teacher_effect,teacher_quality,teacher_interact,stu_performance,"
                        ." stu_score,stu_comment,stu_attitude,stu_attention,stu_ability,stu_stability,confirm_flag "
@@ -2510,7 +2510,7 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
-  
+
 
 
     public function check_test_lesson_info($userid){
@@ -2570,16 +2570,16 @@ lesson_type in (0,1) "
         case 15:
             $lesson_time_str = $lesson_start_str;
             // $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
-            //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";               
+            //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";
             $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0 or h.work_status=0) and l.wx_before_four_hour_cw_flag =0"
-                ." and l.lesson_type =1100 and (l.train_type =4 or l.lesson_type=2) and l.lesson_sub_type=1 ";               
+                ." and l.lesson_type =1100 and (l.train_type =4 or l.lesson_type=2) and l.lesson_sub_type=1 ";
             break;
         case 16:
             $lesson_time_str = $lesson_start_str;
             // $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
-            //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";               
+            //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";
             $str= "l.lesson_status=0  and l.wx_before_thiry_minute_remind_flag =0"
-                ." and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";               
+                ." and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";
             break;
         case 17:
             $lesson_time_str = $lesson_start_str;
@@ -3549,7 +3549,7 @@ lesson_type in (0,1) "
                 "lesson_del_flag=0",
                 "lesson_type <>4001",
             ];
-  
+
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select lesson_start,lesson_end".
@@ -3580,7 +3580,7 @@ lesson_type in (0,1) "
                 "lesson_type <>4001",
             ];
         }
-     
+
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select lesson_start,lesson_end".
@@ -4176,8 +4176,8 @@ lesson_type in (0,1) "
             "lesson_del_flag = 0",
             // "require_admin_type =2",
             //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
-       	   "mm.account_role=2 ",
-	    //"mm.account_role=2 ",
+            "mm.account_role=2 ",
+            //"mm.account_role=2 ",
 
             "mm.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
@@ -4251,7 +4251,7 @@ lesson_type in (0,1) "
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_course_order::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME, //c
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
@@ -5645,7 +5645,7 @@ lesson_type in (0,1) "
             $subject= $v["subject"];
             @$arr[$subject]++;
         }
-    
+
         return $arr;
     }
 
@@ -9579,7 +9579,7 @@ lesson_type in (0,1) "
     }
 
     public function get_stu_all_teacher($page_info,$assistantid=-1)
-    { 
+    {
         if($assistantid < 0){
            $where_arr = [
                 "s.assistantid>0",
@@ -9753,7 +9753,7 @@ lesson_type in (0,1) "
                                   t_teacher_flow::DB_TABLE_NAME,
                                   $whereArr
         );
-        
+
         return $this->main_get_row($sql);
     }
 
@@ -9777,7 +9777,7 @@ lesson_type in (0,1) "
             "l.lesson_type=1100",
             "l.train_type=4"
         ];
-        
+
         $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s l left join %s t on l.teacherid=t.teacherid where %s group by identity",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -9790,12 +9790,14 @@ lesson_type in (0,1) "
 
     public function get_subject_for_teacherid($teacherid) {
         $where = [['teacherid=%u',$teacherid,0]];
-        
+
         $sql = $this->gen_sql_new("select subject,grade from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where
         );
         return $this->main_get_row($sql);
     }
+
+
 
 }

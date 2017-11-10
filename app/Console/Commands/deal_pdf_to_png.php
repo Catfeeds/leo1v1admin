@@ -68,28 +68,20 @@ class deal_pdf_to_png extends cmd_base
             $id       = $item['id'];
             $pdf_url  = $item['pdf_url'];
             $lessonid = $item['lessonid'];
-
-
             $this->task->t_pdf_to_png_info->field_update_list($id,[
                 "id_do_flag" => 2,
                 "deal_time"  => time()
             ]);
-
 
             $pdf_file_path = $this->get_pdf_download_url($pdf_url);
 
             $savePathFile = public_path('wximg').'/'.$pdf_url;
 
             if($pdf_url){
-
                 \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-
                 $path = public_path().'/wximg';
-
                 @chmod($savePathFile, 0777);
-
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
-
                 $file_name_origi = array();
                 foreach($imgs_url_list as $item){
                     $file_name_origi[] = @$this->put_img_to_alibaba($item);

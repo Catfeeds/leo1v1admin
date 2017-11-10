@@ -60,7 +60,7 @@ trait  InputDeal {
         return $id_list;
     }
 
-    public function get_in_int_list( $enum_class, $field_name="", $def_value="-1"  ){
+    public function get_in_int_list(  $field_name, $def_value="-1"  ){
         $str = $this->get_in_str_val($field_name, $def_value );
         $ret_arr = preg_split("/,/",$str);
         $id_list = [];

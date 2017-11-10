@@ -1,6 +1,6 @@
 <?php
 return array(
-	array(0,"","常规" ),
+	array(0,"","新签" ),
 	array(1,"","赠送" ),
 	array(2,"","试听" ),
 	array(3,"","续费" ),

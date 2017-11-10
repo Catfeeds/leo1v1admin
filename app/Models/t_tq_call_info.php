@@ -34,6 +34,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                         }
                     }
                 }
+                //update t_seller_student_new.tmk_last_revisit_time
+                if($admin_role == E\Eaccount_role::V_7){
+                    $userid = $this->task->t_phone_to_user->get_userid($phone);
+                    if($userid>0){
+                        $this->task->t_seller_student_new->field_update_list($userid,[
+                            'tmk_last_revisit_time'=>$start_time,
+                        ]);
+                    }
+                }
             }
         }
         $sql=$this->gen_sql_new(
@@ -527,6 +536,19 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_value($sql);
     }
 
+    public function get_call_info_row_new($adminid,$phone,$start_time){
+        $where_arr = [
+            ['adminid = %d',$adminid,-1],
+            ['phone = %d',$phone,-1],
+        ];
+        // $this->where_arr_add_time_range($where_arr,'start_time',$start_time,time(null));
+        $sql = $this->gen_sql_new(" select id from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
     /*
      *@desn:获取负责人联系次数
      *@date:2017-09-28

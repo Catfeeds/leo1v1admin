@@ -10,6 +10,7 @@ interface GargsStatic {
 	subject:	number;
 	teacherid:	number;
 	is_test:	number;
+	teacher_type:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -64,7 +65,8 @@ function load_data(){
 		grade:	$('#id_grade').val(),
 		subject:	$('#id_subject').val(),
 		teacherid:	$('#id_teacherid').val(),
-		is_test:	$('#id_is_test').val()
+		is_test:	$('#id_is_test').val(),
+		teacher_type:	$('#id_teacher_type').val()
     });
 }
 $(function(){
@@ -86,6 +88,7 @@ $(function(){
 	$('#id_subject').val(g_args.subject);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_is_test').val(g_args.is_test);
+	$('#id_teacher_type').val(g_args.teacher_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -135,6 +138,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">is_test</span>
                 <input class="opt-change form-control" id="id_is_test" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher_type</span>
+                <input class="opt-change form-control" id="id_teacher_type" />
             </div>
         </div>
 */

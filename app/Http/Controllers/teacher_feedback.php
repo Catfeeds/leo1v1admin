@@ -247,6 +247,47 @@ class teacher_feedback extends Controller
         }
     }
 
+    /**
+     * 添加老师反馈
+     * @param int teacherid 添加反馈的老师id
+     * @param int lessonid  反馈的课程id
+     * @param int feedback_type 反馈类型
+     * @param int lesson_count  补录课时数(暂时无用)
+     * @param int tea_reason    问题详情
+     */
+    public function add_teacher_feedback(){
+        $teacherid     = $this->get_login_teacher();
+        $lessonid      = $this->get_in_int_val("lessonid");
+        $feedback_type = $this->get_in_int_val("feedback_type");
+        $lesson_count  = $this->get_in_int_val("lesson_count");
+        $tea_reason    = $this->get_in_str_val("tea_reason");
+
+        if(in_array($feedback_type,[E\Efeedback_type::V_101,E\Efeedback_type::V_102])){
+            $lesson_count *= 100;
+        }else{
+            $lesson_count = 0;
+        }
+        $add_time = time();
+
+        $check_flag = $this->t_teacher_feedback_list->get_feedback_count($teacherid,$lessonid,$feedback_type);
+        if(!$check_flag){
+            $ret = $this->t_teacher_feedback_list->row_insert([
+                "teacherid"     => $teacherid,
+                "lessonid"      => $lessonid,
+                "feedback_type" => $feedback_type,
+                "lesson_count"  => $lesson_count,
+                "tea_reason"    => $tea_reason,
+                "add_time"      => time()
+            ]);
+            if($ret){
+                return $this->output_succ();
+            }else{
+                return $this->output_err("添加失败，请重试！");
+            }
+        }else{
+            return $this->output_err("申诉条目已存在!");
+        }
+    }
 
 
 }

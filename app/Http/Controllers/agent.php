@@ -465,72 +465,13 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $is_called_phone = 1;
-        $admin_info=$this->t_manager_info->get_user_info_for_tq($uid=9786714);
-        if ($admin_info){
-            $adminid= $admin_info["uid"];
-            $admin_role= $admin_info["account_role"];
-            //update t_seller_student_new.cc_no_called_count
-            if($admin_role == E\Eaccount_role::V_2){
-                $userid = $this->t_phone_to_user->get_userid($phone='13856012531');
-                if($userid>0){
-                    if($is_called_phone==1){//拨通
-                        $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>0]);
-                    }elseif($is_called_phone==0){//未拨通
-                        $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count');
-                        $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$count+1]);
-                    }
-                }
+        if($tmk_student_status==E\Etmk_student_status::V_3) { //拨通标记有效限制
+            $ret = $this->t_tq_call_info->get_call_info_list($this->get_account_id(),$phone);
+            if(!$ret){
+                return $this->output_err('拨通后才可标记有效!');
             }
         }
-        dd($userid);
-        $start_time = 1506787200;
-        // $start_time = 1509984000;
-        $end_time = 1510156800;
-        $ret_info = [];
-        $ret = $this->t_tq_call_info->get_no_called_count_list($start_time,$end_time);
-        dd($ret);
-        $phone_arr = array_unique(array_column($ret,'phone'));
-        foreach($phone_arr as $item){
-            $ret_info[$item]['called_count']=0;
-            $ret_info[$item]['no_called_count']=0;
-            foreach($ret as $info){
-                $phone = $info['phone'];
-                $is_called_phone = $info['is_called_phone'];
-                if($phone == $item){
-                    if($is_called_phone == 1){
-                        $ret_info[$item]['called_count']+=1;
-                    }elseif($is_called_phone == 0){
-                        $ret_info[$item]['no_called_count']+=1;
-                    }
-                }
-            }
-        }
-        dd($ret_info);
-        // $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        dd($ret);
 
-        $ret = $this->t_seller_student_new->get_all_list_new_two();
-        $userid_arr = array_unique(array_column($ret,'userid'));
-        foreach($userid_arr as $item){
-            $num = 0;
-            $userid = $item;
-            foreach($ret as $info){
-                if($item == $info['userid']){
-                    $is_called_phone = $info['is_called_phone'];
-                    $cc_no_called_count = $info['cc_no_called_count'];
-                    if($is_called_phone == 1){
-                        $num = 0;
-                        break;
-                    }elseif($is_called_phone == 0 && isset($info['is_called_phone'])){
-                        $num += 1;
-                    }
-                    // dd($num);
-                }
-            }
-            $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
-        }
     }
 
     //处理等级头像
@@ -1941,35 +1882,100 @@ class agent extends Controller
             $phone = '';
         }
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info);
+
+
+        $db_arr = ["no_phone_count", "ok_phone_no_lesson", "ok_lesson_rate", "ok_lesson_no_order", "order_rate"];
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type) = $this->get_in_order_by_str($db_arr,"",[
+                "user_count"         => "user_count" ,
+                "no_revisit_count"   => "no_revisit_count",
+                "no_phone_count"     => "no_phone_count",
+                "ok_phone_count"     => "ok_phone_count",
+                "ok_phone_no_lesson" => "ok_phone_no_lesson",
+                "rank_count"         => "rank_count",
+                "del_lesson_count"   => "del_lesson_count",
+                "ok_lesson_count"    => "ok_lesson_count",
+                "ok_lesson_rate"     => "ok_lesson_rate",
+                "ok_lesson_no_order" => "ok_lesson_no_order",
+                "order_user_count"   => "order_user_count",
+                "order_rate"         => "order_rate",
+                "price"              => "price",
+            ]);
+
+
+
+        if( in_array($order_field_name, $db_arr) ){
+            $page_flag = false;
+        } else {
+            $page_flag = true;
+        }
+        $ret_info = $this->t_agent->get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str,$page_flag);
+
         $all_user = 0;
         $order_user = 0;
         $price = 0;
-        foreach ($ret_info['list'] as &$item){
-            $item['no_revisit_count']--;
-            $item['ok_phone_count']--;
-            $item['rank_count']--;
-            $item['ok_lesson_count']--;
-            $item['del_lesson_count']--;
-            $item['price'] = $item['price']/100;
-            // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
-            if($item['rank_count']) {
-                $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2)."%";
-            } else {
-                $item['ok_lesson_rate'] = '0%';
+        if ( $page_flag ) {
+
+            foreach ($ret_info['list'] as &$item){
+                $item['no_revisit_count']--;
+                $item['ok_phone_count']--;
+                $item['rank_count']--;
+                $item['ok_lesson_count']--;
+                $item['del_lesson_count']--;
+                $item['price'] = $item['price']/100;
+                // $item['no_revisit_count'] = $item['user_count'] - $item['revisit_count'];
+                if($item['rank_count']) {
+                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2);
+                } else {
+                    $item['ok_lesson_rate'] = 0;
+                }
+                if($item['user_count']) {
+                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2);
+                } else {
+                    $item['order_rate'] = 0;
+                }
+                $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
+                $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
+                $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
+                $all_user = $all_user+$item['user_count'];
+                $order_user = $order_user+$item['order_user_count'];
+                $price = $price+$item['price'];
             }
-            if($item['user_count']) {
-                $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2)."%";
-            } else {
-                $item['order_rate'] = '0%';
+
+        } else {
+
+            foreach ($ret_info as &$item){
+                $item['no_revisit_count']--;
+                $item['ok_phone_count']--;
+                $item['rank_count']--;
+                $item['ok_lesson_count']--;
+                $item['del_lesson_count']--;
+                $item['price'] = $item['price']/100;
+
+                if($item['rank_count']) {
+                    $item['ok_lesson_rate'] = round( $item['ok_lesson_count']*100/$item['rank_count'],2);
+                } else {
+                    $item['ok_lesson_rate'] = 0;
+                }
+                if($item['user_count']) {
+                    $item['order_rate'] = round( $item['order_user_count']*100/$item['user_count'],2);
+                } else {
+                    $item['order_rate'] = 0;
+                }
+                $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
+                $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
+                $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
             }
-            $item['no_phone_count'] = $item['user_count'] -$item['no_revisit_count']-$item['ok_phone_count'];
-            $item['ok_phone_no_lesson'] = $item['ok_phone_count'] - $item['rank_count'];
-            $item['ok_lesson_no_order'] = $item['ok_lesson_count'] - $item['order_user_count'];
-            $all_user = $all_user+$item['user_count'];
-            $order_user = $order_user+$item['order_user_count'];
-            $price = $price+$item['price'];
+
+            $ret_info = \App\Helper\Utils::order_list_new( $ret_info, $order_field_name, $order_type ,$page_info);
+
+            foreach($ret_info['list'] as $item){
+                $all_user   = $all_user+$item['user_count'];
+                $order_user = $order_user+$item['order_user_count'];
+                $price      = $price+$item['price'];
+            }
         }
+
+
         return $this->pageView(__METHOD__,$ret_info,[
             'all_user' => $all_user,
             'order_user' => $order_user,

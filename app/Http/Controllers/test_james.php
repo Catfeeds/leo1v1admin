@@ -152,9 +152,7 @@ class test_james extends Controller
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
         if($pdf_url){
-
             \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-
             $path = public_path().'/wximg';
 
             @chmod($savePathFile, 0777);
@@ -167,18 +165,13 @@ class test_james extends Controller
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);
-
             $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
             }
-
             @unlink($savePathFile);
         }
-
-
-
     }
 
 
@@ -897,6 +890,13 @@ class test_james extends Controller
 
 
     public function dd(){
+
+        $now = time();
+        $late_time = $now-86400*2-15*60;
+        $late_lesson_info = $this->t_lesson_info_b3->get_late_lesson_info($late_time);
+
+        dd($late_lesson_info);
+
         $lesson_start = $this->get_in_int_val('s');
         $lesson_end = $this->get_in_int_val('e');
         $tea_lesson_list = $this->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);

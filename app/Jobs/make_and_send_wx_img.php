@@ -51,16 +51,20 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
         $old_headimgurl = $this->agent['headimgurl'];
 
-        \App\Helper\Utils::logger("erweima_start");
 
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
         \App\Helper\Utils::logger("erweima_END");
         \App\Helper\Utils::logger("get_wx_head_start");
+        \App\Helper\Utils::logger("yxyx_sss:".$this->wx_openid);
+
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
         $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
         $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+
+        \App\Helper\Utils::logger("url info:". $url);
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -77,16 +81,12 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         shell_exec($wgetshell);
 
         $image_5 = imagecreatefromjpeg($datapath);
-        \App\Helper\Utils::logger("get_head");
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
-        \App\Helper\Utils::logger("make_new");
         $color = imagecolorallocate($image_6, 255, 255, 255);
-        \App\Helper\Utils::logger("make_image6");
+
         imagefill($image_6, 0, 0, $color);
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
-
-        \App\Helper\Utils::logger("make_image7");
 
         $ext = pathinfo($this->bg_url);
 
@@ -96,17 +96,13 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             $image_1 = imagecreatefrompng($this->bg_url);     //背景图
         }
 
-        \App\Helper\Utils::logger("make_bg");
         $image_2 = imagecreatefrompng($qr_url);     //二维码
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
         $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
-        \App\Helper\Utils::logger("make_8");
         imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
         imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
-        \App\Helper\Utils::logger("make_9");
         imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
 
-        \App\Helper\Utils::logger("for_roop");
         $r = 80; //圆半径
         for ($x = 0; $x < 160; $x++) {
             for ($y = 0; $y < 160; $y++) {
@@ -124,17 +120,12 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $agent_qr_url = "/tmp/yxyx_wx_".$phone."_member.png";
         imagepng($image_3,$agent_qr_url);
 
-        \App\Helper\Utils::logger("make_img_END");
-
         imagedestroy($image_1);
         imagedestroy($image_2);
         imagedestroy($image_3);
         imagedestroy($image_4);
         imagedestroy($image_5);
         imagedestroy($image_6);
-        // return $agent_qr_url;
-
-
 
         $type = 'image';
         $num = rand();

@@ -1991,6 +1991,7 @@ class ss_deal extends Controller
         $require_id =$this->get_in_require_id();
         $userid= $this->t_test_lesson_subject_require->get_userid($require_id);
         $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
+        $disable_activity_list= $this->get_in_int_list( "disable_activity_list" );
 
         if (!$userid) {
             $userid= $this->get_in_userid();
@@ -2012,6 +2013,7 @@ class ss_deal extends Controller
                 "from_test_lesson_id"=> $from_test_lesson_id ,
                 "period_flag" =>$period_flag,
                 "userid" => $userid,
+                "disable_activity_list" => $disable_activity_list
             ]
             );
         return $this->output_succ(["data"=>$ret]);
@@ -2080,6 +2082,7 @@ class ss_deal extends Controller
         $contract_from_type = $this->get_in_e_contract_from_type();
         $order_partition_flag = $this->get_in_int_val("order_partition_flag",0);
         $period_flag = $this->get_in_int_val("period_flag",0);
+        $disable_activity_list= $this->get_in_int_list( "disable_activity_list" );
         // $child_order_info = $this->get_in_str_val("child_order_info");
 
         $sys_operator        = $this->get_account();
@@ -2122,6 +2125,7 @@ class ss_deal extends Controller
             "period_flag"=>$period_flag,
             "userid"=>$userid,
             "contract_type"=>$contract_type,
+            "disable_activity_list" =>$disable_activity_list,
         ] );
         if ( $period_flag != $price_ret["can_period_flag"] ) {
             return $this->output_err("课时数过少不支持分期,请不要启用分期");
@@ -3021,6 +3025,7 @@ class ss_deal extends Controller
             "tq_called_flag"    =>0,
             "hold_flag" => 1,
             "seller_resource_type" => $seller_resource_type ,
+            "hand_get_adminid" => E\Ehand_get_adminid::V_5,
         ]);
 
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
@@ -3463,6 +3468,22 @@ class ss_deal extends Controller
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
+            // foreach($arr as $k=>&$val){
+            //     if(empty($val[0]) || $k==0){
+            //         unset($arr[$k]);
+            //     }
+
+            // }
+            // $str="";
+            // foreach($arr as $item){
+            //     $str .= $item[6].",";               
+            // }
+            // $str = trim($str,",");
+            // $this->t_teacher_info->field_update_list(240314,[
+            //     "part_remarks"=>$str 
+            // ]);
+            // return;
+
             foreach($arr as $k=>&$val){
                 if(empty($val[0]) || $k==0){
                     unset($arr[$k]);
@@ -3852,6 +3873,95 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function tmk_save_user_info_new(){
+        $adminid                   = $this->get_account_id();
+        $userid                    = $this->get_in_userid();
+        $test_lesson_subject_id    = $this->get_in_test_lesson_subject_id();
+        $nick                      = $this->get_in_str_val("nick");
+        $grade                     = $this->get_in_grade();
+        $subject                   = $this->get_in_subject();
+        $tmk_student_status        = $this->get_in_int_val("tmk_student_status");
+        $tmk_student_status_old    = $this->get_in_int_val("tmk_student_status_old");
+        $tmk_next_revisit_time_str = $this->get_in_str_val("tmk_next_revisit_time");
+        $tmk_next_revisit_time     = strtotime($tmk_next_revisit_time_str);
+
+        $tmk_desc = $this->get_in_str_val("tmk_desc");
+
+        $item=$this->t_seller_student_new->field_get_list($userid,"tmk_next_revisit_time,tmk_student_status,phone ");
+        $phone=$item["phone"];
+
+        if($tmk_student_status==E\Etmk_student_status::V_3) { //拨通标记有效限制
+            $ret = $this->t_tq_call_info->get_call_info_list($this->get_account_id(),$phone);
+            if(!$ret){
+                return $this->output_err('拨通后才可标记有效!');
+            }
+        }
+        if ($item["tmk_student_status"] !=  $tmk_student_status || $item["tmk_next_revisit_time"] !=  $tmk_next_revisit_time) {
+            $account=$this->get_account();
+             $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account TMK状态: ".E\Etmk_student_status::get_desc($tmk_student_status) . "  下次回访时间:" .\App\Helper\Utils::unixtime2date($tmk_next_revisit_time) ,
+                "system"
+            );
+
+            if ($tmk_student_status==E\Etmk_student_status::V_3 ) { //
+                $this->t_test_lesson_subject->set_seller_student_status($test_lesson_subject_id,0, $this->get_account());
+                $this->t_seller_student_new->field_update_list($userid,[
+                    "seller_resource_type"=>E\Eseller_resource_type::V_0,
+                ]);
+
+                // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
+
+            }
+        }
+        $this->t_student_info->field_update_list($userid,[
+            "nick"=>$nick,
+            "grade"=>$grade,
+        ]);
+        if($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_3){//tmk更改例子为有效
+            $this->t_seller_student_new->set_admin_info_new(
+            $opt_type=2,$userid,$this->get_account_id(),$this->get_account_id(),$this->get_account(),$this->get_account(),time(null));
+            //分配日志
+            $this->t_seller_edit_log->row_insert([
+                'adminid'=>$this->get_account_id(),//分配人
+                'uid'=>$this->get_account_id(),//组员
+                'new'=>$userid,//例子
+                'type'=>E\Eseller_edit_log_type::V_3,
+                'create_time'=>time(NULL),
+            ]);
+            $this->t_seller_student_new->field_update_list($userid,[
+                "tmk_student_status"=>$tmk_student_status,
+                "tmk_next_revisit_time"=>$tmk_next_revisit_time,
+                "tmk_desc"=>$tmk_desc,
+                "first_tmk_set_valid_admind"=>$adminid,
+                "first_tmk_set_valid_time"=>time(null),
+                "cc_no_called_count"=>0,
+            ]);
+        }elseif($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_2){//tmk无效
+            $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+                "seller_student_status"=>E\Eseller_student_status::V_50,
+            ]);
+        }else{
+            $this->t_seller_student_new->field_update_list($userid,[
+                "tmk_student_status"=>$tmk_student_status,
+                "tmk_next_revisit_time"=>$tmk_next_revisit_time,
+                "tmk_desc"=>$tmk_desc,
+            ]);
+        }
+
+        $admin_revisiterid=$this->t_seller_student_new->get_admin_revisiterid($userid);
+        if (!$admin_revisiterid ) {
+            $this->t_seller_student_new->field_update_list($userid,[
+                "user_desc"   => "TMK说明:" .$tmk_desc . ". 下次回访时间:" . $tmk_next_revisit_time_str,
+            ]);
+        }
+
+        $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+            "subject"  => $subject,
+        ]);
+
+        return $this->output_succ();
+    }
 
     public function get_relation_order_list_js() {
         $orderid       = $this->get_in_int_val("orderid");
@@ -4118,6 +4228,14 @@ class ss_deal extends Controller
         $user_list=$this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
         foreach($user_list as $item) {
             $phone=$item["phone"];
+            //公海领取的例子,回流拨打限制
+            if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5 && !in_array($item['admin_revisiterid'],[831,973,60,898])){
+                $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
+                if(!$ret){
+                    return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+                    break;
+                }
+            }
             $seller_student_status= $item["seller_student_status"];
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,
@@ -4140,6 +4258,7 @@ class ss_deal extends Controller
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
                 "hand_free_count" => $item['hand_free_count']+1,
+                "hand_get_adminid" => 0,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );

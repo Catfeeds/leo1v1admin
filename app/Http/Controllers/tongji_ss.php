@@ -2213,7 +2213,7 @@ class tongji_ss extends Controller
 
                 $call_time = date("Y-m-d H:i:s",$ty["start_time"]);
                 $call_str .="<p>".$call_time.":<a class=\"audio_show\" data-url=\"".$record_url."\" data-flag=\"".$load_wav_self_flag."\">听录音</a></p>";
-                
+
             }
 
             $item["call_rev"] = $call_str;
@@ -2693,7 +2693,7 @@ class tongji_ss extends Controller
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
 
         $adminid = $this->get_in_int_val("adminid",-1);
-        
+
         $list = $this->t_test_lesson_subject_require->get_seller_top_lesson_suc_list($start_time,$end_time,$adminid);
 
 
@@ -5080,6 +5080,7 @@ class tongji_ss extends Controller
 
 
     }
+
 
 
     public function get_seller_require_modify_info(){
@@ -8002,7 +8003,7 @@ class tongji_ss extends Controller
             $all_item['lesson_change_rate'] = 0;
         }
 
-        
+
         array_unshift($ret_info, $all_item);
         $index_num=0;
         foreach($ret_info as &$p_item){
@@ -8080,14 +8081,14 @@ class tongji_ss extends Controller
     }
 
     public function get_reference_teacher_money_info(){
-       
-       
+
+
         $this->switch_tongji_database();
         // $first_month = strtotime("2016-01-01");
         // // $end_month = strtotime(date("Y-m-01",time()));
         // // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
         // $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
-        
+
         // // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
         // //  $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
         // $list=[];
@@ -8106,7 +8107,7 @@ class tongji_ss extends Controller
         //     $list[$month]["month"] = date("Y年m月",$first);
         //     $list[$month]["month_start"] = $first;
 
-            
+
         // }
 
         // return $this->pageView(__METHOD__,null,[
@@ -8114,16 +8115,22 @@ class tongji_ss extends Controller
         //     "num"  =>count($list)
         // ]);
 
-       
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-11-01");
-        $grade = $this->get_in_int_val("grade",1);
-        $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
+
+        // $start_time = strtotime("2017-10-01");
+        // $end_time = strtotime("2017-11-01");
+        // $grade = $this->get_in_int_val("grade",1);
+        // $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
+        $list = $this->t_teacher_info->get_part_remarks(240314);
+        $arr= explode(",",$list);
+        $ret_info=[];
+        foreach($arr as  $val){
+            $ret_info[]=["phone"=>$val];
+        }
         // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
         // $list = $this->t_teacher_info->get_teacher_openid_list_new();
         //$list["list"][]=["teacherid"=>240314,"realname"=>"hahah","wx_openid"=>1111];
         // dd($list);
-     
+
 
        // $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
        //  foreach($list["list"] as $k=>&$item){
@@ -8142,7 +8149,7 @@ class tongji_ss extends Controller
 
        //  }
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list
+            "list"  =>$ret_info
         ]);
 
         // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
@@ -8176,9 +8183,9 @@ class tongji_ss extends Controller
             //E\Elevel::set_item_value_str($item,"level");
             E\Eteacher_money_type::set_item_value_str($item);
             // E\Eteacher_ref_type::set_item_value_str($item); //是否全职
-           
+
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
-           
+
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");*/
 
@@ -8216,24 +8223,24 @@ class tongji_ss extends Controller
     }
 
     public function tongji_lesson_record_info(){
-       
+
         $first_test = $this->t_teacher_record_list->tongji_record_score_rank_list(1);
         foreach($first_test as &$v){
-           $v['subject_str']   = E\Esubject::get_desc($v['subject']); 
+           $v['subject_str']   = E\Esubject::get_desc($v['subject']);
         }
         $fifth_test = $this->t_teacher_record_list->tongji_record_score_rank_list(2);
         foreach($fifth_test as &$vv){
-            $vv['subject_str']   = E\Esubject::get_desc($vv['subject']); 
+            $vv['subject_str']   = E\Esubject::get_desc($vv['subject']);
         }
 
         $first_regular = $this->t_teacher_record_list->tongji_record_score_rank_list(3);
         foreach($first_regular as &$vvv){
-            $vvv['subject_str']   = E\Esubject::get_desc($vvv['subject']); 
+            $vvv['subject_str']   = E\Esubject::get_desc($vvv['subject']);
         }
 
         $fifth_regular = $this->t_teacher_record_list->tongji_record_score_rank_list(4);
         foreach($fifth_regular as &$vvvv){
-            $vvvv['subject_str']   = E\Esubject::get_desc($vvvv['subject']); 
+            $vvvv['subject_str']   = E\Esubject::get_desc($vvvv['subject']);
         }
 
         $all_record_info = $this->t_teacher_record_list->get_record_flag_info(-1);
@@ -8255,7 +8262,7 @@ class tongji_ss extends Controller
 
     public function get_lesson_tea_stu_info(){
        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-       
+
        $list    = E\Esubject::$desc_map;
        unset($list[0]);
        unset($list[11]);
@@ -8279,7 +8286,7 @@ class tongji_ss extends Controller
            "list"     =>$arr,
        ]);
 
-       
+
     }
 
     public function get_four_teacher_money_type_info(){
@@ -8322,7 +8329,7 @@ class tongji_ss extends Controller
         // $end_month = strtotime(date("Y-m-01",time()));
         // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
         $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
-        
+
         // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
         //  $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
         $list=[];
@@ -8341,7 +8348,7 @@ class tongji_ss extends Controller
             $list[$month]["month"] = date("Y年m月",$first);
             $list[$month]["month_start"] = $first;
 
-            
+
         }
         return $this->pageView(__METHOD__,null,[
             "list"  =>$list ,

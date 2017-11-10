@@ -1731,6 +1731,7 @@ class seller_student_new extends Controller
                 }
             }
         }
-        return $this->output_succ(['list' => $list]);
+        //return $this->output_succ(['list' => $list]);
+        return $this->output_succ(['list' => []]);
     }
 }

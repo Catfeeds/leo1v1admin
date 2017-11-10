@@ -100,4 +100,16 @@ class assistant_performance extends Controller
 
     }
 
+    public function performance_info(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        dd($ass_month);
+
+        
+        //回访
+
+        //课时消耗达成率
+        
+    }
+
 }

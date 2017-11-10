@@ -2396,7 +2396,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info){
+    public function get_yxyx_member($start_time, $end_time,$nickname,$phone,$page_info,$order_by_str,$page_flag){
 
         $where_arr = [
             ['na.create_time>=%u', $start_time, -1],
@@ -2436,6 +2436,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ." left join %s l on l.lessonid=na.test_lessonid "
             ." where %s "
             ." group by a.id"
+            ." $order_by_str"
             ,self::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
@@ -2449,7 +2450,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,$where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info,10, true);
+        if( $page_flag ) {
+            return $this->main_get_list_by_page($sql,$page_info,10, true);
+        } else {
+            return $this->main_get_list($sql);
+        }
+
 
     }
     //@desn:刷新团队每日业绩

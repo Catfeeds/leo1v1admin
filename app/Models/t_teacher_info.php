@@ -296,10 +296,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[]
     ){
         $where_arr = array(
-            array( "teacherid=%u", $teacherid, -1 ),
+            // array( "teacherid=%u", $teacherid, -1 ),
             array( "gender=%u ", $gender, -1 ),
             array( "grade_part_ex=%u ", $grade_part_ex, -1 ),
             array( "subject=%u ", $subject, -1 ),
@@ -310,17 +310,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "train_through_new=%u ", $train_through_new, -1 ),
             array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
             array( "sleep_flag=%u ", $sleep_flag, -1 ),
+            "teacherid <> 139081 "
             // array( "through_new_time>%u ", $through_start, 0 ),
             // array( "through_new_time<%u ", $through_end, 0 ),
         );
 
-        if ($address) {
-            $address=$this->ensql($address);
-            $where_arr[]="(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
-                ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
-                ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
-                ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')";
-        }
         if($seller_flag==1){
             $where_arr[] = "is_good_flag=1 and change_good_time>0 and is_good_wx_flag=1 ";
         }
@@ -328,6 +322,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+         
+        $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
+        if($teacherid>0){
+            $where_arr=[array( "teacherid=%u", $teacherid, -1 )];
+        }
+        if ($address) {
+            $address=$this->ensql($address);
+            $where_arr=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
+                        ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
+                        ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
+                        ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')"];
+        }
+
 
 
         $sql = $this->gen_sql_new("select * "
@@ -937,7 +944,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
         ];
-        $sql = $this->gen_sql(
+        $sql = $this->gen_sql_new(
             "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,"
             ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
             ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
@@ -4618,4 +4625,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
     }
 
+    public function get_info_to_teacher($lessonid){
+        $sql = $this->gen_sql_new("  select t.wx_openid, subject, l.lesson_start, l.lesson_end, s.nick as stu_nick, t.nick as tea_nick from %s t "
+                                  ." left join %s l on l.teacherid=t.teacherid"
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." where l.lessonid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$lessonid
+        );
+        return $this->main_get_row($sql);
+    }
 }

@@ -9,6 +9,8 @@ class activity_config_base extends  activity_base {
 
     public  $period_flag_list =[ ];//分期,true, false
 
+    //是否可不使用
+    public $can_disable_flag =true;
 
 
     public  $max_count=0;//
@@ -21,8 +23,10 @@ class activity_config_base extends  activity_base {
 
 
     public  $lesson_times_off_perent_list=[
-
     ]; //按课次数打折
+
+    public  $grade_off_perent_list=[
+    ]; //按年级打折
 
     /*
     E\Eperiod_flag::V_PERIOD => [
@@ -47,12 +51,24 @@ class activity_config_base extends  activity_base {
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
+        //开启检查
+
+        if ($this->can_disable_flag ) {
+            if ( in_array( static::$order_activity_type ,$this->args["disable_activity_list"] ) ) {
+
+                $desc_list[]=static::gen_activity_item(2,  "手动不开启" , $price,  $present_lesson_count, $can_period_flag );
+                return false;
+            }
+        }
+
+
         //时间检查
         if (count($this->date_range)==2 ) {
             if (!$this->check_now( $this->date_range[0], $this->date_range[1] )) {
                 return false;
             }
         }
+
         //分期,不分期检查
         if ( !in_array( $can_period_flag, $this->period_flag_list ) ) {
             return false;
@@ -80,7 +96,7 @@ class activity_config_base extends  activity_base {
             $user_add_time= $this->task->t_seller_student_new->get_add_time($this->userid);
             $user_add_time_str=date("Y-m-d",$user_add_time );
             if  ( !($user_add_time >= strtotime( $this->user_join_time_range [0])
-                    && $user_add_time <= strtotime( $this->user_join_time_range[1]))) {
+                    && $user_add_time <= (strtotime( $this->user_join_time_range[1]) +86400 ))) {
                 $desc_list[]=static::gen_activity_item(0,  "用户加入时间[$user_add_time_str]不匹配" , $price,  $present_lesson_count, $can_period_flag );
                 return false ;
             }else{
@@ -172,6 +188,17 @@ class activity_config_base extends  activity_base {
             }
 
         }
+        //按年级打折
+        if ( isset ($this->grade_off_perent_list[$can_period_flag ]) ) {
+            $off_percent=  @$this->grade_off_perent_list[$can_period_flag] [$this->grade];
+            if ($off_percent) {
+                $grade_str= E\Egrade::get_desc($this->grade);
+                $price=  intval($price* $off_percent /100) ;
+                $desc_list[] = static::gen_activity_item(1, " $activity_desc  ,年级 $grade_str 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag );
+                return true;
+            }
+        }
+
 
         return true;
 
@@ -215,7 +242,8 @@ class activity_config_base extends  activity_base {
         }
 
         if ($this->max_count){
-            $arr[]=["合同最大个数",  $this->max_count  ];
+            list( $count_check_ok_flag,$now_count, $activity_desc_cur_count)= static::check_use_count($this->max_count );
+            $arr[]=["合同最大个数",  $activity_desc_cur_count  ];
         }
 
 
@@ -251,6 +279,27 @@ class activity_config_base extends  activity_base {
                 }
                 $arr[]=["分期", $str  ];
             }
+
+        }else if ( count($this->grade_off_perent_list)>0 ) {
+            $arr[]=["--", ""];
+            if  (isset( $this->grade_off_perent_list[ E\Eperiod_flag::V_0  ]) ) {
+                $str="";
+                foreach ( $this->grade_off_perent_list[ E\Eperiod_flag::V_0  ] as  $key => $val) {
+                    $grade_str= E\Egrade::get_desc($key);
+                    $str.=" $grade_str  打 $val 折  <br/> ";
+                }
+                $arr[]=["全款优惠", $str  ];
+            }
+
+            if  (isset( $this->grade_off_perent_list[ E\Eperiod_flag::V_1  ]) ) {
+                $str="";
+                foreach ( $this->grade_off_perent_list[ E\Eperiod_flag::V_1  ] as  $key => $val) {
+                    $grade_str= E\Egrade::get_desc($key);
+                    $str.=" $grade_str  打 $val 折  <br/> ";
+                }
+                $arr[]=["分期优惠", $str  ];
+            }
+
         }
 
         return $arr;
