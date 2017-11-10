@@ -1510,4 +1510,62 @@ class tongji2 extends Controller
             "new_list" => $new_list,
         ]);
     }
+
+    public function subject_transfer(){
+        list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
+
+        
+        /*
+        $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
+        $from_list = $this->t_id_opt_log->get_date_list($log_type,$start_time,$end_time);
+
+        \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","user_count","count");
+        $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
+        dd($from_list);
+        \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","lesson_user_count","count");
+        usort($date_list,function($a,$b){
+            //var_dump($a['title'],$b['title']);echo "<br/>";
+            return \App\Helper\Common::sort_value_desc_func($a["title"],$b["title"]);
+        });
+        //dd(2);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
+        */
+
+
+        $first_time  = strtotime(date('Y-m-01',$start_time));
+        $second_time = strtotime(date('Y-m-01',$end_time));
+
+        $i = $first_time;
+        $montharr = [];
+        while(($i = strtotime('+1 month', $i)) <= $second_time){
+            $montharr[] = date('Y-m-01',$i);
+        }
+        $i = 0;
+        $subject_chinese = [];
+        $subject_math = [];
+        $subject_english = [];
+        $date_list = [];
+        foreach ($montharr as $key => $value) {
+            $time1 = strtotime($value);
+            $month = date('Y-m',$time1);
+            $time2 = strtotime('+1 month',$time1);
+            $success_num = $this->t_lesson_info->get_subject_transfer($start_time,$end_time);
+            $lesson_num  = $this->t_lesson_info->get_subject_success($start_time,$end_time);
+            $subject_chinese[$i]['month'] = $month;
+            $subject_chinese[$i]['count'] = isset($success_num[1]['have_order'])&& isset($lesson_num[1]['success_lesson'])?round(100*$success_num[1]['have_order'] /$lesson_num[1]['success_lesson'],2):0;
+            $subject_math[$i]['month'] = $month;
+            $subject_math[$i]['count'] = isset($success_num[2]['have_order'])&& isset($lesson_num[2]['success_lesson'])?round(100*$success_num[2]['have_order'] /$lesson_num[2]['success_lesson'],2):0;
+            $subject_english[$i]['month'] = $month;
+            $subject_english[$i]['count'] = isset($success_num[3]['have_order'])&& isset($lesson_num[3]['success_lesson'])?round(100*$success_num[3]['have_order'] /$lesson_num[3]['success_lesson'],2):0;
+            $date_list[$month]['title'] = $month;
+            ++$i;
+        }
+
+        \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
+        //dd($date_list);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
+    }
 }
