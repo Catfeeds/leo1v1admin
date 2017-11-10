@@ -9810,7 +9810,7 @@ lesson_type in (0,1) "
             " t.is_test_user=0 ",
             " m.account_role=5 ",
             " m.del_flag=0 ",
-            " c.subject in (1,2,3)"
+            " l.subject in (1,2,3)"
         ];
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order,c.subject "
                                 ."from %s l  "
@@ -9848,7 +9848,7 @@ lesson_type in (0,1) "
             "t.train_through_new =1 ",
             "m.account_role=5 ",
             "m.del_flag=0 ",
-            "c.subject in (1,2,3) "
+            "l.subject in (1,2,3) "
         ];
         $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson,c.subject "
                                 ." from %s l  "

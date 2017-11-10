@@ -1565,7 +1565,6 @@ class tongji2 extends Controller
         \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
-        //dd($date_list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
 
