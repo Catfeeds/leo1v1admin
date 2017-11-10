@@ -395,6 +395,8 @@ class TeacherTask extends TaskController
 
                 $val['info'] = "由于您未在规定时间内向进行评价反馈，依据《理优薪资规则》扣款".$val['cost']."元，请下次注意并及时给出评价反馈。";
                 $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+
+                $wx_rate_late_flag=2;
                 if($openid){
                     // $val['reason'] = "1对1未及时评价";
                     // 扣费通知不再老师上课时间发送
