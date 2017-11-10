@@ -1550,10 +1550,6 @@ class tongji2 extends Controller
             $time2 = strtotime('+1 month',$time1);
             $success_num = $this->t_lesson_info->get_subject_transfer($time1,$time2);
             $lesson_num  = $this->t_lesson_info->get_subject_success($time1,$time2);
-            var_dump($success_num);
-            echo "<br/>";
-            var_dump($lesson_num);
-            echo "<br/>";
             $subject_chinese[$i]['month'] = $month;
             $subject_chinese[$i]['count'] = isset($success_num[1]['have_order'])&& isset($lesson_num[1]['success_lesson'])?round(100*$success_num[1]['have_order'] /$lesson_num[1]['success_lesson'],2):0;
             $subject_math[$i]['month'] = $month;
@@ -1563,7 +1559,6 @@ class tongji2 extends Controller
             $date_list[$month]['title'] = $month;
             ++$i;
         }
-        dd($date_list);
         \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
