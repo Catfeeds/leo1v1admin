@@ -14,6 +14,5 @@ class ceshi extends Controller
         $ret_info=$this->t_student_info->get_closest_list($start_time,$end_time );
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info( $ret_info));
-        //return $this->output_succ();
     }
 }
