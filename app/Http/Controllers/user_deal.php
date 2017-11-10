@@ -881,7 +881,8 @@ class user_deal extends Controller
         if($contract_type==0 &&  $check_money_flag == 1){ //
             $start_time            = strtotime(date("Y-m-d"));
             $end_time              = $start_time+20*86400-1;
-            $seller_new_count_type = E\Eseller_new_count_type::V_ORDER_ADD ;
+            // $seller_new_count_type = E\Eseller_new_count_type::V_ORDER_ADD ;
+            $seller_new_count_type = E\Eseller_new_count_type::V_CJG_ORDER_ADD;
             $value_ex              = $orderid;
             $adminid               = $this->t_manager_info->get_id_by_account($sys_operator);
             if (!$flowid  ){
@@ -892,17 +893,17 @@ class user_deal extends Controller
                 }
 
                 if (!$this->t_seller_new_count->check_adminid_seller_new_count_type_value_ex($adminid,$seller_new_count_type,$value_ex)) {
-                    $this->t_seller_new_count->add($start_time,$end_time,$seller_new_count_type,$count,$adminid,$value_ex);
-                    $this->t_manager_info->send_wx_todo_msg(
-                        $sys_operator,
-                        "系统",
-                        "新签合同赠送 抢新生名额[$count] "
-                        ,"学生:". $this->cache_get_student_nick($userid)
-                        ,"");
-                    //公海签单奖励15个
+                    // $this->t_seller_new_count->add($start_time,$end_time,$seller_new_count_type,$count,$adminid,$value_ex);
+                    // $this->t_manager_info->send_wx_todo_msg(
+                    //     $sys_operator,
+                    //     "系统",
+                    //     "新签合同赠送 抢新生名额[$count] "
+                    //     ,"学生:". $this->cache_get_student_nick($userid)
+                    //     ,"");
+                    //公海签单奖励5个
                     $hand_get_adminid = $this->t_seller_student_new->field_get_value($userid,'hand_get_adminid');
                     if($hand_get_adminid == E\Ehand_get_adminid::V_5){
-                        $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,E\Eseller_new_count_type::V_CJG_ORDER_ADD,$count=15,$adminid,$value_ex);
+                        $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,$seller_new_count_type,$count=5,$adminid,$value_ex);
                     }
                 }
             }

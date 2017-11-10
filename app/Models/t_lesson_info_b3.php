@@ -1770,6 +1770,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.tea_cw_url = ''",
             "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$four_start,$four_end);
         $sql = $this->gen_sql_new("  select l.lessonid, l.subject, l.lesson_start, l.lesson_end, t.wx_openid from %s l"
@@ -1835,10 +1836,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $where_arr = [
             'l.lesson_del_flag=0',
-            "l.teacherid=$teacherid"
+            "l.teacherid=$teacherid",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start<$now",
+            "l.lesson_end>=$now"
         ];
-
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$now,$end);
 
         $sql = $this->gen_sql_new("  select 1 from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid "

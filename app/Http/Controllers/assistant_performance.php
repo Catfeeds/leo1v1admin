@@ -105,57 +105,92 @@ class assistant_performance extends Controller
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        $start_time = strtotime("2017-05-01");
+        $end_time = strtotime("2017-11-01");
 
-        //销售月拆解
-        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-        $first_week = $start_info["sdate"];
-        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
-        if($end_info["edate"] <= $end_time){
-            $last_week =  $end_info["sdate"];
-        }else{
-            $last_week =  $end_info["sdate"]-7*86400;
-        }
-        $n = ($last_week-$first_week)/(7*86400)+1;
+        // //销售月拆解
+        // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        // $first_week = $start_info["sdate"];
+        // $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        // if($end_info["edate"] <= $end_time){
+        //     $last_week =  $end_info["sdate"];
+        // }else{
+        //     $last_week =  $end_info["sdate"]-7*86400;
+        // }
+        // $n = ($last_week-$first_week)/(7*86400)+1;
 
-        //每周课时/学生数
-        $lesson_count_list=[];
-        for($i=0;$i<$n;$i++){
-            $week = $first_week+$i*7*86400;
-            $week_edate = $week+7*86400;
-            $lesson_count_list[] = $this->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
-        }
+        // //每周课时/学生数
+        // $lesson_count_list=[];
+        // for($i=0;$i<$n;$i++){
+        //     $week = $first_week+$i*7*86400;
+        //     $week_edate = $week+7*86400;
+        //     $lesson_count_list[] = $this->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+        // }
 
         
 
 
         foreach($ass_month as $k=>&$item){
-            //回访
+            // //回访
 
-            //课时消耗达成率
-            $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
-            if($registered_student_list){
-                $registered_student_arr = json_decode($registered_student_list,true);
-                $last_stu_num = count($registered_student_arr);//月初在册人员数
-                $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初总课时消耗数
-                $estimate_month_lesson_count =$last_lesson_total/$last_stu_num;
-            }else{
-                $registered_student_arr=[];      
-                $estimate_month_lesson_count =100;
-            }
+            // /*课时消耗达成率*/
+            // $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            // if($registered_student_list){
+            //     $registered_student_arr = json_decode($registered_student_list,true);
+            //     $last_stu_num = count($registered_student_arr);//月初在册人员数
+            //     $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
+            //     $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
+            // }else{
+            //     $registered_student_arr=[];      
+            //     $estimate_month_lesson_count =100;
+            // }
 
-            //得到单位学员平均课时数完成率
-            $seller_lesson_count =$seller_stu_num=0;
-            foreach($lesson_count_list as $p_item){
-                $seller_lesson_count += @$p_item[$k]["lesson_count"]; 
-                $seller_stu_num += @$p_item[$k]["user_count"]; 
+            // //得到单位学员平均课时数完成率
+            // $seller_lesson_count =$seller_stu_num=0;
+            // foreach($lesson_count_list as $p_item){
+            //     $seller_lesson_count += @$p_item[$k]["lesson_count"]; 
+            //     $seller_stu_num += @$p_item[$k]["user_count"]; 
+            // }
+            // $seller_stu_num = $seller_stu_num/$n;
+            // if(empty($seller_stu_num)){
+            //     $lesson_count_finish_per=0;
+            // }else{
+            //     $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
+            // }
+
+            // //算出kpi中课时消耗达成率的情况
+            // if($lesson_count_finish_per>=70){
+            //     $kpi_lesson_count_finish_per = 0.4;
+            // }else{
+            //     $kpi_lesson_count_finish_per=0;
+            // }
+
+            // /*课程消耗奖金*/
+            // if($lesson_count_finish_per>=120){
+            //     $lesson_count_finish_reword=$seller_lesson_count*1.2;
+            // }elseif($lesson_count_finish_per>=100 ){
+            //     $lesson_count_finish_reword=$seller_lesson_count*1;
+            // }elseif($lesson_count_finish_per>=75 ){
+            //     $lesson_count_finish_reword=$seller_lesson_count*0.8;
+            // }elseif($lesson_count_finish_per>=50 ){
+            //     $lesson_count_finish_reword=$seller_lesson_count*0.5;
+            // }else{
+            //     $lesson_count_finish_reword=0;
+            // }
+
+            /*续费提成奖金*/
+            //计算助教相关退费
+            $list = $this->t_order_refund->get_ass_refund_info_new($start_time,$end_time,$k);
+            $refund_money=0;
+            foreach($list as $val){
+                if($val["value"]=="助教部" && $val["score"]>0){
+                    $refund_money +=$val["price"]; 
+                }
             }
-            $seller_stu_num = $seller_stu_num/$n;
-            if(empty($seller_stu_num)){
-                $lesson_count_finish_per=0;
-            }else{
-                $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count);
-                dd($lesson_count_finish_per);
-            }
+            echo $refund_money."<br>";
+             
+
+
 
             
         }

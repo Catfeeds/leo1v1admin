@@ -908,6 +908,24 @@ class test_james extends Controller
 
 
     public function dd(){
+        $t = $this->get_in_int_val('t');
+        $a = $this->t_lesson_info_b3->check_is_doing($t);
+
+        dd($a);
+        $a = [];
+        $now = time();
+        $late_time = $now-86400*2+15*60;
+        $late_lesson_info = $this->t_lesson_info_b3->get_late_lesson_info($late_time);
+
+        $lesson_begin_halfhour = $now+30*60;
+        $lesson_end_halfhour   = $now+31*60;
+        // 获取常规课 课前30分钟
+        $common_lesson_list_halfhour = $this->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+
+
+        dd($common_lesson_list_halfhour);
+
+        dd(count($a));
 
         $now = time();
         $late_time = $now-86400*2-15*60;
@@ -929,21 +947,6 @@ class test_james extends Controller
 
     }
 
-    public function to_waring(){
-        $type = '测试';
-        $wx  = new \App\Helper\Wx();
-        $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
-        $data_self = [
-            "first"    => "常规课 微信推送 报警",
-            "keyword1" => $type,
-            "keyword2" => date('Y-m-d H:i:s'),
-            "keyword3" => '后台',
-            "keyword4" => '微信推送 报警',
-        ];
-        $self_openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek'; //james
-
-        $wx->send_template_msg_color($self_openid,$template_id_self,$data_self ,'');
-    }
 
 
 
