@@ -118,7 +118,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_five   = $now-14*60;
         $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
-        if(count($common_lesson_list_five)){
+        if(count($common_lesson_list_five)<=500){
             foreach($common_lesson_list_five as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
@@ -143,12 +143,15 @@ class send_wx_msg_common_lesson extends Command
                     $wx->send_template_msg($ass_leader_openid,$template_id_parent,$data_leader ,'');
                 }
             }
+        }else{
+            \App\Helper\Utils::logger("常规课超时15分钟 数量异常");
+
         }
 
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
-        if(!empty($cut_class_lesson_list)){
+        if(!empty($cut_class_lesson_list) && count($cut_class_lesson_list)<=500){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -166,10 +169,12 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_ass($item,3,$data_ass);
                 }
             }
+        }else{
+
         }
 
         // 旷课
-        if(!empty($absenteeism_lesson_list)){
+        if(!empty($absenteeism_lesson_list) && count($absenteeism_lesson_list)<=200){
             foreach($absenteeism_lesson_list as $index=>$item){
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -188,13 +193,15 @@ class send_wx_msg_common_lesson extends Command
                     $this->send_wx_msg_par($item,2,$data_par);
                 }
             }
+        }else{
+
         }
 
 
         // 常规课 15分钟提示
         $late_time = $now-86400*2+15*60;
         $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_time);
-        if(!empty($late_lesson_info)){
+        if(!empty($late_lesson_info) && count($late_lesson_info)<=200){
             foreach($late_lesson_info as $val){
                 $subject_str  = E\Esubject::get_desc($val["subject"]);
                 $lesson_time  = date("H:i",$val['lesson_start']);
@@ -220,10 +227,24 @@ class send_wx_msg_common_lesson extends Command
                 $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
             }
+        }else{
+
         }
     }
 
 
+    public function to_waring($type){
+        $data = [
+            ""
+        ];
+
+
+        $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
+        $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+
+
+
+    }
 
 
     public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){
