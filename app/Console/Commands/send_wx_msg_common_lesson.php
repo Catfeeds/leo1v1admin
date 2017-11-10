@@ -109,16 +109,17 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-            $this->to_waring('常规课超时15分钟 数量异常');
+            $num = count($common_lesson_list_five);
+            $this->to_waring('常规课超时5分钟1 数量异常'.$num);
         }
 
         // 常规课超时15分钟
-        $lesson_begin_five = $now-15*60;
-        $lesson_end_five   = $now-14*60;
-        $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
+        $lesson_begin_fith = $now-15*60;
+        $lesson_end_fith   = $now-14*60;
+        $common_lesson_list_fith = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_fith,$lesson_end_fith);
 
-        if(count($common_lesson_list_five)<=50){
-            foreach($common_lesson_list_five as $item){
+        if(count($common_lesson_list_fith)<=50){
+            foreach($common_lesson_list_fith as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
                 if($opt_time_stu>=$now){ // 判断学生是否超时 [15分钟]
@@ -143,13 +144,14 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-            $this->to_waring('常规课超时15分钟 数量异常');
+            $num = count($common_lesson_list_fith);
+            $this->to_waring('常规课超时15分钟2 数量异常'.$num);
         }
 
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
-        if(count($cut_class_lesson_list)<=50){
+        if(count($cut_class_lesson_list)<=200){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -168,11 +170,12 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-            $this->to_waring('课程中途退出15分钟以上');
+            $num = count($cut_class_lesson_list);
+            $this->to_waring('课程中途退出15分钟以上'.$num);
         }
 
         // 旷课
-        if(count($absenteeism_lesson_list)<=50){
+        if(count($absenteeism_lesson_list)<=200){
             foreach($absenteeism_lesson_list as $index=>$item){
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -192,7 +195,8 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-            $this->to_waring('旷课');
+            $num = count($absenteeism_lesson_list);
+            $this->to_waring('旷课 '.$num);
         }
 
 
