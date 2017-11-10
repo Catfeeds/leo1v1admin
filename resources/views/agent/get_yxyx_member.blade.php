@@ -17,11 +17,14 @@
                 </div>
             </div>
             <div class="row" id="">
-                <div class="col-xs-12">
+                <div class="col-xs-6 col-md-4">
                     当前页面统计<br>
-                总例子数:{{$all_user}}
-                下单总人数:{{$order_user}}
-                金额总数:{{$price}}
+                    总例子数:{{$all_user}}
+                    下单总人数:{{$order_user}}
+                    金额总数:{{$price}}
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <a class="btn btn-info opt-all">查看所有</a>
                 </div>
             </div>
         </div>
