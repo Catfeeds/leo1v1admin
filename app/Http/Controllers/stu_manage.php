@@ -218,10 +218,24 @@ class stu_manage extends Controller
             }
         }
 
+        $old_ass_assign_time = $this->t_student_info->get_ass_assign_time($this->sid);
+        $old_assistantid = $this->t_student_info->get_assistantid($this->sid);
+        $old_ass_adminid = $this->t_assistant_info->get_adminid_by_assistand($old_assistantid);
+
         $this->t_student_info->field_update_list($this->sid,[
             "assistantid"     => $assistantid,
             "ass_assign_time" => time(),
             "type"            => 0
+        ]);
+
+        $new_ass_adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+        $this->t_ass_stu_change_list->row_insert([
+            "add_time"  =>time(),
+            "userid"    =>$this->sid,
+            "assistantid"=>$assistantid,
+            "adminid"    =>$new_ass_adminid,
+            "assign_ass_time"=>$old_ass_assign_time,
+            "old_ass_adminid"=>$old_ass_adminid
         ]);
 
         // 添加操作日志

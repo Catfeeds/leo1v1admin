@@ -1282,26 +1282,30 @@ class seller_student_new2 extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
         $flag = $this->get_in_int_val('flag',1);
-        if($flag == 1) {
-            $group_by = 'l.teacherid';
-        }else if ($flag == 2){
-            $group_by = 'tl.require_adminid';
-        }else {
-            $group_by = 'tr.origin';
-        }
         $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
         $is_down = $this->get_in_int_val('is_down', -1);
         $subject = $this->get_in_el_subject();
         $phone_location = trim($this->get_in_str_val("phone_location"));
         $grade   = $this->get_in_el_grade();
         $has_pad = $this->get_in_has_pad(-1);
+        // dd($grade);
+        if( $grade[0] != -1 ){
+            $grade = join($grade,',');
+        } else {
+            $grade = -1;
+        }
+        if( $subject[0] != -1 ) {
+            $subject = join($subject, ',');
+        } else {
+            $subject = -1;
+        }
         $ret_info = $this->t_test_lesson_subject->get_sign_count(
-            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+            $start_time, $end_time,$flag,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
         );
 
         foreach($ret_info as &$item){
             if($flag == 3){
-                $item['nick'] = $itme['origin'];
+                $item['nick'] = $item['origin'];
             }
 
             if($item['stu_count']){
@@ -1316,6 +1320,9 @@ class seller_student_new2 extends Controller
                 $item['sign_rate'] = 0;
             }
         }
+
+        $ret_info = \App\Helper\Utils::order_list_new( $ret_info, 'sign_rate', false );
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
 
     }

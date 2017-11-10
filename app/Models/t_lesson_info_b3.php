@@ -1803,17 +1803,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         return $this->main_get_row($sql);
-  
+
     }
 
     public function get_late_lesson_info($late_time){
-        $late_time_begin = $late_time-60;
+        $late_time_begin = $late_time+60;
         $where_arr = [
             "l.lesson_del_flag = 0",
             "l.tea_rate_time=0",
             "l.lesson_type in (0,1,3)",
-            "l.lesson_end < $late_time",
-            "l.lesson_end >= $late_time_begin",
+            "l.lesson_end > $late_time",
+            "l.lesson_end <= $late_time_begin",
         ];
 
         $sql = $this->gen_sql_new("  select t.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick, t.nick as tea_nick from %s l"

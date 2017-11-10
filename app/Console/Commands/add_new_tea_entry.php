@@ -40,8 +40,50 @@ class add_new_tea_entry extends Command
         // 每日存档(每天凌晨二点刷新前一天数据) 月存档(每月存档)
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
-
         $task = new \App\Console\Tasks\TaskController();
+
+        // 加载老师绑定数据
+        $file = '/tmp/bank.txt';
+        $str = file_get_contents($file);
+        $info = explode("\n",$str);
+        echo '正在添加数据,请稍等 ...'.PHP_EOL;
+        foreach($info as $key=>$item) {
+            if ($item) {
+                $val = explode("\t",$item);
+                $teacherid = $val[0];
+                $bank = $task->t_teacher_info->get_bank_for_teacherid($teacherid);
+                var_dump($bank);
+                if (!(isset($bank['bankcard']) && $bank['bankcard'])) {
+                    $where_arr['bankcard'] = $val[3];
+                    if (!(isset($bank['bank_phone']) && $bank['bank_phone'])) {
+                        $where_arr['bank_phone'] = $val[1];
+                    }
+                    if (!(isset($bank['bank_account']) && $bank['bank_account'])) {
+                        $where_arr['bank_account'] = $val[2];
+                    }
+                    if (!(isset($bank['bank_type']) && $bank['bank_type'])) {
+                        $where_arr['bank_type'] = $val[4];
+                    }
+                    if (!(isset($bank['bank_province']) && $bank['bank_province'])) {
+                        $where_arr['bank_province'] = $val[5];
+                    }
+                    if (!(isset($bank['bank_city']) && $bank['bank_city'])) {
+                        $where_arr['bank_city'] = $val[6];
+                    }
+                    if (!(isset($bank['bank_address']) && $bank['bank_address'])) {
+                        $where_arr['bank_address'] = $val[7];
+                    }
+                    if (!(isset($bank['idcard']) && $bank['idcard'])) {
+                        $where_arr['idcard'] = $val[8];
+                    }
+                    $ret = $task->t_teacher_info->field_update_list($teacherid,$where_arr);
+                    if (!$ret) echo '更新失败';
+                }
+                echo "添加完成 current id : ".$teacherid." 添加 $key 条 ".PHP_EOL;
+            }
+        }
+        exit("添加数据完成 ...");
+
         // 拉取数据 (用于拉取学生老师版本)
         $start_time = strtotime("2017-8-1");
         $end_time = strtotime('2017-11-1');

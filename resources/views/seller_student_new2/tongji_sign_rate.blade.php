@@ -14,9 +14,9 @@
                     <div class="input-group ">
                         <span class="input-group-addon">视角</span>
                         <select class="opt-change form-control" id="id_flag" >
-                            <option value="0">cc</option>
-                            <option value="1">老师</option>
-                            <option value="2">渠道</option>
+                            <option value="1">cc</option>
+                            <option value="2">老师</option>
+                            <option value="3">渠道</option>
                         </select>
 
                     </div>
