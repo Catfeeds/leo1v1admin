@@ -107,7 +107,7 @@ $(function(){
                 $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
                     .fadeIn(200);
             } else {
-                $("#tooltip").hide();
+                $("#tooltip").faseIn();
             }
         });
 
