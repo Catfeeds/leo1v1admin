@@ -908,6 +908,10 @@ class test_james extends Controller
 
 
     public function dd(){
+        $t = $this->get_in_int_val('t');
+        $a = $this->t_lesson_info_b3->check_is_doing($t);
+
+        dd($a);
         $a = [];
         $now = time();
         $late_time = $now-86400*2+15*60;

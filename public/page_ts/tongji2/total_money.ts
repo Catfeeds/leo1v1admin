@@ -1,17 +1,15 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji2-subject_transfer.d.ts" />
+/// <reference path="../g_args.d.ts/tongji2-total_money.d.ts" />
 
-function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val()
-    });
-}
 $(function(){
+    function load_data(){
+        $.reload_self_page ( {
+                  date_type:    $('#id_date_type').val(),
+                  opt_date_type:    $('#id_opt_date_type').val(),
+                  start_time:   $('#id_start_time').val(),
+                  end_time: $('#id_end_time').val()
+        });
+    }
 
 
     $('#id_date_range').select_date_range({
@@ -24,20 +22,29 @@ $(function(){
             load_data();
         }
     });
+
+
+      $('.opt-change').set_input_change_event(load_data);
+
     $("#id_pic_user_count").css({
         "height"  : "400px",
         "width"  : "95%"
     });
-    var subject_chinese=[];
-    var subject_math=[];
-    var subject_english=[];
+    var user_count_list=[];
+    var lesson_user_count_list=[];
+    g_data_ex_list.sort(function(a,b){
+        var a_v =a["title"];
+        var b_v =b["title"];
+        if(a_v>b_v )return  1 ;
+        else if (  a_v==b_v ) return 0;
+        else return -1;
+    });
 
 
     $.each( g_data_ex_list,function(i,item){
         if (item["title"] !="全部") {
-            subject_chinese.push([ item["title"], item["subject_chinese"]>0?item["subject_chinese"]:0 ]);
-            subject_math.push([ item["title"], item["subject_math"]>0?item["subject_math"]:0 ]);
-            subject_english.push([ item["title"], item["subject_english"]>0?item["subject_english"]:0 ]);
+            user_count_list.push([ item["title"], item["user_count"]>0?item["user_count"]:0 ]);
+            lesson_user_count_list.push([ item["title"], item["lesson_user_count"]>0?item["lesson_user_count"]:0 ]);
         }
     });
 
@@ -46,32 +53,19 @@ $(function(){
         var plot_data_list=[];
         plot_data_list.push(
             {
-                data: subject_chinese,
-                lines: { show: true
-                         , lineWidth: 0.3},
-                label: "语文"
+                data: lesson_user_count_list,
+                lines: { 
+                    show: true, 
+                    lineWidth: 0.3,
+                },
+                label: "金额"
             });
 
-        plot_data_list.push(
-            {
-                data: subject_math,
-                lines: { show: true
-                         , lineWidth: 0.3},
-                label: "数学"
-            });
-
-        plot_data_list.push(
-            {
-                data: subject_english,
-                lines: { show: true
-                         , lineWidth: 0.3},
-                label: "英语"
-            });
 
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
                 lines: {
-                    show: true
+                    show: true,
                 },
 
                 points: {
@@ -115,7 +109,7 @@ $(function(){
                 var data_item=item.series.data[item.dataIndex];
 
                 var title_funcion=function( date_item) {
-                    return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
+                    return "时间:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
                 }
                 $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
                     .fadeIn(200);
@@ -128,6 +122,7 @@ $(function(){
     }
     show_plot();
 
-	$('.opt-change').set_input_change_event(load_data);
+
+
 });
 
