@@ -7211,7 +7211,7 @@ lesson_type in (0,1) "
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        dd($sql);
+        //dd($sql);
         return $this->main_get_row($sql);
 
     }
@@ -9814,7 +9814,7 @@ lesson_type in (0,1) "
             " m.del_flag=0 ",
             " l.subject in (1,2,3)"
         ];
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order,c.subject "
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order,l.subject "
                                 ."from %s l  "
                                 ." left join %s tss on tss.lessonid = l.lessonid "
                                 ." left join %s tq on tq.require_id = tss.require_id "
@@ -9852,7 +9852,7 @@ lesson_type in (0,1) "
             "m.del_flag=0 ",
             "l.subject in (1,2,3) "
         ];
-        $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson,c.subject "
+        $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson,l.subject "
                                 ." from %s l  "
                                 ." left join %s tss on l.lessonid = tss.lessonid"
                                 ." left join %s c on  (l.userid = c.userid  and l.teacherid = c.teacherid  and l.subject = c.subject  and c.course_type=0 and c.courseid >0)  "
