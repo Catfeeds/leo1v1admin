@@ -282,9 +282,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s mm on a.phone = mm.phone"
             ." left join %s u on u.adminid = mm.uid"
             ." left join %s nn on u.groupid = nn.groupid"
-            ." where %s order by $order_by_str ",
+            // ." where %s order by $order_by_str ",
             // ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
-            // ." where %s group by t1.orderid order by $order_by_str ",
+            ." where %s group by t1.orderid order by $order_by_str ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
