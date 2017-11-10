@@ -541,7 +541,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ['adminid = %d',$adminid,-1],
             ['phone = %d',$phone,-1],
         ];
-        $this->where_arr_add_time_range($where_arr,'start_time',$start_time,time(null));
+        // $this->where_arr_add_time_range($where_arr,'start_time',$start_time,time(null));
         $sql = $this->gen_sql_new(" select id from %s "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
