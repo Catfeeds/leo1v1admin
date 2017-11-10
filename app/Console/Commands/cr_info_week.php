@@ -70,12 +70,11 @@ class cr_info_week extends Command
         //节点
         //概况
         $ret_total         = $task->t_order_info->get_total_price($start_time,$end_time);
-
         if($type == 3){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($end_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
             $ret_cr = $task->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
-            $target = $task->t_manager_info->get_cr_target(strtotime($end_month));//月度目标
+            $target = $task->t_manager_info->get_cr_target(strtotime($start_month));//月度目标
         }elseif($type == 1){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
