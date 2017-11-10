@@ -982,14 +982,10 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $start_time, $end_time,$flag,$is_green_flag,$is_down,$user_agent,$phone_location,$grade,$subject
     ){
         $where_arr = [
-            ["ss.add_time>=%u",$start_time,-1],
-            ["ss.add_time<%u",$end_time,-1],
             "s.is_test_user=0",
             ["tr.is_green_flag=%u", $is_green_flag, -1],
             ["tl.subject in (%s)", $subject, -1],
             ["tl.grade in (%s)", $grade, -1],
-        ];
-        $lesson_arr = [
             ["l.lesson_start>=%u",$start_time,-1],
             ["l.lesson_start<%u",$end_time,-1],
         ];
@@ -1008,6 +1004,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         }else if ($flag == 2){
             $group_by = 'tl.require_adminid';
             $where_arr[] = "tl.hand_get_adminid in (1,4)";//1拨打认领,4 tmk分配　
+            $where_arr[] = ["tl.admin_assign_time>=%u",$start_time,-1];
+            $where_arr[] = ["tl.admin_assign_time<%u",$end_time,-1];
         }else {
             $group_by = 'tr.origin';
         }
@@ -1020,7 +1018,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ." left join %s ss on ss.userid=tl.userid"
             ." left join %s tr on tr.test_lesson_subject_id=tl.test_lesson_subject_id "
             ." left join %s tss on tss.require_id=tr.require_id"
-            ." left join %s l on l.lessonid=tss.lessonid and %s "
+            ." left join %s l on l.lessonid=tss.lessonid "
             ." left join %s o on o.from_test_lesson_id=l.lessonid and o.contract_type in (0,1,3) and o.contract_status>0"
             ." left join %s s on s.userid=tl.userid"
             ." left join %s t on t.teacherid=l.teacherid and t.is_test_user=0"
@@ -1030,7 +1028,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_lesson_info::DB_TABLE_NAME
-            ,$lesson_arr
             ,t_order_info::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_teacher_info::DB_TABLE_NAME
