@@ -81,13 +81,15 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
 
-    public function get_ass_refund_info_new($start_time,$end_time){
+    public function get_ass_refund_info_new($start_time,$end_time,$uid=-1){
         $where_arr = [
             "ra.id is not null",
-            "m.uid >0"
+            "m.uid >0",
+            ["m.uid=%u",$uid,-1]
         ];
         $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select  r.real_refund,ra.id,m.uid,occ.value,ra.score,r.orderid,r.apply_time "
+                                  .",r.price "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s a on s.assistantid=a.assistantid"

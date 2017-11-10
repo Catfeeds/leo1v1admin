@@ -1510,4 +1510,186 @@ class tongji2 extends Controller
             "new_list" => $new_list,
         ]);
     }
+
+    public function subject_transfer(){
+        list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
+
+        
+        /*
+        $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
+        $from_list = $this->t_id_opt_log->get_date_list($log_type,$start_time,$end_time);
+
+        \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","user_count","count");
+        $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
+        dd($from_list);
+        \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","lesson_user_count","count");
+        usort($date_list,function($a,$b){
+            //var_dump($a['title'],$b['title']);echo "<br/>";
+            return \App\Helper\Common::sort_value_desc_func($a["title"],$b["title"]);
+        });
+        //dd(2);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
+        */
+
+
+        $first_time  = strtotime(date('Y-m-01',$start_time));
+        $second_time = strtotime(date('Y-m-01',$end_time));
+
+        $i = $first_time;
+        $montharr = [];
+        while(($i = strtotime('+1 month', $i)) <= $second_time){
+            $montharr[] = date('Y-m-01',$i);
+        }
+        $i = 0;
+        $subject_chinese = [];
+        $subject_math = [];
+        $subject_english = [];
+        $date_list = [];
+        foreach ($montharr as $key => $value) {
+            $time1 = strtotime($value);
+            $month = date('Y-m',$time1);
+            $time2 = strtotime('+1 month',$time1);
+            $success_num = $this->t_lesson_info->get_subject_transfer($start_time,$end_time);
+            $lesson_num  = $this->t_lesson_info->get_subject_success($start_time,$end_time);
+            $subject_chinese[$i]['month'] = $month;
+            $subject_chinese[$i]['count'] = isset($success_num[1]['have_order'])&& isset($lesson_num[1]['success_lesson'])?round(100*$success_num[1]['have_order'] /$lesson_num[1]['success_lesson'],2):0;
+            $subject_math[$i]['month'] = $month;
+            $subject_math[$i]['count'] = isset($success_num[2]['have_order'])&& isset($lesson_num[2]['success_lesson'])?round(100*$success_num[2]['have_order'] /$lesson_num[2]['success_lesson'],2):0;
+            $subject_english[$i]['month'] = $month;
+            $subject_english[$i]['count'] = isset($success_num[3]['have_order'])&& isset($lesson_num[3]['success_lesson'])?round(100*$success_num[3]['have_order'] /$lesson_num[3]['success_lesson'],2):0;
+            $date_list[$month]['title'] = $month;
+            ++$i;
+        }
+
+        \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
+        dd($date_list);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
+    }
+
+
+    public function total_money()
+    {
+        //list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-30*86500),date("Y-m-d"));
+        /*
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],1)
+        $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
+        $from_list = $this->t_id_opt_log->get_date_list($log_type,$start_time,$end_time);
+
+        \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","user_count","count");
+        $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
+        \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","lesson_user_count","count");
+        usort($date_list,function($a,$b){
+            return \App\Helper\Common::sort_value_desc_func($a["title"],$b["title"]);
+        });
+        */
+        //dd(2);
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],1);
+        $date_new_list = [
+            0 => [
+                "title" => "00:00",
+                "lesson_user_count" => 331162,
+            ],
+            1 => [
+                "title" => "01:00",
+                "lesson_user_count" => 80627,
+            ],
+            2 => [
+                "title" => "02:00",
+                "lesson_user_count" => 0,
+            ],
+            3 => [
+                "title" => "03:00",
+                "lesson_user_count" => 0,
+            ],
+            4 => [
+                "title" => "04:00",
+                "lesson_user_count" => 0,
+            ],
+            5 => [
+                "title" => "05:00",
+                "lesson_user_count" => 0,
+            ],
+            6 => [
+                "title" => "06:00",
+                "lesson_user_count" => 0,
+            ],
+            7 => [
+                "title" => "07:00",
+                "lesson_user_count" => 0,
+            ],
+            8 => [
+                "title" => "08:00",
+                "lesson_user_count" => 0,
+            ],
+            9 => [
+                "title" => "09:00",
+                "lesson_user_count" => 129987,
+            ],
+            10 => [
+                "title" => "10:00",
+                "lesson_user_count" => 446330,
+            ],
+            11 => [
+                "title" => "11:00",
+                "lesson_user_count" => 670013,
+            ],
+            12 => [
+                "title" => "12:00",
+                "lesson_user_count" => 1188662,
+            ],
+            13 => [
+                "title" => "13:00",
+                "lesson_user_count" => 580762,
+            ],
+            14 => [
+                "title" => "14:00",
+                "lesson_user_count" => 622892,
+            ],
+            15 => [
+                "title" => "15:00",
+                "lesson_user_count" => 893221,
+            ],
+            16 => [
+                "title" => "16:00",
+                "lesson_user_count" => 1003267,
+            ],
+            17 => [
+                "title" => "17:00",
+                "lesson_user_count" => 1425980,
+            ],
+            18 => [
+                "title" => "18:00",
+                "lesson_user_count" => 1359781,
+            ],
+            19 => [
+                "title" => "19:00",
+                "lesson_user_count" => 1103296,
+            ],
+            20 => [
+                "title" => "20:00",
+                "lesson_user_count" => 1276031,
+            ],
+            21 => [
+                "title" => "21:00",
+                "lesson_user_count" => 923152,
+            ],
+            22 => [
+                "title" => "22:00",
+                "lesson_user_count" => 890137,
+            ],
+            23 => [
+                "title" => "23:00",
+                "lesson_user_count" => 533712,
+            ],
+            24 => [
+                "title" => "24:00",
+                "lesson_user_count" => 162121,
+            ],
+        ];
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_new_list));
+    }
 }

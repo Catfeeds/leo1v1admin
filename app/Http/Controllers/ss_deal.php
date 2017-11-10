@@ -3023,13 +3023,16 @@ class ss_deal extends Controller
         //check 多科目
         $seller_resource_type= $new_flag? E\Eseller_resource_type::V_0: E\Eseller_resource_type::V_1;
 
+        //自己回流过的例子
+        $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($this->get_account_id(),$userid);
+        $hand_get_adminid = $add_time>0?0:E\Ehand_get_adminid::V_5;
         $this->t_seller_student_new->field_update_list($userid,[
             "admin_revisiterid" => $this->get_account_id() ,
             "admin_assign_time" => $now,
             "tq_called_flag"    =>0,
             "hold_flag" => 1,
             "seller_resource_type" => $seller_resource_type ,
-            "hand_get_adminid" => E\Ehand_get_adminid::V_5,
+            "hand_get_adminid" => $hand_get_adminid,
         ]);
 
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
@@ -4231,14 +4234,19 @@ class ss_deal extends Controller
         }
         $user_list=$this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
         foreach($user_list as $item) {
-            $phone=$item["phone"];
+            $phone = $item["phone"];
+            $last_contact_time = $item['last_contact_time'];
             //公海领取的例子,回流拨打限制
             if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5 && !in_array($item['admin_revisiterid'],[831,973,60,898])){
                 $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
                 if(!$ret){
-                    return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+                    return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
                     break;
                 }
+                // if($last_contact_time<$item["admin_assign_time"]){
+                //     return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
+                //     break;
+                // }
             }
             $seller_student_status= $item["seller_student_status"];
             $ret_update = $this->t_book_revisit->add_book_revisit(
