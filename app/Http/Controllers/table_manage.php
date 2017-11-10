@@ -104,15 +104,19 @@ class table_manage extends Controller
             "db_weiyi_admin" => "t_admin_users",
             "db_account"     => "t_user_info",
         ];
-        $db_name=$this->get_in_str_val("db_name","db_weiyi");
-        $table_name=$this->get_in_str_val("table_name", $config_arr[$db_name]);
+        $db_name    = $this->get_in_str_val("db_name","db_weiyi");
+        $table_name = $this->get_in_str_val("table_name", $config_arr[$db_name]);
 
         //得到table 注释
-        $table=$this->get_table($db_name);
-        $db_table_name=$this->get_db_table_name( $db_name,$table_name );
+        $table         = $this->get_table($db_name);
+        $db_table_name = $this->get_db_table_name( $db_name,$table_name );
 
-        $sql=$table->gen_sql( " select TABLE_NAME,TABLE_COMMENT from  information_schema.TABLES where TABLE_SCHEMA='%s' and TABLE_NAME <> 't_opt_table_log' " ,$db_name);
-        $table_list=$table->main_get_list($sql);
+        $sql = $table->gen_sql(" select TABLE_NAME,TABLE_COMMENT from information_schema.TABLES "
+                               ." where TABLE_SCHEMA='%s' "
+                               ." and TABLE_NAME <> 't_opt_table_log' "
+                               ,$db_name
+        );
+        $table_list = $table->main_get_list($sql);
         foreach($table_list as &$t_item){
             $table_comment=@hex2bin($t_item["TABLE_COMMENT"]);
             if ($table_comment) {
@@ -207,14 +211,13 @@ class table_manage extends Controller
         if ($set_utf8) {
             $table->main_get_value("set names utf8" );
         }
-        return   $table;
+        return $table;
     }
 
     public function dev_info () {
-
         return $this->view(__METHOD__);
-
     }
+
     public function del_row() {
         $db_name=$this->get_in_str_val("db_name","");
         $table_name=$this->get_in_str_val("table_name", "");
