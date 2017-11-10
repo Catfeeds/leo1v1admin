@@ -142,6 +142,7 @@ class TeacherMoneyTask extends TaskController
         $month_range   = \App\Helper\Utils::get_month_range($timestamp,true);
         $start_time    = $month_range['sdate'];
         $end_time      = $month_range['edate'];
+        $add_time      = time();
 
         $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         foreach($tea_list as $t_val){
@@ -173,6 +174,7 @@ class TeacherMoneyTask extends TaskController
                     "pay_time"           => $pay_time,
                     "money"              => $lesson_money,
                     "is_negative"        => $is_negative,
+                    "add_time"           => $add_time,
                 ]);
             }else{
                 $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$pay_time,$lesson_money,$is_negative);
