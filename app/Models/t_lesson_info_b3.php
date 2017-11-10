@@ -1807,7 +1807,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_late_lesson_info($late_time){
-        $late_time_begin = $late_time-60;
+        $late_time_begin = $late_time+60;
         $where_arr = [
             "l.lesson_del_flag = 0",
             "l.tea_rate_time=0",
