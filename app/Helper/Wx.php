@@ -94,6 +94,27 @@ class Wx{
         return @$ret_arr["access_token"];
     }
 
+    function get_new_wx_token($appid,$appsecret,$reset_flag=false) {//强制,及时刷新token
+        \App\Helper\Utils::logger("XX :$appid,$appsecret, ");
+
+        $key     = "wx_token_$appid";
+        $ret_arr = \App\Helper\Common::redis_get_json($key);
+        $now     = time(NULL);
+        \App\Helper\Utils::logger('gettoken1');
+
+        \App\Helper\Utils::logger('gettoken2');
+
+        $json_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret"  );
+        $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
+        $ret_arr["get_time"]=time(NULL);
+        \App\Helper\Common::redis_set_json($key,$ret_arr );
+
+        \App\Helper\Utils::logger('gettoken4:' .json_encode( $ret_arr) );
+
+        return @$ret_arr["access_token"];
+    }
+
+
     function wx_get_token($reset_flag=false) {
         $appid     = $this->appid;
         $appsecret = $this->appsecret;
@@ -151,13 +172,13 @@ class Wx{
 
 
 
-    function send_template_msg_color( $openid, $template_id, $data ,$url="", $color ) {
+    function send_template_msg_color( $openid, $template_id, $data ,$url="", $color='' ) {
         foreach ($data as &$item) {
             if (!is_array($item)) {
                 $item = [
                     "value" => $item,
-                    "color" => $color,
-                    // "color" => "#e22870", //test
+                    // "color" => $color,
+                    "color" => "#e22870", //test
                 ];
             }
         }

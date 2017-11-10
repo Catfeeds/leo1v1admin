@@ -99,10 +99,17 @@ class order_price_20171001 extends order_price_base
         $do_activity_fun ( Activity\activity_2017100701::class  );
 
         //11.11打折
-        $off_ret=$do_activity_fun ( Activity\activity_2017111001::class  );
+        $off_ret=
+                $do_activity_fun ( Activity\activity_2017111001::class  )
+                || $do_activity_fun ( Activity\activity_2017111002::class  )
+                ;
+
         if (!$off_ret) {
             //常规打折
             $do_activity_fun ( Activity\activity_2017090101::class  );
+
+            //CR 90->9
+            $do_activity_fun ( Activity\activity_2017111003::class  );
             //优惠券
             $do_activity_fun ( Activity\activity_2017110802::class  );
             $do_activity_fun ( Activity\activity_2017110803::class  );

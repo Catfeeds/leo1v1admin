@@ -143,6 +143,24 @@ class test_james extends Controller
 
 
     //以下代码勿删
+
+    public function get_file_url()
+    {
+        $file_url = $this->get_in_str_val('url');
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+
+
     public function get_pdf_url(){
         $pdf_url   = $this->get_in_str_val('pdf_url');
         $lessonid  = $this->get_in_int_val('lessonid');
@@ -911,6 +929,21 @@ class test_james extends Controller
 
     }
 
+    public function to_waring(){
+        $type = '测试';
+        $wx  = new \App\Helper\Wx();
+        $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
+        $data_self = [
+            "first"    => "常规课 微信推送 报警",
+            "keyword1" => $type,
+            "keyword2" => date('Y-m-d H:i:s'),
+            "keyword3" => '后台',
+            "keyword4" => '微信推送 报警',
+        ];
+        $self_openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek'; //james
+
+        $wx->send_template_msg_color($self_openid,$template_id_self,$data_self ,'');
+    }
 
 
 

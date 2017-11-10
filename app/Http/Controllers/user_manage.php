@@ -209,17 +209,18 @@ class user_manage extends Controller
         $user_name    = trim($this->get_in_str_val('user_name',''));
         $phone        = trim($this->get_in_str_val('phone',''));
         $teacherid    = $this->get_in_int_val("teacherid",-1);
-        $student_type = $this->get_in_int_val("student_type",0);
+        $student_type = $this->get_in_int_val("student_type",-1);
         $assistantid  = $this->get_in_int_val("assistantid",-1);
         $page_num     = $this->get_in_page_num();
         $status       = -1;
         $userid       = $this->get_in_userid(-1);
         $revisit_flag = $this->get_in_int_val('revisit_flag',-1);
         $warning_stu  = $this->get_in_int_val('warning_stu',-1);
-        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',0);
+        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',1);
 
         //回访预警名单
-        $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        // $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        $warn_list=[];
 
         $now  = strtotime(date("Y-m-d",time()));
         $date = \App\Helper\Utils::get_week_range($now,1);
@@ -858,6 +859,33 @@ class user_manage extends Controller
                 return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
             }
             $this->delete_teacher_regular_lesson($userid);
+
+            //结课未续费人数增加
+            $refund_time = $this->t_order_refund->get_last_apply_time($userid);
+            $last_lesson_time = $this->t_student_info->get_last_lesson_time($userid);
+            
+            if(empty($refund_time) || $refund_time>$last_lesson_time){
+                $assistantid = $this->t_student_info->get_assistantid($userid);
+                $adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                $month = strtotime(date("Y-m-01",time()));
+                $ass_info = $this->t_month_ass_student_info->get_ass_month_info($month,$adminid,1);
+                if($ass_info){
+                    $num = @$ass_info[$adminid]["end_no_renw_num"]+1;
+                    $this->t_month_ass_student_info->get_field_update_arr($adminid,$month,1,[
+                        "end_no_renw_num" =>$num
+                    ]);
+
+                }else{
+                    $this->t_month_ass_student_info->row_insert([
+                        "adminid" =>$adminid,
+                        "month"   =>$month,
+                        "end_no_renw_num"=>1
+                    ]);
+                }
+
+ 
+            }
+
         }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);

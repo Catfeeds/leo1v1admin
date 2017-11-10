@@ -69,6 +69,8 @@
 	from_orderno	:any;
 	pre_pay_time	:any;
 	pre_price	:any;
+	order_set_name	:any;
+	hand_get_adminid	:any;
 	order_time_1_day_flag	:any;
 	check_money_time_1_day_flag	:any;
 	order_time_1_day_flag_str	:any;

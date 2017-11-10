@@ -465,13 +465,15 @@ class agent extends Controller
     }
 
     public function test_new(){
-        if($tmk_student_status==E\Etmk_student_status::V_3) { //拨通标记有效限制
-            $ret = $this->t_tq_call_info->get_call_info_list($this->get_account_id(),$phone);
-            if(!$ret){
-                return $this->output_err('拨通后才可标记有效!');
-            }
+        $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($adminid=445,$userid=288907);
+        dd($add_time);
+        if($add_time>0){
+            
         }
 
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=831);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+        dd($count_info);
     }
 
     //处理等级头像

@@ -899,6 +899,11 @@ class user_deal extends Controller
                         "新签合同赠送 抢新生名额[$count] "
                         ,"学生:". $this->cache_get_student_nick($userid)
                         ,"");
+                    //公海签单奖励15个
+                    $hand_get_adminid = $this->t_seller_student_new->field_get_value($userid,'hand_get_adminid');
+                    if($hand_get_adminid == E\Ehand_get_adminid::V_5){
+                        $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,E\Eseller_new_count_type::V_CJG_ORDER_ADD,$count=15,$adminid,$value_ex);
+                    }
                 }
             }
             $sys_operator=$this->t_order_info->get_sys_operator($orderid);
@@ -3183,6 +3188,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
                
+        $list = $this->t_student_info->get_ass_create_stu_info();
+        dd($list);
  
 
             

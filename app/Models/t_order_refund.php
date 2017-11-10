@@ -576,5 +576,18 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_row($sql);
     }
 
+    public function get_last_apply_time($userid){
+        $where_arr=[
+            ["userid=%u",$userid,-1],
+            "contract_type in (0,3)"
+        ];
+        $sql = $this->gen_sql_new("select max(apply_time) from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 
 }

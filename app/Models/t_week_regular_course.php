@@ -427,4 +427,11 @@ class t_week_regular_course extends \App\Models\Zgen\z_t_week_regular_course
         return $this->main_get_list($sql);
     }
 
+    public function get_lesson_count_all($userid_list){
+        $where_arr=[];
+        $where_arr[]=$this->where_get_in_str("userid",$userid_list);
+        $sql = $this->gen_sql_new("select sum(lesson_count) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 }

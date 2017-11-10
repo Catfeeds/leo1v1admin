@@ -48,21 +48,9 @@ class save_seller_info_by_week extends Command
             $end_time   = strtotime(date('Y-m-d 0:0:0'));
             $start_time = $end_time-7*86400;
         }
-
-
         $month_start_time_funnel = strtotime(date('Y-m-01'));
-
-        // if($month_start_time_funnel<$start_time){
-        //     $month_start_time_funnel = $start_time;
-        // }
-
-        // $month_start_time_funnel = '1506787200';
-
-
-        $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
-
+        $ret_info['data_type']   = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
         $ret_info['create_time'] = time();
-
         $ret_info['from_time'] = $start_time;
 
 
@@ -79,21 +67,13 @@ class save_seller_info_by_week extends Command
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
-
+        $month_start_time = strtotime(date("Y-m-01",$start_time));
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
         $main_type = 2;// 销售
-        $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入
+        $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$month_start_time); // 销售月目标收入
         if (!$ret_info['seller_target_income'] ) {
             $ret_info['seller_target_income'] = 1600000;
         }
-
-
-        // // dd(2);
-
-        // $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
-
-        $month_start_time = strtotime(date("Y-m-01",$start_time));
-        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
-
 
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
         $ret_info['formal_info']=0;  // 完成金额
@@ -104,6 +84,8 @@ class save_seller_info_by_week extends Command
                 $ret_info['formal_info']+=@$item["money"];
             }
         }
+
+
 
         // 计算电销人数
         $first_group  = '咨询一部';

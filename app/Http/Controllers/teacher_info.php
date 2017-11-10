@@ -2247,4 +2247,14 @@ class teacher_info extends Controller
         }
     }
 
+    public function down_leo_file(){
+        $filename = '理优讲义模板.zip';
+        $fileinfo = pathinfo($filename);
+        header('Content-type: application/x-'.$fileinfo['extension']);
+        header('Content-Disposition: attachment; filename='.$fileinfo['basename']);
+        header('Content-Length: '.filesize($filename));
+        readfile($thefile);
+        exit();
+    }
+
 }
