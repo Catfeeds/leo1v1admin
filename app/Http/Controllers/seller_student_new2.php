@@ -1282,13 +1282,6 @@ class seller_student_new2 extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
         $flag = $this->get_in_int_val('flag',1);
-        if($flag == 1) {
-            $group_by = 'l.teacherid';
-        }else if ($flag == 2){
-            $group_by = 'tl.require_adminid';
-        }else {
-            $group_by = 'tr.origin';
-        }
         $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
         $is_down = $this->get_in_int_val('is_down', -1);
         $subject = $this->get_in_el_subject();
@@ -1307,7 +1300,7 @@ class seller_student_new2 extends Controller
             $subject = -1;
         }
         $ret_info = $this->t_test_lesson_subject->get_sign_count(
-            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+            $start_time, $end_time,$flag,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
         );
 
         foreach($ret_info as &$item){
