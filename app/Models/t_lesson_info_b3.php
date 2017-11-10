@@ -1667,7 +1667,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $sql = $this->gen_sql_new("  select  l.teacherid,t.nick, wx_openid from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid"
-                                  ." where %s group by l.teacherid  limit 1"
+                                  ." where %s group by l.teacherid "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
@@ -1713,7 +1713,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." left join %s p on p.parentid=pc.parentid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
-                                  ." where %s group by p.parentid limit 1 "
+                                  ." where %s group by p.parentid  "
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME

@@ -37,6 +37,7 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
     {
         //
 
+        $this->delete();
 
         /**
            gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
@@ -47,14 +48,16 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
            {{remark.DATA}}
         ***/
 
-        $this->delete();
 
         $t_lesson_info_b3  = new \App\Models\t_lesson_info_b3();
         $t_assistant_info  = new \App\Models\t_assistant_info();
 
         $tea_lesson_list = $t_lesson_info_b3->get_teacher_tomorrow_lesson_list($this->lesson_start, $this->lesson_end);
         $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk';
+        $i = 1;
         foreach($tea_lesson_list as $item){
+            $this->delete();
+
             $tea_lesson_info = $t_lesson_info_b3->get_tea_lesson_info($this->lesson_start, $this->lesson_end,$item['teacherid']);
             $keyword1 = '';
             foreach($tea_lesson_info as $i=> $v){
@@ -69,10 +72,9 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "remark"   => "请确保讲义已上传，保持网络畅通，提前做好上课准备。"
             ];
 
-            $b = $item['cc'];
             //oJ_4fxPmwXgLmkCTdoJGhSY1FTlc
-            \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id_teacher, $data_tea,'');
-            // \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
+            // \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id_teacher, $data_tea,'');
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
         }
 
         /**
@@ -88,6 +90,7 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
         $par_lesson_list = $t_lesson_info_b3->get_parent_tomorrow_lesson_list($this->lesson_start, $this->lesson_end);
         $template_id_parent = 'QdFD9O7SPf1eYO_46ptbVeHPnYwTQjCI4_Vj4-wukC8';
         foreach($par_lesson_list as $item){
+
             $par_lesson_info = $t_lesson_info_b3->get_par_lesson_info($this->lesson_start, $this->lesson_end,$item['parentid']);
             $keyword1 = '';
             foreach($par_lesson_info as $i=> $v){
@@ -105,8 +108,7 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "remark"   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
             ];
             $wx  = new \App\Helper\Wx();
-            $wx->send_template_msg('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id_parent, $data_par,'');
-            // $wx->send_template_msg($item['wx_openid'],$template_id_parent, $data_par,'');
+            $wx->send_template_msg($item['wx_openid'],$template_id_parent, $data_par,'');
         }
     }
 }
