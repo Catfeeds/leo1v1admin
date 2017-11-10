@@ -986,7 +986,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ."left join %s n on n.userid = s.userid "
                                   ."left join %s m on o.sys_operator = m.account "
                                   ."left join %s g on g.seller_level = m.seller_level "
-                                  ." where %s      group by sys_operator order by all_price desc $limit_info ",
+                                  ." where %s group by sys_operator order by all_price desc $limit_info ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
@@ -4148,4 +4148,5 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+
 }

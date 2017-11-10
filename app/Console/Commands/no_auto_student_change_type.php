@@ -76,6 +76,20 @@ class no_auto_student_change_type extends Command
                 "reason"      =>"系统更新"
             ]);
             $task->delete_teacher_regular_lesson($val["userid"],1);
+            $refund_time = $task->t_order_refund->get_last_apply_time($val["userid"]);
+            $last_lesson_time = $task->t_student_info->get_last_lesson_time($val["userid"]);
+            
+            if(empty($refund_time) || $refund_time>$last_lesson_time){
+                $assistantid = $task->t_student_info->get_assistantid($val["userid"]);
+                $adminid = $task->t_assistant_info->get_adminid_by_assistand($assistantid);
+                $month = strtotime(date("Y-m-01",time()));
+                $ass_info = $task->t_month_ass_student_info->get_ass_month_info($month,$adminid,1);
+                if($ass_info){
+                    $num = @$ass_info[$adminid]["end_no_renw_num"]+1;
+                }
+
+ 
+            }
 
         }
 
