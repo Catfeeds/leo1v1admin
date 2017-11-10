@@ -2038,7 +2038,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_read_student_ass_info(){
+    public function get_read_student_ass_info($stu_type=0){
+        $where_arr=[];
+        if($stu_type==-2){
+            $where_arr[]="s.type in (0,2,3)";
+        }
+        
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
                                  " join %s a on a.assistantid=s.assistantid".
                                  " join %s m on a.phone=m.phone".
