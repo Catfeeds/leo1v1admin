@@ -179,14 +179,14 @@ $(function(){
     $("#id_show_all").on("click",function(){
         //
         var url= $(".page-opt-show-all" ).attr("data");
-        if (!url) {
-            alert("已经是全部了!");
-            return ;
-        }else{
+        // if (!url) {
+        //     alert("已经是全部了!");
+        //     return ;
+        // }else{
             var page_num=0xFFFFFFFF+1;
             url=url.replace(/{Page}/, page_num  );
             $(this).attr("href",url);
-        }
+        // }
 
     });
 
