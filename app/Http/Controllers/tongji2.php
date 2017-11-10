@@ -1536,8 +1536,9 @@ class tongji2 extends Controller
 
         $i = $first_time;
         $montharr = [];
-        while(($i = strtotime('+1 month', $i)) <= $second_time){
+        while($i  <= $second_time){
             $montharr[] = date('Y-m-01',$i);
+            $i = strtotime('+1 month', $i);
         }
         $i = 0;
         $subject_chinese = [];
@@ -1559,6 +1560,7 @@ class tongji2 extends Controller
             $date_list[$month]['title'] = $month;
             ++$i;
         }
+
         \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
