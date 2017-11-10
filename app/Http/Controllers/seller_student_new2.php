@@ -1320,6 +1320,9 @@ class seller_student_new2 extends Controller
                 $item['sign_rate'] = 0;
             }
         }
+
+        $ret_info = \App\Helper\Utils::order_list_new( $ret_info, 'sign_rate', 'desc' );
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
 
     }
