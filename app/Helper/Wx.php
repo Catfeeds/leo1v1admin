@@ -35,7 +35,6 @@ class Wx{
         exit;
     }
 
-
     public function get_wx_login_url_for_openid($redirect_url) { //教师节测试[静默授权]
         \App\Helper\Utils::logger(" goto_wx_login redirect_url: $redirect_url");
         $appid = $this->appid;
@@ -43,8 +42,6 @@ class Wx{
         $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_base&state=STATE_$no&connect_redirect=1#wechat_redirect";
         return $url;
     }
-
-
 
     public function get_token_from_code($code) {
         $appid     = $this->appid;

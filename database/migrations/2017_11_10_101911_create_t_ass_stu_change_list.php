@@ -17,13 +17,20 @@ class CreateTAssStuChangeList extends Migration
             t_field($table->increments('id'),"学生助教信息变更记录表");
             t_field($table->integer('add_time'),"变更时间");
             t_field($table->integer('userid'),"学生");
-            t_field($table->integer('cycle_test_lesson_count'),"试听量[无下限限制下级]");
-            t_field($table->integer('cycle_order_money'),"签单金额[无下限限制下级][分]");
-            t_field($table->integer('cycle_member_count'),"会员量[无下限限制下级]");
-            t_field($table->integer('cycle_order_count'),"签单量[无下限限制下级]");
-            $table->index('agent_id');
-            $table->index('create_time');
+            t_field($table->integer('assistantid'),"助教id");
+            t_field($table->integer('adminid'),"助教后台帐号");
+            t_field($table->integer('assign_ass_time'),"学生分配给该助教的时间");
+            $table->index('add_time');
+            $table->index('assign_ass_time');
+            $table->index('adminid');
+            $table->index('userid');
         });
+
+        Schema::table('db_weiyi.t_month_ass_student_info', function( Blueprint $table)
+        {
+            t_field($table->text("stop_student_list"),"停课学员名单");
+        });
+
 
     }
 
