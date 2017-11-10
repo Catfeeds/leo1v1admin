@@ -334,8 +334,8 @@
                         </div>
                         <div class="down-btm">
                             <button type="submit" class="btn btn-block btn-blue-ly pc download-pc-url">立即下载</button>
-                            <button type="submit" class="btn btn-block btn-blue-ly pdf hide download-pc-url">立即下载</button>
-                            <button type="submit" class="btn btn-block btn-blue-ly handout hide">立即下载</button>
+                            <button type="submit" class="btn btn-block btn-blue-ly pdf hide download-pdf-url">立即下载</button>
+                            <button type="submit" class="btn btn-block btn-blue-ly handout hide download-handout-url">立即下载</button>
                         </div>
                     </div>
                 </div>
