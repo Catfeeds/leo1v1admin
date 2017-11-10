@@ -32,7 +32,7 @@ $(function(){
 
     $('.opt-edit').on('click', function() {
         var opt_data=$(this).get_opt_data();
-        console.log(opt_data);
+        alert(opt_data);
         var s_input = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');
         var arr=[
             ['工资结算开始时间', s_input]
