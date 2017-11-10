@@ -86,6 +86,16 @@ class no_auto_student_change_type extends Command
                 $ass_info = $task->t_month_ass_student_info->get_ass_month_info($month,$adminid,1);
                 if($ass_info){
                     $num = @$ass_info[$adminid]["end_no_renw_num"]+1;
+                    $task->t_month_ass_student_info->get_field_update_arr($adminid,$month,1,[
+                        "end_no_renw_num" =>$num
+                    ]);
+
+                }else{
+                    $task->t_month_ass_student_info->row_insert([
+                        "adminid" =>$adminid,
+                        "month"   =>$month,
+                        "end_no_renw_num"=>1
+                    ]);
                 }
 
  
