@@ -101,7 +101,8 @@ class order_price_20171001 extends order_price_base
         //11.11打折
         $off_ret=
                 $do_activity_fun ( Activity\activity_2017111001::class  )
-                || $do_activity_fun ( Activity\activity_2017111002::class  );
+                || $do_activity_fun ( Activity\activity_2017111002::class  )
+                || $do_activity_fun ( Activity\activity_2017111003::class  );
 
         if (!$off_ret) {
             //常规打折

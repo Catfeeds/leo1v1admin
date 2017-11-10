@@ -58,16 +58,15 @@ class send_wx_msg_common_lesson extends Command
         $template_id_upload = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
 
         if(count($upload_list)<=1000){
-            
-        }
-        foreach($upload_list as $item){
-            $data_upload = [
-                "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
-                "keyword1" => '讲义上传提醒',
-                "keyword2" => date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义，请尽快登录老师后台上传讲义',
-                "keyword3" => date('Y-m-d H:i:s')
-            ];
-            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
+            foreach($upload_list as $item){
+                $data_upload = [
+                    "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
+                    "keyword1" => '讲义上传提醒',
+                    "keyword2" => date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义，请尽快登录老师后台上传讲义',
+                    "keyword3" => date('Y-m-d H:i:s')
+                ];
+                \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
+            }
         }
 
         $lesson_begin_halfhour = $now+30*60;
@@ -75,13 +74,16 @@ class send_wx_msg_common_lesson extends Command
         // 获取常规课 课前30分钟
         $common_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
-        if(!empty($common_lesson_list_halfhour)){
+        if(!empty($common_lesson_list_halfhour) && count($common_lesson_list_halfhour)<1000){
             foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
                 $data_tea = $this->get_data($item,2,1);
                 $this->send_wx_msg_tea($item,3,$data_tea);
                 $this->send_wx_msg_par($item,1,$data_par);
             }
+        }else{
+            \App\Helper\Utils::logger("获取常规课 课前30分钟 发送失败 ");
+
         }
 
         // 常规课超时5分钟
