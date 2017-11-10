@@ -900,7 +900,7 @@ class menu{
                 ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
                 ["power_id"=>18, "name"=>"武汉全职老师面试数据","url"=>"/fulltime_teacher/fulltime_teacher_data"],
-
+                ["power_id"=>31, "name"=>"全职老师学科转化率","url"=>"/tongji2/subject_transfer"],
             ]],
 
             ["power_id"=>39, "name"=>"角色-客服", "list"=>[
