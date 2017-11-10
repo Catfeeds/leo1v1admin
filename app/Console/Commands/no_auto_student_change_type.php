@@ -76,6 +76,7 @@ class no_auto_student_change_type extends Command
                 "reason"      =>"系统更新"
             ]);
             $task->delete_teacher_regular_lesson($val["userid"],1);
+            $refund_time = $task->t_order_refund->get_last_apply_time($val["userid"]);
 
         }
 
