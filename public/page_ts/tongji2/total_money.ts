@@ -109,7 +109,7 @@ $(function(){
                     return "时间:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
                 }
                 $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
-                    .fadeIn(200);
+                    .fadeIn(2000);
             } else {
                 $("#tooltip").faseIn();
             }
