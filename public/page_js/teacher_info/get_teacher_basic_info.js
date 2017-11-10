@@ -278,7 +278,7 @@ $(function(){
         var options = {
             thumbBox: '.thumbBox',
             spinner: '.spinner',
-            imgSrc: '/img/no_img.jpg'
+            imgSrc: '/img/no_img.jpeg'
         }
         var cropper = $('.imageBox').cropbox(options);
         $('#upload-file').on('change', function(){
