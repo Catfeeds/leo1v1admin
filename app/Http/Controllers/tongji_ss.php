@@ -22,8 +22,10 @@ class tongji_ss extends Controller
         $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
         \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","lesson_user_count","count");
         usort($date_list,function($a,$b){
+            //var_dump($a['title'],$b['title']);echo "<br/>";
             return \App\Helper\Common::sort_value_desc_func($a["title"],$b["title"]);
         });
+        //dd(2);
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }

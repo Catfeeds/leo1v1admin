@@ -75,19 +75,22 @@ class cr_info_week extends Command
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($end_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
             $ret_cr = $task->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
+            $target = $task->t_manager_info->get_cr_target(strtotime($end_month));//月度目标
         }elseif($type == 1){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
             $ret_cr = $task->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+            $target = $task->t_manager_info->get_cr_target($last_month);//月度目标
         }else{
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
             $ret_cr = $task->t_manager_info->get_cr_num_new_b2(strtotime($start_month),$end_time);
+            $target = $task->t_manager_info->get_cr_target($last_month);//月度目标
         }//月初至今
         $ret_total_thirty  = $task->t_order_info->get_total_price_thirty($start_time,$end_time);
         
         $ret_refund = $task->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
-        $target = $task->t_manager_info->get_cr_target($last_month);//月度目标
+        
         $arr['target']             = $target * 100;                          //1-续费目标
         $arr['total_price']        = $month_total_money;                    //2-现金总收入
         $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
