@@ -24,7 +24,7 @@ $(function(){
     });
 
 
-      $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 
     $("#id_pic_user_count").css({
         "height"  : "400px",
@@ -43,24 +43,21 @@ $(function(){
 
     $.each( g_data_ex_list,function(i,item){
         if (item["title"] !="全部") {
-            user_count_list.push([ item["title"], item["user_count"]>0?item["user_count"]:0 ]);
             lesson_user_count_list.push([ item["title"], item["lesson_user_count"]>0?item["lesson_user_count"]:0 ]);
         }
     });
-
     var show_plot=function( ) {
         var id_name="id_pic_user_count";
         var plot_data_list=[];
         plot_data_list.push(
-            {
-                data: lesson_user_count_list,
-                lines: { 
-                    show: true, 
-                    lineWidth: 0.3,
-                },
-                label: "金额"
-            });
-
+        {
+            data: lesson_user_count_list,
+            lines: { 
+                show: true, 
+                lineWidth: 0.3,
+            },
+            label: "金额"
+        });
 
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
@@ -92,7 +89,10 @@ $(function(){
             ,legend: {
                 show: true ,
                 position:"nw"
-            }
+            },
+            numbers: {
+                show : true,
+            },
         });
 
         $("<div id='tooltip'></div>").css({
@@ -117,8 +117,6 @@ $(function(){
                 $("#tooltip").hide();
             }
         });
-
-
     }
     show_plot();
 
