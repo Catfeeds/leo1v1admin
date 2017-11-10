@@ -74,6 +74,25 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $data = json_decode($output,true);
         $headimgurl = $data['headimgurl'];
 
+        //强制刷新token
+        if ( array_key_exists('headimgurl', $data) ){
+
+            $access_token = $wx->get_new_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+
+            \App\Helper\Utils::logger("url info:". $url);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
+
+        }
+
         //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
         $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
