@@ -477,6 +477,9 @@ class user_manage_new extends Controller
             E\Esubject::set_item_value_str($item);
             E\Econfirm_flag::set_item_value_str($item);
             E\Econtract_type::set_item_value_str($item,"lesson_type");
+            if ($item['lesson_type'] != 2) {
+                $item['lesson_type_str'] = '常规';
+            }
             E\Eteacher_money_type::set_item_value_str($item);
 
             $item["lesson_time"] = \App\Helper\Utils::fmt_lesson_time($item["lesson_start"], $item["lesson_end"]);

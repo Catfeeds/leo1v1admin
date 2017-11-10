@@ -279,8 +279,15 @@ class wx_parent_api extends Controller
 
             $jssdk    = $this->get_wx_jsapi_ticket($token);
             $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
+            \App\Helper\Utils::logger("JSSDK RET_ARR:". json_encode( $ret_arr ) );
+
+            if ($ret_arr["errcode"]==45009 ) {
+                $this->output_err("WX 出错, 明天重试");
+            }
+
             $ret_arr["get_time"] = time(NULL);
             \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
+
 
         }
 
