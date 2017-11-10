@@ -42,6 +42,11 @@ class add_new_tea_entry extends Command
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
 
+        $ret = $task->t_teacher_info->field_update_list(232101,[
+            "bank_type" => '农村信用村'
+        ]);
+        exit;
+
         // 加载老师绑定数据
         $file = '/tmp/bank.txt';
         $str = file_get_contents($file);

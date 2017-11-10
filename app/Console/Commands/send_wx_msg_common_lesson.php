@@ -201,7 +201,7 @@ class send_wx_msg_common_lesson extends Command
         // 常规课 15分钟提示
         $late_time = $now-86400*2+15*60;
         $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_time);
-        if(!empty($late_lesson_info) && count($late_lesson_info)<=200){
+        if(!empty($late_lesson_info) && count($late_lesson_info)<=100){
             foreach($late_lesson_info as $val){
                 $subject_str  = E\Esubject::get_desc($val["subject"]);
                 $lesson_time  = date("H:i",$val['lesson_start']);
@@ -234,12 +234,14 @@ class send_wx_msg_common_lesson extends Command
 
 
     public function to_waring($type){
+        $wx  = new \App\Helper\Wx();
+
         $data_self = [
             ""
         ];
 
         $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
-        $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_self ,'');
+        $wx->send_template_msg($item['par_openid'],$template_id_self,$data_self ,'');
     }
 
 
