@@ -111,9 +111,12 @@ class assistant_performance extends Controller
             //课时消耗达成率
             $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
             if($registered_student_list){
-                $registered_student_arr = jason_decode($registered_student_list,true);                
+                $registered_student_arr = jason_decode($registered_student_list,true);
+                $last_stu_num = count($registered_student_arr);
+                $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);
             }else{
                 $registered_student_arr=[];      
+                $estimate_month_lesson_count =100;
             }
         }
         
