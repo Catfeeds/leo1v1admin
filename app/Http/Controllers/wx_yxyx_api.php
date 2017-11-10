@@ -1098,15 +1098,7 @@ class wx_yxyx_api extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
-            $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
-            foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
-                if(empty($val['nickname']))
-                    $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 2)
-                    $val['agent_status'] = "0";
-                $val['price'] /= 100;
-            }
+            $item['child'] =  [];
             $item['second_num'] = count($item['child']);
         }
         //获取一级用户为会员的列表
