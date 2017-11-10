@@ -117,6 +117,9 @@ class assistant_performance extends Controller
         }
         $n = ($last_week-$first_week)/(7*86400)+1;
         
+        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
+        dd($lesson_count_list);
+
 
         foreach($ass_month as $k=>&$item){
             //回访
