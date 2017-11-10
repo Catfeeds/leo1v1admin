@@ -3185,7 +3185,9 @@ class user_deal extends Controller
         $start_time = strtotime("2017-10-01");
         $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
         $stu_info_all = $this->t_student_info->get_ass_stu_info_new();       
-        $userid_list = $this->t_student_info->get_read_student_ass_info();
+        $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2);
+        $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2);
+        
  
 
             
