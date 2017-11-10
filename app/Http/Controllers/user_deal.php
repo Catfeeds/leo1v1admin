@@ -5035,26 +5035,6 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
-
-    public function jack_test(){
-        $ret_info = $this->t_course_order->get_lesson_left_info(1);
-        $list = $this->t_course_order->get_lesson_left_info(2);
-        foreach($ret_info as $k=>$item){
-            if(isset($list[$k])){
-                unset($ret_info[$k]);
-            }
-        }
-        foreach($ret_info as $k=>$val){
-            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($val["uid"]);
-            if($ass_master_adminid != 297){
-                unset($ret_info[$k]);
-            }
-
-        }
-        dd($ret_info);
-
-    }
-
     public function update_test_lesson_require_teacher_info(){
 
         $start_time = strtotime(date("Y-m-d",time()))+86400;
