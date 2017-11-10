@@ -37,6 +37,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
     {
         //
 
+        $this->delete();
+
         /**
            gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
            {{first.DATA}}
@@ -64,7 +66,10 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "keyword3" => $item['nick']."老师",
                 "remark"   => "请确保讲义已上传，保持网络畅通，提前做好上课准备。"
             ];
-            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
+
+            //oJ_4fxPmwXgLmkCTdoJGhSY1FTlc
+            \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id_teacher, $data_tea,'');
+            // \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
         }
 
         /**
@@ -97,7 +102,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "remark"   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
             ];
             $wx  = new \App\Helper\Wx();
-            $wx->send_template_msg($item['wx_openid'],$template_id_parent, $data_par,'');
+            $wx->send_template_msg('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id_parent, $data_par,'');
+            // $wx->send_template_msg($item['wx_openid'],$template_id_parent, $data_par,'');
         }
     }
 }

@@ -54,6 +54,74 @@ class tongji extends Controller
         return $this->pageView(__METHOD__, $page_info,["data_ex_list"=>$date_list]);
     }
 
+    public function contract_down()
+    {
+
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -14, 1, 0, [
+                0 => array( "order_time", "合同生成时间"),
+                1 => array("check_money_time","财务确认时间"),
+            ], 0,0
+        );
+
+
+        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+
+        $stu_from_type = $this->get_in_int_val("stu_from_type",-1);
+        $contract_type = $this->get_in_enum_val(E\Econtract_type::class, 0);
+
+        $list      = $this->t_order_info->get_1v1_order_list($start_time,$end_time,"", $stu_from_type, [],[] ,$contract_type,[-1],-1,$opt_date_str);
+        $all_item=[
+            "title"=>"全部",
+            "order_count"=> 0,
+            "money"=> "",
+        ];
+
+        foreach ($list as $item) {
+            $opt_date=date("Y-m-d",$item["opt_date"]);
+            $date_item= &$date_list[$opt_date];
+            $date_item["order_count"]=@$date_item["order_count"]+1;
+            $date_item["money"]=@$date_item["money"]+ $item["price"]/100;
+            $all_item["money"]+= $item["price"]/100;
+            $all_item["order_count"]+=1;
+
+        }
+
+        $all_list=$date_list;
+
+        array_unshift($all_list, $all_item);
+        $page_info=\App\Helper\Utils::list_to_page_info($all_list);
+        $data = [
+            "00:00" => ['title'=>'00:00','money'=> 331162],
+            "01:00" => ['title'=>'01:00','money'=> 80627],
+            "02:00" => ['title'=>'02:00','money'=> 0],
+            "03:00" => ['title'=>'03:00','money'=> 0],
+            "04:00" => ['title'=>'04:00','money'=> 0],
+            "05:00" => ['title'=>'05:00','money'=> 0],
+            "06:00" => ['title'=>'06:00','money'=> 0],
+            "07:00" => ['title'=>'07:00','money'=> 0],
+            "08:00" => ['title'=>'08:00','money'=> 0],
+            "09:00" => ['title'=>'09:00','money'=> 129987],
+            "10:00" => ['title'=>'10:00','money'=> 446330],
+            "11:00" => ['title'=>'11:00','money'=> 670013],
+            "12:00" => ['title'=>'12:00','money'=> 1188662],
+            "13:00" => ['title'=>'13:00','money'=> 580762],
+            "14:00" => ['title'=>'14:00','money'=> 622892],
+            "15:00" => ['title'=>'15:00','money'=> 893221],
+            "16:00" => ['title'=>'16:00','money'=> 1003267],
+            "17:00" => ['title'=>'17:00','money'=> 1425980],
+            "18:00" => ['title'=>'18:00','money'=> 1359781],
+            "19:00" => ['title'=>'19:00','money'=> 1103296],
+            "20:00" => ['title'=>'20:00','money'=> 1276031],
+            "21:00" => ['title'=>'21:00','money'=> 923152],
+            "22:00" => ['title'=>'22:00','money'=> 890137],
+            "23:00" => ['title'=>'23:00','money'=> 533712],
+            "24:00" => ['title'=>'24:00','money'=> 162121],
+        ];
+        return $this->pageView(__METHOD__, $page_info,["data_ex_list"=>$data]);
+    }
+
+
     public function user_count()
     {
         $sum_field_list=[

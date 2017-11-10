@@ -1658,14 +1658,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end){
         $where_arr = [
-            "l.lesson_type = 0"
+            "l.lesson_type in (0,1,3)",
+            "t.is_test_user = 0",
+            "t.wx_openid != ''"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select  teacherid,t.nick, wx_openid from %s l "
+        $sql = $this->gen_sql_new("  select  l.teacherid,t.nick, wx_openid from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid"
-                                  ." where %s group by l.teacherid "
+                                  ." where %s group by l.teacherid  limit 1"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
@@ -1685,7 +1687,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
         $sql = $this->gen_sql_new("  select l.subject, lesson_start, l.lesson_end, l.teacherid, s.nick ,l.userid from %s l "
-                                  ." left join %s s on s.useid=l.userid"
+                                  ." left join %s s on s.userid=l.userid"
                                   ." where %s  "
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
@@ -1698,18 +1700,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_parent_tomorrow_lesson_list($lesson_start, $lesson_end){
         $where_arr = [
-            "l.lesson_type = 0",
+            "l.lesson_type in (0,1,3)",
             "l.lesson_del_flag=0",
+            "s.is_test_user=0",
+            "p.wx_openid != ''"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select a.phone, p.parentid, p.nick, p.wx_openid  from %s l "
+        $sql = $this->gen_sql_new("  select a.phone, p.parentid, p.nick, p.wx_openid, s.assistantid  from %s l "
                                   ." left join %s pc on pc.userid=l.userid"
                                   ." left join %s p on p.parentid=pc.parentid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
-                                  ." where %s group by p.parentid "
+                                  ." where %s group by p.parentid limit 1 "
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME
