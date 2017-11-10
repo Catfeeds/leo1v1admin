@@ -322,12 +322,31 @@ class agent extends Controller
     public function agent_cash_list() {
         $cash     = $this->get_in_int_val('cash');
         $cash     = $this->get_in_int_val('type');
+        $nickname = $this->get_in_str_val('nickname');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
-        $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", 0,E\Eagent_check_money_flag::class);
+        $origin_count = $this->get_in_intval_range("origin_count");
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -30*6, 1, 0, [
+                0 => array( "ac.create_time", "申请提交时间"),
+                1 => array("ac.check_money_time","财务审核时间"),
+            ], 0,0, true
+        );
+        $cash_range = $this->get_in_intval_range('cash_range','',$is_money=1);
+        $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", -1,E\Eagent_check_money_flag::class);
+        \App\Helper\Utils::logger("agent_check_money_flag $agent_check_money_flag ");
         $phone = $this->get_in_phone();
-        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone);
+        $check_money_admin_nick = $this->get_in_str_val('check_money_admin_nick');
+        if($check_money_admin_nick == -1)
+            $check_money_admin_id = -1;
+        else
+            $check_money_admin_id = $this->t_manager_info->get_id_by_account($check_money_admin_nick);
+        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
         foreach($ret_info['list'] as &$item){
+            //获取冻结金额
+            $item['agent_cash_money_freeze'] = $this->t_agent_cash_money_freeze->get_agent_cash_money_freeze($item['id']);
+            $item['cash'] = $item['cash'] - $item['agent_cash_money_freeze'];
+            $item['agent_cash_money_freeze'] /= 100;
             $item['agent_check_money_flag'] = $item['check_money_flag'];
             $item['cash'] /=100 ;
             $item['all_open_cush_money'] /=100;
@@ -339,6 +358,44 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"check_money_time");
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+    //@desn:冻结优学优享申请金额
+    public function agent_money_freeze(){
+        $id = $this->get_in_id();
+        $adminid = $this->get_account_id();
+        $freeze_money = $this->get_in_int_val('freeze_money');
+        $agent_freeze_type = $this->get_in_int_val('agent_freeze_type');
+        $phone = $this->get_in_str_val('phone');
+        $agent_money_ex_type = $this->get_in_int_val('agent_money_ex_type');
+        $agent_activity_time = $this->get_in_int_val('agent_activity_time');
+        $cash = $this->get_in_int_val('cash');
+        $to_agentid = $this->get_in_int_val('agentid');
+        \App\Helper\Utils::logger(" phone $phone");
+        if($freeze_money <= 0 || $freeze_money > $cash)
+            return $this->output_err('冻结金额错误');
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        $freeze_money *=100;
+        //插入冻结记录
+        $insert_status = $this->t_agent_cash_money_freeze->row_insert([
+            'freeze_money' => $freeze_money,
+            'adminid' => $adminid,
+            'create_time' => time(NULL),
+            'agent_freeze_type' => $agent_freeze_type,
+            'phone' => $phone,
+            'agent_money_ex_type' => $agent_money_ex_type,
+            'agent_activity_time' => $agent_activity_time,
+            'agent_cash_id' => $id
+        ]);
+        //发送推送
+        if($insert_status){
+            $from_agentid = '';
+            $agent_money_ex_type_str = E\Eagent_money_ex_type::get_desc($agent_money_ex_type);
+            $this->t_agent->send_wx_msg_freeze_cash_money($from_agentid,$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str,$url='');
+        }
+
+        return $this->output_succ();
     }
 
     public function check(){

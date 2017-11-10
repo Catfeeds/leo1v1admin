@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('content')
    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
-    
+   <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+   <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+   
     <section class="content ">
 
         <div>
@@ -25,9 +27,11 @@
                      <input class="opt-change form-control" id="id_msg" />
                      </div>
                      </div> -->
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-4">
                     <div class="input-group ">
                         <button id="id_add" class="btn btn-primary"> add </button>
+                        <button id="id_download_blade" class="btn btn-primary">下载excel模板</button>
+                        <button id="id_add_by_excel" class="btn btn-primary">excel添加</button>
                     </div>
                 </div>
             </div>

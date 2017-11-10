@@ -414,8 +414,9 @@ trait  InputDeal {
             return array(true,"", "", true );
         }
     }
-
-    public function get_in_intval_range($field_name ,$def_value ="" )
+    //@desn:获取范围
+    //@param:$is_money 0:按原始数据 1数值乘以100
+    public function get_in_intval_range($field_name ,$def_value ="" ,$is_money=0)
     {
         $str=trim($this->get_in_str_val($field_name,$def_value));
         if ($str==="") {
@@ -427,6 +428,11 @@ trait  InputDeal {
             $end= intval ($arr[1]);
         }else{
             $end=$start;
+        }
+        //如果范围为金钱格式[数值乘以100]
+        if($is_money == 1){
+            $start *= 100;
+            $end *= 100;
         }
         return ["start"=>$start,"end" => $end ];
     }

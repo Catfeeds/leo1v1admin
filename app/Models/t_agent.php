@@ -2117,7 +2117,52 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
 
     }
+    //@desn:冻结申请体现金额推送
+    //@param:$from_agentid 无用参数 
+    //@param:$to_agentid 发送给的用户
+    //@param:$agent_freeze_type 冻结类型
+    //@param:$phone 违规推荐人电话号码
+    //@param:$agent_money_ex_type_str 活动类型
+    //@param:$url
+    public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="" ) {
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
+        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+        if($agent_freeze_type == 1)
+            $agent_freeze_type_desc = $phone.'(手机号)试听奖励';
+        elseif($agent_freeze_type == 2)
+            $agent_freeze_type_desc = $phone.'(手机号)签单奖励';
+        elseif($agent_freeze_type == 3)
+            $agent_freeze_type_desc = $phone.'(手机号)在'.$agent_money_ex_type_str.'中';
+        else
+            return false;
+        
+        $data = [
+            'first'    => '违规通知',
+            'keyword1' => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
+            'keyword2' => '违规时间：'.date('Y年m月d日 H:i:s'),
+            'keyword3' => '违规原因：利用漏洞',
+            'remark'   => '违规行为将会冻结此次奖励',
+        ];
+        $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
+        if (!$url) {
+            $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
+            $base_url= $wx_config["url"] ;
+            $url="$base_url/wx_yxyx_web/index";
+        }
+        $openid= $this->get_wx_openid($to_agentid);
 
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+        $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+        $wx->send_template_msg($jim_openid,$template_id,$data,$url);
+
+        $succ_flag=false;
+        $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
+        $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
+
+    }
+    //消息
     public function  send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data, $url ="" ) {
 
 

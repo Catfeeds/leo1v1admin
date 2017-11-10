@@ -7,6 +7,10 @@ $(function(){
             cash:    $('#id_cash').val(),
             phone:    $('#id_phone').val(),
             type:    $('#id_type').val(),
+            nickname:    $('#id_nickname').val(),
+            cash_range:	$('#id_cash_range').val(),
+            check_money_admin_nick:	$('#id_check_money_admin_nick').val(),
+            date_type:	$('#id_date_type').val(),
             aid:    $('#id_aid').val(),
             agent_check_money_flag:	$('#id_agent_check_money_flag').val()
         });
@@ -18,6 +22,9 @@ $(function(){
     $('#id_cash').val(g_args.cash);
     $('#id_type').val(g_args.type);
     $('#id_aid').val(g_args.aid);
+    $('#id_nickname').val(g_args.nickname);
+    $('#id_cash_range').val(g_args.cash_range);
+    $('#id_check_money_admin_nick').val(g_args.check_money_admin_nick);
     $('#id_agent_check_money_flag').val(g_args.agent_check_money_flag);
 
     $("#id_add").on("click",function(){
@@ -147,10 +154,25 @@ $(function(){
                     "agent_freeze_type" : $agent_freeze_type.val(),
                     "phone" : $phone.val(),
                     "agent_money_ex_type" : $agent_money_ex_type.val(),
-                    "agent_activity" : $agent_activity_time.val()
+                    "agent_activity_time" : $agent_activity_time.val(),
+                    "cash" : opt_data.cash,
+                    "agentid" : opt_data.agentid
                 });
             }
         });
     })
     
+    $('#id_date_range').select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        timepicker : true,
+        onQuery :function() {
+            load_data();
+        }
+    });
+
+    $('#id_check_money_admin_nick').set_input_change_event(load_data);
 });

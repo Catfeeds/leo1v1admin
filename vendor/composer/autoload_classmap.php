@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
-    'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_160045_create_t_agent_cash_money_freeze.php',
+    'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_165017_create_t_agent_cash_money_freeze.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
     'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',

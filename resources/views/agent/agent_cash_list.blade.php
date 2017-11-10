@@ -6,20 +6,48 @@
         <div>
             <div class="row  row-query-list" >
                
-                <div class="col-xs-6 col-md-3" data-always_show="1">
+                <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <span class="input-group-addon">财务审核状态</span>
                         <select class="opt-change form-control" id="id_agent_check_money_flag" >
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">手机</span>
                         <input class="opt-change form-control" id="id_phone" />
                     </div>
                 </div>
-                
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">提现人昵称</span>
+                        <input class="opt-change form-control" id="id_nickname" />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6"  data-title="时间段">
+                    <div  id="id_date_range" >
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">单笔提现额度</span>
+                        <input class="opt-change form-control" id="id_cash_range" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">审核人</span>
+                        <select id="id_check_money_admin_nick">
+                            <option value ="">全部</option>
+                            <option value ="amamda">amanda</option>
+                            <option value ="echo">echo</option>
+                            <option value="chenyu">chenyu</option>
+                            <option value="-1">其他</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
@@ -33,6 +61,7 @@
                     <td>可提现 </td>
                     <td>已提现 </td>
                     <td>提现金额 </td>
+                    <td>冻结金额</td>
                     <td>提现类型 </td>
                     <td>银行卡号 </td>
                     <td>银行卡类型 </td>
@@ -60,6 +89,7 @@
                         <td>{{@$var["all_open_cush_money"]}} </td>
                         <td>{{@$var["all_have_cush_money"]}} </td>
                         <td>{{@$var["cash"]}} </td>
+                        <td>{{@$var["agent_cash_money_freeze"]}} </td>
                         @if($var['type'] == 1)
                             <td>银行卡</td>
                         @elseif($var['type'] == 2)

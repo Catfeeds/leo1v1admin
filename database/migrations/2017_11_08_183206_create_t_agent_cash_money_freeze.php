@@ -18,7 +18,7 @@ class CreateTAgentCashMoneyFreeze extends Migration
             t_field($table->integer('adminid'),"操作人");
             t_field($table->integer('create_time'),"操作时间");
             t_field($table->integer('agent_freeze_type'),"冻结类型");
-            t_field($table->integer('phone'),"违规学员手机");
+            t_field($table->string('phone'),"违规学员手机");
             t_field($table->integer('agent_money_ex_type'),"违规活动类型[agent_free_type=3时使用]");
             t_field($table->integer('agent_activity_time'),"活动时间");
             t_field($table->integer('agent_cash_id'),"申请体现id");
@@ -34,6 +34,6 @@ class CreateTAgentCashMoneyFreeze extends Migration
      */
     public function down()
     {
-        Schema::drop('t_agent_cash_money_freezeusers');
+        Schema::drop('t_agent_cash_money_freeze');
     }
 }
