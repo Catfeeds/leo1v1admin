@@ -102,13 +102,18 @@ class assistant_performance extends Controller
 
     public function performance_info(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        dd($ass_month);
+        $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        foreach($ass_month as $k=>&$item){
+            //回访
 
+            //课时消耗达成率
+            $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+        }
         
-        //回访
-
-        //课时消耗达成率
+               
+        
         
     }
 

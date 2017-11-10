@@ -20,7 +20,6 @@ class testbb extends Controller
     public function get_msg_num() {
         $a= new \App\Jobs\send_error_mail(1,33,33);
         $a->task->t_agent->get_agent_count_by_id(1);
-        //\App\Http\Controllers\Controller
 
     }
 
