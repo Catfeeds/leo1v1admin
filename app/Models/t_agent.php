@@ -2605,5 +2605,5 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
     }
-
+    
 }
