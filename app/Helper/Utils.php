@@ -1926,7 +1926,8 @@ class Utils  {
 
         $agent_qr_url = "/tmp/yxyx_wx_member_".$phone.".png";
         $is_exists = file_exists($agent_qr_url);
-        if( $old_headimgurl !== $headimgurl && !$is_exists ){
+
+        if( $old_headimgurl !== $headimgurl || !$is_exists ){
 
             $cmd_rm = "rm ".$agent_qr_url;
             self::exec_cmd($cmd_rm);
@@ -1945,6 +1946,7 @@ class Utils  {
             imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
             $ext = pathinfo($bg_url);
+            // dd($ext);
             if ($ext['extension'] == 'jpg') {
                 $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             }else{
@@ -1980,11 +1982,11 @@ class Utils  {
             imagedestroy($image_5);
             imagedestroy($image_6);
 
-            $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
-            self::exec_cmd($cmd_rm);
-
-
         }
+        $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
+        self::exec_cmd($cmd_rm);
+
+
         $type = 'image';
         $img_Long = file_get_contents($agent_qr_url);
         file_put_contents( public_path().'/wximg/'.$mark.'.png',$img_Long );

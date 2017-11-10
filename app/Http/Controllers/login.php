@@ -571,7 +571,6 @@ class login extends Controller
 
     public function down_leo_file(){
         $filepath = './理优讲义模板.zip';
-
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename='.basename($filepath));
