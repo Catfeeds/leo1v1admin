@@ -51,18 +51,34 @@ class add_new_tea_entry extends Command
             if ($item) {
                 $val = explode("\t",$item);
                 $teacherid = $val[0];
-                $bankcard = $task->t_teacher_info->get_bankcard($teacherid);
-                if (!$bankcard) {
-                    $ret = $task->t_teacher_info->field_update_list($teacherid,[
-                        "bank_phone" => $val[1],
-                        "bank_account" => $val[2],
-                        "bankcard" => $val[3],
-                        "bank_type" => $val[4],
-                        "bank_province" => $val[5],
-                        "bank_city" => $val[6],
-                        "bank_address" => $val[7],
-                        "idcard" => $val[8]
-                    ]);
+                $bank = $task->t_teacher_info->get_bank_for_teacherid($teacherid);
+                if (!(isset($bank['bank_card']) && $bank['bank_card'])) {
+                    $where_arr = [];
+                    if (!(isset($bank['bank_phone']) && $bank['bank_phone'])) {
+                        $where_arr['bank_phone'] = $val[1];
+                    }
+                    if (!(isset($bank['bank_account']) && $bank['bank_account'])) {
+                        $where_arr['bank_account'] = $val[2];
+                    }
+                    if (!(isset($bank['bankcard']) && $bank['bankcard'])) {
+                        $where_arr['bankcard'] = $val[3];
+                    }
+                    if (!(isset($bank['bank_type']) && $bank['bank_type'])) {
+                        $where_arr['bank_type'] = $val[4];
+                    }
+                    if (!(isset($bank['bank_province']) && $bank['bank_province'])) {
+                        $where_arr['bank_province'] = $val[5];
+                    }
+                    if (!(isset($bank['bank_city']) && $bank['bank_city'])) {
+                        $where_arr['bank_city'] = $val[6];
+                    }
+                    if (!(isset($bank['bank_address']) && $bank['bank_address'])) {
+                        $where_arr['bank_address'] = $val[7];
+                    }
+                    if (!(isset($bank['idcard']) && $bank['idcard'])) {
+                        $where_arr['idcard'] = $val[8];
+                    }
+                    $ret = $task->t_teacher_info->field_update_list($teacherid,$where_arr);
                     if (!$ret) echo '更新失败';
                 }
                 echo "添加完成 current id : ".$teacherid." 添加 $key 条 ".PHP_EOL;
