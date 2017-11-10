@@ -8,10 +8,10 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
 		parent::__construct();
 	}
 
-    public function check_money_is_exists($teacherid,$pay_time){
+    public function check_money_is_exists($teacherid,$add_time){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
-            ["pay_time=%u",$pay_time,0],
+            ["add_time=%u",$add_time,0],
         ];
         $sql = $this->gen_sql_new("select 1"
                                   ." from %s "
@@ -44,13 +44,13 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_list_as_page($sql);
     }
 
-    public function update_teacher_money($teacherid,$pay_time,$money,$is_negative){
+    public function update_teacher_money($teacherid,$add_time,$money,$is_negative){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
-            ["pay_time=%u",$pay_time,0],
+            ["add_time=%u",$add_time,0],
         ];
         $sql = $this->gen_sql_new("update %s set money=%u,is_negative=%u"
-                                  ." where %s"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$money
                                   ,$is_negative

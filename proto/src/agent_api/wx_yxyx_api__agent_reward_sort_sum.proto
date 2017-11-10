@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1114
+//__DESC:微信[优学优享]获取各项奖励之和 http://wx-yxyx.leo1v1.com/wx_yxyx_api/agent_reward_sort_sum?_agent_id=54&check_flag=1
+//__TAGS: for_wx_yxyx 
+
+message in  {
+  uint32 check_flag = 1;//奖励表示 0/null 全部奖励 2 可提现奖励
+}
+
+message out {
+  float invite_reward = 1;//邀请奖励
+  float commission_reward = 2;//佣金奖励
+  float activity_money =3; //活动奖励
+}

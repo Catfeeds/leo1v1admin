@@ -35,7 +35,6 @@ class Wx{
         exit;
     }
 
-
     public function get_wx_login_url_for_openid($redirect_url) { //教师节测试[静默授权]
         \App\Helper\Utils::logger(" goto_wx_login redirect_url: $redirect_url");
         $appid = $this->appid;
@@ -43,8 +42,6 @@ class Wx{
         $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_base&state=STATE_$no&connect_redirect=1#wechat_redirect";
         return $url;
     }
-
-
 
     public function get_token_from_code($code) {
         $appid     = $this->appid;
@@ -65,9 +62,7 @@ class Wx{
         return $ret_arr;
     }
 
-
-
-    static public function  gen_temp_data( $openid,$template_id,$url,$data, $topcolor="#FF0000" ) {
+    static public function gen_temp_data( $openid,$template_id,$url,$data, $topcolor="#FF0000" ) {
         $data = [
             "touser"      => $openid,
             "template_id" => $template_id,
@@ -89,14 +84,12 @@ class Wx{
         if (!$ret_arr || !isset($ret_arr["access_token"])  ||   $ret_arr["get_time"]+7000 <  $now  || $reset_flag ) {
             \App\Helper\Utils::logger('gettoken2');
 
-
             $json_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret"  );
             $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
             $ret_arr["get_time"]=time(NULL);
             \App\Helper\Common::redis_set_json($key,$ret_arr );
         }
         \App\Helper\Utils::logger('gettoken4:' .json_encode( $ret_arr) );
-
 
         return @$ret_arr["access_token"];
     }

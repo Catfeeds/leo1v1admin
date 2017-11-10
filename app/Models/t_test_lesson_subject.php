@@ -986,6 +986,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ["ss.add_time<%u",$end_time,-1],
             "s.is_test_user=0",
             ["tr.is_green_flag=%u", $is_green_flag, -1],
+            ["tl.subject in (%s)", $subject, -1],
+            ["tl.grade in (%s)", $grade, -1],
         ];
         if($is_down == 0){
             $where_arr[] = "tl.tea_download_paper_time=0";
@@ -994,7 +996,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         }
 
         if($phone_location){
-            $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
+            $where_arr[] = ["tl.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
         }
 
         $sql = $this->gen_sql_new(

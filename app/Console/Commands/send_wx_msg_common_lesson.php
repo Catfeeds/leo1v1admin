@@ -184,7 +184,7 @@ class send_wx_msg_common_lesson extends Command
 
 
         // 常规课 15分钟提示
-        $late_time = $now-86400*2-15*60;
+        $late_time = $now-86400*2+15*60;
         $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_time);
         if(!empty($late_lesson_info)){
             foreach($late_lesson_info as $val){

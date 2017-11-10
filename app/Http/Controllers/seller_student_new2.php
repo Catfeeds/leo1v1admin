@@ -1295,6 +1295,17 @@ class seller_student_new2 extends Controller
         $phone_location = trim($this->get_in_str_val("phone_location"));
         $grade   = $this->get_in_el_grade();
         $has_pad = $this->get_in_has_pad(-1);
+        // dd($grade);
+        if( $grade[0] != -1 ){
+            $grade = join($grade,',');
+        } else {
+            $grade = -1;
+        }
+        if( $subject[0] != -1 ) {
+            $subject = join($subject, ',');
+        } else {
+            $subject = -1;
+        }
         $ret_info = $this->t_test_lesson_subject->get_sign_count(
             $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
         );
