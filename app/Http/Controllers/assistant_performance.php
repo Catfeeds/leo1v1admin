@@ -179,29 +179,15 @@ class assistant_performance extends Controller
 
             /*续费提成奖金*/
             //计算助教相关退费
-            $list = $this->t_order_refund->get_ass_refund_info_new($start_time,$end_time);
-            $arr=[];
+            $list = $this->t_order_refund->get_ass_refund_info_new($start_time,$end_time,$k);
+            $refund_money=0;
             foreach($list as $val){
-                $ss = $val["orderid"]."-".$val["apply_time"];
-                @$arr[$val["uid"]][$ss][$val["value"]]=$val["score"];
-            }
-
-            $refund_score = [];
-            foreach($arr as $uu=>$item){
-                foreach($item as $v){
-                    $all=0;$ass=0;
-                    foreach($v as $k=>$s){
-                        if($k=="助教部"){
-                            $ass = $s;
-                        }
-                        $all +=$s;
-                    }
-
-                    @$refund_score[$uu] +=10*$ass/$all;
+                if($val["value"]=="助教部" && $val["score"]>0){
+                    $refund_money +=$val["price"]; 
                 }
             }
-            return $refund_score;
- 
+            echo $refund_money."<br>";
+             
 
 
 

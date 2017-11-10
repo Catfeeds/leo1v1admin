@@ -149,7 +149,7 @@ class send_wx_msg_common_lesson extends Command
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
-        if(!empty($cut_class_lesson_list) && count($cut_class_lesson_list)<=50){
+        if(count($cut_class_lesson_list)<=50){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -172,7 +172,7 @@ class send_wx_msg_common_lesson extends Command
         }
 
         // 旷课
-        if(!empty($absenteeism_lesson_list) && count($absenteeism_lesson_list)<=50){
+        if(count($absenteeism_lesson_list)<=50){
             foreach($absenteeism_lesson_list as $index=>$item){
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -199,7 +199,7 @@ class send_wx_msg_common_lesson extends Command
         // 常规课 15分钟提示
         $late_time = $now-86400*2+15*60;
         $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_time);
-        if(!empty($late_lesson_info) && count($late_lesson_info)<=50){
+        if(count($late_lesson_info)<=50){
             foreach($late_lesson_info as $val){
                 $subject_str  = E\Esubject::get_desc($val["subject"]);
                 $lesson_time  = date("H:i",$val['lesson_start']);
