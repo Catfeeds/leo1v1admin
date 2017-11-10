@@ -4637,4 +4637,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_row($sql);
     }
+
+
+    // 用于更新银行卡相关信息
+    public function get_bank_for_teacherid($teacherid) {
+        $sql = $this->gen_sql_new("select bank_phone,bank_account,bankcard,bank_type,bank_province,bank_city,bank_address,idcard from %s where teacherid=%u ",
+                                  self::DB_TABLE_NAME,
+                                  $teacherid
+        );
+        return $this->main_get_row($sql);
+    }
 }
