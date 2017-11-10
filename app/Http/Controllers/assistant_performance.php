@@ -105,6 +105,29 @@ class assistant_performance extends Controller
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+
+        //销售月拆解
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+
+        //每周课时/学生数
+        $lesson_count_list=[];
+        for($i=0;$i<$n;$i++){
+            $week = $first_week+$i*7*86400;
+            $week_edate = $week+7*86400;
+            $lesson_count_list[] = $this->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+        }
+
+        
+
+
         foreach($ass_month as $k=>&$item){
             //回访
 
@@ -119,6 +142,14 @@ class assistant_performance extends Controller
                 $registered_student_arr=[];      
                 $estimate_month_lesson_count =100;
             }
+
+            //得到单位学员平均课时数完成率
+            $seller_lesson_count =$seller_stu_num=0;
+            foreach($lesson_count_list as $val){
+                
+            }
+
+            
         }
         
                
