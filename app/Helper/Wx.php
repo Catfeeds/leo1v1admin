@@ -81,7 +81,7 @@ class Wx{
         $now     = time(NULL);
         \App\Helper\Utils::logger('gettoken1');
 
-        if (!$ret_arr || !isset($ret_arr["access_token"])  ||   $ret_arr["get_time"]+7000 <  $now  || $reset_flag ) {
+        if (!$ret_arr || !isset($ret_arr["access_token"])  ||   $ret_arr["get_time"] <  $now  || $reset_flag ) {
             \App\Helper\Utils::logger('gettoken2');
 
             $json_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret"  );
