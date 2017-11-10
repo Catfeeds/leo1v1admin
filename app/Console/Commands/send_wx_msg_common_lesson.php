@@ -56,6 +56,10 @@ class send_wx_msg_common_lesson extends Command
          **/
         $upload_list = $task->t_lesson_info_b3->check_has_tea_cw_url($four_start,$four_end);
         $template_id_upload = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+
+        if(count($upload_list)<=1000){
+            
+        }
         foreach($upload_list as $item){
             $data_upload = [
                 "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
