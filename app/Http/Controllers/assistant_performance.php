@@ -105,6 +105,7 @@ class assistant_performance extends Controller
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        // $start_time = strtotime("2017-10-01");
 
         //销售月拆解
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
@@ -154,6 +155,10 @@ class assistant_performance extends Controller
                 $lesson_count_finish_per=0;
             }else{
                 $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count);
+                echo $k."<br>";
+                echo $estimate_month_lesson_count."<br>";
+                echo $seller_lesson_count."<br>";
+                echo $seller_stu_num."<br>";
                 dd($lesson_count_finish_per);
             }
 
