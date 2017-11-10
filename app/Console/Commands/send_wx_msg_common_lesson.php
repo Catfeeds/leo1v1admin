@@ -40,7 +40,6 @@ class send_wx_msg_common_lesson extends Command
 
     public function handle()
     {
-        //
         $task = new \App\Console\Tasks\TaskController();
         $now = time();
 
@@ -57,7 +56,7 @@ class send_wx_msg_common_lesson extends Command
         $upload_list = $task->t_lesson_info_b3->check_has_tea_cw_url($four_start,$four_end);
         $template_id_upload = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
 
-        if(count($upload_list)<=1000){
+        if(count($upload_list)<=50){
             foreach($upload_list as $item){
                 $data_upload = [
                     "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
@@ -68,7 +67,7 @@ class send_wx_msg_common_lesson extends Command
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
             }
         }else{
-            \App\Helper\Utils::logger("课前四小时未上传讲义 数量异常 ");
+            $this->to_waring('课前四小时未上传讲义 数量异常');
         }
 
         $lesson_begin_halfhour = $now+30*60;
@@ -83,7 +82,7 @@ class send_wx_msg_common_lesson extends Command
                 $this->send_wx_msg_par($item,1,$data_par);
             }
         }else{
-            \App\Helper\Utils::logger("获取常规课 课前30分钟 发送失败 ");
+            $this->to_waring('获取常规课 课前30分钟 发送失败');
         }
 
         // 常规课超时5分钟
@@ -110,7 +109,7 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-            \App\Helper\Utils::logger("常规课超时5分钟 数量发送异常");
+            $this->to_waring('常规课超时15分钟 数量异常');
         }
 
         // 常规课超时15分钟
@@ -144,14 +143,13 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-            \App\Helper\Utils::logger("常规课超时15分钟 数量异常");
-
+            $this->to_waring('常规课超时15分钟 数量异常');
         }
 
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
-        if(!empty($cut_class_lesson_list) && count($cut_class_lesson_list)<=500){
+        if(!empty($cut_class_lesson_list) && count($cut_class_lesson_list)<=300){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -170,7 +168,7 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-
+            $this->to_waring('课程中途退出15分钟以上');
         }
 
         // 旷课
@@ -194,7 +192,7 @@ class send_wx_msg_common_lesson extends Command
                 }
             }
         }else{
-
+            $this->to_waring('旷课');
         }
 
 
@@ -228,21 +226,25 @@ class send_wx_msg_common_lesson extends Command
                 \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
             }
         }else{
-
+            $this->to_waring('常规课 15分钟提示');
         }
     }
 
 
     public function to_waring($type){
         $wx  = new \App\Helper\Wx();
-
-        $data_self = [
-            ""
-        ];
-
         $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
-        $wx->send_template_msg($item['par_openid'],$template_id_self,$data_self ,'');
+        $data_self = [
+            "first"    => "常规课 微信推送 报警",
+            "keyword1" => $type,
+            "keyword2" => date('Y-m-d H:i:s'),
+            "keyword3" => '后台',
+            "keyword4" => '微信推送 报警',
+        ];
+        $self_openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek'; //james
+        $wx->send_template_msg_color($self_openid,$template_id_self,$data_self ,'');
     }
+
 
 
     public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){

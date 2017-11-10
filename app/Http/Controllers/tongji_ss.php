@@ -18,15 +18,14 @@ class tongji_ss extends Controller
         $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
         $from_list = $this->t_id_opt_log->get_date_list($log_type,$start_time,$end_time);
+
         \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","user_count","count");
         $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
         \App\Helper\Utils::date_list_set_value($date_list,$from_list,"opt_date","lesson_user_count","count");
         usort($date_list,function($a,$b){
-            //var_dump($a['title'],$b['title']);echo "<br/>";
             return \App\Helper\Common::sort_value_desc_func($a["title"],$b["title"]);
         });
         //dd(2);
-
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
 

@@ -172,13 +172,13 @@ class Wx{
 
 
 
-    function send_template_msg_color( $openid, $template_id, $data ,$url="", $color ) {
+    function send_template_msg_color( $openid, $template_id, $data ,$url="", $color='' ) {
         foreach ($data as &$item) {
             if (!is_array($item)) {
                 $item = [
                     "value" => $item,
-                    "color" => $color,
-                    // "color" => "#e22870", //test
+                    // "color" => $color,
+                    "color" => "#e22870", //test
                 ];
             }
         }
