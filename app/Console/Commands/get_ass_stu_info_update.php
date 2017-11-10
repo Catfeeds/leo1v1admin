@@ -86,8 +86,21 @@ class get_ass_stu_info_update extends Command
             @$ass_list[$item["uid"]]["warning_student"]++;
         }
 
-        $stu_info_all = $task->t_student_info->get_ass_stu_info_new();       
-        $userid_list = $task->t_student_info->get_read_student_ass_info();
+        $stu_info_all = $task->t_student_info->get_ass_stu_info_new();
+        
+        $userid_list = $task->t_student_info->get_read_student_ass_info();//在读学员名单
+
+        $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2);//在册学员名单
+        $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2);//停课学员名单
+        foreach($ass_last_month as $val){
+            $ad = $val["adminid"];
+            $this->t_month_ass_student_info->get_field_update_arr($ad,$start_time,1,[
+                "stop_student_list" =>@$stop_userid_list[$ad],
+                "registered_student_list" =>@$registered_userid_list[$ad],
+                "all_ass_stu_num"         =>@$stu_info_all[$ad]["all_stu_num"]
+            ]);
+        }
+
         $month_stop_all =  $task->t_student_info->get_ass_month_stop_info_new($start_time,$end_time);
         $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time); 
 
@@ -223,6 +236,10 @@ class get_ass_stu_info_update extends Command
             $item["refund_score"] = (round(@$refund_score[$k],2))*100;
             $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
             $item["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
+            $item["stop_student_list"] =>@$stop_userid_list[$k];
+            $item["registered_student_list"] =>@$registered_userid_list[$k];
+            $item["all_ass_stu_num"]         =>@$stu_info_all[$k]["all_stu_num"];
+
 
 
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
