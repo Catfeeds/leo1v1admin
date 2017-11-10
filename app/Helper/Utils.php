@@ -605,7 +605,7 @@ class Utils  {
             $ret_info['per_page_count'] = $page_info['page_count'];
 
         } else {
-            return $ret_info;
+            return $list;
         }
         return $ret_info;
     }
