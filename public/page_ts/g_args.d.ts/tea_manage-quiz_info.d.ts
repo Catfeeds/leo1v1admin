@@ -27,13 +27,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-quiz_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		is_part_time:	$('#id_is_part_time').val(),
+		tea_nick:	$('#id_tea_nick').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			is_part_time:	$('#id_is_part_time').val(),
-			tea_nick:	$('#id_tea_nick').val()
-        });
-    }
 
 
 	$('#id_is_part_time').val(g_args.is_part_time);

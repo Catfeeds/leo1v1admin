@@ -41,17 +41,18 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/small_class-index.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		teacherid:	$('#id_teacherid').val(),
+		assistantid:	$('#id_assistantid').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		courseid:	$('#id_courseid').val(),
+		group_flag:	$('#id_group_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacherid:	$('#id_teacherid').val(),
-			assistantid:	$('#id_assistantid').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			courseid:	$('#id_courseid').val(),
-			group_flag:	$('#id_group_flag').val()
-        });
-    }
 
 
 	$('#id_teacherid').val(g_args.teacherid);
