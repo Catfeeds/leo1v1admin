@@ -44,7 +44,7 @@ class add_new_tea_entry extends Command
             $task->t_teacher_info->field_update_list(259960,[
                 "bank_account" => '洪长发',
                 "bankcard" => '6217001860002978542',
-                "bank_card" => "中国建设银行"
+                "bank_type" => "中国建设银行"
             ]);exit;
 
         // 加载老师绑定数据
