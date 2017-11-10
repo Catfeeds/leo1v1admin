@@ -228,21 +228,25 @@ class send_wx_msg_common_lesson extends Command
                 \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
             }
         }else{
-
+            $this->to_waring();
         }
     }
 
 
     public function to_waring($type){
         $wx  = new \App\Helper\Wx();
-
-        $data_self = [
-            ""
-        ];
-
         $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
-        $wx->send_template_msg($item['par_openid'],$template_id_self,$data_self ,'');
+        $data_self = [
+            "first"    => "常规课 微信推送 报警",
+            "keyword1" => $type,
+            "keyword2" => date('Y-m-d H:i:s'),
+            "keyword3" => '后台',
+            "keyword4" => '微信推送 报警',
+        ];
+        $self_openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek'; //james
+        $wx->send_template_msg_color($self_openid,$template_id_self,$data_self ,'');
     }
+
 
 
     public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){

@@ -145,8 +145,16 @@ class assistant_performance extends Controller
 
             //得到单位学员平均课时数完成率
             $seller_lesson_count =$seller_stu_num=0;
-            foreach($lesson_count_list as $val){
-                
+            foreach($lesson_count_list as $p_item){
+                $seller_lesson_count += @$p_item[$k]["lesson_count"]; 
+                $seller_stu_num += @$p_item[$k]["user_count"]; 
+            }
+            $seller_stu_num = $seller_stu_num/$n;
+            if(empty($seller_stu_num)){
+                $lesson_count_finish_per=0;
+            }else{
+                $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count);
+                dd($lesson_count_finish_per);
             }
 
             
