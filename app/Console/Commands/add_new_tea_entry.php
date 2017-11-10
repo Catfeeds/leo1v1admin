@@ -52,16 +52,14 @@ class add_new_tea_entry extends Command
                 $val = explode("\t",$item);
                 $teacherid = $val[0];
                 $bank = $task->t_teacher_info->get_bank_for_teacherid($teacherid);
-                if (!(isset($bank['bank_card']) && $bank['bank_card'])) {
-                    $where_arr = [];
+                var_dump($bank);
+                if (!(isset($bank['bankcard']) && $bank['bankcard'])) {
+                    $where_arr['bankcard'] = $val[3];
                     if (!(isset($bank['bank_phone']) && $bank['bank_phone'])) {
                         $where_arr['bank_phone'] = $val[1];
                     }
                     if (!(isset($bank['bank_account']) && $bank['bank_account'])) {
                         $where_arr['bank_account'] = $val[2];
-                    }
-                    if (!(isset($bank['bankcard']) && $bank['bankcard'])) {
-                        $where_arr['bankcard'] = $val[3];
                     }
                     if (!(isset($bank['bank_type']) && $bank['bank_type'])) {
                         $where_arr['bank_type'] = $val[4];
