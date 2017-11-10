@@ -52,12 +52,6 @@ class save_seller_info_by_week extends Command
 
         $month_start_time_funnel = strtotime(date('Y-m-01'));
 
-        // if($month_start_time_funnel<$start_time){
-        //     $month_start_time_funnel = $start_time;
-        // }
-
-        // $month_start_time_funnel = '1506787200';
-
 
         $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
 
@@ -85,11 +79,6 @@ class save_seller_info_by_week extends Command
         if (!$ret_info['seller_target_income'] ) {
             $ret_info['seller_target_income'] = 1600000;
         }
-
-
-        // // dd(2);
-
-        // $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
 
         $month_start_time = strtotime(date("Y-m-01",$start_time));
         $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
