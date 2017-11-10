@@ -28,7 +28,7 @@ $(function(){
         }
     });
 
-    $('.opt-a td a').on('click',function(){
+    $('.opt-a td a').on('click', function(){
         var id = $(this).parent().parent().data('id');
         var opt_type      = $(this).data('type');
         var date_type     = g_args.date_type;
@@ -41,7 +41,13 @@ $(function(){
         $.wopen("/agent/get_yxyx_member_detail"+par);
     });
 
+    $('.opt-all').on('click', function(){
+        var start_time    = g_args.start_time;
+        var end_time      = g_args.end_time;
+        var par = '?start_time='+start_time+'&end_time='+end_time;
+        $.wopen("/agent/get_yxyx_member_detail"+par);
+    });
 
-	$('#id_phone').val(g_args.phone);
-	$('.opt-change').set_input_change_event(load_data);
+	  $('#id_phone').val(g_args.phone);
+	  $('.opt-change').set_input_change_event(load_data);
 });
