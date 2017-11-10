@@ -3923,7 +3923,9 @@ class human_resource extends Controller
         $list = [];
         $start_time  = strtotime(date('Y-m-d'));
 
-        dd($start_time);
+        $end_time = strtotime(date('Y-m-d', strtotime(" 1510156800 +1 month -1 day")));
+
+        dd($end_time);
 
         $month_list = [
             "2017-3-1",
@@ -3933,12 +3935,13 @@ class human_resource extends Controller
             "2017-7-1",
             "2017-8-1",
             "2017-9-1",
-            "2017-9-1",
+            "2017-10-1",
+            "2017-11-1",
         ];
 
-        for($begin_month; $begin_month<=$now;$begin_month++){
-
-            $start_time  = strtotime(date($begin_month));
+        foreach($month_list as $item){
+            $start_time  = strtotime($item);
+            $end_time = strtotime(date('Y-m-d', strtotime("$start_time +1 month -1 day")));
 
             $list['math_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
             $list['math_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,2,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
@@ -3948,8 +3951,8 @@ class human_resource extends Controller
 
             $list['english_order'][$begin_month] = $this->t_lesson_info_b3->get_teacher_test_person_num_list_total( $start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
             $list['english_success'][$begin_month] = $this->t_lesson_info_b3->get_success_test_lesson_list_broken($start_time,$end_time,3,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
- 
         }
+
 
 
         $list = [
