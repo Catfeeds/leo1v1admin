@@ -1304,7 +1304,7 @@ class seller_student_new2 extends Controller
         if( $subject[0] != -1 ) {
             $subject = join($subject, ',');
         } else {
-            $subjcet = -1;
+            $subject = -1;
         }
         $ret_info = $this->t_test_lesson_subject->get_sign_count(
             $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
