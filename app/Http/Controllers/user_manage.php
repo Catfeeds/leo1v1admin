@@ -209,17 +209,18 @@ class user_manage extends Controller
         $user_name    = trim($this->get_in_str_val('user_name',''));
         $phone        = trim($this->get_in_str_val('phone',''));
         $teacherid    = $this->get_in_int_val("teacherid",-1);
-        $student_type = $this->get_in_int_val("student_type",0);
+        $student_type = $this->get_in_int_val("student_type",-1);
         $assistantid  = $this->get_in_int_val("assistantid",-1);
         $page_num     = $this->get_in_page_num();
         $status       = -1;
         $userid       = $this->get_in_userid(-1);
         $revisit_flag = $this->get_in_int_val('revisit_flag',-1);
         $warning_stu  = $this->get_in_int_val('warning_stu',-1);
-        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',0);
+        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',1);
 
         //回访预警名单
-        $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        // $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        $warn_list=[];
 
         $now  = strtotime(date("Y-m-d",time()));
         $date = \App\Helper\Utils::get_week_range($now,1);

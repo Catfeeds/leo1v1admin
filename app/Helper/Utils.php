@@ -1897,7 +1897,7 @@ class Utils  {
         }
     }
 
-    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent) {
+    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent,$flag) {
         $wx_openid = $agent['wx_openid'];
         $t_agent = new \App\Models\t_agent();
         $phone   = $agent['phone'];
@@ -1905,8 +1905,12 @@ class Utils  {
 
         //唯一标识，防止多次点击删除的图片不对
         $mark = uniqid();
-
-        $qr_url  = "/tmp/yxyx_wx_".$phone.$mark."_qr.png";
+        if($flag == 1) {
+            $prefix = 'stu';
+        } else {
+            $prefix = 'vip';
+        }
+        $qr_url  = "/tmp/{$prefix}yxyx_".$phone.$mark."_qr.png";
         $old_headimgurl = @$agent['headimgurl'];
         self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
 
@@ -1924,15 +1928,16 @@ class Utils  {
         $data = json_decode($output,true);
         $headimgurl = @$data['headimgurl'];
 
-        $agent_qr_url = "/tmp/yxyx_wx_member_".$phone.".png";
+        $agent_qr_url = "/tmp/{$prefix}yxyx_member_".$phone.".png";
         $is_exists = file_exists($agent_qr_url);
-        if( $old_headimgurl !== $headimgurl && !$is_exists ){
+
+        if( $old_headimgurl !== $headimgurl || !$is_exists ){
 
             $cmd_rm = "rm ".$agent_qr_url;
             self::exec_cmd($cmd_rm);
 
             //下载头像，制作图片
-            $datapath = "/tmp/yxyx_wx_".$phone.$mark."_headimg.jpg";
+            $datapath = "/tmp/{$prefix}yxyx_".$phone.$mark."_headimg.jpg";
             $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
             shell_exec($wgetshell);
 
@@ -1945,6 +1950,7 @@ class Utils  {
             imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
             $ext = pathinfo($bg_url);
+            // dd($ext);
             if ($ext['extension'] == 'jpg') {
                 $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             }else{
@@ -1980,11 +1986,11 @@ class Utils  {
             imagedestroy($image_5);
             imagedestroy($image_6);
 
-            $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
-            self::exec_cmd($cmd_rm);
-
-
         }
+        $cmd_rm = "rm /tmp/{$prefix}yxyx_".$phone.$mark."*";
+        self::exec_cmd($cmd_rm);
+
+
         $type = 'image';
         $img_Long = file_get_contents($agent_qr_url);
         file_put_contents( public_path().'/wximg/'.$mark.'.png',$img_Long );
