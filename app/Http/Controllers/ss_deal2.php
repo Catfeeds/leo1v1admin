@@ -192,7 +192,7 @@ class ss_deal2 extends Controller
             // if(!$ret){
             //     return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
             // }
-            if($item['last_contact_time']>1509465600 && $item['last_contact_time']<$item["admin_assign_time"]){
+            if($item['last_contact_time']<$item["admin_assign_time"]){
                 return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
             }
         }

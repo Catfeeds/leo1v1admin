@@ -4243,7 +4243,7 @@ class ss_deal extends Controller
                 //     return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
                 //     break;
                 // }
-                if($last_contact_time>1509465600 && $last_contact_time<$item["admin_assign_time"]){
+                if($last_contact_time<$item["admin_assign_time"]){
                     return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
                     break;
                 }
