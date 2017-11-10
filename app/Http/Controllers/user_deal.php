@@ -3182,21 +3182,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-10-01");
-        $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
-        dd($ass_last_month);
-        $stu_info_all = $this->t_student_info->get_ass_stu_info_new();       
-        $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2);
-        $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2);
-        foreach($ass_last_month as $val){
-            $ad = $val["adminid"];
-            $this->t_month_ass_student_info->get_field_update_arr($ad,$start_time,1,[
-                "stop_student_list" =>@$stop_userid_list[$ad],
-                "registered_student_list" =>@$registered_userid_list[$ad],
-                "all_ass_stu_num"         =>@$stu_info_all[$ad]["all_stu_num"]
-            ]);
-        }
-        
+               
  
 
             
