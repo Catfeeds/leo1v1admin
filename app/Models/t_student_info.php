@@ -973,7 +973,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     {
         $sql = sprintf("select userid,realname, s.nick,s.stu_email, s.face, s.birth, s.originid, praise, s.phone,"
                        ." s.stu_phone, s.gender, s.grade, s.operator_note type, parent_name, parent_type, address,"
-                       ." school,textbook, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
+                       ." school, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
                        ." reg_time , init_info_pdf_url, user_agent, guest_code, host_code, s.parentid, s.is_test_user, "
                        ." p.wx_openid as parent_wx_openid,s.province,s.city,s.area "
                        ." from %s as s "
