@@ -143,5 +143,5 @@ $(".download-pdf-url").click( function(){
 });
 
 $(".download-handout-url").click( function(){
-            window.location.href = "/teacher_info/down_leo_file";
+            window.location.href = "/login/down_leo_file";
 });
