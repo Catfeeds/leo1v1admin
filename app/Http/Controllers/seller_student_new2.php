@@ -1305,13 +1305,13 @@ class seller_student_new2 extends Controller
             }
 
             if($item['stu_count']){
-                $item['lesson_succ_rate'] = $item['lesson_succ_count'] / $item['stu_count'];
+                $item['lesson_succ_rate'] = round( $item['lesson_succ_count']*100 / $item['stu_count'], 2);
             } else {
                 $item['lesson_succ_rate'] = 0;
             }
 
             if($item['lesson_succ_count']){
-                $item['sign_rate'] = $item['order_count'] / $item['lesson_succ_count'];
+                $item['sign_rate'] = round($item['order_count']*100/ $item['lesson_succ_count'], 2);
             } else {
                 $item['sign_rate'] = 0;
             }
