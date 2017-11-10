@@ -1807,12 +1807,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_late_lesson_info($late_time){
-        $now = time();
+        $late_time_begin = $late_time-60;
         $where_arr = [
             "l.lesson_del_flag = 0",
             "l.tea_rate_time=0",
             "l.lesson_type in (0,1,3)",
-            "l.lesson_end < $late_time"
+            "l.lesson_end < $late_time",
+            "l.lesson_end >= $late_time_begin",
         ];
 
         $sql = $this->gen_sql_new("  select t.wx_openid, l.lesson_start, l.lesson_end, l.subject, s.nick as stu_nick, t.nick as tea_nick from %s l"
@@ -1866,4 +1867,246 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_value($sql);
     }
+
+
+    public function get_success_test_lesson_list_broken($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
+        $where_arr=[
+            "l.lesson_type = 2",
+            "l.lesson_del_flag = 0",
+            ["t.teacherid=%u",$teacherid,-1],
+            ["t.subject=%u",$teacher_subject,-1],
+            ["t.identity=%u",$identity,-1],
+            ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.trial_lecture_is_pass =1",
+            "t.train_through_new =1"
+        ];
+        if($qz_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }else{
+            if(!empty($tea_subject)){
+                $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
+            }
+        }
+
+        if($fulltime_flag==0){
+            $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
+        }else if($fulltime_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+
+        $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson"
+                                  ." from %s l "
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s m on m.phone=t.phone"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+
+        public function get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
+        $where_arr = [
+            ["lesson_start >= %u",$start_time,-1],
+            ["lesson_start < %u",$end_time,-1],
+            "(tss.success_flag in (0,1) and l.stu_attend>0 and l.tea_attend>0)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            // "require_admin_type =2",
+            //  "tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
+            "mm.account_role=2",
+            "mm.del_flag=0",
+            ["t.teacherid=%u",$teacherid,-1],
+            ["t.subject=%u",$teacher_subject,-1],
+            ["t.identity=%u",$identity,-1],
+            ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
+            // "t.trial_lecture_is_pass =1",
+            //  "t.train_through_new =1"
+        ];
+
+
+
+        if($qz_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }else{
+            if(!empty($tea_subject)){
+                $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
+            }
+        }
+        if($fulltime_flag==0){
+            $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
+        }else if($fulltime_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }
+
+
+        if($tea_status==1){
+            $where_arr[] = "t.is_freeze=1";
+        }else if($tea_status==2){
+            $where_arr[] = "t.limit_plan_lesson_type>0 and t.is_freeze=0";
+        }else if($tea_status==3){
+            $where_arr[] = "t.limit_plan_lesson_type=0 and t.is_freeze=0";
+        }
+        if($subject==20){
+            $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
+        }else{
+            $where_arr[] =  ["l.subject = %u",$subject,-1];
+        }
+        if($grade_part_ex==0){
+            $where_arr[] = "l.grade =0";
+        }else if($grade_part_ex==100){
+            $where_arr[] = "(l.grade >=100 and l.grade <200)";
+        }else if($grade_part_ex==200){
+            $where_arr[] = "(l.grade >=200 and l.grade <300)";
+        }else if($grade_part_ex==300){
+            $where_arr[] = "l.grade >=300";
+        }else{
+            $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
+        }
+
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s m on t.phone=m.phone"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
+    public function get_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex=-1,$teacherid=-1,$teacher_subject=-1,$identity=-1,$tea_subject="",$qz_flag=-1,$tea_status=-1,$teacher_account=-1,$fulltime_flag=-1,$fulltime_teacher_type=-1){
+        $where_arr = [
+            ["lesson_start >= %u",$start_time,-1],
+            ["lesson_start < %u",$end_time,-1],
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            // "require_admin_type =2",
+            //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
+            "mm.account_role=2 ",
+            //"mm.account_role=2 ",
+
+            "mm.del_flag=0",
+            ["t.teacherid=%u",$teacherid,-1],
+            ["t.subject=%u",$teacher_subject,-1],
+            ["t.identity=%u",$identity,-1],
+            ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+            "t.is_test_user=0"
+            // "t.trial_lecture_is_pass =1",
+            //  "t.train_through_new =1"
+        ];
+
+
+        if($qz_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }else{
+            if(!empty($tea_subject)){
+                $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
+            }
+        }
+
+        if($fulltime_flag==0){
+            $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
+        }else if($fulltime_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }
+
+
+        if($tea_status==1){
+            $where_arr[] = "t.is_freeze=1";
+        }else if($tea_status==2){
+            $where_arr[] = "t.limit_plan_lesson_type>0 and t.is_freeze=0";
+        }else if($tea_status==3){
+            $where_arr[] = "t.limit_plan_lesson_type=0 and t.is_freeze=0";
+        }
+        if($subject==20){
+            $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
+        }else{
+            $where_arr[] =  ["l.subject = %u",$subject,-1];
+        }
+        if($grade_part_ex==0){
+            $where_arr[] = "l.grade =0";
+        }else if($grade_part_ex==100){
+            $where_arr[] = "(l.grade >=100 and l.grade <200)";
+        }else if($grade_part_ex==200){
+            $where_arr[] = "(l.grade >=200 and l.grade <300)";
+        }else if($grade_part_ex==300){
+            $where_arr[] = "l.grade >=300";
+        }else{
+            $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
+        }
+
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s m on t.phone=m.phone"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME, //c
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+
 }

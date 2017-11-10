@@ -279,12 +279,22 @@ class wx_parent_api extends Controller
 
             $jssdk    = $this->get_wx_jsapi_ticket($token);
             $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
+            \App\Helper\Utils::logger("JSSDK RET_ARR:". json_encode( $ret_arr ) );
+
+            if ($ret_arr["errcode"]==45009 ) {
+                return "";
+            }
+
             $ret_arr["get_time"] = time(NULL);
             \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
 
+
         }
 
-        $jsapi_ticket = $ret_arr["ticket"];
+        $jsapi_ticket = @$ret_arr["ticket"];
+        if (!$jsapi_ticket) {
+            return "";
+        }
 
         if(isset($_SERVER["HTTP_REFERER"])){
             $http_ref = $_SERVER["HTTP_REFERER"];
@@ -387,6 +397,10 @@ class wx_parent_api extends Controller
         $ref=$this->get_in_str_val("ref");
 
         $signature_str = $this->get_signature_str($ref);
+        if (!$signature_str) {
+            return $this->output_err("微信限制")  ;
+        }
+
         $config = [
             'debug' => 'false',
             'appId' => 'wxa99d0de03f407627', // 必填，公众号的唯一标识

@@ -3181,6 +3181,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+                $start_time = strtotime(date("Y-m-d",time()));
+
+              $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
+        dd($grab_list);
+ 
         $list = $this->t_week_regular_course->get_teacher_student_time(-1,-1);
         foreach($list as $val){
             $arr              = explode("-",$val["start_time"]);

@@ -221,6 +221,9 @@ class common_new extends Controller
         print_r($_REQUEST);
     }
 
+    /**
+     * 老师报名
+     */
     public function add_teacher_lecture_appoinment_info_for_new(){
         $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
         $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));

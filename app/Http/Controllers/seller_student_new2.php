@@ -1276,4 +1276,48 @@ class seller_student_new2 extends Controller
         }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list));
     }
+
+
+    public function tongji_sign_rate(){
+
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $flag = $this->get_in_int_val('flag',1);
+        if($flag == 1) {
+            $group_by = 'l.teacherid';
+        }else if ($flag == 2){
+            $group_by = 'tl.require_adminid';
+        }else {
+            $group_by = 'tr.origin';
+        }
+        $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
+        $is_down = $this->get_in_int_val('is_down', -1);
+        $subject = $this->get_in_el_subject();
+        $phone_location = trim($this->get_in_str_val("phone_location"));
+        $grade   = $this->get_in_el_grade();
+        $has_pad = $this->get_in_has_pad(-1);
+        $ret_info = $this->t_test_lesson_subject->get_sign_count(
+            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+        );
+
+        foreach($ret_info as &$item){
+            if($flag == 3){
+                $item['nick'] = $itme['origin'];
+            }
+
+            if($item['stu_count']){
+                $item['lesson_succ_rate'] = round( $item['lesson_succ_count']*100 / $item['stu_count'], 2);
+            } else {
+                $item['lesson_succ_rate'] = 0;
+            }
+
+            if($item['lesson_succ_count']){
+                $item['sign_rate'] = round($item['order_count']*100/ $item['lesson_succ_count'], 2);
+            } else {
+                $item['sign_rate'] = 0;
+            }
+        }
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
+
+    }
+
 }

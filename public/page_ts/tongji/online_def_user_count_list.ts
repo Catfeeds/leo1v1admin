@@ -25,18 +25,21 @@ $(function(){
         }
     });
 
-  $('#id_week_flag').val(g_args.week_flag);
+    $('#id_week_flag').val(g_args.week_flag);
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 
     var online_count_list=[];
     $.each( g_data_ex_list.time_list,function(j,item_list){
         //(i*300)*1000+86400-3600*8
         online_count_list[j]=[];
         $.each(item_list ,function(i, item){
-        online_count_list[j].push([i*300000, item]);
+            online_count_list[j].push([i*300000, item]);
         } )
     });
+
+    // console.log(online_count_list);
+
 
     $("#id_pic_user_count").css({
         "height"  : "400px",
@@ -44,7 +47,7 @@ $(function(){
     });
 
 
-    var show_plot=function( ) {
+    var show_plot=function() {
         var id_name="id_pic_user_count";
         var plot_data_list=[];
         var start_time=$.strtotime( g_args.start_time);
@@ -74,43 +77,43 @@ $(function(){
         });
 
 
-      var plot=$.plot("#"+id_name, plot_data_list.reverse() , {
-        series: {
-          lines: {
-            show: true
-          },
+        var plot=$.plot("#"+id_name, plot_data_list.reverse() , {
+            series: {
+                lines: {
+                    show: true
+                },
 
-          points: {
-            show: false
-          }
+                points: {
+                    show: false
+                }
 
-        }, yaxes: [{
-            min: 0
+            }, yaxes: [{
+                min: 0
             }], xaxis: {
                 mode: "time",
                 timeformat: "%H:%M",
                 minTickSize: [1, "hour"]
-        },
+            },
             legend: {
                 show: true ,
                 position:"nw"
             },
 
-        grid: {
-          hoverable: true,
-          clickable: true,
-        backgroundColor: { colors: [ "#fff", "#eee" ] },
-        borderWidth: {
-          top: 1,
-          right: 1,
-          bottom: 2,
-          left: 2
-        }
+            grid: {
+                hoverable: true,
+                clickable: true,
+                backgroundColor: { colors: [ "#fff", "#eee" ] },
+                borderWidth: {
+                    top: 1,
+                    right: 1,
+                    bottom: 2,
+                    left: 2
+                }
 
-        }
+            }
             ,shadowSize:0
 
-      });
+        });
 
         $("<div id='tooltip'></div>").css({
             position: "absolute",
@@ -136,12 +139,12 @@ $(function(){
 
 
         /*
-      $("#id"+id_name).bind("plotclick", function (event, pos, item) {
-        if (item) {
+          $("#id"+id_name).bind("plotclick", function (event, pos, item) {
+          if (item) {
           $("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
           plot.highlight(item.series, item.datapoint);
-        }
-      });
+          }
+          });
         */
     }
     show_plot();

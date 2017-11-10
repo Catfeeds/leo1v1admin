@@ -11,6 +11,8 @@ class activity_0 extends  activity_config_base {
         $this->period_flag_list= [ E\Eperiod_flag::V_0 ,E\Eperiod_flag::V_1  ];
         $this->contract_type_list = [E\Econtract_type::V_0 ,  E\Econtract_type::V_3];
         $this->lesson_times_range = [1 ,  10000];
+
+        $this->can_disable_flag=false;
     }
 
     protected function do_exec ( &$out_args,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )   {

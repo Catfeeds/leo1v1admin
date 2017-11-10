@@ -1090,8 +1090,10 @@ class main_page extends Controller
         //面试人数
         $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
             $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        $lecture_list_info=$real_info;
         $real_arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
             $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        $one_list_info = $real_arr;
         foreach($real_arr["list"] as $p=>$pp){
             if(isset($real_info["list"][$p])){
                 $real_info["list"][$p]["all_count"] += $pp["all_count"];
@@ -1134,12 +1136,16 @@ class main_page extends Controller
         $total_regular_first_num = 0;
         $total_regular_five_per = 0;
         $total_regular_five_num = 0;
-        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=$regular_five_all=0;
+        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=$regular_five_all=$lecture_inter_num=$one_inter_num=$lecture_succ=$one_succ=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
             $account = $item["account"];
+            $item["lecture_inter_num"] = isset($lecture_list_info["list"][$account])?$lecture_list_info["list"][$account]["all_count"]:0;
+            $item["one_inter_num"] = isset($one_list_info["list"][$account])?$one_list_info["list"][$account]["all_count"]:0;
             $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $item["lecture_succ"] = count($teacher_list);
             $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $item["one_succ"] = count($teacher_arr);
             foreach($teacher_arr as $k=>$val){
                 if(!isset($teacher_list[$k])){
                     $teacher_list[$k]=$k;
@@ -1237,6 +1243,10 @@ class main_page extends Controller
             if($kpi_flag==1){
                 $real_num += $item["real_num"];
                 $suc_count += $item["suc_count"];
+                $lecture_inter_num += $item["lecture_inter_num"];
+                $one_inter_num += $item["one_inter_num"];
+                $lecture_succ += $item["lecture_succ"];
+                $one_succ += $item["one_succ"];
                 $train_first_all += $item["train_first_all"];
                 $train_first_pass += $item["train_first_pass"];
                 $train_second_all += $item["train_second_all"];
@@ -1311,7 +1321,9 @@ class main_page extends Controller
 
             //面试总计
             $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $lecture_succ = count($teacher_list_ex);
             $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $one_succ = count($teacher_arr_ex);
             foreach($teacher_arr_ex as $k=>$val){
                 if(!isset($teacher_list_ex[$k])){
                     $teacher_list_ex[$k]=$k;
@@ -1319,9 +1331,11 @@ class main_page extends Controller
             }
             $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
                 $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+            $lecture_inter_num = @$video_real["all_count"];
 
             $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
                 $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+            $one_inter_num =  @$one_real["all_count"];
             @$video_real["all_count"] += $one_real["all_count"];
 
             $all_tea_ex = count($teacher_list_ex);
@@ -1349,6 +1363,11 @@ class main_page extends Controller
                     "test_five_per_str" => $total_test_five_per_str,
                   "regular_first_per_str" => $total_regular_first_per_str,
                   "regular_five_per_str" => $total_regular_five_per_str,
+                  "lecture_inter_num"   =>$lecture_inter_num,
+                  "one_inter_num"   =>$one_inter_num,
+                  "lecture_succ"    =>$lecture_succ,
+                  "one_succ"        =>$one_succ
+                  
             ];
         }elseif($kpi_flag==1){
             $arr=[];
@@ -1361,6 +1380,10 @@ class main_page extends Controller
 
             $arr["real_num"] = $real_num;
             $arr["suc_count"] = $suc_count;
+            $arr["lecture_succ"] = $lecture_succ;
+            $arr["one_succ"] = $one_succ;
+            $arr["lecture_inter_num"] = $lecture_inter_num;
+            $arr["one_inter_num"] = $one_inter_num;
             $arr["train_first_all"] = $train_first_all;
             $arr["train_first_pass"] = $train_first_pass;
             $arr["train_second_all"] = $train_second_all;
