@@ -98,7 +98,7 @@ class Wx{
         \App\Helper\Utils::logger('gettoken4:' .json_encode( $ret_arr) );
 
 
-        return $ret_arr["access_token"];
+        return @$ret_arr["access_token"];
     }
 
     function wx_get_token($reset_flag=false) {
@@ -145,8 +145,10 @@ class Wx{
                 \App\Helper\Utils::logger("WX MSG TWO ERROR:".json_encode($ret) );
                 if (\App\Helper\Utils::check_env_is_release() ) {
                     if (!in_array(  $ret["errcode"], [43004  ,40003])) {
+                        /*
                         dispatch( new \App\Jobs\send_error_mail(
                             "","KK WX ERR: $template_id ", json_encode($ret)  ));
+                        */
                     }
                 }
                 return false;

@@ -1320,7 +1320,11 @@ $(function(){
                     $.do_ajax("/grab_lesson/add_requireids",{
                         "requireids" : id,
                     },function(result){
-                        select_time_limit(result,lesson_info);
+                        if(result.ret==-1){
+                            BootstrapDialog.alert(result.info); 
+                        }else{
+                            select_time_limit(result,lesson_info);
+                        }
                     })
 
                     // $.do_ajax("/common/base64",{

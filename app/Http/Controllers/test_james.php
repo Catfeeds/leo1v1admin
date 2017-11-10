@@ -152,9 +152,7 @@ class test_james extends Controller
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
         if($pdf_url){
-
             \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-
             $path = public_path().'/wximg';
 
             @chmod($savePathFile, 0777);
@@ -167,18 +165,13 @@ class test_james extends Controller
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);
-
             $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
             }
-
             @unlink($savePathFile);
         }
-
-
-
     }
 
 

@@ -63,7 +63,7 @@ class t_grab_lesson_link_info extends \App\Models\Zgen\z_t_grab_lesson_link_info
     }
 
     public function get_grab_info_by_time($start_time){
-        $sql = $this->gen_sql_new("select requireids,grab_lesson_link from %s "
+        $sql = $this->gen_sql_new("select requireids,grab_lesson_link,grabid from %s "
                                   ." where create_time>%u and live_time>0",
                                   self::DB_TABLE_NAME,
                                   $start_time
