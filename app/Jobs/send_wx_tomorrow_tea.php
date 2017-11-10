@@ -37,7 +37,6 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
     {
         //
 
-        $this->delete();
 
         /**
            gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
@@ -47,6 +46,9 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
            教师姓名：{{keyword3.DATA}}
            {{remark.DATA}}
         ***/
+
+        $this->delete();
+
         $t_lesson_info_b3  = new \App\Models\t_lesson_info_b3();
         $t_assistant_info  = new \App\Models\t_assistant_info();
 
@@ -67,6 +69,7 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
                 "remark"   => "请确保讲义已上传，保持网络畅通，提前做好上课准备。"
             ];
 
+            $b = $item['cc'];
             //oJ_4fxPmwXgLmkCTdoJGhSY1FTlc
             \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id_teacher, $data_tea,'');
             // \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_tea,'');
