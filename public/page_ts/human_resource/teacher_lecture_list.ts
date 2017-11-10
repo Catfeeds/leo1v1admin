@@ -339,10 +339,10 @@ $(function(){
         },function(result){
             var num = result.num;
             console.log(num);
-            if(num>1 && account=="" && opt_data.phone != 13079618620){
-                BootstrapDialog.alert("该老师重审次数超过1次,不能再审核,请联系技术人员处理!!");
-                return;
-            }
+            // if(num>1 && account=="" && opt_data.phone != 13079618620){
+            //     BootstrapDialog.alert("该老师重审次数超过1次,不能再审核,请联系技术人员处理!!");
+            //     return;
+            // }
         });
 
         $.do_ajax("/human_resource/get_week_confirm_num",{
