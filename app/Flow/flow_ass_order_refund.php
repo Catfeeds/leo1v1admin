@@ -5,17 +5,25 @@ class flow_ass_order_refund  extends flow_base{
 
 
     static $type= E\Eflow_type::V_ASS_ORDER_REFUND ;
+
     static $node_data=[
+
+        4=>[ -1,"xixi审核" ], //原来的
         //nodeid => next_nodeid(s) name  ,next_node_process
         0=>[ 1 , "退费申请"  ],
         1=>[ 2,"主管审批"  ],
-        2=>[ 8,"[部]主审批" ],
-        4=>[ -1,"xixi审核" ], //原来的
-        8=>[ 3 ,"linlin 财务复核" ],
-        3=>[ [7,5] ,"echo 财务复核" ],
 
+        2=>[ 9,"[部]主审批" ],
+
+        9=>[ 8 ,"经理 " ],
+
+        8=>[ 3 ,"linlin 财务复核" ],
+
+        3=>[ [7,5] ,"echo 财务复核" ],
         5=>[ 6 ," 助教  tina 复核 " ],
         7=>[ 6 ," 销售 tina 复核 " ],
+
+
 
         6 =>[-1, " xixi复核 "  ],
 
@@ -105,9 +113,16 @@ class flow_ass_order_refund  extends flow_base{
 
     static function next_node_process_2 ($flowid, $adminid){ //
         $flag=\App\Helper\Utils::check_env_is_release() ;
+        return $flag? "孙佳旭":"jim" ;
+
+    }
+
+    static function next_node_process_9 ($flowid, $adminid){ //
+        $flag=\App\Helper\Utils::check_env_is_release() ;
         return $flag? "zero":"jim" ;
 
     }
+
 
     static function next_node_process_3 ($flowid, $adminid){ //
         list($flow_info,$self_info)=static::get_info($flowid);

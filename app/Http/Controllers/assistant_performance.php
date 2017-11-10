@@ -110,6 +110,11 @@ class assistant_performance extends Controller
 
             //课时消耗达成率
             $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            if($registered_student_list){
+                $registered_student_arr = jason_decode($registered_student_list,true);                
+            }else{
+                $registered_student_arr=[];      
+            }
         }
         
                

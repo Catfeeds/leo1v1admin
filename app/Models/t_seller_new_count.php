@@ -245,15 +245,15 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             ." where %s  "
             ."group  by adminid "
             ,self::DB_TABLE_NAME ,
-            $where_arr  );
+            $where_arr
+        );
 
         return $this->main_get_list($sql,function($item){
             return $item["adminid"];
         });
     }
+
     public function tongji_get_admin_list_count($adminid ,$start_time, $end_time )   {
-
-
         $where_arr=[
             ["adminid=%d",$adminid , -1],
         ];

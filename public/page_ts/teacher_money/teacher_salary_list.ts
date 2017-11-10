@@ -29,4 +29,43 @@ $(function(){
     $.admin_select_user($("#id_reference"),"teacher",load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
+
+    $('.opt-edit').on('click', function() {
+        var opt_data=$(this).get_opt_data();
+        console.log(opt_data);
+        var s_input = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');
+        var arr=[
+            ['工资结算开始时间', s_input]
+        ] ;
+
+        initPicker(s_input);
+
+        $.show_key_value_table("修改", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                var $pay_time = $('input[name="pay_time"]').val();
+                    $.do_ajax("/teacher_money/update_pay_time",{
+                        "id": opt_data.id,
+                        "pay_time" : $pay_time,
+                    });
+
+            }
+        });
+    });
+
+
+    function initPicker(obj)
+    {
+      obj.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d',
+            step       : 30,
+            onChangeDateTime :function(){
+              $(this).hide();
+            }
+        });
+    }
 });
