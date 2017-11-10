@@ -65,6 +65,7 @@ class ss_deal extends Controller
         $grade    = $this->get_in_grade();
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
+        $origin_userid = $this->get_in_int_val("origin_userid", 1);
 
         if (strlen($phone )!=11) {
             return $this->output_err("电话号码长度不对");
@@ -113,11 +114,14 @@ class ss_deal extends Controller
             "sub_assign_time_2"  =>time(),
             "ass_leader_create_flag"=>1
         ]);
+        if($origin_userid<=1){
+            $origin_userid=1;
+        }
         $this->t_student_info->field_update_list($userid,[
             "nick"  =>$name,
             "realname"=>$name,
             "origin_assistantid"=>$admin_revisiterid,
-            "origin_userid"   =>1
+            "origin_userid"   =>$origin_userid
         ]);
 
 

@@ -31,15 +31,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-tea_lesson_count_detail_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		teacherid:	$('#id_teacherid').val(),
+		studentid:	$('#id_studentid').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacherid:	$('#id_teacherid').val(),
-			studentid:	$('#id_studentid').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 
 	$('#id_teacherid').val(g_args.teacherid);

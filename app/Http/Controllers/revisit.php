@@ -97,7 +97,7 @@ class revisit extends Controller
         $userid         = intval($this->get_in_int_val('userid',-1));
         $revisit_type   = $this->get_in_int_val('revisit_type',0);
         $revisit_person = trim($this->get_in_str_val('revisit_person'));
-        $revisit_time = $this->get_in_str_val('revisit_time');
+        $revisit_time   = $this->get_in_str_val('revisit_time');
         $operator_note  = trim($this->get_in_str_val('operator_note'));
         $operation_satisfy_flag =$this->get_in_int_val("operation_satisfy_flag",0);
         $operation_satisfy_type =$this->get_in_int_val("operation_satisfy_type",0);
@@ -122,8 +122,6 @@ class revisit extends Controller
         }else{
             $is_warning_flag=0;
         }
-
-
 
         $acc = $this->get_account();
 
@@ -159,7 +157,7 @@ class revisit extends Controller
             if ( $revisit_type==2  ) {
                 $set_arr["ass_revisit_last_month_time"]=  $week_start_time;
             }
-            if (count ($set_arr) >0)   {
+            if (count($set_arr) >0)   {
                 $this->t_student_info->field_update_list($userid, $set_arr);
             }
         }
@@ -168,9 +166,7 @@ class revisit extends Controller
         $this->t_user_log->add_data("操作回访录入",$userid);
 
         return  $this->output_succ();
-
     }
-
 
     public function add_revisit_record_b2()
     {
