@@ -45,16 +45,17 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student-money_contract_list_for_origin.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val(),
+		contract_type:	$('#id_contract_type').val(),
+		studentid:	$('#id_studentid').val(),
+		check_money_flag:	$('#id_check_money_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val(),
-			contract_type:	$('#id_contract_type').val(),
-			studentid:	$('#id_studentid').val(),
-			check_money_flag:	$('#id_check_money_flag').val()
-        });
-    }
 
 
 	$('#id_start_date').val(g_args.start_date);
