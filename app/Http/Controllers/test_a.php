@@ -18,7 +18,7 @@ class test extends Controller
 
     public function t() {
         //app_path("/Libs/xx/init.php"); 
-
+        $this->
 
         $objReader = \PHPExcel_IOFactory::createReader('Excel2003XML');
         $objPHPExcel = $objReader->load("/tmp/001.xls");

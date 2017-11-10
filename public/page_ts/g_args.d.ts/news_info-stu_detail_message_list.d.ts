@@ -17,15 +17,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	messageid	:any;
-	date	:any;
-	content	:any;
-	value	:any;
-	push_num	:any;
-	message_type	:any;
-	userid	:any;
-	message_type_str	:any;
-	date_str	:any;
 }
 
 /*
@@ -36,18 +27,19 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/news_info-stu_detail_message_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		studentid:	$('#id_studentid').val(),
+		userid:	$('#id_userid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			studentid:	$('#id_studentid').val(),
-			userid:	$('#id_userid').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

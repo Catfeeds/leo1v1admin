@@ -6336,6 +6336,7 @@ class ss_deal extends Controller
             $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_teacher/';
             $wx=new \App\Helper\Wx();
             $qc_openid_arr = [
+                "orwGAswflHkLg-4PgNuJwsQZZKFE", // 沈玉莹
                 "orwGAs4dM5Z-nc2VKAnG1oP0VfuQ", //谢汝毅
                 "orwGAs08kfcXpQ4HZxeNV7_UqyBE", //班洁
                 "orwGAs4HRuV3DIrMqWLazE0WKStY", //王皎嵘

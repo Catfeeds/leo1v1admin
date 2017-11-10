@@ -89,6 +89,7 @@ class seller_menu{
                     ["power_id"=>17, "name"=>"试听转化率统计-试卷",   "url"=>"/tongji_ss/tongji_seller_test_lesson_paper_order_info"],
                     ["power_id"=>18, "name"=>"转化率",   "url"=>"/tongji_ex/test_lesson_order_info"],
                     ["power_id"=>19, "name"=>"转化率-明细",   "url"=>"/tongji_ex/test_lesson_order_detail_list"],
+                    ["power_id"=>20, "name"=>"转化率统计总表",   "url"=>"/seller_student_new2/tongji_sign_rate" ],
                 ]],
                 ["power_id"=>17, "name"=>"综合统计", "list"=>[
                     ["power_id"=>1, "name"=>"日报",   "url"=>"/tongji_ss/day_report"],

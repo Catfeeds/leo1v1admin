@@ -1982,7 +1982,7 @@ class agent extends Controller
     public function get_yxyx_member_detail(){
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $id = $this->get_in_int_val('id','');
+        $id = $this->get_in_int_val('id',-1);
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);

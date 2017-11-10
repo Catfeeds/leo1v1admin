@@ -284,5 +284,23 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 
     }
 
-
+    public function get_total_for_teacherid($teacherid, $type=1) {
+        $where_arr = [
+            ['tl.teacherid=%u',$teacherid,-1],
+            "tl.recommended_teacherid!=0"
+        ];
+        if ($type == 1) { // 推荐机构老师总数
+            array_push($where_arr, "t.identity in (5,6,7)");
+        } else { // 推荐在校学生总数
+            array_push($where_arr, "t.identity not in (5,6,7)");
+        }
+        $sql = $this->gen_sql_new("select count(*) from %s tl"
+                                  ." left join %s t on tl.recommended_teacherid=t.teacherid where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+        //select count(*) from t_teacher_money_list tl left join t_teacher_info t on tl.recommended_teacherid=t.teacherid where tl.teacherid=284393 and tl.recommended_teacherid !=0 and t.identity not in (5,6,7);
+    }
 }

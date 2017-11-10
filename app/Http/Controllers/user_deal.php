@@ -2235,7 +2235,7 @@ class user_deal extends Controller
         $adminid=$this->get_in_int_val("adminid");
         $main_type=$this->get_in_int_val("main_type");
 
-        $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
+        $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid(-1,$adminid);
         $group_name = '';
         if ($db_groupid ) {//
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
@@ -3182,10 +3182,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-10-01");
-        $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
-        $stu_info_all = $this->t_student_info->get_ass_stu_info_new();       
-        $userid_list = $this->t_student_info->get_read_student_ass_info();
+               
  
 
             

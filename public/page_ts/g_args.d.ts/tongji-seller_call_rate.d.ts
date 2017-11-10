@@ -41,22 +41,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji-seller_call_rate.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		group_adminid:	$('#id_group_adminid').val(),
+		hour:	$('#id_hour').val(),
+		order_by_str:	$('#id_order_by_str').val(),
+		groupid:	$('#id_groupid').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_ex:	$('#id_origin_ex').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			group_adminid:	$('#id_group_adminid').val(),
-			hour:	$('#id_hour').val(),
-			order_by_str:	$('#id_order_by_str').val(),
-			groupid:	$('#id_groupid').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_ex:	$('#id_origin_ex').val()
-        });
-    }
 
 	Enum_map.append_option_list("hour",$("#id_hour"));
 

@@ -1286,19 +1286,22 @@ class tongji2 extends Controller
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
+                $target = $this->t_manager_info->get_cr_target(strtotime($start_month));//月度目标
             }elseif($type == 1){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+                $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
             }elseif($type == 2){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
                 $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
                 $ret_cr            = $this->t_manager_info->get_cr_num_new(strtotime($start_month),$start_time,$end_time);
+                $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
             }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
-            $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
+            
             //$arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
             $arr['total_price']        = $month_total_money/100;                    //2-现金总收入
             $arr['total_income']       = $ret_total['total_price']/100 ;             //A1-现金总收入
