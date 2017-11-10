@@ -37,6 +37,24 @@
                         <button class="btn btn-primary" id="id_add_teacher_money">添加</button>
                     </div>
                 </div>
+                @if (isset($info['total']))
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group">
+                            <span>推荐老师总计 {{$info['total']}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group">
+                            <span>推荐在校学生数 {{$info['stu_sum']}} 金额 {{$info['stu_reward']}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group">
+                            <span>推荐机构老师 {{$info['tea_sum']}} 金额 {{$info['tea_reward']}}</span>
+                        </div>
+                    </div>
+                @endif
+
             </div>
         </div>
         <hr/>
