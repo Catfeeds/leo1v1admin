@@ -354,4 +354,18 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
 
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
+    //@desn:获取用户一级邀请人奖励之和
+    public function get_l1_child_commission_reward($id){
+        $sql = $this->gen_sql_new(
+            "select sum(p_price) from %s where pid = %u",self::DB_TABLE_NAME,$id
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取用户二级邀请人奖励之和
+    public function get_l2_child_commission_reward($id){
+        $sql = $this->gen_sql_new(
+            "select sum(pp_price) from %s where ppid = %u",self::DB_TABLE_NAME,$id
+        );
+        return $this->main_get_value($sql);
+    }
 }

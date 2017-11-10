@@ -71,6 +71,7 @@
                           data-comment="{{$var["Comment"]}}"
                         >
                             <a class="fa-gavel opt-field-comment " title="修改注释"></a>
+                            <a class="fa-gavel opt-set-none" title="无用设置"></a>
                         </div>
                     </td>
                 </tr>

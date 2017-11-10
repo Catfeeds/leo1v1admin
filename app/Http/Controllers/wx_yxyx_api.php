@@ -1098,15 +1098,7 @@ class wx_yxyx_api extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
-            $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
-            foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
-                if(empty($val['nickname']))
-                    $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 2)
-                    $val['agent_status'] = "0";
-                $val['price'] /= 100;
-            }
+            $item['child'] =  [];
             $item['second_num'] = count($item['child']);
         }
         //获取一级用户为会员的列表
@@ -1177,10 +1169,49 @@ class wx_yxyx_api extends Controller
         }
         //获取活动奖励总金额
         $activity_total_money = $this->t_agent_money_ex->get_activity_total_money($agent_id,$is_cash);
-        $activity_total_money /=100;
-        return $this->output_succ([
+        $activity_total_money /=100; return $this->output_succ([
             'reward_list' => $reward_list,
             'activity_total_money' => $activity_total_money
         ]);
     }
-}
+    //@desn:获取用户邀请奖励、佣金奖励、活动奖励之和
+    public function agent_reward_sort_sum(){
+        $agent_id = $this->get_agent_id();
+        $check_flag = $this->get_in_int_val('check_flag');
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        if(!$check_flag){
+            //获取用户邀请奖励
+            $l1_child_invite_reward = $this->t_agent->get_l1_agent_status_all_money($agent_id);
+            $l2_child_invite_reward = $this->t_agent->get_l1_agent_status_all_money($agent_id);
+            $invite_reward = ($l1_child_invite_reward+$l2_child_invite_reward)/100;
+            //获取佣金奖励
+            $l1_child_commission_reward = $this->t_agent_order->get_l1_child_commission_reward($agent_id);
+            $l2_child_commission_reward = $this->t_agent_order->get_l2_child_commission_reward($agent_id);
+            $commission_reward = ($l1_child_commission_reward+$l2_child_commission_reward)/100;
+        }else{
+            //获取可体现用户邀请奖励
+            $l1_child_can_cash_invite_reward = $this->t_agent->get_l1_agent_status_all_open_money($agent_id);
+            $l2_child_can_cash_invite_reward = $this->t_agent->get_l2_agent_status_all_open_money($agent_id);
+            $invite_reward = ($l1_child_can_cash_invite_reward+$l2_child_can_cash_invite_reward)/100;
+            //获取可提现佣金奖励
+            $commission_reward = $this->t_agent->get_order_open_all_money($agent_id);
+            $commission_reward /= 100;
+        }
+
+        //获取活动奖励
+        $activity_money = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+        return $this->output_succ([
+            'invite_reward' => $invite_reward,
+            'commission_reward' => $commission_reward,
+            'activity_money' => $activity_money
+        ]);
+    }
+} 

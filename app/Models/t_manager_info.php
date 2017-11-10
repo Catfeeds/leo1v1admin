@@ -484,10 +484,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $ret;
     }
 
-
-
-
-
     public function get_uid_by_cardid($cardid) {
         $sql=$this->gen_sql_new("select  uid from %s where cardid = %u ",
                                 self::DB_TABLE_NAME, $cardid );
