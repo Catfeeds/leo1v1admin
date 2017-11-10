@@ -117,6 +117,7 @@ class assistant_performance extends Controller
         }
         $n = ($last_week-$first_week)/(7*86400)+1;
 
+        //每周课时/学生数
         $lesson_count_list=[];
         for($i=0;$i<$n;$i++){
             $week = $first_week+$i*7*86400;
@@ -125,7 +126,6 @@ class assistant_performance extends Controller
         }
 
         
-        dd($lesson_count_list);
 
 
         foreach($ass_month as $k=>&$item){
@@ -141,6 +141,12 @@ class assistant_performance extends Controller
             }else{
                 $registered_student_arr=[];      
                 $estimate_month_lesson_count =100;
+            }
+
+            //得到单位学员平均课时数完成率
+            $seller_lesson_count =$seller_stu_num=0;
+            foreach($lesson_count_list as $val){
+                
             }
 
             

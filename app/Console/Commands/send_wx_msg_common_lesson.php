@@ -234,11 +234,11 @@ class send_wx_msg_common_lesson extends Command
 
 
     public function to_waring($type){
-        $data = [
+        $data_self = [
             ""
         ];
 
-        $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
+        $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_self ,'');
     }
 
