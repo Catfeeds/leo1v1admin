@@ -1575,5 +1575,43 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->pageView(__METHOD__);
     }
 
+    public function load_to_teacher() {
+        $file = '/tmp/bank.txt';
+        $str = file_get_contents($file);
+        $info = explode("\n",$str);
+        dd($info);
+        echo '正在添加数据,请稍等 ...'.PHP_EOL;
+        foreach($info as $item) {
+            if ($item) {
+                $val = explode("\t",$item);
+                $teacherid = $val[0];
+                $bankcard = $this->t_teacher_info->get_bankcard($teacherid);
+                if (!$bankcard) {
+                    $this->t_teacher_info->field_update_list($teacherid,[
+                        "bank_phone" => $val[1],
+                        "bank_account" => $val[2],
+                        "bankcard" => $val[3],
+                        "bank_type" => $val[4],
+                        "bank_province" => $val[5],
+                        "bank_city" => $val[6],
+                        "bank_address" => $val[7],
+                        "idcard" => $val[8]
+                    ]);
 
+                }
+                echo "添加完成 current id : ".$teacherid.PHP_EOL;
+            }
+        }
+        exit("添加数据完成 ...");
+        $file = 'storage/teacher_bind.xlsx';
+        $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+        $objPHPExcel = $objReader->load($file);
+        $objPHPExcel->setActiveSheetIndex(0);
+        $arr=$objPHPExcel->getActiveSheet()->toArray();
+        //
+        foreach ($arr as $index => $item) {
+            dd($item);
+        }
+    }
 }
