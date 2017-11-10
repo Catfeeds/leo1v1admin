@@ -1305,7 +1305,7 @@ class seller_student_new2 extends Controller
 
         foreach($ret_info as &$item){
             if($flag == 3){
-                $item['nick'] = $itme['origin'];
+                $item['nick'] = $item['origin'];
             }
 
             if($item['stu_count']){
