@@ -67,13 +67,14 @@ class send_wx_msg_common_lesson extends Command
                 ];
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
             }
+        }else{
+            \App\Helper\Utils::logger("课前四小时未上传讲义 数量异常 ");
         }
 
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
         // 获取常规课 课前30分钟
         $common_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
-
         if(!empty($common_lesson_list_halfhour) && count($common_lesson_list_halfhour)<1000){
             foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
@@ -83,7 +84,6 @@ class send_wx_msg_common_lesson extends Command
             }
         }else{
             \App\Helper\Utils::logger("获取常规课 课前30分钟 发送失败 ");
-
         }
 
         // 常规课超时5分钟
@@ -91,7 +91,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_five   = $now-4*60;
         $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
-        if($common_lesson_list_five){
+        if(count($common_lesson_list_five)<=500){
             foreach($common_lesson_list_five as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
