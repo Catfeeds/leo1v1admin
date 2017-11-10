@@ -1897,7 +1897,7 @@ class Utils  {
         }
     }
 
-    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent,$flag) {
+    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent,$prefix) {
         $wx_openid = $agent['wx_openid'];
         $t_agent = new \App\Models\t_agent();
         $phone   = $agent['phone'];
@@ -1905,11 +1905,6 @@ class Utils  {
 
         //唯一标识，防止多次点击删除的图片不对
         $mark = uniqid();
-        if($flag == 1) {
-            $prefix = 'stu';
-        } else {
-            $prefix = 'vip';
-        }
         $qr_url  = "/tmp/{$prefix}yxyx_".$phone.$mark."_qr.png";
         $old_headimgurl = @$agent['headimgurl'];
         self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
@@ -1927,6 +1922,25 @@ class Utils  {
         curl_close($ch);
         $data = json_decode($output,true);
         $headimgurl = @$data['headimgurl'];
+
+        //强制刷新token
+        if ( !array_key_exists('headimgurl', $data) ){
+
+            $access_token = $wx->get_new_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+
+            \App\Helper\Utils::logger("url info:". $url);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
+
+        }
 
         $agent_qr_url = "/tmp/{$prefix}yxyx_member_".$phone.".png";
         $is_exists = file_exists($agent_qr_url);
@@ -1987,6 +2001,7 @@ class Utils  {
             imagedestroy($image_6);
 
         }
+
         $cmd_rm = "rm /tmp/{$prefix}yxyx_".$phone.$mark."*";
         self::exec_cmd($cmd_rm);
 
