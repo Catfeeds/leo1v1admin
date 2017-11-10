@@ -5037,7 +5037,6 @@ class user_deal extends Controller
 
 
     public function jack_test(){
-
         $ret_info = $this->t_course_order->get_lesson_left_info(1);
         $list = $this->t_course_order->get_lesson_left_info(2);
         foreach($ret_info as $k=>$item){
