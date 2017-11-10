@@ -571,7 +571,7 @@ class Utils  {
         }
     }
 
-    static function order_list_new( $list, $order_field_name,$is_asc_flag,$page_info) {
+    static function order_list_new( $list, $order_field_name,$is_asc_flag,$page_info='') {
         if ($is_asc_flag) {
             usort( $list , function ($a,$b) use ($order_field_name)
             {
@@ -589,21 +589,28 @@ class Utils  {
                 return $a_v>$b_v? -1:1;
             });
         }
-        $new_list = [];
-        $start = ($page_info['page_num']-1) * $page_info['page_count'];
-        $end = ($start+$page_info['page_count']) < count($list)? ($start+$page_info['page_count']) :count($list) ;
-        for($i = $start; $i<$end; $i++){
-            $new_list[$i] = $list[$i];
-        }
+        if($page_info != '') {
+            $new_list = [];
+            $start = ($page_info['page_num']-1) * $page_info['page_count'];
+            $end = ($start+$page_info['page_count']) < count($list)? ($start+$page_info['page_count']) :count($list) ;
+            for($i = $start; $i<$end; $i++){
+                $new_list[$i] = $list[$i];
+            }
 
-        $ret_info['list'] = $new_list;
-        $page_info['total_num'] = count($list);
-        $page_info['per_page_count'] = $page_info['page_count'];
-        $ret_info['page_info'] = $page_info;
-        $ret_info['total_num'] = $page_info['total_num'];
-        $ret_info['per_page_count'] = $page_info['page_count'];
+            $ret_info['list'] = $new_list;
+            $page_info['total_num'] = count($list);
+            $page_info['per_page_count'] = $page_info['page_count'];
+            $ret_info['page_info'] = $page_info;
+            $ret_info['total_num'] = $page_info['total_num'];
+            $ret_info['per_page_count'] = $page_info['page_count'];
+
+        } else {
+            return $ret_info;
+        }
         return $ret_info;
     }
+
+
 
     static function date_list_set_value( &$date_list , &$from_list , $date_key, $field_name, $from_field_name ) {
 
