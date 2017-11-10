@@ -65,6 +65,7 @@ class NewRouteConfig {
         "/grab_lesson/upadte_lesson_link"         => true,
         "/grab_lesson/get_all_grab_info"          => true,
         "/teacher_info/grab_visit_info"           => true,
+        "/teacher_info/down_leo_file"             => true,
         "/lesson_manage/stu_status_count"         => true,
         "/admin_join/get_apply_info"              => true,
         "/supervisor/lesson_all_info"             => true,

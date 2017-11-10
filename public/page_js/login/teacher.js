@@ -128,10 +128,9 @@ $('.download-pc-url').click( function () {
         }
     }
 });
-$(".download-pdf").click( function(){
+$(".download-pdf-url").click( function(){
     var window_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/FoxitReader_8.2.0.2051.exe";
     var mac_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/FoxitReader.2.3.0.2197.enu.Setup.pkg";
-    console.log(navigator.platform);
     if(navigator.platform.indexOf('mac') > -1 || navigator.platform.indexOf('Mac') > -1){
         window.location.href = mac_url;
     }else{
@@ -141,4 +140,8 @@ $(".download-pdf").click( function(){
             window.location.href = window_url;
         }
     }
+});
+
+$(".download-handout-url").click( function(){
+            window.location.href = "/teacher_info/down_leo_file";
 });
