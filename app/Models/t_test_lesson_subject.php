@@ -996,7 +996,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         }
 
         if($phone_location){
-            $where_arr[] = ["tl.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
+            $where_arr[] = ["ss.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
         }
 
         if($flag == 1) {
