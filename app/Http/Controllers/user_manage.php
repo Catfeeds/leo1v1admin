@@ -216,10 +216,11 @@ class user_manage extends Controller
         $userid       = $this->get_in_userid(-1);
         $revisit_flag = $this->get_in_int_val('revisit_flag',-1);
         $warning_stu  = $this->get_in_int_val('warning_stu',-1);
-        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',0);
+        $revisit_warn_flag  = $this->get_in_int_val('revisit_warn_flag',1);
 
         //回访预警名单
-        $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        // $warn_list = $this->t_revisit_info->get_warn_stu_list();
+        $warn_list=[];
 
         $now  = strtotime(date("Y-m-d",time()));
         $date = \App\Helper\Utils::get_week_range($now,1);
