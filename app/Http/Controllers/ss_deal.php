@@ -65,6 +65,7 @@ class ss_deal extends Controller
         $grade    = $this->get_in_grade();
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
+        $origin_userid = $this->get_in_int_val("origin_userid", 1);
 
         if (strlen($phone )!=11) {
             return $this->output_err("电话号码长度不对");
@@ -113,11 +114,14 @@ class ss_deal extends Controller
             "sub_assign_time_2"  =>time(),
             "ass_leader_create_flag"=>1
         ]);
+        if($origin_userid<=1){
+            $origin_userid=1;
+        }
         $this->t_student_info->field_update_list($userid,[
             "nick"  =>$name,
             "realname"=>$name,
             "origin_assistantid"=>$admin_revisiterid,
-            "origin_userid"   =>1
+            "origin_userid"   =>$origin_userid
         ]);
 
 
@@ -5348,13 +5352,15 @@ class ss_deal extends Controller
                  */
                 $data=[];
                 $title = "资料领取通知";
-                 $template_id      = "Fw49ejW84qSRcXFFCrHsiCY3Lz6H57IeZZ_gVRdq9TM";//old
+                $template_id      = "Fw49ejW84qSRcXFFCrHsiCY3Lz6H57IeZZ_gVRdq9TM";//old
                 //$template_id      = "KfQxp0ynjBSEHso1pwoxP8R6CdU2SeWA7M1YvWNGld8";
                 $data['first']    = $first_sentence;
                 $data['keyword1'] = $keyword1;
                 $data['keyword2'] = $keyword2;
                 $data['remark']   = $end_sentence;
                 // $openid = $v["wx_openid"];
+                // $openid = $this->t_teacher_info->get_wx_openid($send_teacherid);
+
                 $openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
                 if(isset($openid) && isset($template_id)){
                     \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
@@ -5437,12 +5443,10 @@ class ss_deal extends Controller
                             $res_teacherid[]= $item["teacherid"];
                         }
                     }
-
                 }
             }
 
             if(!empty($res_teacherid)){
-
                 foreach($res_teacherid as $val){
                     if($template_type==4){
                         /**

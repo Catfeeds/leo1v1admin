@@ -737,5 +737,13 @@ class teacher_money extends Controller
         ]);
     }
 
+    public function update_pay_time() {
+        $id = $this->get_in_int_val("id");
+        $end_time = strtotime($this->get_in_str_val("pay_time"));
 
+        $this->t_month_def_type->field_update_list($id, [
+            "pay_time" => $pay_time
+        ]);
+        return $this->output_succ();
+    }
 }

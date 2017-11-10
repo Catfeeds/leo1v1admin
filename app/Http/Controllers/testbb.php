@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use \App\Enums as E;
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
