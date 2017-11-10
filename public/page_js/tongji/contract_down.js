@@ -38,7 +38,7 @@ $(function(){
 
 
     $("#id_contract_money, #id_contract_user").css({
-        "height"  : "600px",
+        "height"  : "500px",
         "width"  : "98%"
     });
 
