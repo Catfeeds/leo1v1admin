@@ -3023,13 +3023,19 @@ class ss_deal extends Controller
         //check 多科目
         $seller_resource_type= $new_flag? E\Eseller_resource_type::V_0: E\Eseller_resource_type::V_1;
 
+        //自己回流过的例子
+        $hand_get_adminid = E\Ehand_get_adminid::V_5;
+        // $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($this->get_account_id(),$userid);
+        // if($add_time>0){
+        //     $hand_get_adminid = 0;
+        // }
         $this->t_seller_student_new->field_update_list($userid,[
             "admin_revisiterid" => $this->get_account_id() ,
             "admin_assign_time" => $now,
             "tq_called_flag"    =>0,
             "hold_flag" => 1,
             "seller_resource_type" => $seller_resource_type ,
-            "hand_get_adminid" => E\Ehand_get_adminid::V_5,
+            "hand_get_adminid" => $hand_get_adminid,
         ]);
 
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
