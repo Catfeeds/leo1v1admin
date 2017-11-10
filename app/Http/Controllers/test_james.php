@@ -913,7 +913,13 @@ class test_james extends Controller
         $late_time = $now-86400*2+15*60;
         $late_lesson_info = $this->t_lesson_info_b3->get_late_lesson_info($late_time);
 
-        dd($late_lesson_info);
+        $lesson_begin_halfhour = $now+30*60;
+        $lesson_end_halfhour   = $now+31*60;
+        // 获取常规课 课前30分钟
+        $common_lesson_list_halfhour = $this->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+
+
+        dd($common_lesson_list_halfhour);
 
         dd(count($a));
 

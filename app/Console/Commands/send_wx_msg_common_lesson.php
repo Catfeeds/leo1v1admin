@@ -74,7 +74,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_halfhour   = $now+31*60;
         // 获取常规课 课前30分钟
         $common_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
-        if(!empty($common_lesson_list_halfhour) && count($common_lesson_list_halfhour)<100){
+        if(count($common_lesson_list_halfhour)<100){
             foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
                 $data_tea = $this->get_data($item,2,1);
