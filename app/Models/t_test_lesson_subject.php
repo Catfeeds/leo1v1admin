@@ -1003,9 +1003,9 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             $group_by = 'l.teacherid';
         }else if ($flag == 2){
             $group_by = 'tl.require_adminid';
-            $where_arr[] = "tl.hand_get_adminid in (1,4)";//1拨打认领,4 tmk分配　
-            $where_arr[] = ["tl.admin_assign_time>=%u",$start_time,-1];
-            $where_arr[] = ["tl.admin_assign_time<%u",$end_time,-1];
+            $where_arr[] = "ss.hand_get_adminid in (1,4)";//1拨打认领,4 tmk分配　
+            $where_arr[] = ["ss.admin_assign_time>=%u",$start_time,-1];
+            $where_arr[] = ["ss.admin_assign_time<%u",$end_time,-1];
         }else {
             $group_by = 'tr.origin';
         }
