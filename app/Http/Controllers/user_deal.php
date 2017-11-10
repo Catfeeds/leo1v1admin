@@ -3183,6 +3183,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
                
+        $list = $this->t_student_info->get_ass_create_stu_info();
+        dd($list);
  
 
             

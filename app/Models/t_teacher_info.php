@@ -1387,7 +1387,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                       self::DB_TABLE_NAME,
                                       $where_arr
             );
-
         }else if($tea_qua==2){
             $sql = $this->gen_sql_new("select teacherid".
                                       " from %s t where %s and limit_plan_lesson_type >0 ",

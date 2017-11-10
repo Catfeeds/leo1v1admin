@@ -3207,4 +3207,20 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_ass_create_stu_info(){
+        $where_arr = [
+            "n.ass_leader_create_flag=1",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.origin"
+                                  ." from %s s left join %s n on s.userid = n.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
