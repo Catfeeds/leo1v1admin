@@ -465,28 +465,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_order_info->get_fenqi_list();
-        $orderid_arr = array_unique(array_column($ret,'orderid'));
-        foreach($orderid_arr as $item){
-            foreach($ret as $info){
-                $orderid = $info['orderid'];
-                $channel = $info['channel'];
-                $child_order_type = $info['child_order_type'];
-                if($item == $orderid){
-                    if($channel=='baidu' && $child_order_type==E\Echild_order_type::V_2){//百度才算分期
-                        $this->t_order_info->field_update_list($orderid,[
-                            'can_period_flag'=>1,
-                        ]);
-                        continue;
-                    }else{
-                        $this->t_order_info->field_update_list($orderid,[
-                            'can_period_flag'=>0,
-                        ]);
-                    }
-                }
-            }
-        }
-        dd($ret);
+        dd('a');
         //回流
         // $ret = $this->t_seller_student_new->get_huiliu_list();
         // $userid_arr = array_unique(array_);
