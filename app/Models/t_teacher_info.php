@@ -4646,4 +4646,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_unbound_teacher_list($now){
+        $where_arr = [];
+
+        $sql = $this->gen_sql_new("  select t.wx_openid from %t"
+                                  ." where %s"
+        );
+    }
 }

@@ -40,6 +40,7 @@ class notice_teacher_bank extends Command
         //
         $task=new \App\Console\Tasks\TaskController();
 
-        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
+        $now = time();
+        $unbound_list = $task->t_teacher_info->get_unbound_teacher_list($now);
     }
 }
