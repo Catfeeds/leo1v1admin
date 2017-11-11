@@ -2181,6 +2181,46 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ,$adminid){
+
+        $competition_call_time = time(NULL)   -3600*2;
+        $last_contact_time = time(NULL)   -3600*1;
+        $where_arr = [
+            ['t.seller_student_status=%d', $seller_student_status,-1],
+            't.seller_student_status in (1,2,101,102)',
+            'n.tmk_student_status<>3 ',
+            " competition_call_time <  $competition_call_time ",
+            "last_contact_time <  $last_contact_time ",
+            // '((s.origin_level in (1,2,3) and n.cc_no_called_count>3) or (s.origin_level=4 and n.cc_no_called_count>2))',
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
+        $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
+        $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
+        $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
+
+        if( $adminid > 0 ) {
+            $where_arr[] = "t.auto_allot_adminid in (0,$adminid)";
+        } else {
+            $where_arr[] = 't.auto_allot_adminid = 0';
+        }
+        $order_by_str= " order by s.origin_level,n.add_time desc ";
+
+        $sql=$this->gen_sql_new(
+            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad,n.tmk_last_revisit_time ".
+            " from %s t "
+            ." left join %s n on  n.userid = t.userid "
+            ." left join %s s on n.userid=s.userid "
+            ." where  %s  $order_by_str "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
+
     public function get_user_list_by_add_time($start_time,$end_time){
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
