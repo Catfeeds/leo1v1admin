@@ -25,7 +25,7 @@
                         <input id="id_teacher_money" value="{{$all_money}}">
                         <span class="input-group">税后老师总工资</span>
                         <input id="id_teacher_money_tax" value="{{$all_money_tax}}">
-                    </div>{{$acc}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
                             <td>{{$var['bank_address']}}</td>
                             <td>{{$var['bank_province']}}</td>
                             <td>{{$var['bank_city']}}</td>
-                            <td>预留手机:{{$var['bank_phone'].' --- '.$acc}}</td>
+                            <td>预留手机:{{$var['bank_phone']}}</td>
                             <td>{{$var['money']}}</td>
                             <td>
                                 <div class="opt-div"
@@ -71,7 +71,7 @@
                                 >
                                     <a class="fa fa-list opt-show" title="明细"></a>
                                     <a class="fa fa-user opt-tea" title="老师"></a>
-                                    @if($acc == 'ricky' && $acc == 'sunny')
+                                    @if($acc == 'ricky' || $acc == 'sunny')
                                         <a class="fa fa-edit opt-edit" title="修改工资发放"></a>
                                     @endif
                                 </div>
