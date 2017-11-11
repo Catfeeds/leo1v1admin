@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-2" class="input-group ">
-                    <span class="input-group-addon">总金额:15257042</span>
+                    <span class="input-group-addon">总金额:13564753</span>
 
                 </div>
 
