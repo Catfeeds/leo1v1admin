@@ -471,8 +471,9 @@ class agent extends Controller
             foreach($ret as $info){
                 $orderid = $info['orderid'];
                 $channel = $info['channel'];
+                $child_order_type = $info['child_order_type'];
                 if($item == $orderid){
-                    if($channel=='baidu'){//百度才算分期
+                    if($channel=='baidu' && $child_order_type==E\Echild_order_type::V_2){//百度才算分期
                         $this->t_order_info->field_update_list($orderid,[
                             'can_period_flag'=>1,
                         ]);
