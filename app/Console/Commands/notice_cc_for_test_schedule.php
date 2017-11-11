@@ -50,7 +50,8 @@ class notice_cc_for_test_schedule extends Command
             $data_msg = [
                 "first"     => "家长投诉通知",
                 "keyword1"  => "家长投诉待处理",
-                "keyword2"  => "您好，".$item['account']."老师。 您于".date('Y-m-d',$item['require_time'])."时间提交的试听课程【课程信息】，目前距开课时间还有4h。由于教务老师暂时尚未筛选到合适的授课老师进行匹配，特发此通知请您知悉。",
+                "keyword2"  => "\n 您好，".$item['account']."老师。 您于".date('Y-m-d H:i',$item['require_time'])." 提交的试听课程 \n  科目:
+【课程信息】，目前距开课时间还有4h。由于教务老师暂时尚未筛选到合适的授课老师进行匹配，特发此通知请您知悉。",
                 "keyword3"  => "投诉时间 $log_time_date ",
             ];
             $url = "http://admin.leo1v1.com/user_manage/complaint_department_deal_parent";

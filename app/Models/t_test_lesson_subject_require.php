@@ -3519,13 +3519,15 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tls.require_time",$now,$end);
 
-        $sql = $this->gen_sql_new("  select tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
+        $sql = $this->gen_sql_new("  select tl.subject, tl.grade, tl.stu_request_test_lesson_time, s.nick, tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
                                   ." left join %s tl on tl.test_lesson_subject_id=tls.test_lesson_subject_id"
                                   ." left join %s m on m.uid=tl.require_adminid"
+                                  ." left join %s s on s.userid=tl.userid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
