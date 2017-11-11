@@ -466,6 +466,7 @@ class agent extends Controller
 
     public function test_new(){
         $ret = $this->t_order_info->get_fenqi_list();
+        // $ret_info = array_unique(array_column($ret,'channel'));
         dd($ret);
         //回流
         // $ret = $this->t_seller_student_new->get_huiliu_list();

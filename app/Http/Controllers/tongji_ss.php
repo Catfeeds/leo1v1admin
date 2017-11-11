@@ -8133,7 +8133,7 @@ class tongji_ss extends Controller
         // dd($list);
 
         $arr=[];
-        for($i=1;$i<=3;$i++){
+        for($i=6;$i<=7;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);
