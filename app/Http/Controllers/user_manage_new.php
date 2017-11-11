@@ -2272,15 +2272,17 @@ class user_manage_new extends Controller
     public function edit_invoice() {
         $orderid          = $this->get_in_int_val("orderid");
         $is_invoice       = $this->get_in_int_val("is_invoice" );
+        $can_period_flag  = $this->get_in_int_val("can_period_flag" );
         $invoice          = $this->get_in_str_val("invoice" );
         $check_money_desc = $this->get_in_str_val("check_money_desc" );
         $order_stamp_flag = $this->get_in_str_val("order_stamp_flag" );
 
         $this->t_order_info->field_update_list($orderid,[
-            "is_invoice" => $is_invoice,
-            "invoice"    => $invoice,
-            "check_money_desc"    => $check_money_desc,
-            "order_stamp_flag"    => $order_stamp_flag,
+            "is_invoice"       => $is_invoice,
+            "invoice"          => $invoice,
+            "check_money_desc" => $check_money_desc,
+            "order_stamp_flag" => $order_stamp_flag,
+            'can_period_flag'  => $can_period_flag,
         ]);
         return $this->output_succ();
     }

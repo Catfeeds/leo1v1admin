@@ -844,7 +844,7 @@ class user_deal extends Controller
         $orderid          = $this->get_in_int_val("orderid");
         $check_money_flag = $this->get_in_int_val("check_money_flag" );
         $check_money_desc = $this->get_in_str_val("check_money_desc" );
-
+        $can_period_flag = $this->get_in_int_val("can_period_flag" );
         $contract_starttime = time();
         $contract_endtime   = time()+86400*365*3;
 
@@ -855,9 +855,9 @@ class user_deal extends Controller
             "check_money_adminid" => $this->get_account_id(),
             "contract_starttime"  => $contract_starttime,
             "contract_endtime"    => $contract_endtime,
+            "can_period_flag"     => $can_period_flag,
         ]);
 
-       
 
         $order_item = $this->t_order_info->field_get_list($orderid,"contract_type,userid, sys_operator, lesson_total,price");
 
