@@ -118,7 +118,7 @@ $(function(){
         var $can_period_flag = $("<select/>");
         Enum_map.append_option_list( "check_money_flag",  $check_money_flag ,true );
         Enum_map.append_option_list( "can_period_flag",  $can_period_flag ,true );
-
+        $can_period_flag.val(opt_data.can_period_flag);
         $.do_ajax( "/ajax_deal2/get_order_activity_list",{
             "orderid" : opt_data.orderid
         },function(resp){
