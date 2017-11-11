@@ -52,7 +52,7 @@ $(function(){
         id_money_info.val(data.money_info);
         id_money.val(data.money);
         id_add_time.val(data.add_time_str);
-        alert(data.pay_time);
+        alert(data.add_time);
 
 
         var arr = [
