@@ -1239,7 +1239,7 @@ class wx_yxyx_api extends Controller
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
         }
         $invite_img = \App\Helper\Utils::make_invite_img_new($bg_url,$qr_code_url,$agent_info,$img_type);
-        $relative_path = $_SERVER['SERVER_NAME'].$invite_img;
+        $relative_path = 'http://admin.leo1v1.com'.$invite_img;
 
         //生成图片  --end--
         return $this->output_succ(['invite_img' => $relative_path]);
