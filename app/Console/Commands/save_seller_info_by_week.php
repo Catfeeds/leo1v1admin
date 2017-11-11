@@ -53,8 +53,6 @@ class save_seller_info_by_week extends Command
         $ret_info['create_time'] = time();
         $ret_info['from_time'] = $start_time;
 
-
-
         $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
@@ -67,7 +65,8 @@ class save_seller_info_by_week extends Command
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
-        $month_start_time = strtotime(date("Y-m-01",$start_time));
+        $month_start_time = strtotime(date("Y-m-01",$end_time));
+        // $month_start_time = strtotime(date("Y-m-01",$start_time));
         $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
         $main_type = 2;// 销售
         $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$month_start_time); // 销售月目标收入
