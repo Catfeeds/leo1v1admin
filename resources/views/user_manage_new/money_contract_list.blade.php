@@ -202,7 +202,7 @@
                         <td >{{$var["check_money_flag_str"]}}</td>
                         <td >{{$var["check_money_admin_nick"]}}</td>
                         <td >{{$var["check_money_time"]}}</td>
-                        <td >{{$var["check_money_desc"]}}/{{$var["can_period_flag_str"]}}</td>
+                        <td >{{$var["check_money_desc"]}}/{!! $var["can_period_flag_str"] !!}</td>
                         <td >
                             <div class="btn-group"
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
