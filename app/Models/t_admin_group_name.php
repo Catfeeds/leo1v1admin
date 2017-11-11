@@ -142,10 +142,14 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $list;
     }
 
-    public function get_groupid_by_group_name($group_name){
-        $sql = $this->gen_sql_new("select groupid from %s where group_name = '%s'",
+    public function get_groupid_by_group_name($group_name,$main_type=-1){
+        $where_arr=[
+            ["main_type = %u",$main_type,-1]  
+        ];
+        $sql = $this->gen_sql_new("select groupid from %s where group_name = '%s' and %s",
                                   self::DB_TABLE_NAME,
-                                  $group_name
+                                  $group_name,
+                                  $where_arr
         );
         return $this->main_get_value($sql);
     }
