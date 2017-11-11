@@ -4157,6 +4157,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             't3.account_role = 2',
             't1.can_period_flag=1',
             ['c.child_order_type=%s',E\Echild_order_type::V_2],
+            "c.channel='wx'",
         ];
         $this->where_arr_add_time_range($where_arr,'order_time',1506960000,1509465600);
         $sql = $this->gen_sql_new(
