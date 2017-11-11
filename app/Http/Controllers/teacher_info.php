@@ -1289,7 +1289,6 @@ class teacher_info extends Controller
     }
 
     public function tea_ref_money_list() {
-
         $start_date      = $this->get_in_str_val("start_date",date("Y-m",time()));
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $start_time      = strtotime($start_date);

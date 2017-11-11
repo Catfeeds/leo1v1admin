@@ -90,7 +90,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_five   = $now-4*60;
         $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
-        if(count($common_lesson_list_five)<=100){
+        if(count($common_lesson_list_five)<=200){
             foreach($common_lesson_list_five as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
