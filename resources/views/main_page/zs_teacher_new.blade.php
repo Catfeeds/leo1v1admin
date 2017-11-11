@@ -188,7 +188,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="id_per_count_list">
-                                    @foreach ( $zs_video_list as $key=> $var )
+                                    @foreach ( @$zs_video_list as $key=> $var )
                                         <tr>
                                             <td>{{@$var["name"]}} </td> 
                                             <td>{{@$var["xxyw"]}} </td> 
@@ -255,7 +255,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="id_per_count_list">
-                                    @foreach ( $zs_one_list as $key=> $var )
+                                    @foreach ( @$zs_one_list as $key=> $var )
                                         <tr>
                                             <td>{{@$var["name"]}} </td> 
                                             <td>{{@$var["xxyw"]}} </td> 
@@ -323,7 +323,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="id_per_count_list">
-                                    @foreach ( $zs_entry_list as $key=> $var )
+                                    @foreach ( @$zs_entry_list as $key=> $var )
                                         <tr>
                                             <td>{{@$var["name"]}} </td> 
                                             <td>{{@$var["xxyw"]}} </td> 

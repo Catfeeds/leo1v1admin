@@ -1375,7 +1375,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if($nick || $phone) {
             return $this->main_get_list_as_page($sql);
         }else{
-            return $this->main_get_page_random($sql,5);
+            return $this->main_get_page_random($sql,1);
         }
     }
 

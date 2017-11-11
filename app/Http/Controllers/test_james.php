@@ -921,8 +921,10 @@ class test_james extends Controller
     }
 
     public function dd(){
+        $t = $this->get_in_int_val('t');
+        $a = $this->t_lesson_info_b3->check_is_doing_test($t);
 
-
+        dd($a);
         $ret = $this->t_teacher_info->get_unbound_teacher_list($now=0);
         dd($ret);
 

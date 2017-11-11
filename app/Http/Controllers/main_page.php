@@ -1658,8 +1658,24 @@ class main_page extends Controller
         return $this->zs_teacher();
     }
     public function zs_teacher_new(){
-        dd("暂停!");
+        // dd("暂停!");
         $this->switch_tongji_database();
+        $start_time=strtotime("2017-07-01");
+        $end_time=strtotime("2017-08-01");
+        $data=[];
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        @$data["video_succ"] = count($teacher_list_ex);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        @$data["one_succ"] = count($teacher_arr_ex);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
+                $teacher_list_ex[$k]=$k;
+            }
+        }
+
+        $data["all_succ"] = count($teacher_list_ex);
+        dd($data);
+
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
         $all_total = $system_total=$self_total=$no_call_total=0;
@@ -1708,6 +1724,8 @@ class main_page extends Controller
 
 
         }
+
+       
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
 
@@ -1738,9 +1756,11 @@ class main_page extends Controller
         }
 
         $data["all_succ"] = count($teacher_list_ex);
+        
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
-        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
+        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;       
+
 
         $video_pass = $one_pass=[];
         for($i=1;$i<=10;$i++){
