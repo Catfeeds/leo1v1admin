@@ -3514,8 +3514,7 @@ ORDER BY require_time ASC";
     }
 
     public function get_test_list($now){
-        $end = $now + 60*3600;
-        // $end = $now + 60;
+        $end = $now + 60;
         $where_arr = [
             "tls.current_lessonid is null",
             "tl.require_adminid>0",
@@ -3528,7 +3527,7 @@ ORDER BY require_time ASC";
                                   ." left join %s tl on tl.test_lesson_subject_id=tls.test_lesson_subject_id"
                                   ." left join %s m on m.uid=tl.require_adminid"
                                   ." left join %s s on s.userid=tl.userid"
-                                  ." where %s limit 1"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
