@@ -1708,6 +1708,8 @@ class main_page extends Controller
 
 
         }
+
+       
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
 
@@ -1741,6 +1743,20 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
         $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
+
+        return $this->pageView(__METHOD__ ,null, [
+            "ret_info"    => $ret_info,
+            "all_total"   => $all_total,
+            "no_call_total"   => $no_call_total,
+            "system_total"   => $system_total,
+            "self_total"   => $self_total,
+            "data"        =>$data,
+            // "zs_one_list" =>$zs_one_list,
+            // "zs_video_list"=>$zs_video_list,
+            // "zs_entry_list" => $zs_entry_list,
+            // "entry_total" => $entry_total,
+        ]);
+
 
         $video_pass = $one_pass=[];
         for($i=1;$i<=10;$i++){

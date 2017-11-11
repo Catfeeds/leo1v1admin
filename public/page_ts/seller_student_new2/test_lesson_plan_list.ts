@@ -1611,6 +1611,8 @@ $(function(){
     });
 
     $(".opt-match-teacher").on("click",function(){
+        alert("暂停使用,请用其他方式查找老师,谢谢!");
+        return;
         var opt_data = $(this).get_opt_data();
         var $teacherid    = $("<input/>") ;
         var $lesson_start = $("<input/>") ;
