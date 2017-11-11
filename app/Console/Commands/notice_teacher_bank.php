@@ -38,8 +38,7 @@ class notice_teacher_bank extends Command
     public function handle()
     {
         //
-        $task=new \App\Console\Tasks\TaskController();
-
-        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
+        $job = new \App\Jobs\send_wx_teacher_for_bankcard();
+        dispatch($job);
     }
 }

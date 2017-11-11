@@ -923,6 +923,8 @@ class test_james extends Controller
     public function dd(){
 
 
+        $ret = $this->t_teacher_info->get_unbound_teacher_list($now=0);
+        dd($ret);
 
         $lesson_start = strtotime('+1 day',strtotime(date('Y-m-d')));
         $lesson_end = $lesson_start+86400;

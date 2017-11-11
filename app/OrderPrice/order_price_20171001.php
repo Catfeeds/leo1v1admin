@@ -109,6 +109,7 @@ class order_price_20171001 extends order_price_base
             //常规打折
             $do_activity_fun ( Activity\activity_2017090101::class  );
 
+            $do_activity_fun ( Activity\activity_2017111102::class  );
             //CR 90->9
             $do_activity_fun ( Activity\activity_2017111003::class  );
             //优惠券

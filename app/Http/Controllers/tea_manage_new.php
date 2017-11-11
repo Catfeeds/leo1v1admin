@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
-use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie ;
@@ -15,6 +14,7 @@ class tea_manage_new extends Controller
         $teacherid=$this->get_in_teacherid();
         $start_time=$this->get_in_start_time_from_str();
         $end_time=$this->get_in_end_time_from_str();
+
     }
 
     public function update_teacher_level() {
