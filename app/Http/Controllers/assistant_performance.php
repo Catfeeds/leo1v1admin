@@ -101,6 +101,7 @@ class assistant_performance extends Controller
     }
 
     public function performance_info(){
+       
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $start_time = strtotime("2017-05-01");        
         $end_time = strtotime("2017-12-01");
@@ -142,6 +143,13 @@ class assistant_performance extends Controller
                 foreach($read_student_arr as $val){
                     //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
                     $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
+                    $assign_time = $this->t_student_info->get_ass_assign_time($val);
+                    foreach($regular_lesson_list as $t_item){
+                        if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]<$assign_time){
+                            
+                        }
+                    }
+                    dd($regular_lesson_list);
                     
                 }
             }

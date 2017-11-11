@@ -2168,7 +2168,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type in (0,1,3)",
             ["l.userid = %u",$userid,-1]
         ];
-        $sql = $this->gen_sql_new("select l.subject,l.lesson_start");
+        $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid"
+                                  ." from %s l "
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and subject = l.subject and userid = l.userid)"
+                                  ." group by l.subject,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
     }
 
 
