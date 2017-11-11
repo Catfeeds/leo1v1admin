@@ -676,6 +676,9 @@ class wx_parent_gift extends Controller
 
 
     public function do_luck_draw_yxyx(){ // 抽奖
+
+        return $this->output_err('我们的活动已结束啦!');
+
         $openid = session('yxyx_openid');
         $agent_info = $this->t_agent->get_agent_id_by_openid($openid);
         $userid = $agent_info['userid'];
