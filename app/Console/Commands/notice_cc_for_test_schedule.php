@@ -52,16 +52,17 @@ class notice_cc_for_test_schedule extends Command
             $data_msg = [
                 "first"     => "试听课排课反馈",
                 "keyword1"  => "试听课排课反馈",
-                "keyword2"  => "\n 您好，".$item['account']."老师。 您于".date('Y-m-d H:i',$item['require_time'])." 提交的试听课程 \n  科目:".$subject_str." \n 年级:".$grade_str." \n 学生姓名: ".$item['nick']."
-\n，目前距开课时间还有4h。由于教务老师暂时尚未筛选到合适的授课老师进行匹配，特发此通知请您知悉。",
+                "keyword2"  => "\n 您好，".$item['account']."老师。 您于".date('Y-m-d H:i',$item['require_time'])." 提交的试听课程 \n \n 课程信息: \n 科目:".$subject_str." \n 年级:".$grade_str." \n 学生姓名: ".$item['nick']." \n 期望上课时间: ".date('Y-m-d H:i',$item['stu_request_test_lesson_time'])."
+\n 目前距开课时间还有4h。由于教务老师暂时尚未筛选到合适的授课老师进行匹配，特发此通知请您知悉。",
                 "keyword3"  => date('Y-m-d H:i:s'),
             ];
             // $url = "http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list";
             $url = '';
             $wx=new \App\Helper\Wx();
             // orwGAs_IqKFcTuZcU1xwuEtV3Kek
+            // orwGAs6J8tzBAO3mSKez8SX-DWq4 //孙
             $wx->send_template_msg('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data_msg ,$url);
-            // $wx->send_template_msg($item['wx_openid'],$template_id,$data_msg ,$url);
+            $wx->send_template_msg($item['wx_openid'],$template_id,$data_msg ,$url);
         }
 
     }
