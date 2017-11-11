@@ -3517,5 +3517,7 @@ ORDER BY require_time ASC";
             "t"
         ];
 
+        $sql = $this->gen_sql_new("  select tl.require_adminid, from ");
+
     }
 }
