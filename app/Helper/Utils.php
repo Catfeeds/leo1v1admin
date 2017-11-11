@@ -2041,7 +2041,7 @@ class Utils  {
     }
 
 
-    
+
 
     public static function https_post($url,$data){
         $ch = curl_init();
@@ -2084,8 +2084,8 @@ class Utils  {
 
     //@desn:获取优学优享邀请图片
     //@param:$bg_url 背景图
-    //@param:$qr_code_url 二维码 
-    //@param:$agent  优学优享信息 
+    //@param:$qr_code_url 二维码
+    //@param:$agent  优学优享信息
     //@param:$img_type 生成邀请图片类型 1:学员 2:会员
     static function make_invite_img_new($bg_url,$qr_code_url,$agent,$img_type){
         $wx_openid = $agent['wx_openid'];
@@ -2124,16 +2124,17 @@ class Utils  {
         $is_exists = file_exists($agent_qr_url);
         // dd($is_exists);
         if( $old_headimgurl !== $headimgurl || !$is_exists ){
+            //下载头像，制作图片
+            $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
+            $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
+            // dd($wgetshell);
+            shell_exec($wgetshell);
 
             $cmd_rm = "rm ".$agent_qr_url;
             self::exec_cmd($cmd_rm);
 
-            //下载头像，制作图片
-            $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
-            $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
-            shell_exec($wgetshell);
-            
-            sleep(2);
+
+            // sleep(2);
             $image_5 = imagecreatefromjpeg($datapath);
 
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
