@@ -996,7 +996,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list_as_page ($sql);
     }
-
+    
     public function get_1v1_order_new_seller_list( $start_time,$end_time) {
 
         $where_arr = [
@@ -4149,4 +4149,33 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_fenqi_list(){
+        $where_arr = [
+            'is_test_user=0',
+            'contract_type in(0,1,3)',
+            "t1.sys_operator <>'yueyue'",
+            't3.account_role = 2',
+            't1.can_period_flag=1',
+            ['c.child_order_type=%s',E\Echild_order_type::V_2],
+        ];
+        $this->where_arr_add_time_range($where_arr,'order_time',1506960000,1509465600);
+        $sql = $this->gen_sql_new(
+            "select t1.orderid,t1.price,t1.can_period_flag, "
+            ."c.child_orderid,c.parent_orderid,c.child_order_type,c.price,c.channel "
+            ."from %s t1 "
+            ."left join %s c on c.parent_orderid = t1.orderid "
+            ."left join %s t2 on t1.userid = t2.userid "
+            ."left join %s n on t1.userid = n.userid "
+            ."left join %s t3 on t1.sys_operator = t3.account "
+            ."where %s "
+            ." order by order_time desc ",
+            self::DB_TABLE_NAME,
+            t_child_order_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
