@@ -3684,7 +3684,8 @@ class user_manage_new extends Controller
             $info['total'] = $info['stu_sum'] + $info['tea_sum'];
         }
         return $this->Pageview(__METHOD__,$list, [
-            'info' => $info
+            'info' => $info,
+            'teacherid' => $teacherid
         ]);
     }
 
@@ -5048,7 +5049,40 @@ class user_manage_new extends Controller
 
     }
 
+    // 手动刷新当前月的伯乐奖金
+    public function flush_teacher_money() {
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = strtotime(date('Y-m-01', time()));
+        $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
+        foreach($re_teacherid as $item) {
+            $type = 1;
+            if ($item['identity'] == 0 || $item['identity'] == 8) {
+                $type = 0;
+            }
+            $num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
+            $reward = $this->ret_reward($num, $type);
+            if ($reward != $item['money']) {
+                $this->t_teacher_money_list->field_update_list($item['id'],[
+                    'money' => $reward,
+                ]);
+            }
+        }
+        return $this->output_succ();
+    }
 
-
+    public function ret_reward($num, $type) {
+        if ($type == 1) { // 机构老师
+            $reward = 40;
+            if ($num > 10) $reward = 50;
+            if ($num > 20) $reward = 70;
+            if ($num > 30) $reward = 80;
+        } else { // 在校学生
+            $reward = 20;
+            if ($num > 10) $reward = 30;
+            if ($num > 20) $reward = 50;
+            if ($num > 30) $reward = 60;
+        }
+        return $reward * 100;
+    }
 
 }

@@ -4,7 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	adminid:	number;
+	stu_from_type:	number;
+	contract_type:	number;//App\Enums\Econtract_type
 }
 declare module "g_args" {
     export = g_args;
@@ -14,25 +15,18 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	main_type	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
-	main_type_str	:any;
+	title	:any;
+	order_count	:any;
+	money	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji2; vi  ../tongji2/seller_month_money_list.ts
+	 mkdir -p ../tongji; vi  ../tongji/contract_down.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji2-seller_month_money_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji-contract_down.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -42,11 +36,13 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		adminid:	$('#id_adminid').val()
+		stu_from_type:	$('#id_stu_from_type').val(),
+		contract_type:	$('#id_contract_type').val()
     });
 }
 $(function(){
 
+	Enum_map.append_option_list("contract_type",$("#id_contract_type"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -58,7 +54,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_stu_from_type').val(g_args.stu_from_type);
+	$('#id_contract_type').val(g_args.contract_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -71,8 +68,16 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
+                <span class="input-group-addon">stu_from_type</span>
+                <input class="opt-change form-control" id="id_stu_from_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">contract_type</span>
+                <select class="opt-change form-control" id="id_contract_type" >
+                </select>
             </div>
         </div>
 */

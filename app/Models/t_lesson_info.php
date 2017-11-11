@@ -4257,6 +4257,7 @@ lesson_type in (0,1) "
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        //dd($sql);
         return $this->main_get_row($sql);
 
     }
@@ -7210,6 +7211,7 @@ lesson_type in (0,1) "
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        //dd($sql);
         return $this->main_get_row($sql);
 
     }
@@ -9810,9 +9812,9 @@ lesson_type in (0,1) "
             " t.is_test_user=0 ",
             " m.account_role=5 ",
             " m.del_flag=0 ",
-            " c.subject in (1,2,3)"
+            " l.subject in (1,2,3)"
         ];
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order,c.subject "
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) have_order,l.subject "
                                 ."from %s l  "
                                 ." left join %s tss on tss.lessonid = l.lessonid "
                                 ." left join %s tq on tq.require_id = tss.require_id "
@@ -9821,7 +9823,7 @@ lesson_type in (0,1) "
                                 ." left join %s t on l.teacherid=t.teacherid "
                                 ." left join %s m on t.phone=m.phone "
                                 ." left join %s mm on tq.cur_require_adminid = mm.uid "
-                                ." where  %s group by c.subject",
+                                ." where  %s group by l.subject order by l.subject",
                                 self::DB_TABLE_NAME,
                                 t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                 t_test_lesson_subject_require::DB_TABLE_NAME,
@@ -9848,15 +9850,15 @@ lesson_type in (0,1) "
             "t.train_through_new =1 ",
             "m.account_role=5 ",
             "m.del_flag=0 ",
-            "c.subject in (1,2,3) "
+            "l.subject in (1,2,3) "
         ];
-        $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson,c.subject "
+        $sql = $this->gen_sql_new("select count(distinct l.lessonid) success_lesson,l.subject "
                                 ." from %s l  "
                                 ." left join %s tss on l.lessonid = tss.lessonid"
                                 ." left join %s c on  (l.userid = c.userid  and l.teacherid = c.teacherid  and l.subject = c.subject  and c.course_type=0 and c.courseid >0)  "
                                 ." left join %s t on l.teacherid=t.teacherid "
                                 ." left join %s m on m.phone=t.phone "
-                                ." where  %s group by c.subject order by c.subject",
+                                ." where  %s group by l.subject order by l.subject",
                                 self::DB_TABLE_NAME,
                                 t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                 t_course_order::DB_TABLE_NAME,
