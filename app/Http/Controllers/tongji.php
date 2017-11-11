@@ -56,15 +56,9 @@ class tongji extends Controller
 
     public function contract_down()
     {
+        list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],1);
 
-        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -14, 1, 0, [
-                0 => array( "order_time", "合同生成时间"),
-                1 => array("check_money_time","财务确认时间"),
-            ], 0,0
-        );
-
-
+        $opt_date_str=0;
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
 
         $stu_from_type = $this->get_in_int_val("stu_from_type",-1);

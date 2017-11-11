@@ -1513,8 +1513,6 @@ class tongji2 extends Controller
 
     public function subject_transfer(){
         list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
-
-        
         /*
         $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
@@ -1538,8 +1536,9 @@ class tongji2 extends Controller
 
         $i = $first_time;
         $montharr = [];
-        while(($i = strtotime('+1 month', $i)) <= $second_time){
+        while($i  <= $second_time){
             $montharr[] = date('Y-m-01',$i);
+            $i = strtotime('+1 month', $i);
         }
         $i = 0;
         $subject_chinese = [];
@@ -1550,8 +1549,8 @@ class tongji2 extends Controller
             $time1 = strtotime($value);
             $month = date('Y-m',$time1);
             $time2 = strtotime('+1 month',$time1);
-            $success_num = $this->t_lesson_info->get_subject_transfer($start_time,$end_time);
-            $lesson_num  = $this->t_lesson_info->get_subject_success($start_time,$end_time);
+            $success_num = $this->t_lesson_info->get_subject_transfer($time1,$time2);
+            $lesson_num  = $this->t_lesson_info->get_subject_success($time1,$time2);
             $subject_chinese[$i]['month'] = $month;
             $subject_chinese[$i]['count'] = isset($success_num[1]['have_order'])&& isset($lesson_num[1]['success_lesson'])?round(100*$success_num[1]['have_order'] /$lesson_num[1]['success_lesson'],2):0;
             $subject_math[$i]['month'] = $month;
@@ -1565,7 +1564,6 @@ class tongji2 extends Controller
         \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
-        dd($date_list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
 

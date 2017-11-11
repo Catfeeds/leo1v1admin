@@ -1708,12 +1708,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select a.phone, p.parentid, p.nick, p.wx_openid  from %s l "
+        $sql = $this->gen_sql_new("  select a.phone, p.parentid, p.nick, p.wx_openid, s.assistantid  from %s l "
                                   ." left join %s pc on pc.userid=l.userid"
                                   ." left join %s p on p.parentid=pc.parentid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
-                                  ." where %s group by p.parentid "
+                                  ." where %s group by p.parentid  "
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME
