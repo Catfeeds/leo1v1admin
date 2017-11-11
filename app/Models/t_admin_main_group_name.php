@@ -148,13 +148,16 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
             $main_type_name= $arr[0];
             $main_type = $main_type_list[$main_type_name];
         }
+        if(empty($main_type)){
+            $main_type=-1;
+        }
         if (isset($arr[1])  && !empty($arr[1])){
             $up_group_name= $arr[1];
-            $up_groupid = $this->t_admin_main_group_name->get_groupid_by_group_name($up_group_name);
+            $up_groupid = $this->t_admin_main_group_name->get_groupid_by_group_name($up_group_name,$main_type);
         }
         if (isset($arr[2])  && !empty($arr[2])){
             $group_name= $arr[2];
-            $groupid = $this->t_admin_group_name->get_groupid_by_group_name($group_name);
+            $groupid = $this->t_admin_group_name->get_groupid_by_group_name($group_name,$main_type);
         }
         if (isset($arr[3])  && !empty($arr[3])){
             $account= $arr[3];
@@ -184,10 +187,14 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $adminid_list;
     }
 
-    public function get_groupid_by_group_name($group_name){
-        $sql = $this->gen_sql_new("select groupid from %s where group_name = '%s'",
+    public function get_groupid_by_group_name($group_name,$main_type=-1){
+        $where_arr=[
+            ["main_type=%u",$main_type,-1]  
+        ];
+        $sql = $this->gen_sql_new("select groupid from %s where group_name = '%s' and %s",
                                   self::DB_TABLE_NAME,
-                                  $group_name
+                                  $group_name,
+                                  $where_arr
         );
         return $this->main_get_value($sql);
     }

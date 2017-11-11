@@ -120,7 +120,7 @@ $(function(){
           bottom: 2,
           left: 2
         }
-
+            
         }
             ,shadowSize:0
 
