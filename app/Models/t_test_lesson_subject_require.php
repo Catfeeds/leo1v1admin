@@ -252,6 +252,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 $where_arr[]="tr.seller_top_flag=0 and tr.is_green_flag=0";
             }elseif($lesson_plan_style==4){
                 $where_arr[]="tss.grab_flag =1";
+            }elseif($lesson_plan_style==5){
+                $where_arr[]="t.rebut_flag=1 and tr.test_lesson_student_status in (200,210,220,290,300,301,302,420)";
             }
         }
 
@@ -276,7 +278,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." t.demand_urgency,t.quotation_reaction,t.knowledge_point_location,t.recent_results,t.advice_flag,"
             ." ss.class_rank,ss.grade_rank,ss.academic_goal,ss.test_stress,ss.entrance_school_type,ss.interest_cultivation,"
             ." ss.extra_improvement ,ss.habit_remodel ,ss.study_habit,ss.interests_and_hobbies,ss.character_type,"
-            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag,tss.grab_flag "
+            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag,tss.grab_flag, "
+            ." t.rebut_info,t.rebut_flag "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -3511,19 +3514,20 @@ ORDER BY require_time ASC";
     }
 
     public function get_test_list($now){
-        $end = $now + 60;
+        $end = $now + 3600*4;
         $where_arr = [
-            "tls.current_lessonid = 0",
-            "tl.require_adminid>0"
+            "tls.current_lessonid is null",
+            "tl.require_adminid>0",
+            "tls.accept_flag = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tls.require_time",$now,$end);
 
-        $sql = $this->gen_sql_new("  select tl.subject, tl.grade, tl.stu_request_test_lesson_time, s.nick, tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
+        $sql = $this->gen_sql_new("  select tls.require_id, tls.current_lessonid, tl.subject, tl.grade, tl.stu_request_test_lesson_time, s.nick, tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
                                   ." left join %s tl on tl.test_lesson_subject_id=tls.test_lesson_subject_id"
                                   ." left join %s m on m.uid=tl.require_adminid"
                                   ." left join %s s on s.userid=tl.userid"
-                                  ." where %s "
+                                  ." where %s limit 1"
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME

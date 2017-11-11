@@ -4223,4 +4223,22 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $money;
     }
 
+    //处理试听申请驳回历史信息
+    public function get_rebut_info( $rebut_info){
+        if(!$rebut_info){
+            return $rebut_info;
+        }else{
+            $rebut_info = json_decode($rebut_info,true);
+            $num = count($rebut_info);
+            \App\Helper\Utils::order_list( $rebut_info, "rebut_tme", 0 ); 
+            $str = "<br>驳回信息:<br>";
+            foreach($rebut_info as $val){
+                $name = $this->t_manager_info->get_name($val["rebut_adminid"]);
+                $time = date("Y-m-d H:i",$val["rebut_time"]);
+                $str .= "第".$num."次,驳回教务:".$name.",驳回理由:".$val["rebut_reason"].",驳回时间:".$time.";<br>";
+                $num--;
+            }
+            return $str;
+        }
+    }
 }
