@@ -3010,10 +3010,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_huiliu_list(){
         $where_arr = [
             'hand_get_adminid=5',
-            'n.userid=374869',
+            'f.add_time>0',
         ];
         $sql = $this->gen_sql_new("select n.userid,n.admin_revisiterid adminid,n.hand_get_adminid,"
-                                  ." f.add_time,f.test_subject_free_type "
+                                  ." f.add_time "
                                   ." from %s n "
                                   ." left join %s f on f.adminid=n.admin_revisiterid and f.userid=n.userid "
                                   ." where %s "

@@ -465,15 +465,17 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('a');
         //回流
-        // $ret = $this->t_seller_student_new->get_huiliu_list();
-        // $userid_arr = array_unique(array_);
-        // foreach($ret as $item){
-        //     $adminid = $item['adminid'];
-        //     $userid = $item['userid'];
-        //     $add_time = $item['add_time'];
-        // }
+        $ret = $this->t_seller_student_new->get_huiliu_list();
+        $userid_arr = array_unique(array_column($ret,'userid'));
+        $ret_info = [];
+        foreach($userid_arr as $item){
+            $userid = $item['userid'];
+            $ret_info[] = $this->t_seller_student_new->field_update_list($userid,[
+                'hand_get_adminid'=>0,
+            ]);
+        }
+        dd($ret_info[]);
         // dd($ret);
     }
 
