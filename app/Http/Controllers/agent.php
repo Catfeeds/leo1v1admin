@@ -470,7 +470,7 @@ class agent extends Controller
         foreach($orderid_arr as $item){
             foreach($ret as $info){
                 $orderid = $info['orderid'];
-                $orderid = $info['orderid'];
+                $channel = $info['channel'];
                 $child_order_type = $info['child_order_type'];
                 if($item == $orderid){
                     if($channel=='baidu' && $child_order_type==E\Echild_order_type::V_2){//百度才算分期
