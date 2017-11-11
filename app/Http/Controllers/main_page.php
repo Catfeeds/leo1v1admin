@@ -1660,23 +1660,8 @@ class main_page extends Controller
     public function zs_teacher_new(){
         // dd("暂停!");
         $this->switch_tongji_database();
-        $start_time=strtotime("2017-07-01");
-        $end_time=strtotime("2017-08-01");
-        $data=[];
-        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
-        @$data["video_succ"] = count($teacher_list_ex);
-        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
-        @$data["one_succ"] = count($teacher_arr_ex);
-        foreach($teacher_arr_ex as $k=>$val){
-            if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k;
-            }
-        }
-
-        $data["all_succ"] = count($teacher_list_ex);
-        dd($data);
-
-        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+       
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],1 );
 
         $all_total = $system_total=$self_total=$no_call_total=0;
         $ret_info = $this->t_manager_info->get_admin_work_status_info(8);
@@ -1849,10 +1834,10 @@ class main_page extends Controller
             "system_total"   => $system_total,
             "self_total"   => $self_total,
             "data"        =>$data,
-            "zs_one_list" =>$zs_one_list,
-            "zs_video_list"=>$zs_video_list,
-            "zs_entry_list" => $zs_entry_list,
-            "entry_total" => $entry_total,
+            "zs_one_list" =>@$zs_one_list,
+            "zs_video_list"=>@$zs_video_list,
+            "zs_entry_list" => @$zs_entry_list,
+            "entry_total" => @$entry_total,
         ]);
     }
 
