@@ -4239,8 +4239,8 @@ class tongji_ss extends Controller
 
     public function research_teacher_lesson_detail_info(){
         // echo "还在开发中,请等待!";
-        echo "暂停使用";
-        return;
+        // echo "暂停使用";
+        // return;
 
         $this->t_lesson_info->switch_tongji_database();
         $this->t_course_order->switch_tongji_database();
