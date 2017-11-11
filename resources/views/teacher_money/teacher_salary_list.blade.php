@@ -25,7 +25,7 @@
                         <input id="id_teacher_money" value="{{$all_money}}">
                         <span class="input-group">税后老师总工资</span>
                         <input id="id_teacher_money_tax" value="{{$all_money_tax}}">
-                    </div>
+                    </div>{{$acc}}
                 </div>
             </div>
         </div>
