@@ -105,8 +105,8 @@ class assistant_performance extends Controller
         $last_month = strtotime("-1 month",$start_time);
         //$ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         // $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-11-01");
+        $end_time = strtotime("2017-12-01");
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
 
         // //销售月拆解

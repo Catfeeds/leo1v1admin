@@ -4651,7 +4651,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             "t.is_test_user=0",
             "quit_time=0",
-            "bankcard=0"
+            "bankcard=0",
+            "lesson_hold_flag=0"
         ];
 
         $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
