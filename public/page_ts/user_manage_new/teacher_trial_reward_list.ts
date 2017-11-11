@@ -170,4 +170,12 @@ $(function(){
         });
     });
 
+    // 如果伯乐奖不对,手动刷新
+    $("#id_flush_teacher_money").on("click", function() {
+        var teacherid = g_data.teacherid;
+        alert(teacherid);
+        // $.do_ajax("/user_manage_new/flush_teacher_money", {
+        //     'teacherid':teacherid
+        // });
+    });
 });

@@ -284,7 +284,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 
     }
 
-    public function get_total_for_teacherid($teacherid, $type=1) {
+    public function get_total_for_teacherid($teacherid, $type=1, $time=0) {
         $where_arr = [
             ['tl.teacherid=%u',$teacherid,-1],
             "tl.recommended_teacherid!=0"
@@ -294,6 +294,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         } else { // 推荐在校学生总数
             array_push($where_arr, "t.identity not in (5,6,7)");
         }
+        if ($time) {
+            array_push($where_arr, ["tl.add_time<=%u", $time,0]);
+        }
         $sql = $this->gen_sql_new("select count(*) from %s tl"
                                   ." left join %s t on tl.recommended_teacherid=t.teacherid where %s ",
                                   self::DB_TABLE_NAME,
@@ -302,5 +305,22 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         );
         return $this->main_get_value($sql);
         //select count(*) from t_teacher_money_list tl left join t_teacher_info t on tl.recommended_teacherid=t.teacherid where tl.teacherid=284393 and tl.recommended_teacherid !=0 and t.identity not in (5,6,7);
+    }
+
+    public function get_recommended_for_teacherid($start_time, $teacherid) {
+        $where_arr = [
+            ["tl.add_time>=%u",$start_time,0],
+            ["tl.teacherid=%u",$teacherid,0],
+            "tl.recommended_teacherid>0"
+        ];
+
+        $sql = $this->gen_sql_new("select tl.id,tl.recommended_teacherid,tl.add_time,tl.money,t.identity "
+                                  ."from %s tl left join %s t on tl.recommended_teacherid=t.teacherid where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+        //select tl.recommended_teacherid,tl.add_time,tl.money,t.identity from t_teacher_money_list tl left join t_teacher_info t on tl.recommended_teacherid=t.teacherid  where tl.teacherid = 284393 and tl.recommended_teacherid >0 and tl.add_time > unix_timestamp('2017-11-1')
     }
 }
