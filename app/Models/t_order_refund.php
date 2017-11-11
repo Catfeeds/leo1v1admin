@@ -89,7 +89,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select  r.real_refund,ra.id,m.uid,occ.value,ra.score,r.orderid,r.apply_time "
-                                  .",r.price "
+                                  .",r.real_refund "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s a on s.assistantid=a.assistantid"

@@ -322,7 +322,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
         }
         $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
-         
+
         // $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
         if($teacherid>0){
             $where_arr=[array( "teacherid=%u", $teacherid, -1 )];
@@ -2903,7 +2903,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] =["tf.simul_test_lesson_pass_time>=%u",$start_time,0];
             $where_arr[]=["tf.simul_test_lesson_pass_time<%u",$end_time,0];
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
-  
+
         }elseif($tea_flag==2){
             $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
@@ -2911,7 +2911,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
             $this->where_arr_add_time_range($where_arr,"lesson_start",$two_month_time,$end_time);
         }else{
-            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time); 
+            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         }
         if($lesson_type==-2){
             $where_arr[] ="l.lesson_type in (0,1,3)";
@@ -2924,7 +2924,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = ["t.subject=%u",$subject,-1];
         }
 
-       
+
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
@@ -2958,7 +2958,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if($lesson_total>0){
             $have_flag = "having(count(l.lessonid)>$lesson_total)";
         }
-              
+
         $sql = $this->gen_sql_new("select l.teacherid,count(l.lessonid) num"
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
@@ -3945,7 +3945,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //     //         if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
     //     //             array_push($res, $item);
     //     //             $tem[$item['subject']] = $item['subject'];
-    //     //         } 
+    //     //         }
     //     //     }
     //     //     if (!isset($tem[5])) {
     //     //         array_push($res, ['subject'=>5,"sum"=>0]);
@@ -3987,7 +3987,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 面试通过人数 -- 老师类型
     // public function get_interview_through_type_count($start_time, $end_time) {
     //     $whereArr = [
-    //         ["tf.trial_lecture_pass_time>%u", $start_time, 0], 
+    //         ["tf.trial_lecture_pass_time>%u", $start_time, 0],
     //         ["tf.trial_lecture_pass_time<%u", $end_time, 0],
     //         "t.is_test_user=0",
     //     ];
@@ -4039,7 +4039,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //             if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
     //                 array_push($res, $item);
     //                 $tem[$item['identity']] = $item['identity'];
-    //             } 
+    //             }
     //         }
     //         if (!isset($tem[0])) {
     //             array_push($res, ['identity'=>0,"sum"=>0]);
@@ -4190,7 +4190,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //             if($item['identity'] == 0 || $item['identity'] == 5 || $item['identity'] == 6 || $item['identity'] == 7 || $item['identity'] == 8) {
     //                 array_push($res, $item);
     //                 $tem[$item['identity']] = $item['identity'];
-    //             } 
+    //             }
     //         }
     //         if (!isset($tem[0])) {
     //             array_push($res, ['identity'=>0,"sum"=>0]);
@@ -4224,7 +4224,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //             if($item['subject'] == 5 || $item['subject'] == 4 || $item['subject'] == 6 || $item['subject'] == 10) {
     //                 array_push($res, $item);
     //                 $tem[$item['subject']] = $item['subject'];
-    //             } 
+    //             }
     //         }
     //         if (!isset($tem[5])) {
     //             array_push($res, ['subject'=>5,"sum"=>0]);
@@ -4524,9 +4524,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_course_order::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql);               
+        return $this->main_get_row($sql);
 
- 
+
     }
 
     public function get_new_teacher_lesson_count_info($start_time,$end_time,$day_num){
@@ -4565,10 +4565,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",
             "t.train_through_new_time<".$time,
             "t.train_through_new_time>0",
-            "t.train_through_new=1",            
+            "t.train_through_new=1",
         ];
         if($research_teacher_flag=0){
-            $where_arr[]="(m.account_role is null or m.account_role !=4)"; 
+            $where_arr[]="(m.account_role is null or m.account_role !=4)";
         }
         $sql = $this->gen_sql_new("select t.teacherid,t.sleep_flag"
                                   ." from %s t "
@@ -4583,7 +4583,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql,function($item){
             return $item["teacherid"];
         });
- 
+
     }
     public function get_all_train_through_lesson_teacher_list($start_time,$end_time,$research_teacher_flag=-1){
         //$time = time();
@@ -4593,7 +4593,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",
             "t.train_through_new_time<".$time,
             "t.train_through_new_time>0",
-            "t.train_through_new=1",            
+            "t.train_through_new=1",
             "l.lesson_del_flag=0",
             "l.lesson_type <1000",
             "l.confirm_flag <>2",
@@ -4647,11 +4647,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function get_unbound_teacher_list($now){
-        $where_arr = [];
+    public function get_unbound_teacher_list($now=0){
+        $where_arr = [
+            "t.is_test_user=0",
+            "quit_time=0",
+            "bankcard=0"
+        ];
 
-        $sql = $this->gen_sql_new("  select t.wx_openid from %t"
+        $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
                                   ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_list($sql);
     }
 }

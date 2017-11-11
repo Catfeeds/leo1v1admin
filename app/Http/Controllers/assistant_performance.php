@@ -185,9 +185,11 @@ class assistant_performance extends Controller
             $refund_money=0;
             foreach($list as $val){
                 if($val["value"]=="助教部" && $val["score"]>0){
-                    $refund_money +=$val["price"]; 
+                    $refund_money +=$val["real_refund"];
                 }
+                
             }
+           
             $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
                 "ass_refund_money" =>$refund_money
             ]);
