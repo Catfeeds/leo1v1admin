@@ -41,7 +41,6 @@ class import_to_teacher_flow extends cmd_base
         //按天导入数据 (脚本执行时间为每天凌晨二点)
         $time = strtotime("-1 day");
         $start_time = strtotime(date('Y-m-d 00:00:00', $time));
-        $start_time = strtotime('2017-1-1');
         $end_time = time();
 
         $tea_list = $task->t_teacher_info->get_teacher_flow_list($start_time, $end_time);
