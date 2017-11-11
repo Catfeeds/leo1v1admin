@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+    'CreateJobsTable' => $baseDir . '/database/migrations/2017_11_11_095218_create_jobs_table.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
     'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
@@ -590,7 +591,7 @@ return array(
     'TRuffianActivityAddItem' => $baseDir . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
     'TRuffianActivityAddStuType' => $baseDir . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
     'TRuffianActivityDropAddTime' => $baseDir . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
-    'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_11_03_155743_t_ruffian_activity_modify.php',
+    'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
     'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerLevelGoal' => $baseDir . '/database/migrations/2017_10_09_163301_t_seller_level_goal.php',
     'TSellerLevelGoalAddLevelIcon' => $baseDir . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',

@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1115
+//__DESC:微信[优学优享]生成优学优享分享图片 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_agent_invite_img?_agent_id=54&img_type=1
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32 img_type = 1; //图片类型 1：学员2：会员 
+}
+
+message out {
+  string invite_img = 1;//邀请图片链接
+}

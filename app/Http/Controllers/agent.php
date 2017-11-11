@@ -467,7 +467,6 @@ class agent extends Controller
     public function test_new(){
         $ret = $this->t_order_info->get_fenqi_list();
         $orderid_arr = array_unique(array_column($ret,'orderid'));
-        dd($ret,$orderid_arr);
         foreach($orderid_arr as $item){
             foreach($ret as $info){
                 $orderid = $info['orderid'];
