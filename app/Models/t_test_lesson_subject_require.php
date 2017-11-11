@@ -3273,7 +3273,7 @@ ORDER BY require_time ASC";
     }
 
 
-    public function get_plan_invit_num_for_month($start_time, $end_time){ 
+    public function get_plan_invit_num_for_month($start_time, $end_time){
         $where_arr = [
             "s.is_test_user=0",
             "t.require_admin_type=2",
@@ -3494,7 +3494,7 @@ ORDER BY require_time ASC";
 
     public function get_planed_lesson_num($requireid_list,$accept_adminid,$start_time,$end_time){
         $where_arr=[
-            ["tr.accept_adminid=%u",$accept_adminid,-1],            
+            ["tr.accept_adminid=%u",$accept_adminid,-1],
             "tr.test_lesson_student_status in(210,220,290,300,301,302,420)"
         ];
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
@@ -3510,4 +3510,24 @@ ORDER BY require_time ASC";
 
     }
 
+    public function get_test_list($now){
+        $end = $now + 60;
+        $where_arr = [
+            "tls.current_lessonid = 0",
+            "tl.require_adminid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tls.require_time",$now,$end);
+
+        $sql = $this->gen_sql_new("  select tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
+                                  ." left join %s tl on tl.test_lesson_subject_id=tls.test_lesson_subject_id"
+                                  ." left join %s m on m.uid=tl.require_adminid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
