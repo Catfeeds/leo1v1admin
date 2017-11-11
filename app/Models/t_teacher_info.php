@@ -325,7 +325,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         // $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
         if($teacherid>0){
-            $where_arr[]=[array( "teacherid=%u", $teacherid, -1 )];
+            $where_arr=[array( "teacherid=%u", $teacherid, -1 )];
         }
         if ($address) {
             $address=$this->ensql($address);
