@@ -656,7 +656,7 @@ class teacher_info_admin extends Controller
         $subject            = $this->get_in_int_val("subject");
         $grade_start        = $this->get_in_int_val("grade_start");
         $grade_end          = $this->get_in_int_val("grade_end");
-        $second_subject     = $this->get_in_int_val("subject_subject");
+        $second_subject     = $this->get_in_int_val("second_subject");
         $second_grade_start = $this->get_in_int_val("second_grade_start");
         $second_grade_end   = $this->get_in_int_val("second_grade_end");
 
