@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config;
 
-
 class user_manage_new extends Controller
 {
     use CacheNick;
@@ -31,7 +30,6 @@ class user_manage_new extends Controller
         $ret_total  = $this->t_lesson_info->get_confirm_lesson_total($start_time,$end_time);
         $date_week  = \App\Helper\Utils::get_week_range($start_time,1);
         $week_total = $this->t_lesson_info->get_confirm_lesson_total($date_week["sdate"],$date_week["edate"]);
-
 
         $ret_total["assistantid"] =-1;
         $ret_total["assistant_nick"] ="全部";
@@ -381,7 +379,7 @@ class user_manage_new extends Controller
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
             $grade        = $item["grade"];
-            $pre_price    = \App\Helper\Utils::get_teacher_base_money($teacherid,$item);
+            $pre_price    = $this->get_teacher_base_money($teacherid,$item);
             $lesson_count = $item["lesson_count"];
 
             //判断课程的老师类型来设置累计课时的数值
@@ -638,7 +636,7 @@ class user_manage_new extends Controller
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
             $grade        = $item["grade"];
-            $pre_price    = \App\Helper\Utils::get_teacher_base_money($teacherid,$item);
+            $pre_price    = $this->get_teacher_base_money($teacherid,$item);
             $lesson_count = $item["lesson_count"];
 
             //判断课程的老师类型来设置累计课时的数值

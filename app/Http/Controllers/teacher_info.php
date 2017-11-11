@@ -1968,7 +1968,7 @@ class teacher_info extends Controller
 
             $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
             if($val['lesson_type'] != 2){
-                $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
+                $val['money']       = $this->get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
                 $lesson_reward       = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                 $list_lesson_key     = "normal_lesson";
