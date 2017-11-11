@@ -329,7 +329,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
         if ($address) {
             $address=$this->ensql($address);
-            $where_arr[]=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
+            $where_arr=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
                         ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
                         ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
                         ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')"];
