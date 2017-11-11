@@ -43,7 +43,7 @@ class add_new_tea_entry extends Command
         $task = new \App\Console\Tasks\TaskController();
         $task->t_teacher_info->field_update_list(365764,[
             'bank_type'=>'成都农商银行'
-        ]);
+        ]);exit;
 
         // 加载老师绑定数据
         $file = '/tmp/bank.txt';
