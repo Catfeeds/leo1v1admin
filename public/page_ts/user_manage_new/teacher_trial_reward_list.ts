@@ -52,6 +52,8 @@ $(function(){
         id_money_info.val(data.money_info);
         id_money.val(data.money);
         id_add_time.val(data.add_time_str);
+        alert(data.add_time);
+
 
         var arr = [
             ["奖励老师",id_teacherid],
@@ -173,9 +175,8 @@ $(function(){
     // 如果伯乐奖不对,手动刷新
     $("#id_flush_teacher_money").on("click", function() {
         var teacherid = g_data.teacherid;
-        alert(teacherid);
-        // $.do_ajax("/user_manage_new/flush_teacher_money", {
-        //     'teacherid':teacherid
-        // });
+        $.do_ajax("/user_manage_new/flush_teacher_money", {
+            'teacherid':teacherid
+        });
     });
 });

@@ -152,6 +152,7 @@ class seller_student_new2 extends Controller
             2 => array("stu_request_test_lesson_time", "期待试听时间"),
             4 => array("lesson_start", "上课时间"),
             5 => array("seller_require_change_time ", "销售申请更换时间"),
+            6 => array("set_lesson_time", "排课操作时间"),
         ]);
 
         $adminid      = $this->get_account_id();

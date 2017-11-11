@@ -102,12 +102,13 @@ class assistant_performance extends Controller
 
     public function performance_info(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $start_time = strtotime("2017-05-01");        
+        $end_time = strtotime("2017-12-01");
+
         $last_month = strtotime("-1 month",$start_time);
-        //$ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        // $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        // $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        
 
         // //销售月拆解
         // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
@@ -181,21 +182,39 @@ class assistant_performance extends Controller
 
             /*续费提成奖金*/
             //计算助教相关退费
-            $list = $this->t_order_refund->get_ass_refund_info_new($start_time,$end_time,$k);
-            $refund_money=0;
-            foreach($list as $val){
-                if($val["value"]=="助教部" && $val["score"]>0){
-                    $refund_money +=$val["real_refund"];
-                }
-                
+
+            $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
+            $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
+            $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
+            $renw_reword = 0;
+            if($renw_per>=120){
+                $renw_reword = $renw_target*0.04+($renw_price-$renw_target)*0.05;
+            }elseif($renw_per>=100){
+                $renw_reword = $renw_target*0.04;
+            }elseif($renw_per>=75){
+                $renw_reword = $renw_target*0.028;
+            }elseif($renw_per>=50){
+                $renw_reword = $renw_target*0.02;
+            }elseif($renw_per>=30){
+                $renw_reword = $renw_target*0.012;
             }
-           
-            $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-                "ass_refund_money" =>$refund_money
-            ]);
-             
 
 
+            /*转介绍奖金*/
+            //转介绍个数
+            $cc_tran_num = $item["cc_tran_num"];
+            $cc_tran_num_reword=0;
+            if($cc_tran_num>5){
+                $cc_tran_num_reword = $cc_tran_num*50000;
+            }elseif($cc_tran_num>=3){
+                $cc_tran_num_reword = $cc_tran_num*30000;
+            }else{
+                $cc_tran_num_reword = $cc_tran_num*20000;
+            }
+            //转介绍金额提成
+            $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
+
+            $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
 
             
         }

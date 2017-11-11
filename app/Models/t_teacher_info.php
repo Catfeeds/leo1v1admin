@@ -4647,15 +4647,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function get_unbound_teacher_list($now=0){
+    public function get_unbound_teacher_list(){
         $where_arr = [
             "t.is_test_user=0",
             "quit_time=0",
-            "bankcard=0"
+            "bankcard=0",
+            "lesson_hold_flag=0",
+            "t.wx_openid !=''"
         ];
 
         $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
-                                  ." where %s"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
