@@ -469,7 +469,7 @@ class agent extends Controller
         $ret = $this->t_seller_student_new->get_huiliu_list();
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
-            $userid = $item['userid'];
+            $userid = $item;
             $this->t_seller_student_new->field_update_list($userid,[
                 'hand_get_adminid'=>0,
             ]);
