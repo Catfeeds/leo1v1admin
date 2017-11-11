@@ -3521,9 +3521,9 @@ ORDER BY require_time ASC";
             "tls.accept_flag =0 "
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tl.stu_request_test_lesson_time",$now,$end);
+        $this->where_arr_add_time_range($where_arr,"tls.curl_stu_request_test_lesson_time",$now,$end);
 
-        $sql = $this->gen_sql_new("  select tl.stu_request_test_lesson_time, tls.require_id, tls.current_lessonid, tl.subject, tl.grade, tl.stu_request_test_lesson_time, s.nick, tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
+        $sql = $this->gen_sql_new("  select tls.curl_stu_request_test_lesson_time stu_request_test_lesson_time, tls.require_id, tls.current_lessonid, tl.subject, tl.grade, tl.stu_request_test_lesson_time, s.nick, tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
                                   ." left join %s tl on tl.test_lesson_subject_id=tls.test_lesson_subject_id"
                                   ." left join %s m on m.uid=tl.require_adminid"
                                   ." left join %s s on s.userid=tl.userid"

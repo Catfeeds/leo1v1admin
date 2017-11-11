@@ -140,7 +140,9 @@ class assistant_performance extends Controller
             if($read_student_list){
                 $read_student_arr = json_decode($read_student_list,true);
                 foreach($read_student_arr as $val){
-                    //先检查是否是
+                    //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
+                    $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
+                    
                 }
             }
 

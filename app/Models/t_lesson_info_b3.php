@@ -2161,5 +2161,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    public function get_stu_first_lesson_time_by_subject($userid){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)",
+            ["l.userid = %u",$userid,-1]
+        ];
+        $sql = $this->gen_sql_new("select l.subject,l.lesson_start");
+    }
+
 
 }
