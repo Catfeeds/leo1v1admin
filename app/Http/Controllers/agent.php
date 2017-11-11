@@ -466,11 +466,24 @@ class agent extends Controller
 
     public function test_new(){
         $ret = $this->t_order_info->get_fenqi_list();
-        $orderid_arr = array_unique(array_column($ret,'channel'));
+        $orderid_arr = array_unique(array_column($ret,'orderid'));
+        dd($ret,$orderid_arr);
         foreach($orderid_arr as $item){
             foreach($ret as $info){
                 $orderid = $info['orderid'];
                 $channel = $info['channel'];
+                if($item == $orderid){
+                    if($channel=='baidu'){//百度才算分期
+                        $this->t_order_info->field_update_list($orderid,[
+                            'can_period_flag'=>1,
+                        ]);
+                        continue;
+                    }else{
+                        $this->t_order_info->field_update_list($orderid,[
+                            'can_period_flag'=>0,
+                        ]);
+                    }
+                }
             }
         }
         dd($ret);
