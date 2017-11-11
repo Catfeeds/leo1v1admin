@@ -1214,4 +1214,34 @@ class wx_yxyx_api extends Controller
             'activity_money' => $activity_money
         ]);
     }
+    //@desn:制作推荐的图片
+    public function get_agent_invite_img(){
+        $agent_id = $this->get_agent_id();
+        $check_flag = $this->get_in_int_val('check_flag');
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $img_type = $this->get_in_int_val('img_type');
+        $phone = '';
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        //生成图片  --begin--
+        $request = '';
+        if($img_type == 1){
+            $bg_url      = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0404fa8aeb8160820d2709baee4909871510113929932.jpg";
+            $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
+        }elseif($img_type == 2){
+            $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+            $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
+        }
+        $invite_img = \App\Helper\Utils::make_invite_img_new($bg_url,$qr_code_url,$agent_info,$img_type);
+        $relative_path = $_SERVER['SERVER_NAME'].$invite_img;
+
+        //生成图片  --end--
+        return $this->output_succ(['invite_img' => $relative_path]);
+    }
 } 
