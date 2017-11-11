@@ -1376,13 +1376,13 @@ class seller_student_new extends Controller
 
         $seller_student_status      = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
-        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
+        // $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
         //判断是否是张龙384，邵少鹏795，蒋文武689
         $adminid = $this->get_account_id();
         if ($adminid != 384 && $adminid != 795 && $adminid != 689 ){
             $adminid = 0;
         }
-        // $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject,$adminid);
+        $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject,$adminid);
 
 
         // dd($ret_info);
