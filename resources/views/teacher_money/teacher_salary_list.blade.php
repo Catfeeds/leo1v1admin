@@ -63,7 +63,7 @@
                             <td>{{$var['bank_address']}}</td>
                             <td>{{$var['bank_province']}}</td>
                             <td>{{$var['bank_city']}}</td>
-                            <td>预留手机:{{$var['bank_phone']}}</td>
+                            <td>预留手机:{{$var['bank_phone'].' --- '.$acc}}</td>
                             <td>{{$var['money']}}</td>
                             <td>
                                 <div class="opt-div"
