@@ -56,8 +56,6 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
         $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk';
         $i = 1;
         foreach($tea_lesson_list as $item){
-            $this->delete();
-
             $tea_lesson_info = $t_lesson_info_b3->get_tea_lesson_info($this->lesson_start, $this->lesson_end,$item['teacherid']);
             $keyword1 = '';
             foreach($tea_lesson_info as $i=> $v){
