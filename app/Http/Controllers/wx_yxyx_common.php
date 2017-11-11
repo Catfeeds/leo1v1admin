@@ -343,18 +343,18 @@ class wx_yxyx_common extends Controller
             }
 
             //自动分配给ｔｍｋ
-            // $time = strtotime('today');
-            // $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-            // if( $count <= 15 ){//分给张龙 384
-            //     $auto_allot_adminid = 384;
-            //     $opt_account = '张龙';
-            // } else { //分配给邵少鹏759和蒋文武689
-            //     $auto_allot_adminid = ( $count%2 == 0 ) ? 795 : 689;
-            //     $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
-            // }
+            $time = strtotime('today');
+            $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
+            if( $count <= 15 ){//分给张龙 384
+                $auto_allot_adminid = 384;
+                $opt_account = '张龙';
+            } else { //分配给邵少鹏759和蒋文武689
+                $auto_allot_adminid = ( $count%2 == 0 ) ? 795 : 689;
+                $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
+            }
 
-            // $account = '系统';
-            // $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
+            $account = '系统';
+            $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
             // $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
 
         }
