@@ -96,6 +96,7 @@ interface RowData {
 	first_admin_revisiterid_time	:any;
 	first_seller_status	:any;
 	call_count	:any;
+	auto_allot_adminid	:any;
 	last_call_time_space	:any;
 	opt_time	:any;
 	index	:any;

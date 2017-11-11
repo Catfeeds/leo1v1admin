@@ -234,6 +234,7 @@ class NewRouteConfig {
         "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,
+        "/login/down_leo_file"           => true,
         "/login/login_teacher"           => true,
         "/login/agent_login"           => true,
         "/login/login_other"             => true,

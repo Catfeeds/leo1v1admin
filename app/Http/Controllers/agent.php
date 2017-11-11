@@ -465,13 +465,37 @@ class agent extends Controller
     }
 
     public function test_new(){
-        if($tmk_student_status==E\Etmk_student_status::V_3) { //拨通标记有效限制
-            $ret = $this->t_tq_call_info->get_call_info_list($this->get_account_id(),$phone);
-            if(!$ret){
-                return $this->output_err('拨通后才可标记有效!');
+        $ret = $this->t_order_info->get_fenqi_list();
+        $orderid_arr = array_unique(array_column($ret,'orderid'));
+        dd($ret,$orderid_arr);
+        foreach($orderid_arr as $item){
+            foreach($ret as $info){
+                $orderid = $info['orderid'];
+                $channel = $info['channel'];
+                if($item == $orderid){
+                    if($channel=='baidu'){//百度才算分期
+                        $this->t_order_info->field_update_list($orderid,[
+                            'can_period_flag'=>1,
+                        ]);
+                        continue;
+                    }else{
+                        $this->t_order_info->field_update_list($orderid,[
+                            'can_period_flag'=>0,
+                        ]);
+                    }
+                }
             }
         }
-
+        dd($ret);
+        //回流
+        // $ret = $this->t_seller_student_new->get_huiliu_list();
+        // $userid_arr = array_unique(array_);
+        // foreach($ret as $item){
+        //     $adminid = $item['adminid'];
+        //     $userid = $item['userid'];
+        //     $add_time = $item['add_time'];
+        // }
+        // dd($ret);
     }
 
     //处理等级头像
@@ -1986,7 +2010,7 @@ class agent extends Controller
     public function get_yxyx_member_detail(){
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $id = $this->get_in_int_val('id','');
+        $id = $this->get_in_int_val('id',-1);
         $page_info = $this->get_in_page_info();
         $opt_type = $this->get_in_str_val('opt_type','');
         $ret_info = $this->t_agent->get_yxyx_member_detail($id,$start_time, $end_time,$opt_type,$page_info);

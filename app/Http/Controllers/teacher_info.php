@@ -1289,7 +1289,6 @@ class teacher_info extends Controller
     }
 
     public function tea_ref_money_list() {
-
         $start_date      = $this->get_in_str_val("start_date",date("Y-m",time()));
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $start_time      = strtotime($start_date);
@@ -1969,7 +1968,7 @@ class teacher_info extends Controller
 
             $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
             if($val['lesson_type'] != 2){
-                $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
+                $val['money']       = $this->get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
                 $lesson_reward       = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                 $list_lesson_key     = "normal_lesson";
@@ -2245,6 +2244,16 @@ class teacher_info extends Controller
             }
 
         }
+    }
+
+    public function down_leo_file(){
+        $filename = '理优讲义模板.zip';
+        $fileinfo = pathinfo($filename);
+        header('Content-type: application/x-'.$fileinfo['extension']);
+        header('Content-Disposition: attachment; filename='.$fileinfo['basename']);
+        header('Content-Length: '.filesize($filename));
+        readfile($thefile);
+        exit();
     }
 
 }

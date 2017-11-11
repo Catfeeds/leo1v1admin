@@ -397,6 +397,7 @@ class wx_parent_for_prize extends Controller
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
+                "orwGAswflHkLg-4PgNuJwsQZZKFE", // 沈玉莹
                 "orwGAs4dM5Z-nc2VKAnG1oP0VfuQ", //谢汝毅
                 "orwGAs08kfcXpQ4HZxeNV7_UqyBE", //班洁
                 "orwGAs4HRuV3DIrMqWLazE0WKStY", //王皎嵘

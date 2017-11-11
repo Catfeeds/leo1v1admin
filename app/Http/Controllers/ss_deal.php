@@ -65,6 +65,7 @@ class ss_deal extends Controller
         $grade    = $this->get_in_grade();
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
+        $origin_userid = $this->get_in_int_val("origin_userid", 1);
 
         if (strlen($phone )!=11) {
             return $this->output_err("电话号码长度不对");
@@ -113,11 +114,14 @@ class ss_deal extends Controller
             "sub_assign_time_2"  =>time(),
             "ass_leader_create_flag"=>1
         ]);
+        if($origin_userid<=1){
+            $origin_userid=1;
+        }
         $this->t_student_info->field_update_list($userid,[
             "nick"  =>$name,
             "realname"=>$name,
             "origin_assistantid"=>$admin_revisiterid,
-            "origin_userid"   =>1
+            "origin_userid"   =>$origin_userid
         ]);
 
 
@@ -3019,13 +3023,16 @@ class ss_deal extends Controller
         //check 多科目
         $seller_resource_type= $new_flag? E\Eseller_resource_type::V_0: E\Eseller_resource_type::V_1;
 
+        //自己回流过的例子
+        $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($this->get_account_id(),$userid);
+        $hand_get_adminid = $add_time>0?0:E\Ehand_get_adminid::V_5;
         $this->t_seller_student_new->field_update_list($userid,[
             "admin_revisiterid" => $this->get_account_id() ,
             "admin_assign_time" => $now,
             "tq_called_flag"    =>0,
             "hold_flag" => 1,
             "seller_resource_type" => $seller_resource_type ,
-            "hand_get_adminid" => E\Ehand_get_adminid::V_5,
+            "hand_get_adminid" => $hand_get_adminid,
         ]);
 
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
@@ -4227,14 +4234,19 @@ class ss_deal extends Controller
         }
         $user_list=$this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
         foreach($user_list as $item) {
-            $phone=$item["phone"];
+            $phone = $item["phone"];
+            $last_contact_time = $item['last_contact_time'];
             //公海领取的例子,回流拨打限制
             if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5 && !in_array($item['admin_revisiterid'],[831,973,60,898])){
                 $ret = $this->t_tq_call_info->get_call_info_row_new($item["admin_revisiterid"],$phone,$item["admin_assign_time"]);
                 if(!$ret){
-                    return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
+                    return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
                     break;
                 }
+                // if($last_contact_time<$item["admin_assign_time"]){
+                //     return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
+                //     break;
+                // }
             }
             $seller_student_status= $item["seller_student_status"];
             $ret_update = $this->t_book_revisit->add_book_revisit(
@@ -5348,13 +5360,15 @@ class ss_deal extends Controller
                  */
                 $data=[];
                 $title = "资料领取通知";
-                 $template_id      = "Fw49ejW84qSRcXFFCrHsiCY3Lz6H57IeZZ_gVRdq9TM";//old
+                $template_id      = "Fw49ejW84qSRcXFFCrHsiCY3Lz6H57IeZZ_gVRdq9TM";//old
                 //$template_id      = "KfQxp0ynjBSEHso1pwoxP8R6CdU2SeWA7M1YvWNGld8";
                 $data['first']    = $first_sentence;
                 $data['keyword1'] = $keyword1;
                 $data['keyword2'] = $keyword2;
                 $data['remark']   = $end_sentence;
                 // $openid = $v["wx_openid"];
+                // $openid = $this->t_teacher_info->get_wx_openid($send_teacherid);
+
                 $openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
                 if(isset($openid) && isset($template_id)){
                     \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
@@ -5437,12 +5451,10 @@ class ss_deal extends Controller
                             $res_teacherid[]= $item["teacherid"];
                         }
                     }
-
                 }
             }
 
             if(!empty($res_teacherid)){
-
                 foreach($res_teacherid as $val){
                     if($template_type==4){
                         /**
@@ -6336,6 +6348,7 @@ class ss_deal extends Controller
             $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_teacher/';
             $wx=new \App\Helper\Wx();
             $qc_openid_arr = [
+                "orwGAswflHkLg-4PgNuJwsQZZKFE", // 沈玉莹
                 "orwGAs4dM5Z-nc2VKAnG1oP0VfuQ", //谢汝毅
                 "orwGAs08kfcXpQ4HZxeNV7_UqyBE", //班洁
                 "orwGAs4HRuV3DIrMqWLazE0WKStY", //王皎嵘

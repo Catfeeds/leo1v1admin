@@ -250,7 +250,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ];
         }
         $sql = $this->gen_sql_new(
-            "select  order_price_desc,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
+            "select order_price_desc,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
             ." contract_type,contract_status,invoice,is_invoice,t1.channel, "
@@ -265,7 +265,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
             ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
-            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price,t3.name order_set_name"
+            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price,t3.name order_set_name,n.hand_get_adminid "
             // ." ,if(co.child_order_type = 2, 1, 0) is_staged_flag "
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
@@ -986,7 +986,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ."left join %s n on n.userid = s.userid "
                                   ."left join %s m on o.sys_operator = m.account "
                                   ."left join %s g on g.seller_level = m.seller_level "
-                                  ." where %s      group by sys_operator order by all_price desc $limit_info ",
+                                  ." where %s group by sys_operator order by all_price desc $limit_info ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
@@ -996,7 +996,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list_as_page ($sql);
     }
-
+    
     public function get_1v1_order_new_seller_list( $start_time,$end_time) {
 
         $where_arr = [
@@ -1611,6 +1611,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "promotion_spec_present_lesson"  => $promotion_spec_present_lesson,
             "stu_from_type"                  => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
+
             "pre_price"                      => $pre_price,
             "order_price_desc"               => $order_price_desc,
             "order_partition_flag"           => $order_partition_flag,
@@ -4146,5 +4147,34 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    public function get_fenqi_list(){
+        $where_arr = [
+            'is_test_user=0',
+            'contract_type in(0,1,3)',
+            "t1.sys_operator <>'yueyue'",
+            't3.account_role = 2',
+            ['c.child_order_type=%s',E\Echild_order_type::V_2],
+        ];
+        $this->where_arr_add_time_range($where_arr,'order_time',1506960000,1509465600);
+        $sql = $this->gen_sql_new(
+            "select t1.orderid,t1.price,t1.can_period_flag, "
+            ."c.child_orderid,c.parent_orderid,c.child_order_type,c.price,c.channel "
+            ."from %s t1 "
+            ."left join %s c on c.parent_orderid = t1.orderid "
+            ."left join %s t2 on t1.userid = t2.userid "
+            ."left join %s n on t1.userid = n.userid "
+            ."left join %s t3 on t1.sys_operator = t3.account "
+            ."where %s "
+            ." order by order_time desc ",
+            self::DB_TABLE_NAME,
+            t_child_order_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

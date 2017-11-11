@@ -152,6 +152,7 @@ class seller_student_new2 extends Controller
             2 => array("stu_request_test_lesson_time", "期待试听时间"),
             4 => array("lesson_start", "上课时间"),
             5 => array("seller_require_change_time ", "销售申请更换时间"),
+            6 => array("set_lesson_time", "排课操作时间"),
         ]);
 
         $adminid      = $this->get_account_id();
@@ -1282,13 +1283,6 @@ class seller_student_new2 extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );
         $flag = $this->get_in_int_val('flag',1);
-        if($flag == 1) {
-            $group_by = 'l.teacherid';
-        }else if ($flag == 2){
-            $group_by = 'tl.require_adminid';
-        }else {
-            $group_by = 'tr.origin';
-        }
         $is_green_flag = $this->get_in_int_val('is_green_flag', -1);
         $is_down = $this->get_in_int_val('is_down', -1);
         $subject = $this->get_in_el_subject();
@@ -1307,12 +1301,12 @@ class seller_student_new2 extends Controller
             $subject = -1;
         }
         $ret_info = $this->t_test_lesson_subject->get_sign_count(
-            $start_time, $end_time,$group_by,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
+            $start_time, $end_time,$flag,$is_green_flag,$is_down,$has_pad,$phone_location,$grade,$subject
         );
 
         foreach($ret_info as &$item){
             if($flag == 3){
-                $item['nick'] = $itme['origin'];
+                $item['nick'] = $item['origin'];
             }
 
             if($item['stu_count']){
@@ -1327,6 +1321,9 @@ class seller_student_new2 extends Controller
                 $item['sign_rate'] = 0;
             }
         }
+
+        $ret_info = \App\Helper\Utils::order_list_new( $ret_info, 'sign_rate', false );
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
 
     }

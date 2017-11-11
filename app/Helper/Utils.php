@@ -571,7 +571,7 @@ class Utils  {
         }
     }
 
-    static function order_list_new( $list, $order_field_name,$is_asc_flag,$page_info) {
+    static function order_list_new( $list, $order_field_name,$is_asc_flag,$page_info='') {
         if ($is_asc_flag) {
             usort( $list , function ($a,$b) use ($order_field_name)
             {
@@ -589,21 +589,28 @@ class Utils  {
                 return $a_v>$b_v? -1:1;
             });
         }
-        $new_list = [];
-        $start = ($page_info['page_num']-1) * $page_info['page_count'];
-        $end = ($start+$page_info['page_count']) < count($list)? ($start+$page_info['page_count']) :count($list) ;
-        for($i = $start; $i<$end; $i++){
-            $new_list[$i] = $list[$i];
-        }
+        if($page_info != '') {
+            $new_list = [];
+            $start = ($page_info['page_num']-1) * $page_info['page_count'];
+            $end = ($start+$page_info['page_count']) < count($list)? ($start+$page_info['page_count']) :count($list) ;
+            for($i = $start; $i<$end; $i++){
+                $new_list[$i] = $list[$i];
+            }
 
-        $ret_info['list'] = $new_list;
-        $page_info['total_num'] = count($list);
-        $page_info['per_page_count'] = $page_info['page_count'];
-        $ret_info['page_info'] = $page_info;
-        $ret_info['total_num'] = $page_info['total_num'];
-        $ret_info['per_page_count'] = $page_info['page_count'];
+            $ret_info['list'] = $new_list;
+            $page_info['total_num'] = count($list);
+            $page_info['per_page_count'] = $page_info['page_count'];
+            $ret_info['page_info'] = $page_info;
+            $ret_info['total_num'] = $page_info['total_num'];
+            $ret_info['per_page_count'] = $page_info['page_count'];
+
+        } else {
+            return $list;
+        }
         return $ret_info;
     }
+
+
 
     static function date_list_set_value( &$date_list , &$from_list , $date_key, $field_name, $from_field_name ) {
 
@@ -1334,21 +1341,22 @@ class Utils  {
         return $grade_range;
     }
 
-
-
-
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
+    //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
     static public function get_teacher_base_money($teacherid,$lesson_info){
         $money            = $lesson_info['money'];
         //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资
         $huang_check_time = strtotime("2017-9-20");
         $zhang_check_time = strtotime("2017-9-22");
+        $lv_check_time    = strtotime("2019-9-1");
 
         if($teacherid==71743 && $lesson_info['lesson_start']<$huang_check_time){
             $money=60;
         }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
             $money=75;
+        }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
+            // $money=
         }
         return $money;
     }
@@ -1890,7 +1898,7 @@ class Utils  {
         }
     }
 
-    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent) {
+    static public function wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent,$prefix) {
         $wx_openid = $agent['wx_openid'];
         $t_agent = new \App\Models\t_agent();
         $phone   = $agent['phone'];
@@ -1898,8 +1906,7 @@ class Utils  {
 
         //唯一标识，防止多次点击删除的图片不对
         $mark = uniqid();
-
-        $qr_url  = "/tmp/yxyx_wx_".$phone.$mark."_qr.png";
+        $qr_url  = "/tmp/{$prefix}yxyx_".$phone.$mark."_qr.png";
         $old_headimgurl = @$agent['headimgurl'];
         self::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
 
@@ -1917,15 +1924,35 @@ class Utils  {
         $data = json_decode($output,true);
         $headimgurl = @$data['headimgurl'];
 
-        $agent_qr_url = "/tmp/yxyx_wx_member_".$phone.".png";
+        //强制刷新token
+        if ( !array_key_exists('headimgurl', $data) ){
+
+            $access_token = $wx->get_new_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+
+            \App\Helper\Utils::logger("url info:". $url);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
+
+        }
+
+        $agent_qr_url = "/tmp/{$prefix}yxyx_member_".$phone.".png";
         $is_exists = file_exists($agent_qr_url);
-        if( $old_headimgurl !== $headimgurl && !$is_exists ){
+
+        if( $old_headimgurl !== $headimgurl || !$is_exists ){
 
             $cmd_rm = "rm ".$agent_qr_url;
             self::exec_cmd($cmd_rm);
 
             //下载头像，制作图片
-            $datapath = "/tmp/yxyx_wx_".$phone.$mark."_headimg.jpg";
+            $datapath = "/tmp/{$prefix}yxyx_".$phone.$mark."_headimg.jpg";
             $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
             shell_exec($wgetshell);
 
@@ -1938,6 +1965,7 @@ class Utils  {
             imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
             $ext = pathinfo($bg_url);
+            // dd($ext);
             if ($ext['extension'] == 'jpg') {
                 $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             }else{
@@ -1973,11 +2001,12 @@ class Utils  {
             imagedestroy($image_5);
             imagedestroy($image_6);
 
-            $cmd_rm = "rm /tmp/yxyx_wx_".$phone.$mark."*";
-            self::exec_cmd($cmd_rm);
-
-
         }
+
+        $cmd_rm = "rm /tmp/{$prefix}yxyx_".$phone.$mark."*";
+        self::exec_cmd($cmd_rm);
+
+
         $type = 'image';
         $img_Long = file_get_contents($agent_qr_url);
         file_put_contents( public_path().'/wximg/'.$mark.'.png',$img_Long );

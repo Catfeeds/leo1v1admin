@@ -973,7 +973,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     {
         $sql = sprintf("select userid,realname, s.nick,s.stu_email, s.face, s.birth, s.originid, praise, s.phone,"
                        ." s.stu_phone, s.gender, s.grade, s.operator_note type, parent_name, parent_type, address,"
-                       ." school,textbook, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
+                       ." school, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
                        ." reg_time , init_info_pdf_url, user_agent, guest_code, host_code, s.parentid, s.is_test_user, "
                        ." p.wx_openid as parent_wx_openid,s.province,s.city,s.area "
                        ." from %s as s "
@@ -1986,7 +1986,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["m.uid=%u",$adminid,-1]
         ];
 
-        $sql = $this->gen_sql_new("select m.uid,sum(if(type in (0,2,3),1,0)) all_count,sum(if(type=0,1,0)) read_count,sum(if(type=2,1,0)) stop_count,sum(i.week_lesson_num>0 and i.except_lesson_count >0) except_num,sum(if(i.week_lesson_num>0 and i.except_lesson_count >0,week_lesson_num*except_lesson_count,0)) except_count"
+        $sql = $this->gen_sql_new("select m.uid,sum(if(type in (0,2,3,4,5,6),1,0)) all_count,sum(if(type=0,1,0)) read_count,sum(if(type=2,1,0)) stop_count,sum(i.week_lesson_num>0 and i.except_lesson_count >0) except_num,sum(if(i.week_lesson_num>0 and i.except_lesson_count >0,week_lesson_num*except_lesson_count,0)) except_count,count(*) all_stu_num"
                                   ." from %s s left join %s a on a.assistantid = s.assistantid "
                                   ." left join %s m on a.phone = m.phone"
                                   ." left join %s i on s.userid = i.userid"
@@ -2038,14 +2038,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_read_student_ass_info(){
+    public function get_read_student_ass_info($stu_type=0){
+        $where_arr=[
+            "s.assistantid >0",
+            "m.account_role=1"
+        ];
+        if($stu_type==-2){
+            $where_arr[]="s.type <>1";
+        }else{
+            $where_arr[]=["s.type=%u",$stu_type,-1];
+        }
+        
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
                                  " join %s a on a.assistantid=s.assistantid".
                                  " join %s m on a.phone=m.phone".
-                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 ",
+                                 " where %s ",
                                  self::DB_TABLE_NAME,
                                  t_assistant_info::DB_TABLE_NAME,
-                                 t_manager_info::DB_TABLE_NAME
+                                 t_manager_info::DB_TABLE_NAME,
+                                 $where_arr
         );
         $ret =  $this->main_get_list($sql);
         $userid_list=[];
@@ -3195,5 +3206,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql);
+    }
+
+    public function get_ass_create_stu_info(){
+        $where_arr = [
+            "n.ass_leader_create_flag=1",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.origin"
+                                  ." from %s s left join %s n on s.userid = n.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 }

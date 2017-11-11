@@ -59,21 +59,22 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-tea_lesson_count_total_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		confirm_flag:	$('#id_confirm_flag').val(),
+		pay_flag:	$('#id_pay_flag').val(),
+		show_add_money_flag:	$('#id_show_add_money_flag').val(),
+		check_adminid:	$('#id_check_adminid').val(),
+		has_check_adminid_flag:	$('#id_has_check_adminid_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			confirm_flag:	$('#id_confirm_flag').val(),
-			pay_flag:	$('#id_pay_flag').val(),
-			show_add_money_flag:	$('#id_show_add_money_flag').val(),
-			check_adminid:	$('#id_check_adminid').val(),
-			has_check_adminid_flag:	$('#id_has_check_adminid_flag').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_confirm_flag"));
 	Enum_map.append_option_list("boolean",$("#id_pay_flag"));

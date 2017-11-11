@@ -52,7 +52,7 @@ class teacher_money extends Controller
                 $lesson_count = $val['lesson_count']/100;
                 if($val['confirm_flag'] != 2){
                     if($val['lesson_type'] != 2){
-                        $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
+                        $val['money']       = $this->get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
 
                         $lesson_reward = $this->get_lesson_reward_money(
@@ -543,7 +543,9 @@ class teacher_money extends Controller
             return $this->output_err($error_info);
         }
 
-        $old_bankcard = $this->t_teacher_info->get_bankcard($teacherid);
+        $old_bankcard     = $this->t_teacher_info->get_bankcard($teacherid);
+        $old_bank_account = $this->t_teacher_info->get_bank_account($teacherid);
+        $old_bank_type    = $this->t_teacher_info->get_bank_type($teacherid);
 
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "bankcard"      => $bankcard,
@@ -560,14 +562,14 @@ class teacher_money extends Controller
             return $this->output_err("更新失败！请重试！");
         }
 
-        if($old_bankcard != $bankcard){
+        if(($old_bankcard != $bankcard) || ($old_bank_account != $bank_account) || ($old_bank_type != $bank_type) ){
             $tea_nick   = $this->t_teacher_info->get_realname($teacherid);
-            $header_msg = $tea_nick."老师，修改了绑定的银行卡号。";
+            $header_msg = $tea_nick."老师，修改了绑定的银行信息。";
             $msg  = "持卡人姓名：$tea_nick \n 银行卡类型： $bank_type \n 卡号：$bankcard";
             $url  = "/teacher_money/show_teacher_bank_info?teacherid=".$teacherid;
             $desc = "点击详情，查看修改后的银行卡号及详细信息";
 
-            $this->t_manager_info->send_wx_todo_msg("sunny","银行卡号变更",$header_msg,$msg,$url,$desc);
+            $this->t_manager_info->send_wx_todo_msg("sunny","银行卡信息变更",$header_msg,$msg,$url,$desc);
 
             if($type=="admin"){
                 $acc = $this->get_account();
@@ -712,6 +714,7 @@ class teacher_money extends Controller
     }
 
     public function teacher_salary_list(){
+        $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
         $reference = $this->get_in_int_val("reference",-1);
         if($reference>0){
@@ -723,6 +726,7 @@ class teacher_money extends Controller
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
         $all_money = 0;
         foreach($ret_info['list'] as &$t_val){
+            $t_val['pay_time'] = date('Y-m-d H:i:s', $t_val['pay_time']);
             $t_val['money'] /= 100;
             if($t_val['is_negative']==1){
                 $t_val['money'] = 0-$t_val['money'];
@@ -734,8 +738,19 @@ class teacher_money extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "all_money" => $all_money,
             "all_money_tax" => $all_money_tax,
+            "acc" => $acc,
+            "start_time" => $start_time,
+            "end_time" => $end_time
         ]);
     }
 
+    public function update_pay_time() {
+        $id = $this->get_in_int_val("id");
+        $end_time = strtotime($this->get_in_str_val("pay_time"));
 
+        $this->t_month_def_type->field_update_list($id, [
+            "pay_time" => $pay_time
+        ]);
+        return $this->output_succ();
+    }
 }

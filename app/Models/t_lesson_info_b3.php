@@ -858,6 +858,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_teacher_list_by_time_new($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <>2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select l.teacherid,sum(l.lesson_count) lesson_total"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_teacher_stu_three_month_list($teacherid){
         $end_time = time();
         $start_time = time()-90*86400;
@@ -1658,12 +1678,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end){
         $where_arr = [
-            "l.lesson_type = 0"
+            "l.lesson_type in (0,1,3)",
+            "t.is_test_user = 0",
+            "t.wx_openid != ''"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select  teacherid,t.nick, wx_openid from %s l "
+        $sql = $this->gen_sql_new("  select  l.teacherid,t.nick, wx_openid from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid"
                                   ." where %s group by l.teacherid "
                                   ,self::DB_TABLE_NAME
@@ -1677,7 +1699,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_tea_lesson_info($lesson_start, $lesson_end,$teacherid){
 
         $where_arr = [
-            "l.lesson_type = 0",
+            "l.lesson_type in (0,1,3)",
             "l.teacherid = $teacherid",
             "l.lesson_del_flag=0",
         ];
@@ -1685,7 +1707,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
         $sql = $this->gen_sql_new("  select l.subject, lesson_start, l.lesson_end, l.teacherid, s.nick ,l.userid from %s l "
-                                  ." left join %s s on s.useid=l.userid"
+                                  ." left join %s s on s.userid=l.userid"
                                   ." where %s  "
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
@@ -1698,18 +1720,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_parent_tomorrow_lesson_list($lesson_start, $lesson_end){
         $where_arr = [
-            "l.lesson_type = 0",
+            "l.lesson_type in (0,1,3)",
             "l.lesson_del_flag=0",
+            "s.is_test_user=0",
+            "p.wx_openid != ''"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
 
-        $sql = $this->gen_sql_new("  select a.phone, p.parentid, p.nick, p.wx_openid  from %s l "
+        $sql = $this->gen_sql_new("  select a.phone, p.parentid, p.nick, p.wx_openid, s.assistantid  from %s l "
                                   ." left join %s pc on pc.userid=l.userid"
                                   ." left join %s p on p.parentid=pc.parentid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
-                                  ." where %s group by p.parentid "
+                                  ." where %s group by p.parentid  "
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME
@@ -1770,6 +1794,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.tea_cw_url = ''",
             "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$four_start,$four_end);
         $sql = $this->gen_sql_new("  select l.lessonid, l.subject, l.lesson_start, l.lesson_end, t.wx_openid from %s l"
@@ -1835,10 +1860,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $where_arr = [
             'l.lesson_del_flag=0',
-            "l.teacherid=$teacherid"
+            "l.teacherid=$teacherid",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start<$now",
+            "l.lesson_end>=$now"
         ];
-
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$now,$end);
 
         $sql = $this->gen_sql_new("  select 1 from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid "
@@ -1851,6 +1877,33 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
 
     }
+
+
+    public function check_is_doing_test($teacherid){
+        $now = time();
+        $end = $now + 60;
+
+        $where_arr = [
+            'l.lesson_del_flag=0',
+            "l.teacherid=$teacherid",
+            "l.lesson_type in (0,1,3)",
+            'l.lesson_status=1'
+            // "l.lesson_start<$now",
+            // "l.lesson_end>=$now"
+        ];
+
+        $sql = $this->gen_sql_new("  select 1 from %s l "
+                                  ." left join %s t on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
 
     public function get_test_list_for_month($start_time,$end_time){
 

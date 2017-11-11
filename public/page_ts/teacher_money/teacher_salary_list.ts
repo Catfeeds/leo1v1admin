@@ -29,4 +29,51 @@ $(function(){
     $.admin_select_user($("#id_reference"),"teacher",load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
+
+    // 明细
+    $('.opt-show').on('click',function(){
+        var data=$(this).get_opt_data();
+        var teacherid=data.teacherid;
+        var start_time=g_data.start_time;
+        var end_time=g_data.end_time;
+        window.location.href="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&end_time="+end_time;
+    })
+
+    $('.opt-edit').on('click', function() {
+        var opt_data=$(this).get_opt_data();
+        var s_input = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');
+        var arr=[
+            ['工资结算开始时间', s_input]
+        ] ;
+
+        initPicker(s_input);
+
+        $.show_key_value_table("修改", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                var $pay_time = $('input[name="pay_time"]').val();
+                    $.do_ajax("/teacher_money/update_pay_time",{
+                        "id": opt_data.id,
+                        "pay_time" : $pay_time,
+                    });
+
+            }
+        });
+    });
+
+
+    function initPicker(obj)
+    {
+      obj.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d',
+            step       : 30,
+            onChangeDateTime :function(){
+              $(this).hide();
+            }
+        });
+    }
 });

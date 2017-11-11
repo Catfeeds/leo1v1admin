@@ -14,6 +14,7 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	title	:any;
+	lesson_user_count	:any;
 }
 
 /*

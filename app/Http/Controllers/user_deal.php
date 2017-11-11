@@ -881,7 +881,8 @@ class user_deal extends Controller
         if($contract_type==0 &&  $check_money_flag == 1){ //
             $start_time            = strtotime(date("Y-m-d"));
             $end_time              = $start_time+20*86400-1;
-            $seller_new_count_type = E\Eseller_new_count_type::V_ORDER_ADD ;
+            // $seller_new_count_type = E\Eseller_new_count_type::V_ORDER_ADD ;
+            $seller_new_count_type = E\Eseller_new_count_type::V_CJG_ORDER_ADD;
             $value_ex              = $orderid;
             $adminid               = $this->t_manager_info->get_id_by_account($sys_operator);
             if (!$flowid  ){
@@ -892,13 +893,18 @@ class user_deal extends Controller
                 }
 
                 if (!$this->t_seller_new_count->check_adminid_seller_new_count_type_value_ex($adminid,$seller_new_count_type,$value_ex)) {
-                    $this->t_seller_new_count->add($start_time,$end_time,$seller_new_count_type,$count,$adminid,$value_ex);
-                    $this->t_manager_info->send_wx_todo_msg(
-                        $sys_operator,
-                        "系统",
-                        "新签合同赠送 抢新生名额[$count] "
-                        ,"学生:". $this->cache_get_student_nick($userid)
-                        ,"");
+                    // $this->t_seller_new_count->add($start_time,$end_time,$seller_new_count_type,$count,$adminid,$value_ex);
+                    // $this->t_manager_info->send_wx_todo_msg(
+                    //     $sys_operator,
+                    //     "系统",
+                    //     "新签合同赠送 抢新生名额[$count] "
+                    //     ,"学生:". $this->cache_get_student_nick($userid)
+                    //     ,"");
+                    //公海签单奖励5个
+                    $hand_get_adminid = $this->t_seller_student_new->field_get_value($userid,'hand_get_adminid');
+                    if($hand_get_adminid == E\Ehand_get_adminid::V_5){
+                        $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,$seller_new_count_type,$count=5,$adminid,$value_ex);
+                    }
                 }
             }
             $sys_operator=$this->t_order_info->get_sys_operator($orderid);
@@ -1488,6 +1494,7 @@ class user_deal extends Controller
         ]);
         return $this->output_succ();
     }
+
     public function get_student_info_for_add_contract() {
         $userid=$this->get_in_userid();
         $data=$this->t_student_info->get_stu_all_info($userid);
@@ -2234,7 +2241,7 @@ class user_deal extends Controller
         $adminid=$this->get_in_int_val("adminid");
         $main_type=$this->get_in_int_val("main_type");
 
-        $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
+        $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid(-1,$adminid);
         $group_name = '';
         if ($db_groupid ) {//
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
@@ -3181,65 +3188,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-                $start_time = strtotime(date("Y-m-d",time()));
-
-              $grab_list = $this->t_grab_lesson_link_info->get_grab_info_by_time($start_time);
-        dd($grab_list);
- 
-        $list = $this->t_week_regular_course->get_teacher_student_time(-1,-1);
-        foreach($list as $val){
-            $arr              = explode("-",$val["start_time"]);
-            $week = $arr[0];
-            $start = @$arr[1];
-            $end_time = $val["end_time"];
-            $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
-            $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
-            if($lesson_end<=$lesson_start){
-                echo $val["start_time"]."/".$val["teacherid"]."<br>";
-            }
- 
-        }
-        dd(111);
+               
+        $list = $this->t_student_info->get_ass_create_stu_info();
         dd($list);
-        
-        $rr = $this->get_lesson_count_by_lesson_time(0,900);
-        dd($rr);
-        // $tea_list = $this->t_teacher_advance_list->get_all_advance_teacher();
-        // dd($tea_list);
-        // $warn_list = $this->t_revisit_info->get_warn_stu_list();
-        // dd($warn_list);
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-11-01");
-        $list   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
-        $set_count_all=$set_count_late=$set_count_late_time=$set_count_grab=$set_count_normal=$set_lesson_time_all=0;
-        $set_count_seller =$set_count_kk=$set_count_hls=0;
-        foreach($list as $val){
-            $set_count_all+=$val["set_count"];
-            $set_count_late+=$val["set_count_late"];
-            $set_count_late_time+=$val["set_count_late_time"];
-           
-            $set_lesson_time_all+=$val["set_lesson_time_all"];
-           
-        }
+ 
 
-        $set_time_avg = $set_count_all>0?round($set_lesson_time_all/$set_count_all/86400,2):0;
-        $set_time_late_avg = $set_count_late>0?round($set_count_late_time/$set_count_late/86400,2):0;
-        dd([$set_time_avg,$set_time_late_avg]);
-
-        $userid_list = $this->t_student_info->get_read_student_ass_info();
-        $start_time = strtotime("2017-10-01");
-        $end_time = time();
-        $list = $this->t_ass_weekly_info->get_all_info_by_time($start_time,$end_time,1);
-        // foreach($list as $val){
-        //     $adminid = $val["adminid"];
-        //     $read_student_list = @$userid_list[$adminid];
-        //     $this->t_ass_weekly_info->field_update_list($val["id"],[
-        //        "read_student_list" =>$read_student_list 
-        //     ]);
-        // }
-        dd($list);
-
+            
               
     }
 
@@ -5033,27 +4987,6 @@ class user_deal extends Controller
         $subject = $this->get_in_int_val("subject");
         $this->t_admin_group_name->field_update_list($groupid,["subject"=>$subject]);
         return $this->output_succ();
-    }
-
-
-    public function jack_test(){
-
-        $ret_info = $this->t_course_order->get_lesson_left_info(1);
-        $list = $this->t_course_order->get_lesson_left_info(2);
-        foreach($ret_info as $k=>$item){
-            if(isset($list[$k])){
-                unset($ret_info[$k]);
-            }
-        }
-        foreach($ret_info as $k=>$val){
-            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($val["uid"]);
-            if($ass_master_adminid != 297){
-                unset($ret_info[$k]);
-            }
-
-        }
-        dd($ret_info);
-
     }
 
     public function update_test_lesson_require_teacher_info(){

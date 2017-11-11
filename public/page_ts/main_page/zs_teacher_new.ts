@@ -22,6 +22,7 @@ $(function(){
             load_data();
         }
     });
+    $("#id_opt_date_type").hide();
 
 
     function show_top( $person_body_list) {

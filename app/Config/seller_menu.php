@@ -44,12 +44,14 @@ class seller_menu{
                     // ["power_id"=>1, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
                     // ["power_id"=>2, "name"=>"合同-已付费",   "url"=>"/user_manage/contract_list_seller_payed"],
                     // ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller_mix"],
+                    ["power_id"=>20, "name"=>"每日合同金额",   "url"=>"/tongji/contract_down"],
                     ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller"],
                     // ["power_id"=>29, "name"=>"合同-已付费-主管",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
                     ["power_id"=>3, "name"=>"合同统计",   "url"=>"/tongji_ss/contract_count"],
                     ["power_id"=>4, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>5, "name"=>"折扣情况",   "url"=>"/contract_present/contract_present_info"],
                     ["power_id"=>6, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
+                    ["power_id"=>34, "name"=>"每日合同金额",   "url"=>"/tongji2/total_money1"],
                 ]],
                 ["power_id"=>15, "name"=>"例子统计", "list"=>[
                     ["power_id"=>1, "name"=>"例子统计","url"=>"/tongji_ss/user_count"],
@@ -89,6 +91,7 @@ class seller_menu{
                     ["power_id"=>17, "name"=>"试听转化率统计-试卷",   "url"=>"/tongji_ss/tongji_seller_test_lesson_paper_order_info"],
                     ["power_id"=>18, "name"=>"转化率",   "url"=>"/tongji_ex/test_lesson_order_info"],
                     ["power_id"=>19, "name"=>"转化率-明细",   "url"=>"/tongji_ex/test_lesson_order_detail_list"],
+                    ["power_id"=>20, "name"=>"转化率统计总表",   "url"=>"/seller_student_new2/tongji_sign_rate" ],
                 ]],
                 ["power_id"=>17, "name"=>"综合统计", "list"=>[
                     ["power_id"=>1, "name"=>"日报",   "url"=>"/tongji_ss/day_report"],

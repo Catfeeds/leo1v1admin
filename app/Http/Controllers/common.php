@@ -1333,7 +1333,7 @@ class common extends Controller
     }
 
 
-    //wx - teacher bind
+    //微信老师帮绑定老师账号
     public function bind(){
         $phone      = $this->get_in_str_val("phone");
         $code       = $this->get_in_str_val("code");
@@ -1347,16 +1347,19 @@ class common extends Controller
 
         if($code==$check_code){
             $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+
             if($teacher_info['subject']==E\Esubject::V_11){ // 教育学老师无法绑定老师帮
                 return $this->output_err("此账号无法绑定！");
             }
-            if(!isset($teacher_info['teacherid'])  ){
+
+            if(!isset($teacher_info['teacherid'])){
                 $teacher_info['phone']            = $phone;
                 $teacher_info['acc']              = "wx_reference";
                 $teacher_info['teacher_type']     = 32;
                 $teacher_info['teacher_ref_type'] = 32;
                 $teacher_info['send_sms_flag']    = 0;
                 $teacher_info['wx_use_flag']      = 0;
+                $teacher_info['use_easy_pass']    = 2;
 
                 $data = $this->add_teacher_common($teacher_info);
                 if(!$data || !is_int($data)){
@@ -1370,7 +1373,6 @@ class common extends Controller
                         $ret = $this->t_teacher_info->field_update_list($teacherid_old, [
                             "wx_openid" => $wx_openid
                         ]);
-
                     }else{
                         return $this->output_err($data);
                     }
@@ -2239,4 +2241,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $this->output_err("发送失败");
         }
     }
+
+
 }

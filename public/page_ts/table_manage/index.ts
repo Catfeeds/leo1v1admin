@@ -28,6 +28,15 @@ $(function(){
         });
     });
 
+    var change_field_comment = function(db_name,table_name,field,comment){
+        $.do_ajax("/table_manage/change_field_comment", {
+            "db_name"    : db_name,
+            "table_name" : table_name,
+            "field"      : field,
+            "comment"    : comment
+        });
+    }
+
     $("#id_change_table_comment").on("click",function(){
         var db_name    = $("#id_db_name").val();
         var table_name = $("#id_table_name").val();
@@ -52,19 +61,22 @@ $(function(){
         });
     });
 
+
     do_get_env(function( env) {
         if (env != "local") {
             $(".opt-field-comment").hide();
+            $(".opt-set-none").hide();
         }
     });
 
-    
     $(".opt-field-comment").on("click",function(){
         var db_name    = $("#id_db_name").val();
         var table_name = $("#id_table_name").val();
         var field      = $(this).get_opt_data("field") ;
+        var comment    = $(this).get_opt_data("comment") ;
         var id_desc    = $("<input/>");
 
+        id_desc.val(comment);
         $.show_key_value_table("修改列备注", [
             ["列名", field  ],
             ["备注", id_desc ]
@@ -72,17 +84,23 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/table_manage/change_field_comment", {
-                    "db_name" : db_name,
-                    "table_name" : table_name,
-                    "field"   : field,
-                    "comment":  id_desc.val()
-                });
+                change_field_comment(db_name,table_name,field,id_desc.val());
             }
         });
     });
-	$('#id_db_name').val(g_args.db_name);
-	$('#id_table_name').val(g_args.table_name);
 
+    $(".opt-set-none").on("click",function(){
+        var db_name    = $("#id_db_name").val();
+        var table_name = $("#id_table_name").val();
+        var field      = $(this).get_opt_data("field");
+        var comment    = $(this).get_opt_data("comment");
+
+        var new_comment = comment+" 无用";
+        change_field_comment(db_name,table_name,field,new_comment);
+    });
+
+
+    $('#id_db_name').val(g_args.db_name);
+	  $('#id_table_name').val(g_args.table_name);
     $('.opt-change').set_input_change_event(load_data);
 });

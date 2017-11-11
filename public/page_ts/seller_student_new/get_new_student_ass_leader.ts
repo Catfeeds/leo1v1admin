@@ -36,12 +36,14 @@ $(function(){
         var $subject=$("<select/>");
         var $origin=$("<input/>");
         var $admin_revisiterid=$("<input/>");
+        var $origin_userid=$("<input/>");
         var arr=[
             ["姓名",  $name],
             ["电话",  $phone],
             ["年级",  $grade],
             ["科目",  $subject],
             ["渠道",  $origin],
+            ["转介绍学生",  $origin_userid],
             ["助教",  $admin_revisiterid],
         ];
         Enum_map.append_option_list("grade",$grade, true);
@@ -57,6 +59,7 @@ $(function(){
                     "admin_revisiterid" : $admin_revisiterid.val() ,
                     "grade" : $grade.val() ,
                     "subject" : $subject.val() ,
+                    "origin_userid" : $origin_userid.val() ,
                     "origin" : $origin.val()
                 });
             }
@@ -64,6 +67,7 @@ $(function(){
             $.admin_select_user(
                 $admin_revisiterid,
                 "admin", null,false,{"main_type":1});
+            $.admin_select_user( $origin_userid, "student"  );
  
         });
     });
