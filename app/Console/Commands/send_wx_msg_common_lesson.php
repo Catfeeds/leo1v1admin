@@ -119,7 +119,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_fith   = $now-14*60;
         $common_lesson_list_fith = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_fith,$lesson_end_fith);
 
-        if(count($common_lesson_list_fith)<=150){
+        if(count($common_lesson_list_fith)<=450){
             foreach($common_lesson_list_fith as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);

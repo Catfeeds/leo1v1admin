@@ -102,9 +102,10 @@ class assistant_performance extends Controller
 
     public function performance_info(){
        
+       
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $start_time = strtotime("2017-05-01");        
-        $end_time = strtotime("2017-12-01");
+        // $start_time = strtotime("2017-05-01");        
+        // $end_time = strtotime("2017-12-01");
 
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
@@ -146,6 +147,10 @@ class assistant_performance extends Controller
                     $assign_time = $this->t_student_info->get_ass_assign_time($val);
                     foreach($regular_lesson_list as $t_item){
                         if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]<$assign_time){
+                            $revisit_end = $t_item["lesson_start"]+86400;
+                            
+                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
+
                             
                         }
                     }
