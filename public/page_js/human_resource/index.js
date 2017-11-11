@@ -1927,7 +1927,6 @@ $(function(){
                 })
             }
         });
-
     }
 
     $(".opt-regular-lesson-detele-list").on("click",function(){
@@ -2126,12 +2125,8 @@ $(function(){
 
     }
 
-    if(acc=="alina" || acc=="nina" || acc=="jack" || $acc=="CoCo老师"){
-         $("#id_plan_level").parent().parent().show();
-    }else{
-         $("#id_plan_level").parent().parent().hide();
-    }
-
+    $("#id_plan_level").parent().parent().show();
+   
     $(".opt-identity").on("click",function(){
 	      var data = $(this).get_opt_data();
 
@@ -2173,7 +2168,8 @@ $(function(){
 
 
     //下载隐藏
-    if(account_role!=12){
+    console.log(account_role);
+    if(account_role != 12){
         download_hide();
     }
 
