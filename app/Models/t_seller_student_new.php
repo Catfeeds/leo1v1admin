@@ -2969,7 +2969,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [
             'hand_get_adminid=5',
         ];
-        $sql = $this->gen_sql_new("select n.userid,n.admin_revisiterid adminid,f.add_time,f.test_subject_free_type "
+        $sql = $this->gen_sql_new("select n.userid,n.admin_revisiterid adminid,n.hand_get_adminid,"
+                                  ." f.add_time,f.test_subject_free_type "
                                   ." from %s n "
                                   ." left join %s f on f.adminid=n.admin_revisiterid and f.userid=n.userid "
                                   ." where %s "
