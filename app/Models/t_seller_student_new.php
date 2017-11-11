@@ -2964,4 +2964,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_value($sql);
     }
+
+    public function get_huiliu_list(){
+        $where_arr = [
+            'hand_get_adminid=5',
+        ];
+        $sql = $this->gen_sql_new("select n.userid,n.admin_revisiterid adminid,f.add_time,f.test_subject_free_type "
+                                  ." from %s n "
+                                  ." left join %s f on f.adminid=n.admin_revisiterid and f.userid=n.userid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_subject_free_list::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
