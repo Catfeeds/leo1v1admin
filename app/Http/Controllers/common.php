@@ -1359,7 +1359,7 @@ class common extends Controller
                 $teacher_info['teacher_ref_type'] = 32;
                 $teacher_info['send_sms_flag']    = 0;
                 $teacher_info['wx_use_flag']      = 0;
-                $teacher_info['use_easy_pass']    = 0;
+                $teacher_info['use_easy_pass']    = 2;
 
                 $data = $this->add_teacher_common($teacher_info);
                 if(!$data || !is_int($data)){
@@ -1373,7 +1373,6 @@ class common extends Controller
                         $ret = $this->t_teacher_info->field_update_list($teacherid_old, [
                             "wx_openid" => $wx_openid
                         ]);
-
                     }else{
                         return $this->output_err($data);
                     }

@@ -325,11 +325,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         // $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
         if($teacherid>0){
-            $where_arr=[array( "teacherid=%u", $teacherid, -1 )];
+            $where_arr[]=[array( "teacherid=%u", $teacherid, -1 )];
         }
         if ($address) {
             $address=$this->ensql($address);
-            $where_arr=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
+            $where_arr[]=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
                         ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
                         ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
                         ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')"];
@@ -4657,7 +4657,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
-                                  ." where %s "
+                                  ." where %s limit 1"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

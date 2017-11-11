@@ -714,6 +714,7 @@ class teacher_money extends Controller
     }
 
     public function teacher_salary_list(){
+        $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
         $reference = $this->get_in_int_val("reference",-1);
         if($reference>0){
@@ -737,6 +738,9 @@ class teacher_money extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "all_money" => $all_money,
             "all_money_tax" => $all_money_tax,
+            "acc" => $acc,
+            "start_time" => $start_time,
+            "end_time" => $end_time
         ]);
     }
 
