@@ -987,6 +987,7 @@ class user_manage_new extends Controller
         //$this->set_filed_for_js("userid_flag",999);
         return $this->money_contract_list();
     }
+
     public function money_contract_list () {
         $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
@@ -1029,7 +1030,7 @@ class user_manage_new extends Controller
         $order_count = 0;
         $userid_map  = [];
         foreach($ret_list['list'] as &$item ){
-            E\Ecan_period_flag::set_item_value_str($item);
+            $item["can_period_flag_str"] = \App\Helper\Common::get_boolean_color_str( $item["can_period_flag"]);
             if(empty($item["lesson_start"]) && $item["order_time"] < strtotime(date("2016-11-01")) && $item["contract_type"]==0){
                 $userid= $item["userid"];
                 $item["lesson_start"] = $this->t_lesson_info->get_user_test_lesson_start($userid,$item["order_time"]);
