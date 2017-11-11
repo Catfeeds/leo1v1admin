@@ -235,6 +235,7 @@ class supervisor extends Controller
             $lessonid=$item["lessonid"];
             $old_row=@$current_monitor_list[$lessonid];
             if($old_row) {
+                /*
                 foreach ($old_row as $o_k => $o_v) {
                     if(@$item[$o_k ] <>$o_v ) {
                         \App\Helper\Utils::logger("diff $o_k=> $o_v ");
@@ -246,8 +247,8 @@ class supervisor extends Controller
                         unset  ($item[$o_k] );
                     }
                 }
+                */
             }else{
-                \App\Helper\Utils::logger("diff not find lessonid:$lessonid");
                 $reload_flag=true;
             }
 
