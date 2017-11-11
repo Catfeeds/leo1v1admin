@@ -322,6 +322,7 @@ class seller_student_new2 extends Controller
             if(is_numeric($item["parent_name"]) && strlen($item["parent_name"])==11){
                 $item["parent_name"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['parent_name']);
             }
+            $item["rebut_info"] = $this->get_rebut_info( $item["rebut_info"]);
 
         }
 

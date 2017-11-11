@@ -9,8 +9,8 @@ class activity_2017111003  extends  activity_config_base {
         parent::__construct($args);
 
         //2017-1110-12 ,CR,90次, 全款, 送9次  
-        $this->date_range=[ "2017-11-10"  , "2017-11-11"];
-        $this->period_flag_list= [ E\Eperiod_flag::V_0   ];
+        $this->date_range=[ "2017-11-10"  , "2017-11-12"];
+        $this->period_flag_list= [ E\Eperiod_flag::V_0  , E\Eperiod_flag::V_1  ];
         $this->contract_type_list = [ E\Econtract_type::V_3 ];
         $this->lesson_times_range=[90,90];
 
