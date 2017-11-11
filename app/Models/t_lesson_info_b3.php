@@ -1699,7 +1699,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_tea_lesson_info($lesson_start, $lesson_end,$teacherid){
 
         $where_arr = [
-            "l.lesson_type = 0",
+            "l.lesson_type in (0,1,3)",
             "l.teacherid = $teacherid",
             "l.lesson_del_flag=0",
         ];
