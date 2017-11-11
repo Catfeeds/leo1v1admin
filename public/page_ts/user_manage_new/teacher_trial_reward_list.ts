@@ -52,6 +52,8 @@ $(function(){
         id_money_info.val(data.money_info);
         id_money.val(data.money);
         id_add_time.val(data.add_time_str);
+        alert(data.pay_time);
+
 
         var arr = [
             ["奖励老师",id_teacherid],
