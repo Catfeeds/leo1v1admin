@@ -709,9 +709,9 @@ class main_page extends Controller
 
     public  function assistant() {
         $this->switch_tongji_database();
-        /*return $this->error_view([
-            "关闭首页统计,请看其它."
-            ]);*/
+        // return $this->error_view([
+        //     "关闭首页统计,请看其它."
+        // ]);
 
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
@@ -1658,6 +1658,7 @@ class main_page extends Controller
         return $this->zs_teacher();
     }
     public function zs_teacher_new(){
+        dd("暂停!");
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 

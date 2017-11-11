@@ -1,24 +1,28 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use \App\Http\Controllers\Controller;
 use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 
 require_once  app_path("Libs/Pingpp/init.php");
 
-class test extends Controller
+class test_a extends Controller
 {
+
+
+
+
     var $check_login_flag =false;
 
     public function tt() {
-        phpinfo();
+        //$this->check_login_flag
+
     }
 
     public function t() {
         //app_path("/Libs/xx/init.php"); 
-        $this->
 
         $objReader = \PHPExcel_IOFactory::createReader('Excel2003XML');
         $objPHPExcel = $objReader->load("/tmp/001.xls");
