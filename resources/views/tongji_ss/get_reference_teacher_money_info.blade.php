@@ -27,12 +27,12 @@
                 @foreach ( $list as $k=>$var )
                     <tr>
                         <td>{{@$k}} </td>     
-                        <td>{{@$var["tea_num"]}} </td>                           
-                        <td>{{@$var["lesson_count"]/100}} </td>                           
-                        <td>{{@$var["cc_per"]}} </td>                           
-                        <td>{{@$var["cr_per"]}} </td>                           
+                        <td class="tea_num"> </td>                           
+                        <td class="lesson_count"></td>                           
+                        <td class="cc_per"> </td>                           
+                        <td class="cr_per"></td>                           
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["tea_num"]}}" >
+                            <div class="row-data" data-teacherid="{{$var["start_time"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
