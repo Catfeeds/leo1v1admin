@@ -104,9 +104,10 @@ class assistant_performance extends Controller
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
-        $start_time = strtotime("2017-05-01");
-        $end_time = strtotime("2017-11-01");
+        // $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-09-01");
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
 
         // //销售月拆解
         // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
@@ -187,7 +188,6 @@ class assistant_performance extends Controller
                     $refund_money +=$val["price"]; 
                 }
             }
-            echo $refund_money."<br>";
              
 
 

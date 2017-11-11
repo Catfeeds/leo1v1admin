@@ -61,7 +61,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
             $tea_lesson_info = $t_lesson_info_b3->get_tea_lesson_info($this->lesson_start, $this->lesson_end,$item['teacherid']);
             $keyword1 = '';
             foreach($tea_lesson_info as $i=> $v){
-                $keyword1 .=$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d',$v['lesson_start'])."~".date('Y-m-d',$v['lesson_end']);
+                $i++;
+                $keyword1 .="\n".$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d H:i',$v['lesson_start'])."~".date('Y-m-d H:i',$v['lesson_end']);
             }
 
             $data_tea = [
@@ -94,7 +95,8 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
             $par_lesson_info = $t_lesson_info_b3->get_par_lesson_info($this->lesson_start, $this->lesson_end,$item['parentid']);
             $keyword1 = '';
             foreach($par_lesson_info as $i=> $v){
-                $keyword1 .=$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d',$v['lesson_start'])."~".date('Y-m-d',$v['lesson_end']);
+                $i++;
+                $keyword1 .="\n".$i."、".E\Esubject::get_desc($v['subject'])." - ".$v['nick']."-".date('Y-m-d H:i',$v['lesson_start'])."~".date('Y-m-d H:i',$v['lesson_end']);
             }
 
             $ass_phone = $t_assistant_info->get_phone($item['assistantid']);
