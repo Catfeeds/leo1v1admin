@@ -2200,9 +2200,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
 
         if( $adminid > 0 ) {
-            $where_arr[] = "t.auto_allot_adminid in (0,$adminid)";
+            $where_arr[] = "n.auto_allot_adminid in (0,$adminid)";
         } else {
-            $where_arr[] = 't.auto_allot_adminid = 0';
+            $where_arr[] = 'n.auto_allot_adminid = 0';
         }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 
