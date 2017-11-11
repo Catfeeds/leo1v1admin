@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript">
+        var g_data = <?php echo json_encode(['start_time'=>date('Y-m-e',$start_time),'end_time'=>date('Y-m-d',$end_time)]);?>
+    </script>
     <section class="content ">
         <div>
             <div class="row">
@@ -68,7 +71,9 @@
                                 >
                                     <a class="fa fa-list opt-show" title="明细"></a>
                                     <a class="fa fa-user opt-tea" title="老师"></a>
-                                    <a class="fa fa-edit opt-edit" title="修改工资发放"></a>
+                                    @if($acc == 'ricky' && $acc == 'sunny')
+                                        <a class="fa fa-edit opt-edit" title="修改工资发放"></a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

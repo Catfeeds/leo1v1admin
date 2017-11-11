@@ -4238,7 +4238,9 @@ class tongji_ss extends Controller
     }
 
     public function research_teacher_lesson_detail_info(){
-        //echo "还在开发中,请等待!";
+        // echo "还在开发中,请等待!";
+        // echo "暂停使用";
+        // return;
 
         $this->t_lesson_info->switch_tongji_database();
         $this->t_course_order->switch_tongji_database();
@@ -8133,7 +8135,7 @@ class tongji_ss extends Controller
         // dd($list);
 
         $arr=[];
-        for($i=6;$i<=7;$i++){
+        for($i=1;$i<=10;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);
@@ -8141,36 +8143,37 @@ class tongji_ss extends Controller
             $date= date("m",$start_time);
 
 
-            $list = $this->t_lesson_info_b3->get_teacher_list_by_time_new($start_time,$end_time);
-            $lesson_count=0;$tea_arr=[];
-            foreach($list as $val){
-                $lesson_count +=$val["lesson_total"];
-                $tea_arr[$val["teacherid"]]=$val["teacherid"];
+            // $list = $this->t_lesson_info_b3->get_teacher_list_by_time_new($start_time,$end_time);
+            // $lesson_count=0;$tea_arr=[];
+            // foreach($list as $val){
+            //     $lesson_count +=$val["lesson_total"];
+            //     $tea_arr[$val["teacherid"]]=$val["teacherid"];
                 
-            }
-            $tea_num = count($tea_arr);
+            // }
+            // $tea_num = count($tea_arr);
 
-            $cc_num=$cc_order=$cr_num=$cr_order=0;
-            $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
-            foreach($cc_list as $val){
-                $cc_num +=$val["person_num"];
-                $cc_order +=$val["have_order"];
-            }
-            $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
-            $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
+            // $cc_num=$cc_order=$cr_num=$cr_order=0;
+            // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+            // foreach($cc_list as $val){
+            //     $cc_num +=$val["person_num"];
+            //     $cc_order +=$val["have_order"];
+            // }
+            // $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
+            // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
             
-            foreach($cr_list as $val){
-                $cr_num +=$val["person_num"];
-                $cr_order +=$val["have_order"];
-            }
-            $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
+            // foreach($cr_list as $val){
+            //     $cr_num +=$val["person_num"];
+            //     $cr_order +=$val["have_order"];
+            // }
+            // $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
 
 
             $arr[$date]=[
-                "tea_num" =>$tea_num,
-                "lesson_count"=>$lesson_count,
-                "cc_per"=>$cc_per,
-                "cr_per"=>$cr_per
+                "start_time"=>$start_time,
+                // "tea_num" =>$tea_num,
+                // "lesson_count"=>$lesson_count,
+                // "cc_per"=>$cc_per,
+                // "cr_per"=>$cr_per
             ];
             
         }

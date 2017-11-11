@@ -1336,7 +1336,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $where_arr[] = ['n.userid =%u',$userid];
             }
         }else{
-            $where_arr[] = "n.free_time+432000<unix_timestamp(now())";
+            // $new_time = time(null)-432000;
+            // $where_arr[] = "n.free_time<$new_time";
+            // $where_arr[] = ['n.free_time<%u',$new_time];
+            // $this->where_arr_add_time_range($where_arr,'n.free_time',$new_time-3600*24*60,$new_time);
         }
         if($phone_location){
             $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
@@ -1372,7 +1375,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if($nick || $phone) {
             return $this->main_get_list_as_page($sql);
         }else{
-            return $this->main_get_page_random($sql,5);
+            return $this->main_get_page_random($sql,1);
         }
     }
 

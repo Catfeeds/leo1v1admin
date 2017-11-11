@@ -38,12 +38,14 @@ $(function(){
                         do_one();
                         });*/
                     $.do_ajax("/ajax_deal2/get_three_month_stu_num",{
-                        "phone"       : teacherid
+                        "start_time"       : teacherid
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".realname").text(data.realname); 
-                        $tr.find(".tea_phone").text(data.tea_phone); 
+                        $tr.find(".cc_per").text(data.cc_per); 
+                        $tr.find(".cr_per").text(data.cr_per); 
+                        $tr.find(".tea_num").text(data.tea_num); 
+                        $tr.find(".lesson_count").text(data.lesson_count); 
                                               
                         
                         do_index++;

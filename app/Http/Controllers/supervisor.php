@@ -237,9 +237,8 @@ class supervisor extends Controller
             if($old_row) {
                 /*
                 foreach ($old_row as $o_k => $o_v) {
-                    if(@$item[$o_k ] <>$o_v ) {
+                    if(@$item[$o_k ] <> $o_v ) {
                         \App\Helper\Utils::logger("diff $o_k=> $o_v ");
-
 
                         $reload_flag=true ;
                     }
@@ -268,7 +267,7 @@ class supervisor extends Controller
         $cond_list = $ret_info['list'];
         return $this->output_succ( [
             'condition_list' => $cond_list,
-            "reload_flag"    => $reload_flag ,
+            "reload_flag"    => false ,
             "lesson_count"   => count($cond_list),
         ] );
 
