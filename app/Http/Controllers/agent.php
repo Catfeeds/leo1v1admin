@@ -465,6 +465,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_seller_student_new->get_huiliu_list();
+        dd($ret);
         $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($adminid=445,$userid=288907);
         dd($add_time);
         if($add_time>0){

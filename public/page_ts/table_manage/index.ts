@@ -69,13 +69,14 @@ $(function(){
         }
     });
 
-    
     $(".opt-field-comment").on("click",function(){
         var db_name    = $("#id_db_name").val();
         var table_name = $("#id_table_name").val();
         var field      = $(this).get_opt_data("field") ;
+        var comment    = $(this).get_opt_data("comment") ;
         var id_desc    = $("<input/>");
 
+        id_desc.val(comment);
         $.show_key_value_table("修改列备注", [
             ["列名", field  ],
             ["备注", id_desc ]
@@ -92,7 +93,10 @@ $(function(){
         var db_name    = $("#id_db_name").val();
         var table_name = $("#id_table_name").val();
         var field      = $(this).get_opt_data("field");
-        change_field_comment(db_name,table_name,field,"无用");
+        var comment    = $(this).get_opt_data("comment");
+
+        var new_comment = comment+" 无用";
+        change_field_comment(db_name,table_name,field,new_comment);
     });
 
 

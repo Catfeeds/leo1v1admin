@@ -234,6 +234,16 @@ class get_ass_stu_info_update extends Command
             $item["registered_student_list"] = @$registered_userid_list[$k];//月末在册学生名单
             $item["all_ass_stu_num"]         = @$stu_info_all[$k]["all_stu_num"];//所有学员数量
 
+            $list_refund = $task->t_order_refund->get_ass_refund_info_new($start_time,$end_time,$k);
+            $refund_money=0;
+            foreach($list_refund as $vall){
+                if($vall["value"]=="助教部" && $vall["score"]>0){
+                    $refund_money +=$vall["real_refund"];
+                }
+                
+            }
+
+
 
 
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
@@ -277,7 +287,8 @@ class get_ass_stu_info_update extends Command
 
                     "stop_student_list"       =>$item["stop_student_list"],
                     "registered_student_list" =>$item["registered_student_list"],
-                    "all_ass_stu_num"         =>$item["all_ass_stu_num"]
+                    "all_ass_stu_num"         =>$item["all_ass_stu_num"],
+                    "ass_refund_money"        => $refund_money
 
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
@@ -323,7 +334,8 @@ class get_ass_stu_info_update extends Command
 
                     "stop_student_list"       =>$item["stop_student_list"],
                     "registered_student_list" =>$item["registered_student_list"],
-                    "all_ass_stu_num"         =>$item["all_ass_stu_num"]
+                    "all_ass_stu_num"         =>$item["all_ass_stu_num"],
+                    "ass_refund_money"        => $refund_money
                 ]);
 
             }
