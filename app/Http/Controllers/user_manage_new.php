@@ -996,6 +996,7 @@ class user_manage_new extends Controller
 
         $config_courseid = -1;
         $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
+        $can_period_flag    =  $this->get_in_int_val("can_period_flag",-1);
         $studentid       = $this->get_in_studentid(-1);
 
         $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
@@ -1022,12 +1023,13 @@ class user_manage_new extends Controller
             $page_num,$start_time,$end_time,$contract_type,$contract_status,
             $studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,
             $check_money_flag,-1,$origin,$from_type,$sys_operator,
-            $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",  "order_time desc" );
-
+            $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",
+            "order_time desc",-1,-1,-1,$can_period_flag);
         $money_all   = 0;
         $order_count = 0;
         $userid_map  = [];
         foreach($ret_list['list'] as &$item ){
+            E\Ecan_period_flag::set_item_value_str($item);
             if(empty($item["lesson_start"]) && $item["order_time"] < strtotime(date("2016-11-01")) && $item["contract_type"]==0){
                 $userid= $item["userid"];
                 $item["lesson_start"] = $this->t_lesson_info->get_user_test_lesson_start($userid,$item["order_time"]);

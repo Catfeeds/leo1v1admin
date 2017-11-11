@@ -16,8 +16,8 @@ function load_data(){
         is_test_user:	$('#id_is_test_user').val(),
         need_receipt:	$('#id_need_receipt').val(),
         account_role: $("#id_account_role").val(),
-    userid_stu:	$('#id_userid_stu').val()
-
+        userid_stu:	$('#id_userid_stu').val(),
+        can_period_flag:	$('#id_can_period_flag').val(),
     });
 }
 
@@ -38,6 +38,7 @@ $(function(){
     Enum_map.append_option_list( "contract_from_type", $("#id_from_type"));
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
+    Enum_map.append_option_list("can_period_flag",$("#id_can_period_flag"));
     Enum_map.append_option_list("boolean",$("#id_is_test_user"));
     Enum_map.append_option_list("boolean",$("#id_need_receipt"));
 
@@ -48,6 +49,7 @@ $(function(){
     $("#id_studentid").val(g_args.studentid);
     $("#id_check_money_flag").val(g_args.check_money_flag );
     $('#id_is_test_user').val(g_args.is_test_user);
+    $('#id_can_period_flag').val(g_args.can_period_flag);
     $("#id_origin").val(g_args.origin);
     $("#id_from_type").val(g_args.from_type);
     $("#id_contract_type").val(g_args.contract_type);
