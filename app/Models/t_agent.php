@@ -1145,8 +1145,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $p_open_price= $p_price*0.2;
                     $pp_open_price= $pp_price*0.2;
                 }
-
-
+                
+                //插入一级佣金记录
+                if($p_open_price > 0){
+                    $agent_income_type = E\Eagent_income_type::V_L1_CHILD_COMMISSION_INCOME;
+                    $this->task->t_agent_income_log->insert_commission_reward_log($pid,$id,$p_open_price,$agent_income_type);
+                }
+                //插入二级佣金奖励
+                if($pp_open_price > 0){
+                    $agent_income_type = E\Eagent_income_type::V_L2_CHILD_COMMISSION_INCOME;
+                    $this->task->t_agent_income_log->insert_commission_reward_log($ppid,$id,$pp_open_price,$agent_income_type);
+                }
 
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
@@ -1275,12 +1284,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ]);
                 }
                 $order_count+=1;
+                //添加收入记录
+                $agent_income_type = E\Eagent_income_type::V_L2_CHILD_INVITE_INCOME;
+                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['pp_agent_status_money'],$agent_income_type);
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
                         "id" => $child_id,
                         "pp_agent_status_money_open_flag" =>$pp_agent_status_money_open_flag,
                     ];
+                    //添加收入记录
+                    $agent_income_type = E\Eagent_income_type::V_L2_CHILD_INVITE_INCOME;
+                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['pp_agent_status_money'],$agent_income_type);
                 }else{
                     if ($pp_agent_status_money_open_flag !=0 ) { //没有开放
                         $this->field_update_list($child_id,[
@@ -1341,12 +1356,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ]);
                 }
                 $order_count+=1;
+                //添加收入记录
+                $agent_income_type = E\Eagent_income_type::V_L1_CHILD_INVITE_INCOME;
+                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['agent_status_money'],$agent_income_type);
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
                         "id" => $child_id,
                         "agent_status_money_open_flag" =>$agent_status_money_open_flag,
                     ];
+                    //添加收入记录
+                    $agent_income_type = E\Eagent_income_type::V_L1_CHILD_INVITE_INCOME;
+                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['agent_status_money'],$agent_income_type);
+
                 }else{
                     if ($agent_status_money_open_flag !=0 ) { //没有开放
                         $this->field_update_list($child_id,[

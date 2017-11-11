@@ -17,6 +17,16 @@ class t_agent_cash_money_freeze extends \App\Models\Zgen\z_t_agent_cash_money_fr
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取优学优享提现申请
+    //@param:$id 申请订单id
+    public function get_freeze_reason($id){
+        $sql = $this->gen_sql_new(
+            'select * from %s where agent_cash_id = %u ',
+            self::DB_TABLE_NAME,
+            $id
+        );
+        return $this->main_get_row($sql);
+    }
 
 }
 

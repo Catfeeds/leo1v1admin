@@ -155,6 +155,7 @@ class self_manage extends Controller
         if ($flow_check_flag== E\Eflow_check_flag::V_PASS ) {
             $ret=\App\Flow\flow_base::do_flow_pass($nodeid,$flow_check_flag, $check_msg );
             if($ret) {
+                if()
                 return $this->output_succ();
             }else{
                 return $this->output_err("下个审批人不存在");

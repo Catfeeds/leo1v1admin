@@ -119,6 +119,8 @@
                                 <a class="fa-gavel opt-money-check " title="财务确认" ></a>
                                 <!--  <a class="fa fa-times opt-del" title="删除"> </a> -->
                                 <a class="fa fa-hourglass-2 opt-freeze" title="冻结"> </a>
+                                <a class="fa fa-sticky-note-o opt-freeze_reason" title="冻结原因"> </a>
+                                <a class="fa fa-send-o opt-money_detail" title="体现金额来源明细"> </a>
                                 
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>

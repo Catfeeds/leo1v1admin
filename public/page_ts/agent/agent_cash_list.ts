@@ -75,6 +75,33 @@ $(function(){
             }
         })
     });
+    //@desn:获取冻结原因
+    $(".opt-freeze_reason").on('click',function(){
+        var opt_data = $(this).get_opt_data();
+        $.do_ajax("/agent/get_freeze_reason/",{
+            'id':opt_data.id,
+        },function(ret){
+            if(ret.freeze_reason  == -1){
+                alert('该条申请不存在冻结金额!');
+            }else{
+                var arr = [
+                    ['冻结订单id',ret.freeze_reason.agent_cash_id],
+                    ['冻结金额',ret.freeze_reason.freeze_money],
+                    ['操作人',ret.freeze_reason.admin_account],
+                    ['冻结时间',ret.freeze_reason.create_time],
+                    ['冻结类型',ret.freeze_reason.agent_freeze_type_str],
+                    ['违规学员手机号',ret.freeze_reason.phone],
+                ];
+                if(ret.freeze_reason.agent_freeze_type_str != null)
+                    arr.push(['活动类型',ret.freeze_reason.agent_money_ex_type_str]);
+                if(ret.freeze_reason.agent_activity_time != null)
+                    arr.push(['活动时间',ret.freeze_reason.agent_activity_time]);
+
+                show_key_value_table("冻结原因",arr );
+                return false;
+            }
+        });
+    });
 
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -175,4 +202,43 @@ $(function(){
     });
 
     $('#id_check_money_admin_nick').set_input_change_event(load_data);
+    function show_key_value_table(title,arr ,btn_config,onshownfunc){
+        var table_obj = $("<table class=\"table table-bordered table-striped\"><tr><thead><td style=\"text-align:right;\">属性  </td>  <td> 值 </td> </thead></tr></table>");
+
+        $.each(arr , function( index,element){
+            var row_obj=$("<tr> </tr>" );
+            var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
+            var v=element[0] ;
+            td_obj.append(v);
+            row_obj.append(td_obj);
+            td_obj=$( "<td ></td>" );
+
+            td_obj.append( element[1] );
+            row_obj.append(td_obj);
+            table_obj.append(row_obj);
+        });
+        var all_btn_config=[{
+            label: '返回',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }];
+        if (btn_config){
+            if($.isArray( btn_config)){
+                $.each(btn_config ,function(){
+                    all_btn_config.push(this);
+                });
+            }else{
+                all_btn_config.push(btn_config );
+            }
+        }
+
+        BootstrapDialog.show({
+            title    : title,
+            message  : table_obj ,
+            closable : true,
+            buttons  : all_btn_config ,
+            onshown  : onshownfunc
+        });
+    }
 });

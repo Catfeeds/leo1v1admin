@@ -2063,21 +2063,7 @@ class agent extends Controller
     public function get_freeze_reason(){
         $id = $this->get_in_id();
         $item = $this->t_agent_cash_money_freeze->get_freeze_reason($id);
-        if($item){
-            $item['freeze_money'] /= 100;
-            $item['admin_account'] = $this->t_manager_info->get_account_by_uid($item['adminid']);
-            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
-            E\Eagent_freeze_type::set_item_value_str($item,'agent_freeze_type');
-            E\Eagent_money_ex_type::set_item_value_str($item,'agent_money_ex_type');
-            \App\Helper\Utils::unixtime2date_for_item($item,'agent_activity_time');
-        
-            return $this->output_succ([
-                'freeze_reason' => $item,
-            ]);
-        }else{
-            return $this->output_succ([
-                'freeze_reason' => -1,
-            ]);
-        }
+        $item['freeze_money'] /= 100;
+        $item['admin_accoutn'] = $this->t_manager_info->get_account_by_uid($uid);
     }
 }
