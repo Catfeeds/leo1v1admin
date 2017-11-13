@@ -85,7 +85,9 @@ $(function(){
                 tickLength: 0
             },
             yaxis:{
-
+                min: 0,
+                max: 100,
+                tickSize: 10,        
             },
             grid: {
                 hoverable: true,
