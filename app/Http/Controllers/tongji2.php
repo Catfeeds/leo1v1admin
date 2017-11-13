@@ -1512,7 +1512,7 @@ class tongji2 extends Controller
     }
 
     public function subject_transfer(){
-        list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
+        //list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
         /*
         $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
@@ -1529,7 +1529,9 @@ class tongji2 extends Controller
         //dd(2);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
         */
-
+        $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
+        $end_time   = $this->get_in_end_time_from_str_next_day(
+            date("Y-m-d",(strtotime(date("Y-m-01",time(NULL)))-86400)));
 
         $first_time  = strtotime(date('Y-m-01',$start_time));
         $second_time = strtotime(date('Y-m-01',$end_time));

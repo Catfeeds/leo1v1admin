@@ -15,8 +15,12 @@
 
         <div>
             <div class="row  row-query-list" >
-                <div class="col-xs-12 col-md-5"  data-title="时间段">
-                    <div  id="id_date_range" >
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group ">
+                        <span >时间:</span>
+                        <input type="text" id="id_start_time" class="opt-change"/>
+                        <span >-</span>
+                        <input type="text" id="id_end_time" class="opt-change"/>
                     </div>
                 </div>
 
