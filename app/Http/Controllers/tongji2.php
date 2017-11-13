@@ -1539,7 +1539,7 @@ class tongji2 extends Controller
         //$start_time = $this->get_in_start_time_from_str(date("Y-m-01",time(NULL)-15*86400));
         $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
         $end_time   = $this->get_in_end_time_from_str(
-            date("Y-m-d",(strtotime(date("Y-m-01",time(NULL))))));
+            date("Y-m-d",time(NULL)));
 
         $first_time  = strtotime(date('Y-m-01',$start_time));
         $second_time = strtotime(date('Y-m-01',$end_time));
