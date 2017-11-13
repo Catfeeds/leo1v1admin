@@ -398,10 +398,15 @@ class table_manage extends Controller
         //$arr= @json_decode(file_get_contents( "http://tool.lu/sql/ajax.html?code=". urlencode($format_sql)  ),true);
         //$new_format_sql= @$arr["text"];
         */
+        $file_name="/tmp/sql.".rand().rand() ;
+        file_put_contents($file_name, $format_sql );
+        $cmd= "fsqlf $file_name";
+        $format_sql=\App\Helper\Utils::exec_cmd($cmd);
+        unlink($file_name);
 
         return $this->pageView(__METHOD__, $ret_info, [
             "col_name_list"=>$col_name_list,
-            "format_sql"=>"" 
+            "format_sql"=>$format_sql
         ]);
     }
     public function get_nick_sql(){
@@ -417,10 +422,13 @@ class table_manage extends Controller
                 }
             }
         }
+        $file_name="/tmp/sql.".rand().rand() ;
+        file_put_contents($file_name, $format_sql );
+        $cmd= "fsqlf $file_name";
+        $new_format_sql=\App\Helper\Utils::exec_cmd($cmd);
+        unlink($file_name);
 
-        $url= "http://www.atool.org/include/SqlFormatter.php";//?o=1&c=". base64_encode($format_sql);
-        $arr=\App\Helper\Net::rpc($url,["o"=>1, "c"=>base64_encode($format_sql)  ] );
-        $new_format_sql= @$arr["c"];
+
         return $this->output_succ(["format_sql"=>$new_format_sql ]);
     }
 

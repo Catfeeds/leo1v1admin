@@ -96,7 +96,8 @@
 
         <hr/>
         <pre>
-            <code class="sql" id="id_nice_sql" ></code>
+            <code class="sql" id="id_nice_sql" > {{$format_sql}} </code>
+
         </pre>
 
 @endsection
