@@ -14,7 +14,7 @@
 
 
         <div>
-            <div class="row  row-query-list" >
+            <div class="row  " >
                 <div class="col-xs-12 col-md-4">
                     <div class="input-group ">
                         <span >时间:</span>
@@ -23,7 +23,6 @@
                         <input type="text" id="id_end_time" class="opt-change"/>
                     </div>
                 </div>
-
             </div>
         </div>
         <hr/>
