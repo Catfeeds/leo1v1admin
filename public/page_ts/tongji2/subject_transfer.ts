@@ -3,27 +3,19 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    var start_time = $("#id_start_time").val();
+    var end_time   = $("#id_end_time").val();
     $.reload_self_page ( {
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val()
+		    "start_time" : start_time,
+            "end_time" : end_time,
     });
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+
+    $('#id_start_time').val(g_args.start_time);
+    $('#id_end_time').val(g_args.end_time);
     $("#id_pic_user_count").css({
         "height"  : "400px",
         "width"  : "95%"

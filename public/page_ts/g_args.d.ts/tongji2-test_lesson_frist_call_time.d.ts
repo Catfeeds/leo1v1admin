@@ -50,21 +50,22 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji2-test_lesson_frist_call_time.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		master_flag:	$('#id_master_flag').val(),
+		lesson_user_online_status:	$('#id_lesson_user_online_status').val(),
+		test_assess_flag:	$('#id_test_assess_flag').val(),
+		order_by_str:	$('#id_order_by_str').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			master_flag:	$('#id_master_flag').val(),
-			lesson_user_online_status:	$('#id_lesson_user_online_status').val(),
-			test_assess_flag:	$('#id_test_assess_flag').val(),
-			order_by_str:	$('#id_order_by_str').val()
-        });
-    }
 
 	Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
 	Enum_map.append_option_list("set_boolean",$("#id_test_assess_flag"));

@@ -29,12 +29,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new2-seller_get_new_count_admin_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		adminid:	$('#id_adminid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			adminid:	$('#id_adminid').val()
-        });
-    }
 
 
 	$('#id_adminid').val(g_args.adminid);
