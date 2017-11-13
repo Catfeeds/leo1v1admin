@@ -11,20 +11,19 @@ use Illuminate\Support\Facades\Redis ;
 
 class wx_token extends Controller
 {
-    var $appid="wx636f1058abca1bc1";
-    var $appsecret="756ca8483d61fa9582d9cdedf202e73e";
-    var $check_login_flag =false;
+    var $appid            = "wx636f1058abca1bc1";
+    var $appsecret        = "756ca8483d61fa9582d9cdedf202e73e";
+    var $check_login_flag = false;
 
     public function get_token() {
-        $appid=$this->appid;
-        $appsecret=$this->appsecret;
-
-        \App\Helper\Utils::logger(  "SEND_QQAPI 3333" );
+        $appid     = $this->appid;
+        $appsecret = $this->appsecret;
 
         $json_data=file_get_contents( "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret"  );
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
         return $ret_arr["access_token"] ;
     }
+
     public function get_token_from_code($code) {
         $appid=$this->appid;
         $appsecret=$this->appsecret;
