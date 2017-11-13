@@ -1538,16 +1538,15 @@ class tongji2 extends Controller
         $this->get_in_int_val( "english",1);
         //$start_time = $this->get_in_start_time_from_str(date("Y-m-01",time(NULL)-15*86400));
         $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
-        $end_time   = $this->get_in_end_time_from_str_next_day(
-            date("Y-m-d",(strtotime(date("Y-m-01",time(NULL)))-86400)));
+        $end_time   = $this->get_in_end_time_from_str(
+            date("Y-m-d",(strtotime(date("Y-m-01",time(NULL))))));
 
         $first_time  = strtotime(date('Y-m-01',$start_time));
         $second_time = strtotime(date('Y-m-01',$end_time));
-
         $i = $first_time;
         $montharr = [];
         while($i  <= $second_time){
-            $montharr[] = date('Y-m-01',$i);
+            $montharr[] = date('Y-m-01',$i);                                                                     
             $i = strtotime('+1 month', $i);
         }
         $i = 0;
