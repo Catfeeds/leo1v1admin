@@ -157,14 +157,6 @@ $(function(){
 
 
 
-    $(" .opt-reset-spec-diff-money ").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        $.do_ajax("/ajax_deal/order_reset_diff_money",{
-            "orderid" : opt_data.orderid
-        });
-
-    });
-
 
 
 

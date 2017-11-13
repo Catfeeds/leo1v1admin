@@ -420,6 +420,8 @@ class table_manage extends Controller
 
         $url= "http://www.atool.org/include/SqlFormatter.php";//?o=1&c=". base64_encode($format_sql);
         $arr=\App\Helper\Net::rpc($url,["o"=>1, "c"=>base64_encode($format_sql)  ] );
+        \App\Helper\Utils::logger("RET:".json_encode($arr ));
+
         $new_format_sql= @$arr["c"];
         return $this->output_succ(["format_sql"=>$new_format_sql ]);
     }

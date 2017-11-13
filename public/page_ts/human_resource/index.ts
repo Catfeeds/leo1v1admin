@@ -1927,7 +1927,6 @@ $(function(){
                 })
             }
         });
-
     }
 
     $(".opt-regular-lesson-detele-list").on("click",function(){

@@ -4238,7 +4238,9 @@ class tongji_ss extends Controller
     }
 
     public function research_teacher_lesson_detail_info(){
-        //echo "还在开发中,请等待!";
+        // echo "还在开发中,请等待!";
+        // echo "暂停使用";
+        // return;
 
         $this->t_lesson_info->switch_tongji_database();
         $this->t_course_order->switch_tongji_database();
@@ -8121,19 +8123,61 @@ class tongji_ss extends Controller
         // $end_time = strtotime("2017-11-01");
         // $grade = $this->get_in_int_val("grade",1);
         // $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
-        $list = $this->t_teacher_info->get_part_remarks(240314);
-        $arr= explode(",",$list);
-        $ret_info=[];
-        foreach($arr as  $val){
-            $ret_info[]=["phone"=>$val];
-        }
+        // $list = $this->t_teacher_info->get_part_remarks(240314);
+        // $arr= explode(",",$list);
+        // $ret_info=[];
+        // foreach($arr as  $val){
+        //     $ret_info[]=["phone"=>$val];
+        // }
         // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
         // $list = $this->t_teacher_info->get_teacher_openid_list_new();
         //$list["list"][]=["teacherid"=>240314,"realname"=>"hahah","wx_openid"=>1111];
         // dd($list);
 
+        $arr=[];
+        for($i=1;$i<=10;$i++){
 
-       // $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
+            $time =strtotime("2016-12-01");
+            $start_time=strtotime("+".$i." month",$time);
+            $end_time = strtotime("+".($i+1)." month",$time);
+            $date= date("m",$start_time);
+
+
+            // $list = $this->t_lesson_info_b3->get_teacher_list_by_time_new($start_time,$end_time);
+            // $lesson_count=0;$tea_arr=[];
+            // foreach($list as $val){
+            //     $lesson_count +=$val["lesson_total"];
+            //     $tea_arr[$val["teacherid"]]=$val["teacherid"];
+                
+            // }
+            // $tea_num = count($tea_arr);
+
+            // $cc_num=$cc_order=$cr_num=$cr_order=0;
+            // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+            // foreach($cc_list as $val){
+            //     $cc_num +=$val["person_num"];
+            //     $cc_order +=$val["have_order"];
+            // }
+            // $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
+            // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
+            
+            // foreach($cr_list as $val){
+            //     $cr_num +=$val["person_num"];
+            //     $cr_order +=$val["have_order"];
+            // }
+            // $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
+
+
+            $arr[$date]=[
+                "start_time"=>$start_time,
+                // "tea_num" =>$tea_num,
+                // "lesson_count"=>$lesson_count,
+                // "cc_per"=>$cc_per,
+                // "cr_per"=>$cr_per
+            ];
+            
+        }
+        
        //  foreach($list["list"] as $k=>&$item){
        //      /* if($item['grade_start']>0){
        //          $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
@@ -8150,7 +8194,7 @@ class tongji_ss extends Controller
 
        //  }
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$ret_info
+            "list"  =>$arr
         ]);
 
         // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));

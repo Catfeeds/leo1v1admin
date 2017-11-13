@@ -384,7 +384,11 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td> <input type="checkbox" class="opt-select-item" data-userid="{{$var["userid"]}}"/>   {{$var["index"]}} </td>
+                        <td>
+                            @if($var['auto_allot_adminid'] == 0)
+                                <input type="checkbox" class="opt-select-item" data-userid="{{$var["userid"]}}"/>   {{$var["index"]}}
+                            @endif
+                        </td>
                         <td>{{$var["opt_time"]}} </td>
                         <td>{{$var["phone"]}} </td>
                         <td>

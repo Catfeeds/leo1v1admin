@@ -5,6 +5,7 @@ interface GargsStatic {
 	contract_type:	number;
 	contract_status:	string;//枚举列表: \App\Enums\Econtract_status
  	is_test_user:	number;//App\Enums\Eboolean
+	can_period_flag:	number;
 	studentid:	number;
 	check_money_flag:	number;
 	origin:	string;
@@ -97,6 +98,8 @@ interface RowData {
 	pre_price	:any;
 	order_set_name	:any;
 	hand_get_adminid	:any;
+	can_period_flag	:any;
+	can_period_flag_str	:any;
 	order_time_1_day_flag	:any;
 	check_money_time_1_day_flag	:any;
 	order_time_1_day_flag_str	:any;
@@ -133,6 +136,7 @@ function load_data(){
 		contract_type:	$('#id_contract_type').val(),
 		contract_status:	$('#id_contract_status').val(),
 		is_test_user:	$('#id_is_test_user').val(),
+		can_period_flag:	$('#id_can_period_flag').val(),
 		studentid:	$('#id_studentid').val(),
 		check_money_flag:	$('#id_check_money_flag').val(),
 		origin:	$('#id_origin').val(),
@@ -155,6 +159,7 @@ $(function(){
 	$('#id_contract_status').val(g_args.contract_status);
 	$.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
 	$('#id_is_test_user').val(g_args.is_test_user);
+	$('#id_can_period_flag').val(g_args.can_period_flag);
 	$('#id_studentid').val(g_args.studentid);
 	$('#id_check_money_flag').val(g_args.check_money_flag);
 	$('#id_origin').val(g_args.origin);
@@ -213,6 +218,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_is_test_user" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">can_period_flag</span>
+                <input class="opt-change form-control" id="id_can_period_flag" />
             </div>
         </div>
 

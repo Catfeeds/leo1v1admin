@@ -152,6 +152,7 @@ class seller_student_new2 extends Controller
             2 => array("stu_request_test_lesson_time", "期待试听时间"),
             4 => array("lesson_start", "上课时间"),
             5 => array("seller_require_change_time ", "销售申请更换时间"),
+            6 => array("set_lesson_time", "排课操作时间"),
         ]);
 
         $adminid      = $this->get_account_id();
@@ -321,6 +322,7 @@ class seller_student_new2 extends Controller
             if(is_numeric($item["parent_name"]) && strlen($item["parent_name"])==11){
                 $item["parent_name"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['parent_name']);
             }
+            $item["rebut_info"] = $this->get_rebut_info( $item["rebut_info"]);
 
         }
 

@@ -922,7 +922,20 @@ class test_james extends Controller
 
     public function dd(){
 
+        // $a = $this->t_test_lesson_subject_require->get_current_lessonid(63670);
+        // dd($a);
+        $now = time()-3600*10;
+        $test_list = $this->t_test_lesson_subject_require->get_test_list($now);
 
+        dd($test_list);
+
+
+        $t = $this->get_in_int_val('t');
+        $a = $this->t_lesson_info_b3->check_is_doing_test($t);
+
+        dd($a);
+        $ret = $this->t_teacher_info->get_unbound_teacher_list($now=0);
+        dd($ret);
 
         $lesson_start = strtotime('+1 day',strtotime(date('Y-m-d')));
         $lesson_end = $lesson_start+86400;

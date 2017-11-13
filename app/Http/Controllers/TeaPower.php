@@ -1276,7 +1276,7 @@ trait TeaPower {
      * @param int teahcer_type 老师类型
      * @param int teacher_ref_type 老师推荐人类型
      * @param int is_test_user 是否是测试账号 0 不是 1 是
-     * @param int use_easy_pass 是否用123456作为老师账号密码 0 不是 1 是
+     * @param int use_easy_pass 老师账号密码类型 0 随机密码 1 123456 2 leo手机号后4位
      * @param int send_sms_flag 是否发送老师账号短信 0 不 1 是
      * @param string base_intro 老师简介
      * @param int grade_start 老师年级开始范围
@@ -2459,7 +2459,6 @@ trait TeaPower {
 
     public function get_new_qq_group_html($grade_start,$grade_part_ex,$subject){
         // 528851744 原答疑1群，人数已满
-
         if ( $grade_start >= 5 ) {
             $grade = 300;
         } else if ($grade_start >= 3) {
@@ -2560,7 +2559,6 @@ trait TeaPower {
 
 
     public function add_tran_stu($phone,$subject,$origin_assistantid,$grade,$nick,$origin_userid=2,$region_version,$notes){
-
         $origin="转介绍";
         $has_pad=0;
         $userid=$this->t_seller_student_new->book_free_lesson_new(
@@ -4203,4 +4201,44 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $lesson_count;
     }
 
+    //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
+    //老师张珍颖奥数 58812 所有都是75元/课时
+    //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
+    public function get_teacher_base_money($teacherid,$lesson_info){
+        $money            = $lesson_info['money'];
+        //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资
+        $huang_check_time = strtotime("2017-9-20");
+        $zhang_check_time = strtotime("2017-9-22");
+        $lv_check_time    = strtotime("2019-9-1");
+
+        if($teacherid==71743 && $lesson_info['lesson_start']<$huang_check_time){
+            $money = 60;
+        }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
+            $money = 75;
+        }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
+            $money = $this->t_teacher_money_type->get_money_by_lesson_info(
+                $lesson_info['teacher_money_type'],$lesson_info['level'],E\Egrade::V_301
+            );
+        }
+        return $money;
+    }
+
+    //处理试听申请驳回历史信息
+    public function get_rebut_info( $rebut_info){
+        if(!$rebut_info){
+            return $rebut_info;
+        }else{
+            $rebut_info = json_decode($rebut_info,true);
+            $num = count($rebut_info);
+            \App\Helper\Utils::order_list( $rebut_info, "rebut_tme", 0 ); 
+            $str = "<br>驳回信息:<br>";
+            foreach($rebut_info as $val){
+                $name = $this->t_manager_info->get_name($val["rebut_adminid"]);
+                $time = date("Y-m-d H:i",$val["rebut_time"]);
+                $str .= "第".$num."次,驳回教务:".$name.",驳回理由:".$val["rebut_reason"].",驳回时间:".$time.";<br>";
+                $num--;
+            }
+            return $str;
+        }
+    }
 }

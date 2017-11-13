@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config;
 
-
 class user_manage_new extends Controller
 {
     use CacheNick;
@@ -31,7 +30,6 @@ class user_manage_new extends Controller
         $ret_total  = $this->t_lesson_info->get_confirm_lesson_total($start_time,$end_time);
         $date_week  = \App\Helper\Utils::get_week_range($start_time,1);
         $week_total = $this->t_lesson_info->get_confirm_lesson_total($date_week["sdate"],$date_week["edate"]);
-
 
         $ret_total["assistantid"] =-1;
         $ret_total["assistant_nick"] ="全部";
@@ -381,7 +379,7 @@ class user_manage_new extends Controller
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
             $grade        = $item["grade"];
-            $pre_price    = \App\Helper\Utils::get_teacher_base_money($teacherid,$item);
+            $pre_price    = $this->get_teacher_base_money($teacherid,$item);
             $lesson_count = $item["lesson_count"];
 
             //判断课程的老师类型来设置累计课时的数值
@@ -638,7 +636,7 @@ class user_manage_new extends Controller
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
             $grade        = $item["grade"];
-            $pre_price    = \App\Helper\Utils::get_teacher_base_money($teacherid,$item);
+            $pre_price    = $this->get_teacher_base_money($teacherid,$item);
             $lesson_count = $item["lesson_count"];
 
             //判断课程的老师类型来设置累计课时的数值
@@ -989,6 +987,7 @@ class user_manage_new extends Controller
         //$this->set_filed_for_js("userid_flag",999);
         return $this->money_contract_list();
     }
+
     public function money_contract_list () {
         $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
@@ -998,6 +997,7 @@ class user_manage_new extends Controller
 
         $config_courseid = -1;
         $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
+        $can_period_flag    =  $this->get_in_int_val("can_period_flag",-1);
         $studentid       = $this->get_in_studentid(-1);
 
         $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
@@ -1024,12 +1024,13 @@ class user_manage_new extends Controller
             $page_num,$start_time,$end_time,$contract_type,$contract_status,
             $studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,
             $check_money_flag,-1,$origin,$from_type,$sys_operator,
-            $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",  "order_time desc" );
-
+            $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",
+            "order_time desc",-1,-1,-1,$can_period_flag);
         $money_all   = 0;
         $order_count = 0;
         $userid_map  = [];
         foreach($ret_list['list'] as &$item ){
+            $item["can_period_flag_str"] = \App\Helper\Common::get_boolean_color_str( $item["can_period_flag"]);
             if(empty($item["lesson_start"]) && $item["order_time"] < strtotime(date("2016-11-01")) && $item["contract_type"]==0){
                 $userid= $item["userid"];
                 $item["lesson_start"] = $this->t_lesson_info->get_user_test_lesson_start($userid,$item["order_time"]);
@@ -2271,15 +2272,17 @@ class user_manage_new extends Controller
     public function edit_invoice() {
         $orderid          = $this->get_in_int_val("orderid");
         $is_invoice       = $this->get_in_int_val("is_invoice" );
+        $can_period_flag  = $this->get_in_int_val("can_period_flag" );
         $invoice          = $this->get_in_str_val("invoice" );
         $check_money_desc = $this->get_in_str_val("check_money_desc" );
         $order_stamp_flag = $this->get_in_str_val("order_stamp_flag" );
 
         $this->t_order_info->field_update_list($orderid,[
-            "is_invoice" => $is_invoice,
-            "invoice"    => $invoice,
-            "check_money_desc"    => $check_money_desc,
-            "order_stamp_flag"    => $order_stamp_flag,
+            "is_invoice"       => $is_invoice,
+            "invoice"          => $invoice,
+            "check_money_desc" => $check_money_desc,
+            "order_stamp_flag" => $order_stamp_flag,
+            'can_period_flag'  => $can_period_flag,
         ]);
         return $this->output_succ();
     }
@@ -3684,7 +3687,8 @@ class user_manage_new extends Controller
             $info['total'] = $info['stu_sum'] + $info['tea_sum'];
         }
         return $this->Pageview(__METHOD__,$list, [
-            'info' => $info
+            'info' => $info,
+            'teacherid' => $teacherid
         ]);
     }
 
@@ -5048,7 +5052,40 @@ class user_manage_new extends Controller
 
     }
 
+    // 手动刷新当前月的伯乐奖金
+    public function flush_teacher_money() {
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = strtotime(date('Y-m-01', time()));
+        $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
+        foreach($re_teacherid as $item) {
+            $type = 1;
+            if ($item['identity'] == 0 || $item['identity'] == 8) {
+                $type = 0;
+            }
+            $num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
+            $reward = $this->ret_reward($num, $type);
+            if ($reward != $item['money']) {
+                $this->t_teacher_money_list->field_update_list($item['id'],[
+                    'money' => $reward,
+                ]);
+            }
+        }
+        return $this->output_succ();
+    }
 
-
+    public function ret_reward($num, $type) {
+        if ($type == 1) { // 机构老师
+            $reward = 40;
+            if ($num > 10) $reward = 50;
+            if ($num > 20) $reward = 70;
+            if ($num > 30) $reward = 80;
+        } else { // 在校学生
+            $reward = 20;
+            if ($num > 10) $reward = 30;
+            if ($num > 20) $reward = 50;
+            if ($num > 30) $reward = 60;
+        }
+        return $reward * 100;
+    }
 
 }

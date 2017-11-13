@@ -1263,6 +1263,26 @@ class ss_deal extends Controller
             }
 
         }
+
+        //增加驳回历史数据
+        $rebut_info = $this->t_test_lesson_subject->get_rebut_info($test_lesson_subject_id);
+        $rebut_arr=[
+            "rebut_adminid"=> $this->get_account_id(),
+            "rebut_reason" => $fail_reason,
+            "rebut_time"   => time()
+        ];
+        if($rebut_info){
+            $rebut_list = json_decode($rebut_info,true);
+        }else{
+            $rebut_list = [];
+        }
+        $rebut_list[]=$rebut_arr;
+        $rebut_info_new = json_encode($rebut_list);
+        $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+            "rebut_info" =>$rebut_info_new,
+            "rebut_flag" =>1
+        ]);
+        
         return $this->output_succ();
     }
 

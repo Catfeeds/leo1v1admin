@@ -858,6 +858,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_teacher_list_by_time_new($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <>2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select l.teacherid,sum(l.lesson_count) lesson_total"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_teacher_stu_three_month_list($teacherid){
         $end_time = time();
         $start_time = time()-90*86400;
@@ -1679,7 +1699,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_tea_lesson_info($lesson_start, $lesson_end,$teacherid){
 
         $where_arr = [
-            "l.lesson_type = 0",
+            "l.lesson_type in (0,1,3)",
             "l.teacherid = $teacherid",
             "l.lesson_del_flag=0",
         ];
@@ -1857,6 +1877,33 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
 
     }
+
+
+    public function check_is_doing_test($teacherid){
+        $now = time();
+        $end = $now + 60;
+
+        $where_arr = [
+            'l.lesson_del_flag=0',
+            "l.teacherid=$teacherid",
+            "l.lesson_type in (0,1,3)",
+            'l.lesson_status=1'
+            // "l.lesson_start<$now",
+            // "l.lesson_end>=$now"
+        ];
+
+        $sql = $this->gen_sql_new("  select 1 from %s l "
+                                  ." left join %s t on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
 
     public function get_test_list_for_month($start_time,$end_time){
 
@@ -2112,6 +2159,24 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
 
+    }
+
+    public function get_stu_first_lesson_time_by_subject($userid){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)",
+            ["l.userid = %u",$userid,-1]
+        ];
+        $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid"
+                                  ." from %s l "
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and subject = l.subject and userid = l.userid)"
+                                  ." group by l.subject,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
     }
 
 

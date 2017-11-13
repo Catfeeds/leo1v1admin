@@ -465,15 +465,17 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($adminid=445,$userid=288907);
-        dd($add_time);
-        if($add_time>0){
-            
+        //回流
+        $ret = $this->t_seller_student_new->get_huiliu_list();
+        $userid_arr = array_unique(array_column($ret,'userid'));
+        foreach($userid_arr as $item){
+            $userid = $item;
+            $this->t_seller_student_new->field_update_list($userid,[
+                'hand_get_adminid'=>0,
+            ]);
         }
-
-        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=831);
-        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
-        dd($count_info);
+        dd($userid_arr);
+        // dd($ret);
     }
 
     //处理等级头像

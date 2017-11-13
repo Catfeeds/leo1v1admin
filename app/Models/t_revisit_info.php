@@ -313,12 +313,17 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         });
     }
     
-    public function get_ass_revisit_info_personal($userid,$start_time,$end_time,$sys_operator){
+    public function get_ass_revisit_info_personal($userid,$start_time,$end_time,$sys_operator,$revisit_type=-2){
         $where_arr = [
             ["userid = %u",$userid,-1],
             ["sys_operator='%s'",$sys_operator,""],
-            "revisit_type in (0,1,2,3,4,5)"
+            // "revisit_type in (0,1,2,3,4,5)"
         ];
+        if($revisit_type==-2){
+            $where_arr[]="revisit_type in (0,1,2,3,4,5)";            
+        }else{
+            $where_arr[]=["revisit_type=%u",$revisit_type,-1];
+        }
 
         $this->where_arr_add_time_range($where_arr,"revisit_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select 1 from %s where %s",
