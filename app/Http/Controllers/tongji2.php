@@ -1528,7 +1528,15 @@ class tongji2 extends Controller
         });
         //dd(2);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
-        */
+        
+        $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
+        $end_time   = $this->get_in_end_time_from_str_next_day(
+            date("Y-m-d",(strtotime(date("Y-m-01",time(NULL)))-86400)));
+            */
+        $this->get_in_int_val( "chinese",1);
+        $this->get_in_int_val( "math",1);
+        $this->get_in_int_val( "english",1);
+        //$start_time = $this->get_in_start_time_from_str(date("Y-m-01",time(NULL)-15*86400));
         $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
         $end_time   = $this->get_in_end_time_from_str_next_day(
             date("Y-m-d",(strtotime(date("Y-m-01",time(NULL)))-86400)));
