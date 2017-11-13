@@ -48,7 +48,7 @@ $(function(){
             {
                 data: subject_chinese,
                 lines: { show: true
-                         , lineWidth: 0.3},
+                         , lineWidth: 2},
                 label: "语文"
             });
 
@@ -56,7 +56,7 @@ $(function(){
             {
                 data: subject_math,
                 lines: { show: true
-                         , lineWidth: 0.3},
+                         , lineWidth: 2},
                 label: "数学"
             });
 
@@ -64,14 +64,15 @@ $(function(){
             {
                 data: subject_english,
                 lines: { show: true
-                         , lineWidth: 0.3},
+                         , lineWidth: 2},
                 label: "英语"
             });
 
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
                 lines: {
-                    show: true
+                    show: true,
+                    colors: ["#00c0ef", "#dd4b39", "#f39c12"]
                 },
 
                 points: {
@@ -82,6 +83,9 @@ $(function(){
             xaxis: {
                 mode: "categories",
                 tickLength: 0
+            },
+            yaxis:{
+
             },
             grid: {
                 hoverable: true,
@@ -98,7 +102,8 @@ $(function(){
             ,legend: {
                 show: true ,
                 position:"nw"
-            }
+            },
+            colors: ["#00c0ef", "#dd4b39", "#f39c12"]
         });
 
         $("<div id='tooltip'></div>").css({
