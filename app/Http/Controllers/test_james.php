@@ -1182,7 +1182,9 @@ class test_james extends Controller
       $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 
       $objWriter->save('php://output');
+$test=	3;
     }
+
 
 
 }

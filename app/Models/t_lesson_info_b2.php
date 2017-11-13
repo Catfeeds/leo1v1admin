@@ -4105,7 +4105,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2"
         ];
 
         $this->where_arr_add_time_range($where_arr,'lesson_start',$now, $next);
