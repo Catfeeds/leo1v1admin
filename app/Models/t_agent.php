@@ -1589,36 +1589,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
-        $child_arr = [];
-        $cycle_student_count = 0;
-        $cycle_member_count = 0;
-        //计算所有学员量、会员量[无下限限制下级]
-        list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child($id);
-        $cycle_test_lesson_count = 0;
-        $cycle_order_count = 0;
-        $cycle_order_money = 0;
-        //用户有推荐人
-        if($child_arr){
-            $in_str = '('.implode(',',$child_arr).')';
-            //获取该用户推荐人的试听量[无限制下架]
-            $test_lesson_info = $this->get_child_test_lesson_info($in_str);
-            if($test_lesson_info){
-                foreach( $test_lesson_info as $item ) {
-                    if ($item["lesson_user_online_status"] ==1 )
-                        $cycle_test_lesson_count += 1;
-
-                }
-            }
-
-
-            //计算签单金额、签单量[无下限限制下级]
-            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,0, 0xFFFFFFFF );
-            $cycle_order_count = $child_order_info['child_order_count'];
-            $cycle_order_money = $child_order_info['child_order_money'];
-
-        }
-
-
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
             "star_count" => $star_count,
@@ -1646,12 +1616,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_open_cush_money" => $all_open_cush_money,
             "all_have_cush_money" => $all_have_cush_money,
             "test_lessonid" => $test_lessonid,
-            "cycle_student_count" => $cycle_student_count,
-            "cycle_test_lesson_count" => $cycle_test_lesson_count,
-            "cycle_order_money " => $cycle_order_money ,
-            "cycle_member_count" => $cycle_member_count,
-            "cycle_order_count" => $cycle_order_count,
-
+        
         ]);
 
         if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -2166,6 +2131,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'remark'   => '违规行为将会冻结此次奖励',
         ];
         $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
+        \App\Helper\Utils::logger("msg : $msg");
         if (!$url) {
             $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
             $base_url= $wx_config["url"] ;
@@ -2205,7 +2171,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
             $wx->send_template_msg($xy_openid,$template_id,$data,$url);
 
-            //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+            // $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
             $jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
             $wx->send_template_msg($jim_openid,$template_id,$data,$url);
 

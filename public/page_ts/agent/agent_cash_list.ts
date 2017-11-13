@@ -128,32 +128,30 @@ $(function(){
         $.wopen("/agent/agent_user_link?id="+ opt_data.aid);
     });
 
-
-
-
     $('.opt-change').set_input_change_event(load_data);
+
+    //@desn:冻结申请体现金额
     $('.opt-freeze').on('click',function(){
         var opt_data=$(this).get_opt_data();
         var $freeze_money = $("<input/>");
         var $phone = $("<input/>")
-        var $agent_freeze_type= $("<select id='id_agent_freeze_type'/>" );
+        var $agent_freeze_type= $("<select id='id_agent_freeze_type' />" );
         Enum_map.append_option_list("agent_freeze_type", $agent_freeze_type,true);
         var $agent_money_ex_type= $("<select/>" );
         Enum_map.append_option_list("agent_money_ex_type", $agent_money_ex_type,true);
-        // var $agent_activity_time = $("<div id='id_date_range'></div>");
         var $agent_activity_time = $("<input/>");
-        
+        $agent_activity_time.datetimepicker({
+            lang:'ch',
+            timepicker:true,
+            format:'Y-m-d H:i:s',
+            "onChangeDateTime" : function() {
+            }
+        });
+
+        $(".table").append($agent_freeze_type);
+        $(".table").append($agent_money_ex_type);
         $(".table").append($agent_activity_time);
-        // $('#id_date_range').select_date_range({
-        //     'date_type' : g_args.date_type,
-        //     'opt_date_type' : g_args.opt_date_type,
-        //     'start_time'    : g_args.start_time,
-        //     'end_time'      : g_args.end_time,
-        //     date_type_config : JSON.parse( g_args.date_type_config),
-        //     onQuery :function() {
-        //         load_data();
-        //     }
-        // });    
+        
         var arr=[
             ["冻结金额" ,$freeze_money ],
             ["冻结类型" ,$agent_freeze_type ],
@@ -161,15 +159,36 @@ $(function(){
             ["活动类型",$agent_money_ex_type],
             ["活动日期",$agent_activity_time]
         ] ;
-        // console.log($agent_freeze_type.val());
-        // if($agent_freeze_type.val() == 1 || $agent_freeze_type.val() == 2)
-        //     arr.push(["违规学员手机号",$phone]);
-        // else if($agent_freeze_type.val() == 2){
-        //     arr.push(["违规学员手机号",$phone]);
-        //     arr.push(["活动名称",$agent_money_ex_type]);
 
-        // }else
-        //     arr.push(["违规学员手机号",$phone]);
+        // 设置动态显示 [select]  --begin--
+        var show_field=function (jobj,show_flag) {
+            if ( show_flag ) {
+                jobj.parent().parent().show();
+            }else{
+                jobj.parent().parent().hide();
+            }
+        };
+
+        var hidden_field=function(){
+            show_field($agent_money_ex_type,false);
+            show_field($agent_activity_time,false);
+        }
+        var reset_ui=function(agent_freeze_val) {
+            if(agent_freeze_val == 3){ 
+                show_field($agent_money_ex_type,true );
+                show_field($agent_activity_time,true );
+            }else{
+                hidden_field();
+            }
+        };
+        
+        $('#id_agent_freeze_type').bind('change',function(){
+            var agent_freeze_val = $(this).val();
+            console.log(agent_freeze_val);
+            reset_ui(agent_freeze_val);
+        });
+        
+        // 设置动态显示 [select]  --end--
 
         $.show_key_value_table("冻结体现金额", arr ,{
             label: '确认',
@@ -187,6 +206,7 @@ $(function(){
                 });
             }
         });
+        hidden_field();
     })
     
     $('#id_date_range').select_date_range({
@@ -241,4 +261,48 @@ $(function(){
             onshown  : onshownfunc
         });
     }
+    //@desn:查看体现资金来源
+    $(".opt-money_detail").on("click",function(){
+        //优学优享会员、学员用标识
+        var opt_data=$(this).get_opt_data();
+        var agentid = opt_data.aid;
+        var this_cash_time = opt_data.create_time;
+        var timestamp2 = Date.parse(new Date(this_cash_time));
+        timestamp2 = timestamp2 / 1000;
+        $.ajax({
+            type     : "post",
+            url      : "/agent/get_agent_cash_log",
+            dataType : "json",
+            size     : BootstrapDialog.SIZE_WIDE,
+            data     : {"agentid":agentid,'this_cash_time':timestamp2},
+            success  : function(result){
+                var html_str=$("<div id=\"div_table\"><table class = \"table table-bordered table-striped\"  > <tr><th> 用户信息  <th> 推荐人信息 <th> 收入类型 <th> 收入金额 <th> 获得时间  </tr> </table></div>");
+                $.each( result.agent_cash_log ,function(i,item){
+                    console.log(item);
+                    var html  = "<tr><td>"+item.agent_name +"</td><td>"+
+                        item.agent_child_name+"</td><td>"+item.agent_income_type_str+"<td>"+ 
+                        item.money +"</td><td>"+item.create_time+"</td></tr>";
+                    html_str.find("table").append(html);
+                } );
+
+                var dlg = BootstrapDialog.show({
+                    title    : '本次体现来源明细',
+                    message  : html_str ,
+                    closable : true,
+                    buttons  : [{
+                        label  : '返回',
+                        action : function(dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+
+                if (!$.check_in_phone()) {
+                    dlg.getModalDialog().css("width", "800px");
+                }
+            }
+        });
+
+    });
+
 });

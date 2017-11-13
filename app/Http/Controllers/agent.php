@@ -327,14 +327,13 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $origin_count = $this->get_in_intval_range("origin_count");
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -30*6, 1, 0, [
+            -30*5, 1, 0, [
                 0 => array( "ac.create_time", "申请提交时间"),
                 1 => array("ac.check_money_time","财务审核时间"),
             ], 0,0, true
         );
         $cash_range = $this->get_in_intval_range('cash_range','',$is_money=1);
         $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", -1,E\Eagent_check_money_flag::class);
-        \App\Helper\Utils::logger("agent_check_money_flag $agent_check_money_flag ");
         $phone = $this->get_in_phone();
         $check_money_admin_nick = $this->get_in_str_val('check_money_admin_nick');
         if($check_money_admin_nick == -1)
@@ -342,6 +341,9 @@ class agent extends Controller
         else
             $check_money_admin_id = $this->t_manager_info->get_id_by_account($check_money_admin_nick);
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
+        //获取统计信息
+        $statistic_info = $this->t_agent_cash->get_agent_cash_person($agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
+        
         foreach($ret_info['list'] as &$item){
             //获取冻结金额
             $item['agent_cash_money_freeze'] = $this->t_agent_cash_money_freeze->get_agent_cash_money_freeze($item['id']);
@@ -357,7 +359,12 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"check_money_time");
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            'cash_person_count' => $statistic_info['person_count'],
+            'cash_count' => $statistic_info['cash_count'],
+            'cash_refuse_money' => $statistic_info['refuse_money']/100,
+            'cash_freeze_money' => $statistic_info['freeze_money']/100,
+        ]);
     }
     //@desn:冻结优学优享申请金额
     public function agent_money_freeze(){
@@ -366,8 +373,13 @@ class agent extends Controller
         $freeze_money = $this->get_in_int_val('freeze_money');
         $agent_freeze_type = $this->get_in_int_val('agent_freeze_type');
         $phone = $this->get_in_str_val('phone');
-        $agent_money_ex_type = $this->get_in_int_val('agent_money_ex_type');
-        $agent_activity_time = $this->get_in_int_val('agent_activity_time');
+        if($agent_freeze_type == 3){
+            $agent_money_ex_type = $this->get_in_int_val('agent_money_ex_type');
+            $agent_activity_time = $this->get_in_int_val('agent_activity_time');
+        }else{
+            $agent_money_ex_type = '';
+            $agent_activity_time = '';
+        }
         $cash = $this->get_in_int_val('cash');
         $to_agentid = $this->get_in_int_val('agentid');
         \App\Helper\Utils::logger(" phone $phone");
@@ -388,7 +400,8 @@ class agent extends Controller
             'agent_activity_time' => $agent_activity_time,
             'agent_cash_id' => $id
         ]);
-        //发送推送
+
+        // 发送推送
         if($insert_status){
             $from_agentid = '';
             $agent_money_ex_type_str = E\Eagent_money_ex_type::get_desc($agent_money_ex_type);
@@ -2079,5 +2092,20 @@ class agent extends Controller
                 'freeze_reason' => -1,
             ]);
         }
+    }
+    //@desn:获取用户该笔体现的来源
+    public function get_agent_cash_log(){
+        $agent_id = $this->get_in_int_val('agentid');
+        $this_cash_time = $this->get_in_int_val('this_cash_time');
+        $last_cash_time = $this->t_agent_cash->get_last_cash_time($agent_id,$this_cash_time);
+        $agent_cash_log = $this->t_agent_income_log->get_this_cash_log($agent_id,$this_cash_time,$last_cash_time);
+        foreach($agent_cash_log as &$item){
+            E\Eagent_income_type::set_item_value_str($item,'agent_income_type');
+            $item['agent_name'] = $item['a_phone'].'/'.$item['a_nickname'];
+            $item['agent_child_name'] = $item['ca_phone'].'/'.$item['ca_nickname'];
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+            $item['money'] /= 100;
+        };
+        return $this->output_succ(['agent_cash_log' => $agent_cash_log]);
     }
 }

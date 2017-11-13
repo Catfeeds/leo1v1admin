@@ -51,6 +51,17 @@
             </div>
         </div>
         <hr/>
+        <div class="row have_userid">
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">申请人数:{{@$cash_person_count}}人</span>
+                    <span class="input-group-addon">申请次数:{{@$cash_count}}次</span>
+                    <span class="input-group-addon">驳回金额:{{@$cash_refuse_money}}元</span>
+                    <span class="input-group-addon">冻结金额:{{@$cash_freeze_money}}元</span>
+                </div>
+            </div>
+        </div>
+
 
         <table     class="common-table"  >
             <thead>

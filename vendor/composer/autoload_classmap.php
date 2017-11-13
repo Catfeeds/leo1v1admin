@@ -27,6 +27,7 @@ return array(
     'CreateTableTPeriodOrderRepaymentList' => $baseDir . '/database/migrations/2017_10_13_151358_create_table_t_period_order_repayment_list.php',
     'CreateTableTTeachingCoraData' => $baseDir . '/database/migrations/2017_10_31_184636_create_table_t_teaching_cora_data.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'DeleteCycleCloumnFromTAgetn' => $baseDir . '/database/migrations/2017_11_13_171716_delete_cycle_cloumn_from_t_agetn.php',
     'DropTableTPeriodOrderRepaymentList' => $baseDir . '/database/migrations/2017_10_13_161932_drop_table_t_period_order_repayment_list.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',

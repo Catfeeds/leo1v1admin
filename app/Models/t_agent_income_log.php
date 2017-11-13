@@ -85,6 +85,30 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
         return $this->main_get_value($sql);
     }
 
+    //@desn:获取用户本次体现的来源记录
+    //@param:$agent_id 优学优享id
+    //@param:$this_cash_time 开始时间
+    //@param:$last_cash_time 结束时间
+    public function get_this_cash_log($agent_id,$this_cash_time,$last_cash_time){
+        $where_arr = [
+            ['agent_id = %u ',$agent_id,-1],
+            ['ail.create_time >= %u ',$last_cash_time,-1],
+            ['ail.create_time < %u',$this_cash_time,-1]
+        ];
+        $sql = $this->gen_sql_new(
+            'select ail.logid,ail.agent_income_type,ail.money,ail.create_time,a.phone as a_phone,a.nickname as a_nickname,'.
+            'ca.phone as ca_phone,ca.nickname as ca_nickname '.
+            'from %s ail '.
+            'left join %s a on ail.agent_id=a.id '.
+            'left join %s ca on ail.child_agent_id = a.id '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    } 
 }
 
 
