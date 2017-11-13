@@ -1,4 +1,7 @@
 interface GargsStatic {
+	chinese:	number;
+	math:	number;
+	english:	number;
 	start_time:	string;
 	end_time:	string;
 }
@@ -27,6 +30,9 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		chinese:	$('#id_chinese').val(),
+		math:	$('#id_math').val(),
+		english:	$('#id_english').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val()
     });
@@ -34,6 +40,9 @@ function load_data(){
 $(function(){
 
 
+	$('#id_chinese').val(g_args.chinese);
+	$('#id_math').val(g_args.math);
+	$('#id_english').val(g_args.english);
 	$('#id_start_time').val(g_args.start_time);
 	$('#id_end_time').val(g_args.end_time);
 
@@ -45,6 +54,27 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">chinese</span>
+                <input class="opt-change form-control" id="id_chinese" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">math</span>
+                <input class="opt-change form-control" id="id_math" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">english</span>
+                <input class="opt-change form-control" id="id_english" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

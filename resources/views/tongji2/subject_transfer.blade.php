@@ -27,7 +27,24 @@
             </div>
         </div>
         <hr/>
-
+        <div class="row">
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <input type="checkbox" class="opt-check"  id="id_chinese">语文</input>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <input type="checkbox" class="opt-check"   id="id_math">数学</input>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <input type="checkbox" class="opt-check"  id="id_english" >英语</input>
+                </div>
+            </div>
+        </div>
+        <hr/>
         <div id="id_pic_user_count" > </div>
 
         <hr/>

@@ -7,8 +7,11 @@ function load_data(){
     var end_time   = $("#id_end_time").val();
     $.reload_self_page ( {
 		    "start_time" : start_time,
-            "end_time" : end_time,
-    });
+            "end_time"   : end_time,
+            "chinese"    : $('#id_chinese').iCheckValue(),
+            "math"       : $('#id_math').iCheckValue(),
+            "english"    : $('#id_english').iCheckValue(),
+        });
 }
 $(function(){
 
@@ -20,9 +23,36 @@ $(function(){
         "height"  : "400px",
         "width"  : "95%"
     });
+    if ( g_args.chinese ) {
+        $("#id_chinese").iCheck("check");
+    }
+    if ( g_args.math ) {
+        $("#id_math").iCheck("check");
+    }
+    if ( g_args.english ) {
+        $("#id_english").iCheck("check");
+    }
+
     var subject_chinese=[];
     var subject_math=[];
     var subject_english=[];
+    $('#id_start_time').datetimepicker({
+        lang:'ch',
+        timepicker:false,
+        format:'Y-m-d',
+        onChangeDateTime :function(){
+            load_data();
+        }
+    });
+    
+    $('#id_end_time').datetimepicker({
+        lang:'ch',
+        timepicker:false,
+        format:'Y-m-d',
+        onChangeDateTime :function(){
+            load_data();
+        }
+    });
 
 
     $.each( g_data_ex_list,function(i,item){
@@ -36,30 +66,39 @@ $(function(){
     var show_plot=function( ) {
         var id_name="id_pic_user_count";
         var plot_data_list=[];
-        plot_data_list.push(
+        
+
+       
+
+        
+
+        if ($("#id_chinese").iCheckValue() ) {
+           plot_data_list.push(
             {
                 data: subject_chinese,
                 lines: { show: true
                          , lineWidth: 2},
                 label: "语文"
             });
-
-        plot_data_list.push(
+        }
+        if ($("#id_math").iCheckValue() ) {
+            plot_data_list.push(
             {
                 data: subject_math,
                 lines: { show: true
                          , lineWidth: 2},
                 label: "数学"
             });
-
-        plot_data_list.push(
+        }
+        if ($("#id_english").iCheckValue() ) {
+           plot_data_list.push(
             {
                 data: subject_english,
                 lines: { show: true
                          , lineWidth: 2},
                 label: "英语"
             });
-
+        }
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
                 lines: {
