@@ -409,6 +409,34 @@ class table_manage extends Controller
             "format_sql"=>$format_sql
         ]);
     }
+    public function table_list() {
+        $config_arr=[
+            "db_weiyi"       => "t_student_info",
+            "db_tool"        => "t_school_info",
+            "db_weiyi_admin" => "t_admin_users",
+            "db_account"     => "t_user_info",
+        ];
+        $db_name    = $this->get_in_str_val("db_name","db_weiyi");
+
+        //得到table 注释
+        $table         = $this->get_table($db_name);
+
+        $sql = $table->gen_sql(" select TABLE_NAME as table_name  ,TABLE_COMMENT as table_comment  from information_schema.TABLES "
+                               ." where TABLE_SCHEMA='%s' "
+                               ." and TABLE_NAME <> 't_opt_table_log' "
+                               ,$db_name
+        );
+        $table_list = $table->main_get_list($sql);
+        foreach($table_list as &$t_item){
+            $table_comment=@hex2bin($t_item["table_comment"]);
+            if ($table_comment) {
+                $t_item["table_comment"]=$table_comment;
+            }
+        }
+       return $this->pageView(__METHOD__,  \App\Helper\Utils::list_to_page_info($table_list));
+
+    }
+
     public function get_nick_sql(){
         $sql=$this->get_in_str_val("sql");
 
