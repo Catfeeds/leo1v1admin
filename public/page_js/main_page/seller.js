@@ -1,6 +1,5 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/main_page-seller.d.ts" />
-
 $(function(){
     function load_data(groupid ){
         if (!groupid) {
@@ -13,11 +12,11 @@ $(function(){
             end_time       : $('#id_end_time').val(),
             groupid        : groupid,
             test_seller_id : $("#id_test_seller_id").val(),
+            order_by_str   : $('#id_order_by_str').val(),
         });
     }
-    $("#id_test_seller_id").val(g_args.test_seller_id);
     $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
+        'date_type'     : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
         'start_time'    : g_args.start_time,
         'end_time'      : g_args.end_time,
@@ -26,24 +25,21 @@ $(function(){
             load_data(0);
         }
     });
-    var check_account_list=["jim","echo"];
-    if ( check_account_list.indexOf(g_account) == -1 ) {
-        $("#id_query_row").hide();
-    }
+    $("#id_test_seller_id").val(g_args.test_seller_id);
 
-    $.admin_select_user(
-        $('#id_test_seller_id'),
-        "seller_group", load_data ,false, {
-            "main_type": 2, //分配用户
-            select_btn_config: [{
-                "label": "所有非销售",
-                "value":  -3
-            },{
-                "label": "所有销售",
-                "value":  -2
-            }]
-        }
-    );
+    $.admin_select_user($('#id_test_seller_id'),"seller_group", load_data ,false, {
+        "main_type": 2, //分配用户
+        select_btn_config: [{
+            "label": "所有非销售",
+            "value":  -3
+        },{
+            "label": "所有销售",
+            "value":  -2
+        }]
+    });
+
+    // alert($("#id_seller_new").children('input').val());
+    // $("#id_seller_new").children('input').val(seller_account);
 
     if(group_type == 0){
         $('#id_seller_new').attr('style','display:none');
@@ -138,7 +134,7 @@ $(function(){
                     field_name:"lesson_time"
                 },{
                     title:"学生",
-                    field_name: "student_nick" 
+                    field_name: "student_nick"
                 },{
                     title:"老师",
                     field_name:"teacher_nick"
@@ -162,6 +158,98 @@ $(function(){
             "onLoadData" : null
         });
     });
+    $('#id_order_by_all_count').click(function(){
+        $('#id_order_by_str').val('count(*) desc');
+        load_data();
+    });
+    $('#id_order_by_all_price').click(function(){
+        $('#id_order_by_str').val('sum(price) desc');
+        load_data();
+    });
+    $('#id_order_by_finish_per').click(function(){
+        $('#id_order_by_str').val('if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc');
+        load_data();
+    });
 
+    //强制弹窗
+
+    $(".opt-no-order").on("click",function(){
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" :  "list", // or "list"
+            "url"      : "/grab_lesson/get_list_by_grabid_js",
+            //其他参数
+            "args_ex" : {
+                grabid:opt_data.grabid
+            },
+            //字段列表
+            'field_list' :[
+                {
+                    title:"visitid",
+                    render:function(val,item) {
+                        return item.visitid;
+                    }
+
+                },{
+
+                    title:"老师",
+                    render:function(val,item) {
+                        return item.tea_nick ;
+                    }
+
+                },{
+
+                    title:"访问时间",
+                    render:function(val,item) {
+                        return item.visit_time ;
+                    }
+
+                },{
+                    title:"是否抢课",
+                    //width :50,
+                    render:function(val,item) {
+                        return $(item.operation_str );
+                    }
+                },{
+
+                    title:"抢课时间",
+                    render:function(val,item) {
+                        return item.grab_time ;
+                    }
+
+                },{
+                    title:"是否成功",
+                    render:function(val,item) {
+                        return $(item.success_flag_str) ;
+                    }
+
+                },{
+                    title:"requireid",
+                    render:function(val,item) {
+                        return item.requireid ;
+                    }
+
+                },{
+                    title:"失败原因",
+                    render:function(val,item) {
+                        return item.fail_reason ;
+                    }
+
+                }
+
+
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : null,
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+
+        });
+
+
+    });
 
 });
