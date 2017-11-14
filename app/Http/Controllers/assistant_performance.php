@@ -106,6 +106,7 @@ class assistant_performance extends Controller
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
 
+
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
@@ -371,13 +372,13 @@ class assistant_performance extends Controller
             
 
 
-            $ppp++;
             if($ppp<=2){
                 print_r($item);                
             }
             if($ppp==2){
                 break;
             }
+            $ppp++;
             
         }
         dd($ass_month);
