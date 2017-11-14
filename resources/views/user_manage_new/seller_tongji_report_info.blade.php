@@ -94,11 +94,11 @@
                              <td >{{@$var["require_test_count_for_day"]}}</td> -->
                         <td >{{@$var["require_test_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
-                        <td >{{@$var["succ_all_count_for_month"]}}</td>
-                        <td >{{@$var["succ_lesson_count_one"]}}</td>
-                        <td >{{@$var["succ_lesson_count_two"]}}</td>
-                        <td >{{@$var["succ_lesson_count_three"]}}</td>
-                        <td >{{@$var["succ_lesson_count_four"]}}</td>
+                        <td >{{@$var["suc_all_count_for_month"]}}</td>
+                        <td >{{@$var["suc_lesson_count_one"]}}</td>
+                        <td >{{@$var["suc_lesson_count_two"]}}</td>
+                        <td >{{@$var["suc_lesson_count_three"]}}</td>
+                        <td >{{@$var["suc_lesson_count_four"]}}</td>
                         <td >{{@$var["fail_all_count_for_month"]}}</td>
                         <td >{{@$var["lesson_per"]}}</td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
