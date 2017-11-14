@@ -879,12 +879,24 @@ class test_boby extends Controller
 
     public function update_adminid_yxyx(){
         //刷张龙的优学优享例子
-        $sql = 'select t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.add_time,ss.admin_revisiterid   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid=384';
+        $sql = 'select ss.phone,t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.admin_revisiterid,auto_allot_adminid,ss.add_time   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid>0 and auto_allot_adminid !=384 and ss.add_time>=1510416000 and ss.add_time<1510502400 order by add_time limit 15';
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        foreach ($ret as $v ) {
+            if ($v['require_adminid'] == 0) {
+                $this->t_seller_student_new->auto_allot_yxyx_userid(412, '张植源', $v['userid'], '系统',$v['phone']);
+                $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 412]);
+            }
+        }
+    }
+
+    public function update_adminid_yxyx2(){
+        //刷张龙的优学优享例子
+        $sql = 'select ss.phone,t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.admin_revisiterid,auto_allot_adminid,ss.add_time   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid>0 and auto_allot_adminid !=384 and ss.add_time>=1510502400 and ss.add_time<1510588800 order by add_time limit 15';
         // $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
         foreach ($ret as $v ) {
             if ($v['require_adminid'] == 0) {
-                $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-                // $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 384]);
+                $this->t_seller_student_new->auto_allot_yxyx_userid(412, '张植源', $v['userid'], '系统',$v['phone']);
+                $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 412]);
             }
         }
     }

@@ -516,6 +516,20 @@ class main_page extends Controller
         ]);
     }
 
+    public function get_no_order_first_week_by_js(){
+        $data = [
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+        ];
+
+        return $this->output_succ(["data"=>  \App\Helper\Utils::list_to_page_info($data) ]);
+    }
+
     public function seller_gold_room()
     {
         $order_by_str = $this->get_in_str_val('order_by_str','');
