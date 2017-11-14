@@ -103,6 +103,9 @@ class assistant_performance extends Controller
     public function performance_info(){
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
+        $cc_tran_order = $this->t_manager_info->get_cc_tran_origin_order_info_de($start_time,$end_time);
+        dd($cc_tran_order);
+
 
         $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(362637);
         $assign_time = $this->t_student_info->get_ass_assign_time(362637);
