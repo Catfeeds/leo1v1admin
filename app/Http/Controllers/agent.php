@@ -572,22 +572,13 @@ class agent extends Controller
                 }
             }
         }
-        foreach($res as &$item){
-            foreach([1,2,3,4] as $info){
-                foreach($item as $in){
-                    if($in == $info && $in==1){
-                        $item['suc_lesson_count_one'] = count($item[$info]);
-                    }elseif(($in == $info && $in==2)){
-                        $item['suc_lesson_count_tow'] = count($item[$info]);
-                    }elseif(($in == $info && $in==3)){
-                        $item['suc_lesson_count_three'] = count($item[$info]);
-                    }elseif(($in == $info && $in==4)){
-                        $item['suc_lesson_count_four'] = count($item[$info]);
-                    }
-                }
-            }
+        foreach($res as $key=>$item){
+            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
+            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
+            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
+            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
         }
-        dd($res,$test_leeson_list['list']);
+        dd($res);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
