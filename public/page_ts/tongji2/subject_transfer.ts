@@ -6,12 +6,12 @@ function load_data(){
     var start_time = $("#id_start_time").val();
     var end_time   = $("#id_end_time").val();
     $.reload_self_page ( {
-		    "start_time" : start_time,
-            "end_time"   : end_time,
-            "chinese"    : $('#id_chinese').iCheckValue(),
-            "math"       : $('#id_math').iCheckValue(),
-            "english"    : $('#id_english').iCheckValue(),
-        });
+        "start_time" : start_time,
+        "end_time"   : end_time,
+        "chinese"    : $('#id_chinese').iCheckValue(),
+        "math"       : $('#id_math').iCheckValue(),
+        "english"    : $('#id_english').iCheckValue(),
+    });
 }
 $(function(){
 
@@ -44,7 +44,7 @@ $(function(){
             load_data();
         }
     });
-    
+
     $('#id_end_time').datetimepicker({
         lang:'ch',
         timepicker:false,
@@ -66,38 +66,34 @@ $(function(){
     var show_plot=function( ) {
         var id_name="id_pic_user_count";
         var plot_data_list=[];
-        
 
-       
-
-        
 
         if ($("#id_chinese").iCheckValue() ) {
-           plot_data_list.push(
-            {
-                data: subject_chinese,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "语文"
-            });
+            plot_data_list.push(
+                {
+                    data: subject_chinese,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "语文"
+                });
         }
         if ($("#id_math").iCheckValue() ) {
             plot_data_list.push(
-            {
-                data: subject_math,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "数学"
-            });
+                {
+                    data: subject_math,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "数学"
+                });
         }
         if ($("#id_english").iCheckValue() ) {
-           plot_data_list.push(
-            {
-                data: subject_english,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "英语"
-            });
+            plot_data_list.push(
+                {
+                    data: subject_english,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "英语"
+                });
         }
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
@@ -118,7 +114,7 @@ $(function(){
             yaxis:{
                 min: 0,
                 max: 100,
-                tickSize: 10,        
+                tickSize: 10,
             },
             grid: {
                 hoverable: true,
@@ -166,6 +162,5 @@ $(function(){
     }
     show_plot();
 
-	$('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
-

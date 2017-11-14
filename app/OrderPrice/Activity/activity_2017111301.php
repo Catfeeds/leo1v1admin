@@ -14,7 +14,7 @@ class activity_2017111301 extends  activity_config_base {
         $this->user_join_time_range=["2015-01-10", "2017-10-31" ];
         $this->max_count=50;
 
-        $not_period_perent=75;
+        $not_period_perent=72;
         $period_perent= $not_period_perent+6;
 
 
