@@ -54,6 +54,11 @@ class wx_yxyx_web extends Controller
             \App\Helper\Utils::logger('yxyx_yyy');
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            //测试环境
+            if(\App\Helper\Utils::check_env_is_test()){
+                $base_url=$wx_config["url"];
+            }
+
             $redirect_url=urlencode("$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
         }
