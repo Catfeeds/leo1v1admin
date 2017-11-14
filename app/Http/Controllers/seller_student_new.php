@@ -1381,7 +1381,7 @@ class seller_student_new extends Controller
         $seller_student_status = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
         // $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
-        //判断是否是张龙384，邵少鹏795，蒋文武689,张植源412
+        //判断是否是张龙384,张植源412，邵少鹏795，蒋文武689,
         $adminid = $this->get_account_id();
         if ($adminid != 384 && $adminid != 795 && $adminid != 689 && $adminid != 412 ){
             $adminid = 0;
@@ -1514,7 +1514,6 @@ class seller_student_new extends Controller
 
         $this->set_filed_for_js("test_lesson_subject_id", $test_lesson_subject_id);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
-
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {

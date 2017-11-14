@@ -75,7 +75,7 @@ class agent extends Controller
         $agent_level      = $this->get_in_el_agent_level();
         $order_flag       = $this->get_in_e_boolean(-1, "order_flag" );
         $l1_child_count   = $this->get_in_intval_range("l1_child_count");
-        
+
         $ret_info = $this->t_agent->get_student_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         foreach($ret_info['list'] as &$item){
             //获取用户签单量及签单金额
@@ -346,7 +346,7 @@ class agent extends Controller
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
         //获取统计信息
         $statistic_info = $this->t_agent_cash->get_agent_cash_person($agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
-        
+
         foreach($ret_info['list'] as &$item){
             //获取冻结金额
             $item['agent_cash_money_freeze'] = $this->t_agent_cash_money_freeze->get_agent_cash_money_freeze($item['id']);
@@ -550,8 +550,35 @@ class agent extends Controller
     }
 
     public function test_new(){
-        //回流
+        // $assign_time =$this->get_in_unixtime_from_str("assign_time");
+        // dd($assign_time);
         
+        $origin = $this->t_student_info->field_get_value($userid,'优学优享');
+        if($origin == '优学优享'){
+            $zl_count = 0;
+            $zzy_count = 0;
+            $count = $this->t_seller_student_new->get_yxyx_count();
+            foreach($count as $item){
+                $adminid = $item['adminid'];
+                $count = $item['count'];
+                if($adminid == 384){
+                    $zl_count = $item['count'];
+                }elseif($adminid == 412){
+                    $zzy_count = $item['count'];
+                }
+            }
+            if($zl_count>$zzy_count){
+                $opt_adminid=412;
+            }else{
+                $opt_adminid=384;
+            }
+            $opt_account = $this->t_manager_info->get_account($opt_adminid);
+            $account = $this->get_account();
+            $this->t_seller_student_new->set_admin_info_new(
+                $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
+        }
+        //回流
+
         // dd($ret);
     }
 
@@ -903,7 +930,7 @@ class agent extends Controller
     //@desn:新版微信信息
     public function user_center_info(){
         $nickname=$this->get_in_str_val('nickname');
-        \App\Helper\Utils::logger("nickname:$nickname"); 
+        \App\Helper\Utils::logger("nickname:$nickname");
         $phone=$this->get_in_phone();
         $id=$this->get_in_id();
         if ($phone) {
@@ -2149,7 +2176,7 @@ class agent extends Controller
             $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
             if($item['account_role'] == 1)
                 $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
-            $item['self_order_price'] /= 100; 
+            $item['self_order_price'] /= 100;
             $item['agent_info'] = 1;
         }
         return $this->pageView(__METHOD__,$ret_info,['type'=>$type]);
@@ -2165,7 +2192,7 @@ class agent extends Controller
             E\Eagent_freeze_type::set_item_value_str($item,'agent_freeze_type');
             E\Eagent_money_ex_type::set_item_value_str($item,'agent_money_ex_type');
             \App\Helper\Utils::unixtime2date_for_item($item,'agent_activity_time');
-        
+
             return $this->output_succ([
                 'freeze_reason' => $item,
             ]);
