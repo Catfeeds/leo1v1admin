@@ -64,9 +64,9 @@ class fulltime_teacher_data extends Command
             $cc_transfer_all = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2);
             $cc_transfer_sh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,1);
             $cc_transfer_wh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,2);
-            $cc_transfer_all_per = $cc_transfer_all['all_lesson'] > 0?100 * round($cc_transfer_all['order_num']/$cc_transfer_all['all_lesson'],2):0;
-            $cc_transfer_sh      = $cc_transfer_sh['all_lesson'] > 0?100 * round($cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
-            $cc_transfer_wh      = $cc_transfer_wh['all_lesson']>0?100 * round($cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
+            $cc_transfer_all_per = $cc_transfer_all['all_lesson'] > 0?100 * round(100*$cc_transfer_all['order_num']/$cc_transfer_all['all_lesson'],2):0;
+            $cc_transfer_sh_per      = $cc_transfer_sh['all_lesson'] > 0?100 * round(100*$cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
+            $cc_transfer_wh_per      = $cc_transfer_wh['all_lesson']>0?100 * round(100*$cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
             $data_all = [
                 "create_time" => $time1,
                 "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
@@ -81,7 +81,7 @@ class fulltime_teacher_data extends Command
                 "teacher_type" => 1,//sh
                 "student_num" => $student_num['sh_num'],
                 "lesson_count" => $lesson_count['sh_lesson_all'],
-                "cc_transfer_per" => $cc_transfer_sh
+                "cc_transfer_per" => $cc_transfer_sh_per
             ];
             $data_wh = [
                  "create_time" => $time1,
@@ -89,11 +89,31 @@ class fulltime_teacher_data extends Command
                 "teacher_type" => 2,//wh
                 "student_num" => $student_num['wh_num'],
                 "lesson_count" => $lesson_count['wh_lesson_all'],
-                "cc_transfer_per" =>  $cc_transfer_wh
+                "cc_transfer_per" =>  $cc_transfer_wh_per
             ];
-            $task->t_fulltime_teacher_data->row_insert_ignore($data_all);
-            $task->t_fulltime_teacher_data->row_insert_ignore($data_sh);
-            $task->t_fulltime_teacher_data->row_insert_ignore($data_wh);
+            $create_time = $time1;
+
+            $ret_all = $task->t_fulltime_teacher_data->get_info_by_type_and_time(0,$create_time);
+            if($ret_all>0){
+                $task->t_fulltime_teacher_data->field_update_list($ret_all,$data_all);
+            }else{
+                $task->t_fulltime_teacher_data->row_insert($data_all);
+            }
+
+            $ret_sh = $task->t_fulltime_teacher_data->get_info_by_type_and_time(1,$create_time);
+            if($ret_sh>0){
+                $task->t_fulltime_teacher_data->field_update_list($ret_sh,$data_sh);
+            }else{
+                $task->t_fulltime_teacher_data->row_insert($data_sh);
+            }
+
+            $ret_wh = $task->t_fulltime_teacher_data->get_info_by_type_and_time(2,$create_time);
+            if($ret_wh>0){
+                $task->t_fulltime_teacher_data->field_update_list($ret_wh,$data_wh);
+            }else{
+                $task->t_fulltime_teacher_data->row_insert($data_wh);
+            }
+
         }
     }
 }

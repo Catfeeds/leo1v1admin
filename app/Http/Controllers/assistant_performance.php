@@ -101,19 +101,10 @@ class assistant_performance extends Controller
     }
 
     public function performance_info(){
-        $start_time = strtotime("2017-11-01");        
-        $end_time = strtotime("2017-12-01");
-        $month_half = $start_time+15*86400;
-
-        $history_list = $this->t_ass_stu_change_list->get_ass_history_list(503,$start_time,$end_time);
-
-       
-        
- 
-       
+              
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        // $start_time = strtotime("2017-05-01");        
-        // $end_time = strtotime("2017-12-01");
+        $start_time = strtotime("2017-10-01");        
+        $end_time = strtotime("2017-11-01");
 
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
@@ -210,20 +201,43 @@ class assistant_performance extends Controller
             if($revisit_reword_per >0){
                 //检查本月带过的历史学生 
                 $history_list = $this->t_ass_stu_change_list->get_ass_history_list($k,$start_time,$end_time);
+                       
+                foreach($history_list as $val){
+                    $add_time = $val["add_time"];
+                    if($add_time<$month_half){
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
+                        if($revisit_num <1){
+                            $revisit_reword_per -=0.05;
+                        }
+
+                    }else{
+                        $assign_time = $val["assign_ass_time"];
+                        if($assign_time <$month_half){
+                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
+                            if($revisit_num <2){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }else{
+                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }
+                    }
+                    if($revisit_reword_per <=0){
+                        break;
+                    }
+
+            
+                }
+
+            }
+            if($revisit_reword_per <0){
+                $revisit_reword_per=0;
             }
 
-
-
-
-            
-
-
-
-
-
-
-
-            
 
             /*课时消耗达成率*/
             $registered_student_list = @$last_ass_month[$k]["registered_student_list"];

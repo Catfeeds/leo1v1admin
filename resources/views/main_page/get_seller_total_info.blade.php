@@ -84,6 +84,7 @@
                                         <td>下单总人数</td>
                                         <td class="panel-red">入职完整月签单人数</td>
                                         <td class="panel-red">入职完整月人员签单总额</td>
+                                        <td class="panel-red">平均人效(入职完整月)</td>
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
                                         <td class="panel-red">月KPI完成率</td>
@@ -96,6 +97,7 @@
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@$ret_info['all_order_price']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_money_cc'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
                                         <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
                                     </tr>
