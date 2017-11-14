@@ -46,6 +46,10 @@ class wx_yxyx_web extends Controller
             if($action == 'bind'){
                 // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test()){
+                    $url = "$web_html_url/login.html";
+                }
             }
             \App\Helper\Utils::logger("one_url $url "); 
             header("Location: $url");
@@ -53,14 +57,6 @@ class wx_yxyx_web extends Controller
             \App\Helper\Utils::logger('yxyx_yyy');
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-            //测试环境
-            // if(\App\Helper\Utils::check_env_is_test()){
-            //     $base_url=$wx_config["url"];
-            // }
-            $aa_url = "$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url";
-            \App\Helper\Utils::logger("two_url $aa_url "); 
-            
-            \App\Helper\Utils::logger("YUAN_YUAN URL:$aa_url");
             $redirect_url=urlencode("$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
         }
