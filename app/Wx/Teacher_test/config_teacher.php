@@ -1,5 +1,5 @@
 <?php
-namespace LaneWeChat;
+namespace Teacher_test;
 /**
  * 系统主配置文件.
  * @Created by Lane.

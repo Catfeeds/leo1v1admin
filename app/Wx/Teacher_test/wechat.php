@@ -1,6 +1,6 @@
 <?php
-namespace App\Wx\Teacher;
-include(app_path("Libs/LaneWeChat/lanewechat_teacher.php"));
+namespace App\Wx\Teacher_test;
+include(app_path("Wx/Teacher_test/lanewechat_teacher_test.php"));
 // class Wechat    {
 class Wechat extends \LaneWeChat\Core\Wechat   {
 
