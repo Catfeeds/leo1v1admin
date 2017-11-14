@@ -64,9 +64,9 @@ class fulltime_teacher_data extends Command
             $cc_transfer_all = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2);
             $cc_transfer_sh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,1);
             $cc_transfer_wh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,2);
-            $cc_transfer_all_per = $cc_transfer_all['all_lesson'] > 0?100 * round($cc_transfer_all['order_num']/$cc_transfer_all['all_lesson'],2):0;
-            $cc_transfer_sh_per      = $cc_transfer_sh['all_lesson'] > 0?100 * round($cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
-            $cc_transfer_wh_per      = $cc_transfer_wh['all_lesson']>0?100 * round($cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
+            $cc_transfer_all_per = $cc_transfer_all['all_lesson'] > 0?100 * round(100*$cc_transfer_all['order_num']/$cc_transfer_all['all_lesson'],2):0;
+            $cc_transfer_sh_per      = $cc_transfer_sh['all_lesson'] > 0?100 * round(100*$cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
+            $cc_transfer_wh_per      = $cc_transfer_wh['all_lesson']>0?100 * round(100*$cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
             $data_all = [
                 "create_time" => $time1,
                 "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
