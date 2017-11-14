@@ -156,7 +156,7 @@
                     </div>
                 </div>
 
-                @if (1>1)
+                @if (1)
                     <div class="panel panel-warning" >
                         <div class="panel-heading">
                             <a class="btn btn-warning opt-no-order" href="javascript:;" data-toggle="modal" data-target="#myModal">本月首周未开单人员</a>
