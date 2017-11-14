@@ -241,9 +241,8 @@ class assistant_performance extends Controller
                     $stop_student_arr = json_decode($stop_student_list,true);
                     foreach($stop_student_arr as $val){
                         //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
-                        $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
-                        $assign_time = $this->t_student_info->get_ass_assign_time($val);
-                        
+                        $first_regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
+                        $assign_time = $this->t_student_info->get_ass_assign_time($val);                        
 
                         if($first_lesson_time>0 && $first_lesson_time<$month_half){
                             if($assign_time < $month_half){
