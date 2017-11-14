@@ -35,11 +35,17 @@ class wx_yxyx_web extends Controller
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
+            
             $url = "$web_html_url/$action.html?v=1101";
             if($action == 'bind'){
                 // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
             }
+            if(\App\Helper\Utils::check_env_is_test()){
+                $web_html_url = 'http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second/index.html?v=1101';
+            }
+            
+            \App\Helper\Utils::logger("YUAN URL:$url");
 
             header("Location: $url");
         }else{
