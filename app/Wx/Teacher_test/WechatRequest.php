@@ -1,5 +1,5 @@
 <?php
-namespace App\Wx\Teacher;
+namespace App\Wx\Teacher_test;
 /**
  * 处理请求
  * Created by Lane.
