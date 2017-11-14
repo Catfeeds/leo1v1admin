@@ -18,7 +18,7 @@
     </script>
 
     <section class="content " id="id_content">
-        <input type="hidden" id="id_order_by_str"> 
+        <input type="hidden" id="id_order_by_str">
         <div  id="id_query_row">
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -155,6 +155,15 @@
                         </table>
                     </div>
                 </div>
+
+                @if ($boby == 973)
+                    <div class="panel panel-warning" >
+                        <div class="panel-heading">
+                            <a class="btn btn-warning opt-no-order" href="javascript:;">本月首周未开单人员</a>
+                        </div>
+                    </div>
+                @endif
+
 
 
 
