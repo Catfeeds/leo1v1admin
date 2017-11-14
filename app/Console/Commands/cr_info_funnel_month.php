@@ -53,7 +53,7 @@ class cr_info_funnel_month extends Command
             $end_month   = date("Y-m",$end_time);
             $cur_start   = strtotime(date('Y-m-01',$start_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
-            if($task->t_cr_week_month_info->get_data_by_type($end_time,1)){
+            if(true){
                 if(date('d',$start_time) == '1' && date('d',$end_time) == '1'){//月报
                     $type = 1;
                     $create_time = $end_time;
@@ -108,7 +108,7 @@ class cr_info_funnel_month extends Command
                 //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
                 $tranfer_total_month['total_orderid'] = $month_tranfer_data['total_num'];
                 $tranfer_total_month['total_num']     = $month_tranfer;
-                if($tranfer_total_month['total_orderid']){
+                if($tranfer_total_month['total_num']){
                   $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
                 }else{
                   $arr['tranfer_success_per'] = 0;

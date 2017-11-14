@@ -325,13 +325,14 @@ class common_new extends Controller
             $teacher_info['is_test_user']  = $is_test_user;
 
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
+            if($full_time==1){
+                $html = $this->get_full_time_html($data);
+            }else{
+                $this->add_teacher_common($teacher_info);
+                $html = $this->get_email_html_new($name);
+            }
+
             if($email!=""){
-                if($full_time==1){
-                    $html = $this->get_full_time_html($data);
-                }else{
-                    $this->add_teacher_common($teacher_info);
-                    $html = $this->get_email_html_new($name);
-                }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             }

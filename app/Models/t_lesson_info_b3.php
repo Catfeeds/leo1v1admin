@@ -2183,6 +2183,23 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+    public function get_stu_first_regular_lesson_time($userid){
+        $where_arr=[
+            "lesson_del_flag=0",
+            "confirm_flag<2",
+            "lesson_type in (0,1,3)",
+            ["userid = %u",$userid,-1],
+            "lesson_status>0"
+        ];
+        $sql = $this->gen_sql_new("select min(lesson_start)"
+                                  ." from %s  "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 
 }

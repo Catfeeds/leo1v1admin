@@ -2413,6 +2413,7 @@ class tea_manage extends Controller
                 $teacher_info['level']    = 0;
                 $teacher_info['acc']      = $acc;
                 $teacher_info['identity'] = $identity;
+                $teacher_info['use_easy_pass'] = 2;
                 $teacherid = $this->add_teacher_common($teacher_info);
                 if(!$teacherid){
                     return $this->output_err("老师添加失败！");
@@ -2722,6 +2723,7 @@ class tea_manage extends Controller
         }
         return $this->output_succ();
     }
+
     public function set_train_lecture_status_b2(){
         $teacherid   = $this->get_in_int_val("teacherid");
         $lessonid    = $this->get_in_int_val("lessonid");
@@ -2785,6 +2787,7 @@ class tea_manage extends Controller
                 $teacher_info['level']    = 1;
                 $teacher_info['acc']      = $acc;
                 $teacher_info['identity'] = $identity;
+                $teacher_info['use_easy_pass'] = 2;
                 $teacherid = $this->add_teacher_common($teacher_info);
                 if(!$teacherid){
                     return $this->output_err("老师添加失败！");
@@ -2825,7 +2828,7 @@ class tea_manage extends Controller
                     $data['first']    = "老师您好,恭喜您已经成功通过试讲";
                     $data['keyword1'] = "通过";
                     $data['keyword2'] = "\n账号:".$phone
-                                      ."\n密码:123456"
+                                      ."\n密码:leo+手机号后4位"
                                       ."\n新师培训群号：315540732"
                                       ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
                     $data['keyword3'] = date("Y-m-d H:i",time());

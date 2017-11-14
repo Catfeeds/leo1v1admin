@@ -48,5 +48,17 @@ class t_month_def_type extends \App\Models\Zgen\z_t_month_def_type
         return $this->main_get_list($sql);
     }
 
+    public function get_month_week_time($start_time){
+        $where_arr = [
+            ['month_def_type = %u ',E\Emonth_def_type::V_3],
+            ['def_time = %u ',$start_time],
+        ];
+        $sql=$this->gen_sql_new(
+            "select * from %s where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

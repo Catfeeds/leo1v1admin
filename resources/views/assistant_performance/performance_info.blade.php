@@ -18,10 +18,17 @@
         
         <div>
             <div class="row">
-                <div class="col-xs-12 col-md-5">
+                <div class="col-xs-12 col-md-4">
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-12 col-md-5">
+                    <div class="input-group ">
+
+                        <span>*当前数据为10月数据</span>
+                    </div>
+                </div>
+
                
             </div>
         </div>
@@ -48,13 +55,14 @@
                     <tr>
                         <td>{{@$var["name"]}}</td> 
                         <td>{{@$var["revisit_reword"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["name"]}}</td> 
+                        <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
+                        <td>{{@$var["refund_reword_per"]}}</td> 
+                        <td>{{@$var["stop_reword_per"]}}</td> 
+                        <td>{{@$var["end_no_renw_reword_per"]}}</td> 
+                        <td>{{@$var["lesson_count_finish_reword"]}}</td> 
+                        <td>{{@$var["renw_reword"]}}</td> 
+                        <td>{{@$var["cc_tran_reword"]}}</td> 
+                        <td>{{@$var["all_reword"]}}</td> 
 
                         <td>
                             <div 
