@@ -116,45 +116,42 @@
                         <td>
                             {{$var["user_desc"]}} <br/>
                         </td>
-
-
                         <td>
                             {{@$var["tmk_desc"]}} <br/>
                         </td>
 
                         <td>
-                            <td>
-                                {{$var["grade_str"]}} <br/>
-                            </td>
+                            {{$var["grade_str"]}} <br/>
+                        </td>
 
-                            <td>
-                                {{$var["subject_str"]}} <br/>
-                            </td>
+                        <td>
+                            {{$var["subject_str"]}} <br/>
+                        </td>
 
-                            <td>
-                                {{$var["has_pad_str"]}} <br/>
-                            </td>
+                        <td>
+                            {{$var["has_pad_str"]}} <br/>
+                        </td>
 
-                            <td>
-                                {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
-                                <br/>
-                            </td>
+                        <td>
+                            {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
+                            <br/>
+                        </td>
 
 
-                            <td>
-                                <div
-                                    {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                                >
-                                    <!-- <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a> -->
-                                    <!-- <a class="fa fa-times opt-del" title="删除"> </a> -->
-                                    <!-- <a class="fa fa-phone opt-telphone " title="电话列表"> </a> -->
-                                    <a title="手机拨打" class=" fa-phone  opt-telphone   "></a>
-                                    <a class="fa fa-flag opt-publish-flag " title="设置是否有效"> </a>
+                        <td>
+                            <div
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                                <!-- <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a> -->
+                                <!-- <a class="fa fa-times opt-del" title="删除"> </a> -->
+                                <!-- <a class="fa fa-phone opt-telphone " title="电话列表"> </a> -->
+                                <a title="手机拨打" class=" fa-phone  opt-telphone   "></a>
+                                <a class="fa fa-flag opt-publish-flag " title="设置是否有效"> </a>
 
-                                    <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                    <a class="fa fa-edit opt-edit"  title="编辑" > </a>
-                                </div>
-                            </td>
+                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
+                                <a class="fa fa-edit opt-edit"  title="编辑" > </a>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
