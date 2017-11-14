@@ -160,10 +160,10 @@
                                         <td class="panel-red">试听成功数</td>
                                         <td class="panel-red">签单数</td>
                                         <td class="panel-red">月邀约率</td>
-                                        <td class="panel-red">月排课率</td>
-                                        <td class="panel-red">月到课率</td>
+                                        <td class="panel-red"><a title="月初至今试听排课数/试听邀约数">月排课率</a></td>
+                                        <td class="panel-red"><a title="月初至今试听成功数/试听排课数">月到课率</a></td>
                                         <td class="panel-red">月试听转化率</td>
-                                        <td class="panel-red">月签约率</td>
+                                        <td class="panel-red"><a title="月初至今试听邀约数/已拨通">月签约率</a></td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">

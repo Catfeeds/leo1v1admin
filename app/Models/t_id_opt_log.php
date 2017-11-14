@@ -115,4 +115,24 @@ class t_id_opt_log extends \App\Models\Zgen\z_t_id_opt_log
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_yxyx_last_adminid(){
+        $now = time(null);
+        $where_arr=[
+            ["l.log_type=%u" ,E\Edate_id_log_type::V_SELLER_ASSIGNED_COUNT],
+            "s.origin='优学优享'",
+            ['l.log_time>=%u',$now-3600*24],
+            ['l.log_time<%u',$now],
+        ];
+        $sql=$this->gen_sql_new(
+            " select l.opt_id adminid "
+            ." from %s l "
+            ." left join %s s on s.userid=l.value "
+            ." where %s order by log_time desc ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
