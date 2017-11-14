@@ -42,7 +42,7 @@ class wx_yxyx_web extends Controller
                 $url = "$web_html_url/index.html#bind";
             }
             if(\App\Helper\Utils::check_env_is_test()){
-                $web_html_url = 'http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second/index.html?v=1101';
+                $url = 'http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second/index.html?v=1101';
             }
             
             \App\Helper\Utils::logger("YUAN URL:$url");
