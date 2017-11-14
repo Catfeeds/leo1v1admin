@@ -52,6 +52,7 @@ class wx_yxyx_web extends Controller
                     $url = $wx_config["test_url"].'/login.html';
                 
             }
+            \App\Helper\Utils::logger("one_url $url "); 
             header("Location: $url");
         }else{
             \App\Helper\Utils::logger('yxyx_yyy');
