@@ -14,10 +14,10 @@ class t_ass_stu_change_list extends \App\Models\Zgen\z_t_ass_stu_change_list
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"as.add_time",$start_time,$end_time);
-        // $sql = $this->gen_sql_new("select as.* "
-        //                           ."from % as left join %s s on as.userid = s.userid"
-        //                           ." where %s"
-        // );
+        $sql = $this->gen_sql_new("select as.* "
+                                  ."from % as left join %s s on as.userid = s.userid"
+                                  ." where %s"
+        );
     }
 
 }
