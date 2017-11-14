@@ -29,6 +29,11 @@ class wx_yxyx_web extends Controller
 
         $wx_config=\App\Helper\Config::get_config("yxyx_wx");
         $base_url=$wx_config["url"];
+        //测试环境
+        if(\App\Helper\Utils::check_env_is_test()){
+            $base_url=$wx_config["test_url"];
+        }
+
         if($agent_id_new){
             $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $base_url ) ;
 
@@ -41,10 +46,7 @@ class wx_yxyx_web extends Controller
                 // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
             }
-            if(\App\Helper\Utils::check_env_is_test()){
-                $url = 'http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second/index.html?v=1101';
-            }
-            
+                        
             \App\Helper\Utils::logger("YUAN URL:$url");
 
             header("Location: $url");
