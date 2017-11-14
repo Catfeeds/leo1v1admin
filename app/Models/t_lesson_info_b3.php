@@ -2170,11 +2170,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
-            ["l.userid = %u",$userid,-1]
+            ["l.userid = %u",$userid,-1],
+            "l.lesson_status>0"
         ];
         $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid"
                                   ." from %s l "
-                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and subject = l.subject and userid = l.userid)"
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and subject = l.subject and userid = l.userid and lesson_status>0)"
                                   ." group by l.subject,l.userid",
                                   self::DB_TABLE_NAME,
                                   $where_arr,

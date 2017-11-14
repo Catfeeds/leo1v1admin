@@ -119,6 +119,12 @@ class assistant_performance extends Controller
                 $first_lesson_time = $t_item["lesson_start"];
             }
         }
+
+        if($first_lesson_time>0 && $first_lesson_time<$start_time){
+            if($assign_time < $month_half){
+                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal(155410,$t_item["lesson_start"],$revisit_end,"曹文显",5);
+            }
+        }
         dd(date("Y-m-d",$first_lesson_time));
  
        
