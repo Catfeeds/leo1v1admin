@@ -6,23 +6,62 @@
         <div>
             <div class="row  row-query-list" >
                
-                <div class="col-xs-6 col-md-3" data-always_show="1">
+                <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <span class="input-group-addon">财务审核状态</span>
                         <select class="opt-change form-control" id="id_agent_check_money_flag" >
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">手机</span>
                         <input class="opt-change form-control" id="id_phone" />
                     </div>
                 </div>
-                
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">提现人昵称</span>
+                        <input class="opt-change form-control" id="id_nickname" />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6"  data-title="时间段">
+                    <div  id="id_date_range" >
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">单笔提现额度</span>
+                        <input class="opt-change form-control" id="id_cash_range" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">审核人</span>
+                        <select id="id_check_money_admin_nick">
+                            <option value ="">全部</option>
+                            <option value ="amamda">amanda</option>
+                            <option value ="echo">echo</option>
+                            <option value="chenyu">chenyu</option>
+                            <option value="-1">其他</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
+        <div class="row have_userid">
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">申请人数:{{@$cash_person_count}}人</span>
+                    <span class="input-group-addon">申请次数:{{@$cash_count}}次</span>
+                    <span class="input-group-addon">驳回金额:{{@$cash_refuse_money}}元</span>
+                    <span class="input-group-addon">冻结金额:{{@$cash_freeze_money}}元</span>
+                </div>
+            </div>
+        </div>
+
 
         <table     class="common-table"  >
             <thead>
@@ -33,6 +72,7 @@
                     <td>可提现 </td>
                     <td>已提现 </td>
                     <td>提现金额 </td>
+                    <td>冻结金额</td>
                     <td>提现类型 </td>
                     <td>银行卡号 </td>
                     <td>银行卡类型 </td>
@@ -60,6 +100,7 @@
                         <td>{{@$var["all_open_cush_money"]}} </td>
                         <td>{{@$var["all_have_cush_money"]}} </td>
                         <td>{{@$var["cash"]}} </td>
+                        <td>{{@$var["agent_cash_money_freeze"]}} </td>
                         @if($var['type'] == 1)
                             <td>银行卡</td>
                         @elseif($var['type'] == 2)
@@ -88,7 +129,10 @@
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
                                 <a class="fa-gavel opt-money-check " title="财务确认" ></a>
                                 <!--  <a class="fa fa-times opt-del" title="删除"> </a> -->
-
+                                <a class="fa fa-hourglass-2 opt-freeze" title="冻结"> </a>
+                                <a class="fa fa-sticky-note-o opt-freeze_reason" title="冻结原因"> </a>
+                                <a class="fa fa-send-o opt-money_detail" title="体现金额来源明细"> </a>
+                                
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>
                             </div>

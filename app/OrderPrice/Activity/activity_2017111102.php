@@ -9,7 +9,7 @@ class activity_2017111102  extends  activity_config_base {
         parent::__construct($args);
 
         //2017-1110-12 ,CR,90次, 全款, 送9次
-        $this->date_range=[ "2017-11-11"  , "2017-11-12"];
+        $this->date_range=[ "2017-11-11"  , "2017-11-13"];
         $this->user_join_time_range=["2017-11-01", "2017-11-15"];
 
         $this->period_flag_list= [ E\Eperiod_flag::V_0 , E\Eperiod_flag::V_1  ];

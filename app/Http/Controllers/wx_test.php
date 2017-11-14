@@ -18,9 +18,6 @@ use LaneWeChat\Core\UserManage;
 
 use LaneWeChat\Core\TemplateMessage;
 
-
-
-
 include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
 
@@ -46,11 +43,9 @@ class  wx_test extends Controller
             array('id'=>'1', 'pid'=>'0', 'name'=>'排课评价', 'type'=>'', 'code'=>''),
             array('id'=>'2', 'pid'=>'0', 'name'=>'查工资', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'帮助中心', 'type'=>'', 'code'=>''),
-
             array('id'=>'4', 'pid'=>'1', 'name'=>'设置上课时间', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/jump_page?url=course_arrange.html'),
             array('id'=>'5', 'pid'=>'1', 'name'=>'试听课评价', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/jump_page?url=comment_list.html?type=0'),
             array('id'=>'6', 'pid'=>'1', 'name'=>'常规课评价', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/jump_page?url=comment_list.html?type=1'),
-
             array('id'=>'7', 'pid'=>'2', 'name'=>'荣誉棒', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/jump_page?url=honor_rank.html'),
             array('id'=>'8', 'pid'=>'2', 'name'=>'老师升级制度', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/jump_page?url=wage_upgrade_rule.html'),
             array('id'=>'9', 'pid'=>'2', 'name'=>'薪资奖励规则', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/jump_page?url=wage_award_rule.html'),
@@ -83,7 +78,6 @@ class  wx_test extends Controller
 
 
     public function wx_send_phone_code () {
-
         $phone = $_GET['phone'];
         $code = rand(1000,9999);
         $ret=\App\Helper\Utils::sms_common($phone, 10671029,[

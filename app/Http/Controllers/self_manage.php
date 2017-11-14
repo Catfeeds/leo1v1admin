@@ -155,6 +155,18 @@ class self_manage extends Controller
         if ($flow_check_flag== E\Eflow_check_flag::V_PASS ) {
             $ret=\App\Flow\flow_base::do_flow_pass($nodeid,$flow_check_flag, $check_msg );
             if($ret) {
+                \App\Helper\Utils::logger("flow_type ".$flow_info['flow_type']);
+                if($flow_info['flow_type'] == E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE){
+                    $agent_money_ex = $this->t_agent_money_ex->field_get_list($flow_info['from_key_int'],'*');
+                    //@desn:添加收入记录到优学优享收入记录表
+                    $this->t_agent_income_log->row_insert([
+                        'agent_income_type' => E\Eagent_income_type::V_ACTIVITY_INCOME,
+                        'money' => $agent_money_ex['money'],
+                        'agent_id' => $agent_money_ex['agent_id'],
+                        'child_agent_id' => '',
+                        'create_time' => time(NULL)
+                    ]);
+                }
                 return $this->output_succ();
             }else{
                 return $this->output_err("下个审批人不存在");

@@ -38,13 +38,12 @@ class Wechat extends \LaneWeChat\Core\Wechat   {
         //是否打印错误报告
         $this->debug = $debug;
         //接受并解析微信中心POST发送XML数据
-        $data=file_get_contents('php://input');
-        $xml = (array) simplexml_load_string( $data, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $data = file_get_contents('php://input');
+        $xml  = (array)simplexml_load_string($data,'SimpleXMLElement',LIBXML_NOCDATA);
         //将数组键名转换为小写
-        $this->request = array_change_key_case($xml, CASE_LOWER);
+        $this->request = array_change_key_case($xml,CASE_LOWER);
 
         \App\Helper\Utils::logger("xuejistep6".json_encode($this->request));
-
     }
 
 

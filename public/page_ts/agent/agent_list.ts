@@ -211,6 +211,25 @@ $(function(){
         $.wopen("/agent/agent_user_link?id="+ opt_data.id  );
 
     });
+    //@desn:学员明细
+    $(".student_info").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_child_info?id="+ opt_data.id+"&type=1"  );
+
+    });
+    //@desn:会员明细
+    $(".member_info").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_child_info?id="+ opt_data.id+"&type=2"  );
+
+    });
+    //@desn:会员+学员明细
+    $(".member_student_info").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_child_info?id="+ opt_data.id+"&type=3" );
+
+    });
+
 
 
     $(".opt-reset-info").on("click",function(){
@@ -228,7 +247,64 @@ $(function(){
     });
 
 
+    //@desn:查看体现来源明细
+    $(".opt-return-back-list").on("click",function(){
+        //优学优享会员、学员用标识
+        var opt_data=$(this).get_opt_data();
+        
+        var userid=$(this).parent().data("userid");
+        var phone=$(this).parent().data("phone");
+        $.ajax({
+            type     : "post",
+            url      : "/agent/get_agent_income_log/",
+            dataType : "json",
+            size     : BootstrapDialog.SIZE_WIDE,
+            data     : {"userid":userid,phone:phone},
+            success  : function(result){
+                var html_str=$("<div id=\"div_table\"><table class = \"table table-bordered table-striped\"  > <tr><th> 时间  <th> 回访类型 <th>回访路径 <th> 负责人 <th>对象 <th>内容 <th>详情 </tr> </table></div>");
+                $.each( result.revisit_list ,function(i,item){
+                    //console.log(item);
+                    //return;
 
+                    var revisit_person = "";
+                    if(item.revisit_person  ) {
+                        revisit_person = item.revisit_person;
+                    }
+                    var userid     = item["userid"];
+                    var revisit_time  = item["revisit_time"];
+                    if(userid){
+                        var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
+                            item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
+                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
+                            item.operator_note+"</td><td><a class = \"opt_detail\" data-userid=\""+userid+"\" data-revisit_time=\""+revisit_time+"\">详情</a></td></tr>";
+                    }else{
+                        var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
+                            item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
+                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
+                            item.operator_note+"</td><td></td></tr>";
+                    }
+                    html_str.find("table").append(html);
+                });
 
+                var dlg = BootstrapDialog.show({
+                    title    : '回访记录',
+                    message  : html_str ,
+                    closable : true,
+                    buttons  : [{
+                        label: '查看全部',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
 
+                        }
+                    },{
+                        label  : '返回',
+                        action : function(dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            },
+
+        });
+    });
 });

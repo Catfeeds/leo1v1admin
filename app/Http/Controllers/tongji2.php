@@ -1512,7 +1512,7 @@ class tongji2 extends Controller
     }
 
     public function subject_transfer(){
-        list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
+        //list($start_time,$end_time)=$this->get_in_date_range( date("Y-m-d",time(NULL)-90*86500),date("Y-m-d",time(NULL)));
         /*
         $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $log_type  = E\Edate_id_log_type::V_VALID_USER_COUNT;
@@ -1528,16 +1528,25 @@ class tongji2 extends Controller
         });
         //dd(2);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
-        */
-
+        
+        $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
+        $end_time   = $this->get_in_end_time_from_str_next_day(
+            date("Y-m-d",(strtotime(date("Y-m-01",time(NULL)))-86400)));
+            */
+        $this->get_in_int_val( "chinese",1);
+        $this->get_in_int_val( "math",1);
+        $this->get_in_int_val( "english",1);
+        //$start_time = $this->get_in_start_time_from_str(date("Y-m-01",time(NULL)-15*86400));
+        $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
+        $end_time   = $this->get_in_end_time_from_str(
+            date("Y-m-d",time(NULL)));
 
         $first_time  = strtotime(date('Y-m-01',$start_time));
         $second_time = strtotime(date('Y-m-01',$end_time));
-
         $i = $first_time;
         $montharr = [];
         while($i  <= $second_time){
-            $montharr[] = date('Y-m-01',$i);
+            $montharr[] = date('Y-m-01',$i);                                                                     
             $i = strtotime('+1 month', $i);
         }
         $i = 0;
@@ -1567,6 +1576,31 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
 
+    public function fulltime_teacher_kpi_chart(){
+        $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
+        $end_time   = $this->get_in_end_time_from_str(
+            date("Y-m-d",time(NULL)));
+
+        $first_time  = strtotime(date('Y-m-01',$start_time));
+        $second_time = strtotime(date('Y-m-01',$end_time));
+        $i = $first_time;
+        $montharr = [];
+        while($i  <= $second_time){
+            $montharr[] = date('Y-m-01',$i);                                                                     
+            $i = strtotime('+1 month', $i);
+        }
+        $i = 0;
+        $subject_chinese = [];
+        $subject_math = [];
+        $subject_english = [];
+        $date_list = [];
+        foreach ($montharr as $key => $value) {
+            $time1 = strtotime($value);
+            $month = date('Y-m',$time1);
+            $time2 = strtotime('+1 month',$time1);
+            $wuhan_student_num = $this->t_teacher_info->get_wuhan_student_number($time1,$time2);
+        }
+    }
 
     public function total_money()
     {

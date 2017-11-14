@@ -22,13 +22,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	all_price	:any;
-	transfer_introduction_price	:any;
-	new_price	:any;
-	normal_price	:any;
-	extend_price	:any;
-	all_price_suc	:any;
-	all_price_fail	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -51,25 +44,26 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-contract_count.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		contract_type:	$('#id_contract_type').val(),
+		is_test_user:	$('#id_is_test_user').val(),
+		studentid:	$('#id_studentid').val(),
+		check_money_flag:	$('#id_check_money_flag').val(),
+		origin:	$('#id_origin').val(),
+		from_type:	$('#id_from_type').val(),
+		account_role:	$('#id_account_role').val(),
+		sys_operator:	$('#id_sys_operator').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			contract_type:	$('#id_contract_type').val(),
-			is_test_user:	$('#id_is_test_user').val(),
-			studentid:	$('#id_studentid').val(),
-			check_money_flag:	$('#id_check_money_flag').val(),
-			origin:	$('#id_origin').val(),
-			from_type:	$('#id_from_type').val(),
-			account_role:	$('#id_account_role').val(),
-			sys_operator:	$('#id_sys_operator').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_is_test_user"));
 

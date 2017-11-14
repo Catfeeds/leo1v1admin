@@ -2,5 +2,5 @@
 namespace App\Config;
 class publish_version {
     //不要手动修改
-    static public $version="20171111-192625";
+    static public $version="20171114-103054";
 };

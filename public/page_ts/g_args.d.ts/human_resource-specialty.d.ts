@@ -32,14 +32,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-specialty.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		teacherid:	$('#id_teacherid').val(),
+		subject:	$('#id_subject').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			teacherid:	$('#id_teacherid').val(),
-			subject:	$('#id_subject').val()
-        });
-    }
 
 
 	$('#id_grade').val(g_args.grade);

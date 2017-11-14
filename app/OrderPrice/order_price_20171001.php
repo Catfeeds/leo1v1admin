@@ -102,6 +102,7 @@ class order_price_20171001 extends order_price_base
         $off_ret=
                 $do_activity_fun ( Activity\activity_2017111101::class  )
                 ||$do_activity_fun ( Activity\activity_2017111201::class  )
+                ||$do_activity_fun ( Activity\activity_2017111301::class  )
                 || $do_activity_fun ( Activity\activity_2017111002::class  )
                 ;
 
