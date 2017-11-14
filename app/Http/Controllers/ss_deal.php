@@ -1263,6 +1263,26 @@ class ss_deal extends Controller
             }
 
         }
+
+        //增加驳回历史数据
+        $rebut_info = $this->t_test_lesson_subject->get_rebut_info($test_lesson_subject_id);
+        $rebut_arr=[
+            "rebut_adminid"=> $this->get_account_id(),
+            "rebut_reason" => $fail_reason,
+            "rebut_time"   => time()
+        ];
+        if($rebut_info){
+            $rebut_list = json_decode($rebut_info,true);
+        }else{
+            $rebut_list = [];
+        }
+        $rebut_list[]=$rebut_arr;
+        $rebut_info_new = json_encode($rebut_list);
+        $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+            "rebut_info" =>$rebut_info_new,
+            "rebut_flag" =>1
+        ]);
+        
         return $this->output_succ();
     }
 
@@ -6258,8 +6278,6 @@ class ss_deal extends Controller
                 $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
                 $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
-
-
             } elseif($account_type == 3){ // QC
 
                 $first_qc   = "QC退费投诉反馈通知";
@@ -6389,9 +6407,13 @@ class ss_deal extends Controller
 
 
             foreach($notice_wx_openid as $wx_item){
-                if($wx_item !='orwGAswyJC8JUxMxOVo35um7dE8M'){ // 避免qc重复推送
+                if(!in_array($wx_item,$qc_openid_arr)){// 避免qc重复推送
                     $ret_director = $wx->send_template_msg($wx_item,$template_id,$data_msg ,$url);
                 }
+
+                // if($wx_item !='orwGAswyJC8JUxMxOVo35um7dE8M'){ // 避免qc重复推送
+                //     $ret_director = $wx->send_template_msg($wx_item,$template_id,$data_msg ,$url);
+                // }
             }
         }
         return $this->output_succ();

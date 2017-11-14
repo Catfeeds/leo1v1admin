@@ -541,7 +541,7 @@ class NewRouteConfig {
         "/authority/edit_member_info" => true,
         "/authority/set_fulltime_teacher_type" => true,
         "/fulltime_teacher/fulltime_teacher_count" => true,
-
+        "/tongji2/fulltime_teacher_kpi_chart"  => true,
 
         "/revisit/get_revisit_info"                 => true,
         "/revisit/update_revisit"                   => true,

@@ -80,6 +80,13 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">是否分期</span>
+                    <select class="opt-change form-control" id="id_can_period_flag" >
+                    </select>
+                </div>
+            </div>
         </div>
         <hr/>
         <div class="row have_userid">
@@ -125,7 +132,7 @@
                     <td >财务确认状态</td>
                     <td >财务确认人</td>
                     <td >财务确认时间</td>
-                    <td >财务确认说明</td>
+                    <td >财务确认说明/是否分期</td>
                     <td  >操作</td>
                 </tr>
             </thead>
@@ -195,7 +202,7 @@
                         <td >{{$var["check_money_flag_str"]}}</td>
                         <td >{{$var["check_money_admin_nick"]}}</td>
                         <td >{{$var["check_money_time"]}}</td>
-                        <td >{{$var["check_money_desc"]}}</td>
+                        <td >{{$var["check_money_desc"]}}/{!! $var["can_period_flag_str"] !!}</td>
                         <td >
                             <div class="btn-group"
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

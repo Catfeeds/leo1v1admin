@@ -37,15 +37,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-lesson_account.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		lesson_type:	$('#id_lesson_type').val(),
+		teacherid:	$('#id_teacherid').val(),
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			lesson_type:	$('#id_lesson_type').val(),
-			teacherid:	$('#id_teacherid').val(),
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val()
-        });
-    }
 
 
 	$('#id_lesson_type').val(g_args.lesson_type);

@@ -147,6 +147,9 @@ interface RowData {
 	address	:any;
 	parent_name	:any;
 	seller_top_flag	:any;
+	grab_flag	:any;
+	rebut_info	:any;
+	rebut_flag	:any;
 	id	:any;
 	lesson_time	:any;
 	use_new_flag	:any;
@@ -162,6 +165,7 @@ interface RowData {
 	stu_test_lesson_level_str	:any;
 	test_lesson_order_fail_flag_str	:any;
 	stu_test_ipad_flag_str	:any;
+	grab_flag_str	:any;
 	accept_flag_str	:any;
 	limit_accept_flag_str	:any;
 	teacher_nick	:any;

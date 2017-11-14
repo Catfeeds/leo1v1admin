@@ -25,15 +25,14 @@ class AccessToken  {
 
         $wx= new \App\Helper\Wx() ;
         return $wx->get_wx_token(WECHAT_APPID_YXYX,WECHAT_APPSECRET_YXYX);
-        /*
-        //检测本地是否已经拥有access_token，并且检测access_token是否过期
-        $accessToken = self::_checkAccessToken();
-        if($accessToken === false){
-            $accessToken = self::_getAccessToken();
-        }
-        */
+        
+        // //检测本地是否已经拥有access_token，并且检测access_token是否过期
+        // $accessToken = self::_checkAccessToken();
+        // if($accessToken === false){
+        //     $accessToken = self::_getAccessToken();
+        // }
 
-        //return $accessToken['access_token'];
+        // return $accessToken['access_token'];
     }
 
     /**

@@ -30,6 +30,15 @@ $(function(){
 
 	  $('.opt-change').set_input_change_event(load_data);
 
+    // 明细
+    $('.opt-show').on('click',function(){
+        var data=$(this).get_opt_data();
+        var teacherid=data.teacherid;
+        var start_time=g_data.start_time;
+        var end_time=g_data.end_time;
+        window.location.href="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&end_time="+end_time;
+    })
+
     $('.opt-edit').on('click', function() {
         var opt_data=$(this).get_opt_data();
         var s_input = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');

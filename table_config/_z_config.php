@@ -1,5 +1,7 @@
 <?php
 return array(
+    ["db_weiyi","t_agent_income_log","logid"],
+    ["db_weiyi","t_agent_cash_money_freeze","id"],
     ["db_weiyi","t_agent_group_member_result","id"],
     ["db_weiyi","t_teacher_salary_list","id"],
     ["db_weiyi_admin","t_web_page_info","web_page_id"],

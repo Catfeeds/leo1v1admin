@@ -24,12 +24,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji2-seller_student_admin_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		del_flag:	$('#id_del_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			del_flag:	$('#id_del_flag').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_del_flag"));
 

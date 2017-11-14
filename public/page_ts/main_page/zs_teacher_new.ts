@@ -23,6 +23,14 @@ $(function(){
         }
     });
 
+    var curDate = new Date();   
+    var curHour = curDate.getHours();      //获取当前小时数(0-23)
+    if(g_args.acc_name=="zoe" || g_args.acc_name=="jim" || g_args.acc_name=="jack"){
+        $("#id_opt_date_type").show(); 
+    }else{
+       $("#id_opt_date_type").hide();
+    }
+
 
     function show_top( $person_body_list) {
         

@@ -709,9 +709,9 @@ class main_page extends Controller
 
     public  function assistant() {
         $this->switch_tongji_database();
-        /*return $this->error_view([
-            "关闭首页统计,请看其它."
-            ]);*/
+        // return $this->error_view([
+        //     "关闭首页统计,请看其它."
+        // ]);
 
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
@@ -1658,8 +1658,10 @@ class main_page extends Controller
         return $this->zs_teacher();
     }
     public function zs_teacher_new(){
+        // dd("暂停!");
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+       
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],1 );
 
         $all_total = $system_total=$self_total=$no_call_total=0;
         $ret_info = $this->t_manager_info->get_admin_work_status_info(8);
@@ -1707,6 +1709,8 @@ class main_page extends Controller
 
 
         }
+
+       
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
 
@@ -1737,9 +1741,11 @@ class main_page extends Controller
         }
 
         $data["all_succ"] = count($teacher_list_ex);
+        
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
-        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
+        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;       
+
 
         $video_pass = $one_pass=[];
         for($i=1;$i<=10;$i++){
@@ -1821,6 +1827,8 @@ class main_page extends Controller
 
 
 
+        $this->set_filed_for_js("acc_name",$this->get_account());        
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
             "all_total"   => $all_total,
@@ -1828,10 +1836,10 @@ class main_page extends Controller
             "system_total"   => $system_total,
             "self_total"   => $self_total,
             "data"        =>$data,
-            "zs_one_list" =>$zs_one_list,
-            "zs_video_list"=>$zs_video_list,
-            "zs_entry_list" => $zs_entry_list,
-            "entry_total" => $entry_total,
+            "zs_one_list" =>@$zs_one_list,
+            "zs_video_list"=>@$zs_video_list,
+            "zs_entry_list" => @$zs_entry_list,
+            "entry_total" => @$entry_total,
         ]);
     }
 

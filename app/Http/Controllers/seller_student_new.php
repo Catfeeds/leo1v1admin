@@ -345,6 +345,10 @@ class seller_student_new extends Controller
 
         // $ftf = json_encode($require_adminid_list);
         // \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
+        //优学优享,张植源,张龙
+        if(in_array($this->get_account(),['张植源','张龙'])){
+            $origin = '优学优享';
+        }
 
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
@@ -1098,7 +1102,7 @@ class seller_student_new extends Controller
     public function get_free_seller_list_data() {
         // list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -80,0,0,[
+            -7,0,0,[
                 0 => array("n.add_time","资源进来时间"),
                 1 => array("l.lesson_start","试听成功时间"),
                 2 => array("n.free_time","回流公海时间"),
@@ -1180,7 +1184,7 @@ class seller_student_new extends Controller
         $log_type = E\Edate_id_log_type::V_SELLER_GET_HISTORY_COUNT;
         $adminid = $this->get_account_id();
         $start_time = strtotime(date("Y-m-d"));
-        $end_time = time(); 
+        $end_time = time();
         $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
         $left_count = (30-$history_count)>0?30-$history_count:0;
         return $this->pageView(__METHOD__, $ret_info,['left_count'=>$left_count]);
@@ -1376,7 +1380,14 @@ class seller_student_new extends Controller
 
         $seller_student_status      = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
-        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
+        // $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
+        //判断是否是张龙384，邵少鹏795，蒋文武689
+        $adminid = $this->get_account_id();
+        if ($adminid != 384 && $adminid != 795 && $adminid != 689 ){
+            $adminid = 0;
+        }
+        $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject,$adminid);
+
 
         // dd($ret_info);
 

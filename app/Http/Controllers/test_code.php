@@ -1428,4 +1428,92 @@ class test_code extends Controller
     }
 
 
+    public function randFloat($min=0, $max=1){
+        return $min + mt_rand()/mt_getrandmax() * ($max-$min);
+    }
+
+    public function test_shidai(){
+        $login_url = $this->base_url."/user/login.html";
+
+        $userId   = "";
+        $password = "";
+        $login_data = [
+            "userId"   => $userId,
+            "password" => $password,
+        ];
+        $ret = $this->send_post_data($login_url,$login_data);
+
+        preg_match('/Set-Cookie:(.*);/iU',$ret,$str);
+
+        echo "str is:";
+        echo $this->br;
+        var_dump($str);
+        echo "ret is :";
+        echo $this->br;
+        var_dump($ret);
+    }
+
+    public function get_user_data(){
+        $cookie = "acw_tc=AQAAAMD/1xZN7QwAPeBRZWlqFabRep+r; JSESSIONID=EE5ED08F7F71DB7B0135D364E94564E7; logined=y";
+        $get_url = $this->base_url."/vipRepay/getRepayList.html";
+        $get_data = [
+            "page"=>1,
+            "rows"=>10,
+        ];
+        $ret = $this->send_post_data($get_url,$get_data,false,$cookie);
+        \App\Helper\Utils::debug_to_html( $ret );
+        dd($ret);
+    }
+
+    /**
+     * @param string url 访问的地址
+     * @param array data 所传参数
+     * @param string cookie 所传cookie
+     */
+    function send_post_data($url, $data,$has_header=true,$cookie="")
+    {
+        $ch = curl_init();
+        if ($ch === false) {
+            return false;
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        if($has_header){
+            curl_setopt($ch, CURLOPT_HEADER, true);
+        }
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); // wait to connect
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);//wait to execute
+        if($cookie!=""){
+            curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+        }
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+    public function test_url(){
+
+        //获取用户代理 
+        echo $_SERVER['HTTPS']."<br>"; 
+        exit;
+        //获取完整的url
+        echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+        #http://localhost/blog/testurl.php?id=5
+
+        //包含端口号的完整url
+        echo 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"]; 
+        #http://localhost:80/blog/testurl.php?id=5
+
+        //只取路径
+        $url='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]; 
+        echo dirname($url);
+        // var_dump($_SERVER['HTTP_HOST']);
+    }
+
+
 }

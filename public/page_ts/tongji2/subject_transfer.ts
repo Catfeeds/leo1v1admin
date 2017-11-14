@@ -3,34 +3,56 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    var start_time = $("#id_start_time").val();
+    var end_time   = $("#id_end_time").val();
     $.reload_self_page ( {
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val()
+        "start_time" : start_time,
+        "end_time"   : end_time,
+        "chinese"    : $('#id_chinese').iCheckValue(),
+        "math"       : $('#id_math').iCheckValue(),
+        "english"    : $('#id_english').iCheckValue(),
     });
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+
+    $('#id_start_time').val(g_args.start_time);
+    $('#id_end_time').val(g_args.end_time);
     $("#id_pic_user_count").css({
         "height"  : "400px",
         "width"  : "95%"
     });
+    if ( g_args.chinese ) {
+        $("#id_chinese").iCheck("check");
+    }
+    if ( g_args.math ) {
+        $("#id_math").iCheck("check");
+    }
+    if ( g_args.english ) {
+        $("#id_english").iCheck("check");
+    }
+
     var subject_chinese=[];
     var subject_math=[];
     var subject_english=[];
+    $('#id_start_time').datetimepicker({
+        lang:'ch',
+        timepicker:false,
+        format:'Y-m-d',
+        onChangeDateTime :function(){
+            load_data();
+        }
+    });
+
+    $('#id_end_time').datetimepicker({
+        lang:'ch',
+        timepicker:false,
+        format:'Y-m-d',
+        onChangeDateTime :function(){
+            load_data();
+        }
+    });
 
 
     $.each( g_data_ex_list,function(i,item){
@@ -44,34 +66,40 @@ $(function(){
     var show_plot=function( ) {
         var id_name="id_pic_user_count";
         var plot_data_list=[];
-        plot_data_list.push(
-            {
-                data: subject_chinese,
-                lines: { show: true
-                         , lineWidth: 0.3},
-                label: "语文"
-            });
 
-        plot_data_list.push(
-            {
-                data: subject_math,
-                lines: { show: true
-                         , lineWidth: 0.3},
-                label: "数学"
-            });
 
-        plot_data_list.push(
-            {
-                data: subject_english,
-                lines: { show: true
-                         , lineWidth: 0.3},
-                label: "英语"
-            });
-
+        if ($("#id_chinese").iCheckValue() ) {
+            plot_data_list.push(
+                {
+                    data: subject_chinese,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "语文"
+                });
+        }
+        if ($("#id_math").iCheckValue() ) {
+            plot_data_list.push(
+                {
+                    data: subject_math,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "数学"
+                });
+        }
+        if ($("#id_english").iCheckValue() ) {
+            plot_data_list.push(
+                {
+                    data: subject_english,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "英语"
+                });
+        }
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
                 lines: {
-                    show: true
+                    show: true,
+                    colors: ["#00c0ef", "#dd4b39", "#f39c12"]
                 },
 
                 points: {
@@ -82,6 +110,11 @@ $(function(){
             xaxis: {
                 mode: "categories",
                 tickLength: 0
+            },
+            yaxis:{
+                min: 0,
+                max: 100,
+                tickSize: 10,
             },
             grid: {
                 hoverable: true,
@@ -98,7 +131,8 @@ $(function(){
             ,legend: {
                 show: true ,
                 position:"nw"
-            }
+            },
+            colors: ["#00c0ef", "#dd4b39", "#f39c12"]
         });
 
         $("<div id='tooltip'></div>").css({
@@ -128,6 +162,5 @@ $(function(){
     }
     show_plot();
 
-	$('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
-

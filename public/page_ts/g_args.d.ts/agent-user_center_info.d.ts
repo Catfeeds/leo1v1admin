@@ -1,4 +1,5 @@
 interface GargsStatic {
+	nickname:	number;
 	phone:	number;
 	id:	number;
 }
@@ -23,6 +24,7 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		nickname:	$('#id_nickname').val(),
 		phone:	$('#id_phone').val(),
 		id:	$('#id_id').val()
     });
@@ -30,6 +32,7 @@ function load_data(){
 $(function(){
 
 
+	$('#id_nickname').val(g_args.nickname);
 	$('#id_phone').val(g_args.phone);
 	$('#id_id').val(g_args.id);
 
@@ -41,6 +44,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">nickname</span>
+                <input class="opt-change form-control" id="id_nickname" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

@@ -54,10 +54,7 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
 
         $tea_lesson_list = $t_lesson_info_b3->get_teacher_tomorrow_lesson_list($this->lesson_start, $this->lesson_end);
         $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk';
-        $i = 1;
         foreach($tea_lesson_list as $item){
-            $this->delete();
-
             $tea_lesson_info = $t_lesson_info_b3->get_tea_lesson_info($this->lesson_start, $this->lesson_end,$item['teacherid']);
             $keyword1 = '';
             foreach($tea_lesson_info as $i=> $v){
@@ -91,7 +88,6 @@ class send_wx_tomorrow_tea extends Job implements ShouldQueue
         $par_lesson_list = $t_lesson_info_b3->get_parent_tomorrow_lesson_list($this->lesson_start, $this->lesson_end);
         $template_id_parent = 'QdFD9O7SPf1eYO_46ptbVeHPnYwTQjCI4_Vj4-wukC8';
         foreach($par_lesson_list as $item){
-
             $par_lesson_info = $t_lesson_info_b3->get_par_lesson_info($this->lesson_start, $this->lesson_end,$item['parentid']);
             $keyword1 = '';
             foreach($par_lesson_info as $i=> $v){

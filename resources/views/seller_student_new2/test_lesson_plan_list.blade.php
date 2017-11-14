@@ -195,6 +195,7 @@
                             <option value="2">绿色通道</option>
                             <option value="3">常规排课</option>
                             <option value="4">抢课排课</option>
+                            <option value="5">驳回重排</option>
                         </select>
                     </div>
                 </div>
@@ -461,6 +462,9 @@
                                     <font color="blue">已做限课特殊申请:</font>
                                     状态:{{$var["limit_accept_flag_str"]}}
                                 @endif
+
+                                <br>{!!  $var["rebut_info"]!!}<br/>
+
 
 
 

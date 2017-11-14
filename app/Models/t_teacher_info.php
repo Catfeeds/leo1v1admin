@@ -4664,4 +4664,32 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         return $this->main_get_list($sql);
     }
+    public function get_wuhan_student_number($start_time,$end_time){
+        $where_arr = [
+            "t.train_through_new = 1 ",
+            "t.is_quit = 0 ",
+            "t.is_test_user = 0 ",
+            "l.confirm_flag IN (0, 1, 4) ",
+            "l.lesson_del_flag = 0 ",
+            "l.lesson_type IN (0, 1, 3) ",
+            "l.lesson_status = 2 ",
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            "m.del_flag = 0",
+            "m.account_role = 5"
+        ];
+        $sql = $this->gen_sql_new(" select count(distinct l.userid) stu_num, "
+                    ."count(distinct case when m.fulltime_teacher_type=1 then l.userid ELSE NULL end) sh_num,"
+                    ."count(distinct case when (m.fulltime_teacher_type=2 or m.fulltime_teacher_type=0 )then l.userid  ELSE NULL end) wh_num"
+                    ." from %s t"
+                    ." left join %s l ON t.teacherid = l.teacherid"
+                    ." left join %s  m ON t.phone = m.phone"
+                    ." where %s",
+                    self::DB_TABLE_NAME,
+                    t_lesson_info::DB_TABLE_NAME,
+                    t_manager_info::DB_TABLE_NAME,
+                    $where_arr);
+        return $this->main_get_row($sql);
+
+    }
 }

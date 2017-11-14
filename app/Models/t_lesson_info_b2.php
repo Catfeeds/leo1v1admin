@@ -1211,8 +1211,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_comment_list_by_page ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
         $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
                                   "from %s l left join %s s on l.userid = s.userid ".
-                                  "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
-                                  "order by l.lesson_start desc",
+                                  "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 and lesson_status>0 ".
+                                  " order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $teacherid, $start_time,
@@ -4073,7 +4073,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.lesson_type in (0,1,3)", //常规课
             "l.lesson_del_flag=0",
-            "t.is_test_user=0"
+            "t.is_test_user=0",
+            "l.confirm_flag<2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$lesson_begin,$lesson_end);
@@ -4104,7 +4105,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2"
         ];
 
         $this->where_arr_add_time_range($where_arr,'lesson_start',$now, $next);

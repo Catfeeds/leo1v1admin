@@ -1619,138 +1619,182 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $phone            = $this->get_in_str_val("phone","13958068506");
-        $tea_info = $this->t_lesson_info_b3->get_tea_info_by_stu_phone($phone);
-        return $this->output_succ([
-            "realname" =>$tea_info["realname"],
-            // "have_order"   =>$cc_list["have_order"],
-            "tea_phone"   =>$tea_info["phone"],
-        ]);
+        // $start_time             = $this->get_in_int_val("start_time");
+        // $end_time = strtotime("+1 month",$start_time);
+        // $date= date("m",$start_time);
 
-        dd($tea_info);
+
+        // $list = $this->t_lesson_info_b3->get_teacher_list_by_time_new($start_time,$end_time);
+        // $lesson_count=0;$tea_arr=[];
+        // foreach($list as $val){
+        //     $lesson_count +=$val["lesson_total"];
+        //     $tea_arr[$val["teacherid"]]=$val["teacherid"];
+        // }
+        // $tea_num = count($tea_arr);
+
+        // $cc_num=$cc_order=$cr_num=$cr_order=0;
+        // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+        // foreach($cc_list as $val){
+        //     $cc_num +=$val["person_num"];
+        //     $cc_order +=$val["have_order"];
+        // }
+        // $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
+        // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
+            
+        // foreach($cr_list as $val){
+        //     $cr_num +=$val["person_num"];
+        //     $cr_order +=$val["have_order"];
+        // }
+        // $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
+
+        // return $this->output_succ([
+        //     "tea_num" =>$tea_num,
+        //     "lesson_count"=>$lesson_count/100,
+        //     "cc_per"=>$cc_per,
+        //     "cr_per"=>$cr_per
+
+        //     // "realname" =>$tea_info["realname"],
+        //     // // "have_order"   =>$cc_list["have_order"],
+        //     // "tea_phone"   =>$tea_info["phone"],
+        // ]);
+
+        // $phone            = $this->get_in_str_val("phone","13958068506");
+        // $tea_info = $this->t_lesson_info_b3->get_tea_info_by_stu_phone($phone);
+        // return $this->output_succ([
+        //                     "tea_num" =>$tea_num,
+        //         "lesson_count"=>$lesson_count,
+        //         "cc_per"=>$cc_per,
+        //         "cr_per"=>$cr_per
+
+        //     // "realname" =>$tea_info["realname"],
+        //     // // "have_order"   =>$cc_list["have_order"],
+        //     // "tea_phone"   =>$tea_info["phone"],
+        // ]);
+
+        // dd($tea_info);
 
 
 
 
         
-        $teacherid             = $this->get_in_int_val("teacherid",50272);
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-11-01");
-        $tea_arr =[$teacherid];
-        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
-        if(!empty($cc_list)){
-            $cc_list = $cc_list[$teacherid];
-            // $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
-        }
-        $order_num = $this->t_teacher_money_list->get_order_num_by_time($teacherid,100,$start_time,$end_time);
-        return $this->output_succ([
-            "person_num" =>$cc_list["person_num"],
-            // "have_order"   =>$cc_list["have_order"],
-            "have_order"   =>$order_num ,
-        ]);
+        // $teacherid             = $this->get_in_int_val("teacherid",50272);
+        // $start_time = strtotime("2017-10-01");
+        // $end_time = strtotime("2017-11-01");
+        // $tea_arr =[$teacherid];
+        // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+        // if(!empty($cc_list)){
+        //     $cc_list = $cc_list[$teacherid];
+        //     // $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        // }
+        // $order_num = $this->t_teacher_money_list->get_order_num_by_time($teacherid,100,$start_time,$end_time);
+        // return $this->output_succ([
+        //     "person_num" =>$cc_list["person_num"],
+        //     // "have_order"   =>$cc_list["have_order"],
+        //     "have_order"   =>$order_num ,
+        // ]);
 
 
-        $start_time = strtotime($this->get_in_str_val("start_time"));
-        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
-        $list=[];
-        $normal_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,-2);
-        $test_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,2);
-        $tea_arr =[$teacherid];
-        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
-        if(!empty($teacher_record_score)){
-            $score_list = $teacher_record_score[$teacherid];
-            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
-        }else{
-            $score =0;
-        }
+        // $start_time = strtotime($this->get_in_str_val("start_time"));
+        // $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        // $list=[];
+        // $normal_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,-2);
+        // $test_lesson_num = $this->t_lesson_info_b3->get_lesson_num_by_teacherid($teacherid,$start_time,$end_time,2);
+        // $tea_arr =[$teacherid];
+        // $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        // if(!empty($teacher_record_score)){
+        //     $score_list = $teacher_record_score[$teacherid];
+        //     $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        // }else{
+        //     $score =0;
+        // }
 
-        $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
-        $phone = $this->t_teacher_info->get_phone($teacherid);
-        $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($phone);
-        if(!empty($one_score) && !empty($video_score)){
-            $time = $one_score["add_time"]-$video_score["confirm_time"];
-            if($time<=0){
-                $inter_score = $one_score["teacher_lecture_score"];
-            }else{
-                 $inter_score = $video_score["teacher_lecture_score"];
-            }
-        }elseif(!empty($one_score) && empty($video_score)){
-            $inter_score = $one_score["teacher_lecture_score"];
-        }elseif(empty($one_score) && !empty($video_score)){
-             $inter_score = $video_score["teacher_lecture_score"];
-        }else{
-            $inter_score=0;
-        }
-        return $this->output_succ([
-            "normal_lesson_num" =>$normal_lesson_num,
-            "test_lesson_num"   =>$test_lesson_num,
-            "record_score"      =>$score,
-            "inter_score"       =>$inter_score
-        ]);
+        // $one_score = $this->t_teacher_record_list->get_teacher_first_interview_score_info($teacherid);
+        // $phone = $this->t_teacher_info->get_phone($teacherid);
+        // $video_score = $this->t_teacher_lecture_info->get_teacher_first_interview_score_info($phone);
+        // if(!empty($one_score) && !empty($video_score)){
+        //     $time = $one_score["add_time"]-$video_score["confirm_time"];
+        //     if($time<=0){
+        //         $inter_score = $one_score["teacher_lecture_score"];
+        //     }else{
+        //          $inter_score = $video_score["teacher_lecture_score"];
+        //     }
+        // }elseif(!empty($one_score) && empty($video_score)){
+        //     $inter_score = $one_score["teacher_lecture_score"];
+        // }elseif(empty($one_score) && !empty($video_score)){
+        //      $inter_score = $video_score["teacher_lecture_score"];
+        // }else{
+        //     $inter_score=0;
+        // }
+        // return $this->output_succ([
+        //     "normal_lesson_num" =>$normal_lesson_num,
+        //     "test_lesson_num"   =>$test_lesson_num,
+        //     "record_score"      =>$score,
+        //     "inter_score"       =>$inter_score
+        // ]);
 
 
-        $list=[];
-        $first             = $this->get_in_int_val("teacherid",50272);
-        // $first = strtotime("2016-06-01");
-        // $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
-        $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
-        $month = date("Y-m-d",$first);
-        $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
-        $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
-        $list["stu_num"] = @$order_money_info["stu_num"];
-        $list["all_price"] = @$order_money_info["all_price"];
-        $list["lesson_count_all"] = @$order_money_info["lesson_count_all"];
-        foreach($order_money_month as $val){
-            $list[$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
-        }
-        return $this->output_succ(["data"=>$list]);
+        // $list=[];
+        // $first             = $this->get_in_int_val("teacherid",50272);
+        // // $first = strtotime("2016-06-01");
+        // // $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
+        // $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+        // $month = date("Y-m-d",$first);
+        // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
+        // $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
+        // $list["stu_num"] = @$order_money_info["stu_num"];
+        // $list["all_price"] = @$order_money_info["all_price"];
+        // $list["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+        // foreach($order_money_month as $val){
+        //     $list[$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+        // }
+        // return $this->output_succ(["data"=>$list]);
 
-        /*$start_time = time()-90*86400;
-        $end_time = time();
+        // /*$start_time = time()-90*86400;
+        // $end_time = time();
 
-        /*$list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
-        $num=0;
-        foreach($list as $v){
-            $userid = $v["userid"];
-            $min = $this->t_lesson_info_b3->get_first_regular_lesson_time($teacherid,$userid);
-            $max = $this->t_lesson_info_b3->get_last_regular_lesson_time($teacherid,$userid);
-            if(($max - $min) >= 90*86400){
-                $num++;
-            }
-            }*/
-        $start_time = strtotime("2017-07-01");
-        $end_time = strtotime("2017-10-01");
-        $tea_arr =[$teacherid];
-        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
-        if(!empty($cc_list)){
-            $cc_list = $cc_list[$teacherid];
-            $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
-        }else{
-            $cc_per =0;
-        }
-        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
-        if(!empty($cr_list)){
-            $cr_list = $cr_list[$teacherid];
-            $cr_per = !empty($cr_list["person_num"])?round($cr_list["have_order"]/$cr_list["person_num"]*100,2):0;
-        }else{
-            $cr_per =0;
-        }
-        $start_time = strtotime("2017-07-01");
-        $end_time = strtotime("2017-10-01");
+        // /*$list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
+        // $num=0;
+        // foreach($list as $v){
+        //     $userid = $v["userid"];
+        //     $min = $this->t_lesson_info_b3->get_first_regular_lesson_time($teacherid,$userid);
+        //     $max = $this->t_lesson_info_b3->get_last_regular_lesson_time($teacherid,$userid);
+        //     if(($max - $min) >= 90*86400){
+        //         $num++;
+        //     }
+        //     }*/
+        // $start_time = strtotime("2017-07-01");
+        // $end_time = strtotime("2017-10-01");
+        // $tea_arr =[$teacherid];
+        // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
+        // if(!empty($cc_list)){
+        //     $cc_list = $cc_list[$teacherid];
+        //     $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        // }else{
+        //     $cc_per =0;
+        // }
+        // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
+        // if(!empty($cr_list)){
+        //     $cr_list = $cr_list[$teacherid];
+        //     $cr_per = !empty($cr_list["person_num"])?round($cr_list["have_order"]/$cr_list["person_num"]*100,2):0;
+        // }else{
+        //     $cr_per =0;
+        // }
+        // $start_time = strtotime("2017-07-01");
+        // $end_time = strtotime("2017-10-01");
 
-        $tea_arr =[$teacherid];
-        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
-        if(!empty($teacher_record_score)){
-            $score_list = $teacher_record_score[$teacherid];
-            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
-        }else{
-            $score =0;
-        }
+        // $tea_arr =[$teacherid];
+        // $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+        // if(!empty($teacher_record_score)){
+        //     $score_list = $teacher_record_score[$teacherid];
+        //     $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        // }else{
+        //     $score =0;
+        // }
 
-        //  $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
-        //  $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]);
+        // //  $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        // //  $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]);
 
-        return $this->output_succ(["score"=>$score,"cc_per"=>$cc_per,"cr_per"=>$cr_per]);
+        // return $this->output_succ(["score"=>$score,"cc_per"=>$cc_per,"cr_per"=>$cr_per]);
 
 
         //return $this->output_succ();

@@ -74,7 +74,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_halfhour   = $now+31*60;
         // 获取常规课 课前30分钟
         $common_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
-        if(count($common_lesson_list_halfhour)<150){
+        if(count($common_lesson_list_halfhour)<300){
             foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
                 $data_tea = $this->get_data($item,2,1);
@@ -82,7 +82,8 @@ class send_wx_msg_common_lesson extends Command
                 $this->send_wx_msg_par($item,1,$data_par);
             }
         }else{
-            $this->to_waring('获取常规课 课前30分钟 发送失败');
+            $num = count($common_lesson_list_halfhour);
+            $this->to_waring('获取常规课 课前30分钟 发送失败 '.$num);
         }
 
         // 常规课超时5分钟
@@ -90,7 +91,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_five   = $now-4*60;
         $common_lesson_list_five = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
-        if(count($common_lesson_list_five)<=200){
+        if(count($common_lesson_list_five)<=500){
             foreach($common_lesson_list_five as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
@@ -118,7 +119,7 @@ class send_wx_msg_common_lesson extends Command
         $lesson_end_fith   = $now-14*60;
         $common_lesson_list_fith = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_fith,$lesson_end_fith);
 
-        if(count($common_lesson_list_fith)<=150){
+        if(count($common_lesson_list_fith)<=450){
             foreach($common_lesson_list_fith as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['teacherid']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_common_lesson_for_login($item['lessonid'],$item['userid']);
@@ -151,7 +152,7 @@ class send_wx_msg_common_lesson extends Command
         // 课程中途退出15分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
 
-        if(count($cut_class_lesson_list)<=200){
+        if(count($cut_class_lesson_list)<=300){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -175,7 +176,7 @@ class send_wx_msg_common_lesson extends Command
         }
 
         // 旷课
-        if(count($absenteeism_lesson_list)<=200){
+        if(count($absenteeism_lesson_list)<=300){
             foreach($absenteeism_lesson_list as $index=>$item){
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);

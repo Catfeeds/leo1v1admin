@@ -16,8 +16,8 @@ function load_data(){
         is_test_user:	$('#id_is_test_user').val(),
         need_receipt:	$('#id_need_receipt').val(),
         account_role: $("#id_account_role").val(),
-    userid_stu:	$('#id_userid_stu').val()
-
+        userid_stu:	$('#id_userid_stu').val(),
+        can_period_flag:	$('#id_can_period_flag').val(),
     });
 }
 
@@ -38,6 +38,7 @@ $(function(){
     Enum_map.append_option_list( "contract_from_type", $("#id_from_type"));
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
+    Enum_map.append_option_list("can_period_flag",$("#id_can_period_flag"));
     Enum_map.append_option_list("boolean",$("#id_is_test_user"));
     Enum_map.append_option_list("boolean",$("#id_need_receipt"));
 
@@ -48,6 +49,7 @@ $(function(){
     $("#id_studentid").val(g_args.studentid);
     $("#id_check_money_flag").val(g_args.check_money_flag );
     $('#id_is_test_user').val(g_args.is_test_user);
+    $('#id_can_period_flag').val(g_args.can_period_flag);
     $("#id_origin").val(g_args.origin);
     $("#id_from_type").val(g_args.from_type);
     $("#id_contract_type").val(g_args.contract_type);
@@ -113,8 +115,10 @@ $(function(){
         var opt_data          = $(this).get_opt_data();
         var $check_money_flag = $("<select/>");
         var $check_money_desc = $("<textarea/>");
+        var $can_period_flag = $("<select/>");
         Enum_map.append_option_list( "check_money_flag",  $check_money_flag ,true );
-
+        Enum_map.append_option_list( "can_period_flag",  $can_period_flag ,true );
+        $can_period_flag.val(opt_data.can_period_flag);
         $.do_ajax( "/ajax_deal2/get_order_activity_list",{
             "orderid" : opt_data.orderid
         },function(resp){
@@ -141,6 +145,7 @@ $(function(){
 
                     [ "原因" , opt_data.discount_reason ],
                     [ "确认状态" , $check_money_flag ],
+                    [ "是否分期" , $can_period_flag ],
                     [ "说明" ,  $check_money_desc ],
                 ];
 
@@ -152,7 +157,8 @@ $(function(){
                         $.do_ajax("/user_deal/order_check_money",{
                             "orderid"          : orderid,
                             "check_money_flag" : check_money_flag,
-                            "check_money_desc" : $check_money_desc.val()
+                            "check_money_desc" : $check_money_desc.val(),
+                            "can_period_flag"  : $can_period_flag.val(),
                         },function( ){
                             if (check_money_flag == 1 ) { //支付成功
                                 $.do_ajax("/user_manage/set_contract_payed_new", {
@@ -195,32 +201,37 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var orderid=$(this).get_opt_data("orderid");
         var is_invoice = $("<select/>");
+        var can_period_flag = $("<select/>");
         var invoice    = $("<input/>");
         var  order_stamp_flag = $("<select/>");
         Enum_map.append_option_list( "is_invoice",  is_invoice ,true );
+        Enum_map.append_option_list( "can_period_flag",can_period_flag,true );
         Enum_map.append_option_list( "boolean", order_stamp_flag  ,true );
         var $check_money_desc = $("<textarea/>");
         $check_money_desc.val(opt_data.check_money_desc );
         invoice.val(opt_data.invoice);
         order_stamp_flag.val(opt_data.order_stamp_flag);
         is_invoice.val(opt_data.is_invoice );
+        can_period_flag.val(opt_data.can_period_flag);
 
         var arr=[
             ["财务确认说明" ,  $check_money_desc],
             ["是否需要发票" , is_invoice],
             ["发票" ,  invoice],
             ["合同是否已盖章" ,  order_stamp_flag],
+            ["是否分期" ,can_period_flag],
         ];
         $.show_key_value_table("编辑", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/user_manage_new/edit_invoice",{
-                    "orderid"    : orderid,
+                    "orderid"          : orderid,
                     "check_money_desc" : $check_money_desc.val(),
-                    "is_invoice" : is_invoice.val(),
+                    "is_invoice"       : is_invoice.val(),
                     "order_stamp_flag" : order_stamp_flag.val(),
-                    "invoice"    : invoice.val()
+                    "invoice"          : invoice.val(),
+                    "can_period_flag"  : can_period_flag.val(),
                 });
             }
         });

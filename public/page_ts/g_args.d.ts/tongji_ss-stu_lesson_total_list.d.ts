@@ -36,22 +36,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-stu_lesson_total_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		select_type:	$('#id_select_type').val(),
+		student_type:	$('#id_student_type').val(),
+		renewal_rate:	$('#id_renewal_rate').val(),
+		month_cost:	$('#id_month_cost').val(),
+		month_cost_ex:	$('#id_month_cost_ex').val(),
+		order_str:	$('#id_order_str').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			select_type:	$('#id_select_type').val(),
-			student_type:	$('#id_student_type').val(),
-			renewal_rate:	$('#id_renewal_rate').val(),
-			month_cost:	$('#id_month_cost').val(),
-			month_cost_ex:	$('#id_month_cost_ex').val(),
-			order_str:	$('#id_order_str').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

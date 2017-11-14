@@ -49,7 +49,8 @@ class check_modify_lesson_time extends Command
         foreach($lesson_list as $item){
             // 向助教发微信推送
             $lesson_type = $this->task->t_lesson_info_b2->get_lesson_type($item['lessonid']);
-            if($lesson_type == 0){
+            $lesson_type_arr = [0,1,3];
+            if(in_array($lesson_type,$lesson_type_arr)){
                 $ass_wx_openid = $this->task->t_lesson_info_b2->get_ass_wx_openid($item['lessonid']);
             }elseif($lesson_type == 2){
                 $ass_wx_openid = $this->task->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($item['lessonid']);

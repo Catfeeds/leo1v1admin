@@ -252,15 +252,16 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 $where_arr[]="tr.seller_top_flag=0 and tr.is_green_flag=0";
             }elseif($lesson_plan_style==4){
                 $where_arr[]="tss.grab_flag =1";
+            }elseif($lesson_plan_style==5){
+                $where_arr[]="t.rebut_flag=1 and tr.test_lesson_student_status in (200,210,220,290,300,301,302,420)";
             }
-
-
         }
 
-
         $sql = $this->gen_sql_new(
-            "select tr.change_teacher_reason, tr.change_teacher_reason_img_url, tr.change_teacher_reason_type, test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
-            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid,s.is_test_user ,"
+            "select tr.change_teacher_reason, tr.change_teacher_reason_img_url, tr.change_teacher_reason_type, "
+            ." test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
+            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, "
+            ." s.origin_userid,s.is_test_user ,"
             ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
             ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
@@ -277,7 +278,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." t.demand_urgency,t.quotation_reaction,t.knowledge_point_location,t.recent_results,t.advice_flag,"
             ." ss.class_rank,ss.grade_rank,ss.academic_goal,ss.test_stress,ss.entrance_school_type,ss.interest_cultivation,"
             ." ss.extra_improvement ,ss.habit_remodel ,ss.study_habit,ss.interests_and_hobbies,ss.character_type,"
-            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag,tss.grab_flag "
+            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag,tss.grab_flag, "
+            ." t.rebut_info,t.rebut_flag "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -3274,7 +3276,7 @@ ORDER BY require_time ASC";
     }
 
 
-    public function get_plan_invit_num_for_month($start_time, $end_time){ 
+    public function get_plan_invit_num_for_month($start_time, $end_time){
         $where_arr = [
             "s.is_test_user=0",
             "t.require_admin_type=2",
@@ -3495,7 +3497,7 @@ ORDER BY require_time ASC";
 
     public function get_planed_lesson_num($requireid_list,$accept_adminid,$start_time,$end_time){
         $where_arr=[
-            ["tr.accept_adminid=%u",$accept_adminid,-1],            
+            ["tr.accept_adminid=%u",$accept_adminid,-1],
             "tr.test_lesson_student_status in(210,220,290,300,301,302,420)"
         ];
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
@@ -3511,4 +3513,27 @@ ORDER BY require_time ASC";
 
     }
 
+    public function get_test_list($now){
+        $end = $now + 60;
+        $where_arr = [
+            "tls.current_lessonid is null",
+            "tl.require_adminid>0",
+            "tls.accept_flag =0 ",
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"tls.curl_stu_request_test_lesson_time",$now,$end);
+
+        $sql = $this->gen_sql_new("  select tls.curl_stu_request_test_lesson_time stu_request_test_lesson_time, tls.require_id, tls.current_lessonid, tl.subject, tl.grade, s.nick, tl.require_adminid,tls.require_time,m.wx_openid, m.account from %s tls"
+                                  ." left join %s tl on tl.test_lesson_subject_id=tls.test_lesson_subject_id"
+                                  ." left join %s m on m.uid=tl.require_adminid"
+                                  ." left join %s s on s.userid=tl.userid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

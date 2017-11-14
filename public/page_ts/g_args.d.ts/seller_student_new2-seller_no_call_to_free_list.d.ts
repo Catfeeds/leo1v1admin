@@ -37,14 +37,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new2-seller_no_call_to_free_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		admin_revisiterid:	$('#id_admin_revisiterid').val(),
+		global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
+		seller_student_status:	$('#id_seller_student_status').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			admin_revisiterid:	$('#id_admin_revisiterid').val(),
-			global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
-			seller_student_status:	$('#id_seller_student_status').val()
-        });
-    }
 
 	Enum_map.append_option_list("tq_called_flag",$("#id_global_tq_called_flag"));
 	Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"));

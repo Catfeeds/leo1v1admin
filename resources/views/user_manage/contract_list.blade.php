@@ -291,7 +291,6 @@
                                     <!-- <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a> -->
                                     <!-- <a class="fa-glass opt-change-contract-starttime" title="修改合同生效时间"> </a> -->
                                 @endif
-                                <a class="fa-refresh opt-reset-spec-diff-money " title="特殊申请价值"> </a>
                                 <a class="fa-arrow-right  opt-next " title="课时包详情"> </a>
                                 <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
                                 <a class="opt-set-origin" title="设置对应的试听课">试听</a>

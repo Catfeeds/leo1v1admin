@@ -987,6 +987,7 @@ class user_manage_new extends Controller
         //$this->set_filed_for_js("userid_flag",999);
         return $this->money_contract_list();
     }
+
     public function money_contract_list () {
         $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
@@ -996,6 +997,7 @@ class user_manage_new extends Controller
 
         $config_courseid = -1;
         $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
+        $can_period_flag    =  $this->get_in_int_val("can_period_flag",-1);
         $studentid       = $this->get_in_studentid(-1);
 
         $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
@@ -1022,12 +1024,13 @@ class user_manage_new extends Controller
             $page_num,$start_time,$end_time,$contract_type,$contract_status,
             $studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,
             $check_money_flag,-1,$origin,$from_type,$sys_operator,
-            $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",  "order_time desc" );
-
+            $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",
+            "order_time desc",-1,-1,-1,$can_period_flag);
         $money_all   = 0;
         $order_count = 0;
         $userid_map  = [];
         foreach($ret_list['list'] as &$item ){
+            $item["can_period_flag_str"] = \App\Helper\Common::get_boolean_color_str( $item["can_period_flag"]);
             if(empty($item["lesson_start"]) && $item["order_time"] < strtotime(date("2016-11-01")) && $item["contract_type"]==0){
                 $userid= $item["userid"];
                 $item["lesson_start"] = $this->t_lesson_info->get_user_test_lesson_start($userid,$item["order_time"]);
@@ -2269,15 +2272,17 @@ class user_manage_new extends Controller
     public function edit_invoice() {
         $orderid          = $this->get_in_int_val("orderid");
         $is_invoice       = $this->get_in_int_val("is_invoice" );
+        $can_period_flag  = $this->get_in_int_val("can_period_flag" );
         $invoice          = $this->get_in_str_val("invoice" );
         $check_money_desc = $this->get_in_str_val("check_money_desc" );
         $order_stamp_flag = $this->get_in_str_val("order_stamp_flag" );
 
         $this->t_order_info->field_update_list($orderid,[
-            "is_invoice" => $is_invoice,
-            "invoice"    => $invoice,
-            "check_money_desc"    => $check_money_desc,
-            "order_stamp_flag"    => $order_stamp_flag,
+            "is_invoice"       => $is_invoice,
+            "invoice"          => $invoice,
+            "check_money_desc" => $check_money_desc,
+            "order_stamp_flag" => $order_stamp_flag,
+            'can_period_flag'  => $can_period_flag,
         ]);
         return $this->output_succ();
     }

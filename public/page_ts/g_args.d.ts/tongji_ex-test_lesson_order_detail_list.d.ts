@@ -28,19 +28,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ex-test_lesson_order_detail_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		cur_require_adminid:	$('#id_cur_require_adminid').val(),
+		teacherid:	$('#id_teacherid').val(),
+		origin_ex:	$('#id_origin_ex').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			cur_require_adminid:	$('#id_cur_require_adminid').val(),
-			teacherid:	$('#id_teacherid').val(),
-			origin_ex:	$('#id_origin_ex').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
