@@ -6,7 +6,7 @@ use \App\Enums as E;
  * @property   \App\Console\Tasks\TaskController $task
  */
 class activity_base {
-    static public  $class_map=[
+    static public  $class_map = [
         E\Eorder_activity_type::V_0 =>  activity_0::class,
         E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
         E\Eorder_activity_type::V_2017090101  =>  activity_2017090101::class,
@@ -51,14 +51,13 @@ class activity_base {
         if (count( $args )>0) {
             $this->from_test_lesson_id= $args["from_test_lesson_id"];
             $this->lesson_times  = $args["lesson_times"];
-
             $this->contract_type = $args["contract_type"];
             $this->userid = $args["userid"];
             $this->grade= $args["grade"];
             $this->args = $args;
         }
-
     }
+
     static function check_use_count($max_count ) {
         $task= self::get_task_controler();
         $now_count= $task->t_order_activity_info->get_count_by_order_activity_type(static::$order_activity_type );

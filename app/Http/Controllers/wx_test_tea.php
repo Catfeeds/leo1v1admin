@@ -29,15 +29,15 @@ class  wx_test_tea extends Controller
 
         $wechat = new \App\Wx\Teacher_test\wechat (WECHAT_TOKEN_TEC_TEST, TRUE);
 
-        $r = $wechat->checkSignature();
-        \App\Helper\Utils::logger("wx_test_tea_return $r");
+        // $r = $wechat->checkSignature();
+        // \App\Helper\Utils::logger("wx_test_tea_return $r");
 
-        // $ret=$wechat->run();
-        // if (is_bool($ret)) {
-        //     return "";
-        // }else{
-        //     return $ret;
-        // }
+        $ret=$wechat->run();
+        if (is_bool($ret)) {
+            return "";
+        }else{
+            return $ret;
+        }
     }
 
     public function sync_menu() {
@@ -62,11 +62,6 @@ class  wx_test_tea extends Controller
             array('id'=>'14', 'pid'=>'3', 'name'=>'推荐好友', 'type'=>'click', 'code'=>'friends'),
             array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
 
-
-
-
-
-
             // array('id'=>'7', 'pid'=>'1', 'name'=>'分享微信二维码', 'type'=>'view', 'code'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http%3A%2F%2Fwx-parent.leo1v1.com%2Farticle_wx%2Fget_openid&response_type=code&scope=snsapi_base&state=1#wechat_redirect' ),
         );
 
@@ -74,8 +69,8 @@ class  wx_test_tea extends Controller
 
         // $result = \LaneWeChat\Core\Menu::setMenu($menuList);
 
-        $result =  \Teacher\Core\Menu::setMenu($menuList);
-        $result =  \Teacher\Core\Menu::getMenu($menuList);
+        $result =  \Teacher_test\Core\Menu::setMenu($menuList);
+        $result =  \Teacher_test\Core\Menu::getMenu($menuList);
         dd($result);
         // $result =  \App\Wx\Teacher\Core\Menu::setMenu($menuList);
     }
