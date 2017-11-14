@@ -1598,7 +1598,8 @@ class tongji2 extends Controller
             $time1 = strtotime($value);
             $month = date('Y-m',$time1);
             $time2 = strtotime('+1 month',$time1);
-            $wuhan_student_num = $this->t_teacher_info->get_wuhan_student_number($time1,$time2);
+            $student_num = $this->t_teacher_info->get_student_number($time1,$time2);
+            $lesson_count = $this->t_manager_info->get_fulltime_teacher_lesson_count($time1,$time2);
         }
     }
 

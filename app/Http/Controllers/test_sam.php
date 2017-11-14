@@ -12,6 +12,66 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function test_kk(){
+        $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
+        $end_time   = time();
+
+        $first_time  = strtotime(date('Y-m-01',$start_time));
+        $second_time = strtotime(date('Y-m-01',$end_time));
+        $i = $first_time;
+        $montharr = [];
+        while($i  <= $second_time){
+            $montharr[] = date('Y-m-01',$i);                                                                     
+            $i = strtotime('+1 month', $i);
+        }
+        $i = 0;
+        $subject_chinese = [];
+        $subject_math = [];
+        $subject_english = [];
+        $date_list = [];
+        foreach ($montharr as $key => $value) {
+            $time1 = strtotime($value);
+            $month = date('Y-m',$time1);
+            $time2 = strtotime('+1 month',$time1);
+            $student_num = $this->t_teacher_info->get_student_number($time1,$time2);
+            $lesson_count = $this->t_manager_info->get_fulltime_teacher_lesson_count($time1,$time2);
+            $cc_transfer_all = $this->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2);
+            $cc_transfer_sh = $this->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,1);
+            $cc_transfer_wh = $this->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,2);
+            $cc_transfer_all_per = $cc_transfer_all['all_lesson'] > 0?100 * round($cc_transfer_all['order_num']/$cc_transfer_all['all_lesson'],2):0;
+            $cc_transfer_sh      = $cc_transfer_sh['all_lesson'] > 0?100 * round($cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
+            $cc_transfer_wh      = $cc_transfer_wh['all_lesson']>0?100 * round($cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
+            $data_all = [
+                "create_time" => $time1,
+                "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
+                "teacher_type" => 0,//all
+                "student_num" => $student_num['stu_num'],
+                "lesson_count" => $lesson_count['lesson_all'],
+                "cc_transfer_per" => $cc_transfer_all_per
+            ];
+            $data_sh = [
+                 "create_time" => $time1,
+                "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
+                "teacher_type" => 1,//sh
+                "student_num" => $student_num['sh_num'],
+                "lesson_count" => $lesson_count['sh_lesson_all'],
+                "cc_transfer_per" => $cc_transfer_sh
+            ];
+            $data_wh = [
+                 "create_time" => $time1,
+                "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
+                "teacher_type" => 2,//wh
+                "student_num" => $student_num['wh_num'],
+                "lesson_count" => $lesson_count['wh_lesson_all'],
+                "cc_transfer_per" =>  $cc_transfer_wh
+            ];
+            $this->t_fulltime_teacher_data->row_insert_ignore($data_all);
+            $this->t_fulltime_teacher_data->row_insert_ignore($data_sh);
+            $this->t_fulltime_teacher_data->row_insert_ignore($data_wh);
+        }
+    }
+
+
     /**
      * 获取API访问授权码
      * @param ak: ak from 
