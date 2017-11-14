@@ -613,6 +613,7 @@ class Utils  {
 
 
     static function date_list_set_value( &$date_list , &$from_list , $date_key, $field_name, $from_field_name ) {
+        //        \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
 
         foreach ($from_list as $item) {
             $opt_date  = $item[$date_key];
