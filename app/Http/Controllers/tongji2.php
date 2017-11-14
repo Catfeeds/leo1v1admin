@@ -360,7 +360,7 @@ class tongji2 extends Controller
             // $item["stage_money"] = @$sort_moeny["stage_money"];
             // $item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
-		//unset($item);
+        //unset($item);
         foreach($order_user_list as $item ) {
             if(!@$map[$item["adminid"]] ) {
                 if ($adminid == -1  && $adminid==  $item["adminid"]   ) {
@@ -851,7 +851,7 @@ class tongji2 extends Controller
          return $this->ass_month_kpi_tongji();
 
     }
-   
+
     public function ass_month_kpi_tongji(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
@@ -908,14 +908,14 @@ class tongji2 extends Controller
 
         $student_finish = $this->t_student_info->get_ass_first_revisit_info_finish($start_time,$end_time);//结课学生数
         $student_finish_detail = [];
-        foreach ($student_finish as $key => $value) {  
-            $student_finish_detail[$value['uid']] = $value['num']; 
+        foreach ($student_finish as $key => $value) {
+            $student_finish_detail[$value['uid']] = $value['num'];
             }*/
         /*
         $student_all = $this->t_student_info->get_ass_first_revisit_info();//在册学生数
         $student_all_detail = [];
-        foreach ($student_all as $key => $value) {  
-            $student_all_detail[$value['uid']] = $value['num']; 
+        foreach ($student_all as $key => $value) {
+            $student_all_detail[$value['uid']] = $value['num'];
         }
         */
         //dd($new_revisit);
@@ -971,7 +971,7 @@ class tongji2 extends Controller
             $val["cc_tran_money"] = isset($ass_month[$k])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍金额
             $val["hand_tran_num"] = isset($ass_month[$k])?$ass_month[$k]["hand_tran_num"]:0;//手动确认转介绍人数
             $val["tran_num"] = $val["hand_tran_num"]+$val["tran_num"];//目前以两者相加为准(9月之后准确)
-            
+
 
             //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
             // $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
@@ -994,7 +994,7 @@ class tongji2 extends Controller
             }else{
                 $val["people_per"] = 0;
             }
-            $val["kpi"] = 0;            
+            $val["kpi"] = 0;
             $val["kpi"] = ((($val["revisit_per"]/100*50)>=50)?50:($val["revisit_per"]/100*50))+((($val["renw_per"]/100*10)>=10)?10:($val["renw_per"]/100*10));
             if((10-$val["un_first_revisit_num"]*5)>0 && $val["kpi"] > 0){
                 $val["kpi"] += (10-$val["un_first_revisit_num"]*5);
@@ -1002,7 +1002,7 @@ class tongji2 extends Controller
             if((10-$val["refund_score"]*5)>0 && $val["kpi"] > 0){
                 $val["kpi"] += (10-$val["refund_score"]*10);
             }
-	        $val["kpi"] = round($val["kpi"],2);
+            $val["kpi"] = round($val["kpi"],2);
 
 
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_group_info($k);
@@ -1016,7 +1016,7 @@ class tongji2 extends Controller
 
             }
 
-            
+
         }
 
         $ass_group=[];
@@ -1028,7 +1028,7 @@ class tongji2 extends Controller
             @$ass_group[$master_adminid_ass]["student_all"]  += $va["student_all"];
             @$ass_group[$master_adminid_ass]["student_finish"]     += $va["student_finish"];
             @$ass_group[$master_adminid_ass]["student_online"]     += $va["student_online"];
-            @$ass_group[$master_adminid_ass]["lesson_total"]      += $va["lesson_total"];          
+            @$ass_group[$master_adminid_ass]["lesson_total"]      += $va["lesson_total"];
             @$ass_group[$master_adminid_ass]["lesson_money"]     += $va["lesson_money"];
             @$ass_group[$master_adminid_ass]["renw_target"]           += $va["renw_target"];
             @$ass_group[$master_adminid_ass]["renw_price"]       += $va["renw_price"];
@@ -1065,11 +1065,11 @@ class tongji2 extends Controller
         }
 
         if(!empty($ass_list)){
-            foreach($ass_list as $v){  
-                $flag[] = $v['people_per'];  
-            }  
-  
-        
+            foreach($ass_list as $v){
+                $flag[] = $v['people_per'];
+            }
+
+
             array_multisort($flag, SORT_DESC, $ass_list);
         }
         return $this->pageView(__METHOD__,null,[
@@ -1077,7 +1077,7 @@ class tongji2 extends Controller
             "ass_group"=>$ass_group
         ]);
     }
-    
+
     public function seller_origin_info() {
         list($start_time,$end_time)= $this->get_in_date_range_month(0);
         $origin_ex           = $this->get_in_str_val("origin_ex");
@@ -1265,7 +1265,7 @@ class tongji2 extends Controller
             $arr['renew_per']          = $ret_info['renew_per'];//月续费率
             $arr['finish_renew_per']   = $ret_info['finish_renew_per'];//月预警续费率
             $arr['tranfer_success_per']= $ret_info['tranfer_success_per'];//月转介绍至CC签单率
-            //$arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
+            //$arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率
             $arr['kk_success_per']     = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
             $arr['create_time_range']  = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
             //漏斗
@@ -1299,9 +1299,9 @@ class tongji2 extends Controller
                 $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
             }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
-            
+
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
-            
+
             //$arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
             $arr['total_price']        = $month_total_money/100;                    //2-现金总收入
             $arr['total_income']       = $ret_total['total_price']/100 ;             //A1-现金总收入
@@ -1330,7 +1330,7 @@ class tongji2 extends Controller
                 $arr['person_num_thirty_per'] = 0;
             }
             if($arr['target']){
-                $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2); 
+                $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2);
                 $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target'],2);
             }else{
                 $arr['kpi_per'] = 0;
@@ -1369,7 +1369,7 @@ class tongji2 extends Controller
             $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
             $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
             $arr['tranfer_phone_num'] = $tranfer; //转介绍至CC例子量
-            
+
             $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);
             $arr['tranfer_total_num']   = $tranfer_data['total_num'];
             if($arr['tranfer_num'] > 0){
@@ -1397,10 +1397,10 @@ class tongji2 extends Controller
        $ret_info = $this->t_teacher_info->get_new_train_through_teacher_info($through_time);
        foreach($ret_info["list"] as &$item){
            \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
-           E\Esubject::set_item_value_str($item); 
+           E\Esubject::set_item_value_str($item);
        }
        return $this->pageView(__METHOD__,$ret_info);
-       
+
     }
 
     /**
@@ -1423,7 +1423,7 @@ class tongji2 extends Controller
                 $value['phone_location'] = $pro;
             }
             if($value['lesson_user_online_status'] == 0 ){
-                $value['lesson_user_online_status_str'] = "无效"; 
+                $value['lesson_user_online_status_str'] = "无效";
             }elseif($value['lesson_user_online_status'] == 1){
                 $value['lesson_user_online_status_str'] = "有效";
             }else{
@@ -1497,7 +1497,7 @@ class tongji2 extends Controller
         }
         foreach ($subject_list as $key => $value) {
             $grade_str_1 = E\Egrade::get_desc($value['grade']);
-			//dd($grade_str_1);
+            //dd($grade_str_1);
             if(isset($list[$grade_str_1][$value['subject']])){
                 $list[$grade_str_1][$value['subject']] = $value['total'];
             }else{
@@ -1528,7 +1528,7 @@ class tongji2 extends Controller
         });
         //dd(2);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
-        
+
         $start_time = $this->get_in_start_time_from_str(date("Y-m-01",1488297600));
         $end_time   = $this->get_in_end_time_from_str_next_day(
             date("Y-m-d",(strtotime(date("Y-m-01",time(NULL)))-86400)));
@@ -1546,7 +1546,7 @@ class tongji2 extends Controller
         $i = $first_time;
         $montharr = [];
         while($i  <= $second_time){
-            $montharr[] = date('Y-m-01',$i);                                                                     
+            $montharr[] = date('Y-m-01',$i);
             $i = strtotime('+1 month', $i);
         }
         $i = 0;
@@ -1586,7 +1586,7 @@ class tongji2 extends Controller
         $i = $first_time;
         $montharr = [];
         while($i  <= $second_time){
-            $montharr[] = date('Y-m-01',$i);                                                                     
+            $montharr[] = date('Y-m-01',$i);
             $i = strtotime('+1 month', $i);
         }
         $i = 0;
