@@ -1,7 +1,6 @@
 <?php
 namespace App\Wx\Teacher_test;
 include(app_path("Wx/Teacher_test/lanewechat_teacher_test.php"));
-// class Wechat    {
 class Wechat extends \LaneWeChat\Core\Wechat   {
 
     /**
@@ -105,7 +104,7 @@ class Wechat extends \LaneWeChat\Core\Wechat   {
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = WECHAT_TOKEN_TEC;
+        $token = WECHAT_TOKEN_TEC_TEST;
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );

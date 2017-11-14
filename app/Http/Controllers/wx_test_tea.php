@@ -25,7 +25,7 @@ class  wx_test_tea extends Controller
 {
     var $check_login_flag =false;//是否需要验证
     public function index() {
-        $wechat = new \App\Wx\Teacher_test\wechat (WECHAT_TOKEN_TEC, TRUE);
+        $wechat = new \App\Wx\Teacher_test\wechat (WECHAT_TOKEN_TEC_TEST, TRUE);
         $r = $wechat->checkSignature();
 
         // $ret=$wechat->run();
