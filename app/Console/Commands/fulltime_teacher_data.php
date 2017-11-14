@@ -59,7 +59,7 @@ class fulltime_teacher_data extends Command
             $time1 = strtotime($value);
             $month = date('Y-m',$time1);
             $time2 = strtotime('+1 month',$time1);
-            $student_num = $task>t_teacher_info->get_student_number($time1,$time2);
+            $student_num = $task->t_teacher_info->get_student_number($time1,$time2);
             $lesson_count = $task->t_manager_info->get_fulltime_teacher_lesson_count($time1,$time2);
             $cc_transfer_all = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2);
             $cc_transfer_sh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,1);
