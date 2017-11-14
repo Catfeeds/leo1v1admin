@@ -578,7 +578,7 @@ class user_manage extends Controller
         $from_key          = $this->get_in_str_val('from_key');
         $from_url          = $this->get_in_str_val('from_url');
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
-        $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
+        $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
