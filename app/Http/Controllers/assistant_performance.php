@@ -107,12 +107,12 @@ class assistant_performance extends Controller
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         foreach($ass_month as $k=>$val){
             $money = $val["cc_tran_money"];
-            $new = isset($cc_tran_money[$k]["all_price"])?$cc_tran_money[$k]["all_price"]:0;
+            $new = isset($cc_tran_order[$k]["all_price"])?$cc_tran_order[$k]["all_price"]:0;
             if($money != $new){
-                echo $k."<br>";
+                
             }
         }
-        dd($ass_month);
+        // dd($ass_month);
         dd($cc_tran_order);
 
 
