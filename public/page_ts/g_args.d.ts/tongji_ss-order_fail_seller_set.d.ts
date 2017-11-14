@@ -4,7 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	origin_userid_flag:	number;//App\Enums\Eboolean 
+	origin_userid_flag:	number;//App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -28,17 +28,18 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-order_fail_seller_set.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_userid_flag:	$('#id_origin_userid_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_userid_flag:	$('#id_origin_userid_flag').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_origin_userid_flag"));
 

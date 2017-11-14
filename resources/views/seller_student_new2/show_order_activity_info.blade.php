@@ -2,7 +2,6 @@
 @section('content')
 
     <section class="content ">
-
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-8">
@@ -12,16 +11,15 @@
                         </select>
                     </div>
                 </div>
-
             </div>
         </div>
         <hr/>
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>项目 </td>
-                    <td>说明 </td>
-                    <td> 操作  </td>
+                    <td>项目</td>
+                    <td>说明</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +31,6 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
                             </div>
                         </td>
                     </tr>
@@ -42,5 +39,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection

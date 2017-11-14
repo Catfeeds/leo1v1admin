@@ -614,6 +614,7 @@ class menu{
                 ["power_id"=>88, "name"=>"首页-new2.0",   "url"=>"/tongji2/ass_month_kpi_tongji_master" ],
                 ["power_id"=>82, "name"=>"首页-主管",   "url"=>"/main_page/assistant_main_leader_new" ],
                 ["power_id"=>87, "name"=>"首页-主管2.0",   "url"=>"/tongji2/ass_month_kpi_tongji" ],
+                ["power_id"=>20, "name"=>"助教薪资",   "url"=>"/assistant_performance/performance_info" ],
                 ["power_id"=>83, "name"=>"周报-助长",   "url"=>"/tongji_ss/ass_weekly_info" ],
                 ["power_id"=>84, "name"=>"周报-主管",   "url"=>"/tongji_ss/ass_weekly_info_master" ],
                 ["power_id"=>57, "name"=>"月报-主管",   "url"=>"/tongji_ss/ass_month_info" ],
@@ -902,6 +903,7 @@ class menu{
                 ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
                 ["power_id"=>18, "name"=>"武汉全职老师面试数据","url"=>"/fulltime_teacher/fulltime_teacher_data"],
                 ["power_id"=>31, "name"=>"全职老师学科转化率","url"=>"/tongji2/subject_transfer"],
+                ["power_id"=>32, "name"=>"全职老师KPI统计数据","url"=>"/tongji2/fulltime_teacher_kpi_chart"],
             ]],
 
             ["power_id"=>39, "name"=>"角色-客服", "list"=>[
