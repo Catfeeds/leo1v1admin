@@ -1122,16 +1122,19 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
             // "m.del_flag =0",
-            "o.price >0"
+            "o.price >0",
+            "mm.account_role=2"
         ];
         $sql = $this->gen_sql_new("select m.uid,count(o.userid) stu_num,"
                                   ."sum(o.price) all_price "
                                   ." from %s m left join %s s on m.uid=s.origin_assistantid "
                                   ." left join %s o on s.userid = o.userid and o.sys_operator <> m.account"
+                                  ." left join %s mm on o.sys_operator = mm.account"
                                   ." where %s group by m.uid",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -1140,6 +1143,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     }
+
+  
 
 
     //助教续费金额 分期按80%计算

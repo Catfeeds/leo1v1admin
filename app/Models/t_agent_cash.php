@@ -34,7 +34,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
                                 ."a.zfb_name,a.zfb_account,all_yxyx_money,all_open_cush_money,all_have_cush_money "
                                 ." from %s ac "
                                 ." left join %s a on a.id = ac.aid "
-                                ." where %s"
+                                ." where %s order by ac.id desc"
                                 ,self::DB_TABLE_NAME
                                 ,t_agent::DB_TABLE_NAME
                                 ,$where_arr

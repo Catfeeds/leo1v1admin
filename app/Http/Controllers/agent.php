@@ -336,10 +336,13 @@ class agent extends Controller
         $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", -1,E\Eagent_check_money_flag::class);
         $phone = $this->get_in_phone();
         $check_money_admin_nick = $this->get_in_str_val('check_money_admin_nick');
-        if($check_money_admin_nick == -1)
-            $check_money_admin_id = -1;
-        else
-            $check_money_admin_id = $this->t_manager_info->get_id_by_account($check_money_admin_nick);
+        $check_money_admin_id = '';
+        if($check_money_admin_nick){
+            if($check_money_admin_nick == -1)
+                $check_money_admin_id = -1;
+            else
+                $check_money_admin_id = $this->t_manager_info->get_id_by_account($check_money_admin_nick);
+        }
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
         //获取统计信息
         $statistic_info = $this->t_agent_cash->get_agent_cash_person($agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);

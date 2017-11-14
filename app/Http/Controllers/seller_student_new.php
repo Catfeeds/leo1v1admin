@@ -1514,7 +1514,6 @@ class seller_student_new extends Controller
 
         $this->set_filed_for_js("test_lesson_subject_id", $test_lesson_subject_id);
         $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
-
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {
