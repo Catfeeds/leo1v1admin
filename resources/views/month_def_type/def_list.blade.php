@@ -52,7 +52,12 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
-                        <td>{{$var["month_def_type_str"]}} </td>
+                        <td>
+                            {{$var["month_def_type_str"]}}
+                            @if($var["month_def_type"]==3)
+                                /第{{$var["week_order"]}}周
+                            @endif
+                        </td>
                         <td>{{$var["def_time"]}} </td>
                         <td>{{$var["start_time"]}} </td>
                         <td>{{$var["end_time"]}} </td>

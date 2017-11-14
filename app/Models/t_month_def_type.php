@@ -16,7 +16,7 @@ class t_month_def_type extends \App\Models\Zgen\z_t_month_def_type
         //$this->where_arr_add_time_range($where_arr,"def_time",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
-            "select id,month_def_type,def_time,start_time,end_time "
+            "select id,month_def_type,def_time,start_time,end_time,week_order "
             ."from %s "
             ."where %s "
             ."order by def_time desc",

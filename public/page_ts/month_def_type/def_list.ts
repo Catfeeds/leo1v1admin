@@ -13,6 +13,7 @@ $(function(){
         });
     }
 
+
     Enum_map.append_option_list("month_def_type",$("#id_month_def_type"));
     $('#id_month_def_type').val(g_args.month_def_type);
     // $.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
@@ -20,12 +21,15 @@ $(function(){
     $("#id_add").on("click",function(){
         var $month_def_type= $("<select/>" );
         Enum_map.append_option_list("month_def_type", $month_def_type);
+        var $week_order = $("<select id='week_order' />" );
+        Enum_map.append_option_list("week_order",$week_order);
         var d_input = $('<input type=text name=def_time value>');
         var s_input = $('<input type=text name=start_time value>');
         var e_input = $('<input type=text name=end_time value>');
         var arr=[
             ["月份定义" ,$month_def_type  ],
             ['定义时间', d_input],
+            ["第几周" ,$week_order  ],
             ['开始时间', s_input],
             ['结束时间', e_input],
         ] ;
@@ -33,6 +37,13 @@ $(function(){
         initPicker(d_input);
         initPicker(s_input);
         initPicker(e_input);
+        $month_def_type.change(function(){
+            if($month_def_type.val() == 3){
+                $('#week_order').parent('td').parent('tr').show();
+            }else{
+                $('#week_order').parent('td').parent('tr').hide();
+            }
+        })
 
         $.show_key_value_table("新增申请", arr ,{
             label: '确认',
@@ -45,11 +56,12 @@ $(function(){
                 var $end_time = $('input[name="end_time"]').val();
                 if ($start_time < $end_time) {
                      $.do_ajax("/month_def_type/add_data",{
-                        "month_def_type" : $month_def_type.val(),
-                        "def_time" : $def_time,
-                        "start_time" : $start_time,
-                        "end_time" : $end_time,
-                    });
+                         "month_def_type" : $month_def_type.val(),
+                         "def_time"       : $def_time,
+                         "start_time"     : $start_time,
+                         "end_time"       : $end_time,
+                         "week_order"     : $week_order.val(),
+                     });
                 } else {
                     alert('开始时间必须小于结束时间');
                 }
