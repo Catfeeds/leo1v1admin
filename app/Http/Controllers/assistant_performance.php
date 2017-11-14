@@ -134,6 +134,7 @@ class assistant_performance extends Controller
         
 
 
+        $ppp=1;
         foreach($ass_month as $k=>&$item){
             /*回访*/
             $revisit_reword_per = 0.2;
@@ -370,7 +371,13 @@ class assistant_performance extends Controller
             
 
 
-
+            $ppp++;
+            if($ppp<=2){
+                print_r($item);                
+            }
+            if($ppp==2){
+                break;
+            }
             
         }
         dd($ass_month);
