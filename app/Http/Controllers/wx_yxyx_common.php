@@ -58,6 +58,7 @@ class wx_yxyx_common extends Controller
             }
         }
         \App\Helper\Utils::logger("JUMP URL:$url");
+        \App\Helper\Utils::logger("three_url $url "); 
         header("Location: $url");
         return "succ";
     }
