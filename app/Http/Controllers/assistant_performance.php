@@ -110,12 +110,13 @@ class assistant_performance extends Controller
             $new = isset($cc_tran_order[$k]["all_price"])?$cc_tran_order[$k]["all_price"]:0;
             if($money != $new){
                 $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-                    "cc_tran_money"=>$new
+                    "cc_tran_money"=>$new,
+                    "cc_tran_num" =>@$cc_tran_order[$k]["stu_num"]
                 ]); 
             }
         }
         // dd($ass_month);
-        dd($cc_tran_order);
+        dd($ass_month);
 
 
         $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(362637);
