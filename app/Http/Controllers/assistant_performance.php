@@ -133,106 +133,107 @@ class assistant_performance extends Controller
         // }
 
 
+        $ppp=1;
         foreach($ass_month as $k=>&$item){
             /*回访*/
             $revisit_reword_per = 0.2;
-            //当前在读学员
-            $read_student_list = $item["userid_list"];
-            if($read_student_list){
-                $read_student_arr = json_decode($read_student_list,true);
-                foreach($read_student_arr as $val){
-                    //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
-                    $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
-                    $assign_time = $this->t_student_info->get_ass_assign_time($val);
-                    $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
-                    foreach($regular_lesson_list as $t_item){
-                        if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
-                            $revisit_end = $t_item["lesson_start"]+86400;
+            // //当前在读学员
+            // $read_student_list = $item["userid_list"];
+            // if($read_student_list){
+            //     $read_student_arr = json_decode($read_student_list,true);
+            //     foreach($read_student_arr as $val){
+            //         //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
+            //         $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
+            //         $assign_time = $this->t_student_info->get_ass_assign_time($val);
+            //         $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
+            //         foreach($regular_lesson_list as $t_item){
+            //             if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
+            //                 $revisit_end = $t_item["lesson_start"]+86400;
                             
-                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
-                            if($revisit_num <=0){
-                                $revisit_reword_per -=0.05;
-                            }
+            //                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
+            //                 if($revisit_num <=0){
+            //                     $revisit_reword_per -=0.05;
+            //                 }
 
                             
-                        }
-                        if($t_item["lesson_start"]<$first_lesson_time){
-                            $first_lesson_time = $t_item["lesson_start"];
-                        }
+            //             }
+            //             if($t_item["lesson_start"]<$first_lesson_time){
+            //                 $first_lesson_time = $t_item["lesson_start"];
+            //             }
 
-                        if($revisit_reword_per <=0){
-                            break;
-                        }
-                    }
-                    if($revisit_reword_per <=0){
-                        break;
-                    }
+            //             if($revisit_reword_per <=0){
+            //                 break;
+            //             }
+            //         }
+            //         if($revisit_reword_per <=0){
+            //             break;
+            //         }
 
-                    if($first_lesson_time>0 && $first_lesson_time<$month_half){
-                        if($assign_time < $month_half){
-                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05;
-                            }
-                        }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
-                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                            if($revisit_num <1){
-                                $revisit_reword_per -=0.05;
-                            }
+            //         if($first_lesson_time>0 && $first_lesson_time<$month_half){
+            //             if($assign_time < $month_half){
+            //                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
+            //                 if($revisit_num <2){
+            //                     $revisit_reword_per -=0.05;
+            //                 }
+            //             }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+            //                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
+            //                 if($revisit_num <1){
+            //                     $revisit_reword_per -=0.05;
+            //                 }
 
-                        }
-                    }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                        if($revisit_num <1){
-                            $revisit_reword_per -=0.05;
-                        }
+            //             }
+            //         }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
+            //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
+            //             if($revisit_num <1){
+            //                 $revisit_reword_per -=0.05;
+            //             }
 
-                    }
-                    if($revisit_reword_per <=0){
-                        break;
-                    }
+            //         }
+            //         if($revisit_reword_per <=0){
+            //             break;
+            //         }
 
 
 
                     
-                }
-            }
-            if($revisit_reword_per >0){
-                //检查本月带过的历史学生 
-                $history_list = $this->t_ass_stu_change_list->get_ass_history_list($k,$start_time,$end_time);
+            //     }
+            // }
+            // if($revisit_reword_per >0){
+            //     //检查本月带过的历史学生 
+            //     $history_list = $this->t_ass_stu_change_list->get_ass_history_list($k,$start_time,$end_time);
                        
-                foreach($history_list as $val){
-                    $add_time = $val["add_time"];
-                    if($add_time<$month_half){
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
-                        if($revisit_num <1){
-                            $revisit_reword_per -=0.05;
-                        }
+            //     foreach($history_list as $val){
+            //         $add_time = $val["add_time"];
+            //         if($add_time<$month_half){
+            //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
+            //             if($revisit_num <1){
+            //                 $revisit_reword_per -=0.05;
+            //             }
 
-                    }else{
-                        $assign_time = $val["assign_ass_time"];
-                        if($assign_time <$month_half){
-                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
-                            if($revisit_num <2){
-                                $revisit_reword_per -=0.05;
-                            }
+            //         }else{
+            //             $assign_time = $val["assign_ass_time"];
+            //             if($assign_time <$month_half){
+            //                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
+            //                 if($revisit_num <2){
+            //                     $revisit_reword_per -=0.05;
+            //                 }
 
-                        }else{
-                            $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
-                            if($revisit_num <1){
-                                $revisit_reword_per -=0.05;
-                            }
+            //             }else{
+            //                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
+            //                 if($revisit_num <1){
+            //                     $revisit_reword_per -=0.05;
+            //                 }
 
-                        }
-                    }
-                    if($revisit_reword_per <=0){
-                        break;
-                    }
+            //             }
+            //         }
+            //         if($revisit_reword_per <=0){
+            //             break;
+            //         }
 
             
-                }
+            //     }
 
-            }
+            // }
 
             if($revisit_reword_per>0){
                 //检查停课学生回访状态
@@ -241,10 +242,10 @@ class assistant_performance extends Controller
                     $stop_student_arr = json_decode($stop_student_list,true);
                     foreach($stop_student_arr as $val){
                         //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
-                        $first_regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
+                        $first_regular_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
                         $assign_time = $this->t_student_info->get_ass_assign_time($val);                        
 
-                        if($first_lesson_time>0 && $first_lesson_time<$month_half){
+                        if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                             if($assign_time < $month_half){
                                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
                                 if($revisit_num <2){
@@ -257,7 +258,7 @@ class assistant_performance extends Controller
                                 }
 
                             }
-                        }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
+                        }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
                             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
                             if($revisit_num <1){
                                 $revisit_reword_per -=0.05;
@@ -279,6 +280,13 @@ class assistant_performance extends Controller
                 $revisit_reword_per=0;
             }
             $item["revisit_reword_per"] = $revisit_reword_per;
+            echo $revisit_reword_per."<br>";
+            if($ppp<=3){
+                
+            }else{
+                break; 
+            }
+            $ppp++;
 
 
             /*课时消耗达成率*/
@@ -301,129 +309,130 @@ class assistant_performance extends Controller
             //     $seller_stu_num += @$p_item[$k]["user_count"]; 
             // }
             // $seller_stu_num = $seller_stu_num/$n;
-            $seller_stu_num = $item["seller_week_stu_num"];
-            $seller_lesson_count = $item["seller_month_lesson_count"];
-            $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
-            if(empty($seller_stu_num)){
-                $lesson_count_finish_per=0;
-            }else{
-                $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
-            }
-
-            //算出kpi中课时消耗达成率的情况
-            // if($lesson_count_finish_per>=70){
-            //     $kpi_lesson_count_finish_per = 0.4;
+            // $seller_stu_num = $item["seller_week_stu_num"];
+            // $seller_lesson_count = $item["seller_month_lesson_count"];
+            // $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
+            // if(empty($seller_stu_num)){
+            //     $lesson_count_finish_per=0;
             // }else{
-            //     $kpi_lesson_count_finish_per=0;
+            //     $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
             // }
 
-            // $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+            // //算出kpi中课时消耗达成率的情况
+            // // if($lesson_count_finish_per>=70){
+            // //     $kpi_lesson_count_finish_per = 0.4;
+            // // }else{
+            // //     $kpi_lesson_count_finish_per=0;
+            // // }
 
-            /*课程消耗奖金*/
-            if($lesson_count_finish_per>=120){
-                $lesson_count_finish_reword=$seller_lesson_count*1.2;
-            }elseif($lesson_count_finish_per>=100 ){
-                $lesson_count_finish_reword=$seller_lesson_count*1;
-            }elseif($lesson_count_finish_per>=75 ){
-                $lesson_count_finish_reword=$seller_lesson_count*0.8;
-            }elseif($lesson_count_finish_per>=50 ){
-                $lesson_count_finish_reword=$seller_lesson_count*0.5;
-            }else{
-                $lesson_count_finish_reword=0;
-            }
+            // // $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
 
-            $item["lesson_count_finish_reword"]=$lesson_count_finish_reword;
+            // /*课程消耗奖金*/
+            // if($lesson_count_finish_per>=120){
+            //     $lesson_count_finish_reword=$seller_lesson_count*1.2;
+            // }elseif($lesson_count_finish_per>=100 ){
+            //     $lesson_count_finish_reword=$seller_lesson_count*1;
+            // }elseif($lesson_count_finish_per>=75 ){
+            //     $lesson_count_finish_reword=$seller_lesson_count*0.8;
+            // }elseif($lesson_count_finish_per>=50 ){
+            //     $lesson_count_finish_reword=$seller_lesson_count*0.5;
+            // }else{
+            //     $lesson_count_finish_reword=0;
+            // }
 
-            /*续费提成奖金*/
-            //计算助教相关退费
+            // $item["lesson_count_finish_reword"]=$lesson_count_finish_reword;
 
-            $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
-            $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
-            $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
-            $renw_reword = 0;
-            if($renw_per>=120){
-                $renw_reword = $renw_target*0.04+($renw_price-$renw_target)*0.05;
-            }elseif($renw_per>=100){
-                $renw_reword = $renw_target*0.04;
-            }elseif($renw_per>=75){
-                $renw_reword = $renw_target*0.028;
-            }elseif($renw_per>=50){
-                $renw_reword = $renw_target*0.02;
-            }elseif($renw_per>=30){
-                $renw_reword = $renw_target*0.012;
-            }
+            // /*续费提成奖金*/
+            // //计算助教相关退费
 
-            $item["renw_reword"] =  $renw_reword;
+            // $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
+            // $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
+            // $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
+            // $renw_reword = 0;
+            // if($renw_per>=120){
+            //     $renw_reword = $renw_target*0.04+($renw_price-$renw_target)*0.05;
+            // }elseif($renw_per>=100){
+            //     $renw_reword = $renw_target*0.04;
+            // }elseif($renw_per>=75){
+            //     $renw_reword = $renw_target*0.028;
+            // }elseif($renw_per>=50){
+            //     $renw_reword = $renw_target*0.02;
+            // }elseif($renw_per>=30){
+            //     $renw_reword = $renw_target*0.012;
+            // }
 
-
-            /*转介绍奖金*/
-            //转介绍个数
-            $cc_tran_num = $item["cc_tran_num"];
-            $cc_tran_num_reword=0;
-            if($cc_tran_num>5){
-                $cc_tran_num_reword = $cc_tran_num*50000;
-            }elseif($cc_tran_num>=3){
-                $cc_tran_num_reword = $cc_tran_num*30000;
-            }else{
-                $cc_tran_num_reword = $cc_tran_num*20000;
-            }
-            //转介绍金额提成
-            $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
-
-            $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
-            $item["cc_tran_reword"] = $cc_tran_reword;
+            // $item["renw_reword"] =  $renw_reword;
 
 
-            /*退费20%、停课15%、结课未续费5%*/
-            //退费
-            $ass_refund_money = $item["ass_refund_money"];            
-            $ass_renw_money = $item["renw_price"]+$item["tran_price"];
-            $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
-            if($refund_per<=0.05){
-                $refund_reword_per = 0.2;
-            }else{
-                $refund_reword_per = 0;
-            }
-            $item["refund_reword_per"]=$refund_reword_per;
+            // /*转介绍奖金*/
+            // //转介绍个数
+            // $cc_tran_num = $item["cc_tran_num"];
+            // $cc_tran_num_reword=0;
+            // if($cc_tran_num>5){
+            //     $cc_tran_num_reword = $cc_tran_num*50000;
+            // }elseif($cc_tran_num>=3){
+            //     $cc_tran_num_reword = $cc_tran_num*30000;
+            // }else{
+            //     $cc_tran_num_reword = $cc_tran_num*20000;
+            // }
+            // //转介绍金额提成
+            // $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
 
-            //停课
-            $all_stu_num = $item["all_ass_stu_num"];//所有学员
-            $all_stop_num = $item["stop_student"];//停课学员
-            $stop_per = $all_stu_num>0?($all_stop_num/$all_stu_num):0;
-            if($all_stu_num>=100 && $stop_per<=0.06){
-                $stop_reword_per = 0.15;
-            }elseif($all_stu_num>=50 && $stop_per<=0.05 && $all_stu_num<100){
-                $stop_reword_per = 0.15;
-            }elseif( $all_stu_num<50 && $stop_per<=0.04){
-                $stop_reword_per = 0.15;
-            }else{
-                 $stop_reword_per = 0;
-            }
-            $item["stop_reword_per"]=$stop_reword_per;
+            // $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
+            // $item["cc_tran_reword"] = $cc_tran_reword;
 
-            //结课未续费
-            $end_no_renw_num = $item["end_no_renw_num"];
-            $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替
-            $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
-            if($end_no_renw_per <=0.08){
-                $end_no_renw_reword_per = 0.05;
-            }else{
-                $end_no_renw_reword_per = 0;
-            }
-            $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
+
+            // /*退费20%、停课15%、结课未续费5%*/
+            // //退费
+            // $ass_refund_money = $item["ass_refund_money"];            
+            // $ass_renw_money = $item["renw_price"]+$item["tran_price"];
+            // $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
+            // if($refund_per<=0.05){
+            //     $refund_reword_per = 0.2;
+            // }else{
+            //     $refund_reword_per = 0;
+            // }
+            // $item["refund_reword_per"]=$refund_reword_per;
+
+            // //停课
+            // $all_stu_num = $item["all_ass_stu_num"];//所有学员
+            // $all_stop_num = $item["stop_student"];//停课学员
+            // $stop_per = $all_stu_num>0?($all_stop_num/$all_stu_num):0;
+            // if($all_stu_num>=100 && $stop_per<=0.06){
+            //     $stop_reword_per = 0.15;
+            // }elseif($all_stu_num>=50 && $stop_per<=0.05 && $all_stu_num<100){
+            //     $stop_reword_per = 0.15;
+            // }elseif( $all_stu_num<50 && $stop_per<=0.04){
+            //     $stop_reword_per = 0.15;
+            // }else{
+            //      $stop_reword_per = 0;
+            // }
+            // $item["stop_reword_per"]=$stop_reword_per;
+
+            // //结课未续费
+            // $end_no_renw_num = $item["end_no_renw_num"];
+            // $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替
+            // $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
+            // if($end_no_renw_per <=0.08){
+            //     $end_no_renw_reword_per = 0.05;
+            // }else{
+            //     $end_no_renw_reword_per = 0;
+            // }
+            // $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
             
 
-            $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
-            $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;
-            $item["refund_reword"] = $item["refund_reword_per"]*1500;
-            $item["stop_reword"] = $item["stop_reword_per"]*1500;
-            $item["end_no_renw_reword"] = $item["end_no_renw_reword_per"]*1500;
-            $item["lesson_count_finish_reword"] = $item["lesson_count_finish_reword"]/100;
-            $item["renw_reword"] = $item["renw_reword"]/100;
-            $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
-            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["refund_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
+            // $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
+            // $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;
+            // $item["refund_reword"] = $item["refund_reword_per"]*1500;
+            // $item["stop_reword"] = $item["stop_reword_per"]*1500;
+            // $item["end_no_renw_reword"] = $item["end_no_renw_reword_per"]*1500;
+            // $item["lesson_count_finish_reword"] = $item["lesson_count_finish_reword"]/100;
+            // $item["renw_reword"] = $item["renw_reword"]/100;
+            // $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
+            // $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["refund_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
             
         }
+        dd($ass_month);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month));
 
         //dd($ass_month);

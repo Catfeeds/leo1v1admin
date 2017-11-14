@@ -65,14 +65,9 @@ class  wx_test_tea extends Controller
             // array('id'=>'7', 'pid'=>'1', 'name'=>'分享微信二维码', 'type'=>'view', 'code'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http%3A%2F%2Fwx-parent.leo1v1.com%2Farticle_wx%2Fget_openid&response_type=code&scope=snsapi_base&state=1#wechat_redirect' ),
         );
 
-        // $w = new \App\Wx\Teacher\wechat(WECHAT_TOKEN_TEC, TRUE);
-
-        // $result = \LaneWeChat\Core\Menu::setMenu($menuList);
-
         $result =  \Teacher_test\Core\Menu::setMenu($menuList);
         $result =  \Teacher_test\Core\Menu::getMenu($menuList);
         dd($result);
-        // $result =  \App\Wx\Teacher\Core\Menu::setMenu($menuList);
     }
 
 
