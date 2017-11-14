@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Enums as E;
+use Illuminate\Support\Facades\Input;
+
 
 use App\Http\Requests;
 
@@ -83,4 +85,68 @@ class agent_money_ex extends Controller
         }
   
     }
+    //@desn:通过excel添加赠送活动
+    public function add_by_excel()
+    {
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $flag = $this->upload_ass_stu_from_xls( $realPath);
+            if($flag == 1)
+                return outputjson_success();
+            else
+                return outputjson_ret(false);
+
+        } else {
+            return outputjson_ret(false);
+        }
+    }
+
+    public function upload_ass_stu_from_xls($realPath){
+        $adminid = $this->get_account_id();
+        $file = Input::file('file');
+        \App\Helper\Utils::logger("yayayyal 1111");
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+
+            foreach($arr as $k=>&$val){
+                if($k == 0)
+                    continue;
+                if(empty($val[0]) || $k==0 ){
+                    unset($arr[$k]);
+                }
+                $agent_row = $this->t_agent->get_id_row_by_phone($val[0]);
+                $agent_id = $agent_row['id'];
+                $agent_money_ex_type = $val[1];
+                $money = $val[2];
+                if(!empty($agent_id) && !empty($agent_money_ex_type) && !empty($money)){
+                    $this->t_agent_money_ex->row_insert([
+                        "add_time" =>  time(NULL),
+                        "agent_money_ex_type" =>  $agent_money_ex_type,
+                        "agent_id" =>  $agent_id,
+                        "adminid" =>  $adminid,
+                        "money" =>  $money*100
+                    ]);
+                }
+            }
+
+
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    //@desn:返回模板excel
+    public function download_excel_blade(){
+        return response()->download(public_path('/source/a.xlsx'), '优学优享添加活动奖励模板.xlsx');
+    }
 }
+

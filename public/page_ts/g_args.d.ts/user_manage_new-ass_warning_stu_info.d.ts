@@ -31,22 +31,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-ass_warning_stu_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		leader_flag:	$('#id_leader_flag').val(),
+		assistantid:	$('#id_assistantid').val(),
+		ass_renw_flag:	$('#id_ass_renw_flag').val(),
+		master_renw_flag:	$('#id_master_renw_flag').val(),
+		renw_week:	$('#id_renw_week').val(),
+		end_week:	$('#id_end_week').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			leader_flag:	$('#id_leader_flag').val(),
-			assistantid:	$('#id_assistantid').val(),
-			ass_renw_flag:	$('#id_ass_renw_flag').val(),
-			master_renw_flag:	$('#id_master_renw_flag').val(),
-			renw_week:	$('#id_renw_week').val(),
-			end_week:	$('#id_end_week').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

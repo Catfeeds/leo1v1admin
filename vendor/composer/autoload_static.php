@@ -278,9 +278,11 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
 
     public static $classMap = array (
         'AddVotesToTAgent' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+        'CreateTAgentCashMoneyFreeze' => __DIR__ . '/../..' . '/database/migrations/2017_11_08_183206_create_t_agent_cash_money_freeze.php',
         'CreateTAgentGroup' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
         'CreateTAgentGroupMemberResult' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
         'CreateTAgentGroupMembers' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
+        'CreateTAgentIncomeLog' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_151344_create_t_agent_income_log.php',
         'CreateTAssStuChangeList' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_101911_create_t_ass_stu_change_list.php',
         'CreateTInterviewRemind' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
         'CreateTLuckDrawYxyxForRuffian' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_173442_create_t_luck_draw_yxyx_for_Ruffian.php',
@@ -297,6 +299,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'CreateTableTPeriodOrderRepaymentList' => __DIR__ . '/../..' . '/database/migrations/2017_10_13_151358_create_table_t_period_order_repayment_list.php',
         'CreateTableTTeachingCoraData' => __DIR__ . '/../..' . '/database/migrations/2017_10_31_184636_create_table_t_teaching_cora_data.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
+        'DeleteCycleCloumnFromTAgetn' => __DIR__ . '/../..' . '/database/migrations/2017_11_13_171716_delete_cycle_cloumn_from_t_agetn.php',
         'DropTableTPeriodOrderRepaymentList' => __DIR__ . '/../..' . '/database/migrations/2017_10_13_161932_drop_table_t_period_order_repayment_list.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',

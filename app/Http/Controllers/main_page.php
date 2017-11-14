@@ -1827,6 +1827,8 @@ class main_page extends Controller
 
 
 
+        $this->set_filed_for_js("acc_name",$this->get_account());        
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
             "all_total"   => $all_total,

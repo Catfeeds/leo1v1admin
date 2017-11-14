@@ -51,9 +51,15 @@ $(function(){
             }]
         });
     });
-
+    
     //回访记录
     $(".opt-return-back-list").on("click",function(){
+        //优学优享会员、学员用标识
+        var opt_data=$(this).get_opt_data();
+        if(opt_data.agent_info){
+            if(opt_data.test_lessonid == 0)
+                return false;
+        }
         //添加跳转销售回访列表判断标识
         var cc_flag = $(this).hasClass('cc-flag');
         var agent_user_link = $(this).parent().data("agent_user_link");

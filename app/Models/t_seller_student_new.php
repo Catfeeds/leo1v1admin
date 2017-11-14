@@ -312,6 +312,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["ss.userid=%u",$userid, -1],
                 ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
                 ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
+                "s.origin<>'优学优享'",
             ];
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
@@ -2189,7 +2190,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $last_contact_time = time(NULL)   -3600*1;
         $where_arr = [
             ['t.seller_student_status=%d', $seller_student_status,-1],
-            't.seller_student_status in (1,2,101,102)',
             'n.tmk_student_status<>3 ',
             " competition_call_time <  $competition_call_time ",
             "last_contact_time <  $last_contact_time ",
@@ -2201,10 +2201,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
         $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
 
-        if( $adminid > 0 ) {
-            $where_arr[] = "n.auto_allot_adminid in (0,$adminid)";
+        if ($adminid > 0 ) {
+            $where_arr[] = " ( t.seller_student_status in (1,2,101,102) or ( n.auto_allot_adminid = $adminid and t.seller_student_status in (0,1,2,101,102) ) )";
         } else {
-            $where_arr[] = 'n.auto_allot_adminid = 0';
+            $where_arr[] = 't.seller_student_status in (1,2,101,102)';
         }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 
@@ -2213,7 +2213,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             " from %s t "
             ." left join %s n on  n.userid = t.userid "
             ." left join %s s on n.userid=s.userid "
-            ." where  %s  $order_by_str "
+            ." where  %s $order_by_str "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME

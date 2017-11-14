@@ -14,7 +14,6 @@ interface GargsStatic {
 	agent_level:	string;//枚举列表: \App\Enums\Eagent_level
  	order_flag:	number;//\App\Enums\Eboolean
 	l1_child_count:	string;
-	order_by_str:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -27,32 +26,14 @@ interface RowData {
 	id	:any;
 	phone	:any;
 	nickname	:any;
-	agent_level	:any;
-	all_yxyx_money	:any;
-	all_open_cush_money	:any;
-	all_have_cush_money	:any;
-	create_time	:any;
-	test_lessonid	:any;
-	p_nickname	:any;
-	p_phone	:any;
-	pp_nickname	:any;
-	pp_phone	:any;
-	lesson_start	:any;
-	lesson_user_online_status	:any;
 	userid	:any;
-	parentid	:any;
+	test_lessonid	:any;
 	sys_operator	:any;
 	account	:any;
 	name	:any;
 	account_role	:any;
 	self_order_count	:any;
 	self_order_price	:any;
-	child_student_count	:any;
-	child_member_count	:any;
-	child_student_member_count	:any;
-	agent_level_str	:any;
-	agent_student_status_str	:any;
-	agent_type_str	:any;
 	is_test_lesson_str	:any;
 	agent_info	:any;
 }
@@ -60,10 +41,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../agent; vi  ../agent/agent_list.ts
+	 mkdir -p ../agent; vi  ../agent/student_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent-agent_list.d.ts" />
+/// <reference path="../g_args.d.ts/agent-student_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -80,8 +61,7 @@ function load_data(){
 		test_lesson_flag:	$('#id_test_lesson_flag').val(),
 		agent_level:	$('#id_agent_level').val(),
 		order_flag:	$('#id_order_flag').val(),
-		l1_child_count:	$('#id_l1_child_count').val(),
-		order_by_str:	$('#id_order_by_str').val()
+		l1_child_count:	$('#id_l1_child_count').val()
     });
 }
 $(function(){
@@ -109,7 +89,6 @@ $(function(){
 	$.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 	$('#id_order_flag').val(g_args.order_flag);
 	$('#id_l1_child_count').val(g_args.l1_child_count);
-	$('#id_order_by_str').val(g_args.order_by_str);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -175,13 +154,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">l1_child_count</span>
                 <input class="opt-change form-control" id="id_l1_child_count" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">order_by_str</span>
-                <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
 */
