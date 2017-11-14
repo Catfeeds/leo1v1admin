@@ -53,7 +53,7 @@ class cr_info_funnel_month extends Command
             $end_month   = date("Y-m",$end_time);
             $cur_start   = strtotime(date('Y-m-01',$start_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
-            if($task->t_cr_week_month_info->get_data_by_type($end_time,1)){
+            if(true){
                 if(date('d',$start_time) == '1' && date('d',$end_time) == '1'){//月报
                     $type = 1;
                     $create_time = $end_time;
