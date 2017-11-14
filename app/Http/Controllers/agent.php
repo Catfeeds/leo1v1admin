@@ -562,13 +562,13 @@ class agent extends Controller
                 $end = $info['end_time'];
                 $week_order = $info['week_order'];
                 if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
-                    $res[$adminid]['succ_one'] = $item;
+                    $res[$adminid][$week_order][] = $item;
                 }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
-                    $res[$adminid]['succ_two'] = $item;
+                    $res[$adminid][$week_order][] = $item;
                 }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
-                    $res[$adminid]['succ_three'] = $item;
+                    $res[$adminid][$week_order][] = $item;
                 }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
-                    $res[$adminid]['succ_four'] = $item;
+                    $res[$adminid][$week_order][] = $item;
                 }
             }
         }
