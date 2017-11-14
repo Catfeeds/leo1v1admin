@@ -1495,4 +1495,25 @@ class test_code extends Controller
         return $result;
     }
 
+    public function test_url(){
+
+        //获取用户代理 
+        echo $_SERVER['HTTPS']."<br>"; 
+        exit;
+        //获取完整的url
+        echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+        #http://localhost/blog/testurl.php?id=5
+
+        //包含端口号的完整url
+        echo 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"]; 
+        #http://localhost:80/blog/testurl.php?id=5
+
+        //只取路径
+        $url='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]; 
+        echo dirname($url);
+        // var_dump($_SERVER['HTTP_HOST']);
+    }
+
+
 }

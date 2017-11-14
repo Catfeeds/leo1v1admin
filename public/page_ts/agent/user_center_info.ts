@@ -6,12 +6,14 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
             phone: $("#id_phone").val(),
+            nickname: $("#id_nickname").val(),
             id: g_args.id
         });
     }
 
 
     $('#id_phone').val(g_args.phone);
+    $('#id_nickname').val(g_args.nickname);
 
 
     $('.opt-change').set_input_change_event(load_data);

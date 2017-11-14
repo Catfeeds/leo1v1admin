@@ -73,41 +73,17 @@
             </div>
         </div>
         <hr/>
-        <div class="row have_userid">
-            <div class="col-xs-12 col-md-4">
-                <div class="input-group ">
-                    <span class="input-group-addon">会员总量:{{@$agent_total_num}}</span>
-                    <span class="input-group-addon"> <a href="javascript:;" id="id_show_all">全部</a></span>
-                </div>
-            </div>
-        </div>
 
         <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>id </td>
-                    <td>会员名</td>
-                    <td style="display:none;">个人试听</td>
-                    <td style="display:none;">个人签单</td>
-                    <td style="display:none;">签单金额</td>
-                    <td style="display:none;">签单销售</td>
-                    <td style="display:none;">负责助教</td>
-                    <td>会员等级</td>
-                    <td>绑定类型</td>
-                    <td>上级</td>
-                    <td>上上级</td>
-
-                    {!!\App\Helper\Utils::th_order_gen([
-
-
-                        ["总金额" , "all_yxyx_money"],
-                        ["当前可提现" , "all_open_cush_money"],
-                        ["已提现" , "all_have_cush_money"],
-                    ]) !!}
-                    <td>邀请学员量</td>
-                    <td>邀请会员量</td>
-                    <td>邀请学员+会员量</td>
-
+                    <td>学员名</td>
+                    <td>个人试听</td>
+                    <td>签单量</td>
+                    <td>签单金额</td>
+                    <td>签单销售</td>
+                    <td>负责助教</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -116,30 +92,16 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
-                        <td>{{@$var['is_test_lesson_str']}}</td>
-                        <td>{{@$var['self_order_count']}}</td>
-                        <td>{{@$var['self_order_price']}}</td>
-                        <td>{{@$var['sys_operator']}}</td>
-                        <td>{{@$var['teach_assistantant']}}</td>
-                        <td>{{@$var["agent_level_str"]}} </td>
-                        <td>{{@$var["agent_type_str"]}} </td>
-                        <td>{{@$var["p_nickname"]}}/{{@$var["p_phone"]}}</td>
-                        <td>{{@$var["pp_nickname"]}}/{{@$var["pp_phone"]}}</td>
-                        <td>{{@$var["all_yxyx_money"]}} </td>
-                        <td>{{@$var["all_open_cush_money"]}} </td>
-                        <td>{{@$var["all_have_cush_money"]}} </td>
-                        <td>{{@$var["child_student_count"]}} </td>
-                        <td>{{@$var["child_member_count"]}} </td>
-                        <td>{{@$var["child_student_member_count"]}} </td>
+                        <td>{{@$var["is_test_lesson_str"]}} </td>
+                        <td>{{@$var["self_order_count"]}} </td>
+                        <td>{{@$var["self_order_price"]}} </td>
+                        <td>{{@$var["sys_operator"]}} </td>
+                        <td>{{@$var["teach_assistantant"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
-                                <!-- <a class="fa fa-group  opt-user-link"  title="下线"> </a> -->
-                                <a class="fa fa-user student_info"  title="学员明细"> </a>
-                                <a class="fa fa-user-times member_info"  title="会员明细"> </a>
-                                <a class="fa fa-user-plus  member_student_info"  title="会员+学员明细"> </a>
                                 <a class="fa fa-refresh opt-reset-info"  title="刷新信息"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
