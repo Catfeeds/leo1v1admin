@@ -1129,7 +1129,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ."sum(o.price) all_price "
                                   ." from %s m left join %s s on m.uid=s.origin_assistantid "
                                   ." left join %s o on s.userid = o.userid and o.sys_operator <> m.account"
-                                  ." left join %s mm on o.sys_operator = mm.uid"
+                                  ." left join %s mm on o.sys_operator = mm.account"
                                   ." where %s group by m.uid",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

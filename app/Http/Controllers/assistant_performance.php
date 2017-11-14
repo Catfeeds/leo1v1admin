@@ -103,7 +103,16 @@ class assistant_performance extends Controller
     public function performance_info(){
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
-        $cc_tran_order = $this->t_manager_info->get_cc_tran_origin_order_info_de($start_time,$end_time);
+        $cc_tran_order = $this->t_manager_info->get_cc_tran_origin_order_info($start_time,$end_time);
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        foreach($ass_month as $k=>$val){
+            $money = $val["cc_tran_money"];
+            $new = isset($cc_tran_money[$k]["all_price"])?$cc_tran_money[$k]["all_price"]:0;
+            if($money != $new){
+                echo $k."<br>";
+            }
+        }
+        dd($ass_month);
         dd($cc_tran_order);
 
 
