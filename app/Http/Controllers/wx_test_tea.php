@@ -18,7 +18,7 @@ use LaneWeChat\Core\UserManage;
 
 use LaneWeChat\Core\TemplateMessage;
 
-include(app_path("Wx/Teacher_test/lanewechat_teacher.php"));
+include(app_path("Wx/Teacher_test/lanewechat_teacher_test.php"));
 
 
 class  wx_test_tea extends Controller
