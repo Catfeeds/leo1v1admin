@@ -160,14 +160,10 @@
                                         <td class="panel-red">试听成功数</td>
                                         <td class="panel-red">签单数</td>
                                         <td class="panel-red">月邀约率</td>
-                                        <td class="panel-red">月排课率</td>
-                                        <td class="panel-red">月到课率</td>
+                                        <td class="panel-red"><a title="月初至今试听排课数/试听邀约数">月排课率</a></td>
+                                        <td class="panel-red"><a title="月初至今试听成功数/试听排课数">月到课率</a></td>
                                         <td class="panel-red">月试听转化率</td>
-                                        <td class="panel-red">月签约率</td>
-                                        <td>
-                                            <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">可消失的弹出框</a>
-
-                                        </td>
+                                        <td class="panel-red"><a title="月初至今试听邀约数/已拨通">月签约率</a></td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
@@ -181,7 +177,6 @@
                                         <td> {{@number_format($ret_info['lesson_succ_month_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['trans_month_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['sign_month_rate'],2)}}% </td>
-                                        <td>测试</td>
                                     </tr>
                                 </tbody>
                             </table>
