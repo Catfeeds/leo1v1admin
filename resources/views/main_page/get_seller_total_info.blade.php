@@ -84,6 +84,7 @@
                                         <td>下单总人数</td>
                                         <td class="panel-red">入职完整月签单人数</td>
                                         <td class="panel-red">入职完整月人员签单总额</td>
+                                        <td class="panel-red">平均人效(入职完整月)</td>
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
                                         <td class="panel-red">月KPI完成率</td>
