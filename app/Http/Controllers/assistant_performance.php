@@ -103,22 +103,7 @@ class assistant_performance extends Controller
     public function performance_info(){
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
-        $cc_tran_order = $this->t_manager_info->get_cc_tran_origin_order_info($start_time,$end_time);
-        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        foreach($ass_month as $k=>$val){
-            $money = $val["cc_tran_money"];
-            $new = isset($cc_tran_order[$k]["all_price"])?$cc_tran_order[$k]["all_price"]:0;
-            if($money != $new){
-                $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-                    "cc_tran_money"=>$new,
-                    "cc_tran_num" =>@$cc_tran_order[$k]["stu_num"]
-                ]); 
-            }
-        }
-        // dd($ass_month);
-        dd($ass_month);
-
-
+        $month_half = $start_time+15*86400;
         $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(362637);
         $assign_time = $this->t_student_info->get_ass_assign_time(362637);
         foreach($regular_lesson_list as $t_item){
@@ -126,7 +111,6 @@ class assistant_performance extends Controller
                 $revisit_end = $t_item["lesson_start"]+86400;
                             
                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal(362637,$t_item["lesson_start"],$revisit_end,"曹文显",5);
-                echo $revisit_num."<br>";
 
                             
             }
@@ -181,8 +165,14 @@ class assistant_performance extends Controller
                             $revisit_end = $t_item["lesson_start"]+86400;
                             
                             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
+                            if($revisit_num <=0){
+                                $revisit_reword_per -=0.05;
+                            }
 
                             
+                        }
+                        if($revisit_reword_per <=0){
+                            break;
                         }
                     }
                     dd($regular_lesson_list);
