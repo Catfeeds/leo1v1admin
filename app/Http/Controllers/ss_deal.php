@@ -2120,7 +2120,7 @@ class ss_deal extends Controller
         }
 
         if($require_id){
-            $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
+            $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
             $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"userid,grade,subject");
             $userid  = $tt_item["userid"]*1;
