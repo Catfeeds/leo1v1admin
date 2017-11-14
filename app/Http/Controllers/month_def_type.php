@@ -29,6 +29,7 @@ class month_def_type extends Controller
     public function add_data()
     {
         $month_def_type = $this->get_in_int_val("month_def_type");
+        $week_order = $this->get_in_int_val("week_order");
         if ($month_def_type == -1) {$month_def_type = 1;}
         $def_time = strtotime($this->get_in_str_val("def_time"));
         $start_time = $this->get_in_str_val("start_time");
@@ -37,18 +38,35 @@ class month_def_type extends Controller
         $end_time = strtotime($end_time);
 
         $res = $this->t_month_def_type->get_count_by_def_time($def_time);
+        if($month_def_type != E\Emonth_def_type::V_3){
+            $week_order = 0;
+        }
         if (!$res) {
             $this->t_month_def_type->row_insert([
                 "month_def_type" => $month_def_type,
                 //'def_time' => time(),
                 'def_time' => $def_time,
                 "start_time" => $start_time,
-                "end_time" => $end_time
+                "end_time" => $end_time,
+                "week_order" => $week_order,
             ]);
 
             return $this->output_succ();
         } else {
-            return $this->output_err('本月已有数据，请不要重复添加');
+            if ($month_def_type == E\Emonth_def_type::V_3) {
+                $this->t_month_def_type->row_insert([
+                    "month_def_type" => $month_def_type,
+                    //'def_time' => time(),
+                    'def_time' => $def_time,
+                    "start_time" => $start_time,
+                    "end_time" => $end_time,
+                    "week_order" => $week_order,
+                ]);
+
+                return $this->output_succ();
+            }else{
+                return $this->output_err('本月已有数据，请不要重复添加');
+            }
         }
     }
 
