@@ -572,6 +572,21 @@ class agent extends Controller
                 }
             }
         }
+        foreach($res as &$item){
+            foreach([1,2,3,4] as $info){
+                foreach($item as $in){
+                    if($in == $info && $in==1){
+                        $item['suc_lesson_count_one'] = count($item[$info]);
+                    }elseif(($in == $info && $in==2)){
+                        $item['suc_lesson_count_tow'] = count($item[$info]);
+                    }elseif(($in == $info && $in==3)){
+                        $item['suc_lesson_count_three'] = count($item[$info]);
+                    }elseif(($in == $info && $in==4)){
+                        $item['suc_lesson_count_four'] = count($item[$info]);
+                    }
+                }
+            }
+        }
         dd($res,$test_leeson_list['list']);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];

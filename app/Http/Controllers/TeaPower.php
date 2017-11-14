@@ -1348,20 +1348,21 @@ trait TeaPower {
             }
         }
 
+        //999开头的手机号均为测试账号
         if(substr($phone,0,3)=="999"){
             $is_test_user=1;
         }
 
-        if($use_easy_pass==1){
-            $passwd = "123456";
-        }elseif($use_easy_pass==2){
-            $phone_length = strlen($phone);
-            $passwd = "leo".substr($phone,$phone_length-4,$phone_length);
-        }else{
-            srand(microtime(true)*1000);
-            $passwd = (int)$phone+rand(9999999999,99999999999);
-            $passwd = substr($passwd,0,6);
-        }
+        // if($use_easy_pass==1){
+        //     $passwd = "123456";
+        // }elseif($use_easy_pass==2){
+        $phone_length = strlen($phone);
+        $passwd = "leo".substr($phone,$phone_length-4,$phone_length);
+        // }else{
+        //     srand(microtime(true)*1000);
+        //     $passwd = (int)$phone+rand(9999999999,99999999999);
+        //     $passwd = substr($passwd,0,6);
+        // }
 
         $passwd_md5 = md5($passwd);
         $this->t_user_info->start_transaction();
