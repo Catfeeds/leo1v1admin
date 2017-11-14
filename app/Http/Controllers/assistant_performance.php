@@ -269,13 +269,13 @@ class assistant_performance extends Controller
             }
 
             //算出kpi中课时消耗达成率的情况
-            if($lesson_count_finish_per>=70){
-                $kpi_lesson_count_finish_per = 0.4;
-            }else{
-                $kpi_lesson_count_finish_per=0;
-            }
+            // if($lesson_count_finish_per>=70){
+            //     $kpi_lesson_count_finish_per = 0.4;
+            // }else{
+            //     $kpi_lesson_count_finish_per=0;
+            // }
 
-            $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+            // $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
 
             /*课程消耗奖金*/
             if($lesson_count_finish_per>=120){
@@ -370,19 +370,21 @@ class assistant_performance extends Controller
             }
             $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
             
-            
 
-
-            if($ppp<=2){
-                print_r($item);                
-            }
-            if($ppp==2){
-                break;
-            }
-            $ppp++;
+            $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
+            $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;
+            $item["refund_reword"] = $item["refund_reword_per"]*1500;
+            $item["stop_reword"] = $item["stop_reword_per"]*1500;
+            $item["end_no_renw_reword"] = $item["end_no_renw_reword_per"]*1500;
+            $item["lesson_count_finish_reword"] = $item["lesson_count_finish_reword"]/100;
+            $item["renw_reword"] = $item["renw_reword"]/100;
+            $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
+            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["refund_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
             
         }
-        dd($ass_month);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month));
+
+        //dd($ass_month);
         
                
         
