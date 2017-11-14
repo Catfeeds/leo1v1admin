@@ -334,12 +334,13 @@ class assistant_performance extends Controller
             //退费
             $ass_refund_money = $item["ass_refund_money"];            
             $ass_renw_money = $item["renw_price"]+$item["tran_price"];
-            $refund_per = $ass_refund_money/$ass_renw_money;
+            $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
             if($refund_per<=0.05){
                 $refund_reword_per = 0.2;
             }else{
                 $refund_reword_per = 0;
             }
+            $item["refund_reword_per"]=$refund_reword_per;
 
             //停课
             $all_stu_num = $item["all_ass_stu_num"];//所有学员
@@ -354,6 +355,7 @@ class assistant_performance extends Controller
             }else{
                  $stop_reword_per = 0;
             }
+            $item["stop_reword_per"]=$stop_reword_per;
 
             //结课未续费
             $end_no_renw_num = $item["end_no_renw_num"];
@@ -363,6 +365,7 @@ class assistant_performance extends Controller
             }else{
                 $end_no_renw_reword_per = 0;
             }
+            $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
             
             
 
