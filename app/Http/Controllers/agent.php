@@ -552,7 +552,9 @@ class agent extends Controller
     public function test_new(){
         // $assign_time =$this->get_in_unixtime_from_str("assign_time");
         // dd($assign_time);
-        
+        $ret = $this->t_id_opt_log->get_yxyx_last_adminid();
+        dd($ret);
+
         $origin = $this->t_student_info->field_get_value($userid,'优学优享');
         if($origin == '优学优享'){
             $zl_count = 0;
