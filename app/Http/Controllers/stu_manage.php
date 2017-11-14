@@ -1064,7 +1064,6 @@ class stu_manage extends Controller
 
         $row     = $this->t_student_cc_to_cr->get_stu_info_by_orderid($orderid);
         $is_show_submit = $this->get_in_int_val('is_show_submit',0);
-
         $state_arr = $this->t_student_cc_to_cr->get_last_id_reject_flag_by_orderid($orderid);
 
         // 判断
