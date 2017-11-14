@@ -237,10 +237,12 @@ class assistant_performance extends Controller
             if($revisit_reword_per <0){
                 $revisit_reword_per=0;
             }
+            $item["revisit_reword_per"] = $revisit_reword_per;
 
 
             /*课时消耗达成率*/
             $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
             if($registered_student_list){
                 $registered_student_arr = json_decode($registered_student_list,true);
                 $last_stu_num = count($registered_student_arr);//月初在册人员数
@@ -271,6 +273,8 @@ class assistant_performance extends Controller
                 $kpi_lesson_count_finish_per=0;
             }
 
+            $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+
             /*课程消耗奖金*/
             if($lesson_count_finish_per>=120){
                 $lesson_count_finish_reword=$seller_lesson_count*1.2;
@@ -283,6 +287,8 @@ class assistant_performance extends Controller
             }else{
                 $lesson_count_finish_reword=0;
             }
+
+            $item["lesson_count_finish_reword"]=$lesson_count_finish_reword;
 
             /*续费提成奖金*/
             //计算助教相关退费
