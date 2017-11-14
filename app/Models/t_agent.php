@@ -2145,9 +2145,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
         $wx->send_template_msg($jim_openid,$template_id,$data,$url);
 
-        $succ_flag=false;
-        $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
-        $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
+        // $succ_flag=false;
+        // $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
+        // $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
 
     }
     //消息
