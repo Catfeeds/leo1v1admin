@@ -41,6 +41,9 @@ class wx_yxyx_common extends Controller
 
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
+            //测试环境
+            if(\App\Helper\Utils::check_env_is_test())
+                $url = "$web_html_url/login.html";
         }else{
             \App\Helper\Utils::logger('yxyx_www_openid:'.$openid);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
@@ -53,8 +56,15 @@ class wx_yxyx_common extends Controller
                 ]);
                 
                 $url = "/wx_yxyx_web/$action";
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test())
+                    $url = "$web_html_url/index.html";
+
             }else{
                 $url = "$web_html_url/index.html#bind?".$action;
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test())
+                    $url = "$web_html_url/login.html";
             }
         }
         \App\Helper\Utils::logger("JUMP URL:$url");
