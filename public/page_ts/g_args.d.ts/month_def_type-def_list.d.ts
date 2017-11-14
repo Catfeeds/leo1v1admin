@@ -1,8 +1,8 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
-	month_def_type:	string;//枚举列表: \App\Enums\Emonth_def_type
- }
+	month_def_type:	number;
+}
 declare module "g_args" {
     export = g_args;
 }
@@ -21,16 +21,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/month_def_type-def_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		month_def_type:	$('#id_month_def_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			month_def_type:	$('#id_month_def_type').val()
-        });
-    }
 
 
 	$('#id_month_def_type').val(g_args.month_def_type);
-	$.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);

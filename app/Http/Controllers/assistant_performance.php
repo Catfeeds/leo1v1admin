@@ -106,6 +106,7 @@ class assistant_performance extends Controller
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
 
+
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
@@ -134,6 +135,7 @@ class assistant_performance extends Controller
         
 
 
+        $ppp=1;
         foreach($ass_month as $k=>&$item){
             /*回访*/
             $revisit_reword_per = 0.2;
@@ -359,6 +361,7 @@ class assistant_performance extends Controller
 
             //结课未续费
             $end_no_renw_num = $item["end_no_renw_num"];
+            $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替
             $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
             if($end_no_renw_per <=0.08){
                 $end_no_renw_reword_per = 0.05;
@@ -370,7 +373,13 @@ class assistant_performance extends Controller
             
 
 
-
+            if($ppp<=2){
+                print_r($item);                
+            }
+            if($ppp==2){
+                break;
+            }
+            $ppp++;
             
         }
         dd($ass_month);
