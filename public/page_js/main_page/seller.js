@@ -199,7 +199,9 @@ $(function(){
             "auto_close"       : true,
             //选择
             "onChange"         : function(){
-                if( 1<1 )
+                if( 1<1 ){
+
+                }
             },
             //加载数据后，其它的设置
             "onLoadData"       : null,
@@ -209,6 +211,6 @@ $(function(){
     });
     var is_alerted = 0;
     if(is_alerted == 0) {
-        
+
     }
 });
