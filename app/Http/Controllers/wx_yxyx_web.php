@@ -58,7 +58,7 @@ class wx_yxyx_web extends Controller
             //     $base_url=$wx_config["url"];
             // }
             $aa_url = "$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url";
-            \App\Helper\Utils::logger("two_url $url "); 
+            \App\Helper\Utils::logger("two_url $aa_url "); 
             
             \App\Helper\Utils::logger("YUAN_YUAN URL:$aa_url");
             $redirect_url=urlencode("$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
