@@ -3816,42 +3816,42 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $ret=[];
         $lesson_money=0;
         $lesson_price_avg= $list["lesson_price_avg"]/100;
-        if($lesson_price_avg<=50000){
+        if($lesson_price_avg<50000){
             $lesson_money = $lesson_price_avg*0.01;
-        }elseif($lesson_price_avg<=80000){
-            $lesson_money = 50000*0.01+($lesson_price_avg-50000)*0.02;
-        }elseif($lesson_price_avg<=120000){
-            $lesson_money = 50000*0.01+(80000-50000)*0.02+($lesson_price_avg-80000)*0.03;
-        }elseif($lesson_price_avg<=170000){
-            $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+($lesson_price_avg-120000)*0.04;
+        }elseif($lesson_price_avg<80000){
+            $lesson_money = 49999*0.01+($lesson_price_avg-49999)*0.02;
+        }elseif($lesson_price_avg<120000){
+            $lesson_money = 49999*0.01+(79999-49999)*0.02+($lesson_price_avg-79999)*0.03;
+        }elseif($lesson_price_avg<170000){
+            $lesson_money = 49999*0.01+(79999-49999)*0.02+(119999-79999)*0.03+($lesson_price_avg-119999)*0.04;
         }else{
-             $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+(170000-120000)*0.04+($lesson_price_avg-170000)*0.05;
+             $lesson_money = 49999*0.01+(79999-49999)*0.02+(119999-79999)*0.03+(169999-119999)*0.04+($lesson_price_avg-169999)*0.05;
         }
         $lesson_money = round($lesson_money,2);
         $kk_money =0;
         $kk_num= $list["kk_num"]+$list["hand_kk_num"];
-        if($kk_num<=5){
+        if($kk_num<5){
             $kk_money=  $kk_num*10;
-        }elseif($kk_num<=10){
-            $kk_money=  5*10+($kk_num-5)*20;
+        }elseif($kk_num<10){
+            $kk_money=  4*10+($kk_num-4)*20;
         }else{
-            $kk_money=  5*10+(10-5)*20+($kk_num-10)*30;
+            $kk_money=  4*10+(9-4)*20+($kk_num-9)*30;
         }
         $kk_money = round($kk_money,2);
         $renw_money=0;
         $renw_price = ($list["renw_price"]+$list["tran_price"])/100;
-        if($renw_price<=10000){
+        if($renw_price<10000){
             $renw_money = $renw_price*0.01;
-        }elseif($renw_price<=20000){
-            $renw_money = 10000*0.01+($renw_price-10000)*0.02;
+        }elseif($renw_price<20000){
+            $renw_money = 9999*0.01+($renw_price-9999)*0.02;
         }elseif($renw_price<=50000){
-            $renw_money = 10000*0.01+(20000-10000)*0.02+($renw_price-20000)*0.03;
+            $renw_money = 9999*0.01+(19999-9999)*0.02+($renw_price-19999)*0.03;
         }elseif($renw_price<=80000){
-            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+($renw_price-50000)*0.035;
+            $renw_money = 9999*0.01+(19999-9999)*0.02+(49999-19999)*0.03+($renw_price-49999)*0.035;
         }elseif($renw_price<=110000){
-            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+($renw_price-80000)*0.04;
+            $renw_money = 9999*0.01+(19999-9999)*0.02+(49999-19999)*0.03+(79999-49999)*0.035+($renw_price-79999)*0.04;
         }else{
-            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+(110000-80000)*0.04+($renw_price-110000)*0.045;
+            $renw_money = 9999*0.01+(19999-9999)*0.02+(49999-19999)*0.03+(79999-49999)*0.035+(109999-79999)*0.04+($renw_price-109999)*0.045;
         }
         $renw_money = round($renw_money,2);
         $tran_num_money=$list["hand_tran_num"]*200;

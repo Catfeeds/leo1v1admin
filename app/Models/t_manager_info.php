@@ -2106,4 +2106,68 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_value($sql);
     }
+    public function get_fulltime_teacher_lesson_count($start_time,$end_time){
+        $where_arr = [
+            "l.confirm_flag IN (0, 1)",
+            "l.lesson_del_flag = 0 ",
+            "l.lesson_type <> 2 ",
+            "l.lesson_status = 2 ",
+            [" l.lesson_start >= %u ",$start_time,-1],
+            ["l.lesson_start < %u ",$end_time,-1],
+            "m.account_role = 5 ",
+            "m.del_flag = 0 ",
+            "(m.fulltime_teacher_type = 1 or m.fulltime_teacher_type =2)"
+        ];
+        $sql = $this->gen_sql_new(" select SUM(lesson_count) AS lesson_all, "
+                                  ." sum(if (m.fulltime_teacher_type = 1, lesson_count,0)) sh_lesson_all,"
+                                  ." sum(if (m.fulltime_teacher_type = 2, lesson_count,0)) wh_lesson_all "
+                                  ." from %s m "
+                                  ." left join %s t ON m.phone = t.phone "
+                                  ." left join %s l on t.teacherid = l.teacherid "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_row($sql);
+    }   
+
+    public function get_fulltime_teacher_cc_transfer($start_time,$end_time,$fulltime_teacher_type=-1){
+        $where_arr = [
+            ["kk.fulltime_teacher_type=%u",$fulltime_teacher_type,-1],
+            "kk.account_role = 5 ",
+            "kk.del_flag = 0 ",
+            "l.lesson_type = 2 ",
+            "l.lesson_del_flag = 0",
+            "tss.success_flag IN (0, 1) ",
+            "l.lesson_user_online_status = 1 ",
+            "(m.account_role = 2 OR tq.origin LIKE '%%转介绍%%') ",
+            "m.del_flag = 0 ",
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start < %u ",$end_time,-1]
+        ];
+
+        $sql = $this->gen_sql_new("select COUNT(DISTINCT c.userid, c.teacherid, c.subject) AS order_num,"
+                                  ." COUNT(DISTINCT l.userid, l.subject) AS all_lesson "
+                                  ." from %s kk "
+                                  ." left join %s tt ON tt.phone = kk.phone"
+                                  ." left join %s l ON l.teacherid = tt.teacherid"
+                                  ." left join %s tss ON l.lessonid = tss.lessonid"
+                                  ." left join %s c ON l.userid = c.userid AND l.teacherid = c.teacherid AND "
+                                  ." l.subject = c.subject AND c.course_type = 0 AND c.courseid > 0 "
+                                  ." left join %s tq ON tq.require_id = tss.require_id"
+                                  ." left join %s ts ON ts.test_lesson_subject_id = tq.test_lesson_subject_id "
+                                  ." left join %s m ON tq.cur_require_adminid = m.uid "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_row($sql);
+    }
 }

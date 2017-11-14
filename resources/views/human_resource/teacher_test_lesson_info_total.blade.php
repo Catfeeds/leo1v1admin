@@ -110,7 +110,7 @@
                 </div>
 
 
-               
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >每月平均签单时长</span>
@@ -124,14 +124,14 @@
                     </div>
                 </div>
 
-               
+
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
-                   
+
                     <td>试听课排课数</td>
                     <td>试听成功课数 </td>
                     <td>试听成功课数(销售-old)</td>
@@ -158,13 +158,13 @@
                 <tr>
                     <td >{{@$total["all_lesson"]}}</td>
                     <td>{{@$total["success_lesson"]}}</td>
-                    <td >{{@$total["lesson_num_old"]}}</td>                    
-                    <td >{{@$total["lesson_num"]}}</td>                    
+                    <td >{{@$total["lesson_num_old"]}}</td>
+                    <td >{{@$total["lesson_num"]}}</td>
                     <td> {{@$total["test_person_num"]}}</td>
                     <!--<td >{{@$total["lesson_num_other"]}}</td>                    -->
                     <td>{{@$total["kk_num"]}}</td>
                     <td >{{@$total["change_num"]}}</td>
-                    <td>{{@$total["success_per"]}}%</td>                    
+                    <td>{{@$total["success_per"]}}%</td>
                     <td >{{@$total["have_order"]}}</td>
                     <td >{{@$total["order_number"]}}</td>
                     <!--<td >{{@$total["have_order_other"]}}</td>-->
@@ -176,7 +176,7 @@
                     <td>{{@$total["kk_per"]}}% </td>
                     <td>{{@$total["change_per"]}}% </td>
                     <td></td>
-                </tr>                
+                </tr>
             </tbody>
         </table>
         @include("layouts.page")

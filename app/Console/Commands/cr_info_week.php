@@ -288,7 +288,6 @@ class cr_info_week extends Command
 
         $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_real_renew_num/$month_warning_num,2);//  月续费率
         $arr['finish_renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_plan_renew_num/$month_warning_num,2);//  月续费率
-
         $insert_data = [
           "create_time"             => $create_time,            //存档时间
           "create_time_range"       => $create_time_range,      //存档时间范围

@@ -4664,7 +4664,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         return $this->main_get_list($sql);
     }
-    public function get_wuhan_student_number($start_time,$end_time){
+    public function get_student_number($start_time,$end_time){
         $where_arr = [
             "t.train_through_new = 1 ",
             "t.is_quit = 0 ",

@@ -7590,8 +7590,8 @@ class tongji_ss extends Controller
             }
         }
         $lesson_avg["realname"]="平均";
-        $lesson_all["lesson_per"] = $lesson_avg["lesson_per"];
-        $lesson_all["lesson_per_month"] = $lesson_avg["lesson_per_month"];
+        $lesson_all["lesson_per"] = @$lesson_avg["lesson_per"];
+        $lesson_all["lesson_per_month"] = @$lesson_avg["lesson_per_month"];
         $lesson_all["realname"]="全部";
 
         array_push($ret_info,$tran_avg);
