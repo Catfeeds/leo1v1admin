@@ -83,7 +83,7 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
             ["ma.adminid=%u",$adminid,-1],
             ["ma.month=%u",$month,-1],
             ["ma.kpi_type=%u",$kpi_type,-1],
-            "ma.adminid not in (396,1084,1237)",
+            "ma.adminid not in (396,1084,1237,1194,1173,1231)",
             "(m.del_flag=0 or (m.del_flag=1 and leave_member_time>$end_time))"
         ];
         $sql = $this->gen_sql_new("select ma.*,n.master_adminid,m.name,m.account "
