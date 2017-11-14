@@ -309,6 +309,8 @@ class assistant_performance extends Controller
                 $renw_reword = $renw_target*0.012;
             }
 
+            $item["renw_reword"] =  $renw_reword;
+
 
             /*转介绍奖金*/
             //转介绍个数
@@ -325,6 +327,7 @@ class assistant_performance extends Controller
             $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
 
             $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
+            $item["cc_tran_reword"] = $cc_tran_reword;
 
 
             /*退费20%、停课15%、结课未续费5%*/
