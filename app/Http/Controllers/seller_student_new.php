@@ -345,6 +345,10 @@ class seller_student_new extends Controller
 
         // $ftf = json_encode($require_adminid_list);
         // \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
+        //优学优享,张植源,张龙
+        if(in_array($this->get_account_id(),[384,412])){
+            $origin = '优学优享';
+        }
 
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
@@ -1374,14 +1378,15 @@ class seller_student_new extends Controller
         }
         */
 
-        $seller_student_status      = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
+        $seller_student_status = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
         // $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
-        //判断是否是张龙384，邵少鹏795，蒋文武689
+        //判断是否是张龙384，邵少鹏795，蒋文武689,张植源412
         $adminid = $this->get_account_id();
-        if ($adminid != 384 && $adminid != 795 && $adminid != 689 ){
+        if ($adminid != 384 && $adminid != 795 && $adminid != 689 && $adminid != 412 ){
             $adminid = 0;
         }
+
         $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject,$adminid);
 
 
