@@ -14,7 +14,7 @@ $(function(){
     }
 
 
-    $('#example').popover(options);
+    // $('#example').popover(options);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
