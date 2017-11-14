@@ -3816,16 +3816,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $ret=[];
         $lesson_money=0;
         $lesson_price_avg= $list["lesson_price_avg"]/100;
-        if($lesson_price_avg<=50000){
+        if($lesson_price_avg<50000){
             $lesson_money = $lesson_price_avg*0.01;
-        }elseif($lesson_price_avg<=80000){
-            $lesson_money = 50000*0.01+($lesson_price_avg-50000)*0.02;
-        }elseif($lesson_price_avg<=120000){
-            $lesson_money = 50000*0.01+(80000-50000)*0.02+($lesson_price_avg-80000)*0.03;
-        }elseif($lesson_price_avg<=170000){
-            $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+($lesson_price_avg-120000)*0.04;
+        }elseif($lesson_price_avg<80000){
+            $lesson_money = 49999*0.01+($lesson_price_avg-49999)*0.02;
+        }elseif($lesson_price_avg<120000){
+            $lesson_money = 49999*0.01+(79999-49999)*0.02+($lesson_price_avg-79999)*0.03;
+        }elseif($lesson_price_avg<170000){
+            $lesson_money = 49999*0.01+(79999-49999)*0.02+(119999-79999)*0.03+($lesson_price_avg-119999)*0.04;
         }else{
-             $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+(170000-120000)*0.04+($lesson_price_avg-170000)*0.05;
+             $lesson_money = 49999*0.01+(79999-49999)*0.02+(119999-79999)*0.03+(169999-119999)*0.04+($lesson_price_avg-169999)*0.05;
         }
         $lesson_money = round($lesson_money,2);
         $kk_money =0;
