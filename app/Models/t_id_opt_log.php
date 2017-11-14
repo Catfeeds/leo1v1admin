@@ -117,9 +117,12 @@ class t_id_opt_log extends \App\Models\Zgen\z_t_id_opt_log
     }
 
     public function get_yxyx_last_adminid(){
+        $now = time(null);
         $where_arr=[
             ["l.log_type=%u" ,E\Edate_id_log_type::V_SELLER_ASSIGNED_COUNT],
             "s.origin='优学优享'",
+            ['l.log_time>=%u',$now-3600*24],
+            ['l.log_time<%u',$now],
         ];
         $sql=$this->gen_sql_new(
             " select l.opt_id adminid "
