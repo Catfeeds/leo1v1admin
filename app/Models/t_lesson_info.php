@@ -6735,6 +6735,7 @@ lesson_type in (0,1) "
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        dd($sql);
         return $this->main_get_list($sql,function($item){
           return  $item["teacherid"];
         });

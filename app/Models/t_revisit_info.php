@@ -326,7 +326,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         }
 
         $this->where_arr_add_time_range($where_arr,"revisit_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select 1 from %s where %s",
+        $sql = $this->gen_sql_new("select count(1) from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
