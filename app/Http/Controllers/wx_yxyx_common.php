@@ -35,9 +35,9 @@ class wx_yxyx_common extends Controller
 
         //$web_html_url = "http://wx-yxyx-web.leo1v1.com";
         $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["url"] ) ;
-        if(\App\Helper\Utils::check_env_is_test()){
-            $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["test_url"] ) ;
-        }
+        // if(\App\Helper\Utils::check_env_is_test()){
+        //     $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["test_url"] ) ;
+        // }
 
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
