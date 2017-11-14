@@ -21,12 +21,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/month_def_type-def_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		month_def_type:	$('#id_month_def_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			month_def_type:	$('#id_month_def_type').val()
-        });
-    }
 
 
 	$('#id_month_def_type').val(g_args.month_def_type);
