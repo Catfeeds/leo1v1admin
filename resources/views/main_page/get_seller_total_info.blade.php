@@ -97,6 +97,7 @@
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@$ret_info['all_order_price']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_money_cc'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
                                         <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
                                     </tr>
