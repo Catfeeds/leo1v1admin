@@ -156,16 +156,13 @@
                     </div>
                 </div>
 
-                @if ($boby == 973)
+                @if (1>1)
                     <div class="panel panel-warning" >
                         <div class="panel-heading">
-                            <a class="btn btn-warning opt-no-order" href="javascript:;">本月首周未开单人员</a>
+                            <a class="btn btn-warning opt-no-order" href="javascript:;" data-toggle="modal" data-target="#myModal">本月首周未开单人员</a>
                         </div>
                     </div>
                 @endif
-
-
-
 
             </div>
             <div class="col-xs-12 col-md-4">
@@ -478,9 +475,25 @@
             <div class="col-xs-12 col-md-4">
             </div>
         </div>
-
-
-
     </section>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">本月首周未开单人员</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
