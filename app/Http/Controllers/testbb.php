@@ -16,6 +16,7 @@ class testbb extends Controller
 {
     use CacheNick;
 
+
     var $check_login_flag = false;
     public function get_msg_num() {
         $a= new \App\Jobs\send_error_mail(1,33,33);
