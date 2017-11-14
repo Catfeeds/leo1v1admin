@@ -2212,7 +2212,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             " from %s t "
             ." left join %s n on  n.userid = t.userid "
             ." left join %s s on n.userid=s.userid "
-            ." where  %s $or_str $order_by_str "
+            ." where  %s $order_by_str "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
