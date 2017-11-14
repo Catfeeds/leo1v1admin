@@ -6,8 +6,8 @@ use \App\Enums as E;
  * @property   \App\Console\Tasks\TaskController $task
  */
 class activity_base {
-    static public  $class_map = [
-        E\Eorder_activity_type::V_0 =>  activity_0::class,
+    static public $class_map = [
+        E\Eorder_activity_type::V_0           =>  activity_0::class,
         E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
         E\Eorder_activity_type::V_2017090101  =>  activity_2017090101::class,
         E\Eorder_activity_type::V_2017100701  =>  activity_2017100701::class,
@@ -25,9 +25,9 @@ class activity_base {
         E\Eorder_activity_type::V_2017111003  =>  activity_2017111003::class,
 
         E\Eorder_activity_type::V_2017111101  =>  activity_2017111101::class,
+        E\Eorder_activity_type::V_2017111102  =>  activity_2017111102::class,
         E\Eorder_activity_type::V_2017111201  =>  activity_2017111201::class,
         E\Eorder_activity_type::V_2017111301  =>  activity_2017111301::class,
-        E\Eorder_activity_type::V_2017111102  =>  activity_2017111102::class,
     ];
 
     /**
