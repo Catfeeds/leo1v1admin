@@ -2171,15 +2171,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
             $wx->send_template_msg($xy_openid,$template_id,$data,$url);
 
-<<<<<<< HEAD
-            //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
-            //$jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
-            //$wx->send_template_msg($jim_openid,$template_id,$data,$url);
-=======
-            // $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+           // $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
             $jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
             $wx->send_template_msg($jim_openid,$template_id,$data,$url);
->>>>>>> yxyx_manage_platform
 
             $succ_flag=false;
             $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
@@ -2734,10 +2728,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
     }
-<<<<<<< HEAD
-    
-=======
-    //@desn:获取用户不同身份推荐人个数
+   //@desn:获取用户不同身份推荐人个数
     //@param:$parentid 推荐人id
     public function get_invite_sort_num($parentid){
         $sql = $this->gen_sql_new(
@@ -2756,5 +2747,4 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_row($sql);
     }
->>>>>>> yxyx_manage_platform
 }

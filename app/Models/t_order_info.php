@@ -4150,10 +4150,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
-<<<<<<< HEAD
-
-=======
-    //@desn:获取某用户的下单量及下单金额之和
+   //@desn:获取某用户的下单量及下单金额之和
     //@param: $userid 用户id
     public function get_agent_order_sum($userid){
         $where_arr = [
@@ -4167,5 +4164,4 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_row($sql);
     }
->>>>>>> yxyx_manage_platform
 }
