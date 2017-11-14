@@ -23,9 +23,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
+    //@desn:获取优学优享会员列表
     public function get_agent_info($page_info, $order_by_str, $phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
     {
-        $where_arr = [];
+        $where_arr = [
+            'a.type in (2,3)'
+        ];
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
         }else if ( $phone ) {
@@ -34,7 +37,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             else
                 $where_arr[] = ["a.nickname like '%s%%'", $phone, ""];
         }else {
-            $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+            if($type)
+                $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
             $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
             $this->where_arr_add_int_or_idlist($where_arr,"a.l1_child_count",$l1_child_count);
             $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
@@ -42,35 +46,115 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
         }
 
-        $sql=$this->gen_sql_new (" select a.*,"
-                                 ."aa.nickname p_nickname,aa.phone p_phone,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ."s.origin,s.type student_stu_type,s.is_test_user,"
-                                 ."l.lesson_start,l.lesson_user_online_status, "
-                                 ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
-                                 ."o.price, "
-                                 ."n.admin_revisiterid,a.userid"
-                                 ." from %s a "
-                                 ." left join %s aa on aa.id = a.parentid"
-                                 ." left join %s aaa on aaa.id = aa.parentid"
-                                 ." left join %s s on s.userid = a.userid"
-                                 ." left join %s n on n.userid = a.userid"
-                                 ." left join %s l on l.lessonid = a.test_lessonid"
-                                 ." left join %s ao on ao.aid = a.id "
-                                 ." left join %s o on o.orderid = ao.orderid "
-                                 ." where %s  $order_by_str "
-                                 ,self::DB_TABLE_NAME
-                                 ,self::DB_TABLE_NAME
-                                 ,self::DB_TABLE_NAME
-                                 ,t_student_info::DB_TABLE_NAME
-                                 ,t_seller_student_new::DB_TABLE_NAME
-                                 ,t_lesson_info::DB_TABLE_NAME
-                                 ,t_agent_order::DB_TABLE_NAME
-                                 ,t_order_info::DB_TABLE_NAME
-                                 ,$where_arr
+        $sql=$this->gen_sql_new (
+            " select a.id,a.phone,a.nickname,a.agent_level,a.all_yxyx_money,"
+            ."a.all_open_cush_money,a.all_have_cush_money,a.create_time,a.test_lessonid,"
+            ."aa.nickname p_nickname,aa.phone p_phone,"
+            ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
+            ."l.lesson_start,l.lesson_user_online_status, "
+            ."a.userid,a.parentid,"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid"
+            ." left join %s aaa on aaa.id = aa.parentid"
+            ." left join %s s on s.userid = a.userid"
+            ." left join %s l on l.lessonid = a.test_lessonid"
+            ." left join %s ao on ao.aid = a.id "
+            ." left join %s o on o.orderid = ao.orderid "
+            ." left join %s mi on s.assistantid = mi.uid "
+            ." where %s $order_by_str "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }
+    //@desn:获取全部会员
+    public function get_all_agent_member_count(){
+        $where_arr = [
+            'type in (2,3)'
+        ];
+        $sql = $this->gen_sql_new(
+            "selct count(1) from %s where %s",self::DB_TABLE_NAME,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取推荐人详情
+    //@param type 1:学员 2：会员 3：学员+会员
+    //@param parentid 推荐人id
+    public function get_child_info($parentid,$type,$page_info){
+        $where_arr = [
+            ['a.parentid = %u',$parentid,'0'],
+            ['a.type = %u ',$type,'-1']
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.id,a.phone,a.nickname,a.test_lessonid,count(o.orderid) as self_order_count,"
+            ."sum(o.price) as self_order_price,o.sys_operator,mi.account,mi.name,mi.account_role "
+            .",a.userid"
+            ." from %s a "
+            ." left join %s s on s.userid = a.userid"
+            ." left join %s ao on ao.aid = a.id "
+            ." left join %s o on o.orderid = ao.orderid "
+            ." left join %s mi on s.assistantid = mi.uid "
+            ." where %s group by a.id"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_agent_order::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page( $sql,$page_info);
+    }
+
+    //@desn:获取优学优享学员列表
+    public function get_student_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
+    {
+        $where_arr = [
+            'a.type in (1,3)'
+        ];
+        if($p_phone){
+            $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
+        }else if ( $phone ) {
+            if(is_numeric($phone) && strlen($phone))
+                $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+            else
+                $where_arr[] = ["a.nickname like '%s%%'", $phone, ""];
+        }else {
+            if($type)
+                $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.l1_child_count",$l1_child_count);
+            $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
+            $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
+            $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
+        }
+
+        $sql=$this->gen_sql_new (
+            "select a.id,a.phone,a.nickname,a.userid,a.test_lessonid,"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ." from %s a"
+            ." left join %s s on s.userid = a.userid"
+            ." left join %s ao on ao.aid = a.id "
+            ." left join %s o on ao.orderid = o.orderid"
+            ." left join %s mi on s.assistantid = mi.uid"
+            ." where %s",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_by_page( $sql,$page_info);
+    }
+
 
     public function get_agent_info_two(){
         $where_arr = [];
@@ -1061,8 +1145,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $p_open_price= $p_price*0.2;
                     $pp_open_price= $pp_price*0.2;
                 }
-
-
+                
+                //插入一级佣金记录
+                if($p_open_price > 0){
+                    $agent_income_type = E\Eagent_income_type::V_L1_CHILD_COMMISSION_INCOME;
+                    $this->task->t_agent_income_log->insert_commission_reward_log($pid,$id,$p_open_price,$agent_income_type);
+                }
+                //插入二级佣金奖励
+                if($pp_open_price > 0){
+                    $agent_income_type = E\Eagent_income_type::V_L2_CHILD_COMMISSION_INCOME;
+                    $this->task->t_agent_income_log->insert_commission_reward_log($ppid,$id,$pp_open_price,$agent_income_type);
+                }
 
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
@@ -1191,12 +1284,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ]);
                 }
                 $order_count+=1;
+                //添加收入记录
+                $agent_income_type = E\Eagent_income_type::V_L2_CHILD_INVITE_INCOME;
+                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['pp_agent_status_money'],$agent_income_type);
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
                         "id" => $child_id,
                         "pp_agent_status_money_open_flag" =>$pp_agent_status_money_open_flag,
                     ];
+                    //添加收入记录
+                    $agent_income_type = E\Eagent_income_type::V_L2_CHILD_INVITE_INCOME;
+                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['pp_agent_status_money'],$agent_income_type);
                 }else{
                     if ($pp_agent_status_money_open_flag !=0 ) { //没有开放
                         $this->field_update_list($child_id,[
@@ -1257,12 +1356,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ]);
                 }
                 $order_count+=1;
+                //添加收入记录
+                $agent_income_type = E\Eagent_income_type::V_L1_CHILD_INVITE_INCOME;
+                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['agent_status_money'],$agent_income_type);
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
                         "id" => $child_id,
                         "agent_status_money_open_flag" =>$agent_status_money_open_flag,
                     ];
+                    //添加收入记录
+                    $agent_income_type = E\Eagent_income_type::V_L1_CHILD_INVITE_INCOME;
+                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$item['agent_status_money'],$agent_income_type);
+
                 }else{
                     if ($agent_status_money_open_flag !=0 ) { //没有开放
                         $this->field_update_list($child_id,[
@@ -1483,36 +1589,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
-        $child_arr = [];
-        $cycle_student_count = 0;
-        $cycle_member_count = 0;
-        //计算所有学员量、会员量[无下限限制下级]
-        list($child_arr,$cycle_student_count,$cycle_member_count) =$this->get_cycle_child($id);
-        $cycle_test_lesson_count = 0;
-        $cycle_order_count = 0;
-        $cycle_order_money = 0;
-        //用户有推荐人
-        if($child_arr){
-            $in_str = '('.implode(',',$child_arr).')';
-            //获取该用户推荐人的试听量[无限制下架]
-            $test_lesson_info = $this->get_child_test_lesson_info($in_str);
-            if($test_lesson_info){
-                foreach( $test_lesson_info as $item ) {
-                    if ($item["lesson_user_online_status"] ==1 )
-                        $cycle_test_lesson_count += 1;
-
-                }
-            }
-
-
-            //计算签单金额、签单量[无下限限制下级]
-            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,0, 0xFFFFFFFF );
-            $cycle_order_count = $child_order_info['child_order_count'];
-            $cycle_order_money = $child_order_info['child_order_money'];
-
-        }
-
-
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
             "star_count" => $star_count,
@@ -1540,12 +1616,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_open_cush_money" => $all_open_cush_money,
             "all_have_cush_money" => $all_have_cush_money,
             "test_lessonid" => $test_lessonid,
-            "cycle_student_count" => $cycle_student_count,
-            "cycle_test_lesson_count" => $cycle_test_lesson_count,
-            "cycle_order_money " => $cycle_order_money ,
-            "cycle_member_count" => $cycle_member_count,
-            "cycle_order_count" => $cycle_order_count,
-
+        
         ]);
 
         if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -2033,7 +2104,53 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $this->send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data );
 
     }
+    //@desn:冻结申请体现金额推送
+    //@param:$from_agentid 无用参数 
+    //@param:$to_agentid 发送给的用户
+    //@param:$agent_freeze_type 冻结类型
+    //@param:$phone 违规推荐人电话号码
+    //@param:$agent_money_ex_type_str 活动类型
+    //@param:$url
+    public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="" ) {
+        $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
+        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+        if($agent_freeze_type == 1)
+            $agent_freeze_type_desc = $phone.'(手机号)试听奖励';
+        elseif($agent_freeze_type == 2)
+            $agent_freeze_type_desc = $phone.'(手机号)签单奖励';
+        elseif($agent_freeze_type == 3)
+            $agent_freeze_type_desc = $phone.'(手机号)在'.$agent_money_ex_type_str.'中';
+        else
+            return false;
+        
+        $data = [
+            'first'    => '违规通知',
+            'keyword1' => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
+            'keyword2' => '违规时间：'.date('Y年m月d日 H:i:s'),
+            'keyword3' => '违规原因：利用漏洞',
+            'remark'   => '违规行为将会冻结此次奖励',
+        ];
+        $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
+        \App\Helper\Utils::logger("msg : $msg");
+        if (!$url) {
+            $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
+            $base_url= $wx_config["url"] ;
+            $url="$base_url/wx_yxyx_web/index";
+        }
+        $openid= $this->get_wx_openid($to_agentid);
 
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+        $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+        $wx->send_template_msg($jim_openid,$template_id,$data,$url);
+
+        // $succ_flag=false;
+        // $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
+        // $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
+
+    }
+    //消息
     public function  send_wx_msg( $agent_wx_msg_type, $from_agentid, $to_agentid, $template_id , $data, $url ="" ) {
 
 
@@ -2054,9 +2171,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
             $wx->send_template_msg($xy_openid,$template_id,$data,$url);
 
+<<<<<<< HEAD
             //$jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
             //$jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
             //$wx->send_template_msg($jim_openid,$template_id,$data,$url);
+=======
+            // $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+            $jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
+            $wx->send_template_msg($jim_openid,$template_id,$data,$url);
+>>>>>>> yxyx_manage_platform
 
             $succ_flag=false;
             $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
@@ -2611,5 +2734,27 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page($sql,$page_info,10, true);
 
     }
+<<<<<<< HEAD
     
+=======
+    //@desn:获取用户不同身份推荐人个数
+    //@param:$parentid 推荐人id
+    public function get_invite_sort_num($parentid){
+        $sql = $this->gen_sql_new(
+            "select sum(if(type=1,1,0)) as child_student_count,".
+            "sum(if(type=2,1,0)) as child_member_count,".
+            "sum(if(type=3,1,0)) as child_student_member_count ".
+            "from %s where parentid = %u ",self::DB_TABLE_NAME,$parentid
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:根据用户昵称获取用户信息
+    //@param:$nickname 用户昵称
+    public function get_agent_info_by_nickname($nickname){
+        $sql = $this->gen_sql_new(
+            "select * from %s where nickname like '%%%s%%'",self::DB_TABLE_NAME,$nickname
+        );
+        return $this->main_get_row($sql);
+    }
+>>>>>>> yxyx_manage_platform
 }

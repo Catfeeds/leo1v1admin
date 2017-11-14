@@ -22,6 +22,7 @@
 	all_yxyx_money	:any;
 	all_open_cush_money	:any;
 	all_have_cush_money	:any;
+	agent_cash_money_freeze	:any;
 	agent_check_money_flag	:any;
 	check_money_admin_nick	:any;
 	agent_check_money_flag_str	:any;

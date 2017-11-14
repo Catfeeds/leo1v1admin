@@ -7,11 +7,19 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+<<<<<<< HEAD
     'CreateJobsTable' => $baseDir . '/database/migrations/2017_11_11_095218_create_jobs_table.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
     'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
     'CreateTAssStuChangeList' => $baseDir . '/database/migrations/2017_11_10_101911_create_t_ass_stu_change_list.php',
+=======
+    'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_183206_create_t_agent_cash_money_freeze.php',
+    'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
+    'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
+    'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
+    'CreateTAgentIncomeLog' => $baseDir . '/database/migrations/2017_11_10_151344_create_t_agent_income_log.php',
+>>>>>>> yxyx_manage_platform
     'CreateTInterviewRemind' => $baseDir . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
     'CreateTLuckDrawYxyxForRuffian' => $baseDir . '/database/migrations/2017_10_27_173442_create_t_luck_draw_yxyx_for_Ruffian.php',
     'CreateTMonthStudentCount' => $baseDir . '/database/migrations/2017_10_24_173622_create_t_month_student_count.php',
@@ -27,6 +35,7 @@ return array(
     'CreateTableTPeriodOrderRepaymentList' => $baseDir . '/database/migrations/2017_10_13_151358_create_table_t_period_order_repayment_list.php',
     'CreateTableTTeachingCoraData' => $baseDir . '/database/migrations/2017_10_31_184636_create_table_t_teaching_cora_data.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'DeleteCycleCloumnFromTAgetn' => $baseDir . '/database/migrations/2017_11_13_171716_delete_cycle_cloumn_from_t_agetn.php',
     'DropTableTPeriodOrderRepaymentList' => $baseDir . '/database/migrations/2017_10_13_161932_drop_table_t_period_order_repayment_list.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
@@ -622,7 +631,10 @@ return array(
     'TTeacherFlowAddId' => $baseDir . '/database/migrations/2017_10_26_183054_t_teacher_flow_add_id.php',
     'TTeacherInfoAddPhoneLocation' => $baseDir . '/database/migrations/2017_10_28_104311_t_teacher_info_add_phone_location.php',
     'TTeacherInfoAddSleepFlag' => $baseDir . '/database/migrations/2017_11_04_140027_t_teacher_info_add_sleep_flag.php',
+<<<<<<< HEAD
     'TTeacherMoneyListAddGrade' => $baseDir . '/database/migrations/2017_11_07_105807_t_teacher_money_list_add_grade.php',
+=======
+>>>>>>> yxyx_manage_platform
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTeacherSalaryAddPayColumn' => $baseDir . '/database/migrations/2017_10_28_193114_t_teacher_salary_add_pay_column.php',
     'TTeacherSalaryAddPayFlag' => $baseDir . '/database/migrations/2017_11_07_184957_t_teacher_salary_add_pay_flag.php',
