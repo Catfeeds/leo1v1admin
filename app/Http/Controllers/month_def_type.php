@@ -10,7 +10,8 @@ class month_def_type extends Controller
     public function def_list()
     {
         $page_info = $this->get_in_page_info();
-        $month_def_type = $this->get_in_el_month_def_type();
+        // $month_def_type = $this->get_in_el_month_def_type();
+        $month_def_type = $this->get_in_int_val('month_def_type',-1);
         //list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $ret_info = $this->t_month_def_type->get_list($page_info, $month_def_type);
 
