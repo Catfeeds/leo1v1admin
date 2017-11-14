@@ -106,6 +106,7 @@ class assistant_performance extends Controller
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
 
+
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
@@ -134,6 +135,7 @@ class assistant_performance extends Controller
         
 
 
+        $ppp=1;
         foreach($ass_month as $k=>&$item){
             /*回访*/
             $revisit_reword_per = 0.2;
@@ -237,10 +239,12 @@ class assistant_performance extends Controller
             if($revisit_reword_per <0){
                 $revisit_reword_per=0;
             }
+            $item["revisit_reword_per"] = $revisit_reword_per;
 
 
             /*课时消耗达成率*/
             $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
             if($registered_student_list){
                 $registered_student_arr = json_decode($registered_student_list,true);
                 $last_stu_num = count($registered_student_arr);//月初在册人员数
@@ -271,6 +275,8 @@ class assistant_performance extends Controller
                 $kpi_lesson_count_finish_per=0;
             }
 
+            $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+
             /*课程消耗奖金*/
             if($lesson_count_finish_per>=120){
                 $lesson_count_finish_reword=$seller_lesson_count*1.2;
@@ -283,6 +289,8 @@ class assistant_performance extends Controller
             }else{
                 $lesson_count_finish_reword=0;
             }
+
+            $item["lesson_count_finish_reword"]=$lesson_count_finish_reword;
 
             /*续费提成奖金*/
             //计算助教相关退费
@@ -303,6 +311,8 @@ class assistant_performance extends Controller
                 $renw_reword = $renw_target*0.012;
             }
 
+            $item["renw_reword"] =  $renw_reword;
+
 
             /*转介绍奖金*/
             //转介绍个数
@@ -319,18 +329,20 @@ class assistant_performance extends Controller
             $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
 
             $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
+            $item["cc_tran_reword"] = $cc_tran_reword;
 
 
             /*退费20%、停课15%、结课未续费5%*/
             //退费
             $ass_refund_money = $item["ass_refund_money"];            
             $ass_renw_money = $item["renw_price"]+$item["tran_price"];
-            $refund_per = $ass_refund_money/$ass_renw_money;
+            $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
             if($refund_per<=0.05){
                 $refund_reword_per = 0.2;
             }else{
                 $refund_reword_per = 0;
             }
+            $item["refund_reword_per"]=$refund_reword_per;
 
             //停课
             $all_stu_num = $item["all_ass_stu_num"];//所有学员
@@ -345,20 +357,29 @@ class assistant_performance extends Controller
             }else{
                  $stop_reword_per = 0;
             }
+            $item["stop_reword_per"]=$stop_reword_per;
 
             //结课未续费
             $end_no_renw_num = $item["end_no_renw_num"];
+            $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替
             $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
             if($end_no_renw_per <=0.08){
                 $end_no_renw_reword_per = 0.05;
             }else{
                 $end_no_renw_reword_per = 0;
             }
+            $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
             
             
 
 
-
+            if($ppp<=2){
+                print_r($item);                
+            }
+            if($ppp==2){
+                break;
+            }
+            $ppp++;
             
         }
         dd($ass_month);

@@ -878,12 +878,13 @@ class test_boby extends Controller
     }
 
     public function update_adminid_yxyx(){
+        //刷张龙的优学优享例子
         $sql = 'select t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.add_time,ss.admin_revisiterid   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid=384';
-        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        // $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
         foreach ($ret as $v ) {
             if ($v['require_adminid'] == 0) {
                 $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-                $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 384]);
+                // $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 384]);
             }
         }
     }
