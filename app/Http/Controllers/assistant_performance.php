@@ -109,7 +109,9 @@ class assistant_performance extends Controller
             $money = $val["cc_tran_money"];
             $new = isset($cc_tran_order[$k]["all_price"])?$cc_tran_order[$k]["all_price"]:0;
             if($money != $new){
-                
+                $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
+                    "cc_tran_money"=>$new
+                ]); 
             }
         }
         // dd($ass_month);
