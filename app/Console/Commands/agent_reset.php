@@ -33,7 +33,6 @@ class agent_reset extends cmd_base
             $id=$item["id"];
              echo "deal $id\n";
             $this->task->t_agent->reset_user_info($id);
-             dd(1);
         }
     }
 
