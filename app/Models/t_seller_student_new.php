@@ -2201,10 +2201,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
         $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
 
-        if( $adminid > 0 ) {
-            $where_arr[] = "n.auto_allot_adminid in (0,$adminid)";
+        if ($adminid > 0 ) {
+            $or_str = " or ( n.auto_allot_adminid = $adminid and t.seller_student_status in (0,1,2,101,102) )";
         } else {
-            $where_arr[] = 'n.auto_allot_adminid = 0';
+            $or_str = " ";
         }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 
@@ -2213,7 +2213,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             " from %s t "
             ." left join %s n on  n.userid = t.userid "
             ." left join %s s on n.userid=s.userid "
-            ." where  %s  $order_by_str "
+            ." where  %s $or_str $order_by_str "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
