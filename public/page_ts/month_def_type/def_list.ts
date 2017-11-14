@@ -13,9 +13,9 @@ $(function(){
         });
     }
 
-
+    Enum_map.append_option_list("month_def_type",$("#id_month_def_type"));
     $('#id_month_def_type').val(g_args.month_def_type);
-    $.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
+    // $.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
 
     $("#id_add").on("click",function(){
         var $month_def_type= $("<select/>" );
