@@ -104,18 +104,22 @@ class assistant_performance extends Controller
         $start_time = strtotime("2017-10-01");        
         $end_time = strtotime("2017-11-01");
         $month_half = $start_time+15*86400;
-        $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(362637);
-        $assign_time = $this->t_student_info->get_ass_assign_time(362637);
+        $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(155410);
+        $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
+        $assign_time = $this->t_student_info->get_ass_assign_time(155410);
         foreach($regular_lesson_list as $t_item){
             if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
                 $revisit_end = $t_item["lesson_start"]+86400;
                             
-                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal(362637,$t_item["lesson_start"],$revisit_end,"曹文显",5);
+                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal(155410,$t_item["lesson_start"],$revisit_end,"曹文显",5);
 
                             
             }
+            if($t_item["lesson_start"]<$first_lesson_time){
+                $first_lesson_time = $t_item["lesson_start"];
+            }
         }
-        dd($regular_lesson_list);
+        dd(date("Y-m-d",$first_lesson_time));
  
        
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
@@ -175,12 +179,19 @@ class assistant_performance extends Controller
                             break;
                         }
                     }
+                    if($revisit_reword_per <=0){
+                        break;
+                    }
+
                     dd($regular_lesson_list);
                     
                 }
             }
+            if($revisit_reword_per >0){
+                //检查本月带过的历史学生 
+            }
 
-            //检查本月带过的历史学生
+
 
 
             
