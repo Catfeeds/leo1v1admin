@@ -1,6 +1,7 @@
 <?php
-namespace LaneWeChat;
+namespace Teacher_test;
 /**
+ * 测试帐号 老师帮
  * 系统主配置文件.
  * @Created by Lane.
  * @Author: lane
@@ -16,18 +17,18 @@ namespace LaneWeChat;
 /*
  * 服务器配置，详情请参考@link http://mp.weixin.qq.com/wiki/index.php?title=接入指南
  */
-define("WECHAT_URL_TEC", 'http://admin.yb1v1.com/teacher_wx_server/');//理优老师帮
+define("WECHAT_URL_TEC_TEST", 'http://admin.yb1v1.com/teacher_wx_server/');//理优老师帮
 // define("WECHAT_URL_TEC", 'http://admin.yb1v1.com/wx_test/');//测试微信号
 
-define('WECHAT_TOKEN_TEC', 'leo123');
-define('ENCODING_AES_KEY_TEC', "oYtTpPMHGKgnRwfHhIv4TWQVfZRRg0Y8fNNcBkZUg1X");//理优老师帮
+define('WECHAT_TOKEN_TEC_TEST', 'leo123');
+define('ENCODING_AES_KEY_TEC_TEST', "oYtTpPMHGKgnRwfHhIv4TWQVfZRRg0Y8fNNcBkZUg1X");//理优老师帮
 // define('ENCODING_AES_KEY_TEC', "kP9eZAagRdgfPsYxR0KqMvRaORCYfPmjU6sHiKfiNdA");//微信测试
 
 // /*
 //  * 开发者配置
 //  */
-define("WECHAT_APPID_TEC", 'wxa99d0de03f407627'); //理优老师帮公众号
-define("WECHAT_APPSECRET_TEC",'61bbf741a09300f7f2fd0a861803f920');//理优老师帮appscript
+define("WECHAT_APPID_TEC_TEST", 'wxa99d0de03f407627'); //理优老师帮公众号
+define("WECHAT_APPSECRET_TEC_TEST",'61bbf741a09300f7f2fd0a861803f920');//理优老师帮appscript
 //"appid": "wxa99d0de03f407627",
 //    "appsecret": "61bbf741a09300f7f2fd0a861803f920",
 
@@ -43,8 +44,8 @@ define("WECHAT_APPSECRET_TEC",'61bbf741a09300f7f2fd0a861803f920');//理优老师
 // /*
 //  * SAE平台配置
 //  */
-define("HTTP_ACCESSKEY_TEC", '04xmzo3zm5');
-define("HTTP_APPNAME_TEC", 'imcustom4test');
+define("HTTP_ACCESSKEY_TEC_TEST", '04xmzo3zm5');
+define("HTTP_APPNAME_TEC_TEST", 'imcustom4test');
 
 ////-----引入系统所需类库-------------------
 ////引入错误消息类

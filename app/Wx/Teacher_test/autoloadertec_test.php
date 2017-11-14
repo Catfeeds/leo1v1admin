@@ -1,5 +1,5 @@
 <?php
-namespace Teacher;
+namespace Teacher_test;
 /**
  *
  * 自动载入函数
@@ -10,8 +10,8 @@ namespace Teacher;
  * E-mail: lixuan868686@163.com
  * WebSite: http://www.lanecn.com
  */
-class Autoloadertec{
-    const NAMESPACE_PREFIX_TEC = 'Teacher\\';
+class Autoloadertec_test{
+    const NAMESPACE_PREFIX_TEC = 'Teacher_test\\';
     /**
      * 向PHP注册在自动载入函数
      */

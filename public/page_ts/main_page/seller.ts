@@ -177,79 +177,40 @@ $(function(){
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" :  "list", // or "list"
-            "url"      : "/grab_lesson/get_list_by_grabid_js",
-            //其他参数
-            "args_ex" : {
-                grabid:opt_data.grabid
-            },
+            "url"      : "/main_page/get_no_order_first_week_by_js",
             //字段列表
             'field_list' :[
                 {
-                    title:"visitid",
+                    title:"队名",
                     render:function(val,item) {
-                        return item.visitid;
+                        return item.name;
                     }
 
                 },{
-
-                    title:"老师",
+                    title:"姓名",
                     render:function(val,item) {
-                        return item.tea_nick ;
+                        return item.acc;
                     }
 
-                },{
-
-                    title:"访问时间",
-                    render:function(val,item) {
-                        return item.visit_time ;
-                    }
-
-                },{
-                    title:"是否抢课",
-                    //width :50,
-                    render:function(val,item) {
-                        return $(item.operation_str );
-                    }
-                },{
-
-                    title:"抢课时间",
-                    render:function(val,item) {
-                        return item.grab_time ;
-                    }
-
-                },{
-                    title:"是否成功",
-                    render:function(val,item) {
-                        return $(item.success_flag_str) ;
-                    }
-
-                },{
-                    title:"requireid",
-                    render:function(val,item) {
-                        return item.requireid ;
-                    }
-
-                },{
-                    title:"失败原因",
-                    render:function(val,item) {
-                        return item.fail_reason ;
-                    }
-
-                }
-
-
+                },
             ] ,
             filter_list: [],
 
             "auto_close"       : true,
             //选择
-            "onChange"         : null,
+            "onChange"         : function(){
+                if( 1<1 ){
+
+                }
+            },
             //加载数据后，其它的设置
             "onLoadData"       : null,
 
         });
 
-
     });
+    var is_alerted = 0;
+    if(is_alerted == 0) {
 
+    }
 });
