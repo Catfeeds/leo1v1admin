@@ -108,9 +108,9 @@ class assistant_performance extends Controller
         $assign_time = $this->t_student_info->get_ass_assign_time(362637);
         foreach($regular_lesson_list as $t_item){
             if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
-                $revisit_end = $t_item["lesson_start"]+86400;
+                $revisit_end = $t_item["lesson_start"]+5*86400;
                             
-                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
+                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal(362637,$t_item["lesson_start"],$revisit_end,"曹文显",5);
                 echo $revisit_num."<br>";
 
                             
