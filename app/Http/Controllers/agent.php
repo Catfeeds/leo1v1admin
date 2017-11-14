@@ -552,25 +552,30 @@ class agent extends Controller
     public function test_new(){
         // $assign_time =$this->get_in_unixtime_from_str("assign_time");
         // dd($assign_time);
-        $zl_count = 0;
-        $zzy_count = 0;
-        $count = $this->t_seller_student_new->get_yxyx_count();
-        foreach($count as $item){
-            $adminid = $item['adminid'];
-            $count = $item['count'];
-            if($adminid == 384){
-                $zl_count = $item['count'];
-            }elseif($adminid == 384){
-                $zzy_count = $item['count'];
-            }
-        }
-        dd($zl_count,$zzy_count);
+        
         $origin = $this->t_student_info->field_get_value($userid,'优学优享');
         if($origin == '优学优享'){
+            $zl_count = 0;
+            $zzy_count = 0;
+            $count = $this->t_seller_student_new->get_yxyx_count();
+            foreach($count as $item){
+                $adminid = $item['adminid'];
+                $count = $item['count'];
+                if($adminid == 384){
+                    $zl_count = $item['count'];
+                }elseif($adminid == 412){
+                    $zzy_count = $item['count'];
+                }
+            }
+            if($zl_count>$zzy_count){
+                $opt_adminid=412;
+            }else{
+                $opt_adminid=384;
+            }
+            $opt_account = $this->t_manager_info->get_account($opt_adminid);
             $account = $this->get_account();
-            $opt_account = $this->t_manager_info->get_account($opt_adminid=381,412);
             $this->t_seller_student_new->set_admin_info_new(
-                $opt_type=3,$userid,$opt_adminid=384,412,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
+                $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
         }
         //回流
 
