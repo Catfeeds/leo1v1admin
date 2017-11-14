@@ -58,7 +58,7 @@ class wx_yxyx_web extends Controller
             }
             $aa_url = "$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url";
             
-            \App\Helper\Utils::logger("YUAN URL:$aa_url");
+            \App\Helper\Utils::logger("YUAN_YUAN URL:$aa_url");
             $redirect_url=urlencode("$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
         }
