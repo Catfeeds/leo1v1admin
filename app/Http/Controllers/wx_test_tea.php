@@ -18,14 +18,14 @@ use LaneWeChat\Core\UserManage;
 
 use LaneWeChat\Core\TemplateMessage;
 
-include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+include(app_path("Wx/Teacher_test/lanewechat_teacher_test.php"));
 
 
-class  wx_test extends Controller
+class  wx_test_tea extends Controller
 {
     var $check_login_flag =false;//是否需要验证
     public function index() {
-        $wechat = new \App\Wx\Teacher\wechat (WECHAT_TOKEN_TEC, TRUE);
+        $wechat = new \App\Wx\Teacher_test\wechat (WECHAT_TOKEN_TEC_TEST, TRUE);
         $r = $wechat->checkSignature();
 
         // $ret=$wechat->run();

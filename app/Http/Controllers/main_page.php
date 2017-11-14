@@ -90,11 +90,19 @@ class main_page extends Controller
                     $ret_info['aver_count'] = 0;
                 }
 
-                if($ret_info['formal_num']>0){ //平均人效
+                if($ret_info['formal_num']>0){ //平均人效[入职完整月]
                     $ret_info['aver_money'] = $ret_info['all_order_price']/$ret_info['formal_num'];
                 }else{
                     $ret_info['aver_money'] = 0;
                 }
+
+
+                if($ret_info['order_cc_num']>0){ //平均人效 all cc签单额/all cc签单人数
+                    $ret_info['aver_money_cc'] = $ret_info['new_money']/$ret_info['order_cc_num'];
+                }else{
+                    $ret_info['aver_money_cc'] = 0;
+                }
+
 
                 $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
 
@@ -198,11 +206,18 @@ class main_page extends Controller
                     $ret_info['aver_count'] = 0;
                 }
 
-                if($ret_info['formal_num']>0){ //平均人效
+                if($ret_info['formal_num']>0){ //平均人效 [入职完整月]
                     $ret_info['aver_money'] = $ret_info['all_order_price']/$ret_info['formal_num'];
                 }else{
                     $ret_info['aver_money'] = 0;
                 }
+
+                if($ret_info['order_cc_num']>0){ //平均人效 all cc签单额/all cc签单人数
+                    $ret_info['aver_money_cc'] = $ret_info['new_money']/$ret_info['order_cc_num'];
+                }else{
+                    $ret_info['aver_money_cc'] = 0;
+                }
+
 
                 $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
 
@@ -497,7 +512,22 @@ class main_page extends Controller
             "next_revisit_count"     => $next_revisit_count,
             "next_time_str"          => $next_time_str,
             "is_master"              => $is_master,
+            "boby"                   => $adminid,
         ]);
+    }
+
+    public function get_no_order_first_week_by_js(){
+        $data = [
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+            ['name' => 435,'acc' => 4548],
+        ];
+
+        return $this->output_succ(["data"=>  \App\Helper\Utils::list_to_page_info($data) ]);
     }
 
     public function seller_gold_room()

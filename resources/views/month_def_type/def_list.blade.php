@@ -15,10 +15,17 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span class="input-group-addon">month_def_type</span>
+                     <input class="opt-change form-control" id="id_month_def_type" />
+                     </div>
+                     </div> -->
+                <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
-                        <span class="input-group-addon">month_def_type</span>
-                        <input class="opt-change form-control" id="id_month_def_type" />
+                        <span class="input-group-addon">类型</span>
+                        <select class="opt-change form-control" id="id_month_def_type" >
+                        </select>
                     </div>
                 </div>
 
@@ -45,7 +52,12 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
-                        <td>{{$var["month_def_type_str"]}} </td>
+                        <td>
+                            {{$var["month_def_type_str"]}}
+                            @if($var["month_def_type"]==3)
+                                /第{{$var["week_order"]}}周
+                            @endif
+                        </td>
                         <td>{{$var["def_time"]}} </td>
                         <td>{{$var["start_time"]}} </td>
                         <td>{{$var["end_time"]}} </td>

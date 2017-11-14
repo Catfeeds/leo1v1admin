@@ -1,8 +1,8 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
-	month_def_type:	string;//枚举列表: \App\Enums\Emonth_def_type
- }
+	month_def_type:	number;
+}
 declare module "g_args" {
     export = g_args;
 }
@@ -11,6 +11,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	month_def_type	:any;
+	def_time	:any;
+	start_time	:any;
+	end_time	:any;
+	week_order	:any;
+	month_def_type_str	:any;
 }
 
 /*
@@ -31,7 +38,6 @@ $(function(){
 
 
 	$('#id_month_def_type').val(g_args.month_def_type);
-	$.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);

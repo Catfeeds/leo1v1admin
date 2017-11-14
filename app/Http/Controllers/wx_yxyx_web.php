@@ -29,12 +29,18 @@ class wx_yxyx_web extends Controller
 
         $wx_config=\App\Helper\Config::get_config("yxyx_wx");
         $base_url=$wx_config["url"];
+        //测试环境
+        // if(\App\Helper\Utils::check_env_is_test()){
+        //     $base_url=$wx_config["test_url"];
+        // }
+
         if($agent_id_new){
             $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $base_url ) ;
 
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
+            
             $url = "$web_html_url/$action.html?v=1101";
             if($action == 'bind'){
                 // if($action == 'bind' or !$agent_id_new){
@@ -46,6 +52,13 @@ class wx_yxyx_web extends Controller
             \App\Helper\Utils::logger('yxyx_yyy');
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            //测试环境
+            // if(\App\Helper\Utils::check_env_is_test()){
+            //     $base_url=$wx_config["url"];
+            // }
+            $aa_url = "$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url";
+            
+            \App\Helper\Utils::logger("YUAN_YUAN URL:$aa_url");
             $redirect_url=urlencode("$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
         }

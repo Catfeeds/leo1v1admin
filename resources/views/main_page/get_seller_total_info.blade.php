@@ -84,6 +84,7 @@
                                         <td>下单总人数</td>
                                         <td class="panel-red">入职完整月签单人数</td>
                                         <td class="panel-red">入职完整月人员签单总额</td>
+                                        <td class="panel-red">平均人效(入职完整月)</td>
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
                                         <td class="panel-red">月KPI完成率</td>
@@ -96,6 +97,7 @@
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@$ret_info['all_order_price']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_money_cc'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
                                         <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
                                     </tr>
@@ -157,11 +159,11 @@
                                         <td>试听排课数</td>
                                         <td class="panel-red">试听成功数</td>
                                         <td class="panel-red">签单数</td>
-                                        <td class="panel-red">月邀约率</td>
-                                        <td class="panel-red">月排课率</td>
-                                        <td class="panel-red">月到课率</td>
-                                        <td class="panel-red">月试听转化率</td>
-                                        <td class="panel-red">月签约率</td>
+                                        <td class="panel-red"><a title="月初至今试听邀约数/已拨通">月邀约率</a></td>
+                                        <td class="panel-red"><a title="月初至今试听排课数/试听邀约数">月排课率</a></td>
+                                        <td class="panel-red"><a title="月初至今试听成功数/试听排课数">月到课率</a></td>
+                                        <td class="panel-red"><a title="月初至今合同人数/试听成功数">月试听转化率</a></td>
+                                        <td class="panel-red"><a title="月初至今合同人数/已拨通例子">月签约率</a></td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
@@ -198,7 +200,7 @@
                                         <td class="panel-red">例子认领率</td>
                                         <td class="panel-red">邀约数</td>
                                         <td class="panel-red">未消耗例子数</td>
-                                        <td class="panel-red">月例子消耗率</td>
+                                        <td class="panel-red"><a title="月初至今已拨打例子量/新进例子量">月例子消耗率</a></td>
                                         <td class="panel-red">人均呼出量</td>
                                         <td class="panel-red">人均邀约数</td>
                                         <td class="panel-red">人均通时(分钟)</td>

@@ -1,6 +1,7 @@
 <?php
-namespace LaneWeChat;
+namespace Teacher_test;
 /**
+ * 测试帐号 老师帮
  * 系统主配置文件.
  * @Created by Lane.
  * @Author: lane
@@ -10,27 +11,40 @@ namespace LaneWeChat;
  * @Blog: Http://www.lanecn.com
  */
 //版本号
-define('LANEWECHAT_VERSION', '1.4');
-define('LANEWECHAT_VERSION_DATE', '2014-11-05');
+// define('LANEWECHAT_VERSION', '1.4');
+// define('LANEWECHAT_VERSION_DATE', '2014-11-05');
 
 /*
  * 服务器配置，详情请参考@link http://mp.weixin.qq.com/wiki/index.php?title=接入指南
  */
-define("WECHAT_URL", 'http://admin.leo1v1.com/parent_wx_server/');
-define('WECHAT_TOKEN', 'yb1v1');
-define('ENCODING_AES_KEY', "XeX8DWLuuYfK0nQXKvtY2HiG5MrSLBAKp2UZJJy8crr");
+define("WECHAT_URL_TEC_TEST", 'http://admin.leo1v1.com/wx_test_tea/');//理优老师帮
 
-/*
- * 开发者配置
- */
-define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
-define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
+define('WECHAT_TOKEN_TEC_TEST', 'test_tea'); // 老师帮测试
+define('ENCODING_AES_KEY_TEC_TEST', "oYtTpPMHGKgnRwfHhIv4TWQVfZRRg0Y8fNNcBkZUg1X");//理优老师帮
+// define('ENCODING_AES_KEY_TEC', "kP9eZAagRdgfPsYxR0KqMvRaORCYfPmjU6sHiKfiNdA");//微信测试
 
-/*
- * SAE平台配置
- */
-define("HTTP_ACCESSKEY", '04xmzo3zm5');
-define("HTTP_APPNAME", 'imcustom4test');
+// /*
+//  * 开发者配置
+//  */
+define("WECHAT_APPID_TEC_TEST", 'wxaa82eb7e41b26498'); //理优老师帮 测试号
+define("WECHAT_APPSECRET_TEC_TEST",'37a455af2e26f53863821fc975f6aead');//理优老师帮 测试号
+//"appid": "wxa99d0de03f407627",
+//    "appsecret": "61bbf741a09300f7f2fd0a861803f920",
+
+//61bbf741a09300f7f2fd0a861803f920
+
+// define("WECHAT_APPID_TEC", 'wx3cdac6efe27e7458'); //测试微信号
+// define("WECHAT_APPSECRET_TEC",'d6da9400e1c9e2feca7427f8da47d3bd');//测试微信号
+
+
+
+
+
+// /*
+//  * SAE平台配置
+//  */
+define("HTTP_ACCESSKEY_TEC_TEST", '04xmzo3zm5');
+define("HTTP_APPNAME_TEC_TEST", 'imcustom4test');
 
 ////-----引入系统所需类库-------------------
 ////引入错误消息类
