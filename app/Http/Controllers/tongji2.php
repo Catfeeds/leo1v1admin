@@ -1569,7 +1569,6 @@ class tongji2 extends Controller
             $date_list[$month]['title'] = $month;
             ++$i;
         }
-
         \App\Helper\Utils::date_list_set_value($date_list,$subject_chinese,"month","subject_chinese","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_math,"month","subject_math","count");
         \App\Helper\Utils::date_list_set_value($date_list,$subject_english,"month","subject_english","count");
@@ -1590,17 +1589,50 @@ class tongji2 extends Controller
             $i = strtotime('+1 month', $i);
         }
         $i = 0;
-        $subject_chinese = [];
-        $subject_math = [];
-        $subject_english = [];
         $date_list = [];
         foreach ($montharr as $key => $value) {
             $time1 = strtotime($value);
             $month = date('Y-m',$time1);
             $time2 = strtotime('+1 month',$time1);
-            $student_num = $this->t_teacher_info->get_student_number($time1,$time2);
-            $lesson_count = $this->t_manager_info->get_fulltime_teacher_lesson_count($time1,$time2);
+            $ret_info = $this->t_fulltime_teacher_data->get_info_by_time($time1);
+            $cc_transfer_all[$i]['month'] = $month;
+            $cc_transfer_all[$i]['count'] = round($ret_info[0]['cc_transfer_per']/100,2);
+            $cc_transfer_sh[$i]['month'] = $month;
+            $cc_transfer_sh[$i]['count'] = round($ret_info[1]['cc_transfer_per']/100,2);
+            $cc_transfer_wh[$i]['month'] = $month;
+            $cc_transfer_wh[$i]['count'] = round($ret_info[2]['cc_transfer_per']/100,2);
+
+            $student_num_all[$i]['month'] = $month;
+            $student_num_all[$i]['count'] = $ret_info[0]['student_num'];
+            $student_num_sh[$i]['month'] = $month;
+            $student_num_sh[$i]['count'] = $ret_info[1]['student_num'];
+            $student_num_wh[$i]['month'] = $month;
+            $student_num_wh[$i]['count'] = $ret_info[2]['student_num'];
+
+            $lesson_count_all[$i]['month'] = $month;
+            $lesson_count_all[$i]['count'] = round($ret_info[0]['lesson_count']/100,2);
+            $lesson_count_sh[$i]['month'] = $month;
+            $lesson_count_sh[$i]['count'] = round($ret_info[1]['lesson_count']/100,2);
+            $lesson_count_wh[$i]['month'] = $month;
+            $lesson_count_wh[$i]['count'] = round($ret_info[2]['lesson_count']/100,2);
+
+            $date_list[$month]['title'] = $month;
+            ++$i;
         }
+
+        \App\Helper\Utils::date_list_set_value($date_list,$cc_transfer_all,"month","cc_transfer_all","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$cc_transfer_sh,"month","cc_transfer_sh","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$cc_transfer_wh,"month","cc_transfer_wh","count");
+
+        \App\Helper\Utils::date_list_set_value($date_list,$student_num_all,"month","student_num_all","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$student_num_sh,"month","student_num_sh","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$student_num_wh,"month","student_num_wh","count");
+
+        \App\Helper\Utils::date_list_set_value($date_list,$lesson_count_all,"month","lesson_count_all","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$lesson_count_sh,"month","lesson_count_sh","count");
+        \App\Helper\Utils::date_list_set_value($date_list,$lesson_count_wh,"month","lesson_count_wh","count");
+        //dd($date_list);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
 
     public function total_money()
