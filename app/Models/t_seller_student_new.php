@@ -3023,4 +3023,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_yxyx_count(){
+        $where_arr = [
+            "s.origin ='优学优享'",
+            'n.admin_revisiterid in(384,412)',
+        ];
+        $sql=$this->gen_sql_new("select n.admin_revisiterid adminid,count(n.userid) count "
+                                ." from %s n "
+                                ." left join %s s on s.userid=n.userid "
+                                ." where %s group by n.admin_revisiterid "
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
