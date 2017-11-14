@@ -105,7 +105,8 @@ class assistant_performance extends Controller
         $end_time = strtotime("2017-12-01");
         $month_half = $start_time+15*86400;
 
-        $history_list = $this->t_ass_stu_change_list->get_ass_history_list(503,$start_time,$end_time);
+        $history_list = $this->t_ass_stu_change_list->get_ass_history_list(409,$start_time,$end_time);
+        dd($history_list);
 
        
         
