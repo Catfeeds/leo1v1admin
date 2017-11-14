@@ -66,15 +66,12 @@
                     {!!\App\Helper\Utils::th_order_gen([
                         ["回公海次数","return_publish_count" ],
                        ])!!}
-
-
                     <td >cc备注</td>
                     <td >tmk备注</td>
                     <td >年级</td>
                     <td >科目</td>
                     <td >是否有pad</td>
                     <td >负责人</td>
-                    <td >联系负责人</td>
                     <td style="min-width:130px" >操作</td>
                 </tr>
             </thead>
@@ -102,28 +99,21 @@
                         <td>
                             {{$var["seller_student_sub_status_str"]}}
                         </td>
-
                         <td>
                             {{$var["global_tq_called_flag_str"]}} <br/>
                         </td>
-
                         <td>
                             {{$var["return_publish_count"]}} <br/>
                         </td>
-
-
-
                         <td>
                             {{$var["user_desc"]}} <br/>
                         </td>
                         <td>
                             {{@$var["tmk_desc"]}} <br/>
                         </td>
-
                         <td>
                             {{$var["grade_str"]}} <br/>
                         </td>
-
                         <td>
                             {{$var["subject_str"]}} <br/>
                         </td>
