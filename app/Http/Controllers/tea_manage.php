@@ -2413,6 +2413,7 @@ class tea_manage extends Controller
                 $teacher_info['level']    = 0;
                 $teacher_info['acc']      = $acc;
                 $teacher_info['identity'] = $identity;
+                $teacher_info['use_easy_pass'] = 2;
                 $teacherid = $this->add_teacher_common($teacher_info);
                 if(!$teacherid){
                     return $this->output_err("老师添加失败！");
