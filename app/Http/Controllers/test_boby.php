@@ -883,7 +883,7 @@ class test_boby extends Controller
         foreach ($ret as $v ) {
             if ($v['require_adminid'] == 0) {
                 $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-                $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,['require_adminid' => $v['require_adminid']]);
+                $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => $v['require_adminid']]);
             }
         }
     }
