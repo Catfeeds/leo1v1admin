@@ -557,22 +557,11 @@ class agent extends Controller
 
         $origin = $this->t_student_info->field_get_value($userid,'优学优享');
         if($origin == '优学优享'){
-            $zl_count = 0;
-            $zzy_count = 0;
-            $count = $this->t_seller_student_new->get_yxyx_count();
-            foreach($count as $item){
-                $adminid = $item['adminid'];
-                $count = $item['count'];
-                if($adminid == 384){
-                    $zl_count = $item['count'];
-                }elseif($adminid == 412){
-                    $zzy_count = $item['count'];
-                }
-            }
-            if($zl_count>$zzy_count){
-                $opt_adminid=412;
-            }else{
+            $last_adminid = $this->t_id_opt_log->get_yxyx_last_adminid();
+            if($last_adminid == 412){
                 $opt_adminid=384;
+            }else{
+                $opt_adminid=412;
             }
             $opt_account = $this->t_manager_info->get_account($opt_adminid);
             $account = $this->get_account();
