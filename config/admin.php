@@ -55,6 +55,13 @@ return [
         "url"       => "http://wx-teacher.leo1v1.com",
     ],
 
+    "wx_test_tea" => [
+        // "appid"     => "wxa99d0de03f407627" ,
+        // "appsecret" => "61bbf741a09300f7f2fd0a861803f920",
+        // "url"       => "http://wx-teacher.leo1v1.com",
+    ],
+
+
     "yxyx_wx" => [
         "appid"     => env('YXYX_WX_APPID', "wxb4f28794ec117af0") ,
         "appsecret" => env('YXYX_WX_APPSECRET', "4a4bc7c543698b8ac499e5c72c22f242" )  ,
