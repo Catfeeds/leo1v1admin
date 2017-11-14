@@ -1042,6 +1042,7 @@ $(function(){
         }
         $discount_price.set_input_readonly(true);
         $order_promotion_desc.set_input_readonly(true);
+
         BootstrapDialog.show({
             title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type) +']' ,
             message  : html_node,
