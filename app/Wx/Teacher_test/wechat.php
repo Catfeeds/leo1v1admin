@@ -111,7 +111,7 @@ class Wechat extends \LaneWeChat\Core\Wechat   {
         $tmpStr = sha1( $tmpStr );
 
         if( $tmpStr == $signature ){
-            // echo $_GET['echostr'];
+            echo $_GET['echostr'];
             return true;
         }else{
             return false;
