@@ -345,6 +345,10 @@ class seller_student_new extends Controller
 
         // $ftf = json_encode($require_adminid_list);
         // \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
+        //优学优享,张植源,张龙
+        if(in_array($this->get_account(),['张植源','张龙'])){
+            $origin = '优学优享';
+        }
 
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
