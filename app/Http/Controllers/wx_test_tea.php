@@ -21,7 +21,7 @@ use LaneWeChat\Core\TemplateMessage;
 include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
 
-class  wx_test extends Controller
+class  wx_test_tea extends Controller
 {
     var $check_login_flag =false;//是否需要验证
     public function index() {
