@@ -550,8 +550,38 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $assign_time =$this->get_in_unixtime_from_str("assign_time");
-        // dd($assign_time);
+        $res = [];
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $ret = $this->t_month_def_type->get_month_week_time($start_time);
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $lesson_start = $item['lesson_start'];
+            foreach($ret as $info){
+                $start = $info['start_time'];
+                $end = $info['end_time'];
+                $week_order = $info['week_order'];
+                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
+                    $res[$adminid]['succ_one'] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
+                    $res[$adminid]['succ_two'] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
+                    $res[$adminid]['succ_three'] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
+                    $res[$adminid]['succ_four'] = $item;
+                }
+            }
+        }
+        dd($res,$test_leeson_list['list']);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+            if($item['test_lesson_count'] != 0){
+                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
+            }
+        }
+        dd($ret);
         $ret = $this->t_id_opt_log->get_yxyx_last_adminid();
         dd($ret);
 
