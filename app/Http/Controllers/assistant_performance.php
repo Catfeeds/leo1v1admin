@@ -361,6 +361,7 @@ class assistant_performance extends Controller
 
             //结课未续费
             $end_no_renw_num = $item["end_no_renw_num"];
+            $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替
             $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
             if($end_no_renw_per <=0.08){
                 $end_no_renw_reword_per = 0.05;
