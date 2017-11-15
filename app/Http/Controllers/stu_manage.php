@@ -1068,9 +1068,13 @@ class stu_manage extends Controller
 
         // 判断
         $is_submit_show = 0;
-        if($state_arr && $state_arr['id']>0 && $state_arr['reject_flag'] == 0){
-            $is_submit_show = 1;
+
+        if($state_arr){
+            $is_submit_show = $state_arr['reject_flag'];
         }
+        // if($state_arr && $state_arr['id']>0 && $state_arr['reject_flag'] == 0){
+        //     $is_submit_show = 1;
+        // }
 
         if($row){
             $row['is_submit_show'] = $is_submit_show;
