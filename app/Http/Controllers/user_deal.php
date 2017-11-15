@@ -1614,6 +1614,8 @@ class user_deal extends Controller
             return $this->output_err("该老师不是正式老师!");
         }
 
+        // $confirm_flag = $this->t_student_cc_to_cr->get_confirm_flag($userid);
+
 
         $this->t_course_order->row_insert([
             "userid"                => $userid,
@@ -3188,7 +3190,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-
+        $time = strtotime("2017-10-01");
+        $tt = strtotime("-1 years",$time);
+        dd(date("Y-m-d H:i:s",$tt));
+        
         $list = $this->t_student_info->get_ass_create_stu_info();
         dd($list);
 

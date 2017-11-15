@@ -199,7 +199,7 @@
 
                     <div class="col-xs-12 " style="text-align:center;" >
                         <button  class="id_submit  btn btn-warning" style=" font-size:20px; " >
-                            驳回咨询　　
+                            驳回　　
                         </button>
 
                         <button  class="id_submit_succ btn btn-success" style=" font-size:20px;" >

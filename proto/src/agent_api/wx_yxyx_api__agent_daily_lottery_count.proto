@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1116
+//__DESC:微信[优学优享]获取用户每日抽奖次数 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_daily_lottery_count?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+}
+
+message out {
+  uint32 left_daily_lottery_count =1;//剩余可抽奖次数
+}

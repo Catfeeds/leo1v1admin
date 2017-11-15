@@ -1868,7 +1868,6 @@ $(function(){
                             BootstrapDialog.alert(result.info);
                         }
                     })
-
 		            }
 	          }]
         });
@@ -1924,7 +1923,7 @@ $(function(){
                     }else{
                         BootstrapDialog.alert(result.info);
                     }
-                })
+                });
             }
         });
     }
@@ -1961,20 +1960,12 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
                 }
-
             });
 
             dlg.getModalDialog().css("width","1024px");
-
-            
         });
-        
-
     });
-
-
 
     $(".opt-teacher-cancel-lesson-list").on("click",function(){
         var opt_data  = $(this).get_opt_data();
@@ -1991,9 +1982,9 @@ $(function(){
             }
 
             $.each(result.data,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['add_time']+"</td><td>"+item['record_info']+"</td><td>"+item['acc']+"</td></tr>");
-
-
+                html_node.find("table").append(
+                    "<tr><td>"+item['add_time']+"</td><td>"+item['record_info']+"</td><td>"+item['acc']+"</td></tr>"
+                );
             });
 
             var dlg=BootstrapDialog.show({
@@ -2011,7 +2002,6 @@ $(function(){
                 onshown:function(){
 
                 }
-
             });
 
             dlg.getModalDialog().css("width","1024px");
@@ -2122,11 +2112,9 @@ $(function(){
                 })
             }
         });
-
     }
 
     $("#id_plan_level").parent().parent().show();
-   
     $(".opt-identity").on("click",function(){
 	      var data = $(this).get_opt_data();
 
