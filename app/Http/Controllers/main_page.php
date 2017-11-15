@@ -488,9 +488,53 @@ class main_page extends Controller
         $next_revisit_count = isset($row_item['next_revisit_count'])?$row_item['next_revisit_count']:0;
         $next_time_str = "date_type=1&opt_date_type=0&start_time=".$before_week_today."&end_time=".$today;
         // dd($ret_info);
+        $adminid = $this->get_account_id();
+        list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01") );
+        $month_start = strtotime( date('Y-m-01', $start_time) );
+        $next_week = strtotime('next week',$month_start);
+        $week_2    = date('y-m-d 23:59:59',$next_week);
+        $end_time = strtotime($week_2);
+        //判断是不是助长
+        $is_zuzhang = $this->t_admin_group_name->is_master($adminid);
+        if ($is_zuzhang) {
+            $no_order = $this->t_manager_info->get_no_order_list(1,$adminid,$month_start,$end_time);
+        }
+        //判断是不是主管
+        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        if ($is_zhuguan) {
+            $no_order = $this->t_manager_info->get_no_order_list(2,$adminid,$month_start,$end_time);
+        }
+
         //判断是不是总监
-        $adminid   = $this->get_account_id();
         $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        if ($is_master == false) {
+            $no_order = $this->t_manager_info->get_no_order_list(3,$adminid,$month_start,$end_time);
+        }
+        //判断是不是月第二周的周二，是否弹出
+        $cur_time = time();
+        $cur_month = strtotime( date('Y-m-01', $cur_time) );
+        $next_week = strtotime('next week',$cur_month);//周一
+        $next_week_2 = strtotime('+1 day',$next_week);//周二
+
+        $force_flag = 'false';
+        $is_sir = false;
+        $is_time = false;
+        if( $cur_time >= $next_week_2 && $cur_time < $next_week_2+86400 ) {//是节点
+            $is_time = true;
+        }
+        if($is_zuzhang || $is_zhuguan || $is_master){//是sir
+            $is_sir = true;
+        }
+
+        if($is_time && $is_sir){
+            $force_flag = 'true';
+            $alert_time = $this->t_manager_info->get_alert_time_by_uid($adminid);
+            if( $alert_time > strtotime('today') ) {
+                $force_flag = 'false';
+            }
+        }
+
+
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -512,22 +556,16 @@ class main_page extends Controller
             "next_revisit_count"     => $next_revisit_count,
             "next_time_str"          => $next_time_str,
             "is_master"              => $is_master,
-            "boby"                   => $adminid,
+            "is_sir"                 => $is_sir,
+            "force_flag"             => $force_flag,
+            "no_order"               => @$no_order,
         ]);
     }
 
-    public function get_no_order_first_week_by_js(){
-        $data = [
-            ['name' => 435,'acc' => 4548],
-            ['name' => 435,'acc' => 4548],
-            ['name' => 435,'acc' => 4548],
-            ['name' => 435,'acc' => 4548],
-            ['name' => 435,'acc' => 4548],
-            ['name' => 435,'acc' => 4548],
-            ['name' => 435,'acc' => 4548],
-        ];
-
-        return $this->output_succ(["data"=>  \App\Helper\Utils::list_to_page_info($data) ]);
+    public function update_alert_time(){
+        $adminid = $this->get_account_id();
+        $this->t_manager_info->field_update_list($adminid,['alert_time' => time()]);
+        return $this->output_succ();
     }
 
     public function seller_gold_room()
@@ -1397,7 +1435,7 @@ class main_page extends Controller
                   "one_inter_num"   =>$one_inter_num,
                   "lecture_succ"    =>$lecture_succ,
                   "one_succ"        =>$one_succ
-                  
+
             ];
         }elseif($kpi_flag==1){
             $arr=[];
@@ -1690,7 +1728,7 @@ class main_page extends Controller
     public function zs_teacher_new(){
         // dd("暂停!");
         $this->switch_tongji_database();
-       
+
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],1 );
 
         $all_total = $system_total=$self_total=$no_call_total=0;
@@ -1740,7 +1778,7 @@ class main_page extends Controller
 
         }
 
-       
+
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
 
@@ -1771,10 +1809,10 @@ class main_page extends Controller
         }
 
         $data["all_succ"] = count($teacher_list_ex);
-        
+
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
-        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;       
+        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
 
 
         $video_pass = $one_pass=[];
@@ -1857,7 +1895,7 @@ class main_page extends Controller
 
 
 
-        $this->set_filed_for_js("acc_name",$this->get_account());        
+        $this->set_filed_for_js("acc_name",$this->get_account());
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
@@ -2712,7 +2750,7 @@ class main_page extends Controller
                 $type_total['imit_sum'] += $item['imit_sum'];
                 $type_total['attend_sum'] += $item['attend_sum'];
                 $type_total['adopt_sum'] += $item['adopt_sum'];
-            } 
+            }
         } else {
             $ret_info = $this->t_new_tea_entry->get_subject_list();
             foreach($ret_info as &$item) {
@@ -2722,7 +2760,7 @@ class main_page extends Controller
                 } else {
                     $item['grade_str'] = '';
                     E\Esubject::set_item_value_str($item, "subject");
-                } 
+                }
             }
             $type_total = $this->t_new_tea_entry->get_identity_total();
             $type_ret_info = $this->t_new_tea_entry->get_identity_list();
