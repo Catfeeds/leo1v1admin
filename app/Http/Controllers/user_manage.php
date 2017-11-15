@@ -370,6 +370,14 @@ class user_manage extends Controller
                 $arr[] = $value['subject'];
             }
             $item["course_list_total"] = count(array_unique($arr));
+
+            // 检查交接单是否有驳回
+            $ite['confirm_flag'] = $this->t_student_cc_to_cr->get_confirm_flag($item['userid']);
+            if($confirm_flag == 1){
+                //
+            }
+
+
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );

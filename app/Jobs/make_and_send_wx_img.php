@@ -90,16 +90,20 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             $data = json_decode($output,true);
 
         }
+
         $headimgurl = $data['headimgurl'];
-
-
         //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
+
+
         $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
-        $image_5 = imagecreatefromjpeg($datapath);
+        $image_5 = @imagecreatefromjpeg($datapath);
+        if(!$image_5) {
+            $image_5 = @imagecreatefrompng($datapath);
+        }
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         $color = imagecolorallocate($image_6, 255, 255, 255);
 
@@ -172,6 +176,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         $txt = self::ch_json_encode($txt_arr);
         $token = AccessToken::getAccessToken();
+        \App\Helper\Utils::logger("SENT_MSG $token");
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
 
@@ -225,4 +230,5 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         return $data;
     }
+
 }

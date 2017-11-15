@@ -871,9 +871,9 @@ class test_boby extends Controller
 
         $request = ['fromusername'=>'tset'];
 
-        \App\Helper\Utils::wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent,1);
+        // \App\Helper\Utils::wx_make_and_send_img($bg_url,$qr_code_url,$request,$agent,1);
         $task=new \App\Jobs\make_and_send_wx_img($wx_openid,$bg_url,$qr_code_url,$request,$agent);
-        // $task->handle();
+        $task->handle();
 
     }
 
@@ -919,4 +919,9 @@ class test_boby extends Controller
 
     }
 
+    public function get_type(){
+        $s = "http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap78FdicunhxPPKFNop5XBPMQy0GcoBR2sLh3FP1ibfeqZE/0";
+        $ext = pathinfo($s);
+        dd($ext);
+    }
 }
