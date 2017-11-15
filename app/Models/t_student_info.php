@@ -3084,6 +3084,23 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
+    public function get_read_num_by_grade(){
+        $where_arr = [
+            " type = 0 ",
+            " assistantid > 0",
+            " is_test_user = 0 "
+        ];
+        $sql = $this->gen_sql_new("select count(distinct userid) num,grade "
+                                  ." from %s "
+                                  ." where %s group by grade "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item["grade"];
+        });
+    }
+
+
     public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid){
         $where_arr=[
             ["n.add_time>=%u",$add_time,0],
@@ -3224,21 +3241,5 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
-    public function get_now_read_stu($time){
-        $where_arr=[
-            "s.is_test_user=0",
-            "s.assistantid>0",
-            "s.type=0"
-        ];
-        $sql = $this->gen_sql_new("select count(distinct s.userid) num,s.grade"
-                                  ." from %s s "
-                                  ." left join %s st on s.userid = st.userid and st.type_cur =0 and st.type_before>0 and st.add_time >%u"
-                                  ." where %s and st.add_time is null group by s.grade",
-                                  self::DB_TABLE_NAME,
-                                  t_student_type_change_list::DB_TABLE_NAME,
-                                  $time,
-                                  $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
+   
 }
