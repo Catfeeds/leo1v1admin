@@ -365,7 +365,7 @@ class wx_yxyx_common extends Controller
                 $auto_allot_adminid = ( $count%2 == 0 ) ? 384 : 412;
                 $opt_account = ( $count%2 == 0 ) ?'张龙':'张植源';
             } else { //分配给邵少鹏759和蒋文武689
-                $auto_allot_adminid = ( $count%2 == 0 ) ? 795 : 689;
+                $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
                 $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
             }
 

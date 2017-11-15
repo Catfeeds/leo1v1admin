@@ -3193,9 +3193,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $time = strtotime("2017-10-01");
+        $this->switch_tongji_database();
+        $time = strtotime("2017-11-01");
 
-        $ret = $this->t_student_info->get_now_read_stu($time);
+        $ret = $this->t_student_info->get_read_num_by_grade();
+        $arr=[];
+        foreach($ret as $k=>$val){
+            $arr[$k]=$val["num"];
+        }
+        $str = json_encode($arr);
+        dd($str);
+        
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
 
