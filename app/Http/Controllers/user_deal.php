@@ -1615,6 +1615,9 @@ class user_deal extends Controller
         }
 
         $confirm_flag = $this->t_student_cc_to_cr->get_confirm_flag($userid);
+        if($confirm_flag == 1){
+            //
+        }
 
 
         $this->t_course_order->row_insert([
@@ -3193,7 +3196,7 @@ class user_deal extends Controller
         $time = strtotime("2017-10-01");
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
-        
+
         $list = $this->t_student_info->get_ass_create_stu_info();
         dd($list);
 
