@@ -1570,12 +1570,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
         //活动奖励
-        $activity_money=$this->t_agent_money_ex->get_all_money($id);
+        $activity_money=$this->task->t_agent_money_ex->get_all_money($id);
 
         //双11活动
         if($userid){
             //t_luck_draw_yxyx_for_ruffian
-            $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money_for_total($userid);
+            $ruffian_money = $this->task->t_luck_draw_yxyx_for_ruffian->get_ruffian_money_for_total($userid);
         }else{
             $ruffian_money = 0;
         }
@@ -2746,5 +2746,36 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select * from %s where nickname like '%%%s%%'",self::DB_TABLE_NAME,$nickname
         );
         return $this->main_get_row($sql);
+    }
+    //@desn:获取用户每日邀请用户列表
+    //@param: $agent_id 邀请人id
+    //@param:$start_time 开始时间
+    //@param:$end_time  结束时间
+    public function get_today_invite_list($agent_id,$start_time,$end_time){
+        $where_arr = [
+            ['parentid = %u',$agent_id,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,'create_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            'select id,type from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:自增函数
+    //@param:$agent_id 优学优享id
+    //@param:$this_field 自增的字段 
+    //@param:$this_num 自增的数值 
+    public function since_the_add($agent_id,$this_field,$this_num){
+        $sql = sprintf(
+            "update %s set  %s = %s + $this_num  where  id = %u",
+            self::DB_TABLE_NAME,
+            $this_field,
+            $this_field,
+            $agent_id
+        );
+        $ret = $this->main_update($sql);
+        return $ret;
     }
 }

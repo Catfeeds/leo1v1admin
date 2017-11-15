@@ -1244,4 +1244,151 @@ class wx_yxyx_api extends Controller
         //生成图片  --end--
         return $this->output_succ(['invite_img' => $relative_path]);
     }
+    //@desn:获取用户抽奖次数
+    public function get_daily_lottery_count(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $img_type = $this->get_in_int_val('img_type');
+        $phone = '';
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        //获取该用户今日可用抽奖次数
+        $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
+
+        return $this->output_succ([
+            'left_daily_lottery_count' => $daily_lottery_count,
+        ]);
+    }
+    //@desn:获取用户每日抽奖次数
+    //@param:用户优学优享id
+    private function agent_daily_lottery_count($agent_id){
+        //获取用户今日可用抽奖次数  --begin--
+        $daily_lottery_count = 1;
+        $begin_time = strtotime(date('Y-m-d'));
+        $end_time = strtotime(date('Y-m-d 23:59:59'));
+        $agent_today_invite_list = $this->t_agent->get_today_invite_list($agent_id,$begin_time,$end_time);
+        $student_flog = false;
+        $member_flog = false;
+        foreach($agent_today_invite_list as &$item){
+            if($item['type'] == 1 && !isset($student_flog)){
+                $daily_lottery_count++;
+                $student_flag = true;
+            }elseif($item['type'] ==2 && !isset($member_flog)){
+                $daily_lottery_count++;
+                $member_flag = true;
+            }elseif($item['type'] == 3){
+                $daily_lottery_count++;
+            }
+            if($daily_lottery_count >= 3)
+                break;
+        }
+        //获取用户今日可用抽奖次数  --end--
+
+        //获取用户已消耗抽奖次数
+        $has_used_count = $this->t_agent_daily_lottery->get_has_used_count($agent_id,$begin_time,$end_time);
+
+        $daily_lottery_count = $daily_lottery_count - $has_used_count;
+        return $daily_lottery_count;
+    }
+    //@desn:优学优享每日抽奖
+    public function do_daily_lottery(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $img_type = $this->get_in_int_val('img_type');
+        $phone = '';
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+
+        //用户可抽奖次数校验
+        $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
+
+        if($daily_lottery_count > 0){
+            $the_prize = 1;
+            $rand  = mt_rand(1,100);
+            $money = 0;
+            
+            switch($rand){
+            case $rand>=1 && $rand<=15:
+                $the_prize = 1;//再接再厉
+                break;
+            case $rand>=16 && $rand<=30:
+                $the_prize = 2;//再接再厉
+                break;
+            case $rand>=31 && $rand<=50:
+                $the_prize = 3;//0.01
+                $money = 1;
+                break;
+            case $rand>=51 && $rand<=70:
+                $the_prize = 4;//0.05
+                $money = 5;
+                break;
+            case $rand>=71 && $rand<=85:
+                $the_prize = 5;//0.1
+                $money = 10;
+                break;
+            case $rand>=86 && $rand<=90:
+                $the_prize = 6;//0.5
+                $money = 50;
+                break;
+            case $rand>=91 && $rand<=95:
+                $the_prize = 7;//0.8
+                $money = 80;
+                break;
+            case $rand>=96 && $rand<=100:
+                $the_prize = 8;//1.00
+                $money = 100;
+                break;
+            default:
+                $the_prize = 1;
+            };
+            
+            //插入获奖记录
+            $insert_status = $this->t_agent_daily_lottery->row_insert([
+                'l_type' => E\El_type::V_DAILY_LOTTERY,
+                'money' => $money,
+                'agent_id' => $agent_id,
+                'create_time' => time(NULL),
+            ]);
+
+            if($insert_status){
+                if($money > 0){
+                    $this_field = 'all_yxyx_money';
+                    //添加到用户总金额
+                    $update_status = $this->t_agent->since_the_add($agent_id,$this_field,$money);
+                    if($update_status){
+                        return $this->output_succ([
+                            'the_prize' => $the_prize,
+                            'money' => $money/100
+                        ]);
+                    }else{
+                        return $this->output_err('添加抽奖金额失败!');
+                    }
+                }else{
+                    return $this->output_succ([
+                        'the_prize' => $the_prize,
+                        'money' => $money
+                    ]);
+                }
+
+            }else{
+                return $this->output_err('插入抽奖记录失败!');
+            }
+
+
+        }else{
+            return $this->output_err('您今日的抽奖次数已用完!');
+        }
+    }
 } 
