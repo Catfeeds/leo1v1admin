@@ -273,19 +273,6 @@ $(function(){
         });
     });
 
-    $("#id_add_jiaoyan_teacher").on("click",function(){
-	      $.do_ajax("/tea_manage_new/add_jiaoyan_teacher",{
-            "":
-        },function(result){
-            if(result.ret==0){
-                window.location.reload();
-            }else{
-                BootstrapDialog.alert(result.info);
-            }
-        })
-    });
-
-
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();

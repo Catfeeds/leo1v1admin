@@ -141,8 +141,8 @@
                     <td >{{$var["user_agent"]}}</td>
                     <td >{{$var["last_login_ip"]}}</td>
                     <td >{{$var["last_login_time"]}}</td>
-                    <!-- <td style="display:none">{{$var['confirm_flag']}}</td>
-                       -->
+                    <td style="display:none">{{$var['confirm_flag']}}</td>
+
                     <td >
                         <div
                             data-userid="{{$var["userid"]}}"
