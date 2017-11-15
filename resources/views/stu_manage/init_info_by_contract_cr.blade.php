@@ -211,7 +211,7 @@
                         </button>
 
                         <button  class="id_reject_to_master btn btn-success" style=" font-size:20px;display:none;" >
-                            驳回[助教]
+                            驳回组长
                         </button>
 
                         <!-- <button  class="id_confirm btn btn-success" style=" font-size:20px;display:none;" >

@@ -15,7 +15,12 @@ class TStudentCcToCrDropcolum extends Migration
         //
         Schema::table('db_weiyi.t_student_cc_to_cr', function( Blueprint $table)
         {
-            // t_field($table->tinyInteger("confirm_flag"),"助教确认交接单成功 0:未设置 1:已确认");
+            $table->dropColumn('reject_flag_ass_time');
+            $table->dropColumn('reject_flag_ass');
+            $table->dropColumn('reject_master');
+            $table->dropColumn('reject_ass');
+            $table->dropColumn('confirm_flag');
+            //
         });
 
 
