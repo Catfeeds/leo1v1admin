@@ -2175,7 +2175,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $where_arr = [
             'm.account_role =2',
             'g.main_type=2',
-            "( m.leave_member_time =0 or m.leave_member_time>=$end_time)"
+            "( m.leave_member_time =0 or m.leave_member_time>=$end_time)",
+            "m.become_member_time >= $start_time",
         ];
         $order_arr = [
             ['o.order_time>=%u', $start_time, -1],
