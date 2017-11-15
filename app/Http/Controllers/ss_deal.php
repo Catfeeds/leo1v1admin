@@ -245,7 +245,6 @@ class ss_deal extends Controller
             $this->t_seller_student_new->set_admin_info_new(
 //$opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time );
-            
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
             $nick = $this->t_student_info->get_nick($userid);
             $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
@@ -3874,6 +3873,9 @@ class ss_deal extends Controller
                 "first_tmk_set_valid_time"=>time(null),
                 "cc_no_called_count"=>0,
             ]);
+            //tmk分配给自己
+            $this->t_seller_student_new->set_admin_info_new(
+                $opt_type=2,$userid,$this->get_account_id(),$this->get_account_id(),$this->get_account(),$this->get_account(),$assign_time=time(null));
             //优学优享例子分配,张植源,张龙
             $origin = $this->t_student_info->field_get_value($userid,'origin');
             if($origin == '优学优享'){
