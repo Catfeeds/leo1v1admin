@@ -1158,13 +1158,15 @@ class ss_deal extends Controller
     }
 
     public function get_require_list_js()  {
-        $page_num=$this->get_in_page_num();
+        $page_num = $this->get_in_page_num();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
         $userid = $this->get_in_userid(-1);
-        if ($userid==-1 && $test_lesson_subject_id==-1 ) {
-            return $this->output_succ( );
+        if($userid==-1 && $test_lesson_subject_id==-1){
+            return $this->output_succ();
         }
-        $ret_list=$this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id($page_num,$test_lesson_subject_id,$userid);
+        $ret_list = $this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id(
+            $page_num,$test_lesson_subject_id,$userid
+        );
 
         foreach($ret_list["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time");
