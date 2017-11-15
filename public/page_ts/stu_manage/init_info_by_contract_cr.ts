@@ -148,7 +148,6 @@ $(function(){
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
         });
-
     });
 
 
@@ -208,11 +207,7 @@ $(function(){
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
         });
-
     });
-
-
-
 
     $(".id_confirm").on("click",function(){ // 组长驳回助教组员
         var url_arr = GetRequest();

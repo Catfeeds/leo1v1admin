@@ -297,6 +297,21 @@ class cr_info_week extends Command
         $refund_info = $task->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
         $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
 
+        // 获取停课,休学,假期数
+        $ret_info_stu = $task->t_student_info->get_student_count_archive();
+
+        foreach($ret_info_stu as $item) {
+            if ($item['type'] == 2) {
+                @$arr['stop_student']++;
+            } else if ($item['type'] == 3) {
+                @$arr['drop_student']++;
+            } else if ($item['type'] == 4) {
+                @$arr['summer_winter_stop_student']++;
+            }
+        }
+
+        
+
         
         $insert_data = [
           "create_time"             => $create_time,            //存档时间
