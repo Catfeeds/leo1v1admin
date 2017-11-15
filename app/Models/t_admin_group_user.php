@@ -318,6 +318,8 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_admin_group_name::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
 
         return $this->main_get_value($sql);
