@@ -310,6 +310,26 @@ class cr_info_week extends Command
             }
         }
 
+        //新签合同未排量(已分配/未分配)/新签学生数
+        $user_order_list = $task->t_order_info->get_order_user_list_by_month($end_time);
+        $new_user = [];//上月新签
+
+        foreach ( $user_order_list as $item ) {
+            if ($item['order_time'] >= $start_time ){
+                $new_user[] = $item['userid'];
+                if (!$item['start_time'] && $item['assistantid'] > 0) {//新签订单,未排课,已分配助教
+                    @$arr['has_ass_num']++;
+                } else if (!$item['start_time'] && !$item['assistantid']) {//新签订单,未排课,未分配助教
+                    @$arr['no_ass_num']++;
+                }
+            }
+
+        }
+
+        $new_user = array_unique($new_user);
+        $arr['new_pay_stu_num'] = count($new_user);
+
+
         
 
         
