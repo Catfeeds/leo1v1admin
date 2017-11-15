@@ -762,7 +762,9 @@ $(function(){
                 alert('刷新成功!');
             }else{
                 alert('有试听成功未回访!');
-                $(location).attr('href','http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.uid);
+                var jump_url_1 = "/seller_student_new/no_lesson_call_end_time_list";
+                window.location.href = jump_url_1 + "?" + "adminid=" + +opt_data.uid;
+                // $(location).attr('href','http://admin.leo1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.uid);
             }
         });
     });
