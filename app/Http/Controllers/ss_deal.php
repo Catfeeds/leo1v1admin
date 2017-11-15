@@ -1159,7 +1159,7 @@ class ss_deal extends Controller
 
     public function get_require_list_js()  {
         $page_num = $this->get_in_page_num();
-        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
+        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id(-1);
         $userid = $this->get_in_userid(-1);
         if($userid==-1 && $test_lesson_subject_id==-1){
             return $this->output_succ();
@@ -1178,7 +1178,6 @@ class ss_deal extends Controller
             $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["accept_flag"] );
             $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["success_flag"] );
             E\Etest_lesson_fail_flag::set_item_value_str($item);
-
         }
 
         return $this->output_ajax_table($ret_list);

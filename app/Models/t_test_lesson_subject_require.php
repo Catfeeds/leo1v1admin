@@ -84,7 +84,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ["l.userid=%d",$userid,  -1 ]   ,
         ];
         $sql=$this->gen_sql_new(
-            "select l.lessonid, r.origin, r.require_id,require_time, accept_flag,success_flag,no_accept_reason , test_lesson_fail_flag, fail_reason, teacherid,lesson_end, lesson_start, l.subject, sl.confirm_adminid, accept_adminid  "
+            "select l.lessonid, r.origin, r.require_id,require_time, accept_flag,success_flag,no_accept_reason ,"
+            ." test_lesson_fail_flag,fail_reason,teacherid,lesson_end,lesson_start,l.subject, sl.confirm_adminid, accept_adminid"
             ." from  %s r  "
             ."left join %s sl on r.current_lessonid = sl.lessonid  "
             ."left join %s l on sl.lessonid = l.lessonid  where  %s order by lesson_start asc ",
