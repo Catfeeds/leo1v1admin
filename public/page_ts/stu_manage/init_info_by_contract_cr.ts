@@ -86,13 +86,14 @@ $(function(){
                         $('.id_submit_succ').show();
                     }
                 }else if(i=='reject_flag' && item=='3'){ // 助教 驳回 助教组长
-                    $('.id_reject_to_master').hide();
-
                     if(!is_master){
+                        $('.id_reject_to_master').hide();
                         $('.id_submit').hide();//驳回咨询
                         $('.id_submit_succ').show();
                         $('.id_reject_to_ass').hide();// 驳回助教
                     }else if(is_master){
+                        $('.id_reject_to_master').hide();
+                        $('.id_submit').show();//驳回咨询
                         $('.id_reject_to_ass').show();// 驳回助教
                         $('.id_submit_succ').hide();
                     }

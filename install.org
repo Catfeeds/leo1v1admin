@@ -41,7 +41,7 @@
 
 * nginx 配置
 
-  sudo ln -s ~/admin_yb1v1_git /var/www/admin.yb1v1.com
+  sudo ln -s ~/admin_yb1v1 /var/www/admin.yb1v1.com
 
   cd ~/admin_yb1v1
   sudo cp ./install_files/admin.yb1v1.conf /etc/nginx/sites-enabled/
@@ -49,3 +49,5 @@
 
   /etc/hosts 加入
   127.0.0.1  self.admin.leo1v1.com
+  127.0.0.1  redis 
+  127.0.0.1  mysql 
