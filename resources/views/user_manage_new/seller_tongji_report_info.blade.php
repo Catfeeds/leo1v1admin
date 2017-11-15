@@ -97,7 +97,7 @@
                         <td >{{@$var["require_test_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count"]}}</td>
-                        <td >{{@$var["suc_all_count_for_month"]}}</td>
+                        <td >{{@$var["succ_all_count_for_month"]}}</td>
                         <td >{{@$var["suc_lesson_count_one"]}}</td>
                         <td >{{@$var["suc_lesson_count_two"]}}</td>
                         <td >{{@$var["suc_lesson_count_three"]}}</td>
