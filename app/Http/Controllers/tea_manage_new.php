@@ -1332,44 +1332,50 @@ class tea_manage_new extends Controller
             $subject_arr = E\Esubject::$desc_map;
             $grade_arr   = E\Egrade::$desc_map;
 
+            //时间 科目 年级 任课老师 手机号 适合学生 课题 内容介绍
             foreach($arr as $key=>$val){
                 if($key!=0 && count($val)==8){
-                    $lesson_start = strtotime($val[0]);
-                    echo $lesson_start;
-                    echo "<br>";
+                    $lesson_start  = strtotime($val[0]);
+                    $subject       = $val[1];
+                    $grade         = $val[2];
+                    $tea_name      = $val[3];
+                    $phone         = $val[4];
+                    $suit_student  = $val[5];
+                    $title         = $val[6];
+                    $package_intro = $val[7];
+
                     if(!$lesson_start){
                         continue;
                     }else{
-                        $subject = array_search($val[1],$subject_arr);
-                        $grade   = array_search($val[2],$grade_arr);
+                        $subject = array_search($subject,$subject_arr);
+                        $grade   = array_search($grade,$grade_arr);
 
-                        $check_phone=\App\Helper\Utils::check_phone($val[3]);
+                        $check_phone=\App\Helper\Utils::check_phone($phone);
                         if($check_phone){
-                            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($val[3]);
+                            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
                         }else{
-                            $teacherid = $this->t_teacher_info->get_teacherid_by_name($val[3]);
+                            $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_name);
                         }
                         if(!$teacherid){
-                            \App\Helper\Utils::logger("add open course 老师不存在".$val[3]);
+                            \App\Helper\Utils::logger("add open course 老师不存在".$tea_name);
                             continue;
                         }
 
-                        $suit_student  = $val[4];
-                        $title         = $val[5];
-                        $package_intro = $val[6];
-                        $lesson_end    = $lesson_start+5400;
-
+                        $lesson_end = $lesson_start+5400;
                         $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
 
                         if($ret){
                             \App\Helper\Utils::logger("有现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
                         }else{
-                            $packageid = $this->t_appointment_info->add_appoint($title,1001,$package_intro,$suit_student,
-                                                                                $subject,$grade);
-                            $courseid  = $this->t_course_order->add_open_course($teacherid,$title,$grade,$subject,
-                                                                                1001,$packageid,1);
-                            $lessonid  = $this->t_lesson_info->add_open_lesson($teacherid,$courseid,$lesson_start,$lesson_end,
-                                                                               $subject,$grade,1001);
+                            $packageid = $this->t_appointment_info->add_appoint(
+                                $title,E\Econtract_type::V_1001,$package_intro,$suit_student,$subject,$grade
+                            );
+                            $courseid  = $this->t_course_order->add_open_course(
+                                $teacherid,$title,$grade,$subject,E\Econtract_type::V_1001,$packageid,1
+                            );
+                            $lessonid  = $this->t_lesson_info->add_open_lesson(
+                                $teacherid,$courseid,$lesson_start,$lesson_end,$subject,$grade,E\Econtract_type::V_1001
+                            );
                         }
                     }
                 }

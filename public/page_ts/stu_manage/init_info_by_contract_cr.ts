@@ -214,62 +214,26 @@ $(function(){
 
 
 
-    $(".id_reject_to_ass").on("click",function(){ // 组长驳回助教组员
+    $(".id_confirm").on("click",function(){ // 组长驳回助教组员
         var url_arr = GetRequest();
         var orderid = url_arr['orderid'];
         var id      = $('#id_id').val();
         var id_reject_info       = $("<select/>");
         var id_reject_info_write = $("<textarea/>");
 
-        id_reject_info.html('<option value=\" 空 \">[全部]</option><option value=\"未标明学生报课科目\">未标明学生报课科目</option> <option value=\"无试听反馈内容\">无试听反馈内容</option> <option value=\"未确认上课老师\">未确认上课老师</option> <option value=\"无首次上课时间\">无首次上课时间</option> <option value=\"无常规上课时间（如家长无法确定，给予学生可上课时间段）\">无常规上课时间（如家长无法确定，给予学生可上课时间段）</option>  <option value=\"未说明与老师的沟通情况（上课时间，内容和学生基本情况）\">未说明与老师的沟通情况（上课时间，内容和学生基本情况）</option>  <option value=\"要求安排时长90分钟的课程\">要求安排时长90分钟的课程</option> <option value=\"开课时间不确定\">开课时间不确定</option> <option value=\"无老师包装情况说明\">无老师包装情况说明</option> <option value=\"未听报未安排上课老师\">未听报未安排上课老师</option> <option value=\"开课前5分钟内提交交接单\">开课前5分钟内提交交接单</option> <option value=\"1\">各类情况不明，需详细填写</option>');
+        // var confirm = confirm('确认交接单成功');
 
-        var arr = [
-            ["驳回原因",id_reject_info],
-            ["驳回原因",id_reject_info_write],
-        ];
+        if ( confirm('确认交接单成功')){
+            alert("You pressed OK!");
+        }
 
-        id_reject_info.on('change',function(){
-            if(id_reject_info.val() ==1){
-                id_reject_info_write.parent().parent().css('display','table-row');
-                id_reject_info.parent().parent().css('display','none');
-            }
-        });
-
-        $.show_key_value_table("驳回处理",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-                if (id_reject_info.val() == '' && id_reject_info_write.val() == '' ) {
-                    alert('驳回原因不能为空!');
-                    load_data();
-                    return ;
-                }
-
-                var reject_info ='';
-                if(id_reject_info.val() !='' && id_reject_info.val() !=1){
-                    reject_info = id_reject_info.val();
-                }else{
-                    reject_info = id_reject_info_write.val();
-                }
-
-                $.do_ajax("/user_deal/do_reject_flag_for_init_info",{
-                    'is_reject_flag'  : 2, // 驳回助教
-                    'orderid'         : orderid,
-                    'id'              : id,
-                    'reject_info'     : reject_info,
-                    'sid'             : g_args.sid
-                },function(result){
-                    BootstrapDialog.alert(result.info);
-                    dialog.close();
-                    if(result.ret == 0){
-                        $('.id_submit').hide();
-                        $('.id_submit_succ').show();
-                    }
-                });
-            }
-        },function(){
-            id_reject_info_write.parent().parent().css('display','none');
-        });
+        // $.do_ajax("/user_deal/do_reject_flag_for_init_info",{
+        //     'is_reject_flag'  : 2, // 驳回助教
+        //     'orderid'         : orderid,
+        //     'id'              : id,
+        //     'sid'             : g_args.sid
+        // },function(result){
+        // });
 
     });
 
