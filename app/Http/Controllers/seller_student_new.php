@@ -1383,7 +1383,7 @@ class seller_student_new extends Controller
         // $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
         //判断是否是张龙384,张植源412，邵少鹏795，蒋文武689,
         $adminid = $this->get_account_id();
-        if ($adminid != 384 && $adminid != 795 && $adminid != 689 && $adminid != 412 ){
+        if (!in_array($adminid, [384,412,795,689])){
             $adminid = 0;
         }
 

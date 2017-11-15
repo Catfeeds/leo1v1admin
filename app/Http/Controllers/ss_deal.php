@@ -3866,7 +3866,10 @@ class ss_deal extends Controller
             "grade"=>$grade,
         ]);
         if($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_3){//tmk更改例子为有效
-            $this->t_seller_student_new->field_update_list($userid,[
+            //tmk分配给自己
+            $this->t_seller_student_new->set_admin_info_new(
+                $opt_type=2,$userid,$this->get_account_id(),$this->get_account_id(),$this->get_account(),$this->get_account(),$assign_time=time(null));
+            $ret = $this->t_seller_student_new->field_update_list($userid,[
                 "tmk_student_status"=>$tmk_student_status,
                 "tmk_next_revisit_time"=>$tmk_next_revisit_time,
                 "tmk_desc"=>$tmk_desc,
@@ -3874,9 +3877,6 @@ class ss_deal extends Controller
                 "first_tmk_set_valid_time"=>time(null),
                 "cc_no_called_count"=>0,
             ]);
-            //tmk分配给自己
-            $this->t_seller_student_new->set_admin_info_new(
-                $opt_type=2,$userid,$this->get_account_id(),$this->get_account_id(),$this->get_account(),$this->get_account(),$assign_time=time(null));
             //优学优享例子分配,张植源,张龙
             $origin = $this->t_student_info->field_get_value($userid,'origin');
             if($origin == '优学优享'){
