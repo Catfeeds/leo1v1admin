@@ -72,6 +72,7 @@ $(function(){
 
                     if(i=='is_master'&& item!='1'){
                         $('.id_submit_succ').hide();
+                        $('.id_confirm').show();
                         $('.id_reject_to_master').show();
                     }else if(i=='is_master'&& item=='1'){
                         $('.id_submit_succ').show();
@@ -80,6 +81,7 @@ $(function(){
                     $('.id_reject_to_ass').show();// 驳回助教
                     $('.id_submit').show();//驳回咨询
                     $('.id_reject_to_master').hide();
+                    $('.id_confirm').hide();
 
                     if(i=='is_master'&& item!='1'){
                         $('.id_submit_succ').show();
