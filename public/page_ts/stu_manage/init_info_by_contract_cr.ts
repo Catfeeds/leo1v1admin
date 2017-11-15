@@ -160,6 +160,7 @@ $(function(){
                 "id" :id,
             }, function(ret){
                 if(ret.data){
+                    id_reject_info.parent().parent().css('display','none');
                     id_reject_info_write.parent().parent().css('display','table-row');
                     id_reject_info_write.val(ret.data);
                 }
@@ -226,6 +227,17 @@ $(function(){
             }
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
+
+            $.do_ajax("/user_deal/get_reject_info",{
+                "id" :id,
+            }, function(ret){
+                if(ret.data){
+                    id_reject_info.parent().parent().css('display','none');
+                    id_reject_info_write.parent().parent().css('display','table-row');
+                    id_reject_info_write.val(ret.data);
+                }
+            })
+
         });
     });
 
@@ -290,6 +302,17 @@ $(function(){
             }
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
+
+            $.do_ajax("/user_deal/get_reject_info",{
+                "id" :id,
+            }, function(ret){
+                if(ret.data){
+                    id_reject_info.parent().parent().css('display','none');
+                    id_reject_info_write.parent().parent().css('display','table-row');
+                    id_reject_info_write.val(ret.data);
+                }
+            })
+
         });
     });
 
