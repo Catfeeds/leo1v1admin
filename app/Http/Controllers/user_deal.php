@@ -5711,7 +5711,8 @@ class user_deal extends Controller
         $confirm_flag = $this->get_in_int_val('confirm_flag');
 
         $this->t_student_cc_to_cr->field_update_list($id,[
-            "confirm_flag" => $confirm_flag
+            "confirm_flag" => $confirm_flag,
+            "reject_flag"  => 0
         ]);
 
         return $this->output_succ();

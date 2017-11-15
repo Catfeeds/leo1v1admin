@@ -36,52 +36,54 @@ $(function(){
 
     if(init_data){
         $.each(init_data,function(i,item){
-            if ( !$.isNumeric(i) ) {
-                $("#id_"+i ).val($.trim(item));
-            }
-            if ( i=='reject_flag' && item=='1' ) { //助教组长 驳回cc
-                $('.id_submit').hide();//驳回咨询
-
-                if(i=='is_master'&& item!='1'){
+            if(i=='confirm_flag' && item=='1' ){ // 一旦助教确认交接单成功 则取消所有驳回功能
+                $('.submit_all').remove();
+            }else{
+                if(!$.isNumeric(i)) {
+                    $("#id_"+i ).val($.trim(item));
+                }
+                if( i=='reject_flag' && item=='1' ) { //助教组长 驳回cc
+                    $('.id_submit').hide();//驳回咨询
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_submit_succ').hide();
+                        $('.id_reject_to_master').hide();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_submit_succ').show();
+                        $('.id_reject_to_ass').hide(); // 组员 驳回按钮
+                    }
+                }else if(i=='reject_flag' && item=='0') { // 无驳回操作
                     $('.id_submit_succ').hide();
                     $('.id_reject_to_master').hide();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_submit_succ').show();
-                    $('.id_reject_to_ass').hide(); // 组员 驳回按钮
-                }
-            }else if(i=='reject_flag' && item=='0') { // 无驳回操作
-                $('.id_submit_succ').hide();
-                $('.id_reject_to_master').hide();
-                $('.id_reject_to_ass').hide();
-                $('.id_submit').hide();//驳回咨询
+                    $('.id_reject_to_ass').hide();
+                    $('.id_submit').hide();//驳回咨询
 
-                if(i=='is_master'&& item!='1'){
-                    $('.id_reject_to_master').show();
-                    // $('.id_confirm').show();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_reject_to_ass').show();
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_reject_to_master').show();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_reject_to_ass').show();
+                        $('.id_submit').show();//驳回咨询
+                    }
+
+                }else if(i=='reject_flag' && item=='2'){ // 助教组长 驳回助教
+                    $('.id_submit').hide();
+                    $('.id_reject_to_ass').hide();
+
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_submit_succ').hide();
+                        $('.id_reject_to_master').show();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_submit_succ').show();
+                    }
+                }else if(i=='reject_flag' && item=='3'){ // 助教 驳回 助教组长
+                    $('.id_reject_to_ass').show();// 驳回助教
                     $('.id_submit').show();//驳回咨询
-                }
+                    $('.id_reject_to_master').hide();
 
-            }else if(i=='reject_flag' && item=='2'){ // 助教组长 驳回助教
-                $('.id_submit').hide();
-                $('.id_reject_to_ass').hide();
-
-                if(i=='is_master'&& item!='1'){
-                    $('.id_submit_succ').hide();
-                    $('.id_reject_to_master').show();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_submit_succ').show();
-                }
-            }else if(i=='reject_flag' && item=='3'){ // 助教 驳回 助教组长
-                $('.id_reject_to_ass').show();// 驳回助教
-                $('.id_submit').show();//驳回咨询
-                $('.id_reject_to_master').hide();
-
-                if(i=='is_master'&& item!='1'){
-                    $('.id_submit_succ').show();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_submit_succ').hide();
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_submit_succ').show();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_submit_succ').hide();
+                    }
                 }
             }
 
@@ -228,14 +230,7 @@ $(function(){
                 $('.id_confirm').remove();
             });
         }
-
-
     });
-
-
-
-
-
 
 
     var GetRequest = function() {
