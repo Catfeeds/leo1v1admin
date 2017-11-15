@@ -94,15 +94,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.type = %u ',$type,'-1']
         ];
         $sql = $this->gen_sql_new(
-            " select a.id,a.phone,a.nickname,a.test_lessonid,count(o.orderid) as self_order_count,"
-            ."sum(o.price) as self_order_price,o.sys_operator,mi.account,mi.name,mi.account_role "
+            " select a.id,a.phone,a.nickname,a.test_lessonid,o.sys_operator,mi.account,mi.name,mi.account_role "
             .",a.userid"
             ." from %s a "
             ." left join %s s on s.userid = a.userid"
             ." left join %s ao on ao.aid = a.id "
             ." left join %s o on o.orderid = ao.orderid "
             ." left join %s mi on s.assistantid = mi.uid "
-            ." where %s group by a.id"
+            ." where %s"
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_agent_order::DB_TABLE_NAME
