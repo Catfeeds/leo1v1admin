@@ -96,4 +96,8 @@ class t_student_cc_to_cr extends \App\Models\Zgen\z_t_student_cc_to_cr
 
         return $this->main_get_value($sql);
     }
+
+    public function get_confirm_flag($userid){
+        
+    }
 }
