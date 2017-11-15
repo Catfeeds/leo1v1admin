@@ -492,8 +492,9 @@
                             <th>姓名</th>
                         </tr>
 
-                        @foreach ( @$no_order as $var )
+                        @foreach ( @$no_order as $key => $var )
                             <tr>
+                                <td>{{@$key}}</td>
                                 <td>{{@$var['group_name']}}</td>
                                 <td>{{@$var['name']}}</td>
                             </tr>
