@@ -519,6 +519,13 @@ class main_page extends Controller
         $force_flag = 'false';
         $is_sir = false;
         $is_time = false;
+        //李子璇，tina,谢总
+        // if($adminid == 898 || $adminid == 1165 || $adminid == 323 ) {
+        if($adminid == 973 ) {
+            $is_sir = true;
+            $no_order = $this->t_manager_info->get_no_order_list(4,$adminid,$month_start,$end_time);
+        }
+
         if( $cur_time >= $next_week_2 && $cur_time < $next_week_2+86400 ) {//是节点
             $is_time = true;
         }
@@ -556,7 +563,7 @@ class main_page extends Controller
             "next_revisit_count"     => $next_revisit_count,
             "next_time_str"          => $next_time_str,
             "is_master"              => $is_master,
-            "is_sir"                 => $is_sir,
+            "is_sir"                 => $adminid,
             "force_flag"             => $force_flag,
             "no_order"               => @$no_order,
         ]);
