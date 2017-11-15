@@ -60,6 +60,7 @@
                     <td>第四周试听成功数</td>
                     <td>取消人数</td>
                     <td>取消率</td>
+                    <td>绩效对应系数</td>
                     <td>签约人数</td>
                     <td>签约率</td>
                     <td>签约金额</td>
@@ -101,6 +102,7 @@
                         <td >{{@$var["suc_lesson_count_four"]}}</td>
                         <td >{{@$var["fail_all_count_for_month"]}}</td>
                         <td >{{@$var["lesson_per"]}}</td>
+                        <td >{{@$var["suc_lesson_count_rate"]}}</td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
                         <td >{{@$var["order_per"]}}</td>
                         <td >{{@$var["all_price_for_month"]}}</td>
