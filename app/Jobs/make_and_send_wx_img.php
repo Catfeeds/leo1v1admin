@@ -176,6 +176,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         $txt = self::ch_json_encode($txt_arr);
         $token = AccessToken::getAccessToken();
+        \App\Helper\Utils::logger("SENT_MSG $token");
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
 
