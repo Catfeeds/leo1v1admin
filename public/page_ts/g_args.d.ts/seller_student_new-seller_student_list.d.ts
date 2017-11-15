@@ -22,6 +22,7 @@ interface GargsStatic {
 	has_pad:	number;//App\Enums\Epad_type
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  	tq_called_flag:	number;//App\Enums\Etq_called_flag
+	global_tq_called_flag:	number;//App\Enums\Etq_called_flag
 	seller_resource_type:	number;//App\Enums\Eseller_resource_type
 	origin_assistantid:	number;
 	origin_userid:	number;
@@ -202,6 +203,7 @@ function load_data(){
 		has_pad:	$('#id_has_pad').val(),
 		seller_level:	$('#id_seller_level').val(),
 		tq_called_flag:	$('#id_tq_called_flag').val(),
+		global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
 		seller_resource_type:	$('#id_seller_resource_type').val(),
 		origin_assistantid:	$('#id_origin_assistantid').val(),
 		origin_userid:	$('#id_origin_userid').val(),
@@ -226,6 +228,7 @@ $(function(){
 	Enum_map.append_option_list("subject",$("#id_subject"));
 	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
 	Enum_map.append_option_list("tq_called_flag",$("#id_tq_called_flag"));
+	Enum_map.append_option_list("tq_called_flag",$("#id_global_tq_called_flag"));
 	Enum_map.append_option_list("seller_resource_type",$("#id_seller_resource_type"));
 	Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
 	Enum_map.append_option_list("group_seller_student_status",$("#id_group_seller_student_status"));
@@ -260,6 +263,7 @@ $(function(){
 	$('#id_seller_level').val(g_args.seller_level);
 	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 	$('#id_tq_called_flag').val(g_args.tq_called_flag);
+	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 	$('#id_seller_resource_type').val(g_args.seller_resource_type);
 	$('#id_origin_assistantid').val(g_args.origin_assistantid);
 	$('#id_origin_userid').val(g_args.origin_userid);
@@ -398,6 +402,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">TQ</span>
                 <select class="opt-change form-control" id="id_tq_called_flag" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">TQ</span>
+                <select class="opt-change form-control" id="id_global_tq_called_flag" >
                 </select>
             </div>
         </div>

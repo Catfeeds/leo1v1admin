@@ -29,6 +29,7 @@ function load_data(){
         origin_assistant_role:  $('#id_origin_assistant_role').val(),
         has_pad:    $('#id_has_pad').val(),
         tq_called_flag: $('#id_tq_called_flag').val(),
+        global_tq_called_flag: $('#id_global_tq_called_flag').val(),
         origin_assistantid: $('#id_origin_assistantid').val(),
         origin_userid:  $('#id_origin_userid').val(),
         seller_require_change_flag: $('#id_seller_require_change_flag').val(),
@@ -56,6 +57,7 @@ $(function(){
     Enum_map.append_option_list("seller_require_change_flag",$("#id_seller_require_change_flag"),false,[1,2,3]);
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
     Enum_map.append_option_list("tq_called_flag",$("#id_tq_called_flag"));
+    Enum_map.append_option_list("tq_called_flag",$("#id_global_tq_called_flag"));
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("group_seller_student_status",$("#id_group_seller_student_status"));
     Enum_map.append_option_list("seller_resource_type",$("#id_seller_resource_type"));
@@ -65,7 +67,7 @@ $(function(){
     Enum_map.append_option_list("seller_favorite_flag",$("#id_favorite_flag"));
 
     $('#id_origin_assistant_role').val(g_args.origin_assistant_role);
-
+    $('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
     $( "#id_phone_name" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
         minLength: 0,
@@ -1616,7 +1618,8 @@ function init_edit() {
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
             // $('#id_seller_student_status').val(0);
             // $("#id_seller_resource_type").val(0);
-            $("#id_tq_called_flag").val(0);
+            // $("#id_tq_called_flag").val(0);
+            $("#id_global_tq_called_flag").val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
