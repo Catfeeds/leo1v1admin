@@ -5464,7 +5464,7 @@ class user_deal extends Controller
         $now_date   = date('Y-m-d H:i:s');
 
         if($is_reject_flag>0){
-            if($is_reject_flag == 1){ // 驳回cc销售
+            if($is_reject_flag == 1){ // 助教组长 驳回cc销售
                 // 驳回
                 $assistantid         = $this->t_student_info->get_assistantid_by_userid($sid);
                 $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
@@ -5480,7 +5480,7 @@ class user_deal extends Controller
                     'ass_id'      => $acc_id
                 ]);
                 $send_openid = $cc_openid;
-                $send_name = "助教 $acc_nick";
+                $send_name = "助教组长 $acc_nick";
 
             }elseif($is_reject_flag==2){ // 助教组长驳回组员
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
@@ -5491,8 +5491,8 @@ class user_deal extends Controller
                 ]);
 
                 $ass_openid = $this->t_student_cc_to_cr->get_ass_openid($id);
-                $send_openid = $cc_openid;
-                $send_name = "助教 $acc_nick";
+                $send_openid = $ass_openid;
+                $send_name = "助教助长 $acc_nick";
 
             }elseif($is_reject_flag==3){ // 助教组员驳回组长
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
@@ -5501,6 +5501,9 @@ class user_deal extends Controller
                     'reject_info' => $reject_info,
                     'reject_ass'  => $acc_id
                 ]);
+                $master_openid = $this->t_admin_group_user->get_ass_master_openid($acc_id);
+                $send_openid = $master_openid;
+                $send_name = "助教 $acc_nick";
             }
 
 
