@@ -1098,8 +1098,6 @@ class wx_yxyx_api extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
-            $item['child'] =  [];
-            $item['second_num'] = count($item['child']);
         }
         //获取一级用户为会员的列表
         $member_list = $this->t_agent->get_invite_type_list($agent_id,$type=2,$page_info,$page_count);
