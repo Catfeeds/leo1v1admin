@@ -36,7 +36,7 @@ $(function(){
 
     if(init_data){
         $.each(init_data,function(i,item){
-            if(i=='confirm_flag' && item=='1' ){ // 一旦助教确认交接单成功 则取消所有驳回功能
+            if(i=='confirm_flag' && item>0 ){ // 一旦学生有上过常规课  则取消所有驳回功能
                 $('.submit_all').remove();
             }else{
                 if(!$.isNumeric(i)) {
