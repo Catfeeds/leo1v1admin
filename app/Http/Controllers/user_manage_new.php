@@ -1760,9 +1760,6 @@ class user_manage_new extends Controller
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
-            // if($item['test_lesson_count'] != 0){
-            //     $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
-            // }
         }
         //试听成功数
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
