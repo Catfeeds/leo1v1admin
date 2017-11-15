@@ -5717,4 +5717,12 @@ class user_deal extends Controller
 
         return $this->output_succ();
     }
+
+
+    public function get_reject_info(){
+        $id = $this->get_in_int_val('id');
+
+
+
+    }
 }

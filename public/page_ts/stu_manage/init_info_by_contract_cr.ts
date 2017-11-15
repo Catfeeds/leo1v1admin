@@ -155,6 +155,17 @@ $(function(){
             }
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
+
+            $.do_ajax("/user_deal/get_reject_info",{
+                // "file_url" :res.key ,
+                "id" :id,
+            }, function(ret){
+                alert(1);
+                // $upload_link.attr("href", resp.url);
+                // $upload_link.html("查看");
+            })
+
+
         });
     });
 

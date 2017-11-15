@@ -395,6 +395,15 @@ class cr_info_week extends Command
           "kk_success_per"          => intval($arr['kk_success_per']*100),    //E5-月扩课成功率
 
           "student_list"            => $arr['student_list'],      //预警学员列表
+          "average_person_effect"   => $arr["average_person_effect"],  //平均人效(非入职完整月)
+          "cumulative_refund_rate"  => $arr["cumulative_refund_rate"], //合同累计退费率
+          "stop_student"            => $arr["stop_student"],      //停课学生
+          "drop_student"            => $arr["drop_student"],    //休学学员
+          "summer_winter_stop_student" =>$arr["summer_winter_stop_student"],  //寒暑假停课学生
+          "new_order_assign_num"    => $arr["new_order_assign_num"],  //新签合同未排量(已分配)
+          "new_order_unassign_num"  => $arr["new_order_unassign_num"], //新签合同未排量(未分配)
+          "student_end_per"         => $arr["student_end_per"],   //结课率
+          "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
         ];
 
         $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time($type,$create_time);
