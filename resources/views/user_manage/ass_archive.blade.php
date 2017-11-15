@@ -103,7 +103,6 @@
                 <td style="display:none;">版本信息-all</td>
                 <td style="display:none;">最近登录IP</td>
                 <td style="display:none;">最近登录时间</td>
-                <td style="display:none"></td>
                 <td style="width:220px">操作</td>
             </tr>
         </thead>
@@ -141,7 +140,6 @@
                     <td >{{$var["user_agent"]}}</td>
                     <td >{{$var["last_login_ip"]}}</td>
                     <td >{{$var["last_login_time"]}}</td>
-                    <td style="display:none">{{$var['confirm_flag']}}</td>
 
                     <td >
                         <div
