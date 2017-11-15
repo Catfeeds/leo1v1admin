@@ -488,13 +488,14 @@
                 <div class="modal-body">
                     <table class="table table-bordered">
                         <tr>
+                            <th>序号</th>
                             <th>队名</th>
                             <th>姓名</th>
                         </tr>
 
                         @foreach ( @$no_order as $key => $var )
                             <tr>
-                                <td>{{@$key}}</td>
+                                <td>{{@$key+1}}</td>
                                 <td>{{@$var['group_name']}}</td>
                                 <td>{{@$var['name']}}</td>
                             </tr>
