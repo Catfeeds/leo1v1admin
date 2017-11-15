@@ -318,16 +318,21 @@ class cr_info_week extends Command
             if ($item['order_time'] >= $start_time ){
                 $new_user[] = $item['userid'];
                 if (!$item['start_time'] && $item['assistantid'] > 0) {//新签订单,未排课,已分配助教
-                    @$arr['has_ass_num']++;
+                    @$arr['new_order_assign_num']++;
                 } else if (!$item['start_time'] && !$item['assistantid']) {//新签订单,未排课,未分配助教
-                    @$arr['no_ass_num']++;
+                    @$arr['new_order_unassign_num']++;
                 }
             }
 
         }
 
         $new_user = array_unique($new_user);
-        $arr['new_pay_stu_num'] = count($new_user);
+        $arr['new_student_num'] = count($new_user);//新签学生数
+
+        //结课率
+        $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
+        $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
+        
 
 
         
