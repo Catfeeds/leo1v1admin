@@ -26,10 +26,14 @@ $(function(){
         }
     });
 
+    $('#id_reference').on('click', function(){
+        alert('welcome');
+    });
+
     $("#id_reference").val(g_args.reference);
     $.admin_select_user($("#id_reference"),"teacher",load_data);
-    $('#id_teacherid').val(g_args.teacherid);
-    $.admin_select_user($('#id_teacherid'),'teacher',load_data);
+    //$('#id_teacherid').val(g_args.teacherid);
+    //$.admin_select_user($('#id_teacherid'),'teacher',load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
 
