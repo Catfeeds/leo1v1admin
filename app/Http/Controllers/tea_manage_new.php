@@ -1332,7 +1332,6 @@ class tea_manage_new extends Controller
             $subject_arr = E\Esubject::$desc_map;
             $grade_arr   = E\Egrade::$desc_map;
 
-
             foreach($arr as $key=>$val){
                 if($key!=0 && count($val)==8){
                     $lesson_start = strtotime($val[0]);
