@@ -273,6 +273,19 @@ $(function(){
         });
     });
 
+    $("#id_add_jiaoyan_teacher").on("click",function(){
+	      $.do_ajax("/tea_manage_new/add_jiaoyan_teacher",{
+            "":
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+    });
+
+
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();
@@ -726,7 +739,6 @@ $(function(){
 
     if (window.location.pathname=="/human_resource/index_seller" || window.location.pathname=="/human_resource/index_seller/" || window.location.pathname=="/human_resource/index_new_seller_hold" || window.location.pathname=="/human_resource/index_new_seller_hold/") {
         $("#id_test_transfor_per").parent().parent().hide();
-        $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
         $("#id_test_user").parent().parent().hide();
@@ -734,13 +746,6 @@ $(function(){
         $("#phone_num").show();
     }
 
-
-
-
-
-    if (window.location.pathname=="/human_resource/index_new" || window.location.pathname=="/human_resource/index_new/") {
-        $("#id_add_teacher").parent().hide();
-    }
     if (window.location.pathname=="/human_resource/index_new_jw" || window.location.pathname=="/human_resource/index_new_jw/" || window.location.pathname=="/human_resource/index_jw" || window.location.pathname=="/human_resource/index_jw/") {
         $("#id_free_time").parent().parent().show();
         $(".jw_revisit_info").show();
@@ -797,7 +802,6 @@ $(function(){
 
     // if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
     if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
-        $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
         $("#id_test_user").parent().parent().hide();
@@ -815,7 +819,6 @@ $(function(){
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
     }else if(window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_tea_qua_zj" || window.location.pathname=="/human_resource/index_tea_qua_zj/" ){
-        $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
         $("#id_test_user").parent().parent().hide();

@@ -372,6 +372,11 @@ class user_manage extends Controller
             $item["course_list_total"] = count(array_unique($arr));
 
             // 检查交接单是否有驳回
+            $ite['confirm_flag'] = $this->t_student_cc_to_cr->get_confirm_flag($item['userid']);
+            // if($confirm_flag == 1){
+            //     //
+            // }
+
 
         }
         if (!$order_in_db_flag) {
@@ -386,7 +391,7 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
-        //dd($ret_info);
+        // dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
     }
 

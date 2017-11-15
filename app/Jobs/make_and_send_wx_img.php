@@ -111,12 +111,9 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         imageColorTransparent($image_6, $color);
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
-        $ext = pathinfo($this->bg_url);
-
-        if ($ext['extension'] == 'jpg') {
-            $image_1 = imagecreatefromjpeg($this->bg_url);     //背景图
-        }else{
-            $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+        $image_1 = @imagecreatefromjpeg($this->bg_url);
+        if(!$image_1) {
+            $image_1 = @imagecreatefrompng($this->bg_url);
         }
 
         $image_2 = imagecreatefrompng($qr_url);     //二维码
@@ -176,6 +173,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         $txt = self::ch_json_encode($txt_arr);
         $token = AccessToken::getAccessToken();
+        \App\Helper\Utils::logger("SENT_MSG $token");
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
 
