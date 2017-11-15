@@ -3196,8 +3196,9 @@ class user_deal extends Controller
         //$this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");
-          $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
-        dd($ret_id);
+        $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        $finish_num = $this->t_cr_week_month_info->get_finish_num($ret_id);
+        $read_num = $this->t_cr_week_month_info->get_read_num($ret_id);
 
 
         $ret = $this->t_student_info->get_read_num_by_grade();
