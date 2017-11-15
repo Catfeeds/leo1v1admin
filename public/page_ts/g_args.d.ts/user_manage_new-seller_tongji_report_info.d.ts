@@ -14,6 +14,9 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	require_test_count_for_month	:any;
+	succ_all_count_for_month	:any;
+	fail_all_count_for_month	:any;
+	test_lesson_count	:any;
 	suc_lesson_count_one	:any;
 	suc_lesson_count_two	:any;
 	suc_lesson_count_three	:any;
