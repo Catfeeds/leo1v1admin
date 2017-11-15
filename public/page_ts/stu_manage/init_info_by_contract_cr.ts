@@ -36,7 +36,7 @@ $(function(){
 
     if(init_data){
         $.each(init_data,function(i,item){
-            if(i=='confirm_flag' && item=='1' ){ // 一旦助教确认交接单成功 则取消所有驳回功能
+            if(i=='confirm_flag' && item>0 ){ // 一旦学生有上过常规课  则取消所有驳回功能
                 $('.submit_all').remove();
             }else{
                 if(!$.isNumeric(i)) {
@@ -318,26 +318,26 @@ $(function(){
 
 
 
-    $(".id_confirm").on("click",function(){ // 组员确认 交接单是否有效
-        var url_arr = GetRequest();
-        var orderid = url_arr['orderid'];
-        var id      = $('#id_id').val();
+    // $(".id_confirm").on("click",function(){ // 组员确认 交接单是否有效
+    //     var url_arr = GetRequest();
+    //     var orderid = url_arr['orderid'];
+    //     var id      = $('#id_id').val();
 
-        if (confirm('确认交接单成功吗?')){
-            $.do_ajax("/user_deal/confirm_order",{
-                'confirm_flag' : 1, // 助教确认
-                'orderid'      : orderid,
-                'id'           : id,
-                'sid'          : g_args.sid
-            },function(result){
-                $('.id_reject_to_ass').remove();// 驳回助教
-                $('.id_submit').remove();//驳回咨询
-                $('.id_reject_to_master').remove();
-                $('.id_submit_succ').remove();
-                $('.id_confirm').remove();
-            });
-        }
-    });
+    //     if (confirm('确认交接单成功吗?')){
+    //         $.do_ajax("/user_deal/confirm_order",{
+    //             'confirm_flag' : 1, // 助教确认
+    //             'orderid'      : orderid,
+    //             'id'           : id,
+    //             'sid'          : g_args.sid
+    //         },function(result){
+    //             $('.id_reject_to_ass').remove();// 驳回助教
+    //             $('.id_submit').remove();//驳回咨询
+    //             $('.id_reject_to_master').remove();
+    //             $('.id_submit_succ').remove();
+    //             $('.id_confirm').remove();
+    //         });
+    //     }
+    // });
 
 
     var GetRequest = function() {
