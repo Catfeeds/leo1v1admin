@@ -204,15 +204,7 @@
 
                         <button  class="id_reject_to_ass btn btn-success" style=" font-size:20px;display:none;" >驳回助教</button>
 
-                        <button  class="id_reject_to_master btn btn-success" style=" font-size:20px;display:none;" >
-                            驳回组长
-                        </button>
-
-                        <!-- <button  class="id_confirm btn btn-success" style=" font-size:20px;display:none;" >
-                             确认交接单
-                             </button>
-                           -->
-
+                        <button  class="id_reject_to_master btn btn-success" style=" font-size:20px;display:none;" >驳回组长</button>
                     </div>
                 </div>
 
