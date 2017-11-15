@@ -2,6 +2,7 @@ interface GargsStatic {
 	seller_level:	number;
 	level_goal:	number;
 	level_face:	string;
+	level_icon:	string;
 	num:	number;
 	page_num:	number;
 	page_count:	number;
@@ -31,20 +32,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_level_goal-seller_level_goal_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		seller_level:	$('#id_seller_level').val(),
+		level_goal:	$('#id_level_goal').val(),
+		level_face:	$('#id_level_face').val(),
+		level_icon:	$('#id_level_icon').val(),
+		num:	$('#id_num').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			seller_level:	$('#id_seller_level').val(),
-			level_goal:	$('#id_level_goal').val(),
-			level_face:	$('#id_level_face').val(),
-			num:	$('#id_num').val()
-        });
-    }
 
 
 	$('#id_seller_level').val(g_args.seller_level);
 	$('#id_level_goal').val(g_args.level_goal);
 	$('#id_level_face').val(g_args.level_face);
+	$('#id_level_icon').val(g_args.level_icon);
 	$('#id_num').val(g_args.num);
 
 
@@ -74,6 +78,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">level_face</span>
                 <input class="opt-change form-control" id="id_level_face" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">level_icon</span>
+                <input class="opt-change form-control" id="id_level_icon" />
             </div>
         </div>
 

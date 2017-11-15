@@ -29,13 +29,14 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
             ["ta.reference='%s'",$reference,""],
             "is_test_user=0",
         ];
-        $sql = $this->gen_sql_new("select ts.id,ts.pay_time,t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,t.idcard,"
-                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,ts.money,ts.pay_status,ts.is_negative, "
+        $sql = $this->gen_sql_new("select ts.id,ts.pay_time,"
+                                  ." t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,t.idcard,"
+                                  ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,sum(ts.money) money,ts.pay_status,ts.is_negative, "
                                   ." t.subject"
                                   ." from %s ts "
                                   ." left join %s t on ts.teacherid=t.teacherid "
                                   ." left join %s ta on t.phone=ta.phone"
-                                  ." where %s "
+                                  ." where %s group by t.teacherid"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_lecture_appointment_info::DB_TABLE_NAME

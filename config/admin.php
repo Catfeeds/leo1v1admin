@@ -66,6 +66,7 @@ return [
         "appid"     => env('YXYX_WX_APPID', "wxb4f28794ec117af0") ,
         "appsecret" => env('YXYX_WX_APPSECRET', "4a4bc7c543698b8ac499e5c72c22f242" )  ,
         "url"       => env('YXYX_WX_URL',  "http://wx-yxyx.leo1v1.com" ) ,
+        "test_url"       => env('YXYX_TEST_WX_URL',  "http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second" ) ,
     ],
     "teacher_wx_url" => [
         "normal_url"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_normal.html?lessonid=",

@@ -75,7 +75,7 @@ class agent extends Controller
         $agent_level      = $this->get_in_el_agent_level();
         $order_flag       = $this->get_in_e_boolean(-1, "order_flag" );
         $l1_child_count   = $this->get_in_intval_range("l1_child_count");
-        
+
         $ret_info = $this->t_agent->get_student_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         foreach($ret_info['list'] as &$item){
             //获取用户签单量及签单金额
@@ -336,14 +336,17 @@ class agent extends Controller
         $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", -1,E\Eagent_check_money_flag::class);
         $phone = $this->get_in_phone();
         $check_money_admin_nick = $this->get_in_str_val('check_money_admin_nick');
-        if($check_money_admin_nick == -1)
-            $check_money_admin_id = -1;
-        else
-            $check_money_admin_id = $this->t_manager_info->get_id_by_account($check_money_admin_nick);
+        $check_money_admin_id = '';
+        if($check_money_admin_nick){
+            if($check_money_admin_nick == -1)
+                $check_money_admin_id = -1;
+            else
+                $check_money_admin_id = $this->t_manager_info->get_id_by_account($check_money_admin_nick);
+        }
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
         //获取统计信息
         $statistic_info = $this->t_agent_cash->get_agent_cash_person($agent_check_money_flag,$phone,$nickname,$start_time,$end_time,$opt_date_str,$cash_range,$check_money_admin_id);
-        
+
         foreach($ret_info['list'] as &$item){
             //获取冻结金额
             $item['agent_cash_money_freeze'] = $this->t_agent_cash_money_freeze->get_agent_cash_money_freeze($item['id']);
@@ -547,8 +550,62 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $res = [];
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $ret = $this->t_month_def_type->get_month_week_time($start_time);
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $lesson_start = $item['lesson_start'];
+            foreach($ret as $info){
+                $start = $info['start_time'];
+                $end = $info['end_time'];
+                $week_order = $info['week_order'];
+                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
+                    $res[$adminid][$week_order][] = $item;
+                }
+            }
+        }
+        foreach($res as $key=>$item){
+            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
+            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
+            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
+            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+        }
+        dd($res);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+            if($item['test_lesson_count'] != 0){
+                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
+            }
+        }
+        dd($ret);
+        $ret = $this->t_id_opt_log->get_yxyx_last_adminid();
+        dd($ret);
+
+        $origin = $this->t_student_info->field_get_value($userid,'优学优享');
+        if($origin == '优学优享'){
+            $last_adminid = $this->t_id_opt_log->get_yxyx_last_adminid();
+            if($last_adminid == 412){
+                $opt_adminid=384;
+            }else{
+                $opt_adminid=412;
+            }
+            $opt_account = $this->t_manager_info->get_account($opt_adminid);
+            $account = $this->get_account();
+            $this->t_seller_student_new->set_admin_info_new(
+                $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
+        }
         //回流
-        
+
         // dd($ret);
     }
 
@@ -900,7 +957,7 @@ class agent extends Controller
     //@desn:新版微信信息
     public function user_center_info(){
         $nickname=$this->get_in_str_val('nickname');
-        \App\Helper\Utils::logger("nickname:$nickname"); 
+        \App\Helper\Utils::logger("nickname:$nickname");
         $phone=$this->get_in_phone();
         $id=$this->get_in_id();
         if ($phone) {
@@ -2146,7 +2203,7 @@ class agent extends Controller
             $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
             if($item['account_role'] == 1)
                 $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
-            $item['self_order_price'] /= 100; 
+            $item['self_order_price'] /= 100;
             $item['agent_info'] = 1;
         }
         return $this->pageView(__METHOD__,$ret_info,['type'=>$type]);
@@ -2162,7 +2219,7 @@ class agent extends Controller
             E\Eagent_freeze_type::set_item_value_str($item,'agent_freeze_type');
             E\Eagent_money_ex_type::set_item_value_str($item,'agent_money_ex_type');
             \App\Helper\Utils::unixtime2date_for_item($item,'agent_activity_time');
-        
+
             return $this->output_succ([
                 'freeze_reason' => $item,
             ]);

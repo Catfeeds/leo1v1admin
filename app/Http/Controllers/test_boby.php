@@ -857,111 +857,6 @@ class test_boby extends Controller
         return $s;
     }
 
-    public function get_agent_qr_new(){
-
-        // $wx_openid = $this->get_in_str_val("wx_openid");
-        // $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
-        // $phone = '';
-        // if(isset($row['phone'])){
-        //     $phone = $row['phone'];
-        // }
-        // if(!$phone || $wx_openid==""){
-        //     return "";
-        // }
-
-
-        $phone = '18898881852';
-        $phone_qr_name = $phone."_qr_agent_merber.png";
-        //判断是否更新微信头像
-        // if ($old_headimgurl != $headimgurl) {
-        //     $this->t_agent->field_update_list($row['id'],['headimgurl' => $headimgurl]);
-        // }
-
-
-        if (\App\Helper\Utils::check_env_is_test() ) {
-            $www_url="test.www.leo1v1.com";
-        }else{
-            $www_url="www.leo1v1.com";
-        }
-
-        $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
-        $qr_url       = "/tmp/".$phone.".png";
-        $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
-        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-
-        //请求微信头像
-        // $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
-        // $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        // $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        // $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_URL, $url);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // curl_setopt($ch, CURLOPT_HEADER, 0);
-        // $output = curl_exec($ch);
-        // curl_close($ch);
-        // $data = json_decode($output,true);
-        // //        $old_headimgurl = $row['headimgurl'];
-        // $headimgurl = $data['headimgurl'];
-        $headimgurl = 'http://wx.qlogo.cn/mmopen/OXfXUtqF0C4ZDgwwbKeGdlFtrLrDWoZkbzM3AHvNz13yqtxNFZ52rg2fZeAqiawOcz8ic5Dq2XqsjHV16BhSGqOfptRmgBMjtO/0';
-
-        $image_5 = imagecreatefromjpeg($headimgurl);
-        $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
-        $color = imagecolorallocate($image_6, 255, 255, 255);
-        imagefill($image_6, 0, 0, $color);
-        imageColorTransparent($image_6, $color);
-        imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
-
-        $image_1 = imagecreatefrompng($bg_url);     //背景图
-        $image_2 = imagecreatefrompng($qr_url);     //二维码
-        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-        $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
-        imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-        imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
-        imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
-        // imagecopymerge($image_3,$image_6,295,29,0,0,160,160,100);
-
-        $r = 80; //圆半径
-        for ($x = 0; $x < 160; $x++) {
-            for ($y = 0; $y < 160; $y++) {
-                $rgbColor = imagecolorat($image_6, $x, $y);
-                $a = $x-$r;
-                $b = $y-$r;
-                if ( ( ( $a*$a + $b*$b) <= ($r * $r) ) ) {
-                    $n_x = $x+295;
-                    $n_y = $y+28;
-                    imagesetpixel($image_3, $n_x, $n_y, $rgbColor);
-                }
-            }
-        }
-
-        $agent_qr_url = "/tmp/yxyx_".$phone_qr_name;
-        imagepng($image_3,$agent_qr_url);
-
-
-        $cmd_rm = "rm /tmp/".$phone."*.png";
-        \App\Helper\Utils::exec_cmd($cmd_rm);
-
-        // imagedestroy($image_1);
-        // imagedestroy($image_2);
-        // imagedestroy($image_3);
-        // imagedestroy($image_5);
-        // imagedestroy($image_4);
-        // imagedestroy($image_6);
-
-        $file_url = $www_url.$agent_qr_url;
-        return $file_url;
-    }
-
-    public function del_img(){
-
-
-        $openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
-        $phone = '18898881852';
-        $img_url = \App\Helper\Utils::get_agent_qr_new($openid,$phone);//得到图片资源
-        return $img_url;
-
-    }
 
     public function test_img(){
         $wx_openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
@@ -982,4 +877,27 @@ class test_boby extends Controller
 
     }
 
+    public function update_adminid_yxyx(){
+        //刷张龙的优学优享例子
+        $sql = 'select ss.phone,t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.admin_revisiterid,auto_allot_adminid,ss.add_time   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid>0 and auto_allot_adminid !=384 and ss.add_time>=1510416000 and ss.add_time<1510502400 order by add_time limit 15';
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        foreach ($ret as $v ) {
+            if ($v['require_adminid'] == 0) {
+                $this->t_seller_student_new->auto_allot_yxyx_userid(412, '张植源', $v['userid'], '系统',$v['phone']);
+                $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 412]);
+            }
+        }
+    }
+
+    public function update_adminid_yxyx2(){
+        //刷张龙的优学优享例子
+        $sql = 'select ss.phone,t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.admin_revisiterid,auto_allot_adminid,ss.add_time   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid>0 and auto_allot_adminid !=384 and ss.add_time>=1510502400 and ss.add_time<1510588800 order by add_time limit 15';
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        foreach ($ret as $v ) {
+            if ($v['require_adminid'] == 0) {
+                $this->t_seller_student_new->auto_allot_yxyx_userid(412, '张植源', $v['userid'], '系统',$v['phone']);
+                $this->t_test_lesson_subject->field_update_list($v['test_lesson_subject_id'],['require_adminid' => 412]);
+            }
+        }
+    }
 }

@@ -48,7 +48,8 @@ class cr_info_funnel_week extends Command
         //周报刷新
         $first_time = strtotime("-6 month", $now_time);
         $first_time = strtotime(date('Y-m-d',strtotime("this week Tuesday",$first_time)));
-        for($i = $first_time; $i < $now_time;){
+
+        for($i = $first_time; $i <= $now_time;){
             $end_time = $i;
             $start_time  = $end_time - 7 * 86400;;
             $start_month = date("Y-m",$start_time);
@@ -66,7 +67,7 @@ class cr_info_funnel_week extends Command
                 $create_time = $end_time;
                 $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
             } 
-            if($task->t_cr_week_month_info->get_data_by_type($end_time,$type)){
+            if(true){
                 $arr = '';
                 //C2-计划内续费学生数量 //C4-实际续费学生数量 ////C7-月续费率//C8-月预警续费率
                 $warning_list       = $task->t_cr_week_month_info->get_student_list_new($type,$start_time);//进入续费预警的学员
@@ -108,7 +109,7 @@ class cr_info_funnel_week extends Command
                 $tranfer_total_month['total_num']     = $month_tranfer;
 
                 //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($cur_month,$end_time);
-                if($tranfer_total_month['total_orderid']){
+                if($tranfer_total_month['total_num']){
                   $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
                 }else{
                   $arr['tranfer_success_per'] = 0;
@@ -131,8 +132,6 @@ class cr_info_funnel_week extends Command
                 }else{
                   $arr['kk_success_per'] = 0;
                 }
-
-
                 $insert_data = [
                     "create_time"             => $create_time,            //存档时间
                     "create_time_range"       => $create_time_range,      //存档时间范围

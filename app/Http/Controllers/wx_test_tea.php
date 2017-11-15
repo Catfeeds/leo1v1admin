@@ -18,22 +18,26 @@ use LaneWeChat\Core\UserManage;
 
 use LaneWeChat\Core\TemplateMessage;
 
-include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+include(app_path("Wx/Teacher_test/lanewechat_teacher_test.php"));
 
 
-class  wx_test extends Controller
+class  wx_test_tea extends Controller
 {
     var $check_login_flag =false;//是否需要验证
     public function index() {
-        $wechat = new \App\Wx\Teacher\wechat (WECHAT_TOKEN_TEC, TRUE);
-        $r = $wechat->checkSignature();
+        \App\Helper\Utils::logger("wx_test_tea1");
 
-        // $ret=$wechat->run();
-        // if (is_bool($ret)) {
-        //     return "";
-        // }else{
-        //     return $ret;
-        // }
+        $wechat = new \App\Wx\Teacher_test\wechat (WECHAT_TOKEN_TEC_TEST, TRUE);
+
+        // $r = $wechat->checkSignature();
+        // \App\Helper\Utils::logger("wx_test_tea_return $r");
+
+        $ret=$wechat->run();
+        if (is_bool($ret)) {
+            return "";
+        }else{
+            return $ret;
+        }
     }
 
     public function sync_menu() {
@@ -58,22 +62,12 @@ class  wx_test extends Controller
             array('id'=>'14', 'pid'=>'3', 'name'=>'推荐好友', 'type'=>'click', 'code'=>'friends'),
             array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
 
-
-
-
-
-
             // array('id'=>'7', 'pid'=>'1', 'name'=>'分享微信二维码', 'type'=>'view', 'code'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http%3A%2F%2Fwx-parent.leo1v1.com%2Farticle_wx%2Fget_openid&response_type=code&scope=snsapi_base&state=1#wechat_redirect' ),
         );
 
-        // $w = new \App\Wx\Teacher\wechat(WECHAT_TOKEN_TEC, TRUE);
-
-        // $result = \LaneWeChat\Core\Menu::setMenu($menuList);
-
-        $result =  \Teacher\Core\Menu::setMenu($menuList);
-        $result =  \Teacher\Core\Menu::getMenu($menuList);
+        $result =  \Teacher_test\Core\Menu::setMenu($menuList);
+        $result =  \Teacher_test\Core\Menu::getMenu($menuList);
         dd($result);
-        // $result =  \App\Wx\Teacher\Core\Menu::setMenu($menuList);
     }
 
 

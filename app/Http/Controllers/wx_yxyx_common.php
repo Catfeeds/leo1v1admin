@@ -35,9 +35,16 @@ class wx_yxyx_common extends Controller
 
         //$web_html_url = "http://wx-yxyx-web.leo1v1.com";
         $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["url"] ) ;
+        //测试环境
+        if(\App\Helper\Utils::check_env_is_test()){
+            $web_html_url= $wx_config["test_url"];
+        }
 
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
+            //测试环境
+            if(\App\Helper\Utils::check_env_is_test())
+                $url = "$web_html_url/login.html";
         }else{
             \App\Helper\Utils::logger('yxyx_www_openid:'.$openid);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
@@ -48,12 +55,21 @@ class wx_yxyx_common extends Controller
                     "login_user_role" => 10,
                     "agent_id"    => $id,
                 ]);
+                
                 $url = "/wx_yxyx_web/$action";
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test())
+                    $url = "$web_html_url/index.html";
+
             }else{
                 $url = "$web_html_url/index.html#bind?".$action;
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test())
+                    $url = "$web_html_url/login.html";
             }
         }
         \App\Helper\Utils::logger("JUMP URL:$url");
+        \App\Helper\Utils::logger("three_url $url "); 
         header("Location: $url");
         return "succ";
     }
@@ -345,9 +361,9 @@ class wx_yxyx_common extends Controller
             //自动分配给ｔｍｋ
             $time = strtotime('today');
             $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-            if( $count <= 15 ){//分给张龙 384
-                $auto_allot_adminid = 384;
-                $opt_account = '张龙';
+            if( $count <= 30 ){//分给张龙 384,张植源412
+                $auto_allot_adminid = ( $count%2 == 0 ) ? 384 : 412;
+                $opt_account = ( $count%2 == 0 ) ?'张龙':'张植源';
             } else { //分配给邵少鹏759和蒋文武689
                 $auto_allot_adminid = ( $count%2 == 0 ) ? 795 : 689;
                 $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
@@ -355,8 +371,10 @@ class wx_yxyx_common extends Controller
 
             $account = '系统';
             $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
-            // $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
 
+            if( $count <= 30 ){//分给张龙 384,张植源412
+                $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
+            }
         }
 
 

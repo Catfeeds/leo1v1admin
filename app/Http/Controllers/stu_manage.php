@@ -1053,9 +1053,7 @@ class stu_manage extends Controller
     }
 
     public function init_info_by_contract_cc( ) {
-
         $orderid = $this->get_in_int_val('orderid');
-
         if(!$orderid){
             return $this->stu_error_view(
                 [
@@ -1066,7 +1064,6 @@ class stu_manage extends Controller
 
         $row     = $this->t_student_cc_to_cr->get_stu_info_by_orderid($orderid);
         $is_show_submit = $this->get_in_int_val('is_show_submit',0);
-
         $state_arr = $this->t_student_cc_to_cr->get_last_id_reject_flag_by_orderid($orderid);
 
         // 判断
@@ -1075,15 +1072,10 @@ class stu_manage extends Controller
             $is_submit_show = 1;
         }
 
-
-        if ($row) {
-
+        if($row){
             $row['is_submit_show'] = $is_submit_show;
-
             $userid  = $this->t_order_info->get_userid($orderid);
-
             $stu_info        = $this->t_student_info->field_get_list($userid,"*");
-
             $seller_stu_info = $this->t_seller_student_info->get_user_init_info( $stu_info["phone"] );
             //处理
             $set_field = function( &$item, $item_filed_name, $from_item, $from_item_field_name="" ) {
@@ -1119,15 +1111,12 @@ class stu_manage extends Controller
                 }
             }
         }
-
-        // dd($row);
         return $this->pageView(__METHOD__,null,
                                [
                                    "init_data"=> $row,
                                    "show_post_flag"=> $this->check_power(E\Epower::V_POST_STU_INIT_INFO ),
                                ]
         );
-
     }
 
 

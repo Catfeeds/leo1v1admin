@@ -722,7 +722,8 @@ class teacher_money extends Controller
         }else{
             $reference_phone = "";
         }
-
+        $teacherid = $this->get_in_int_val('teacherid',-1);
+        
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
         $all_money = 0;
         foreach($ret_info['list'] as &$t_val){
@@ -746,9 +747,9 @@ class teacher_money extends Controller
 
     public function update_pay_time() {
         $id = $this->get_in_int_val("id");
-        $end_time = strtotime($this->get_in_str_val("pay_time"));
+        $pay_time = strtotime($this->get_in_str_val("pay_time"));
 
-        $this->t_month_def_type->field_update_list($id, [
+        $this->t_teacher_salary_list->field_update_list($id, [
             "pay_time" => $pay_time
         ]);
         return $this->output_succ();

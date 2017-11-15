@@ -54,6 +54,10 @@
                     <td>试听申请数</td>
                     <td>教务排课数</td>
                     <td>试听成功数</td>
+                    <td>第一周试听成功数</td>
+                    <td>第二周试听成功数</td>
+                    <td>第三周试听成功数</td>
+                    <td>第四周试听成功数</td>
                     <td>取消人数</td>
                     <td>取消率</td>
                     <td>签约人数</td>
@@ -90,7 +94,11 @@
                              <td >{{@$var["require_test_count_for_day"]}}</td> -->
                         <td >{{@$var["require_test_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
-                        <td >{{@$var["succ_all_count_for_month"]}}</td>
+                        <td >{{@$var["suc_all_count_for_month"]}}</td>
+                        <td >{{@$var["suc_lesson_count_one"]}}</td>
+                        <td >{{@$var["suc_lesson_count_two"]}}</td>
+                        <td >{{@$var["suc_lesson_count_three"]}}</td>
+                        <td >{{@$var["suc_lesson_count_four"]}}</td>
                         <td >{{@$var["fail_all_count_for_month"]}}</td>
                         <td >{{@$var["lesson_per"]}}</td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>

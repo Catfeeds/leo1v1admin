@@ -308,11 +308,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0
     ) {
         if ($userid >0 || $phone || $nick) {
-            $where_arr=[
-                ["ss.userid=%u",$userid, -1],
-                ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
-            ];
+            if(in_array($admin_revisiterid,[384,412])){//
+                $where_arr=[
+                    ["ss.userid=%u",$userid, -1],
+                    ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
+                    ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
+                ];
+            }else{
+                $where_arr=[
+                    ["ss.userid=%u",$userid, -1],
+                    ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
+                    ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
+                    "s.origin<>'优学优享'",
+                ];
+            }
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
         }else{
@@ -3022,4 +3031,5 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
 }

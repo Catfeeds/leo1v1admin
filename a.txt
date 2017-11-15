@@ -2,9 +2,20 @@
 
 http://pdev.admin.yb1v1.com:6080/main_page/admin
 
+<<<<<<< HEAD
+=======
+#http://dev.admin.yb1v1.com/AdminLTE-2.4.0-rc/index.html
+
+http://pdev.admin.yb1v1.com:6080/main_page/admin
+
+>>>>>>> 8bff1e833eb430d22c5a198b92c4d633513a7e93
 http://dev.admin.yb1v1.com/proto/cmd_desc?project=yb_admin
 
 ~/admin_yb1v1/proto/gen_yb_admin
 ~/admin_yb1v1/proto/src/yb_admin
 
 https://wiki.swoole.com/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bff1e833eb430d22c5a198b92c4d633513a7e93

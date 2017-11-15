@@ -170,4 +170,47 @@ $(function(){
         $('#id_order_by_str').val('if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc');
         load_data();
     });
+
+    //强制弹窗
+
+    $(".opt-no-order").on("click",function(){
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" :  "list", // or "list"
+            "url"      : "/main_page/get_no_order_first_week_by_js",
+            //字段列表
+            'field_list' :[
+                {
+                    title:"队名",
+                    render:function(val,item) {
+                        return item.name;
+                    }
+
+                },{
+                    title:"姓名",
+                    render:function(val,item) {
+                        return item.acc;
+                    }
+
+                },
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(){
+                if( 1<1 ){
+
+                }
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+
+        });
+
+    });
+    var is_alerted = 0;
+    if(is_alerted == 0) {
+
+    }
 });

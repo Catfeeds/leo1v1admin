@@ -29,14 +29,13 @@ class activity_config_base extends  activity_base {
     ]; //按年级打折
 
     /*
-    E\Eperiod_flag::V_PERIOD => [
-    10 => 78;
-    ]
-    E\Eperiod_flag::V_NOT_PERIOD => [
-    10 => 72;
-    ]
+      E\Eperiod_flag::V_PERIOD => [
+      10 => 78;
+      ]
+      E\Eperiod_flag::V_NOT_PERIOD => [
+      10 => 72;
+      ]
     */
-
 
     public  $lesson_times_present_lesson_count =[]; //按课次数送课
 

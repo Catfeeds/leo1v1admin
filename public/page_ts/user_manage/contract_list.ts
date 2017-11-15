@@ -899,8 +899,6 @@ $(function(){
     };
 
     var show_add_contract_new=function( require_id ,contract_type , data ,contract_from_type){
-        //id_order_origin
-
         var html_node=$.dlg_need_html_by_id( "id_dlg_add_contract_new");
         //原价
         var $discount_price       = html_node.find(".field-discount_price");
@@ -1044,6 +1042,7 @@ $(function(){
         }
         $discount_price.set_input_readonly(true);
         $order_promotion_desc.set_input_readonly(true);
+
         BootstrapDialog.show({
             title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type) +']' ,
             message  : html_node,
@@ -1250,11 +1249,10 @@ $(function(){
             }
 
             $("<div></div>").admin_select_dlg_ajax({
-                "opt_type" :  "select", // or "list"
-                "url"          : "/ss_deal/get_require_list_js",
+                "opt_type" : "select", // or "list"
+                "url"      : "/ss_deal/get_require_list_js",
                 select_primary_field : "require_id",
                 select_display       : "require_id",
-
                 //其他参数
                 "args_ex" : {
                     userid:id
@@ -1267,7 +1265,6 @@ $(function(){
                             return item.origin;
                         }
                     },{
-
                         title:"科目",
                         render:function(val,item) {
                             return item.subject_str;
@@ -2126,8 +2123,6 @@ $(function(){
         btn_add_6.on("click", function(){
             add_free( 6 );
         });
-
-
 
         var arr=[
             [ "", btn_add_new_1 ],
