@@ -72,6 +72,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $output = curl_exec($ch);
         curl_close($ch);
         $data = json_decode($output,true);
+        $headimgurl = @$data['headimgurl'];
 
         //强制刷新token
         if ( !array_key_exists('headimgurl', $data) ){
@@ -88,10 +89,9 @@ class make_and_send_wx_img extends Job implements ShouldQueue
             $output = curl_exec($ch);
             curl_close($ch);
             $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
 
         }
-        $headimgurl = $data['headimgurl'];
-
 
         //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
