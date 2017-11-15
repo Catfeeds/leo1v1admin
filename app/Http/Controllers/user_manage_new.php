@@ -1759,7 +1759,7 @@ class user_manage_new extends Controller
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
+            // $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             if($item['test_lesson_count'] != 0){
                 $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
             }
