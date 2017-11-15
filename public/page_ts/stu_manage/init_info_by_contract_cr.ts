@@ -47,6 +47,7 @@ $(function(){
                     if(i=='is_master'&& item!='1'){
                         $('.id_submit_succ').hide();
                         $('.id_reject_to_master').hide();
+                        $('.id_confirm').hide();
                     }else if(i=='is_master'&& item=='1'){
                         $('.id_submit_succ').show();
                         $('.id_reject_to_ass').hide(); // 组员 驳回按钮
@@ -58,6 +59,7 @@ $(function(){
                     $('.id_submit').hide();//驳回咨询
 
                     if(i=='is_master'&& item!='1'){
+                        $('.id_confirm').show();
                         $('.id_reject_to_master').show();
                     }else if(i=='is_master'&& item=='1'){
                         $('.id_reject_to_ass').show();
