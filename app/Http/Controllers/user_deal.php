@@ -5469,7 +5469,7 @@ class user_deal extends Controller
                 $assistantid         = $this->t_student_info->get_assistantid_by_userid($sid);
                 $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
 
-                if($assistantid>0){
+                if($assistantid>0){ // 待删除
                     return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
                 }
 
@@ -5499,7 +5499,7 @@ class user_deal extends Controller
                     'reject_flag' => $is_reject_flag,
                     'reject_time' => time(NULL),
                     'reject_info' => $reject_info,
-                    'reject_ass'  => $acc_id
+                    'ass_id'      => $acc_id
                 ]);
                 $master_openid = $this->t_admin_group_user->get_ass_master_openid($acc_id);
                 $send_openid = $master_openid;

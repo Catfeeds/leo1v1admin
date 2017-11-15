@@ -1329,7 +1329,6 @@ class tea_manage_new extends Controller
             $objPHPExcel->setActiveSheetIndex(0);
             $arr  = $objPHPExcel->getActiveSheet()->toArray();
             $info = "";
-            //时间 科目 年级 手机号
             $subject_arr = E\Esubject::$desc_map;
             $grade_arr   = E\Egrade::$desc_map;
 
