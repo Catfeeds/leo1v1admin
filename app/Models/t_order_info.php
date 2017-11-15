@@ -4164,4 +4164,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_all_cr_order_info($start_time,$end_time){
+        $where_arr=[
+            "o.contract_status>0",
+            "o.contract_type in (0,1,3)",
+            "o.check_money_flag=1",
+            "s.is_test_user=0",
+            "m.account_role=1"
+        ];
+        $sql = $this->gen_sql_new("select count(distinct m.uid) ass_num,sum(o.price) all_money"
+                                  ." from %s o left join %s s on o.userid = s.userid"
+                                  ." left join %s m on o.sys_operator = m.account"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }

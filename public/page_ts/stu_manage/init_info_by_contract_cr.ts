@@ -218,22 +218,22 @@ $(function(){
         var url_arr = GetRequest();
         var orderid = url_arr['orderid'];
         var id      = $('#id_id').val();
-        var id_reject_info       = $("<select/>");
-        var id_reject_info_write = $("<textarea/>");
 
-        // var confirm = confirm('确认交接单成功');
-
-        if ( confirm('确认交接单成功')){
-            alert("You pressed OK!");
+        if (confirm('确认交接单成功吗?')){
+            $.do_ajax("/user_deal/confirm_order",{
+                'confirm_flag' : 1, // 助教确认
+                'orderid'      : orderid,
+                'id'           : id,
+                'sid'          : g_args.sid
+            },function(result){
+                $('.id_reject_to_ass').remove();// 驳回助教
+                $('.id_submit').remove();//驳回咨询
+                $('.id_reject_to_master').remove();
+                $('.id_submit_succ').remove();
+                $('.id_confirm').remove();
+            });
         }
 
-        // $.do_ajax("/user_deal/do_reject_flag_for_init_info",{
-        //     'is_reject_flag'  : 2, // 驳回助教
-        //     'orderid'         : orderid,
-        //     'id'              : id,
-        //     'sid'             : g_args.sid
-        // },function(result){
-        // });
 
     });
 

@@ -5704,4 +5704,16 @@ class user_deal extends Controller
 
     }
 
+    public function confirm_order(){
+        $id  = $this->get_in_int_val('id');
+        $sid = $this->get_in_int_val('sid');
+        $orderid = $this->get_in_int_val('orderid');
+        $confirm_flag = $this->get_in_int_val('confirm_flag');
+
+        $this->t_student_cc_to_cr->field_update_list($id,[
+            "confirm_flag" => $confirm_flag
+        ]);
+
+        return $this->output_succ();
+    }
 }
