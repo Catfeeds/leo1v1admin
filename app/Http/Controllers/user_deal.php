@@ -3196,6 +3196,9 @@ class user_deal extends Controller
         //$this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");
+          $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        dd($ret_id);
+
 
         $ret = $this->t_student_info->get_read_num_by_grade();
         $arr=[];
@@ -3204,15 +3207,15 @@ class user_deal extends Controller
         }
         $str = json_encode($arr);
         /*新增数据*/
-        $cr_order_info = $task->t_order_info->get_all_cr_order_info($start_time,$end_time);
+        $cr_order_info = $this->t_order_info->get_all_cr_order_info($start_time,$end_time);
         $arr["average_person_effect"] = !empty(@$cr_order_info["ass_num"])?round($cr_order_info["all_money"]/$cr_order_info["ass_num"]):0; //平均人效(非入职完整月)
 
-        $all_pay = $task->t_student_info->get_student_list_for_finance_count();//所有有效合同数
-        $refund_info = $task->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
+        $all_pay = $this->t_student_info->get_student_list_for_finance_count();//所有有效合同数
+        $refund_info = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
         $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
 
         // 获取停课,休学,假期数
-        $ret_info_stu = $task->t_student_info->get_student_count_archive();
+        $ret_info_stu = $this->t_student_info->get_student_count_archive();
 
         foreach($ret_info_stu as $item) {
             if ($item['type'] == 2) {
@@ -3225,7 +3228,7 @@ class user_deal extends Controller
         }
 
         //新签合同未排量(已分配/未分配)/新签学生数
-        $user_order_list = $task->t_order_info->get_order_user_list_by_month($end_time);
+        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//上月新签
 
         foreach ( $user_order_list as $item ) {
@@ -3267,11 +3270,10 @@ class user_deal extends Controller
         ];
 
         
-        $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time($type,$create_time);
         if($ret_id>0){
-            $task->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
+            $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
         }else{
-            $task->t_cr_week_month_info->row_insert($insert_data);
+            $this->t_cr_week_month_info->row_insert($insert_data);
         }
 
 
