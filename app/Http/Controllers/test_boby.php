@@ -917,6 +917,6 @@ class test_boby extends Controller
     }
 
     public function get_type(){
-$a = 2;
+        $b =34;
     }
 }
