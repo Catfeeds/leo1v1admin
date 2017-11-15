@@ -2173,6 +2173,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_no_order_list($level,$adminid,$start_time,$end_time){
         $where_arr = [
+            'm.account_role =2',
             'g.main_type=2',
         ];
         $order_arr = [
