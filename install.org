@@ -49,3 +49,5 @@
 
   /etc/hosts 加入
   127.0.0.1  self.admin.leo1v1.com
+  127.0.0.1  redis 
+  127.0.0.1  mysql 

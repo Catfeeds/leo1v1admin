@@ -550,6 +550,9 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $row_item=$this->t_seller_student_new-> get_lesson_status_count($adminid=99 );
+        dd($row_item);
+
         $ret = $this->t_seller_student_new->field_update_list($userid=426861,[
             "tmk_student_status"=>E\Etmk_student_status::V_3,
             "tmk_next_revisit_time"=>0,
