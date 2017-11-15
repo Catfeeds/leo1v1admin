@@ -56,7 +56,7 @@ $(function(){
                     $('.id_submit_succ').hide();
                     $('.id_reject_to_master').hide();
                     $('.id_reject_to_ass').hide();
-                    $('.id_submit').hide();//驳回咨询
+                    $('.id_submit').show();//驳回咨询
 
                     if(i=='is_master'&& item!='1'){
                         $('.id_confirm').show();

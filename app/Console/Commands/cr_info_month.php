@@ -332,7 +332,8 @@ class cr_info_month extends Command
         $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
 
         //课时消耗目标数量
-        
+        $last_year_start = strtotime("-1 years",$start_time); 
+        $last_year_end = strtotime("+1 months",$last_year_start); 
 
 
         $insert_data = [
