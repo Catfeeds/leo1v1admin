@@ -305,7 +305,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $subject=-1,$phone_location="", $has_pad=-1, $seller_resource_type=-1 ,$origin_assistantid=-1,
         $tq_called_flag=-1,$phone="", $nick="" ,$origin_assistant_role=-1,$success_flag=-1,
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
-        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0
+        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1
     ) {
         if ($userid >0 || $phone || $nick) {
             if(in_array($admin_revisiterid,[384,412])){//
@@ -333,6 +333,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["ss.phone_location like '%%%s%%'", $this->ensql($phone_location), ""],
                 ["ss.seller_resource_type = %d " ,$seller_resource_type, -1],
                 ["ss.tq_called_flag= %d " ,$tq_called_flag, -1],
+                ["ss.global_tq_called_flag = %d " ,$global_tq_called_flag, -1],
                 ["tss.success_flag = %d " ,$success_flag, -1],
                 ["tmk_student_status = %d " ,$tmk_student_status, -1],
                 ["require_admin_type=%u",$require_admin_type,-1]
@@ -1576,15 +1577,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_lesson_status_count($adminid) {
         $start_time=strtotime(date("Y-m-d", time(NULL)-60*86400) );
         //E\Etmk_student_status
-        $where_arr = [
-            'n.userid=t.userid',
-            's.userid=n.userid',
-            ['admin_assign_time>%u',$start_time],
-            ['admin_revisiterid=%u',$adminid],
-        ];
-        if(in_array($adminid,[384,412])){//张龙,张植源
-            $where_arr[] = "s.origin='优学优享'";
-        }
         $sql = $this->gen_sql_new(
             "select  "
             ."sum(seller_student_status=200) lesson_status_200_count , "
@@ -1595,14 +1587,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."sum(global_tq_called_flag=0 ) new_not_call_count,  "
             ."sum(tmk_student_status=3  &&  seller_student_status=0  ) tmk_new_no_call_count,  "
             ."sum( seller_student_status=0 && t.require_adminid = %u) not_call_count  "
-            ." from %s n, %s t,%s s "
-            ." where %s ",
+            ." from %s n, %s t "
+            ." where  n.userid=t.userid and   admin_assign_time > %u and admin_revisiterid=%u  ",
             $adminid,
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
-            $where_arr
-        );
+            $start_time , $adminid );
 
         return $this->main_get_row($sql);
     }
