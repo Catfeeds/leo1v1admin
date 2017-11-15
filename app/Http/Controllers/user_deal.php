@@ -5489,6 +5489,11 @@ class user_deal extends Controller
                     'reject_info' => $reject_info,
                     'ass_id'      => $acc_id
                 ]);
+
+                $ass_openid = $this->t_student_cc_to_cr->get_ass_openid($id);
+                $send_openid = $cc_openid;
+                $send_name = "助教 $acc_nick";
+
             }elseif($is_reject_flag==3){ // 助教组员驳回组长
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
                     'reject_flag' => $is_reject_flag,
