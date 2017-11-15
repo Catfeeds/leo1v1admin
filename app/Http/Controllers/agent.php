@@ -567,6 +567,7 @@ class agent extends Controller
             "cc_no_called_count"=>0,
         ]);
         $ret_s = 'a';
+        $ret_p = 'p';
 
         // $ret = $this->t_seller_student_new->set_admin_info_new(
         //     $opt_type=2,$userid=426861,535,535,'张倩','张倩',1510621248);
