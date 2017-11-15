@@ -878,6 +878,8 @@ class test_boby extends Controller
     }
 
     public function update_adminid_yxyx(){
+
+        return 1;
         //刷张龙的优学优享例子
         $sql = 'select ss.phone,t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.admin_revisiterid,auto_allot_adminid,ss.add_time   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid>0 and auto_allot_adminid !=384 and ss.add_time>=1510416000 and ss.add_time<1510502400 order by add_time limit 15';
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
@@ -890,6 +892,8 @@ class test_boby extends Controller
     }
 
     public function update_adminid_yxyx2(){
+        return 1;
+
         //刷张龙的优学优享例子
         $sql = 'select ss.phone,t.userid,t. test_lesson_subject_id ,t.require_adminid,ss.admin_revisiterid,auto_allot_adminid,ss.add_time   from t_seller_student_new ss left join t_test_lesson_subject t on t.userid=ss.userid where auto_allot_adminid>0 and auto_allot_adminid !=384 and ss.add_time>=1510502400 and ss.add_time<1510588800 order by add_time limit 15';
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
@@ -900,4 +904,19 @@ class test_boby extends Controller
             }
         }
     }
+
+    public function get_no_order(){
+        $sql = 'select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order from db_weiyi_admin.t_manager_info m  left join db_weiyi.t_order_info o on o.sys_operator=m.name and o.order_time>=1509465600 and o.order_time<1509983999  left join db_weiyi_admin.t_admin_group_user gu on gu.adminid=m.uid  left join db_weiyi_admin.t_admin_group_name g on g.groupid=gu.groupid  where m.account_role =2 and g.main_type=2 group by m.uid having no_order=0';
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $th_arr = ['队名','人','orderid'];
+        $s = $this->table_start($th_arr);
+
+        foreach ($ret as $v ) {
+            $s= $this->tr_add($s,$v['group_name'],$v['name'],$v['no_order']);
+        }
+        $s = $this->table_end($s);
+        return $s;
+
+    }
+
 }

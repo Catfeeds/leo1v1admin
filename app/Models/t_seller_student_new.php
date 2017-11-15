@@ -2213,6 +2213,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[] = " ( t.seller_student_status in (1,2,101,102) or ( n.auto_allot_adminid = $adminid and t.seller_student_status in (0,1,2,101,102) ) )";
         } else {
             $where_arr[] = 't.seller_student_status in (1,2,101,102)';
+            $where_arr[] = 'n.auto_allot_adminid = 0';
         }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 

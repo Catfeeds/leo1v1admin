@@ -550,21 +550,30 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd(date('Y-m-01', strtotime('-1 month')));
-        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-        $time = time(null);
-        $ret_time = $this->t_month_def_type->get_all_list();
-        foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time = $item['start_time'];
-                $end_time = $item['end_time'];
-                break;
-            }
-        }
+        $ret = $this->t_seller_student_new->field_update_list($userid=426861,[
+            "tmk_student_status"=>E\Etmk_student_status::V_3,
+            "tmk_next_revisit_time"=>0,
+            "tmk_desc"=>'',
+            "first_tmk_set_valid_admind"=>535,
+            "first_tmk_set_valid_time"=>1510621248,
+            "cc_no_called_count"=>0,
+        ]);
+        $ret_t = $this->t_seller_student_new->field_update_list($userid=426079,[
+            "tmk_student_status"=>E\Etmk_student_status::V_3,
+            "tmk_next_revisit_time"=>0,
+            "tmk_desc"=>'',
+            "first_tmk_set_valid_admind"=>999,
+            "first_tmk_set_valid_time"=>1510546206,
+            "cc_no_called_count"=>0,
+        ]);
+        $ret_s = 'a';
+        $ret_p = 'p';
 
-        //回流
-
-        // dd($ret);
+        // $ret = $this->t_seller_student_new->set_admin_info_new(
+        //     $opt_type=2,$userid=426861,535,535,'张倩','张倩',1510621248);
+        // $ret_t = $this->t_seller_student_new->set_admin_info_new(
+        //     $opt_type=2,$userid=426079,999,999,'祝艳平','祝艳平',1510546206);
+        dd($ret,$ret_t);
     }
 
     //处理等级头像
