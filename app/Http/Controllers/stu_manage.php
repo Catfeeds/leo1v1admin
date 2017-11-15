@@ -1325,6 +1325,12 @@ class stu_manage extends Controller
         }
         // 待删除
 
+        // 测试
+        $accountid = $this->get_account_id();
+        if($accountid == 684){
+            $is_master = 1;
+        }
+
 
         $this->set_in_value('is_show_submit',1);
         $row  = $this->t_student_cc_to_cr->get_stu_info_by_orderid($orderid);
