@@ -32,19 +32,27 @@ $(function(){
     Enum_map.append_option_list("boolean", $("#id_has_fapiao"), true);
 
 
-
+    // console.log(init_data);
 
     if(init_data){
         $.each(init_data,function(i,item){
             if ( !$.isNumeric(i) ) {
                 $("#id_"+i ).val($.trim(item));
             }
-
-            if ( i=='reject_flag' && item=='1' ) {
+            if ( i=='reject_flag' && item=='1' ) { //助教组长 驳回cc
                 $('.id_submit').hide();
                 $('.id_submit_succ').show();
-            }else if(i=='reject_flag' && item=='0') {
-                $('.id_submit_succ').hide();
+                $('.id_reject_to_master').hide(); // 组员 驳回按钮
+            }else if(i=='reject_flag' && item=='0') { // 无驳回操作
+                // $('.id_submit_succ').hide();
+                $('.submit_all ').remove();
+            }else if(i=='reject_flag' && item=='2'){ // 助教组长 驳回助教
+                $('.id_submit').hide();
+                $('.id_reject_to_ass').hide();
+                $('.id_reject_to_master').show();
+            }else if(i=='reject_flag' && item=='3'){ // 助教 驳回 助教组长
+                $('.id_reject_to_ass').show();
+                $('.id_reject_to_master').hide();
             }
 
             if(i=='is_master'&& item!='1'){

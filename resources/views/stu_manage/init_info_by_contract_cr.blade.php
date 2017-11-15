@@ -194,7 +194,7 @@
                 </div>
 
 
-                <div class="row">
+                <div class="submit_all row">
                     <input class="form-control" style="display:none;" value="" id="id_id" />
 
                     <div class="col-xs-12 " style="text-align:center;" >
@@ -207,6 +207,12 @@
                         <button  class="id_reject_to_ass btn btn-success" style=" font-size:20px;display:none;" >
                             驳回助教
                         </button>
+
+
+                        <button  class="id_reject_to_master btn btn-success" style=" font-size:20px;display:none;" >
+                            驳回
+                        </button>
+
                     </div>
                 </div>
 
@@ -385,12 +391,6 @@
         </div>
 
         <div class="row">
-
-
         </div>
-
-
-
-
     </section>
 @endsection

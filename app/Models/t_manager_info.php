@@ -1144,7 +1144,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     }
 
-  
+
 
 
     //助教续费金额 分期按80%计算
@@ -2130,7 +2130,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_row($sql);
-    }   
+    }
 
     public function get_fulltime_teacher_cc_transfer($start_time,$end_time,$fulltime_teacher_type=-1){
         $where_arr = [
@@ -2170,4 +2170,83 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
+    public function get_no_order_list($level,$adminid,$start_time,$end_time){
+        $where_arr = [
+            ['o.order_time>=%u', $start_time, -1],
+            ['o.order_time<%u', $end_time, -1],
+            'g.main_type=2',
+        ];
+        if ($level == 1){//组长
+            $where_arr[] = "g.master_adminid=$adminid";
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+        } else if($level == 2){//主管
+
+            $where_arr[] = "mg.master_adminid=$adminid";
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." left join %s mg on mg.groupid=g.up_groupid"
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,t_admin_main_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+
+        } else if($level == 3){//总监
+
+            $where_arr[] = "amg.master_adminid=$adminid";
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." left join %s mg on mg.groupid=g.up_groupid"
+                ." left join %s amg on amg.groupid=mg.up_groupid"
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,t_admin_main_group_name::DB_TABLE_NAME
+                ,t_admin_majordomo_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+
+        }
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_alert_time_by_uid($uid) {
+        $sql = $this->gen_sql_new("select alert_time from %s where uid='%s'",
+                                  self::DB_TABLE_NAME, $uid);
+        return $this->main_get_value($sql);
+    }
+ 
 }

@@ -172,45 +172,43 @@ $(function(){
     });
 
     //强制弹窗
-
-    $(".opt-no-order").on("click",function(){
-
-        $("<div></div>").admin_select_dlg_ajax({
-            "opt_type" :  "list", // or "list"
-            "url"      : "/main_page/get_no_order_first_week_by_js",
-            //字段列表
-            'field_list' :[
-                {
-                    title:"队名",
-                    render:function(val,item) {
-                        return item.name;
-                    }
-
-                },{
-                    title:"姓名",
-                    render:function(val,item) {
-                        return item.acc;
-                    }
-
-                },
-            ] ,
-            filter_list: [],
-
-            "auto_close"       : true,
-            //选择
-            "onChange"         : function(){
-                if( 1<1 ){
-
-                }
-            },
-            //加载数据后，其它的设置
-            "onLoadData"       : null,
-
+    var is_force = $('.opt-no-order').data('flag');
+    if(is_force) {
+        $('#is_force').on('click', function(){
+            return false;
+        });
+        $('.close').on('click', function(){
+            return false;
         });
 
-    });
-    var is_alerted = 0;
-    if(is_alerted == 0) {
+        $('#is_force').text(2);
+        $('.opt-no-order').click();
+        var time_id = setInterval(function(){
+            var cur_num = parseInt( $('#is_force').text() );
+            var next_num = cur_num - 1;
+
+            if ( next_num == 0 ) {
+                clearTimeout(time_id)
+                $('#is_force').text( '确定' );
+                $('#is_force').on('click', function(){
+                    $('.opt-no-order').click();
+                });
+                $('.close').on('click', function(){
+                    $('.opt-no-order').click();
+                });
+
+                $.ajax({
+                    url : '/main_page/update_alert_time',
+                    type: 'post',
+                });
+
+
+            } else {
+                $('#is_force').text( next_num );
+            }
+
+        },1000);
 
     }
+
 });
