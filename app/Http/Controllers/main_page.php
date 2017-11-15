@@ -520,8 +520,7 @@ class main_page extends Controller
         $is_sir = false;
         $is_time = false;
         //李子璇，tina,谢总
-        // if($adminid == 898 || $adminid == 1165 || $adminid == 323 ) {
-        if($adminid == 973 || $adminid == 540) {
+        if($adminid == 898 || $adminid == 1165 || $adminid == 323 ) {
             $is_sir = true;
             $no_order = $this->t_manager_info->get_no_order_list(4,$adminid,$month_start,$end_time);
         }
