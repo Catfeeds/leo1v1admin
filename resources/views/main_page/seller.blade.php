@@ -488,9 +488,9 @@
                 <div class="modal-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>序号</th>
-                            <th>队名</th>
-                            <th>姓名</th>
+                            <td><b>序号</b></td>
+                            <td><b>队名</b></td>
+                            <td><b>姓名</b></td>
                         </tr>
 
                         @foreach ( @$no_order as $key => $var )
