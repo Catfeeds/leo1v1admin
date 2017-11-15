@@ -98,6 +98,19 @@ class t_student_cc_to_cr extends \App\Models\Zgen\z_t_student_cc_to_cr
     }
 
     public function get_confirm_flag($userid){
-        
+        $where_arr = [
+            "o.userid=$userid",
+            "sc.confirm_flag=0",
+            ""
+        ];
+        $sql = $this->gen_sql_new("  select 1 from %s sc"
+                                  ." left join %s o on o.orderid=sc.orderid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }
