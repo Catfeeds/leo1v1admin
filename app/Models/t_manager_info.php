@@ -2238,6 +2238,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                 ,$where_arr
             );
 
+        } else if($level == 4){
+
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
         }
 
         return $this->main_get_list($sql);
@@ -2248,5 +2265,5 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   self::DB_TABLE_NAME, $uid);
         return $this->main_get_value($sql);
     }
- 
+
 }
