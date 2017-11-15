@@ -1826,7 +1826,7 @@ class user_manage_new extends Controller
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
-            $item["seller_level_str"] = isset($item["seller_level"])?E\Eseller_level::get_desc($item["del_flag"]):'';
+            $item["seller_level_str"] = isset($item["seller_level"])?E\Eseller_level::get_desc($item["seller_level"]):'';
             E\Emain_type::set_item_value_str($item);
             $item['lesson_per'] = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count'],2)*100)."%":0;
             // $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
@@ -1858,6 +1858,7 @@ class user_manage_new extends Controller
                 $item['become_member_num'] = '';
                 $item['leave_member_num'] = '';
                 $item['suc_lesson_count_rate'] = '';
+                $item['seller_level-str'] = '';
             }
 
             if($item['level'] == 'l-3'){

@@ -94,11 +94,24 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $headimgurl = $data['headimgurl'];
         //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
+
+        $ext = pathinfo($headimgurl);
+
+        if ($ext['extension'] == 'jpg') {
+            $image_1 = imagecreatefromjpeg($this->bg_url);     //背景图
+        }else{
+            $image_1 = imagecreatefrompng($this->bg_url);     //背景图
+        }
+
+
         $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
-        $image_5 = imagecreatefromjpeg($datapath);
+        $image_5 = @imagecreatefromjpeg($datapath);
+        if(!$image_5) {
+            $image_5 = @imagecreatefrompng($datapath);
+        }
         $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
         $color = imagecolorallocate($image_6, 255, 255, 255);
 
@@ -224,4 +237,5 @@ class make_and_send_wx_img extends Job implements ShouldQueue
 
         return $data;
     }
+
 }
