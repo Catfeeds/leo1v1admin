@@ -199,19 +199,25 @@
 
                     <div class="col-xs-12 " style="text-align:center;" >
                         <button  class="id_submit  btn btn-warning" style=" font-size:20px; " >
-                            　　驳回咨询　　  </button>
+                            驳回咨询　　
+                        </button>
 
                         <button  class="id_submit_succ btn btn-success" style=" font-size:20px;" >
-                            　　已驳回　　  </button>
+                            已驳回　　
+                        </button>
 
                         <button  class="id_reject_to_ass btn btn-success" style=" font-size:20px;display:none;" >
                             驳回助教
                         </button>
 
-
                         <button  class="id_reject_to_master btn btn-success" style=" font-size:20px;display:none;" >
-                            驳回
+                            驳回[助教]
                         </button>
+
+                        <button  class="id_confirm btn btn-success" style=" font-size:20px;display:none;" >
+                            确认交接单
+                        </button>
+
 
                     </div>
                 </div>
