@@ -606,7 +606,7 @@ class user_deal extends Controller
         $userid    = $this->t_lesson_info->get_userid($lessonid);
 
 
-        
+
         /* 设置lesson_count */
         // $diff=($lesson_end-$lesson_start)/60;
         // if ($diff<=20) {
@@ -668,11 +668,11 @@ class user_deal extends Controller
         }else{
             $userid = $this->t_lesson_info->get_userid($lessonid);
             $is_test_user = $this->t_student_info->get_is_test_user($userid);
-            
+
             if(in_array($lesson_type,[0,1,3]) && $is_test_user==0){
                 $account_role = $this->get_account_role();
                 if($account_role !=1 && $account_role !=12){
-                   return $this->output_err("非助教不能改常规课时间!"); 
+                   return $this->output_err("非助教不能改常规课时间!");
                 }
             }
         }
@@ -722,8 +722,8 @@ class user_deal extends Controller
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
 
-           
-            
+
+
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
             $url              = "";
             $old_lesson_start = date('Y-m-d H:i:s',$lesson_info['lesson_start']);
@@ -874,7 +874,7 @@ class user_deal extends Controller
             "system"
         );
 
-        
+
         $contract_type = $order_item["contract_type"];
         $lesson_total  = $order_item["lesson_total"];
         $price         = $order_item["price"]/100;
@@ -3166,7 +3166,7 @@ class user_deal extends Controller
         }
     }
 
-    
+
     public function get_question_info_by_noteid(){
         $noteid=$this->get_in_int_val('noteid');
         $data = $this->t_question->get_question_tongji($noteid);
@@ -3188,17 +3188,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-               
+
         $list = $this->t_student_info->get_ass_create_stu_info();
         dd($list);
- 
 
-            
-              
+
+
+
     }
 
-       
-    
+
+
 
     public function get_admin_wx_info() {
         $account= $this->get_account();
@@ -5304,9 +5304,7 @@ class user_deal extends Controller
         $cc_id  = $this->get_account_id();
         $ispost = $this->get_in_int_val('ispost');
         $data = \App\Helper\Utils::json_decode_as_array($this->get_in_str_val("data"));
-
         $orderid  = $data['orderid'];
-
         $state_arr = $this->t_student_cc_to_cr->get_last_id_reject_flag_by_orderid($orderid);
 
         // 判断
@@ -5437,14 +5435,21 @@ class user_deal extends Controller
             "system"
         );
 
-
-
         $account=$this->get_account();
         $this->t_student_info->noti_ass_order($userid, $account );
         return $this->output_succ();
     }
 
 
+
+    /**
+     1）CR对于交接单，只能驳回给CR组长，不能驳回给CC，驳回前必须添加驳回原因
+     2）CR组长审核并追加意见后，可以驳回给CC，也可以退回给CR
+     3）CC修改提交后的交接单，原路返回，CR组长审核后，可以再次驳回给CC，或直接下发给CR
+     4）一旦学生创建了课程包，取消所有环节的交接单驳回功能
+     5）可能有必要增加CR对交接单的确认操作，一旦CR确认，驳回功能取消
+     6）如果5）成立，课程包创建的前提条件之一是CR必须确认交接单
+     **/
     public function do_reject_flag_for_init_info(){
         $acc_id         = $this->get_account_id();
         $acc_nick       = $this->get_account();
@@ -5454,31 +5459,45 @@ class user_deal extends Controller
         $orderid        = $this->get_in_int_val('orderid');
         $sid            = $this->get_in_int_val('sid',0);
 
-
         $cc_id      = $this->t_student_cc_to_cr->get_cc_id_by_id($id);
         $cc_openid  = $this->t_manager_info->get_wx_openid($cc_id);
         $now_date   = date('Y-m-d H:i:s');
-        \App\Helper\Utils::logger("openid1:$cc_id");
 
+        if($is_reject_flag>0){
+            if($is_reject_flag == 1){ // 驳回cc销售
+                // 驳回
+                $assistantid         = $this->t_student_info->get_assistantid_by_userid($sid);
+                $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
 
-        if($is_reject_flag){
-            // 驳回
-            $assistantid         = $this->t_student_info->get_assistantid_by_userid($sid);
-            $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
+                if($assistantid>0){
+                    return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
+                }
 
-            if($assistantid>0){
-                return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
+                $ret = $this->t_student_cc_to_cr->field_update_list($id,[
+                    'reject_flag' => $is_reject_flag,
+                    'reject_time' => time(NULL),
+                    'reject_info' => $reject_info,
+                    'ass_id'      => $acc_id
+                ]);
+                $send_openid = $cc_openid;
+                $send_name = "助教 $acc_nick";
+
+            }elseif($is_reject_flag==2){ // 助教组长驳回组员
+                $ret = $this->t_student_cc_to_cr->field_update_list($id,[
+                    'reject_flag' => $is_reject_flag,
+                    'reject_time' => time(NULL),
+                    'reject_info' => $reject_info,
+                    'ass_id'      => $acc_id
+                ]);
+            }elseif($is_reject_flag==3){ // 助教组员驳回组长
+                $ret = $this->t_student_cc_to_cr->field_update_list($id,[
+                    'reject_flag' => $is_reject_flag,
+                    'reject_time' => time(NULL),
+                    'reject_info' => $reject_info,
+                    'reject_ass'  => $acc_id
+                ]);
             }
 
-           $ret = $this->t_student_cc_to_cr->field_update_list($id,[
-                'reject_flag' => $is_reject_flag,
-                'reject_time' => time(NULL),
-                'reject_info' => $reject_info,
-                'ass_id'      => $acc_id
-            ]);
-
-
-            // 发送推送
 
             /**
                {{first.DATA}}
@@ -5489,19 +5508,17 @@ class user_deal extends Controller
              **/
 
             if($ret){
-
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
                     "first"     => "交接单被驳回",
                     "keyword1"  => "交接单驳回处理",
-                    "keyword2"  => "助教$acc_nick 驳回交接单, 交接单合同号$orderid,驳回原因:$reject_info",
+                    "keyword2"  => "$send_name 驳回交接单, 交接单合同号$orderid,驳回原因:$reject_info",
                     "keyword3"  => "$now_date",
                 ];
                 $url = 'http://admin.leo1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
                 $wx  = new \App\Helper\Wx();
-                $result = $wx->send_template_msg($cc_openid,$template_id,$data_msg,$url);
+                $result = $wx->send_template_msg($send_openid,$template_id,$data_msg,$url);
             }
-
         }else{
             // 确认
             $ret = $this->t_student_cc_to_cr->field_update_list($id,[
@@ -5509,7 +5526,6 @@ class user_deal extends Controller
                 'reject_time' => time(NULL),
                 'ass_id'      => $acc_id
             ]);
-
         }
 
         if($ret){

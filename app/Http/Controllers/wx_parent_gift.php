@@ -417,6 +417,8 @@ class wx_parent_gift extends Controller
         $reg_time = $this->t_user_info->get_reg_time($parentid);
         $check_time = strtotime('2017-11-7');
 
+        return $this->output_err("活动已结束,谢谢参加!");
+
         //检查是否可以抽奖
         $left_num = $this->get_draw_num($parentid);
         if($left_num <= 0){ return $this->output_err("您的抽奖次数已用完!"); }

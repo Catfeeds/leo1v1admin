@@ -952,8 +952,8 @@ $(function(){
         $order_require_flag.on("change", opt_spec);
         $order_promotion_type.val(2); //打折
         opt_spec();
-        var get_disable_activity_list= function() {
-            var arr=[];
+        var get_disable_activity_list = function() {
+            var arr = [];
             $order_desc_list.find(".table-row").each( function (i, item){
                 var $item=$(item);
                 var succ_flag= $item.data("succ_flag");
@@ -964,7 +964,6 @@ $(function(){
             });
             return arr.join(',');
         }
-
 
         var reload_present_info = function() {
             var order_promotion_type=  $order_promotion_type.val();
@@ -1007,7 +1006,6 @@ $(function(){
                                 $item.data("succ_flag" ,1 );
                             }else{
                                 $item.data("succ_flag" ,2 );
-
                             }
                             reload_present_info();
                         });
@@ -1044,7 +1042,7 @@ $(function(){
         $order_promotion_desc.set_input_readonly(true);
 
         BootstrapDialog.show({
-            title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type) +']' ,
+            title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type)+']' ,
             message  : html_node,
             closable : true,
             buttons: [{

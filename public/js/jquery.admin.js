@@ -1134,7 +1134,8 @@ jQuery.extend({
         var args_str="";
         var first_flag=true;
 
-        var pathname=window.location.pathname;
+        var pathname=window.location.toString().split("?" )[0] ;
+
         var open_self_window=true;
         if (url) {
             pathname=url;
