@@ -3196,6 +3196,14 @@ class user_deal extends Controller
         //$this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");
+
+        $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade($start_time,$end_time);
+        dd($lesson_consume);
+        $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($end_time,1);
+        $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
+        $grade_arr = json_decode($month_start_grade_str,true);
+        dd($grade_arr);
+
         $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
         $finish_num = $this->t_cr_week_month_info->get_finish_num($ret_id);
         $read_num = $this->t_cr_week_month_info->get_read_num($ret_id);
