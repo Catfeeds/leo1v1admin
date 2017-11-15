@@ -737,7 +737,7 @@ class wx_yxyx_api extends Controller
         }
         $headimgurl   = $agent_info['headimgurl'];
         $nickname     = $agent_info['nickname'];
-
+        
         $data = [
             'agent_level'         => $agent_level ,
             'usernick'            => $nick,
@@ -751,6 +751,17 @@ class wx_yxyx_api extends Controller
 
         $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
 
+        //获取用户邀请人试听情况
+        $child_test_lesson_info = $this->t_agent->get_child_test_lesson_info_by_parentid($agent_id);
+        $test_lesson_succ_flog = 0;
+        foreach($child_test_lesson_info as &$item){
+            if($item['lesson_user_online_status'] == 1){
+                $test_lesson_succ_flog = 1;
+                break;
+            }
+                
+        }
+        $data['test_lesson_succ_flog'] = $test_lesson_succ_flog;
 
         return $this->output_succ(["user_info_list" =>$data]);
 
