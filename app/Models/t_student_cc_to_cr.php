@@ -101,7 +101,8 @@ class t_student_cc_to_cr extends \App\Models\Zgen\z_t_student_cc_to_cr
         $where_arr = [
             "o.userid=$userid",
             "sc.confirm_flag=0",
-            ""
+            "o.contract_status in (1)",
+            "o.contract_type"
         ];
         $sql = $this->gen_sql_new("  select 1 from %s sc"
                                   ." left join %s o on o.orderid=sc.orderid"
