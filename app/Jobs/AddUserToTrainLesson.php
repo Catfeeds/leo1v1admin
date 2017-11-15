@@ -51,12 +51,12 @@ class AddUserToTrainLesson extends Job implements ShouldQueue
         $check_flag = $t_train_lesson_user->check_user_exists($lessonid,$userid);
         if(!$check_flag){
             $ret = $t_train_lesson_user->row_insert([
-                "lessonid" => $lessonid,
-                "userid"   => $userid,
-                "add_time" => time(),
-                "train_type"=>$type
+                "lessonid"   => $lessonid,
+                "userid"     => $userid,
+                "add_time"   => time(),
+                "train_type" => $type
             ]);
-            \App\Helper\Utils::logger("lessonid :".$lessonid." userid ".$userid);
+            \App\Helper\Utils::logger("add_user_to_train_lesson lessonid:".$lessonid." userid ".$userid);
 
             if($type==1){
                 $teacher_info = $t_teacher_info->get_teacher_info($userid);

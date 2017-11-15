@@ -288,6 +288,51 @@ class cr_info_week extends Command
 
         $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_real_renew_num/$month_warning_num,2);//  月续费率
         $arr['finish_renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_plan_renew_num/$month_warning_num,2);//  月续费率
+
+        /*新增数据*/
+        $cr_order_info = $task->t_order_info->get_all_cr_order_info($start_time,$end_time);
+        $arr["average_person_effect"] = !empty(@$cr_order_info["ass_num"])?round($cr_order_info["all_money"]/$cr_order_info["ass_num"]):0; //平均人效(非入职完整月)
+
+        $all_pay = $task->t_student_info->get_student_list_for_finance_count();//所有有效合同数
+        $refund_info = $task->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
+        $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
+
+        // 获取停课,休学,假期数
+        $ret_info_stu = $task->t_student_info->get_student_count_archive();
+
+        foreach($ret_info_stu as $item) {
+            if ($item['type'] == 2) {
+                @$arr['stop_student']++;
+            } else if ($item['type'] == 3) {
+                @$arr['drop_student']++;
+            } else if ($item['type'] == 4) {
+                @$arr['summer_winter_stop_student']++;
+            }
+        }
+
+        //新签合同未排量(已分配/未分配)/新签学生数
+        $user_order_list = $task->t_order_info->get_order_user_list_by_month($end_time);
+        $new_user = [];//上月新签
+
+        foreach ( $user_order_list as $item ) {
+            if ($item['order_time'] >= $start_time ){
+                $new_user[] = $item['userid'];
+                if (!$item['start_time'] && $item['assistantid'] > 0) {//新签订单,未排课,已分配助教
+                    @$arr['has_ass_num']++;
+                } else if (!$item['start_time'] && !$item['assistantid']) {//新签订单,未排课,未分配助教
+                    @$arr['no_ass_num']++;
+                }
+            }
+
+        }
+
+        $new_user = array_unique($new_user);
+        $arr['new_pay_stu_num'] = count($new_user);
+
+
+        
+
+        
         $insert_data = [
           "create_time"             => $create_time,            //存档时间
           "create_time_range"       => $create_time_range,      //存档时间范围

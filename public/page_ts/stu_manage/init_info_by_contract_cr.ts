@@ -36,52 +36,54 @@ $(function(){
 
     if(init_data){
         $.each(init_data,function(i,item){
-            if ( !$.isNumeric(i) ) {
-                $("#id_"+i ).val($.trim(item));
-            }
-            if ( i=='reject_flag' && item=='1' ) { //助教组长 驳回cc
-                $('.id_submit').hide();//驳回咨询
-
-                if(i=='is_master'&& item!='1'){
+            if(i=='confirm_flag' && item=='1' ){ // 一旦助教确认交接单成功 则取消所有驳回功能
+                $('.submit_all').remove();
+            }else{
+                if(!$.isNumeric(i)) {
+                    $("#id_"+i ).val($.trim(item));
+                }
+                if( i=='reject_flag' && item=='1' ) { //助教组长 驳回cc
+                    $('.id_submit').hide();//驳回咨询
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_submit_succ').hide();
+                        $('.id_reject_to_master').hide();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_submit_succ').show();
+                        $('.id_reject_to_ass').hide(); // 组员 驳回按钮
+                    }
+                }else if(i=='reject_flag' && item=='0') { // 无驳回操作
                     $('.id_submit_succ').hide();
                     $('.id_reject_to_master').hide();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_submit_succ').show();
-                    $('.id_reject_to_ass').hide(); // 组员 驳回按钮
-                }
-            }else if(i=='reject_flag' && item=='0') { // 无驳回操作
-                $('.id_submit_succ').hide();
-                $('.id_reject_to_master').hide();
-                $('.id_reject_to_ass').hide();
-                $('.id_submit').hide();//驳回咨询
+                    $('.id_reject_to_ass').hide();
+                    $('.id_submit').hide();//驳回咨询
 
-                if(i=='is_master'&& item!='1'){
-                    $('.id_reject_to_master').show();
-                    // $('.id_confirm').show();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_reject_to_ass').show();
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_reject_to_master').show();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_reject_to_ass').show();
+                        $('.id_submit').show();//驳回咨询
+                    }
+
+                }else if(i=='reject_flag' && item=='2'){ // 助教组长 驳回助教
+                    $('.id_submit').hide();
+                    $('.id_reject_to_ass').hide();
+
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_submit_succ').hide();
+                        $('.id_reject_to_master').show();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_submit_succ').show();
+                    }
+                }else if(i=='reject_flag' && item=='3'){ // 助教 驳回 助教组长
+                    $('.id_reject_to_ass').show();// 驳回助教
                     $('.id_submit').show();//驳回咨询
-                }
+                    $('.id_reject_to_master').hide();
 
-            }else if(i=='reject_flag' && item=='2'){ // 助教组长 驳回助教
-                $('.id_submit').hide();
-                $('.id_reject_to_ass').hide();
-
-                if(i=='is_master'&& item!='1'){
-                    $('.id_submit_succ').hide();
-                    $('.id_reject_to_master').show();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_submit_succ').show();
-                }
-            }else if(i=='reject_flag' && item=='3'){ // 助教 驳回 助教组长
-                $('.id_reject_to_ass').show();// 驳回助教
-                $('.id_submit').show();//驳回咨询
-                $('.id_reject_to_master').hide();
-
-                if(i=='is_master'&& item!='1'){
-                    $('.id_submit_succ').show();
-                }else if(i=='is_master'&& item=='1'){
-                    $('.id_submit_succ').hide();
+                    if(i=='is_master'&& item!='1'){
+                        $('.id_submit_succ').show();
+                    }else if(i=='is_master'&& item=='1'){
+                        $('.id_submit_succ').hide();
+                    }
                 }
             }
 
@@ -148,7 +150,6 @@ $(function(){
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
         });
-
     });
 
 
@@ -208,39 +209,28 @@ $(function(){
         },function(){
             id_reject_info_write.parent().parent().css('display','none');
         });
-
     });
-
-
-
 
     $(".id_confirm").on("click",function(){ // 组长驳回助教组员
         var url_arr = GetRequest();
         var orderid = url_arr['orderid'];
         var id      = $('#id_id').val();
-        var id_reject_info       = $("<select/>");
-        var id_reject_info_write = $("<textarea/>");
 
-        // var confirm = confirm('确认交接单成功');
-
-        if ( confirm('确认交接单成功')){
-            alert("You pressed OK!");
+        if (confirm('确认交接单成功吗?')){
+            $.do_ajax("/user_deal/confirm_order",{
+                'confirm_flag' : 1, // 助教确认
+                'orderid'      : orderid,
+                'id'           : id,
+                'sid'          : g_args.sid
+            },function(result){
+                $('.id_reject_to_ass').remove();// 驳回助教
+                $('.id_submit').remove();//驳回咨询
+                $('.id_reject_to_master').remove();
+                $('.id_submit_succ').remove();
+                $('.id_confirm').remove();
+            });
         }
-
-        // $.do_ajax("/user_deal/do_reject_flag_for_init_info",{
-        //     'is_reject_flag'  : 2, // 驳回助教
-        //     'orderid'         : orderid,
-        //     'id'              : id,
-        //     'sid'             : g_args.sid
-        // },function(result){
-        // });
-
     });
-
-
-
-
-
 
 
     var GetRequest = function() {

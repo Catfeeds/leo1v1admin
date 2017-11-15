@@ -1314,19 +1314,20 @@ class stu_manage extends Controller
                 ]
             );
         }
-
         $adminid = $this->get_account_id();
         $is_ass  = 1; // 助教类型
-        $is_master     = $this->t_admin_group_name->check_is_master($is_ass,$adminid);
-        $assistantid   = $this->t_student_info->get_assistantid_by_userid($sid);
+        $is_master    = $this->t_admin_group_name->check_is_master($is_ass,$adminid);
+        $assistantid  = $this->t_student_info->get_assistantid_by_userid($sid);
 
+        // 待删除
         if($assistantid>0 ){
             $is_master = 0;
         }
+        // 待删除
+
 
         $this->set_in_value('is_show_submit',1);
-
-        $row     = $this->t_student_cc_to_cr->get_stu_info_by_orderid($orderid);
+        $row  = $this->t_student_cc_to_cr->get_stu_info_by_orderid($orderid);
         $is_show_submit = $this->get_in_int_val('is_show_submit',0);
 
         if ($row) {
