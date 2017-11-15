@@ -1614,7 +1614,7 @@ class user_deal extends Controller
             return $this->output_err("该老师不是正式老师!");
         }
 
-        // $confirm_flag = $this->t_student_cc_to_cr->get_
+        // $confirm_flag = $this->t_student_cc_to_cr->get_confirm_flag($userid);
 
 
         $this->t_course_order->row_insert([
