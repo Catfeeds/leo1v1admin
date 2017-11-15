@@ -53,6 +53,7 @@
                          <td>日均邀约</td> -->
                     <td>试听申请数</td>
                     <td>教务排课数</td>
+                    <td>学生上课数</td>
                     <td>试听成功数</td>
                     <td>第一周试听成功数</td>
                     <td>第二周试听成功数</td>
@@ -95,7 +96,8 @@
                              <td >{{@$var["require_test_count_for_day"]}}</td> -->
                         <td >{{@$var["require_test_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
-                        <td >{{@$var["suc_all_count_for_month"]}}</td>
+                        <td >{{@$var["test_lesson_count"]}}</td>
+                        <td >{{@$var["succ_all_count_for_month"]}}</td>
                         <td >{{@$var["suc_lesson_count_one"]}}</td>
                         <td >{{@$var["suc_lesson_count_two"]}}</td>
                         <td >{{@$var["suc_lesson_count_three"]}}</td>
