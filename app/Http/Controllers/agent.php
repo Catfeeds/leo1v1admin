@@ -550,60 +550,18 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $res = [];
+        dd(date('Y-m-01', strtotime('-1 month')));
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-        $ret = $this->t_month_def_type->get_month_week_time($start_time);
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time);
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $lesson_start = $item['lesson_start'];
-            foreach($ret as $info){
-                $start = $info['start_time'];
-                $end = $info['end_time'];
-                $week_order = $info['week_order'];
-                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
-                    $res[$adminid][$week_order][] = $item;
-                }
+        $time = time(null);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
             }
         }
-        foreach($res as $key=>$item){
-            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
-            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
-            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
-            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
-        }
-        dd($res);
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
-            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            if($item['test_lesson_count'] != 0){
-                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
-            }
-        }
-        dd($ret);
-        $ret = $this->t_id_opt_log->get_yxyx_last_adminid();
-        dd($ret);
 
-        $origin = $this->t_student_info->field_get_value($userid,'优学优享');
-        if($origin == '优学优享'){
-            $last_adminid = $this->t_id_opt_log->get_yxyx_last_adminid();
-            if($last_adminid == 412){
-                $opt_adminid=384;
-            }else{
-                $opt_adminid=412;
-            }
-            $opt_account = $this->t_manager_info->get_account($opt_adminid);
-            $account = $this->get_account();
-            $this->t_seller_student_new->set_admin_info_new(
-                $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
-        }
         //回流
 
         // dd($ret);

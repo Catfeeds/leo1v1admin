@@ -1662,7 +1662,6 @@ class user_manage_new extends Controller
         if($end_time >= time()){
             $end_time = time();
         }
-
         $start_first = date('Y-m-01',$start_time);
         $res = [];
         $this->t_seller_month_money_target->switch_tongji_database();
@@ -1788,6 +1787,12 @@ class user_manage_new extends Controller
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
             $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
             $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+            $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
+            $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
+            $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
+            $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate'].'%';
         }
 
         $this->t_order_info->switch_tongji_database();
