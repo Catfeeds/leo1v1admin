@@ -2173,16 +2173,18 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_no_order_list($level,$adminid,$start_time,$end_time){
         $where_arr = [
+            'g.main_type=2',
+        ];
+        $order_arr = [
             ['o.order_time>=%u', $start_time, -1],
             ['o.order_time<%u', $end_time, -1],
-            'g.main_type=2',
         ];
         if ($level == 1){//组长
             $where_arr[] = "g.master_adminid=$adminid";
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s o on o.sys_operator=m.name and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." where %s"
@@ -2190,6 +2192,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                 ." having no_order=0"
                 ,self::DB_TABLE_NAME
                 ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
                 ,t_admin_group_user::DB_TABLE_NAME
                 ,t_admin_group_name::DB_TABLE_NAME
                 ,$where_arr
@@ -2200,7 +2203,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s o on o.sys_operator=m.name and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." left join %s mg on mg.groupid=g.up_groupid"
@@ -2209,6 +2212,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                 ." having no_order=0"
                 ,self::DB_TABLE_NAME
                 ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
                 ,t_admin_group_user::DB_TABLE_NAME
                 ,t_admin_group_name::DB_TABLE_NAME
                 ,t_admin_main_group_name::DB_TABLE_NAME
@@ -2221,7 +2225,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s o on o.sys_operator=m.name and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." left join %s mg on mg.groupid=g.up_groupid"
@@ -2231,6 +2235,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                 ." having no_order=0"
                 ,self::DB_TABLE_NAME
                 ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
                 ,t_admin_group_user::DB_TABLE_NAME
                 ,t_admin_group_name::DB_TABLE_NAME
                 ,t_admin_main_group_name::DB_TABLE_NAME
@@ -2243,7 +2248,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name "
+                ." left join %s o on o.sys_operator=m.name and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." where %s"
@@ -2251,6 +2256,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                 ." having no_order=0"
                 ,self::DB_TABLE_NAME
                 ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
                 ,t_admin_group_user::DB_TABLE_NAME
                 ,t_admin_group_name::DB_TABLE_NAME
                 ,$where_arr
