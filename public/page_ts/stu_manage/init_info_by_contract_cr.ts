@@ -160,7 +160,8 @@ $(function(){
                 // "file_url" :res.key ,
                 "id" :id,
             }, function(ret){
-                alert(1);
+                console.log(ret);
+                // alert(1);
                 // $upload_link.attr("href", resp.url);
                 // $upload_link.html("查看");
             })
