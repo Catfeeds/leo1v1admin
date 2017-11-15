@@ -3193,9 +3193,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $time = strtotime("2017-10-01");
+        $time = strtotime("2017-11-01");
 
         $ret = $this->t_student_info->get_now_read_stu($time);
+        dd($ret);
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
 
