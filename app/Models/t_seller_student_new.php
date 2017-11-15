@@ -1576,33 +1576,46 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_lesson_status_count($adminid) {
         $start_time=strtotime(date("Y-m-d", time(NULL)-60*86400) );
         //E\Etmk_student_status
-        $where_arr = [
-            'n.userid=t.userid',
-            's.userid=n.userid',
-            ['admin_assign_time>%u',$start_time],
-            ['admin_revisiterid=%u',$adminid],
-        ];
-        if(in_array($adminid,[384,412])){//张龙,张植源
-            $where_arr[] = "s.origin='优学优享'";
+        if(in_array($adminid,[384,412])){//张龙,张志源
+            $sql = $this->gen_sql_new(
+                "select  "
+                ."sum(seller_student_status=200) lesson_status_200_count , "
+                ."sum(seller_student_status=210) lesson_status_210_count , "
+                ."sum(seller_student_status=220) lesson_status_220_count , "
+                ."sum(seller_student_status=290) lesson_status_290_count , "
+                // ."sum(seller_student_status=0 &&  seller_resource_type=0 ) new_not_call_count,  "
+                ."sum(global_tq_called_flag=0 and s.origin='优学优享' ) new_not_call_count,  "
+                ."sum(tmk_student_status=3  &&  seller_student_status=0  ) tmk_new_no_call_count,  "
+                ."sum( seller_student_status=0 && t.require_adminid = %u) not_call_count  "
+                ." from %s n,%s s, %s t "
+                ." where n.userid=s.userid and n.userid=t.userid and   admin_assign_time > %u and admin_revisiterid=%u  ",
+                $adminid,
+                self::DB_TABLE_NAME,
+                t_student_info::DB_TABLE_NAME,
+                t_test_lesson_subject::DB_TABLE_NAME,
+                $start_time , $adminid
+            );
+        }else{
+            $sql = $this->gen_sql_new(
+                "select  "
+                ."sum(seller_student_status=200) lesson_status_200_count , "
+                ."sum(seller_student_status=210) lesson_status_210_count , "
+                ."sum(seller_student_status=220) lesson_status_220_count , "
+                ."sum(seller_student_status=290) lesson_status_290_count , "
+                // ."sum(seller_student_status=0 &&  seller_resource_type=0 ) new_not_call_count,  "
+                ."sum(global_tq_called_flag=0 ) new_not_call_count,  "
+                ."sum(tmk_student_status=3  &&  seller_student_status=0  ) tmk_new_no_call_count,  "
+                ."sum( seller_student_status=0 && t.require_adminid = %u) not_call_count  "
+                ." from %s n, %s t "
+                ." where  n.userid=t.userid and   admin_assign_time > %u and admin_revisiterid=%u  ",
+                $adminid,
+                self::DB_TABLE_NAME,
+                t_test_lesson_subject::DB_TABLE_NAME,
+                $start_time , $adminid
+            );
         }
-        $sql = $this->gen_sql_new(
-            "select  "
-            ."sum(seller_student_status=200) lesson_status_200_count , "
-            ."sum(seller_student_status=210) lesson_status_210_count , "
-            ."sum(seller_student_status=220) lesson_status_220_count , "
-            ."sum(seller_student_status=290) lesson_status_290_count , "
-            // ."sum(seller_student_status=0 &&  seller_resource_type=0 ) new_not_call_count,  "
-            ."sum(global_tq_called_flag=0 ) new_not_call_count,  "
-            ."sum(tmk_student_status=3  &&  seller_student_status=0  ) tmk_new_no_call_count,  "
-            ."sum( seller_student_status=0 && t.require_adminid = %u) not_call_count  "
-            ." from %s n, %s t,%s s "
-            ." where %s ",
-            $adminid,
-            self::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
-            $where_arr
-        );
+
+
 
         return $this->main_get_row($sql);
     }
