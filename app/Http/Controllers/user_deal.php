@@ -3202,12 +3202,13 @@ class user_deal extends Controller
 
 
         $ret = $this->t_student_info->get_read_num_by_grade();
-        $arr=[];
+        $arrr=[];
         foreach($ret as $k=>$val){
-            $arr[$k]=$val["num"];
+            $arrr[$k]=$val["num"];
         }
-        $str = json_encode($arr);
+        $str = json_encode($arrr);
         /*新增数据*/
+        $arr=[];
         $cr_order_info = $this->t_order_info->get_all_cr_order_info($start_time,$end_time);
         $arr["average_person_effect"] = !empty(@$cr_order_info["ass_num"])?round($cr_order_info["all_money"]/$cr_order_info["ass_num"]):0; //平均人效(非入职完整月)
 
@@ -3248,8 +3249,8 @@ class user_deal extends Controller
         $arr['new_student_num'] = count($new_user);//新签学生数
 
         //结课率
-        $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
-        $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
+        $arr["all_registered_student"] = $finish_num+$read_num+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
+        $arr["student_end_per"] = round($finish_num/$arr["all_registered_student"]*100,2)*100;
 
         //课时消耗目标数量
         $last_year_start = strtotime("-1 years",$start_time); 
@@ -3267,6 +3268,7 @@ class user_deal extends Controller
             "new_order_unassign_num"  => $arr["new_order_unassign_num"], //新签合同未排量(未分配)
             "student_end_per"         => $arr["student_end_per"],   //结课率
             "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
+            "grade_stu_list"          => $str
 
         ];
 
