@@ -5723,6 +5723,7 @@ class user_deal extends Controller
         $id = $this->get_in_int_val('id');
         $reject_info = $this->t_student_cc_to_cr->get_reject_info($id);
 
+        return $this->output_succ(['data'=>$reject_info]);
 
     }
 }
