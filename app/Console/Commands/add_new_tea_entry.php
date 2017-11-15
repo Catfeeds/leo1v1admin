@@ -41,10 +41,8 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        $task->t_teacher_info->field_update_list(59896,[
-            'bank_account' => '王湾湾',
-            'bankcard' => '6217001210056369711',
-            'idcard' => '340322199104087467'
+        $task->t_teacher_info->field_update_list(380891,[
+            'bank_type' => '平安银行',
         ]);exit;
 
         // 加载老师绑定数据

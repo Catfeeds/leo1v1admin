@@ -35,10 +35,16 @@ class wx_yxyx_common extends Controller
 
         //$web_html_url = "http://wx-yxyx-web.leo1v1.com";
         $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["url"] ) ;
-
+        //测试环境
+        if(\App\Helper\Utils::check_env_is_test()){
+            $web_html_url= $wx_config["test_url"];
+        }
 
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
+            //测试环境
+            if(\App\Helper\Utils::check_env_is_test())
+                $url = "$web_html_url/login.html";
         }else{
             \App\Helper\Utils::logger('yxyx_www_openid:'.$openid);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
@@ -51,14 +57,19 @@ class wx_yxyx_common extends Controller
                 ]);
 
                 $url = "/wx_yxyx_web/$action";
-                if(\App\Helper\Utils::check_env_is_test()){
-                    $url = "http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second/index.html";
-                }
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test())
+                    $url = "$web_html_url/index.html";
+
             }else{
                 $url = "$web_html_url/index.html#bind?".$action;
+                //测试环境
+                if(\App\Helper\Utils::check_env_is_test())
+                    $url = "$web_html_url/login.html";
             }
         }
         \App\Helper\Utils::logger("JUMP URL:$url");
+        \App\Helper\Utils::logger("three_url $url "); 
         header("Location: $url");
         return "succ";
     }

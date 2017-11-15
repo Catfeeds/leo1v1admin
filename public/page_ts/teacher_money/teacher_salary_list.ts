@@ -10,6 +10,7 @@ function load_data(){
 		    start_time       : $('#id_start_time').val(),
 		    end_time         : $('#id_end_time').val(),
 		    reference        : $('#id_reference').val(),
+        teacherid        : $('#id_teacherid').val(),
     });
 }
 
@@ -25,8 +26,14 @@ $(function(){
         }
     });
 
+    $('#id_reference').on('click', function(){
+        alert('welcome');
+    });
+
     $("#id_reference").val(g_args.reference);
     $.admin_select_user($("#id_reference"),"teacher",load_data);
+    //$('#id_teacherid').val(g_args.teacherid);
+    //$.admin_select_user($('#id_teacherid'),'teacher',load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
 

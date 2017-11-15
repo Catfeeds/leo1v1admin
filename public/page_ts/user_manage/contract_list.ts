@@ -899,8 +899,6 @@ $(function(){
     };
 
     var show_add_contract_new=function( require_id ,contract_type , data ,contract_from_type){
-        //id_order_origin
-
         var html_node=$.dlg_need_html_by_id( "id_dlg_add_contract_new");
         //原价
         var $discount_price       = html_node.find(".field-discount_price");
@@ -954,8 +952,8 @@ $(function(){
         $order_require_flag.on("change", opt_spec);
         $order_promotion_type.val(2); //打折
         opt_spec();
-        var get_disable_activity_list= function() {
-            var arr=[];
+        var get_disable_activity_list = function() {
+            var arr = [];
             $order_desc_list.find(".table-row").each( function (i, item){
                 var $item=$(item);
                 var succ_flag= $item.data("succ_flag");
@@ -966,7 +964,6 @@ $(function(){
             });
             return arr.join(',');
         }
-
 
         var reload_present_info = function() {
             var order_promotion_type=  $order_promotion_type.val();
@@ -1009,7 +1006,6 @@ $(function(){
                                 $item.data("succ_flag" ,1 );
                             }else{
                                 $item.data("succ_flag" ,2 );
-
                             }
                             reload_present_info();
                         });
@@ -1044,8 +1040,9 @@ $(function(){
         }
         $discount_price.set_input_readonly(true);
         $order_promotion_desc.set_input_readonly(true);
+
         BootstrapDialog.show({
-            title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type) +']' ,
+            title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type)+']' ,
             message  : html_node,
             closable : true,
             buttons: [{
@@ -1250,11 +1247,10 @@ $(function(){
             }
 
             $("<div></div>").admin_select_dlg_ajax({
-                "opt_type" :  "select", // or "list"
-                "url"          : "/ss_deal/get_require_list_js",
+                "opt_type" : "select", // or "list"
+                "url"      : "/ss_deal/get_require_list_js",
                 select_primary_field : "require_id",
                 select_display       : "require_id",
-
                 //其他参数
                 "args_ex" : {
                     userid:id
@@ -1267,7 +1263,6 @@ $(function(){
                             return item.origin;
                         }
                     },{
-
                         title:"科目",
                         render:function(val,item) {
                             return item.subject_str;
@@ -2126,8 +2121,6 @@ $(function(){
         btn_add_6.on("click", function(){
             add_free( 6 );
         });
-
-
 
         var arr=[
             [ "", btn_add_new_1 ],

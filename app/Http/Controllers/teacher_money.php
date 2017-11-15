@@ -722,7 +722,8 @@ class teacher_money extends Controller
         }else{
             $reference_phone = "";
         }
-
+        $teacherid = $this->get_in_int_val('teacherid',-1);
+        
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
         $all_money = 0;
         foreach($ret_info['list'] as &$t_val){

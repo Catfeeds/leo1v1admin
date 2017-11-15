@@ -13,6 +13,7 @@ interface GargsStatic {
 	userid:	number;
 	revisit_flag:	number;
 	warning_stu:	number;
+	revisit_warn_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -87,7 +88,8 @@ function load_data(){
 		assistantid:	$('#id_assistantid').val(),
 		userid:	$('#id_userid').val(),
 		revisit_flag:	$('#id_revisit_flag').val(),
-		warning_stu:	$('#id_warning_stu').val()
+		warning_stu:	$('#id_warning_stu').val(),
+		revisit_warn_flag:	$('#id_revisit_warn_flag').val()
     });
 }
 $(function(){
@@ -106,6 +108,7 @@ $(function(){
 	$('#id_userid').val(g_args.userid);
 	$('#id_revisit_flag').val(g_args.revisit_flag);
 	$('#id_warning_stu').val(g_args.warning_stu);
+	$('#id_revisit_warn_flag').val(g_args.revisit_warn_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -197,6 +200,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">warning_stu</span>
                 <input class="opt-change form-control" id="id_warning_stu" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">revisit_warn_flag</span>
+                <input class="opt-change form-control" id="id_revisit_warn_flag" />
             </div>
         </div>
 */

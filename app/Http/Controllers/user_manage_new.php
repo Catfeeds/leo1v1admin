@@ -1170,8 +1170,11 @@ class user_manage_new extends Controller
         ];
         $sub_list=$this->get_menu_power_list ($power_map,$sub_menu,$start*2 );
 
-        return array_merge($list,$sub_list);
+        $class_list=$this->get_menu_power_list($power_map,\App\ClassMenu\menu::get_config()  ,$start*3 );
+
+        return array_merge($list, $class_list ,$sub_list);
     }
+
 
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;
@@ -1662,7 +1665,6 @@ class user_manage_new extends Controller
         if($end_time >= time()){
             $end_time = time();
         }
-
         $start_first = date('Y-m-01',$start_time);
         $res = [];
         $this->t_seller_month_money_target->switch_tongji_database();
@@ -1761,6 +1763,40 @@ class user_manage_new extends Controller
                 $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
             }
         }
+        //试听成功数
+        list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
+        $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
+        $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new);
+        foreach($test_leeson_list_new['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $lesson_start = $item['lesson_start'];
+            foreach($ret_new as $info){
+                $start = $info['start_time'];
+                $end = $info['end_time'];
+                $week_order = $info['week_order'];
+                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
+                    $res[$adminid][$week_order][] = $item;
+                }
+            }
+        }
+        foreach($res as $key=>$item){
+            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
+            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
+            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
+            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+            $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
+            $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
+            $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
+            $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate'].'%';
+        }
 
         $this->t_order_info->switch_tongji_database();
 
@@ -1821,6 +1857,7 @@ class user_manage_new extends Controller
                 $item["del_flag_str"] = '';
                 $item['become_member_num'] = '';
                 $item['leave_member_num'] = '';
+                $item['suc_lesson_count_rate'] = '';
             }
 
             if($item['level'] == 'l-3'){

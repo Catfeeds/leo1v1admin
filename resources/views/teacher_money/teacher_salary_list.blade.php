@@ -17,6 +17,12 @@
                         <input class="opt-change" id="id_reference"/>
                     </div>
                 </div>
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span>老师</span>
+                     <input class="opt-change" id="id_teacherid"/>
+                     </div>
+                     </div> -->
                 <div class="col-xs-6 col-md-10">
                     <div class="input-group">
                         <span class="input-group">课程收入</span>

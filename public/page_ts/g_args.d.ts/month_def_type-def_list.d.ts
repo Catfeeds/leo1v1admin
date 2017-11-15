@@ -11,6 +11,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	month_def_type	:any;
+	def_time	:any;
+	start_time	:any;
+	end_time	:any;
+	week_order	:any;
+	month_def_type_str	:any;
 }
 
 /*

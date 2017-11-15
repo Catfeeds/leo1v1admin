@@ -1700,9 +1700,6 @@ class tongji_ss extends Controller
                 $t_item["test_lesson_fail_percent"]=@$t_item["test_lesson_count"]? intval($t_item["test_lesson_fail_count"]*100/$t_item["test_lesson_count"]):0 ;
             }
         }
-
-
-
         return $this->pageView(__METHOD__,null, [
             "total_info_list"  => $total_info_list,
             "g_date_ex_list"=> [

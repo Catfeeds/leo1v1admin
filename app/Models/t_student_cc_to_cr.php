@@ -75,4 +75,9 @@ class t_student_cc_to_cr extends \App\Models\Zgen\z_t_student_cc_to_cr
         return $this->main_get_list($sql);
     }
 
+    public function get_ass_openid($id){
+        $sql = $this->gen_sql_new("  select wx_openid from %s sc "
+                                  ." left join %s s"
+        );
+    }
 }

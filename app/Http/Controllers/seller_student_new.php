@@ -1587,7 +1587,7 @@ class seller_student_new extends Controller
     public function set_call_end_time(){
         $ret = 1;
         $adminid = $this->get_account_id();
-        if(in_array($adminid,[898,831])){
+        if(in_array($adminid,[898,831,778,843])){
             $lessonid = $this->get_in_int_val('lessonid');
             $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
                 "call_end_time"    => time(null),

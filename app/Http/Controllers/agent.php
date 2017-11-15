@@ -550,24 +550,18 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $assign_time =$this->get_in_unixtime_from_str("assign_time");
-        // dd($assign_time);
-        $ret = $this->t_id_opt_log->get_yxyx_last_adminid();
-        dd($ret);
-
-        $origin = $this->t_student_info->field_get_value($userid,'优学优享');
-        if($origin == '优学优享'){
-            $last_adminid = $this->t_id_opt_log->get_yxyx_last_adminid();
-            if($last_adminid == 412){
-                $opt_adminid=384;
-            }else{
-                $opt_adminid=412;
+        dd(date('Y-m-01', strtotime('-1 month')));
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $time = time(null);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
             }
-            $opt_account = $this->t_manager_info->get_account($opt_adminid);
-            $account = $this->get_account();
-            $this->t_seller_student_new->set_admin_info_new(
-                $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
         }
+
         //回流
 
         // dd($ret);

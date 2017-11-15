@@ -11,7 +11,7 @@ namespace Teacher_test;
  * WebSite: http://www.lanecn.com
  */
 class Autoloadertec_test{
-    const NAMESPACE_PREFIX_TEC = 'Teacher_test\\';
+    const NAMESPACE_PREFIX_TEC_TEST = 'Teacher_test\\';
     /**
      * 向PHP注册在自动载入函数
      */
@@ -23,8 +23,8 @@ class Autoloadertec_test{
      * 根据类名载入所在文件
      */
     public static function autoload($className){
-        $namespacePrefixStrlen = strlen(self::NAMESPACE_PREFIX_TEC);
-        if(strncmp(self::NAMESPACE_PREFIX_TEC, $className, $namespacePrefixStrlen) === 0){
+        $namespacePrefixStrlen = strlen(self::NAMESPACE_PREFIX_TEC_TEST);
+        if(strncmp(self::NAMESPACE_PREFIX_TEC_TEST, $className, $namespacePrefixStrlen) === 0){
             $className = strtolower($className);
             $filePath = str_replace('\\', DIRECTORY_SEPARATOR, substr($className, $namespacePrefixStrlen));
             $filePath = realpath(__DIR__ . (empty($filePath) ? '' : DIRECTORY_SEPARATOR) . $filePath . '.php');

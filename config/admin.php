@@ -1,6 +1,13 @@
 <?php
 return [
+
     "admin_url" => "https://admin.leo1v1.com/",
+
+    "admin_domain_url_config"=>[
+        \App\Enums\Eadmin_domain_type::V_ADMIN_1V1 => env( "ADMIN_1V1_URL", "http://admin.leo1v1.com/"),
+        \App\Enums\Eadmin_domain_type::V_ADMIN_CLASS => env( "ADMIN_CLASS_URL", "http://class.admin.leo1v1.com/"),
+    ],
+
     'qiniu' => [
         "public" => [
             "url"    => env('QINIU_PUBLIC_URL','http://7u2f5q.com2.z0.glb.qiniucdn.com'),
@@ -59,7 +66,7 @@ return [
         "appid"     => env('YXYX_WX_APPID', "wxb4f28794ec117af0") ,
         "appsecret" => env('YXYX_WX_APPSECRET', "4a4bc7c543698b8ac499e5c72c22f242" )  ,
         "url"       => env('YXYX_WX_URL',  "http://wx-yxyx.leo1v1.com" ) ,
-        "test_url"       => env('YXYX_TEST_WX_URL',  "http://wx-yxyx.leo1v1.com/wx-yxyx-new-second" ) ,
+        "test_url"       => env('YXYX_TEST_WX_URL',  "http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second" ) ,
     ],
     "teacher_wx_url" => [
         "normal_url"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_normal.html?lessonid=",
