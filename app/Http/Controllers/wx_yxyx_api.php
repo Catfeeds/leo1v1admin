@@ -767,7 +767,7 @@ class wx_yxyx_api extends Controller
 
         $list = [
             "all_money" => $agent_info["all_yxyx_money"]/100,
-            "open_moeny" => $agent_info["all_open_cush_money"]/100,
+            "open_moeny" => ($agent_info["all_open_cush_money"]-$agent_info['all_have_cush_money'])/100,
             "all_have_cush_money" => $agent_info["all_have_cush_money"]/100,
         ];
 
@@ -788,8 +788,6 @@ class wx_yxyx_api extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                 $item['agent_status'] = "0";
-            if($item['agent_status'] >30)
-                $item['agent_status'] = "30";
             $item['agent_status_money'] /=100;
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -941,7 +939,6 @@ class wx_yxyx_api extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
-        $cash          = $this->t_agent->get_can_carry($agent_id);
         $id            = $agent_id;
         if (!($cash>0)) {
             return $this->output_err("无可提现金额!");
@@ -951,9 +948,8 @@ class wx_yxyx_api extends Controller
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
         $have_cash = $this->t_agent_cash->get_have_cash($agent_id,[0,1]);
-        $cash_new = $cash + $have_cash;
-        if($cash_new > $total_cash){
-            return $this->output_err("超出可提现金额!");
+        if($total_cash - $have_cash < 2500){
+            return $this->output_err("可提现金额最低为25元!");
         }
 
         if($bankcard){
@@ -990,7 +986,7 @@ class wx_yxyx_api extends Controller
         }
         $ret_new = $this->t_agent_cash->row_insert([
             "aid"         => $id,
-            "cash"        => $cash,
+            "cash"        => $total_cash - $have_cash,
             "is_suc_flag" => 0,
             "type"        => 1,
             "create_time" => time(null),
@@ -1095,6 +1091,8 @@ class wx_yxyx_api extends Controller
         //获取一级用户为学员的列表
         $student_list = $this->t_agent->get_invite_type_list($agent_id,$type=1,$page_info,$page_count);
         foreach($student_list['list'] as &$item){
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                $item['agent_status'] = "0";
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -1102,6 +1100,8 @@ class wx_yxyx_api extends Controller
         //获取一级用户为会员的列表
         $member_list = $this->t_agent->get_invite_type_list($agent_id,$type=2,$page_info,$page_count);
         foreach($member_list['list'] as &$item){
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                $item['agent_status'] = "0";
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -1119,6 +1119,8 @@ class wx_yxyx_api extends Controller
         //获取一级用户为学员&会员的列表
         $student_and_member_list = $this->t_agent->get_invite_type_list($agent_id,$type=3,$page_info,$page_count);
         foreach($student_and_member_list['list'] as &$item){
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                $item['agent_status'] = "0";
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
