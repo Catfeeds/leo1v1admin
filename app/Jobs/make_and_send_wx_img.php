@@ -95,14 +95,6 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         //下载头像，制作图片
         \App\Helper\Utils::logger("make_img_start");
 
-        $ext = pathinfo($headimgurl);
-
-        if ($ext['extension'] == 'jpg') {
-            $image_1 = imagecreatefromjpeg($this->bg_url);     //背景图
-        }else{
-            $image_1 = imagecreatefrompng($this->bg_url);     //背景图
-        }
-
 
         $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
