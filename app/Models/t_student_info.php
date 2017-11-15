@@ -3232,12 +3232,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         ];
         $sql = $this->gen_sql_new("select count(distinct s.userid) num,s.grade"
                                   ." from %s s "
-                                  ." left join %s st on s.userid = st.userid and st.type_cur =0 ans st.type_before>0 and st.add_time >%u"
+                                  ." left join %s st on s.userid = st.userid and st.type_cur =0 and st.type_before>0 and st.add_time >%u"
                                   ." where %s and st.add_time is null group by s.grade",
                                   self::DB_TABLE_NAME,
                                   t_student_type_change_list::DB_TABLE_NAME,
                                   $time,
-                                  $where
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
