@@ -5721,7 +5721,7 @@ class user_deal extends Controller
 
     public function get_reject_info(){
         $id = $this->get_in_int_val('id');
-
+        $reject_info = $this->t_student_cc_to_cr->get_reject_info($id);
 
 
     }
