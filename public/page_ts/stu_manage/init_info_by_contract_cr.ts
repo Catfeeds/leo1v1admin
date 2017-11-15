@@ -159,7 +159,10 @@ $(function(){
             $.do_ajax("/user_deal/get_reject_info",{
                 "id" :id,
             }, function(ret){
-                id_reject_info_write.val(ret.data);
+                if(ret.data){
+                    id_reject_info_write.parent().parent().css('display','table-row');
+                    id_reject_info_write.val(ret.data);
+                }
             })
         });
     });
