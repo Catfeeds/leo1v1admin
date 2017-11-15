@@ -1588,10 +1588,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money+$daily_lottery_money;
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
-        //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可体现]
+        //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可提现]
         if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0)
             $all_open_cush_money += $daily_lottery_money;
-        elseif($daily_lottery_money >= 2500)  //或者是抽奖金额达到25 [进入可体现]
+        elseif($daily_lottery_money >= 2500)  //或者是抽奖金额达到25 [进入可提现]
             $all_open_cush_money += $daily_lottery_money;
 
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
@@ -2439,7 +2439,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.agent_status >= %u',30]
         ];
         $sql = $this->gen_sql_new(
-            "select  id,a.phone,a.nickname,a.agent_status_money "
+            "select  id,a.phone,a.nickname,a.agent_status_money,agent_status "
             . " from %s a"
             ." where %s order by a.id desc",
             self::DB_TABLE_NAME,
@@ -2450,7 +2450,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@desn:会员邀请奖励列表[已获取]
     public function member_had_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
-            "select phone,nickname,pp_agent_status_money as agent_status_money "
+            "select phone,nickname,pp_agent_status_money as agent_status_money,agent_status "
             ."from %s "
             ." where  parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1 "
             ."order by create_time desc",
@@ -2784,5 +2784,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         $ret = $this->main_update($sql);
         return $ret;
+    }
+    //@desn:根据邀请人获取被邀请人试听情况
+    public function get_child_test_lesson_info_by_parentid($agent_id){
+        $where_arr = [
+            "a.test_lessonid <> ''",
+            ['a.parentid = %u',$agent_id,-1]
+        ];
+        $sql = $this->gen_sql_new(
+            'select l.lesson_user_online_status from %s a '.
+            "left join  %s l on a.test_lessonid =l.lessonid  ".
+            "where %s",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }
