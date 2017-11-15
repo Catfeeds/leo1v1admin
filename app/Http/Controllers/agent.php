@@ -2167,10 +2167,13 @@ class agent extends Controller
         if($ret_info['total_num']<1)
             $ret_info['list'] = [];
         foreach($ret_info['list'] as &$item){
+            //获取用户签单量及签单金额
+            $agent_order_sum = $this->t_order_info->get_agent_order_sum($item['userid']);
+            $item['self_order_count'] = $agent_order_sum['self_order_count'];
+            $item['self_order_price'] = $agent_order_sum['self_order_price']/100;
             $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
             if($item['account_role'] == 1)
                 $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
-            $item['self_order_price'] /= 100;
             $item['agent_info'] = 1;
         }
         return $this->pageView(__METHOD__,$ret_info,['type'=>$type]);

@@ -17,13 +17,13 @@ interface RowData {
 	phone	:any;
 	nickname	:any;
 	test_lessonid	:any;
-	self_order_count	:any;
-	self_order_price	:any;
 	sys_operator	:any;
 	account	:any;
 	name	:any;
 	account_role	:any;
 	userid	:any;
+	self_order_count	:any;
+	self_order_price	:any;
 	is_test_lesson_str	:any;
 	agent_info	:any;
 }
