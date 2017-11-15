@@ -55,7 +55,7 @@ class wx_yxyx_common extends Controller
                     "login_user_role" => 10,
                     "agent_id"    => $id,
                 ]);
-                
+
                 $url = "/wx_yxyx_web/$action";
                 //测试环境
                 if(\App\Helper\Utils::check_env_is_test())

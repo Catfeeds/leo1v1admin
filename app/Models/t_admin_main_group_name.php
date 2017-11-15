@@ -345,6 +345,11 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    
+    public function is_master($adminid){
+        $sql = $this->gen_sql_new("select groupid from %s where master_adminid='$adminid'",self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
+   
 
 }
