@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
     'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_183206_create_t_agent_cash_money_freeze.php',
+    'CreateTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_15_094711_create_t_agent_daily_lottery.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
     'CreateTAgentGroupMemberResult' => $baseDir . '/database/migrations/2017_11_01_172755_create_t_agent_group_member_result.php',
     'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
@@ -29,6 +30,7 @@ return array(
     'CreateTableTTeachingCoraData' => $baseDir . '/database/migrations/2017_10_31_184636_create_table_t_teaching_cora_data.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'DeleteCycleCloumnFromTAgetn' => $baseDir . '/database/migrations/2017_11_13_171716_delete_cycle_cloumn_from_t_agetn.php',
+    'DeleteUniqueKeyForTeacherSalaryList' => $baseDir . '/database/migrations/2017_11_14_134920_delete_unique_key_for_teacher_salary_list.php',
     'DropTableTPeriodOrderRepaymentList' => $baseDir . '/database/migrations/2017_10_13_161932_drop_table_t_period_order_repayment_list.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
@@ -572,6 +574,7 @@ return array(
     'TManagerInfoAddAlertTime' => $baseDir . '/database/migrations/2017_11_14_142215_t_manager_info_add_alert_time.php',
     'TManagerInfoAddLevelFacePic' => $baseDir . '/database/migrations/2017_10_12_151350_t_manager_info_add_level_face_pic.php',
     'TMonthAssStudentInfoAddCcTranNum' => $baseDir . '/database/migrations/2017_10_18_165409_t_month_ass_student_info_add_cc_tran_num.php',
+    'TMonthAssStudentInfoAddRevisitRewordPer' => $baseDir . '/database/migrations/2017_11_14_155855_t_month_ass_student_info_add_revisit_reword_per.php',
     'TMonthDefTypeAddWeekOrder' => $baseDir . '/database/migrations/2017_11_14_151147_t_month_def_type_add_week_order.php',
     'TMonthStudentCountAddPayOrderNumRefundOrderNum' => $baseDir . '/database/migrations/2017_10_28_184712_t_month_student_count_add_pay_order_num_refund_order_num.php',
     'TMonthStudentCountAddWarningStuNum' => $baseDir . '/database/migrations/2017_10_26_160713_t_month_student_count_add_warning_stu_num.php',
