@@ -902,7 +902,7 @@ class test_boby extends Controller
     }
 
     public function get_no_order(){
-        $sql = 'select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order from db_weiyi_admin.t_manager_info m  left join db_weiyi.t_order_info o on o.sys_operator=m.name  left join db_weiyi_admin.t_admin_group_user gu on gu.adminid=m.uid  left join db_weiyi_admin.t_admin_group_name g on g.groupid=gu.groupid  where o.order_time>=1509465600 and o.order_time<1509983999 and g.main_type=2 group by m.uid ';
+        $sql = 'select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order from db_weiyi_admin.t_manager_info m  left join db_weiyi.t_order_info o on o.sys_operator=m.name and o.order_time>=1509465600 and o.order_time<1509983999  left join db_weiyi_admin.t_admin_group_user gu on gu.adminid=m.uid  left join db_weiyi_admin.t_admin_group_name g on g.groupid=gu.groupid  where m.account_role =2 and g.main_type=2 group by m.uid having no_order=0';
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
         $th_arr = ['队名','人','orderid'];
         $s = $this->table_start($th_arr);
