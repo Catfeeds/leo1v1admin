@@ -1331,7 +1331,7 @@ class stu_manage extends Controller
 
         // 测试
         $accountid = $this->get_account_id();
-        if($accountid == 684){
+        if($accountid == 684){ 
             $is_master = 1;
         }
 
