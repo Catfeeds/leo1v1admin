@@ -3197,22 +3197,35 @@ class user_deal extends Controller
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");
 
+        $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade($start_time,$end_time);
+        dd($lesson_consume);
+        $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($end_time,1);
+        $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
+        $grade_arr = json_decode($month_start_grade_str,true);
+        dd($grade_arr);
+
+        $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        $finish_num = $this->t_cr_week_month_info->get_finish_num($ret_id);
+        $read_num = $this->t_cr_week_month_info->get_read_num($ret_id);
+
+
         $ret = $this->t_student_info->get_read_num_by_grade();
-        $arr=[];
+        $arrr=[];
         foreach($ret as $k=>$val){
-            $arr[$k]=$val["num"];
+            $arrr[$k]=$val["num"];
         }
-        $str = json_encode($arr);
+        $str = json_encode($arrr);
         /*新增数据*/
-        $cr_order_info = $task->t_order_info->get_all_cr_order_info($start_time,$end_time);
+        $arr=[];
+        $cr_order_info = $this->t_order_info->get_all_cr_order_info($start_time,$end_time);
         $arr["average_person_effect"] = !empty(@$cr_order_info["ass_num"])?round($cr_order_info["all_money"]/$cr_order_info["ass_num"]):0; //平均人效(非入职完整月)
 
-        $all_pay = $task->t_student_info->get_student_list_for_finance_count();//所有有效合同数
-        $refund_info = $task->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
+        $all_pay = $this->t_student_info->get_student_list_for_finance_count();//所有有效合同数
+        $refund_info = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
         $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
 
         // 获取停课,休学,假期数
-        $ret_info_stu = $task->t_student_info->get_student_count_archive();
+        $ret_info_stu = $this->t_student_info->get_student_count_archive();
 
         foreach($ret_info_stu as $item) {
             if ($item['type'] == 2) {
@@ -3225,7 +3238,7 @@ class user_deal extends Controller
         }
 
         //新签合同未排量(已分配/未分配)/新签学生数
-        $user_order_list = $task->t_order_info->get_order_user_list_by_month($end_time);
+        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//上月新签
 
         foreach ( $user_order_list as $item ) {
@@ -3244,8 +3257,8 @@ class user_deal extends Controller
         $arr['new_student_num'] = count($new_user);//新签学生数
 
         //结课率
-        $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
-        $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
+        $arr["all_registered_student"] = $finish_num+$read_num+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
+        $arr["student_end_per"] = round($finish_num/$arr["all_registered_student"]*100,2)*100;
 
         //课时消耗目标数量
         $last_year_start = strtotime("-1 years",$start_time); 
@@ -3263,15 +3276,15 @@ class user_deal extends Controller
             "new_order_unassign_num"  => $arr["new_order_unassign_num"], //新签合同未排量(未分配)
             "student_end_per"         => $arr["student_end_per"],   //结课率
             "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
+            "grade_stu_list"          => $str
 
         ];
 
         
-        $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time($type,$create_time);
         if($ret_id>0){
-            $task->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
+            $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
         }else{
-            $task->t_cr_week_month_info->row_insert($insert_data);
+            $this->t_cr_week_month_info->row_insert($insert_data);
         }
 
 
@@ -5561,7 +5574,7 @@ class user_deal extends Controller
                 $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
 
                 if($assistantid>0){ // 待删除
-                    return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
+                    // return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
                 }
 
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[

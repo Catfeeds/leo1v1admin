@@ -2178,6 +2178,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             'g.main_type=2',
             "( m.leave_member_time =0 or m.leave_member_time>=$end_time)",
             "m.become_member_time<$end_time",
+            'm.uid <> 1239 and m.uid<>892 and m.uid<>1257 and m.uid<>491 ',
         ];
         $order_arr = [
             ['o.order_time>=%u', $start_time, -1],
@@ -2188,7 +2189,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name and %s "
+                ." left join %s o on o.sys_operator=m.account and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." where %s"
@@ -2207,7 +2208,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name and %s "
+                ." left join %s o on o.sys_operator=m.account and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." left join %s mg on mg.groupid=g.up_groupid"
@@ -2229,7 +2230,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name and %s "
+                ." left join %s o on o.sys_operator=m.account and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." left join %s mg on mg.groupid=g.up_groupid"
@@ -2252,7 +2253,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $sql = $this->gen_sql_new(
                 "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
                 ." from %s m "
-                ." left join %s o on o.sys_operator=m.name and %s "
+                ." left join %s o on o.sys_operator=m.account and %s "
                 ." left join %s gu on gu.adminid=m.uid "
                 ." left join %s g on g.groupid=gu.groupid "
                 ." where %s"

@@ -2201,7 +2201,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
-    public function check_is_consume($sid,$orderid){
+    public function check_is_consume($orderid){
         $where_arr = [
             "l.lesson_type = 0",
             "o.order_time < l.lesson_start",
