@@ -3194,6 +3194,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $time = strtotime("2017-10-01");
+
+        $ret = $this->t_student_info->get_now_read_stu($time);
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
 
@@ -5718,10 +5720,10 @@ class user_deal extends Controller
         $orderid = $this->get_in_int_val('orderid');
         $confirm_flag = $this->get_in_int_val('confirm_flag');
 
-        $this->t_student_cc_to_cr->field_update_list($id,[
-            "confirm_flag" => $confirm_flag,
-            "reject_flag"  => 0
-        ]);
+        // $this->t_student_cc_to_cr->field_update_list($id,[
+        //     "confirm_flag" => $confirm_flag,
+        //     "reject_flag"  => 0
+        // ]);
 
         return $this->output_succ();
     }

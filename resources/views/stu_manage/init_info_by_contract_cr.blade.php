@@ -214,10 +214,10 @@
                             驳回[助教]
                         </button>
 
-                        <button  class="id_confirm btn btn-success" style=" font-size:20px;display:none;" >
-                            确认交接单
-                        </button>
-
+                        <!-- <button  class="id_confirm btn btn-success" style=" font-size:20px;display:none;" >
+                             确认交接单
+                             </button>
+                           -->
 
                     </div>
                 </div>
