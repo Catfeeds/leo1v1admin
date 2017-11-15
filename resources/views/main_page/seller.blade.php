@@ -493,10 +493,10 @@
                         </tr>
 
                         @foreach ( @$no_order as $var )
-                        <tr>
-                            <td>{{@$var['group_name']}}</td>
-                            <td>{{@$var['name']}}</td>
-                        </tr>
+                            <tr>
+                                <td>{{@$var['group_name']}}</td>
+                                <td>{{@$var['name']}}</td>
+                            </tr>
                         @endforeach
                     </table>
                 </div>
