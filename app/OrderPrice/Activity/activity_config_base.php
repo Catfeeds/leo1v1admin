@@ -220,7 +220,7 @@ class activity_config_base extends  activity_base {
 
 
 
-        //分期,不分期检查
+        //新签 续费检查
         $tmp_str_arr=[];
         foreach ( $this->contract_type_list as $val ) {
             $tmp_str_arr[]=  E\Econtract_type::get_desc($val)."可用";

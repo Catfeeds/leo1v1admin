@@ -141,5 +141,8 @@ class Config{
         return  120;
     }
 
+    static public function get_admin_domain_url( $admin_domain_type ) {
+        return  self::get_config("admin_domain_url_config")[ $admin_domain_type ] ;
+    }
 
 };

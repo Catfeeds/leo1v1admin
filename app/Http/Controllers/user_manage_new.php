@@ -1170,8 +1170,11 @@ class user_manage_new extends Controller
         ];
         $sub_list=$this->get_menu_power_list ($power_map,$sub_menu,$start*2 );
 
-        return array_merge($list,$sub_list);
+        $class_list=$this->get_menu_power_list($power_map,\App\ClassMenu\menu::get_config()  ,$start*3 );
+
+        return array_merge($list, $class_list ,$sub_list);
     }
+
 
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;

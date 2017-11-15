@@ -179,6 +179,12 @@ return [
         ],
 
 
+        'session' => [
+            'host'     => env('SESSION_REDIS_HOST', '127.0.0.1'),
+            'password' => env('SESSION_REDIS_PASSWORD', null),
+            'port'     => env('SESSION_REDIS_PORT', 6379),
+            'database' => 8,
+        ],
 
 
     ],
