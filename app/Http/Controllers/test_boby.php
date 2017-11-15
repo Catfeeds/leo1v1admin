@@ -917,8 +917,6 @@ class test_boby extends Controller
     }
 
     public function get_type(){
-        $s = "http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap78FdicunhxPPKFNop5XBPMQy0GcoBR2sLh3FP1ibfeqZE/0";
-        $ext = pathinfo($s);
-        dd($ext);
+        $b =34;
     }
 }
