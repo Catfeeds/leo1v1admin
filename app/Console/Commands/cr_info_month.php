@@ -335,6 +335,8 @@ class cr_info_month extends Command
         $last_year_start = strtotime("-1 years",$start_time); 
         $last_year_end = strtotime("+1 months",$last_year_start); 
 
+        $month_start_stu_info = $task->t_cr_week_month_info->get_data_by_type($start_time,$type);
+
 
         $insert_data = [
           "create_time"             => $create_time,            //存档时间
