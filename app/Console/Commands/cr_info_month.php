@@ -331,6 +331,9 @@ class cr_info_month extends Command
         $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
         $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
 
+        //课时消耗目标数量
+        
+
 
         $insert_data = [
           "create_time"             => $create_time,            //存档时间
