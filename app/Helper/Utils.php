@@ -2109,6 +2109,7 @@ class Utils  {
         $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
         $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        \App\Helper\Utils::logger("access_token $access_token ");
         $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
