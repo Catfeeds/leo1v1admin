@@ -393,6 +393,7 @@ class wx_yxyx_common extends Controller
             if($userid_new){
                 $userid = $userid_new;
             }
+            $parent_adminid = $parent_adminid?:0;
             $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type,$parent_adminid);
             if($ret){
                 $agent_id=$this->t_agent->get_last_insertid();
