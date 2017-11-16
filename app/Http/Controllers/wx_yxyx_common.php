@@ -310,13 +310,19 @@ class wx_yxyx_common extends Controller
             }
         }
 
+        //查询推荐人是否是内部员工
+        $parent_adminid = $this->t_agent->get_parent_adminid_by_parentid($parentid);
         if($type == 1 || $insert_flag == 1){//进例子
             $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-
+            if( $parent_adminid > 0 ) {//转为普通例子
+                $origin='知识库';
+            } else {
+                $origin='优学优享';
+            }
             if ($db_userid){
                 $add_time=$this->t_seller_student_new->get_add_time($userid);
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
-                    $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+                    $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin,$subject=0,$has_pad=0);
 
                     /*
                     // 优学优享例子分配给 王春雷 [442] [开始]
@@ -343,7 +349,7 @@ class wx_yxyx_common extends Controller
                     }
                 }
             }else{
-                $userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+                $userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin,$subject=0,$has_pad=0);
 
                 /*
                 // 优学优享例子分配给 王春雷 [442]
@@ -359,21 +365,23 @@ class wx_yxyx_common extends Controller
             }
 
             //自动分配给ｔｍｋ
-            $time = strtotime('today');
-            $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-            if( $count <= 30 ){//分给张龙 384,张植源412
-                $auto_allot_adminid = ( $count%2 == 0 ) ? 384 : 412;
-                $opt_account = ( $count%2 == 0 ) ?'张龙':'张植源';
-            } else { //分配给邵少鹏759和蒋文武689
-                $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
-                $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
-            }
+            if($parent_adminid == 0){//不是内部推荐的，自动分配
+                $time = strtotime('today');
+                $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
+                if( $count <= 30 ){//分给张龙 384,张植源412
+                    $auto_allot_adminid = ( $count%2 == 0 ) ? 384 : 412;
+                    $opt_account = ( $count%2 == 0 ) ?'张龙':'张植源';
+                } else { //分配给邵少鹏759和蒋文武689
+                    $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
+                    $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
+                }
 
-            $account = '系统';
-            $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
+                $account = '系统';
+                $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
 
-            if( $count <= 30 ){//分给张龙 384,张植源412
-                $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
+                if( $count <= 30 ){//分给张龙 384,张植源412
+                    $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
+                }
             }
         }
 
@@ -385,7 +393,8 @@ class wx_yxyx_common extends Controller
             if($userid_new){
                 $userid = $userid_new;
             }
-            $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+            $parent_adminid = $parent_adminid?:0;
+            $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type,$parent_adminid);
             if($ret){
                 $agent_id=$this->t_agent->get_last_insertid();
                 \App\Helper\Utils::logger("agent_id_agent_id: $agent_id");

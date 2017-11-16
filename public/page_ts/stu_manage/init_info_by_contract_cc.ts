@@ -40,20 +40,22 @@ $(function(){
 
         });
 
-
+        var is_submit_show = 0;
         $.each(init_data,function(i,item){
-            if(i == 'is_show_submit' && item == 1){
-                $("#id_submit").hide();
-                $("#id_submit_succ").hide();
-            }
+            // if(i == 'is_submit_show' && item == 0){
+            //     $("#id_submit_succ").hide();
+            // }
 
-            if(i == 'is_submit_show' && item == 1){
-                $("#id_submit_succ").hide();
+            if(i == 'is_submit_show' ){
+                is_submit_show = item;
             }
         });
 
-
-
+        if(is_submit_show !=1){ // 未驳回
+            $("#id_submit_succ").hide();
+        }else if(is_submit_show==1){
+            $("#id_submit_succ").show();
+        }
     }
 
 

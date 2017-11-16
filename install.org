@@ -29,7 +29,8 @@
   cp .env.example .env
 
   #生成 自动生成的代码
-  ./gen_code.sh
+  ./enum_config/gen.sh
+  cd ./table_config/ && ./_z_gen_table dev 
 
   目录
 
@@ -48,6 +49,7 @@
   sudo /etc/init.d/nginx reload
 
   /etc/hosts 加入
+  192.168.0.6  dev.admin.leo1v1.com
   127.0.0.1  self.admin.leo1v1.com
   127.0.0.1  redis 
   127.0.0.1  mysql 

@@ -284,7 +284,7 @@ class user_manage extends Controller
         }
 
         $now=time(NULL);
-        foreach($ret_info['list'] as &$item) {
+        foreach($ret_info['list'] as $i=> &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
             $item['type_str']          = $item['type']  ;
             $item['type']              = E\Estudent_type::get_desc($item['type']);
@@ -372,10 +372,13 @@ class user_manage extends Controller
             $item["course_list_total"] = count(array_unique($arr));
 
             // 检查交接单是否有驳回
-            // $item['confirm_flag'] = $this->t_student_cc_to_cr->get_confirm_flag($item['userid']);
-            // if($confirm_flag == 1){
-            //     //
-            // }
+            // $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
+
+            $reject_status = $this->t_student_info->check_is_reject($item['userid']);
+
+            if($reject_status == 3){
+                unset($ret_info['list'][$i]);
+            }
 
 
         }

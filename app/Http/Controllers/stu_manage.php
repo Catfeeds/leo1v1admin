@@ -190,7 +190,7 @@ class stu_manage extends Controller
         $assistantid=$this->get_in_assistantid();
         $account_role = $this->get_account_role();
         $sys_operator = $this->get_in_str_val("sys_operator","");
-        if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster","jim","eros"])            
+        if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster","jim","eros"])
             && !in_array($account_role,[12])
         ){
             return $this->output_err("没有权限");
@@ -258,7 +258,7 @@ class stu_manage extends Controller
             $wx_id = $this->t_manager_info->get_wx_id($ass_adminid);
             if($seller_adminid>0){
                 if($wx_id){
-                   $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id,""); 
+                   $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id,"");
                 }else{
                     $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,暂无该助教老师微信号","");
                 }
@@ -1068,9 +1068,13 @@ class stu_manage extends Controller
 
         // 判断
         $is_submit_show = 0;
-        if($state_arr && $state_arr['id']>0 && $state_arr['reject_flag'] == 0){
-            $is_submit_show = 1;
+
+        if($state_arr){
+            $is_submit_show = $state_arr['reject_flag'];
         }
+        // if($state_arr && $state_arr['id']>0 && $state_arr['reject_flag'] == 0){
+        //     $is_submit_show = 1;
+        // }
 
         if($row){
             $row['is_submit_show'] = $is_submit_show;
@@ -1319,11 +1323,11 @@ class stu_manage extends Controller
         $is_master    = $this->t_admin_group_name->check_is_master($is_ass,$adminid);
         $assistantid  = $this->t_student_info->get_assistantid_by_userid($sid);
 
-        // 待删除
-        if($assistantid>0 ){
-            $is_master = 0;
-        }
-        // 待删除
+        // // 待删除
+        // if($assistantid>0 ){
+        //     $is_master = 0;
+        // }
+        // // 待删除
 
         // 测试
         $accountid = $this->get_account_id();
@@ -1436,5 +1440,5 @@ class stu_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
-    
+
 }

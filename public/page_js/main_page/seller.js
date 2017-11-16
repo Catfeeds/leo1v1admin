@@ -173,42 +173,51 @@ $(function(){
 
     //强制弹窗
     var is_force = $('.opt-no-order').data('flag');
-    if(is_force) {
-        $('#is_force').on('click', function(){
-            return false;
-        });
-        $('.close').on('click', function(){
-            return false;
-        });
-
-        $('#is_force').text(2);
-        $('.opt-no-order').click();
-        var time_id = setInterval(function(){
-            var cur_num = parseInt( $('#is_force').text() );
-            var next_num = cur_num - 1;
-
-            if ( next_num == 0 ) {
-                clearTimeout(time_id)
-                $('#is_force').text( '确定' );
-                $('#is_force').on('click', function(){
-                    $('.opt-no-order').click();
-                });
-                $('.close').on('click', function(){
-                    $('.opt-no-order').click();
-                });
-
-                $.ajax({
-                    url : '/main_page/update_alert_time',
-                    type: 'post',
-                });
-
-
-            } else {
-                $('#is_force').text( next_num );
-            }
-
-        },1000);
-
+    var user_num = $('.opt-user').length;
+    if (user_num == 0){
+        $('.opt-user-list').empty();
+        $('.opt-user-list').append('<tr><td style="font-size:20px"><b>本月首周组员均存在开单！</b></td></tr>');
     }
+    if( is_force ) {
 
+        if(user_num != 0){
+            $('#is_force').on('click', function(){
+                return false;
+            });
+            $('.close').on('click', function(){
+                return false;
+            });
+
+            $('#is_force').text(15);
+            $('.opt-no-order').click();
+            var time_id = setInterval(function(){
+                var cur_num = parseInt( $('#is_force').text() );
+                var next_num = cur_num - 1;
+
+                if ( next_num == 0 ) {
+                    clearTimeout(time_id)
+                    $('#is_force').text( '确定' );
+                    $('#is_force').on('click', function(){
+                        $('.opt-no-order').click();
+                    });
+                    $('.close').on('click', function(){
+                        $('.opt-no-order').click();
+                    });
+
+                    $.ajax({
+                        url : '/main_page/update_alert_time',
+                        type: 'post',
+                    });
+
+
+                } else {
+                    $('#is_force').text( next_num );
+                }
+
+            },1000);
+
+        } else {
+            $('.opt-no-order').click();
+        }
+    }
 });
