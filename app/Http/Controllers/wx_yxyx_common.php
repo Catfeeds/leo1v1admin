@@ -367,9 +367,9 @@ class wx_yxyx_common extends Controller
             if($parent_adminid == 0){//不是内部推荐的，自动分配
                 $time = strtotime('today');
                 $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-                if( $count <= 30 ){//分给张龙 384,张植源412
-                    $auto_allot_adminid = ( $count%2 == 0 ) ? 384 : 412;
-                    $opt_account = ( $count%2 == 0 ) ?'张龙':'张植源';
+                if( $count <= 20 ){//分给张龙 384,张植源412
+                    $auto_allot_adminid = ( $count%4 == 0 ) ? 412 :384 ;
+                    $opt_account = ( $count%4 == 0 ) ?'张植源':'张龙';
                 } else { //分配给邵少鹏759和蒋文武689
                     $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
                     $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
