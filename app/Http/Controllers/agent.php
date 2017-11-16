@@ -551,6 +551,9 @@ class agent extends Controller
 
     public function test_new(){
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        if($end_time >= time()){
+            $end_time = time();
+        }
         $adminid=457;
         //试听成功数
         $res = [];
