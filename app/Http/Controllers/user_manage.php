@@ -374,11 +374,11 @@ class user_manage extends Controller
             // 检查交接单是否有驳回
             // $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
 
-            $reject_status = $this->t_student_info->check_is_reject($item['userid']);
+            // $reject_status = $this->t_student_info->check_is_reject($item['userid']);
 
-            if($reject_status == 3){
-                unset($ret_info['list'][$i]);
-            }
+            // if($reject_status == 3){
+            //     unset($ret_info['list'][$i]);
+            // }
 
 
         }
