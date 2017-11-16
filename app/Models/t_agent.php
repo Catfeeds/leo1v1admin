@@ -2394,7 +2394,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
-            ." where  a1.parentid=%s order by a1.create_time desc",
+            ." where  %s order by a1.create_time desc",
             self::DB_TABLE_NAME,
             $where_arr
         );
