@@ -845,6 +845,10 @@ class ss_deal2 extends Controller
         $phone                    = $this->get_in_str_val('phone');
         $app_id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $train_through_new = $this->t_teacher_info->get_train_through_new($teacherid);
+        if($train_through_new==1){
+            return $this->output_err('已入职老师请从其他途径更改');
+        }
         $this->t_teacher_lecture_appointment_info->field_update_list($app_id,[
            "full_time"=>0 
         ]);
