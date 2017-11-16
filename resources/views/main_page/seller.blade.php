@@ -157,7 +157,7 @@
                 </div>
 
                 @if ( $is_sir)
-                    <div class="panel panel-warning hide" >
+                    <div class="panel panel-warning" >
                         <div class="panel-heading">
                             <button class="btn btn-warning opt-no-order" data-flag="{{$force_flag}}" data-toggle="modal" data-target="#myModal">本月首周未开单人员</button>
                         </div>

@@ -562,7 +562,7 @@ class main_page extends Controller
             "next_revisit_count"     => $next_revisit_count,
             "next_time_str"          => $next_time_str,
             "is_master"              => $is_master,
-            "is_sir"                 => $adminid,
+            "is_sir"                 => $is_sir,
             "force_flag"             => $force_flag,
             "no_order"               => @$no_order,
         ]);
