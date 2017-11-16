@@ -52,7 +52,6 @@ class deal_pdf_to_png extends cmd_base
 
     public function do_handle (){
 
-        \App\Helper\Utils::logger("check_pdf_start $pdf");
         while(true){
             $this->do_change();
         }
