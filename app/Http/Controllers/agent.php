@@ -550,6 +550,32 @@ class agent extends Controller
     }
 
     public function test_new(){
+        // $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone='13917603698', E\Erole::V_STUDENT );
+        // dd($db_userid);
+        // $add_time=$this->t_seller_student_new->get_add_time($userid=344364);
+        $add_time=0;
+        // dd($add_time);
+        if ($add_time < time(NULL) -60*86400 ) { //60天前例子
+            dd('a');
+        }else{
+            dd('b');
+        }
+        // if ($db_userid){
+        // $add_time=$this->t_seller_student_new->get_add_time($userid=303822);
+        // $add_time = 1510803218;
+        $add_time = 1505404800;
+        if ($add_time < time(NULL) -60*86400 ) { //60天前例子
+            dd($add_time);
+        }else{
+            dd('a');
+        }
+        // }
+
+        E\Eseller_level::V_100;
+        $ret_info  = $this->t_seller_level_goal->get_all_list($page_info);
+        dd($ret_info);
+
+        E\Eseller_level::V_100;
         $row_item=$this->t_seller_student_new-> get_lesson_status_count($adminid=99 );
         dd($row_item);
 

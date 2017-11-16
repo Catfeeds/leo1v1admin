@@ -1054,5 +1054,19 @@ $(function(){
 
     });
 
+    $(".opt-set-part-teacher").on("click",function(){
+        var data           = $(this).get_opt_data();
+        var phone = data.phone;
+        BootstrapDialog.confirm("确定设置为兼职老师", function(val){
+            if (val) {
+                $.do_ajax( '/ss_deal2/set_part_time_teacher', {
+                    'phone' : phone
+                });
+            } 
+        });
+
+
+    });
+
 
 });
