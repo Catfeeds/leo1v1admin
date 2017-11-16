@@ -978,11 +978,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
-    public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1 ) {
         $where_arr=[
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
+            ['cur_require_adminid=%u',$adminid,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
@@ -1017,13 +1018,14 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_as_page($sql);
     }
 
-    public function tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1 ) {
         $where_arr=[
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
             'lesson_user_online_status in (0,1) or  f.flow_status = 2',
-            'cur_require_adminid>0',
+            // 'cur_require_adminid>0',
+            ['cur_require_adminid=%u',$adminid,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);

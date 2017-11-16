@@ -992,7 +992,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
         \App\Helper\Utils::logger("WX URL $url");
 
-        $wx=new \App\Helper\Wx();
+        $appid_tea     = \App\Helper\Config::get_teacher_wx_appid();
+        $appsecret_tea = \App\Helper\Config::get_teacher_wx_appsecret();
+
+        $wx=new \App\Helper\Wx($appid_tea,$appsecret_tea);
+        // $wx=new \App\Helper\Wx();
         $openid=$this->get_wx_openid($teacherid);
         if ($openid) {
             $ret=$wx->send_template_msg($openid,$template_id,$data ,$url);
