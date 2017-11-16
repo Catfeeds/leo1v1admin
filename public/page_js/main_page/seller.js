@@ -176,7 +176,7 @@ $(function(){
     var user_num = $('.opt-user').length;
     if (user_num == 0){
         $('.opt-user-list').empty();
-        $('.opt-user-list').append('<tr><td style="font-size:20px"><b>本周组员均存在开单！</b></td></tr>');
+        $('.opt-user-list').append('<tr><td style="font-size:20px"><b>本月首周组员均存在开单！</b></td></tr>');
     }
     if( is_force ) {
 
