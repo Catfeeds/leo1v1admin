@@ -24,6 +24,7 @@ interface RowData {
 	account_class	:any;
 	level	:any;
 	main_type_str	:any;
+	seller_level_str	:any;
 }
 
 /*
