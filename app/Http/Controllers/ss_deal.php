@@ -245,7 +245,6 @@ class ss_deal extends Controller
             $this->t_seller_student_new->set_admin_info_new(
 //$opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time );
-            
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
             $nick = $this->t_student_info->get_nick($userid);
             $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
@@ -1159,13 +1158,15 @@ class ss_deal extends Controller
     }
 
     public function get_require_list_js()  {
-        $page_num=$this->get_in_page_num();
-        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
+        $page_num = $this->get_in_page_num();
+        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id(-1);
         $userid = $this->get_in_userid(-1);
-        if ($userid==-1 && $test_lesson_subject_id==-1 ) {
-            return $this->output_succ( );
+        if($userid==-1 && $test_lesson_subject_id==-1){
+            return $this->output_succ();
         }
-        $ret_list=$this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id($page_num,$test_lesson_subject_id,$userid);
+        $ret_list = $this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id(
+            $page_num,$test_lesson_subject_id,$userid
+        );
 
         foreach($ret_list["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time");
@@ -1177,7 +1178,6 @@ class ss_deal extends Controller
             $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["accept_flag"] );
             $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["success_flag"] );
             E\Etest_lesson_fail_flag::set_item_value_str($item);
-
         }
 
         return $this->output_ajax_table($ret_list);
@@ -3866,7 +3866,10 @@ class ss_deal extends Controller
             "grade"=>$grade,
         ]);
         if($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_3){//tmk更改例子为有效
-            $this->t_seller_student_new->field_update_list($userid,[
+            //tmk分配给自己
+            $this->t_seller_student_new->set_admin_info_new(
+                $opt_type=2,$userid,$this->get_account_id(),$this->get_account_id(),$this->get_account(),$this->get_account(),$assign_time=time(null));
+            $ret = $this->t_seller_student_new->field_update_list($userid,[
                 "tmk_student_status"=>$tmk_student_status,
                 "tmk_next_revisit_time"=>$tmk_next_revisit_time,
                 "tmk_desc"=>$tmk_desc,

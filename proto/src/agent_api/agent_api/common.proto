@@ -123,6 +123,9 @@ message user_center_list{
   string agent_level_str = 3;//用户会员等级
   float all_money = 4;//总收入
   uint32 child_all_count = 5;//邀请个数
+  uint32 test_lesson_succ_flog = 6;//邀请人是否成功试听一次[0未成功试听一次1已成功试听一次][用户为黄金会员时有效]
+  string phone = 7;//用户手机号
+  string wx_openid = 8;//用户微信id
 }
 message income_info{
   float all_money = 1;//全部金额
@@ -173,6 +176,7 @@ message had_invite_rewards{
 message had_invite_rewards_info{
   string nickname = 1;//邀请人昵称
   float agent_status_money = 2;//获得的邀请金额
+  uint32 agent_status = 3;//用户优学优享状态40已成功购课
 }
 message can_cash_commisson{
   common.yxyx_page page_info = 1;//分页信息

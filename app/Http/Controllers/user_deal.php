@@ -1614,6 +1614,11 @@ class user_deal extends Controller
             return $this->output_err("该老师不是正式老师!");
         }
 
+        $confirm_flag = $this->t_student_cc_to_cr->get_confirm_flag($userid);
+        if($confirm_flag == 1){
+            //
+        }
+
 
         $this->t_course_order->row_insert([
             "userid"                => $userid,
@@ -3188,6 +3193,106 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        dd(1111);
+        //$this->switch_tongji_database();
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
+
+        $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade($start_time,$end_time);
+        dd($lesson_consume);
+        $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($end_time,1);
+        $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
+        $grade_arr = json_decode($month_start_grade_str,true);
+        dd($grade_arr);
+
+        $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        $finish_num = $this->t_cr_week_month_info->get_finish_num($ret_id);
+        $read_num = $this->t_cr_week_month_info->get_read_num($ret_id);
+
+
+        $ret = $this->t_student_info->get_read_num_by_grade();
+        $arrr=[];
+        foreach($ret as $k=>$val){
+            $arrr[$k]=$val["num"];
+        }
+        $str = json_encode($arrr);
+        /*新增数据*/
+        $arr=[];
+        $cr_order_info = $this->t_order_info->get_all_cr_order_info($start_time,$end_time);
+        $arr["average_person_effect"] = !empty(@$cr_order_info["ass_num"])?round($cr_order_info["all_money"]/$cr_order_info["ass_num"]):0; //平均人效(非入职完整月)
+
+        $all_pay = $this->t_student_info->get_student_list_for_finance_count();//所有有效合同数
+        $refund_info = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
+        $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
+
+        // 获取停课,休学,假期数
+        $ret_info_stu = $this->t_student_info->get_student_count_archive();
+
+        foreach($ret_info_stu as $item) {
+            if ($item['type'] == 2) {
+                @$arr['stop_student']++;
+            } else if ($item['type'] == 3) {
+                @$arr['drop_student']++;
+            } else if ($item['type'] == 4) {
+                @$arr['summer_winter_stop_student']++;
+            }
+        }
+
+        //新签合同未排量(已分配/未分配)/新签学生数
+        $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
+        $new_user = [];//上月新签
+
+        foreach ( $user_order_list as $item ) {
+            if ($item['order_time'] >= $start_time ){
+                $new_user[] = $item['userid'];
+                if (!$item['start_time'] && $item['assistantid'] > 0) {//新签订单,未排课,已分配助教
+                    @$arr['new_order_assign_num']++;
+                } else if (!$item['start_time'] && !$item['assistantid']) {//新签订单,未排课,未分配助教
+                    @$arr['new_order_unassign_num']++;
+                }
+            }
+
+        }
+
+        $new_user = array_unique($new_user);
+        $arr['new_student_num'] = count($new_user);//新签学生数
+
+        //结课率
+        $arr["all_registered_student"] = $finish_num+$read_num+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
+        $arr["student_end_per"] = round($finish_num/$arr["all_registered_student"]*100,2)*100;
+
+        //课时消耗目标数量
+        $last_year_start = strtotime("-1 years",$start_time); 
+        $last_year_end = strtotime("+1 months",$last_year_start); 
+
+
+        $insert_data = [
+         
+            "average_person_effect"   => $arr["average_person_effect"],  //平均人效(非入职完整月)
+            "cumulative_refund_rate"  => $arr["cumulative_refund_rate"], //合同累计退费率
+            "stop_student"            => $arr["stop_student"],      //停课学生
+            "drop_student"            => $arr["drop_student"],    //休学学员
+            "summer_winter_stop_student" =>$arr["summer_winter_stop_student"],  //寒暑假停课学生
+            "new_order_assign_num"    => $arr["new_order_assign_num"],  //新签合同未排量(已分配)
+            "new_order_unassign_num"  => $arr["new_order_unassign_num"], //新签合同未排量(未分配)
+            "student_end_per"         => $arr["student_end_per"],   //结课率
+            "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
+            "grade_stu_list"          => $str
+
+        ];
+
+        
+        if($ret_id>0){
+            $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
+        }else{
+            $this->t_cr_week_month_info->row_insert($insert_data);
+        }
+
+
+        dd($str);
+        
+        $tt = strtotime("-1 years",$time);
+        dd(date("Y-m-d H:i:s",$tt));
 
         $list = $this->t_student_info->get_ass_create_stu_info();
         dd($list);
@@ -5402,7 +5507,7 @@ class user_deal extends Controller
 
             if($state_arr['reject_flag'] == 1 ){
                 $master_arr = $this->t_order_info->get_master_openid_by_orderid($data['orderid']);
-                $wx     = new \App\Helper\Wx();
+                $wx  = new \App\Helper\Wx();
                 $url = '/user_manage_new/ass_contract_list?studentid='.$master_arr['userid'];
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
@@ -5464,14 +5569,14 @@ class user_deal extends Controller
         $now_date   = date('Y-m-d H:i:s');
 
         if($is_reject_flag>0){
-            if($is_reject_flag == 1){ // 驳回cc销售
+            if($is_reject_flag == 1){ // 助教组长 驳回cc销售
                 // 驳回
                 $assistantid         = $this->t_student_info->get_assistantid_by_userid($sid);
                 $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
 
-                if($assistantid>0){
-                    return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
-                }
+                // if($assistantid>0){ // 待删除
+                    // return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
+                // }
 
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
                     'reject_flag' => $is_reject_flag,
@@ -5480,7 +5585,7 @@ class user_deal extends Controller
                     'ass_id'      => $acc_id
                 ]);
                 $send_openid = $cc_openid;
-                $send_name = "助教 $acc_nick";
+                $send_name = "助教组长 $acc_nick";
 
             }elseif($is_reject_flag==2){ // 助教组长驳回组员
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
@@ -5491,16 +5596,19 @@ class user_deal extends Controller
                 ]);
 
                 $ass_openid = $this->t_student_cc_to_cr->get_ass_openid($id);
-                $send_openid = $cc_openid;
-                $send_name = "助教 $acc_nick";
+                $send_openid = $ass_openid;
+                $send_name = "助教助长 $acc_nick";
 
             }elseif($is_reject_flag==3){ // 助教组员驳回组长
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
                     'reject_flag' => $is_reject_flag,
                     'reject_time' => time(NULL),
                     'reject_info' => $reject_info,
-                    'reject_ass'  => $acc_id
+                    'ass_id'      => $acc_id
                 ]);
+                $master_openid = $this->t_admin_group_user->get_ass_master_openid($acc_id);
+                $send_openid = $master_openid;
+                $send_name = "助教 $acc_nick";
             }
 
 
@@ -5701,4 +5809,26 @@ class user_deal extends Controller
 
     }
 
+    public function confirm_order(){
+        $id  = $this->get_in_int_val('id');
+        $sid = $this->get_in_int_val('sid');
+        $orderid = $this->get_in_int_val('orderid');
+        $confirm_flag = $this->get_in_int_val('confirm_flag');
+
+        // $this->t_student_cc_to_cr->field_update_list($id,[
+        //     "confirm_flag" => $confirm_flag,
+        //     "reject_flag"  => 0
+        // ]);
+
+        return $this->output_succ();
+    }
+
+
+    public function get_reject_info(){
+        $id = $this->get_in_int_val('id');
+        $reject_info = $this->t_student_cc_to_cr->get_reject_info($id);
+
+        return $this->output_succ(['data'=>$reject_info]);
+
+    }
 }

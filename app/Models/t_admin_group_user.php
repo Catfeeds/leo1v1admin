@@ -308,4 +308,21 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_row($sql);
     }
 
+    public function get_ass_master_openid($acc_id){
+        $where_arr = [
+            "au.adminid=$acc_id"
+        ];
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s au "
+                                  ." left join %s an on au.groupid=an.groupid"
+                                  ." left join %s m on m.uid=an.master_adminid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }

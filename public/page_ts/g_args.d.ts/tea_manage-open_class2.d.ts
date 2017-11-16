@@ -33,6 +33,7 @@ interface RowData {
 	tea_cw_status	:any;
 	lesson_total	:any;
 	course_name	:any;
+	grade	:any;
 	lesson_time	:any;
 	can_set	:any;
 	lesson_type_str	:any;
@@ -40,6 +41,7 @@ interface RowData {
 	nick	:any;
 	stu_total	:any;
 	stu_join	:any;
+	grade_str	:any;
 }
 
 /*

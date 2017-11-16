@@ -156,10 +156,10 @@
                     </div>
                 </div>
 
-                @if (0)
+                @if ( $is_sir)
                     <div class="panel panel-warning" >
                         <div class="panel-heading">
-                            <a class="btn btn-warning opt-no-order" href="javascript:;" data-toggle="modal" data-target="#myModal">本月首周未开单人员</a>
+                            <button class="btn btn-warning opt-no-order" data-flag="{{$force_flag}}" data-toggle="modal" data-target="#myModal">本月首周未开单人员</button>
                         </div>
                     </div>
                 @endif
@@ -477,21 +477,33 @@
         </div>
     </section>
 
-
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-blue">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">本月首周未开单人员</h4>
                 </div>
                 <div class="modal-body">
+                    <table class="table table-bordered opt-user-list" >
+                        <tr>
+                            <td><b>序号</b></td>
+                            <td><b>队名</b></td>
+                            <td><b>姓名</b></td>
+                        </tr>
 
+                        @foreach ( @$no_order as $key => $var )
+                            <tr class="opt-user">
+                                <td>{{@$key+1}}</td>
+                                <td>{{@$var['group_name']}}</td>
+                                <td>{{@$var['name']}}</td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="is_force" data-flag="true">确定</button>
                 </div>
             </div>
         </div>

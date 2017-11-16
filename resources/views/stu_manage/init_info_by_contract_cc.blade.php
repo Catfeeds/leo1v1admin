@@ -197,9 +197,6 @@
 
                 <div class="row">
                     <div class="col-xs-12 " style="text-align:center;" >
-                        <!-- <button id="id_submit" class="btn btn-primary" style=" font-size:20px;  {{$show_post_flag?"":"display:none" }}  " >
-                             　　保存　　  </button>
-                           -->
                         <button id="id_submit_succ" class="btn btn-success" style=" font-size:20px;  {{$show_post_flag?"":"display:none" }}  " >
                             　　提交　　  </button>
 

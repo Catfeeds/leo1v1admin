@@ -26,6 +26,7 @@ interface RowData {
 	leave_member_time	:any;
 	del_flag	:any;
 	main_type_str	:any;
+	seller_level_str	:any;
 	lesson_per	:any;
 	order_per	:any;
 	finish_per	:any;
@@ -37,6 +38,7 @@ interface RowData {
 	del_flag_str	:any;
 	become_member_num	:any;
 	leave_member_num	:any;
+	suc_lesson_count_rate	:any;
 }
 
 /*

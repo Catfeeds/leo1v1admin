@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1117
+//__DESC:微信[优学优享]进行抽奖 http://wx-yxyx.leo1v1.co/wx_yxyx_api/do_daily_lottery?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+
+}
+
+message out {
+  uint32 the_prize = 1;//奖品类型 1、再接再厉 2、再接再厉 3、0.01 4、0.05 5、0.1 6、0.5 7、0.8 8、1.00
+  float money = 2;//金额 [奖品类型不为再接再厉时有效]
+}

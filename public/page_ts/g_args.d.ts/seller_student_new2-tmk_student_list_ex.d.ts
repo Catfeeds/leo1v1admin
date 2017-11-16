@@ -72,6 +72,7 @@ interface RowData {
 	teacherid	:any;
 	stu_test_paper	:any;
 	tea_download_paper_time	:any;
+	auto_allot_adminid	:any;
 	opt_time	:any;
 	grade_str	:any;
 	subject_str	:any;

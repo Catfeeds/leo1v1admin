@@ -76,8 +76,41 @@ class t_student_cc_to_cr extends \App\Models\Zgen\z_t_student_cc_to_cr
     }
 
     public function get_ass_openid($id){
-        $sql = $this->gen_sql_new("  select wx_openid from %s sc "
-                                  ." left join %s s"
+        $where_arr = [
+            "sc.id=$id"
+        ];
+
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s sc "
+                                  ." left join %s o on o.orderid=sc.orderid"
+                                  ." left join %s s on s.userid=o.userid "
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on m.phone=a.phone "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_confirm_flag($userid){
+        $where_arr = [
+            "o.userid=$userid",
+            "o.contract_status <2",
+            "o.contract_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("  select 1 from %s sc"
+                                  ." left join %s o on o.orderid=sc.orderid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }
