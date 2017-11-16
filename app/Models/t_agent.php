@@ -2386,14 +2386,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //获取我的邀请列表
     public function my_invite($agent_id,$page_info,$page_count){
-
+        $where_arr = [
+            'a1.type <> 2',
+            ['a1.parentid = %u',$agent_id,-1]
+        ];
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
-            ." where  a1.parentid=%u order by a1.create_time desc",
+            ." where  %s order by a1.create_time desc",
             self::DB_TABLE_NAME,
-            $agent_id
+            $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
