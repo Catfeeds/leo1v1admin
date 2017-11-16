@@ -79,6 +79,8 @@
                 <tr>
                     <td>id </td>
                     <td>学员名</td>
+                    <td>上级信息</td>
+                    <td>上上级信息</td>
                     <td>个人试听</td>
                     <td>签单量</td>
                     <td>签单金额</td>
@@ -92,6 +94,8 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
+                        <td>{{@$var["p_nickname"]}}/{{@$var["p_phone"]}} </td>
+                        <td>{{@$var["pp_nickname"]}}/{{@$var["pp_phone"]}} </td>
                         <td>{{@$var["is_test_lesson_str"]}} </td>
                         <td>{{@$var["self_order_count"]}} </td>
                         <td>{{@$var["self_order_price"]}} </td>

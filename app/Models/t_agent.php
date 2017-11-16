@@ -137,13 +137,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql=$this->gen_sql_new (
             "select a.id,a.phone,a.nickname,a.userid,a.test_lessonid,"
-            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role,pa.phone as p_phone,".
+            "pa.nickname as p_nickname,ppa.phone as pp_phone,ppa.nickname as pp_nickname"
             ." from %s a"
+            ." left join %s pa on a.parentid = pa.id"
+            ." left join %s ppa on pa.parentid = ppa.id"
             ." left join %s s on s.userid = a.userid"
             ." left join %s ao on ao.aid = a.id "
             ." left join %s o on ao.orderid = o.orderid"
             ." left join %s mi on s.assistantid = mi.uid"
             ." where %s",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_agent_order::DB_TABLE_NAME,
@@ -2381,14 +2386,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //获取我的邀请列表
     public function my_invite($agent_id,$page_info,$page_count){
-
+        $where_arr = [
+            'a1.type <> 2',
+            ['a1.parentid = %u',$agent_id,-1]
+        ];
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
-            ." where  a1.parentid=%u order by a1.create_time desc",
+            ." where  %s order by a1.create_time desc",
             self::DB_TABLE_NAME,
-            $agent_id
+            $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
@@ -2484,7 +2492,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_invite_type_list($agent_id,$type=1,$page_info,$page_count){
         $where_arr = [
             ['parentid = %u',$agent_id,'-1'],
-            ['type = %u',$type,'1']
+            ['type = %u',$type,'-1']
         ];
         $sql = $this->gen_sql_new(
             "select id,phone,nickname,agent_status,agent_student_status,create_time from %s where %s order by id desc",

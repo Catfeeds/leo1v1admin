@@ -551,15 +551,12 @@ class agent extends Controller
 
     public function test_new(){
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        if($end_time >= time()){
-            $end_time = time();
-        }
         $adminid=457;
         //试听成功数
         $res = [];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
-        $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid=457);
+        $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
@@ -591,8 +588,10 @@ class agent extends Controller
             $res[$key]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
             $res[$key]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
         }
-
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=457);
+        if($end_time >= time()){
+            $end_time = time();
+        }
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
@@ -602,7 +601,7 @@ class agent extends Controller
             $res[$adminid]['lesson_per'] = $lesson_per==0?0:$lesson_per."%";
             $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
             $res[$adminid]['kpi'] = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
-            $res[$adminid]['kpi_desc'] = $res[$adminid]['kpi'];
+            $res[$adminid]['kpi_desc'] = $res[$adminid]['kpi']."%";
         }
         dd($res);
     }
