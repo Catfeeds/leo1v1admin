@@ -84,13 +84,13 @@ class update_haruteru_award extends Command
                 }
                 echo 'teacherid '.$item['teacherid'].'money : '.$money.' end ';
 
-                // $task->t_teacher_money_list->row_insert([
-                //     'teacherid' => $item['teacherid'],
-                //     'add_time' => time(),
-                //     'type' => 7,
-                //     'money' => $money * 100,
-                //     'grade' => $grade
-                // ]);
+                $task->t_teacher_money_list->row_insert([
+                    'teacherid' => $item['teacherid'],
+                    'add_time' => time(),
+                    'type' => 7,
+                    'money' => $money * 100,
+                    'grade' => $grade
+                ]);
             }
         }
         return;
