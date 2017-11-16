@@ -2484,7 +2484,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_invite_type_list($agent_id,$type=1,$page_info,$page_count){
         $where_arr = [
             ['parentid = %u',$agent_id,'-1'],
-            ['type = %u',$type,'1']
+            ['type = %u',$type,'-1']
         ];
         $sql = $this->gen_sql_new(
             "select id,phone,nickname,agent_status,agent_student_status,create_time from %s where %s order by id desc",
