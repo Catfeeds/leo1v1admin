@@ -2048,7 +2048,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }else{
             $where_arr[]=["s.type=%u",$stu_type,-1];
         }
-        
+
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
                                  " join %s a on a.assistantid=s.assistantid".
                                  " join %s m on a.phone=m.phone".
@@ -3241,5 +3241,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
-   
+    public function check_is_reject($userid){
+        $where_arr = [
+            "o.userid=$userid",
+            "o.contract_type = 0",
+            "o.contract_status <2"
+        ];
+        $sql = $this->gen_sql_new("  select sc.reject_flag from %s sc"
+                                  ." left join %s o o.userid=sc.orderid"
+                                  ." where %s order by sc.id desc limit 1"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }
