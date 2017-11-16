@@ -4016,17 +4016,17 @@ class user_deal extends Controller
             }
         }
         foreach($res as $key=>$item){
-            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
-            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
-            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
-            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
-            $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
-            $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
-            $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
-            $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
-            $suc_lesson_count_rate = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
-            $res[$key]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
-            $res[$key]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
+            $res[$adminid]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
+            $res[$adminid]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
+            $res[$adminid]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
+            $res[$adminid]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+            $res[$adminid]['suc_lesson_count_one_rate'] = $res[$adminid]['suc_lesson_count_one']<12?0:15;
+            $res[$adminid]['suc_lesson_count_two_rate'] = $res[$adminid]['suc_lesson_count_two']<12?0:15;
+            $res[$adminid]['suc_lesson_count_three_rate'] = $res[$adminid]['suc_lesson_count_three']<12?0:15;
+            $res[$adminid]['suc_lesson_count_four_rate'] = $res[$adminid]['suc_lesson_count_four']<12?0:15;
+            $suc_lesson_count_rate = $res[$adminid]['suc_lesson_count_one_rate']+$res[$adminid]['suc_lesson_count_two_rate']+$res[$adminid]['suc_lesson_count_three_rate']+$res[$adminid]['suc_lesson_count_four_rate'];
+            $res[$adminid]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
+            $res[$adminid]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
         }
         if($end_time >= time()){
             $end_time = time();
