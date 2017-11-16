@@ -172,45 +172,52 @@ $(function(){
     });
 
     //强制弹窗
+    var is_force = $('.opt-no-order').data('flag');
+    var user_num = $('.opt-user').length;
+    if (user_num == 0){
+        $('.opt-user-list').empty();
+        $('.opt-user-list').append('<tr><td style="font-size:20px"><b>本月首周组员均存在开单！</b></td></tr>');
+    }
+    if( is_force ) {
 
-    $(".opt-no-order").on("click",function(){
+        if(user_num != 0){
+            $('#is_force').on('click', function(){
+                return false;
+            });
+            $('.close').on('click', function(){
+                return false;
+            });
 
-        $("<div></div>").admin_select_dlg_ajax({
-            "opt_type" :  "list", // or "list"
-            "url"      : "/main_page/get_no_order_first_week_by_js",
-            //字段列表
-            'field_list' :[
-                {
-                    title:"队名",
-                    render:function(val,item) {
-                        return item.name;
-                    }
+            $('#is_force').text(15);
+            $('.opt-no-order').click();
+            var time_id = setInterval(function(){
+                var cur_num = parseInt( $('#is_force').text() );
+                var next_num = cur_num - 1;
 
-                },{
-                    title:"姓名",
-                    render:function(val,item) {
-                        return item.acc;
-                    }
+                if ( next_num == 0 ) {
+                    clearTimeout(time_id)
+                    $('#is_force').text( '确定' );
+                    $('#is_force').on('click', function(){
+                        $('.opt-no-order').click();
+                    });
+                    $('.close').on('click', function(){
+                        $('.opt-no-order').click();
+                    });
 
-                },
-            ] ,
-            filter_list: [],
+                    $.ajax({
+                        url : '/main_page/update_alert_time',
+                        type: 'post',
+                    });
 
-            "auto_close"       : true,
-            //选择
-            "onChange"         : function(){
-                if( 1<1 ){
 
+                } else {
+                    $('#is_force').text( next_num );
                 }
-            },
-            //加载数据后，其它的设置
-            "onLoadData"       : null,
 
-        });
+            },1000);
 
-    });
-    var is_alerted = 0;
-    if(is_alerted == 0) {
-
+        } else {
+            $('.opt-no-order').click();
+        }
     }
 });

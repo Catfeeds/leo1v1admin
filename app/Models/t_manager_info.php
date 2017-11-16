@@ -526,7 +526,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
-                                  "am.uid adminid,am.account,".
+                                  "am.uid adminid,am.account,am.seller_level,".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am ".
                                   " left join %s u on am.uid = u.adminid".
@@ -592,8 +592,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
-        $sql = $this->gen_sql_new("select tm.group_name as first_group_name,g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
-                                  "am.account, ".
+        $sql = $this->gen_sql_new("select tm.group_name as first_group_name,g.main_type,g.group_name group_name,"
+                                  ."g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
+                                  "am.account,am.seller_level, ".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am left join %s u on (am.uid = u.adminid and u.month=%u)".
                                   " left join %s g on (u.groupid = g.groupid and g.month=%u)".
@@ -1144,7 +1145,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     }
 
-  
+
 
 
     //助教续费金额 分期按80%计算
@@ -2130,7 +2131,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_row($sql);
-    }   
+    }
 
     public function get_fulltime_teacher_cc_transfer($start_time,$end_time,$fulltime_teacher_type=-1){
         $where_arr = [
@@ -2170,4 +2171,110 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
+    public function get_no_order_list($level,$adminid,$start_time,$end_time){
+        $where_arr = [
+            'm.account_role =2',
+            'g.main_type=2',
+            "( m.leave_member_time =0 or m.leave_member_time>=$end_time)",
+            "m.become_member_time<$end_time",
+            'm.uid <> 1239 and m.uid<>892 and m.uid<>1257 and m.uid<>491 and m.uid<> 68',
+        ];
+        $order_arr = [
+            ['o.order_time>=%u', $start_time, -1],
+            ['o.order_time<%u', $end_time, -1],
+        ];
+        if ($level == 1){//组长
+            $where_arr[] = "g.master_adminid=$adminid";
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.account and %s "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+        } else if($level == 2){//主管
+
+            $where_arr[] = "mg.master_adminid=$adminid";
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.account and %s "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." left join %s mg on mg.groupid=g.up_groupid"
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,t_admin_main_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+
+        } else if($level == 3){//总监
+
+            $where_arr[] = "amg.master_adminid=$adminid";
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.account and %s "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." left join %s mg on mg.groupid=g.up_groupid"
+                ." left join %s amg on amg.groupid=mg.up_groupid"
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,t_admin_main_group_name::DB_TABLE_NAME
+                ,t_admin_majordomo_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+
+        } else if($level == 4){
+
+            $sql = $this->gen_sql_new(
+                "select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order"
+                ." from %s m "
+                ." left join %s o on o.sys_operator=m.account and %s "
+                ." left join %s gu on gu.adminid=m.uid "
+                ." left join %s g on g.groupid=gu.groupid "
+                ." where %s"
+                ." group by m.uid"
+                ." having no_order=0"
+                ,self::DB_TABLE_NAME
+                ,t_order_info::DB_TABLE_NAME
+                ,$order_arr
+                ,t_admin_group_user::DB_TABLE_NAME
+                ,t_admin_group_name::DB_TABLE_NAME
+                ,$where_arr
+            );
+        }
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_alert_time_by_uid($uid) {
+        $sql = $this->gen_sql_new("select alert_time from %s where uid='%s'",
+                                  self::DB_TABLE_NAME, $uid);
+        return $this->main_get_value($sql);
+    }
+
 }

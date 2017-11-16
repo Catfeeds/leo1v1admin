@@ -281,7 +281,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "select tmk_adminid,   ss.tmk_set_seller_adminid,return_publish_count,tmk_assign_time ,tmk_student_status ,tmk_desc,tmk_next_revisit_time ,s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,ss.auto_allot_adminid ".
             " from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
-            ."  left join %s s on ss.userid=s.userid   "
+            ." left join %s s on ss.userid=s.userid   "
             ." left join %s tr on   t.current_require_id = tr.require_id "
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
             ." left join %s l on  tss.lessonid = l.lessonid "
@@ -305,7 +305,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $subject=-1,$phone_location="", $has_pad=-1, $seller_resource_type=-1 ,$origin_assistantid=-1,
         $tq_called_flag=-1,$phone="", $nick="" ,$origin_assistant_role=-1,$success_flag=-1,
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
-        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0
+        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1
     ) {
         if ($userid >0 || $phone || $nick) {
             if(in_array($admin_revisiterid,[384,412])){//
@@ -333,6 +333,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["ss.phone_location like '%%%s%%'", $this->ensql($phone_location), ""],
                 ["ss.seller_resource_type = %d " ,$seller_resource_type, -1],
                 ["ss.tq_called_flag= %d " ,$tq_called_flag, -1],
+                ["ss.global_tq_called_flag = %d " ,$global_tq_called_flag, -1],
                 ["tss.success_flag = %d " ,$success_flag, -1],
                 ["tmk_student_status = %d " ,$tmk_student_status, -1],
                 ["require_admin_type=%u",$require_admin_type,-1]
@@ -2213,6 +2214,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[] = " ( t.seller_student_status in (1,2,101,102) or ( n.auto_allot_adminid = $adminid and t.seller_student_status in (0,1,2,101,102) ) )";
         } else {
             $where_arr[] = 't.seller_student_status in (1,2,101,102)';
+            $where_arr[] = 'n.auto_allot_adminid = 0';
         }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 

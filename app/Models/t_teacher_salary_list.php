@@ -35,11 +35,11 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
                                   ." t.subject"
                                   ." from %s ts "
                                   ." left join %s t on ts.teacherid=t.teacherid "
-                                  ." left join %s ta on t.phone=ta.phone"
+                                  //." left join %s ta on t.phone=ta.phone"
                                   ." where %s group by t.teacherid"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  //,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_as_page($sql);

@@ -284,7 +284,7 @@ class user_manage extends Controller
         }
 
         $now=time(NULL);
-        foreach($ret_info['list'] as &$item) {
+        foreach($ret_info['list'] as $i=> &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
             $item['type_str']          = $item['type']  ;
             $item['type']              = E\Estudent_type::get_desc($item['type']);
@@ -370,6 +370,17 @@ class user_manage extends Controller
                 $arr[] = $value['subject'];
             }
             $item["course_list_total"] = count(array_unique($arr));
+
+            // 检查交接单是否有驳回
+            // $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
+
+            $reject_status = $this->t_student_info->check_is_reject($item['userid']);
+
+            if($reject_status == 3){
+                unset($ret_info['list'][$i]);
+            }
+
+
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
@@ -383,7 +394,7 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
-        //dd($ret_info);
+        // dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
     }
 

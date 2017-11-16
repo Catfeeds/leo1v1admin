@@ -550,63 +550,33 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $res = [];
-        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-        $ret = $this->t_month_def_type->get_month_week_time($start_time);
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time);
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $lesson_start = $item['lesson_start'];
-            foreach($ret as $info){
-                $start = $info['start_time'];
-                $end = $info['end_time'];
-                $week_order = $info['week_order'];
-                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
-                    $res[$adminid][$week_order][] = $item;
-                }
-            }
-        }
-        foreach($res as $key=>$item){
-            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
-            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
-            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
-            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
-        }
-        dd($res);
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
-            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            if($item['test_lesson_count'] != 0){
-                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
-            }
-        }
-        dd($ret);
-        $ret = $this->t_id_opt_log->get_yxyx_last_adminid();
-        dd($ret);
+        $row_item=$this->t_seller_student_new-> get_lesson_status_count($adminid=99 );
+        dd($row_item);
 
-        $origin = $this->t_student_info->field_get_value($userid,'优学优享');
-        if($origin == '优学优享'){
-            $last_adminid = $this->t_id_opt_log->get_yxyx_last_adminid();
-            if($last_adminid == 412){
-                $opt_adminid=384;
-            }else{
-                $opt_adminid=412;
-            }
-            $opt_account = $this->t_manager_info->get_account($opt_adminid);
-            $account = $this->get_account();
-            $this->t_seller_student_new->set_admin_info_new(
-                $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
-        }
-        //回流
+        $ret = $this->t_seller_student_new->field_update_list($userid=426861,[
+            "tmk_student_status"=>E\Etmk_student_status::V_3,
+            "tmk_next_revisit_time"=>0,
+            "tmk_desc"=>'',
+            "first_tmk_set_valid_admind"=>535,
+            "first_tmk_set_valid_time"=>1510621248,
+            "cc_no_called_count"=>0,
+        ]);
+        $ret_t = $this->t_seller_student_new->field_update_list($userid=426079,[
+            "tmk_student_status"=>E\Etmk_student_status::V_3,
+            "tmk_next_revisit_time"=>0,
+            "tmk_desc"=>'',
+            "first_tmk_set_valid_admind"=>999,
+            "first_tmk_set_valid_time"=>1510546206,
+            "cc_no_called_count"=>0,
+        ]);
+        $ret_s = 'a';
+        $ret_p = 'p';
 
-        // dd($ret);
+        // $ret = $this->t_seller_student_new->set_admin_info_new(
+        //     $opt_type=2,$userid=426861,535,535,'张倩','张倩',1510621248);
+        // $ret_t = $this->t_seller_student_new->set_admin_info_new(
+        //     $opt_type=2,$userid=426079,999,999,'祝艳平','祝艳平',1510546206);
+        dd($ret,$ret_t);
     }
 
     //处理等级头像
@@ -2200,10 +2170,13 @@ class agent extends Controller
         if($ret_info['total_num']<1)
             $ret_info['list'] = [];
         foreach($ret_info['list'] as &$item){
+            //获取用户签单量及签单金额
+            $agent_order_sum = $this->t_order_info->get_agent_order_sum($item['userid']);
+            $item['self_order_count'] = $agent_order_sum['self_order_count'];
+            $item['self_order_price'] = $agent_order_sum['self_order_price']/100;
             $item['is_test_lesson_str'] = empty($item['test_lessonid']) ? '未试听':'已试听';
             if($item['account_role'] == 1)
                 $item['teach_assistantant'] = $item['account'].'/'.$item['name'];
-            $item['self_order_price'] /= 100;
             $item['agent_info'] = 1;
         }
         return $this->pageView(__METHOD__,$ret_info,['type'=>$type]);

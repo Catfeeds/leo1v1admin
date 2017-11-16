@@ -737,12 +737,14 @@ class wx_yxyx_api extends Controller
         }
         $headimgurl   = $agent_info['headimgurl'];
         $nickname     = $agent_info['nickname'];
-
+        
         $data = [
             'agent_level'         => $agent_level ,
             'usernick'            => $nick,
             'wx_headimgurl'       => $agent_info['headimgurl'],
             "all_money" => $agent_info["all_yxyx_money"]/100,
+            'phone' => $agent_info['phone'],
+            'wx_openid' => $agent_info['wx_openid']
         ];
 
         E\Eagent_level::set_item_value_str($data);
@@ -751,6 +753,17 @@ class wx_yxyx_api extends Controller
 
         $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
 
+        //获取用户邀请人试听情况
+        $child_test_lesson_info = $this->t_agent->get_child_test_lesson_info_by_parentid($agent_id);
+        $test_lesson_succ_flog = 0;
+        foreach($child_test_lesson_info as &$item){
+            if($item['lesson_user_online_status'] == 1){
+                $test_lesson_succ_flog = 1;
+                break;
+            }
+                
+        }
+        $data['test_lesson_succ_flog'] = $test_lesson_succ_flog;
 
         return $this->output_succ(["user_info_list" =>$data]);
 
@@ -767,7 +780,7 @@ class wx_yxyx_api extends Controller
 
         $list = [
             "all_money" => $agent_info["all_yxyx_money"]/100,
-            "open_moeny" => $agent_info["all_open_cush_money"]/100,
+            "open_moeny" => ($agent_info["all_open_cush_money"]-$agent_info['all_have_cush_money'])/100,
             "all_have_cush_money" => $agent_info["all_have_cush_money"]/100,
         ];
 
@@ -788,8 +801,6 @@ class wx_yxyx_api extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                 $item['agent_status'] = "0";
-            if($item['agent_status'] >30)
-                $item['agent_status'] = "30";
             $item['agent_status_money'] /=100;
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -941,7 +952,6 @@ class wx_yxyx_api extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
-        $cash          = $this->t_agent->get_can_carry($agent_id);
         $id            = $agent_id;
         if (!($cash>0)) {
             return $this->output_err("无可提现金额!");
@@ -951,9 +961,8 @@ class wx_yxyx_api extends Controller
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
         $have_cash = $this->t_agent_cash->get_have_cash($agent_id,[0,1]);
-        $cash_new = $cash + $have_cash;
-        if($cash_new > $total_cash){
-            return $this->output_err("超出可提现金额!");
+        if($total_cash - $have_cash < 2500){
+            return $this->output_err("可提现金额最低为25元!");
         }
 
         if($bankcard){
@@ -990,7 +999,7 @@ class wx_yxyx_api extends Controller
         }
         $ret_new = $this->t_agent_cash->row_insert([
             "aid"         => $id,
-            "cash"        => $cash,
+            "cash"        => $total_cash - $have_cash,
             "is_suc_flag" => 0,
             "type"        => 1,
             "create_time" => time(null),
@@ -1095,15 +1104,17 @@ class wx_yxyx_api extends Controller
         //获取一级用户为学员的列表
         $student_list = $this->t_agent->get_invite_type_list($agent_id,$type=1,$page_info,$page_count);
         foreach($student_list['list'] as &$item){
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                $item['agent_status'] = "0";
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
-            $item['child'] =  [];
-            $item['second_num'] = count($item['child']);
         }
         //获取一级用户为会员的列表
         $member_list = $this->t_agent->get_invite_type_list($agent_id,$type=2,$page_info,$page_count);
         foreach($member_list['list'] as &$item){
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                $item['agent_status'] = "0";
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -1121,6 +1132,8 @@ class wx_yxyx_api extends Controller
         //获取一级用户为学员&会员的列表
         $student_and_member_list = $this->t_agent->get_invite_type_list($agent_id,$type=3,$page_info,$page_count);
         foreach($student_and_member_list['list'] as &$item){
+            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                $item['agent_status'] = "0";
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             if(empty($item['nickname']))
                 $item['nickname'] = $item['phone'];
@@ -1234,14 +1247,169 @@ class wx_yxyx_api extends Controller
         if($img_type == 1){
             $bg_url      = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0404fa8aeb8160820d2709baee4909871510113929932.jpg";
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
+            if(\App\Helper\Utils::check_env_is_test())
+                $qr_code_url = "http://test.www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
         }elseif($img_type == 2){
             $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
+            if(\App\Helper\Utils::check_env_is_test())
+                $qr_code_url = "http://test.www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
         }
         $invite_img = \App\Helper\Utils::make_invite_img_new($bg_url,$qr_code_url,$agent_info,$img_type);
         $relative_path = 'http://admin.leo1v1.com'.$invite_img;
+        if(\App\Helper\Utils::check_env_is_test())
+            $relative_path = 'http://test.admin.leo1v1.com/'.$invite_img;
 
         //生成图片  --end--
         return $this->output_succ(['invite_img' => $relative_path]);
+    }
+    //@desn:获取用户抽奖次数
+    public function get_daily_lottery_count(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $img_type = $this->get_in_int_val('img_type');
+        $phone = '';
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        //获取该用户今日可用抽奖次数
+        $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
+
+        return $this->output_succ([
+            'left_daily_lottery_count' => $daily_lottery_count,
+        ]);
+    }
+    //@desn:获取用户每日抽奖次数
+    //@param:用户优学优享id
+    private function agent_daily_lottery_count($agent_id){
+        //获取用户今日可用抽奖次数  --begin--
+        $daily_lottery_count = 1;
+        $begin_time = strtotime(date('Y-m-d'));
+        $end_time = strtotime(date('Y-m-d 23:59:59'));
+        $agent_today_invite_list = $this->t_agent->get_today_invite_list($agent_id,$begin_time,$end_time);
+        $student_flog = false;
+        $member_flog = false;
+        foreach($agent_today_invite_list as &$item){
+            if($item['type'] == 1 && !isset($student_flog)){
+                $daily_lottery_count++;
+                $student_flag = true;
+            }elseif($item['type'] ==2 && !isset($member_flog)){
+                $daily_lottery_count++;
+                $member_flag = true;
+            }elseif($item['type'] == 3){
+                $daily_lottery_count++;
+            }
+            if($daily_lottery_count >= 3)
+                break;
+        }
+        //获取用户今日可用抽奖次数  --end--
+
+        //获取用户已消耗抽奖次数
+        $has_used_count = $this->t_agent_daily_lottery->get_has_used_count($agent_id,$begin_time,$end_time);
+
+        $daily_lottery_count = $daily_lottery_count - $has_used_count;
+        return $daily_lottery_count;
+    }
+    //@desn:优学优享每日抽奖
+    public function do_daily_lottery(){
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $img_type = $this->get_in_int_val('img_type');
+        $phone = '';
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+
+        //用户可抽奖次数校验
+        $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+            $daily_lottery_count = 1;
+
+        if($daily_lottery_count > 0){
+            $the_prize = 1;
+            $rand  = mt_rand(1,100);
+            $money = 0;
+            
+            switch($rand){
+            case $rand>=1 && $rand<=15:
+                $the_prize = 1;//再接再厉
+                break;
+            case $rand>=16 && $rand<=30:
+                $the_prize = 2;//再接再厉
+                break;
+            case $rand>=31 && $rand<=50:
+                $the_prize = 3;//0.01
+                $money = 1;
+                break;
+            case $rand>=51 && $rand<=70:
+                $the_prize = 4;//0.05
+                $money = 5;
+                break;
+            case $rand>=71 && $rand<=85:
+                $the_prize = 5;//0.1
+                $money = 10;
+                break;
+            case $rand>=86 && $rand<=90:
+                $the_prize = 6;//0.5
+                $money = 50;
+                break;
+            case $rand>=91 && $rand<=95:
+                $the_prize = 7;//0.8
+                $money = 80;
+                break;
+            case $rand>=96 && $rand<=100:
+                $the_prize = 8;//1.00
+                $money = 100;
+                break;
+            default:
+                $the_prize = 1;
+            };
+            
+            //插入获奖记录
+            $insert_status = $this->t_agent_daily_lottery->row_insert([
+                'l_type' => E\El_type::V_DAILY_LOTTERY,
+                'money' => $money,
+                'agent_id' => $agent_id,
+                'create_time' => time(NULL),
+            ]);
+
+            if($insert_status){
+                if($money > 0){
+                    $this_field = 'all_yxyx_money';
+                    //添加到用户总金额
+                    $update_status = $this->t_agent->since_the_add($agent_id,$this_field,$money);
+                    if($update_status){
+                        return $this->output_succ([
+                            'the_prize' => $the_prize,
+                            'money' => $money/100
+                        ]);
+                    }else{
+                        return $this->output_err('添加抽奖金额失败!');
+                    }
+                }else{
+                    return $this->output_succ([
+                        'the_prize' => $the_prize,
+                        'money' => $money
+                    ]);
+                }
+
+            }else{
+                return $this->output_err('插入抽奖记录失败!');
+            }
+
+
+        }else{
+            return $this->output_err('您今日的抽奖次数已用完!');
+        }
     }
 } 

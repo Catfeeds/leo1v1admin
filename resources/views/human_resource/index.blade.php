@@ -350,7 +350,7 @@
                 <!-- 避免测试账号随便乱加，关闭新增老师 -->
                 <!-- <div class="col-xs-6 col-md-2">
                      <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
-                </div> -->
+                </div>  -->
                 <div class="col-xs-6 col-md-1">
                     <button class="btn" id="id_limit_week_lesson_num_person" data-value="{{$week_num_person}}" >{{$week_num_person}}</button>
                 </div>

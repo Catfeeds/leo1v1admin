@@ -94,15 +94,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.type = %u ',$type,'-1']
         ];
         $sql = $this->gen_sql_new(
-            " select a.id,a.phone,a.nickname,a.test_lessonid,count(o.orderid) as self_order_count,"
-            ."sum(o.price) as self_order_price,o.sys_operator,mi.account,mi.name,mi.account_role "
+            " select a.id,a.phone,a.nickname,a.test_lessonid,o.sys_operator,mi.account,mi.name,mi.account_role "
             .",a.userid"
             ." from %s a "
             ." left join %s s on s.userid = a.userid"
             ." left join %s ao on ao.aid = a.id "
             ." left join %s o on o.orderid = ao.orderid "
             ." left join %s mi on s.assistantid = mi.uid "
-            ." where %s group by a.id"
+            ." where %s"
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_agent_order::DB_TABLE_NAME
@@ -420,13 +419,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function add_agent_row($parentid,$phone,$userid,$type){
+    public function add_agent_row($parentid,$phone,$userid,$type,$parent_adminid=0){
         $ret = $this->row_insert([
-            "parentid"    => $parentid,
-            "phone"       => $phone,
-            "userid"      => $userid,
-            "type"        => $type,
-            "create_time" => time(null),
+            "parentid"       => $parentid,
+            "phone"          => $phone,
+            "userid"         => $userid,
+            "type"           => $type,
+            "parent_adminid" => $parent_adminid,
+            "create_time"    => time(null),
         ],false,false,true);
         return $ret;
     }
@@ -1570,23 +1570,31 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
         //活动奖励
-        $activity_money=$this->t_agent_money_ex->get_all_money($id);
+        $activity_money=$this->task->t_agent_money_ex->get_all_money($id);
 
         //双11活动
         if($userid){
             //t_luck_draw_yxyx_for_ruffian
-            $ruffian_money = $this->t_luck_draw_yxyx_for_ruffian->get_ruffian_money_for_total($userid);
+            $ruffian_money = $this->task->t_luck_draw_yxyx_for_ruffian->get_ruffian_money_for_total($userid);
         }else{
             $ruffian_money = 0;
         }
 
+        //优学优享每日转盘活动
+        $daily_lottery_money = $this->task->t_agent_daily_lottery->get_sum_daily_lottery($id);
 
         \App\Helper\Utils::logger("yxyx_ruffian: $ruffian_money userid: $userid");
 
         //总提成信息
-        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money;
+        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money+$daily_lottery_money;
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
+        //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可提现]
+        if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0)
+            $all_open_cush_money += $daily_lottery_money;
+        elseif($daily_lottery_money >= 2500)  //或者是抽奖金额达到25 [进入可提现]
+            $all_open_cush_money += $daily_lottery_money;
+
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
         $this->field_update_list($id,[
@@ -2432,7 +2440,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.agent_status >= %u',30]
         ];
         $sql = $this->gen_sql_new(
-            "select  id,a.phone,a.nickname,a.agent_status_money "
+            "select  id,a.phone,a.nickname,a.agent_status_money,agent_status "
             . " from %s a"
             ." where %s order by a.id desc",
             self::DB_TABLE_NAME,
@@ -2443,7 +2451,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@desn:会员邀请奖励列表[已获取]
     public function member_had_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
-            "select phone,nickname,pp_agent_status_money as agent_status_money "
+            "select phone,nickname,pp_agent_status_money as agent_status_money,agent_status "
             ."from %s "
             ." where  parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1 "
             ."order by create_time desc",
@@ -2470,7 +2478,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['type = %u',$type,'1']
         ];
         $sql = $this->gen_sql_new(
-                "select id,phone,nickname,create_time from %s where %s order by id desc",
+            "select id,phone,nickname,agent_status,agent_student_status,create_time from %s where %s order by id desc",
                 self::DB_TABLE_NAME,
                 $where_arr
         );
@@ -2746,5 +2754,66 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "select * from %s where nickname like '%%%s%%'",self::DB_TABLE_NAME,$nickname
         );
         return $this->main_get_row($sql);
+    }
+    //@desn:获取用户每日邀请用户列表
+    //@param: $agent_id 邀请人id
+    //@param:$start_time 开始时间
+    //@param:$end_time  结束时间
+    public function get_today_invite_list($agent_id,$start_time,$end_time){
+        $where_arr = [
+            ['parentid = %u',$agent_id,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,'create_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            'select id,type from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:自增函数
+    //@param:$agent_id 优学优享id
+    //@param:$this_field 自增的字段 
+    //@param:$this_num 自增的数值 
+    public function since_the_add($agent_id,$this_field,$this_num){
+        $sql = sprintf(
+            "update %s set  %s = %s + $this_num  where  id = %u",
+            self::DB_TABLE_NAME,
+            $this_field,
+            $this_field,
+            $agent_id
+        );
+        $ret = $this->main_update($sql);
+        return $ret;
+    }
+    //@desn:根据邀请人获取被邀请人试听情况
+    public function get_child_test_lesson_info_by_parentid($agent_id){
+        $where_arr = [
+            "a.test_lessonid <> ''",
+            ['a.parentid = %u',$agent_id,-1]
+        ];
+        $sql = $this->gen_sql_new(
+            'select l.lesson_user_online_status from %s a '.
+            "left join  %s l on a.test_lessonid =l.lessonid  ".
+            "where %s",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_parent_adminid_by_parentid($parentid){
+        $where_arr = [
+            ['a.id = %u', $parentid, -1],
+            'm.leave_member_time=0',
+        ];
+        $sql = $this->gen_sql_new("select m.uid from %s a"
+                                  ." left join %s m on m.phone=a.phone"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 }

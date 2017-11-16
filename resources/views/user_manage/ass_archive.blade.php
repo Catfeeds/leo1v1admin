@@ -140,6 +140,7 @@
                     <td >{{$var["user_agent"]}}</td>
                     <td >{{$var["last_login_ip"]}}</td>
                     <td >{{$var["last_login_time"]}}</td>
+
                     <td >
                         <div
                             data-userid="{{$var["userid"]}}"

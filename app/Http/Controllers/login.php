@@ -106,7 +106,7 @@ class login extends Controller
         }
     }
 
-    function  gen_one_item ($node,$power_fix,$level,$power_map) {
+    function  gen_one_item ($node,$power_fix,$level,$power_map,$admin_domain_type) {
         //\App\Helper\Utils::logger("do:".$node["name"]);
 
         $power_id= $power_fix*100+$node["power_id"];
@@ -116,7 +116,7 @@ class login extends Controller
             $item_1="" ;
             $sub_list_str_tmp="";
             foreach ($node["list"] as $item) {
-                $tmp=$this->gen_one_item( $item, $power_id ,$level+1,$power_map);
+                $tmp=$this->gen_one_item( $item, $power_id ,$level+1,$power_map,$admin_domain_type);
                 if($tmp) {
                     $add_count++;
                     if ( is_array( $tmp)  ) {
@@ -160,8 +160,9 @@ class login extends Controller
                     $icon="fa-circle-o";
                 }
 
+                $url_base= \App\Helper\Config::get_admin_domain_url($admin_domain_type );
 
-                return '<li> <a href="'.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
+                return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
 
@@ -172,7 +173,7 @@ class login extends Controller
     }
 
 
-    private function  gen_menu($power_map,$menu,$start,$level){
+    private function  gen_menu($power_map,$menu,$start,$level, $admin_domain_type = E\Eadmin_domain_type::V_ADMIN_1V1 ){
         $menu_str        = "";
         $item_count      = 0;
         $item_1          = "";
@@ -185,7 +186,7 @@ class login extends Controller
             $item_name=$item["name"];
 
 
-            $tmp=$this->gen_one_item( $item, $start,$level,$power_map);
+            $tmp=$this->gen_one_item( $item, $start,$level,$power_map, $admin_domain_type);
             if($tmp) {
                 $item_count++;
                 if(is_array($tmp)) {
@@ -299,6 +300,10 @@ class login extends Controller
 
         $stu_menu_html = $this->gen_menu( $arr,$stu_menu,201,2);
         $tea_menu_html = $this->gen_menu( $arr,$tea_menu,202,2);
+
+        //小班课
+        $class_menu_html = $this->gen_menu( $arr, \App\ClassMenu\menu::get_config() ,3,1, E\Eadmin_domain_type::V_ADMIN_CLASS);
+        $menu_html.=$class_menu_html;
 
         $_SESSION['menu_html']     = $menu_html;
         $_SESSION['stu_menu_html'] = $stu_menu_html;
@@ -416,7 +421,7 @@ class login extends Controller
     }
 
     public function login_other() {
-        if(!$this->check_account_in_arr(["jim","adrian","seven", "james","jack","michael","ted","夏宏东",'tom',"boby","sam"]) ) {
+        if(!$this->check_account_in_arr(["jim","adrian","seven", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿"]) ) {
             return $this->output_err("没权限");
         }
 

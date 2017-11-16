@@ -1170,8 +1170,11 @@ class user_manage_new extends Controller
         ];
         $sub_list=$this->get_menu_power_list ($power_map,$sub_menu,$start*2 );
 
-        return array_merge($list,$sub_list);
+        $class_list=$this->get_menu_power_list($power_map,\App\ClassMenu\menu::get_config()  ,$start*3 );
+
+        return array_merge($list, $class_list ,$sub_list);
     }
+
 
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;
@@ -1662,7 +1665,6 @@ class user_manage_new extends Controller
         if($end_time >= time()){
             $end_time = time();
         }
-
         $start_first = date('Y-m-01',$start_time);
         $res = [];
         $this->t_seller_month_money_target->switch_tongji_database();
@@ -1757,9 +1759,7 @@ class user_manage_new extends Controller
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            if($item['test_lesson_count'] != 0){
-                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
-            }
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
         //试听成功数
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
@@ -1788,6 +1788,12 @@ class user_manage_new extends Controller
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
             $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
             $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+            $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
+            $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
+            $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
+            $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate'].'%';
         }
 
         $this->t_order_info->switch_tongji_database();
@@ -1821,7 +1827,9 @@ class user_manage_new extends Controller
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
             E\Emain_type::set_item_value_str($item);
-            $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
+            E\Eseller_level::set_item_value_str($item);
+            $item['lesson_per'] = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count'],2)*100)."%":0;
+            // $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
             $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
             $item['finish_per'] =@$item['target_money']!=0?(round(@$item['all_price_for_month']/$item['target_money'],2)*100)."%":0;
             $item['finish_personal_per'] =@$item['target_personal_money']!=0?(round(@$item['all_price_for_month']/$item['target_personal_money'],2)*100)."%":0;
@@ -1849,6 +1857,7 @@ class user_manage_new extends Controller
                 $item["del_flag_str"] = '';
                 $item['become_member_num'] = '';
                 $item['leave_member_num'] = '';
+                $item['suc_lesson_count_rate'] = '';
             }
 
             if($item['level'] == 'l-3'){
