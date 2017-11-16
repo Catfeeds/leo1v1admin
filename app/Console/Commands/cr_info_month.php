@@ -331,11 +331,26 @@ class cr_info_month extends Command
         $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
         $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
 
+        //各年级在读学生统计
+        $grade_list = $this->t_student_info->get_read_num_by_grade();
+        $arrr=[];
+        foreach($grade_list as $k=>$val){
+            $arrr[$k]=$val["num"];
+        }
+        $grade_str = json_encode($arrr);
+
+
         //课时消耗目标数量
         $last_year_start = strtotime("-1 years",$start_time); 
         $last_year_end = strtotime("+1 months",$last_year_start); 
 
-        $month_start_stu_info = $task->t_cr_week_month_info->get_data_by_type($start_time,$type);
+        $month_start_grade_info = $task->t_cr_week_month_info->get_data_by_type($start_time,$type);
+        $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
+        $grade_arr = json_decode($month_start_grade_str,true); //月初各年级在读人数
+        
+        $lesson_consume    = $task->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
+
+
 
 
         $insert_data = [
@@ -405,6 +420,7 @@ class cr_info_month extends Command
           "new_order_unassign_num"  => $arr["new_order_unassign_num"], //新签合同未排量(未分配)
           "student_end_per"         => $arr["student_end_per"],   //结课率
           "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
+          "grade_stu_list"          => $grade_str ,        //各年级在读学生数,json格式
 
         ];
 

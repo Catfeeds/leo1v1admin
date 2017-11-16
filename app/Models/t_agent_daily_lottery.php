@@ -23,7 +23,16 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
         );
         return $this->main_get_value($sql);
     }
-
+    //@desn:获取用户总共抽奖金额
+    //@param: $id 用户优学优享id
+    public function get_sum_daily_lottery($id){
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s where agent_id = %u',
+            self::DB_TABLE_NAME,
+            $id
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 

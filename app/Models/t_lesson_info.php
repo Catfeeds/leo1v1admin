@@ -9620,6 +9620,7 @@ lesson_type in (0,1) "
             ['lesson_start<%u',$end_time,-1],
             "lesson_user_online_status = 1 ",
             "lesson_type IN (0, 1, 3) ",
+            "l.lesson_del_flag=0",
             "(s.is_test_user = 0 or s.is_test_user is null)"
         ];
         $sql = $this->gen_sql_new("select sum(if(l.confirm_flag in (0,1,3,4), l.lesson_count,0) )as total_consume, count(distinct(l.userid)) as total_student ".
@@ -9631,6 +9632,31 @@ lesson_type in (0,1) "
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
+    public function get_total_consume_by_grade($start_time,$end_time){
+        $where_arr = [
+            ['lesson_start>%u',$start_time,-1],
+            ['lesson_start<%u',$end_time,-1],
+            "lesson_user_online_status <2 ",
+            "lesson_type IN (0, 1, 3) ",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+            "l.lesson_status>0",
+            "l.confirm_flag in (0,1,3,4)",
+            "l.lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select sum( l.lesson_count) as total_consume,".
+                                  " count(distinct(l.userid)) as total_student ,l.grade".
+                                  " from %s l ".
+                                  " left join %s s on s.userid = l.userid ".
+                                  " where %s group by l.grade",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item["grade"];
+        });
+    }
+
     public function get_leave_num($start_time,$end_time){
         $where_arr = [
             ['lesson_start>%u',$start_time,-1],

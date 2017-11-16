@@ -737,7 +737,7 @@ class wx_yxyx_api extends Controller
         }
         $headimgurl   = $agent_info['headimgurl'];
         $nickname     = $agent_info['nickname'];
-
+        
         $data = [
             'agent_level'         => $agent_level ,
             'usernick'            => $nick,
@@ -751,6 +751,17 @@ class wx_yxyx_api extends Controller
 
         $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
 
+        //获取用户邀请人试听情况
+        $child_test_lesson_info = $this->t_agent->get_child_test_lesson_info_by_parentid($agent_id);
+        $test_lesson_succ_flog = 0;
+        foreach($child_test_lesson_info as &$item){
+            if($item['lesson_user_online_status'] == 1){
+                $test_lesson_succ_flog = 1;
+                break;
+            }
+                
+        }
+        $data['test_lesson_succ_flog'] = $test_lesson_succ_flog;
 
         return $this->output_succ(["user_info_list" =>$data]);
 
@@ -1234,9 +1245,13 @@ class wx_yxyx_api extends Controller
         if($img_type == 1){
             $bg_url      = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0404fa8aeb8160820d2709baee4909871510113929932.jpg";
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
+            if(\App\Helper\Utils::check_env_is_test())
+                $qr_code_url = "http://test.www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=1";
         }elseif($img_type == 2){
             $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
+            if(\App\Helper\Utils::check_env_is_test())
+                $qr_code_url = "http://test.www.leo1v1.com/market-invite/index.html?p_phone=$phone&type=2";
         }
         $invite_img = \App\Helper\Utils::make_invite_img_new($bg_url,$qr_code_url,$agent_info,$img_type);
         $relative_path = 'http://admin.leo1v1.com'.$invite_img;
@@ -1313,7 +1328,7 @@ class wx_yxyx_api extends Controller
 
         //用户可抽奖次数校验
         $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
-        if(\App\Helper\Utils::check_env_is_test())
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
             $daily_lottery_count = 1;
 
         if($daily_lottery_count > 0){
