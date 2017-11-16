@@ -74,12 +74,12 @@ class update_haruteru_award extends Command
             var_dump($person);
             // 添加数据
             $i = 0;
-            foreach($person as $key => $item) {
+            foreach($person as $item) {
                 $comput = array_slice($person,0,$key+1);
                 $money = $this->award[$i];
-                foreach($comput as $k=>$val) {
+                foreach($comput as $key=>$val) {
                     if ($item['convers'] == $val['convers']) {
-                        echo $k; break;
+                        $money = $this->award[$k];
                     }
                 }
                 $i ++;
