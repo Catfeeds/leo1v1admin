@@ -602,7 +602,7 @@ class agent extends Controller
             $res[$adminid]['lesson_per'] = $lesson_per==0?0:$lesson_per."%";
             $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
             $res[$adminid]['kpi'] = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
-            $res[$adminid]['kpi_desc'] = $res[$adminid]['kpi'];
+            $res[$adminid]['kpi_desc'] = $res[$adminid]['kpi']."%";
         }
         dd($res);
     }
