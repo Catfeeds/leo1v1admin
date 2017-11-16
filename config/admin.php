@@ -1,6 +1,5 @@
 <?php
 return [
-
     "admin_url" => "https://admin.leo1v1.com/",
 
     "admin_domain_url_config"=>[

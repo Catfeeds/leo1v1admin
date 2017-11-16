@@ -16,7 +16,7 @@
 
 
   还原数据库
-  mysqldump -uroot -p ta0mee < my.sql
+  mysql -uroot -p ta0mee < my.sql
 
 * 下载git代码
   cd ~
