@@ -54,32 +54,33 @@ class update_haruteru_award extends Command
     // 处理结果获取春辉奖得奖人
     public function get_person($info, $grade) {
         $person = [];
-        $sort = [];
+        $sort_n = $sort_o =[];
         if ($info) {
             foreach($info as $key => $item) {
                 $convers = $item['have_order'] / $item['lesson_num'] * 100;
                 if ($item['lesson_num'] >= 6 && $convers >= 15) {
-                    $sort[] = $item['lesson_num'];
+                    $sort_n[] = $item['lesson_num'];
+                    $sort_o[] = $item['have_order'];
                     $item['convers'] = $convers;
                     $person[$key] = $item;
                 }
             }
         }
         if ($person) {
-            array_multisort($sort,SORT_DESC,$person );
-            dd($person);
+            array_multisort($sort_n,SORT_DESC,$sort_o,SORT_DESC,$person );
+            var_dump($person);
             // 获取
-            $person = array_alice($person,0,5);
+            $person = array_slice($person,0,5);
             dd($person);
             // 添加数据
-            foreach($person as $key => $item) {
-                $task->t_teacher_money_list->row_insert([
-                    'teacherid' => $key,
-                    'add_time' => time(),
-                    'type' => 7,
-                    'grade' => $grade
-                ]);
-            }
+            // foreach($person as $key => $item) {
+            //     $task->t_teacher_money_list->row_insert([
+            //         'teacherid' => $key,
+            //         'add_time' => time(),
+            //         'type' => 7,
+            //         'grade' => $grade
+            //     ]);
+            // }
         }
         return;
     }
