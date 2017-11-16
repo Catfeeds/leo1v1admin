@@ -1282,7 +1282,7 @@ class ss_deal extends Controller
             "rebut_info" =>$rebut_info_new,
             "rebut_flag" =>1
         ]);
-        
+
         return $this->output_succ();
     }
 
@@ -2553,6 +2553,7 @@ class ss_deal extends Controller
         return $this->output_succ(["data"=>$stu_info]);
     }
 
+
     public function confirm_test_lesson() {
         $require_id   = $this->get_in_require_id();
         $success_flag = $this->get_in_str_val("success_flag");
@@ -3503,11 +3504,11 @@ class ss_deal extends Controller
             // }
             // $str="";
             // foreach($arr as $item){
-            //     $str .= $item[6].",";               
+            //     $str .= $item[6].",";
             // }
             // $str = trim($str,",");
             // $this->t_teacher_info->field_update_list(240314,[
-            //     "part_remarks"=>$str 
+            //     "part_remarks"=>$str
             // ]);
             // return;
 
