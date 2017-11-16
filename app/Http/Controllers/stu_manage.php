@@ -1076,6 +1076,7 @@ class stu_manage extends Controller
         //     $is_submit_show = 1;
         // }
 
+
         if($row){
             $row['is_submit_show'] = $is_submit_show;
             $userid  = $this->t_order_info->get_userid($orderid);
@@ -1122,6 +1123,7 @@ class stu_manage extends Controller
                                ]
         );
     }
+
 
 
 

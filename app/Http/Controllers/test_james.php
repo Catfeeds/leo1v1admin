@@ -961,7 +961,7 @@ class test_james extends Controller
         dd($tea_lesson_list);
         $tea_lesson_info = $this->t_lesson_info_b3->get_tea_lesson_info($lesson_start, $lesson_end,$teacherid);
 
-        
+
         dd($tea_lesson_info);
 
 
@@ -1185,6 +1185,49 @@ class test_james extends Controller
 $test=	3;
     }
 
+
+    public function check_file(){
+        $filename = "D:\\296.mid";
+
+        $arr = explode('.', $filename);
+
+        dd($arr);
+
+        $file = fopen($filename, "rb");
+        $bin = fread($file, 2); //只读2字节
+        fclose($file);
+        $strInfo = @unpack("c2chars", $bin);
+        $typeCode = intval($strInfo['chars1'].$strInfo['chars2']);
+        $fileType = '';
+        dd($typeCode);
+        switch ($typeCode)
+        {
+        case 7790:
+            $fileType = 'exe';
+            break;
+        case 7784:
+            $fileType = 'midi';
+            break;
+        case 8297:
+            $fileType = 'rar';
+            break;
+        case 255216:
+            $fileType = 'jpg';
+            break;
+        case 7173:
+            $fileType = 'gif';
+            break;
+        case 6677:
+            $fileType = 'bmp';
+            break;
+        case 13780:
+            $fileType = 'png';
+            break;
+        default:
+            echo 'unknown';
+        }
+        echo 'this is a(an) '.$fileType.' file:'.$typeCode;
+    }
 
 
 }
