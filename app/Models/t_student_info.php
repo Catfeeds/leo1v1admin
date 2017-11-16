@@ -3248,9 +3248,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "o.contract_status <2"
         ];
         $sql = $this->gen_sql_new("  select sc.reject_flag from %s sc"
-                                  ." left join %s o o.userid=sc.orderid"
+                                  ." left join %s o on o.userid=sc.orderid"
                                   ." where %s order by sc.id desc limit 1"
-                                  ,self::DB_TABLE_NAME
+                                  ,t_student_cc_to_cr::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
