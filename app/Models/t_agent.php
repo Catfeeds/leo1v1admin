@@ -137,13 +137,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql=$this->gen_sql_new (
             "select a.id,a.phone,a.nickname,a.userid,a.test_lessonid,"
-            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role,pa.phone as p_phone,".
+            "pa.nickname as p_nickname,ppa.phone as pp_phone,ppa.nickname as pp_nickname"
             ." from %s a"
+            ." left join %s pa on a.parentid = pa.id"
+            ." left join %s ppa on pa.parentid = ppa.id"
             ." left join %s s on s.userid = a.userid"
             ." left join %s ao on ao.aid = a.id "
             ." left join %s o on ao.orderid = o.orderid"
             ." left join %s mi on s.assistantid = mi.uid"
             ." where %s",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_agent_order::DB_TABLE_NAME,
