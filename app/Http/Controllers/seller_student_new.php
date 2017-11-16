@@ -1448,7 +1448,6 @@ class seller_student_new extends Controller
 
 
         $now=time(NULL);
-
         $cur_hm=date("H",$now)*60+date("i",$now);
         $cur_week=date("w",$now);
         // if (in_array( $cur_week*1,[6,0] ) ) {//周六,周日00:00~11:00
@@ -1468,7 +1467,6 @@ class seller_student_new extends Controller
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;
         $time_str_list=[];
-
         foreach( $limit_arr  as $limit_item) {
             $limit_start=$limit_item[0];
             $limit_end=$limit_item[1];
@@ -1479,7 +1477,6 @@ class seller_student_new extends Controller
                                      $limit_start/60, $limit_start%60,
                                      $limit_end/60, $limit_end%60);
         }
-
         $errors=[];
         if(  (
             false ||
