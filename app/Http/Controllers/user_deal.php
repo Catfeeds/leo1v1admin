@@ -3992,6 +3992,8 @@ class user_deal extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
+        //kpi
+
 
         return $this->output_succ($arr);
     }
