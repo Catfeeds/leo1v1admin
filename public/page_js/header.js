@@ -749,7 +749,7 @@ $(function(){
 
     var check_url=$.trim( window.location.toString().split("?" )[0], "/");
 
-    var obj=$(".treeview-menu >li>a[href=\""+ check_url +"\"]");
+    var obj=$(".treeview-menu >li>a[href*=\""+ check_url +"\"]");
 
 
     var path_arr=window.location.pathname.split("/");
