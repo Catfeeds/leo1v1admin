@@ -2205,7 +2205,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_type = 0",
             "o.orderid=$orderid",
-            "o.order_time < l.lesson_start",
+            // "o.order_time < l.lesson_start",
         ];
         $sql = $this->gen_sql_new("  select l.lessonid from %s l "
                                   ." left join %s o on o.orderid=l.orderid"
