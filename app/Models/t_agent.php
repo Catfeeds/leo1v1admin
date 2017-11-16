@@ -2613,7 +2613,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
 
             //计算签单金额、签单量[无下限限制下级]
-            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
+            $child_order_info = $this->task->t_agent->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
             $cycle_order_count = $child_order_info['child_order_count'];
             $cycle_order_money = $child_order_info['child_order_money'];
 
@@ -2810,10 +2810,35 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
         $sql = $this->gen_sql_new("select m.uid from %s a"
                                   ." left join %s m on m.phone=a.phone"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取一些用户的签单数量及签单金额
+    //@desn:获取推荐学员签单量、签单金额[无下限限制下级]
+    //@param:$in_str child  id串
+    //@param:$start_time  每月开始时间
+    //@param:$end_time  每月结束时间
+    public function get_cycle_child_order_info($in_str,$start_time,$end_time){
+        $where_arr = [
+            'a.id in '.$instr,
+            'oi.order_status in (1,2)',
+            'oi.contract_type in (0,3)'
+        ];
+        $this->where_arr_add_time_range($where_arr,"ao.create_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            'select sum(ao.orderid>0) child_order_count,sum(oi.price) child_order_money '.
+            'from %s a '.
+            'left join %s oi on a.uesrid = oi.userid '.
+            'where %s ',
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }
