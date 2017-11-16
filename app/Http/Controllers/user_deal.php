@@ -3996,7 +3996,7 @@ class user_deal extends Controller
         $res = [];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
-        $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid=457);
+        $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
@@ -4031,7 +4031,7 @@ class user_deal extends Controller
         if($end_time >= time()){
             $end_time = time();
         }
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=457);
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
