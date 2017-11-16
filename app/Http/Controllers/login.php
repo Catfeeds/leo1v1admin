@@ -12,7 +12,7 @@ class login extends Controller
 {
 
     var $check_login_flag=false;
-    function gen_account_role_menu( $menu, &$power_map ,&$url_power_map ,$check_item_count=true) {
+    function gen_account_role_menu( $menu, &$power_map ,&$url_power_map ,$check_item_count=true ,$admin_domain_type = E\Eadmin_domain_type::V_ADMIN_1V1) {
 
         $menu_str        = "";
         $item_count      = 0;
@@ -23,7 +23,8 @@ class login extends Controller
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
-            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map ,$check_item_count);
+            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map ,
+                                                     $check_item_count, $admin_domain_type );
 
             if($tmp) {
                 $item_count++;
@@ -44,7 +45,7 @@ class login extends Controller
         return $menu_str;
     }
 
-    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ,$check_item_count=true) {
+    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ,$check_item_count=true, $admin_domain_type=  E\Eadmin_domain_type::V_ADMIN_1V1 ) {
         if (isset($node["list"])) {
 
             // if($node['name'] == '角色-教研'){
@@ -98,7 +99,8 @@ class login extends Controller
                     $icon="fa-circle-o";
                 }
 
-                return '<li> <a href="'.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
+                $url_base= \App\Helper\Config::get_admin_domain_url($admin_domain_type );
+                return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
                 return "";
