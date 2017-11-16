@@ -315,6 +315,7 @@
                                     <a class="opt-set-lecture-revisit-type " title="设置邀约状态" >邀约状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
                                     <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                    <a class="opt-set-part-teacher " title="设置为兼职老师" >兼</a>
                                 @else
                                     <a class="fa-edit opt-edit" title="编辑状态"></a>
                                     <a class="fa-times opt-del" title="删除"></a>

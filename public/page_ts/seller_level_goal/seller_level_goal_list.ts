@@ -91,7 +91,7 @@ $(function(){
                     'level_face'     : $id_level_face.find("#level_face_url").val(),
                     'level_face_old' : opt_data.level_face,
                     'level_icon'     : $id_level_icon.find("#level_icon_url").val(),
-                    'level_icon_old' : opt_data.level_face,
+                    'level_icon_old' : opt_data.level_icon,
                     'num'            : $id_num.val(),
                 });
             }
