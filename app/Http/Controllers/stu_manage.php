@@ -1344,9 +1344,9 @@ class stu_manage extends Controller
 
         if ($row) {
             $row['is_show_submit'] = $is_show_submit;
-            $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
+            $row['confirm_flag']   = $this->t_lesson_info_b3->check_is_consume($orderid);
+            $row['is_master']      = $is_master;
 
-            $row['is_master'] = $is_master;
             $userid   = $this->t_order_info->get_userid($orderid);
             $stu_info = $this->t_student_info->field_get_list($userid,"*");
 
