@@ -1590,10 +1590,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
         //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可提现]
-        if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0)
+        if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0){
             $all_open_cush_money += $daily_lottery_money;
-        elseif($daily_lottery_money >= 2500)  //或者是抽奖金额达到25 [进入可提现]
+            //将每日转盘奖励计入资金记录
+            //添加收入记录
+            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
+            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+        }elseif($daily_lottery_money >= 2500){  //或者是抽奖金额达到25 [进入可提现]
             $all_open_cush_money += $daily_lottery_money;
+            //将每日转盘奖励计入资金记录
+            //添加收入记录
+            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
+            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+        }
 
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
