@@ -2803,7 +2803,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function check_is_staff($parentid){
+    public function get_parent_adminid_by_parentid($parentid){
         $where_arr = [
             ['a.id = %u', $parentid, -1],
             'm.leave_member_time=0',
