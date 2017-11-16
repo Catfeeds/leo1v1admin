@@ -156,7 +156,7 @@
                     </div>
                 </div>
 
-                @if ( $is_sir == 973 || $is_sir == 540 )
+                @if ( $is_sir)
                     <div class="panel panel-warning" >
                         <div class="panel-heading">
                             <button class="btn btn-warning opt-no-order" data-flag="{{$force_flag}}" data-toggle="modal" data-target="#myModal">本月首周未开单人员</button>
@@ -486,7 +486,7 @@
                     <h4 class="modal-title" id="myModalLabel">本月首周未开单人员</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered opt-user-list" >
                         <tr>
                             <td><b>序号</b></td>
                             <td><b>队名</b></td>
@@ -494,7 +494,7 @@
                         </tr>
 
                         @foreach ( @$no_order as $key => $var )
-                            <tr>
+                            <tr class="opt-user">
                                 <td>{{@$key+1}}</td>
                                 <td>{{@$var['group_name']}}</td>
                                 <td>{{@$var['name']}}</td>
