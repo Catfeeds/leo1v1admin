@@ -198,7 +198,7 @@
                     <input class="form-control" style="display:none;" value="" id="id_id" />
 
                     <div class="col-xs-12 " style="text-align:center;" >
-                        <button  class="id_submit  btn btn-warning" style=" font-size:20px; " >驳回</button>
+                        <button  class="id_submit  btn btn-warning" style=" font-size:20px; " >驳回咨询</button>
 
                         <button  class="id_submit_succ btn btn-success" style=" font-size:20px;" >已驳回</button>
 

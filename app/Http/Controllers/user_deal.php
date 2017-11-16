@@ -3193,6 +3193,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        dd(1111);
         //$this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");
@@ -5573,9 +5574,9 @@ class user_deal extends Controller
                 $assistantid         = $this->t_student_info->get_assistantid_by_userid($sid);
                 $ass_master_adminid  = $this->t_student_info->get_ass_master_adminid($sid);
 
-                if($assistantid>0){ // 待删除
+                // if($assistantid>0){ // 待删除
                     // return $this->output_err('交接单已分配了助教老师，不能驳回交接单!');
-                }
+                // }
 
                 $ret = $this->t_student_cc_to_cr->field_update_list($id,[
                     'reject_flag' => $is_reject_flag,
