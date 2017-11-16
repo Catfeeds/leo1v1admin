@@ -419,13 +419,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function add_agent_row($parentid,$phone,$userid,$type){
+    public function add_agent_row($parentid,$phone,$userid,$type,$parent_adminid=0){
         $ret = $this->row_insert([
-            "parentid"    => $parentid,
-            "phone"       => $phone,
-            "userid"      => $userid,
-            "type"        => $type,
-            "create_time" => time(null),
+            "parentid"       => $parentid,
+            "phone"          => $phone,
+            "userid"         => $userid,
+            "type"           => $type,
+            "parent_adminid" => $parent_adminid,
+            "create_time"    => time(null),
         ],false,false,true);
         return $ret;
     }
@@ -2800,5 +2801,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function check_is_staff($parentid){
+        $where_arr = [
+            ['a.id = %u', $parentid, -1],
+            'm.leave_member_time=0',
+        ];
+        $sql = $this->gen_sql_new("select m.uid from %s a"
+                                  ." left join %s m on m.phone=a.phone"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 }
