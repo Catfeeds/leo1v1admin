@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class update_haruteru_award extends Command
 {
+    protected $award = [300,200,150,100,60];
     /**
      * The name and signature of the console command.
      *
@@ -54,33 +55,43 @@ class update_haruteru_award extends Command
     // 处理结果获取春辉奖得奖人
     public function get_person($info, $grade) {
         $person = [];
-        $sort_n = $sort_o =[];
+        $sort = [];
         if ($info) {
             foreach($info as $key => $item) {
-                $convers = $item['have_order'] / $item['lesson_num'] * 100;
+                $convers = round($item['have_order'] / $item['lesson_num'] * 100);
                 if ($item['lesson_num'] >= 6 && $convers >= 15) {
-                    $sort_n[] = $item['lesson_num'];
-                    $sort_o[] = $item['have_order'];
+                    $sort = $convers;
                     $item['convers'] = $convers;
-                    $person[$key] = $item;
+                    $item['teacherid'] = $key;
+                    $person[] = $item;
                 }
             }
         }
         if ($person) {
-            array_multisort($sort_n,SORT_DESC,$sort_o,SORT_DESC,$person );
-            var_dump($person);
+            array_multisort($sort,SORT_DESC,$person );
             // 获取
             $person = array_slice($person,0,5);
-            dd($person);
+            var_dump($person);
             // 添加数据
-            // foreach($person as $key => $item) {
-            //     $task->t_teacher_money_list->row_insert([
-            //         'teacherid' => $key,
-            //         'add_time' => time(),
-            //         'type' => 7,
-            //         'grade' => $grade
-            //     ]);
-            // }
+            $i = 0;
+            foreach($person as $key => $item) {
+                $comput = array_slice($person,0,$key+1);
+                $money = $this->award[$i];
+                foreach($comput as $k=>$val) {
+                    if ($item['convers'] == $val['convers']) {
+                        echo $k; break;
+                    }
+                }
+                $i ++;
+                echo 'money '.$money; 
+
+                // $task->t_teacher_money_list->row_insert([
+                //     'teacherid' => $key,
+                //     'add_time' => time(),
+                //     'type' => 7,
+                //     'grade' => $grade
+                // ]);
+            }
         }
         return;
     }

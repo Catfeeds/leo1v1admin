@@ -311,7 +311,7 @@ class wx_yxyx_common extends Controller
         }
 
         //查询推荐人是否是内部员工
-        $parent_adminid = $this->t_agent->check_is_staff($parentid);
+        $parent_adminid = $this->t_agent->get_parent_adminid_by_parentid($parentid);
         if($type == 1 || $insert_flag == 1){//进例子
             $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if( $parent_adminid > 0 ) {//转为普通例子
@@ -393,6 +393,7 @@ class wx_yxyx_common extends Controller
             if($userid_new){
                 $userid = $userid_new;
             }
+            $parent_adminid = $parent_adminid?:0;
             $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type,$parent_adminid);
             if($ret){
                 $agent_id=$this->t_agent->get_last_insertid();

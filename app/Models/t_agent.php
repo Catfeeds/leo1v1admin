@@ -2803,13 +2803,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function check_is_staff($parentid){
+    public function get_parent_adminid_by_parentid($parentid){
         $where_arr = [
             ['a.id = %u', $parentid, -1],
             'm.leave_member_time=0',
         ];
         $sql = $this->gen_sql_new("select m.uid from %s a"
                                   ." left join %s m on m.phone=a.phone"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
