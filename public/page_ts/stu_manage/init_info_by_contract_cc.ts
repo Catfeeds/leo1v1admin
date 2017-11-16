@@ -59,6 +59,7 @@ $(function(){
     }
 
 
+
     $("#id_submit_succ").on("click",function(){
         var url_arr = GetRequest();
         var input= $(".form-control");

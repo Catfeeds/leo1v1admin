@@ -372,16 +372,13 @@ class user_manage extends Controller
             $item["course_list_total"] = count(array_unique($arr));
 
             // 检查交接单是否有驳回
-            // $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
-
             $reject_status = $this->t_student_info->check_is_reject($item['userid']);
 
             if($reject_status == 3){
                 unset($ret_info['list'][$i]);
             }
-
-
         }
+
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
