@@ -79,7 +79,8 @@ class update_haruteru_award extends Command
                 $money = $this->award[$i];
                 foreach($comput as $key=>$val) {
                     if ($item['convers'] == $val['convers']) {
-                        $money = $this->award[$k];
+                        $money = $this->award[$key];
+                        break;
                     }
                 }
                 $i ++;
