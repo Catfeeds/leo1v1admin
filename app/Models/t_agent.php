@@ -2806,7 +2806,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_parent_adminid_by_parentid($parentid){
         $where_arr = [
             ['a.id = %u', $parentid, -1],
-            'm.leave_member_time=0',
+            // 'm.leave_member_time=0',
+            'm.del_flag=0',
         ];
         $sql = $this->gen_sql_new("select m.uid from %s a"
                                   ." left join %s m on m.phone=a.phone"
