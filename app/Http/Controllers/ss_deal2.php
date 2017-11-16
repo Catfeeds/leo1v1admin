@@ -841,6 +841,20 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function set_part_time_teacher(){
+        $phone                    = $this->get_in_str_val('phone');
+        $app_id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $this->t_teacher_lecture_appointment_info->field_update_list($app_id,[
+           "full_time"=>0 
+        ]);
+        $this->t_teacher_info->field_update_list($teacherid,[
+           "teacher_type" =>0 
+        ]);
+        return $this->output_succ();
+
+    }
+
 
 
 }
