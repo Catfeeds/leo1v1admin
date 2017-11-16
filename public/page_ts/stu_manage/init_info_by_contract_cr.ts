@@ -71,10 +71,9 @@ $(function(){
                     if(!is_master){
                         $('.id_reject_to_master').show();
                     }else if(is_master){
-                        $('.id_reject_to_ass').show();
+                        // $('.id_reject_to_ass').show();
                         $('.id_submit').show();//驳回咨询
                     }
-
                 }else if(i=='reject_flag' && item=='2'){ // 助教组长 驳回助教
                     $('.id_submit').hide();
                     $('.id_reject_to_ass').hide();
