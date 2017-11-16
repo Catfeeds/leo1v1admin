@@ -743,6 +743,8 @@ class wx_yxyx_api extends Controller
             'usernick'            => $nick,
             'wx_headimgurl'       => $agent_info['headimgurl'],
             "all_money" => $agent_info["all_yxyx_money"]/100,
+            'phone' => $agent_info['phone'],
+            'wx_openid' => $agent_info['wx_openid']
         ];
 
         E\Eagent_level::set_item_value_str($data);

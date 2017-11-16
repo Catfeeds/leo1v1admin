@@ -124,6 +124,8 @@ message user_center_list{
   float all_money = 4;//总收入
   uint32 child_all_count = 5;//邀请个数
   uint32 test_lesson_succ_flog = 6;//邀请人是否成功试听一次[0未成功试听一次1已成功试听一次][用户为黄金会员时有效]
+  string phone = 7;//用户手机号
+  string wx_openid = 8;//用户微信id
 }
 message income_info{
   float all_money = 1;//全部金额
