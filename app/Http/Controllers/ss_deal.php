@@ -2595,18 +2595,32 @@ class ss_deal extends Controller
         $teacherid    = $lesson_info["teacherid"] ;
         $teacher_nick = $this->cache_get_teacher_nick($teacherid);
 
+
+
+        $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+        $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid(
+            $set_lesson_adminid,
+            "来自:".$this->get_account(),
+            "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
+        );
+
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1){
             $this->t_test_lesson_subject_require->set_test_lesson_status(
                 $require_id,
                 E\Eseller_student_status::V_120 , $this->get_account() );
 
-            $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
-            $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
 
-            $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                $set_lesson_adminid,
-                "来自:".$this->get_account(),
-                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
+
+            // $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+            // $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
+
+            // $this->t_manager_info->send_wx_todo_msg_by_adminid(
+            //     $set_lesson_adminid,
+            //     "来自:".$this->get_account(),
+            //     "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
+
+
 
             $remark_ex = "";
             if($fail_greater_4_hour_flag ) {
