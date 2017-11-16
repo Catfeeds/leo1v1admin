@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class update_haruteru_award extends Command
 {
+    protected $award = [300,200,150,100,60];
     /**
      * The name and signature of the console command.
      *
@@ -42,13 +43,13 @@ class update_haruteru_award extends Command
         $end_time = strtotime(date('Y-m-1', time()));
         // 小学
         $p_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,[],2,false);
-        $this->get_person($p_info, 100);
+        $this->get_person($p_info, 100, $award);
         // 初中
         $m_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,200,[],2,false);
-        $this->get_person($m_info, 200);
+        $this->get_person($m_info, 200, $award);
         // 高中
         $s_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,[],2,false);
-        $this->get_person($s_info, 300);
+        $this->get_person($s_info, 300, $award);
     }
 
     // 处理结果获取春辉奖得奖人
@@ -62,25 +63,36 @@ class update_haruteru_award extends Command
                     $sort_n[] = $item['lesson_num'];
                     $sort_o[] = $item['have_order'];
                     $item['convers'] = $convers;
-                    $person[$key] = $item;
+                    $person[] = $item;
+                    $person['teacherid'] = $key;
                 }
             }
         }
         if ($person) {
             array_multisort($sort_n,SORT_DESC,$sort_o,SORT_DESC,$person );
-            var_dump($person);
             // 获取
             $person = array_slice($person,0,5);
-            dd($person);
+            var_dump($person);
             // 添加数据
-            // foreach($person as $key => $item) {
-            //     $task->t_teacher_money_list->row_insert([
-            //         'teacherid' => $key,
-            //         'add_time' => time(),
-            //         'type' => 7,
-            //         'grade' => $grade
-            //     ]);
-            // }
+            $i = 0;
+            foreach($person as $key => $item) {
+                $comput = array_slice($person,0,$key+1);
+                $money = $this->award[$i];
+                foreach($comput as $k=>$val) {
+                    if ($item['convers'] == $val['convers']) {
+                        echo $k; break;
+                    }
+                }
+                $i ++;
+                echo 'money '.$money; 
+
+                // $task->t_teacher_money_list->row_insert([
+                //     'teacherid' => $key,
+                //     'add_time' => time(),
+                //     'type' => 7,
+                //     'grade' => $grade
+                // ]);
+            }
         }
         return;
     }
