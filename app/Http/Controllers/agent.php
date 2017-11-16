@@ -550,6 +550,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=831);
+        dd($count_info);
         // $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone='13917603698', E\Erole::V_STUDENT );
         // dd($db_userid);
         // $add_time=$this->t_seller_student_new->get_add_time($userid=344364);
