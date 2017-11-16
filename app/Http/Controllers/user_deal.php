@@ -5507,7 +5507,7 @@ class user_deal extends Controller
 
             if($state_arr['reject_flag'] == 1 ){
                 $master_arr = $this->t_order_info->get_master_openid_by_orderid($data['orderid']);
-                $wx     = new \App\Helper\Wx();
+                $wx  = new \App\Helper\Wx();
                 $url = '/user_manage_new/ass_contract_list?studentid='.$master_arr['userid'];
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
