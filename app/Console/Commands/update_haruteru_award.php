@@ -43,24 +43,26 @@ class update_haruteru_award extends Command
         $end_time = strtotime(date('Y-m-1', time()));
         // 小学
         $p_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,[],2,false);
-        $this->get_person($p_info, 100);
+        $this->get_person($p_info, 100, $task);
         // 初中
         $m_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,200,[],2,false);
-        $this->get_person($m_info, 200);
+        $this->get_person($m_info, 200, $task);
         // 高中
         $s_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,[],2,false);
-        $this->get_person($s_info, 300);
+        $this->get_person($s_info, 300, $task);
     }
 
     // 处理结果获取春辉奖得奖人
-    public function get_person($info, $grade) {
+    public function get_person($info, $grade, $task) {
         $person = [];
         $sort = [];
-        if ($info) {
+        $sort_o = [];
+        if ($info) { // 获取转化率
             foreach($info as $key => $item) {
                 $convers = round($item['have_order'] / $item['lesson_num'] * 100);
                 if ($item['lesson_num'] >= 6 && $convers >= 15) {
                     $sort[] = $convers;
+                    $sort_o[] = $item['have_order'];
                     $item['convers'] = $convers;
                     $item['teacherid'] = $key;
                     $person[] = $item;
@@ -68,16 +70,15 @@ class update_haruteru_award extends Command
             }
         }
         if ($person) {
-            array_multisort($sort,SORT_DESC,$person );
-            // 获取
-            $person = array_slice($person,0,5);
+            array_multisort($sort,SORT_DESC,$sort_o,SORT_DESC,$person ); // 排序
+            $person = array_slice($person,0,5); // 获取前五名
             var_dump($person);
             // 添加数据
             $i = 0;
             foreach($person as $item) {
                 $comput = array_slice($person,0,$key+1);
                 $money = $this->award[$i];
-                foreach($comput as $key=>$val) {
+                foreach($comput as $key=>$val) { // 处理排名中是澡并列
                     if ($item['convers'] == $val['convers']) {
                         $money = $this->award[$key];
                         break;
@@ -90,6 +91,7 @@ class update_haruteru_award extends Command
                 //     'teacherid' => $key,
                 //     'add_time' => time(),
                 //     'type' => 7,
+                //     'money' => $money * 100,
                 //     'grade' => $grade
                 // ]);
             }

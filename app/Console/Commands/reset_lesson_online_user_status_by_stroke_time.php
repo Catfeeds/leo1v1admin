@@ -72,7 +72,7 @@ class reset_lesson_online_user_status_by_stroke_time extends Command
 
                 $xml = file_get_contents($savePathFile);
 
-                $xmlstring = simplexml_load_string($xml);
+                $xmlstring = @simplexml_load_string($xml);
 
                 $svgLists = json_decode(json_encode($xmlstring),true);
 

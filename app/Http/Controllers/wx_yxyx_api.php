@@ -1203,7 +1203,7 @@ class wx_yxyx_api extends Controller
         if(!$check_flag){
             //获取用户邀请奖励
             $l1_child_invite_reward = $this->t_agent->get_l1_agent_status_all_money($agent_id);
-            $l2_child_invite_reward = $this->t_agent->get_l1_agent_status_all_money($agent_id);
+            $l2_child_invite_reward = $this->t_agent->get_l2_agent_status_all_money($agent_id);
             $invite_reward = ($l1_child_invite_reward+$l2_child_invite_reward)/100;
             //获取佣金奖励
             $l1_child_commission_reward = $this->t_agent_order->get_l1_child_commission_reward($agent_id);
