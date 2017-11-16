@@ -2270,7 +2270,11 @@ class tea_manage extends Controller
 
         $recommend_teacherid     = $this->get_in_str_val('teacherid',-1);
 
-        $recommend_teacherid_phone = $this->t_teacher_info->get_phone($recommend_teacherid);
+        if($recommend_teacherid == -1){
+            $recommend_teacherid_phone = -1;
+        }else{
+            $recommend_teacherid_phone = $this->t_teacher_info->get_phone($recommend_teacherid);
+        }
 
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
