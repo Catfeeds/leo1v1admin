@@ -3992,7 +3992,30 @@ class user_deal extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-
+        //试听成功数
+        $res = [];
+        list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
+        $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
+        $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
+        foreach($test_leeson_list_new['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $lesson_start = $item['lesson_start'];
+            foreach($ret_new as $info){
+                $start = $info['start_time'];
+                $end = $info['end_time'];
+                $week_order = $info['week_order'];
+                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
+                    $res[$adminid][$week_order][] = $item;
+                }
+            }
+        }
+        dd($res);
         return $this->output_succ($arr);
     }
 
