@@ -679,7 +679,9 @@ $(function(){
         opt_url="/"+item_arr[1]+"/index";
     }
 
-    var obj=$(".treeview-menu >li>a[href*=\""+ opt_url +"\"]");
+    var check_url=$.trim( window.location.toString().split("?" )[0], "/");
+
+    var obj=$(".treeview-menu >li>a[href=\""+ check_url +"\"]");
 
     var path_arr=window.location.pathname.split("/");
     var ctrl=path_arr[1];
@@ -689,7 +691,12 @@ $(function(){
     }
     var tmp_obj=$("<div/>");
     obj.each(function(){
-        var arr=$(this).attr("href").split("/");
+        var href_str= $(this).attr("href") ;
+        //http://....com/tt/ff => /tt/ff
+        href_str= href_str.replace( /http.*\.com/, "" );
+
+
+        var arr=href_str.split("/");
         var find_action=arr[2].split("?")[0];
         if(!find_action) {
             find_action="index";
@@ -707,7 +714,8 @@ $(function(){
     var title2="";
     if (title1=="") {
         //检查一级节点
-        obj=$(".sidebar-menu >li>a[href*=\""+window.location.pathname+"\"]").first();
+        var check_url=$.trim( window.location.toString().split("?" )[0], "/");
+        obj=$(".sidebar-menu >li>a[href*=\"*"+check_url+"\"]").first();
         title1=obj.text();
 
         /*
@@ -975,7 +983,7 @@ $(function(){
         });
 
     });
-    
+
     if ($.query){
         if ( $.query.get("return_url") ){
             $("#id_header_return_back").attr("href" ,  $.query.get("return_url")   );
