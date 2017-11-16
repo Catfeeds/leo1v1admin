@@ -3992,63 +3992,6 @@ class user_deal extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-        //kpi
-        $res = [];
-        list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
-        $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
-        $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
-        foreach($test_leeson_list_new['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $lesson_start = $item['lesson_start'];
-            foreach($ret_new as $info){
-                $start = $info['start_time'];
-                $end = $info['end_time'];
-                $week_order = $info['week_order'];
-                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
-                    $res[$adminid][$week_order][] = $item;
-                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
-                    $res[$adminid][$week_order][] = $item;
-                }
-            }
-        }
-        foreach($res as $key=>$item){
-            $res[$adminid]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
-            $res[$adminid]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
-            $res[$adminid]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
-            $res[$adminid]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
-            $res[$adminid]['suc_lesson_count_one_rate'] = $res[$adminid]['suc_lesson_count_one']<12?0:15;
-            $res[$adminid]['suc_lesson_count_two_rate'] = $res[$adminid]['suc_lesson_count_two']<12?0:15;
-            $res[$adminid]['suc_lesson_count_three_rate'] = $res[$adminid]['suc_lesson_count_three']<12?0:15;
-            $res[$adminid]['suc_lesson_count_four_rate'] = $res[$adminid]['suc_lesson_count_four']<12?0:15;
-            $suc_lesson_count_rate = $res[$adminid]['suc_lesson_count_one_rate']+$res[$adminid]['suc_lesson_count_two_rate']+$res[$adminid]['suc_lesson_count_three_rate']+$res[$adminid]['suc_lesson_count_four_rate'];
-            $res[$adminid]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
-            $res[$adminid]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
-        }
-        if($end_time >= time()){
-            $end_time = time();
-        }
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
-            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
-            $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count']/$item['test_lesson_count'],2)*100):0;
-            $res[$adminid]['lesson_per'] = $lesson_per==0?0:$lesson_per."%";
-            $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
-            $res[$adminid]['kpi_rate'] = isset($res[$adminid]['suc_lesson_count_rate_all'])?$res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all']:$res[$adminid]['lesson_kpi'];
-            $res[$adminid]['kpi'] = $res[$adminid]['kpi_rate']."%";
-        }
-        $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
-        $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
-        $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
-        $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
-        $arr['lesson_per'] = $res[$adminid]['lesson_per'];
-        $arr['kpi'] = $res[$adminid]['kpi'];
 
         return $this->output_succ($arr);
     }
