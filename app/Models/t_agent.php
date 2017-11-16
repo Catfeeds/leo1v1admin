@@ -2810,6 +2810,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
         $sql = $this->gen_sql_new("select m.uid from %s a"
                                   ." left join %s m on m.phone=a.phone"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
