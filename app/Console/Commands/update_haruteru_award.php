@@ -63,8 +63,8 @@ class update_haruteru_award extends Command
                     $sort_n[] = $item['lesson_num'];
                     $sort_o[] = $item['have_order'];
                     $item['convers'] = $convers;
+                    $item['teacherid'] = $key;
                     $person[] = $item;
-                    $person['teacherid'] = $key;
                 }
             }
         }
