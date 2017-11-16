@@ -1260,6 +1260,8 @@ class wx_yxyx_api extends Controller
         if(\App\Helper\Utils::check_env_is_test())
             $relative_path = 'http://test.admin.leo1v1.com/'.$invite_img;
 
+        \App\Helper\Utils::logger("qr_code_url $qr_cide_url "); 
+
         //生成图片  --end--
         return $this->output_succ(['invite_img' => $relative_path]);
     }
