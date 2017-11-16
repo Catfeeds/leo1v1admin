@@ -550,6 +550,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret_info  = $this->t_seller_level_goal->get_all_list($page_info);
+        dd($ret_info);
+
+        E\Eseller_level::V_100;
         $row_item=$this->t_seller_student_new-> get_lesson_status_count($adminid=99 );
         dd($row_item);
 
