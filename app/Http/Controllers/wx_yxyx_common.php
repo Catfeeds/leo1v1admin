@@ -309,16 +309,15 @@ class wx_yxyx_common extends Controller
                 $insert_flag = 1;
             }
         }
-
-        //查询推荐人是否是内部员工
-        $parent_adminid = $this->t_agent->get_parent_adminid_by_parentid($parentid);
-        if($type == 1 || $insert_flag == 1){//进例子
-            $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        if($type == 1 || $insert_flag == 1){//学员,进例子
+            //查询推荐人是否是内部员工
+            $parent_adminid = $this->t_agent->get_parent_adminid_by_parentid($parentid);
             if( $parent_adminid > 0 ) {//转为普通例子
                 $origin='知识库';
             } else {
                 $origin='优学优享';
             }
+            $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if ($db_userid){
                 $add_time=$this->t_seller_student_new->get_add_time($userid);
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
@@ -387,7 +386,7 @@ class wx_yxyx_common extends Controller
 
 
 
-        if( ($type ==2 ||  $type == 1) && $insert_flag == 0){
+        if( ($type ==2 ||  $type == 1) && $insert_flag == 0){//会员
             $userid = null;
             $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if($userid_new){
