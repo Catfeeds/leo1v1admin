@@ -32,6 +32,10 @@ interface RowData {
 	account	:any;
 	name	:any;
 	account_role	:any;
+	p_phone	:any;
+	p_nickname	:any;
+	pp_phone	:any;
+	pp_nickname	:any;
 	self_order_count	:any;
 	self_order_price	:any;
 	is_test_lesson_str	:any;
