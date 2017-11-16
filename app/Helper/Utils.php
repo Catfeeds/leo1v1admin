@@ -815,8 +815,6 @@ class Utils  {
         }
     }
 
-
-
     static public function send_reference_msg_for_wx($openid,$record_info,$status_str){
         $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
         $wx_data["first"]    = $record_info;

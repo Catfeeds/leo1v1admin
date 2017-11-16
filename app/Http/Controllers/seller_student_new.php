@@ -82,7 +82,6 @@ class seller_student_new extends Controller
         $userid            = $this->get_in_userid(-1);
         $origin            = trim($this->get_in_str_val('origin', ''));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
-        // dd($origin_ex);
         $grade             = $this->get_in_el_grade();
         $subject           = $this->get_in_subject(-1);
         $phone_location    = trim($this->get_in_str_val('phone_location', ''));
