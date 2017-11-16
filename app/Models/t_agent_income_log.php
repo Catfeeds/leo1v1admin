@@ -69,7 +69,6 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
     //@desn:获取佣金非全额记录
     //@param:$agent_id 会员id
     //@param:$child_agent_id  邀请人id
-    //@param:$money 收入金额
     //@param:$agent_income_type  收入类型
     public function get_issued_money($agent_id,$child_agent_id,$agent_income_type){
         $where_arr = [
@@ -78,7 +77,7 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
             ['agent_income_type = %u',$agent_income_type,'-1'],
         ];
         $sql = $this->gen_sql_new(
-            'select money from %s where %s',
+            'select sum(money) from %s where %s',
             self::DB_TABLE_NAME,
             $where_arr
         );
