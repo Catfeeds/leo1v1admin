@@ -67,6 +67,7 @@ class update_haruteru_award extends Command
         }
         if ($person) {
             array_multisort($sort,SORT_DESC,$person );
+            dd($person);
             // 获取
             $person = array_alice($person,0,5);
             dd($person);
