@@ -156,7 +156,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $old_add_time=\App\Helper\Utils::unixtime2date($old_add_time);
 
                 \App\Helper\Utils::logger(" ADD_FAIL OLD_ADD_TIME = $old_add_time" );
-
             }
             return  $userid;
         }
@@ -308,7 +307,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1
     ) {
         if ($userid >0 || $phone || $nick) {
-            if(in_array($admin_revisiterid,[384,412])){//
+            if(in_array($admin_revisiterid,[384,412])){//张植源,张龙
                 $where_arr=[
                     ["ss.userid=%u",$userid, -1],
                     ["ss.phone like '%s%%'", $this->ensql($phone) , ""],

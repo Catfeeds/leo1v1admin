@@ -2203,15 +2203,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function check_is_consume($orderid){
         $where_arr = [
-            "l.lesson_type = 0",
             "o.orderid=$orderid",
-            "o.order_time < l.lesson_start",
         ];
-        $sql = $this->gen_sql_new("  select l.lessonid from %s l "
+        $sql = $this->gen_sql_new("select 1 from %s l "
                                   ." left join %s o on o.orderid=l.orderid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
