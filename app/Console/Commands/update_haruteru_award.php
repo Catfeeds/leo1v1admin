@@ -55,13 +55,12 @@ class update_haruteru_award extends Command
     // 处理结果获取春辉奖得奖人
     public function get_person($info, $grade) {
         $person = [];
-        $sort_n = $sort_o =[];
+        $sort = [];
         if ($info) {
             foreach($info as $key => $item) {
-                $convers = $item['have_order'] / $item['lesson_num'] * 100;
+                $convers = round($item['have_order'] / $item['lesson_num'] * 100);
                 if ($item['lesson_num'] >= 6 && $convers >= 15) {
-                    $sort_n[] = $item['lesson_num'];
-                    $sort_o[] = $item['have_order'];
+                    $sort = $convers;
                     $item['convers'] = $convers;
                     $item['teacherid'] = $key;
                     $person[] = $item;
@@ -69,7 +68,7 @@ class update_haruteru_award extends Command
             }
         }
         if ($person) {
-            array_multisort($sort_n,SORT_DESC,$sort_o,SORT_DESC,$person );
+            array_multisort($sort,SORT_DESC,$person );
             // 获取
             $person = array_slice($person,0,5);
             var_dump($person);
