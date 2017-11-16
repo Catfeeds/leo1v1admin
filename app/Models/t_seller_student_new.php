@@ -156,7 +156,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $old_add_time=\App\Helper\Utils::unixtime2date($old_add_time);
 
                 \App\Helper\Utils::logger(" ADD_FAIL OLD_ADD_TIME = $old_add_time" );
-
             }
             return  $userid;
         }

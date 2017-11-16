@@ -168,21 +168,19 @@ class common_ex extends Controller
                 return $this->output_err("不存在此推荐人！请重新填写！");
             }
         }
-        $client_ip = $this->get_in_client_ip();
         if ($phone == "15601830297" || $phone == "13917746147"  || $phone == "18817822725" ) {
             $max_user_count=1000;
         }else{
             $max_user_count=1;
         }
 
-        $check_ret=\App\Helper\Common::redis_day_add_with_max_limit("day_phone_$phone",1,$max_user_count);
-        if (!$check_ret){
+        $check_ret = \App\Helper\Common::redis_day_add_with_max_limit("day_phone_$phone",1,$max_user_count);
+        if (!$check_ret) {
             return outputJson(array('ret' => -1, 'info' => "您预约的次数太多了!"));
         }
 
-        $check_ret= \App\Helper\Common::redis_day_add_with_max_limit (
-            "day_$client_ip",1,30);
-
+        $client_ip = $this->get_in_client_ip();
+        $check_ret = \App\Helper\Common::redis_day_add_with_max_limit("day_$client_ip",1,30);
         if (!$check_ret){
             return outputJson(array('ret' => -1, 'info' => "您预约的次数太多了!"));
         }
@@ -194,7 +192,7 @@ class common_ex extends Controller
             ."pad:".E\Epad_type::get_desc($has_pad) ."<br/>"
             ."";
         $this->t_book_revisit->add_book_revisit($phone,"COMMING:$msg","system");
-        $user_ip = $this->get_in_client_ip();
+
         /*
          * 预约完成4-28
          * SMS_63750218
