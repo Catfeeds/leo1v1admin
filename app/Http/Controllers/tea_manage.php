@@ -2268,6 +2268,9 @@ class tea_manage extends Controller
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
 
+        $recommend_teacherid     = $this->get_in_int_val('teacherid',-1);
+
+
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         //判断是否是招师
@@ -2305,7 +2308,7 @@ class tea_manage extends Controller
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
             $train_email_flag,$full_time,$id_train_through_new_time,
-            $id_train_through_new,$accept_adminid
+            $id_train_through_new,$accept_adminid,$recommend_teacherid
         );
 
         foreach($ret_info['list'] as &$val){
