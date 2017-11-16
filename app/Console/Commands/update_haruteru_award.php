@@ -43,13 +43,13 @@ class update_haruteru_award extends Command
         $end_time = strtotime(date('Y-m-1', time()));
         // 小学
         $p_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,[],2,false);
-        $this->get_person($p_info, 100, $award);
+        $this->get_person($p_info, 100);
         // 初中
         $m_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,200,[],2,false);
-        $this->get_person($m_info, 200, $award);
+        $this->get_person($m_info, 200);
         // 高中
         $s_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,[],2,false);
-        $this->get_person($s_info, 300, $award);
+        $this->get_person($s_info, 300);
     }
 
     // 处理结果获取春辉奖得奖人
