@@ -60,7 +60,7 @@ class update_haruteru_award extends Command
             foreach($info as $key => $item) {
                 $convers = round($item['have_order'] / $item['lesson_num'] * 100);
                 if ($item['lesson_num'] >= 6 && $convers >= 15) {
-                    $sort = $convers;
+                    $sort[] = $convers;
                     $item['convers'] = $convers;
                     $item['teacherid'] = $key;
                     $person[] = $item;
