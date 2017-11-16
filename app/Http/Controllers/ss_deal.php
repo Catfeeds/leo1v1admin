@@ -2622,11 +2622,8 @@ class ss_deal extends Controller
                 $require_id,
                 E\Eseller_student_status::V_120 , $this->get_account() );
 
-
-
             $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
-
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $set_lesson_adminid,
                 "来自:".$this->get_account(),
