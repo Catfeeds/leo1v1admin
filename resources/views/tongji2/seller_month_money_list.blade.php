@@ -20,6 +20,12 @@
                     <td>主管 </td>
                     <td>小组 </td>
                     <td>负责人 </td>
+                    <td>第一周试听成功数 </td>
+                    <td>第二周试听成功数 </td>
+                    <td>第三周试听成功数 </td>
+                    <td>第四周试听成功数 </td>
+                    <td>取消率 </td>
+                    <td>绩效对应系数 </td>
                     <td >签约总金额 </td>
                     <td >分期金额 </td>
                     <td >非分期金额 </td>
@@ -55,9 +61,15 @@
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}
                             @if(isset($var['seller_level']))
-                                {{$var["seller_level_str"]}}
+                                /{{$var["seller_level_str"]}}
                             @endif
                         </td>
+                        <td class="suc_first_week"></td>
+                        <td class="suc_second_week"></td>
+                        <td class="suc_third_week"></td>
+                        <td class="suc_fourth_week"></td>
+                        <td class="lesson_per"></td>
+                        <td class="kpi"></td>
                         <td class="all_price" ></td>
                         <td class="stage_money" ></td>
                         <td class="no_stage_money" ></td>
