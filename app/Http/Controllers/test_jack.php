@@ -248,7 +248,7 @@ class test_jack  extends Controller
     }
 
     public function test_xx(){
-        $file = fopen("/home/jack/4.csv","r");
+        $file = fopen("/home/ybai/4.csv","r");
         $goods_list=[];
         $first_list = [];
         $i=0; 
@@ -269,6 +269,36 @@ class test_jack  extends Controller
             }
             $j++;
         }
+        foreach($list as &$item){
+            $arr = explode("年",$item[1]);
+            $arr_2 = $arr[1];
+            $arr_3 = explode("月",$arr_2);
+
+            $year = $arr[0];
+            $month = $arr_3[0]>=10?$arr_3[0]:"0".$arr_3[0];
+            $date = $year."-".$month."-01";
+            $item[1]=strtotime($date);
+            $this->t_admin_student_month_info->field_update_list($item[1],[
+                "test_chinese_num" =>$item[2],
+                "test_math_num" =>$item[3],
+                "test_english_num" =>$item[4],
+                "test_minor_subject_num" =>$item[5],
+                "test_all_subject_num" =>$item[6],
+                "increase_chinese_num" =>$item[7],
+                "increase_math_num" =>$item[8],
+                "increase_english_num" =>$item[9],
+                "increase_minor_subject_num" =>$item[10],
+                "increase_all_subject_num" =>$item[11],
+                "increase_test_rate" =>$item[12],
+                "read_chinese_num" =>$item[13],
+                "read_math_num" =>$item[14],
+                "read_english_num" =>$item[15],
+                "read_minor_subject_num" =>$item[16],
+                "read_all_subject_num" =>$item[17],
+            ]);
+
+        }
+
         dd($list);
 
         // print_r($goods_list);
