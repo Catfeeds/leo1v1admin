@@ -194,12 +194,16 @@
                 var data = {lru_flag: me.options.lru_flag?1:0 };
                 data[ me.options.select_primary_field ] = val;
                 data=$.extend({},me.options.args_ex,data);
+                var data_type="json";
+                if ( me.options.url.substr(0, 7)=="http://" ) {
+                    data_type="jsonp";
+                }
 
                 var key=me.$element.val();
                 $.ajax({
                     type     : "post",
                     url      :  me.options.url,
-                    dataType : "json",
+                    dataType : data_type,
                     data     : data,
                     success  : function(result){
                         var ret_list = result.data.list;
@@ -393,10 +397,16 @@
                 data=$.extend({},me.options.args_ex,data);
             }
 
+            var data_type="json";
+            if ( me.options.url.substr(0, 7)=="http://" ) {
+                data_type="jsonp";
+            }
+
+
             $.ajax({
                 type     : "post",
                 url      : url,
-                dataType : "json",
+                dataType : data_type,
                 data     : data,
                 success  : function(result){
                     if (result.ret!=0) {
