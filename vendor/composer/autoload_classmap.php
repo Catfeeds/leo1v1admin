@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+    'CStudentInfo' => $baseDir . '/database/migrations/2017_11_16_142544_c_student_info.php',
     'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_183206_create_t_agent_cash_money_freeze.php',
     'CreateTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_15_094711_create_t_agent_daily_lottery.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
@@ -622,7 +623,7 @@ return array(
     'TSellerStudentNewAddOriginCount' => $baseDir . '/database/migrations/2017_11_03_121842_t_seller_student_new_add_origin_count.php',
     'TSellerStudentNewAddTestLessonOptFlag' => $baseDir . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
     'TSellerStudentNewAddTmkLastRevisitTime' => $baseDir . '/database/migrations/2017_11_09_120255_t_seller_student_new_add_tmk_last_revisit_time.php',
-    'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
+    'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
     'TSellerTongjiForMonthAddColumons' => $baseDir . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
     'TSellerTongjiForMonthAddDataType' => $baseDir . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
     'TSellerTongjiForMonthAddItem' => $baseDir . '/database/migrations/2017_10_28_185426_t_seller_tongji_for_month_add_item.php',

@@ -1379,8 +1379,6 @@ trait TeaPower {
             $this->t_user_info->rollback();
             return false;
         }
-        $this->t_teacher_info->add_teacher_info_to_ejabberd($teacherid,$passwd_md5);
-
         if($grade_start!=0 && $grade_end!=0){
             $grade_range = ["grade_start"=>$grade_start,"grade_end"=>$grade_end];
         }else{
