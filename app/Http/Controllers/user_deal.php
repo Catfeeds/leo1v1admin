@@ -4029,6 +4029,7 @@ class user_deal extends Controller
             $res[$key]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
             $res[$key]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
         }
+        dd($res);
         // if($end_time >= time()){
         //     $end_time = time();
         // }
