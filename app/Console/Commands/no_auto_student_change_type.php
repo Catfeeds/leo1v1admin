@@ -45,27 +45,27 @@ class no_auto_student_change_type extends Command
 
         
 
-        $time = strtotime(date("Y-m-d",time()));        
-        $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);
-        foreach($user_stop as $item){
-            $check_lesson = $task->t_lesson_info_b2->check_have_regular_lesson($time,time(),$item["userid"]);
-            if($check_lesson==1){
-                $task->t_student_info->get_student_type_update($item["userid"],0);
-                $task->t_student_info->field_update_list($item["userid"],[
-                   "is_auto_set_type_flag" =>0 
-                ]);
-                $task->t_student_type_change_list->row_insert([
-                    "userid"    =>$item["userid"],
-                    "add_time"  =>time(),
-                    "type_before" =>$item["type"],
-                    "type_cur"    =>0,
-                    "change_type" =>1,
-                    "adminid"     =>0,
-                    "reason"      =>"系统更新"
-                ]);
+        // $time = strtotime(date("Y-m-d",time()));        
+        // $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);
+        // foreach($user_stop as $item){
+        //     $check_lesson = $task->t_lesson_info_b2->check_have_regular_lesson($time,time(),$item["userid"]);
+        //     if($check_lesson==1){
+        //         $task->t_student_info->get_student_type_update($item["userid"],0);
+        //         $task->t_student_info->field_update_list($item["userid"],[
+        //            "is_auto_set_type_flag" =>0 
+        //         ]);
+        //         $task->t_student_type_change_list->row_insert([
+        //             "userid"    =>$item["userid"],
+        //             "add_time"  =>time(),
+        //             "type_before" =>$item["type"],
+        //             "type_cur"    =>0,
+        //             "change_type" =>1,
+        //             "adminid"     =>0,
+        //             "reason"      =>"系统更新"
+        //         ]);
 
-            }
-        }
+        //     }
+        // }
 
         $ret_student_end_info = $task->t_student_info->get_student_list_end_id(-1);
         foreach($ret_student_end_info as $val){
@@ -98,7 +98,8 @@ class no_auto_student_change_type extends Command
                     $task->t_month_ass_student_info->row_insert([
                         "adminid" =>$adminid,
                         "month"   =>$month,
-                        "end_no_renw_num"=>1
+                        "end_no_renw_num"=>1,
+                        "kpi_type" =>1
                     ]);
                 }
 
