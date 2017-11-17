@@ -1634,6 +1634,7 @@ function init_edit() {
     $("#id_no_called_count").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
+            $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
         });
     });
@@ -1643,7 +1644,6 @@ function init_edit() {
 
 
     $("#id_next_revisit").on("click",function(){
-
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
         });
