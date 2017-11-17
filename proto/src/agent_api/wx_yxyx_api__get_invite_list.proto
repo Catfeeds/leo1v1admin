@@ -8,9 +8,10 @@ import "agent_api/common.proto";
 message in  {
   uint32 page_num = 1;//第几页
   uint32 page_count = 2;//每页条数[不传默认五条]
+  uint32 table_type = 3;//table 切换标识 1 我邀请的 2 会员邀请
 }
 
 message out {
-  common.invite_list my_invite = 1;//我邀请的
-  common.invite_list member_invite = 2;//会员邀请
+  common.invite_list my_invite = 1;//我邀请的 [table_type == 1]
+  common.invite_list member_invite = 2;//会员邀请  [table_type == 2]
 }
