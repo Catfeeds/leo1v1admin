@@ -41,7 +41,7 @@ class ResetStudentLessonCount extends cmd_base
         $start = time();
         $end = strtotime("+1 day",$start);
 
-        $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(0,$start,$end,E\Elesson_status::V_0);
+        $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start,$end,E\Elesson_status::V_0);
 
         if(is_array($lesson_list) && !empty($lesson_list)){
             echo "lessonid|lesson_count|real_lesson_count|diff_time";
@@ -63,4 +63,5 @@ class ResetStudentLessonCount extends cmd_base
             }
         }
     }
+
 }
