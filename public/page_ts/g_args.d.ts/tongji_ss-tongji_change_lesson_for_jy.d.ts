@@ -26,6 +26,7 @@ interface RowData {
 	lesson_come_late_rate	:any;
 	lesson_cut_class_rate	:any;
 	lesson_change_rate	:any;
+	index_num	:any;
 	stu_num	:any;
 }
 
