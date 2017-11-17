@@ -751,7 +751,7 @@ class wx_yxyx_api extends Controller
 
         $activity_money=$this->t_agent_money_ex->get_all_money($agent_id)/100;
 
-        $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
+        $data["child_all_count"]= $agent_info["l1_child_count"];
 
         //获取用户邀请人试听情况
         $child_test_lesson_info = $this->t_agent->get_child_test_lesson_info_by_parentid($agent_id);
