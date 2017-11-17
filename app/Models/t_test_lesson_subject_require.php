@@ -2340,6 +2340,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr = [
             ["tr.curl_stu_request_test_lesson_time >= %u",$start_time,-1],
             "test_lesson_student_status = 200",
+            "accept_adminid <= 0",
             "m.account_role <>12",
             "s.is_test_user=0"
         ];

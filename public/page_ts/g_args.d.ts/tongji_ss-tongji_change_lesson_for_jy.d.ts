@@ -20,13 +20,19 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	teacher_nick	:any;
-	teacher_money_type_str	:any;
+	stu_num	:any;
+	valid_count	:any;
+	teacher_come_late_count	:any;
+	teacher_cut_class_count	:any;
+	teacher_change_lesson	:any;
+	teacher_leave_lesson	:any;
 	work_time	:any;
+	teacher_money_type_str	:any;
 	lesson_leavel_rate	:any;
 	lesson_come_late_rate	:any;
 	lesson_cut_class_rate	:any;
 	lesson_change_rate	:any;
-	stu_num	:any;
+	index_num	:any;
 }
 
 /*

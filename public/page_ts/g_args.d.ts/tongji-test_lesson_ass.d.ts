@@ -17,6 +17,16 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	ass_nick	:any;
+	stu_num	:any;
+	valid_count	:any;
+	family_change_count	:any;
+	teacher_change_count	:any;
+	fix_change_count	:any;
+	internet_change_count	:any;
+	student_leave_count	:any;
+	teacher_leave_count	:any;
+	lesson_rate	:any;
+	lesson_lose_rate	:any;
 }
 
 /*

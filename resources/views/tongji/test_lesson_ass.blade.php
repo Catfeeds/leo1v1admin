@@ -34,7 +34,6 @@
 
                         {!!\App\Helper\Utils::th_order_gen([
                             ["助教 ","ass_nick" ],
-                            ["学生数","stu_num" ],
                             ["正常上课","valid_count" ],
                             ["课时系数","lesson_rate" ],
                             ["家长调课","family_change_count" ],
@@ -53,7 +52,8 @@
                     @foreach ( $table_data_list as $var )
                         <tr>
                             <td>{{@$var["ass_nick"]}} </td>
-                            <td>{{@$var["stu_num"]}} </td>
+                            <!-- <td>{{@$var["stu_num"]}} </td> -->
+                            
                             <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]/100}}</a> </td>
 
                             <td>{{@$var["lesson_rate"]}} </td>
