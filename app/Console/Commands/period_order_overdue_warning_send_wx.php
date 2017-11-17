@@ -72,11 +72,11 @@ class period_order_overdue_warning_send_wx extends Command
 
                 if($openid){
                     $wx->send_template_msg($openid,$template_id,$data,$url);
-                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                    $task->t_period_repay_list->field_update_list_2($val["orderid"],$val["period"],[
                         "warning_wx_send_flag"=>1
                     ]);
                 }else{
-                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                    $task->t_period_repay_list->field_update_list_2($val["orderid"],$val["period"],[
                         "warning_wx_send_flag"=>2
                     ]);
 
