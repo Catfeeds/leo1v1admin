@@ -249,6 +249,10 @@ return array(
     ["db_weiyi_admin","t_admin_channel_list","channel_id"] ,
     ["db_weiyi_admin","t_admin_channel_user","id"] ,
     ["db_weiyi_admin","t_admin_channel_group","ref_type"] ,
+    ["db_weiyi_admin","t_admin_corporate_income_list","month"] ,
+    ["db_weiyi_admin","t_admin_refund_order_list","id"] ,
+    ["db_weiyi_admin","t_admin_student_month_info","month"] ,
+    ["db_weiyi_admin","t_order_student_month_list","month","origin"] ,
 
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,
@@ -267,5 +271,5 @@ return array(
     // ["db_question","t_lesson_note_list","id"] ,
     //["db_question","t_lesson_note","note_id"] ,
     // ["db_question","t_question","id"] ,
-    //["db_ejabberd","users","username"] ,
+    // ["db_ejabberd","users","username"] ,
 );

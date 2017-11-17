@@ -82,7 +82,6 @@ class seller_student_new extends Controller
         $userid            = $this->get_in_userid(-1);
         $origin            = trim($this->get_in_str_val('origin', ''));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
-        // dd($origin_ex);
         $grade             = $this->get_in_el_grade();
         $subject           = $this->get_in_subject(-1);
         $phone_location    = trim($this->get_in_str_val('phone_location', ''));
@@ -357,7 +356,8 @@ class seller_student_new extends Controller
             $phone_location,   $has_pad, $seller_resource_type,$origin_assistantid  ,
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
-            $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,$current_require_id_flag,$favorite_flag ,$global_tq_called_flag) ;
+            $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,
+            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag) ;
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;
@@ -1448,23 +1448,28 @@ class seller_student_new extends Controller
 
 
         $now=time(NULL);
-
         $cur_hm=date("H",$now)*60+date("i",$now);
         $cur_week=date("w",$now);
-        if (in_array( $cur_week*1,[6,0] ) ) {
+        // if (in_array( $cur_week*1,[6,0] ) ) {//周六,周日00:00~11:00
+        //     $limit_arr=array( [0,11*60] );
+        // }else{//周一~周五00:00~10:00,14:00~15:00
+        //     $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+        //     //$limit_arr=array( [0, 10*60 ] );
+        // }
+        if (in_array( $cur_week*1,[6,0])) {//周六,周日00:00~11:00
             $limit_arr=array( [0,11*60] );
-        }else{
-            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+        }elseif(in_array( $cur_week*1,[1,3,4,5] )){//周一,周三,周四,周五 0:00-13:30
+            $limit_arr=array( [0, 13*60+30]);
+        }else{//周二 00:00~06:00
+            $limit_arr=array( [0, 6*60]);
             //$limit_arr=array( [0, 10*60 ] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;
         $time_str_list=[];
-
         foreach( $limit_arr  as $limit_item) {
             $limit_start=$limit_item[0];
             $limit_end=$limit_item[1];
-
             if ($cur_hm >= $limit_start && $cur_hm < $limit_end  ) { //间隔60分钟
                 $success_flag=false;
             }
@@ -1472,8 +1477,6 @@ class seller_student_new extends Controller
                                      $limit_start/60, $limit_start%60,
                                      $limit_end/60, $limit_end%60);
         }
-
-
         $errors=[];
         if(  (
             false ||

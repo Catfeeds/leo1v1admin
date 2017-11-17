@@ -659,8 +659,9 @@ class common_new extends Controller
     public function notify_gen_lesson_teacher_pdf_pic() {
         $lessonid = $this->get_in_lessonid();
         $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
-        // dispatch(new deal_pdf_to_image($pdf_url, $lessonid));
-        if($pdf_url){
+
+        $arr = explode('.', $pdf_url);
+        if($pdf_url ){
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $pdf_url,
@@ -1410,7 +1411,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_child_order_info->field_update_list($orderid,[
                     "pay_status"  =>1,
                     "pay_time"    =>time(),
-                    "channel"     =>"ccb",
+                    "channel"     =>"建行分期",
                     "from_orderno"=>$orderNo,
                     // "period_num"  =>$period_new
                 ]);
@@ -1616,4 +1617,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             dd($item);
         }
     }
+    public function wx_notifi_admin () {
+        $account=trim($this->get_in_str_val("account"));
+        $noti_info= $this->get_in_str_val("noti_info");
+        $this->t_manager_info->send_wx_todo_msg($account, "SYS", $noti_info, $noti_info);
+        return $this->output_succ();
+    }
+
 }

@@ -586,6 +586,9 @@ class ss_deal2 extends Controller
         }else{
             $change_reason_url = '';
         }
+
+        if(!$stu_request_test_lesson_time){ return $this->output_err("请选择试听时间"); }
+
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
         if($green_channel_teacherid>0){
             $is_green_flag=1;
@@ -698,17 +701,6 @@ class ss_deal2 extends Controller
                 "is_green_flag"                 => $is_green_flag,
                 "green_channel_teacherid"       => $green_channel_teacherid,
             ]);
-            // if((!$change_teacher_reason_type || !$change_reason) && $ass_test_lesson_type ==2 ){//james
-            //     //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-            //     $now = date('Y-m-d H:i:s',time());
-            //     $data = [
-            //         'first'    => '换老师统计-调试',
-            //         'keyword1' => '换老师统计-调试',
-            //         'keyword2' => "换老师统计-调试 $now"
-            //     ];
-            //     $teacher_url = 'http://admin.leo1v1.com/tongji_ss/tongji_change_teacher_info';
-            //     \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc','rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o', $data,$teacher_url);
-            // }
 
             return $this->output_succ();
         }
@@ -839,6 +831,24 @@ class ss_deal2 extends Controller
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
         return $this->output_succ();
+    }
+
+    public function set_part_time_teacher(){
+        $phone                    = $this->get_in_str_val('phone');
+        $app_id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $train_through_new = $this->t_teacher_info->get_train_through_new($teacherid);
+        if($train_through_new==1){
+            return $this->output_err('已入职老师请从其他途径更改');
+        }
+        $this->t_teacher_lecture_appointment_info->field_update_list($app_id,[
+           "full_time"=>0 
+        ]);
+        $this->t_teacher_info->field_update_list($teacherid,[
+           "teacher_type" =>0 
+        ]);
+        return $this->output_succ();
+
     }
 
 

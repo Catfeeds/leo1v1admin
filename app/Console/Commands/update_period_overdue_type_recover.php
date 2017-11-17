@@ -118,7 +118,7 @@ class update_period_overdue_type_recover extends Command
                             $repay_status = 2;
                         }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["dueDate"]){
                             $repay_status = 1;
-                        }elseif($item["bStatus"] == 144){
+                        }elseif($item["bStatus"] == 144 || ($item["bStatus"] == 112 && $item["dueDate"] < strtotime(date("Y-m-d",time())))){
                             $repay_status = 3;
                         }else{
                             $repay_status = 0;
@@ -133,10 +133,10 @@ class update_period_overdue_type_recover extends Command
                             "un_paid_money"=>$item["unpaidMoney"],
                             "repay_status" =>$repay_status
                         ]);
-                        if($due_date>$item["dueDate"] && $item["bStatus"]==144){
+                        if($due_date>$item["dueDate"] && in_array($item["bStatus"],[112,144])){
                             $i++;
                         }
-                        if($due_date==$item["dueDate"] && $item["bStatus"]==144){
+                        if($due_date==$item["dueDate"] && in_array($item["bStatus"],[112,144])){
                             $range_time = time()-$due_date;
                             if($range_time>4*86400){
                                 $i++;

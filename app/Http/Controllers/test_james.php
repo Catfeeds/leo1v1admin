@@ -961,7 +961,7 @@ class test_james extends Controller
         dd($tea_lesson_list);
         $tea_lesson_info = $this->t_lesson_info_b3->get_tea_lesson_info($lesson_start, $lesson_end,$teacherid);
 
-        
+
         dd($tea_lesson_info);
 
 
@@ -1186,5 +1186,68 @@ $test=	3;
     }
 
 
+    public function check_file(){
+        $filename = "D:\\296.mid";
+
+        $arr = explode('.', $filename);
+
+        dd($arr);
+
+        $file = fopen($filename, "rb");
+        $bin = fread($file, 2); //只读2字节
+        fclose($file);
+        $strInfo = @unpack("c2chars", $bin);
+        $typeCode = intval($strInfo['chars1'].$strInfo['chars2']);
+        $fileType = '';
+        dd($typeCode);
+        switch ($typeCode)
+        {
+        case 7790:
+            $fileType = 'exe';
+            break;
+        case 7784:
+            $fileType = 'midi';
+            break;
+        case 8297:
+            $fileType = 'rar';
+            break;
+        case 255216:
+            $fileType = 'jpg';
+            break;
+        case 7173:
+            $fileType = 'gif';
+            break;
+        case 6677:
+            $fileType = 'bmp';
+            break;
+        case 13780:
+            $fileType = 'png';
+            break;
+        default:
+            echo 'unknown';
+        }
+        echo 'this is a(an) '.$fileType.' file:'.$typeCode;
+    }
+
+
+    public function deal_untreated_pdf(){// 处理未成功pdf文件
+        $num = $this->get_in_int_val('n',-1);
+        $pdf_list = $this->t_pdf_to_png_info->get_untreated_pdf($num);
+
+        foreach($pdf_list as $v){
+            $this->set_in_value("pdf_url", $v['pdf_url']);
+            $this->set_in_value("lessonid", $v['lessonid']);
+
+            $this->get_pdf_url();
+
+            $this->t_pdf_to_png_info->field_update_list($v['id'], [
+                "id_do_flag" => 1
+            ]);
+        }
+    }
+
+    public function ceshi(){
+        dd(strtotime(''));
+    }
 
 }

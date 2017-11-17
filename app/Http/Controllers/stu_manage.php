@@ -1076,6 +1076,7 @@ class stu_manage extends Controller
         //     $is_submit_show = 1;
         // }
 
+
         if($row){
             $row['is_submit_show'] = $is_submit_show;
             $userid  = $this->t_order_info->get_userid($orderid);
@@ -1122,6 +1123,7 @@ class stu_manage extends Controller
                                ]
         );
     }
+
 
 
 
@@ -1323,12 +1325,6 @@ class stu_manage extends Controller
         $is_master    = $this->t_admin_group_name->check_is_master($is_ass,$adminid);
         $assistantid  = $this->t_student_info->get_assistantid_by_userid($sid);
 
-        // // 待删除
-        // if($assistantid>0 ){
-        //     $is_master = 0;
-        // }
-        // // 待删除
-
         // 测试
         $accountid = $this->get_account_id();
         if($accountid == 684){
@@ -1342,9 +1338,9 @@ class stu_manage extends Controller
 
         if ($row) {
             $row['is_show_submit'] = $is_show_submit;
-            $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
+            $row['confirm_flag']   = $this->t_lesson_info_b3->check_is_consume($orderid);
+            $row['is_master']      = $is_master;
 
-            $row['is_master'] = $is_master;
             $userid   = $this->t_order_info->get_userid($orderid);
             $stu_info = $this->t_student_info->field_get_list($userid,"*");
 

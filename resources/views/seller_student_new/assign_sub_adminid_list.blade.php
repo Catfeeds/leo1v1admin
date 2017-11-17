@@ -11,11 +11,8 @@
 
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
-
         <div>
-
             <div class="row  row-query-list" >
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">列表模式</span>
@@ -25,8 +22,6 @@
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon" >   是否可见   </span>
@@ -34,8 +29,6 @@
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">系统判定无效</span>
@@ -385,9 +378,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            @if($var['auto_allot_adminid'] == 0)
-                                <input type="checkbox" class="opt-select-item" data-userid="{{$var["userid"]}}"/>   {{$var["index"]}}
-                            @endif
+                            <input type="checkbox" class="opt-select-item" data-userid="{{$var["userid"]}}"/>   {{$var["index"]}}
                         </td>
                         <td>{{$var["opt_time"]}} </td>
                         <td>{{$var["phone"]}} </td>

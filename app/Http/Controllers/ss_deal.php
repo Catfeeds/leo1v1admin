@@ -682,7 +682,7 @@ class ss_deal extends Controller
 
 
         $has_pad       = $this->get_in_int_val("has_pad");
-        $intention_level       = $this->get_in_int_val("intention_level");
+        $intention_level       = $this->get_in_int_val("intention_level");//上课意向
         $user_desc     = $this->get_in_str_val("user_desc");
         $next_revisit_time     = $this->get_in_str_val("next_revisit_time");
         $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");
@@ -726,6 +726,15 @@ class ss_deal extends Controller
         $region      = $this->get_in_str_val("region");//地区,省
         $province      = $this->get_in_int_val("province");//省
         $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
+
+
+        /**
+         * 需求急迫性|上课意向|报价反应 为必填项
+         **/
+
+        if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
+        if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
+        if($intention_level == 0){ return $this->output_err("请选择上课意向");}
 
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
@@ -984,7 +993,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="4助教-扩课";
+            $origin_info["origin"]="助教-扩课";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -1282,7 +1291,7 @@ class ss_deal extends Controller
             "rebut_info" =>$rebut_info_new,
             "rebut_flag" =>1
         ]);
-        
+
         return $this->output_succ();
     }
 
@@ -2553,6 +2562,7 @@ class ss_deal extends Controller
         return $this->output_succ(["data"=>$stu_info]);
     }
 
+
     public function confirm_test_lesson() {
         $require_id   = $this->get_in_require_id();
         $success_flag = $this->get_in_str_val("success_flag");
@@ -2594,6 +2604,28 @@ class ss_deal extends Controller
         $teacherid    = $lesson_info["teacherid"] ;
         $teacher_nick = $this->cache_get_teacher_nick($teacherid);
 
+
+        /*
+          勿删
+        $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+        $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid(
+            $set_lesson_adminid,
+            "来自:".$this->get_account(),
+            "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
+        );
+
+        $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+        if($require_adminid != $set_lesson_adminid){
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(
+                $require_adminid,
+                "来自:".$this->get_account(),
+                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
+            );
+        }
+        */
+
+
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1){
             $this->t_test_lesson_subject_require->set_test_lesson_status(
                 $require_id,
@@ -2601,11 +2633,12 @@ class ss_deal extends Controller
 
             $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
-
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $set_lesson_adminid,
                 "来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
+
+
 
             $remark_ex = "";
             if($fail_greater_4_hour_flag ) {
@@ -2822,6 +2855,7 @@ class ss_deal extends Controller
 
         \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
 
+        if(!$stu_request_test_lesson_time){ return $this->output_err("请选择试听时间"); }
 
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -3503,11 +3537,11 @@ class ss_deal extends Controller
             // }
             // $str="";
             // foreach($arr as $item){
-            //     $str .= $item[6].",";               
+            //     $str .= $item[6].",";
             // }
             // $str = trim($str,",");
             // $this->t_teacher_info->field_update_list(240314,[
-            //     "part_remarks"=>$str 
+            //     "part_remarks"=>$str
             // ]);
             // return;
 

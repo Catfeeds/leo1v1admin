@@ -137,13 +137,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql=$this->gen_sql_new (
             "select a.id,a.phone,a.nickname,a.userid,a.test_lessonid,"
-            ."o.sys_operator,mi.account,mi.name,mi.account_role"
+            ."o.sys_operator,mi.account,mi.name,mi.account_role,pa.phone as p_phone,".
+            "pa.nickname as p_nickname,ppa.phone as pp_phone,ppa.nickname as pp_nickname"
             ." from %s a"
+            ." left join %s pa on a.parentid = pa.id"
+            ." left join %s ppa on pa.parentid = ppa.id"
             ." left join %s s on s.userid = a.userid"
             ." left join %s ao on ao.aid = a.id "
             ." left join %s o on ao.orderid = o.orderid"
             ." left join %s mi on s.assistantid = mi.uid"
             ." where %s",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_agent_order::DB_TABLE_NAME,
@@ -1551,8 +1556,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_agent_status_money=0;
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-            if ($agent_status_money==5000) {
-                $pp_agent_status_money= 2500;
+            if ($agent_status_money > 0) {
+                $pp_agent_status_money = $agent_status_money/2;
             }
         }
 
@@ -1590,10 +1595,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
         //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可提现]
-        if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0)
+        if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0){
             $all_open_cush_money += $daily_lottery_money;
-        elseif($daily_lottery_money >= 2500)  //或者是抽奖金额达到25 [进入可提现]
+            //将每日转盘奖励计入资金记录
+            //添加收入记录
+            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
+            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+        }elseif($daily_lottery_money >= 2500){  //或者是抽奖金额达到25 [进入可提现]
             $all_open_cush_money += $daily_lottery_money;
+            //将每日转盘奖励计入资金记录
+            //添加收入记录
+            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
+            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+        }
 
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
@@ -2372,14 +2386,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //获取我的邀请列表
     public function my_invite($agent_id,$page_info,$page_count){
-
+        $where_arr = [
+            'a1.type <> 2',
+            ['a1.parentid = %u',$agent_id,-1]
+        ];
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
             ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
             . " from %s a1"
-            ." where  a1.parentid=%u order by a1.create_time desc",
+            ." where  %s order by a1.create_time desc",
             self::DB_TABLE_NAME,
-            $agent_id
+            $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
@@ -2475,7 +2492,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_invite_type_list($agent_id,$type=1,$page_info,$page_count){
         $where_arr = [
             ['parentid = %u',$agent_id,'-1'],
-            ['type = %u',$type,'1']
+            ['type = %u',$type,'-1']
         ];
         $sql = $this->gen_sql_new(
             "select id,phone,nickname,agent_status,agent_student_status,create_time from %s where %s order by id desc",
@@ -2613,7 +2630,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
 
             //计算签单金额、签单量[无下限限制下级]
-            $child_order_info = $this->task->t_agent_order->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
+            $child_order_info = $this->task->t_agent->get_cycle_child_order_info($in_str,$month_first_day,$month_last_day);
             $cycle_order_count = $child_order_info['child_order_count'];
             $cycle_order_money = $child_order_info['child_order_money'];
 
@@ -2806,14 +2823,40 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_parent_adminid_by_parentid($parentid){
         $where_arr = [
             ['a.id = %u', $parentid, -1],
-            'm.leave_member_time=0',
+            // 'm.leave_member_time=0',
+            'm.del_flag=0',
         ];
         $sql = $this->gen_sql_new("select m.uid from %s a"
                                   ." left join %s m on m.phone=a.phone"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取一些用户的签单数量及签单金额
+    //@desn:获取推荐学员签单量、签单金额[无下限限制下级]
+    //@param:$in_str child  id串
+    //@param:$start_time  每月开始时间
+    //@param:$end_time  每月结束时间
+    public function get_cycle_child_order_info($in_str,$start_time,$end_time){
+        $where_arr = [
+            'a.id in '.$instr,
+            'oi.order_status in (1,2)',
+            'oi.contract_type in (0,3)'
+        ];
+        $this->where_arr_add_time_range($where_arr,"ao.create_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            'select sum(ao.orderid>0) child_order_count,sum(oi.price) child_order_money '.
+            'from %s a '.
+            'left join %s oi on a.uesrid = oi.userid '.
+            'where %s ',
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }

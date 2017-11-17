@@ -136,6 +136,8 @@ class deal_pdf_to_png extends cmd_base
 
         $is_exit = file_exists($pdf);
 
+        \App\Helper\Utils::logger("check_pdf $pdf");
+
         if($is_exit){
             $IM->readImage($pdf);
             foreach($IM as $key => $Var){
@@ -145,10 +147,13 @@ class deal_pdf_to_png extends cmd_base
                     $Return[]= $Filename;
                 }
             }
+            $im->clear();
             return $Return;
         }else{
+            $im->clear();
             return [];
         }
+
 
     }
 

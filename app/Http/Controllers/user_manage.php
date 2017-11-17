@@ -100,9 +100,11 @@ class user_manage extends Controller
             $user_name, $phone, $teacherid,
             $assistantid, $test_user, $originid,
             $seller_adminid,$order_type,$student_type);
+
         foreach($ret_info['list'] as &$item) {
+            \App\Helper\Utils::hide_item_phone($item);
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
-            $item['is_test_user_str']      = E\Etest_user::get_desc($item['is_test_user']);
+            $item['is_test_user_str']  = E\Etest_user::get_desc($item['is_test_user']);
             $item['user_agent_simple'] = get_machine_info_from_user_agent($item["user_agent"] );
             $item['last_login_ip']     = long2ip( $item['last_login_ip'] );
             \App\Helper\Utils::unixtime2date_for_item($item,"last_lesson_time");
@@ -116,6 +118,7 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
+
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -372,16 +375,13 @@ class user_manage extends Controller
             $item["course_list_total"] = count(array_unique($arr));
 
             // 检查交接单是否有驳回
-            // $row['confirm_flag'] = $this->t_lesson_info_b3->check_is_consume($orderid);
-
             $reject_status = $this->t_student_info->check_is_reject($item['userid']);
 
             if($reject_status == 3){
                 unset($ret_info['list'][$i]);
             }
-
-
         }
+
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
@@ -633,7 +633,6 @@ class user_manage extends Controller
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
-
             if($item["order_time"] >= strtotime("2017-10-27 16:00:00") && $item["can_period_flag"]==0){
                 $item["can_period_flag"]=0;
             }else{
@@ -709,15 +708,14 @@ class user_manage extends Controller
                 $item['status_color'] = 'color:green';
             }
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
+            \App\Helper\Utils::hide_item_phone($item);
         }
-
-        // dd($price);
 
         $acc = $this->get_account();
         $this->set_filed_for_js("account_role_self",$this->get_account_role());
-        $this->set_filed_for_js("acc",$this->get_account()); 
+        $this->set_filed_for_js("acc",$this->get_account());
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
-        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);        
+        $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
 
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
