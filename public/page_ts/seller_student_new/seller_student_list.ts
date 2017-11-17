@@ -19,6 +19,7 @@ function load_data(){
         start_time: $('#id_start_time').val(),
         group_seller_student_status:    $('#id_group_seller_student_status').val(),
         seller_groupid_ex:  $('#id_seller_groupid_ex').val(),
+        seller_groupid_ex_new:  $('#id_seller_groupid_ex_new').val(),
         end_time:   $('#id_end_time').val(),
         userid: $('#id_userid').val(),
         success_flag:   $('#id_success_flag').val(),
@@ -190,7 +191,9 @@ $(function(){
     $('#id_status_list_str').val(g_args.status_list_str);
     $('#id_userid').val(g_args.userid);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+    $('#id_seller_groupid_ex_new').val(g_args.seller_groupid_ex_new);
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
+    $("#id_seller_groupid_ex_new").init_seller_groupid_ex();
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_subject').val(g_args.subject);
     $('#id_has_pad').val(g_args.has_pad);
