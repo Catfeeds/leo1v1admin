@@ -682,7 +682,7 @@ class ss_deal extends Controller
 
 
         $has_pad       = $this->get_in_int_val("has_pad");
-        $intention_level       = $this->get_in_int_val("intention_level");
+        $intention_level       = $this->get_in_int_val("intention_level");//上课意向
         $user_desc     = $this->get_in_str_val("user_desc");
         $next_revisit_time     = $this->get_in_str_val("next_revisit_time");
         $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");
@@ -726,6 +726,17 @@ class ss_deal extends Controller
         $region      = $this->get_in_str_val("region");//地区,省
         $province      = $this->get_in_int_val("province");//省
         $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
+
+
+        /**
+         * 需求急迫性|上课意向|报价反应 为必填项
+         **/
+
+        // if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
+        // if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
+        // if($intention_level == 0){ return $this->output_err("请选择上课意向");}
+
+
 
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
