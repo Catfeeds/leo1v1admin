@@ -86,6 +86,14 @@
                 </select>
             </div>
         </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span >推荐人</span>
+                <input id="id_teacherid" type="text" value="" class="opt-change" placeholder="" />
+            </div>
+        </div>
+
         <div class="col-xs-6 col-md-2">
             <div class="input-group">
                 <span>培训状态</span>
