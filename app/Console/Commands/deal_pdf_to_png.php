@@ -82,7 +82,7 @@ class deal_pdf_to_png extends cmd_base
                 $path = public_path().'/wximg';
                 @chmod($savePathFile, 0777);
 
-                $filesize=filesize($pdf);
+                $filesize=filesize($savePathFile);
                 if($filesize<1024){
                     \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
 
