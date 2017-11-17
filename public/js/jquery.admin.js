@@ -1426,7 +1426,7 @@ jQuery.extend({
         if ( window.location.href.indexOf('class') > 0){
             new_url = "http://self.admin.leo1v1.com/user_manage/get_user_list";
         }else{
-            new_url = "user_manage/get_user_list";
+            new_url = "/user_manage/get_user_list";
         }
 
 
