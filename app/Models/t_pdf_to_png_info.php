@@ -17,9 +17,15 @@ class t_pdf_to_png_info extends \App\Models\Zgen\z_t_pdf_to_png_info
         return $this->main_get_list($sql);
     }
 
-    public function get_untreated_pdf(){
+    public function get_untreated_pdf($num){
 
-        $sql = "select * from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=2 and lessonid not in (select lessonid from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=1 ) order by id desc";
+        if($num>0){
+            $limit_num = "limit $num";
+        }else{
+            $limit_num = '';
+        }
+
+        $sql = "select * from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=2 and lessonid not in (select lessonid from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=1 ) ".$limit_num;
         return $this->main_get_list($sql);
     }
 
