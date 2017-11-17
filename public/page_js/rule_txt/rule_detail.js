@@ -140,5 +140,9 @@ $(function(){
             });
     }
 
+    $('.opt-punish').on('click',function(){
+        var punish = $(this).data('punish');
+        BootstrapDialog.alert(punish);
+    });
     $('.opt-change').set_input_change_event(load_data);
 });

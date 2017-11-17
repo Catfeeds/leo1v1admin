@@ -20,6 +20,7 @@ interface RowData {
 	create_time	:any;
 	deduct_marks_str	:any;
 	level_str	:any;
+	punish	:any;
 }
 
 /*
