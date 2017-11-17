@@ -1240,9 +1240,9 @@ $test=	3;
 
             $this->get_pdf_url();
 
-            // $this->t_pdf_to_png_info->field_update_list($v['id'], [
-            //     "id_do_flag" => 1
-            // ]);
+            $this->t_pdf_to_png_info->field_update_list($v['id'], [
+                "id_do_flag" => 1
+            ]);
         }
     }
 
