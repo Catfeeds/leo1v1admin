@@ -4042,7 +4042,7 @@ class user_deal extends Controller
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
         $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
         $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
-        $res[$adminid]['kpi'] = ($kpi>0 && $res[$key]['suc_lesson_count_rate_all']>0)?$kpi."%":0;
+        $res[$adminid]['kpi'] = $kpi>0?$kpi."%":0;
 
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
