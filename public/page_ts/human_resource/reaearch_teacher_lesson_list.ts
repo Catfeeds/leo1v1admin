@@ -92,8 +92,8 @@ $(function(){
                     'subject'            : subject,
                     'grade_start'        : grade_start,
                     'grade_end'          : grade_end,
-                    'teacher_money_type' : teacher_money_type,
-                    'teacher_type'       : teacher_type
+                    'teacher_money_type' : 0,
+                    'teacher_type'       : 4
                 });
 
             }
