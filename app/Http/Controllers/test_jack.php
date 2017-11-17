@@ -191,7 +191,7 @@ class test_jack  extends Controller
     }
 
     public function test_yy(){
-        $file = fopen("/home/jack/3.csv","r");
+        $file = fopen("/home/ybai/3.csv","r");
         $goods_list=[];
         $first_list = [];
         $i=0; 
@@ -212,7 +212,35 @@ class test_jack  extends Controller
             }
             $j++;
         }
-        dd($list);
+
+        foreach($list as &$item){
+            $arr = explode("年",$item[1]);
+            $arr_2 = $arr[1];
+            $arr_3 = explode("月",$arr_2);
+
+            $year = $arr[0];
+            $month = $arr_3[0]>=10?$arr_3[0]:"0".$arr_3[0];
+            $date = $year."-".$month."-01";
+            $item[1]=strtotime($date);
+            $this->t_admin_student_month_info->row_insert([
+                "month" =>$item[1],
+                "begin_stock" =>$item[2],
+                "increase_num" =>$item[3],
+                "end_num" =>$item[4],
+                "refund_num" =>$item[5],
+                "end_stock" =>$item[6],
+                "no_lesson_num" =>$item[7],
+                "end_read_num" =>$item[8],
+                "three_end_num" =>$item[9],
+                "expiration_renew_num" =>$item[10],
+                "early_renew_num" =>$item[11],
+                "end_renew_num" =>$item[12],
+                "actual_renew_rate" =>$item[13],
+                "actual_renew_rate_three" =>$item[14],
+            ]);
+
+        }
+        // dd($list);
 
         // print_r($goods_list);
         fclose($file); 
@@ -220,7 +248,7 @@ class test_jack  extends Controller
     }
 
     public function test_xx(){
-        $file = fopen("/home/jack/4.csv","r");
+        $file = fopen("/home/ybai/4.csv","r");
         $goods_list=[];
         $first_list = [];
         $i=0; 
@@ -241,6 +269,36 @@ class test_jack  extends Controller
             }
             $j++;
         }
+        foreach($list as &$item){
+            $arr = explode("年",$item[1]);
+            $arr_2 = $arr[1];
+            $arr_3 = explode("月",$arr_2);
+
+            $year = $arr[0];
+            $month = $arr_3[0]>=10?$arr_3[0]:"0".$arr_3[0];
+            $date = $year."-".$month."-01";
+            $item[1]=strtotime($date);
+            $this->t_admin_student_month_info->field_update_list($item[1],[
+                "test_chinese_num" =>$item[2],
+                "test_math_num" =>$item[3],
+                "test_english_num" =>$item[4],
+                "test_minor_subject_num" =>$item[5],
+                "test_all_subject_num" =>$item[6],
+                "increase_chinese_num" =>$item[7],
+                "increase_math_num" =>$item[8],
+                "increase_english_num" =>$item[9],
+                "increase_minor_subject_num" =>$item[10],
+                "increase_all_subject_num" =>$item[11],
+                "increase_test_rate" =>$item[12],
+                "read_chinese_num" =>$item[13],
+                "read_math_num" =>$item[14],
+                "read_english_num" =>$item[15],
+                "read_minor_subject_num" =>$item[16],
+                "read_all_subject_num" =>$item[17],
+            ]);
+
+        }
+
         dd($list);
 
         // print_r($goods_list);
@@ -261,6 +319,24 @@ class test_jack  extends Controller
         // print_r($goods_list);
         fclose($file); 
         
+    }
+
+    public function test_period(){
+        $d = date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+
+        }
+
+        $data = $this->get_baidu_money_charge_pay_info(516);
+        dd($data);
+
+
     }
 
 

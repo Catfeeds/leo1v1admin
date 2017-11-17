@@ -1411,7 +1411,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_child_order_info->field_update_list($orderid,[
                     "pay_status"  =>1,
                     "pay_time"    =>time(),
-                    "channel"     =>"ccb",
+                    "channel"     =>"建行分期",
                     "from_orderno"=>$orderNo,
                     // "period_num"  =>$period_new
                 ]);
