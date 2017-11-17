@@ -1862,6 +1862,7 @@ class user_manage_new extends Controller
                 $item['become_member_num'] = '';
                 $item['leave_member_num'] = '';
                 $item['suc_lesson_count_rate'] = '';
+                $item['kpi'] = '';
             }
 
             if($item['level'] == 'l-3'){
