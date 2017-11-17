@@ -5092,6 +5092,8 @@ class user_manage_new extends Controller
     // 手动刷新当前月的伯乐奖金
     public function flush_teacher_money() {
         $teacherid = $this->get_in_int_val("teacherid");
+        $acc = $this->get_account();
+        // 暂定修改最近一月的数据 如修改以前数据则传递页面的开始时间与结果时间
         $start_time = strtotime(date('Y-m-01', time()));
         $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
         foreach($re_teacherid as $item) {
@@ -5104,6 +5106,7 @@ class user_manage_new extends Controller
             if ($reward != $item['money']) {
                 $this->t_teacher_money_list->field_update_list($item['id'],[
                     'money' => $reward,
+                    'acc' => $acc
                 ]);
             }
         }
