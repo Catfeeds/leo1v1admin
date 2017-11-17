@@ -4550,8 +4550,7 @@ class human_resource extends Controller
         ]);
     }
 
-    public function add_research_teacher(){
-      
+    public function add_research_teacher(){ 
         $teacher_info = array();
         $teacher_info['phone'] = trim($this->get_in_str_val('phone',''));
         $teacher_info['realname'] = trim($this->get_in_str_val('realname',''));
@@ -4566,8 +4565,7 @@ class human_resource extends Controller
             return $this->output_err("生成老师失败！");
         }else{
             return $this->output_succ(["teacherid" => $teacherid]);
-        }
-     
+        } 
     }
 
     public function zs_origin_list(){

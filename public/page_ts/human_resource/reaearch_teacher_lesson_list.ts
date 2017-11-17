@@ -26,7 +26,6 @@ $(function(){
 
         var id_teacher_money_type = $("<input readonly>");
         var id_teacher_type       = $("<input readonly>");
-
         var id_grade_start        = $("<select/>");
         var id_grade_end          = $("<select/>");
         var id_subject            = $("<select/>");

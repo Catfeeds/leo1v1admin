@@ -29,8 +29,7 @@
                         <span >老师 </span>
                         <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
                     </div>
-                </div>
-                
+                </div> 
                 <a  id="id_add_closest" class="btn btn-warning " > <li  class="fa fa-plus">添加教研老师</li> </a>
             </div>
         </div>
