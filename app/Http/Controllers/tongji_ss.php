@@ -8027,7 +8027,10 @@ class tongji_ss extends Controller
                 $p_item["index_num"]=0;
             }
         }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,[
+            "data_ex_list"=>$ret_info,
+            "show_all_flag" =>$show_all_flag
+        ]);
 
     }
 

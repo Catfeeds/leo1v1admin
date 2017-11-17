@@ -495,7 +495,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             $tuwenList[] = array(
                 'title' => '精品内容',
                 'description' => '',
-                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fb5c81ed3a220004b71069645f1128671501667305656.png',
+                'pic_url' => "http://7u2f5q.com2.z0.glb.qiniucdn.com/fb5c81ed3a220004b71069645f1128671501667305656.png",
                 // 'url' => 'http://wx-parent-web.leo1v1.com/wx-invite-article/index.html?p_phone='.$phone,
                 'url' => 'http://wx-parent-web.leo1v1.com/wx-invite-article/parent_article.html',
             );
