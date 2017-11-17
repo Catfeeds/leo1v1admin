@@ -102,7 +102,7 @@ class get_period_repay_info extends Command
                             ]);
                         }
 
-                        if($d==16 &&  $due_date==$item["dueDate"] && in_array($item["bStatus"],[112,144])){
+                        if($d>=16 && $d<19 && $due_date==$item["dueDate"] && in_array($item["bStatus"],[112,144])){
                             $parent_orderid= $task->t_child_order_info->get_parent_orderid($orderid);
                             $userid = $task->t_order_info->get_userid($parent_orderid);
                             $old_type= $task->t_student_info->get_type($userid);
