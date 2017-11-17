@@ -56,9 +56,9 @@ class period_order_overdue_warning_send_wx extends Command
             foreach($list as $val){
                 //微信推送家长
                 $wx = new \App\Helper\Wx();
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
                 // $openid = $val["wx_openid"];
                 // // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
-                // $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
 
                 // $data=[
                 //     "first"    => "百度分期还款逾期通知",
