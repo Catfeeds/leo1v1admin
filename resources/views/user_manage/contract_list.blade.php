@@ -193,7 +193,6 @@
                     <td >试听课时间</td>
                     <td >年级</td>
                     <td >科目</td>
-                    <td style="display:none;" >联系电话</td>
                     <td >合同状态</td>
                     <td >合同类型</td>
                     <td style="display:none;">生效日期</td>
@@ -229,7 +228,13 @@
                         <td >{{$var["userid"]}}</td>
                         <td >{{$var["orderid"]}}</td>
                         <td class="td-origin" >{{$var["origin"]}}<br> {{$var["origin_assistant_nick"]}} </td>
-                        <td class="stu_nick" >{{$var["stu_nick"]}} <br/> {{$var["phone"]}} </td>
+                        <td class="stu_nick" >
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
+                            <br/>
+                            {{$var["stu_nick"]}}
+                        </td>
                         <td >{{$var["parent_nick"]}}</td>
                         <td >{{substr($var["phone_location"],0,-6)}}</td>
                         <td >{{$var["stu_from_type_str"]}}</td>
@@ -237,7 +242,6 @@
                         <td >{{$var["lesson_start"]}}-{{$var["lesson_end"]}}</td>
                         <td >{{$var["grade_str"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
-                        <td >{{$var["phone"]}}</td>
                         <td style="{{$var['status_color']}}" >{{$var["contract_status_str"]}}</td>
                         <td >
                             @if ($var["contract_type"]==1)
