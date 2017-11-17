@@ -477,6 +477,7 @@ class TeacherTask extends TaskController
 
             $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
             if($openid){
+                $this->teacher_wx_data("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$val,$type);// 测试 james
                 $this->teacher_wx_data($openid,$val,$type);
                 $wx_tea_price_flag=1;
             }else{
