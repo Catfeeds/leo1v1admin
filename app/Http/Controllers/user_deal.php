@@ -4044,7 +4044,7 @@ class user_deal extends Controller
         $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
         $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
         $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag');
-        if($manager_info["become_member_time"]>0 && (time(null)-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
+        if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
             $item['kpi'] = "100%";
         }
 
