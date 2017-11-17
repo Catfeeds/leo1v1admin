@@ -2381,8 +2381,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacherid=%u",$teacherid,-1],
             "m.uid not in (790,486,871,891)"
         ];
-
-        $sql = $this->gen_sql_new("select teacherid,subject,grade_part_ex,t.phone,realname "
+        $sql = $this->gen_sql_new("select teacherid,subject,grade_start,grade_end,grade_part_ex,t.phone,realname"
                                   ." from %s t left join %s m on t.phone= m.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
@@ -3542,18 +3541,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            // "tf.simul_test_lesson_pass_time>=".$start_time,
-            //"tf.simul_test_lesson_pass_time<".$end_time,
+            "tf.simul_test_lesson_pass_time>=".$start_time,
+            "tf.simul_test_lesson_pass_time<".$end_time,
             "t.train_through_new=1",
             "ta.id>0"
         ];
-        if($start_time>=strtotime("2017-08-01")){
-            $where_arr[]="tf.simul_test_lesson_pass_time>=".$start_time;
-            $where_arr[]="tf.simul_test_lesson_pass_time<".$end_time;
-        }else{
-            $where_arr[]="t.train_through_new_time>=".$start_time;
-            $where_arr[]="t.train_through_new_time<".$end_time;
-        }
 
         $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
                                   ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"

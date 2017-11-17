@@ -5,8 +5,8 @@ class menu{
         return [
             ["power_id"=>80, "name"=>"小班课",  "list"=> [
                 ["power_id"=>1, "name"=>"学生管理",   "list"=>[
-                    ["power_id"=>1, "name"=>"全部用户",   "url"=>"/seller_student_new2/test_lesson_plan_list"],
-                    ["power_id"=>2, "name"=>"订单",   "url"=>"/seller_student_new2/test_lesson_plan_list_jx"],
+                    ["power_id"=>1, "name"=>"全部用户",   "url"=>"/class_stu_manage/list"],
+                    ["power_id"=>2, "name"=>"详细页面",   "url"=>"/class_stu_manage/detail"],
                     ["power_id"=>3, "name"=>"测试",   "url"=>"/seller_student_new2/test_lesson_no_binding_list"],
                     ["power_id"=>4, "name"=>"教务排课明细", "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
                     ["power_id"=>5, "name"=>"试听销售签单与否反馈", "url"=>"/seller_student_new/test_lesson_order_fail_list"],
