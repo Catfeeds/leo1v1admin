@@ -3993,7 +3993,7 @@ class user_deal extends Controller
             break;
         }
         //试听成功数
-        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4]) = [[],[],[],[]];
+        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi']) = [[],[],[],[],0,0];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
         $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
@@ -4028,28 +4028,27 @@ class user_deal extends Controller
             $res[$key]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
             $res[$key]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
         }
-        // if($end_time >= time()){
-        //     $end_time = time();
-        // }
-        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
-        // foreach($test_leeson_list['list'] as $item){
-        //     $adminid = $item['admin_revisiterid'];
-        //     $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
-        //     $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-        //     $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
-        //     $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count']/$item['test_lesson_count'],2)*100):0;
-        //     $res[$adminid]['lesson_per'] = $lesson_per==0?0:$lesson_per."%";
-        //     $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
-        //     $res[$adminid]['kpi'] = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
-        //     $res[$adminid]['kpi_desc'] = $res[$adminid]['kpi']."%";
-        // }
-        // dd($res);
+        if($end_time >= time()){
+            $end_time = time();
+        }
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
+            $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count']/$item['test_lesson_count'],2)*100):0;
+            $res[$adminid]['lesson_per'] = $lesson_per==0?0:$lesson_per."%";
+            $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
+            $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
+            $res[$adminid]['kpi'] = $kpi>0?$res[$adminid]['kpi']."%":0;
+        }
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
-        // $arr['lesson_per'] = $res[$adminid][E\Eweek_order::V_1];
-        // $arr['lesson_per'] = $res[$adminid][E\Eweek_order::V_1];
+        $arr['lesson_per'] = $res[$adminid]['lesson_per'];
+        $arr['lesson_per'] = $res[$adminid]['kpi'];
         return $this->output_succ($arr);
     }
 
