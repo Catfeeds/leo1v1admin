@@ -8,10 +8,11 @@ import "agent_api/common.proto";
 message in  {
   uint32 page_num = 1;//第几页
   uint32 page_count = 2;//每页条数[不传默认五条]
+  uint32 table_type = 3;//table 切换标识 1 我邀请的 2 会员邀请
 
 }
 
 message out {
-  common.had_invite_rewards my_invite = 1;//邀请获得的奖励
-  common.had_invite_rewards member_invite = 2;//会员邀请获得的奖励
+  common.had_invite_rewards my_invite = 1;//邀请获得的奖励 [table_type == 1]
+  common.had_invite_rewards member_invite = 2;//会员邀请获得的奖励 [table_type == 2]
 }

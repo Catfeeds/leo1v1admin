@@ -1556,8 +1556,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_agent_status_money=0;
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-            if ($agent_status_money==5000) {
-                $pp_agent_status_money= 2500;
+            if ($agent_status_money > 0) {
+                $pp_agent_status_money = $agent_status_money/2;
             }
         }
 

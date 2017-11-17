@@ -1023,7 +1023,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
-            'lesson_user_online_status in (0,1) or  f.flow_status = 2',
+            '(lesson_user_online_status in (0,1) or  f.flow_status = 2)',
             // 'cur_require_adminid>0',
             ['cur_require_adminid=%u',$adminid,-1],
         ];

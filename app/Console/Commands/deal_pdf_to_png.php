@@ -147,10 +147,13 @@ class deal_pdf_to_png extends cmd_base
                     $Return[]= $Filename;
                 }
             }
+            $im->clear();
             return $Return;
         }else{
+            $im->clear();
             return [];
         }
+
 
     }
 

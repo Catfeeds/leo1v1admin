@@ -649,7 +649,7 @@ $(function(){
                 });
             }
         }],function(){
-            if(g_args.account_role==12){
+            if(g_args.account_role_self==12){
                 $.admin_select_user($id_userid,"student");
             }else{
                 $.admin_select_user($id_userid,"student_ass"); 
