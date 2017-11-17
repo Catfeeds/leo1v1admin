@@ -37,15 +37,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-assistant_info2.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		is_part_time:	$('#id_is_part_time').val(),
+		ass_nick:	$('#id_ass_nick').val(),
+		phone:	$('#id_phone').val(),
+		score:	$('#id_score').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			is_part_time:	$('#id_is_part_time').val(),
-			ass_nick:	$('#id_ass_nick').val(),
-			phone:	$('#id_phone').val(),
-			score:	$('#id_score').val()
-        });
-    }
 
 
 	$('#id_is_part_time').val(g_args.is_part_time);
