@@ -1229,5 +1229,4 @@ $test=	3;
         echo 'this is a(an) '.$fileType.' file:'.$typeCode;
     }
 
-
 }
