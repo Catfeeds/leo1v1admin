@@ -3994,7 +3994,6 @@ class user_deal extends Controller
         }
         //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4]) = [[],[],[],[]];
-        $res = [];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
         $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
