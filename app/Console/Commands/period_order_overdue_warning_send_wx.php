@@ -57,6 +57,7 @@ class period_order_overdue_warning_send_wx extends Command
                 //微信推送家长
                 $wx = new \App\Helper\Wx();
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+                $url="";
                 // $openid = $val["wx_openid"];
                 // // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
 
@@ -67,7 +68,6 @@ class period_order_overdue_warning_send_wx extends Command
                 //     "keyword3" => date("Y-m-d H:i:s"),
                 //     "remark"   => "",
                 // ];
-                // $url="";
 
 
                 // if($openid){
