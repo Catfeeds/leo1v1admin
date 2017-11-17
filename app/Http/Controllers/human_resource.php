@@ -4548,7 +4548,7 @@ class human_resource extends Controller
             E\Egrade::set_item_value_str($item,"grade_end");
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            '_publish_version' =>'201712161132',
+            '_publish_version' =>'201712161131',
         ]);
     }
 
