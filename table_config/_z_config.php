@@ -74,6 +74,8 @@ return array(
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
     ["db_weiyi","t_child_order_info", "child_orderid"],
     ["db_weiyi","t_ass_stu_change_list", "id"],
+    ["db_weiyi","t_rule_info", "rule_id"],
+    ["db_weiyi","t_rule_detail_info", "detail_id"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],

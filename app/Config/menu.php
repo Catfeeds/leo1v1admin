@@ -347,6 +347,7 @@ class menu{
                 ]],
                 ["power_id"=>6, "name"=>"质检-投诉处理", "list"=>[
                     ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
+                    ["power_id"=>32, "name"=>"规则文档",   "url"=>"/rule_txt/get_all"],
                     ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                     ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                     ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
