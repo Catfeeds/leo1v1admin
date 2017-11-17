@@ -1229,4 +1229,17 @@ $test=	3;
         echo 'this is a(an) '.$fileType.' file:'.$typeCode;
     }
 
+
+    public function deal_untreated_pdf(){// 处理未成功pdf文件
+        $pdf_list = $this->t_pdf_to_png_info->get_untreated_pdf();
+
+        dd($pdf_list);
+        foreach($pdf_list as $v){
+            $this->set_in_value($pdf, $value);
+            $this->set_in_value($key, $value);
+
+            $this->get_pdf_url();
+        }
+    }
+
 }

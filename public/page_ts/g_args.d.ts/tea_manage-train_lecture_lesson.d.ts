@@ -19,7 +19,7 @@ interface GargsStatic {
 	is_all:	number;
 	full_time:	number;
 	fulltime_flag:	number;
-	teacherid:	number;
+	teacherid:	string;
 	id_train_through_new_time:	number;
 	id_train_through_new:	number;
 }
