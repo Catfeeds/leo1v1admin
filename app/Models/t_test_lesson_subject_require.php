@@ -2336,7 +2336,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
 
-    public function get_all_need_plan_require_list($start_time,$end_time){
+    public function get_all_need_plan_require_list($start_time,$end_time,$type_flag=-2){
         $where_arr = [
             ["tr.curl_stu_request_test_lesson_time >= %u",$start_time,-1],
             "test_lesson_student_status = 200",
@@ -2344,6 +2344,11 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "m.account_role <>12",
             "s.is_test_user=0"
         ];
+        if($type_flag==-2){
+            $where_arr[]="if(s.grade>=100 and s.grade<200,t.subject<>2,true)";
+        }elseif($type_flag==2){
+            $where_arr[]="s.grade>=100 and s.grade<200 and t.subject=2";
+        }
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
                                   ."nick,stu_request_test_lesson_time,tr.seller_top_flag,s.grade,  "
                                   ." t.subject "

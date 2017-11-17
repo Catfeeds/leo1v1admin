@@ -4102,7 +4102,7 @@ class human_resource extends Controller
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
-
+       
         if($adminid==486 || $adminid==478){
             $tea_subject = "";
         }
@@ -4543,10 +4543,12 @@ class human_resource extends Controller
         $ret_info = $this->t_teacher_info->get_research_teacher_list_lesson($page_info,$teacherid);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
-            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade::set_item_value_str($item,"grade_start");
+            E\Egrade::set_item_value_str($item,"grade_end");
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            '_publish_version' =>'201711161132',
+            '_publish_version' =>'201712161131',
         ]);
     }
 

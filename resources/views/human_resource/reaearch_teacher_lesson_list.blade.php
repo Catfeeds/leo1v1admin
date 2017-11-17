@@ -52,7 +52,8 @@
                         <td>{{$var["realname"]}} </td>
                        
                         <td>{{$var["phone"]}}</td>
-                        <td>{{$var["grade_part_ex_str"]}} </td>
+
+                        <td>{{$var["grade_start_str"]}}至{{$var["grade_end_str"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
                       
                         <td>
