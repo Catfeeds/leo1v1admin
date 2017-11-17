@@ -954,30 +954,24 @@ $(function(){
   });
 
     $(".show_phone").on("click",function(){
-        
         var phone = $(this).data("phone");
         $.do_ajax( "/user_deal/set_teacher_phone_click_info",{
-            
         },function(resp){
             var num = resp.data;
             if(num>=5){
                 BootstrapDialog.alert("您今天已经点击查看5次,已达上限");
             }else{
-                //BootstrapDialog.alert(phone);
                 BootstrapDialog.alert({
                     title: "数据",
                     message:phone ,
                     closable: true,
                     callback: function(){
-                        
                     }
-
-                }); 
+                });
             }
-        });                          
-
-      
+        });
     });
+
     $(".opt-return-back-list-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid    = opt_data.teacherid;
