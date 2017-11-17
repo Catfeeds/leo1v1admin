@@ -1230,4 +1230,24 @@ $test=	3;
     }
 
 
+    public function deal_untreated_pdf(){// 处理未成功pdf文件
+        $num = $this->get_in_int_val('n',-1);
+        $pdf_list = $this->t_pdf_to_png_info->get_untreated_pdf($num);
+
+        foreach($pdf_list as $v){
+            $this->set_in_value("pdf_url", $v['pdf_url']);
+            $this->set_in_value("lessonid", $v['lessonid']);
+
+            $this->get_pdf_url();
+
+            $this->t_pdf_to_png_info->field_update_list($v['id'], [
+                "id_do_flag" => 1
+            ]);
+        }
+    }
+
+    public function ceshi(){
+        dd(strtotime(''));
+    }
+
 }

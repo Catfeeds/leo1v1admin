@@ -875,7 +875,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1,$recommend_teacherid_phone
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -890,6 +890,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type=1100",
             "l.lesson_sub_type=1",
             "l.train_type=5",
+            ['ap.reference=%u',$recommend_teacherid_phone,-1],
         ];
         if($check_status==-1){
             $where_arr[] = "trial_train_status is null";
@@ -962,7 +963,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
-                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME//ap
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
@@ -3208,7 +3209,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-    public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1,$teacher_money_type){
+    public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1,$teacher_money_type,$show_all_flag=1){
         $where_arr=[
             "lesson_type in (0,1,2,3)",
             "s.is_test_user = 0",
@@ -3226,6 +3227,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        if($show_all_flag==0){
+            $limit_str ="limit 300";
+        }else{
+            $limit_str ="";
+        }
 
         $sql=$this->gen_sql_new("select t.teacher_type, m.account_role, count(distinct l.userid) stu_num, FORMAT(sum(if(confirm_flag <> 2,lesson_count/100,0)),2) valid_count,  FORMAT(sum(if(deduct_come_late=1,lesson_count/100,0)),2) teacher_come_late_count, FORMAT(sum(if(lesson_cancel_reason_type=21,lesson_count/100,0)),2) teacher_cut_class_count, FORMAT(sum(if(lesson_cancel_reason_type=2,lesson_count/100,0)),2) teacher_change_lesson,  FORMAT(sum(if(lesson_cancel_reason_type=12,lesson_count/100,0)),2) teacher_leave_lesson, sum(if(lesson_cancel_reason_type=12,1,0)) teacher_leave_num,t.teacher_money_type, t.train_through_new_time, l.lesson_cancel_reason_type,  l.teacherid"
                                 ." from %s l "
@@ -3235,7 +3241,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ." left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id"
                                 ." left join %s t on t.teacherid = l.teacherid"
                                 ." left join %s m on t.phone = m.phone"
-                                ." where  %s group by l.teacherid "
+                                ." where  %s group by l.teacherid %s "
                                 ,self::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
                                 ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
@@ -3244,6 +3250,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,t_manager_info::DB_TABLE_NAME
                                 ,$where_arr
+                                ,$limit_str
         );
 
         return $this->main_get_list($sql);

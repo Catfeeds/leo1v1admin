@@ -1051,11 +1051,8 @@ class tea_manage extends Controller
             return $this->output_err("生成老师出错");
         }else{
             $this->t_user_info->commit();
-            // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,3,0,$subject);
             $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
-
         }
-
 
         /**
          * 模板名称 :  老师注册通知
@@ -2268,6 +2265,14 @@ class tea_manage extends Controller
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
 
+        $recommend_teacherid = $this->get_in_str_val('teacherid',-1);
+
+        if($recommend_teacherid == -1){
+            $recommend_teacherid_phone = -1;
+        }else{
+            $recommend_teacherid_phone = $this->t_teacher_info->get_phone($recommend_teacherid);
+        }
+
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         //判断是否是招师
@@ -2305,7 +2310,7 @@ class tea_manage extends Controller
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
             $train_email_flag,$full_time,$id_train_through_new_time,
-            $id_train_through_new,$accept_adminid
+            $id_train_through_new,$accept_adminid,$recommend_teacherid_phone
         );
 
         foreach($ret_info['list'] as &$val){

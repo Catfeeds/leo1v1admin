@@ -95,7 +95,7 @@ class common_ex extends Controller
                 $key3 = "其它";
                 $key4 = $account."-".date("md",time());
                 $value = $key4;
-            }        
+            }
         }else{
             $cc_type = 0;
             $key1 = "未定义";
@@ -104,7 +104,7 @@ class common_ex extends Controller
             $key4 = "未定义";
             $value = $key4;
         }
-        //qudao 
+        //qudao
         $ret_origin = $this->t_origin_key->add_by_admind($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0);
         //进例子
         $origin_value = "知识库";
@@ -269,6 +269,5 @@ class common_ex extends Controller
             return $this->output_err("提交失败，请重试！");
         }
     }
-
 
 }

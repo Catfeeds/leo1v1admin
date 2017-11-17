@@ -17,12 +17,14 @@ $(function(){
 			      subject          : $('#id_subject').val(),
 			      check_status     : $('#id_check_status').val(),
 			      train_teacherid  : $('#id_train_teacherid').val(),
-                  id_train_through_new_time:$("#id_train_through_new_time").val(),
-                  id_train_through_new:$("#id_train_through_new").val(),
+            id_train_through_new_time:$("#id_train_through_new_time").val(),
+            id_train_through_new:$("#id_train_through_new").val(),
 			      have_wx          : $('#id_have_wx').val(),
 			      lecture_status   : $('#id_lecture_status').val(),
 			      train_email_flag : $('#id_train_email_flag').val(),
-			      full_time        : $('#id_full_time').val()
+			      full_time        : $('#id_full_time').val(),
+            teacherid        : $('#id_teacherid').val(),
+
         });
     }
 
@@ -322,8 +324,12 @@ $(function(){
     $("#id_train_through_new_time").val(g_args.id_train_through_new_time);
     $.admin_select_user($("#id_train_teacherid"),"teacher",load_data);
 
+	  $('#id_teacherid').val(g_args.teacherid);
+    $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
+
+
     $(".opt-edit").on("click",function(){
-	    var data           = $(this).get_opt_data();
+	      var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_identity    = $("<select/>");
         var id_record_info = $("<textarea/>");

@@ -73,12 +73,12 @@ class period_order_overdue_stop_send_wx extends Command
 
                 if($openid){
                     $wx->send_template_msg($openid,$template_id,$data,$url);
-                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                    $task->t_period_repay_list->field_update_list_2($val["orderid"],$val["period"],[
                         "stop_wx_send_flag"=>1
                     ]);
 
                 }else{
-                    $task->t_period_repay_list->field_update_list($val["orderid"],$val["period"],[
+                    $task->t_period_repay_list->field_update_list_2($val["orderid"],$val["period"],[
                         "stop_wx_send_flag"=>2
                     ]);
 
@@ -101,6 +101,30 @@ class period_order_overdue_stop_send_wx extends Command
                 ];
 
                 $wx->send_template_msg($ass_oponid,$template_id,$data,$url);*/
+
+
+                // //微信推送销售
+                // // $val["sys_operator"]="jack";
+                // $uid = $task->t_manager_info->get_id_by_account($val["sys_operator"]);
+                // $del_flag = $task->t_manager_info->get_del_flag($uid);
+                // if($del_flag==1){
+                //     //查找组长
+                //     $uid_master = $task->t_admin_group_user->get_master_adminid_by_adminid($uid);
+                //     $del_flag_master = $task->t_manager_info->get_del_flag($uid_master);
+                //     if($del_flag_master==0 && $uid_master>0){
+                //         $uid = $uid_master;
+                //     }else{
+                //         $uid_leader = $task->t_admin_group_user->get_main_master_adminid($uid);
+                //         $del_flag_leader = $task->t_manager_info->get_del_flag($uid_leader);
+                //         if($del_flag_leader==0 && $uid_leader>0){
+                //             $uid = $uid_leader;
+                //         }else{
+                //             $uid=349;
+                //         }
+                //     }
+                // }
+                // $cc_oponid = $task->t_manager_info->get_wx_openid($uid);
+
 
 
 

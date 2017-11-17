@@ -19,6 +19,7 @@ interface GargsStatic {
 	is_all:	number;
 	full_time:	number;
 	fulltime_flag:	number;
+	teacherid:	string;
 	id_train_through_new_time:	number;
 	id_train_through_new:	number;
 }
@@ -111,6 +112,7 @@ function load_data(){
 		is_all:	$('#id_is_all').val(),
 		full_time:	$('#id_full_time').val(),
 		fulltime_flag:	$('#id_fulltime_flag').val(),
+		teacherid:	$('#id_teacherid').val(),
 		id_train_through_new_time:	$('#id_id_train_through_new_time').val(),
 		id_train_through_new:	$('#id_id_train_through_new').val()
     });
@@ -141,6 +143,7 @@ $(function(){
 	$('#id_is_all').val(g_args.is_all);
 	$('#id_full_time').val(g_args.full_time);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
+	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_id_train_through_new_time').val(g_args.id_train_through_new_time);
 	$('#id_id_train_through_new').val(g_args.id_train_through_new);
 
@@ -241,6 +244,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">fulltime_flag</span>
                 <input class="opt-change form-control" id="id_fulltime_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacherid</span>
+                <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
 

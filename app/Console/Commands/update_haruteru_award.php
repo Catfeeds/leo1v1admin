@@ -72,28 +72,25 @@ class update_haruteru_award extends Command
         if ($person) {
             array_multisort($sort,SORT_DESC,$sort_o,SORT_DESC,$person ); // 排序
             $person = array_slice($person,0,5); // 获取前五名
-            var_dump($person);
             // 添加数据
-            $i = 0;
-            foreach($person as $item) {
-                $comput = array_slice($person,0,$key+1);
-                $money = $this->award[$i];
+            foreach($person as $k => $item) {
+                $comput = array_slice($person,0,$k+1);
+                $money = $this->award[$k];
                 foreach($comput as $key=>$val) { // 处理排名中是澡并列
                     if ($item['convers'] == $val['convers']) {
                         $money = $this->award[$key];
                         break;
                     }
                 }
-                $i ++;
-                echo 'money '.$money; 
+                echo 'teacherid '.$item['teacherid'].'money : '.$money.' end ';
 
-                // $task->t_teacher_money_list->row_insert([
-                //     'teacherid' => $key,
-                //     'add_time' => time(),
-                //     'type' => 7,
-                //     'money' => $money * 100,
-                //     'grade' => $grade
-                // ]);
+                $task->t_teacher_money_list->row_insert([
+                    'teacherid' => $item['teacherid'],
+                    'add_time' => time(),
+                    'type' => 7,
+                    'money' => $money * 100,
+                    'grade' => $grade
+                ]);
             }
         }
         return;
