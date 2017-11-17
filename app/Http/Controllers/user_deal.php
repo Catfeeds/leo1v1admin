@@ -4041,9 +4041,8 @@ class user_deal extends Controller
         $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
         $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
-        dd($lesson_per,$res[$adminid]['lesson_kpi'],$res[$adminid]['suc_lesson_count_rate_all']);
         $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
-        $res[$adminid]['kpi'] = $kpi>0?$res[$adminid]['kpi']."%":0;
+        $res[$adminid]['kpi'] = ($kpi>0 && $res[$key]['suc_lesson_count_rate_all']>0)?$kpi."%":0;
 
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
