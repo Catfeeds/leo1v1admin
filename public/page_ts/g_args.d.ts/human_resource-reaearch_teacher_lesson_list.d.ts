@@ -13,11 +13,14 @@ declare var g_adminid: any;
 interface RowData {
 	teacherid	:any;
 	subject	:any;
+	grade_start	:any;
+	grade_end	:any;
 	grade_part_ex	:any;
 	phone	:any;
 	realname	:any;
 	subject_str	:any;
-	grade_part_ex_str	:any;
+	grade_start_str	:any;
+	grade_end_str	:any;
 }
 
 /*

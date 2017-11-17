@@ -350,39 +350,6 @@ class test_james extends Controller
 
 
 
-    public function ss1(){ // 使用客服接口发送消息
-
-
-        //使用客服接口发送消息
-        $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
-            'msgtype'  => 'news',
-            "news"=>[
-                "articles"=> [
-                    [
-                        "title"=>"TEST MSG",
-                        "description"=>"Is Really A Happy Day",
-                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
-                    ]
-                ]
-            ]
-        ];
-
-        $appid_tec     = config('admin')['teacher_wx']['appid'];
-        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
-
-        $wx = new \App\Helper\Wx() ;
-        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
-
-
-        $txt = $this->ch_json_encode($txt_arr);
-        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-        $txt_ret = $this->https_post($url,$txt);
-
-    }
-
-
     public function https_post($url,$data){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -1249,5 +1216,39 @@ $test=	3;
     public function ceshi(){
         dd(strtotime(''));
     }
+
+
+
+    public function wx_news(){ // 使用客服接口发送消息
+        //使用客服接口发送消息
+        $txt_arr = [
+            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+            'msgtype'  => 'news',
+            "news"=>[
+                "articles"=> [
+                    [
+                        "title"=>"TEST MSG",
+                        "description"=>"Is Really A Happy Day",
+                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
+                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                    ]
+                ]
+            ]
+        ];
+
+        $appid_tec     = config('admin')['teacher_wx']['appid'];
+        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
+
+        $wx = new \App\Helper\Wx() ;
+        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
+
+
+        $txt = $this->ch_json_encode($txt_arr);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        $txt_ret = $this->https_post($url,$txt);
+
+    }
+    
+
 
 }

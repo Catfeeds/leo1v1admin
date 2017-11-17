@@ -347,6 +347,7 @@ class menu{
                 ]],
                 ["power_id"=>6, "name"=>"质检-投诉处理", "list"=>[
                     ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
+                    ["power_id"=>32, "name"=>"规则文档",   "url"=>"/rule_txt/get_all"],
                     ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                     ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                     ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
@@ -878,6 +879,8 @@ class menu{
                     ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                 ]],
                 ["power_id"=>2, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list_research"],
+                [ "power_id"=>73,"name"=>"质监月进度", "url"=>"/main_page/quality_control_jy"],//james
+
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],

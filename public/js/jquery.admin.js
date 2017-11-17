@@ -1423,6 +1423,11 @@ jQuery.extend({
             ];
 
         }
+        if ( window.location.href.indexOf('class') > 0){
+            new_url = "http://self.admin.leo1v1.com/user_manage/get_user_list";
+        }else{
+            new_url = "user_manage/get_user_list";
+        }
 
 
         $element.admin_select_dlg_ajax({
@@ -1434,7 +1439,7 @@ jQuery.extend({
             select_no_select_value  :   select_no_select_value , // 没有选择是，设置的值
             select_no_select_title  :   select_no_select_title, // "未设置"
 
-            "url"          : "/user_manage/get_user_list",
+            "url"          : new_url,
             //其他参数
             "args_ex" : {
                 type  : type ,
@@ -1443,7 +1448,6 @@ jQuery.extend({
             },
             select_primary_field : "id",
             select_display       : "nick",
-
 
 
             //字段列表
