@@ -26,7 +26,11 @@
             <div class="col-xs-12 col-md-4" data-title="时间段">
                 <div id="id_date_range"> </div>
             </div>
-            <div class="col-xs-6 col-md-2">
+            <div class="col-xs-6 col-md-2"
+                 @if($show_all_flag==0)
+                 style="display:none"
+                 @endif
+            >
                 <div class="input-group ">
                     <span class="input-group-addon">工资类型</span>
                     <select class="opt-change form-control" id="id_teacher_money_type" >
