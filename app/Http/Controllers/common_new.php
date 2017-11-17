@@ -1617,4 +1617,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             dd($item);
         }
     }
+    public function wx_notifi_admin () {
+        $account=trim($this->get_in_str_val("account"));
+        $noti_info= $this->get_in_str_val("noti_info");
+        $this->t_manager_info->send_wx_todo_msg($account, "SYS", $noti_info, $noti_info);
+        return $this->output_succ();
+    }
+
 }
