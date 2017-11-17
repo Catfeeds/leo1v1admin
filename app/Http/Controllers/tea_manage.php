@@ -1051,11 +1051,8 @@ class tea_manage extends Controller
             return $this->output_err("生成老师出错");
         }else{
             $this->t_user_info->commit();
-            // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,3,0,$subject);
             $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
-
         }
-
 
         /**
          * 模板名称 :  老师注册通知
