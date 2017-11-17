@@ -466,17 +466,18 @@ trait TeaPower {
         }elseif($account_role==3){
             $qz_flag=0;
             $tea_right=0;
-            if(in_array($adminid,[723,418,343])){
-                $tea_subject = "(2)";
-            }elseif(in_array($adminid,[1238])){
-                $tea_subject = "(1)";
-            }elseif(in_array($adminid,[436])){
-                $tea_subject = "(1,4,5,6,7,8,9,10)";
-            }elseif(in_array($adminid,[434])){
-                $tea_subject = "(3)";
-            }else{
-                $tea_subject = "";
-            }
+            $tea_subject = "";
+            // if(in_array($adminid,[723,418,343])){
+            //     $tea_subject = "(2)";
+            // }elseif(in_array($adminid,[1238])){
+            //     $tea_subject = "(1)";
+            // }elseif(in_array($adminid,[436])){
+            //     $tea_subject = "(1,4,5,6,7,8,9,10)";
+            // }elseif(in_array($adminid,[434])){
+            //     $tea_subject = "(3)";
+            // }else{
+            //     $tea_subject = "";
+            // }
         }else{
             if(in_array($adminid,["72","349","60","186","68","790","448"]) || $account_role==9){
                 $tea_right=1;
