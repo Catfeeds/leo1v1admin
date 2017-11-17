@@ -21,9 +21,10 @@ $(function(){
             load_data();
         }
     });
+    $("#id_opt_date_type").hide();
 
 
- 	$(".common-table" ).table_admin_level_4_init();
+ 	  $(".common-table" ).table_admin_level_4_init();
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
