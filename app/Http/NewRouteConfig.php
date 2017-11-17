@@ -414,6 +414,7 @@ class NewRouteConfig {
         "/human_resource/change_teacher_to_new" => true,
         "/human_resource/transfer_teacher_info" => true,
         "/human_resource/more_grade_pdf_to_teacher" => true,
+        "/human_resource/add_research_teacher" => true,
         "/human_resource/assistant_info_new2" => true,
         "/human_resource/set_teacher_grade_range"                    => true,
         "/human_resource/get_common_config_new_seller"               => true,
