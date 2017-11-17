@@ -99,16 +99,20 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td  >{{$var["userid"]}} </td>
+                        <td >{{$var["userid"]}}</td>
                         <td class="user_nick">
                             {{$var["nick"]}}<br/>
                             实名:{{$var["realname"]}}
                         </td>
                         <td >{{$var["cache_nick"]}}</td>
                         <td >{{$var["realname"]}}</td>
-                        <td class="" >{{$var["parent_name"]}}</td>
+                        <td class="">{{$var["parent_name"]}}</td>
                         <td class="td-parent-type" data-v="{{$var["parent_type"]}}"></td>
-                        <td class="user_phone" >{{$var["phone"]}} <br/>
+                        <td class="user_phone">
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
+                            <br>
                             {{$var["phone_location"]}}
                         </td>
                         <td  > {{$var["phone_location"]}}</td>
@@ -169,5 +173,4 @@
             </div>
         </div>
     </div>
-
 @endsection

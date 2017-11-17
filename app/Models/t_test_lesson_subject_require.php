@@ -2336,6 +2336,31 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
 
+    public function get_all_need_plan_require_list($start_time,$end_time){
+        $where_arr = [
+            ["tr.curl_stu_request_test_lesson_time >= %u",$start_time,-1],
+            "test_lesson_student_status = 200",
+            "m.account_role <>12",
+            "s.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
+                                  ."nick,stu_request_test_lesson_time,tr.seller_top_flag,s.grade,  "
+                                  ." t.subject "
+                                  ." from %s tr"
+                                  ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                                  ." join %s s on t.userid = s.userid"
+                                  ." join %s m on tr.cur_require_adminid = m.uid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+
+    }
 
     public function get_jw_teacher_history_accept_adminid($start_time,$end_time){
         $where_arr = [
