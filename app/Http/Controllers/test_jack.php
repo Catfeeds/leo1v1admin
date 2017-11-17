@@ -307,12 +307,32 @@ class test_jack  extends Controller
     }
 
     public function test_zz(){
-        $file = fopen("/home/jack/5.csv","r");
+        $file = fopen("/home/ybai/5.csv","r");
         $goods_list=[];
         $first_list = [];
         while ($data = fgetcsv($file)) { //每次读取CSV里面的一行内容
             // print_r($data); //此为一个数组，要获得每一个数据，访问数组下标即可
             $goods_list[] = $data;
+        }
+
+        foreach($goods_list as &$val){
+            $arr = explode("月",$val[0]);
+            $month = $arr[0]>=10?$arr[0]:"0".$arr[0];
+
+            $date = "2017-".$month."-01";
+            $val[0]=strtotime($date);
+            $this->t_order_student_month_list->row_insert([
+                "month" =>$val[0],
+                "origin" =>$val[1],
+                "leads_num" =>$val[2],
+                "test_num" =>$val[3],
+                "test_transfor_per" =>$val[4],
+                "order_transfor_per" =>$val[5],
+                "order_stu_num" =>$val[6],
+            ]);
+
+
+
         }
         dd($goods_list);
 
