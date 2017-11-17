@@ -2268,7 +2268,7 @@ class tea_manage extends Controller
         $full_time        = $this->get_in_int_val("full_time",-1);
         $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
 
-        $recommend_teacherid     = $this->get_in_str_val('teacherid',-1);
+        $recommend_teacherid = $this->get_in_str_val('teacherid',-1);
 
         if($recommend_teacherid == -1){
             $recommend_teacherid_phone = -1;
