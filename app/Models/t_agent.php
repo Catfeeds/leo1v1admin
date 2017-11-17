@@ -2135,7 +2135,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@param:$url
     public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="",$bad_time ) {
         $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
-        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+        $template_id = 'nlkQvbRYlLz8fd1Nupp7vERRRGOgBVe54d0IpJhUqZo';
         if($agent_freeze_type == 1){
             $agent_freeze_type_desc = $phone.'(手机号)试听奖励';
             $bad_time = $this->get_test_lesson_bad_time($to_agentid);
@@ -2151,10 +2151,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $bad_time = time(NULL);
 
         $data = [
-            'first'    => '违规通知',
-            'keyword1' => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
-            'keyword2' => '违规时间：'.date('Y年m月d日 H:i:s',$bad_time),
-            'keyword3' => '违规原因：利用漏洞',
+            'first'    => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
+            'keyword1' => '违规时间：'.date('Y年m月d日 H:i:s',$bad_time),
+            'keyword2' => '违规原因：利用漏洞',
             'remark'   => '违规行为将会冻结此次奖励',
         ];
         $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
