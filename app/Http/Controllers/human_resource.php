@@ -4541,12 +4541,15 @@ class human_resource extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_info->get_research_teacher_list_lesson($page_info,$teacherid);
+
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
-            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade::set_item_value_str($item,"grade_start");
+            E\Egrade::set_item_value_str($item,"grade_end");
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            '_publish_version' =>'201712161132',
+            '_publish_version' =>'201712161131',
         ]);
     }
 
