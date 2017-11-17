@@ -57,7 +57,7 @@ class period_order_overdue_warning_send_wx extends Command
                 //微信推送家长
                 $wx = new \App\Helper\Wx();
                 $openid = $val["wx_openid"];
-                $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
 
                 $data=[
@@ -85,7 +85,7 @@ class period_order_overdue_warning_send_wx extends Command
 
                 //微信推送助教
                 $ass_oponid = $task->t_manager_info->get_wx_openid($val["uid"]);
-                $ass_oponid = $task->t_manager_info->get_wx_openid(349);
+                // $ass_oponid = $task->t_manager_info->get_wx_openid(349);
                 $account = $task->t_manager_info->get_account($val["uid"]);
                 $data=[
                     "first"    => "百度分期还款逾期通知",
