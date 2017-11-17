@@ -1,8 +1,8 @@
 * 安装软件
-  sudo apt-get install git   mysql-client gawk  docker nginx php-cli
+  sudo apt-get install git   mysql-client gawk  docker.io nginx php-cli
 * docker 
      将已有的用户添加到已有的组
-    sudo  adduser xxx docer 
+    sudo  adduser $USER docker 
      
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
