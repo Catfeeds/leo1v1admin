@@ -32,7 +32,6 @@ $(function(){
  //点击生成
   $(".reset_xmpp").on("click",function(){
       var xmpp_value=$('#id_xmpp_value').val();
-      alert(xmpp_value);
       $.do_ajax( "/tongji/reset_xmpp_online_count" ,{
           "start_time" : g_args.start_time,
           "xmpp_value" :  xmpp_value,

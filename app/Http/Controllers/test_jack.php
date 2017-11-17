@@ -343,7 +343,40 @@ class test_jack  extends Controller
 
     public function test_period(){
         
+        $start_time  = strtotime(date("Y-m-d"),time());
+        $end_time    = time() + 86400*7;
         $w = date("w");
+        if($w != 2){
+            $list = $this->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
+            foreach($list as $val){
+                $grade = $val["grade"];
+                $subject = $val["subject"];
+                if($grade>=100 && $grade<200 && $subject==2){
+                    $accept_adminid = 723;
+                }else if($grade>=200 && $grade<300 && $subject==2){
+                    $accept_adminid = 418;
+                }else if($grade>=300 && $grade<400 && $subject==2){
+                    $accept_adminid = 343;
+                }else if($grade>=100 && $grade<200 && $subject==1){
+                    $accept_adminid = 1238;
+                }else if($grade>=200 && $grade<400 && $subject==1){
+                    $accept_adminid = 436;
+                }else if( $subject==3){
+                    $accept_adminid = 434;
+                }elseif($subject>3){
+                    $accept_adminid = 436;
+                }
+
+                $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
+                    "accept_adminid"=>$accept_adminid,
+                    "require_assign_time"=>time()
+                ]);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
+            }
+
+            dd($list);
+        }
+
         dd($w);
         if($d>15){            
             $month_start = strtotime(date("Y-m-01",time()));

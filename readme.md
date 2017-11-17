@@ -1,1 +1,2 @@
-
+pdf: 
+texlive-lang-cjk
