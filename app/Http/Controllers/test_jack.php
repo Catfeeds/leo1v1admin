@@ -342,7 +342,9 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        $d = date("d");
+        
+        $w = date("w");
+        dd($w);
         if($d>15){            
             $month_start = strtotime(date("Y-m-01",time()));
             $due_date = $month_start+14*86400;

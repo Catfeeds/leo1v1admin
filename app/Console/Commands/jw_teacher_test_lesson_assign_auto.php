@@ -41,6 +41,11 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $task=new \App\Console\Tasks\TaskController();
         $start_time  = strtotime(date("Y-m-d"),time());
         $end_time    = time() + 86400*7;
+        $w = date("w");
+        if($w != 2){
+            $list = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
+        }
+
                
         $seller_top_list = $task->t_test_lesson_subject_require->get_seller_top_require_list($start_time,$end_time);
         $jw_leader_list = $task->t_manager_info->get_jw_teacher_list_leader();
