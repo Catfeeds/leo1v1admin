@@ -2381,6 +2381,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacherid=%u",$teacherid,-1],
             "m.uid not in (790,486,871,891)"
         ];
+
         $sql = $this->gen_sql_new("select teacherid,subject,grade_start,grade_end,grade_part_ex,t.phone,realname"
                                   ." from %s t left join %s m on t.phone= m.phone"
                                   ." where %s",
