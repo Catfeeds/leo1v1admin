@@ -8,13 +8,14 @@ import "agent_api/common.proto";
 message in  {
   uint32 page_num = 1;//第几页
   uint32 page_count = 2;//每页条数[不传默认五条]
+  uint32 table_type = 3;//table切换表示 1学员 2 会员 3学员&会员
 }
 
 message out {
-  common.invite_child_list student_list = 1;//学员一级列表
-  uint32 steudent_first_num =2;//一级学员个数
-  common.invite_child_list member_list = 3;//会员一级列表
-  uint32 member_first_num =4;//一级会员个数
-  common.invite_child_list student_and_member_list = 5;//学员&会员一级列表
-  uint32 student_and_member_first_num = 6;//一级学员&会员个数
+  common.invite_child_list student_list = 1;//学员一级列表 [table_type ==1]
+  uint32 steudent_first_num =2;//一级学员个数 [table_type ==1]
+  common.invite_child_list member_list = 3;//会员一级列表 [table_type ==2]
+  uint32 member_first_num =4;//一级会员个数 [table_type ==2]
+  common.invite_child_list student_and_member_list = 5;//学员&会员一级列表 [table_type ==3]
+  uint32 student_and_member_first_num = 6;//一级学员&会员个数 [table_type ==3]
 }

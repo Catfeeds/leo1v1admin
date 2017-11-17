@@ -830,6 +830,8 @@ class wx_yxyx_api extends Controller
             return $this->output_succ([
                 "member_invite"=>$data,
             ]);
+        }else{
+            return $this->output_err('传入类型错误！');
         }
 
     }
@@ -892,6 +894,7 @@ class wx_yxyx_api extends Controller
     //获取用户佣金奖励
     public function get_commission_reward(){
         $agent_id = $this->get_agent_id();
+        $table_type   = $this->get_in_int_val('table_type',1);
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
         $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
@@ -904,35 +907,44 @@ class wx_yxyx_api extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
 
-        //获取用户邀请人佣金奖励
-        $invite_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=1,$page_info,$page_count);
+        if($table_type == 1){
+            //获取用户邀请人佣金奖励
+            $invite_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=1,$page_info,$page_count);
 
-        foreach($invite_child_reward['list'] as &$item){
-            if(!$item['nickname'])
-                $item['nickname'] = $item['phone'];
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            $item['price'] /= 100;
-            $item['p_price'] /= 100;
-            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
-            $item['count']=$lesson_info["count"] ;
+            foreach($invite_child_reward['list'] as &$item){
+                if(!$item['nickname'])
+                    $item['nickname'] = $item['phone'];
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                $item['price'] /= 100;
+                $item['p_price'] /= 100;
+                $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
+                $item['count']=$lesson_info["count"] ;
+            }
+            return $this->output_succ([
+                'child_reward' => $invite_child_reward,
+            ]);
+
+        }elseif($table_type ==2){
+            //获取会员邀请人佣金
+            $member_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=2,$page_info,$page_count);
+            foreach($member_child_reward['list'] as &$item){
+                if(!$item['nickname'])
+                    $item['nickname'] = $item['phone'];
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                $item['price'] /= 100;
+                $item['p_price'] = $item['pp_price']/100;
+                $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
+                $item['count']=$lesson_info["count"] ;
+            }
+
+            return $this->output_succ([
+                'member_reward' => $member_child_reward,
+            ]);
+        }else{
+            return $this->output_err('传入类型错误！');
         }
 
-        //获取会员邀请人佣金
-        $member_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=2,$page_info,$page_count);
-        foreach($member_child_reward['list'] as &$item){
-            if(!$item['nickname'])
-                $item['nickname'] = $item['phone'];
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            $item['price'] /= 100;
-            $item['p_price'] = $item['pp_price']/100;
-            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
-            $item['count']=$lesson_info["count"] ;
-        }
 
-        return $this->output_succ([
-            'child_reward' => $invite_child_reward,
-            'member_reward' => $member_child_reward,
-        ]);
     }
 
     //@desn:更新银行卡信息
@@ -1018,6 +1030,7 @@ class wx_yxyx_api extends Controller
     //@desn:获取邀请奖励[我邀请的、会员邀请]
     public function get_had_invite_rewards(){
         $agent_id = $this->get_agent_id();
+        $table_type   = $this->get_in_int_val('table_type',1);
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
         $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
@@ -1029,29 +1042,38 @@ class wx_yxyx_api extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
-        //获取自己邀请的奖励列表
-        $list = $this->t_agent->my_had_invite($agent_id,$page_info,$page_count);
-        foreach($list['list'] as $key => &$item){
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-            $item['agent_status_money'] /= 100;
-        }
-        //获取会员邀请的奖励列表
-        $data = $this->t_agent->member_had_invite($agent_id,$page_info,$page_count);
-        foreach($data['list'] as $key => &$item){
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-            $item['agent_status_money'] /= 100;
+        if($table_type == 1){
+            //获取自己邀请的奖励列表
+            $list = $this->t_agent->my_had_invite($agent_id,$page_info,$page_count);
+            foreach($list['list'] as $key => &$item){
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
+                $item['agent_status_money'] /= 100;
+            }
+            return $this->output_succ([
+                "my_invite"=>$list,
+            ]);
+        }elseif($table_type == 2){
+            //获取会员邀请的奖励列表
+            $data = $this->t_agent->member_had_invite($agent_id,$page_info,$page_count);
+            foreach($data['list'] as $key => &$item){
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
+                $item['agent_status_money'] /= 100;
+            }
+
+            return $this->output_succ([
+                "member_invite"=>$data,
+            ]);
+        }else{
+            return $this->output_err('传入类型错误！');
         }
 
-        return $this->output_succ([
-            "my_invite"=>$list,
-            "member_invite"=>$data,
-        ]);
     }
     //@desn:获取可提现佣金奖励
     public function get_can_cash_commission(){
         $agent_id = $this->get_agent_id();
+        $table_type   = $this->get_in_int_val('table_type',1);
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
         $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
@@ -1063,39 +1085,49 @@ class wx_yxyx_api extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
-        //获取用户邀请人佣金奖励
-        $invite_child_reward = $this->t_agent_order->get_can_cash_commission_reward($agent_id,$type=1,$page_info,$page_count);
+        if($table_type ==1){
+            //获取用户邀请人佣金奖励
+            $invite_child_reward = $this->t_agent_order->get_can_cash_commission_reward($agent_id,$type=1,$page_info,$page_count);
 
-        foreach($invite_child_reward['list'] as &$item){
-            if(!$item['nickname'])
-                $item['nickname'] = $item['phone'];
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            $item['price'] /= 100;
-            $item['p_open_price'] /= 100;
-            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
-            $item['count']=$lesson_info["count"] ;
+            foreach($invite_child_reward['list'] as &$item){
+                if(!$item['nickname'])
+                    $item['nickname'] = $item['phone'];
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                $item['price'] /= 100;
+                $item['p_open_price'] /= 100;
+                $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
+                $item['count']=$lesson_info["count"] ;
+            }
+            return $this->output_succ([
+                'child_reward' => $invite_child_reward,
+            ]);
+        }elseif($table_type ==2 ){
+            
+
+            //获取会员邀请人佣金
+            $member_child_reward = $this->t_agent_order->get_can_cash_commission_reward($agent_id,$type=2,$page_info,$page_count);
+            foreach($member_child_reward['list'] as &$item){
+                if(!$item['nickname'])
+                    $item['nickname'] = $item['phone'];
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                $item['price'] /= 100;
+                $item['p_open_price'] = $item['pp_open_price']/100;
+                $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
+                $item['count']=$lesson_info["count"] ;
+            }
+
+            return $this->output_succ([
+                'member_reward' => $member_child_reward,
+            ]);
+        }else{
+            return $this->output_err('传入类型错误！');
         }
 
-        //获取会员邀请人佣金
-        $member_child_reward = $this->t_agent_order->get_can_cash_commission_reward($agent_id,$type=2,$page_info,$page_count);
-        foreach($member_child_reward['list'] as &$item){
-            if(!$item['nickname'])
-                $item['nickname'] = $item['phone'];
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            $item['price'] /= 100;
-            $item['p_open_price'] = $item['pp_open_price']/100;
-            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($item['userid'],$item["pay_time"]);
-            $item['count']=$lesson_info["count"] ;
-        }
-
-        return $this->output_succ([
-            'child_reward' => $invite_child_reward,
-            'member_reward' => $member_child_reward,
-        ]);
     }
     //@desn:获取邀请人列表
     public function get_invite_type_list(){
         $agent_id = $this->get_agent_id();
+        $table_type = $this->get_in_int_val('table_type',1);
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $page_info = $this->get_in_page_info();
         $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
@@ -1108,62 +1140,74 @@ class wx_yxyx_api extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
 
-        //获取一级用户为学员的列表
-        $student_list = $this->t_agent->get_invite_type_list($agent_id,$type=1,$page_info,$page_count);
-        foreach($student_list['list'] as &$item){
-            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
-                $item['agent_status'] = "0";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-        }
-        //获取一级用户为会员的列表
-        $member_list = $this->t_agent->get_invite_type_list($agent_id,$type=2,$page_info,$page_count);
-        foreach($member_list['list'] as &$item){
-            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
-                $item['agent_status'] = "0";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-            $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
-            foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
-                if(empty($val['nickname']))
-                    $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 2)
-                    $val['agent_status'] = "0";
-                $val['price'] /= 100;
+        if($table_type == 1){
+            //获取一级用户为学员的列表
+            $student_list = $this->t_agent->get_invite_type_list($agent_id,$type=1,$page_info,$page_count);
+            foreach($student_list['list'] as &$item){
+                if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                    $item['agent_status'] = "0";
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
             }
-            $item['second_num'] = count($item['child']);
-        }
-        //获取一级用户为学员&会员的列表
-        $student_and_member_list = $this->t_agent->get_invite_type_list($agent_id,$type=3,$page_info,$page_count);
-        foreach($student_and_member_list['list'] as &$item){
-            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
-                $item['agent_status'] = "0";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-            $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
-            foreach($item['child'] as &$val){
-                \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
-                if(empty($val['nickname']))
-                    $val['nickname'] = $val['phone'];
-                if($val['agent_status'] < 2)
-                    $val['agent_status'] = "0";
-                $val['price'] /= 100;
+            return $this->output_succ([
+                'student_list' => $student_list,
+                'steudent_first_num' => $student_list['total_num'],
+            ]);
+        }elseif($table_type == 2){
+            //获取一级用户为会员的列表
+            $member_list = $this->t_agent->get_invite_type_list($agent_id,$type=2,$page_info,$page_count);
+            foreach($member_list['list'] as &$item){
+                if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                    $item['agent_status'] = "0";
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
+                $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
+                foreach($item['child'] as &$val){
+                    \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
+                    if(empty($val['nickname']))
+                        $val['nickname'] = $val['phone'];
+                    if($val['agent_status'] < 2)
+                        $val['agent_status'] = "0";
+                    $val['price'] /= 100;
+                }
+                $item['second_num'] = count($item['child']);
             }
-            $item['second_num'] = count($item['child']);
+            return $this->output_succ([
+                'member_list' => $member_list,
+                'member_first_num' => $member_list['total_num'],
+            ]);
+        }elseif($table_type == 3){
+            //获取一级用户为学员&会员的列表
+            $student_and_member_list = $this->t_agent->get_invite_type_list($agent_id,$type=3,$page_info,$page_count);
+            foreach($student_and_member_list['list'] as &$item){
+                if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                    $item['agent_status'] = "0";
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
+                $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
+                foreach($item['child'] as &$val){
+                    \App\Helper\Utils::unixtime2date_for_item($val,"create_time",'',"Y-m-d");
+                    if(empty($val['nickname']))
+                        $val['nickname'] = $val['phone'];
+                    if($val['agent_status'] < 2)
+                        $val['agent_status'] = "0";
+                    $val['price'] /= 100;
+                }
+                $item['second_num'] = count($item['child']);
+            }
+
+
+            return $this->output_succ([
+                'student_and_member_list' => $student_and_member_list,
+                'student_and_member_first_num' => $student_and_member_list['total_num']
+            ]);
+        }else{
+            return $this->output_err('传入类型错误！');
         }
 
-        return $this->output_succ([
-            'student_list' => $student_list,
-            'steudent_first_num' => $student_list['total_num'],
-            'member_list' => $member_list,
-            'member_first_num' => $member_list['total_num'],
-            'student_and_member_list' => $student_and_member_list,
-            'student_and_member_first_num' => $student_and_member_list['total_num']
-        ]);
     }
     //@desn:获取全部活动奖励
     //@param:is_cash 是否可提现标识  0 全部 2：可提现
