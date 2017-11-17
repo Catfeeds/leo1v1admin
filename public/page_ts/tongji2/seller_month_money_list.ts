@@ -50,8 +50,8 @@ $(function(){
                     $tr.find(".suc_second_week").text(data["suc_second_week"]);
                     $tr.find(".suc_third_week").text(data["suc_third_week"]);
                     $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
-                    // $tr.find(".lesson_per").text(data["lesson_per"]);
-                    // $tr.find(".kpi").text(data["kpi"]);
+                    $tr.find(".lesson_per").text(data["lesson_per"]);
+                    $tr.find(".kpi").text(data["kpi"]);
 
                     $tr.find(".all_price").text(data["all_price"]);
                     $tr.find(".stage_money").text(data["stage_money"]);
