@@ -1833,6 +1833,9 @@ class user_manage_new extends Controller
             $lesson_kpi = $lesson_per<18?40:0;
             $kpi = $lesson_kpi+$item['suc_lesson_count_rate_all'];
             $item['kpi'] = ($kpi && @$item['test_lesson_count']>0)>0?$kpi."%":0;
+            if($item["become_member_time"]>0 && ($end_time-$item["become_member_time"])<3600*24*60 && $item["del_flag"]==0){
+                $item['kpi'] = "100%";
+            }
             // $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
             $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
             $item['finish_per'] =@$item['target_money']!=0?(round(@$item['all_price_for_month']/$item['target_money'],2)*100)."%":0;
