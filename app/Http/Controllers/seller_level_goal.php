@@ -105,4 +105,66 @@ class seller_level_goal extends Controller
 
         return $this->output_succ();
     }
+
+    public function seller_level_salary_list(){
+        $seller_level = $this->get_in_int_val('seller_level',-1);
+        $define_date = $this->get_in_int_val('define_date');
+        $base_salary = $this->get_in_int_val('base_salary');
+        $sup_salary = $this->get_in_int_val('sup_salary');
+        $per_salary = $this->get_in_int_val('per_salary');
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_level_salary->get_all_list($seller_level,$page_info);
+        foreach($ret_info['list'] as &$item){
+            E\Eseller_level::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,'define_date','','Y-m-d');
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function add_seller_level_goal_salary(){
+        $seller_level = $this->get_in_int_val('seller_level');
+        $define_date = $this->get_in_str_val('define_date');
+        $base_salary = $this->get_in_int_val('base_salary');
+        $sup_salary = $this->get_in_int_val('sup_salary');
+        $per_salary = $this->get_in_int_val('per_salary');
+        $define_date = strtotime(date('Y-m-1',strtotime($define_date)));
+        $row = $this->t_seller_level_salary->get_row_by_seller_level_define_date($seller_level,$define_date);
+        if($row){
+            return $this->output_err('该月份等级工资已存在,不能重复添加');
+        }
+        $this->t_seller_level_salary->row_insert([
+            'seller_level' => $seller_level,
+            'define_date'  => $define_date,
+            'base_salary'  => $base_salary,
+            'sup_salary'   => $sup_salary,
+            'per_salary'   => $per_salary,
+            'create_time'  => time(null),
+        ]);
+        return $this->output_succ();
+    }
+
+    public function edit_seller_level_goal_salary(){
+        $seller_level = $this->get_in_int_val('seller_level');
+        $define_date = $this->get_in_str_val('define_date');
+        $base_salary = $this->get_in_int_val('base_salary');
+        $sup_salary = $this->get_in_int_val('sup_salary');
+        $per_salary = $this->get_in_int_val('per_salary');
+        $define_date = strtotime(date('Y-m-1',strtotime($define_date)));
+        
+        $this->t_seller_level_salary->field_update_list($seller_level,[
+            'define_date'  => $define_date,
+            'base_salary'  => $base_salary,
+            'sup_salary'   => $sup_salary,
+            'per_salary'   => $per_salary,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function del_seller_level_salary(){
+        $seller_level = $this->get_in_int_val('seller_level');
+        $this->t_seller_level_salary->row_delete($seller_level);
+
+        return $this->output_succ();
+    }
 }
