@@ -43,7 +43,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $end_time    = time() + 86400*7;
         $w = date("w");
         if($w != 2){
-            $list = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
+            // $list = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
         }
 
                

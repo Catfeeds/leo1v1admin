@@ -5443,8 +5443,9 @@ class user_deal extends Controller
 
     public function set_teacher_phone_click_info(){
         $adminid = $this->get_account_id();
+
         $account_role = $this->t_manager_info->get_account_role($adminid);
-        if($account_role != 4){
+        if($account_role != E\Eaccount_role::V_4){
             return $this->output_succ(["data"=>0]);
         }
         $time = strtotime(date("Y-m-d",time()));

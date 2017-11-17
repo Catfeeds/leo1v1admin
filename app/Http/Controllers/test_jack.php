@@ -343,7 +343,14 @@ class test_jack  extends Controller
 
     public function test_period(){
         
+        $start_time  = strtotime(date("Y-m-d"),time());
+        $end_time    = time() + 86400*7;
         $w = date("w");
+        if($w != 2){
+            $list = $this->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
+            dd($list);
+        }
+
         dd($w);
         if($d>15){            
             $month_start = strtotime(date("Y-m-01",time()));
