@@ -29,7 +29,8 @@
                         <span >老师 </span>
                         <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
                     </div>
-                </div> 
+                </div>
+
                 <a  id="id_add_closest" class="btn btn-warning " > <li  class="fa fa-plus">添加教研老师</li> </a>
             </div>
         </div>
@@ -52,9 +53,10 @@
                         <td>{{$var["realname"]}} </td>
                        
                         <td>{{$var["phone"]}}</td>
-                        <td>{{$var["grade_part_ex_str"]}} </td>
+
+                        <td>{{$var["grade_start_str"]}}至{{$var["grade_end_str"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
-                      
+                     
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
                                 <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               

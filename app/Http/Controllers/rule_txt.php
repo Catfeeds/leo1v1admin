@@ -118,6 +118,11 @@ class rule_txt extends Controller
             if ($row[$item['level_str']]['num'] == 1){
                 $row[$item['level_str']]['start'] = $key;
             }
+            if($item['add_punish']){
+                $item['punish'] = '<a href="javascript:;" class="btn opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
+            } else {
+                $item['punish'] = '无';
+            }
         }
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,[
             'rule' => $rule,

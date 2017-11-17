@@ -50,7 +50,7 @@
                         <td>{{@$var["content"]}} </td>
                         <td>{{@$var["deduct_marks_str"]}} </td>
                         <td>{{@$var["punish_type"]}} </td>
-                        <td>{{@$var["add_punish"]}} </td>
+                        <td>{!! @$var["punish"] !!} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
