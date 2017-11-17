@@ -592,11 +592,6 @@ abstract class NewModel
         }
     }
 
-
-
-
-    //where_arr ，直接传
-    //sprintf
     public function gen_sql_new( $fmt_str , $__args__ ) {
         if (is_array($fmt_str)  ) {
             $fmt_str = join($fmt_str, " " );
