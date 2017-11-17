@@ -550,6 +550,9 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_level_salary->get_all_list($page_info);
+        dd($ret_info);
         $manager_info = $this->t_manager_info->field_get_list($adminid=99,'become_member_time,del_flag');
         dd($manager_info);
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
