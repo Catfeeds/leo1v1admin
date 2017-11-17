@@ -4546,7 +4546,7 @@ class human_resource extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            '_publish_version' =>'201711161332',
+            '_publish_version' =>'201711161132',
         ]);
     }
 
@@ -4557,8 +4557,8 @@ class human_resource extends Controller
         $teacher_info['subject'] = $this->get_in_int_val("subject",-1);;
         $teacher_info['grade_start'] = $this->get_in_int_val("grade_start",-1);
         $teacher_info['grade_end'] = $this->get_in_int_val("grade_end",-1);;
-        $teacher_info['teacher_money_type'] = trim($this->get_in_str_val('teacher_money_type',''));
-        $teacher_info['teacher_type'] = trim($this->get_in_str_val('teacher_type',''));
+        $teacher_info['teacher_money_type'] = trim($this->get_in_int_val('teacher_money_type',''));
+        $teacher_info['teacher_type'] = trim($this->get_in_int_val('teacher_type',''));
         // \App\Helper\Utils::logger("add resarach teacher: ".json_encode($teacher_info));
         $teacherid = $this->add_teacher_common($teacher_info);
         if(!$teacherid){
