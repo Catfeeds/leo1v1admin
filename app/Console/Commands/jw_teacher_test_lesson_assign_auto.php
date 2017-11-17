@@ -43,7 +43,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $end_time    = time() + 86400*7;
         $w = date("w");
         if($w != 2){
-            $list = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
+            $list = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time,-2);
             foreach($list as $val){
                 $grade = $val["grade"];
                 $subject = $val["subject"];
@@ -67,9 +67,62 @@ class jw_teacher_test_lesson_assign_auto extends Command
                     "accept_adminid"=>$accept_adminid,
                     "require_assign_time"=>time()
                 ]);
-                $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
+                // $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
                 
 
+            }
+
+
+            //小学数学
+            $ret = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time,2);
+            $jw_list=[723,343,723,343,723,343,723,723,723,723,723,723,723];
+
+            if(!empty($ret)){
+                foreach($ret as $item){
+                    $subject = $item["subject"];
+                    $grade = $item["grade"];
+            
+                    $num_all = count($jw_list);
+                    $i=0;
+                    foreach($jw_list as $k=>$val){
+                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+                        if (!$json_ret) {
+                            $json_ret=0;
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
+                        }
+                        // $seller_arr[$k] = $json_ret;
+                        if($json_ret>0){
+                            $i++;
+                        }
+                        echo $json_ret;
+                    }
+                    if($i==$num_all){
+                        foreach($jw_list as $k=>$val){
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 0);
+                        }
+                    }
+                    foreach($jw_list as $k=>$val){
+                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+                        if($json_ret==0){
+                            $task->t_test_lesson_subject_require->field_update_list($item["require_id"],[
+                                "accept_adminid"=>$val,
+                                "require_assign_time"=>time()
+                            ]);                          
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 1);
+
+
+                            break;
+               
+                        }
+                    }
+                    $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$val,"");
+
+
+                   
+
+
+
+                }
             }
         }
 
