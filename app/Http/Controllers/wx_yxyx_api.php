@@ -791,40 +791,47 @@ class wx_yxyx_api extends Controller
     //@desn:获取我的邀请、会员邀请奖励列表
     public function get_invite_list(){
         $agent_id   = $this->get_agent_id();
+        $table_type   = $this->get_in_int_val('table_type',1);
         $page_count = empty($this->get_in_int_val('page_count'))?5:$this->get_in_int_val('page_count');
         $page_info = $this->get_in_page_info();
         if (!$agent_id){
             return $this->output_err("没有信息");
         }
-        $list = $this->t_agent->my_invite($agent_id,$page_info,$page_count);
-        foreach($list['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
-                $item['agent_status'] = "0";
-            $item['agent_status_money'] /=100;
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-            E\Eagent_student_status::set_item_value_str($item);
-            E\Eagent_status::set_item_value_str($item);
-        }
-        $data = $this->t_agent->member_invite($agent_id,$page_info,$page_count);
-        foreach($data['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-            if($item['agent_status'] > 0 && $item['agent_status'] < 2)
-                $item['agent_status'] = "0";
-            if($item['agent_status'] >30)
-                $item['agent_status'] = "30";
-            $item['agent_status_money'] /=100;
-            if(empty($item['nickname']))
-                $item['nickname'] = $item['phone'];
-            E\Eagent_student_status::set_item_value_str($item);
-            E\Eagent_status::set_item_value_str($item);
+        if($table_type == 1){
+            $list = $this->t_agent->my_invite($agent_id,$page_info,$page_count);
+            foreach($list['list'] as &$item){
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                    $item['agent_status'] = "0";
+                $item['agent_status_money'] /=100;
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
+                E\Eagent_student_status::set_item_value_str($item);
+                E\Eagent_status::set_item_value_str($item);
+            }
+            return $this->output_succ([
+                "my_invite"=>$list,
+            ]);
+
+        }elseif($table_type == 2){
+            $data = $this->t_agent->member_invite($agent_id,$page_info,$page_count);
+            foreach($data['list'] as &$item){
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                if($item['agent_status'] > 0 && $item['agent_status'] < 2)
+                    $item['agent_status'] = "0";
+                if($item['agent_status'] >30)
+                    $item['agent_status'] = "30";
+                $item['agent_status_money'] /=100;
+                if(empty($item['nickname']))
+                    $item['nickname'] = $item['phone'];
+                E\Eagent_student_status::set_item_value_str($item);
+                E\Eagent_status::set_item_value_str($item);
+            }
+            return $this->output_succ([
+                "member_invite"=>$data,
+            ]);
         }
 
-        return $this->output_succ([
-            "my_invite"=>$list,
-            "member_invite"=>$data,
-        ]);
     }
 
     //@desn:获取银行卡信息
