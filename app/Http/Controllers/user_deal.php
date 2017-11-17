@@ -4038,7 +4038,7 @@ class user_deal extends Controller
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count']/$item['test_lesson_count'],2)*100):0;
-            $res[$adminid]['lesson_per'] = $lesson_per==0?0:$lesson_per."%";
+            $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
             $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
             $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
             $res[$adminid]['kpi'] = $kpi>0?$res[$adminid]['kpi']."%":0;
@@ -4048,7 +4048,7 @@ class user_deal extends Controller
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
-        $arr['lesson_per'] = $res[$adminid]['kpi'];
+        $arr['kpi'] = $res[$adminid]['kpi'];
         return $this->output_succ($arr);
     }
 
