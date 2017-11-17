@@ -2,6 +2,8 @@
 namespace App\ClassMenu;
 class menu{
    static  public  function get_config()  {
+       return [];
+       /*
         return [
             ["power_id"=>80, "name"=>"小班课",  "list"=> [
                 ["power_id"=>1, "name"=>"学生管理",   "list"=>[
@@ -77,6 +79,7 @@ class menu{
                 ["power_id"=>3, "name"=>"教学",   "url"=>"/user_manage_new/record_audio_server_list"],
             ]],
         ];
+       */ 
 
     }
 
