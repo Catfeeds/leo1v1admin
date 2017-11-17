@@ -263,6 +263,24 @@ class test_jack  extends Controller
         
     }
 
+    public function test_period(){
+        $d = date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+
+        }
+
+        $data = $this->get_baidu_money_charge_pay_info(516);
+        dd($data);
+
+
+    }
+
 
 
 

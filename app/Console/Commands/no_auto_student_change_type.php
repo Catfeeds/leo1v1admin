@@ -98,7 +98,8 @@ class no_auto_student_change_type extends Command
                     $task->t_month_ass_student_info->row_insert([
                         "adminid" =>$adminid,
                         "month"   =>$month,
-                        "end_no_renw_num"=>1
+                        "end_no_renw_num"=>1,
+                        "kpi_type" =>1
                     ]);
                 }
 
