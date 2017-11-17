@@ -4041,9 +4041,12 @@ class user_deal extends Controller
         $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
         $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
-        dd($lesson_per,$res[$adminid]['lesson_kpi'],$res[$adminid]['suc_lesson_count_rate_all']);
         $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
-        $res[$adminid]['kpi'] = $kpi>0?$res[$adminid]['kpi']."%":0;
+        $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
+        $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag');
+        if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
+            $item['kpi'] = "100%";
+        }
 
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
