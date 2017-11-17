@@ -248,6 +248,7 @@ class url_power_map {
 			'/user_manage/refund_analysis'	=>1070508,
 			'/order_refund_confirm_config/refund_info'	=>1070530,
 			'/user_manage_new/parent_report'	=>1070631,
+			'/rule_txt/get_all'	=>1070632,
 			'/user_manage/complaint_department_deal_parent'	=>1070636,
 			'/user_manage/complaint_department_deal_qc'	=>1070637,
 			'/user_manage/qc_complaint'	=>1070633,
