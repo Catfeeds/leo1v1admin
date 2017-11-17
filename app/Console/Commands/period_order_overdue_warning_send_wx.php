@@ -99,8 +99,25 @@ class period_order_overdue_warning_send_wx extends Command
 
 
                 //微信推送销售
-                $val["sys_operator"]="jack";
+                // $val["sys_operator"]="jack";
                 $uid = $task->t_manager_info->get_id_by_account($val["sys_operator"]);
+                $del_flag = $task->t_manager_info->get_del_flag($uid);
+                if($del_flag==1){
+                    //查找组长
+                    $uid_master = $task->t_admin_group_user->get_master_adminid_by_adminid($uid);
+                    $del_flag_master = $task->t_manager_info->get_del_flag($uid_master);
+                    if($del_flag_master==0 && $uid_master>0){
+                        $uid = $uid_master;
+                    }else{
+                        $uid_leader = $task->t_admin_group_user->get_main_master_adminid($uid);
+                        $del_flag_leader = $task->t_manager_info->get_del_flag($uid_leader);
+                        if($del_flag_leader==0 && $uid_leader>0){
+                            $uid = $uid_leader;
+                        }else{
+                            $uid=349;
+                        }
+                    }
+                }
                 $cc_oponid = $task->t_manager_info->get_wx_openid($uid);
                 // $ass_oponid = $task->t_manager_info->get_wx_openid(349);
                 $acc = $task->t_manager_info->get_account($uid);
