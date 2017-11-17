@@ -108,7 +108,7 @@
                         <td >{{@$var["suc_lesson_count_four"]}}</td>
                         <td >{{@$var["fail_all_count_for_month"]}}</td>
                         <td >{{@$var["lesson_per"]}}</td>
-                        <td >{{@$var["suc_lesson_count_rate"]}}</td>
+                        <td >{{@$var["kpi"]}}</td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
                         <td >{{@$var["order_per"]}}</td>
                         <td >{{@$var["all_price_for_month"]}}</td>
