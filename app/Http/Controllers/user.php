@@ -293,10 +293,6 @@ class user extends TeaWxController
     }
 
     public function set_teacher_feedback(){ //1020
-
-
-
-
         $from_type = $this->get_in_str_val("from_type","wx");
         if($from_type=="wx"){
             $teacherid = $this->get_teacherid();
@@ -314,7 +310,7 @@ class user extends TeaWxController
 
         /**
          * @ 每月6号之后 关闭上月课程申诉通道
-         *
+         * 测试中......
          **/
 
         $is_test_use = $this->t_teacher_info->get_is_test_user($teacherid);

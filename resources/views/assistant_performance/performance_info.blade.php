@@ -25,7 +25,7 @@
                 <div class="col-xs-12 col-md-5">
                     <div class="input-group ">
 
-                        <span>*当前数据为10月数据</span>
+                        <span>*8,9,10三月数据</span>
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@
                     <td>助教</td>
                     <td>绩效(回访) </td>
                     <td>绩效(课程消耗) </td>
-                    <td>绩效(退费) </td>
+                    <td>绩效(扩课) </td>
                     <td>绩效(停课) </td>
                     <td>绩效(结课未续费) </td>
                     <td>课时消耗奖金</td>
@@ -56,9 +56,9 @@
                         <td>{{@$var["name"]}}</td> 
                         <td>{{@$var["revisit_reword"]}}</td> 
                         <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
-                        <td>{{@$var["refund_reword_per"]}}</td> 
-                        <td>{{@$var["stop_reword_per"]}}</td> 
-                        <td>{{@$var["end_no_renw_reword_per"]}}</td> 
+                        <td>{{@$var["kk_reword"]}}</td> 
+                        <td>{{@$var["stop_reword"]}}</td> 
+                        <td>{{@$var["end_no_renw_reword"]}}</td> 
                         <td>{{@$var["lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["renw_reword"]}}</td> 
                         <td>{{@$var["cc_tran_reword"]}}</td> 

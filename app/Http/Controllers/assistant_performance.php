@@ -103,8 +103,12 @@ class assistant_performance extends Controller
     public function performance_info(){
               
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $start_time = strtotime("2017-10-01");        
-        $end_time = strtotime("2017-11-01");
+        if($start_time <strtotime("2017-08-01") || $start_time>= strtotime("2017-11-01")){
+            return $this->pageView(__METHOD__,null);
+        }
+        $test_time = strtotime("2017-10-01");        
+        $test_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($test_time);
+        // $end_time = strtotime("2017-11-01");
 
 
         $month_half = $start_time+15*86400;
@@ -339,19 +343,20 @@ class assistant_performance extends Controller
             //计算助教相关退费
 
             $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
-            $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
+            // $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
+            $renw_price = $item["renw_price"]+$item["tran_price"];
             $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
             $renw_reword = 0;
             if($renw_per>=120){
                 $renw_reword = $renw_target*0.04+($renw_price-$renw_target)*0.05;
             }elseif($renw_per>=100){
-                $renw_reword = $renw_target*0.04;
+                $renw_reword = $renw_price*0.04;
             }elseif($renw_per>=75){
-                $renw_reword = $renw_target*0.028;
+                $renw_reword = $renw_price*0.028;
             }elseif($renw_per>=50){
-                $renw_reword = $renw_target*0.02;
+                $renw_reword = $renw_price*0.02;
             }elseif($renw_per>=30){
-                $renw_reword = $renw_target*0.012;
+                $renw_reword = $renw_price*0.012;
             }
 
             $item["renw_reword"] =  $renw_reword;
@@ -375,21 +380,33 @@ class assistant_performance extends Controller
             $item["cc_tran_reword"] = $cc_tran_reword;
 
 
-            /*退费20%、停课15%、结课未续费5%*/
+            /*扩课20%、停课15%、结课未续费5%*/
             //退费
-            $ass_refund_money = $item["ass_refund_money"];            
-            $ass_renw_money = $item["renw_price"]+$item["tran_price"];
-            $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
-            if($refund_per<=0.05){
-                $refund_reword_per = 0.2;
+            // $ass_refund_money = $item["ass_refund_money"];            
+            // $ass_renw_money = $item["renw_price"]+$item["tran_price"];
+            // $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
+            // if($refund_per<=0.05){
+            //     $refund_reword_per = 0.2;
+            // }else{
+            //     $refund_reword_per = 0;
+            // }
+            // $item["refund_reword_per"]=$refund_reword_per;
+
+            //扩课
+            $kk_num = $item["kk_num"]+$item["hand_kk_num"];
+            $kk_per = $item["read_student"]>0?($kk_num/$item["read_student"]):0;
+            if($kk_per>=0.06){
+                $kk_reword_per = 0.2;
             }else{
-                $refund_reword_per = 0;
+                $kk_reword_per = 0;
             }
-            $item["refund_reword_per"]=$refund_reword_per;
+            $item["kk_reword_per"] = $kk_reword_per;
 
             //停课
-            $all_stu_num = $item["all_ass_stu_num"];//所有学员
-            $all_stop_num = $item["stop_student"];//停课学员
+            //   $all_stu_num = $item["all_ass_stu_num"];//所有学员
+            $all_stu_num =  @$test_month[$k]["all_ass_stu_num"];
+            // $all_stop_num = $item["stop_student"];//停课学员
+            $all_stop_num =  @$test_month[$k]["stop_student"];
             $stop_per = $all_stu_num>0?($all_stop_num/$all_stu_num):0;
             if($all_stu_num>=100 && $stop_per<=0.06){
                 $stop_reword_per = 0.15;
@@ -416,13 +433,13 @@ class assistant_performance extends Controller
 
             $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
             $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;
-            $item["refund_reword"] = $item["refund_reword_per"]*1500;
+            $item["kk_reword"] = $item["kk_reword_per"]*1500;
             $item["stop_reword"] = $item["stop_reword_per"]*1500;
             $item["end_no_renw_reword"] = $item["end_no_renw_reword_per"]*1500;
             $item["lesson_count_finish_reword"] = $item["lesson_count_finish_reword"]/100;
             $item["renw_reword"] = $item["renw_reword"]/100;
             $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
-            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["refund_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
+            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
             
         }
         // dd($ass_month);

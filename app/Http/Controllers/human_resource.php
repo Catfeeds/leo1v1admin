@@ -1992,7 +1992,8 @@ class human_resource extends Controller
             "gender"  =>$gender,
             "teacher_textbook" =>$teacher_textbook,
             "work_year"        =>$work_year,
-            "address"          =>$region
+            "address"          =>$region,
+            "free_time"        =>$free_time
         ]);
         return $this->output_succ();
     }
