@@ -566,7 +566,8 @@ class agent extends Controller
                 $end_time_this = $item['end_time'];
             }
         }
-        $month_date = strtotime(date('Y-m-d',strtotime(date('Y-m-d',$time))-1));
+        $time = 1509465600;
+        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
         dd($reduce_flag,$ret_time,$month_date);
     }
 
