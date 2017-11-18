@@ -2866,7 +2866,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@param: $to_agentid 用户优学优享id
     public function get_test_lesson_bad_time($to_agentid){
         $sql = $this->gen_sql_new(
-            'select l.lesson_start from %s a '.
+            'select li.lesson_start from %s a '.
             'left join %s li on a.test_lessonid = li.lessonid '.
             'where a.id = %u',
             self::DB_TABLE_NAME,
