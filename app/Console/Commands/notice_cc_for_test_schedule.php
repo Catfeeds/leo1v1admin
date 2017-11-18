@@ -61,7 +61,7 @@ class notice_cc_for_test_schedule extends Command
             $wx=new \App\Helper\Wx();
             // orwGAs_IqKFcTuZcU1xwuEtV3Kek
             // orwGAs6J8tzBAO3mSKez8SX-DWq4 //孙
-            $wx->send_template_msg('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data_msg ,$url);
+            // $wx->send_template_msg('orwGAs_IqKFcTuZcU1xwuEtV3Kek',$template_id,$data_msg ,$url); //测试
             $wx->send_template_msg($item['wx_openid'],$template_id,$data_msg ,$url);
         }
 

@@ -1556,8 +1556,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_agent_status_money=0;
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-            if ($agent_status_money==5000) {
-                $pp_agent_status_money= 2500;
+            if ($agent_status_money > 0) {
+                $pp_agent_status_money = $agent_status_money/2;
             }
         }
 
@@ -2133,23 +2133,27 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@param:$phone 违规推荐人电话号码
     //@param:$agent_money_ex_type_str 活动类型
     //@param:$url
-    public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="" ) {
+    public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="",$bad_time ) {
         $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
-        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-        if($agent_freeze_type == 1)
+        $template_id = 'nlkQvbRYlLz8fd1Nupp7vERRRGOgBVe54d0IpJhUqZo';
+        if($agent_freeze_type == 1){
             $agent_freeze_type_desc = $phone.'(手机号)试听奖励';
-        elseif($agent_freeze_type == 2)
+            $bad_time = $this->get_test_lesson_bad_time($to_agentid);
+        }elseif($agent_freeze_type == 2){
             $agent_freeze_type_desc = $phone.'(手机号)签单奖励';
-        elseif($agent_freeze_type == 3)
+            $bad_time = $this->task->t_agent_order->get_order_bad_time($to_agentid);
+        }elseif($agent_freeze_type == 3){
             $agent_freeze_type_desc = $phone.'(手机号)在'.$agent_money_ex_type_str.'中';
-        else
+        }else
             return false;
-        
+
+        if(empty($bad_time))
+            $bad_time = time(NULL);
+
         $data = [
-            'first'    => '违规通知',
-            'keyword1' => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
-            'keyword2' => '违规时间：'.date('Y年m月d日 H:i:s'),
-            'keyword3' => '违规原因：利用漏洞',
+            'first'    => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
+            'keyword1' => date('Y年m月d日 H:i:s',$bad_time),
+            'keyword2' => '利用漏洞',
             'remark'   => '违规行为将会冻结此次奖励',
         ];
         $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
@@ -2167,9 +2171,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
         $wx->send_template_msg($jim_openid,$template_id,$data,$url);
 
-        // $succ_flag=false;
-        // $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
-        // $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
+        $succ_flag=false;
+        $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
+        $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
 
     }
     //消息
@@ -2392,10 +2396,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.phone,a1.nickname, a1.agent_status,"
-            ."a1.agent_status_money,a1.create_time,a1.agent_student_status "
+            ."a1.agent_status_money,a1.create_time,a1.agent_student_status,si.nick "
             . " from %s a1"
+            ." left join %s si on a1.userid = si.userid"
             ." where  %s order by a1.create_time desc",
             self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
@@ -2403,11 +2409,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //会员邀请
     public function member_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
-            "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,"
+            "select a2.id as agent_id,a2.phone,a2.nickname,a2.agent_status,si.nick,"
             ."a2.pp_agent_status_money as agent_status_money,a2.create_time,a2.agent_student_status "
             ."from %s a2 "
+            ."left join %s si on a2.userid = si.userid "
             ." where  a2.parentid in (select id from %s where parentid = %u ) order by a2.create_time desc",
             self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $agent_id
         );
@@ -2457,10 +2465,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.agent_status >= %u',30]
         ];
         $sql = $this->gen_sql_new(
-            "select  id,a.phone,a.nickname,a.agent_status_money,agent_status "
+            "select  a.id,a.phone,a.nickname,a.agent_status_money,a.agent_status,si.nick "
             . " from %s a"
+            ." left join %s si on si.userid = a.userid"
             ." where %s order by a.id desc",
             self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
@@ -2468,11 +2478,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@desn:会员邀请奖励列表[已获取]
     public function member_had_invite($agent_id,$page_info,$page_count){
         $sql = $this->gen_sql_new(
-            "select phone,nickname,pp_agent_status_money as agent_status_money,agent_status "
-            ."from %s "
-            ." where  parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1 "
+            "select a.phone,a.nickname,a.pp_agent_status_money as agent_status_money,a.agent_status,si.nick "
+            ."from %s a"
+            ." left join %s si on si.userid = a.userid"
+            ." where  a.parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1 "
             ."order by create_time desc",
             self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $agent_id
         );
@@ -2491,13 +2503,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@param 1:学员2：会员3：学员&会员
     public function get_invite_type_list($agent_id,$type=1,$page_info,$page_count){
         $where_arr = [
-            ['parentid = %u',$agent_id,'-1'],
-            ['type = %u',$type,'-1']
+            ['a.parentid = %u',$agent_id,'-1'],
+            ['a.type = %u',$type,'-1']
         ];
         $sql = $this->gen_sql_new(
-            "select id,phone,nickname,agent_status,agent_student_status,create_time from %s where %s order by id desc",
-                self::DB_TABLE_NAME,
-                $where_arr
+            "select a.id,a.phone,a.nickname,a.agent_status,a.agent_student_status,a.create_time,si.nick ".
+            "from %s a ".
+            "left join %s si on si.userid = a.userid ".
+            "where %s order by id desc",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
@@ -2858,5 +2874,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_row($sql);
     }
-
+    //@desn:获取用户试听开始时间
+    //@param: $to_agentid 用户优学优享id
+    public function get_test_lesson_bad_time($to_agentid){
+        $sql = $this->gen_sql_new(
+            'select li.lesson_start from %s a '.
+            'left join %s li on a.test_lessonid = li.lessonid '.
+            'where a.id = %u',
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $to_agentid
+        );
+        return $this->main_get_value($sql);
+    }
+    
 }

@@ -32,6 +32,8 @@ return array(
     ["db_weiyi_admin","t_main_major_group_name_month", "groupid"],
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
+    ["db_weiyi_admin","t_seller_level_salary", "seller_level"],
+    ["db_weiyi_admin","t_seller_level_month", "id"],
     ["db_weiyi_admin","t_seller_edit_log", "id"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
@@ -74,6 +76,8 @@ return array(
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
     ["db_weiyi","t_child_order_info", "child_orderid"],
     ["db_weiyi","t_ass_stu_change_list", "id"],
+    ["db_weiyi","t_rule_info", "rule_id"],
+    ["db_weiyi","t_rule_detail_info", "detail_id"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -271,5 +275,5 @@ return array(
     // ["db_question","t_lesson_note_list","id"] ,
     //["db_question","t_lesson_note","note_id"] ,
     // ["db_question","t_question","id"] ,
-    //["db_ejabberd","users","username"] ,
+    // ["db_ejabberd","users","username"] ,
 );

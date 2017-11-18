@@ -806,8 +806,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.wx_openid,need_test_lesson_flag,t.nick,realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,"
                                   ." t.train_through_new, t.train_through_new_time,t.address,"
-                                  ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,teacher_textbook,"
-                                  ." create_meeting, t.level ,t.work_year,  advantage, base_intro,textbook_type,is_good_flag,"
+                                  ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,t.teacher_textbook,"
+                                  ." create_meeting, t.level ,t.work_year,  advantage, base_intro,t.textbook_type,is_good_flag,"
                                   ." t.create_time,t.address,t.subject,second_subject,third_subject,t.school,tea_note,"
                                   ." grade_part_ex,t.is_freeze,t.freeze_reason,t.freeze_adminid,t.freeze_time, "
                                   ." t.limit_plan_lesson_type,t.limit_plan_lesson_reason,t.limit_plan_lesson_time,"
@@ -874,8 +874,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.wx_openid,need_test_lesson_flag,t.nick,realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,"
                                   ." t.train_through_new, t.train_through_new_time,"
-                                  ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,teacher_textbook,"
-                                  ." create_meeting, t.level ,work_year,  advantage, base_intro,textbook_type,is_good_flag,"
+                                  ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,t.teacher_textbook,"
+                                  ." create_meeting, t.level ,work_year,  advantage, base_intro,t.textbook_type,is_good_flag,"
                                   ." t.create_time,t.address,t.subject,second_subject,third_subject,t.school,tea_note,"
                                   ." grade_part_ex,t.is_freeze,freeze_reason,freeze_adminid,freeze_time, "
                                   ." t.limit_plan_lesson_type,t.limit_plan_lesson_reason,t.limit_plan_lesson_time,"
@@ -2382,7 +2382,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.uid not in (790,486,871,891)"
         ];
 
-        $sql = $this->gen_sql_new("select teacherid,subject,grade_part_ex,t.phone,realname "
+        $sql = $this->gen_sql_new("select teacherid,subject,grade_start,grade_end,grade_part_ex,t.phone,realname"
                                   ." from %s t left join %s m on t.phone= m.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
@@ -3542,11 +3542,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tf.simul_test_lesson_pass_time>=".$start_time,
-            "tf.simul_test_lesson_pass_time<".$end_time,
+            // "tf.simul_test_lesson_pass_time>=".$start_time,
+            // "tf.simul_test_lesson_pass_time<".$end_time,
             "t.train_through_new=1",
             "ta.id>0"
         ];
+        if($start_time>=strtotime("2017-08-01")){
+            $where_arr[]="tf.simul_test_lesson_pass_time>=".$start_time;
+            $where_arr[]="tf.simul_test_lesson_pass_time<".$end_time;
+        }else{
+            $where_arr[]="t.train_through_new_time>=".$start_time;
+            $where_arr[]="t.train_through_new_time<".$end_time;
+        }
 
         $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
                                   ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"
@@ -4695,5 +4702,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                     $where_arr);
         return $this->main_get_row($sql);
 
+    }
+
+    public function get_notice_list_for_month(){
+        $where_arr = [
+            "t.quit_time=0",
+            "t.is_test_user=0",
+            "t.trial_lecture_is_pass=1",
+            "t.wx_openid is not null"
+        ];
+        $sql = $this->gen_sql_new("  select wx_openid from %s t"
+                                  ." where %s  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 }

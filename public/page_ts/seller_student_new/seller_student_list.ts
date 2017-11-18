@@ -19,6 +19,7 @@ function load_data(){
         start_time: $('#id_start_time').val(),
         group_seller_student_status:    $('#id_group_seller_student_status').val(),
         seller_groupid_ex:  $('#id_seller_groupid_ex').val(),
+        seller_groupid_ex_new:  $('#id_seller_groupid_ex_new').val(),
         end_time:   $('#id_end_time').val(),
         userid: $('#id_userid').val(),
         success_flag:   $('#id_success_flag').val(),
@@ -190,7 +191,9 @@ $(function(){
     $('#id_status_list_str').val(g_args.status_list_str);
     $('#id_userid').val(g_args.userid);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+    $('#id_seller_groupid_ex_new').val(g_args.seller_groupid_ex_new);
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
+    $("#id_seller_groupid_ex_new").init_seller_groupid_ex();
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_subject').val(g_args.subject);
     $('#id_has_pad').val(g_args.has_pad);
@@ -1634,6 +1637,7 @@ function init_edit() {
     $("#id_no_called_count").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
+            $("#id_global_tq_called_flag").val(-1);
             $('#id_seller_student_status').val(0);
         });
     });
@@ -1643,7 +1647,6 @@ function init_edit() {
 
 
     $("#id_next_revisit").on("click",function(){
-
         init_and_reload(function(now){
             $.filed_init_date_range( 1,  0, now-7*86400,  now);
         });
@@ -2121,7 +2124,7 @@ function init_edit() {
             var id_intention_level            = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-           var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
+            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
           //  var id_stu_score_info = html_node.find("#id_stu_score_info");
            // var id_stu_character_info = html_node.find("#id_stu_character_info");
            // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
@@ -2833,12 +2836,12 @@ function init_edit() {
                 if(html_node.find("#id_intention_level").val() <= 0){
                     html_node.find("#id_intention_level").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
-                if(html_node.find("#id_demand_urgency").val() <= 0){
-                    html_node.find("#id_demand_urgency").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                }
-                if(html_node.find("#id_quotation_reaction").val() <= 0){
-                    html_node.find("#id_quotation_reaction").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                }
+                // if(html_node.find("#id_demand_urgency").val() <= 0){
+                //     html_node.find("#id_demand_urgency").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                // }
+                // if(html_node.find("#id_quotation_reaction").val() <= 0){
+                //     html_node.find("#id_quotation_reaction").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                // }
                 if(html_node.find("#id_stu_request_test_lesson_demand").val() == ''){
                     html_node.find("#id_stu_request_test_lesson_demand").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }

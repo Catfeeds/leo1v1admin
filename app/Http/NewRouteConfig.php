@@ -49,6 +49,7 @@ class NewRouteConfig {
         "user_will"=>true,
         "wx"=>true,
         "test_lesson_opt"=>true,
+        "rule_txt"=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -57,6 +58,12 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/rule_txt/get_all"          => true,
+        "/rule_txt/add_or_update_title"           => true,
+        "/rule_txt/rule_detail"                   => true,
+        "/rule_txt/up_or_down"                    => true,
+        "/rule_txt/del_rule_detail"               => true,
+        "/rule_txt/add_or_update_rule_detail"     => true,
         "/test_lesson_opt/test_opt_list"          => true,
         "/tea_manage/train_is_through_list"       => true,
         "/main_page/recruit_division"             => true,
@@ -414,6 +421,7 @@ class NewRouteConfig {
         "/human_resource/change_teacher_to_new" => true,
         "/human_resource/transfer_teacher_info" => true,
         "/human_resource/more_grade_pdf_to_teacher" => true,
+        "/human_resource/add_research_teacher" => true,
         "/human_resource/assistant_info_new2" => true,
         "/human_resource/set_teacher_grade_range"                    => true,
         "/human_resource/get_common_config_new_seller"               => true,

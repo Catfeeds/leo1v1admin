@@ -315,12 +315,15 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         }
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,ao.p_price,oi.price,ao.create_time,oi.pay_time,a.userid,ao.p_price,ao.pp_price ".
+            ",si.nick ".
             "from %s ao ".
             "left join %s a on ao.aid=a.id ".
+            "left join %s si on si.userid = a.userid ".
             "left join %s oi on oi.orderid = ao.orderid ".
             "where %s order by ao.create_time desc",
             self::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,
             $where_arr
         );
@@ -342,12 +345,15 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         }
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,ao.p_open_price,oi.price,ao.create_time,oi.pay_time,a.userid,ao.p_price,ao.pp_open_price ".
+            ",si.nick ".
             "from %s ao ".
             "left join %s a on ao.aid=a.id ".
+            "left join %s si on si.userid = a.userid ".
             "left join %s oi on oi.orderid = ao.orderid ".
             "where %s order by ao.create_time",
             self::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,
             $where_arr
         );
@@ -365,6 +371,19 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     public function get_l2_child_commission_reward($id){
         $sql = $this->gen_sql_new(
             "select sum(pp_price) from %s where ppid = %u",self::DB_TABLE_NAME,$id
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取用户下单违规时间
+    //@param: $to_agentid 用户优学优享id
+    public function get_order_bad_time($to_agentid){
+        $sql = $this->gen_sql_new(
+            'select oi.order_time from %s ao '.
+            'left join %s oi on ao.orderid = oi.orderid '.
+            'where ao.aid = %u',
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $to_agentid
         );
         return $this->main_get_value($sql);
     }

@@ -350,39 +350,6 @@ class test_james extends Controller
 
 
 
-    public function ss1(){ // 使用客服接口发送消息
-
-
-        //使用客服接口发送消息
-        $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
-            'msgtype'  => 'news',
-            "news"=>[
-                "articles"=> [
-                    [
-                        "title"=>"TEST MSG",
-                        "description"=>"Is Really A Happy Day",
-                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
-                    ]
-                ]
-            ]
-        ];
-
-        $appid_tec     = config('admin')['teacher_wx']['appid'];
-        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
-
-        $wx = new \App\Helper\Wx() ;
-        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
-
-
-        $txt = $this->ch_json_encode($txt_arr);
-        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-        $txt_ret = $this->https_post($url,$txt);
-
-    }
-
-
     public function https_post($url,$data){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -1228,5 +1195,68 @@ $test=	3;
         }
         echo 'this is a(an) '.$fileType.' file:'.$typeCode;
     }
+
+
+    public function deal_untreated_pdf(){// 处理未成功pdf文件
+        $num = $this->get_in_int_val('n',-1);
+        $limit_time = $this->get_in_int_val('time',-1);
+
+        $pdf_list = $this->t_pdf_to_png_info->get_untreated_pdf($num,$limit_time);
+
+        foreach($pdf_list as $v){
+            $this->set_in_value("pdf_url", $v['pdf_url']);
+            $this->set_in_value("lessonid", $v['lessonid']);
+
+            $this->get_pdf_url();
+
+            $this->t_pdf_to_png_info->field_update_list($v['id'], [
+                "id_do_flag" => 1
+            ]);
+        }
+    }
+
+    public function ceshi(){
+        $limit_time = strtotime(date('Y-m-d'));
+
+        dd($limit_time);
+        $a = " https://fms.ipinyou.com/5/17/9E/0A/F001Nl1Q1NRQ000dMKdg.jpg";
+
+        $filesize=filesize('/home/james/admin_yb1v1/public/wximg/13818837473_2.png');
+        dd($filesize);
+    }
+
+
+
+    public function wx_news(){ // 使用客服接口发送消息
+        //使用客服接口发送消息
+        $txt_arr = [
+            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+            'msgtype'  => 'news',
+            "news"=>[
+                "articles"=> [
+                    [
+                        "title"=>"TEST MSG",
+                        "description"=>"Is Really A Happy Day",
+                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
+                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                    ]
+                ]
+            ]
+        ];
+
+        $appid_tec     = config('admin')['teacher_wx']['appid'];
+        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
+
+        $wx = new \App\Helper\Wx() ;
+        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
+
+
+        $txt = $this->ch_json_encode($txt_arr);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        $txt_ret = $this->https_post($url,$txt);
+
+    }
+
+
 
 }

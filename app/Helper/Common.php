@@ -1594,12 +1594,12 @@ class Common {
             $base_file_name.="_gz";
         }
         $pdf_file="/tmp/$base_file_name.pdf" ;
-        $sex_file="/tmp/$base_file_name.sex";
+        $sex_file="/tmp/$base_file_name.tex";
         file_put_contents($sex_file  , $order_sex );
         $ret=\App\Helper\Utils::exec_cmd(" $work_dir/mktex.sh $sex_file  ");
         $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);
 
-        $ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
+        //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
         return Config::get_qiniu_public_url()."/". $qiniu_file_name;
     }
 

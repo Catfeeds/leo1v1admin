@@ -19,7 +19,7 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
     public function get_repay_order_info($due_date){
         $where_arr=[
             ["due_date = %u",$due_date,-1],
-            "orderid =516"
+            // "orderid in (516,6932,7405,7457,7460,7586,7854,7892,8088,8159,8473,8666,8704,8753,9014)"
         ];
         $sql = $this->gen_sql_new("select orderid from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
@@ -39,7 +39,7 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
             $where_arr[]="p.stop_wx_send_flag=0";
         }
         $sql = $this->gen_sql_new("select o.userid,p.repay_status,pa.wx_openid,m.uid,"
-                                  ."s.nick,c.from_orderno,p.orderid,p.period  "
+                                  ."s.nick,c.from_orderno,p.orderid,p.period,o.sys_operator  "
                                   ." from %s p"
                                   ." left join %s c on p.orderid=c.child_orderid"
                                   ." left join %s o on c.parent_orderid = o.orderid"

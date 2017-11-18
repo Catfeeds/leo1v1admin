@@ -27,8 +27,14 @@ class stu_menu{
             [ "power_id"=>16, "name"=>"常规交接单-CR", "icon" => "fa-dashboard", "url"=> "/stu_manage/init_info_by_contract_cr?sid={sid}"],
             [ "power_id"=>17, "name"=>"交接单-临时", "icon" => "fa-dashboard", "url"=> "/stu_manage/init_info_tmp?sid={sid}"],
             [ "power_id"=>18, "name"=>"成绩记录",  "url"=> "/stu_manage/score_list?sid={sid}"],
-            
             [ "power_id"=>19, "name"=>"个人登录记录",  "url"=> "/stu_manage/user_login_list?sid={sid}"],
+
+            [ "power_id"=>50,  "admin_domain_type"=> 1 ,  "name"=>"基本信息",  "url"=> "/class_stu_manage/index?sid={sid}"],
+            [ "power_id"=>51,  "admin_domain_type"=> 1 ,  "name"=>"订单信息",  "url"=> "/class_stu_manage/index?sid={sid}"],
+            [ "power_id"=>52,  "admin_domain_type"=> 1 ,  "name"=>"回访信息",  "url"=> "/class_stu_manage/index?sid={sid}"],
+            [ "power_id"=>53,  "admin_domain_type"=> 1 ,  "name"=>"课程信息",  "url"=> "/class_stu_manage/index?sid={sid}"],
+            [ "power_id"=>54,  "admin_domain_type"=> 1 ,  "name"=>"操作记录",  "url"=> "/class_stu_manage/index?sid={sid}"],
+            [ "power_id"=>55,  "admin_domain_type"=> 1 ,  "name"=>"成绩信息",  "url"=> "/class_stu_manage/index?sid={sid}"],
         ];
 
     }

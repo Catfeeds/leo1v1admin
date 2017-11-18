@@ -347,6 +347,7 @@ class menu{
                 ]],
                 ["power_id"=>6, "name"=>"质检-投诉处理", "list"=>[
                     ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
+                    ["power_id"=>32, "name"=>"规则文档",   "url"=>"/rule_txt/get_all"],
                     ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                     ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                     ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
@@ -390,6 +391,11 @@ class menu{
                 ["power_id"=>3, "name"=>"渠道统计", "url"=>"/seller_student/money_contract_list_for_origin"],
                 ["power_id"=>4, "name"=>"月份学生统计",   "url"=>"/user_manage_new/month_user_info"],
                 ["power_id"=>10, "name"=>"退费管理",   "url"=>"/user_manage/refund_list_finance"],
+                ["power_id"=>12, "name"=>"收入",   "url"=>"/finance_data/income_info"],
+                ["power_id"=>13, "name"=>"退费合同",   "url"=>"/finance_data/refund_order_info"],
+                ["power_id"=>14, "name"=>"学生数据",   "url"=>"/finance_data/student_data"],
+                ["power_id"=>15, "name"=>"试听学生&&在读学生",   "url"=>"/finance_data/student_type_data"],
+                ["power_id"=>16, "name"=>"试听转化率以及渠道统计",   "url"=>"/finance_data/test_lesson_origin_tongji"],
 
                 ["power_id"=>9, "name"=>"考勤", "list"=>[
                     ["power_id"=>4, "name"=>"考勤记录",   "url"=>"/tongji/admin_card_log_list"],
@@ -573,6 +579,7 @@ class menu{
                 ["power_id"=>51, "name"=>"试听未签-抢学生",   "url"=>"/seller_student_new/test_lesson_no_order_list"],
                 ["power_id"=>58, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
                 ["power_id"=>73, "name"=>"销售等级列表",   "url"=>"/seller_level_goal/seller_level_goal_list"],
+                ["power_id"=>74, "name"=>"销售等级工资列表",   "url"=>"/seller_level_goal/seller_level_salary_list"],
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
@@ -877,6 +884,8 @@ class menu{
                     ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                 ]],
                 ["power_id"=>2, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list_research"],
+                [ "power_id"=>73,"name"=>"质监月进度", "url"=>"/main_page/quality_control_jy"],//james
+
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],

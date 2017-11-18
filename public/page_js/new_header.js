@@ -679,9 +679,10 @@ $(function(){
         opt_url="/"+item_arr[1]+"/index";
     }
 
-    var check_url=$.trim( window.location.toString().split("?" )[0], "/");
+    var check_url= window.location.toString().split("?" )[0];
+    check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
 
-    var obj=$(".treeview-menu >li>a[href=\""+ check_url +"\"]");
+    var obj=$(".treeview-menu >li>a[href*=\""+ check_url +"\"]");
 
     var path_arr=window.location.pathname.split("/");
     var ctrl=path_arr[1];
@@ -693,7 +694,7 @@ $(function(){
     obj.each(function(){
         var href_str= $(this).attr("href") ;
         //http://....com/tt/ff => /tt/ff
-        href_str= href_str.replace( /http.*\.com/, "" );
+        href_str= href_str.replace( /http.*\.com/, "" ).replace(/#.*/ , "" );
 
 
         var arr=href_str.split("/");
@@ -715,6 +716,7 @@ $(function(){
     if (title1=="") {
         //检查一级节点
         var check_url=$.trim( window.location.toString().split("?" )[0], "/");
+        check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
         obj=$(".sidebar-menu >li>a[href*=\"*"+check_url+"\"]").first();
         title1=obj.text();
 
