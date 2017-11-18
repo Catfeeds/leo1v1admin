@@ -2217,4 +2217,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_teacher_num($lesson_start, $lesson_end, $lesson_type){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<>2",
+            "l.lesson_user_online_status<2",
+            "t.is_test_user=0"
+        ];
+        if($lesson_type==-2){
+            $where_arr[]="l.lesson_type in (0,1,3)";
+        }else{
+            $where_arr[]=["l.lesson_type=%u",$lesson_type,-2];
+        }
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
+
+        $sql = $this->gen_sql_new("  select count(distinct l.teacherid) num from %s l "
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 }
