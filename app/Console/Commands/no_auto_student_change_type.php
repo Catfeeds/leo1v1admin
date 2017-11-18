@@ -261,7 +261,10 @@ class no_auto_student_change_type extends Command
             $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
             $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
                 "revisit_reword_per"  =>$revisit_reword_per,
-                "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per
+                "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per,
+                "estimate_month_lesson_count" =>$estimate_month_lesson_count,
+                "seller_month_lesson_count"   =>$seller_lesson_count,
+                "seller_week_stu_num"         =>$seller_stu_num
             ]);
 
             /*课程消耗奖金*/
@@ -380,7 +383,7 @@ class no_auto_student_change_type extends Command
 
 
 
-        //哈哈哈
+        // //哈哈哈
       
 
         
