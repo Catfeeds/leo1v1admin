@@ -680,10 +680,9 @@ $(function(){
     }
 
     var check_url= window.location.toString().split("?" )[0];
-    check_url= check_url.split("#" )[0];
+    check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
 
-
-    var obj=$(".treeview-menu >li>a[href=\""+ check_url +"\"]");
+    var obj=$(".treeview-menu >li>a[href*=\""+ check_url +"\"]");
 
     var path_arr=window.location.pathname.split("/");
     var ctrl=path_arr[1];
@@ -717,7 +716,7 @@ $(function(){
     if (title1=="") {
         //检查一级节点
         var check_url=$.trim( window.location.toString().split("?" )[0], "/");
-        check_url= check_url.split("#" )[0];
+        check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
         obj=$(".sidebar-menu >li>a[href*=\"*"+check_url+"\"]").first();
         title1=obj.text();
 
