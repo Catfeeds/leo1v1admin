@@ -1272,12 +1272,21 @@ class wx_yxyx_api extends Controller
         $reward_list = $this->t_agent_money_ex->get_reward_list($agent_id,$page_info,$page_count,$is_cash);
         foreach($reward_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time",'',"Y-m-d");
-            E\Eagent_money_ex_type::set_item_value_str($item);
+            if($item['activity_type'] ==1)
+                E\Eagent_money_ex_type::set_item_value_str($item);
+            else{
+                $item['l_type'] = $item['agent_money_ex_type'];
+                E\El_type::set_item_value_str($item);
+                $item['agent_money_ex_type_str'] = $item['l_type_str'];
+            }
+                
             $item['money'] /= 100;
         }
         //获取活动奖励总金额
         $activity_total_money = $this->t_agent_money_ex->get_activity_total_money($agent_id,$is_cash);
-        $activity_total_money /=100; return $this->output_succ([
+        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id);
+        $activity_total_money =($activity_total_money+$activity_daily_lottery)/100;
+        return $this->output_succ([
             'reward_list' => $reward_list,
             'activity_total_money' => $activity_total_money
         ]);
