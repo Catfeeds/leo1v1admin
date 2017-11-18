@@ -1349,7 +1349,7 @@ trait TeaPower {
         $train_through_new_time = $train_through_new==1?time():0;
 
         $adminid = $this->t_manager_info->get_id_by_phone($phone);
-        if($adminid>0){
+        if($adminid>0 && $teacher_type == 0 && $teacher_ref_type==0){
             if($tea_nick==$phone){
                 $tea_nick = $this->t_manager_info->get_name($adminid);
                 $realname = $tea_nick;
