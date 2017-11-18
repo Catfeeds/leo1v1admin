@@ -991,6 +991,7 @@ class Utils  {
         $reward    = $rule_type[0];
         if(isset($rule_type) && !empty($rule_type)){
             foreach($rule_type as $key=>$val){
+                
                 if($num>$key){
                     $reward = $val;
                 }elseif($num<=$key){
