@@ -86,7 +86,7 @@ $(function(){
             'id_pro_img',0,function(up, file, info) {
                 var res = $.parseJSON(file);
                 if( res.key!='' ){
-                    $('#img').attr('src', qiniu_pub+res.key);
+                    $('#img').attr('src', qiniu_pub+'/'+res.key);
                 }
             }, [], ["jpg","png"],function(){}
         );
