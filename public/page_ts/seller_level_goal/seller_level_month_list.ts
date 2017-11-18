@@ -61,24 +61,23 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                if(seller_adminid.val()==0){
+                if(seller_adminid.val()<=0){
                     alert('请选择销售!');
                     return;
                 }
-                if(month_date.val()==0){
+                if(month_date.val()<=0){
                     alert('请选择定级时间!');
                     return;
                 }
-                if(seller_level.val()==0){
-                    alert('请选择定级时间!');
+                if(seller_level.val()<=0){
+                    alert('请选择定级级别!');
                     return;
                 }
                 $.do_ajax("/seller_level_goal/add_seller_level_month",{
                     "adminid"      : seller_adminid.val(),
-                    "month_date"  : month_date.val(),
+                    "month_date"   : month_date.val(),
                     "seller_level" : seller_level.val(),
-                });    
-                
+                });
             }
         })
     });
