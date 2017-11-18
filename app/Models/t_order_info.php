@@ -4184,4 +4184,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_order_money_user_info($order_start,$order_end){
+        $where_arr=[
+            "o.contract_status>0",
+            "o.contract_type in (0,3)",
+            "o.check_money_flag=1",
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$order_start,$order_end);
+        $sql = $this->gen_sql_new("select sum(if(o.contract_type=0,price,0)) new_order_money,"
+                                  ." sum(if(o.contract_type=3,price,0)) renew_order_money,"
+                                  ." sum(if(o.contract_type=0,1,0)) new_order_stu,"
+                                  ." sum(if(o.contract_type=3,1,0)) renew_order_stu"
+                                  ." from %s o left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
 }
