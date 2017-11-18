@@ -732,11 +732,9 @@ class ss_deal extends Controller
          * 需求急迫性|上课意向|报价反应 为必填项
          **/
 
-        // if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
-        // if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
-        // if($intention_level == 0){ return $this->output_err("请选择上课意向");}
-
-
+        if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
+        if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
+        if($intention_level == 0){ return $this->output_err("请选择上课意向");}
 
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
@@ -798,7 +796,6 @@ class ss_deal extends Controller
                 return $this->output_err("有合同了,不能修改年级");
             }else{
                 $stu_arr["grade"] = $grade ;
-
             }
         }
 
@@ -927,12 +924,12 @@ class ss_deal extends Controller
             ]);
         }
 
-        /* $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
         if($current_require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
                 "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
             ]);
-            }*/
+        }
         return $this->output_succ();
     }
 
@@ -979,14 +976,13 @@ class ss_deal extends Controller
     public function require_test_lesson() {
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
         $userid= $this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
-        $stu_test_ipad_flag  = $this->get_in_int_val("stu_test_ipad_flag");
+        $stu_test_ipad_flag   = $this->get_in_int_val("stu_test_ipad_flag");
         $not_test_ipad_reason = $this->get_in_str_val("not_test_ipad_reason");
 
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
         $intention_level  =  $this->t_test_lesson_subject->get_intention_level($test_lesson_subject_id);
-        // dd(123);
 
         $this->t_seller_student_new->field_update_list($userid,['stu_test_ipad_flag'=>$stu_test_ipad_flag,'not_test_ipad_reason'=>$not_test_ipad_reason]);
 
@@ -995,7 +991,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="4助教-扩课";
+            $origin_info["origin"]="助教-扩课";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -2857,6 +2853,7 @@ class ss_deal extends Controller
 
         \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
 
+        if(!$stu_request_test_lesson_time){ return $this->output_err("请选择试听时间"); }
 
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');

@@ -28,19 +28,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/self_manage-todo_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		todo_type:	$('#id_todo_type').val(),
+		todo_status:	$('#id_todo_status').val(),
+		assign_lesson_count:	$('#id_assign_lesson_count').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			todo_type:	$('#id_todo_type').val(),
-			todo_status:	$('#id_todo_status').val(),
-			assign_lesson_count:	$('#id_assign_lesson_count').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

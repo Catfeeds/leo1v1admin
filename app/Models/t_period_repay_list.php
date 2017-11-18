@@ -34,7 +34,7 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
             "r.orderid is null"
         ];
         if($wx_send_flag==1){
-            $where_arr[]="p.warning_wx_send_flag=1";
+            $where_arr[]="p.warning_wx_send_flag=0";
         }elseif($wx_send_flag==2){
             $where_arr[]="p.stop_wx_send_flag=0";
         }

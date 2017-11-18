@@ -587,7 +587,11 @@ class tongji extends Controller
         foreach($ret_info as &$item_ret){
             $item_ret['lesson_rate'] = $item_ret['valid_count']/($item_ret['stu_num']*100);
             $item_ret['lesson_rate'] = number_format($item_ret['lesson_rate'],2);
-            $item_ret['lesson_lose_rate'] = ($item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'])/ ($item_ret['valid_count']+$item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count']);
+
+            $mol = $item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'];
+            $den = $item_ret['valid_count']+$item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'];
+
+            $item_ret['lesson_lose_rate'] = $den>0?$mol/$den:0;
 
             $item_ret['lesson_lose_rate'] = number_format($item_ret['lesson_lose_rate'],2);
         }

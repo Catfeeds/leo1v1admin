@@ -637,7 +637,9 @@ class human_resource extends Controller
             $item['number'] = $number;
             $number++;
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            '_publish_version' =>'201711161039',
+        ]);
 
 
     }
@@ -898,7 +900,6 @@ class human_resource extends Controller
             $item["train_through_new_str"] = $item['train_through_new']==0?"否":"是";
 
             $item['phone_spare']=\App\Helper\Utils::get_teacher_contact_way($item);
-
             $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
             if(!empty($item["freeze_adminid"])){
                 $item["freeze_adminid_str"] = $this->t_manager_info->get_account($item["freeze_adminid"]);
@@ -4101,7 +4102,7 @@ class human_resource extends Controller
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
-
+       
         if($adminid==486 || $adminid==478){
             $tea_subject = "";
         }
@@ -4540,11 +4541,34 @@ class human_resource extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_info->get_research_teacher_list_lesson($page_info,$teacherid);
+
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
-            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade::set_item_value_str($item,"grade_start");
+            E\Egrade::set_item_value_str($item,"grade_end");
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            '_publish_version' =>'201712161131',
+        ]);
+    }
+
+    public function add_research_teacher(){ 
+        $teacher_info = array();
+        $teacher_info['phone'] = trim($this->get_in_str_val('phone',''));
+        $teacher_info['realname'] = trim($this->get_in_str_val('realname',''));
+        $teacher_info['subject'] = $this->get_in_int_val("subject",-1);;
+        $teacher_info['grade_start'] = $this->get_in_int_val("grade_start",-1);
+        $teacher_info['grade_end'] = $this->get_in_int_val("grade_end",-1);;
+        $teacher_info['teacher_money_type'] = trim($this->get_in_int_val('teacher_money_type',''));
+        $teacher_info['teacher_type'] = trim($this->get_in_int_val('teacher_type',''));
+        // \App\Helper\Utils::logger("add resarach teacher: ".json_encode($teacher_info));
+        $teacherid = $this->add_teacher_common($teacher_info);
+        if(!$teacherid){
+            return $this->output_err("生成老师失败！");
+        }else{
+            return $this->output_succ(["teacherid" => $teacherid]);
+        } 
     }
 
     public function zs_origin_list(){

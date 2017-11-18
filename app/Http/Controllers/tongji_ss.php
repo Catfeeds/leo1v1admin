@@ -7922,7 +7922,7 @@ class tongji_ss extends Controller
         $page_num = $this->get_in_page_num();
         $this->switch_tongji_database();
         // $is_full_time = 1;  // 显示兼职老师
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         $sum_field_list=[
             "stu_num",
             "valid_count",
@@ -7940,7 +7940,17 @@ class tongji_ss extends Controller
         $assistantid= $this->get_in_int_val("assistantid",-1);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type );
+
+        //权限写死,Erick要求
+        $adminid = $this->get_account_id();
+        if(in_array($adminid,[72,967])){
+            $show_all_flag=1;
+        }else{
+            $teacher_money_type=6;
+            $show_all_flag=0;
+        }
+        
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type,$show_all_flag );
         $stu_num_all = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time,$teacher_money_type);
 
         // dd($ret_info);
@@ -8004,7 +8014,9 @@ class tongji_ss extends Controller
         }
 
 
-        array_unshift($ret_info, $all_item);
+        if($show_all_flag==1){
+            array_unshift($ret_info, $all_item); 
+        }
         $index_num=0;
         foreach($ret_info as &$p_item){
             $p_item["index_num"] = $index_num;
@@ -8015,7 +8027,10 @@ class tongji_ss extends Controller
                 $p_item["index_num"]=0;
             }
         }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,[
+            "data_ex_list"=>$ret_info,
+            "show_all_flag" =>$show_all_flag
+        ]);
 
     }
 

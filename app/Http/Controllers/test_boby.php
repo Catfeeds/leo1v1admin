@@ -229,10 +229,7 @@ class test_boby extends Controller
                 // dd($subject);
 
                 foreach ($list as $k=>$v){
-                    $s = $s.'<tr><td>'.$subject.'</td>'
-                                    .'<td>'.$k.'</td>'
-                                    .'<td>'.$v.'</td>'
-                                    .'</tr>';
+                    $s = $s.'<tr><td>'.$subject.'</td>' .'<td>'.$k.'</td>' .'<td>'.$v.'</td>' .'</tr>';
                 }
             }
 
