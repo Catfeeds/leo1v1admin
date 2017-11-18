@@ -149,7 +149,7 @@
                 <td >状态</td>
                 <td style="display:none">审核人</td>
                 <td style="display:none">通过后老师id</td>
-                <td>老师身份</td>
+                <td style="display:none">老师身份</td>
                 <td style="display:none">推荐人</td>
                 <td >招师</td>
                 <td >操作</td>
