@@ -732,8 +732,8 @@ class ss_deal extends Controller
          * 需求急迫性|上课意向|报价反应 为必填项
          **/
 
-        if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
-        if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
+        // if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
+        // if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
         if($intention_level == 0){ return $this->output_err("请选择上课意向");}
 
         if ($next_revisit_time) {

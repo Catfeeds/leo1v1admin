@@ -2133,23 +2133,27 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     //@param:$phone 违规推荐人电话号码
     //@param:$agent_money_ex_type_str 活动类型
     //@param:$url
-    public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="" ) {
+    public function  send_wx_msg_freeze_cash_money($from_agentid='',$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str='',$url ="",$bad_time ) {
         $agent_wx_msg_type = E\Eagent_wx_msg_type::V_2002;
-        $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-        if($agent_freeze_type == 1)
+        $template_id = 'nlkQvbRYlLz8fd1Nupp7vERRRGOgBVe54d0IpJhUqZo';
+        if($agent_freeze_type == 1){
             $agent_freeze_type_desc = $phone.'(手机号)试听奖励';
-        elseif($agent_freeze_type == 2)
+            $bad_time = $this->get_test_lesson_bad_time($to_agentid);
+        }elseif($agent_freeze_type == 2){
             $agent_freeze_type_desc = $phone.'(手机号)签单奖励';
-        elseif($agent_freeze_type == 3)
+            $bad_time = $this->task->t_agent_order->get_order_bad_time($to_agentid);
+        }elseif($agent_freeze_type == 3){
             $agent_freeze_type_desc = $phone.'(手机号)在'.$agent_money_ex_type_str.'中';
-        else
+        }else
             return false;
-        
+
+        if(empty($bad_time))
+            $bad_time = time(NULL);
+
         $data = [
-            'first'    => '违规通知',
-            'keyword1' => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
-            'keyword2' => '违规时间：'.date('Y年m月d日 H:i:s'),
-            'keyword3' => '违规原因：利用漏洞',
+            'first'    => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
+            'keyword1' => '违规时间：'.date('Y年m月d日 H:i:s',$bad_time),
+            'keyword2' => '违规原因：利用漏洞',
             'remark'   => '违规行为将会冻结此次奖励',
         ];
         $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
@@ -2858,5 +2862,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_row($sql);
     }
-
+    //@desn:获取用户试听开始时间
+    //@param: $to_agentid 用户优学优享id
+    public function get_test_lesson_bad_time($to_agentid){
+        $sql = $this->gen_sql_new(
+            'select li.lesson_start from %s a '.
+            'left join %s li on a.test_lessonid = li.lessonid '.
+            'where a.id = %u',
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $to_agentid
+        );
+        return $this->main_get_value($sql);
+    }
+    
 }

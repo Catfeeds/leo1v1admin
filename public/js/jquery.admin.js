@@ -1424,7 +1424,12 @@ jQuery.extend({
 
         }
         if ( window.location.href.indexOf('class') > 0){
-            new_url = "http://self.admin.leo1v1.com/user_manage/get_user_list";
+            var length = window.location.href.indexOf('class');
+            var url = window.location.href;
+            var first_url = url.substring(0,length);
+            var new_length = length+6;
+            var last_url = url.substring(new_length,url.length);
+            var new_url = first_url+last_url;
         }else{
             new_url = "/user_manage/get_user_list";
         }
