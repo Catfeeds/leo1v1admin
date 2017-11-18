@@ -1440,7 +1440,7 @@ class wx_yxyx_api extends Controller
 
         //用户可抽奖次数校验
         $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+        if(\App\Helper\Utils::check_env_is_local())
             $daily_lottery_count = 1;
 
         if($daily_lottery_count > 0){
