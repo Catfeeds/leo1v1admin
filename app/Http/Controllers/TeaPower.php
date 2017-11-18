@@ -4157,7 +4157,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $type = 0;
             }
             $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type);
-            echo $reference_num;
+            echo '  num '.$reference_num;
 
             /**
              * 廖祝佳，王菊香推荐的在职老师起步都是80元/个

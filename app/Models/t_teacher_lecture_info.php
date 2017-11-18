@@ -27,7 +27,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                 ['b.status=%u',$status,-1],
                 ['b.is_test_flag=%u',$is_test_flag,-1],
                 ['t.teacherid=%u',$teacherid,-1],
-                ['t.identity=%u',$identity,-1],
+                ['b.identity=%u',$identity,-1],
                 ['la.full_time=%u',$full_time,-1],
                 ["not exists(select 1 from %s where b.grade=grade and b.phone=phone and b.subject=subject and b.add_time<add_time)",
                  self::DB_TABLE_NAME,""],
