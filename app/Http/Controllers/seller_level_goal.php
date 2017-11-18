@@ -170,8 +170,9 @@ class seller_level_goal extends Controller
     }
 
     public function seller_level_month_list(){
+        $adminid = $this->get_in_int_val('adminid',-1);
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_seller_level_month->get_all_list($page_info);
+        $ret_info = $this->t_seller_level_month->get_all_list($adminid,$page_info);
         foreach($ret_info['list'] as &$item){
             $item["account"] = $this->cache_get_account_nick($item["adminid"]);
             E\Eseller_level::set_item_value_str($item);
@@ -179,5 +180,40 @@ class seller_level_goal extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function add_seller_level_month(){
+        $adminid = $this->get_in_int_val('adminid');
+        $seller_level = $this->get_in_int_val('seller_level');
+        $month_date = $this->get_in_str_val('month_date');
+        $month_date = strtotime(date('Y-m-1',strtotime($month_date)));
+        $row = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
+        if($row){
+            return $this->output_err('该定级已存在,不能重复添加');
+        }
+        $this->t_seller_level_month->row_insert([
+            'adminid'      => $adminid,
+            'month_date'   => $month_date,
+            'seller_level' => $seller_level,
+            'create_time'  => time(null),
+        ]);
+        return $this->output_succ();
+    }
+
+    public function edit_seller_level_month(){
+        $id = $this->get_in_int_val('id');
+        $seller_level = $this->get_in_int_val('seller_level');
+        
+        $this->t_seller_level_month->field_update_list($id,[
+            'seller_level'  => $seller_level,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function del_seller_level_month(){
+        $id = $this->get_in_int_val('id');
+        $this->t_seller_level_month->row_delete($id);
+
+        return $this->output_succ();
     }
 }
