@@ -1601,12 +1601,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             //添加收入记录
             $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
             $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+            $this->task->t_agent_daily_lottery->update_all_flag($id);
         }elseif($daily_lottery_money >= 2500){  //或者是抽奖金额达到25 [进入可提现]
             $all_open_cush_money += $daily_lottery_money;
             //将每日转盘奖励计入资金记录
             //添加收入记录
             $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
             $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+            $this->task->t_agent_daily_lottery->update_all_flag($id);
         }
 
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
