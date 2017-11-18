@@ -23,13 +23,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-admin_group_edit.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		main_type:	$('#id_main_type').val(),
+		groupid:	$('#id_groupid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			main_type:	$('#id_main_type').val(),
-			groupid:	$('#id_groupid').val()
-        });
-    }
 
 
 	$('#id_main_type').val(g_args.main_type);

@@ -368,4 +368,17 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取用户下单违规时间
+    //@param: $to_agentid 用户优学优享id
+    public function get_order_bad_time($to_agentid){
+        $sql = $this->gen_sql_new(
+            'select oi.order_time from %s ao '.
+            'left join %s oi on ao.order_id = oi.order_id '.
+            'where ao.aid = %u',
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $to_agentid
+        );
+        return $this->main_get_value($sql);
+    }
 }
