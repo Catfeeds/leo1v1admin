@@ -80,11 +80,9 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>销售等级 </td>
-                    <td>定义日期 </td>
-                    <td>基本工资 </td>
-                    <td>保密津贴 </td>
-                    <td>绩效工资 </td>
+                    <td>销售 </td>
+                    <td>定级日期 </td>
+                    <td>定级级别 </td>
                     <td>创建时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -92,11 +90,9 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["account"]}} </td>
+                        <td>{{@$var["month_date"]}} </td>
                         <td>{{@$var["seller_level_str"]}} </td>
-                        <td>{{@$var["define_date"]}} </td>
-                        <td>{{@$var["base_salary"]}} </td>
-                        <td>{{@$var["sup_salary"]}} </td>
-                        <td>{{@$var["per_salary"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
