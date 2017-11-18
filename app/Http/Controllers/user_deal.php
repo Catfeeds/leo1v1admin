@@ -5333,10 +5333,13 @@ class user_deal extends Controller
     public function fulltime_teacher_positive_require_deal_master(){
         $id   = $this->get_in_int_val("id");
         $master_deal_flag  = $this->get_in_int_val("master_deal_flag");
+        $base_money= $this->get_in_int_val("base_money");
+
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
             "master_deal_flag"   =>$master_deal_flag,
             "mater_adminid"      =>$this->get_account_id(),
-            "master_assess_time" =>time()
+            "master_assess_time" =>time(),
+            "base_money" =>$base_money
         ]);
         $adminid = $this->t_fulltime_teacher_positive_require_list->get_adminid($id);
         $name = $this->t_manager_info->get_name($adminid);
@@ -5352,13 +5355,17 @@ class user_deal extends Controller
         }
         return $this->output_succ();
     }
+
     public function fulltime_teacher_positive_require_deal_main_master(){
         $id   = $this->get_in_int_val("id");
         $main_master_deal_flag  = $this->get_in_int_val("main_master_deal_flag");
+        $base_money= $this->get_in_int_val("base_money");
+
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
-            "main_master_deal_flag"   =>$main_master_deal_flag,
-            "main_mater_adminid"      =>$this->get_account_id(),
-            "main_master_assess_time" =>time()
+            "main_master_deal_flag"   => $main_master_deal_flag,
+            "main_mater_adminid"      => $this->get_account_id(),
+            "main_master_assess_time" => time(),
+            "base_money"              => $base_money*100
         ]);
         $positive_type = $this->t_fulltime_teacher_positive_require_list->get_positive_type($id);
         $positive_time = $this->t_fulltime_teacher_positive_require_list->get_positive_time($id);

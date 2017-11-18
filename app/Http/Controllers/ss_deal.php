@@ -2359,8 +2359,8 @@ class ss_deal extends Controller
         if($child_order_type==2 && $adm !=349){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
-            if(($price+$period_money) >($all_price-200000)){
-                 return $this->output_err("分期合同需要设置2000元的首付款!");
+            if(($price+$period_money) >($all_price-350000)){
+                 return $this->output_err("分期合同需要设置3500元的首付款!");
             }
         }
 
@@ -2469,8 +2469,8 @@ class ss_deal extends Controller
         if($child_order_type==2){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
-            if(($price+$period_money) >($all_price-200000)){
-                return $this->output_err("分期合同需要设置2000元的首付款!");
+            if(($price+$period_money) >($all_price-350000)){
+                return $this->output_err("分期合同需要设置3500元的首付款!");
             }
         }
 
