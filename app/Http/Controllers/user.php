@@ -14,11 +14,8 @@ class user extends TeaWxController
 
     public function get_teacher_salary_statistics(){ // 协议编号:1017
 
-        $test_id = $this->get_account_id();
+        $test_id = session("login_userid" );
 
-        \App\Helper\Utils::logger("test_id $test_id");
-
-        
         if($test_id == 684){
             $teacherid = '53289';
         }else{
