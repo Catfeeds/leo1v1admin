@@ -130,7 +130,7 @@
                             {{@$var["phone"]}}
                         </td>
                         <td>{{@$var["grade"]}}</td>
-                        <td>{!! @$var["order_custome_str"] !!}</td>
+                        <td>{!! @$var["order_custom_str"] !!}</td>
                         <td>{{@$var["sys_operator"]}}</td>
                         <td>{{@$var["order_time_str"]}}</td>
                         <td>{{@$var["contract_type"]}}</td>
