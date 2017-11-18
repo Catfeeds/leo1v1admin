@@ -259,7 +259,7 @@ class wx_yxyx_common extends Controller
             return $this->output_err("请选择报名类型!");
         }
 
-        if($userid && $this->t_seller_student_new->get_add_time($userid) > time(NULL) -60*86400 ) {
+        if($userid && $this->t_seller_student_new->get_add_time($userid) > time(NULL) -60*86400 && $type == E\Eagent_type::V_1 ) {
             return $this->output_err("您最近已经成为我们的用户了!");
         }
 
