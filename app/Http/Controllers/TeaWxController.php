@@ -47,7 +47,7 @@ class TeaWxController extends Controller
 
         // 测试
         if($teacherid == 684){
-            return '108226';
+            return '108226'; //alan
         }
         // 测试
 
