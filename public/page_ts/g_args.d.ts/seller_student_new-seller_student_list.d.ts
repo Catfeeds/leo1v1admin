@@ -16,6 +16,7 @@ interface GargsStatic {
 	userid:	number;
 	seller_student_status:	string;//枚举列表: \App\Enums\Eseller_student_status
  	seller_groupid_ex:	string;
+	seller_groupid_ex_new:	string;
 	phone_location:	string;
 	require_admin_type:	number;
 	subject:	number;//App\Enums\Esubject
@@ -197,6 +198,7 @@ function load_data(){
 		userid:	$('#id_userid').val(),
 		seller_student_status:	$('#id_seller_student_status').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		seller_groupid_ex_new:	$('#id_seller_groupid_ex_new').val(),
 		phone_location:	$('#id_phone_location').val(),
 		require_admin_type:	$('#id_require_admin_type').val(),
 		subject:	$('#id_subject').val(),
@@ -256,6 +258,7 @@ $(function(){
 	$('#id_seller_student_status').val(g_args.seller_student_status);
 	$.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+	$('#id_seller_groupid_ex_new').val(g_args.seller_groupid_ex_new);
 	$('#id_phone_location').val(g_args.phone_location);
 	$('#id_require_admin_type').val(g_args.require_admin_type);
 	$('#id_subject').val(g_args.subject);
@@ -358,6 +361,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_groupid_ex</span>
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">seller_groupid_ex_new</span>
+                <input class="opt-change form-control" id="id_seller_groupid_ex_new" />
             </div>
         </div>
 

@@ -1199,7 +1199,9 @@ $test=	3;
 
     public function deal_untreated_pdf(){// 处理未成功pdf文件
         $num = $this->get_in_int_val('n',-1);
-        $pdf_list = $this->t_pdf_to_png_info->get_untreated_pdf($num);
+        $limit_time = $this->get_in_int_val('time',-1);
+
+        $pdf_list = $this->t_pdf_to_png_info->get_untreated_pdf($num,$limit_time);
 
         foreach($pdf_list as $v){
             $this->set_in_value("pdf_url", $v['pdf_url']);
@@ -1214,6 +1216,11 @@ $test=	3;
     }
 
     public function ceshi(){
+
+        $limit_time = strtotime(date('Y-m-1'));
+
+        dd(date('Y-m-d',$limit_time+6*86400));
+        dd($limit_time);
         $a = " https://fms.ipinyou.com/5/17/9E/0A/F001Nl1Q1NRQ000dMKdg.jpg";
 
         $filesize=filesize('/home/james/admin_yb1v1/public/wximg/13818837473_2.png');
@@ -1251,7 +1258,7 @@ $test=	3;
         $txt_ret = $this->https_post($url,$txt);
 
     }
-    
+
 
 
 }

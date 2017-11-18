@@ -61,9 +61,7 @@
                             <button class="btn btn-primary" id="id_flush_teacher_money">刷新</button>
                         </div>
                     </div>
-
                 @endif
-
             </div>
         </div>
         <hr/>

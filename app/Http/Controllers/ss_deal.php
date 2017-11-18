@@ -732,8 +732,8 @@ class ss_deal extends Controller
          * 需求急迫性|上课意向|报价反应 为必填项
          **/
 
-        if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
-        if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
+        // if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
+        // if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
         if($intention_level == 0){ return $this->output_err("请选择上课意向");}
 
         if ($next_revisit_time) {
@@ -4250,13 +4250,14 @@ class ss_deal extends Controller
         foreach($userid_list as $userid) {
             if (  $seller_resource_type==0 ) {
                 $this->t_seller_student_new->field_update_list($userid,[
-                    "seller_resource_type" =>  $seller_resource_type,
+                    "seller_resource_type" => $seller_resource_type,
                     "first_revisit_time"   => 0,
                     "last_revisit_msg"     => "",
                     "last_revisit_time"    => 0,
                     "next_revisit_time"    => 0,
-                    "user_desc"    => "",
+                    "user_desc"            => "",
                     "add_time"             => time(NULL),
+                    "seller_add_time"      => time(NULL),
                 ]);
                 $this->t_test_lesson_subject->clean_seller_info($userid );
                 $phone= $this->t_seller_student_new->get_phone($userid);

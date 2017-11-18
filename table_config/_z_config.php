@@ -33,6 +33,7 @@ return array(
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
     ["db_weiyi_admin","t_seller_level_salary", "seller_level"],
+    ["db_weiyi_admin","t_seller_level_month", "id"],
     ["db_weiyi_admin","t_seller_edit_log", "id"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
@@ -88,6 +89,7 @@ return array(
     ["db_weiyi_admin","t_refund_analysis","id"],
     ["db_weiyi_admin","t_order_refund_confirm_config","id"],
     ["db_weiyi_admin","t_admin_campus_list","campus_id"],
+    ["db_weiyi_admin","t_order_info_finance","orderid"],
 
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],

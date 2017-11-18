@@ -56,28 +56,19 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $start_time = 1509465600;
-        $end_time = 1510156800;
-        $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        $userid_arr = array_unique(array_column($ret,'userid'));
-        foreach($userid_arr as $item){
-            $num = 0;
-            $userid = $item;
-            foreach($ret as $info){
-                if($item == $info['userid']){
-                    $is_called_phone = $info['is_called_phone'];
-                    $cc_no_called_count = $info['cc_no_called_count'];
-                    $admin_role = $info['admin_role'];
-                    if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
-                        $num = 0;
-                        break;
-                    }elseif($is_called_phone == 0 && isset($info['is_called_phone']) && $admin_role==E\Eaccount_role::V_2){
-                        $num += 1;
-                    }
-                }
+        // $start_time = 1509465600;
+        // $end_time = 1510156800;
+        $ret = $this->task->t_seller_student_new->get_all_list();
+        foreach($ret as $item){
+            $userid = $item['userid'];
+            $add_time = $item['add_time'];
+            $seller_add_time = $item['seller_add_time'];
+            if($seller_add_time == 0){
+                $this->task->t_seller_student_new->field_update_list($userid,[
+                    'seller_add_time'=>$add_time,
+                ]);
+                echo $userid.':'.$item['seller_add_time']."=>".$add_time."\n";
             }
-            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
         }
 
 

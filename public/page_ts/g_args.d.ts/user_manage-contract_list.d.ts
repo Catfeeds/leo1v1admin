@@ -137,6 +137,7 @@ interface RowData {
 	promotion_spec_is_not_spec_flag_str	:any;
 	status_color	:any;
 	is_staged_flag_str	:any;
+	phone_hide	:any;
 }
 
 /*

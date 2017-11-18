@@ -77,6 +77,7 @@ class update_seller_level extends cmd_base
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($num+1);
             $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
             if($reduce_flag == 1){//月头
+                $month_level = $this_level;
                 //统计上个月
                 $price = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
                 $price = $price/100;
@@ -88,7 +89,16 @@ class update_seller_level extends cmd_base
                         }
                     }
                     $update_flag = 1;
+                    $month_level = $next_level;
                 }
+                //月末定级
+                $month_date = strtotime(date('Y-m-d',$time));
+                $this->task->t_seller_level_month->row_insert([
+                    'adminid' => $adminid,
+                    'month_date' => $month_date,
+                    'seller_level' => $month_level,
+                    'create_time' => $time,
+                ]);
             }else{//月中
                 //统计本月
                 $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
@@ -120,8 +130,8 @@ class update_seller_level extends cmd_base
                 ],false,false,true );
                 // echo $account.':'.$this_level."=>".$next_level.','.date('Y-m-d H:i:s',$time)."\n";
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(831,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
+                // $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
             }
         }
     }

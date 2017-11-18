@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail ;
 
 class seller_level_goal extends Controller
 {
+    use CacheNick;
     public function seller_level_goal_list(){
         $seller_level = $this->get_in_int_val('seller_level');
         $level_goal = $this->get_in_int_val('level_goal');
@@ -166,5 +167,17 @@ class seller_level_goal extends Controller
         $this->t_seller_level_salary->row_delete($seller_level);
 
         return $this->output_succ();
+    }
+
+    public function seller_level_month_list(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_level_month->get_all_list($page_info);
+        foreach($ret_info['list'] as &$item){
+            $item["account"] = $this->cache_get_account_nick($item["adminid"]);
+            E\Eseller_level::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,'month_date','','Y-m-d');
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+        }
+        return $this->pageView(__METHOD__,$ret_info);
     }
 }
