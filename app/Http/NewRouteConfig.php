@@ -64,6 +64,7 @@ class NewRouteConfig {
         "/rule_txt/get_all"                       => true,
         "/rule_txt/add_or_update_title"           => true,
         "/rule_txt/rule_detail"                   => true,
+        "/rule_txt/del_process"                   => true,
         "/rule_txt/up_or_down"                    => true,
         "/rule_txt/del_rule_detail"               => true,
         "/rule_txt/add_or_update_rule_detail"     => true,

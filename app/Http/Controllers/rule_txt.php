@@ -133,6 +133,9 @@ class rule_txt extends Controller
     public function rule_detail(){
         $rule_id = $this->get_in_int_val('rule_id');
         $rule = $this->t_rule_info->get_rule_info($rule_id);
+        if ($rule == false){
+            return $this->error_view(["没有该信息！"]);
+        }
         // \App\Helper\Utils::unixtime2date_for_item($rule,"create_time");
         $rule['create_time'] = date('Y-m-d', $rule['create_time']);
         $ret_info = $this->t_rule_detail_info->get_rule_detail($rule_id);
@@ -161,8 +164,11 @@ class rule_txt extends Controller
     public function process_info(){
         $process_id = $this->get_in_int_val('process_id');
         $pro = $this->t_process_info->get_process_info($process_id);
+        if($pro == false){
+            return $this->error_view(["没有该信息！"]);
+        }
         $pro['create_time'] = date('Y-m-d', $pro['create_time']);
-        $role = explode(',',$pro['department']);
+        $role = @explode(',',$pro['department']);
         $pro['department_str'] = '';
         foreach($role as $v){
             $pro['department_str'] .= E\Eaccount_role::get_desc($v) . ',';
@@ -204,6 +210,13 @@ class rule_txt extends Controller
         $this->t_rule_detail_info->row_delete($detail_id);
         return $this->output_succ();
     }
+
+    public function del_process(){
+        $process_id = $this->get_in_int_val('process_id');
+        $this->t_process_info->row_delete($process_id);
+        return $this->output_succ();
+    }
+
 
     public function up_or_down(){
         $rule_id = $this->get_in_int_val('rule_id');

@@ -21,8 +21,8 @@
                         <div
                             {!!  \App\Helper\Utils::gen_jquery_data($pro )  !!}
                         >
-                            <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                            <a class="fa fa-times opt-del" title="删除"> </a>
+                            <button class="btn btn-warning opt-edit" >编辑 </button>
+                            <button class="btn btn-danger opt-del" >删除 </button>
 
                         </div>
 
