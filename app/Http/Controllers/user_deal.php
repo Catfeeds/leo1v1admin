@@ -4050,13 +4050,16 @@ class user_deal extends Controller
         if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
             $item['kpi'] = "100%";
         }
-
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
+        //月末定级
+        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_new);
+        $arr['seller_level'] = isset($last_seller_level['seller_level'])?$last_seller_level['seller_level']:'';
+
         return $this->output_succ($arr);
     }
 

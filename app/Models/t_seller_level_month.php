@@ -36,6 +36,7 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
         );
         return $this->main_get_row($sql);
     }
+
 }
 
 
