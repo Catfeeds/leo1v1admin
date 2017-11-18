@@ -923,7 +923,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         ];
 
 
-        if($account_id == 684){
+        if($account_id == 684 || $account_id==349){
             $where_arr[] = "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0))";
         }else{
             $where_arr[] = "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0)) and tr.change_teacher_reason_type <> 0";
