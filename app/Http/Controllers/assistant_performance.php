@@ -103,8 +103,11 @@ class assistant_performance extends Controller
     public function performance_info(){
               
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $start_time = strtotime("2017-10-01");        
-        $end_time = strtotime("2017-11-01");
+        if($start_time <strtotime("2017-08-01") || $start_time>= strtotime("2017-11-01")){
+            return $this->pageView(__METHOD__,null);
+        }
+        // $start_time = strtotime("2017-10-01");        
+        // $end_time = strtotime("2017-11-01");
 
 
         $month_half = $start_time+15*86400;
