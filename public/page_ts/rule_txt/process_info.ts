@@ -19,7 +19,7 @@ $(function(){
         var id_attention = $("<textarea/>");
         var id_pro_explain = $("<textarea class=\"textarea\" style=\"height:300px\"/>");
         var id_pro_img = $("<button class='btn' id='id_pro_img'/>");
-        var id_img = $("<img src='"+opt_data.pro_img+"' id=\"img\"/>");
+        var id_img = $("<img src='"+opt_data.pro_img+"' style=\"width:100%\" id=\"img\"/>");
 
         var modal_title = '流程文档';
 
