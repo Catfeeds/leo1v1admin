@@ -400,6 +400,7 @@ class assistant_performance extends Controller
             }else{
                 $kk_reword_per = 0;
             }
+            $item["kk_reword_per"] = $kk_per;
 
             //停课
             //   $all_stu_num = $item["all_ass_stu_num"];//所有学员
@@ -438,7 +439,7 @@ class assistant_performance extends Controller
             $item["lesson_count_finish_reword"] = $item["lesson_count_finish_reword"]/100;
             $item["renw_reword"] = $item["renw_reword"]/100;
             $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
-            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["refund_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
+            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
             
         }
         // dd($ass_month);
