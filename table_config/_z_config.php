@@ -33,6 +33,7 @@ return array(
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
     ["db_weiyi_admin","t_seller_level_salary", "seller_level"],
+    ["db_weiyi_admin","t_seller_level_month", "id"],
     ["db_weiyi_admin","t_seller_edit_log", "id"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
