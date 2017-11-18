@@ -149,7 +149,7 @@ class rule_txt extends Controller
                 $row[$item['level_str']]['start'] = $key;
             }
             if($item['add_punish']){
-                $item['punish'] = '<a href="javascript:;" class="btn opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
+                $item['punish'] = '<a href="javascript:;" class="opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
             } else {
                 $item['punish'] = '无';
             }

@@ -3,18 +3,10 @@
     <script src="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 
     <section class="content ">
-
-        <div>
-            <div class="row" >
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <button class="btn btn-info opt-add">添加规则</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr/>
         <div class="row" id="rule" data-id="{{@$rule['rule_id']}}">
+            <div class="col-xs-6 col-md-2">
+                <button class="btn btn-info opt-add">添加规则</button>
+            </div>
             <div class="col-xs-12" style="text-align:center;">
                 <h2>{{@$rule['title']}}</h2>
             </div>
@@ -47,7 +39,7 @@
                             <td rowspan="{{@$row[ $var["level_str"] ]['num']}}" align="middle">{{@$var["level_str"]}} </td>
                         @endif
                         <td>{{@$var["name"]}} </td>
-                        <td>{{@$var["content"]}} </td>
+                        <td>{!!@$var["content"]!!} </td>
                         <td>{{@$var["deduct_marks_str"]}} </td>
                         <td>{{@$var["punish_type"]}} </td>
                         <td>{!! @$var["punish"] !!} </td>

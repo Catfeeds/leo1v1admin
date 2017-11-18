@@ -13,9 +13,9 @@ $(function(){
 
     Enum_map.append_option_list("boolean", $("#id_become_full_member_flag") );
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
-  $('#id_adminid').val(g_args.adminid);
-  $('#id_become_full_member_flag').val(g_args.become_full_member_flag);
-  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+    $('#id_adminid').val(g_args.adminid);
+    $('#id_become_full_member_flag').val(g_args.become_full_member_flag);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $.admin_select_user(
         $('#id_adminid'),
         "admin", load_data,false,{"main_type":5});
@@ -274,9 +274,8 @@ $(function(){
 
     });
 
-    $(".set_fulltime_teacher_positive_require").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var id = opt_data.positive_id;
+    var show_teacher_positive_require_info = function(data,main_flag){
+        var id = data.positive_id;
         if(id <= 0){
             BootstrapDialog.alert("该老师还未提交转正申请!");
             return;
@@ -285,104 +284,111 @@ $(function(){
         $.do_ajax( "/fulltime_teacher/get_fulltime_teacher_pisitive_require_info",{
             "id" :id,
         },function(resp){
-            var data = resp.data;
+            var data  = resp.data;
             var title = "转正申请审核";
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \" ><tr style=\"text-align: center;vertical-align: middle\"><td>姓名</td><td>"+data.name+"</td><td>部门</td><td>"+data.main_department_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>职位</td><td>"+data.post_str+"</td><td>邮箱</td><td>"+data.email+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>入职时间</td><td>"+data.create_time_str+"</td><td>目前教师等级</td><td>"+data.level_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>转正时间</td><td>"+data.positive_time_str+"</td><td>转正后教师等级</td><td>"+data.positive_level_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>考核情况</td><td>考核星级</td><td colspan=\"2\">"+data.rate_stars+"星</td></tr></tr><tr style=\"text-align: center;vertical-align: middle\"><td>转正情况</td><td colspan=\"3\">"+data.positive_type_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td colspan=\"4\"  bgcolor=\"#F0F0F0\" >试用期综合评定</td></tr><tr><td height=\"200px\" style=\"text-align: center;vertical-align: middle\">自我评定</td><td colspan=\"3\" ><textarea rows=\"8\" cols=\"28\" style=\" width:100%; height:100%;\" id=\"id_self_assessment\" readonly>"+data.self_assessment+"</textarea></td></tr><tr></tr><tr></tr><tr><td style=\"text-align: center;vertical-align: middle\">教学部总监</td><td colspan=\"3\"><select id=\"master_deal_flag\"><option value=\"1\">同意</option><option value=\"2\">驳回</option></select></td></tr><tr><td style=\"text-align: center;vertical-align: middle\">总经理</td><td colspan=\"3\"></td></tr></table></div>");
-            var dlg=BootstrapDialog.show({
-                title:title,
-                message :  html_node   ,
-                closable: false,
-                buttons:[{
+            var html_node = $(
+                "<div  id=\"div_table\" class='middle'>"
+                    +"<table class=\"table table-bordered \" >"
+                    +"<tr >"
+                    +"<td>姓名</td><td>"+data.name+"</td>"
+                    +"<td>部门</td><td>"+data.main_department_str+"</td>"
+                    +"</tr>"
+                    +"<tr >"
+                    +"<td>职位</td><td>"+data.post_str+"</td>"
+                    +"<td>邮箱</td><td>"+data.email+"</td>"
+                    +"</tr>"
+                    +"<tr >"
+                    +"<td>入职时间</td><td>"+data.create_time_str+"</td>"
+                    +"<td>目前教师等级</td><td>"+data.level_str+"</td>"
+                    +"</tr>"
+                    +"<tr >"
+                    +"<td>转正时间</td><td>"+data.positive_time_str+"</td>"
+                    +"<td>转正后教师等级</td><td>"+data.positive_level_str+"</td>"
+                    +"</tr>"
+                    +"<tr >"
+                    +"<td>考核情况</td><td>考核星级</td><td colspan=\"2\">"+data.rate_stars+"星</td>"
+                    +"</tr>"
+                    +"<tr >"
+                    +"<td>转正情况</td><td colspan=\"3\">"+data.positive_type_str+"</td>"
+                    +"</tr>"
+                    +"<tr >"
+                    +"<td colspan=\"4\"  bgcolor=\"#F0F0F0\" >试用期综合评定</td></tr>"
+                    +"<tr>"
+                    +"<tr >"
+                    +"<td >基础薪资</td><td colspan='3'><input style='width:100%' id='id_base_money' value='"+data.base_money+"'\></td></tr>"
+                    +"<tr>"
+                    +"<td height=\"200px\" >自我评定</td>"
+                    +"<td colspan=\"3\" >"
+                    +"<textarea rows=\"8\" cols=\"28\" style=\" width:100%; height:100%;\" id=\"id_self_assessment\" readonly>"+data.self_assessment+"</textarea>"
+                    +"</td>"
+                    +"</tr>"
+                    +"<tr>"
+                    +"<td >教学部总监</td>"
+                    +"<td colspan=\"3\" id='id_set_fulltime_teacher_positive_require'></td>"
+                    +"</tr>"
+                    +"<tr>"
+                    +"<td >总经理</td>"
+                    +"<td colspan=\"3\" id='id_set_fulltime_teacher_positive_require_master'></td>"
+                    +"</tr>"
+                    +"</table>"
+                    +"</div>"
+            );
+            var url = "";
+            var post_data = "";
+            var select_html = "<select id=\"master_deal_flag\">"
+                +"<option value=\"1\">同意</option>"
+                +"<option value=\"2\">驳回</option>"
+                +"</select>";
+
+            var dlg = BootstrapDialog.show({
+                title    : title,
+                message  : html_node   ,
+                closable : true,
+                buttons  : [{
                     label: '返回',
                     cssClass: 'btn',
                     action: function(dialog) {
                         dialog.close();
-
                     }
                 },{
                     label: '审核',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
-                        $.do_ajax('/user_deal/fulltime_teacher_positive_require_deal_master',{
-                            "id":id,
-                            "master_deal_flag" : html_node.find("table").find("#master_deal_flag").val()
+                        $.do_ajax(url,{
+                            "id"      : id,
+                            post_data : html_node.find("table").find("#master_deal_flag").val(),
+                            "base_money": html_node.find("table").find("#id_base_money").val(),
                         });
-
-
                     }
                 }],
                 onshown:function(){
-
+                    if(main_flag==1){
+                        url = "/user_deal/fulltime_teacher_positive_require_deal_main_master";
+                        post_data = "main_master_deal_flag";
+                        $("#id_set_fulltime_teacher_positive_require").html(data.master_deal_flag_str);
+                        $("#id_set_fulltime_teacher_positive_require_master").append(select_html);
+                    }else{
+                        url = "/user_deal/fulltime_teacher_positive_require_deal_master";
+                        post_data = "master_deal_flag";
+                        $("#id_set_fulltime_teacher_positive_require").append(select_html);
+                    }
                 }
-
             });
 
             dlg.getModalDialog().css("width","1024px");
-            var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
-            dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
-            close_btn.on("click",function(){
-                dlg.close();
-            } );
-
         });
+    }
 
+
+    $(".set_fulltime_teacher_positive_require").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        show_teacher_positive_require_info(opt_data,0);
     });
 
     $(".set_fulltime_teacher_positive_require_master").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        var id = opt_data.positive_id;
-        if(id <= 0){
-            BootstrapDialog.alert("该老师还未提交转正申请!");
-            return;
-        }
-
-        $.do_ajax( "/fulltime_teacher/get_fulltime_teacher_pisitive_require_info",{
-            "id" :id,
-        },function(resp){
-            var data = resp.data;
-            var title = "转正申请审核";
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \" ><tr style=\"text-align: center;vertical-align: middle\"><td>姓名</td><td>"+data.name+"</td><td>部门</td><td>"+data.main_department_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>职位</td><td>"+data.post_str+"</td><td>邮箱</td><td>"+data.email+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>入职时间</td><td>"+data.create_time_str+"</td><td>目前教师等级</td><td>"+data.level_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>转正时间</td><td>"+data.positive_time_str+"</td><td>转正后教师等级</td><td>"+data.positive_level_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td>考核情况</td><td>考核星级</td><td colspan=\"2\">"+data.rate_stars+"星</td></tr></tr><tr style=\"text-align: center;vertical-align: middle\"><td>转正情况</td><td colspan=\"3\">"+data.positive_type_str+"</td></tr><tr style=\"text-align: center;vertical-align: middle\"><td colspan=\"4\"  bgcolor=\"#F0F0F0\" >试用期综合评定</td></tr><tr><td height=\"200px\" style=\"text-align: center;vertical-align: middle\">自我评定</td><td colspan=\"3\" ><textarea rows=\"8\" cols=\"28\" style=\" width:100%; height:100%;\" id=\"id_self_assessment\" readonly>"+data.self_assessment+"</textarea></td></tr><tr></tr><tr></tr><tr><td style=\"text-align: center;vertical-align: middle\">教学部总监</td><td colspan=\"3\">"+data.master_deal_flag_str+"</td></tr><tr><td style=\"text-align: center;vertical-align: middle\">部门总经理</td><td colspan=\"3\"><select id=\"main_master_deal_flag\"><option value=\"1\">同意</option><option value=\"2\">驳回</option></select></td></tr></table></div>");
-            var dlg=BootstrapDialog.show({
-                title:title,
-                message :  html_node   ,
-                closable: false,
-                buttons:[{
-                    label: '返回',
-                    cssClass: 'btn',
-                    action: function(dialog) {
-                        dialog.close();
-
-                    }
-                },{
-                    label: '审核',
-                    cssClass: 'btn-warning',
-                    action: function(dialog) {
-                        $.do_ajax('/user_deal/fulltime_teacher_positive_require_deal_main_master',{
-                            "id":id,
-                            "main_master_deal_flag" : html_node.find("table").find("#main_master_deal_flag").val()
-                        });
-
-
-                    }
-                }],
-                onshown:function(){
-
-                }
-
-            });
-
-            dlg.getModalDialog().css("width","1024px");
-            var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
-            dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
-            close_btn.on("click",function(){
-                dlg.close();
-            } );
-
-        });
-
+        show_teacher_positive_require_info(opt_data,1);
     });
 
-
-
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
