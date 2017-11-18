@@ -327,8 +327,8 @@ class test_jack  extends Controller
                 "leads_num" =>$val[2],
                 "test_num" =>$val[3],
                 "test_transfor_per" =>$val[4],
-                "order_transfor_per" =>$val[5],
-                "order_stu_num" =>$val[6],
+                "order_transfor_per" =>$val[6],
+                "order_stu_num" =>$val[5],
             ]);
 
 
