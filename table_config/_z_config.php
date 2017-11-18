@@ -88,6 +88,7 @@ return array(
     ["db_weiyi_admin","t_refund_analysis","id"],
     ["db_weiyi_admin","t_order_refund_confirm_config","id"],
     ["db_weiyi_admin","t_admin_campus_list","campus_id"],
+    ["db_weiyi_admin","t_order_info_finance","orderid"],
 
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],

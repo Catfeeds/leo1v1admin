@@ -894,6 +894,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerStudentNewAddIndexFirstCallTimeAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
         'TSellerStudentNewAddLastSuccTestLessonid' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_105442_t_seller_student_new_add_last_succ_test_lessonid.php',
         'TSellerStudentNewAddOriginCount' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_121842_t_seller_student_new_add_origin_count.php',
+        'TSellerStudentNewAddSellerAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_152725_t_seller_student_new_add_seller_add_time.php',
         'TSellerStudentNewAddTestLessonOptFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
         'TSellerStudentNewAddTmkLastRevisitTime' => __DIR__ . '/../..' . '/database/migrations/2017_11_09_120255_t_seller_student_new_add_tmk_last_revisit_time.php',
         'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',

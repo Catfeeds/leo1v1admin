@@ -1960,6 +1960,11 @@ class human_resource extends Controller
         $class_will_type   = $this->get_in_int_val('class_will_type');
         $class_will_sub_type   = $this->get_in_int_val('class_will_sub_type');
         $recover_class_time   = $this->get_in_str_val('recover_class_time');
+        $free_time   = $this->get_in_str_val('free_time');
+        $teacher_textbook   = $this->get_in_str_val('teacher_textbook');
+        $region   = $this->get_in_str_val('region');
+        $work_year   = $this->get_in_int_val('work_year');
+        $gender   = $this->get_in_int_val('gender');
         if(!empty($recover_class_time)){
             $recover_class_time = strtotime($recover_class_time);
         }else{
@@ -1976,7 +1981,18 @@ class human_resource extends Controller
             "type"                    => $type,
             "class_will_sub_type"     =>$class_will_sub_type,
             "class_will_type"         =>$class_will_type,
-            "recover_class_time"      =>$recover_class_time
+            "recover_class_time"      =>$recover_class_time,
+            "free_time"               =>$free_time,
+            "teacher_textbook"        =>$teacher_textbook,
+            "region"                  =>$region,
+            "work_year"               =>$work_year,
+            "gender"                  =>$gender
+        ]);
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "gender"  =>$gender,
+            "teacher_textbook" =>$teacher_textbook,
+            "work_year"        =>$work_year,
+            "address"          =>$region
         ]);
         return $this->output_succ();
     }
