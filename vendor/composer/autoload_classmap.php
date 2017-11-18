@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
+    'AddVotesToTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_18_163011_add_votes_to_t_agent_daily_lottery.php',
     'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_183206_create_t_agent_cash_money_freeze.php',
     'CreateTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_15_094711_create_t_agent_daily_lottery.php',
     'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
@@ -643,6 +644,7 @@ return array(
     'TTeacherAdvanceListAddTeacherMoneyType' => $baseDir . '/database/migrations/2017_10_17_100916_t_teacher_advance_list_add_teacher_money_type.php',
     'TTeacherFlow' => $baseDir . '/database/migrations/2017_10_26_120629_t_teacher_flow.php',
     'TTeacherFlowAddId' => $baseDir . '/database/migrations/2017_10_26_183054_t_teacher_flow_add_id.php',
+    'TTeacherInfoAddFreeTime' => $baseDir . '/database/migrations/2017_11_18_153619_t_teacher_info_add_free_time.php',
     'TTeacherInfoAddPhoneLocation' => $baseDir . '/database/migrations/2017_10_28_104311_t_teacher_info_add_phone_location.php',
     'TTeacherInfoAddSleepFlag' => $baseDir . '/database/migrations/2017_11_04_140027_t_teacher_info_add_sleep_flag.php',
     'TTeacherMoneyListAddGrade' => $baseDir . '/database/migrations/2017_11_07_105807_t_teacher_money_list_add_grade.php',

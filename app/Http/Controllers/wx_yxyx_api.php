@@ -1284,7 +1284,7 @@ class wx_yxyx_api extends Controller
         }
         //获取活动奖励总金额
         $activity_total_money = $this->t_agent_money_ex->get_activity_total_money($agent_id,$is_cash);
-        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id);
+        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$is_cash);
         $activity_total_money =($activity_total_money+$activity_daily_lottery)/100;
         return $this->output_succ([
             'reward_list' => $reward_list,
@@ -1324,11 +1324,13 @@ class wx_yxyx_api extends Controller
         }
 
         //获取活动奖励
-        $activity_money = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+        $activity_money_ex = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($id,$check_flag);
+        $activity_money = $acitvity_money_ex+$activity_daily_lottery;
         return $this->output_succ([
             'invite_reward' => $invite_reward,
             'commission_reward' => $commission_reward,
-            'activity_money' => $activity_money
+            'activity_money' => $activity_money/100
         ]);
     }
     //@desn:制作推荐的图片

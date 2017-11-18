@@ -62,11 +62,10 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon" data-always_show="1" >销售等级</span>
-                        <select class="opt-change form-control" id="id_seller_level" >
-                        </select>
+                        <span class="input-group-addon">销售</span>
+                        <input class="opt-change form-control" id="id_seller_adminid_new" />
                     </div>
-                </div>
+                </div> 
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >

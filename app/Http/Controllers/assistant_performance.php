@@ -400,7 +400,7 @@ class assistant_performance extends Controller
             }else{
                 $kk_reword_per = 0;
             }
-            $item["kk_reword_per"] = $kk_per;
+            $item["kk_reword_per"] = $kk_reword_per;
 
             //停课
             //   $all_stu_num = $item["all_ass_stu_num"];//所有学员
