@@ -1495,24 +1495,15 @@ class test_code extends Controller
         return $result;
     }
 
-    public function test_url(){
-
-        //获取用户代理 
-        echo $_SERVER['HTTPS']."<br>"; 
-        exit;
-        //获取完整的url
-        echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
-        #http://localhost/blog/testurl.php?id=5
-
-        //包含端口号的完整url
-        echo 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"]; 
-        #http://localhost:80/blog/testurl.php?id=5
-
-        //只取路径
-        $url='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]; 
-        echo dirname($url);
-        // var_dump($_SERVER['HTTP_HOST']);
+    public function test_email(){
+        $title   = "关于老师转正申请的批复";
+        $date    = date("Y-m-d");
+        $content = "老师，恭喜您，鉴于您在试用期的表现优秀，您的转正申请已通过了上级领导审批，同意转正。<br>"
+                 ."转正日期 : <br>"
+                 ."目前教师等级:初级<br>"
+                 ."转正后教师等级:中级<br>"
+                 ."转正后基本工资:";
+        \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
     }
 
 
