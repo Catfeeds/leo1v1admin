@@ -1498,7 +1498,7 @@ class test_code extends Controller
 
     public function test_email(){
 
-        $title   = "老师转正申请的批复";
+        $title   = "老师";
         $date    = date("Y-m-d");
         $content = "老师，恭喜您，鉴于您在试用期的表现优秀，您的转正申请已通过了上级领导审批，同意转正。<br>"
                  ."转正日期 : <br>"
