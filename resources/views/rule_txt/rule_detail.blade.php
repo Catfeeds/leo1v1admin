@@ -16,28 +16,28 @@
         <hr/>
         <div class="row" id="rule" data-id="{{@$rule['rule_id']}}">
             <div class="col-xs-12" style="text-align:center;">
-                <h3>{{@$rule['title']}}</h3>
+                <h2>{{@$rule['title']}}</h2>
             </div>
             <div class="col-xs-12" style="text-align:right;padding-right:100px;">
                 <h5>{{@$rule['create_time']}}</h5>
             </div>
             <div class="col-xs-12">
-                <h4>重要提示:</h4>
+                <h3>重要提示:</h3>
                 {!!@$rule['tip']!!}
             </div>
 
-       </div>
-        <table class="common-table"  >
+        </div>
+        <table class="common-table" >
             <thead>
                 <tr>
-                <td>规则等级</td>
-                <td>规则名称</td>
-                <td>规则明细</td>
-                <td>质检扣分</td>
-                <td>处罚方式</td>
-                <td>附加处罚</td>
-                <td>更新日期</td>
-                <td>操作</td>
+                    <td>规则等级</td>
+                    <td>规则名称</td>
+                    <td style="width:50%;">规则明细</td>
+                    <td>质检扣分</td>
+                    <td>处罚方式</td>
+                    <td>附加处罚</td>
+                    <td>更新日期</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
