@@ -566,7 +566,7 @@ class agent extends Controller
                 $end_time_this = $item['end_time'];
             }
         }
-        dd($reduce_flag);
+        dd($reduce_flag,$ret_time);
     }
 
     //处理等级头像
