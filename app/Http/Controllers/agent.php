@@ -378,7 +378,7 @@ class agent extends Controller
         $phone = $this->get_in_str_val('phone');
         if($agent_freeze_type == 3){
             $agent_money_ex_type = $this->get_in_int_val('agent_money_ex_type');
-            $agent_activity_time = $this->get_in_int_val('agent_activity_time');
+            $agent_activity_time = strtotime($this->get_in_str_val('agent_activity_time'));
         }else{
             $agent_money_ex_type = '';
             $agent_activity_time = '';
@@ -408,7 +408,7 @@ class agent extends Controller
         if($insert_status){
             $from_agentid = '';
             $agent_money_ex_type_str = E\Eagent_money_ex_type::get_desc($agent_money_ex_type);
-            $this->t_agent->send_wx_msg_freeze_cash_money($from_agentid,$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str,$url='');
+            $this->t_agent->send_wx_msg_freeze_cash_money($from_agentid,$to_agentid,$agent_freeze_type,$phone,$agent_money_ex_type_str,$url='',$agent_activity_time);
         }
 
         return $this->output_succ();

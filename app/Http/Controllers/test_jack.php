@@ -105,9 +105,9 @@ class test_jack  extends Controller
                 "contract_type"   =>$p_item[5],
                 "lesson_total"   =>$p_item[6]*100,
                 "refund_lesson_count"   =>$p_item[7]*100,
-                "order_cost_price"   =>$p_item[8],
-                "order_price"   =>$p_item[9],
-                "refund_price"   =>$p_item[10],
+                "order_cost_price"   =>$p_item[8]*100,
+                "order_price"   =>$p_item[9]*100,
+                "refund_price"   =>$p_item[10]*100,
                 "is_invoice"   =>$p_item[11],
                 "invoice"   =>$p_item[12],
                 "payment_account_id"   =>$p_item[13],
@@ -327,8 +327,8 @@ class test_jack  extends Controller
                 "leads_num" =>$val[2],
                 "test_num" =>$val[3],
                 "test_transfor_per" =>$val[4],
-                "order_transfor_per" =>$val[5],
-                "order_stu_num" =>$val[6],
+                "order_transfor_per" =>$val[6],
+                "order_stu_num" =>$val[5],
             ]);
 
 

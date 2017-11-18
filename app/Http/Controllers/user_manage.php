@@ -564,6 +564,7 @@ class user_manage extends Controller
             1 => array("t1.order_time","下单日期"),
             2 => array("t1.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
+            4 => array("n.add_time", "例子进入时间"),
         ],3);
 
         $orderid = $this->get_in_int_val('orderid',-1);

@@ -427,13 +427,9 @@
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
                         <td>
-                            @if($account_role!=12)
-                                <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
-                                    {{@$var["phone_ex"]}}
-                                </a>
-                            @else
-                                {{$var["phone_spare"]}}
-                            @endif
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
+                                {{@$var["phone_ex"]}}
+                            </a>
                         </td>
                         <td>{{$var["email"]}}</td>
                         <td>{{@$var["gender_str"]}} </td>
