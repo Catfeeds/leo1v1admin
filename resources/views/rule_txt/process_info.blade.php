@@ -22,7 +22,6 @@
                             {!!  \App\Helper\Utils::gen_jquery_data($pro )  !!}
                         >
                             <button class="btn btn-warning opt-edit" >编辑 </button>
-                            <button class="btn btn-danger opt-del" >删除 </button>
 
                         </div>
 

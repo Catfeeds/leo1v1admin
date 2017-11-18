@@ -82,36 +82,19 @@ $(function(){
             my_fun();
 
             $('.textarea').wysihtml5();
-            custom_upload_file(
-            'id_pro_img',0,function(up, file, info) {
+            custom_upload_file('id_pro_img',1,function(up, file, info) {
+                console.log(file)
                 var res = $.parseJSON(file);
                 if( res.key!='' ){
-                    $('#img').attr('src', qiniu_pub+res.key);
+                    $('#img').attr('src', qiniu_pub+'/'+res.key);
                 }
             }, [], ["jpg","png"],function(){}
-        );
+                              );
 
         },false,900);
     });
 
     $('#id_process_id').val(g_args.process_id);
 
-
-    $('.opt-del').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        if(confirm('确定要删除？')){
-            $.ajax({
-                type     : "post",
-                url      : "/rule_txt/del_process",
-                dataType : "json",
-                data : {
-                    'process_id' : opt_data.process_id,
-                } ,
-                success : function(result){
-                    window.location.reload();
-                }
-            });
-        }
-    });
     $('.opt-change').set_input_change_event(load_data);
 });

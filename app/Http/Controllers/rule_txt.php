@@ -13,11 +13,11 @@ class rule_txt extends Controller
     use CacheNick;
     var $check_login_flag=true;
 
-    function __construct( )  {
+    function __construct( ) {
         parent::__construct();
     }
 
-    public function get_all(){
+    public function get_all() {
         list($start_time,$end_time) = $this->get_in_date_range(-7, 0 );
         $rule_info  = $this->t_rule_info->get_all_rule($start_time, $end_time);
         foreach($rule_info as &$item) {
@@ -36,7 +36,7 @@ class rule_txt extends Controller
         ]);
     }
 
-    public function add_or_update_title(){
+    public function add_or_update_title() {
         $title = trim( $this->get_in_str_val('title') );
         $tip = trim( $this->get_in_str_val('tip') );
         $id = $this->get_in_int_val('id');
@@ -58,7 +58,7 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-    public function add_or_update_name(){
+    public function add_or_update_name() {
         $name       = trim( $this->get_in_str_val('name') );
         $process_id = $this->get_in_int_val('process_id');
         $adminid    = $this->get_account_id();
@@ -77,8 +77,7 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-
-    public function add_or_update_rule_detail(){
+    public function add_or_update_rule_detail() {
         $rule_id = $this->get_in_int_val('rule_id');
         $detail_id = $this->get_in_int_val('detail_id');
         $level = $this->get_in_int_val('level');
@@ -130,7 +129,7 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-    public function rule_detail(){
+    public function rule_detail() {
         $rule_id = $this->get_in_int_val('rule_id');
         $rule = $this->t_rule_info->get_rule_info($rule_id);
         if ($rule == false){
@@ -161,7 +160,7 @@ class rule_txt extends Controller
         ]);
     }
 
-    public function process_info(){
+    public function process_info() {
         $process_id = $this->get_in_int_val('process_id');
         $pro = $this->t_process_info->get_process_info($process_id);
         if($pro == false){
@@ -181,7 +180,7 @@ class rule_txt extends Controller
         ]);
     }
 
-    public function update_process(){
+    public function update_process() {
         $process_id  = $this->get_in_int_val('process_id');
         $name        = trim( $this->get_in_str_val('name'));
         $fit_range   = trim( $this->get_in_str_val('fit_range'));
@@ -205,20 +204,13 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-    public function del_rule_detail(){
+    public function del_rule_detail() {
         $detail_id = $this->get_in_int_val('detail_id');
         $this->t_rule_detail_info->row_delete($detail_id);
         return $this->output_succ();
     }
 
-    public function del_process(){
-        $process_id = $this->get_in_int_val('process_id');
-        $this->t_process_info->row_delete($process_id);
-        return $this->output_succ();
-    }
-
-
-    public function up_or_down(){
+    public function up_or_down() {
         $rule_id = $this->get_in_int_val('rule_id');
         $detail_id = $this->get_in_int_val('detail_id');
         $level = $this->get_in_int_val('level');
@@ -255,7 +247,7 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-    public function update_pro_img(){
+    public function update_pro_img() {
         $teacherid = $this->get_login_teacher();
         $field     = $this->get_in_str_val('opt_field', '');
         $url       = $this->get_in_str_val('get_pdf_url', '');
