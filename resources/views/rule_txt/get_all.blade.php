@@ -56,7 +56,7 @@
             </table>
         </div>
 
-        <div style="border:2px solid #ccc;">
+        <div style="border:2px solid #ccc;margin-top:50px;">
             <h2 style="text-align:center">流程文档</h2>
             <table  class="common-table">
                 <thead>
