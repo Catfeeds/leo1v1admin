@@ -6,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	lesson_status:	number;
 	subject:	number;
+	identity:	number;
 	grade:	number;
 	check_status:	number;
 	train_teacherid:	number;
@@ -19,7 +20,7 @@ interface GargsStatic {
 	is_all:	number;
 	full_time:	number;
 	fulltime_flag:	number;
-	teacherid:	number;
+	teacherid:	string;
 	id_train_through_new_time:	number;
 	id_train_through_new:	number;
 }
@@ -65,22 +66,28 @@ interface RowData {
 	access_id	:any;
 	train_type	:any;
 	zs_account	:any;
+	zs_name	:any;
 	tt_train_type	:any;
 	tt_train_lessonid	:any;
 	tt_id	:any;
 	tt_add_time	:any;
 	resume_url	:any;
+	train_through_new_time	:any;
+	train_through_new	:any;
 	lesson_time	:any;
 	lesson_status_str	:any;
 	grade_str	:any;
 	subject_str	:any;
 	train_email_flag_str	:any;
+	train_status_str	:any;
+	train_through_str	:any;
 	trial_train_status_str	:any;
 	tea_nick	:any;
 	lecture_status_str	:any;
 	add_time_str	:any;
 	have_wx_flag	:any;
 	teacher_type_str	:any;
+	phone_ex	:any;
 }
 
 /*
@@ -101,6 +108,7 @@ function load_data(){
 		end_time:	$('#id_end_time').val(),
 		lesson_status:	$('#id_lesson_status').val(),
 		subject:	$('#id_subject').val(),
+		identity:	$('#id_identity').val(),
 		grade:	$('#id_grade').val(),
 		check_status:	$('#id_check_status').val(),
 		train_teacherid:	$('#id_train_teacherid').val(),
@@ -132,6 +140,7 @@ $(function(){
     });
 	$('#id_lesson_status').val(g_args.lesson_status);
 	$('#id_subject').val(g_args.subject);
+	$('#id_identity').val(g_args.identity);
 	$('#id_grade').val(g_args.grade);
 	$('#id_check_status').val(g_args.check_status);
 	$('#id_train_teacherid').val(g_args.train_teacherid);
@@ -167,6 +176,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">subject</span>
                 <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">identity</span>
+                <input class="opt-change form-control" id="id_identity" />
             </div>
         </div>
 

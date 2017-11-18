@@ -1525,6 +1525,7 @@ class human_resource extends Controller
         $grade         = $this->get_in_int_val("grade",-1);
         $trans_grade   = $this->get_in_int_val("trans_grade",-1);
         $subject       = $this->get_in_int_val("subject",-1);
+        $identity      = $this->get_in_int_val('identity',-1);
         $status        = $this->get_in_int_val("status",0);
         $page_num      = $this->get_in_page_num();
         $phone         = trim($this->get_in_str_val('phone',''));
@@ -1557,7 +1558,7 @@ class human_resource extends Controller
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new,$accept_adminid
+            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new,$accept_adminid,$identity
         );
 
         $num = 0;
