@@ -2557,6 +2557,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list(){
+        $where_arr = [];
+        $sql = $this->gen_sql_new(
+            " select n.userid,n.phone,n.add_time,n.seller_add_time "
+            ." from %s n"
+            ." where %s order by n.add_time "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account){
 
         //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规
