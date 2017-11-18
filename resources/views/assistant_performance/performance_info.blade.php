@@ -25,7 +25,7 @@
                 <div class="col-xs-12 col-md-5">
                     <div class="input-group ">
 
-                        <span>*当前数据为10月数据</span>
+                        <span>*8,9,10三月数据</span>
                     </div>
                 </div>
 

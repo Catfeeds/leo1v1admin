@@ -497,14 +497,10 @@
                             @endif
                         </td>
                         <td>
-                            回访时间:{{@$var["revisit_add_time_str"]}}<br>
-                            回访内容:{{@$var["revisit_record_info"]}}<br>
-                            接课意愿:{{@$var["class_will_type_str"]}}<br>
-                            详情:{{@$var["class_will_sub_type_str"]}}<br>
-                            @if(@$var["class_will_sub_type"]==2 || @$var["class_will_sub_type"]==5)
-                                恢复接课时间:{{@$var["recover_class_time_str"]}}<br>
-                            @endif
-                            负责人:{{@$var["revisit_acc"]}}<br>
+                            空闲时间:{{ @$var["free_time"] }}<br>
+                            性别:{{ @$var["gender_str"] }}<br>
+                            教龄:{{ @$var["work_year"] }}<br>
+                            地区:{{ @$var["address"] }}
                         </td>
                         <td>{{$var["add_acc"]}}</td>
                         <td>{{@$var["interview_acc"]}}</td>
