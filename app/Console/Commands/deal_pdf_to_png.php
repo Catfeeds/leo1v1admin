@@ -83,6 +83,8 @@ class deal_pdf_to_png extends cmd_base
                 @chmod($savePathFile, 0777);
 
                 $filesize=filesize($savePathFile);
+                \App\Helper\Utils::logger("filesize_pdf1: ".$savePathFile);
+
                 if($filesize<512){
                     \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
                     $this->task->t_pdf_to_png_info->field_update_list($id,[
