@@ -1181,6 +1181,23 @@ class TeacherTask extends TaskController
 
 
 
+    /**
+     * 每月初给老师 发送课程申诉提醒
+     * @param type=23
+     */
+
+    public function notice_teacher_at_beginning_of_month(){
+        $notice_list = $this->t_teacher_info->get_notice_list_for_month();
+
+        foreach($notice_list as $item){
+            // dispatch( new \App\Jobs\agent_reset() );
+        }
+    }
+
+
+
+
+
 
 
 }
