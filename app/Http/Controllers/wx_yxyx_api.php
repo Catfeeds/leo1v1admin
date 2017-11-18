@@ -1324,9 +1324,9 @@ class wx_yxyx_api extends Controller
         }
 
         //获取活动奖励
-        $activity_money_ex = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
-        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($id,$check_flag);
-        $activity_money = $acitvity_money_ex+$activity_daily_lottery;
+        $activity_money_ex_all = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$check_flag);
+        $activity_money = @$acitvity_money_ex_all + @$activity_daily_lottery;
         return $this->output_succ([
             'invite_reward' => $invite_reward,
             'commission_reward' => $commission_reward,
