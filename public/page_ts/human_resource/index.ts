@@ -2137,13 +2137,7 @@ $(function(){
         }
     });
 
-
-
-    //下载隐藏
-    console.log(account_role);
-    if(account_role != 12){
-        download_hide();
-    }
+    download_hide();
 
 
 });

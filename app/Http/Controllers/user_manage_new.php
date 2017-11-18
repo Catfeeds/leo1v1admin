@@ -3719,7 +3719,7 @@ class user_manage_new extends Controller
 
         $list = \App\Helper\Utils::list_to_page_info($list);
         $info = [];
-        if ($type == 6 && $teacherid > 0) {
+        if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
             // 在校学生总数
             $info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
             $info['stu_reward'] = 20;

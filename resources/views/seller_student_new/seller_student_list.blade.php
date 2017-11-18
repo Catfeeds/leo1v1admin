@@ -473,6 +473,9 @@
 
                         <td>
                             <div
+                                @if($show_son_flag)
+                                style="display:none;"
+                                @endif
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>

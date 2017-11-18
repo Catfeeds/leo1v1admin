@@ -30,10 +30,27 @@ class finance_data  extends Controller
         $data["new_signature_price"]=$data["new_order_stu"]>0?round( $data["new_order_money"]/$data["new_order_stu"]):0;
         $data["renew_signature_price"]=$data["renew_order_stu"]>0?round( $data["renew_order_money"]/$data["renew_order_stu"]):0;
         array_push($ret_info["list"],$data);
-        //dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
 
     }
+
+    public function refund_order_info(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_admin_refund_order_list->get_all_info($page_info);
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "order_time","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "apply_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "approve_time","_str");
+            $item["order_custom_str"] = str_replace(",","<br>",$item["order_custom"]);
+        }
+
+        // dd($ret_info);
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
+
+
 
 
 
