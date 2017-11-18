@@ -1631,11 +1631,18 @@ class ajax_deal2 extends Controller
         }else{
             $first_test=0;
         }
+        if($first_test<0){
+            $first_test=0;
+        }
         if(@$normal["lesson_start"]>0){
             $first_normal =round( ($data["lesson_start"]-$time)/86400,1);
         }else{
             $first_normal=0;
         }
+        if($first_normal<0){
+            $first_normal=0;
+        }
+
 
         return $this->output_succ([
             "first_test" =>@$first_test,

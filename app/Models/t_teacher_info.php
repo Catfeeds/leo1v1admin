@@ -4352,11 +4352,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_data_to_teacher_flow($start_time, $end_time){
+    public function get_data_to_teacher_flow($start_time, $end_time,$pass_flag=0){
         $where_arr = [
             ['train_through_new_time>%u', $start_time, 0],
             ['train_through_new_time<%u', $end_time, 0]
         ];
+        if($pass_flag==1){
+            $where_arr="train_through_new=1 and is_test_user=0";
+        }
         $sql = $this->gen_sql_new("select teacherid,train_through_new_time from %s where %s ",
                                   self::DB_TABLE_NAME,
                                   $where_arr

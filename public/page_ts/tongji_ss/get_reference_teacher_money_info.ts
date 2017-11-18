@@ -44,6 +44,9 @@ $(function(){
                         var data = resp;
                         $tr.find(".first_test").text(data.first_test); 
                         $tr.find(".first_normal").text(data.first_normal); 
+                        if(data.first_test==0){
+                            $tr.find(".first_test").parent().hide();
+                        }
                                                                      
                         
                         do_index++;

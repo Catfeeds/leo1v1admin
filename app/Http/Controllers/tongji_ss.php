@@ -8100,7 +8100,7 @@ class tongji_ss extends Controller
 
         $this->switch_tongji_database();
         $first_month = strtotime("2017-01-01");
-        $list = $this->t_teacher_info->get_data_to_teacher_flow($first_month,time());
+        $list = $this->t_teacher_info->get_data_to_teacher_flow($first_month,time(),1);
         return $this->pageView(__METHOD__,null,[
             "list"  =>$list 
         ]);
