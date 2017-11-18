@@ -360,8 +360,13 @@ function table_init() {
                 var row_data= [];
                 var $td_list= $(tr_item ).find("td");
                 $.each(  $td_list, function( i, td_item)  {
+                    console.log(td_item.className);
+
                     if ( i>0 && i< $td_list.length-1 ) {
-                        row_data.push( $.trim( $(td_item).text()) );
+                        if(td_item.className != 'ellipsis_jiaowu'){
+                            row_data.push( $.trim( $(td_item).text()) );
+                        }
+                        // row_data.push( $.trim( $(td_item).text()) );
                     }
                 });
                 list_data.push(row_data);
