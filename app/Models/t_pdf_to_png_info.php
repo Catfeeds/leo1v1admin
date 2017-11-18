@@ -17,7 +17,7 @@ class t_pdf_to_png_info extends \App\Models\Zgen\z_t_pdf_to_png_info
         return $this->main_get_list($sql);
     }
 
-    public function get_untreated_pdf($num){
+    public function get_untreated_pdf($num,$limit_time){
 
         if($num>0){
             $limit_num = "limit $num";
@@ -25,7 +25,11 @@ class t_pdf_to_png_info extends \App\Models\Zgen\z_t_pdf_to_png_info
             $limit_num = '';
         }
 
-        $sql = "select * from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=2 and lessonid not in (select lessonid from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=1 ) ".$limit_num;
+        if($limit_time<0){
+            $limit_time = strtotime(date('Y-m-d'));
+        }
+
+        $sql = "select * from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=2 and lessonid not in (select lessonid from t_pdf_to_png_info where create_time>$limit_time and id_do_flag=1 ) ".$limit_num;
         return $this->main_get_list($sql);
     }
 
