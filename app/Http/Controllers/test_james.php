@@ -1214,7 +1214,10 @@ $test=	3;
     }
 
     public function ceshi(){
-        dd(strtotime(''));
+        $a = " https://fms.ipinyou.com/5/17/9E/0A/F001Nl1Q1NRQ000dMKdg.jpg";
+
+        $filesize=filesize('/home/james/admin_yb1v1/public/wximg/13818837473_2.png');
+        dd($filesize);
     }
 
 

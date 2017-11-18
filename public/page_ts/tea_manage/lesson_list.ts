@@ -964,7 +964,10 @@ $(function(){
         $.do_ajax( "/common/encode_text",{
             "text" : lessonid
         }, function(ret){
-            BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            
+            // 
+            BootstrapDialog.alert(
+                $( "<dir><font color=red> 问题报告群链接: </font> http://admin.leo1v1.com/supervisor/lesson_all_info?lessonid="+lessonid +" <br/>  <br/> 分享观看链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text + "</div>" )  );
         });
     });
 
