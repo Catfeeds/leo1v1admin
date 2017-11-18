@@ -49,6 +49,53 @@ class finance_data  extends Controller
 
     }
 
+    public function student_data(){
+        $ret_info = $this->t_admin_student_month_info->get_all_info();
+        foreach($ret_info as &$item){
+            $item["month_str"] = date("Y年m月",$item["month"]);
+        }
+        return $this->pageView(__METHOD__, null,[
+            "data" =>$ret_info
+        ]);
+        //dd($ret_info);
+
+    }
+
+    public function student_type_data(){
+        $ret_info = $this->t_admin_student_month_info->get_all_info();
+        foreach($ret_info as &$item){
+            $item["month_str"] = date("Y年m月",$item["month"]);
+        }
+        return $this->pageView(__METHOD__, null,[
+            "data" =>$ret_info
+        ]);
+        //dd($ret_info);
+
+    }
+
+    public function test_lesson_origin_tongji(){
+        $time  = strtotime("2016-12-01");
+        $rr=["公众号"=>1,"信息流"=>2,"BD"=>3,"口碑"=>4,"转介绍"=>5,"其中：优学优享"=>6];
+        $arr=[];
+        for($i=1;$i<11;$i++){
+            $month = strtotime("+".$i." months",$time);
+            $list =  $this->t_order_student_month_list->get_list_by_month($month);
+            foreach($list as $val){
+                $arr[$month][$rr[$val["origin"]]]=$val; 
+            }
+            ksort($arr[$month]);
+        }
+        foreach($arr as $k=>&$item){
+            $item["num"] = count($item);
+            $item["month_str"] = intval(date("m",$k))."月";
+        }
+        // dd($arr);
+        return $this->pageView(__METHOD__, null,[
+            "data" =>$arr
+        ]);
+    }
+
+
 
 
 
