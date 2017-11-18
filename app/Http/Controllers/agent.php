@@ -378,7 +378,7 @@ class agent extends Controller
         $phone = $this->get_in_str_val('phone');
         if($agent_freeze_type == 3){
             $agent_money_ex_type = $this->get_in_int_val('agent_money_ex_type');
-            $agent_activity_time = $this->get_in_int_val('agent_activity_time');
+            $agent_activity_time = strtotime($this->get_in_str_val('agent_activity_time'));
         }else{
             $agent_money_ex_type = '';
             $agent_activity_time = '';

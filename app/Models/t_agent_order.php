@@ -373,7 +373,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     public function get_order_bad_time($to_agentid){
         $sql = $this->gen_sql_new(
             'select oi.order_time from %s ao '.
-            'left join %s oi on ao.order_id = oi.order_id '.
+            'left join %s oi on ao.orderid = oi.orderid '.
             'where ao.aid = %u',
             t_agent_order::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,
