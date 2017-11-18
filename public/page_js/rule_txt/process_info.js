@@ -46,7 +46,7 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function() {
 
-                if(id_name.val() =='' || id_department.val() == '' || id_fit_range.val() == '' || id_pro_explain.val() == '' || id_attention.val() == '' || id_pro_img.val() == ''){
+                if(id_name.val() =='' || id_department.val() == '' || id_fit_range.val() == '' || id_pro_explain.val() == '' || id_attention.val() == '' ){
                     alert('请把信息填写完整！');
                 } else {
                     $.ajax({
