@@ -2836,12 +2836,12 @@ function init_edit() {
                 if(html_node.find("#id_intention_level").val() <= 0){
                     html_node.find("#id_intention_level").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
-                if(html_node.find("#id_demand_urgency").val() <= 0){
-                    html_node.find("#id_demand_urgency").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                }
-                if(html_node.find("#id_quotation_reaction").val() <= 0){
-                    html_node.find("#id_quotation_reaction").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                }
+                // if(html_node.find("#id_demand_urgency").val() <= 0){
+                //     html_node.find("#id_demand_urgency").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                // }
+                // if(html_node.find("#id_quotation_reaction").val() <= 0){
+                //     html_node.find("#id_quotation_reaction").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                // }
                 if(html_node.find("#id_stu_request_test_lesson_demand").val() == ''){
                     html_node.find("#id_stu_request_test_lesson_demand").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
