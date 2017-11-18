@@ -568,7 +568,7 @@ class agent extends Controller
         }
         $month_date = strtotime(date('Y-m-d',$time));
         $this->t_seller_level_month->row_insert([
-            'adminid' => $adminid=99,
+            'adminid' => $adminid=831,
             'month_date' => $month_date,
             'seller_level' => $month_level=E\Eseller_level::V_200,
             'create_time' => $time,
