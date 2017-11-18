@@ -1495,15 +1495,18 @@ class test_code extends Controller
         return $result;
     }
 
+
     public function test_email(){
-        $title   = "关于老师转正申请的批复";
+
+        $title   = "老师转正申请的批复";
         $date    = date("Y-m-d");
         $content = "老师，恭喜您，鉴于您在试用期的表现优秀，您的转正申请已通过了上级领导审批，同意转正。<br>"
                  ."转正日期 : <br>"
-                 ."目前教师等级:初级<br>"
-                 ."转正后教师等级:中级<br>"
-                 ."转正后基本工资:";
+                 ."目前教师等级 : 初级<br>"
+                 ."转正后教师等级 : 中级<br>"
+                 ."转正后基本工资 : ";
         \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
+
     }
 
 
