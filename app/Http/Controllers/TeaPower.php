@@ -1349,18 +1349,11 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
         $train_through_new_time = $train_through_new==1?time():0;
 
-<<<<<<< HEAD
         $uid = $this->t_manager_info->get_id_by_phone($phone);
         if($uid>0){
             $del_flag = $this->t_manager_info->get_del_flag($uid);
             if($del_flag!=1){
                 $tea_nick = $this->t_manager_info->get_name($uid);
-=======
-        $adminid = $this->t_manager_info->get_id_by_phone($phone);
-        if($adminid>0 && $teacher_type == 0 && $teacher_ref_type==0){
-            if($tea_nick==$phone){
-                $tea_nick = $this->t_manager_info->get_name($adminid);
->>>>>>> 90cdba908e9f83f7554d7c4e7d470e5e2d1eac58
                 $realname = $tea_nick;
                 $teacher_type     = $teacher_type==0?E\Eteacher_type::V_41:$teacher_type;
                 $teacher_ref_type = $teacher_ref_type==0?E\Eteacher_ref_type::V_41:$teacher_ref_type;
