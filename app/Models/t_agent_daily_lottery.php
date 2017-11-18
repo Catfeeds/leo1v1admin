@@ -25,7 +25,7 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
     }
     //@desn:获取用户总共抽奖金额
     //@param: $id 用户优学优享id
-    public function get_sum_daily_lottery($id,$is_cash){
+    public function get_sum_daily_lottery($id,$is_cash=0){
         $where_arr = [
             ['agent_id = %u',$id,-1],
         ];
