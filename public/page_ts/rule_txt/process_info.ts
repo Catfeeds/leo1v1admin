@@ -96,22 +96,5 @@ $(function(){
 
     $('#id_process_id').val(g_args.process_id);
 
-
-    $('.opt-del').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        if(confirm('确定要删除？')){
-            $.ajax({
-                type     : "post",
-                url      : "/rule_txt/del_process",
-                dataType : "json",
-                data : {
-                    'process_id' : opt_data.process_id,
-                } ,
-                success : function(result){
-                    window.location.reload();
-                }
-            });
-        }
-    });
     $('.opt-change').set_input_change_event(load_data);
 });
