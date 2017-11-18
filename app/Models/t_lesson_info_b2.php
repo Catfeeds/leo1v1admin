@@ -891,7 +891,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_sub_type=1",
             "l.train_type=5",
             ['ap.reference=%u',$recommend_teacherid_phone,-1],
-            ['tli.identity=%u',$identity,-1]
+            ['t.identity=%u',$identity,-1]
         ];
         if($check_status==-1){
             $where_arr[] = "trial_train_status is null";
