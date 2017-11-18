@@ -401,6 +401,7 @@ class url_power_map {
 			'/seller_student_new/test_lesson_fail_list'	=>1115800,
 			'/seller_level_goal/seller_level_goal_list'	=>1117300,
 			'/seller_level_goal/seller_level_salary_list'	=>1117400,
+			'/seller_level_goal/seller_level_month_list'	=>1117900,
 			'/user_manage/refund_list_seller'	=>1113200,
 			'/tongji2/self_seller_month_money_list'	=>1113100,
 			'/human_resource/regular_course_seller'	=>1113500,

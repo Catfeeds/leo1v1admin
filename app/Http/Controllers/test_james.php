@@ -1216,8 +1216,10 @@ $test=	3;
     }
 
     public function ceshi(){
-        $limit_time = strtotime(date('Y-m-d'));
 
+        $limit_time = strtotime(date('Y-m-1'));
+
+        dd(date('Y-m-d',$limit_time+6*86400));
         dd($limit_time);
         $a = " https://fms.ipinyou.com/5/17/9E/0A/F001Nl1Q1NRQ000dMKdg.jpg";
 
