@@ -1351,6 +1351,7 @@ trait TeaPower {
 
         $uid = $this->t_manager_info->get_id_by_phone($phone);
         if($uid>0){
+
             $del_flag = $this->t_manager_info->get_del_flag($uid);
             if($del_flag!=1){
                 $tea_nick = $this->t_manager_info->get_name($uid);
