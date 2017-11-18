@@ -48,7 +48,7 @@ class TeaWxController extends Controller
         if ($role==2 &&  $teacherid ) {
             return $teacherid;
         }else{
-            echo $this->output_err("未登录 $teacherid & $role");
+            echo $this->output_err("未登录 ");
             exit;
         }
     }
