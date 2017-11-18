@@ -29,7 +29,8 @@ class t_pdf_to_png_info extends \App\Models\Zgen\z_t_pdf_to_png_info
             $limit_time = strtotime(date('Y-m-d'));
         }
 
-        $sql = "select * from t_pdf_to_png_info where create_time>1510761600 and id_do_flag=2 and lessonid not in (select lessonid from t_pdf_to_png_info where create_time>$limit_time and id_do_flag=1 ) ".$limit_num;
+        $sql = "select * from t_pdf_to_png_info where create_time>$limit_time and id_do_flag=2 and lessonid not in (select lessonid from t_pdf_to_png_info where create_time>$limit_time and id_do_flag=1 ) ".$limit_num;
+
         return $this->main_get_list($sql);
     }
 
