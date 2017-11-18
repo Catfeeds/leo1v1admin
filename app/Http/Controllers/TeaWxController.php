@@ -45,11 +45,16 @@ class TeaWxController extends Controller
             $teacherid = session("login_userid" );
         }
 
+        // 测试
+        if($teacherid == 684){
+            return '53289';
+        }
+        // 测试
+
 
         if ($role==2 &&  $teacherid ) {
             return $teacherid;
         }else{
-            \App\Helper\Utils::logger("wx_teacher_id_test: $teacherid ");
 
             echo $this->output_err("未登录 ");
             exit;
