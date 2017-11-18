@@ -15,24 +15,21 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>月份</td>                   
-                    <td>数量</td>                   
-                    <td>课时</td>                   
-                    <td>CC转化率</td>                    
-                    <td>CR转化率</td>                    
+                    <td>teacherid</td>                   
+                    <td>第一次试听课</td>                   
+                    <td>第一次常规课</td>                    
                     <td> 操作</td>
                 </tr>
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
-                        <td>{{@$k}} </td>     
-                        <td class="tea_num"> </td>                           
-                        <td class="lesson_count"></td>                           
-                        <td class="cc_per"> </td>                           
-                        <td class="cr_per"></td>                           
+                        <td>{{@$var["teacherid"]}} </td>     
+                        <td class="first_test"> </td>                           
+                        <td class="first_normal"></td>                           
+                                          
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["start_time"]}}" >
+                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

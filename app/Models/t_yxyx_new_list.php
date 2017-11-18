@@ -97,6 +97,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
     public function get_agent_info(){
         $where_arr = [
             'a.create_time >='.strtotime('- 2 day',time(NULL)),
+            'a.parentid <> \'\' '
         ];
         $sql =  $this->gen_sql_new( "select a.id,a.phone as new_phone,a.nickname as new_nick,"
                                     ."pa.phone as from_phone,pa.nickname as from_nick,a.create_time"

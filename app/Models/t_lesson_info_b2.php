@@ -875,7 +875,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1,$recommend_teacherid_phone
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1,$id_train_through_new_time=-1,$id_train_through_new=-1,$accept_adminid=-1,$identity=-1,$recommend_teacherid_phone
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -891,6 +891,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_sub_type=1",
             "l.train_type=5",
             ['ap.reference=%u',$recommend_teacherid_phone,-1],
+            ['t.identity=%u',$identity,-1]
         ];
         if($check_status==-1){
             $where_arr[] = "trial_train_status is null";
@@ -3193,7 +3194,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
 
-        $sql=$this->gen_sql_new("select  count(*) all_num,sum(if(l.lesson_type in (0,1,3),1,0)) normal_num, sum(if(deduct_come_late=1,1,0)) teacher_come_late_count, sum(if(lesson_cancel_reason_type=2,1,0)) teacher_change_lesson, sum(if(lesson_cancel_reason_type=12,1,0)) teacher_leave_lesson"
+        $sql=$this->gen_sql_new("select  count(*) all_num,sum(if(l.lesson_type in (0,1,3),1,0)) normal_num, sum(if(deduct_come_late=1,1,0)) teacher_come_late_count, sum(if(lesson_cancel_reason_type=2,1,0)) teacher_change_lesson, sum(if(lesson_cancel_reason_type=12,1,0)) teacher_leave_lesson, sum(if(lesson_cancel_reason_type=21,1,0)) teacher_no_attend_lesson "
                                 ." from %s l "
                                 ." left join %s s on l.userid=s.userid "
                                 ." where  %s"

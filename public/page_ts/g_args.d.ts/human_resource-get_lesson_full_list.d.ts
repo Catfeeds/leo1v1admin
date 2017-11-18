@@ -34,22 +34,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-get_lesson_full_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		trial_money:	$('#id_trial_money').val(),
+		normal_money:	$('#id_normal_money').val(),
+		order_str:	$('#id_order_str').val(),
+		order_type:	$('#id_order_type').val(),
+		lesson_num:	$('#id_lesson_num').val(),
+		full_type:	$('#id_full_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			trial_money:	$('#id_trial_money').val(),
-			normal_money:	$('#id_normal_money').val(),
-			order_str:	$('#id_order_str').val(),
-			order_type:	$('#id_order_type').val(),
-			lesson_num:	$('#id_lesson_num').val(),
-			full_type:	$('#id_full_type').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

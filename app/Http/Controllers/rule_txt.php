@@ -13,22 +13,30 @@ class rule_txt extends Controller
     use CacheNick;
     var $check_login_flag=true;
 
-    function __construct( )  {
+    function __construct( ) {
         parent::__construct();
     }
 
-    public function get_all(){
+    public function get_all() {
         list($start_time,$end_time) = $this->get_in_date_range(-7, 0 );
-        $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_rule_info->get_all_rule($start_time, $end_time,$page_info);
-        foreach($ret_info['list'] as &$item) {
+        $rule_info  = $this->t_rule_info->get_all_rule($start_time, $end_time);
+        foreach($rule_info as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
 
-        return $this->pageView( __METHOD__,$ret_info);
+        $pro_info  = $this->t_process_info->get_all_process($start_time, $end_time);
+        foreach($pro_info as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+
+
+        return $this->pageView( __METHOD__,[],[
+            'rule' => $rule_info,
+            'process' => $pro_info
+        ]);
     }
 
-    public function add_or_update_title(){
+    public function add_or_update_title() {
         $title = trim( $this->get_in_str_val('title') );
         $tip = trim( $this->get_in_str_val('tip') );
         $id = $this->get_in_int_val('id');
@@ -50,7 +58,26 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-    public function add_or_update_rule_detail(){
+    public function add_or_update_name() {
+        $name       = trim( $this->get_in_str_val('name') );
+        $process_id = $this->get_in_int_val('process_id');
+        $adminid    = $this->get_account_id();
+        if( $process_id>0 ) {
+            $this->t_process_info->field_update_list($process_id,[
+                'name'        => $name,
+                'create_time' => time(),
+            ]);
+        } else {
+            $this->t_process_info->row_insert([
+                'name'        => $name,
+                'create_time' => time(),
+                'adminid'     => $adminid,
+            ]);
+        }
+        return $this->output_succ();
+    }
+
+    public function add_or_update_rule_detail() {
         $rule_id = $this->get_in_int_val('rule_id');
         $detail_id = $this->get_in_int_val('detail_id');
         $level = $this->get_in_int_val('level');
@@ -102,9 +129,12 @@ class rule_txt extends Controller
         return $this->output_succ();
     }
 
-    public function rule_detail(){
+    public function rule_detail() {
         $rule_id = $this->get_in_int_val('rule_id');
         $rule = $this->t_rule_info->get_rule_info($rule_id);
+        if ($rule == false){
+            return $this->error_view(["没有该信息！"]);
+        }
         // \App\Helper\Utils::unixtime2date_for_item($rule,"create_time");
         $rule['create_time'] = date('Y-m-d', $rule['create_time']);
         $ret_info = $this->t_rule_detail_info->get_rule_detail($rule_id);
@@ -119,7 +149,7 @@ class rule_txt extends Controller
                 $row[$item['level_str']]['start'] = $key;
             }
             if($item['add_punish']){
-                $item['punish'] = '<a href="javascript:;" class="btn opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
+                $item['punish'] = '<a href="javascript:;" class="opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
             } else {
                 $item['punish'] = '无';
             }
@@ -130,13 +160,57 @@ class rule_txt extends Controller
         ]);
     }
 
-    public function del_rule_detail(){
+    public function process_info() {
+        $process_id = $this->get_in_int_val('process_id');
+        $pro = $this->t_process_info->get_process_info($process_id);
+        if($pro == false){
+            return $this->error_view(["没有该信息！"]);
+        }
+        $pro['create_time'] = date('Y-m-d', $pro['create_time']);
+        $role = @explode(',',$pro['department']);
+        $pro['department_str'] = '';
+        foreach($role as $v){
+            $pro['department_str'] .= E\Eaccount_role::get_desc($v) . ',';
+        }
+
+        $pro['department_str'] = rtrim($pro['department_str'], ',');
+        return $this->pageView( __METHOD__,[],[
+            'pro'  => $pro,
+            "qiniu_pub"  => \App\Helper\Config::get_qiniu_public_url(),
+        ]);
+    }
+
+    public function update_process() {
+        $process_id  = $this->get_in_int_val('process_id');
+        $name        = trim( $this->get_in_str_val('name'));
+        $fit_range   = trim( $this->get_in_str_val('fit_range'));
+        $department  = trim( $this->get_in_str_val('department'));
+        $pro_explain = trim( $this->get_in_str_val('pro_explain'));
+        $attention   = trim( $this->get_in_str_val('attention'));
+        $pro_img     = trim( $this->get_in_str_val('pro_img'));
+
+        if($process_id == 0) {
+            return $this->output_err('修改失败！');
+        }
+        $this->t_process_info->field_update_list($process_id,[
+            'name'        => $name,
+            'fit_range'   => $fit_range,
+            'department'  => $department,
+            'pro_explain' => $pro_explain,
+            'attention'   => $attention,
+            'pro_img'     => $pro_img,
+        ]);
+
+        return $this->output_succ();
+    }
+
+    public function del_rule_detail() {
         $detail_id = $this->get_in_int_val('detail_id');
         $this->t_rule_detail_info->row_delete($detail_id);
         return $this->output_succ();
     }
 
-    public function up_or_down(){
+    public function up_or_down() {
         $rule_id = $this->get_in_int_val('rule_id');
         $detail_id = $this->get_in_int_val('detail_id');
         $level = $this->get_in_int_val('level');
@@ -172,4 +246,22 @@ class rule_txt extends Controller
         }
         return $this->output_succ();
     }
+
+    public function update_pro_img() {
+        $teacherid = $this->get_login_teacher();
+        $field     = $this->get_in_str_val('opt_field', '');
+        $url       = $this->get_in_str_val('get_pdf_url', '');
+        if ( $field == '' || $url == '' ) {
+            $this->output_err("上传信息为空！");
+        }
+        $res_info = $this->t_teacher_info->field_update_list($teacherid, [$field  => $url]);
+
+        if ($res_info) {
+            return outputjson_success();
+        } else {
+            return outputjson_error('发生错误，设置失败！');
+        }
+
+    }
+
 }

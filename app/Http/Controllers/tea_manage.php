@@ -2249,6 +2249,7 @@ class tea_manage extends Controller
         ],1);
         $lesson_status    = $this->get_in_int_val("lesson_status",-1);
         $subject          = $this->get_in_int_val("subject",-1);
+        $identity         = $this->get_in_int_val('identity',-1);
         $grade            = $this->get_in_int_val("grade",-1);
         $check_status     = $this->get_in_int_val("check_status",-2);
         $train_teacherid  = $this->get_in_int_val("train_teacherid",-1);
@@ -2310,7 +2311,7 @@ class tea_manage extends Controller
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
             $train_email_flag,$full_time,$id_train_through_new_time,
-            $id_train_through_new,$accept_adminid,$recommend_teacherid_phone
+            $id_train_through_new,$accept_adminid,$identity,$recommend_teacherid_phone
         );
 
         foreach($ret_info['list'] as &$val){
@@ -2354,7 +2355,7 @@ class tea_manage extends Controller
             }else{
                 $val["have_wx_flag"] = "否";
             }
-            E\Eidentity::set_item_value_str($val,"teacher_type");
+            E\Eidentity::set_item_value_str($val,"identity");
             $val["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$val["phone_spare"]);
         }
 

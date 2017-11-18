@@ -4087,9 +4087,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $begin_time = strtotime($begin_date);
             }
 
-            $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-                $teacher_info['phone'],$reference_type,$begin_time
-            );
+            // $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+            //     $teacher_info['phone'],$reference_type,$begin_time
+            // );
+            $identity = $recommended_info['identity'];
+            if (in_array($identity,[5,6,7])) {
+                $type = 1;
+            } else {
+                $type = 0;
+            }
+            $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
 
             /**
              * 廖祝佳，王菊香推荐的在职老师起步都是80元/个

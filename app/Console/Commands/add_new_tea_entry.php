@@ -40,6 +40,9 @@ class add_new_tea_entry extends Command
         // 每日存档(每天凌晨二点刷新前一天数据) 月存档(每月存档)
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
+        $tea = new \App\Http\Controllers\TeaPower();
+        $tea->add_reference_price(1,1);
+        exit;
         $task = new \App\Console\Tasks\TaskController();
 
         // 加载老师绑定数据

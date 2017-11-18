@@ -7,6 +7,7 @@ interface GargsStatic {
 	grade:	number;
 	trans_grade:	number;
 	subject:	number;
+	identity:	number;
 	status:	number;
 	page_num:	number;
 	page_count:	number;
@@ -99,6 +100,7 @@ function load_data(){
 		grade:	$('#id_grade').val(),
 		trans_grade:	$('#id_trans_grade').val(),
 		subject:	$('#id_subject').val(),
+		identity:	$('#id_identity').val(),
 		status:	$('#id_status').val(),
 		phone:	$('#id_phone').val(),
 		teacherid:	$('#id_teacherid').val(),
@@ -127,6 +129,7 @@ $(function(){
 	$('#id_grade').val(g_args.grade);
 	$('#id_trans_grade').val(g_args.trans_grade);
 	$('#id_subject').val(g_args.subject);
+	$('#id_identity').val(g_args.identity);
 	$('#id_status').val(g_args.status);
 	$('#id_phone').val(g_args.phone);
 	$('#id_teacherid').val(g_args.teacherid);
@@ -165,6 +168,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">subject</span>
                 <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">identity</span>
+                <input class="opt-change form-control" id="id_identity" />
             </div>
         </div>
 

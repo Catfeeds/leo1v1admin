@@ -4,8 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;

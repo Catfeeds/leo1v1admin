@@ -114,7 +114,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $admin_revisiterid    = $data_item["admin_revisiterid"];
             $seller_resource_type = $data_item["seller_resource_type"];
         }
-
         if ($admin_revisiterid  ) {
             $subject_desc=E\Esubject::get_desc($subject);
             //$this->t_manager_info->send_wx_todo_msg("amanda",from_user,$header_msg,$msg);
@@ -147,9 +146,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $this->field_update_list($userid,[
                     "seller_resource_type" => 0,
                     "first_revisit_time"   => 0,
-                    "sys_invaild_flag" => 0,
-                    "call_admin_count" => 0,
+                    "sys_invaild_flag"     => 0,
+                    "call_admin_count"     => 0,
                     "add_time"             => time(NULL),
+                    "seller_add_time"      => time(NULL),
                 ]);
             }else{
                 $old_add_time=$this->get_add_time($userid);
@@ -167,8 +167,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
                 $this->field_update_list($userid,[
                     "seller_resource_type" => 0,
-                    "first_revisit_time" => 0,
-                    "add_time" => time(NULL),
+                    "first_revisit_time"   => 0,
+                    "add_time"             => time(NULL),
+                    "seller_add_time"      => time(NULL),
                 ]);
             }
             return $userid;
@@ -180,6 +181,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "add_time"  => time(NULL),
             "has_pad"   => $has_pad,
             "user_desc" => $user_desc,
+            "seller_add_time"  => time(NULL),
         ]);
         $this->t_test_lesson_subject->row_insert([
             "userid"             => $userid,
@@ -2552,6 +2554,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." where %s order by n.add_time "
             ,self::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_list(){
+        $where_arr = [];
+        $sql = $this->gen_sql_new(
+            " select n.userid,n.phone,n.add_time,n.seller_add_time "
+            ." from %s n"
+            ." where %s order by n.add_time "
+            ,self::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

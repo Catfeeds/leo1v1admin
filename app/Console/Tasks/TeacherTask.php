@@ -1177,10 +1177,4 @@ class TeacherTask extends TaskController
             }
         }
     }
-
-
-
-
-
-
 }

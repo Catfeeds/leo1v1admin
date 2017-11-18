@@ -751,6 +751,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   // ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
                                   ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks,tr.record_score "
+                                  .",t.free_time "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
@@ -4351,11 +4352,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_data_to_teacher_flow($start_time, $end_time){
+    public function get_data_to_teacher_flow($start_time, $end_time,$pass_flag=0){
         $where_arr = [
             ['train_through_new_time>%u', $start_time, 0],
             ['train_through_new_time<%u', $end_time, 0]
         ];
+        if($pass_flag==1){
+            $where_arr[]="train_through_new=1 and is_test_user=0";
+        }
         $sql = $this->gen_sql_new("select teacherid,train_through_new_time from %s where %s ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
@@ -4702,5 +4706,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                     $where_arr);
         return $this->main_get_row($sql);
 
+    }
+
+    public function get_notice_list_for_month(){
+        $where_arr = [
+            "t.quit_time=0",
+            "t.is_test_user=0",
+            "t.trial_lecture_is_pass=1",
+            "t.wx_openid is not null"
+        ];
+        $sql = $this->gen_sql_new("  select wx_openid from %s t"
+                                  ." where %s  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 }

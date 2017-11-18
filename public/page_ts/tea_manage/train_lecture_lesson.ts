@@ -15,6 +15,7 @@ $(function(){
 			      lesson_status    : $('#id_lesson_status').val(),
 			      grade            : $('#id_grade').val(),
 			      subject          : $('#id_subject').val(),
+            identity         : $('#id_identity').val(),
 			      check_status     : $('#id_check_status').val(),
 			      train_teacherid  : $('#id_train_teacherid').val(),
             id_train_through_new_time:$("#id_train_through_new_time").val(),
@@ -307,6 +308,7 @@ $(function(){
     Enum_map.append_option_list("lesson_status",$("#id_lesson_status"),false,[0,1,2]);
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("grade",$("#id_grade"));
+    Enum_map.append_option_list("identity",$("#id_identity"));
     Enum_map.append_option_list("boolean",$("#id_have_wx"));
     Enum_map.append_option_list("boolean",$("#id_train_email_flag"));
     Enum_map.append_option_list("boolean",$("#id_full_time"));
@@ -315,6 +317,7 @@ $(function(){
 	  $('#id_full_time').val(g_args.full_time);
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);
+    $('#id_identity').val(g_args.identity);
 	  $('#id_check_status').val(g_args.check_status);
 	  $('#id_train_teacherid').val(g_args.train_teacherid);
 	  $('#id_have_wx').val(g_args.have_wx);

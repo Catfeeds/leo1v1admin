@@ -38,15 +38,16 @@ $(function(){
                         do_one();
                         });*/
                     $.do_ajax("/ajax_deal2/get_three_month_stu_num",{
-                        "start_time"       : teacherid
+                        "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".cc_per").text(data.cc_per); 
-                        $tr.find(".cr_per").text(data.cr_per); 
-                        $tr.find(".tea_num").text(data.tea_num); 
-                        $tr.find(".lesson_count").text(data.lesson_count); 
-                                              
+                        $tr.find(".first_test").text(data.first_test); 
+                        $tr.find(".first_normal").text(data.first_normal); 
+                        if(data.first_test==0){
+                            $tr.find(".first_test").parent().hide();
+                        }
+                                                                     
                         
                         do_index++;
                         do_one();

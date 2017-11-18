@@ -136,6 +136,7 @@ interface RowData {
 	is_quit	:any;
 	part_remarks	:any;
 	record_score	:any;
+	free_time	:any;
 	class_will_type	:any;
 	class_will_sub_type	:any;
 	revisit_add_time	:any;
