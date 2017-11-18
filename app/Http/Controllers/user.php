@@ -299,6 +299,10 @@ class user extends TeaWxController
     }
 
     public function set_teacher_feedback(){ //1020
+
+
+
+
         $from_type = $this->get_in_str_val("from_type","wx");
         if($from_type=="wx"){
             $teacherid = $this->get_teacherid();
@@ -311,6 +315,21 @@ class user extends TeaWxController
         $feedback_type = $this->get_in_int_val("feedback_type");
         $lesson_count  = $this->get_in_str_val("lesson_count");
         $tea_reason    = $this->get_in_str_val("tea_reason");
+
+
+
+        /**
+         * @ 每月6号之后 关闭上月课程申诉通道
+         *
+         **/
+        $limit_time = strtotime(date('Y-m-1'));
+        $six_time   = $limit_time + 6*86400;
+        $lesson_end = $this->t_lesson_info->get_lesson_end($lessonid);
+        $now = time();
+
+        if(($lesson_end<$limit_time) && ($six_time<$now)){
+            return $this->output_err('老师您好,上月课程申诉通道已关闭!');
+        }
 
         // \App\Helper\Utils::logger("feedback_info_begin ");
         // $feedback = new teacher_feedback;
