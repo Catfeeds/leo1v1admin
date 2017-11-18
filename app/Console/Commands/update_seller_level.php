@@ -92,7 +92,7 @@ class update_seller_level extends cmd_base
                     $month_level = $next_level;
                 }
                 //月末定级
-                $month_date = strtotime(date('Y-m-d',$time));
+                $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
                 $this->task->t_seller_level_month->row_insert([
                     'adminid' => $adminid,
                     'month_date' => $month_date,
