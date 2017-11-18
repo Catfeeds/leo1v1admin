@@ -58,7 +58,10 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/rule_txt/get_all"          => true,
+        "/rule_txt/add_or_update_name"            => true,
+        "/rule_txt/process_info"                  => true,
+        "/rule_txt/update_process"                => true,
+        "/rule_txt/get_all"                       => true,
         "/rule_txt/add_or_update_title"           => true,
         "/rule_txt/rule_detail"                   => true,
         "/rule_txt/up_or_down"                    => true,

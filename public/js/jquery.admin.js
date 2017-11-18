@@ -1152,7 +1152,6 @@ jQuery.extend({
         $.wopen( pathname  +"?" +  args_str,  open_self_window );
     },
 
-
     enum_multi_select :function ( $element, enum_name, onChange , id_list   ,select_group_list) {
         //原来的不显示，显示display
         var $show_input = $($element[0].outerHTML);
@@ -1163,6 +1162,108 @@ jQuery.extend({
         $element.hide();
 
         var val            = $element.val();
+        var select_list    = val.split(/,/);
+        var select_id_list = [];
+        var show_text_arr  = [];
+        var desc_map=g_enum_map[enum_name]["desc_map"];
+        console.log($show_input);
+        console.log($element);
+        $.each(select_list,function( ){
+            var id= parseInt(this);
+            select_id_list.push(id);
+            if ( id==-1) {
+                show_text_arr.push("全部");
+            }else{
+                show_text_arr.push(desc_map[id]);
+            }
+        });
+        $show_input.val( show_text_arr.join(","));
+
+        $show_input.on("click",function(){
+            var desc_map=g_enum_map[enum_name]["desc_map"];
+
+            var data_list=[
+            ];
+            $.each(desc_map, function(k,v){
+                if ($.isArray( id_list)) {
+                    if($.inArray( parseInt(k), id_list ) != -1 ){
+                        data_list.push([k, v] );
+                    }
+                }else{
+                    data_list.push([k, v] );
+                }
+            });
+
+            var btn_list =[
+            ];
+            select_group_list = select_group_list || [];
+            $.each( select_group_list, function( k , v  ){
+                btn_list.push({
+                    label: k,
+                    cssClass: 'btn-primary',
+                    action: function(dialog) {
+                        dialog.close();
+                        $element.val(v.join(","));
+
+                        onChange( v );
+                    }
+                });
+            } );
+
+            btn_list.push({
+                label: "全部",
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    dialog.close();
+                    $element.val([-1].join(","));
+                    onChange( [-1] );
+                }
+            });
+
+
+            $("<div></div>").admin_select_dlg({
+                'data_list': data_list,
+                "header_list":["id","属性"] ,
+                "onChange": function ( select_list,dlg ){
+                    dlg.close();
+                    var select_all=false;
+                    $.each (select_list,function(){
+                        if (this==-1) {
+                            select_all=true;
+                            return false;
+                        }
+                        return true;
+                    }) ;
+
+                    if (select_all) {
+                        select_list = [-1];
+                    }
+
+                    $element.val(select_list.join(","));
+                    onChange( select_list  );
+                },
+                "select_list": select_id_list,
+                "multi_selection":true,
+                btn_list :btn_list ,
+
+            });
+
+        });
+
+
+    },
+    enum_multi_select_new :function ( $element, enum_name, onChange , id_list   ,select_group_list) {
+        //复制上面的，稍作修改
+        //原来的不显示，显示display
+        var $show_input = $($element[0].outerHTML);
+        //清除id
+        $show_input.attr("id","");
+        $show_input.css("cursor","inherit");
+        $show_input.insertAfter($element);
+        $element.hide();
+
+        var val            = $element.val();
+        console.log(val)
         var select_list    = val.split(/,/);
         var select_id_list = [];
         var show_text_arr  = [];
@@ -1216,6 +1317,7 @@ jQuery.extend({
                 action: function(dialog) {
                     dialog.close();
                     $element.val([-1].join(","));
+                    $element.next().val('全部');
                     onChange( [-1] );
                 }
             });
@@ -1227,11 +1329,13 @@ jQuery.extend({
                 "onChange": function ( select_list,dlg ){
                     dlg.close();
                     var select_all=false;
-                    $.each (select_list,function(){
+                    var next_val = '';
+                    $.each (select_list,function(i){
                         if (this==-1) {
                             select_all=true;
                             return false;
                         }
+                        next_val = next_val+ desc_map[select_list[i]]+',';
                         return true;
                     }) ;
 
@@ -1240,6 +1344,7 @@ jQuery.extend({
                     }
 
                     $element.val(select_list.join(","));
+                    $element.next().val(next_val);
                     onChange( select_list  );
                 },
                 "select_list": select_id_list,
@@ -1252,6 +1357,7 @@ jQuery.extend({
 
 
     },
+
 
     admin_select_user :function ( $element, type, call_func, is_not_query_flag, args_ex) {
         var select_no_select_value = -1;

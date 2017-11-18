@@ -25,22 +25,17 @@ $(function(){
         }
     });
 
-    $('.opt-edit').on('click',function(){
+    $('.opt-edit-rule').on('click',function(){
         var opt_data=$(this).get_opt_data();
-        edit_info('rule', opt_data);
+        edit_info(opt_data);
     });
     $('.opt-add-rule').on('click', function(){
-        edit_info('rule');
+        edit_info();
     });
-
-    var edit_info = function(opt_type,data=''){
+    var edit_info = function(data=''){
         var id_title = $("<input style='width:100%'/>");
         var id_tip = $("<textarea class='textarea' style='height:200px;'/>");
-        if(opt_type == 'rule'){
-            var modal_title = '新建规则';
-        } else {
-            var modal_title = '新建文档';
-        }
+        var modal_title = '新建规则';
 
         if (data == ''){
             var id = 0;
@@ -78,13 +73,64 @@ $(function(){
             }
         },function(){
             $('.textarea').wysihtml5()
-        },false,600)
-;
+        },false,600);
     };
+
+    $('.opt-add-pro').on('click',function(){
+        edit_pro();
+    });
+    $('.opt-edit-pro').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        edit_pro(opt_data);
+    });
+
+    var edit_pro = function(data=''){
+        var id_name = $("<input style='width:100%'/>");
+        var modal_title = '新建流程';
+
+        if (data == ''){
+            var id = 0;
+        } else {
+            var id = data.process_id;
+            id_name.val(data.name);
+        }
+        var arr= [
+            ["流程：", id_name],
+        ];
+
+        $.show_key_value_table(modal_title, arr,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function() {
+                $.ajax({
+                    type     : "post",
+                    url      : "/rule_txt/add_or_update_name",
+                    dataType : "json",
+                    data : {
+                        'process_id' : id,
+                        'name'       : id_name.val(),
+                    } ,
+                    success : function(result){
+                        if(result.ret == 0){
+                            window.location.reload();
+                        } else {
+                            alert(result.info);
+                        }
+                    }
+                });
+            }
+        },'',false,600);
+    };
+
 
     $('.opt-rule-detail').on('click', function(){
         var rule_id = $(this).data('id');
         $.wopen('/rule_txt/rule_detail?rule_id='+rule_id);
     });
+    $('.opt-pro').on('click', function(){
+        var process_id = $(this).data('id');
+        $.wopen('/rule_txt/process_info?process_id='+process_id);
+    });
+
 	  $('.opt-change').set_input_change_event(load_data);
 });
