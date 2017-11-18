@@ -29,6 +29,11 @@ class activity_base {
         E\Eorder_activity_type::V_2017111201  =>  activity_2017111201::class,
         E\Eorder_activity_type::V_2017111301  =>  activity_2017111301::class,
         E\Eorder_activity_type::V_2017111701  =>  activity_2017111701::class,
+        E\Eorder_activity_type::V_2017111702  =>  activity_2017111702::class,
+        E\Eorder_activity_type::V_2017111703  =>  activity_2017111703::class,
+        E\Eorder_activity_type::V_2017111704  =>  activity_2017111704::class,
+        E\Eorder_activity_type::V_2017111705  =>  activity_2017111705::class,
+        E\Eorder_activity_type::V_2017111706  =>  activity_2017111706::class,
     ];
 
     /**
@@ -61,11 +66,30 @@ class activity_base {
 
     static function check_use_count($max_count ) {
         $task= self::get_task_controler();
-        $now_count= $task->t_order_activity_info->get_count_by_order_activity_type(static::$order_activity_type );
+        $order_activity_type=static::$max_count_activity_type_list;
+        $order_activity_type[]=static::$order_activity_type;
+
+        $now_count= $task->t_order_activity_info->get_count_by_order_activity_type( $order_activity_type );
         $activity_desc_cur_count="当前已用($now_count/$max_count) ";
         $count_check_ok_flag= ($now_count<$max_count);
         return array( $count_check_ok_flag,$now_count, $activity_desc_cur_count);
     }
+    static function check_max_change_value($max_change_value, $need_change_count ) {
+        if ($max_change_value >0 ) {
+            $task= self::get_task_controler();
+            $order_activity_type=static::$max_count_activity_type_list;
+            $order_activity_type[]=static::$order_activity_type;
+
+            $now_count= $task->t_order_activity_info->get_all_change_value_by_order_activity_type($order_activity_type) ;
+            $activity_desc_cur_count="当前已用($now_count/$max_change_value) ";
+            $count_check_ok_flag= ($now_count<$max_change_value);
+            return array( $count_check_ok_flag,$now_count, $activity_desc_cur_count);
+        }else{
+            return array( true,0, "");
+        }
+    }
+
+
 
     static function check_now( $start_date, $end_date ) {
         $now=time(NULL);
@@ -105,7 +129,7 @@ class activity_base {
         return $last_value;
     }
 
-    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag ) {
+    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0 ) {
         \App\Helper\Utils::logger("  $desc ");
 
         return [ "order_activity_type" => static::$order_activity_type ,
@@ -114,6 +138,7 @@ class activity_base {
                  "cur_price" => $cur_price  ,
                  "cur_present_lesson_count" => $cur_present_lesson_count,
                  "can_period_flag" => $can_period_flag,
+                 "change_value" => $change_value,
         ];
     }
 

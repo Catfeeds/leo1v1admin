@@ -1321,13 +1321,14 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $order_activity_type). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                           . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
                         . "<td>  ". $period_str
                         . " </tr> ";
                 }
             }
             $row_count= count( $arr);
         }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr class=\"table-header\"> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时  <th> 启用分期  </tr>  $tr_str </table>";
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr class=\"table-header\"> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时 <th> 修改值 <th> 启用分期  </tr>  $tr_str </table>";
         return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 
