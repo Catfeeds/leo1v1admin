@@ -48,6 +48,8 @@ class TeaWxController extends Controller
         if ($role==2 &&  $teacherid ) {
             return $teacherid;
         }else{
+            \App\Helper\Utils::logger("wx_teacher_id_test: $teacherid ");
+
             echo $this->output_err("未登录 ");
             exit;
         }

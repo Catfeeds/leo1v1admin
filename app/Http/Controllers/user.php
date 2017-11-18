@@ -16,6 +16,9 @@ class user extends TeaWxController
 
         $test_id = $this->get_account_id();
 
+        \App\Helper\Utils::logger("test_id $test_id");
+
+        
         if($test_id == 684){
             $teacherid = '53289';
         }else{
