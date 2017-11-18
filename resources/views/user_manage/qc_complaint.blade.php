@@ -61,7 +61,8 @@
                     <td>投诉类型</td>
                     <td>投诉人身份</td>
                     <td>投诉人姓名/电话</td>
-                    <td>投诉内容</td>
+                    <td class="ellipsis_jiaowu">投诉内容</td>
+                    <td style="display:none;" >投诉内容[完整]</td>
                     <td>被投诉人/身份</td>
                     <td>投诉时间</td>
                     <td>跟进状态</td>
@@ -78,7 +79,8 @@
                         <td>{{@$var["complaint_type_str"]}} </td>
                         <td>{{@$var["account_type_str"]}} </td>
                         <td>{{@$var["user_nick"]}}/{{@$var["phone"]}} </td>
-                        <td >{{mb_substr($var["complaint_info"],0,50 )}}...</td>
+                        <td class="ellipsis_jiaowu" >{{mb_substr($var["complaint_info"],0,50 )}}...</td>
+                        <td style="display:none;" >{{$var["complaint_info"]}}</td>
 
                         <td>{{@$var["complained_adminid_nick"]}}/{{@$var["complained_department_str"]}} </td>
                         <td>{{@$var["complaint_date"]}} </td>
