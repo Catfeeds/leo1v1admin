@@ -30,10 +30,10 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td rowspan="2">月份</td>
-                    <td colspan="2">收入</td>
-                    <td colspan="2">签单人数</td>
-                    <td colspan="2">客单价格</td>
+                    <td rowspan="2" align="center" valign="middle">月份</td>
+                    <td colspan="2" align="center">收入</td>
+                    <td colspan="2" align="center">签单人数</td>
+                    <td colspan="2" align="center">客单价格</td>
                                                                                         
                     <td>操作 </td>
                 </tr>
