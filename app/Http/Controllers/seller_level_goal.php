@@ -167,4 +167,15 @@ class seller_level_goal extends Controller
 
         return $this->output_succ();
     }
+
+    public function seller_level_month_list(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_level_month->get_all_list($page_info);
+        foreach($ret_info['list'] as &$item){
+            E\Eseller_level::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,'month_date','','Y-m-d');
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }
