@@ -905,7 +905,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             "t.train_through_new_time>0",
             "t.trial_lecture_is_pass=1",
         ];
-        if($type==2){
+        if($type==1){
             $where_arr[] = "t.identity in (5,6,7)";
         }else{
             $where_arr[] = "t.identity not in (5,6,7)";

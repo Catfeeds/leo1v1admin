@@ -2152,8 +2152,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $data = [
             'first'    => '您的学员：'.$agent_freeze_type_desc.'存在违规行为。',
-            'keyword1' => '违规时间：'.date('Y年m月d日 H:i:s',$bad_time),
-            'keyword2' => '违规原因：利用漏洞',
+            'keyword1' => date('Y年m月d日 H:i:s',$bad_time),
+            'keyword2' => '利用漏洞',
             'remark'   => '违规行为将会冻结此次奖励',
         ];
         $msg=json_encode($data ,JSON_UNESCAPED_UNICODE) ;
@@ -2171,9 +2171,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
         $wx->send_template_msg($jim_openid,$template_id,$data,$url);
 
-        // $succ_flag=false;
-        // $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
-        // $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
+        $succ_flag=false;
+        $succ_flag = $wx->send_template_msg($openid,$template_id,$data,$url);
+        $this->task->t_agent_wx_msg_log->add($from_agentid,$to_agentid,$agent_wx_msg_type,$msg,$succ_flag);
 
     }
     //消息
