@@ -4058,7 +4058,7 @@ class user_deal extends Controller
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
         $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_new);
-        $arr['seller_level'] = isset($last_seller_level['seller_level'])?$last_seller_level['seller_level']:'';
+        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
 
         return $this->output_succ($arr);
     }
