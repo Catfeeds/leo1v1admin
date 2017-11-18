@@ -45,6 +45,7 @@ class TeaWxController extends Controller
             $teacherid = session("login_userid" );
         }
 
+
         if ($role==2 &&  $teacherid ) {
             return $teacherid;
         }else{
