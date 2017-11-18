@@ -5336,10 +5336,7 @@ class user_deal extends Controller
     public function fulltime_teacher_positive_require_deal_master(){
         $id   = $this->get_in_int_val("id");
         $master_deal_flag  = $this->get_in_int_val("master_deal_flag");
-<<<<<<< HEAD
-=======
         $base_money= $this->get_in_int_val("base_money");
->>>>>>> 3db48d97894105c84226e20d2e3f607c9a27dafe
 
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
             "master_deal_flag"   =>$master_deal_flag,
@@ -5365,21 +5362,13 @@ class user_deal extends Controller
     public function fulltime_teacher_positive_require_deal_main_master(){
         $id   = $this->get_in_int_val("id");
         $main_master_deal_flag  = $this->get_in_int_val("main_master_deal_flag");
-<<<<<<< HEAD
-        $base_money = $this->get_in_int_val("base_money");
-=======
         $base_money= $this->get_in_int_val("base_money");
->>>>>>> 3db48d97894105c84226e20d2e3f607c9a27dafe
 
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
             "main_master_deal_flag"   => $main_master_deal_flag,
             "main_mater_adminid"      => $this->get_account_id(),
             "main_master_assess_time" => time(),
-<<<<<<< HEAD
             "base_money"              => $base_money*100,
-=======
-            "base_money"              => $base_money*100
->>>>>>> 3db48d97894105c84226e20d2e3f607c9a27dafe
         ]);
 
         $positive_type = $this->t_fulltime_teacher_positive_require_list->get_positive_type($id);
