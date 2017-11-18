@@ -284,8 +284,6 @@ $(function(){
         });
     });
 
-
-    //编辑lala
     $(".edit-manage").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var uid= opt_data.uid;
@@ -305,7 +303,6 @@ $(function(){
         var $main_department =$("<select/>");
         var $call_phone_passwd =$("<input/>").val(opt_data.call_phone_passwd );
 
-        //var $ytx_phone=$("<input/>").val(opt_data.ytx_phone );
         var need_account_role_list=null;
         if (g_args.assign_account_role>0) {
             need_account_role_list=[ g_args.assign_account_role ];
