@@ -82,14 +82,14 @@ $(function(){
             my_fun();
 
             $('.textarea').wysihtml5();
-            custom_upload_file(
-            'id_pro_img',0,function(up, file, info) {
+            custom_upload_file('id_pro_img',1,function(up, file, info) {
+                console.log(file)
                 var res = $.parseJSON(file);
                 if( res.key!='' ){
                     $('#img').attr('src', qiniu_pub+'/'+res.key);
                 }
             }, [], ["jpg","png"],function(){}
-        );
+                              );
 
         },false,900);
     });
