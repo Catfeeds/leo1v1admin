@@ -25,13 +25,23 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
     }
     //@desn:获取用户总共抽奖金额
     //@param: $id 用户优学优享id
-    public function get_sum_daily_lottery($id){
+    public function get_sum_daily_lottery($id,$is_cash=0){
+        $where_arr = [
+            ['agent_id = %u',$id,-1],
+        ];
+        if($is_cash)
+            $this->where_arr_add_int_field($where_arr,'is_can_cash_flag',1);
         $sql = $this->gen_sql_new(
-            'select sum(money) from %s where agent_id = %u',
+            'select sum(money) from %s where %s',
             self::DB_TABLE_NAME,
-            $id
+            $where_arr
         );
         return $this->main_get_value($sql);
+    }
+    //@desn:跟新用户所有的转盘奖励状态为可提现
+    public function update_all_flag($agent_id){
+        $sql = sprintf('update %s set is_can_cash_flag = 1 where agent_id = %u',self::DB_TABLE_NAME,$agent_id);
+        return $this->main_update($sql);
     }
 }
 

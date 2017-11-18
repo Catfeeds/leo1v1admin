@@ -16,10 +16,8 @@
             <thead>
                 <tr>
                     <td>月份</td>                   
-                    <td>数量</td>                   
-                    <td>课时</td>                   
-                    <td>CC转化率</td>                    
-                    <td>CR转化率</td>                    
+                    <td>旷课</td>                   
+                    <td>所有</td>                    
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -27,10 +25,9 @@
                 @foreach ( $list as $k=>$var )
                     <tr>
                         <td>{{@$k}} </td>     
-                        <td class="tea_num"> </td>                           
-                        <td class="lesson_count"></td>                           
-                        <td class="cc_per"> </td>                           
-                        <td class="cr_per"></td>                           
+                        <td class="kk_count"> </td>                           
+                        <td class="all_count"></td>                           
+                                          
                         <td>
                             <div class="row-data" data-teacherid="{{$var["start_time"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>

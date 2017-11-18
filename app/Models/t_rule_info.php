@@ -8,7 +8,7 @@ class t_rule_info extends \App\Models\Zgen\z_t_rule_info
 		parent::__construct();
 	}
 
-    public function get_all_rule($start_time, $end_time,$page_info){
+    public function get_all_rule($start_time, $end_time){
         $where_arr = [
             ['create_time>=%u',$start_time, -1],
             ['create_time<%u',$end_time, -1],
@@ -17,7 +17,7 @@ class t_rule_info extends \App\Models\Zgen\z_t_rule_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_rule_info($rule_id){

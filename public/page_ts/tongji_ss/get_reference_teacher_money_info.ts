@@ -42,11 +42,9 @@ $(function(){
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".cc_per").text(data.cc_per); 
-                        $tr.find(".cr_per").text(data.cr_per); 
-                        $tr.find(".tea_num").text(data.tea_num); 
-                        $tr.find(".lesson_count").text(data.lesson_count); 
-                                              
+                        $tr.find(".kk_count").text(data.kk_count); 
+                        $tr.find(".all_count").text(data.all_count); 
+                                                                     
                         
                         do_index++;
                         do_one();

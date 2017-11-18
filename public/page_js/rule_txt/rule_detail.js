@@ -79,7 +79,7 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function() {
 
-                if(id_name.val() =='' || id_content.val() == '' || id_punish_type.val() == '' || id_add_punish.val() == ''){
+                if(id_name.val() =='' || id_content.val() == '' || id_punish_type.val() == '' ){
                     alert('请把信息填写完整！');
                 } else {
                     $.ajax({

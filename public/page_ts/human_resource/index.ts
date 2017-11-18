@@ -892,6 +892,7 @@ $(function(){
         id_work_year.val(opt_data.work_year);
         id_gender.val(opt_data.gender);
         id_region.val(opt_data.address);
+        id_free_time.val(opt_data.free_time);
         var show_field=function (jobj,show_flag) {
             if ( show_flag ) {
                 jobj.parent().parent().show();
