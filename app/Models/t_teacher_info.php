@@ -4703,4 +4703,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
 
     }
+
+    public function get_notice_list_for_month(){
+        $where_arr = [
+            "t.quit_time=0",
+            "t.is_test_user=0",
+            "t.trial_lecture_is_pass=1",
+            "t.wx_openid is not null"
+        ];
+        $sql = $this->gen_sql_new("  select wx_openid from %s t"
+                                  ." where %s  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

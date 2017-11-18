@@ -164,7 +164,7 @@ class activity_config_base extends  activity_base {
             list($find_money_level , $off_money )=static::get_value_from_config_ex(
                 $this->price_off_money_list,  $price , [0,0] );
             if ( $off_money) {
-                $price-=$free_money;
+                $price-=$off_money;
                 $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_money_level 元 立减 $off_money 元 "   , $price,  $present_lesson_count, $can_period_flag );
                 return true;
             }else{
@@ -256,7 +256,7 @@ class activity_config_base extends  activity_base {
 
         }else if ( count($this->price_off_money_list )>0 ) {
             foreach ( $this->price_off_money_list as  $key => $val) {
-                $str.="购满 $key 次课 送 $val 次课 <br/> ";
+                $str.="购满 $key 元 立减  $val  元  <br/> ";
             }
             $arr[]=["--", ""];
             $arr[]=["优惠", $str  ];

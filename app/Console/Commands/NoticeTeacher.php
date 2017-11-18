@@ -106,7 +106,7 @@ class NoticeTeacher extends Command
         case 17:
             // 试听/试听模拟课课前一天晚八点上课提醒
             $wx->tomorrow_lesson_remind_wx($type);
-            break;           
+            break;
         case 18:
             // 模拟试听课堂结束提醒老师评价学生
             $wx->train_lesson_notice_set_stu_performance($type);
