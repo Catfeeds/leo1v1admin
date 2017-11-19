@@ -5,6 +5,8 @@ class activity_2017111703 extends  activity_config_base {
 
     public static $order_activity_type= E\Eorder_activity_type::V_2017111703;
 
+    public static $max_count_activity_type_list=[];
+
     public function __construct(  $args   ) {
         parent::__construct($args);
         $this->date_range=[ "2017-11-18"  , "2017-11-20"];

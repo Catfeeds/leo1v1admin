@@ -4,6 +4,7 @@ use \App\Enums as E;
 class activity_2017111702 extends  activity_config_base {
 
     public static $order_activity_type= E\Eorder_activity_type::V_2017111702;
+    public static $max_count_activity_type_list=[];
 
     public function __construct(  $args   ) {
         parent::__construct($args);
