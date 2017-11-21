@@ -951,7 +951,7 @@ class test_boby extends Controller
         $week = [0=>0,1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0];
         foreach($ret as $v){
             $w = date('w',$v['lesson_start']);
-            $h = intval(floor( ( $v['lesson_start']%86400 ) / 1800 ) );
+            $h = $this->fenzu( $v['set_lesson_time'] );
 
             $week[$w] += 1;
             $hour[$h] += 1;
