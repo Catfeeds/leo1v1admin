@@ -42,7 +42,7 @@ class update_teaching_core_data extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         // dd(1111);
-        for($i=9;$i<=11;$i++){
+        for($i=1;$i<=1;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);

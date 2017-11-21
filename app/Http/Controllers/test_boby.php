@@ -899,16 +899,30 @@ class test_boby extends Controller
         }
     }
 
-    public function get_no_order(){
-        $sql = 'select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order from db_weiyi_admin.t_manager_info m  left join db_weiyi.t_order_info o on o.sys_operator=m.name and o.order_time>=1509465600 and o.order_time<1509983999  left join db_weiyi_admin.t_admin_group_user gu on gu.adminid=m.uid  left join db_weiyi_admin.t_admin_group_name g on g.groupid=gu.groupid  where m.account_role =2 and g.main_type=2 group by m.uid having no_order=0';
+    public function get_some_user_info(){
+        $this->switch_tongji_database();
+        $start = strtotime('2017-8-1');
+        $end = strtotime('2017-9-1');
+
+        $sql = "select s.phone,s.nick,count(distinct tq.uid) cc,s.origin from db_weiyi.t_seller_student_new ss "
+             ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
+             ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
+             ." left join t_test_lesson_subject tl on tl.userid=ss.userid "
+             ." left join t_test_lesson_subject_require ts on ts.test_lesson_subject_id=tl.test_lesson_subject_id "
+             ." left join t_test_lesson_subject_sub_list tss on tss.require_id=ts.require_id "
+             ." left join t_lesson_info l on l.lessonid=tss.lessonid "
+             ." where ss.add_time>=$start and ss.add_time<$end and s.is_test_user=0 and l.lesson_user_online_status<>1"
+             ." group by s.phone having cc<=2";
+
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $th_arr = ['队名','人','orderid'];
+        $th_arr = ['手机','姓名','联系次数（ｃｃ人数）','渠道'];
         $s = $this->table_start($th_arr);
 
-        foreach ($ret as $v ) {
-            $s= $this->tr_add($s,$v['group_name'],$v['name'],$v['no_order']);
+        foreach($ret as $v){
+            $s= $this->tr_add($s, $v['phone'], $v['nick'], $v['cc'], $v['origin']);
         }
         $s = $this->table_end($s);
+
         return $s;
 
     }

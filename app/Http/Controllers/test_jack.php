@@ -345,7 +345,7 @@ class test_jack  extends Controller
         
         $start= strtotime("2017-01-01");
         $end= time();
-        $ret =$this->t_lesson_info_b3->get_lesson_teacher_num($start, $end, 2);
+        $ret =$this->t_lesson_info_b3->get_lesson_teacher_num($start, $end, -2);
         dd($ret);
         $start_time  = strtotime(date("Y-m-d"),time());
         $end_time    = time() + 86400*7;

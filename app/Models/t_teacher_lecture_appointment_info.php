@@ -493,7 +493,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,"
                                   ."tr.add_time one_add_time,ll.lesson_start train_add_time,"
                                   ."lll.lesson_start trail_time,t.train_through_new,t.train_through_new_time, "
-                                  ." tf.simul_test_lesson_pass_time "
+                                  ." if(tf.simul_test_lesson_pass_time>0,tf.simul_test_lesson_pass_time,t.train_through_new_time) simul_test_lesson_pass_time "
                                   ." from %s al "
                                   ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
                                   ." not exists (select 1 from %s where phone = tl.phone and status =1 and "

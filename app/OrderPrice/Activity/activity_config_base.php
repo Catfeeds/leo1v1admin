@@ -12,8 +12,12 @@ class activity_config_base extends  activity_base {
     //是否可不使用
     public $can_disable_flag =true;
 
+    public  $check_grade_list=[] ; //适配年级 [ 101,102,103,104,105,106, . ]
 
+    static public  $max_count_activity_type_list=[]; // 总配额 组合
     public  $max_count=0;//
+    public  $max_change_value=0;// 最大修改 累计值
+
     public  $contract_type_list=[] ; //常规,续费
     // 课次数  区间
     public $lesson_times_range=[];
@@ -64,6 +68,13 @@ class activity_config_base extends  activity_base {
         //时间检查
         if (count($this->date_range)==2 ) {
             if (!$this->check_now( $this->date_range[0], $this->date_range[1] )) {
+                return false;
+            }
+        }
+
+        //年级检查
+        if (count($this->check_grade_list ) ) {
+            if (! in_array( $this->grade , $this->check_grade_list) ) {
                 return false;
             }
         }
@@ -148,9 +159,14 @@ class activity_config_base extends  activity_base {
             list($find_free_lesson_level , $present_lesson_count_1 )=static::get_value_from_config_ex(
                 $this->lesson_times_present_lesson_count ,  $this->lesson_times , [0,0] );
             if ( $present_lesson_count_1) {
-                $present_lesson_count += $present_lesson_count_1 *3;
-                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_free_lesson_level 次课 送 $present_lesson_count_1 次课  "   , $price,  $present_lesson_count, $can_period_flag );
-                return true;
+                list( $check_ok_flag,$now_all_change_value, $activity_desc_cur_count )= $this->check_max_change_value($this->max_change_value, $present_lesson_count_1);
+                if ( $check_ok_flag ) {
+                    $present_lesson_count += $present_lesson_count_1 *3;
+                    $desc_list[] = static::gen_activity_item(1, "  $activity_desc 购满 $find_free_lesson_level 次课 送 $present_lesson_count_1 次课  $activity_desc_cur_count "   , $price,  $present_lesson_count, $can_period_flag, $present_lesson_count_1 );
+                    return true;
+                }else{
+                    $desc_list[]=static::gen_activity_item(0, " $activity_desc   购满 $find_free_lesson_level 次课 送 $present_lesson_count_1 次课  $activity_desc_cur_count 配额不足  ", $price,  $present_lesson_count,$can_period_flag );
+                }
             }else{
                 $desc_list[]=static::gen_activity_item(0, " $activity_desc {$this->lesson_times}次课 未匹配", $price,  $present_lesson_count,$can_period_flag );
                 return false;
@@ -165,7 +181,7 @@ class activity_config_base extends  activity_base {
                 $this->price_off_money_list,  $price , [0,0] );
             if ( $off_money) {
                 $price-=$off_money;
-                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_money_level 元 立减 $off_money 元 "   , $price,  $present_lesson_count, $can_period_flag );
+                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_money_level 元 立减 $off_money 元 "   , $price,  $present_lesson_count, $can_period_flag, $off_money );
                 return true;
             }else{
                 $desc_list[]=static::gen_activity_item(0, " $activity_desc 购买 $price 未匹配", $price,  $present_lesson_count,$can_period_flag );
@@ -178,8 +194,10 @@ class activity_config_base extends  activity_base {
             list($find_lesson_times_level , $off_percent )=static::get_value_from_config_ex(
                 $this->lesson_times_off_perent_list[$can_period_flag ],  $lesson_times , [0,100] );
             if ( $off_percent) {
-                $price=  intval($price* $off_percent /100) ;
-                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_lesson_times_level 次课 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag );
+                $tmp_price=  intval($price* $off_percent /100) ;
+                $diff_money= $price- $tmp_price;
+                $price= $tmp_price;
+                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_lesson_times_level 次课 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag , $diff_money );
                 return true;
             }else{
                 $desc_list[]=static::gen_activity_item(0, " $activity_desc {$this->lesson_times}次课 未匹配", $price,  $present_lesson_count,$can_period_flag );
@@ -193,7 +211,9 @@ class activity_config_base extends  activity_base {
             if ($off_percent) {
                 $grade_str= E\Egrade::get_desc($this->grade);
                 $price=  intval($price* $off_percent /100) ;
-                $desc_list[] = static::gen_activity_item(1, " $activity_desc  ,年级 $grade_str 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag );
+                $diff_money= $price- $tmp_price;
+                $price= $tmp_price;
+                $desc_list[] = static::gen_activity_item(1, " $activity_desc  ,年级 $grade_str 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag, $diff_money );
                 return true;
             }
         }
@@ -227,6 +247,17 @@ class activity_config_base extends  activity_base {
         }
         $arr[]=["新签 续费 适用",  join(",",$tmp_str_arr )  ];
 
+        if ( count( $this->check_grade_list ) >0  ) {
+            //年级
+            $tmp_str_arr=[];
+            foreach ( $this->check_grade_list   as $val ) {
+                $tmp_str_arr[]=  E\Egrade::get_desc($val);
+            }
+
+            $arr[]=["年级适用 ",  join(",",$tmp_str_arr )  ];
+        }
+
+
         //用户加入时间
         if (count ($this->user_join_time_range ) ==2 ) {
             $arr[]=["用户加入时间区间", $this->user_join_time_range [0]. " 到 " . $this->user_join_time_range[1]  ];
@@ -240,9 +271,24 @@ class activity_config_base extends  activity_base {
             $arr[]=["最后一次试听时间区间", $this->last_test_lesson_range [0]. " 到 " . $this->last_test_lesson_range[1]  ];
         }
 
+        if (count(static::$max_count_activity_type_list)>0 ) {
+            //年级
+            $tmp_str_arr=[];
+            foreach (static::$max_count_activity_type_list   as $val ) {
+                $tmp_str_arr[]=  $val.":".  E\Eorder_activity_type::get_desc($val);
+            }
+
+            $arr[]=["打包活动 总配额 ",  join("<br/>",$tmp_str_arr )  ];
+
+        }
+
         if ($this->max_count){
             list( $count_check_ok_flag,$now_count, $activity_desc_cur_count)= static::check_use_count($this->max_count );
             $arr[]=["合同最大个数",  $activity_desc_cur_count  ];
+        }
+        if ($this->max_change_value){
+            list( $count_check_ok_flag,$now_count, $activity_desc_cur_count)= static::check_max_change_value($this->max_change_value,0);
+            $arr[]=["优惠份额最大个数",  $activity_desc_cur_count  ];
         }
 
 

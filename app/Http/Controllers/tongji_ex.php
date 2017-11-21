@@ -11,6 +11,7 @@ class tongji_ex extends Controller
 {
     use  CacheNick;
     public function __construct() {
+		parent::__construct();
         $this->switch_tongji_database();
     }
 

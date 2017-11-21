@@ -3176,7 +3176,8 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-
-    $(".fa-download").hide();
+    if(g_args.show_download == 0){
+        $(".fa-download").hide();
+    }
 });
 
