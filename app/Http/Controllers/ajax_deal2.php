@@ -472,7 +472,7 @@ class ajax_deal2 extends Controller
             }
         }else if($ret_student == 0 && $ret_parent == 0){
             $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
-            $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
+            $ret_parent  = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
             if($ret_student && $ret_parent){
                 $ret['success'] =  "注册学生账号和家长账号成功";
                 $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
@@ -485,13 +485,13 @@ class ajax_deal2 extends Controller
             $teacher_info['tea_nick']      = $account;
             $teacher_info['send_sms_flag'] = 0;
             $teacher_info['wx_use_flag']   = 0;
-            $teacher_info['use_easy_pass'] = 2;
             $teacher_info['is_test_user']  = 1;
             $this->add_teacher_common($teacher_info);
         }
 
         return $this->output_succ($ret);
     }
+
     /**
      *@author   sam
      *@function 增加老师取消课程记录
