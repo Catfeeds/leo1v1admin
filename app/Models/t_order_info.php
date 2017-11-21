@@ -4230,4 +4230,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_orderid_by_userid($userid,$sys_operator){
+        $where_arr = [
+            ['userid=%u',$userid,-1],
+            [ "sys_operator like '%%%s%%'" , $this->ensql($sys_operator)],
+        ];
+        $sql = $this->gen_sql_new("select orderid "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
