@@ -78,6 +78,19 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
                                              ,t_order_info::DB_TABLE_NAME
             );
         }
+
+        $where_arr[]="if(s.grade=101,s2.grade in (101,102),true)";
+        $where_arr[]="if(s.grade=102,s2.grade in (101,102,103),true)";
+        $where_arr[]="if(s.grade=103,s2.grade in (102,103,104),true)";
+        $where_arr[]="if(s.grade=104,s2.grade in (103,104,105),true)";
+        $where_arr[]="if(s.grade=105,s2.grade in (104,105,106),true)";
+        $where_arr[]="if(s.grade=106,s2.grade in (105,106,201),true)";
+        $where_arr[]="if(s.grade=201,s2.grade in (106,201,202),true)";
+        $where_arr[]="if(s.grade=202,s2.grade in (201,202,203),true)";
+        $where_arr[]="if(s.grade=203,s2.grade in (202,203,301),true)";
+        $where_arr[]="if(s.grade=301,s2.grade in (203,301,302),true)";
+        $where_arr[]="if(s.grade=302,s2.grade in (301,302,303),true)";
+        $where_arr[]="if(s.grade=303,s2.grade in (302,303),true)";
         
 
         $sql = $this->gen_sql_new("select distinct s.nick,ul.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"

@@ -3,14 +3,13 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
-    alert( window["g_load_data_flag"]);
     $.reload_self_page ( {
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val(),
-		    match_type:	$('#id_match_type').val()
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		match_type:	$('#id_match_type').val()
     });
 }
 $(function(){
@@ -26,11 +25,10 @@ $(function(){
             load_data();
         }
     });
-
-
 	  $('#id_match_type').val(g_args.match_type);
 
 
-	  $('.opt-change').set_input_change_event(load_data);
+	$('.opt-change').set_input_change_event(load_data);
 });
+
 
