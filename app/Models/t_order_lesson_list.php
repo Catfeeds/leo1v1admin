@@ -100,7 +100,7 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
     }
 
     public function get_last_lessonid($orderid){
-        $sql = $this->gen_sql_new("  select lessonid from %s ol where ol.orderid=%s order by lessonid asc limit 1 "
+        $sql = $this->gen_sql_new("  select ol.lessonid from %s ol left join %s l on l.lessonid=ol.lessonid where l.lesson_del_flag=0 and ol.orderid=%s order by lessonid asc limit 1 "
                                   ,self::DB_TABLE_NAME
                                   ,$orderid
         );

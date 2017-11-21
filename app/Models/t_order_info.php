@@ -4215,6 +4215,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         */
         $where_arr = [
             " l.lesson_type = 2",
+            "o.contract_status>0",
+            "o.contract_type=0"
         ];
 
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $month_start, $month_end);
