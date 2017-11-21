@@ -899,8 +899,30 @@ class test_boby extends Controller
         }
     }
 
-    public function get_time(){
-        $s = microtime(true);
+    public function get_some_user_info(){
+        $this->switch_tongji_database();
+        $start = strtotime('2017-8-1');
+        $end = strtotime('2017-9-1');
+
+        $sql = "select s.phone,s.nick,count(distinct tq.uid) cc,s.origin from db_weiyi.t_seller_student_new ss "
+             ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
+             ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
+             ." left join t_test_lesson_subject tl on tl.userid=ss.userid "
+             ." left join t_test_lesson_subject_require ts on ts.test_lesson_subject_id=tl.test_lesson_subject_id "
+             ." left join t_test_lesson_subject_sub_list tss on tss.require_id=ts.require_id "
+             ." left join t_lesson_info l on l.lessonid=tss.lessonid "
+             ." where ss.add_time>=$start and ss.add_time<$end and s.is_test_user=0 and l.lesson_user_online_status<>1"
+             ." group by s.phone having cc<=2";
+
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $th_arr = ['手机','姓名','联系次数（ｃｃ人数）','渠道'];
+        $s = $this->table_start($th_arr);
+
+        foreach($ret as $v){
+            $s= $this->tr_add($s, $v['phone'], $v['nick'], $v['cc'], $v['origin']);
+        }
+        $s = $this->table_end($s);
+
         return $s;
 
     }

@@ -1319,7 +1319,6 @@ class human_resource extends Controller
     {
         $assistantid = $this->get_in_int_val('assistantid',-1);
         $nick        = $this->get_in_str_val('name');
-        // $birth       = $this->get_in_int_val('birth');
         $birth       = str_replace('-','',$this->get_in_str_val('birth'));
         $gender      = $this->get_in_int_val('sex');
         $work_year   = $this->get_in_int_val('years');
@@ -1339,6 +1338,7 @@ class human_resource extends Controller
 
     public function add_teacher()
     {
+        return $this->output_err("接口停用");
         $grade        = $this->get_in_int_val('grade',-1);
         $grade_ex     = $this->get_in_int_val('grade_ex',-1);
         $subject      = $this->get_in_int_val('subject',0);
@@ -1836,7 +1836,6 @@ class human_resource extends Controller
 
         return $this->output_succ();
     }
-
 
     private function send_lecture_sms($teacher_info,$status){
         $teacher_re_submit_num = $this->t_teacher_lecture_info->get_teacher_re_submit_num($teacher_info['id']);
@@ -4414,7 +4413,6 @@ class human_resource extends Controller
                 "email"                 => $teacher_info['email'],
                 "school"                => $teacher_info['school'],
                 "send_sms_flag"         => 0,
-                "use_easy_pass"         => 1,
                 "transfer_teacherid"    => $teacher_info['teacherid'],
                 "transfer_time"         => time(),
                 "wx_openid"             => $teacher_info['wx_openid'],
