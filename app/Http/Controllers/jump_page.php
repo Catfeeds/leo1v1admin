@@ -35,7 +35,7 @@ class jump_page extends Controller
         if ($url=="login.html") {
             header("Location: http://wx-teacher-web.leo1v1.com/login.html?wx_openid=".$openid);
         }else{
-            header("Location: http://wx-teacher-web.leo1v1.com/$url?wx_openid=".$openid."&type=$type");
+            header("Location: http://wx-teacher-web.leo1v1.com/$url?type=$type");
         }
 
 

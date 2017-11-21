@@ -4220,9 +4220,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $month_start, $month_end);
 
+        //t_order_lesson_list
         $sql = $this->gen_sql_new("  select count(distinct(l.userid) ) from %s o "
                                   ." join %s l on o.from_test_lesson_id=l.lessonid"
-                                  ." left join %s tl "
+                                  ." left join %s ol on ol.orderid = o.orderid "
         );
     }
 }
