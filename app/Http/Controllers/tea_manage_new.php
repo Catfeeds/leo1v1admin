@@ -735,7 +735,6 @@ class tea_manage_new extends Controller
             $teacher_info = [
                 "phone"         => $phone,
                 "tea_nick"      => $tea_nick,
-                "use_easy_pass" => 2,
                 "send_sms_flag" => 0,
             ];
             $teacherid = $this->add_teacher_common($teacher_info);
@@ -945,18 +944,21 @@ class tea_manage_new extends Controller
             $teacher_info = [
                 "phone"         => $phone,
                 "tea_nick"      => $tea_nick,
-                "use_easy_pass" => 1,
                 "send_sms_flag" => 0,
             ];
             $teacherid = $this->add_teacher_common($teacher_info);
         }else{
-            $this->t_teacher_info->field_update_list($teacherid,[
-                "realname"  =>$tea_nick,
-                "nick"  =>$tea_nick,
-            ]);
-            $this->t_user_info->field_update_list($teacherid,[
-                "passwd" => md5(123456)
-            ]);
+            $teacher_info = $this->t_teacher_info->get_teacher_info_all($teacherid);
+            $update_arr   = [];
+            if($teacher_info['realname']!=$tea_nick){
+                $update_arr['realname']=$tea_nick;
+            }
+            if($teacher_info['nick']!=$tea_nick){
+                $update_arr['nick']=$tea_nick;
+            }
+            if(!empty($update_arr)){
+                $this->t_teacher_info->field_update_list($teacherid,$update_arr);
+            }
         }
 
         //检查面试老师时间是否冲突

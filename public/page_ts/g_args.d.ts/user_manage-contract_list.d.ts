@@ -32,6 +32,7 @@ interface GargsStatic {
 	account_role_self:	number;
 	acc:	number;
 	ass_master_flag:	number;
+	show_download:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -181,7 +182,8 @@ function load_data(){
 		spec_flag:	$('#id_spec_flag').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		acc:	$('#id_acc').val(),
-		ass_master_flag:	$('#id_ass_master_flag').val()
+		ass_master_flag:	$('#id_ass_master_flag').val(),
+		show_download:	$('#id_show_download').val()
     });
 }
 $(function(){
@@ -225,6 +227,7 @@ $(function(){
 	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_acc').val(g_args.acc);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
+	$('#id_show_download').val(g_args.show_download);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -416,6 +419,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">ass_master_flag</span>
                 <input class="opt-change form-control" id="id_ass_master_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">show_download</span>
+                <input class="opt-change form-control" id="id_show_download" />
             </div>
         </div>
 */
