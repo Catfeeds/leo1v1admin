@@ -1270,15 +1270,18 @@ $test=	3;
         $stu_list = $this->t_order_info->get_stu_date_num($month_start,$month_end);
 
         // dd($stu_list);
+        $a = [];
 
         foreach($stu_list as $i=>$item){
             $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['orderid']);
             $normal_info = $this->t_order_lesson_list->get_lesson_info_tmp($last_normal_id);
 
             if( !$normal_info ||(($item['subject'] == $normal_info['subject'])  && $item['teacherid'] != $normal_info['teacherid'] && $item['userid']==$normal_info['userid'])){
+                $a[] = $stu_list[$i];
                 unset($stu_list[$i]);
             }
         }
+        dd($a);
 
         dd($stu_list);
 
