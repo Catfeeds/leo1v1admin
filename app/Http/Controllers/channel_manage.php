@@ -14,6 +14,7 @@ class channel_manage extends Controller
 
     public function admin_channel_manage(){
         $ret_info = $this->t_admin_channel_list->get_admin_channel_info();
+        $admin_name = $this->get_in_str_val("name","");
         // dd($ret_info);
         $list=[];
         $num=1;
@@ -58,7 +59,7 @@ class channel_manage extends Controller
                     "main_type"=>''
                     ];
 
-                $admin_list = $this->t_admin_channel_user->get_user_list_new($item["ref_type"]);
+                $admin_list = $this->t_admin_channel_user->get_user_list_new($item["ref_type"],$admin_name);
 
                 $m = $num;
                 foreach($admin_list as $val){

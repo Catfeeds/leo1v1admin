@@ -23,7 +23,14 @@
 
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_channel">新增主渠道</button>
-                </div> 
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <div class="input-group ">
+                        <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="name" id="id_name"  placeholder="成员姓名 回车查找" />
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
@@ -38,14 +45,14 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr class="{{$var["level"]}}">
-                        <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
+                    <tr class="{{$var["level"]}} show_flag_ww">
+                        <td data-class_name="{{$var["main_type_class"]}}" class="main_type show_flag_ww" >
                             {{$var["channel_name"]}}
                         </td>
-                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >
+                        <td  data-class_name="{{$var["up_group_name_class"]}} " class=" up_group_name show_flag_ww {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >
                             {{$var["group_name"]}}
                         </td>
-                        <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >
+                        <td data-class_name="{{$var["group_name_class"]}}" class="group_name show_flag_ww {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >
                             {{@$var["admin_name"]}} {{@$var['admin_phone']}}
                         </td>
                         <td>
