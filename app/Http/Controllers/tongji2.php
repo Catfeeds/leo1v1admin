@@ -375,7 +375,6 @@ class tongji2 extends Controller
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -1417,6 +1416,91 @@ class tongji2 extends Controller
             $arr['success_num'] = $success_num;
             $arr['fail_num'] = $kk['fail_num'];
             $arr['wait_num'] = $kk['wait_num'];
+
+
+            //新增数据
+            $cr_order_info = $this->t_order_info->get_all_cr_order_info($start_time,$end_time);
+            $arr["average_person_effect"] = !empty(@$cr_order_info["ass_num"])?round($cr_order_info["all_money"]/$cr_order_info["ass_num"])/100:0; //平均人效(非入职完整月)
+
+            $all_pay = $this->t_student_info->get_student_list_for_finance_count();//所有有效合同数
+            $refund_info = $this->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
+            $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2);//合同累计退费率
+
+            // 获取停课,休学,假期数
+            $ret_info_stu = $this->t_student_info->get_student_count_archive();
+
+            foreach($ret_info_stu as $item) {
+                if ($item['type'] == 2) {
+                    @$arr['stop_student']++;
+                } else if ($item['type'] == 3) {
+                    @$arr['drop_student']++;
+                } else if ($item['type'] == 4) {
+                    @$arr['summer_winter_stop_student']++;
+                }
+            }
+
+            //新签合同未排量(已分配/未分配)/新签学生数
+            $user_order_list = $this->t_order_info->get_order_user_list_by_month($end_time);
+            $new_user = [];//上月新签
+
+            foreach ( $user_order_list as $item ) {
+                if ($item['order_time'] >= $start_time ){
+                    $new_user[] = $item['userid'];
+                    if (!$item['start_time'] && $item['assistantid'] > 0) {//新签订单,未排课,已分配助教
+                        @$arr['new_order_assign_num']++;
+                    } else if (!$item['start_time'] && !$item['assistantid']) {//新签订单,未排课,未分配助教
+                        @$arr['new_order_unassign_num']++;
+                    }
+                }
+
+            }
+
+            $new_user = array_unique($new_user);
+            $arr['new_student_num'] = count($new_user);//新签学生数
+
+            //结课率
+            $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
+            $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2);
+
+            if($opt_date_type==3){
+                $month_start = $start_time;
+                $month_end = $end_time;
+            }elseif($opt_date_type==2){
+                $month_start = strtotime(date("Y-m-01",$end_time));
+                $month_end = strtotime("+1 months",$month_start);
+            }
+            //各年级在读学生统计
+            $grade_list = $this->t_student_info->get_read_num_by_grade();
+            $arrr=[];
+            foreach($grade_list as $k=>$val){
+                $arrr[$k]=$val["num"];
+            }
+            $grade_str = json_encode($arrr);
+
+
+            //课时消耗目标数量
+            $last_year_start = strtotime("-1 years",$month_start); 
+            $last_year_end = strtotime("+1 months",$last_year_start); 
+
+            $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($month_start,$type);
+            $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
+            $grade_arr = json_decode($month_start_grade_str,true); //月初各年级在读人数
+        
+            $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
+            $lesson_consume_target = 0;
+            foreach($lesson_consume as $kk=>$vv){
+                if($vv["total_student"]>0){
+                    $lesson_consume_target += @$grade_arr[$kk]*$vv["total_consume"]/$vv["total_student"];
+                }
+            }
+            $new_student_num_last = $this->t_cr_week_month_info->get_new_student_num($month_start,$type);
+            $read_num_last = $this->t_cr_week_month_info->get_read_num($month_start,$type);
+            $lesson_consume_target += $new_student_num_last*600;
+            $lesson_consume_target = round($lesson_consume_target/100,2);
+            $lesson_target  = ($read_num_last+ $new_student_num_last)>0?round($lesson_consume_target/($read_num_last+ $new_student_num_last),2):0;
+            $arr["lesson_consume_target"] = $lesson_consume_target;
+            $arr["lesson_target"] = $lesson_target;
+
 
             return $this->pageView(__METHOD__,null,["arr"=>$arr]);
         }

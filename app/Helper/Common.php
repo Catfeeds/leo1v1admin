@@ -1259,7 +1259,7 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" && $k!= "seller_level"
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" && $k!= "seller_level" && $k!= "first_group_name"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
@@ -1281,6 +1281,7 @@ class Common {
             if (isset($admin_list[ $adminid])) {
                 $admin_item= $admin_list[ $adminid] ;
                 $item['main_type']=$admin_item["main_type"];
+                $item['first_group_name']=$admin_item["first_group_name"];
                 $item['up_group_name']=$admin_item["up_group_name"];
                 $item['group_name']=$admin_item["group_name"];
                 $item['groupid']=$admin_item["groupid"];
@@ -1297,6 +1298,7 @@ class Common {
 
             if (empty($item['main_type'])) {
                 $item['main_type']="未定义";
+                $item['first_group_name']="未定义";
                 $item['up_group_name']="未定义";
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
@@ -1310,6 +1312,7 @@ class Common {
 
 
             $main_type          = $item['main_type'];
+            $first_group_name   = $item["first_group_name"];
             $up_group_name      = $item["up_group_name"];
             $group_name         = $item["group_name"];
             $account            = $item["account"];
@@ -1326,27 +1329,33 @@ class Common {
             $key1_map=&$key0_map["sub_list"][$main_type];
             $add_data($key1_map, $item );
 
-            $check_init_map_item($key1_map["sub_list"] , $up_group_name ,"up_group_name");
-            $key2_map=&$key1_map["sub_list"][$up_group_name];
+            $check_init_map_item($key1_map["sub_list"] , $first_group_name ,"first_group_name");
+            $key2_map=&$key1_map["sub_list"][$first_group_name];
             $add_data($key2_map, $item );
 
-            $check_init_map_item($key2_map["sub_list"] , $group_name ,"group_name","",$groupid);
-            $key3_map=&$key2_map["sub_list"][$group_name];
+            $check_init_map_item($key2_map["sub_list"] , $up_group_name ,"up_group_name");
+            $key3_map=&$key2_map["sub_list"][$up_group_name];
             $add_data($key3_map, $item );
 
-            $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid,$become_member_time,$leave_member_time,$create_time,$del_flag,$seller_level);
-            $key4_map=&$key3_map["sub_list"][$account];
-            $add_data($key4_map, $item,true );
+            $check_init_map_item($key3_map["sub_list"] , $group_name ,"group_name","",$groupid);
+            $key4_map=&$key3_map["sub_list"][$group_name];
+            $add_data($key4_map, $item );
+
+            $check_init_map_item($key4_map["sub_list"] , $account,"account",$adminid,$groupid,$become_member_time,$leave_member_time,$create_time,$del_flag,$seller_level);
+            $key5_map=&$key4_map["sub_list"][$account];
+            $add_data($key5_map, $item,true );
 
         }
         $list=[];
         foreach ($data_map as $key0 => $item0) {
             $data=$item0["data"];
             $data["main_type"]="全部";
+            $data["first_group_name"]="";
             $data["up_group_name"]="";
             $data["group_name"]="";
             $data["account"]="";
             $data["main_type_class"]="";
+            $data["first_group_name_class"]="";
             $data["up_group_name_class"]="";
             $data["group_name_class"]="";
             $data["account_class"]="";
@@ -1356,10 +1365,12 @@ class Common {
             foreach ($item0["sub_list"] as $key1 => $item1) {
                 $data=$item1["data"];
                 $data["main_type"]=$key1;
+                $data["first_group_name"]="";
                 $data["up_group_name"]="";
                 $data["group_name"]="";
                 $data["account"]="";
                 $data["main_type_class"]=$item1["key_class"];
+                $data["first_group_name_class"]="";
                 $data["up_group_name_class"]="";
                 $data["group_name_class"]="";
                 $data["account_class"]="";
@@ -1367,15 +1378,16 @@ class Common {
 
 
                 $list[]=$data;
-
                 foreach ($item1["sub_list"] as $key2 => $item2) {
                     $data=$item2["data"];
                     $data["main_type"]=$key1;
-                    $data["up_group_name"]=$key2;
+                    $data["first_group_name"]=$key2;
+                    $data["up_group_name"]="";
                     $data["group_name"]="";
                     $data["account"]="";
                     $data["main_type_class"]=$item1["key_class"];
-                    $data["up_group_name_class"]=$item2["key_class"];
+                    $data["first_group_name_class"]=$item2["key_class"];
+                    $data["up_group_name_class"]="";
                     $data["group_name_class"]="";
                     $data["account_class"]="";
                     $data["level"]="l-2";
@@ -1384,37 +1396,56 @@ class Common {
                     foreach ($item2["sub_list"] as $key3 => $item3) {
                         $data=$item3["data"];
                         $data["main_type"]=$key1;
-                        $data["up_group_name"]=$key2;
-                        $data["group_name"]=$key3;
+                        $data["first_group_name"]=$key2;
+                        $data["up_group_name"]=$key3;
+                        $data["group_name"]="";
                         $data["account"]="";
                         $data["main_type_class"]=$item1["key_class"];
-                        $data["up_group_name_class"]=$item2["key_class"];
-                        $data["group_name_class"]=$item3["key_class"];
+                        $data["first_group_name_class"]=$item2["key_class"];
+                        $data["up_group_name_class"]=$item3["key_class"];
+                        $data["group_name_class"]="";
                         $data["account_class"]="";
-                        $data['groupid'] = $item3['groupid'];
                         $data["level"]="l-3";
 
                         $list[]=$data;
                         foreach ($item3["sub_list"] as $key4 => $item4) {
                             $data=$item4["data"];
                             $data["main_type"]=$key1;
-                            $data["up_group_name"]=$key2;
-                            $data["group_name"]=$key3;
-                            $data["account"]=$key4;
+                            $data["first_group_name"]=$key2;
+                            $data["up_group_name"]=$key3;
+                            $data["group_name"]=$key4;
+                            $data["account"]="";
                             $data["main_type_class"]=$item1["key_class"];
-                            $data["up_group_name_class"]=$item2["key_class"];
-                            $data["group_name_class"]=$item3["key_class"];
-                            $data["account_class"]=$item4["key_class"];
-                            $data['adminid'] = $item4['adminid'];
+                            $data["first_group_name_class"]=$item2["key_class"];
+                            $data["up_group_name_class"]=$item3["key_class"];
+                            $data["group_name_class"]=$item4["key_class"];
                             $data['groupid'] = $item4['groupid'];
+                            $data["account_class"]="";
                             $data["level"]="l-4";
-                            $data['become_member_time']=$item4["become_member_time"];
-                            $data['leave_member_time']=$item4["leave_member_time"];
-                            $data['create_time']=$item4["create_time"];
-                            $data['del_flag']=$item4["del_flag"];
-                            $data['seller_level']=$item4["seller_level"];
 
                             $list[]=$data;
+                            foreach ($item4["sub_list"] as $key5 => $item5) {
+                                $data=$item5["data"];
+                                $data["main_type"]=$key1;
+                                $data["first_group_name"]=$key2;
+                                $data["up_group_name"]=$key3;
+                                $data["group_name"]=$key4;
+                                $data["account"]=$key5;
+                                $data["main_type_class"]=$item1["key_class"];
+                                $data["first_group_name_class"]=$item2["key_class"];
+                                $data["up_group_name_class"]=$item3["key_class"];
+                                $data["group_name_class"]=$item4["key_class"];
+                                $data['groupid'] = $item4['groupid'];
+                                $data["account_class"]=$item5["key_class"];
+                                $data["level"]="l-5";
+                                $data['adminid'] = $item5['adminid'];
+                                $data['become_member_time']=$item5["become_member_time"];
+                                $data['leave_member_time']=$item5["leave_member_time"];
+                                $data['create_time']=$item5["create_time"];
+                                $data['del_flag']=$item5["del_flag"];
+                                $data['seller_level']=$item5["seller_level"];
+                                $list[]=$data;
+                            }
                         }
                     }
                 }
