@@ -150,6 +150,20 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
         );
         return $this->main_get_row($sql);
     } 
+    //@desn:获取上次成功提现的时间
+    //@param: $agent_id 优学优享id
+    public function get_last_succ_cash_time($agent_id){
+        $where_arr = [
+            ['aid = %u ',$agent_id],
+            'check_money_flag => 1'
+        ];
+        $sql = $this->gen_sql_new(
+            'select create_time from %s where %s order by id desc limit 1',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 

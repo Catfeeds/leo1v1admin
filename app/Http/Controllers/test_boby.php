@@ -944,18 +944,23 @@ class test_boby extends Controller
 
         $sql = "select lesson_start,lesson_type from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,2,3)";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $week = [0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]];
+        $week = [
+            'free'=>[0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]],
+            'no'=>[0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]],
+        ];
         foreach($ret as $v){
             if($v['lesson_type'] == 2){
-                $a = 'free';
+                $a='free';
             }else {
-                $a = 'normal';
+                $a='no';
             }
+            $w = date('w',$v['lesson_start']);
+            $h = $this->fenzu( $v['lesson_start'] );
             @$week[$a][$w][$h] += 1;
         }
 
-        $new = [];
-        foreach ($week as $key=>$v){
+        $free = [];
+        foreach ($week['free'] as $key=>$v){
             foreach ($v as $h=>$val){
 
                 $n = $h%2;
@@ -965,12 +970,30 @@ class test_boby extends Controller
                 } else {
                     $t = $z.':'.'30-'.($z+1).':00';
                 }
-                @$new[$key][$t] = $val;
+                @$free[$key][$t] = $val;
             }
 
         }
-        dd($new);
+        $no = [];
+        foreach ($week['no'] as $key=>$v){
+            foreach ($v as $h=>$val){
 
+                $n = $h%2;
+                $z = intval(floor($h/2));
+                if($h%2 == 0){
+                    $t = $z.':'.'00-'.$z.':30';
+                } else {
+                    $t = $z.':'.'30-'.($z+1).':00';
+                }
+                @$no[$key][$t] = $val;
+            }
+
+        }
+        echo '<pre>';
+        print_r($free);
+        print_r($no);
+
+        exit;
     }
 
 }
