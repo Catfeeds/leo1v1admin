@@ -44,6 +44,7 @@ class rule_txt extends Controller
         } else {
             $flag = 0;
         }
+        $flag =1;
         return $flag;
     }
 
