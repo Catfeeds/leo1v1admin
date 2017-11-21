@@ -366,7 +366,6 @@ class Common {
         //$mail->SMTPSecure = 'tls';
         //$mail->Port = 465;
 
-
         $mail->SMTPAuth = true; // 启用SMTP验证功能
         $mail->Username = "jim@leoedu.com"; // 邮局用户名(请填写完整的email地址)
         $mail->Password = "xcwen@142857"; // 邮局密码
@@ -426,7 +425,11 @@ class Common {
 
         if (is_array($address)) {
             foreach ( $address as $item ){
-                $mail->AddAddress($item, $item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+                if ($i==0) {
+                    $mail->AddAddress($item,$item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+                }else{
+                    $mail->addCC($item,$item);
+                }
             }
         }else{
             $mail->AddAddress($address, $address);
@@ -1229,7 +1232,7 @@ class Common {
 
         $admin_list=$admin_list["list"] ;
         $cur_key_index=1;
-        $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0) {
+        $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0,$seller_level=0) {
             global $cur_key_index;
             if (!isset($item [$key])) {
                 $item[$key] = [
@@ -1241,7 +1244,8 @@ class Common {
                     "become_member_time"=>$become_member_time,
                     "leave_member_time" =>$leave_member_time,
                     "create_time"  =>$create_time,
-                    "del_flag"  =>$del_flag
+                    "del_flag"  =>$del_flag,
+                    "seller_level"  =>$seller_level,
                 ];
                 $cur_key_index++;
             }
@@ -1254,7 +1258,7 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag"
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" && $k!= "seller_level"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
@@ -1284,6 +1288,7 @@ class Common {
                 $item['leave_member_time']=$admin_item["leave_member_time"];
                 $item['create_time']=$admin_item["create_time"];
                 $item['del_flag']=$admin_item["del_flag"];
+                $item['seller_level']=$admin_item["seller_level"];
             }else{
 
             }
@@ -1299,6 +1304,7 @@ class Common {
                 $item['leave_member_time']=0;
                 $item['create_time']=0;
                 $item['del_flag']=0;
+                $item['seller_level']=0;
             }
 
 
@@ -1311,6 +1317,7 @@ class Common {
             $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
             $create_time        = isset($item['create_time'])?$item['create_time']:0;
             $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
+            $seller_level       = isset($item['seller_level'])?$item['seller_level']:0;
             $key0_map           = &$data_map[""];
             $add_data($key0_map, $item );
 
@@ -1326,7 +1333,7 @@ class Common {
             $key3_map=&$key2_map["sub_list"][$group_name];
             $add_data($key3_map, $item );
 
-            $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid,$become_member_time,$leave_member_time,$create_time,$del_flag);
+            $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid,$become_member_time,$leave_member_time,$create_time,$del_flag,$seller_level);
             $key4_map=&$key3_map["sub_list"][$account];
             $add_data($key4_map, $item,true );
 
@@ -1404,6 +1411,7 @@ class Common {
                             $data['leave_member_time']=$item4["leave_member_time"];
                             $data['create_time']=$item4["create_time"];
                             $data['del_flag']=$item4["del_flag"];
+                            $data['seller_level']=$item4["seller_level"];
 
                             $list[]=$data;
                         }
