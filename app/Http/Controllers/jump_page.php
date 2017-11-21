@@ -22,7 +22,7 @@ class jump_page extends Controller
         $url  = $this->get_in_str_val("url");
         $code = $this->get_in_str_val("code");
 
-        $type = $this->get_in_str_val('type',-1);
+        $type = $this->get_in_int_val('type',-1);
 
         $wx= new \App\Helper\Wx( \App\Helper\Config::get_teacher_wx_appid()  , \App\Helper\Config::get_teacher_wx_appsecret()  );
         $token_info = $wx->get_token_from_code($code);
