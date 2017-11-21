@@ -906,7 +906,7 @@ class test_boby extends Controller
 
         $sql = "select ss.add_time,s.phone,s.nick,count(distinct tq.uid) cc,s.origin, "
              ." count(distinct if( tq.is_called_phone=1,tq.uid,0)) ok_phone,"
-             ." min( if( tq.is_called_phone=1,tq.uid,0)) ) flag"
+             ." min( if( tq.is_called_phone=1,tq.uid,0) ) flag"
              ." from db_weiyi.t_seller_student_new ss "
              ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
              ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
