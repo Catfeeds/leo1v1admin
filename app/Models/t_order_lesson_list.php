@@ -101,7 +101,7 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
 
     public function get_last_lessonid($subject,$userid,$grade,$lesson_start){
         $sql = $this->gen_sql_new("  select l.teacherid from %s l  "
-                                  ." where l.lesson_type in (0,1,3) and l.subject=$subject and l.userid=$userid and l.grade=$grade and l.lesson_start>$lesson_start order by l.lesson_start asc "
+                                  ." where l.lesson_type in (0,1,3) and l.subject=$subject and l.userid=$userid and l.grade=$grade and l.lesson_start>$lesson_start order by l.lesson_start asc limit 1 "
                                   ,t_lesson_info::DB_TABLE_NAME
         );
 
