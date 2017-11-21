@@ -977,11 +977,11 @@ class test_boby extends Controller
             } else {
                 $t = $z.':'.'30-'.($z+1).':00';
             }
-            $s2= $this->tr_add($s2, $v,$k);
+            $s2= $this->tr_add($s2, $v,$t);
 
         }
         $s2 = $this->table_end($s2);
-
+        echo '总课数：',count($ret);
         echo $s,$s2;
         exit;
 
