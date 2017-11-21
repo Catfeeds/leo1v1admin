@@ -3,13 +3,15 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    console.log(1111);
     $.reload_self_page ( {
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		match_type:	$('#id_match_type').val()
+		    date_type_config:	$('#id_date_type_config').val(),
+		    date_type:	$('#id_date_type').val(),
+		    opt_date_type:	$('#id_opt_date_type').val(),
+		    start_time:	$('#id_start_time').val(),
+		    end_time:	$('#id_end_time').val(),
+		    match_type:	$('#id_match_type').val(),
+		    grade:	$('#id_grade').val()
     });
 }
 $(function(){
@@ -25,9 +27,13 @@ $(function(){
             load_data();
         }
     });
-	$('#id_match_type').val(g_args.match_type);
+
+    Enum_map.append_option_list("grade",$("#id_grade"),false,[101,102,103,104,105,106,201,202,203,301,302,303]);
+
+	  $('#id_match_type').val(g_args.match_type);
+	  $('#id_grade').val(g_args.grade);
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
 

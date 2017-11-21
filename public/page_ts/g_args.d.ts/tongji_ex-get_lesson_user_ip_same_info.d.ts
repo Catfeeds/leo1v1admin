@@ -5,6 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	match_type:	number;
+	grade:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -32,7 +33,8 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		match_type:	$('#id_match_type').val()
+		match_type:	$('#id_match_type').val(),
+		grade:	$('#id_grade').val()
     });
 }
 $(function(){
@@ -49,6 +51,7 @@ $(function(){
         }
     });
 	$('#id_match_type').val(g_args.match_type);
+	$('#id_grade').val(g_args.grade);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -63,6 +66,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">match_type</span>
                 <input class="opt-change form-control" id="id_match_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
 */

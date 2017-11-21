@@ -125,6 +125,7 @@ class tongji_ex extends Controller
     public function get_lesson_user_ip_same_info(){
         list($start_time,$end_time) = $this->get_in_date_range_month(0 );
         $match_type = $this->get_in_int_val("match_type",0);
+        $grade = $this->get_in_int_val("grade",-1);
         $company_ip_list=[
              '123.57.153.80',
              '123.57.153.95',
@@ -139,7 +140,7 @@ class tongji_ex extends Controller
             $str  .="'".$val."',";           
         }
         $ip_str = "(".trim($str,",").")";
-        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str);
+        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str,$grade);
         
         $list=[];
         foreach($ret_info as $val){
@@ -147,10 +148,12 @@ class tongji_ex extends Controller
             @$list[$k]["userid"]=$val["userid"]; 
             @$list[$k]["nick"]=$val["phone"]; 
             @$list[$k]["ip"]=$val["ip"];
+            @$list[$k]["grade"]=$val["grade"];
             @$list[$k]["same_name_list"] .=$val["s2_phone"].",";
         }
         foreach($list as &$item){
             $item["same_name_list"] = trim($item["same_name_list"],",");
+            E\Egrade::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list)  );
 
