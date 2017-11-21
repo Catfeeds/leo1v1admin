@@ -98,15 +98,19 @@ class order_price_20171001 extends order_price_base
         $do_activity_fun ( Activity\activity_0::class  );
         $do_activity_fun ( Activity\activity_2017100701::class  );
 
-        //11.11打折
-        $off_ret= false;
+        // cr 11.18打折
+        $off_ret= $do_activity_fun ( Activity\activity_2017111702::class  )
+                ||$do_activity_fun ( Activity\activity_2017111703::class  )
+                ||$do_activity_fun ( Activity\activity_2017111704::class  )
+                ||$do_activity_fun ( Activity\activity_2017111705::class  );
 
         if (!$off_ret) {
             //常规打折
             $do_activity_fun ( Activity\activity_2017090101::class  );
 
-
-            //2017-1117   满15000 立减500 
+            //2017-1117   可叠加 CR 限量送课
+            $do_activity_fun ( Activity\activity_2017111706::class  );
+            //2017-1117   满15000 立减500
             $do_activity_fun ( Activity\activity_2017111701::class  );
 
             //优惠券 cc
