@@ -1283,7 +1283,7 @@ $test=	3;
         }
 
         if(empty($a)){
-            echo '1';
+            echo count($a);
             dd($stu_list);
         }else{
             echo '2';
