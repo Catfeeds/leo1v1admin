@@ -1149,6 +1149,7 @@ jQuery.extend({
                 args_str+= "&"+key +"=" +  encodeURIComponent(value);
             }
         });
+        console.log(pathname  +"?" +  args_str);
         $.wopen( pathname  +"?" +  args_str,  open_self_window );
     },
 
