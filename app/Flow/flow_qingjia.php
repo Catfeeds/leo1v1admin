@@ -12,6 +12,11 @@ class flow_qingjia extends flow_base{
         5=>[ 6,"主管->校长审批"  ],
         6=>[ -1,"校长->财务审批"  ],
     ];
+
+    static function get_check_node_function_list() {
+
+    }
+
     static function get_self_info( $from_key_int,  $from_key_str ) {
         $t_qingjia = new \App\Models\t_qingjia();
         return $t_qingjia->field_get_list($from_key_int ,"*");

@@ -89,4 +89,24 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_info_tmp($last_normal_id){
+        $sql = $this->gen_sql_new("  select l.teacherid, l.subject, l.userid from %s l "
+                                  ." where l.lessonid = %d"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$last_normal_id
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+    public function get_last_lessonid($orderid){
+        $sql = $this->gen_sql_new("  select lessonid from %s ol where ol.orderid=%s order by lessonid asc limit 1 "
+                                  ,self::DB_TABLE_NAME
+                                  ,$orderid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }
