@@ -1252,7 +1252,6 @@ $test=	3;
         $wx = new \App\Helper\Wx() ;
         $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
 
-
         $txt = $this->ch_json_encode($txt_arr);
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = $this->https_post($url,$txt);
