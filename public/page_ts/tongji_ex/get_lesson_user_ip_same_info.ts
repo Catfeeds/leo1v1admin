@@ -3,6 +3,7 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    console.log(1111);
     $.reload_self_page ( {
 		    date_type_config:	$('#id_date_type_config').val(),
 		    date_type:	$('#id_date_type').val(),
