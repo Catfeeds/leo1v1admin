@@ -3193,7 +3193,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $list = $this->t_student_info->get_all_stu_info();
+        $page_info = $this->get_in_page_info();
+        $list = $this->t_student_info->get_all_stu_info($page_info);
         foreach($list["list"] as &$item){
             E\Estudent_type::set_item_value_str($item,"type");
         }

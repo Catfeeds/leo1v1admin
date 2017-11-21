@@ -93,7 +93,6 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
         $sql = $this->gen_sql_new("  select l.teacherid, l.subject, l.userid from %s l "
                                   ." where l.lessonid = %d"
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
                                   ,$last_normal_id
         );
 
