@@ -686,7 +686,7 @@ class teacher_level extends Controller
             $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
             
             //已排課程工資等級更改
-            $level_start = strtotime(date("Y-m-01",time()));
+            $level_start = strtotime(date("Y-m-d",time()));
             $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
             $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
@@ -708,7 +708,7 @@ class teacher_level extends Controller
                 $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
                 $data['keyword1'] = $realname;
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = date("Y-m-01 00:00",time());
+                $data['keyword3'] = date("Y-m-d 00:00",time());
                 /* $data['remark']   = "晋升分数:".$score
                    ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";

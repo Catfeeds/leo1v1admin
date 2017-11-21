@@ -176,7 +176,7 @@ class seller_level_goal extends Controller
         foreach($ret_info['list'] as &$item){
             $item["account"] = $this->cache_get_account_nick($item["adminid"]);
             E\Eseller_level::set_item_value_str($item);
-            \App\Helper\Utils::unixtime2date_for_item($item,'month_date','','Y-m-d');
+            \App\Helper\Utils::unixtime2date_for_item($item,'month_date','','Y-m');
             \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
         }
         return $this->pageView(__METHOD__,$ret_info);

@@ -80,7 +80,7 @@
             <thead>
                 <tr>
                     <td>销售 </td>
-                    <td>定级日期 </td>
+                    <td>定级月份 </td>
                     <td>定级级别 </td>
                     <td>创建时间 </td>
                     <td> 操作  </td>

@@ -133,6 +133,7 @@
                                         <td>入职完整月人员签单额</td>
                                         <td>入职完整月签单人数</td>
                                         <td>平均人效(入职完整月)</td>
+                                        <td>平均人效</td>
                                         <td>平均单笔</td>
                                         <td title="月初至今收入/目标收入">月KPI完整率</td>
                                         <td>CR总人数</td>
@@ -147,6 +148,7 @@
                                         <td> {{@$arr['total_price_thirty']}} </td> 
                                         <td> {{@$arr['person_num_thirty']}}</td> 
                                         <td> {{@$arr['person_num_thirty_per']}}</td> 
+                                        <td> {{@$arr['average_person_effect']}}</td> 
                                         <td> {{@$arr['contract_per']}} </td> 
                                         <td> {{@$arr['month_kpi_per']}}% </td> 
                                         <td> {{@$arr['cr_num']}}</td> 
@@ -169,16 +171,15 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td>课时系数目标量</td>
-                                        <td>在读学生数量</td>
+                                        <td>月课时系数目标量</td>
                                         <td>上课学生数量</td>
-                                        <td>课时消耗目标数量</td>
+                                        <td>月课时消耗目标数量</td>
                                         <td>课时消耗实际数量</td>
 
                                         <td>老师请假课时</td>
                                         <td>学生请假课时</td>
                                         <td>其他原因未上课时</td>
-                                        <td>课时完成率</td>
+                                        <td>月课时完成率</td>
                                         <td>学生到课率</td>
                                         <td>课时收入</td>
                                     </tr>
@@ -186,7 +187,6 @@
                                 <tbody id="id_lesson_count_list">
                                         <tr>
                                             <td class="panel-yellow" > {{@$arr['lesson_target']}}</td>
-                                            <td class="panel-yellow" > {{@$arr['read_num']}}  </td>
                                             <td class="panel-yellow" > {{@$arr['total_student']}} </td>
                                             <td> 节点</td>
                                             <td> {{@$arr['lesson_consume']}}</td>
@@ -205,6 +205,46 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            学生统计
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>在读学生数</td>
+                                        <td>停课学生数</td>
+                                        <td>休学学生数</td>
+                                        <td>寒暑假停课数</td>
+                                        <td>新签未排课合同量(已分配助教)</td>
+
+                                        <td>新签未排课合同量(未分配助教)</td>
+                                        <td>结课率</td>
+                                        <td>本月新增学生数</td>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td class="panel-yellow" > {{@$arr['read_num']}}  </td>
+                                        <td class="panel-yellow" > {{@$arr['lesson_target']}}</td>
+                                        <td class="panel-yellow" > {{@$arr['total_student']}} </td>
+                                        <td> 节点</td>
+                                        <td> {{@$arr['lesson_consume']}}</td>
+                                        <td> {{@$arr['teacher_leave']}}</td>
+                                        <td> {{@$arr['student_leave']}}</td>
+                                        <td> {{@$arr['other_leave']}}</td> 
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
