@@ -1220,6 +1220,36 @@ class tongji2 extends Controller
                 $ret_info['total_tranfer'] = $ret_info['total_tranfer']>0?$ret_info['total_tranfer']/100:0;
                 $ret_info['tranfer_num_per']=$ret_info['tranfer_num_per']>0?$ret_info['tranfer_num_per']/100:0;
                 $ret_info['kk_success_per'] = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
+
+                //新增项
+                $ret_info['average_person_effect']  = $ret_info['average_person_effect']>0?$ret_info['average_person_effect']/100:0;
+                $ret_info['cumulative_refund_rate']  = $ret_info['cumulative_refund_rate']/100;
+                $ret_info['student_end_per']  = $ret_info['student_end_per']/100;
+                if($opt_date_type==3){
+                    $ret_info['lesson_complete_per']  = $ret_info['lesson_consume_target']>0?round($ret_info['lesson_consume']/$ret_info['lesson_consume_target']*10000,2):0 ;
+
+
+                    $ret_info['lesson_consume_target']  = $ret_info['lesson_consume_target']>0?$ret_info['lesson_consume_target']/100:"暂无数据";
+                    $ret_info['lesson_target']  = $ret_info['lesson_target']>0?$ret_info['lesson_target']/100:"暂无数据";
+                }elseif($opt_date_type==2){
+                    $month_start = strtotime(date("Y-m-01",$end_time));
+                    $month_time = strtotime("+1 months",$month_start);
+
+                    $month_info = $this->t_cr_week_month_info->get_data_by_type($month_time,1);
+                    $ret_info['lesson_complete_per']  = $month_info['lesson_consume_target']>0?round($month_info['lesson_consume']/$month_info['lesson_consume_target']*100,2):0 ;
+
+
+                    $ret_info['lesson_consume_target']  = $month_info['lesson_consume_target']>0?$month_info['lesson_consume_target']/100:"暂无数据";
+                    $ret_info['lesson_target']  = $month_info['lesson_target']>0?$month_info['lesson_target']/100:"暂无数据";
+
+
+
+ 
+                }
+               
+
+
+
             }
             return $this->pageView(__METHOD__,null,["arr"=>$ret_info]);
         }elseif($is_history_data === 2){
