@@ -42,7 +42,7 @@ class update_identity_for_teacher extends Command
         $identity = $task->t_teacher_info->get_identity_for_teacher_type();
         $i = 1;
         foreach($identity as $teacherid => $item) {
-            echo ' teacherid '.$teacherid;
+            //echo ' teacherid '.$teacherid;
             if ($i % 1000 == 0) sleep(10);
             $task->t_teacher_info->field_update_list($teacherid,[
                 'identity' => $item['teacher_type']
