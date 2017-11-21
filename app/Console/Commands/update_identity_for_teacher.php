@@ -40,8 +40,9 @@ class update_identity_for_teacher extends Command
         $task = new \App\Console\Tasks\TaskController();
         // 获取老师身份
         $identity = $task->t_teacher_info->get_identity_for_teacher_type();
-        $i = 0;
+        $i = 1;
         foreach($identity as $teacherid => $item) {
+            echo ' teacherid '.$teacherid;
             if ($i % 1000 == 0) sleep(10);
             $task->t_teacher_info->field_update_list($teacherid,[
                 'identity' => $item['teacher_type']
