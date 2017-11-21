@@ -988,6 +988,7 @@ class wx_yxyx_api extends Controller
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $id            = $agent_id;
+        $cash_type = 1;
 
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
@@ -1021,6 +1022,8 @@ class wx_yxyx_api extends Controller
                     "bank_province" => $bank_province,
                 ]);
             }
+
+            $cash_type = 1;
         }elseif($zfb_account){
             if($zfb_name=='' || $zfb_account==''){
                 return $this->output_err("请完善所有数据后重新提交！");
@@ -1030,12 +1033,13 @@ class wx_yxyx_api extends Controller
                 "zfb_account"     => $zfb_account,
             ]);
 
+            $cash_type = 2;
         }
         $ret_new = $this->t_agent_cash->row_insert([
             "aid"         => $id,
             "cash"        => $total_cash - $have_cash,
             "is_suc_flag" => 0,
-            "type"        => 1,
+            "type"        => $cash_type,
             "create_time" => time(null),
         ]);
 

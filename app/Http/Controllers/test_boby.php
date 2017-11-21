@@ -939,6 +939,52 @@ class test_boby extends Controller
     public function get_xiaoxue_lesson_info(){
 
         $this->switch_tongji_database();
-        $sql = 'select lesson_start from t_lesson_info where group';
+        $start = strtotime('2017-8-1');
+        $end = strtotime('2017-9-1');
+
+        $sql = "select lesson_start from t_lesson_info where grade<200 and lesson_start>=$start and lesson_start<$end";
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $hour = range(0,86400,1800);
+        foreach($hour as &$v){
+            $v=0;
+        }
+        $week = [0=>0,1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0, 7=>0];
+        foreach($ret as $v){
+            $w = date('w',$v['lesson_start']);
+            $h = intval(floor( ( $v['lesson_start']%86400 ) / 1800 ) );
+
+            // dd($w);
+            $week[$w] += 1;
+            $hour[$h] += 1;
+        }
+
+        $th_arr = ['人数','星期'];
+        $s = $this->table_start($th_arr);
+
+        foreach($week as $k=>$v){
+            $s= $this->tr_add($s, $v,$k);
+
+        }
+        $s = $this->table_end($s);
+
+        $th_arr = ['人数','时间'];
+        $s2 = $this->table_start($th_arr);
+        foreach($hour as $k=>$v){
+            $n = $k%2;
+            $z = intval(floor($k/2));
+            if($k%2 == 0){
+                $t = $z.':'.'00-'.$z.':30';
+            } else {
+                $t = $z.':'.'30-'.($z+1).':00';
+            }
+            $s2= $this->tr_add($s2, $v,$t);
+
+        }
+        $s2 = $this->table_end($s2);
+        echo '总课数：',count($ret);
+        echo $s,$s2;
+        exit;
+
+
     }
 }
