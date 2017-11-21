@@ -949,32 +949,19 @@ class test_boby extends Controller
             $w = date('w',$v['lesson_start']);
             $h = $this->fenzu( $v['lesson_start'] );
 
-            @$week[$w][$h] += 1;
+            $n = $h%2;
+            $z = intval(floor($h/2));
+            if($h%2 == 0){
+                $t = $z.':'.'00-'.$z.':30';
+            } else {
+                $t = $z.':'.'30-'.($z+1).':00';
+            }
+
+
+            @$week[$w][$t] += 1;
         }
 
         dd($week);
-        $th_arr = ['星期','人数','时间段'];
-        $s2 = $this->table_start($th_arr);
-
-        foreach($week as $v){
-            foreach($v as $k=>$val){
-                $n = $val%2;
-                $z = intval(floor($val/2));
-                if($val%2 == 0){
-                    $t = $z.':'.'00-'.$z.':30';
-                } else {
-                    $t = $z.':'.'30-'.($z+1).':00';
-                }
-
-                $s2= $this->tr_add($s2,$k,$v,$t);
-            }
-        }
-        $s2 = $this->table_end($s2);
-
-        echo '总课数：',count($ret);
-        echo $s2;
-        exit;
-
 
     }
 
