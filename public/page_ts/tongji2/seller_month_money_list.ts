@@ -28,7 +28,8 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
 
-    $(".common-table" ).table_admin_level_4_init(true);
+    // $(".common-table" ).table_admin_level_4_init(true);
+    $(".common-table" ).table_admin_level_5_init(); // 开发中
 
 
 
