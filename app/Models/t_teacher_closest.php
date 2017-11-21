@@ -18,12 +18,10 @@ class t_teacher_closest extends \App\Models\Zgen\z_t_teacher_closest
             ["subject=%u", $subject,-1],
             ["teacherid=%u", $teacherid,-1],
         ];
-        
         $sql=$this->gen_sql("select * from %s where %s ",
                             self::DB_TABLE_NAME,
                             [$this->where_str_gen($where_arr)]
         );
-        
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 

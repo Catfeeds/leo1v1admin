@@ -204,7 +204,7 @@
                     </thead>
                     <tbody>
                         @foreach ($table_data_list as $var)
-                            <tr class="{{$var["level"]}}">
+                            <tr class="{{@$var["level"]}}">
                                 <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
                                 <td data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
                                 <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>

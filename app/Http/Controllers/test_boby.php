@@ -899,10 +899,46 @@ class test_boby extends Controller
         }
     }
 
-    public function get_time(){
-        $s = microtime(true);
+    public function get_some_user_info(){
+        $this->switch_tongji_database();
+        $start = strtotime('2017-8-1');
+        $end = strtotime('2017-9-1');
+
+        $sql = "select ss.add_time,s.phone,s.nick,count(distinct tq.uid) cc,s.origin, "
+             ." count(distinct if( tq.is_called_phone=1,tq.uid,0)) ok_phone,"
+             ." min( if( tq.is_called_phone=1,tq.uid,0)) ) flag"
+             ." from db_weiyi.t_seller_student_new ss "
+             ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
+             ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
+             ." left join t_test_lesson_subject tl on tl.userid=ss.userid "
+             ." left join t_test_lesson_subject_require ts on ts.test_lesson_subject_id=tl.test_lesson_subject_id "
+             ." left join t_test_lesson_subject_sub_list tss on tss.require_id=ts.require_id "
+             ." left join t_lesson_info l on l.lessonid=tss.lessonid "
+             ." where ss.add_time>=$start and ss.add_time<$end and s.is_test_user=0 and l.lesson_user_online_status<>1"
+             ." group by s.phone having cc<=2";
+
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $th_arr = ['手机','姓名','进入日期','联系次数（ｃｃ人数）','渠道','未拨通人数'];
+        $s = $this->table_start($th_arr);
+
+        foreach($ret as $v){
+            if( $v['flag']==0 ) {//说明有未打通的
+                $num = $v['cc']-$v['ok_phone']-1;
+            }else {
+                $num = $v['cc']-$v['ok_phone'];
+            }
+            $s= $this->tr_add($s, $v['phone'], $v['nick'],date('Y-m-d',$v['add_time']), $v['cc'], $v['origin'],$num);
+
+        }
+        $s = $this->table_end($s);
+
         return $s;
 
     }
+    //1-7
+    public function get_xiaoxue_lesson_info(){
 
+        $this->switch_tongji_database();
+        $sql = 'select lesson_start';
+    }
 }
