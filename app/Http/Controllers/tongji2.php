@@ -375,7 +375,7 @@ class tongji2 extends Controller
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
         }
-
+        dd($admin_list);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
