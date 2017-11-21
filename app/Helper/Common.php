@@ -1388,7 +1388,6 @@ class Common {
                     $data["main_type_class"]=$item1["key_class"];
                     $data["first_group_name_class"]=$item2["key_class"];
                     $data["up_group_name_class"]="";
-                    // $data["up_group_name_class"]=$item2["key_class"];
                     $data["group_name_class"]="";
                     $data["account_class"]="";
                     $data["level"]="l-2";
@@ -1406,7 +1405,6 @@ class Common {
                         $data["up_group_name_class"]=$item3["key_class"];
                         $data["group_name_class"]="";
                         $data["account_class"]="";
-                        $data['groupid'] = $item3['groupid'];
                         $data["level"]="l-3";
 
                         $list[]=$data;
@@ -1421,10 +1419,8 @@ class Common {
                             $data["first_group_name_class"]=$item2["key_class"];
                             $data["up_group_name_class"]=$item3["key_class"];
                             $data["group_name_class"]=$item4["key_class"];
-                            $data["account_class"]="";
-                            // $data["account_class"]=$item4["key_class"];
-                            $data['adminid'] = $item4['adminid'];
                             $data['groupid'] = $item4['groupid'];
+                            $data["account_class"]="";
                             $data["level"]="l-4";
 
                             $list[]=$data;
@@ -1439,10 +1435,10 @@ class Common {
                                 $data["first_group_name_class"]=$item2["key_class"];
                                 $data["up_group_name_class"]=$item3["key_class"];
                                 $data["group_name_class"]=$item4["key_class"];
+                                $data['groupid'] = $item4['groupid'];
                                 $data["account_class"]=$item5["key_class"];
-                                $data['adminid'] = $item5['adminid'];
-                                $data['groupid'] = $item5['groupid'];
                                 $data["level"]="l-5";
+                                $data['adminid'] = $item5['adminid'];
                                 $data['become_member_time']=$item5["become_member_time"];
                                 $data['leave_member_time']=$item5["leave_member_time"];
                                 $data['create_time']=$item5["create_time"];
