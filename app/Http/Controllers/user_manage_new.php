@@ -1900,7 +1900,7 @@ class user_manage_new extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
-            if($item['main_type_str'] == '助教'){
+            if(($item['main_type_str'] == '助教') || $item['main_type_str'] == '未定义'){
                 unset($ret_info[$key]);
             }
             if(isset($item['target_money'])){
