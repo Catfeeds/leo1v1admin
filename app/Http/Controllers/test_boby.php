@@ -904,7 +904,9 @@ class test_boby extends Controller
         $start = strtotime('2017-8-1');
         $end = strtotime('2017-9-1');
 
-        $sql = "select s.phone,s.nick,count(distinct tq.uid) cc,s.origin from db_weiyi.t_seller_student_new ss "
+        $sql = "select s.phone,s.nick,count(distinct tq.uid) cc,s.origin, "
+             ." count(distinct if( tq.is_called_phone=1,tq.uid,0))-1 ok_phone"
+             ." from db_weiyi.t_seller_student_new ss "
              ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
              ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
              ." left join t_test_lesson_subject tl on tl.userid=ss.userid "
@@ -915,16 +917,21 @@ class test_boby extends Controller
              ." group by s.phone having cc<=2";
 
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $th_arr = ['手机','姓名','联系次数（ｃｃ人数）','渠道'];
+        $th_arr = ['手机','姓名','联系次数（ｃｃ人数）','渠道','未拨通人数'];
         $s = $this->table_start($th_arr);
 
         foreach($ret as $v){
-            $s= $this->tr_add($s, $v['phone'], $v['nick'], $v['cc'], $v['origin']);
+            $s= $this->tr_add($s, $v['phone'], $v['nick'], $v['cc'], $v['origin'],$v['cc']-$v['ok_phone']);
         }
         $s = $this->table_end($s);
 
         return $s;
 
     }
+    //1-7
+    public function get_xiaoxue_lesson_info(){
 
+        $this->switch_tongji_database();
+        $sql = '';
+    }
 }
