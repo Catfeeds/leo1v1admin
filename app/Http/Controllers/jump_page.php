@@ -22,6 +22,8 @@ class jump_page extends Controller
         $url  = $this->get_in_str_val("url");
         $code = $this->get_in_str_val("code");
 
+        $type = $this->get_in_str_val('type',-1);
+
         $wx= new \App\Helper\Wx( \App\Helper\Config::get_teacher_wx_appid()  , \App\Helper\Config::get_teacher_wx_appsecret()  );
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
@@ -30,6 +32,8 @@ class jump_page extends Controller
 
         if ($url=="login.html") {
             header("Location: http://wx-teacher-web.leo1v1.com/login.html?wx_openid=".$openid);
+        }else{
+            header("Location: http://wx-teacher-web.leo1v1.com/$url?wx_openid=".$openid."&type=$type");
         }
 
 
