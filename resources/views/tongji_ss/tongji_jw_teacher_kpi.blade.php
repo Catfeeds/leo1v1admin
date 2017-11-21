@@ -130,7 +130,7 @@
                     <div class="col-xs-12 col-md-12">
                         <div class="panel panel-warning"  >
                             <div class="panel-heading center-title ">
-                                教务排课--KPI
+                                教务回访排课信息
                             </div>
                             <div class="panel-body">
 
