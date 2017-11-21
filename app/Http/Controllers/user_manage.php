@@ -3126,7 +3126,7 @@ class user_manage extends Controller
            ]
         ];
         foreach ($lz_ret_info as $key => $value) {
-            ++$ret[1][$value['subject']];
+            ++@$ret[1][$value['subject']];
             ++$ret[1]['sum'];
         }
         foreach ($train_ret_info as $key => $value) {
