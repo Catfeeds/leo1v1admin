@@ -58,7 +58,7 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
 
     }
 
-    public function get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str,$grade){
+    public function get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str){
         $where_arr=[
             "s.is_test_user=0",
             ["ul.login_time >=%u",$start_time,0],
@@ -78,25 +78,20 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
                                              ,t_order_info::DB_TABLE_NAME
             );
         }
-        if($grade>0){
-            if($grade==101){
-                $grade_ex="(101,102)";
-            }elseif($grade==106){
-                $grade_ex="(105,106,201)";
-            }elseif($grade==201){
-                $grade_ex="(106,201,202)";
-            }elseif($grade==203){
-                $grade_ex="(202,203,301)";
-            }elseif($grade==303){
-                $grade_ex="(302,303)";
-            }else{
-                $grade_1 = $grade-1;
-                $grade_2 = $grade+1;
-                $grade_ex="($grade_1,$grade,$grade_2)";
-            }
-            $where_arr[] = "s2.grade in ".$grade_ex;
-            $where_arr[] = "s.grade=".$grade;
-        }
+
+        $where_arr[]="if(s.grade=101,s2.grade in (101,102),true)";
+        $where_arr[]="if(s.grade=102,s2.grade in (101,102,103),true)";
+        $where_arr[]="if(s.grade=103,s2.grade in (102,103,104),true)";
+        $where_arr[]="if(s.grade=104,s2.grade in (103,104,105),true)";
+        $where_arr[]="if(s.grade=105,s2.grade in (104,105,106),true)";
+        $where_arr[]="if(s.grade=106,s2.grade in (105,106,201),true)";
+        $where_arr[]="if(s.grade=201,s2.grade in (106,201,202),true)";
+        $where_arr[]="if(s.grade=202,s2.grade in (201,202,203),true)";
+        $where_arr[]="if(s.grade=203,s2.grade in (202,203,301),true)";
+        $where_arr[]="if(s.grade=301,s2.grade in (203,301,302),true)";
+        $where_arr[]="if(s.grade=302,s2.grade in (301,302,303),true)";
+        $where_arr[]="if(s.grade=303,s2.grade in (302,303),true)";
+        
 
         $sql = $this->gen_sql_new("select distinct s.nick,ul.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"
                                   ." ,s.phone,s2.phone s2_phone,s.grade "
