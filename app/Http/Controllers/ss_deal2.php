@@ -184,7 +184,7 @@ class ss_deal2 extends Controller
         $account = $this->get_account();
 
         $phone=$item["phone"];
-        $seller_student_status= $item["seller_student_status"];
+        $seller_student_status = $item["seller_student_status"];
 
         //公海领取例子,拨打回流限制
         if($item["hand_get_adminid"] == E\Ehand_get_adminid::V_5 && !in_array($item['admin_revisiterid'],[831,973,60,898])){
@@ -214,11 +214,16 @@ class ss_deal2 extends Controller
         ],false,true);
 
         $this->t_seller_student_new->set_user_free($userid);
+        $hand_get_adminid = 0;
+        $orderid = $this->t_order_info->get_orderid_by_userid($userid,$this->get_account());
+        if($orderid>0){
+            $hand_get_adminid = $item["hand_get_adminid"];
+        }
         $this->t_seller_student_new->field_update_list($userid,[
             "free_adminid" => $this->get_account_id(),
             "free_time" => time(),
             "hand_free_count" => $item['hand_free_count']+1,
-            "hand_get_adminid" => 0,
+            "hand_get_adminid" => $hand_get_adminid,
         ]);
         return $this->output_succ();
 
@@ -842,10 +847,10 @@ class ss_deal2 extends Controller
             return $this->output_err('已入职老师请从其他途径更改');
         }
         $this->t_teacher_lecture_appointment_info->field_update_list($app_id,[
-           "full_time"=>0 
+           "full_time"=>0
         ]);
         $this->t_teacher_info->field_update_list($teacherid,[
-           "teacher_type" =>0 
+           "teacher_type" =>0
         ]);
         return $this->output_succ();
 
