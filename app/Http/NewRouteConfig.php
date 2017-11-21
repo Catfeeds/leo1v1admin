@@ -36,6 +36,7 @@ class NewRouteConfig {
         "question"=>true,
         "revisit"=>true,
         "school_info"=>true,
+        "seller_student2"=>true,
         "small_class"=>true,
         "stu_manage"=>true,
         "supervisor"=>true,
@@ -397,6 +398,7 @@ class NewRouteConfig {
         "/stu_manage/score_list1"              => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
+        "/seller_student2/show_order_activity_info"  => true,
 
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
