@@ -939,7 +939,7 @@ class test_boby extends Controller
     public function get_xiaoxue_lesson_info(){
 
         $this->switch_tongji_database();
-        $start = strtotime('2017-8-1');
+        $start = strtotime('2017-9-1');
         $end = strtotime('2017-11-1');
 
         $sql = "select lesson_start,lesson_type from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,2,3)";
