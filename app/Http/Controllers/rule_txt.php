@@ -29,11 +29,23 @@ class rule_txt extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
 
-
+        $edit_flag = $this->check_able_edit();
         return $this->pageView( __METHOD__,[],[
             'rule' => $rule_info,
-            'process' => $pro_info
+            'process' => $pro_info,
+            'edit_flag' => $edit_flag
         ]);
+    }
+
+    public function check_able_edit(){
+        $role = $this->get_account_role();
+        if($role == 9 || $role == 12) {
+            $flag = 1;
+        } else {
+            $flag = 0;
+        }
+        $flag =1;
+        return $flag;
     }
 
     public function add_or_update_title() {
@@ -149,14 +161,17 @@ class rule_txt extends Controller
                 $row[$item['level_str']]['start'] = $key;
             }
             if($item['add_punish']){
-                $item['punish'] = '<a href="javascript:;" class="btn opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
+                $item['punish'] = '<a href="javascript:;" class="opt-punish" data-punish="'.$item["add_punish"].'">查看</a>';
             } else {
                 $item['punish'] = '无';
             }
         }
+        $edit_flag = $this->check_able_edit();
+
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,[
             'rule' => $rule,
-            'row'  => $row
+            'row'  => $row,
+            'edit_flag'  => $edit_flag
         ]);
     }
 
@@ -174,9 +189,12 @@ class rule_txt extends Controller
         }
 
         $pro['department_str'] = rtrim($pro['department_str'], ',');
+        $edit_flag = $this->check_able_edit();
+
         return $this->pageView( __METHOD__,[],[
             'pro'  => $pro,
             "qiniu_pub"  => \App\Helper\Config::get_qiniu_public_url(),
+            'edit_flag'  => $edit_flag
         ]);
     }
 

@@ -241,13 +241,13 @@ class fulltime_teacher extends Controller
 
 
         return $this->output_succ(["data"=>$account_info]);
- 
-        
     }
+
     public function fulltime_teacher_assessment_positive_info_master(){
         $this->set_in_value("main_flag",1);
         return $this->fulltime_teacher_assessment_positive_info();
     }
+
     public function fulltime_teacher_assessment_positive_info(){
         $adminid = $this->get_in_int_val("adminid",-1);
         $main_flag = $this->get_in_int_val("main_flag",-1);
@@ -269,14 +269,17 @@ class fulltime_teacher extends Controller
             E\Eaccept_flag::set_item_value_str($item,"master_deal_flag");
             E\Eaccept_flag::set_item_value_str($item,"main_master_deal_flag");
             E\Eboolean::set_item_value_str($item,"become_full_member_flag");
-            E\Epositive_type::set_item_value_str($item,"positive_type");       
+            E\Epositive_type::set_item_value_str($item,"positive_type");
         }
-        return $this->Pageview(__METHOD__,$ret_info);
+        return $this->Pageview(__METHOD__,$ret_info,[
+            "main_flag" => $main_flag
+        ]);
     }
 
     public function get_fulltime_teacher_pisitive_require_info(){
         $id = $this->get_in_int_val("id");
         $data = $this->t_fulltime_teacher_positive_require_list->field_get_list($id,"*");
+
         $data['post_str']            = E\Epost::get_desc($data['post'] );
         $data['main_department_str'] = E\Emain_department::get_desc($data['main_department']);
         $data["name"] = $this->t_manager_info->get_name($data["adminid"]);
@@ -287,6 +290,7 @@ class fulltime_teacher extends Controller
         $data["positive_time_str"] = date("Y-m-d",$data["positive_time"]);
         $data['positive_type_str']      = E\Epositive_type::get_desc($data["positive_type"]);        
         $data['master_deal_flag_str']      = E\Eaccept_flag::get_desc($data["master_deal_flag"]);        
+        $data['base_money']      /= 100;
         if(empty($data["master_deal_flag"])) $data['master_deal_flag_str']="未审核";
         $data['main_master_deal_flag_str']      = E\Eaccept_flag::get_desc($data["main_master_deal_flag"]);
         if(empty($data["main_master_deal_flag"])) $data['main_master_deal_flag_str']="未审核";

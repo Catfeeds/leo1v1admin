@@ -70,8 +70,8 @@ class teacher_rule{
         1=>[
             0  => 20,
             10 => 30,
-            30 => 50,
-            50 => 60,
+            20 => 50,
+            30 => 60,
         ],2=>[
             0  => 40,
             10 => 50,
@@ -136,9 +136,9 @@ class teacher_rule{
      */
     static public function check_reference_type($identity){
         if(in_array($identity,[5,6,7])){
-            $reference_type = 1;//公校老师
+            $reference_type = 2;//公校老师
         }else{
-            $reference_type = 2;//大学生
+            $reference_type = 1;//大学生
         }
         return $reference_type;
     }

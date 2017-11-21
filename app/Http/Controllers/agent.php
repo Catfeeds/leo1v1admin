@@ -566,14 +566,8 @@ class agent extends Controller
                 $end_time_this = $item['end_time'];
             }
         }
-        $month_date = strtotime(date('Y-m-d',$time));
-        $this->t_seller_level_month->row_insert([
-            'adminid' => $adminid=831,
-            'month_date' => $month_date,
-            'seller_level' => $month_level=E\Eseller_level::V_200,
-            'create_time' => $time,
-        ]);
-        dd($reduce_flag,$ret_time);
+        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+        dd($reduce_flag,$ret_time,$month_date);
     }
 
     //处理等级头像

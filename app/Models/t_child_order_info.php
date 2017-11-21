@@ -73,8 +73,10 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         }
         if($channel==1){
              $where_arr[] = "c.channel = 'baidu'";
+        }elseif($channel==3){
+            $where_arr[] = "c.channel = '建行分期'";
         }elseif($channel==2){
-             $where_arr[] = "c.channel <> 'baidu'";
+            $where_arr[] = "c.channel <> 'baidu' and c.channel <> '建行分期'";
         }
         
         if($userid != -1){
