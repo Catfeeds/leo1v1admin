@@ -21,8 +21,9 @@
                         <div
                             {!!  \App\Helper\Utils::gen_jquery_data($pro )  !!}
                         >
-                            <button class="btn btn-warning opt-edit" >编辑 </button>
-
+                            @if($edit_flag)
+                                <button class="btn btn-warning opt-edit" >编辑 </button>
+                            @endif
                         </div>
 
                     </div>

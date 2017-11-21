@@ -9,22 +9,20 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-                <div class="hide">
-                    {{$edit_flag}}
-                </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <button class="btn btn-info opt-add-rule">新增规则</button>
+                @if($edit_flag)
+                    <div class="col-xs-6 col-md-2">
+                        <div class="input-group " >
+                            <button class="btn btn-info opt-add-rule">新增规则</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <button class="btn btn-warning opt-add-pro">新增流程</button>
+                    <div class="col-xs-6 col-md-2">
+                        <div class="input-group " >
+                            <button class="btn btn-warning opt-add-pro">新增流程</button>
+                        </div>
                     </div>
-                </div>
-
+                @endif
             </div>
         </div>
         <hr/>
@@ -49,7 +47,9 @@
                                 <div
                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
-                                    <a class="fa fa-edit opt-edit-rule"  title="编辑"> </a>
+                                    @if($edit_flag)
+                                        <a class="fa fa-edit opt-edit-rule"  title="编辑"> </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -79,7 +79,10 @@
                                 <div
                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
-                                    <a class="fa fa-edit opt-edit-pro"  title="编辑"> </a>
+
+                                    @if($edit_flag)
+                                        <a class="fa fa-edit opt-edit-pro"  title="编辑"> </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
