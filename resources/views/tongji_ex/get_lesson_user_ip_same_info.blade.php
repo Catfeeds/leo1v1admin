@@ -19,6 +19,14 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">年级</span>
+                        <select class="opt-change form-control" id="id_grade" >
+                        </select>
+                    </div>
+                </div>
+
 
             </div>
         </div>
@@ -27,6 +35,7 @@
             <thead>
                 <tr>
                     <td>付费学生 </td>
+                    <td>年级 </td>
                     <td>ip</td>
                     <td>相同ip学生 </td>
 
@@ -37,6 +46,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["ip"]}} </td>
                         <td>{{@$var["same_name_list"]}} </td>
                         <td>
