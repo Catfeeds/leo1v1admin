@@ -62,6 +62,7 @@
                       <select class="opt-change form-control" id="id_channel">                        
                           <option value="-1" >全部</option>
                           <option value="1" >百度</option>
+                          <option value="3" >建行</option>
                           <option value="2" >其他</option>
                       </select>
                   </div>
