@@ -4209,20 +4209,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_stu_date_num($month_start,$month_end){
         /**
-         *
          * 1.     8,9,10 三个月的上过试听课且签单成功的学员
          * 2.     上试听课的老师与第一节常规课老师不匹配的学员
          * 3.      试听课的科目需要和第一节常规课相同
         */
         $where_arr = [
-            " l.lesson_type = 2"
+            " l.lesson_type = 2",
         ];
 
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $month_start, $month_end);
 
-        $sql = $this->gen_sql_new("  select count(distinct(l.userid) ) from %s o "
+        //t_order_lesson_list
+        $sql = $this->gen_sql_new("  select o.orderid, l.lessonid, l.subject,l.teacherid from %s o "
                                   ." join %s l on o.from_test_lesson_id=l.lessonid"
-                                  ." left join "
+                                  ." where %s"
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_list($sql);
     }
 }
