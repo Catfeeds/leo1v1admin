@@ -1660,16 +1660,19 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "m.account_role <>12",
-            "tr.seller_top_flag=0"
+            "tr.seller_top_flag=0",
+            "s.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,tr.seller_top_flag"
                                   ." from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
                                   ." left join %s m on tr.cur_require_adminid=m.uid"
+                                  ." left join %s s on t.userid=s.userid"
                                   ." where %s order by t.stu_request_test_lesson_time asc,tr.require_time asc limit %u",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
         );
@@ -1707,16 +1710,19 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "accept_adminid <= 0",
             "tr.seller_top_flag=0",
             "is_green_flag=1",
-            "m.account_role<>12"
+            "m.account_role<>12",
+            "s.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,tr.seller_top_flag "
                                   ." from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
                                   ." left join %s m on tr.cur_require_adminid = m.uid "
+                                  ." left join %s s on t.userid = s.userid"
                                   ." where %s order by t.stu_request_test_lesson_time asc,tr.require_time asc limit %u",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
         );
@@ -2375,7 +2381,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "accept_adminid <= 0",
             "history_accept_adminid >0",
             "m.account_role <>12",
-            "tr.seller_top_flag=0"
+            "tr.seller_top_flag=0",
+            "s.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
                                   ."nick,stu_request_test_lesson_time,tr.seller_top_flag  "
@@ -2399,7 +2406,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "m.account_role <>12",
-            "seller_top_flag=1"
+            "s.is_test_user=0",
+            "tr.seller_top_flag=1"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
                                   ."nick,stu_request_test_lesson_time,tr.seller_top_flag"
