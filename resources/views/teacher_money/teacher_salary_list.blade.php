@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
-    <script type="text/javascript">
-        var g_data = <?php echo json_encode(['start_time'=>date('Y-m-d',$start_time),'end_time'=>date('Y-m-d',$end_time)]);?>
     </script>
     <section class="content ">
         <div>

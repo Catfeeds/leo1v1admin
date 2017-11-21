@@ -7626,6 +7626,9 @@ class tongji_ss extends Controller
         if ($field_name=="origin") {
             $ret_info["list"]= $this->gen_origin_data($ret_info["list"],[], $origin_ex);
         }
+
+
+
         return $this->pageView(__METHOD__,$ret_info);
 
     }
@@ -7633,7 +7636,8 @@ class tongji_ss extends Controller
 
     public function tongji_zs_reference(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1);
-        $list = $this->t_teacher_lecture_appointment_info->tongji_zs_reference_info($start_time,$end_time);
+        $name = $this->get_in_str_val("name","");
+        $list = $this->t_teacher_lecture_appointment_info->tongji_zs_reference_info($start_time,$end_time,$name);
         $arr=0;
         foreach($list as $val){
             $arr +=$val["num"];

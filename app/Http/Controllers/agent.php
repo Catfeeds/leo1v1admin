@@ -550,6 +550,15 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $orderid = $this->t_order_info->get_orderid_by_userid($userid=390570,'陈梦');
+        if($orderid==0){
+            $hand_get_adminid = 0;
+        }
+        dd($orderid);
+        if($seller_student_status == E\Eseller_student_status::V_1){
+            
+        }
+
         $reduce_flag = 0;
         // $time = time(null);
         $time = 1509550200;
