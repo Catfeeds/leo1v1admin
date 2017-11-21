@@ -5,7 +5,9 @@
     <section class="content ">
         <div class="row" id="rule" data-id="{{@$rule['rule_id']}}">
             <div class="col-xs-6 col-md-2">
-                <button class="btn btn-info opt-add">添加规则</button>
+                @if($edit_flag)
+                    <button class="btn btn-info opt-add">添加规则</button>
+                @endif
             </div>
             <div class="col-xs-12" style="text-align:center;">
                 <h2>{{@$rule['title']}}</h2>
@@ -48,11 +50,14 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
-                                <a class="fa fa-long-arrow-up opt-up" title="上移"> </a>
-                                <a class="fa fa-long-arrow-down opt-down" title="下移"> </a>
+                                @if($edit_flag)
 
+                                    <a class="fa fa-edit opt-edit"  title="编辑"> </a>
+                                    <a class="fa fa-times opt-del" title="删除"> </a>
+                                    <a class="fa fa-long-arrow-up opt-up" title="上移"> </a>
+                                    <a class="fa fa-long-arrow-down opt-down" title="下移"> </a>
+
+                                @endif
                             </div>
                         </td>
                     </tr>

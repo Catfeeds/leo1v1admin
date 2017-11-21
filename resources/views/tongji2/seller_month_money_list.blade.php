@@ -15,17 +15,18 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-
                     <td>类型 </td>
-                    <td>主管 </td>
+                    <td>总监 </td>
+                    <td>经理 </td>
                     <td>小组 </td>
-                    <td>负责人 </td>
+                    <td>成员 </td>
                     <td>第一周试听成功数 </td>
                     <td>第二周试听成功数 </td>
                     <td>第三周试听成功数 </td>
                     <td>第四周试听成功数 </td>
                     <td>取消率 </td>
                     <td>绩效对应系数 </td>
+                    <td>月末定级 </td>
                     <td >签约总金额 </td>
                     <td >分期金额 </td>
                     <td >非分期金额 </td>
@@ -57,7 +58,8 @@
 
                     <tr class="{{$var["level"]}}">
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
-                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
+                        <td  data-class_name="{{@$var["first_group_name_class"]}}" class=" first_group_name  {{$var["main_type_class"]}} {{@$var["first_group_name_class"]}}  " >{{@$var["first_group_name"]}}</td>
+                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name {{@$var["first_group_name_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}
                             @if(isset($var['seller_level']))
@@ -70,6 +72,7 @@
                         <td class="suc_fourth_week"></td>
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
+                        <td class="last_seller_level"></td>
                         <td class="all_price" ></td>
                         <td class="stage_money" ></td>
                         <td class="no_stage_money" ></td>

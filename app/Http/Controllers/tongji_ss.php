@@ -4523,6 +4523,8 @@ class tongji_ss extends Controller
         $plan_out_info = $this->t_teacher_info->get_jw_assign_teacher_plan_out_info($start_time,$end_time);
         $no_plan_info = $this->t_teacher_info->get_jw_assign_teacher_no_plan_info($start_time,$end_time);
         $absence_info = $this->t_teacher_info->get_jw_assign_teacher_absence_info($start_time,$end_time);
+
+        $revisit_teacher_lesson_info = $this->t_teacher_record_list->get_teacher_revisit_lesson_info($start_time,$end_time);
         foreach($revisit_info as &$item){
             $admind = $item["assign_jw_adminid"];
             $item["revisit_time_in"] = @$revisit_in_time_info[$admind]["time_in_num"];
@@ -4536,7 +4538,8 @@ class tongji_ss extends Controller
         return $this->pageView(__METHOD__ ,null, [
             "revisit_info" => @$revisit_info,
             "start"   =>$start_time,
-            "end"     =>time()
+            "end"     =>time(),
+            "revisit_teacher_lesson_info" =>$revisit_teacher_lesson_info
         ]);
 
     }
@@ -8099,6 +8102,12 @@ class tongji_ss extends Controller
 
 
         $this->switch_tongji_database();
+        $first_month = strtotime("2017-01-01");
+        $list = $this->t_teacher_info->get_data_to_teacher_flow($first_month,time(),1);
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list 
+        ]);
+
         // $first_month = strtotime("2016-01-01");
         // // $end_month = strtotime(date("Y-m-01",time()));
         // // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
