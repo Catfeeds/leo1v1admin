@@ -9,6 +9,9 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="hide">
+                    {{$edit_flag}}
+                </div>
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
