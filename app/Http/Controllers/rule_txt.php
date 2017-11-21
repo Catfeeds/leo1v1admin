@@ -29,10 +29,11 @@ class rule_txt extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
 
-
+        $edit_flag = $this->get_account_role();
         return $this->pageView( __METHOD__,[],[
             'rule' => $rule_info,
-            'process' => $pro_info
+            'process' => $pro_info,
+            'edit_flag' => $edit_flag
         ]);
     }
 
