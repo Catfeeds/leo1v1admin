@@ -91,10 +91,11 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
                 $grade_ex="(302,303)";
             }else{
                 $grade_1 = $grade-1;
-                $grade_2 = $grade-2;
-                $garde_ex="($grade_1,$grade,$grade_2)";
+                $grade_2 = $grade+1;
+                $grade_ex="($grade_1,$grade,$grade_2)";
             }
-            $where_arr[] = "s.grade in ".$grade_ex;
+            $where_arr[] = "s2.grade in ".$grade_ex;
+            $where_arr[] = "s.grade=".$grade;
         }
 
         $sql = $this->gen_sql_new("select distinct s.nick,ul.userid,ul.ip,s2.userid s2_userid,s2.nick s2_nick"
