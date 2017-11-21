@@ -1292,7 +1292,7 @@ trait TeaPower {
      * @param int teahcer_type 老师类型
      * @param int teacher_ref_type 老师推荐人类型
      * @param int is_test_user 是否是测试账号 0 不是 1 是
-     * @param int use_easy_pass 老师账号密码类型 0 随机密码 1 123456 2 leo手机号后4位
+     * @param int use_easy_pass 老师账号密码类型 0 随机密码 1 123456 2 leo手机号后4位  目前统一使用类型2
      * @param int send_sms_flag 是否发送老师账号短信 0 不 1 是
      * @param string base_intro 老师简介
      * @param int grade_start 老师年级开始范围
@@ -1337,7 +1337,7 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($teacher_type,$teacher_info,E\Eteacher_type::V_0,"teacher_type");
         \App\Helper\Utils::set_default_value($teacher_ref_type,$teacher_info,E\Eteacher_ref_type::V_0,"teacher_ref_type");
         \App\Helper\Utils::set_default_value($is_test_user,$teacher_info,0,"is_test_user");
-        \App\Helper\Utils::set_default_value($use_easy_pass,$teacher_info,0,"use_easy_pass");
+        \App\Helper\Utils::set_default_value($use_easy_pass,$teacher_info,2,"use_easy_pass");
         \App\Helper\Utils::set_default_value($send_sms_flag,$teacher_info,1,"send_sms_flag");
         \App\Helper\Utils::set_default_value($base_intro,$teacher_info,"","base_intro");
         \App\Helper\Utils::set_default_value($grade_start,$teacher_info,E\Egrade_range::V_0,"grade_start");

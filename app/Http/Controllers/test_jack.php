@@ -342,7 +342,10 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        
+        list($date_1['y'],$date_1['m'])=explode("-",date('Y-m',strtotime("2016-12-01")));
+        list($date_2['y'],$date_2['m'])=explode("-",date('Y-m',time()));
+        $n =  abs(($date_2['y']-$date_1['y'])*12 +$date_2['m']-$date_1['m']);
+        dd($n);
         $start= strtotime("2017-01-01");
         $end= time();
         $ret =$this->t_lesson_info_b3->get_lesson_teacher_num($start, $end, -2);

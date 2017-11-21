@@ -1447,7 +1447,7 @@ class user_manage_new extends Controller
         $monthtime_flag = $this->get_in_int_val("monthtime_flag",1);
         // $admin_info = $this->t_manager_info->get_admin_member_list();
         // $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
-        $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
+        $list=\App\Helper\Common_new::gen_admin_member_data_new([],[],$monthtime_flag,$start_time); // 开发中
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         foreach($list as $key=>&$val){
             $val["become_member_time"] = isset($val["create_time"])?$val["create_time"]:0;
