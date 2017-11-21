@@ -1224,14 +1224,13 @@ class Common {
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
 
-        if($monthtime_flag==1 || strtotime( date("Y-m-01")) == $month ){
+        if($monthtime_flag==1){
             // $admin_list = $t_manager_info->get_admin_member_list();
             $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
         $admin_list=$admin_list["list"];
-        dd($admin_list);
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0,$seller_level=0) {
             // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
