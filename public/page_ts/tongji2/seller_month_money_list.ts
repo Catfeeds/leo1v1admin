@@ -34,7 +34,7 @@ $(function(){
 
     function load_row_data (){
 
-        var row_list = $("#id_tbody .l-4");
+        var row_list = $("#id_tbody .l-5");
         var do_index = 0;
 
         function do_one() {
