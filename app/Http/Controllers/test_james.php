@@ -1292,7 +1292,10 @@ $test=	3;
             // }
         }
 
+        
         echo count($a)." 签合同人数:".count($stu_list);
+
+        dd($a);
         // if(empty($a)){
         //     echo count($a);
         //     dd($stu_list);
