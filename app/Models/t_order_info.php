@@ -4222,7 +4222,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $sql = $this->gen_sql_new("  select count(distinct(l.userid) ) from %s o "
                                   ." join %s l on o.from_test_lesson_id=l.lessonid"
-                                  ." left join "
+                                  ." left join %s tl "
         );
     }
 }
