@@ -4,10 +4,14 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+		        name:	$('#id_name').val()
         });
     }
+    $('#id_name').val(g_args.name);
     $(".common-table" ).table_admin_level_3_init();
+    if(g_args.name){
+        $(".show_flag_ww").show();
+    }
     $("#id_add_channel").on("click",function(){
         var id_channel_name=$("<input/>");
         var  arr=[
@@ -271,6 +275,8 @@ $(function(){
             );
         });
     });
+
+   
     $('.opt-change').set_input_change_event(load_data);
 });
 

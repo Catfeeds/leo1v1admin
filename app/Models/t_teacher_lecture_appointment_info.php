@@ -862,11 +862,15 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
 
-    public function tongji_zs_reference_info($start_time,$end_time){
+    public function tongji_zs_reference_info($start_time,$end_time,$admin_name=""){
         $where_arr = [
             ["answer_begin_time>%u",$start_time,0],
             ["answer_begin_time<%u",$end_time,0],
         ];
+        if ($admin_name) {
+            $admin_name=$this->ensql($admin_name);
+            $where_arr[]="(t.realname like '%%".$admin_name."%%' or t.phone like '%%".$admin_name."%%' )";
+        }
         $sql = $this->gen_sql_new("select count(distinct ta.phone) as num,ta.reference,t.realname"
                                   ." from %s ta"
                                   ." left join %s t on ta.reference=t.phone"
