@@ -1318,10 +1318,10 @@ class wx_yxyx_api extends Controller
             $commission_reward = ($l1_child_commission_reward+$l2_child_commission_reward)/100;
         }else{
             //获取上次提现成功的申请体现时间
-            // $last_succ_cash_time = $this->t_agent_cash->get_last_succ_cash_time($agent_id);
+            $last_succ_cash_time = $this->t_agent_cash->get_last_succ_cash_time($agent_id);
             //获取可体现用户邀请奖励
-            $l1_child_can_cash_invite_reward = $this->t_agent->get_l1_agent_status_all_money($agent_id);
-            $l2_child_can_cash_invite_reward = $this->t_agent->get_l2_agent_status_all_open_money($agent_id);
+            $l1_child_can_cash_invite_reward = $this->t_agent->get_now_l1_all_open_money($agent_id,$last_succ_cash_time);
+            $l2_child_can_cash_invite_reward = $this->t_agent->get_now_l2_all_open_money($agent_id,$last_succ_cash_time);
             $invite_reward = ($l1_child_can_cash_invite_reward+$l2_child_can_cash_invite_reward)/100;
             //获取可提现佣金奖励
             $commission_reward = $this->t_agent->get_order_open_all_money($agent_id);

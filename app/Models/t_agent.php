@@ -2890,4 +2890,42 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_value($sql);
     }
     
+    //@desn:获取用户可提现的一级试听奖励 [不包括用户已体现金额]
+    //@param:$agent_id 优学优享id
+    //@param:$last_succ_cash_time 用户上次提现时间
+    public function get_now_l1_all_open_money($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id],
+            ['create_time >= %u',$last_succ_cash_time],
+            'agent_income_type' => 1
+        ];
+        $sql = $this->gen_sql_new(
+            'select sum(agent_status_money) '.
+            'from %s '.
+            'where id in (select child_agent_id from %s where %s)',
+            self::DB_TABLE_NAME,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr
+        );
+        $this->main_get_value($sql);
+    }
+    //@desn:获取用户可提现的二级试听奖励 [不包括用户已体现金额]
+    //@param:$agent_id 优学优享id
+    //@param:$last_succ_cash_time 用户上次提现时间
+    public function get_now_l2_all_open_money($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id],
+            ['create_time >= %u',$last_succ_cash_time],
+            'agent_income_type' => 2
+        ];
+        $sql = $this->gen_sql_new(
+            'select sum(pp_agent_status_money) '.
+            'from %s '.
+            'where id in (select child_agent_id from %s where %s)',
+            self::DB_TABLE_NAME,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr
+        );
+        $this->main_get_value($sql);
+    }
 }
