@@ -156,7 +156,6 @@ class flow_ass_order_refund  extends flow_base{
     }
 
 
-
     static function do_succ_end( $flow_info, $self_info ) {
         $task=static::get_task_controler();
         //$post_admin_nick=$self_info["sys_operator"];
