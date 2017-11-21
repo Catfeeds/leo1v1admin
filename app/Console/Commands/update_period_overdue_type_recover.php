@@ -145,10 +145,10 @@ class update_period_overdue_type_recover extends Command
                                               
                     }
                     if($i==0){
+                        $userid = $val["userid"];
                         //无逾期,变更状态
                         $target_type_info = $task->t_student_type_change_list->get_info_by_userid_type_before_last($userid);
                         $target_type = $target_type_info["type_before"];
-                        $userid = $val["userid"];
                         $old_type= $task->t_student_info->get_type($userid);                       
                         $task->t_student_info->get_student_type_update($userid,$target_type);
                         $task->t_student_type_change_list->row_insert([
@@ -165,7 +165,7 @@ class update_period_overdue_type_recover extends Command
                         //微信推送家长
                         $wx = new \App\Helper\Wx();
                         $openid = $val["wx_openid"];
-                        $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                       // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
                         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
 
                         $data=[
@@ -183,7 +183,7 @@ class update_period_overdue_type_recover extends Command
 
                         //微信推送助教
                         $ass_oponid = $task->t_manager_info->get_wx_openid($val["uid"]);
-                        $ass_oponid = $task->t_manager_info->get_wx_openid(349);
+                        //$ass_oponid = $task->t_manager_info->get_wx_openid(349);
                         $account = $task->t_manager_info->get_account($val["uid"]);
                         $data=[
                             "first"    => "逾期停课恢复通知",

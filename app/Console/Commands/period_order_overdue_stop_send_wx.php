@@ -58,7 +58,7 @@ class period_order_overdue_stop_send_wx extends Command
                 //微信推送家长
                 $wx = new \App\Helper\Wx();
                 $openid = $val["wx_openid"];
-                $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+               // $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
 
                 $data=[
@@ -85,7 +85,7 @@ class period_order_overdue_stop_send_wx extends Command
                 }
 
                 //已排未上课程删除
-                $task->t_lesson_info_b3->del_lesson_no_start_by_userid($userid);
+                $task->t_lesson_info_b3->del_lesson_no_start_by_userid($val["userid"]);
 
 
                 //微信推送助教
