@@ -1225,7 +1225,8 @@ class Common {
         $task=new \App\Console\Tasks\TongjiTask() ;
 
         if($monthtime_flag==1 || strtotime( date("Y-m-01")) == $month ){
-            $admin_list = $t_manager_info->get_admin_member_list();
+            // $admin_list = $t_manager_info->get_admin_member_list();
+            $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
