@@ -988,14 +988,13 @@ class wx_yxyx_api extends Controller
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $id            = $agent_id;
-        if (!($cash>0)) {
-            return $this->output_err("无可提现金额!");
-        }
-
 
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
         $have_cash = $this->t_agent_cash->get_have_cash($agent_id,[0,1]);
+        if (!($total_cash - $have_cash>0)) {
+            return $this->output_err("无可提现金额!");
+        }
         if($total_cash - $have_cash < 2500){
             return $this->output_err("可提现金额最低为25元!");
         }
