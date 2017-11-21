@@ -1275,7 +1275,8 @@ $test=	3;
         foreach($stu_list as $i=>$item){
             $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['subject'],$item['userid'],$item['grade'],$item['lesson_start']);
 
-            if( $last_normal_id != $item['teacherid'] ){
+
+            if( $last_normal_id>0 &&($last_normal_id != $item['teacherid'] )){
                 $a[] = $stu_list[$i];
                 // unset($stu_list[$i]);
             }
