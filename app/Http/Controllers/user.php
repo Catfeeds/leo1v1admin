@@ -311,6 +311,7 @@ class user extends TeaWxController
         /**
          * @ 每月6号之后 关闭上月课程申诉通道
          * @ 已发布
+         * @ James
          **/
 
         $limit_time = strtotime(date('Y-m-1'));

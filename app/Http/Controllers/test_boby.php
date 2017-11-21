@@ -942,18 +942,17 @@ class test_boby extends Controller
         $start = strtotime('2017-8-1');
         $end = strtotime('2017-9-1');
 
-        $sql = "select lesson_start from t_lesson_info where grade<200 and lesson_start>=$start and lesson_start<$end";
+        $sql = "select lesson_start from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
         $hour = range(0,86400,1800);
         foreach($hour as &$v){
             $v=0;
         }
-        $week = [0=>0,1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0, 7=>0];
+        $week = [0=>0,1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0];
         foreach($ret as $v){
             $w = date('w',$v['lesson_start']);
-            $h = intval(floor( ( $v['lesson_start']%86400 ) / 1800 ) );
+            $h = $this->fenzu( $v['set_lesson_time'] );
 
-            // dd($w);
             $week[$w] += 1;
             $hour[$h] += 1;
         }
@@ -969,6 +968,9 @@ class test_boby extends Controller
 
         $th_arr = ['人数','时间'];
         $s2 = $this->table_start($th_arr);
+        // $th_arr = ['上课时间'];
+        // $l = $this->table_start($th_arr);
+
         foreach($hour as $k=>$v){
             $n = $k%2;
             $z = intval(floor($k/2));
@@ -981,10 +983,13 @@ class test_boby extends Controller
 
         }
         $s2 = $this->table_end($s2);
+
+        echo '<mate charset="utf-8">';
         echo '总课数：',count($ret);
         echo $s,$s2;
         exit;
 
 
     }
+
 }
