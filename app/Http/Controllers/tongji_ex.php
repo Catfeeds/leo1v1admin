@@ -125,7 +125,6 @@ class tongji_ex extends Controller
     public function get_lesson_user_ip_same_info(){
         list($start_time,$end_time) = $this->get_in_date_range_month(0 );
         $match_type = $this->get_in_int_val("match_type",0);
-        $grade = $this->get_in_int_val("grade",-1);
         $company_ip_list=[
              '123.57.153.80',
              '123.57.153.95',
@@ -140,7 +139,7 @@ class tongji_ex extends Controller
             $str  .="'".$val."',";           
         }
         $ip_str = "(".trim($str,",").")";
-        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str,$grade);
+        $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str);
         
         $list=[];
         foreach($ret_info as $val){
