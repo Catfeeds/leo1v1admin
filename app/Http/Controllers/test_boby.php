@@ -942,7 +942,7 @@ class test_boby extends Controller
         $start = strtotime('2017-8-1');
         $end = strtotime('2017-9-1');
 
-        $sql = "select lesson_start from t_lesson_info where grade<200 and lesson_start>=$start and lesson_start<$end";
+        $sql = "select lesson_start from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
         $hour = range(0,86400,1800);
         foreach($hour as &$v){
@@ -968,6 +968,9 @@ class test_boby extends Controller
 
         $th_arr = ['人数','时间'];
         $s2 = $this->table_start($th_arr);
+        // $th_arr = ['上课时间'];
+        // $l = $this->table_start($th_arr);
+
         foreach($hour as $k=>$v){
             $n = $k%2;
             $z = intval(floor($k/2));
@@ -988,4 +991,5 @@ class test_boby extends Controller
 
 
     }
+
 }
