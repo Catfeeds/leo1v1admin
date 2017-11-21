@@ -3098,6 +3098,7 @@ class user_manage extends Controller
         $ret = [
             1 => [
                 "name" => "录制试讲",
+                "0" =>0,
                 "1" => 0,
                 "2" => 0,
                 "3" => 0,
@@ -3112,6 +3113,7 @@ class user_manage extends Controller
             ],
             2 => [
                 "name" => "模拟试听",
+                "0" =>0,
                 "1" => 0,
                 "2" => 0,
                 "3" => 0,
@@ -3126,7 +3128,7 @@ class user_manage extends Controller
            ]
         ];
         foreach ($lz_ret_info as $key => $value) {
-            ++@$ret[1][$value['subject']];
+            ++$ret[1][$value['subject']];
             ++$ret[1]['sum'];
         }
         foreach ($train_ret_info as $key => $value) {
