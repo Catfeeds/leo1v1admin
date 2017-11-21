@@ -1149,7 +1149,11 @@ jQuery.extend({
                 args_str+= "&"+key +"=" +  encodeURIComponent(value);
             }
         });
-        console.log(pathname  +"?" +  args_str);
+        var len = pathname.length;
+        var last_str = pathname.substring(len-1,len);
+        if(last_str=="#"){
+            pathname = pathname.substring(0,len-1);
+        }
         $.wopen( pathname  +"?" +  args_str,  open_self_window );
     },
 
