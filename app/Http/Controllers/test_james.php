@@ -1273,24 +1273,24 @@ $test=	3;
         $a = [];
 
         foreach($stu_list as $i=>$item){
-            $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['subject'],$item['userid'],$item['grade'],$item['lesson_start']);
+            // $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['subject'],$item['userid'],$item['grade'],$item['lesson_start']);
 
 
-            if( ($last_normal_id>0) &&($last_normal_id != $item['teacherid'] )){
-                $a[] = $stu_list[$i];
-                // unset($stu_list[$i]);
-            }
-
-
-
-            // $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['orderid']);
-
-            // $normal_info = $this->t_order_lesson_list->get_lesson_info_tmp($last_normal_id);
-
-            // if( $normal_info &&($item['subject'] == $normal_info['subject'])  && ($item['teacherid'] != $normal_info['teacherid']) && ($item['userid']==$normal_info['userid'])){
+            // if( ($last_normal_id>0) &&($last_normal_id != $item['teacherid'] )){
             //     $a[] = $stu_list[$i];
-            //     unset($stu_list[$i]);
+            //     // unset($stu_list[$i]);
             // }
+
+
+
+            $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['orderid']);
+
+            $normal_info = $this->t_order_lesson_list->get_lesson_info_tmp($last_normal_id);
+
+            if( $normal_info &&($item['subject'] == $normal_info['subject'])  && ($item['teacherid'] != $normal_info['teacherid']) && ($item['userid']==$normal_info['userid'])){
+                $a[] = $stu_list[$i];
+                unset($stu_list[$i]);
+            }
         }
 
         
