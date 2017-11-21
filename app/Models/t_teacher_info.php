@@ -2905,20 +2905,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             /// "l.lesson_start<".$end_time
         ];
         if($tea_flag==1){
-            // $where_arr[] =["tf.simul_test_lesson_pass_time>=%u",$start_time,0];
-            // $where_arr[]=["tf.simul_test_lesson_pass_time<%u",$end_time,0];
-            $where_arr[] =["t.train_through_new_time>=%u",$start_time,0];
-            $where_arr[]=["t.train_through_new_time<%u",$end_time,0];
-
+            if($start_time>= strtotime("2017-08-01")){
+                $where_arr[] =["tf.simul_test_lesson_pass_time>=%u",$start_time,0];
+                $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$end_time,0];
+            }else{
+                $where_arr[] =["t.train_through_new_time>=%u",$start_time,0];
+                $where_arr[]=["t.train_through_new_time<%u",$end_time,0]; 
+            }
+           
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
 
         }elseif($tea_flag==2){
-            //$where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
-            $where_arr[]=["t.train_through_new_time<%u",$start_time,0];
+            if($start_time>= strtotime("2017-08-01")){
+                $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
+            }else{
+                $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
+            }
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         }elseif($tea_flag==3){
-            // $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
-            $where_arr[]=["t.train_through_new_time<%u",$start_time,0];
+            if($start_time>= strtotime("2017-08-01")){
+                $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
+            }else{
+                $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
+            }
             $this->where_arr_add_time_range($where_arr,"lesson_start",$two_month_time,$end_time);
         }else{
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
@@ -4515,20 +4524,31 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="tf.simul_test_lesson_pass_time>=".$start_time;
             $where_arr[]=   "tf.simul_test_lesson_pass_time<".$end_time;
             $where_arr[] ="tf.simul_test_lesson_pass_time>la.answer_begin_time";
+            $sql = $this->gen_sql_new("select AVG(tf.simul_test_lesson_pass_time-la.answer_begin_time)"
+                                      ." from %s t left join %s la on t.phone = la.phone"
+                                      ." left join %s tf on t.teacherid = tf.teacherid"
+                                      ." where %s",
+                                      self::DB_TABLE_NAME,
+                                      t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                      t_teacher_flow::DB_TABLE_NAME,
+                                      $where_arr
+            );
+
         }else{
             $where_arr[]="t.train_through_new_time>=".$start_time;
             $where_arr[]=   "t.train_through_new_time<".$end_time;
             $where_arr[] ="t.train_through_new_time>la.answer_begin_time";
+            $sql = $this->gen_sql_new("select AVG(t.train_through_new_time-la.answer_begin_time)"
+                                      ." from %s t left join %s la on t.phone = la.phone"
+                                      ." left join %s tf on t.teacherid = tf.teacherid"
+                                      ." where %s",
+                                      self::DB_TABLE_NAME,
+                                      t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                      t_teacher_flow::DB_TABLE_NAME,
+                                      $where_arr
+            );
+
         }
-        $sql = $this->gen_sql_new("select AVG(tf.simul_test_lesson_pass_time-la.answer_begin_time)"
-                                  ." from %s t left join %s la on t.phone = la.phone"
-                                  ." left join %s tf on t.teacherid = tf.teacherid"
-                                  ." where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  t_teacher_flow::DB_TABLE_NAME,
-                                  $where_arr
-        );
         return $this->main_get_value($sql);
     }
 
