@@ -3973,7 +3973,7 @@ lesson_type in (0,1) "
             // "require_admin_type =2",
             //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
             "m.account_role=2",
-            "m.del_flag=0"
+            // "m.del_flag=0"
         ];
         if($subject==20){
             $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
@@ -4019,7 +4019,6 @@ lesson_type in (0,1) "
         });
     }
 
-
     public function get_teacher_test_person_num_list_other( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[]){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
@@ -4030,7 +4029,7 @@ lesson_type in (0,1) "
             // "require_admin_type =2",
             "tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
             "m.account_role <>2",
-            "m.del_flag=0"
+            // "m.del_flag=0"
         ];
         if($subject==20){
             $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
@@ -4086,7 +4085,7 @@ lesson_type in (0,1) "
             // "require_admin_type =2",
             //  "tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
             "mm.account_role=2",
-            "mm.del_flag=0",
+            // "mm.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
@@ -4180,7 +4179,7 @@ lesson_type in (0,1) "
             "mm.account_role=2 ",
             //"mm.account_role=2 ",
 
-            "mm.del_flag=0",
+            // "mm.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
@@ -4271,7 +4270,7 @@ lesson_type in (0,1) "
             "lesson_type = 2",
             "lesson_del_flag = 0",
             "mm.account_role=2 ",
-            "mm.del_flag=0",
+            // "mm.del_flag=0",
             ["tss.top_seller_flag=%u",$top_seller_flag,-1],
             ["tss.grab_flag=%u",$grab_flag,-1],
         ];
@@ -4314,7 +4313,7 @@ lesson_type in (0,1) "
             // "require_admin_type =2",
             "tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
             "mm.account_role<>2",
-            "mm.del_flag=0",
+            //  "mm.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],

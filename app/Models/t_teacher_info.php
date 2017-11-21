@@ -4358,7 +4358,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['train_through_new_time<%u', $end_time, 0]
         ];
         if($pass_flag==1){
-            $where_arr="train_through_new=1 and is_test_user=0";
+            $where_arr[]="train_through_new=1 and is_test_user=0";
         }
         $sql = $this->gen_sql_new("select teacherid,train_through_new_time from %s where %s ",
                                   self::DB_TABLE_NAME,

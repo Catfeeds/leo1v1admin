@@ -18,6 +18,7 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
                 "cur_price" => $item["cur_price"  ],
                 "cur_present_lesson_count" => $item["cur_present_lesson_count"  ],
                 "can_period_flag" => $item["can_period_flag"  ],
+                "change_value" => $item["change_value"  ],
             ]);
 
         }
@@ -30,11 +31,28 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
         return $this->main_get_list($sql);
     }
     public function get_count_by_order_activity_type( $order_activity_type) {
-        $sql = $this ->gen_sql_new("select count(*) from %s where order_activity_type =%u and  succ_flag =1 ",
-                                   self::DB_TABLE_NAME, $order_activity_type
+        $where_arr=[];
+        $this->where_arr_add_int_or_idlist($where_arr, "order_activity_type", $order_activity_type );
+
+        $sql = $this ->gen_sql_new(
+            "select count(*) from %s where   succ_flag =1  and %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_value($sql);
     }
+    public function get_all_change_value_by_order_activity_type( $order_activity_type) {
+        $where_arr=[];
+        $this->where_arr_add_int_or_idlist($where_arr, "order_activity_type", $order_activity_type );
+
+        $sql = $this ->gen_sql_new(
+            "select sum(change_value) from %s where   succ_flag =1  and %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     public function del_by_orderid($orderid ) {
         $sql=$this->gen_sql_new(
             "delete  from %s  "

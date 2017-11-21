@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
-
+    <style>
+     .middle{text-align: center;vertical-align: middle};
+    </style>
     <section class="content ">
-        
         <div>
             <div class="row">
                 <div class="col-xs-6 col-md-2">
@@ -12,8 +13,6 @@
                         <input class="opt-change form-control" id="id_adminid" />
                     </div>
                 </div>
-               
-                
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">是否转正</span>
@@ -96,12 +95,13 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                               
-                                <a class="set_fulltime_teacher_assessment" title="考核评定">考核评定</a>
-                                <a class="set_fulltime_teacher_positive_require" title="转正申请审核">转正申请审核</a>
-                                <a class="set_fulltime_teacher_assessment_master" title="考核评定">考核评定</a>
-                                <a class="set_fulltime_teacher_positive_require_master" title="转正申请审核">转正申请审核</a>
-
+                                @if($main_flag)
+                                    <a class="set_fulltime_teacher_assessment_master" title="考核评定">考核评定</a>
+                                    <a class="set_fulltime_teacher_positive_require_master" title="转正申请审核">转正申请审核</a>
+                                @else
+                                    <a class="set_fulltime_teacher_assessment" title="考核评定">考核评定</a>
+                                    <a class="set_fulltime_teacher_positive_require" title="转正申请审核">转正申请审核</a>
+                                @endif
                             </div>
                         </td>
                     </tr>
