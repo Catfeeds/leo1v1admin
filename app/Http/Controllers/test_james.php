@@ -1260,7 +1260,7 @@ $test=	3;
 
     public function get_stu_date(){
         $month_start = strtotime($this->get_in_str_val('m'));
-        $month_end = strtotime(date('Y-m-1',$month_start+32*86400));
+        $month_end = strtotime($this->get_in_str_val('e'));
         /**
          * 1.     8,9,10 三个月的上过试听课且签单成功的学员
          * 2.     上试听课的老师与第一节常规课老师不匹配的学员
