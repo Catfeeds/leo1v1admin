@@ -39,7 +39,7 @@ class t_admin_channel_user extends \App\Models\Zgen\z_t_admin_channel_user
         ];
         if ($admin_name) {
             $admin_name=$this->ensql($admin_name);
-            $where_arr[]="(realname like '%%".$admin_name."%%' )";
+            $where_arr[]="(realname like '%%".$admin_name."%%' or phone like '%%".$admin_name."%%' )";
         }
 
         $sql=$this->gen_sql_new("select teacherid ,realname ,phone,zs_id ,email,teacher_type from %s where %s",
