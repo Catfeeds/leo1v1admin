@@ -718,7 +718,7 @@ class user_manage extends Controller
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
         $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
         $show_download = 0;
-        if(in_array($this->get_account_id(),[831])){
+        if(in_array($this->get_account_id(),[831,778])){
             $show_download = 1;
         }
         $this->set_filed_for_js("show_download",$show_download);
