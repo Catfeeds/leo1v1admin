@@ -973,6 +973,9 @@ class tea_manage extends Controller
         $teacher_ref_type      = $this->get_in_int_val('teacher_ref_type',0);
         $account_role          = $this->get_account_role();
         $acc                   = $this->get_account();
+
+        return $this->output_err("接口暂停");
+
         /**
          * 0 审核添加 1 后台添加
          */
@@ -2303,8 +2306,6 @@ class tea_manage extends Controller
                 $teacherid=0;
             }
         }
-
-
 
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,

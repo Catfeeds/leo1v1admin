@@ -424,7 +424,7 @@ class Common {
         $mail->FromName = "理优教研组";
 
         if (is_array($address)) {
-            foreach ( $address as $item ){
+            foreach ( $address as $i => $item ){
                 if ($i==0) {
                     $mail->AddAddress($item,$item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
                 }else{
@@ -442,11 +442,11 @@ class Common {
         $mail->Subject = $title;
         $mail->Body = $message;
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
-        $ret= $mail->Send();
+        $ret = $mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger(" leo_com:email err: $address :$title  ". $mail->ErrorInfo);
+            \App\Helper\Utils::logger(" leo_com:email err: ".json_decode($address)." :$title  ". $mail->ErrorInfo);
         }else{
-            \App\Helper\Utils::logger(" leo_com:email succ: $address :$title " );
+            \App\Helper\Utils::logger(" leo_com:email succ: ".json_decode($address)." :$title " );
         }
         return  $ret;
     }
@@ -1231,7 +1231,6 @@ class Common {
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
         $admin_list=$admin_list["list"];
-        dd($admin_list);
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0,$seller_level=0) {
             // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
