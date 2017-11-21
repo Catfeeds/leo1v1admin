@@ -93,7 +93,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
             'check_money_flag' => 0,
         ];
         $sql = $this->gen_sql_new(
-            "select count(cash) from %s where %s",
+            "select sum(cash) from %s where %s",
             self::DB_TABLE_NAME,
             $where_arr
         );
