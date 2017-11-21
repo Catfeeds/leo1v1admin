@@ -52,6 +52,7 @@ $(function(){
                     $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);
                     $tr.find(".kpi").text(data["kpi"]);
+                    $tr.find(".last_seller_level").text(data["last_seller_level"]);
 
                     $tr.find(".all_price").text(data["all_price"]);
                     $tr.find(".stage_money").text(data["stage_money"]);

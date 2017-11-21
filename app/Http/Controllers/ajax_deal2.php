@@ -1321,13 +1321,14 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $order_activity_type). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                           . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
                         . "<td>  ". $period_str
                         . " </tr> ";
                 }
             }
             $row_count= count( $arr);
         }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr class=\"table-header\"> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时  <th> 启用分期  </tr>  $tr_str </table>";
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr class=\"table-header\"> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时 <th> 修改值 <th> 启用分期  </tr>  $tr_str </table>";
         return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 
@@ -1619,12 +1620,34 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $start_time             = $this->get_in_int_val("start_time");
-        $end_time = strtotime("+1 month",$start_time);
-        $lesson_list = $this->t_lesson_info_b2->get_lesson_info_teacher_check_total($start_time,$end_time );
+        $teacherid             = $this->get_in_int_val("teacherid");
+        $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,2,0,-1);
+        $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1);
+        $time = $this->t_teacher_flow->get_simul_test_lesson_pass_time($teacherid );
+        if(empty($time)){
+            $time = $this->t_teacher_info->get_train_through_new_time($teacherid);
+        }
+        if(@$data["lesson_start"]>0){
+            $first_test =round( ($data["lesson_start"]-$time)/86400,1);
+        }else{
+            $first_test=0;
+        }
+        if($first_test<0){
+            $first_test=0;
+        }
+        if(@$normal["lesson_start"]>0){
+            $first_normal =round( ($data["lesson_start"]-$time)/86400,1);
+        }else{
+            $first_normal=0;
+        }
+        if($first_normal<0){
+            $first_normal=0;
+        }
+
+
         return $this->output_succ([
-            "all_count" =>@$lesson_list["all_num"],
-            "kk_count"=>@$lesson_list["teacher_no_attend_lesson"],
+            "first_test" =>@$first_test,
+            "first_normal"=>@$first_normal,
         ]);
 
 

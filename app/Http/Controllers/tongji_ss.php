@@ -8099,6 +8099,12 @@ class tongji_ss extends Controller
 
 
         $this->switch_tongji_database();
+        $first_month = strtotime("2017-01-01");
+        $list = $this->t_teacher_info->get_data_to_teacher_flow($first_month,time(),1);
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list 
+        ]);
+
         // $first_month = strtotime("2016-01-01");
         // // $end_month = strtotime(date("Y-m-01",time()));
         // // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));

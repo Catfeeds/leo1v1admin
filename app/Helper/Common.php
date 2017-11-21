@@ -366,7 +366,6 @@ class Common {
         //$mail->SMTPSecure = 'tls';
         //$mail->Port = 465;
 
-
         $mail->SMTPAuth = true; // 启用SMTP验证功能
         $mail->Username = "jim@leoedu.com"; // 邮局用户名(请填写完整的email地址)
         $mail->Password = "xcwen@142857"; // 邮局密码
@@ -426,7 +425,11 @@ class Common {
 
         if (is_array($address)) {
             foreach ( $address as $item ){
-                $mail->AddAddress($item, $item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+                if ($i==0) {
+                    $mail->AddAddress($item,$item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+                }else{
+                    $mail->addCC($item,$item);
+                }
             }
         }else{
             $mail->AddAddress($address, $address);
