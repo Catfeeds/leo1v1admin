@@ -949,19 +949,25 @@ class test_boby extends Controller
             $w = date('w',$v['lesson_start']);
             $h = $this->fenzu( $v['lesson_start'] );
 
-            $n = $h%2;
-            $z = intval(floor($h/2));
-            if($h%2 == 0){
-                $t = $z.':'.'00-'.$z.':30';
-            } else {
-                $t = $z.':'.'30-'.($z+1).':00';
-            }
-
-
-            @$week[$w][$t] += 1;
+            @$week[$w][$h] += 1;
         }
 
-        dd($week);
+        $new = [];
+        foreach ($week as $key=>$v){
+            foreach ($v as $h=>$val){
+
+                $n = $h%2;
+                $z = intval(floor($h/2));
+                if($h%2 == 0){
+                    $t = $z.':'.'00-'.$z.':30';
+                } else {
+                    $t = $z.':'.'30-'.($z+1).':00';
+                }
+                @$new[$key][$t] = $val;
+            }
+
+        }
+        dd($new);
 
     }
 
