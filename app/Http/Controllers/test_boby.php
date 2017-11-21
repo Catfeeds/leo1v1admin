@@ -905,7 +905,8 @@ class test_boby extends Controller
         $end = strtotime('2017-9-1');
 
         $sql = "select s.phone,s.nick,count(distinct tq.uid) cc,s.origin, "
-             ." count(distinct if( tq.is_called_phone=1,tq.uid,0))-1 ok_phone"
+             ." count(distinct if( tq.is_called_phone=1,tq.uid,0)) ok_phone,"
+             ." min( if( tq.is_called_phone=1,tq.uid,0)) ) flag"
              ." from db_weiyi.t_seller_student_new ss "
              ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
              ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
@@ -921,7 +922,13 @@ class test_boby extends Controller
         $s = $this->table_start($th_arr);
 
         foreach($ret as $v){
-            $s= $this->tr_add($s, $v['phone'], $v['nick'], $v['cc'], $v['origin'],$v['cc']-$v['ok_phone']);
+            if( $v['flag']==0 ) {//说明有未打通的
+                $num = $v['cc']-$v['ok_phone']-1;
+            }else {
+                $num = $v['cc']-$v['ok_phone'];
+            }
+            $s= $this->tr_add($s, $v['phone'], $v['nick'], $v['cc'], $v['origin'],$num);
+
         }
         $s = $this->table_end($s);
 
@@ -932,6 +939,6 @@ class test_boby extends Controller
     public function get_xiaoxue_lesson_info(){
 
         $this->switch_tongji_database();
-        $sql = '';
+        $sql = 'select lesson_start';
     }
 }
