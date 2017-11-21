@@ -100,6 +100,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
+        \App\Helper\Utils::logger("wx_headimgurl:". $headimgurl);
         $image_5 = @imagecreatefromjpeg($datapath);
         if(!$image_5) {
             $image_5 = @imagecreatefrompng($datapath);
