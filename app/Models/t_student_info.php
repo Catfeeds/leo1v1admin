@@ -3258,4 +3258,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
+    public function get_all_stu_info($page_info){
+        $sql = $this->gen_sql_new("select userid,nick,phone,type from %s where is_test_user=0",self::DB_TABLE_NAME);
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
 }

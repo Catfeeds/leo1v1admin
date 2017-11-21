@@ -1,8 +1,5 @@
 	userid	:any;
-	phone	:any;
-	grade	:any;
-	assistantid	:any;
-	ass_nick	:any;
 	nick	:any;
-	num	:any;
-	grade_str	:any;
+	phone	:any;
+	type	:any;
+	type_str	:any;
