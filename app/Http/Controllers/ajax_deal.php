@@ -56,7 +56,7 @@ class ajax_deal extends Controller
 
             $ret_list[]=[
                 "node_type" => $node_type,
-                "name" => $flow_class::get_node_name($node_type),
+                "name" => @$flow_class::get_node_name($node_type),
                 "adminid" => $adminid,
                 "admin_nick" => $this->cache_get_account_nick($adminid),
                 "auto_pass_flag" =>  $auto_pass_flag
