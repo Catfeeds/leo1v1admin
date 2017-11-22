@@ -13,6 +13,12 @@ class TOrderRefundAddCloum extends Migration
     public function up()
     {
         //
+        Schema::table('db_weiyi.t_order_refund', function( Blueprint $table)
+        {
+
+            //t_field($table->text("free_time"),"空闲时间");
+        });
+
     }
 
     /**
