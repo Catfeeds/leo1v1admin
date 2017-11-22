@@ -46,7 +46,7 @@ class reset_menu_url_power_map extends Command
             if ( $item["pid"] >0) {
                 $url = $item["url"];
                 $url_arr=explode("/",$url);
-                $c=trim($url_arr[1]);
+                $c=trim(@$url_arr[1]);
                 $a_arr=explode("?",@$url_arr[2]);
                 $a=trim($a_arr[0]);
                 if ($a=="") {
