@@ -1136,11 +1136,17 @@ trait TeaPower {
 
     public function get_last_lesson_end($teacherid,$lesson_end){
         $lesson_start = $lesson_end+3600;
-        $end = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$lesson_start);
-        if($start>0){
-            return $this->get_first_lesson_start($teacherid,$start);
+        $end_info = $this->t_lesson_info_b2->check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start);
+        if(@$end_info["lesson_type"]==2){
+            $end = @$end_info["lesson_end"]+1200;
         }else{
-            return $lesson_start;
+            $end = @$end_info["lesson_end"];
+        }
+        
+        if($end>0){
+            return $this->get_last_lesson_end($teacherid,$end);
+        }else{
+            return $lesson_end;
         }
     }
 
