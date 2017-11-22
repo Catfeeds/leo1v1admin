@@ -22,7 +22,7 @@ class t_market_department_activity extends \App\Models\Zgen\z_t_market_departmen
         $sql = $this->gen_sql_new("  select 1 from %s "
                                   ." where openid=%s and type=%s"
                                   ,self::DB_TABLE_NAME
-                                  ,$opendid
+                                  ,$openid
                                   ,$type
         );
 
