@@ -68,7 +68,8 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
     }
     //@desn:获取该用户当前所有奖励
     //@param:$is_cash   0所有 2可提现
-    public function get_reward_list($agent_id,$page_info,$page_count,$is_cash){
+    //@param:$lid_str 大转盘未体现id_str
+    public function get_reward_list($agent_id,$page_info,$page_count,$is_cash,$lid_str){
         $where_arr = [
             ['agent_id = %u',$agent_id,'-1']
         ];
@@ -78,8 +79,10 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
             ['agent_id = %u',$agent_id,'-1'],
             'money > 0',
         ];
-        if($is_cash)
+        if($is_cash){
             $this->where_arr_add_int_field($where_arr2,'is_can_cash_flag',1);
+            $where_arr2[] = 'lid in ('.$lid_str.')';
+        }
         $sql = $this->gen_sql_new(
             "select ame.agent_money_ex_type,ame.money,ame.add_time,@type:=1 as activity_type ".
             "from %s ame ".

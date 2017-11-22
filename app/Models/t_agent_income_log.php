@@ -187,15 +187,42 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取未体现的大转盘奖励id_str
+    //@param:$agent_id 优学优享id
+    //@param:$last_succ_cash_time 上次体现成功的时间
+    public function get_daily_lottery_id_str($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id,0],
+            ['create_time > %u',$last_succ_cash_time],
+            "activity_id_str <> '' "
+        ];
+        $sql = $this->gen_sql_new(
+            'select activity_id_str from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:获取该用户邀请人已经体现的金额
+    //@param:$agent_id 用户id 
+    //@param:$child_agent_id 推荐人id
+    //@param:$last_succ_cash_time 用户上次体现成功时间
+    //@param:$type 1：我的邀请 2：会员邀请
+    public function get_has_cash_commission($agent_id,$child_agent_id,$last_succ_cash_time,$type){
+        $where_arr = [
+            ['agent_id = %u ',$agent_id],
+            ['child_agent_id = %u ',$child_agent_id],
+            ['create_time <= %u',$last_succ_cash_time],
+        ];
+        if($type==1)
+            $this->where_arr_add_int_field($where_arr,'agent_income_type',3);
+        elseif($type==2)
+            $this->where_arr_add_int_field($where_arr,'agent_income_type',4);
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s where %s ',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-

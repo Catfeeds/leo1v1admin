@@ -74,22 +74,7 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
         );
         return $this->main_get_value($sql);
     }
-    //@desn:获取未体现的大转盘奖励id_str
-    //@param:$agent_id 优学优享id
-    //@param:$last_succ_cash_time 上次体现成功的时间
-    public function get_daily_lottery_id_str($agent_id,$last_succ_cash_time){
-        $where_arr = [
-            ['agent_id = %u',$agent_id,0],
-            ['create_time > %u',$last_succ_cash_time],
-            "child_agent_id <> '' "
-        ];
-        $sql = $this->gen_sql_new(
-            'select activity_id_str from %s where %s',
-            self::DB_TABLE_NAME,
-            $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
+       
 }
 
 

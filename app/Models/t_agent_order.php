@@ -331,31 +331,46 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:获取用户可提现佣金奖励
-    public function get_can_cash_commission_reward($agent_id,$type,$page_info,$page_count){
+    //@param:$last_succ_cash_time 上次提现成功时间
+    public function get_can_cash_commission_reward($agent_id,$type,$page_info,$page_count,$last_succ_cash_time){
+
         if($type == 1){
             $where_arr =[
                 ['ao.pid = %u',$agent_id,'-1'],
                 ['ao.p_open_price > %u',0]
+            ];
+            $where_arr_2 = [
+                ['agent_id = %u',$agent_id],
+                ['create_time >= %u',$last_succ_cash_time],
+                'agent_income_type' => 3
             ];
         }else{
             $where_arr =[
                 ['ao.ppid = %u',$agent_id,'-1'],
                 ['ao.pp_open_price > %u',0]
             ];
+            $where_arr_2 = [
+                ['agent_id = %u',$agent_id],
+                ['create_time >= %u',$last_succ_cash_time],
+                'agent_income_type' => 4
+            ];
         }
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,ao.p_open_price,oi.price,ao.create_time,oi.pay_time,a.userid,ao.p_price,ao.pp_open_price ".
-            ",si.nick ".
+            ",si.nick,ao.aid ".
             "from %s ao ".
             "left join %s a on ao.aid=a.id ".
             "left join %s si on si.userid = a.userid ".
             "left join %s oi on oi.orderid = ao.orderid ".
-            "where %s order by ao.create_time",
+            "where %s and ao.aid in (select distinct(child_agent_id) from %s where %s) ".
+            "order by ao.create_time",
             self::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,
-            $where_arr
+            $where_arr,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr_2
         );
 
         return $this->main_get_list_by_page($sql,$page_info,$page_count);

@@ -2464,34 +2464,49 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_value($sql);
     }
     //@desn:获取我的邀请列表 [已获取]
-    public function my_had_invite($agent_id,$page_info,$page_count){
+    public function my_had_invite($agent_id,$page_info,$page_count,$last_succ_cash_time){
         $where_arr = [
             ['a.parentid = %u',$agent_id,'-1'],
             ['a.agent_status >= %u',30]
+        ];
+        $where_arr_2 = [
+            ['agent_id = %u',$agent_id],
+            ['create_time >= %u',$last_succ_cash_time],
+            'agent_income_type' => 1
         ];
         $sql = $this->gen_sql_new(
             "select  a.id,a.phone,a.nickname,a.agent_status_money,a.agent_status,si.nick "
             . " from %s a"
             ." left join %s si on si.userid = a.userid"
-            ." where %s order by a.id desc",
+            ." where %s and id in (select child_agent_id from %s where %s) order by a.id desc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
-            $where_arr
+            $where_arr,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr_2
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
     //@desn:会员邀请奖励列表[已获取]
-    public function member_had_invite($agent_id,$page_info,$page_count){
+    public function member_had_invite($agent_id,$page_info,$page_count,$last_succ_cash_time){
+        $where_arr_2 = [
+            ['agent_id = %u',$agent_id],
+            ['create_time >= %u',$last_succ_cash_time],
+            'agent_income_type' => 1
+        ];
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,a.pp_agent_status_money as agent_status_money,a.agent_status,si.nick "
             ."from %s a"
             ." left join %s si on si.userid = a.userid"
             ." where  a.parentid in (select id from %s where parentid = %u ) and pp_agent_status_money_open_flag = 1 "
+            ." and a.id in (select child_agent_id from %s where %s)"
             ."order by create_time desc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
-            $agent_id
+            $agent_id,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr_2
         );
         return $this->main_get_list_by_page($sql,$page_info,$page_count);
     }
