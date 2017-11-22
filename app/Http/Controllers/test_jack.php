@@ -349,29 +349,30 @@ class test_jack  extends Controller
         $lesson_end = $this->get_in_str_val("lesson_end","2017-11-23 22:00:00");
         $lesson_end = strtotime($lesson_end);
         $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($time,$lesson_end);
-        dd($list);
         foreach($list as $item){
-            $teacherid = $item["teacherid"];
-            if($item["lesson_type"]==2){
-                $lesson_end = $item["lesson_end"]+1200;
-            }else{
-                $lesson_end = $item["lesson_end"];
-            }
-            $check_exist = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-            if($check_exist != 1){
-                $end = $this->get_last_lesson_end($teacherid,$lesson_end);
-                //$lesson_end = $item["lesson_start"]-5400;
-                // $start = $task->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
-                // $off_time = $start-5400;
-                // $task->t_fulltime_teacher_attendance_list->row_insert([
-                //     "teacherid"  =>$teacherid,
-                //     "add_time"   =>$time,
-                //     "attendance_type" =>2,
-                //     "attendance_time"  =>$day_time,
-                //     "off_time"         =>$off_time,
-                //     "adminid"          =>$item["uid"]
-                // ]);
-            }
+            $h = date("H",$item["lesson_start"]);
+            echo $h."<br>";
+            // $teacherid = $item["teacherid"];
+            // if($item["lesson_type"]==2){
+            //     $lesson_end = $item["lesson_end"]+1200;
+            // }else{
+            //     $lesson_end = $item["lesson_end"];
+            // }
+            // $check_exist = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+            // if($check_exist != 1){
+            //     $end = $this->get_last_lesson_end($teacherid,$lesson_end);
+            //     //$lesson_end = $item["lesson_start"]-5400;
+            //     // $start = $task->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
+            //     // $off_time = $start-5400;
+            //     // $task->t_fulltime_teacher_attendance_list->row_insert([
+            //     //     "teacherid"  =>$teacherid,
+            //     //     "add_time"   =>$time,
+            //     //     "attendance_type" =>2,
+            //     //     "attendance_time"  =>$day_time,
+            //     //     "off_time"         =>$off_time,
+            //     //     "adminid"          =>$item["uid"]
+            //     // ]);
+            // }
  
         }
         dd($list);
