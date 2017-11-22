@@ -7,5 +7,6 @@ project_name=yb_admin
 #mkdir -p   ../app/proto/
 #cp -rf ./php_${project_name} ../app/proto/$project_name
 
+
 mkdir -p ../public/proto/
 cp -rf ./php_${project_name}/$project_name*.json   ../public/proto/

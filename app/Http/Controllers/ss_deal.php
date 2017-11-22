@@ -2606,24 +2606,20 @@ class ss_deal extends Controller
         /**
          * 课程取消后 通知到对应咨询（或者对应助教），对应教务
          **/
-        if($success_flag == 2){ 
+        if($success_flag == 2){
             $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                // $set_lesson_adminid,
-                // "来自:".$this->get_account(),
-                "684",//james
-                "测试 排课人$set_lesson_adminid 来自:".$this->get_account(),
+                $set_lesson_adminid,
+                "来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
             );
 
             $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
             if($require_adminid != $set_lesson_adminid){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                    // $require_adminid,
-                    // "来自:".$this->get_account(),
-                    "684",
-                    "测试 申请人$require_adminid 来自:".$this->get_account(),
+                    $require_adminid,
+                    "来自:".$this->get_account(),
                     "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
                 );
             }
@@ -2636,12 +2632,12 @@ class ss_deal extends Controller
                 $require_id,
                 E\Eseller_student_status::V_120 , $this->get_account() );
 
-            $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
-            $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                $set_lesson_adminid,
-                "来自:".$this->get_account(),
-                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
+            // $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+            // $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
+            // $this->t_manager_info->send_wx_todo_msg_by_adminid(
+            //     $set_lesson_adminid,
+            //     "来自:".$this->get_account(),
+            //     "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
 
             $remark_ex = "";
             if($fail_greater_4_hour_flag ) {
@@ -2692,6 +2688,9 @@ class ss_deal extends Controller
                 $data['keyword2'] = $lesson_time;
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
+
             }
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(

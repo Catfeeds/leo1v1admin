@@ -1305,6 +1305,12 @@ $test=	3;
         //     dd($a);
         // }
 
+
+
+        // 2017_11_22_112950_create_t_market_department_activity.php
+        //                                                      2017_11_22_113213_create_t_market_department_activity.php
+        //                                                      2017_11_22_113302_create_t_market_department_activity.php
+
         // dd($stu_list);
 
     }
