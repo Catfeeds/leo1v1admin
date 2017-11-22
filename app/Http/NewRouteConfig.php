@@ -399,7 +399,11 @@ class NewRouteConfig {
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
-
+        "/seller_student2/add_order_activity"  => true,
+        "/seller_student2/dele_order_activity"  => true,
+        "/seller_student2/update_order_activity"  => true,
+        "/seller_student2/get_order_activity"  => true,
+ 
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,
