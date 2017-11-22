@@ -17,7 +17,7 @@ class TOrderRefundAddCloum extends Migration
         {
 
             t_field($table->integer("qc_adminid"),"QC处理人");
-            t_field($table->text("qc_deal_time"),"QC处理时间");
+            t_field($table->integer("qc_deal_time"),"QC处理时间");
         });
 
     }
