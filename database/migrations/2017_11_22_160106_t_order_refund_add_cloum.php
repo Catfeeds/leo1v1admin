@@ -16,7 +16,8 @@ class TOrderRefundAddCloum extends Migration
         Schema::table('db_weiyi.t_order_refund', function( Blueprint $table)
         {
 
-            //t_field($table->text("free_time"),"空闲时间");
+            t_field($table->integer("qc_adminid"),"QC处理人");
+            t_field($table->text("qc_deal_time"),"QC处理时间");
         });
 
     }
