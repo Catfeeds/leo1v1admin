@@ -1373,8 +1373,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
             ." left join %s tr on tr.require_id=tss.require_id "
-            // ." where %s order by n.free_time desc ",
-            ." where %s order by n.seller_add_time ",
+            ." where %s order by n.free_time desc ",
+            // ." where %s order by n.seller_add_time ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
