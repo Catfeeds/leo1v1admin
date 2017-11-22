@@ -524,18 +524,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_start <".$lesson_start,
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
-        $sql = $this->gen_sql_new("select max(l.lesson_start)  "
+        $sql = $this->gen_sql_new("select l.lesson_end,l.lesson_type  "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
-                                  ." where %s",
+                                  ." where %s order by l.lesson_end desc limit 1",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
 
     }
 
@@ -2354,7 +2354,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["userid= %u",$userid,-1],
             "lesson_status>1",
             "lesson_del_flag=0",
-            "lesson_user_online_status=1"
+            "lesson_user_online_status=1",
+            "l.confirm_flag<2"
         ];
         if($lesson_type==-2){
             $where_arr[] = "lesson_type in (0,1,3)";

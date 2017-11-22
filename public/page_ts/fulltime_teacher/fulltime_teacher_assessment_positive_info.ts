@@ -20,13 +20,13 @@ $(function(){
         $('#id_adminid'),
         "admin", load_data,false,{"main_type":5});
 
-    if (window.location.pathname=="/fulltime_teacher/fulltime_teacher_assessment_positive_info" || window.location.pathname=="/fulltime_teacher/fulltime_teacher_assessment_positive_info/") {
-        $(".set_fulltime_teacher_assessment_master").hide();
-        $(".set_fulltime_teacher_positive_require_master").hide();
-    }else{
-        $(".set_fulltime_teacher_assessment").hide();
-        $(".set_fulltime_teacher_positive_require").hide();
-    }
+    // if (window.location.pathname=="/fulltime_teacher/fulltime_teacher_assessment_positive_info" || window.location.pathname=="/fulltime_teacher/fulltime_teacher_assessment_positive_info/") {
+    //     $(".set_fulltime_teacher_assessment_master").hide();
+    //     $(".set_fulltime_teacher_positive_require_master").hide();
+    // }else{
+    //     $(".set_fulltime_teacher_assessment").hide();
+    //     $(".set_fulltime_teacher_positive_require").hide();
+    // }
 
 
     $(".set_fulltime_teacher_assessment").on("click",function(){

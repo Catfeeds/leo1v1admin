@@ -1639,13 +1639,13 @@ class ajax_deal2 extends Controller
         }
         $tea_arr=[$teacherid];
         $cc_num=$cc_order=$cr_num=$cr_order=0;
-        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,100,$tea_arr,2);
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,2);
         foreach($cc_list as $val){
             $cc_num +=$val["person_num"];
             $cc_order +=$val["have_order"];
         }
         $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
-        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,100,$tea_arr,1);
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,1);
             
         foreach($cr_list as $val){
             $cr_num +=$val["person_num"];

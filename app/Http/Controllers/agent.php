@@ -550,13 +550,19 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = time(null)-3600*24*3;
-        $end_time = time(null);
-        $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        $userid_arr = array_unique(array_column($ret,'userid'));
-        dd($ret);
-        $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        $userid_arr = array_unique(array_column($ret,'userid'));
+        //0-303000,0,50186-437671
+        $min = $this->t_seller_student_new->get_min_userid();
+        $max = $this->t_seller_student_new->get_max_userid();
+        $time = ceil(($max-$min)/10000);
+        dd($min,$max,$time);
+        for($i=0;$i<=$time;$i++){
+            if($i == $time){
+                dd($i);
+            }
+        }
+        dd($time);
+        $ret = $this->t_seller_student_new->get_all_list($min,$max);
+        // $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;
             $userid = $item;
@@ -578,7 +584,8 @@ class agent extends Controller
                 $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
                 echo $userid.':'.$cc_no_called_count."=>".$num."\n";
             }
-        }    }
+        }
+    }
 
     //处理等级头像
     public function get_top_img($adminid,$face_pic,$level_face,$ex_str){

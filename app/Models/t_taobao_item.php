@@ -15,13 +15,6 @@ class t_taobao_item extends \App\Models\Zgen\z_t_taobao_item
         return $this->main_update($sql);
     }
 
-    public function truncate_taobao(){
-        $sql=$this->gen_sql_new("truncate %s"
-                                ,self::DB_TABLE_NAME
-        );
-        return $this->main_update($sql);
-    }
-
     public function get_taobao_item($open_iid){
         $sql=$this->gen_sql_new("select product_id,sort_order from %s where open_iid='%s'"
                                 ,self::DB_TABLE_NAME
