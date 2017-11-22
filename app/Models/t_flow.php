@@ -44,6 +44,8 @@ class t_flow extends \App\Models\Zgen\z_t_flow
         $flow_class= \App\Flow\flow::get_flow_class($flow_type );
         $init_node_type=0;
         list($next_node_type, $next_adminid)=$flow_class::get_next_node_info($init_node_type, $flowid, $adminid   );
+        \App\Helper\Utils::logger(" next_node_type :". json_encode($next_node_type));
+
         if (!$next_adminid) {
             return false;
         }
