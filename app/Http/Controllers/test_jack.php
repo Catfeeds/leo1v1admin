@@ -348,6 +348,7 @@ class test_jack  extends Controller
         $lesson_start = $lesson_end+1800;
         $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
         dd($lesson_list);
+        dd(111);
 
        
 
