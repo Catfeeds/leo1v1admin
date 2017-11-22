@@ -750,7 +750,7 @@ class common_new extends Controller
         if ( !\App\Helper\Utils::check_env_is_local() ){
             return $this->output_err("没有权限");
         }
-
+        
         $table_list = json_decode($this->get_in_str_val("table_list"));
         $ret_map    = [];
         if(is_array($table_list)){

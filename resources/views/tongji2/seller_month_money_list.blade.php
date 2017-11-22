@@ -28,6 +28,7 @@
                     <td>绩效对应系数 </td>
                     <td>月末定级 </td>
                     <td >签约总金额 </td>
+                    <td >基本工资 </td>
                     <td >分期金额 </td>
                     <td >非分期金额 </td>
                     <td >一天内签约金额 </td>
@@ -74,6 +75,7 @@
                         <td class="kpi"></td>
                         <td class="last_seller_level"></td>
                         <td class="all_price" ></td>
+                        <td class="base_salary" ></td>
                         <td class="stage_money" ></td>
                         <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>

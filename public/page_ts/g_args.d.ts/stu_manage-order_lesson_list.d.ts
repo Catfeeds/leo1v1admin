@@ -45,14 +45,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/stu_manage-order_lesson_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		sid:	$('#id_sid').val(),
+		type:	$('#id_type').val(),
+		competition_flag:	$('#id_competition_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			sid:	$('#id_sid').val(),
-			type:	$('#id_type').val(),
-			competition_flag:	$('#id_competition_flag').val()
-        });
-    }
 
 
 	$('#id_sid').val(g_args.sid);
