@@ -1499,15 +1499,18 @@ class test_code extends Controller
     public function test_email(){
         $Address = [
             "adrian@leoedu.com",
+            "sunqu@leoedu.com",
+            "tom@leoedu.com",
             "wg392567893@163.com",
             "392567893@qq.com"
         ];
+
         $Title   = "老师";
         $Message = "老师，恭喜您，鉴于您在试用期的表现优秀，您的转正申请已通过了上级领导审批，同意转正。<br>"
                  ."转正日期 : <br>"
                  ."目前教师等级 : 初级<br>"
                  ."转正后教师等级 : 中级<br>"
-                 ."转正后基本工资 : ";
+                 ."转正后基本工资 : 3000";
         $IsHtml = true;
         $AddAddressKey = 2;
 

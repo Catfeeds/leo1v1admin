@@ -551,6 +551,10 @@ class agent extends Controller
 
     public function test_new(){
         //0-303000,0,50186-437671
+        $ret = $this->t_parent_info->field_update_list(437954,[
+            'wx_openid'=>null,
+        ]);
+        dd($ret);
         $min = $this->t_seller_student_new->get_min_userid();
         $max = $this->t_seller_student_new->get_max_userid();
         $time = ceil(($max-$min)/10000);
