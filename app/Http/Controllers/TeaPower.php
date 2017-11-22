@@ -4052,6 +4052,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                                   +$item['lesson_reward_reference']
                                                   +$item['lesson_reward_chunhui']
                                                   +$item['lesson_reward_train']
+
             );
             $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
             $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);
