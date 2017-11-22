@@ -18,6 +18,7 @@ class TOrderRefundResetColunm extends Migration
         {
 
             $table->dropColumn('free_time');
+            $table->dropColumn('qc_deal_time');
             t_field($table->integer("qc_deal_time"),"QC处理时间");
         });
 
