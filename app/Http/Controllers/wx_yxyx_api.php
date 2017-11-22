@@ -1381,6 +1381,7 @@ class wx_yxyx_api extends Controller
             //获取未体现的转盘奖励id_str
             $daily_lottery_id_str = $this->t_agent_income_log->get_daily_lottery_id_str($agent_id,$last_succ_cash_time);
             $lid_str = '';
+            $lid_arr = [];
             foreach($daily_lottery_id_str as $val){
                 $lid_arr[]=$val['activity_id_str'];
             }
