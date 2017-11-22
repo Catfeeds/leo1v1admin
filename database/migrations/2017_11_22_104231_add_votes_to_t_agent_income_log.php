@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TOrderRefundAddCloum extends Migration
+class AddVotesToTAgentIncomeLog extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,10 @@ class TOrderRefundAddCloum extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('db_weiyi.t_order_refund', function( Blueprint $table)
-        {
-
-            t_field($table->integer("qc_adminid"),"QC处理人");
-            t_field($table->integer("qc_deal_time"),"QC处理时间");
+        Schema::table('t_agent_income_log', function (Blueprint $table) {
+            //
+            t_field($table->string('activity_id_str'),"活动奖励记录id_str");
         });
-
     }
 
     /**
@@ -29,6 +25,8 @@ class TOrderRefundAddCloum extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('t_agent_income_log', function (Blueprint $table) {
+            //
+        });
     }
 }

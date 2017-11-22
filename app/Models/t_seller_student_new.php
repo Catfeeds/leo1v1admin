@@ -2559,13 +2559,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list(){
+    public function get_all_list($min,$max){
         $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.userid',$min,$max);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.cc_no_called_count,n.add_time,n.seller_add_time "
+            " select n.userid,n.phone,n.cc_no_called_count,"
+            ." tq.is_called_phone,tq.admin_role "
             ." from %s n"
-            ." where %s order by n.add_time limit 5000"
+            ." left join %s tq on tq.phone=n.phone "
+            ." where %s order by n.userid "
             ,self::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -3047,4 +3051,31 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_min_userid(){
+        $where_arr = [
+            'userid>0',
+        ];
+        $sql = $this->gen_sql_new(
+            "select userid "
+            ." from %s "
+            ." where %s order by userid limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_max_userid(){
+        $where_arr = [
+            'userid>0',
+        ];
+        $sql = $this->gen_sql_new(
+            "select userid "
+            ." from %s "
+            ." where %s order by userid desc limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
