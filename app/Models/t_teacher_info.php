@@ -3895,7 +3895,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             // ["t.teacher_money_type=%u",$teacher_money_type,-1],
             // "t.train_through_new = 1",
 
-            "t.teacher_money_type in (5,6)",
+            //  "t.teacher_money_type in (5,6)",
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
             "l.lesson_status >1",
@@ -3904,7 +3904,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,t.realname,"
-                                  ."count(distinct l.userid) stu_num,t.teacher_money_type "
+                                  ."count(distinct l.userid) stu_num,t.teacher_money_type,t.phone,t.realname "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
                                   ." where %s group by t.teacherid having(lesson_count>0) ",
                                   self::DB_TABLE_NAME,
@@ -4371,14 +4371,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_data_to_teacher_flow($start_time, $end_time,$pass_flag=0){
         $where_arr = [
-            ['train_through_new_time>%u', $start_time, 0],
-            ['train_through_new_time<%u', $end_time, 0]
+            ['t.train_through_new_time>%u', $start_time, 0],
+            ['t.train_through_new_time<%u', $end_time, 0]
         ];
         if($pass_flag==1){
-            $where_arr[]="train_through_new=1 and is_test_user=0";
+            $where_arr=[
+                "t.train_through_new=1 and t.is_test_user=0",
+                ['f.simul_test_lesson_pass_time>%u', $start_time, 0],
+                ['f.simul_test_lesson_pass_time<%u', $end_time, 0]
+            ];
         }
-        $sql = $this->gen_sql_new("select teacherid,train_through_new_time from %s where %s ",
+        $sql = $this->gen_sql_new("select t.teacherid,t.train_through_new_time,f.simul_test_lesson_pass_time,"
+                                  ." t.realname,t.subject,t.phone "
+                                  ." from %s t left join %s f on t.teacherid = f.teacherid "
+                                  ." where %s ",
                                   self::DB_TABLE_NAME,
+                                  t_teacher_flow::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

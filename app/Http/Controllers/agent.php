@@ -550,24 +550,42 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $reduce_flag = 0;
-        // $time = time(null);
-        $time = 1509550200;
-        $ret_time = $this->t_month_def_type->get_all_list();
-        $firstday = date("Y-m-01");
-        $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
-        list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
-        foreach($ret_time as $item){//本月
-            if(strtotime(date('Y-m-d',$time)) == $item['start_time']){//月头标志
-                $reduce_flag = 1;
-            }
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time_this = $item['start_time'];
-                $end_time_this = $item['end_time'];
-            }
+        //0-303000,0,50186-437671
+        $ret = $this->t_parent_info->field_update_list(437954,[
+            'wx_openid'=>null,
+        ]);
+        dd($ret);
+        $min = $this->t_seller_student_new->get_min_userid();
+        $max = $this->t_seller_student_new->get_max_userid();
+        $time = ceil(($max-$min)/10000);
+        for($i=1;$i<=$time;$i++){
+            $ret = $this->t_seller_student_new->get_all_list($min,$max);
+            $userid_arr = array_unique(array_column($ret,'userid'));
+            dd($ret,$userid_arr);
+            // foreach($userid_arr as $item){
+            //     $num = 0;
+            //     $userid = $item;
+            //     $cc_no_called_count = 0;
+            //     foreach($ret as $info){
+            //         if($item == $info['userid']){
+            //             $is_called_phone = $info['is_called_phone'];
+            //             $cc_no_called_count = $info['cc_no_called_count'];
+            //             $admin_role = $info['admin_role'];
+            //             if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
+            //                 $num = 0;
+            //                 break;
+            //             }elseif($is_called_phone == 0 && isset($info['is_called_phone']) && $admin_role==E\Eaccount_role::V_2){
+            //                 $num += 1;
+            //             }
+            //         }
+            //     }
+            //     if($num != $cc_no_called_count){
+            //         $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+            //         echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+            //     }
+            // }
+            // $min += 10000;
         }
-        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
-        dd($reduce_flag,$ret_time,$month_date);
     }
 
     //处理等级头像

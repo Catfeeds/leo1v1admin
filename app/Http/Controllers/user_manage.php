@@ -65,6 +65,7 @@ class user_manage extends Controller
             $item["time"]       = $item["last_modified_time"];
             $item["gender"]     = E\Egender::get_desc($item["gender"]);
             $item["has_login"]  = $item["has_login"]==0?"未登录":"曾登录";
+            \App\Helper\Utils::hide_item_phone($item);
         }
 
         return $this->Pageview(__METHOD__,$ret_info);
@@ -1157,8 +1158,10 @@ class user_manage extends Controller
             $item['user_nick']   = $this->cache_get_student_nick($item['userid']);
             E\Erelation_ship::set_item_value_str($item, "parent_type");
             E\Erole::set_item_value_str($item);
+            \App\Helper\Utils::hide_item_phone($item);
+            \App\Helper\Utils::hide_item_phone($item,"login_phone");
         }
-        return $this->Pageview(__METHOD__,$ret_list );
+        return $this->Pageview(__METHOD__,$ret_list);
     }
 
     public function count_zan()
@@ -2074,8 +2077,10 @@ class user_manage extends Controller
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
         $subject   = $this->get_in_int_val('subject');
         $teacherid = $this->get_in_int_val('teacherid');
+        $deal_time = time();
+        $deal_adminid = $this->get_account_id();
 
-        $this->t_order_refund->update_refund_list($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
+        $this->t_order_refund->update_refund_list($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status, $deal_time, $deal_adminid);
         return $this->output_succ();
     }
 

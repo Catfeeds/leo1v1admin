@@ -1876,6 +1876,13 @@ $(function(){
                 ["",id_update_tea_ref_type],
             ];
             arr = arr.concat(extra_arr);
+        }else if(acc=="陆小梅" || acc=="朱丽莎"){
+            arr = [
+                ["",id_send_offer_info],
+                ["",id_change_phone],
+                ["",id_subject_info],
+            ];
+
         }
 
         $.show_key_value_table("账号信息修改",arr);

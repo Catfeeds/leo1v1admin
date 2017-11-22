@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redis ;
 use \App\Enums as  E;
 
 class Common {
+
     static function env_obj( $key, $def =null ) {
         $str=env($key,"");
         if(!$str) {
@@ -401,6 +402,7 @@ class Common {
         return $ret;
     }
 
+
     static function send_mail_leo_com ( $address ,$title ,$message ,$is_html=true) {
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
@@ -444,9 +446,9 @@ class Common {
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
         $ret = $mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger(" leo_com:email err: ".json_decode($address)." :$title  ". $mail->ErrorInfo);
+            \App\Helper\Utils::logger(" leo_com:email err: ".json_encode($address)." :$title  ". $mail->ErrorInfo);
         }else{
-            \App\Helper\Utils::logger(" leo_com:email succ: ".json_decode($address)." :$title " );
+            \App\Helper\Utils::logger(" leo_com:email succ: ".json_encode($address)." :$title " );
         }
         return  $ret;
     }

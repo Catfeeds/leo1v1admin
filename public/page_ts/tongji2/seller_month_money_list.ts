@@ -56,6 +56,7 @@ $(function(){
                     $tr.find(".last_seller_level").text(data["last_seller_level"]);
 
                     $tr.find(".all_price").text(data["all_price"]);
+                    $tr.find(".base_salary").text(data["base_salary"]);
                     $tr.find(".stage_money").text(data["stage_money"]);
                     $tr.find(".no_stage_money").text(data["no_stage_money"]);
                     $tr.find(".24_hour_all_price").text(data["24_hour_all_price"]);

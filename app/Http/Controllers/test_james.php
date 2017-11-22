@@ -1260,7 +1260,7 @@ $test=	3;
 
     public function get_stu_date(){
         $month_start = strtotime($this->get_in_str_val('m'));
-        $month_end = strtotime(date('Y-m-1',$month_start+32*86400));
+        $month_end = strtotime($this->get_in_str_val('e'));
         /**
          * 1.     8,9,10 三个月的上过试听课且签单成功的学员
          * 2.     上试听课的老师与第一节常规课老师不匹配的学员
@@ -1270,17 +1270,48 @@ $test=	3;
         $stu_list = $this->t_order_info->get_stu_date_num($month_start,$month_end);
 
         // dd($stu_list);
+        $a = [];
 
         foreach($stu_list as $i=>$item){
-            $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['orderid']);
-            $normal_info = $this->t_order_lesson_list->get_lesson_info_tmp($last_normal_id);
+            $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['subject'],$item['userid'],$item['grade'],$item['lesson_start']);
 
-            if( !$normal_info ||(($item['subject'] == $normal_info['subject'])  && $item['teacherid'] != $normal_info['teacherid'] && $item['userid']==$normal_info['userid'])){
-                unset($stu_list[$i]);
+
+            if( ($last_normal_id>0) &&($last_normal_id != $item['teacherid'] )){
+                $a[] = $stu_list[$i];
+                // unset($stu_list[$i]);
             }
+
+
+
+            // $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['orderid']);
+
+            // $normal_info = $this->t_order_lesson_list->get_lesson_info_tmp($last_normal_id);
+
+            // if( $normal_info &&($item['subject'] == $normal_info['subject'])  && ($item['teacherid'] != $normal_info['teacherid']) && ($item['userid']==$normal_info['userid'])){
+            //     $a[] = $stu_list[$i];
+            //     unset($stu_list[$i]);
+            // }
         }
 
-        dd($stu_list);
+        
+        echo count($a)." 签合同人数:".count($stu_list);
+
+        dd($a);
+        // if(empty($a)){
+        //     echo count($a);
+        //     dd($stu_list);
+        // }else{
+        //     echo '2';
+        //     dd($a);
+        // }
+
+
+
+        // 2017_11_22_112950_create_t_market_department_activity.php
+        //                                                      2017_11_22_113213_create_t_market_department_activity.php
+        //                                                      2017_11_22_113302_create_t_market_department_activity.php
+
+        // dd($stu_list);
 
     }
 

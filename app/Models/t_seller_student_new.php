@@ -1373,7 +1373,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
             ." left join %s tr on tr.require_id=tss.require_id "
-            ." where %s order by n.free_time desc ",
+            ." where %s order by n.free_time ",
+            // ." where %s order by n.seller_add_time ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
@@ -2559,13 +2560,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list(){
+    public function get_all_list($min,$max){
         $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.userid',$min,$max);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.add_time,n.seller_add_time "
+            " select n.userid,n.phone,n.cc_no_called_count,"
+            ." tq.is_called_phone,tq.admin_role "
             ." from %s n"
-            ." where %s order by n.add_time "
+            ." left join %s tq on tq.phone=n.phone "
+            ." where %s order by n.userid "
             ,self::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -2758,7 +2763,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function get_all_stu_uid(){
-        $sql = $this->gen_sql_new("  select phone,userid from %s "
+        $sql = $this->gen_sql_new("  select phone,userid,global_call_parent_flag from %s "
                                   ." where global_call_parent_flag<2 and phone>0 and userid>0 "
                                   ,self::DB_TABLE_NAME
         );
@@ -3047,4 +3052,31 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_min_userid(){
+        $where_arr = [
+            'userid>0',
+        ];
+        $sql = $this->gen_sql_new(
+            "select userid "
+            ." from %s "
+            ." where %s order by userid limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_max_userid(){
+        $where_arr = [
+            'userid>0',
+        ];
+        $sql = $this->gen_sql_new(
+            "select userid "
+            ." from %s "
+            ." where %s order by userid desc limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

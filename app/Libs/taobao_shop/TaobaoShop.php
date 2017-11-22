@@ -22,7 +22,6 @@ class TaobaoShop{
         $req = new SellercatsListGetRequest;
         $req->setNick($this->name);
         $ret= $this->topClient->execute($req);
-        $ret=json_decode( json_encode($ret),true);
 
         return $ret;
     }
@@ -38,9 +37,20 @@ class TaobaoShop{
         $req->setPageNo($page);
         $req->setPageSize("200");
         $ret = $this->topClient->execute($req,$this->sessionKey);
-        $ret = json_decode( json_encode( $ret),true );
 
         return $ret;
     }
 
+    /**
+     * 商品列表服务
+     * taobao.tae.items.list
+     */
+    public function taobao_tae_items_list(){
+        $req = new TaeItemsListRequest;
+        $req->setFields("title,nick,price");
+        // $req->setNumIids("123456789,123456789");
+        $req->setOpenIids("AAGUG-AdACJr69vhGI8YVYnh");
+        $ret = $this->topClient->execute($req,$this->sessionKey);
+        dd($ret);
+    }
 }

@@ -80,21 +80,6 @@ class teacher_rule{
         ]
     ];
 
-    // static public function reward_count_type_list($type=E\Ereward_count_type::V_1){
-    //     $rule_type_key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
-    //     $rule_type = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$rule_type_key,[],true);
-    //     if($rule_type===null){
-    //         if($type==E\Ereward_count_type::V_2){
-    //             $ret_type = self::$reference_rule;
-    //         }else{
-    //             $ret_type = self::$rule_type;
-    //         }
-    //     }else{
-    //         $ret_type = $rule_type[$type];
-    //     }
-    //     return $ret_type;
-    // }
-
     /**
      * @param type 老师工资对应的类型
      * @return array
@@ -132,7 +117,6 @@ class teacher_rule{
 
     /**
      * 检测老师的推荐类型
-
      */
     static public function check_reference_type($identity){
         if(in_array($identity,[5,6,7])){

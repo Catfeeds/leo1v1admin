@@ -42,12 +42,9 @@ $(function(){
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".first_test").text(data.first_test); 
-                        $tr.find(".first_normal").text(data.first_normal); 
-                        if(data.first_test==0){
-                            $tr.find(".first_test").parent().hide();
-                        }
-                                                                     
+                        $tr.find(".last_time").text(data.last_time); 
+                       
+                                                                                             
                         
                         do_index++;
                         do_one();

@@ -55,13 +55,20 @@ class update_cc_no_called_count extends Command
      */
     public function handle()
     {
-        $start_time = time(null)-3600*24*7;
+        $start_time = time(null)-3600*24*3;
         $end_time = time(null);
         $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $userid_arr = array_unique(array_column($ret,'userid'));
+
+        //0-303000,0,50186-437671
+        // $min = $this->task->t_seller_student_new->get_min_userid();
+        // $max = $this->task->t_seller_student_new->get_max_userid();
+        // $ret = $this->task->t_seller_student_new->get_all_list($min,$max);
+        // $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;
             $userid = $item;
+            $cc_no_called_count = 0;
             foreach($ret as $info){
                 if($item == $info['userid']){
                     $is_called_phone = $info['is_called_phone'];
@@ -75,8 +82,10 @@ class update_cc_no_called_count extends Command
                     }
                 }
             }
-            $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-            echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+            if($num != $cc_no_called_count){
+                $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+                echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+            }
         }
     }
 

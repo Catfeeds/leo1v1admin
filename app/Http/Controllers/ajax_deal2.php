@@ -1621,6 +1621,18 @@ class ajax_deal2 extends Controller
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
         $teacherid             = $this->get_in_int_val("teacherid");
+        $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1);
+        if(@$normal["lesson_start"]>0){
+            $last_time =date("Y-m-d H:i",$normal["lesson_start"]);
+        }else{
+            $last_time="无";
+        }
+        return $this->output_succ([
+            "last_time" =>@$last_time,
+        ]);
+
+
+
         $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,2,0,-1);
         $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1);
         $time = $this->t_teacher_flow->get_simul_test_lesson_pass_time($teacherid );
@@ -1628,26 +1640,38 @@ class ajax_deal2 extends Controller
             $time = $this->t_teacher_info->get_train_through_new_time($teacherid);
         }
         if(@$data["lesson_start"]>0){
-            $first_test =round( ($data["lesson_start"]-$time)/86400,1);
+            $first_test =date("Y-m-d H:i",$data["lesson_start"]);
         }else{
-            $first_test=0;
-        }
-        if($first_test<0){
-            $first_test=0;
+            $first_test="无";
         }
         if(@$normal["lesson_start"]>0){
-            $first_normal =round( ($data["lesson_start"]-$time)/86400,1);
+            $first_normal =date("Y-m-d H:i",$normal["lesson_start"]);
         }else{
-            $first_normal=0;
+            $first_normal="无";
         }
-        if($first_normal<0){
-            $first_normal=0;
+        $tea_arr=[$teacherid];
+        $cc_num=$cc_order=$cr_num=$cr_order=0;
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,2);
+        foreach($cc_list as $val){
+            $cc_num +=$val["person_num"];
+            $cc_order +=$val["have_order"];
         }
+        $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,1);
+            
+        foreach($cr_list as $val){
+            $cr_num +=$val["person_num"];
+            $cr_order +=$val["have_order"];
+        }
+        $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
+
 
 
         return $this->output_succ([
             "first_test" =>@$first_test,
             "first_normal"=>@$first_normal,
+            "cc_per"   =>$cc_per,
+            "cr_per"   =>$cr_per,
         ]);
 
 
@@ -2048,6 +2072,16 @@ class ajax_deal2 extends Controller
     public function delete_permission_by_uid(){
         $adminid= $this->get_in_int_val("adminid");
         $this->test_jack_new($adminid);
+        return $this->output_succ();
+    }
+
+    public function change_permission_by_uid_new(){
+        $adminid= $this->get_in_int_val("adminid");
+        $info = $this->t_manager_info->field_get_list($adminid,"permission,permission_backup");
+        $this->t_manager_info->field_update_list($adminid,[
+            "permission"  =>$info["permission_backup"],
+            "permission_backup"=>$info["permission"]
+        ]);
         return $this->output_succ();
     }
 

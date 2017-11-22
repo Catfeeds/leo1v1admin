@@ -741,8 +741,6 @@ class teacher_money extends Controller
             "all_money" => $all_money,
             "all_money_tax" => $all_money_tax,
             "acc" => $acc,
-            "start_time" => $start_time,
-            "end_time" => $end_time
         ]);
     }
 

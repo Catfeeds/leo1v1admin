@@ -441,8 +441,36 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_del_flag=0",
             "l.confirm_flag in (0,1)",
             "(tss.success_flag is null or tss.success_flag in (0,1))",
+            "l.lesson_type<1000",
             "l.lesson_start <".$lesson_start,
-            "l.lesson_end >".$lesson_end
+            // "l.lesson_end >".$lesson_end
+        ];
+        $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
+        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,l.lesson_start,l.lesson_end,l.teacherid "
+                                  ." from %s l left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_delay_work_time_lesson_info($lesson_start,$lesson_end){
+        $where_arr=[
+            "m.account_role=5",
+            "m.del_flag=0",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag in (0,1)",
+            "(tss.success_flag is null or tss.success_flag in (0,1))",
+            "l.lesson_type<1000",
+            "l.lesson_start >".$lesson_start,
+            "l.lesson_start <=".$lesson_end
         ];
         $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,l.lesson_start,l.lesson_end,l.teacherid "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
@@ -466,9 +494,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.confirm_flag in (0,1)",
             "(tss.success_flag is null or tss.success_flag in (0,1))",
             "l.teacherid=".$teacherid,
-            "l.lesson_end >".$lesson_end,
+            //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
         ];
+        $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
         $sql = $this->gen_sql_new("select max(l.lesson_start)  "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
@@ -483,6 +512,33 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
 
     }
+    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){
+        $where_arr=[
+            "m.account_role=5",
+            "m.del_flag=0",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag in (0,1)",
+            "(tss.success_flag is null or tss.success_flag in (0,1))",
+            "l.teacherid=".$teacherid,
+            //  "l.lesson_end >".$lesson_end,
+            "l.lesson_start <".$lesson_start,
+        ];
+        $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
+        $sql = $this->gen_sql_new("select l.lesson_end,l.lesson_type  "
+                                  ." from %s l left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone"
+                                  ." where %s order by l.lesson_end desc limit 1",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
 
 
     public function get_ass_stu_lesson_list($start_time,$end_time) {
@@ -2298,7 +2354,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["userid= %u",$userid,-1],
             "lesson_status>1",
             "lesson_del_flag=0",
-            "lesson_user_online_status=1"
+            "lesson_user_online_status=1",
         ];
         if($lesson_type==-2){
             $where_arr[] = "lesson_type in (0,1,3)";
@@ -2307,7 +2363,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $sql = $this->gen_sql_new("select lessonid,userid,subject,lesson_start from %s"
-                                  ." where %s order by lesson_start limit %u,1",
+                                  ." where %s order by lesson_start desc limit %u,1",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
