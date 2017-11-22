@@ -360,8 +360,13 @@ function table_init() {
                 var row_data= [];
                 var $td_list= $(tr_item ).find("td");
                 $.each(  $td_list, function( i, td_item)  {
+                    console.log(td_item.className);
+
                     if ( i>0 && i< $td_list.length-1 ) {
-                        row_data.push( $.trim( $(td_item).text()) );
+                        if(td_item.className != 'ellipsis_jiaowu'){
+                            row_data.push( $.trim( $(td_item).text()) );
+                        }
+                        // row_data.push( $.trim( $(td_item).text()) );
                     }
                 });
                 list_data.push(row_data);
@@ -680,10 +685,9 @@ $(function(){
     }
 
     var check_url= window.location.toString().split("?" )[0];
-    check_url= check_url.split("#" )[0];
+    check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
 
-
-    var obj=$(".treeview-menu >li>a[href=\""+ check_url +"\"]");
+    var obj=$(".treeview-menu >li>a[href*=\""+ check_url +"\"]");
 
     var path_arr=window.location.pathname.split("/");
     var ctrl=path_arr[1];
@@ -717,7 +721,7 @@ $(function(){
     if (title1=="") {
         //检查一级节点
         var check_url=$.trim( window.location.toString().split("?" )[0], "/");
-        check_url= check_url.split("#" )[0];
+        check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
         obj=$(".sidebar-menu >li>a[href*=\"*"+check_url+"\"]").first();
         title1=obj.text();
 
@@ -1635,7 +1639,7 @@ function get_page_node(page_info ,reload_func)
                 page_info.page.previous_url+
                 '" ><</a>';
         }
-        //	<!--页码-->
+        //  <!--页码-->
         if ( page_info.page_num < 11 ){
             $.each( page_info.page.pages, function(key,val){
                 if (val.page_num == page_info.current_page){
@@ -1696,7 +1700,7 @@ function get_page_node(page_info ,reload_func)
 
         }
 
-        //	<!--下一页-->
+        //  <!--下一页-->
         if ( page_info.current_page == page_info.page_num  ){
             ret_str+=' <a class="page_next page_grey" href="javascript:void(0);">></a> ';
         }else{
