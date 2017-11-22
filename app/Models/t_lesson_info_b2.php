@@ -441,9 +441,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_del_flag=0",
             "l.confirm_flag in (0,1)",
             "(tss.success_flag is null or tss.success_flag in (0,1))",
+            "l.lesson_type<1000",
             "l.lesson_start <".$lesson_start,
-            "l.lesson_end >".$lesson_end
+            // "l.lesson_end >".$lesson_end
         ];
+        $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
         $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,l.lesson_start,l.lesson_end,l.teacherid "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
