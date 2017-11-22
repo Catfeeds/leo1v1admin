@@ -373,8 +373,6 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-
-
-    $(".fa-download").hide();
+    download_hide();
 
 });
