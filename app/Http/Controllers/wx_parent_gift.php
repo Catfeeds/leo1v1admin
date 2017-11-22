@@ -820,7 +820,7 @@ class wx_parent_gift extends Controller
         $this->t_market_department_activity->row_insert([
             "openid"  => $openid,
             "type"    => $type, //活动类型
-            "share_time"  => 1,
+            "share_time"  => time(),
             "create_time" => time()
         ]
         );
