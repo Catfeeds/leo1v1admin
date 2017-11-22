@@ -47,7 +47,8 @@ class wx_login extends Controller
                             $info["account"] =$account;
                             $info["openid"] =$openid;
                             \App\Helper\Common::redis_set_json($admin_code,$info);
-                            file_get_contents(\App\Helper\Config::get_monitor_new_url() .":9501/noti_user_login_key?user_login_key=$admin_code");
+                            // file_get_contents(\App\Helper\Config::get_monitor_new_url() .":9501/noti_user_login_key?user_login_key=$admin_code");
+                            file_get_contents(\App\Helper\Config::get_monitor_new_url() ."/noti_user_login_key?user_login_key=$admin_code");
                             $message ="验证完成[$account]!";
                         }else{
                             $message= "出错：二维码不对!";
@@ -64,14 +65,13 @@ class wx_login extends Controller
                 }
                 return $this->pageView(__METHOD__,[],[
                     "message"=> $message,
-                ] );
+                ]);
 
             }else{
                 $message="请重新打开admin.leo1v1.com页面, 微信重新扫一扫 , 拨打电话联系[jim]:15601830297" ;
                 return $this->pageView(__METHOD__,[],[
                     "message"=> $message,
-                ] );
-
+                ]);
             }
         }
     }
