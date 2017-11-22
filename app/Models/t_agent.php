@@ -1150,7 +1150,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $p_open_price= $p_price*0.2;
                     $pp_open_price= $pp_price*0.2;
                 }
-                
+
                 //插入一级佣金记录
                 if($p_open_price > 0){
                     $agent_income_type = E\Eagent_income_type::V_L1_CHILD_COMMISSION_INCOME;
@@ -1588,6 +1588,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //优学优享每日转盘活动
         $daily_lottery_money = $this->task->t_agent_daily_lottery->get_sum_daily_lottery($id);
 
+
         \App\Helper\Utils::logger("yxyx_ruffian: $ruffian_money userid: $userid");
 
         //总提成信息
@@ -1597,17 +1598,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可提现]
         if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0){
             $all_open_cush_money += $daily_lottery_money;
+            $id_str = $this->get_daily_lottery_id_str($id,$daily_lottery_money);
             //将每日转盘奖励计入资金记录
             //添加收入记录
             $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
-            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
             $this->task->t_agent_daily_lottery->update_all_flag($id);
         }elseif($daily_lottery_money >= 2500){  //或者是抽奖金额达到25 [进入可提现]
             $all_open_cush_money += $daily_lottery_money;
+            $id_str = $this->get_daily_lottery_id_str($id,$daily_lottery_money);
             //将每日转盘奖励计入资金记录
             //添加收入记录
             $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
-            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type);
+            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
             $this->task->t_agent_daily_lottery->update_all_flag($id);
         }
 
@@ -1640,7 +1643,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_open_cush_money" => $all_open_cush_money,
             "all_have_cush_money" => $all_have_cush_money,
             "test_lessonid" => $test_lessonid,
-        
+
         ]);
 
         if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -2129,7 +2132,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     }
     //@desn:冻结申请体现金额推送
-    //@param:$from_agentid 无用参数 
+    //@param:$from_agentid 无用参数
     //@param:$to_agentid 发送给的用户
     //@param:$agent_freeze_type 冻结类型
     //@param:$phone 违规推荐人电话号码
@@ -2276,7 +2279,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ++$this->student_count;
                 if(($val['type'] == 2 || $val['type'] == 3) && $val['create_time'] > $month_first_day && $val['create_time'] < $month_last_day)
                     ++$this->member_count;
-                
+
             }
             if($child_list)
                 $this->get_child_by_cycle_month($child_list,$month_first_day,$month_last_day);
@@ -2808,8 +2811,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //@desn:自增函数
     //@param:$agent_id 优学优享id
-    //@param:$this_field 自增的字段 
-    //@param:$this_num 自增的数值 
+    //@param:$this_field 自增的字段
+    //@param:$this_num 自增的数值
     public function since_the_add($agent_id,$this_field,$this_num){
         $sql = sprintf(
             "update %s set  %s = %s + $this_num  where  id = %u",
@@ -2889,7 +2892,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_value($sql);
     }
-    
+
     //@desn:获取用户可提现的一级试听奖励 [不包括用户已体现金额]
     //@param:$agent_id 优学优享id
     //@param:$last_succ_cash_time 用户上次提现时间
@@ -2927,5 +2930,24 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr
         );
         $this->main_get_value($sql);
+    }
+    //@desn:获取用户新增转盘记录
+    //@param:$id 用户优学优享id
+    public function get_daily_lottery_id_str($id,$daily_lottery_money){
+        $id_str = '';
+        if($daily_lottery_money > 0){
+            $last_daily_lottery_time = $this->task->t_agent_income_log->get_last_daily_lottery_time($id);
+            //获取本次新增转盘记录id
+            $daily_lottery_id_arr = $this->task->t_agent_daily_lottery->get_daily_lottery_id_arr($id,$last_daily_lottery_time);
+            if($daily_lottery_id_arr){
+                // print_r($daily_lottery_id_arr);
+                foreach($daily_lottery_id_arr as $dval){
+                    $id_arr[] = $dval['lid'];
+                }
+                // print_r($id_arr);
+                $id_str = join(',',$id_arr);
+            }
+        }
+        return $id_str;
     }
 }

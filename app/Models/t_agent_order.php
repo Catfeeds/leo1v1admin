@@ -387,4 +387,40 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取用户可提现的一级佣金奖励 [不包括用户已提现金额]  [包括部分本用户已提现]
+    //@param:$agent_id 优学优享id
+    //@param:$last_succ_cash_time 用户上次提现时间
+    public function get_now_l1_commission_money($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id],
+            ['create_time >= %u',$last_succ_cash_time],
+            'agent_income_type' => 3
+        ];
+        $sql = $this->gen_sql_new(
+            'select sum(p_open_price) from %s where aid in '.
+            '(select distinct(child_agent_id) from %s where %s)',
+            self::DB_TABLE_NAME,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取用户可提现的二级佣金奖励 [不包括用户已提现金额]  [包括部分本用户已提现]
+    //@param:$agent_id 优学优享id
+    //@param:$last_succ_cash_time 用户上次提现时间
+    public function get_now_l2_commission_money($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id],
+            ['create_time >= %u',$last_succ_cash_time],
+            'agent_income_type' => 4
+        ];
+        $sql = $this->gen_sql_new(
+            'select sum(pp_open_price) from %s where aid in '.
+            '(select distinct(child_agent_id) from %s where %s)',
+            self::DB_TABLE_NAME,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

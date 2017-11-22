@@ -124,7 +124,8 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         $where_arr = [
             ['ame.agent_id = %u',$agent_id,'-1'],
         ];
-        $this->where_arr_add_int_field($where_arr,'f.flow_status',$check_flag);
+        $this->where_arr_add_int_field($where_arr,'f.flow_status',$check_flag,0);
+        // $this->where_arr_add_int_field($where_arr,'f.flow_status',$check_flag);
         $sql = $this->gen_sql_new(
             "select sum(money) from %s ame ".
             "left join %s f on ame.id = f.from_key_int and f.flow_type = %u ".

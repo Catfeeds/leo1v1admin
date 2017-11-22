@@ -1307,6 +1307,9 @@ class wx_yxyx_api extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
+        //获取上次提现成功的申请体现时间
+        $last_succ_cash_time = $this->t_agent_cash->get_last_succ_cash_time($agent_id);
+
         if(!$check_flag){
             //获取用户邀请奖励
             $l1_child_invite_reward = $this->t_agent->get_l1_agent_status_all_money($agent_id);
@@ -1316,22 +1319,41 @@ class wx_yxyx_api extends Controller
             $l1_child_commission_reward = $this->t_agent_order->get_l1_child_commission_reward($agent_id);
             $l2_child_commission_reward = $this->t_agent_order->get_l2_child_commission_reward($agent_id);
             $commission_reward = ($l1_child_commission_reward+$l2_child_commission_reward)/100;
+            //获取活动奖励
+            $activity_money_ex_all = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+            $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$check_flag);
         }else{
-            //获取上次提现成功的申请体现时间
-            $last_succ_cash_time = $this->t_agent_cash->get_last_succ_cash_time($agent_id);
             //获取可体现用户邀请奖励
             $l1_child_can_cash_invite_reward = $this->t_agent->get_now_l1_all_open_money($agent_id,$last_succ_cash_time);
             $l2_child_can_cash_invite_reward = $this->t_agent->get_now_l2_all_open_money($agent_id,$last_succ_cash_time);
             $invite_reward = ($l1_child_can_cash_invite_reward+$l2_child_can_cash_invite_reward)/100;
-            //获取可提现佣金奖励
-            $commission_reward = $this->t_agent->get_order_open_all_money($agent_id);
+            //获取一级可提现佣金奖励
+            $l1_child_can_cash_commission_reward = $this->t_agent_order->get_now_l1_commission_money($agent_id,$last_succ_cash_time);
+            //获取一级部分之前已经提现的佣金
+            $l1_child_has_cash = $this->t_agent_income_log->get_l1_child_has_cash($agent_id,$last_succ_cash_time);
+            //获取二级可提现佣金奖励
+            $l2_child_can_cash_commission_reward = $this->t_agent_order->get_now_l2_commission_money($agent_id,$last_succ_cash_time);
+            //获取二级部分之前已经提现的佣金
+            $l2_child_has_cash = $this->t_agent_income_log->get_l2_child_has_cash($agent_id,$last_succ_cash_time);
+
+
+            $commission_reward =$l1_child_can_cash_commission_reward-$l1_child_has_cash+$l2_child_can_cash_commission_reward-$l2_child_has_cash ;
             $commission_reward /= 100;
+            //获取活动奖励
+            $activity_money_ex_all = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+            //获取未体现的转盘奖励id_str
+            $daily_lottery_id_str = $this->t_agent_daily_lottery->get_daily_lottery_id_str($agent_id,$last_succ_cash_time);
+            dd($daily_lottery_id_str);
+            $lid_str = '';
+            foreach($daily_lottery_id_str as $val){
+                $lid_arr[]=$val['activity_id_str'];
+            }
+            if($lid_arr)
+                $lid_str = join(',',$lid_arr);
+            $activity_daily_lottery = $this->t_agent_daily_lottery->get_can_cash_daily_lottery($agent_id,$check_flag,$lid_str);
         }
 
-        //获取活动奖励
-        $activity_money_ex_all = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
-        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$check_flag);
-        $activity_money = @$acitvity_money_ex_all + @$activity_daily_lottery;
+        $activity_money = @$activity_money_ex_all + @$activity_daily_lottery;
         return $this->output_succ([
             'invite_reward' => $invite_reward,
             'commission_reward' => $commission_reward,

@@ -43,6 +43,53 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
         $sql = sprintf('update %s set is_can_cash_flag = 1 where agent_id = %u',self::DB_TABLE_NAME,$agent_id);
         return $this->main_update($sql);
     }
+    //@desn:获取新增大转盘奖励数组
+    public function get_daily_lottery_id_arr($id,$last_daily_lottery_time){
+        $where_arr = [
+            ['agent_id = %u',$id],
+            ['create_time > %u',$last_daily_lottery_time],
+        ];
+        $sql = $this->gen_sql_new(
+            'select lid from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:获取用户可以体现大转盘奖励和[不包括已体现]
+    //@param:$agent_id 优学优学id
+    //@param:$check_flag 刷新至可提现标识
+    //@param:$lid_str 尚未体现大转盘奖励id串 
+    public function get_can_cash_daily_lottery($agent_id,$check_flag,$lid_str){
+        $where_arr = [
+            ['agent_id = %u',$agent_id],
+            ['is_can_cash_flag = %u',$check_flag],
+        ];
+        if($lid_str)
+            $where_arr[] = 'lid in ('.$lid_str.')';
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取未体现的大转盘奖励id_str
+    //@param:$agent_id 优学优享id
+    //@param:$last_succ_cash_time 上次体现成功的时间
+    public function get_daily_lottery_id_str($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id,0],
+            ['create_time > %u',$last_succ_cash_time],
+            "child_agent_id <> '' "
+        ];
+        $sql = $this->gen_sql_new(
+            'select activity_id_str from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
 
 
