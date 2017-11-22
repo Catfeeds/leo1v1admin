@@ -43,8 +43,7 @@ class activity_config_base extends  activity_base {
 
     public  $lesson_times_present_lesson_count =[]; //按课次数送课
 
-    public  $price_off_money_list=[]; //按金额 立
-减
+    public  $price_off_money_list=[]; //按金额 立减
 
 
 
