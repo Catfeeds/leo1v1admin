@@ -773,14 +773,16 @@ class wx_parent_gift extends Controller
 
     /**
      * @ 市场部 日常分享活动
+     * @ 获取客户的openid
      */
 
     public function marketing_department_activity () {
         $p_appid     = \App\Helper\Config::get_wx_appid();
         $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $type = $this->get_in_int_val('type');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewrite_url" );
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewrite_url?type=$type" );
         $wx->goto_wx_login( $redirect_url );
     }
 
@@ -795,7 +797,9 @@ class wx_parent_gift extends Controller
         $token      = $wx->get_wx_token($p_appid,$p_appsecret);
         $user_info  = $wx->get_user_info($openid,$token);
 
-        //http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html
+        $type = $this->get_in_int_val("type");
+        dd($type);
+        $is_share = $this->t_market_department_activity->check_flag($openid,$type);
 
         if($is_share){
             header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html");
@@ -805,10 +809,23 @@ class wx_parent_gift extends Controller
         return ;
     }
 
-    public function record_share(){
-        $openid = $this->get_in_int_val('openid');
+    /**
+     * @ 活动分享接口
+     * @ 确保 数据库中一次活动只保存一条数据
+     **/
+    public function record_share(){ // 分享接口
+        $openid = $this->get_in_str_val('openid');
+        $type = 1;
 
-       
+        $del_share = $this->t_market_department_activity->del_row($openid,$type);
+        $this->t_market_department_activity->row_insert([
+            "openid"  => $openid,
+            "type"    => $type, //活动类型
+            "share_time"  => 1,
+            "create_time" => time()
+        ]
+        );
+
     }
 
 
