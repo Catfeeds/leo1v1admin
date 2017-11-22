@@ -133,19 +133,6 @@
                         <td  style="display:none;">客户情况变化 | 扣分值</td>
                         <td  style="display:none;">客户情况变化 | 原因分析</td>
 
-                        <td  style="display:none;">老师 | 一级原因</td>
-                        <td  style="display:none;">老师 | 二级原因</td>
-                        <td  style="display:none;">老师 | 三级原因</td>
-                        <td  style="display:none;">老师 | 扣分值</td>
-                        <td  style="display:none;">老师 | 原因分析</td>
-
-                        <td  style="display:none;">科目 | 一级原因</td>
-                        <td  style="display:none;">科目 | 二级原因</td>
-                        <td  style="display:none;">科目 | 三级原因</td>
-                        <td  style="display:none;">科目 | 扣分值</td>
-                        <td  style="display:none;">科目 | 原因分析</td>
-
-
                         <td  style="display:none;">其他原因</td>
                         <td  style="display:none;">QC整体分析</td>
                         <td  style="display:none;">后期应对措施及工作调整方案</td>
@@ -251,19 +238,6 @@
                             <td>{{@$var["客户情况变化三级原因"]}}</td>
                             <td>{{@$var["客户情况变化dep_score"]}}</td>
                             <td>{{@$var["客户情况变化reason"]}}</td>
-
-                            <td>{{@$var["老师一级原因"]}}</td>
-                            <td>{{@$var["老师二级原因"]}}</td>
-                            <td>{{@$var["老师三级原因"]}}</td>
-                            <td>{{@$var["老师dep_score"]}}</td>
-                            <td>{{@$var["老师reason"]}}</td>
-
-                            <td>{{@$var["科目一级原因"]}}</td>
-                            <td>{{@$var["科目二级原因"]}}</td>
-                            <td>{{@$var["科目三级原因"]}}</td>
-                            <td>{{@$var["科目dep_score"]}}</td>
-                            <td>{{@$var["科目reason"]}}</td>
-
 
                             <td  >{{@$var["qc_other_reason"]}}</td>
                             <td  >{{@$var["qc_analysia"]}}</td>
