@@ -345,6 +345,9 @@ class test_jack  extends Controller
 
         //$end = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$lesson_start);
 
+        $arr=explode("/", "//in");
+        dd($arr);
+
         $time = time();
         $day_time = strtotime(date("Y-m-d",$time));
 

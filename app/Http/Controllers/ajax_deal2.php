@@ -1628,26 +1628,38 @@ class ajax_deal2 extends Controller
             $time = $this->t_teacher_info->get_train_through_new_time($teacherid);
         }
         if(@$data["lesson_start"]>0){
-            $first_test =round( ($data["lesson_start"]-$time)/86400,1);
+            $first_test =date("Y-m-d H:i",$data["lesson_start"]);
         }else{
-            $first_test=0;
-        }
-        if($first_test<0){
-            $first_test=0;
+            $first_test="无";
         }
         if(@$normal["lesson_start"]>0){
-            $first_normal =round( ($data["lesson_start"]-$time)/86400,1);
+            $first_normal =date("Y-m-d H:i",$normal["lesson_start"]);
         }else{
-            $first_normal=0;
+            $first_normal="无";
         }
-        if($first_normal<0){
-            $first_normal=0;
+        $tea_arr=[$teacherid];
+        $cc_num=$cc_order=$cr_num=$cr_order=0;
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,100,$tea_arr,2);
+        foreach($cc_list as $val){
+            $cc_num +=$val["person_num"];
+            $cc_order +=$val["have_order"];
         }
+        $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,100,$tea_arr,1);
+            
+        foreach($cr_list as $val){
+            $cr_num +=$val["person_num"];
+            $cr_order +=$val["have_order"];
+        }
+        $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
+
 
 
         return $this->output_succ([
             "first_test" =>@$first_test,
             "first_normal"=>@$first_normal,
+            "cc_per"   =>$cc_per,
+            "cr_per"   =>$cr_per,
         ]);
 
 

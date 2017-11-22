@@ -119,7 +119,7 @@ class flow_seller_order_require  extends flow_base{
         //新签，续费 ,　不用市场确认
         if ( $contract_type==E\Econtract_type::V_0    ) {
             return [ 7,  static::get_admin_account_by_env(  "班洁" ,"jim")];
-        }else if  ( $contract_type==E\Econtract_type::V_3 ) {
+        }else   { //其他
             $t=  new \App\Models\t_admin_group_user();
             $item=$t->get_up_level_users($adminid);
             return [ 1, $item["master_adminid1"]    ];
