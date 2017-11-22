@@ -42,8 +42,8 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
         //临时处理数据
-        $start_time = strtotime("2017-08-01");        
-        $end_time = strtotime("2017-09-01");
+        $start_time = strtotime("2017-09-01");        
+        $end_time = strtotime("2017-10-01");
         // $last_month = strtotime("2017-10-01");        
 
 
