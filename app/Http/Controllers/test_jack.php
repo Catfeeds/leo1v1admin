@@ -342,61 +342,14 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        list($date_1['y'],$date_1['m'])=explode("-",date('Y-m',strtotime("2016-12-01")));
-        list($date_2['y'],$date_2['m'])=explode("-",date('Y-m',time()));
-        $n =  abs(($date_2['y']-$date_1['y'])*12 +$date_2['m']-$date_1['m']);
-        dd($n);
-        $start= strtotime("2017-01-01");
-        $end= time();
-        $ret =$this->t_lesson_info_b3->get_lesson_teacher_num($start, $end, -2);
-        dd($ret);
-        $start_time  = strtotime(date("Y-m-d"),time());
-        $end_time    = time() + 86400*7;
-        $w = date("w");
-        if($w != 2){
-            $list = $this->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time);
-            foreach($list as $val){
-                $grade = $val["grade"];
-                $subject = $val["subject"];
-                if($grade>=100 && $grade<200 && $subject==2){
-                    $accept_adminid = 723;
-                }else if($grade>=200 && $grade<300 && $subject==2){
-                    $accept_adminid = 418;
-                }else if($grade>=300 && $grade<400 && $subject==2){
-                    $accept_adminid = 343;
-                }else if($grade>=100 && $grade<200 && $subject==1){
-                    $accept_adminid = 1238;
-                }else if($grade>=200 && $grade<400 && $subject==1){
-                    $accept_adminid = 436;
-                }else if( $subject==3){
-                    $accept_adminid = 434;
-                }elseif($subject>3){
-                    $accept_adminid = 436;
-                }
+        $time = time();
+        $day_time = strtotime(date("Y-m-d",$time));
+        $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
+        $lesson_start = $lesson_end+1800;
+        $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
+        dd($lesson_list);
 
-                $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
-                    "accept_adminid"=>$accept_adminid,
-                    "require_assign_time"=>time()
-                ]);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
-            }
-
-            dd($list);
-        }
-
-        dd($w);
-        if($d>15){            
-            $month_start = strtotime(date("Y-m-01",time()));
-            $due_date = $month_start+14*86400;
-        }else{
-            $last_month = strtotime("-1 month",time());
-            $month_start = strtotime(date("Y-m-01",$last_month));
-            $due_date = $month_start+14*86400;
-
-        }
-
-        $data = $this->get_baidu_money_charge_pay_info(516);
-        dd($data);
+       
 
 
     }
