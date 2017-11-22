@@ -96,7 +96,6 @@ class MyMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      */
-
     public function power_check($request) {
         $url=\App\Helper\Utils::get_full_url( $request->path());
 

@@ -2562,9 +2562,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_all_list(){
         $where_arr = [];
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.add_time,n.seller_add_time "
+            " select n.userid,n.phone,n.cc_no_called_count,n.add_time,n.seller_add_time "
             ." from %s n"
-            ." where %s order by n.add_time "
+            ." where %s order by n.add_time limit 10000"
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
