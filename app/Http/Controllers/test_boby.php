@@ -937,10 +937,11 @@ class test_boby extends Controller
     }
     //1-7
     public function get_xiaoxue_lesson_info(){
+        //统计小学上课课堂时间段星期分布
 
         $this->switch_tongji_database();
         $start = strtotime('2017-9-1');
-        $end = strtotime('2017-11-1');
+        $end = strtotime('2017-10-1');
 
         $sql = "select lesson_start,lesson_type from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,2,3)";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
@@ -995,5 +996,52 @@ class test_boby extends Controller
 
         exit;
     }
+
+    public function get_xiaoxue_user_lesson_info(){
+        //统计小学生个人 上课时间段星期分布
+
+
+        $this->switch_tongji_database();
+        $start = strtotime('2017-9-1');
+        $end = strtotime('2017-10-1');
+
+        $sql = "select s.nick,l.userid,group_concat(lesson_start) l_time from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,3) group by l.userid";
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        // dd($ret);
+        foreach($ret as &$v){
+            $week = [0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]];
+
+            $lesson_arr = explode(',',$v['l_time']);
+            foreach($lesson_arr as $val){
+
+                $w = date('w',$val);
+                $h = $this->fenzu( $val);
+                @$week[$w][$h] += 1;
+            }
+            $v['week'] = $week;
+
+        }
+
+        $time_range = range(0,47);
+        foreach ($time_range as &$h){
+
+            $n = $h%2;
+            $z = intval(floor($h/2));
+            if($h%2 == 0){
+                $h = $z.':'.'00-'.$z.':30';
+            } else {
+                $h = $z.':'.'30-'.($z+1).':00';
+            }
+
+        }
+
+        // dd($ret);
+        return $this->pageView( __METHOD__,[],[
+            'ret' => $ret,
+            'time' => $time_range
+        ]);
+
+    }
+
 
 }
