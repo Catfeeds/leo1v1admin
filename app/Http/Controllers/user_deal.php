@@ -5413,14 +5413,14 @@ class user_deal extends Controller
                 //邮件发送给hr
                 $send_email = [$email,"sherry@leoedu.com","low-key@leoedu.com","erick@leoedu.com","cindy@leoedu.com"];
 
-                // $title = "关于 $name 老师转正申请的批复";
-                // $date = date("Y-m-d");
-                // $content = "$name 老师，恭喜您，鉴于您在试用期的表现优秀，您的转正申请已通过了上级领导审批，同意转正。<br>"
-                //          ."转正日期 : $date <br>"
-                //          ."目前教师等级:初级<br>"
-                //          ."转正后教师等级:中级"
-                //          ."转正后基本工资:$base_money";
-                // \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
+                $title = "关于 $name 老师转正申请的批复";
+                $date = date("Y-m-d");
+                $content = "$name 老师，恭喜您，鉴于您在试用期的表现优秀，您的转正申请已通过了上级领导审批，同意转正。<br>"
+                         ."转正日期 : $date <br>"
+                         ."目前教师等级:初级<br>"
+                         ."转正后教师等级:中级"
+                         ."转正后基本工资:$base_money";
+                \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
 
                 foreach($email as $e){
                     dispatch( new \App\Jobs\SendEmailNew(

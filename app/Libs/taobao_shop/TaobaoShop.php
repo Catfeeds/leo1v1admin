@@ -43,4 +43,19 @@ class TaobaoShop{
         return $ret;
     }
 
+    /**
+     * 商品列表服务
+     * taobao.tae.items.list
+     */
+    public function taobao_tae_items_list($fields,$open_iids){
+        $req = new TaeItemsListRequest;
+        $req->setFields("title,nick,price");
+        // $req->setNumIids("123456789,123456789");
+        $req->setOpenIids($open_iids);
+        $ret = $this->topClient->execute($req);
+        $ret = json_decode($ret,true);
+
+        return $ret;
+    }
+
 }
