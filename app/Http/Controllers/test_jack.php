@@ -343,10 +343,12 @@ class test_jack  extends Controller
 
     public function test_period(){
 
+        $end = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$lesson_start);
+
         $time = time();
         $day_time = strtotime(date("Y-m-d",$time));
 
-        $lesson_end = strtotime(date("Y-m-d",$time)." 09:00:00");
+        $lesson_end = strtotime(date("Y-m-d",$time)." 13:00:00");
         $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_end);
         foreach($list as $item){
             $teacherid = $item["teacherid"];
@@ -357,7 +359,7 @@ class test_jack  extends Controller
             }
             $check_exist = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
             if($check_exist != 1){
-                $start = $this->get_first_lesson_start($teacherid,$lesson_end);
+                $end = $this->get_first_lesson_start($teacherid,$lesson_end);
                 //$lesson_end = $item["lesson_start"]-5400;
                 // $start = $task->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
                 // $off_time = $start-5400;
