@@ -90,9 +90,9 @@ class Email{
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; 
         $ret = $mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger(" leo_com:email err: ".json_decode($Address)." :$Title  ". $mail->ErrorInfo);
+            \App\Helper\Utils::logger(" leo_com:email err: ".json_encode($Address)." :$Title  ". $mail->ErrorInfo);
         }else{
-            \App\Helper\Utils::logger(" leo_com:email succ: ".json_decode($Address)." :$Title " );
+            \App\Helper\Utils::logger(" leo_com:email succ: ".json_encode($Address)." :$Title " );
         }
 
         return  $ret;

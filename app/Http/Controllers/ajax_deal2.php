@@ -2075,6 +2075,16 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function change_permission_by_uid_new(){
+        $adminid= $this->get_in_int_val("adminid");
+        $info = $this->t_manager_info->field_get_list($adminid,"permission,permission_backup");
+        $this->t_manager_info->field_update_list($adminid,[
+            "permission"  =>$info["permission_backup"],
+            "permission_backup"=>$info["permission"]
+        ]);
+        return $this->output_succ();
+    }
+
     public function get_ass_revisit_info_detail(){
         $userid= $this->get_in_int_val("userid");
         $start_time= $this->get_in_str_val("start_time");
