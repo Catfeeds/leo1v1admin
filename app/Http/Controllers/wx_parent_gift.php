@@ -808,6 +808,7 @@ class wx_parent_gift extends Controller
     public function record_share(){
         $openid = $this->get_in_int_val('openid');
 
+       
     }
 
 
