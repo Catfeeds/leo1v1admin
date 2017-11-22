@@ -127,6 +127,7 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
         }else
             return false;
     }
+    
 }
 
 

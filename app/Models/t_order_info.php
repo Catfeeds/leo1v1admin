@@ -4209,20 +4209,42 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_stu_date_num($month_start,$month_end){
         /**
-         *
          * 1.     8,9,10 三个月的上过试听课且签单成功的学员
          * 2.     上试听课的老师与第一节常规课老师不匹配的学员
          * 3.      试听课的科目需要和第一节常规课相同
         */
         $where_arr = [
-            " l.lesson_type = 2"
+            " l.lesson_type = 2",
+            "o.contract_status>0",
+            "o.contract_type=0"
         ];
 
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $month_start, $month_end);
 
-        $sql = $this->gen_sql_new("  select count(distinct(l.userid) ) from %s o "
+        //t_order_lesson_list
+        $sql = $this->gen_sql_new("select l.userid, o.orderid, l.lessonid,l.grade, l.subject,l.teacherid,l.lesson_start "
+                                  ." from %s o "
                                   ." join %s l on o.from_test_lesson_id=l.lessonid"
-                                  ." left join "
+                                  ." where %s"
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_orderid_by_userid($userid,$sys_operator){
+        $where_arr = [
+            ['userid=%u',$userid,-1],
+            [ "sys_operator like '%%%s%%'" , $this->ensql($sys_operator)],
+        ];
+        $sql = $this->gen_sql_new("select orderid "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 }

@@ -1639,7 +1639,7 @@ function get_page_node(page_info ,reload_func)
                 page_info.page.previous_url+
                 '" ><</a>';
         }
-        //	<!--页码-->
+        //  <!--页码-->
         if ( page_info.page_num < 11 ){
             $.each( page_info.page.pages, function(key,val){
                 if (val.page_num == page_info.current_page){
@@ -1700,7 +1700,7 @@ function get_page_node(page_info ,reload_func)
 
         }
 
-        //	<!--下一页-->
+        //  <!--下一页-->
         if ( page_info.current_page == page_info.page_num  ){
             ret_str+=' <a class="page_next page_grey" href="javascript:void(0);">></a> ';
         }else{

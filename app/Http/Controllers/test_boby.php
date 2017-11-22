@@ -939,57 +939,61 @@ class test_boby extends Controller
     public function get_xiaoxue_lesson_info(){
 
         $this->switch_tongji_database();
-        $start = strtotime('2017-8-1');
-        $end = strtotime('2017-9-1');
+        $start = strtotime('2017-9-1');
+        $end = strtotime('2017-11-1');
 
-        $sql = "select lesson_start from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0";
+        $sql = "select lesson_start,lesson_type from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,2,3)";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $hour = range(0,86400,1800);
-        foreach($hour as &$v){
-            $v=0;
-        }
-        $week = [0=>0,1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0];
+        $week = [
+            'free'=>[0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]],
+            'no'=>[0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]],
+        ];
         foreach($ret as $v){
-            $w = date('w',$v['lesson_start']);
-            $h = intval(floor( ( $v['lesson_start']%86400 ) / 1800 ) );
-
-            $week[$w] += 1;
-            $hour[$h] += 1;
-        }
-
-        $th_arr = ['人数','星期'];
-        $s = $this->table_start($th_arr);
-
-        foreach($week as $k=>$v){
-            $s= $this->tr_add($s, $v,$k);
-
-        }
-        $s = $this->table_end($s);
-
-        $th_arr = ['人数','时间'];
-        $s2 = $this->table_start($th_arr);
-        // $th_arr = ['上课时间'];
-        // $l = $this->table_start($th_arr);
-
-        foreach($hour as $k=>$v){
-            $n = $k%2;
-            $z = intval(floor($k/2));
-            if($k%2 == 0){
-                $t = $z.':'.'00-'.$z.':30';
-            } else {
-                $t = $z.':'.'30-'.($z+1).':00';
+            if($v['lesson_type'] == 2){
+                $a='free';
+            }else {
+                $a='no';
             }
-            $s2= $this->tr_add($s2, $v,$t);
+            $w = date('w',$v['lesson_start']);
+            $h = $this->fenzu( $v['lesson_start'] );
+            @$week[$a][$w][$h] += 1;
+        }
+
+        $free = [];
+        foreach ($week['free'] as $key=>$v){
+            foreach ($v as $h=>$val){
+
+                $n = $h%2;
+                $z = intval(floor($h/2));
+                if($h%2 == 0){
+                    $t = $z.':'.'00-'.$z.':30';
+                } else {
+                    $t = $z.':'.'30-'.($z+1).':00';
+                }
+                @$free[$key][$t] = $val;
+            }
 
         }
-        $s2 = $this->table_end($s2);
+        $no = [];
+        foreach ($week['no'] as $key=>$v){
+            foreach ($v as $h=>$val){
 
-        echo '<mate charset="utf-8">';
-        echo '总课数：',count($ret);
-        echo $s,$s2;
+                $n = $h%2;
+                $z = intval(floor($h/2));
+                if($h%2 == 0){
+                    $t = $z.':'.'00-'.$z.':30';
+                } else {
+                    $t = $z.':'.'30-'.($z+1).':00';
+                }
+                @$no[$key][$t] = $val;
+            }
+
+        }
+        echo '<pre>';
+        print_r($free);
+        print_r($no);
+
         exit;
-
-
     }
 
 }

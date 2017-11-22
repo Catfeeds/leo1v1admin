@@ -29,7 +29,7 @@ class t_admin_channel_user extends \App\Models\Zgen\z_t_admin_channel_user
      *@author sam
      *@function 获取admin_id
      */
-    public function get_user_list_new($group_id) {
+    public function get_user_list_new($group_id,$admin_name="") {
         /*$sql=$this->gen_sql_new("select admin_id,admin_name,admin_phone from %s  where group_id=%u ",
                                 self::DB_TABLE_NAME,
                                 $groupid);
@@ -37,6 +37,11 @@ class t_admin_channel_user extends \App\Models\Zgen\z_t_admin_channel_user
         $where_arr=[
             ["teacher_ref_type = %u",$group_id,-1]
         ];
+        if ($admin_name) {
+            $admin_name=$this->ensql($admin_name);
+            $where_arr[]="(realname like '%%".$admin_name."%%' or phone like '%%".$admin_name."%%' )";
+        }
+
         $sql=$this->gen_sql_new("select teacherid ,realname ,phone,zs_id ,email,teacher_type from %s where %s",
                                 t_teacher_info::DB_TABLE_NAME,
                                 $where_arr);

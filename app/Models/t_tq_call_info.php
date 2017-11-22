@@ -624,4 +624,20 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_all_list(){
+        $where_arr=[
+            ['admin_role =%u',E\Eaccount_role::V_2],
+            'is_called_phone =1',
+        ];
+        $sql=$this->gen_sql_new(
+            " select phone "
+            ." from %s "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

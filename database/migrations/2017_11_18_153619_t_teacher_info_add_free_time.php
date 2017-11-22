@@ -15,7 +15,8 @@ class TTeacherInfoAddFreeTime extends Migration
         //
         Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
         {
-            t_field($table->text("free_time"),"空闲时间");
+            
+            //t_field($table->text("free_time"),"空闲时间");
         });
 
     }

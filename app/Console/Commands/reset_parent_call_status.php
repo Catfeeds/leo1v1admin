@@ -45,11 +45,11 @@ class reset_parent_call_status extends Command
         foreach($seller_student_arr as $val){
             $call_flag = $task->t_tq_call_info->check_call_status($val['phone']);
 
-            if($call_flag){
+            if($call_flag && $val["global_call_parent_flag"] != 2){
                 $task->t_seller_student_new->field_update_list($val['userid'],[
                     "global_call_parent_flag" => 2 // 已接通
                 ]);
-            }else{
+            }elseif( $val["global_call_parent_flag"] != 1){
                 $task->t_seller_student_new->field_update_list($val['userid'],[
                     "global_call_parent_flag" => 1 // 未接通
                 ]);
