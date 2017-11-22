@@ -412,7 +412,7 @@ class Utils  {
     }
     static function get_full_url($url) {
         $arr=explode("/", $url);
-        if (!isset($arr[0]) )  {
+        if (!isset($arr[0]) or  trim($arr[0])=="" )  {
             $arr[0]="index";
         }
 
