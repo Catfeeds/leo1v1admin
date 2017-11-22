@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redis ;
 use \App\Enums as  E;
 
 class Common {
+
     static function env_obj( $key, $def =null ) {
         $str=env($key,"");
         if(!$str) {
