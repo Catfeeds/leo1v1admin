@@ -14,6 +14,7 @@ $(function(){
 			      grade            : $('#id_grade').val(),
 			      trans_grade      : $('#id_trans_grade').val(),
 			      subject          : $('#id_subject').val(),
+            identity         : $('#id_identity').val(),
 			      status           : $('#id_status').val(),
 			      phone            : $('#id_phone').val(),
 			      teacherid        : $('#id_teacherid').val(),
@@ -38,6 +39,7 @@ $(function(){
 
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("subject",$("#id_subject"));
+    Enum_map.append_option_list("identity",$("#id_identity"));
     Enum_map.append_option_list("check_status",$("#id_status"));
     Enum_map.append_option_list("is_test",$("#id_is_test_flag"));
     Enum_map.append_option_list("boolean",$("#id_trans_grade"));
@@ -46,7 +48,8 @@ $(function(){
 
 	$('#id_grade').val(g_args.grade);
 	$('#id_trans_grade').val(g_args.trans_grade);
-	$('#id_subject').val(g_args.subject);
+	  $('#id_subject').val(g_args.subject);
+    $('#id_identity').val(g_args.identity);
 	$('#id_status').val(g_args.status);
 	$('#id_phone').val(g_args.phone);
 	$('#id_teacherid').val(g_args.teacherid);

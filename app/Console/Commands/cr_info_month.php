@@ -349,6 +349,16 @@ class cr_info_month extends Command
         $grade_arr = json_decode($month_start_grade_str,true); //月初各年级在读人数
         
         $lesson_consume    = $task->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
+        $lesson_consume_target = 0;
+        foreach($lesson_consume as $kk=>$vv){
+            if($vv["total_student"]>0){
+                $lesson_consume_target += @$grade_arr[$kk]*$vv["total_consume"]/$vv["total_student"];
+            }
+        }
+        $new_student_num_last = $task->t_cr_week_month_info->get_new_student_num($start_time,$type);
+        $read_num_last = $task->t_cr_week_month_info->get_read_num($start_time,$type);
+        $lesson_consume_target += $new_student_num_last*600;
+        $lesson_target  = $lesson_consume_target/($read_num_last+ $new_student_num_last);
 
 
 
@@ -364,6 +374,7 @@ class cr_info_month extends Command
 
           "total_income"            => $arr['total_income'],    //A1-现金总收入
           "person_num"              => $arr['person_num'],      //A2-下单总人数
+
           "total_price_thirty"      => intval($arr["total_price_thirty"]*100),//A3-入职完整月人员签单额
           "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
           "person_num_thirty_per"   => intval($arr['person_num_thirty_per']*100),//A5-平均人效
@@ -421,7 +432,8 @@ class cr_info_month extends Command
           "student_end_per"         => $arr["student_end_per"],   //结课率
           "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
           "grade_stu_list"          => $grade_str ,        //各年级在读学生数,json格式
-
+          "lesson_target"          => $lesson_target  ,        //课时系数目标量
+          "lesson_consume_target"          => $lesson_consume_target ,        //课时消耗目标数量
         ];
 
         

@@ -1319,7 +1319,6 @@ class human_resource extends Controller
     {
         $assistantid = $this->get_in_int_val('assistantid',-1);
         $nick        = $this->get_in_str_val('name');
-        // $birth       = $this->get_in_int_val('birth');
         $birth       = str_replace('-','',$this->get_in_str_val('birth'));
         $gender      = $this->get_in_int_val('sex');
         $work_year   = $this->get_in_int_val('years');
@@ -1339,6 +1338,7 @@ class human_resource extends Controller
 
     public function add_teacher()
     {
+        return $this->output_err("接口停用");
         $grade        = $this->get_in_int_val('grade',-1);
         $grade_ex     = $this->get_in_int_val('grade_ex',-1);
         $subject      = $this->get_in_int_val('subject',0);
@@ -1526,6 +1526,7 @@ class human_resource extends Controller
         $grade         = $this->get_in_int_val("grade",-1);
         $trans_grade   = $this->get_in_int_val("trans_grade",-1);
         $subject       = $this->get_in_int_val("subject",-1);
+        $identity      = $this->get_in_int_val('identity',-1);
         $status        = $this->get_in_int_val("status",0);
         $page_num      = $this->get_in_page_num();
         $phone         = trim($this->get_in_str_val('phone',''));
@@ -1558,7 +1559,7 @@ class human_resource extends Controller
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new,$accept_adminid
+            $trans_grade,$have_wx,$full_time,$id_train_through_new_time,$id_train_through_new,$accept_adminid,$identity
         );
 
         $num = 0;
@@ -1836,7 +1837,6 @@ class human_resource extends Controller
         return $this->output_succ();
     }
 
-
     private function send_lecture_sms($teacher_info,$status){
         $teacher_re_submit_num = $this->t_teacher_lecture_info->get_teacher_re_submit_num($teacher_info['id']);
         if(!isset($teacher_info['phone']) || $teacher_re_submit_num>0){
@@ -1959,6 +1959,11 @@ class human_resource extends Controller
         $class_will_type   = $this->get_in_int_val('class_will_type');
         $class_will_sub_type   = $this->get_in_int_val('class_will_sub_type');
         $recover_class_time   = $this->get_in_str_val('recover_class_time');
+        $free_time   = $this->get_in_str_val('free_time');
+        $teacher_textbook   = $this->get_in_str_val('teacher_textbook');
+        $region   = $this->get_in_str_val('region');
+        $work_year   = $this->get_in_int_val('work_year');
+        $gender   = $this->get_in_int_val('gender');
         if(!empty($recover_class_time)){
             $recover_class_time = strtotime($recover_class_time);
         }else{
@@ -1975,7 +1980,19 @@ class human_resource extends Controller
             "type"                    => $type,
             "class_will_sub_type"     =>$class_will_sub_type,
             "class_will_type"         =>$class_will_type,
-            "recover_class_time"      =>$recover_class_time
+            "recover_class_time"      =>$recover_class_time,
+            "free_time"               =>$free_time,
+            "teacher_textbook"        =>$teacher_textbook,
+            "region"                  =>$region,
+            "work_year"               =>$work_year,
+            "gender"                  =>$gender
+        ]);
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "gender"  =>$gender,
+            "teacher_textbook" =>$teacher_textbook,
+            "work_year"        =>$work_year,
+            "address"          =>$region,
+            "free_time"        =>$free_time
         ]);
         return $this->output_succ();
     }
@@ -4396,7 +4413,6 @@ class human_resource extends Controller
                 "email"                 => $teacher_info['email'],
                 "school"                => $teacher_info['school'],
                 "send_sms_flag"         => 0,
-                "use_easy_pass"         => 1,
                 "transfer_teacherid"    => $teacher_info['teacherid'],
                 "transfer_time"         => time(),
                 "wx_openid"             => $teacher_info['wx_openid'],

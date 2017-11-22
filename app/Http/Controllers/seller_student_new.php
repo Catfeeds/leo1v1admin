@@ -298,6 +298,7 @@ class seller_student_new extends Controller
         $userid                = $this->get_in_userid(-1);
         $seller_student_status = $this->get_in_el_seller_student_status();
         $seller_groupid_ex     = $this->get_in_str_val('seller_groupid_ex', "");
+        $seller_groupid_ex_new     = $this->get_in_str_val('seller_groupid_ex_new', "");
         $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
         $phone_location        = trim($this->get_in_str_val('phone_location', ''));
@@ -348,6 +349,28 @@ class seller_student_new extends Controller
         //优学优享,张植源,张龙
         if(in_array($this->get_account_id(),[384,412])){
             $origin = '优学优享';
+        }
+        //查看下级
+        $require_adminid_list_new = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex_new);
+        $show_son_flag = false;
+        if(count($require_adminid_list_new)>0){//查看下级人员的
+            $adminid = $this->get_account_id();
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
+            $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
+            if(count($intersect)>0){
+                // $require_adminid_list_new = $intersect;
+                $admin_revisiterid = $require_adminid_list_new[0];
+                if($admin_revisiterid != $this->get_account_id()){
+                    $show_son_flag = true;
+                }
+            }
         }
 
         $ret_info = $this->t_seller_student_new->get_seller_list(
@@ -512,6 +535,7 @@ class seller_student_new extends Controller
             $require_admin_type ) ;
 
         $ret_info["count_info"] = $count_info;
+        $ret_info["show_son_flag"] = $show_son_flag;
         return $ret_info;
 
     }
@@ -566,7 +590,8 @@ class seller_student_new extends Controller
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
             "is_seller_master" => $is_seller_master,
-            "acc"              => $account
+            "acc"              => $account,
+            "show_son_flag"    => $ret_info['show_son_flag'],
         ]);
     }
 

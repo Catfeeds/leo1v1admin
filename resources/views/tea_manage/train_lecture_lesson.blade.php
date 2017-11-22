@@ -47,6 +47,14 @@
         </div>
         <div class="col-xs-6 col-md-2">
             <div class="input-group">
+                <span>老师身份</span>
+                <select id="id_identity" class="opt-change" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group">
                 <span>审核状态</span>
                 <select id="id_check_status" class="opt-change" >
                     <option value="-2">[全部]</option>
@@ -176,7 +184,7 @@
                     <td >{!! $var['trial_train_status_str'] !!}</td>
                     <td >{{$var['acc']}}</td>
                     <td >{{$var['real_teacherid']}}</td>
-                    <td >{{$var['teacher_type_str']}}</td>
+                    <td >{{$var['identity_str']}}</td>
                     <td >{{$var['reference_name']}}</td>
                     <td >{{$var['zs_name']}}</td>
 

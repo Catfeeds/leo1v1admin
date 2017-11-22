@@ -866,17 +866,33 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         //alert(teacherid);
+        var id_free_time = $("<textarea />");
+        var id_teacher_textbook = $("<input />");
+        var id_work_year = $("<input />");
+        var id_gender = $("<select />");
+        var id_region = $("<input />");
         var id_revisit_note = $("<textarea />");
         var id_class_will_type = $("<select />");
         var id_class_will_sub_type = $("<select />");
         var id_recover_class_time = $("<input />");
         Enum_map.append_option_list( "class_will_type",id_class_will_type,true);
+        Enum_map.append_option_list( "gender",id_gender,true,[1,2]);
         var arr = [
+            [ "有效空闲时间",  id_free_time],
+            [ "教材版本",  id_teacher_textbook],
+            [ "教龄",  id_work_year],
+            [ "性别",  id_gender],
+            [ "地区",  id_region],
             [ "接课意愿",  id_class_will_type],
             [ "接课意愿详情",  id_class_will_sub_type],
             [ "恢复接课时间",  id_recover_class_time],
             [ "回访信息",  id_revisit_note]
         ];
+        id_teacher_textbook.val(opt_data.teacher_textbook);
+        id_work_year.val(opt_data.work_year);
+        id_gender.val(opt_data.gender);
+        id_region.val(opt_data.address);
+        id_free_time.val(opt_data.free_time);
         var show_field=function (jobj,show_flag) {
             if ( show_flag ) {
                 jobj.parent().parent().show();
@@ -929,6 +945,38 @@ $(function(){
             reset_ui_sub();
         });
 
+        id_teacher_textbook.on("click",function(){
+            var textbook  = opt_data.teacher_textbook;
+            console.log(textbook);
+            $.do_ajax("/user_deal/get_teacher_textbook",{
+                "textbook" : textbook
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["textbook"]  ]);
+
+                    if (this["has_textbook"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","教材版本" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+                        id_teacher_textbook.val(select_list);
+                        dlg.close();
+                    }
+                });
+                
+            });
+        });
+
+
 
         $.show_key_value_table("录入回访信息", arr ,{
             label    : '确认',
@@ -939,7 +987,12 @@ $(function(){
                     "revisit_note"            : id_revisit_note.val(),
                     "class_will_type"         : id_class_will_type.val(),
                     "class_will_sub_type"     : id_class_will_sub_type.val(),
-                    "recover_class_time"      : id_recover_class_time.val()
+                    "recover_class_time"      : id_recover_class_time.val(),
+                    "free_time"               : id_free_time.val(),
+                    "teacher_textbook"        : id_teacher_textbook.val(),
+                    "work_year"               : id_work_year.val(),
+                    "gender"                  : id_gender.val(),
+                    "region"                  : id_region.val()
                 });
             }
         },function(){
@@ -2137,13 +2190,7 @@ $(function(){
         }
     });
 
-
-
-    //下载隐藏
-    console.log(account_role);
-    if(account_role != 12){
-        download_hide();
-    }
+    download_hide();
 
 
 });

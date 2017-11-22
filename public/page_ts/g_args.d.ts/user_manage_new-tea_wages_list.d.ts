@@ -6,10 +6,10 @@ interface GargsStatic {
 	end_time:	string;
 	teacher_ref_type:	number;
 	teacher_money_type:	number;
+	teacher_type:	number;
 	level:	number;
 	show_data:	number;
 	show_type:	string;
-	reference:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -46,22 +46,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-tea_wages_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacher_ref_type:	$('#id_teacher_ref_type').val(),
+		teacher_money_type:	$('#id_teacher_money_type').val(),
+		teacher_type:	$('#id_teacher_type').val(),
+		level:	$('#id_level').val(),
+		show_data:	$('#id_show_data').val(),
+		show_type:	$('#id_show_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacher_ref_type:	$('#id_teacher_ref_type').val(),
-			teacher_money_type:	$('#id_teacher_money_type').val(),
-			level:	$('#id_level').val(),
-			show_data:	$('#id_show_data').val(),
-			show_type:	$('#id_show_type').val(),
-			reference:	$('#id_reference').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
@@ -76,10 +77,10 @@ $(function(){
     });
 	$('#id_teacher_ref_type').val(g_args.teacher_ref_type);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
+	$('#id_teacher_type').val(g_args.teacher_type);
 	$('#id_level').val(g_args.level);
 	$('#id_show_data').val(g_args.show_data);
 	$('#id_show_type').val(g_args.show_type);
-	$('#id_reference').val(g_args.reference);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -106,6 +107,13 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">teacher_type</span>
+                <input class="opt-change form-control" id="id_teacher_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">level</span>
                 <input class="opt-change form-control" id="id_level" />
             </div>
@@ -122,13 +130,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">show_type</span>
                 <input class="opt-change form-control" id="id_show_type" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">reference</span>
-                <input class="opt-change form-control" id="id_reference" />
             </div>
         </div>
 */

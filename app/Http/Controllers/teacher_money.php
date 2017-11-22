@@ -18,6 +18,7 @@ class teacher_money extends Controller
     var $change_num = 0;
 
     public function __construct(){
+        parent::__construct();
         $this->teacher_money = \App\Helper\Config::get_config("teacher_money");
     }
 
@@ -740,8 +741,6 @@ class teacher_money extends Controller
             "all_money" => $all_money,
             "all_money_tax" => $all_money_tax,
             "acc" => $acc,
-            "start_time" => $start_time,
-            "end_time" => $end_time
         ]);
     }
 

@@ -12,7 +12,6 @@ class activity_2017090101 extends  activity_config_base {
         $this->contract_type_list = [E\Econtract_type::V_0 ,  E\Econtract_type::V_3];
         $this->lesson_times_range = [1 ,  10000];
 
-
     }
 
     protected function do_exec (  &$out_args,&$can_period_flag , &$price,  &$present_lesson_count,  &$desc_list )   {

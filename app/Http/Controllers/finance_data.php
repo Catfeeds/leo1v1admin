@@ -30,10 +30,74 @@ class finance_data  extends Controller
         $data["new_signature_price"]=$data["new_order_stu"]>0?round( $data["new_order_money"]/$data["new_order_stu"]):0;
         $data["renew_signature_price"]=$data["renew_order_stu"]>0?round( $data["renew_order_money"]/$data["renew_order_stu"]):0;
         array_push($ret_info["list"],$data);
-        //dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
 
     }
+
+    public function refund_order_info(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_admin_refund_order_list->get_all_info($page_info);
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "order_time","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "apply_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "approve_time","_str");
+            $item["order_custom_str"] = str_replace(",","<br>",$item["order_custom"]);
+        }
+
+        // dd($ret_info);
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
+
+    public function student_data(){
+        $ret_info = $this->t_admin_student_month_info->get_all_info();
+        foreach($ret_info as &$item){
+            $item["month_str"] = date("Y年m月",$item["month"]);
+        }
+        return $this->pageView(__METHOD__, null,[
+            "data" =>$ret_info
+        ]);
+        //dd($ret_info);
+
+    }
+
+    public function student_type_data(){
+        $ret_info = $this->t_admin_student_month_info->get_all_info();
+        foreach($ret_info as &$item){
+            $item["month_str"] = date("Y年m月",$item["month"]);
+        }
+        return $this->pageView(__METHOD__, null,[
+            "data" =>$ret_info
+        ]);
+        //dd($ret_info);
+
+    }
+
+    public function test_lesson_origin_tongji(){
+        $time  = strtotime("2016-12-01");
+        $rr=["公众号"=>1,"信息流"=>2,"BD"=>3,"口碑"=>4,"转介绍"=>5,"其中：优学优享"=>6];
+        $arr=[];
+        for($i=1;$i<11;$i++){
+            $month = strtotime("+".$i." months",$time);
+            $list =  $this->t_order_student_month_list->get_list_by_month($month);
+            foreach($list as $val){
+                $arr[$month][$rr[$val["origin"]]]=$val; 
+            }
+            ksort($arr[$month]);
+        }
+        foreach($arr as $k=>&$item){
+            $item["num"] = count($item);
+            $item["month_str"] = intval(date("m",$k))."月";
+        }
+        // dd($arr);
+        return $this->pageView(__METHOD__, null,[
+            "data" =>$arr
+        ]);
+    }
+
+
+
+
 
 
 

@@ -34,6 +34,10 @@ class flow_base{
         $t_flow = new \App\Models\t_flow();
         return $t_flow->field_get_list($flowid,"*");
     }
+    static function get_admin_account_by_env( $release_account, $test_account ) {
+        $flag=\App\Helper\Utils::check_env_is_release() ;
+        return $flag? $release_account: $test_account;
+    }
 
     /*
     static function get_self_info( $from_key_int,  $from_key_str ) {
@@ -86,6 +90,10 @@ class flow_base{
         $task=static::get_task_controler();
 
         $node_info  = $task->t_flow_node->field_get_list($nodeid,"*");
+        if ($node_info["flow_check_flag"] !=0 ) {
+            return false;
+        }
+
         $flowid     = $node_info["flowid"] ;
         $flow_info  = $task->t_flow->field_get_list($flowid,"*");
         $flow_type  = $flow_info["flow_type"];
@@ -112,5 +120,9 @@ class flow_base{
         return true;
     }
 
+    static function check_post_admin_account_type( $flowid,$adminid ) {
+        $t_manager_info =  new \App\Models\t_manager_info();
+        $account_role = $t_manager_info->get_account_role($adminid);
+    }
 
 }

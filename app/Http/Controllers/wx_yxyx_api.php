@@ -804,7 +804,11 @@ class wx_yxyx_api extends Controller
                 if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                     $item['agent_status'] = "0";
                 $item['agent_status_money'] /=100;
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 E\Eagent_student_status::set_item_value_str($item);
                 E\Eagent_status::set_item_value_str($item);
@@ -822,7 +826,11 @@ class wx_yxyx_api extends Controller
                 if($item['agent_status'] >30)
                     $item['agent_status'] = "30";
                 $item['agent_status_money'] /=100;
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 E\Eagent_student_status::set_item_value_str($item);
                 E\Eagent_status::set_item_value_str($item);
@@ -912,7 +920,11 @@ class wx_yxyx_api extends Controller
             $invite_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=1,$page_info,$page_count);
 
             foreach($invite_child_reward['list'] as &$item){
-                if(!$item['nickname'])
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
                 $item['price'] /= 100;
@@ -928,7 +940,11 @@ class wx_yxyx_api extends Controller
             //获取会员邀请人佣金
             $member_child_reward = $this->t_agent_order->get_invite_child_reward($agent_id,$type=2,$page_info,$page_count);
             foreach($member_child_reward['list'] as &$item){
-                if(!$item['nickname'])
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
                 $item['price'] /= 100;
@@ -972,14 +988,14 @@ class wx_yxyx_api extends Controller
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $id            = $agent_id;
-        if (!($cash>0)) {
-            return $this->output_err("无可提现金额!");
-        }
-
+        $cash_type = 1;
 
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
         $have_cash = $this->t_agent_cash->get_have_cash($agent_id,[0,1]);
+        if (!($total_cash - $have_cash>0)) {
+            return $this->output_err("无可提现金额!");
+        }
         if($total_cash - $have_cash < 2500){
             return $this->output_err("可提现金额最低为25元!");
         }
@@ -1006,6 +1022,8 @@ class wx_yxyx_api extends Controller
                     "bank_province" => $bank_province,
                 ]);
             }
+
+            $cash_type = 1;
         }elseif($zfb_account){
             if($zfb_name=='' || $zfb_account==''){
                 return $this->output_err("请完善所有数据后重新提交！");
@@ -1015,12 +1033,13 @@ class wx_yxyx_api extends Controller
                 "zfb_account"     => $zfb_account,
             ]);
 
+            $cash_type = 2;
         }
         $ret_new = $this->t_agent_cash->row_insert([
             "aid"         => $id,
             "cash"        => $total_cash - $have_cash,
             "is_suc_flag" => 0,
-            "type"        => 1,
+            "type"        => $cash_type,
             "create_time" => time(null),
         ]);
 
@@ -1046,7 +1065,11 @@ class wx_yxyx_api extends Controller
             //获取自己邀请的奖励列表
             $list = $this->t_agent->my_had_invite($agent_id,$page_info,$page_count);
             foreach($list['list'] as $key => &$item){
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 $item['agent_status_money'] /= 100;
             }
@@ -1057,7 +1080,11 @@ class wx_yxyx_api extends Controller
             //获取会员邀请的奖励列表
             $data = $this->t_agent->member_had_invite($agent_id,$page_info,$page_count);
             foreach($data['list'] as $key => &$item){
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 $item['agent_status_money'] /= 100;
             }
@@ -1090,7 +1117,11 @@ class wx_yxyx_api extends Controller
             $invite_child_reward = $this->t_agent_order->get_can_cash_commission_reward($agent_id,$type=1,$page_info,$page_count);
 
             foreach($invite_child_reward['list'] as &$item){
-                if(!$item['nickname'])
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
                 $item['price'] /= 100;
@@ -1107,7 +1138,11 @@ class wx_yxyx_api extends Controller
             //获取会员邀请人佣金
             $member_child_reward = $this->t_agent_order->get_can_cash_commission_reward($agent_id,$type=2,$page_info,$page_count);
             foreach($member_child_reward['list'] as &$item){
-                if(!$item['nickname'])
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
                 $item['price'] /= 100;
@@ -1147,7 +1182,11 @@ class wx_yxyx_api extends Controller
                 if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                     $item['agent_status'] = "0";
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
             }
             return $this->output_succ([
@@ -1161,7 +1200,11 @@ class wx_yxyx_api extends Controller
                 if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                     $item['agent_status'] = "0";
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
                 foreach($item['child'] as &$val){
@@ -1185,7 +1228,11 @@ class wx_yxyx_api extends Controller
                 if($item['agent_status'] > 0 && $item['agent_status'] < 2)
                     $item['agent_status'] = "0";
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
-                if(empty($item['nickname']))
+                if($item['nick'])
+                    $item['nickname'] = $item['nick'];
+                elseif($item['nickname'])
+                    $item['nickname'] = $item['nickname'];
+                else
                     $item['nickname'] = $item['phone'];
                 $item['child'] = $this->t_agent->get_second_invite_list($item['id']);
                 foreach($item['child'] as &$val){
@@ -1228,12 +1275,21 @@ class wx_yxyx_api extends Controller
         $reward_list = $this->t_agent_money_ex->get_reward_list($agent_id,$page_info,$page_count,$is_cash);
         foreach($reward_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time",'',"Y-m-d");
-            E\Eagent_money_ex_type::set_item_value_str($item);
+            if($item['activity_type'] ==1)
+                E\Eagent_money_ex_type::set_item_value_str($item);
+            else{
+                $item['l_type'] = $item['agent_money_ex_type'];
+                E\El_type::set_item_value_str($item);
+                $item['agent_money_ex_type_str'] = $item['l_type_str'];
+            }
+                
             $item['money'] /= 100;
         }
         //获取活动奖励总金额
         $activity_total_money = $this->t_agent_money_ex->get_activity_total_money($agent_id,$is_cash);
-        $activity_total_money /=100; return $this->output_succ([
+        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$is_cash);
+        $activity_total_money =($activity_total_money+$activity_daily_lottery)/100;
+        return $this->output_succ([
             'reward_list' => $reward_list,
             'activity_total_money' => $activity_total_money
         ]);
@@ -1261,9 +1317,11 @@ class wx_yxyx_api extends Controller
             $l2_child_commission_reward = $this->t_agent_order->get_l2_child_commission_reward($agent_id);
             $commission_reward = ($l1_child_commission_reward+$l2_child_commission_reward)/100;
         }else{
+            //获取上次提现成功的申请体现时间
+            $last_succ_cash_time = $this->t_agent_cash->get_last_succ_cash_time($agent_id);
             //获取可体现用户邀请奖励
-            $l1_child_can_cash_invite_reward = $this->t_agent->get_l1_agent_status_all_open_money($agent_id);
-            $l2_child_can_cash_invite_reward = $this->t_agent->get_l2_agent_status_all_open_money($agent_id);
+            $l1_child_can_cash_invite_reward = $this->t_agent->get_now_l1_all_open_money($agent_id,$last_succ_cash_time);
+            $l2_child_can_cash_invite_reward = $this->t_agent->get_now_l2_all_open_money($agent_id,$last_succ_cash_time);
             $invite_reward = ($l1_child_can_cash_invite_reward+$l2_child_can_cash_invite_reward)/100;
             //获取可提现佣金奖励
             $commission_reward = $this->t_agent->get_order_open_all_money($agent_id);
@@ -1271,11 +1329,13 @@ class wx_yxyx_api extends Controller
         }
 
         //获取活动奖励
-        $activity_money = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+        $activity_money_ex_all = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+        $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$check_flag);
+        $activity_money = @$acitvity_money_ex_all + @$activity_daily_lottery;
         return $this->output_succ([
             'invite_reward' => $invite_reward,
             'commission_reward' => $commission_reward,
-            'activity_money' => $activity_money
+            'activity_money' => $activity_money/100
         ]);
     }
     //@desn:制作推荐的图片
@@ -1385,7 +1445,7 @@ class wx_yxyx_api extends Controller
 
         //用户可抽奖次数校验
         $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
-        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_local())
+        if(\App\Helper\Utils::check_env_is_local())
             $daily_lottery_count = 1;
 
         if($daily_lottery_count > 0){

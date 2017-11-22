@@ -193,8 +193,6 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
     }
 
     public function get_parent_wx_openid($lessonid){
-
-        // return 
         $sql = $this->gen_sql_new(" select p.wx_openid from %s p ".
                                   " left join %s pc on p.parentid = pc.parentid".
                                   " left join %s l on pc.userid = l.userid ".
@@ -207,6 +205,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         );
         return $this->main_get_value($sql);
     }
+
     public function register($phone, $passwd, $reg_channel , $ip,$nick){
         $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT);
         if($parentid>0){
@@ -244,18 +243,16 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
         );
-
         return $this->main_get_list($sql);
     }
 
-
     public function get_openid_list(){
-        $where_arr=[
+        $where_arr = [
             "wx_openid!=''",
             "wx_openid!='0'",
         ];
 
-        $sql = $this->gen_sql_new(" select wx_openid, parentid from %s "
+        $sql = $this->gen_sql_new("select wx_openid, parentid from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr

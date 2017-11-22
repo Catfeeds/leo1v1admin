@@ -74,17 +74,29 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         ];
         if($is_cash)
             $this->where_arr_add_int_field($where_arr,'flow_status',$is_cash);
+        $where_arr2 = [
+            ['agent_id = %u',$agent_id,'-1'],
+            'money > 0',
+        ];
+        if($is_cash)
+            $this->where_arr_add_int_field($where_arr2,'is_can_cash_flag',1);
         $sql = $this->gen_sql_new(
-            "select ame.agent_money_ex_type,ame.money,ame.add_time ".
+            "select ame.agent_money_ex_type,ame.money,ame.add_time,@type:=1 as activity_type ".
             "from %s ame ".
             "left join %s f on ame.id = f.from_key_int and f.flow_type = %u ".
-            "where %s order by ame.add_time desc",
+            "where %s ".
+            "union all ".
+            "select l_type as agent_money_ex_type,money,create_time as add_time,@type:=2 as activity_type  ".
+            "from %s where %s",
             self::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE,
-            $where_arr
+            $where_arr,
+            t_agent_daily_lottery::DB_TABLE_NAME,
+            $where_arr2
         );
-        return $this->main_get_list_by_page($sql,$page_info,$page_count);
+        $order_str = 'order by add_time desc';
+        return $this->main_get_list_by_page_with_union($sql,$page_info,$page_count,$use_group_by_flag=false,$order_str='',$list_key_func=null,$is_union=2);
     }
     //@desn:获取该用户奖励之和
     //@param:$is_cash 0所有2可提现

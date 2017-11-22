@@ -36,6 +36,7 @@ class NewRouteConfig {
         "question"=>true,
         "revisit"=>true,
         "school_info"=>true,
+        "seller_student2"=>true,
         "small_class"=>true,
         "stu_manage"=>true,
         "supervisor"=>true,
@@ -58,9 +59,13 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/rule_txt/get_all"          => true,
+        "/rule_txt/add_or_update_name"            => true,
+        "/rule_txt/process_info"                  => true,
+        "/rule_txt/update_process"                => true,
+        "/rule_txt/get_all"                       => true,
         "/rule_txt/add_or_update_title"           => true,
         "/rule_txt/rule_detail"                   => true,
+        "/rule_txt/del_process"                   => true,
         "/rule_txt/up_or_down"                    => true,
         "/rule_txt/del_rule_detail"               => true,
         "/rule_txt/add_or_update_rule_detail"     => true,
@@ -393,6 +398,7 @@ class NewRouteConfig {
         "/stu_manage/score_list1"              => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
+        "/seller_student2/show_order_activity_info"  => true,
 
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,

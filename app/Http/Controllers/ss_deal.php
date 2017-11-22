@@ -732,8 +732,8 @@ class ss_deal extends Controller
          * 需求急迫性|上课意向|报价反应 为必填项
          **/
 
-        if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
-        if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
+        // if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
+        // if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
         if($intention_level == 0){ return $this->output_err("请选择上课意向");}
 
         if ($next_revisit_time) {
@@ -2359,8 +2359,8 @@ class ss_deal extends Controller
         if($child_order_type==2 && $adm !=349){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
-            if(($price+$period_money) >($all_price-200000)){
-                 return $this->output_err("分期合同需要设置2000元的首付款!");
+            if(($price+$period_money) >($all_price-350000)){
+                 return $this->output_err("分期合同需要设置3500元的首付款!");
             }
         }
 
@@ -2469,8 +2469,8 @@ class ss_deal extends Controller
         if($child_order_type==2){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
-            if(($price+$period_money) >($all_price-200000)){
-                return $this->output_err("分期合同需要设置2000元的首付款!");
+            if(($price+$period_money) >($all_price-350000)){
+                return $this->output_err("分期合同需要设置3500元的首付款!");
             }
         }
 
@@ -2603,25 +2603,32 @@ class ss_deal extends Controller
         $teacher_nick = $this->cache_get_teacher_nick($teacherid);
 
 
-        /*
-          勿删
-        $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
-        $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid(
-            $set_lesson_adminid,
-            "来自:".$this->get_account(),
-            "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
-        );
-
-        $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
-        if($require_adminid != $set_lesson_adminid){
+        /**
+         * 课程取消后 通知到对应咨询（或者对应助教），对应教务
+         **/
+        if($success_flag == 2){ 
+            $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+            $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                $require_adminid,
-                "来自:".$this->get_account(),
+                // $set_lesson_adminid,
+                // "来自:".$this->get_account(),
+                "684",//james
+                "测试 排课人$set_lesson_adminid 来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
             );
+
+            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+            if($require_adminid != $set_lesson_adminid){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(
+                    // $require_adminid,
+                    // "来自:".$this->get_account(),
+                    "684",
+                    "测试 申请人$require_adminid 来自:".$this->get_account(),
+                    "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","",""
+                );
+            }
         }
-        */
+
 
 
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1){
@@ -2635,8 +2642,6 @@ class ss_deal extends Controller
                 $set_lesson_adminid,
                 "来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
-
-
 
             $remark_ex = "";
             if($fail_greater_4_hour_flag ) {
@@ -4250,13 +4255,14 @@ class ss_deal extends Controller
         foreach($userid_list as $userid) {
             if (  $seller_resource_type==0 ) {
                 $this->t_seller_student_new->field_update_list($userid,[
-                    "seller_resource_type" =>  $seller_resource_type,
+                    "seller_resource_type" => $seller_resource_type,
                     "first_revisit_time"   => 0,
                     "last_revisit_msg"     => "",
                     "last_revisit_time"    => 0,
                     "next_revisit_time"    => 0,
-                    "user_desc"    => "",
+                    "user_desc"            => "",
                     "add_time"             => time(NULL),
+                    "seller_add_time"      => time(NULL),
                 ]);
                 $this->t_test_lesson_subject->clean_seller_info($userid );
                 $phone= $this->t_seller_student_new->get_phone($userid);
@@ -4334,12 +4340,16 @@ class ss_deal extends Controller
                 "adminid" => $admin_revisiterid,
                 "test_subject_free_type" => $test_subject_free_type,
             ],false,true);
-
+            $hand_get_adminid = 0;
+            $orderid = $this->t_order_info->get_orderid_by_userid($item["userid"],$account);
+            if($orderid>0){
+                $hand_get_adminid = $item["hand_get_adminid"];
+            }
             $this->t_seller_student_new->field_update_list($item["userid"],[
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
                 "hand_free_count" => $item['hand_free_count']+1,
-                "hand_get_adminid" => 0,
+                "hand_get_adminid" => $hand_get_adminid,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );

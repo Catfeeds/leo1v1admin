@@ -25,9 +25,10 @@ $(function(){
             load_data();
         }
     });
-	$('#id_match_type').val(g_args.match_type);
+	  $('#id_match_type').val(g_args.match_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
 });
+
 

@@ -922,5 +922,80 @@ abstract class NewModel
 
         }
     }
+    //@desn:获取分页信息[union查询]
+    //@param:$is_union false 非联结查询 1 union 2 union all
+    public function main_get_list_by_page_with_union($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null,$is_union=null)
+    {
+        if(is_array($page_info)){
+            $page_num= $page_info["page_num"];
+            if ($page_count==10) {
+                $page_count= $page_info["page_count"];
+                if ($page_count<1) {
+                    $page_count=10;
+                }
+            }
+        }else if ($page_info == null )  {
+            $page_num   = 1;
+            $page_count = 100000000;
+        }else{
+            $page_num = $page_info;
+        }
+
+        $pattern     = '/select\s+(.*?)\s+from\s+(.*)/is';
+        $replacement = 'from $2';
+
+        if($is_union == 2){
+            $sql_array = explode('union all',$sql);
+            $count_query_1 = preg_replace($pattern, $replacement, $sql_array[0]); 
+            $count_query_2 = preg_replace($pattern, $replacement, $sql_array[1]); 
+        }elseif($is_union == 1){
+            $sql_array = explode('union all',$sql);
+            $count_query_1 = preg_replace($pattern, $replacement, $sql_array[0]); 
+            $count_query_2 = preg_replace($pattern, $replacement, $sql_array[1]); 
+        }else{
+            $count_query = preg_replace($pattern, $replacement, $sql);
+        }
+
+        if ($page_num== 0xFFFFFFFF+1 || $page_num== 0xFFFFFFFF+2  ) { //get_all
+            $page_num   = 1;
+            $page_count = 10000;
+        }
+        if($is_union){
+            $count_query_1 = "select count(1) " . $count_query_1;
+            $count_query_2 = "select count(1) " . $count_query_2;
+        }else
+            $count_query = "select count(1) " . $count_query;
+        $ret_arr=array();
+        if ( !$use_group_by_flag ){
+            if($is_union){
+                $count_1 = $this->main_get_value($count_query_1);
+                $count_2 = $this->main_get_value($count_query_2);
+                $count = $count_1+$count_2;
+            }else
+                $count=$this->main_get_value($count_query,0);
+        }else{
+
+            $count=count($this->main_get_list($sql ));
+
+        }
+
+
+        //for old
+        $ret_arr["total_num"]=$count;
+        $ret_arr["per_page_count"]=$page_count;
+
+        $ret_arr["page_info"] = array(
+            "total_num"      => $count,
+            "per_page_count" => $page_count,
+            "page_num"       => $page_num,
+        );
+
+        $limit_start=($page_num-1)*$page_count;
+
+        $sql.=" $order_str limit $limit_start,$page_count";
+
+        $ret_arr["list"]=$this->main_get_list($sql,$list_key_func);
+        return $ret_arr;
+    }
 
 }

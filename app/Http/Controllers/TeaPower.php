@@ -1292,7 +1292,7 @@ trait TeaPower {
      * @param int teahcer_type 老师类型
      * @param int teacher_ref_type 老师推荐人类型
      * @param int is_test_user 是否是测试账号 0 不是 1 是
-     * @param int use_easy_pass 老师账号密码类型 0 随机密码 1 123456 2 leo手机号后4位
+     * @param int use_easy_pass 老师账号密码类型 0 随机密码 1 123456 2 leo手机号后4位  目前统一使用类型2
      * @param int send_sms_flag 是否发送老师账号短信 0 不 1 是
      * @param string base_intro 老师简介
      * @param int grade_start 老师年级开始范围
@@ -1314,7 +1314,8 @@ trait TeaPower {
         }
 
         $check_teacher_day = strtotime("2017-9-10");
-        if(time()>$check_teacher_day){
+        $now = time();
+        if($now>$check_teacher_day){
             $default_teacher_money_type = E\Eteacher_money_type::V_6;
         }else{
             $default_teacher_money_type = E\Eteacher_money_type::V_4;
@@ -1325,22 +1326,22 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
         \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");
         \App\Helper\Utils::set_default_value($teacher_money_type,$teacher_info,$default_teacher_money_type,"teacher_money_type");
-        \App\Helper\Utils::set_default_value($level,$teacher_info,0,"level");
-        \App\Helper\Utils::set_default_value($grade,$teacher_info,0,"grade");
-        \App\Helper\Utils::set_default_value($subject,$teacher_info,0,"subject");
+        \App\Helper\Utils::set_default_value($level,$teacher_info,E\Elevel::V_0,"level");
+        \App\Helper\Utils::set_default_value($grade,$teacher_info,E\Egrade::V_0,"grade");
+        \App\Helper\Utils::set_default_value($subject,$teacher_info,E\Esubject::V_0,"subject");
         \App\Helper\Utils::set_default_value($tea_nick,$teacher_info,$phone,"tea_nick");
         \App\Helper\Utils::set_default_value($realname,$teacher_info,$tea_nick,"realname");
         \App\Helper\Utils::set_default_value($phone_spare,$teacher_info,$phone,"phone_spare");
         \App\Helper\Utils::set_default_value($not_grade,$teacher_info,"","not_grade");
-        \App\Helper\Utils::set_default_value($identity,$teacher_info,0,"identity");
-        \App\Helper\Utils::set_default_value($teacher_type,$teacher_info,0,"teacher_type");
-        \App\Helper\Utils::set_default_value($teacher_ref_type,$teacher_info,0,"teacher_ref_type");
+        \App\Helper\Utils::set_default_value($identity,$teacher_info,E\Eidentity::V_0,"identity");
+        \App\Helper\Utils::set_default_value($teacher_type,$teacher_info,E\Eteacher_type::V_0,"teacher_type");
+        \App\Helper\Utils::set_default_value($teacher_ref_type,$teacher_info,E\Eteacher_ref_type::V_0,"teacher_ref_type");
         \App\Helper\Utils::set_default_value($is_test_user,$teacher_info,0,"is_test_user");
-        \App\Helper\Utils::set_default_value($use_easy_pass,$teacher_info,0,"use_easy_pass");
+        \App\Helper\Utils::set_default_value($use_easy_pass,$teacher_info,2,"use_easy_pass");
         \App\Helper\Utils::set_default_value($send_sms_flag,$teacher_info,1,"send_sms_flag");
         \App\Helper\Utils::set_default_value($base_intro,$teacher_info,"","base_intro");
-        \App\Helper\Utils::set_default_value($grade_start,$teacher_info,0,"grade_start");
-        \App\Helper\Utils::set_default_value($grade_end,$teacher_info,0,"grade_end");
+        \App\Helper\Utils::set_default_value($grade_start,$teacher_info,E\Egrade_range::V_0,"grade_start");
+        \App\Helper\Utils::set_default_value($grade_end,$teacher_info,E\Egrade_range::V_0,"grade_end");
         \App\Helper\Utils::set_default_value($email,$teacher_info,"","email");
         \App\Helper\Utils::set_default_value($school,$teacher_info,"","school");
         \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
@@ -1348,14 +1349,16 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
         $train_through_new_time = $train_through_new==1?time():0;
 
-        $adminid = $this->t_manager_info->get_id_by_phone($phone);
-        if($adminid>0 && $teacher_type == 0 && $teacher_ref_type==0){
-            if($tea_nick==$phone){
-                $tea_nick = $this->t_manager_info->get_name($adminid);
+        $uid = $this->t_manager_info->get_id_by_phone($phone);
+        if($uid>0){
+
+            $del_flag = $this->t_manager_info->get_del_flag($uid);
+            if($del_flag!=1){
+                $tea_nick = $this->t_manager_info->get_name($uid);
                 $realname = $tea_nick;
+                $teacher_type     = $teacher_type==0?E\Eteacher_type::V_41:$teacher_type;
+                $teacher_ref_type = $teacher_ref_type==0?E\Eteacher_ref_type::V_41:$teacher_ref_type;
             }
-            $teacher_type     = E\Eteacher_type::V_41;
-            $teacher_ref_type = E\Eteacher_ref_type::V_41;
         }else{
             $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
             $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
@@ -4084,9 +4087,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $begin_time = strtotime($begin_date);
             }
 
-            $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-                $teacher_info['phone'],$reference_type,$begin_time
-            );
+            // $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+            //     $teacher_info['phone'],$reference_type,$begin_time
+            // );
+            $identity = $recommended_info['identity'];
+            if (in_array($identity,[5,6,7])) {
+                $type = 1;
+            } else {
+                $type = 0;
+            }
+            $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
 
             /**
              * 廖祝佳，王菊香推荐的在职老师起步都是80元/个

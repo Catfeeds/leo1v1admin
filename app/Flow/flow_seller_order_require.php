@@ -7,9 +7,13 @@ class flow_seller_order_require  extends flow_base{
     static $type= E\Eflow_type::V_SELLER_ORDER_REQUIRE;
     static $node_data=[
         //nodeid => next_nodeid(s) name  ,next_node_process
-        0=>[ 1 , "申请"  ],
+        0=>[ [7, 1] , "申请"  ],
+
+
         1=>[ 2,"申请->主管审批"  ],
         2=>[ [4,3,-1],"主管审批->[部]主审批" ],
+
+        7=>[ [4,3,-1],"主管审批->[部]主审批" ],
         3=>[ -1 ,"[部]主审批->市场主管审批" ],
         4=>[ 5 ,"[部]主审批->优惠券审批" ],
         5=>[ -1 ,"[优惠券审批->市场主管审批" ],
@@ -108,10 +112,18 @@ class flow_seller_order_require  extends flow_base{
 
     static function next_node_process_0 ($flowid ,$adminid){ //
 
-        $t=  new \App\Models\t_admin_group_user();
-        $item=$t->get_up_level_users($adminid);
-        return $item["master_adminid1"];
-        //return $t_manager_info->get_up_adminid($adminid);
+        list($flow_info,$self_info)=static::get_info($flowid);
+        $contract_type=$self_info["contract_type"];
+        $lesson_total=$self_info["lesson_total"]*  $self_info["default_lesson_count"] /100;
+
+        //新签，续费 ,　不用市场确认
+        if ( $contract_type==E\Econtract_type::V_0    ) {
+            return [ 7,  static::get_admin_account_by_env(  "班洁" ,"jim")];
+        }else if  ( $contract_type==E\Econtract_type::V_3 ) {
+            $t=  new \App\Models\t_admin_group_user();
+            $item=$t->get_up_level_users($adminid);
+            return [ 1, $item["master_adminid1"]    ];
+        }
     }
 
     static function next_node_process_1 ($flowid ,$adminid){ //
@@ -120,6 +132,34 @@ class flow_seller_order_require  extends flow_base{
         \App\Helper\Utils::logger( "master_adminid2:". $item["master_adminid2"] );
 
         return $item["master_adminid2"];
+    }
+
+    static function next_node_process_7 ($flowid, $adminid){ //
+        list($flow_info,$self_info)=static::get_info($flowid);
+        $contract_type=$self_info["contract_type"];
+        $lesson_total=$self_info["lesson_total"]*  $self_info["default_lesson_count"] /100;
+
+        //新签，续费 ,　不用市场确认
+        if ( $contract_type==E\Econtract_type::V_0  ||  $contract_type==E\Econtract_type::V_3  ) {
+            return [-1, 0 ];
+        }
+
+        if (preg_match("/Y[0-9A-Za-z][0-9][0-9][0-9][0-9]/", $self_info["discount_reason"])) {
+            return [4, "amanda"]; //amanda
+        }
+
+        if ($contract_type==E\Econtract_type::V_0 &&  $lesson_total <90 ) { //30次课
+
+            if (($self_info["promotion_present_lesson"] !=$self_info["promotion_spec_present_lesson"]) ||
+                ($self_info["promotion_discount_price"] !=$self_info["promotion_spec_discount"])
+            ) {
+                return [3,"yueyue"];
+            }
+
+            return [-1, 0 ];
+        }else{
+            return [3, "yueyue"];
+        }
     }
 
 

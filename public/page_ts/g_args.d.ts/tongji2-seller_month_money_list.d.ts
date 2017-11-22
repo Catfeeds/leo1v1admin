@@ -1,10 +1,10 @@
 interface GargsStatic {
+	adminid:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	adminid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,10 +15,12 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	main_type	:any;
+	first_group_name	:any;
 	up_group_name	:any;
 	group_name	:any;
 	account	:any;
 	main_type_class	:any;
+	first_group_name_class	:any;
 	up_group_name_class	:any;
 	group_name_class	:any;
 	account_class	:any;
@@ -38,12 +40,12 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		adminid:	$('#id_adminid').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		adminid:	$('#id_adminid').val()
+		end_time:	$('#id_end_time').val()
     });
 }
 $(function(){

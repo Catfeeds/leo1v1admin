@@ -28,13 +28,14 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
 
-    $(".common-table" ).table_admin_level_4_init(true);
+    // $(".common-table" ).table_admin_level_4_init(true);
+    $(".common-table" ).table_admin_level_5_init(); // 开发中
 
 
 
     function load_row_data (){
 
-        var row_list = $("#id_tbody .l-4");
+        var row_list = $("#id_tbody .l-5");
         var do_index = 0;
 
         function do_one() {
@@ -52,6 +53,7 @@ $(function(){
                     $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);
                     $tr.find(".kpi").text(data["kpi"]);
+                    $tr.find(".last_seller_level").text(data["last_seller_level"]);
 
                     $tr.find(".all_price").text(data["all_price"]);
                     $tr.find(".stage_money").text(data["stage_money"]);

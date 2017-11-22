@@ -493,7 +493,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $sql = $this->gen_sql_new("select distinct al.phone,tl.add_time,tl.confirm_time,l.lesson_start,"
                                   ."tr.add_time one_add_time,ll.lesson_start train_add_time,"
                                   ."lll.lesson_start trail_time,t.train_through_new,t.train_through_new_time, "
-                                  ." tf.simul_test_lesson_pass_time "
+                                  ." if(tf.simul_test_lesson_pass_time>0,tf.simul_test_lesson_pass_time,t.train_through_new_time) simul_test_lesson_pass_time "
                                   ." from %s al "
                                   ." left join %s tl on al.phone = tl.phone and tl.status =1 and tl.is_test_flag=0 and "
                                   ." not exists (select 1 from %s where phone = tl.phone and status =1 and "
@@ -862,11 +862,15 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
 
-    public function tongji_zs_reference_info($start_time,$end_time){
+    public function tongji_zs_reference_info($start_time,$end_time,$admin_name=""){
         $where_arr = [
             ["answer_begin_time>%u",$start_time,0],
             ["answer_begin_time<%u",$end_time,0],
         ];
+        if ($admin_name) {
+            $admin_name=$this->ensql($admin_name);
+            $where_arr[]="(t.realname like '%%".$admin_name."%%' or t.phone like '%%".$admin_name."%%' )";
+        }
         $sql = $this->gen_sql_new("select count(distinct ta.phone) as num,ta.reference,t.realname"
                                   ." from %s ta"
                                   ." left join %s t on ta.reference=t.phone"
@@ -905,7 +909,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             "t.train_through_new_time>0",
             "t.trial_lecture_is_pass=1",
         ];
-        if($type==2){
+        if($type==1){
             $where_arr[] = "t.identity in (5,6,7)";
         }else{
             $where_arr[] = "t.identity not in (5,6,7)";

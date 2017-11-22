@@ -1492,4 +1492,25 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_row($sql);
     }
 
+    public function get_teacher_revisit_lesson_info($start_time,$end_time){
+        $where_arr=[
+            "tr.type=5" ,
+            ["tr.add_time >= %u",$start_time,-1],
+            ["tr.add_time <= %u",$end_time,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(distinct tr.teacherid) revisit_num,count(distinct ll.teacherid) lesson_num,tr.acc "
+                                  ." from %s tr left join %s l on tr.teacherid = l.teacherid and l.lesson_del_flag=0 and l.lesson_type=2 and l.lesson_start>%u"
+                                  ." left join %s tss on l.lessonid = tss.lessonid and tss.success_flag<2 and (tss.set_lesson_time-tr.add_time)>0 and (tss.set_lesson_time-tr.add_time)<=7*86400"
+                                  ." left join %s ll on tss.lessonid = ll.lessonid"
+                                  ." where %s group by tr.acc",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

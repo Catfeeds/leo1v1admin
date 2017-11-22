@@ -564,6 +564,7 @@ class user_manage extends Controller
             1 => array("t1.order_time","下单日期"),
             2 => array("t1.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
+            4 => array("n.add_time", "例子进入时间"),
         ],3);
 
         $orderid = $this->get_in_int_val('orderid',-1);
@@ -716,6 +717,11 @@ class user_manage extends Controller
         $this->set_filed_for_js("acc",$this->get_account());
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
         $this->set_filed_for_js("ass_master_flag",$ass_master_flag);
+        $show_download = 0;
+        if(in_array($this->get_account_id(),[831,778])){
+            $show_download = 1;
+        }
+        $this->set_filed_for_js("show_download",$show_download);
 
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
@@ -3097,6 +3103,7 @@ class user_manage extends Controller
         $ret = [
             1 => [
                 "name" => "录制试讲",
+                "0" =>0,
                 "1" => 0,
                 "2" => 0,
                 "3" => 0,
@@ -3111,6 +3118,7 @@ class user_manage extends Controller
             ],
             2 => [
                 "name" => "模拟试听",
+                "0" =>0,
                 "1" => 0,
                 "2" => 0,
                 "3" => 0,

@@ -33,6 +33,7 @@ return array(
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
     ["db_weiyi_admin","t_seller_level_salary", "seller_level"],
+    ["db_weiyi_admin","t_seller_level_month", "id"],
     ["db_weiyi_admin","t_seller_edit_log", "id"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
@@ -54,6 +55,7 @@ return array(
 
     ["db_weiyi","t_teacher_switch_money_type_list", "id"],
     ["db_weiyi","t_teacher_reward_rule_list","rewrad_type"],
+    ["db_weiyi","t_order_activity_config","id"],
 
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],
@@ -77,6 +79,7 @@ return array(
     ["db_weiyi","t_ass_stu_change_list", "id"],
     ["db_weiyi","t_rule_info", "rule_id"],
     ["db_weiyi","t_rule_detail_info", "detail_id"],
+    ["db_weiyi","t_process_info", "process_id"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -87,6 +90,7 @@ return array(
     ["db_weiyi_admin","t_refund_analysis","id"],
     ["db_weiyi_admin","t_order_refund_confirm_config","id"],
     ["db_weiyi_admin","t_admin_campus_list","campus_id"],
+    ["db_weiyi_admin","t_order_info_finance","orderid"],
 
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],

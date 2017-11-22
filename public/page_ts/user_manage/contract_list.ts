@@ -1035,7 +1035,7 @@ $(function(){
         $nick.set_input_readonly(true);
         $phone.set_input_readonly(true);
         $grade.set_input_readonly(true);
-        if ($subject.val() ) {
+        if ($subject.val()>0  ) {
             $subject.set_input_readonly(true);
         }
         $discount_price.set_input_readonly(true);
@@ -3176,7 +3176,8 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-
-    $(".fa-download").hide();
+    if(g_args.show_download == 0){
+        $(".fa-download").hide();
+    }
 });
 

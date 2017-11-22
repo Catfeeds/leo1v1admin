@@ -11,6 +11,7 @@ class tongji_ex extends Controller
 {
     use  CacheNick;
     public function __construct() {
+		parent::__construct();
         $this->switch_tongji_database();
     }
 
@@ -146,10 +147,12 @@ class tongji_ex extends Controller
             @$list[$k]["userid"]=$val["userid"]; 
             @$list[$k]["nick"]=$val["phone"]; 
             @$list[$k]["ip"]=$val["ip"];
+            @$list[$k]["grade"]=$val["grade"];
             @$list[$k]["same_name_list"] .=$val["s2_phone"].",";
         }
         foreach($list as &$item){
             $item["same_name_list"] = trim($item["same_name_list"],",");
+            E\Egrade::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list)  );
 

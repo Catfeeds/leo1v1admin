@@ -899,18 +899,101 @@ class test_boby extends Controller
         }
     }
 
-    public function get_no_order(){
-        $sql = 'select m.name,g.group_name,max( if( o.contract_type=0 and o.contract_status >0 ,o.orderid,0)) no_order from db_weiyi_admin.t_manager_info m  left join db_weiyi.t_order_info o on o.sys_operator=m.name and o.order_time>=1509465600 and o.order_time<1509983999  left join db_weiyi_admin.t_admin_group_user gu on gu.adminid=m.uid  left join db_weiyi_admin.t_admin_group_name g on g.groupid=gu.groupid  where m.account_role =2 and g.main_type=2 group by m.uid having no_order=0';
+    public function get_some_user_info(){
+        $this->switch_tongji_database();
+        $start = strtotime('2017-8-1');
+        $end = strtotime('2017-9-1');
+
+        $sql = "select ss.add_time,s.phone,s.nick,count(distinct tq.uid) cc,s.origin, "
+             ." count(distinct if( tq.is_called_phone=1,tq.uid,0)) ok_phone,"
+             ." min( if( tq.is_called_phone=1,tq.uid,0) ) flag"
+             ." from db_weiyi.t_seller_student_new ss "
+             ." left join db_weiyi_admin.t_tq_call_info tq on tq.phone=ss.phone "
+             ." left join db_weiyi.t_student_info s on s.userid=ss.userid "
+             ." left join t_test_lesson_subject tl on tl.userid=ss.userid "
+             ." left join t_test_lesson_subject_require ts on ts.test_lesson_subject_id=tl.test_lesson_subject_id "
+             ." left join t_test_lesson_subject_sub_list tss on tss.require_id=ts.require_id "
+             ." left join t_lesson_info l on l.lessonid=tss.lessonid "
+             ." where ss.add_time>=$start and ss.add_time<$end and s.is_test_user=0 and l.lesson_user_online_status<>1"
+             ." group by s.phone having cc<=2";
+
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
-        $th_arr = ['队名','人','orderid'];
+        $th_arr = ['手机','姓名','进入日期','联系次数（ｃｃ人数）','渠道','未拨通人数'];
         $s = $this->table_start($th_arr);
 
-        foreach ($ret as $v ) {
-            $s= $this->tr_add($s,$v['group_name'],$v['name'],$v['no_order']);
+        foreach($ret as $v){
+            if( $v['flag']==0 ) {//说明有未打通的
+                $num = $v['cc']-$v['ok_phone']+1;
+            }else {
+                $num = $v['cc']-$v['ok_phone'];
+            }
+            $s= $this->tr_add($s, $v['phone'], $v['nick'],date('Y-m-d',$v['add_time']), $v['cc'], $v['origin'],$num);
+
         }
         $s = $this->table_end($s);
+
         return $s;
 
+    }
+    //1-7
+    public function get_xiaoxue_lesson_info(){
+
+        $this->switch_tongji_database();
+        $start = strtotime('2017-9-1');
+        $end = strtotime('2017-11-1');
+
+        $sql = "select lesson_start,lesson_type from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,2,3)";
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $week = [
+            'free'=>[0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]],
+            'no'=>[0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]],
+        ];
+        foreach($ret as $v){
+            if($v['lesson_type'] == 2){
+                $a='free';
+            }else {
+                $a='no';
+            }
+            $w = date('w',$v['lesson_start']);
+            $h = $this->fenzu( $v['lesson_start'] );
+            @$week[$a][$w][$h] += 1;
+        }
+
+        $free = [];
+        foreach ($week['free'] as $key=>$v){
+            foreach ($v as $h=>$val){
+
+                $n = $h%2;
+                $z = intval(floor($h/2));
+                if($h%2 == 0){
+                    $t = $z.':'.'00-'.$z.':30';
+                } else {
+                    $t = $z.':'.'30-'.($z+1).':00';
+                }
+                @$free[$key][$t] = $val;
+            }
+
+        }
+        $no = [];
+        foreach ($week['no'] as $key=>$v){
+            foreach ($v as $h=>$val){
+
+                $n = $h%2;
+                $z = intval(floor($h/2));
+                if($h%2 == 0){
+                    $t = $z.':'.'00-'.$z.':30';
+                } else {
+                    $t = $z.':'.'30-'.($z+1).':00';
+                }
+                @$no[$key][$t] = $val;
+            }
+
+        }
+        echo '<pre>';
+        print_r($free);
+        print_r($no);
+
+        exit;
     }
 
 }

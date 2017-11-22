@@ -41,8 +41,15 @@ class update_teaching_core_data extends Command
         //
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        list($date_1['y'],$date_1['m'])=explode("-",date('Y-m',strtotime("2016-12-01")));
+        list($date_2['y'],$date_2['m'])=explode("-",date('Y-m',time()));
+        $month_num =  abs($date_1['y']-$date_2['y'])*12 +$date_2['m']-$date_1['m'];
+        $month_st = $month_num-2;
+        if($month_st<1){
+            $month_st=1;
+        }
         // dd(1111);
-        for($i=9;$i<=11;$i++){
+        for($i=$month_st;$i<=$month_num;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);

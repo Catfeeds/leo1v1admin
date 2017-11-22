@@ -321,7 +321,7 @@ class common_new extends Controller
             $teacher_info['tea_nick']      = $name;
             $teacher_info['send_sms_flag'] = 0;
             $teacher_info['wx_use_flag']   = 0;
-            $teacher_info['use_easy_pass'] = 2;
+            $teacher_info['identity']      = $teacher_type;
             $teacher_info['is_test_user']  = $is_test_user;
 
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
@@ -1080,7 +1080,6 @@ class common_new extends Controller
         $teacher_info['phone']         = $info;
         $teacher_info['send_sms_flag'] = 0;
         $teacher_info['wx_use_flag']   = 0;
-        $teacher_info['use_easy_pass'] = 2;
         $ret = $this->add_teacher_common($teacher_info);
         if($ret>0){
             return $this->output_succ();

@@ -105,9 +105,9 @@ class test_jack  extends Controller
                 "contract_type"   =>$p_item[5],
                 "lesson_total"   =>$p_item[6]*100,
                 "refund_lesson_count"   =>$p_item[7]*100,
-                "order_cost_price"   =>$p_item[8],
-                "order_price"   =>$p_item[9],
-                "refund_price"   =>$p_item[10],
+                "order_cost_price"   =>$p_item[8]*100,
+                "order_price"   =>$p_item[9]*100,
+                "refund_price"   =>$p_item[10]*100,
                 "is_invoice"   =>$p_item[11],
                 "invoice"   =>$p_item[12],
                 "payment_account_id"   =>$p_item[13],
@@ -327,8 +327,8 @@ class test_jack  extends Controller
                 "leads_num" =>$val[2],
                 "test_num" =>$val[3],
                 "test_transfor_per" =>$val[4],
-                "order_transfor_per" =>$val[5],
-                "order_stu_num" =>$val[6],
+                "order_transfor_per" =>$val[6],
+                "order_stu_num" =>$val[5],
             ]);
 
 
@@ -342,7 +342,14 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        
+        list($date_1['y'],$date_1['m'])=explode("-",date('Y-m',strtotime("2016-12-01")));
+        list($date_2['y'],$date_2['m'])=explode("-",date('Y-m',time()));
+        $n =  abs(($date_2['y']-$date_1['y'])*12 +$date_2['m']-$date_1['m']);
+        dd($n);
+        $start= strtotime("2017-01-01");
+        $end= time();
+        $ret =$this->t_lesson_info_b3->get_lesson_teacher_num($start, $end, -2);
+        dd($ret);
         $start_time  = strtotime(date("Y-m-d"),time());
         $end_time    = time() + 86400*7;
         $w = date("w");

@@ -126,6 +126,36 @@
 
                         </div>
                     </div>
+
+                    <div class="col-xs-12 col-md-12">
+                        <div class="panel panel-warning"  >
+                            <div class="panel-heading center-title ">
+                                教务回访排课信息
+                            </div>
+                            <div class="panel-body">
+
+                                <table   class="table table-bordered "   >
+                                    <thead>
+                                        <tr>
+                                            <td>教务</td>
+                                            <td>回访老师量</td>
+                                            <td>回访后一周内排课老师量</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="id_per_count_list_lesson">
+                                        @foreach ( $revisit_teacher_lesson_info as $key=> $var )
+                                            <tr>
+                                                <td>{{@$var["acc"]}} </td> 
+                                                <td>{{@$var["revisit_num"]}} </td> 
+                                                <td>{{@$var["lesson_num"]}} </td>                                                
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
             </div>
