@@ -1156,7 +1156,7 @@ class seller_student_new extends Controller
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location);
+        $ret_info = $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");

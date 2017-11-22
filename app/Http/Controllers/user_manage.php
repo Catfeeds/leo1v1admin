@@ -2077,8 +2077,10 @@ class user_manage extends Controller
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
         $subject   = $this->get_in_int_val('subject');
         $teacherid = $this->get_in_int_val('teacherid');
+        $deal_time = time();
+        $deal_adminid = $this->get_account_id();
 
-        $this->t_order_refund->update_refund_list($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
+        $this->t_order_refund->update_refund_list($subject, $teacherid, $orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status, $deal_time, $deal_adminid);
         return $this->output_succ();
     }
 
