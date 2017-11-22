@@ -801,9 +801,9 @@ class wx_parent_gift extends Controller
         $is_share = $this->t_market_department_activity->check_flag($openid,$type);
 
         if($is_share){
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html");
+            header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&type=".$type);
         }else{
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid);
+            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&type=".$type);
         }
         return ;
     }
