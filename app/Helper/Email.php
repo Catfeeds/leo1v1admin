@@ -18,6 +18,21 @@ class Email{
     }
 
     /**
+     * 
+     */
+    static public function SendMailleojiaoxuebu($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $MailHost = "smtp.leoedu.com";
+        $Username = "jim@leoedu.com";
+        $Password = "xcwen142857";
+        $From     = "jim@leoedu.com";
+        $FromName = "理优教研组";
+
+        $ret = self::SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        return $ret;
+    }
+
+
+    /**
      * 发送邮件
      * @param string MailHost 企业邮局域名
      * @param string UserName 邮局用户名

@@ -1510,7 +1510,9 @@ class test_code extends Controller
                  ."转正日期 : <br>"
                  ."目前教师等级 : 初级<br>"
                  ."转正后教师等级 : 中级<br>"
-                 ."转正后基本工资 : 3000";
+                 ."转正后基本工资 : 3000<br><br>"
+                 ."教学管理事业部教学部<br>";
+
         $IsHtml = true;
         $AddAddressKey = 2;
 
