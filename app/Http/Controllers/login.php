@@ -109,7 +109,7 @@ class login extends Controller
     }
 
     function  gen_one_item ($node,$power_fix,$level,$power_map,$admin_domain_type) {
-        //\App\Helper\Utils::logger("do:".$node["name"]);
+        \App\Helper\Utils::logger("do:".$node["name"]);
 
         $power_id= $power_fix*100+$node["power_id"];
         if (isset($node["list"])) {

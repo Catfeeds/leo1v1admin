@@ -139,6 +139,7 @@
                                         <td>CR总人数</td>
                                         <td>结课学员数</td>
                                         <td>退费总人数</td>
+                                        <td title="后台all退费合同量/所有有效合同(均不含赠送合同)">合同累计退费率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
@@ -154,6 +155,7 @@
                                         <td> {{@$arr['cr_num']}}</td> 
                                         <td class="panel-yellow" > {{@$arr['finish_num']}}</td> 
                                         <td> {{@$arr['refund_num']}}</td> 
+                                        <td> {{@$arr['cumulative_refund_rate']}}%</td> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -188,12 +190,12 @@
                                         <tr>
                                             <td class="panel-yellow" > {{@$arr['lesson_target']}}</td>
                                             <td class="panel-yellow" > {{@$arr['total_student']}} </td>
-                                            <td> 节点</td>
+                                            <td>{{@$arr['lesson_consume_target']}} </td>
                                             <td> {{@$arr['lesson_consume']}}</td>
                                             <td> {{@$arr['teacher_leave']}}</td>
                                             <td> {{@$arr['student_leave']}}</td>
                                             <td> {{@$arr['other_leave']}}</td>
-                                            <td > 节点  </td>
+                                            <td >{{@$arr['lesson_complete_per']}}%</td>
                                             <td class="panel-yellow" >
                                                 {{@$arr['student_arrive_per']}}%({{@$arr['student_arrive']}}/{{@$arr['lesson_plan']}})
                                             </td>
@@ -230,13 +232,13 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td class="panel-yellow" > {{@$arr['read_num']}}  </td>
-                                        <td class="panel-yellow" > {{@$arr['lesson_target']}}</td>
-                                        <td class="panel-yellow" > {{@$arr['total_student']}} </td>
-                                        <td> 节点</td>
-                                        <td> {{@$arr['lesson_consume']}}</td>
-                                        <td> {{@$arr['teacher_leave']}}</td>
-                                        <td> {{@$arr['student_leave']}}</td>
-                                        <td> {{@$arr['other_leave']}}</td> 
+                                        <td class="panel-yellow" > {{@$arr['stop_student']}}</td>
+                                        <td class="panel-yellow" > {{@$arr['drop_student']}} </td>
+                                        <td class="panel-yellow" > {{@$arr['summer_winter_stop_student']}} </td>
+                                        <td> {{@$arr['new_order_assign_num']}}</td>
+                                        <td> {{@$arr['new_order_unassign_num']}}</td>
+                                        <td> {{@$arr['student_end_per']}}%</td>
+                                        <td> {{@$arr['new_student_num']}}</td> 
 
                                     </tr>
                                 </tbody>
@@ -261,8 +263,8 @@
                                         <td>实际续费学生数量</td>
                                         <td>续费金额</td>
                                         <td>平均单笔</td>
-                                        <td>月续费率</td>
-                                        <td>月预警续费率</td>
+                                        <td title="月初至今实际续费量/预警续费量">月续费率</td>
+                                        <td title="月初至今实际预警续费量/预警续费量">月预警续费率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
@@ -295,7 +297,7 @@
                                         <td>转介绍至CC例子量</td>
                                         <td>转介绍至CC例子签单量</td>
                                         <td>转介绍至CC例子签单金额</td>
-                                        <td>月转介绍至CC签单率</td>
+                                        <td title="月初至今签单金额/签单量">月转介绍至CC签单率</td>
                                         <td>转介绍成单数量</td>
                                         <td>转介绍总金额</td>
                                         <td>平均单笔</td>
@@ -332,7 +334,7 @@
                                         <td>扩课成单数量</td>
                                         <td>扩科待跟进数量</td>
                                         <td>扩科未成单数量</td>
-                                        <td>月扩课成功率</td>
+                                        <td title="月初至今扩课成单数量/扩课试听数">月扩课成功率</td>
                                     </tr>
                                 </thead>
                                 <tbody >

@@ -62,6 +62,7 @@ class update_cc_no_called_count extends Command
         foreach($userid_arr as $item){
             $num = 0;
             $userid = $item;
+            $cc_no_called_count = 0;
             foreach($ret as $info){
                 if($item == $info['userid']){
                     $is_called_phone = $info['is_called_phone'];
@@ -75,8 +76,10 @@ class update_cc_no_called_count extends Command
                     }
                 }
             }
+            // if($num != $cc_no_called_count){
             $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
             echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+            // }
         }
     }
 

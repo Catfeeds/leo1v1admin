@@ -2420,7 +2420,6 @@ function init_edit() {
             var preProvince = "<option value=\"\">"+old_province+"</option>";
             var preCity = "<option value=\"\">"+old_city+"</option>";
             var preArea = "<option value=\"\">"+old_area+"</option>";
-
             //初始化
             province.html(preProvince);
             city.html(preCity);

@@ -34,12 +34,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-find_user.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		phone:	$('#id_phone').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			phone:	$('#id_phone').val()
-        });
-    }
 
 
 	$('#id_phone').val(g_args.phone);

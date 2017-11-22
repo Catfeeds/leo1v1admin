@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -9,13 +11,10 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	userid	:any;
-	phone	:any;
-	grade	:any;
-	assistantid	:any;
-	ass_nick	:any;
 	nick	:any;
-	num	:any;
-	grade_str	:any;
+	phone	:any;
+	type	:any;
+	type_str	:any;
 }
 
 /*
@@ -26,12 +25,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_deal-cancel_lesson_by_userid.d.ts" />
 
-$(function(){
-    function load_data(){
-        $.reload_self_page ( {
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
 
-        });
-    }
+    });
+}
+$(function(){
 
 
 

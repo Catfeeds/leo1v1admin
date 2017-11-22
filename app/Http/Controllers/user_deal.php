@@ -3193,7 +3193,15 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        dd(1111);
+        $page_info = $this->get_in_page_info();
+        $list = $this->t_student_info->get_all_stu_info($page_info);
+        foreach($list["list"] as &$item){
+            E\Estudent_type::set_item_value_str($item,"type");
+        }
+
+        return $this->pageView(__METHOD__,$list);
+
+        dd($list);
         //$this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2017-11-01");

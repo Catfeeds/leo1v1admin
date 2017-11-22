@@ -30,33 +30,20 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>老师</td>
-                    <td>第一科目</td>
-                    <td>第一年级</td>
-                    <td>类型</td>
-                    <td>课的科目</td>
-                    <td>课的年级</td>
-                    <td>上课时间</td>
-                                                                    
+                    <td>userid</td>
+                    <td>名字</td>
+                    <td>电话</td>
+                    <td>类型</td>                              
                     <td>操作 </td>
                 </tr>
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["t_subject_str"]}} </td>
-                        <td>
-                            @if($var["grade_start"]>0)
-                                {{$var["grade_start_str"]}}--{{$var["grade_end_str"]}}
-                            @else
-                                {{$var["grade_part_ex_str"]}}
-                            @endif
-                        </td>
-                        <td>{{@$var["lesson_type_str"]}}</td>
-                        <td>{{@$var["subject_str"]}}</td>
-                        <td>{{@$var["grade_str"]}}</td>
-                        <td>{{@$var["lesson_start_str"]}}</td>
+                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["phone"]}}</td>
+                        <td>{{@$var["type_str"]}}</td>
                        
                        
                                         

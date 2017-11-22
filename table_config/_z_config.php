@@ -55,6 +55,7 @@ return array(
 
     ["db_weiyi","t_teacher_switch_money_type_list", "id"],
     ["db_weiyi","t_teacher_reward_rule_list","rewrad_type"],
+    ["db_weiyi","t_order_activity_config","id"],
 
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],
@@ -278,4 +279,7 @@ return array(
     //["db_question","t_lesson_note","note_id"] ,
     // ["db_question","t_question","id"] ,
     // ["db_ejabberd","users","username"] ,
+
+
+    //
 );

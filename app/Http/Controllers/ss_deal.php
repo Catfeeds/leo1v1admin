@@ -4340,12 +4340,16 @@ class ss_deal extends Controller
                 "adminid" => $admin_revisiterid,
                 "test_subject_free_type" => $test_subject_free_type,
             ],false,true);
-
+            $hand_get_adminid = 0;
+            $orderid = $this->t_order_info->get_orderid_by_userid($item["userid"],$account);
+            if($orderid>0){
+                $hand_get_adminid = $item["hand_get_adminid"];
+            }
             $this->t_seller_student_new->field_update_list($item["userid"],[
                 "free_adminid" => $this->get_account_id(),
                 "free_time" => time(),
                 "hand_free_count" => $item['hand_free_count']+1,
-                "hand_get_adminid" => 0,
+                "hand_get_adminid" => $hand_get_adminid,
             ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );

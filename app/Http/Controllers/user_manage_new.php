@@ -1823,8 +1823,8 @@ class user_manage_new extends Controller
         }
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
-        $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
-        // $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        // $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time )));
         // dd($ret_info);
         foreach( $ret_info as $key=>&$item ){
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
@@ -1845,13 +1845,12 @@ class user_manage_new extends Controller
             $item['finish_per'] =@$item['target_money']!=0?(round(@$item['all_price_for_month']/$item['target_money'],2)*100)."%":0;
             $item['finish_personal_per'] =@$item['target_personal_money']!=0?(round(@$item['all_price_for_month']/$item['target_personal_money'],2)*100)."%":0;
 
-
             $item['duration_count_for_day'] = \App\Helper\Common::get_time_format(@$item['duration_count_for_day']);
             $item['ave_price_for_month'] =@$item['all_new_contract_for_month']!=0?round(@$item['all_price_for_month']/@$item['all_new_contract_for_month']):0;
             $item['los_money'] = @$item['target_money']-@$item['all_price_for_month'];
             $item['los_personal_money'] = @$item['target_personal_money']-@$item['all_price_for_month'];
 
-            if($item['level'] == "l-4" ){
+            if($item['level'] == "l-5" ){
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
@@ -1872,8 +1871,9 @@ class user_manage_new extends Controller
                 $item['kpi'] = '';
             }
 
-            if($item['level'] == 'l-3'){
+            if($item['level'] == 'l-4'){
                 $member[] = [
+                    "first_group_name"  => $item['first_group_name'],
                     "up_group_name"     => $item['up_group_name'],
                     "group_name"        => $item['group_name'],
                 ];
@@ -1886,8 +1886,9 @@ class user_manage_new extends Controller
                 $leave_member_num_l3 = 0;
             }
 
-            if($item['level'] == 'l-2'){
+            if($item['level'] == 'l-3'){
                 $member_new[] = [
+                    "first_group_name" => $item['first_group_name'],
                     "up_group_name" => $item['up_group_name'],
                     "group_name"    => $item['group_name'],
                 ];
@@ -1899,7 +1900,7 @@ class user_manage_new extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
-            if($item['main_type_str'] == '助教'){
+            if(($item['main_type_str'] == '助教') || $item['main_type_str'] == '未定义'){
                 unset($ret_info[$key]);
             }
             if(isset($item['target_money'])){
@@ -1942,7 +1943,7 @@ class user_manage_new extends Controller
             if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
                 unset($item);
             }else{
-                if($item['level'] == 'l-2'){
+                if($item['level'] == 'l-3'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
                             $item['become_member_num'] = $info['become_member_num'];
@@ -1950,7 +1951,7 @@ class user_manage_new extends Controller
                         }
                     }
                 }else{
-                    if($item['level'] == 'l-3'){
+                    if($item['level'] == 'l-4'){
                         foreach($member as $info){
                             if($item['group_name'] == $info['group_name']){
                                 $item['become_member_num'] = $info['become_member_num'];

@@ -9,6 +9,12 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="input-group ">
+                        <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="name" id="id_name"  placeholder="成员姓名,电话 回车查找" />
+                    </div>
+                </div>
+
 
             </div>
         </div>
