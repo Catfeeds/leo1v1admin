@@ -13,6 +13,10 @@ class CreateTMarketDepartmentActivity extends Migration
     public function up()
     {
         //
+
+
+        Schema::dropIfExists('db_weiyi.t_market_department_activity');
+
         Schema::create('db_weiyi.t_market_department_activity', function (Blueprint $table){
             $table->increments('id'); 
             t_field($table->string("openid"),"用户openid");
