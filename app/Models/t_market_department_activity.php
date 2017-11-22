@@ -8,9 +8,8 @@ class t_market_department_activity extends \App\Models\Zgen\z_t_market_departmen
 		parent::__construct();
 	}
 
-<<<<<<< HEAD
     public function del_row($openid,$type){
-        $sql = $this->gen_sql_new("  delete from %s where openid=%s and type=%s"
+        $sql = $this->gen_sql_new("  delete from %s where openid='%s' and type=%s"
                                   ,self::DB_TABLE_NAME
                                   ,$openid
                                   ,$type
@@ -21,17 +20,15 @@ class t_market_department_activity extends \App\Models\Zgen\z_t_market_departmen
 
     public function check_flag($openid,$type){
         $sql = $this->gen_sql_new("  select 1 from %s "
-                                  ." where openid=%s and type=%s"
+                                  ." where openid='%s' and type=%s"
                                   ,self::DB_TABLE_NAME
-                                  ,$opendid
+                                  ,$openid
                                   ,$type
         );
 
         return $this->main_get_value($sql);
     }
 
-=======
->>>>>>> a857122dc2db4d899d24c1f058f1d5cb104dfb78
 }
 
 

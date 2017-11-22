@@ -1136,11 +1136,17 @@ trait TeaPower {
 
     public function get_last_lesson_end($teacherid,$lesson_end){
         $lesson_start = $lesson_end+3600;
-        $end = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$lesson_start);
-        if($start>0){
-            return $this->get_first_lesson_start($teacherid,$start);
+        $end_info = $this->t_lesson_info_b2->check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start);
+        if(@$end_info["lesson_type"]==2){
+            $end = @$end_info["lesson_end"]+1200;
         }else{
-            return $lesson_start;
+            $end = @$end_info["lesson_end"];
+        }
+        
+        if($end>0){
+            return $this->get_last_lesson_end($teacherid,$end);
+        }else{
+            return $lesson_end;
         }
     }
 
@@ -4038,7 +4044,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 +$item['lesson_reward_trial']
                 +$item['lesson_reward_compensate']
                 +$item['lesson_reward_compensate_price']
-                +@$item['lesson_reward_reference']
+                +$item['lesson_reward_reference']
                 +$item['lesson_reward_train']
             );
             $item['lesson_normal']       = strval($item['lesson_normal']);
@@ -4049,13 +4055,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 +$item['lesson_reward_compensate_price']
             );
             $item['lesson_reward_extra'] = strval($item['lesson_reward_trial']
-<<<<<<< HEAD
                                                   +$item['lesson_reward_reference']
-=======
-                                                  +@$item['reward_reference']
->>>>>>> 0795b16373c8e9683f6b5edd8cbebdec2f65acc3
                                                   +$item['lesson_reward_chunhui']
                                                   +$item['lesson_reward_train']
+
             );
             $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
             $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);

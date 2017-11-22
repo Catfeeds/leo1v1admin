@@ -59,6 +59,12 @@ class update_cc_no_called_count extends Command
         $end_time = time(null);
         $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $userid_arr = array_unique(array_column($ret,'userid'));
+
+        //0-303000,0,50186-437671
+        // $min = $this->task->t_seller_student_new->get_min_userid();
+        // $max = $this->task->t_seller_student_new->get_max_userid();
+        // $ret = $this->task->t_seller_student_new->get_all_list($min,$max);
+        // $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
             $num = 0;
             $userid = $item;
