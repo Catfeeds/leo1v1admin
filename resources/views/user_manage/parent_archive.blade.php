@@ -37,7 +37,11 @@
                 <tr>
                     <td >{{$var["parentid"]}}</td>
                     <td >{{$var["nick"]}}</td>
-                    <td >{{$var["phone"]}}</td>
+                    <td >
+                        <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                            {{@$var["phone_hide"]}}
+                        </a>
+                    </td>
                     <td >{{$var["gender"]}}</td>
                     <td >{{$var["email"]}}</td>
                     <td >{{$var["time"]}}</td>

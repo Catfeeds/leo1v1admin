@@ -22,6 +22,8 @@ interface RowData {
 	user_nick	:any;
 	parent_type_str	:any;
 	role_str	:any;
+	phone_hide	:any;
+	login_phone_hide	:any;
 }
 
 /*

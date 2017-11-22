@@ -14,11 +14,8 @@
                 <input id="id_parentid"  />
             </div>
         </div>
-
     </div>
-
     <hr/>
-
         <table   class="common-table"   >
             <thead>
                 <tr>
@@ -35,15 +32,23 @@
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-            <tr>
+                    <tr>
                         <td >{{$var["parentid"]}}</td>
-                        <td >{{$var["phone"]}}</td>
+                        <td >
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
+                        </td>
                         <td >{{$var["parent_nick"]}}</td>
                         <td >{{$var["parent_type_str"]}}</td>
                         <td >{{$var["userid"]}}</td>
                         <td >{{$var["user_nick"]}}</td>
                         <td >{{$var["role_str"]}}</td>
-                        <td >{{$var["login_phone"]}}</td>
+                        <td >
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
+                        </td>
                         <td >
                             <div 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -52,7 +57,7 @@
                                 <a class="fa fa-times opt-del" title="删除"> </a>
                             </div>
                         </td>
-            </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
