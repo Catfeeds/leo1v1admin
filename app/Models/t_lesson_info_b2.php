@@ -2355,7 +2355,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "lesson_status>1",
             "lesson_del_flag=0",
             "lesson_user_online_status=1",
-            "l.confirm_flag<2"
         ];
         if($lesson_type==-2){
             $where_arr[] = "lesson_type in (0,1,3)";
