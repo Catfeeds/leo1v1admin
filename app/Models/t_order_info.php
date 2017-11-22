@@ -4215,12 +4215,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         */
         $where_arr = [
             " l.lesson_type = 2",
+            "o.contract_status>0",
+            "o.contract_type=0"
         ];
 
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $month_start, $month_end);
 
         //t_order_lesson_list
-        $sql = $this->gen_sql_new("  select l.userid, o.orderid, l.lessonid, l.subject,l.teacherid from %s o "
+        $sql = $this->gen_sql_new("select l.userid, o.orderid, l.lessonid,l.grade, l.subject,l.teacherid,l.lesson_start "
+                                  ." from %s o "
                                   ." join %s l on o.from_test_lesson_id=l.lessonid"
                                   ." where %s"
                                   ,t_order_info::DB_TABLE_NAME

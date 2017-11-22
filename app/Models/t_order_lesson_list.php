@@ -89,23 +89,37 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
         return $this->main_get_value($sql);
     }
 
-    public function get_lesson_info_tmp($last_normal_id){
-        $sql = $this->gen_sql_new("  select l.teacherid, l.subject, l.userid from %s l "
-                                  ." where l.lessonid = %d"
+    // public function get_lesson_info_tmp($last_normal_id){
+    //     $sql = $this->gen_sql_new("  select l.teacherid, l.subject, l.userid from %s l "
+    //                               ." where l.lessonid = %d"
+    //                               ,t_lesson_info::DB_TABLE_NAME
+    //                               ,$last_normal_id
+    //     );
+
+    //     return $this->main_get_row($sql);
+    // }
+
+    public function get_last_lessonid($subject,$userid,$grade,$lesson_start){
+        $sql = $this->gen_sql_new("  select l.teacherid from %s l  "
+                                  ." where l.lesson_type in (0,1,3) and l.subject=$subject and l.userid=$userid  and l.lesson_start>$lesson_start order by l.lesson_start asc limit 1 "
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,$last_normal_id
-        );
-
-        return $this->main_get_row($sql);
-    }
-
-    public function get_last_lessonid($orderid){
-        $sql = $this->gen_sql_new("  select lessonid from %s ol where ol.orderid=%s order by lessonid asc limit 1 "
-                                  ,self::DB_TABLE_NAME
-                                  ,$orderid
         );
 
         return $this->main_get_value($sql);
     }
+
+
+
+    // public function get_last_lessonid($orderid){
+    //     $sql = $this->gen_sql_new("  select ol.lessonid from %s ol left join %s l on l.lessonid=ol.lessonid where l.lesson_del_flag=0 and ol.orderid=%s order by lessonid asc limit 1 "
+    //                               ,self::DB_TABLE_NAME
+    //                               ,t_lesson_info::DB_TABLE_NAME
+    //                               ,$orderid
+    //     );
+
+    //     return $this->main_get_value($sql);
+    // }
+
+
 
 }
