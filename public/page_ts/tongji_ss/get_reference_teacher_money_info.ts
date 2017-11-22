@@ -42,10 +42,8 @@ $(function(){
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".first_test").text(data.first_test); 
-                        $tr.find(".first_normal").text(data.first_normal); 
-                        $tr.find(".cc_per").text(data.cc_per); 
-                        $tr.find(".cr_per").text(data.cr_per); 
+                        $tr.find(".last_time").text(data.last_time); 
+                       
                                                                                              
                         
                         do_index++;

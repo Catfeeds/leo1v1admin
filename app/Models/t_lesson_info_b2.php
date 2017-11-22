@@ -2364,7 +2364,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $sql = $this->gen_sql_new("select lessonid,userid,subject,lesson_start from %s"
-                                  ." where %s order by lesson_start limit %u,1",
+                                  ." where %s order by lesson_start desc limit %u,1",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
