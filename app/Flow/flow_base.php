@@ -71,6 +71,8 @@ class flow_base{
         if (!( $ret[1] >0) )  { // account
             $ret[1]= static::get_adminid_by_account( $ret[1]);
         }
+        \App\Helper\Utils::logger( "get_next_node_info: ". json_encode($ret)  );
+
         return $ret;
     }
 

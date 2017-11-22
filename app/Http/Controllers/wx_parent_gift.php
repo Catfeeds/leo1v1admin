@@ -798,13 +798,12 @@ class wx_parent_gift extends Controller
         $user_info  = $wx->get_user_info($openid,$token);
 
         $type = $this->get_in_int_val("type");
-        dd($type);
         $is_share = $this->t_market_department_activity->check_flag($openid,$type);
 
         if($is_share){
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html");
+            header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&type=".$type);
         }else{
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid);
+            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&type=".$type);
         }
         return ;
     }
@@ -815,16 +814,21 @@ class wx_parent_gift extends Controller
      **/
     public function record_share(){ // 分享接口
         $openid = $this->get_in_str_val('openid');
-        $type = 1;
+        $type   = $this->get_in_int_val('type');
+
+        \App\Helper\Utils::logger("wx_type1: $type");
+
 
         $del_share = $this->t_market_department_activity->del_row($openid,$type);
         $this->t_market_department_activity->row_insert([
             "openid"  => $openid,
             "type"    => $type, //活动类型
-            "share_time"  => 1,
+            "share_time"  => time(),
             "create_time" => time()
         ]
         );
+
+        return $this->output_succ();
 
     }
 
