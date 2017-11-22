@@ -13,6 +13,12 @@ class TOrderRefundDrop extends Migration
     public function up()
     {
         //
+        Schema::table('db_weiyi.t_order_refund', function( Blueprint $table)
+        {
+            $table->dropColumn('qc_adminid');
+            $table->dropColumn('qc_deal_time');
+        });
+
     }
 
     /**
