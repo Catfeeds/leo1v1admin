@@ -446,9 +446,9 @@ class Common {
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
         $ret = $mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger(" leo_com:email err: ".json_decode($address)." :$title  ". $mail->ErrorInfo);
+            \App\Helper\Utils::logger(" leo_com:email err: ".json_encode($address)." :$title  ". $mail->ErrorInfo);
         }else{
-            \App\Helper\Utils::logger(" leo_com:email succ: ".json_decode($address)." :$title " );
+            \App\Helper\Utils::logger(" leo_com:email succ: ".json_encode($address)." :$title " );
         }
         return  $ret;
     }
