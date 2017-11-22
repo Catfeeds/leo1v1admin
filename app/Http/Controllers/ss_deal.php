@@ -3028,9 +3028,6 @@ class ss_deal extends Controller
         $free_flag=$this->get_in_int_val("free_flag",0);
         $adminid=$this->get_account_id();
 
-
-
-
         $ssn_info= $this->t_seller_student_new->field_get_list($userid,"admin_assign_time,has_pad");
         $admin_assign_time=$ssn_info["admin_assign_time"];
         $has_pad= $ssn_info["has_pad"];
