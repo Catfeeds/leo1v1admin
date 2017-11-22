@@ -26,6 +26,7 @@ interface RowData {
 	email	:any;
 	wx_openid	:any;
 	time	:any;
+	phone_hide	:any;
 }
 
 /*
