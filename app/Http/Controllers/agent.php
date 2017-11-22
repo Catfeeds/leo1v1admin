@@ -554,7 +554,7 @@ class agent extends Controller
         $end_time = time(null);
         // $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $ret = $this->t_seller_student_new->get_all_list();
-        dd($ret);
+        dd(count($ret));
         $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $userid_arr = array_unique(array_column($ret,'userid'));
         foreach($userid_arr as $item){
