@@ -550,9 +550,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = time(null)-3600*24*7;
+        $start_time = time(null)-3600*24*3;
         $end_time = time(null);
-        $ret = $this->t_tq_call_info->get_all_list();
+        $ret = $this->t_seller_student_new->get_all_list_new($start_time,$end_time);
         dd($ret);
         $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
         $userid_arr = array_unique(array_column($ret,'userid'));
