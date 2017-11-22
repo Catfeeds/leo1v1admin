@@ -346,8 +346,8 @@ class test_jack  extends Controller
         $time = time()-7*86400;
         $day_time = strtotime(date("Y-m-d",$time));
 
-        $lesson_end = strtotime(date("Y-m-d",$time)." 13:00:00");
-        $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info(time(),$lesson_end);
+        $lesson_end = strtotime(date("Y-m-d",$time)." 09:00:00");
+        $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($time(),$lesson_end);
         dd($list);
         foreach($list as $item){
             $teacherid = $item["teacherid"];
