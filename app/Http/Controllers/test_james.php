@@ -1259,6 +1259,10 @@ $test=	3;
     }
 
     public function get_stu_date(){
+        $item = [];
+        $item['deal_time_str'] = date('Y-m-d H:i:s','0');
+        dd($item);
+
         $month_start = strtotime($this->get_in_str_val('m'));
         $month_end = strtotime($this->get_in_str_val('e'));
         /**
