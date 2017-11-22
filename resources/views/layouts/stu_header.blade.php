@@ -30,7 +30,7 @@
         <!-- add new calendar event modal -->
 
         <script type="text/javascript">
-	     var g_sid="{{$_sid}}";
+	       var g_sid="{{$_sid}}";
          var g_nick="{{$_stu_nick}}";
         </script>
 
