@@ -6,50 +6,67 @@ use \App\Enums as  E;
 
 class Email{
 
+    // 您的企业邮局域名
     var $MailHost = "";
+    // 邮局用户名(请填写完整的email地址)
     var $Username= "";
+    // 邮局密码
     var $Password= "";
+    //邮件发送者email地址
     var $From= "";
+    //邮件发送者姓名
     var $FromName= "";
+
 
     public function __contruct(){
         $this->MailHost = "smtp.leoedu.com";
-    }
-
-    public function send_mail_leo_com(){
         $this->Username = "jim@leoedu.com";
         $this->Password = "xcwen142857";
         $this->From     = "jim@leoedu.com";
         $this->FromName = "理优教研组";
     }
 
+    public function SendMailLeoCom($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $ret = $this->SendMail($Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        return $ret;
+    }
 
-    public function SendMail( $address ,$title ,$message ,$is_html=true) {
+    /**
+     * 发送邮件
+     * @param string|array Address 发送邮件的地址
+     * @param string  Title 发送邮件的标题
+     * @param string  Message 发送邮件的内容
+     * @param boolean IsHtml  发送邮件是否为Html的格式
+     * @param integer AddAddressKey 当Address为array时，前Key个为发送人，剩余的为抄送人
+     * @return
+     */
+    public function SendMail($Address,$Title,$Message,$IsHtml,$AddAddressKey){
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
-        date_default_timezone_set('Asia/Shanghai');//设定时区东八区
+        //设定时区东八区
+        date_default_timezone_set('Asia/Shanghai');
 
-        /**  @var  $mail PHPMailer  */
-
-        $mail = new \PHPMailer(); //建立邮件发送类
-
-        $mail->IsSMTP(); // 使用SMTP方式发送
-        $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
-        $mail->Host = $this->MailHost; // 您的企业邮局域名
-
-
-        $mail->SMTPAuth = true; // 启用SMTP验证功能
+        $mail = new \PHPMailer();
+        //使用SMTP方式发送
+        $mail->IsSMTP();
+        //设置编码，否则发送中文乱码
+        $mail->CharSet ="UTF-8";
+        $mail->Host = $this->MailHost;
+        // 启用SMTP验证功能
+        $mail->SMTPAuth = true;
         $mail->SMTPSecure="tls";
-        $mail->Username = $this->Username; // 邮局用户名(请填写完整的email地址)
-        $mail->Password = $this->Password; // 邮局密码
 
-        $mail->From = $this->From; //邮件发送者email地址
+        $mail->Username = $this->Username;
+        $mail->Password = $this->Password;
+
+        $mail->From     = $this->From;
         $mail->FromName = $this->FromName;
 
         if (is_array($address)) {
             foreach ( $address as $i => $item ){
                 if ($i==0) {
-                    $mail->AddAddress($item,$item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+                    //收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+                    $mail->AddAddress($item,$item);
                 }else{
                     $mail->addCC($item,$item);
                 }
@@ -57,19 +74,21 @@ class Email{
         }else{
             $mail->AddAddress($address, $address);
         }
-        //$mail->AddReplyTo("", "");
 
         //$mail->AddAttachment("/var/tmp/file.tar.gz"); // 添加附件
-        $mail->IsHTML($is_html); // set email format to HTML //是否使用HTML格式
+        //是否使用HTML格式
+        $mail->IsHTML($is_html); 
         $mail->Subject = $title;
         $mail->Body    = $message;
-        //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
+        //附加信息，可以省略
+        //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; 
         $ret = $mail->Send();
         if(!$ret) {
             \App\Helper\Utils::logger(" leo_com:email err: ".json_decode($address)." :$title  ". $mail->ErrorInfo);
         }else{
             \App\Helper\Utils::logger(" leo_com:email succ: ".json_decode($address)." :$title " );
         }
+
         return  $ret;
     }
 
