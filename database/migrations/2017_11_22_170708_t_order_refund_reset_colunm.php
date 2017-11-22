@@ -12,6 +12,15 @@ class TOrderRefundResetColunm extends Migration
      */
     public function up()
     {
+
+
+        Schema::table('db_weiyi.t_order_refund', function( Blueprint $table)
+        {
+
+            $table->dropColumn('free_time');
+            t_field($table->integer("qc_deal_time"),"QC处理时间");
+        });
+
         //
     }
 
