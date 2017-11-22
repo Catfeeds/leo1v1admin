@@ -816,6 +816,9 @@ class wx_parent_gift extends Controller
         $openid = $this->get_in_str_val('openid');
         $type   = $this->get_in_int_val('type');
 
+        \App\Helper\Utils::logger("wx_type1: $type");
+
+
         $del_share = $this->t_market_department_activity->del_row($openid,$type);
         $this->t_market_department_activity->row_insert([
             "openid"  => $openid,
