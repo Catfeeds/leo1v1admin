@@ -161,4 +161,11 @@ $(function(){
     $(".for_input").on("change",function(){
         load_data();
     });
+
+    $(".show_phone").on("click",function(){
+        var phone = $(this).data("phone");
+        BootstrapDialog.alert(phone);
+    });
+
+    download_hide();
 });
