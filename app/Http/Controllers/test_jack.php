@@ -343,7 +343,7 @@ class test_jack  extends Controller
 
     public function test_period(){
 
-        $end = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$lesson_start);
+        //$end = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$lesson_start);
 
         $time = time();
         $day_time = strtotime(date("Y-m-d",$time));
