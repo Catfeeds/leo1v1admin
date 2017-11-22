@@ -347,7 +347,7 @@ class test_jack  extends Controller
         $day_time = strtotime(date("Y-m-d",$time));
 
         $lesson_end = strtotime(date("Y-m-d",$time)." 09:00:00");
-        $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($time(),$lesson_end);
+        $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($time,$lesson_end);
         dd($list);
         foreach($list as $item){
             $teacherid = $item["teacherid"];
