@@ -29,7 +29,7 @@ $(function(){
 	  $('.opt-change').set_input_change_event(load_data);
 
     init_show_level();
-    if(download_flag==1){
+    if(g_adminid==726){
         download_show();
     }
 });

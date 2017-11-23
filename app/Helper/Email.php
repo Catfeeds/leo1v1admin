@@ -91,7 +91,7 @@ class Email{
                 }
             }
         }else{
-            $mail->AddAddress($address, $address);
+            $mail->AddAddress($Address, $Address);
         }
 
         //$mail->AddAttachment("/var/tmp/file.tar.gz"); // 添加附件
