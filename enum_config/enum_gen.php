@@ -77,6 +77,11 @@ function gen_php_enum( $field_name,$opt_file ,$conf_data ) {
     foreach ($conf_data as $item){
         $v=$item[0];
         $str=trim($item[1]);
+        if ( $str &&  !preg_match("/[a-zA-Z][0_9a-zA-Z_]*/" , $str ) ) {
+            echo " FIND $str error ";
+            exit;
+        }
+
 
         $upper_str=strtoupper($str);
         $desc=$item[2];
@@ -89,10 +94,13 @@ function gen_php_enum( $field_name,$opt_file ,$conf_data ) {
 
         $const_str.="\t//$desc\n\tconst V_$v=$v;\n";
         $const_S_str.="\t//$desc\n\tconst S_$v=\"$str\";\n";
+
+
         if ($upper_str){
             $const_str.="\t//$desc\n\tconst V_$upper_str=$v;\n";
             $const_S_str.="\t//$desc\n\tconst S_$upper_str=\"$str\";\n";
         }
+
 
 
         if ( strlen($str)>0){
@@ -161,5 +169,3 @@ while (($file = $dir->read()) !== false)
 $js_data.= "\n};";
 
 file_put_contents( "./enum_map.js", $js_data );
-
-
