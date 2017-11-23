@@ -163,13 +163,9 @@
                     <td >{{$var['add_time_str']}}</td>
                     <td >{{$var['nick']}}</td>
                     <td>
-                        @if($is_all==1 && $fulltime_flag==0)
-                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
-                                {{@$var["phone_ex"]}}
-                            </a>
-                        @else
-                            {{$var["phone_spare"]}}
-                        @endif
+                        <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
+                            {{@$var["phone_ex"]}}
+                        </a>
                     </td>
                     <td >{{@$var['have_wx_flag']}}</td>
                     <td >{{@$var['train_email_flag_str']}}</td>

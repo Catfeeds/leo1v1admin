@@ -1276,6 +1276,9 @@ $test=	3;
     }
 
     public function ce(){
+        $lesson_start = $this->t_lesson_info_b3->get_extreme_lesson_time(99);
+
+        dd($lesson_start);
         $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
     }
 

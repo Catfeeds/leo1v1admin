@@ -996,8 +996,8 @@ class seller_student_new2 extends Controller
         $origin_ex             = $this->get_in_str_val("origin_ex");
         $global_tq_called_flag = $this->get_in_int_val('global_tq_called_flag',-1);
         $page_info             = $this->get_in_page_info();
-        if(in_array($hand_get_adminid,[1,2,3,4])){
-            $ret_info = $this->t_seller_student_new->get_distribution_list($uid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info);
+        if(in_array($hand_get_adminid,[1,2,3,4,5])){
+            $ret_info = $this->t_seller_student_new->get_distribution_list($uid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info,$user_name);
             if(in_array($hand_get_adminid,[1,2])){
                 foreach($ret_info['list'] as &$item){
                     $item["adminid"] = 0;
@@ -1012,6 +1012,7 @@ class seller_student_new2 extends Controller
             $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
             $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
             $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
+            E\Ehand_get_adminid::set_item_value_str($item);
         }
 
         return $this->pageView(__METHOD__,$ret_info);

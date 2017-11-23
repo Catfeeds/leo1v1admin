@@ -84,6 +84,10 @@
                         <td  style="display:none;">助教</td>
                         <td  style="display:none;">科目</td>
                         <td  style="display:none;">老师</td>
+                        <td  style="display:none;">老师责任</td>
+
+                        <td  style="display:none;">首次上课时间</td>
+                        <td  style="display:none;">末次上课时间</td>
 
                         <td  style="display:none;">联系状态</td>
                         <td  style="display:none;">提升状态</td>
@@ -146,6 +150,8 @@
                         <td  style="display:none;">责任鉴定 | 客户情况变化</td>
                         <td  style="display:none;">责任鉴定 | 老师</td>
                         <td  style="display:none;">责任鉴定 | 科目</td>
+                        <td  style="display:none;">处理人</td>
+                        <td  style="display:none;">处理时间</td>
 
 
                         <td style="min-width:120px;">操作</td>
@@ -191,6 +197,10 @@
                             <td >{{$var["ass_nick"]}}</td>
                             <td >{{$var["subject_str"]}}</td>
                             <td >{{$var["tea_nick"]}}</td>
+                            <td >{{@$var["duty_str"]}}</td>
+
+                            <td >{{@$var["max_time_str"]}}</td>
+                            <td >{{@$var["min_time_str"]}}</td>
 
                             <td >{{$var["qc_contact_status_str"]}}</td>
                             <td >{{$var["qc_advances_status_str"]}}</td>
@@ -252,6 +262,9 @@
                             <td  >{{@$var["客户情况变化责任值"]}}</td>
                             <td  >{{@$var["老师责任值"]}}</td>
                             <td  >{{@$var["科目责任值"]}}</td>
+
+                            <td  >{{@$var["deal_nick"]}}</td>
+                            <td  >{{@$var["qc_deal_time"]}}</td>
 
 
 

@@ -333,6 +333,7 @@ $(function(){
                     +"</table>"
                     +"</div>"
             );
+
             var url = "";
             var post_data = "";
             var select_html = "<select id=\"master_deal_flag\">"
@@ -355,9 +356,11 @@ $(function(){
                     cssClass: 'btn-warning',
                     action: function(dialog) {
                         $.do_ajax(url,{
-                            "id"      : id,
-                            post_data : html_node.find("table").find("#master_deal_flag").val(),
-                            "base_money": html_node.find("table").find("#id_base_money").val(),
+                            "id"         : id,
+                            post_data    : html_node.find("table").find("#master_deal_flag").val(),
+                            "base_money" : html_node.find("table").find("#id_base_money").val(),
+                        },function(){
+                            return ;
                         });
                     }
                 }],
@@ -390,5 +393,5 @@ $(function(){
         show_teacher_positive_require_info(opt_data,1);
     });
 
-    $('.opt-change').set_input_change_event(load_data);
+    // $('.opt-change').set_input_change_event(load_data);
 });

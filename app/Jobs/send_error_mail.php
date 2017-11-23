@@ -27,7 +27,6 @@ class send_error_mail extends Job implements ShouldQueue
             "content"           => $content,
             "report_error_type" => $report_error_type,
         ];
-        //
     }
 
     /**
@@ -75,7 +74,7 @@ class send_error_mail extends Job implements ShouldQueue
             \App\Helper\Utils::logger("ADMIN MAIL HANDLE :$to:$title:$content");
 
             //$ret=\App\Helper\Common::send_mail_admin($to, $title ,  $content );
-            $ret=\App\Helper\Common::send_mail_leo_com($to,$title,$content);
+            $ret = \App\Helper\Common::send_mail_leo_com($to,$title,$content);
             if (!$ret) { //com
             }
             \App\Helper\Utils::logger("ADMIN MAIL HANDLE END :$to");
