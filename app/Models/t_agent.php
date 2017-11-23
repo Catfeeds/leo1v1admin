@@ -1603,13 +1603,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $no_cash_daily_lottery = $this->task->t_agent_daily_lottery->get_sort_daily_lottery($id,0);
         //如果用户剩余可体现金额超过25 [每日转盘活动金额直接进入可提现]
         if($all_open_cush_money+$no_cash_daily_lottery-$all_cush_money > 2500){
-            $all_open_cush_money += $daily_lottery_money;
-            $id_str = $this->get_daily_lottery_id_str($id,$daily_lottery_money);
-            //将每日转盘奖励计入资金记录
-            //添加收入记录
-            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
-            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
-            $this->task->t_agent_daily_lottery->update_all_flag($id);
+            if($no_cash_daily_lottery > 0){
+                $all_open_cush_money += $no_cash_daily_lottery;
+                $id_str = $this->get_daily_lottery_id_str($id,$no_cash_daily_lottery);
+                //将每日转盘奖励计入资金记录
+                //添加收入记录
+                $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
+                $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
+                $this->task->t_agent_daily_lottery->update_all_flag($id);
+            }
         }
         
         $this->field_update_list($id,[

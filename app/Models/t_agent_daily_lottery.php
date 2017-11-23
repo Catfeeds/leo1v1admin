@@ -40,7 +40,11 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
     }
     //@desn:跟新用户所有的转盘奖励状态为可提现
     public function update_all_flag($agent_id){
-        $sql = sprintf('update %s set is_can_cash_flag = 1 where agent_id = %u',self::DB_TABLE_NAME,$agent_id);
+        $sql = sprintf(
+            'update %s set is_can_cash_flag = 1 where agent_id = %u and is_can_cash_flag <> 1',
+            self::DB_TABLE_NAME,
+            $agent_id
+        );
         return $this->main_update($sql);
     }
     //@desn:获取新增大转盘奖励数组
