@@ -155,7 +155,8 @@ class test_boby extends Controller
     }
 
     public function test_wx(){
-        \App\Helper\WxSendMsg::template_tea_test_lesson_ok(438630,'boby','10:00',18898881852,'asdfa');
+        $wx = 'oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM';
+        \App\Helper\WxSendMsg::template_tea_simulation_tip($wx);
     }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
