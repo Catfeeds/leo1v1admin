@@ -1041,4 +1041,41 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_list($sql);
     }
+
+    public function get_all_list($start_time,$end_time){
+        $where_arr = [
+            's.lesson_count_all=0',
+            'n.seller_resource_type=1',
+            'n.admin_revisiterid=0',
+            't.seller_student_status <> 50',
+            'n.sys_invaild_flag=0',
+            '(n.hand_free_count+n.auto_free_count)<5',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.last_revisit_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            "select t.test_lesson_subject_id,t.subject,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,"
+            ."n.last_revisit_time,n.free_time,n.free_adminid,"
+            ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
+            ."l.lesson_start, tr.test_lesson_order_fail_flag "
+            ."from %s t  "
+            ."left join %s n on t.userid=n.userid "
+            ."left join %s s on s.userid=n.userid "
+            ."left join %s m on n.admin_revisiterid=m.uid   "
+            ."left join %s l on l.lessonid=n.last_succ_test_lessonid  "
+            ."left join %s tss on tss.lessonid=n.last_succ_test_lessonid  "
+            ."left join %s tr on tr.require_id=tss.require_id  "
+            ."where %s "
+            ."order by n.last_revisit_time limit 200 "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
