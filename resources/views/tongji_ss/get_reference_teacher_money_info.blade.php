@@ -18,6 +18,10 @@
                     <td>teacherid</td>                   
                     <td>名字</td>                   
                     <td>电话</td>                   
+                    <td>第一科目</td>                   
+                    <td>入职时间</td>                   
+                    <td>第一次试听课</td>                    
+                    <td>第一次常规课</td>                    
                     <td>最后一次常规课</td>                    
                                  
                      <td> 操作</td>
@@ -29,7 +33,11 @@
                         <td>{{@$var["teacherid"]}} </td>     
                         <td>{{@$var["realname"]}} </td>     
                         <td>{{@$var["phone"]}} </td>     
+                        <td>{{@$var["subject_str"]}} </td>     
+                        <td>{{@$var["time_str"]}} </td>     
                            
+                        <td class="first_test"> </td>                           
+                        <td class="first_normal"> </td>                           
                         <td class="last_time"> </td>                           
                                                 
                                           
