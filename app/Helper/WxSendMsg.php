@@ -14,6 +14,17 @@ class WxSendMsg{
      */
     static $todo_reminder = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
 
+    /**
+     * 模板ID : 1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II
+     * 标题   : 入职邀请通知
+     * {{first.DATA}}
+     * 职位名称：{{keyword1.DATA}}
+     * 公司名称：{{keyword2.DATA}}
+     * 入职时间：{{keyword3.DATA}}
+     * {{remark.DATA}}
+     */
+    static $offer = '1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II';
+
     public function __construct() {
     }
 
@@ -32,7 +43,7 @@ class WxSendMsg{
         return $arr;
     }
 
-    //试听课老师提醒
+    //老师 试听课提醒
     static public function template_tea_test_lesson_tip($teacherid,$nick, $lesson_time_str, $require_phone, $demand,$bgk_arr = []){
         //$bgk_arr备用数组
         $task = new  \App\Console\Tasks\TaskController();
@@ -58,7 +69,7 @@ class WxSendMsg{
         }
     }
 
-    //模拟试听提醒
+    //老师　模拟试听提醒
     static public function template_tea_simulation_tip($wx_openid, $flag=true){
         $data=[];
         // $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
@@ -78,6 +89,19 @@ class WxSendMsg{
 
     }
 
+    //老师　入职通知
+    static public function template_tea_offer_tip($teacher_info,$level_str){
+        // $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
+        $template_id      = WxSendMsg::$offer;
+        $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str;
+        $data["keyword1"] = "教职老师";
+        $data["keyword2"] = "理优教育";
+        $data["keyword3"] = date("Y年m月d日",time());
+        $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
+        $offer_url        = "http://admin.leo1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
+        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
+
+    }
     static public function send_teacher_msg_for_wx($openid,$template_id,$data,$url=""){
 
         $app = self::get_app_id_secret('teacher');
