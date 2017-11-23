@@ -431,8 +431,6 @@ function table_init() {
 
 
     var thead=$(".common-table thead  ");
-
-
     $.each(thead, function(table_i,th_item){
         if ($(th_item).parent().hasClass("table-clean-flag") ){
             return;
@@ -554,7 +552,6 @@ function table_init() {
             }]);
         });
         opt_td.append(config_item);
-
     });
 
 

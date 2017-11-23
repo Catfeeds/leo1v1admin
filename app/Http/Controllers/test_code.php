@@ -1499,10 +1499,6 @@ class test_code extends Controller
     public function test_email(){
         $Address = [
             "adrian@leoedu.com",
-            "sunqu@leoedu.com",
-            "tom@leoedu.com",
-            "wg392567893@163.com",
-            "392567893@qq.com"
         ];
 
         $Title   = "老师";
@@ -1516,7 +1512,7 @@ class test_code extends Controller
         $IsHtml = true;
         $AddAddressKey = 2;
 
-        \App\Helper\Email::SendMailLeoCom($Address, $Title, $Message, $IsHtml, $AddAddressKey);
+        \App\Helper\Email::SendMailEmd($Address, $Title, $Message, $IsHtml, $AddAddressKey);
     }
 
 

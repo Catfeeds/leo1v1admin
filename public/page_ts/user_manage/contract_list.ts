@@ -2155,7 +2155,7 @@ $(function(){
         }else if ( window.location.pathname== "/user_manage/contract_list_ass" || window.location.pathname== "/user_manage/contract_list_ass/") {
             arr=[
                 //[ "", btn_add_next],
-              //  [ "", btn_add_new_1 ],
+                [ "", btn_add_new_1 ],
               //  [ "", btn_extend_new_1 ],
                 //[ "", btn_add_2 ],
                 [ "", btn_add_next_1],

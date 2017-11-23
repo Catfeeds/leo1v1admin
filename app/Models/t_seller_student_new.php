@@ -2971,7 +2971,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info){
+    public function get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info,$user_name){
         $where_arr = [
             ['n.admin_revisiterid=%u',$adminid],
             'n.admin_revisiterid<>n.admin_assignerid',
@@ -2979,11 +2979,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ['m.account_role=%u',E\Eaccount_role::V_2],
             's.is_test_user=0',
         ];
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(" select n.admin_assignerid adminid,n.admin_revisiterid uid,"
-                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,"
+                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,n.hand_get_adminid,"
                                   ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
@@ -3051,28 +3057,28 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_min_userid(){
+    public function get_min_add_time(){
         $where_arr = [
             'userid>0',
         ];
         $sql = $this->gen_sql_new(
-            "select userid "
+            "select add_time "
             ." from %s "
-            ." where %s order by userid limit 1 "
+            ." where %s order by add_time limit 1 "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_value($sql);
     }
 
-    public function get_max_userid(){
+    public function get_max_add_time(){
         $where_arr = [
             'userid>0',
         ];
         $sql = $this->gen_sql_new(
-            "select userid "
+            "select add_time "
             ." from %s "
-            ." where %s order by userid desc limit 1 "
+            ." where %s order by add_time desc limit 1 "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );

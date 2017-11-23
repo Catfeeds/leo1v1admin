@@ -341,6 +341,7 @@ class index extends Controller
 
 
     }
+
     public function s() {
         if (false===\App\Helper\Common::send_mail_leo_com("329732001@qq.com","test" , "KKK sadfas" )) {
             echo "fail";

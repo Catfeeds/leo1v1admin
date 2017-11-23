@@ -9,10 +9,13 @@ class festival extends Controller
 {
     public function festival_list()
     {
-        $page_num = $this->get_in_page_num();
-        $ret_info=$this->t_festival_info->get_festival_list($page_num);
-        \App\Helper\Utils::debug_to_html( $ret_info['list'] );
-
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $page_info    = $this->get_in_page_info(); 
+        $ret_info = $this->t_festival_info->get_new_crate_festival_list($page_info,$start_time,$end_time);
+        foreach($ret_info["list"] as &$item){
+            $item["begin_time_str"] = date("Y-m-d",$item["begin_time"]);
+            $item["end_time_str"] = date("Y-m-d",$item["end_time"]);
+        }
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -42,5 +45,19 @@ class festival extends Controller
         foreach($arr as $k => $v){
             $this->t_festival_info->add_festival_info($k,$v);
         }
+    }
+
+    public function add_new_festival(){
+        $begin_time = $this->get_in_str_val("start");
+        $end_time = $this->get_in_str_val("end");
+        $days = $this->get_in_int_val("days");
+        $name = trim($this->get_in_str_val("name"));
+        $this->t_festival_info->row_insert([
+            "begin_time"  =>strtotime($begin_time), 
+            "end_time"    =>strtotime($end_time),
+            "days"        =>$days,
+            "name"        =>$name
+        ]);
+        return $this->output_succ();
     }
 }

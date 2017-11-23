@@ -1605,7 +1605,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if($all_open_cush_money+$no_cash_daily_lottery-$all_cush_money > 2500){
             if($no_cash_daily_lottery > 0){
                 $all_open_cush_money += $no_cash_daily_lottery;
-                $id_str = $this->get_daily_lottery_id_str($id,$no_cash_dialy_lottery);
+                $id_str = $this->get_daily_lottery_id_str($id,$no_cash_daily_lottery);
                 //将每日转盘奖励计入资金记录
                 //添加收入记录
                 $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
@@ -2490,7 +2490,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr_2 = [
             ['agent_id = %u',$agent_id],
             ['create_time >= %u',$last_succ_cash_time],
-            'agent_income_type' => 1
+            'agent_income_type' => 2
         ];
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,a.pp_agent_status_money as agent_status_money,a.agent_status,si.nick "
@@ -2923,7 +2923,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             t_agent_income_log::DB_TABLE_NAME,
             $where_arr
         );
-        $this->main_get_value($sql);
+        return $this->main_get_value($sql);
     }
     //@desn:获取用户可提现的二级试听奖励 [不包括用户已体现金额]
     //@param:$agent_id 优学优享id
@@ -2942,7 +2942,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             t_agent_income_log::DB_TABLE_NAME,
             $where_arr
         );
-        $this->main_get_value($sql);
+        return $this->main_get_value($sql);
     }
     //@desn:获取用户新增转盘记录
     //@param:$id 用户优学优享id

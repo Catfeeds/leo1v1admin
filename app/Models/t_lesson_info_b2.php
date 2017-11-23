@@ -443,6 +443,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "(tss.success_flag is null or tss.success_flag in (0,1))",
             "l.lesson_type<1000",
             "l.lesson_start <".$lesson_start,
+            "l.lesson_start >".strtotime(date("Y-m-d",$lesson_start)),
             // "l.lesson_end >".$lesson_end
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
@@ -496,6 +497,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid=".$teacherid,
             //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
+            "l.lesson_start >".strtotime(date("Y-m-d",$lesson_start)),
+            "l.lesson_type<1000",
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
         $sql = $this->gen_sql_new("select max(l.lesson_start)  "
@@ -512,7 +515,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
 
     }
-    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){
+    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){        
         $where_arr=[
             "m.account_role=5",
             "m.del_flag=0",
@@ -522,6 +525,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid=".$teacherid,
             //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
+            "l.lesson_start >".strtotime(date("Y-m-d",$lesson_start)),
+            "l.lesson_type<1000",
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
         $sql = $this->gen_sql_new("select l.lesson_end,l.lesson_type  "
@@ -2348,7 +2353,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_lesson_row_info($teacherid,$lesson_type,$num,$userid=-1){
+    public function get_lesson_row_info($teacherid,$lesson_type,$num,$userid=-1,$desc_flag=0){
         $where_arr = [
             ["teacherid= %u",$teacherid,-1],
             ["userid= %u",$userid,-1],
@@ -2361,11 +2366,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }else{
             $where_arr[] = ["lesson_type= %u",$lesson_type,-1];
         }
+        $str="";
+        if($desc_flag==1){
+            $str="desc";
+        }
 
         $sql = $this->gen_sql_new("select lessonid,userid,subject,lesson_start from %s"
-                                  ." where %s order by lesson_start desc limit %u,1",
+                                  ." where %s order by lesson_start %s limit %u,1",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
+                                  $str,
                                   $num
         );
         return $this->main_get_row($sql);

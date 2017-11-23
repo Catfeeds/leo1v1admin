@@ -1143,7 +1143,8 @@ trait TeaPower {
             $end = @$end_info["lesson_end"];
         }
 
-        if($end>0){
+        $stop_time = strtotime(date("Y-m-d",$lesson_end))+17*3600;
+        if($end>0 && $end<$stop_time){
             return $this->get_last_lesson_end($teacherid,$end);
         }else{
             return $lesson_end;

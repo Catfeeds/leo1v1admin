@@ -223,7 +223,6 @@ class ss_deal2 extends Controller
             "hand_get_adminid" => $hand_get_adminid,
         ]);
         return $this->output_succ();
-
     }
     public function set_user_free_new () {
         $userid_list = $this->get_in_str_val('userid',-1);

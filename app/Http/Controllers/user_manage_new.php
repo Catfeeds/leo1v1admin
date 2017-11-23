@@ -4195,6 +4195,7 @@ class user_manage_new extends Controller
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             $item["off_time_str"] = date("H:i",$item["off_time"]);
+            $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
             $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
             E\Eattendance_type::set_item_value_str($item);
 
