@@ -744,6 +744,19 @@ $(function(){
 
     });
 
+    $(".opt-change-permission-new").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要更换权限:"+opt_data.account+"?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/change_permission_by_uid_new', {
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+
+    });
+
+
 
     $(".opt-log").on("click",function(){
         var opt_data=$(this).get_opt_data();

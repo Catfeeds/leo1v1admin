@@ -251,6 +251,7 @@ class fulltime_teacher extends Controller
     public function fulltime_teacher_assessment_positive_info(){
         $adminid = $this->get_in_int_val("adminid",-1);
         $main_flag = $this->get_in_int_val("main_flag",-1);
+
         $become_full_member_flag = $this->get_in_int_val("become_full_member_flag",0);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $page_info= $this->get_in_page_info();

@@ -42,13 +42,13 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
         // //临时处理数据
-        // $start_time = strtotime("2017-09-01");        
-        // $end_time = strtotime("2017-10-01");
-        // $last_month = strtotime("2017-10-01");        
+        // $start_time = strtotime("2017-08-01");        
+        // $end_time = strtotime("2017-09-01");
+        // // $last_month = strtotime("2017-10-01");        
 
 
         // $month_half = $start_time+15*86400;
-        // // $last_month = strtotime("-1 month",$start_time);
+        // $last_month = strtotime("-1 month",$start_time);
         // $ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         // $last_ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
@@ -223,15 +223,15 @@ class no_auto_student_change_type extends Command
            
 
         //     //课时消耗达成率
-        //     $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+        //     $read_student_list = @$last_ass_month[$k]["userid_list"];//改为在读人数
         //     // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
-        //     if($registered_student_list){
-        //         $registered_student_arr = json_decode($registered_student_list,true);
-        //         $last_stu_num = count($registered_student_arr);//月初在册人员数
-        //         $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
+        //     if( $read_student_list){
+        //         $read_student_arr = json_decode( $read_student_list,true);
+        //         $last_stu_num = count($read_student_arr);//月初在读人员数
+        //         $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
         //         $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
         //     }else{
-        //         $registered_student_arr=[];      
+        //         $read_student_arr=[];      
         //         $estimate_month_lesson_count =100;
         //     }
 
@@ -260,8 +260,8 @@ class no_auto_student_change_type extends Command
 
         //     $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
         //     $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-        //         "revisit_reword_per"  =>$revisit_reword_per,
-        //         "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per,
+        //         "revisit_reword_per"  =>$revisit_reword_per*100,
+        //         "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per*100,
         //         "estimate_month_lesson_count" =>$estimate_month_lesson_count,
         //         "seller_month_lesson_count"   =>$seller_lesson_count,
         //         "seller_week_stu_num"         =>$seller_stu_num

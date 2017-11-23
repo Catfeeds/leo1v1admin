@@ -2037,9 +2037,6 @@ class Utils  {
 
     }
 
-
-
-
     public static function https_post($url,$data){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

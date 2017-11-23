@@ -95,12 +95,12 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                @if($main_flag)
-                                    <a class="set_fulltime_teacher_assessment_master" title="考核评定">考核评定</a>
-                                    <a class="set_fulltime_teacher_positive_require_master" title="转正申请审核">转正申请审核</a>
+                                @if($main_flag==1)
+                                    <a class="set_fulltime_teacher_assessment_master" title="考核评定">总经理考核评定</a>
+                                    <a class="set_fulltime_teacher_positive_require_master" title="转正申请审核">总经理转正申请审核</a>
                                 @else
-                                    <a class="set_fulltime_teacher_assessment" title="考核评定">考核评定</a>
-                                    <a class="set_fulltime_teacher_positive_require" title="转正申请审核">转正申请审核</a>
+                                    <a class="set_fulltime_teacher_assessment" title="考核评定">总监考核评定</a>
+                                    <a class="set_fulltime_teacher_positive_require" title="转正申请审核">总监转正申请审核</a>
                                 @endif
                             </div>
                         </td>

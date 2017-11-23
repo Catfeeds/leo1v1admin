@@ -1129,9 +1129,9 @@ class seller_student_new extends Controller
         // list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
             -7,0,0,[
-                0 => array("n.add_time","资源进来时间"),
-                1 => array("l.lesson_start","试听成功时间"),
-                2 => array("n.free_time","回流公海时间"),
+                0 => array("n.free_time","回流公海时间"),
+                1 => array("n.add_time","资源进来时间"),
+                2 => array("l.lesson_start","试听成功时间"),
             ], 0,0, true
         );
         $page_num   = $this->get_in_page_num();
@@ -1151,12 +1151,13 @@ class seller_student_new extends Controller
         $grade=$this->get_in_grade(-1);
         $has_pad=$this->get_in_has_pad(-1);
         $subject=$this->get_in_subject(-1);
-        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',E\Etest_lesson_count_flag::V_1);
+        // $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',E\Etest_lesson_count_flag::V_1);
+        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',-1);
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class,-1);
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info= $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location);
+        $ret_info = $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");

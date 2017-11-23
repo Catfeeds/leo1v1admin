@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redis ;
 use \App\Enums as  E;
 
 class Common {
+
     static function env_obj( $key, $def =null ) {
         $str=env($key,"");
         if(!$str) {
@@ -144,12 +145,12 @@ class Common {
         return $ret_arr;
     }
 
-    /*
-      模板名称: 通用验证
-      模板ID: SMS_7771547
-      模板内容: 您的手机验证码为：${code} ，请尽快完成验证 编号为： ${index}
-      不要直接使用 , 要用 \App\Helper\Common::sms_common($phone,$sms_id,$arr);
-    */
+    /**
+     * 模板名称: 通用验证
+     * 模板ID: SMS_7771547
+     * 模板内容: 您的手机验证码为：${code} ，请尽快完成验证 编号为： ${index}
+     * 不要直接使用 , 要用 \App\Helper\Common::sms_common($phone,$sms_id,$arr);
+     */
     public static function send_sms_with_taobao($phone,$template_code,$data,$sign_name="理优教育"){
         include_once( app_path("Libs/taobao_sms/TopSdk.php") );
 
@@ -158,12 +159,12 @@ class Common {
         }
         $c = new \TopClient();
 
-        /*
-          array( 7795923 ,'register','用户注册验证码',),
-          array( 7786570,'','通知家长预约成功',),
-          array( 7771547,'','通用验证',),
-          array( 8295424 ,'','课程当天早上通知',),
-        */
+        /**
+         * array( 7795923 ,'register','用户注册验证码',),
+         * array( 7786570,'','通知家长预约成功',),
+         * array( 7771547,'','通用验证',),
+         * array( 8295424 ,'','课程当天早上通知',),
+         */
         $template_value=substr($template_code,4);
         if (
             $template_value==7795923
@@ -445,9 +446,9 @@ class Common {
         //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
         $ret = $mail->Send();
         if(!$ret) {
-            \App\Helper\Utils::logger(" leo_com:email err: ".json_decode($address)." :$title  ". $mail->ErrorInfo);
+            \App\Helper\Utils::logger(" leo_com:email err: ".json_encode($address)." :$title  ". $mail->ErrorInfo);
         }else{
-            \App\Helper\Utils::logger(" leo_com:email succ: ".json_decode($address)." :$title " );
+            \App\Helper\Utils::logger(" leo_com:email succ: ".json_encode($address)." :$title " );
         }
         return  $ret;
     }

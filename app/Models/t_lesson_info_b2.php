@@ -2354,7 +2354,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["userid= %u",$userid,-1],
             "lesson_status>1",
             "lesson_del_flag=0",
-            "lesson_user_online_status=1"
+            "lesson_user_online_status=1",
         ];
         if($lesson_type==-2){
             $where_arr[] = "lesson_type in (0,1,3)";
@@ -2363,7 +2363,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $sql = $this->gen_sql_new("select lessonid,userid,subject,lesson_start from %s"
-                                  ." where %s order by lesson_start limit %u,1",
+                                  ." where %s order by lesson_start desc limit %u,1",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
