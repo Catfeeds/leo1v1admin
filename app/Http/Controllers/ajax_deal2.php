@@ -2054,6 +2054,14 @@ class ajax_deal2 extends Controller
         $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
         $url=$web_page_info["url"];
         $title=$web_page_info["title"];
+        $send_url="";
+
+        if (preg_match("/\?/", $url ) ){
+            $send_url="$url&web_page_id=$web_page_id&from_adminid=$adminid";
+        }else {
+            $send_url="$url?web_page_id=$web_page_id&from_adminid=$adminid";
+        }
+
         foreach($userid_list as $adminid ) {
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $adminid,
