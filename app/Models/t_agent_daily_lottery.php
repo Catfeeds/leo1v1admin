@@ -74,6 +74,19 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取不同种类的大转盘奖励之和
+    public function get_sort_daily_lottery($id,$is_can_cash_flag){
+        $where_arr = [
+            ['agent_id = %u',$id],
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"is_can_cash_flag",$is_can_cash_flag);
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
        
 }
 
