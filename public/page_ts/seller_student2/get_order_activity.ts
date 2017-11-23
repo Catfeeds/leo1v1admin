@@ -66,14 +66,6 @@ $(function(){
 
     })
 
-    //进入编辑页面
-    $('.opt-set').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        window.open(
-            '/seller_student2/get_order_activity?id='+ opt_data.id +"&return_url="+ encodeURIComponent(window.location.href)
-        );
-    });
-
     //修改活动
 	  $('#id_update_activity').on('click',function(){
 
