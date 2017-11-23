@@ -47,7 +47,6 @@ class Email{
 
     /**
      * 发送邮件
-     * @param string MailHost 企业邮局域名
      * @param string UserName 邮局用户名
      * @param string Password 邮局密码
      * @param string From 邮件发送者email地址

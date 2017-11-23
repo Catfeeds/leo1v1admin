@@ -1305,7 +1305,6 @@ class tongji_ss extends Controller
 
 
     public function contract_count() {
-
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
             -7, 1, 0, [
                 0 => array( "order_time", "合同生成时间"),
@@ -1385,6 +1384,7 @@ class tongji_ss extends Controller
             @$phone_count_map[$phone] ++;
 
         }
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
             "subject_map"       => $subject_map,
             "grade_map"         => $grade_map,
@@ -1481,14 +1481,14 @@ class tongji_ss extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function  require_count_seller( )
+    public function require_count_seller()
     {
-        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        list($start_time,$end_time) = $this->get_in_date_range_day(0);
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-        //$adminid_right  = $this->get_seller_adminid_and_right();
-        $adminid_right  =  [];//$this->get_seller_adminid_and_right();
-        $adminid_all  = [];
+        //$adminid_right = $this->get_seller_adminid_and_right();
+        $adminid_right = [];//$this->get_seller_adminid_and_right();
+        $adminid_all   = [];
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $ret_info=$this->t_test_lesson_subject_require->require_count_seller($start_time, $end_time,$adminid_list,$adminid_all);
@@ -1511,9 +1511,20 @@ class tongji_ss extends Controller
             $item['call_time_long'] = $hour.'时'.$min.'分'.$sec.'秒';
         }
 
-        return $this->pageView(__METHOD__,$ret_info,["adminid_right"=>$adminid_right]);
+        $adminid = $this->get_account_id();
+        $download_flag = 0;
+        if($adminid==726 || \App\Helper\Utils::check_env_is_local()){
+            $download_flag = 1;
+        }else{
+            $download_flag = 0;
+        }
 
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right"=>$adminid_right,
+            "download_flag"=>$download_flag
+        ]);
     }
+
     public function master_no_assign_count() {
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $ret_info=$this->t_test_lesson_subject-> tongji_master_no_assign_count( $start_time,$end_time) ;

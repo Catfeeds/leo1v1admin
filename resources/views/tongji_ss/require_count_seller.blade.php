@@ -2,10 +2,10 @@
 @section('content')
     <script type="text/javascript" >
      var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
+     var download_flag = {{$download_flag}};
     </script>
 
     <section class="content ">
-
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -18,16 +18,14 @@
                     <input class="opt-change form-control" id="id_seller_groupid_ex" />
                 </div>
             </div>
-
                 <div class="col-xs-6 col-md-2"  >
                     <button class="btn btn-primary" id="id_level_show_all"> 张开所有 </button>
                 </div>
-
             </div>
         </div>
         <hr/>
 
-        <table     class="common-table"  >
+        <table class="common-table"  >
             <thead>
                 <tr>
                     <td>类型 </td>
@@ -59,7 +57,6 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
                             </div>
                         </td>
                     </tr>
@@ -67,5 +64,4 @@
             </tbody>
         </table>
     </section>
-
 @endsection

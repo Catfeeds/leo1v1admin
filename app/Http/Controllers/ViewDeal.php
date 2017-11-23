@@ -479,7 +479,6 @@ trait  ViewDeal {
             $data["_headimgurl"] = session('headimgurl');
         }else{
             $data["_menu_html"] = session("menu_html") ;
-
         }
 
         $data= array_merge( $data, static::$page_self_view_data );
