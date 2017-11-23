@@ -1051,7 +1051,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             'n.sys_invaild_flag=0',
             '(n.hand_free_count+n.auto_free_count)<5',
         ];
-        $this->where_arr_add_time_range($where_arr,'n.last_revisit_time',$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,t.subject,"
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,"
