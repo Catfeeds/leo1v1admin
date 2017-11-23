@@ -2490,7 +2490,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr_2 = [
             ['agent_id = %u',$agent_id],
             ['create_time >= %u',$last_succ_cash_time],
-            'agent_income_type' => 1
+            'agent_income_type' => 2
         ];
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,a.pp_agent_status_money as agent_status_money,a.agent_status,si.nick "
