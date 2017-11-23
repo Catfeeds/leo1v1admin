@@ -63,14 +63,14 @@ trait TeaPower {
                 //工作时间（周二至周六9:00~18:00）不安排授课
                 if($day>=2 && $day <=6){
                     if(!empty($lesson_start)){
-                        
+
                         $lesson_end = $lesson_count*2400+$lesson_start;
                         $end_h = date("H",$lesson_end);
                         if($h <18 && $end_h>=9 ){
                             return $this->output_err("教研老师周二至周六9点至18点不能排课");
                         }
                     }
- 
+
                 }
 
                 //非工作时间（周二至周六18:00以后及周日、周一）每周排课总量不超过6课时；
@@ -422,7 +422,7 @@ trait TeaPower {
         return $arr=["subject"=>$subject,"grade"=>$grade];
     }
 
-   
+
     public function get_tea_subject_and_right_by_adminid($adminid){
         if($adminid==349){
             $adminid=349;
@@ -1142,7 +1142,7 @@ trait TeaPower {
         }else{
             $end = @$end_info["lesson_end"];
         }
-        
+
         if($end>0){
             return $this->get_last_lesson_end($teacherid,$end);
         }else{
@@ -3386,7 +3386,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-    
+
 
     /**
      * 检测非测试老师是否成为正式老师
@@ -3411,7 +3411,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         //当期还款时间
         $d= date("d");
-        if($d>15){            
+        if($d>15){
             $month_start = strtotime(date("Y-m-01",time()));
             $due_date = $month_start+14*86400;
         }else{
@@ -3433,7 +3433,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     if($val["dueDate"]==$due_date && $val["period"]>1 && $val["bStatus"]==144){
                         $no_first_overdue_flag=1;
                     }
-                    
+
                 }
             }
             $pay_price +=$period_info["price"]-$period_info["period_price"];
@@ -3441,10 +3441,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $lesson_count_plan = floor($pay_price/$per_price/100+3*3);
             $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
             $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
-                       
+
 
             if(empty($order_lesson_left_pre) && $flag){
-                $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
+                $day_start = strtotime(date("Y-m-d 05:00:00",time()));
                 $day_end = $period_info["pay_time"]+30*86400;
                 $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
                 $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
@@ -3477,7 +3477,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $day_start = strtotime(date("Y-m-d",time()));
 
                     if($money_contrast>=1){
-                   
+
                         $this->t_student_info->get_student_type_update($userid,6);
                         $this->t_student_type_change_list->row_insert([
                             "userid"    =>$userid,
@@ -3523,13 +3523,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         }
 
 
- 
+
                     }elseif($money_contrast>0 && $money_contrast<1){
                         $plan_lesson_count = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,0);
                         if(($plan_lesson_count+$lesson_count)>300){
                             return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
                         }
-                        
+
                     }else{
                         //可排课量
                         $left_plan_count = floor(($pay_price-$money_use)/($per_price*$discount_per));
@@ -3540,70 +3540,70 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         if(($plan_lesson_count+$lesson_count)>$left_plan_count){
                             return $this->output_err("分期还款逾期用户,排课量已用完,不能排课!");
                         }
- 
-                        
+
+
                     }
- 
+
                 }
-                
+
             }
 
 
-            
-           
-           
-                        
+
+
+
+
         }
     }
 
     //得到合同消耗课时折扣
     public function get_order_lesson_discount_per($orderid,$order_use){
-        $order_info = $this->t_order_info->field_get_list($orderid,"grade,competition_flag"); 
+        $order_info = $this->t_order_info->field_get_list($orderid,"grade,competition_flag");
         $grade = $order_info["grade"];
         $use = $order_use/100;
         $discount_per=0;
         if($order_info["competition_flag"]==1 || ($grade>=100 && $grade <=202)){
             if($use<=90){
-               $discount_per=0.9; 
+               $discount_per=0.9;
             }elseif($use<=180){
-               $discount_per=0.86;  
+               $discount_per=0.86;
             }elseif($use<=270){
-               $discount_per=0.82;  
+               $discount_per=0.82;
             }elseif($use<=360){
-               $discount_per=0.78;  
+               $discount_per=0.78;
             }elseif($use<=480){
-               $discount_per=0.74;  
+               $discount_per=0.74;
             }elseif($use<=720){
-               $discount_per=0.7;  
+               $discount_per=0.7;
             }elseif($use<=1024){
-               $discount_per=0.66;  
+               $discount_per=0.66;
             }elseif($use<=1440){
-               $discount_per=0.62;  
+               $discount_per=0.62;
             }
         }else{
             if($use<=90){
-                $discount_per=0.95; 
+                $discount_per=0.95;
             }elseif($use<=180){
-                $discount_per=0.91;  
+                $discount_per=0.91;
             }elseif($use<=270){
-                $discount_per=0.9;  
+                $discount_per=0.9;
             }elseif($use<=360){
-                $discount_per=0.88;  
+                $discount_per=0.88;
             }elseif($use<=480){
-                $discount_per=0.86;  
+                $discount_per=0.86;
             }elseif($use<=720){
-                $discount_per=0.84;  
+                $discount_per=0.84;
             }elseif($use<=1024){
-                $discount_per=0.82;  
+                $discount_per=0.82;
             }elseif($use<=1440){
-                $discount_per=0.8;  
+                $discount_per=0.8;
             }
 
         }
         return $discount_per;
     }
 
-    
+
     /**
      * 常规课排课接口
      */
@@ -3623,7 +3623,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
 
-               
+
         if (!$item["teacherid"]) {
            return $this->output_err("还没设置老师");
         }
@@ -3633,7 +3633,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
         }
 
-      
+
 
         $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
         if($check){
@@ -3909,7 +3909,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     public function check_ass_leader_flag($account_id){
-        $is_master   = $this->t_admin_main_group_name->check_is_master(1,$account_id); 
+        $is_master   = $this->t_admin_main_group_name->check_is_master(1,$account_id);
         $is_master_2 = $this->t_admin_group_name->check_is_master(1,$account_id);
         if($is_master_2 || $is_master){
             return 1;
@@ -4162,14 +4162,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //设置主合同是否分期
     public function set_order_partition_flag($parent_orderid){
-        $check_parent_order_is_period= $this->t_child_order_info->check_parent_order_is_period($parent_orderid);             
+        $check_parent_order_is_period= $this->t_child_order_info->check_parent_order_is_period($parent_orderid);
         if($check_parent_order_is_period){
             $order_partition_flag =1;
         }else{
             $order_partition_flag =0;
         }
         $this->t_order_info->field_update_list($parent_orderid,[
-           "order_partition_flag" =>$order_partition_flag  
+           "order_partition_flag" =>$order_partition_flag
         ]);
     }
 
@@ -4215,10 +4215,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
             }
         }
-      
+
     }
 
-   
+
     //确认老师例子是否入库(分配招师专员)
     public function check_lecture_appointment_assign_flag($grade,$subject,$teacher_type){
         $flag=0;
@@ -4278,7 +4278,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
             $rebut_info = json_decode($rebut_info,true);
             $num = count($rebut_info);
-            \App\Helper\Utils::order_list( $rebut_info, "rebut_tme", 0 ); 
+            \App\Helper\Utils::order_list( $rebut_info, "rebut_tme", 0 );
             $str = "<br>驳回信息:<br>";
             foreach($rebut_info as $val){
                 $name = $this->t_manager_info->get_name($val["rebut_adminid"]);

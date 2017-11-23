@@ -1333,10 +1333,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "t.seller_student_status <> 50",
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
-            "n.seller_resource_type=1",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
-            ["s.nick like '%s%%'",$this->ensql($nick), ""],
-            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+            // ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            // ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
@@ -1384,7 +1383,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_lesson_subject_require::DB_TABLE_NAME,
             $where_arr
         );
-        if($nick || $phone) {
+        if(($nick || $phone) && $userid>0) {
             return $this->main_get_list_as_page($sql);
         }else{
             return $this->main_get_page_random($sql,1);

@@ -1267,10 +1267,10 @@ $test=	3;
      * @
      **/
     public function translate_pdf(){
+        //g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
         $path = $this->get_in_str_val('path');
         $cmd  = "curl -F doc=@'$path' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pptx'";
-        dd($cmd);
-        // $out = shell_exec($cmd);
+        $out = exec($cmd);
         dd($out);
     }
 
