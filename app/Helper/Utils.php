@@ -1567,7 +1567,7 @@ class Utils  {
         }else{
             if($teacher_money_type==E\Eteacher_money_type::V_0){
                 if($level<3){
-                    $level_str = E\Elevel::$v2s_map[$level+1];
+                    $level_str = E\Elevel::$simple_desc_map[$level+1];
                 }elseif($level==E\Elevel::V_3){
                     $level_str = "明星";
                 }else{
@@ -1576,9 +1576,9 @@ class Utils  {
             }elseif(in_array($teacher_money_type,[E\Eteacher_money_type::V_2,E\Eteacher_money_type::V_3])){
                 $level_str = "高级";
             }elseif($teacher_money_type==E\Eteacher_money_type::V_6){
-                $level_str = E\Enew_level::$v2s_map[$level];
+                $level_str = E\Enew_level::$simple_desc_map[$level];
             }else{
-                $level_str = E\Elevel::$v2s_map[$level];
+                $level_str = E\Elevel::$simple_desc_map[$level];
             }
             $level_str.="教师";
         }

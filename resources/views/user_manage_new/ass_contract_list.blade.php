@@ -104,7 +104,7 @@
 
 
                         <td >{!!@$var["is_submit_str"]!!}</td>
-                        <td  class="opt-reject_list" data-orderid="{{$var['orderid']}}" ><span style="color:#3c8dbc;" >驳回({{$var["reject_num"]}})</span>/修改({{$var["modify_num"]}})</td>
+                        <td  class="opt-reject_list" data-orderid="{{$var['orderid']}}" ><span style="color:#3c8dbc;" >驳回({{@$var["reject_num"]}})</span>/修改({{$var["modify_num"]}})</td>
 
 
                         <td >{{$var["master_nick"]}}</td>

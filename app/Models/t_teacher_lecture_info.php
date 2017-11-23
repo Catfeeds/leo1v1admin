@@ -45,9 +45,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             $group_str = "group by b.phone,b.subject";
 
             if($have_wx==0){
-                $where_arr[] = "(ttt.wx_openid = '' or ttt.wx_openid is null )";
+                $where_arr[] = "(tt.wx_openid = '' or tt.wx_openid is null )";
             }elseif($have_wx==1){
-                $where_arr[] = "ttt.wx_openid <> '' and ttt.wx_openid is not null";
+                $where_arr[] = "tt.wx_openid <> '' and tt.wx_openid is not null";
             }
             $where_arr[] = ['la.accept_adminid=%u',$accept_adminid,-1];
         }else{
