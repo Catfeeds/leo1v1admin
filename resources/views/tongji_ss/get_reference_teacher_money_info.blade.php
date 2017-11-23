@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody id="id_tbody">
-                @foreach ( $table_data_list as $k=>$var )
+                @foreach ( $list as $k=>$var )
                     <tr>
                         <td>{{@$var["teacherid"]}} </td>     
                         <td>{{@$var["realname"]}} </td>     
