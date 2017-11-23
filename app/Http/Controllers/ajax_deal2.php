@@ -2075,13 +2075,14 @@ class ajax_deal2 extends Controller
         $title=$web_page_info["title"];
         $send_url="";
 
-        if (preg_match("/\?/", $url ) ){
-            $send_url="$url&web_page_id=$web_page_id&from_adminid=$adminid";
-        }else {
-            $send_url="$url?web_page_id=$web_page_id&from_adminid=$adminid";
-        }
 
         foreach($userid_list as $adminid ) {
+            if (preg_match("/\?/", $url ) ){
+                $send_url="$url&web_page_id=$web_page_id&from_adminid=$adminid";
+            }else {
+                $send_url="$url?web_page_id=$web_page_id&from_adminid=$adminid";
+            }
+
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $adminid,
                 "系统推送 分享",
