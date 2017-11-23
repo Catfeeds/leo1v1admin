@@ -1383,7 +1383,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_lesson_subject_require::DB_TABLE_NAME,
             $where_arr
         );
-        if($nick || $phone) {
+        if(($nick || $phone) && $userid>0) {
             return $this->main_get_list_as_page($sql);
         }else{
             return $this->main_get_page_random($sql,1);
