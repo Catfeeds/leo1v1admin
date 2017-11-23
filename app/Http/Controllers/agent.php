@@ -551,40 +551,22 @@ class agent extends Controller
 
     public function test_new(){
         //0-303000,0,50186-437671
-        $ret = $this->t_parent_info->field_update_list(437954,[
-            'wx_openid'=>null,
-        ]);
-        dd($ret);
-        $min = $this->t_seller_student_new->get_min_userid();
-        $max = $this->t_seller_student_new->get_max_userid();
-        $time = ceil(($max-$min)/10000);
-        for($i=1;$i<=$time;$i++){
+        $min = $this->t_seller_student_new->get_min_add_time();
+        $max = $this->t_seller_student_new->get_max_add_time();
+        $date1 = explode('-',date('Y-m-d',$min));
+        $date2 = explode('-',date('Y-m-d',$max));
+        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
+        // $time = ceil(ceil(($max-$min)/(3600*24))/30);
+        $start = strtotime(date('Y-m-1',$min));
+        $end = strtotime(date('Y-m-1',$max));
+        dd($start,$end);
+        for($i=1;$i<=$count;$i++){
+            $start_time = $start;
+            echo date('Y-m-d',$start_time).'/';
+            $end_time = strtotime('+1 month',$start);
             $ret = $this->t_seller_student_new->get_all_list($min,$max);
             $userid_arr = array_unique(array_column($ret,'userid'));
-            dd($ret,$userid_arr);
-            // foreach($userid_arr as $item){
-            //     $num = 0;
-            //     $userid = $item;
-            //     $cc_no_called_count = 0;
-            //     foreach($ret as $info){
-            //         if($item == $info['userid']){
-            //             $is_called_phone = $info['is_called_phone'];
-            //             $cc_no_called_count = $info['cc_no_called_count'];
-            //             $admin_role = $info['admin_role'];
-            //             if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
-            //                 $num = 0;
-            //                 break;
-            //             }elseif($is_called_phone == 0 && isset($info['is_called_phone']) && $admin_role==E\Eaccount_role::V_2){
-            //                 $num += 1;
-            //             }
-            //         }
-            //     }
-            //     if($num != $cc_no_called_count){
-            //         $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-            //         echo $userid.':'.$cc_no_called_count."=>".$num."\n";
-            //     }
-            // }
-            // $min += 10000;
+            $start = strtotime('+1 month',$start);
         }
     }
 

@@ -59,6 +59,7 @@
                     <td> 日期 </td>
                     <td> 当日课时 </td>
                     <td> 延休天数 </td>
+                    <td> 延迟上班时间 </td>
                     <td> 提前下班时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -80,7 +81,12 @@
                             @endif
                         </td>
                         <td>
-                            @if($var["attendance_type"] ==2)
+                            @if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
+                                {{@$var["delay_work_time_str"]}}
+                            @endif
+                        </td>
+                        <td>
+                            @if($var["attendance_type"] ==2 && $var["off_time"]>0)
                                 {{@$var["off_time_str"]}}
                             @endif
                         </td>
