@@ -360,7 +360,6 @@ $(function(){
                             "id"               : id,
                             "master_deal_flag" : html_node.find("table").find("#master_deal_flag").val(),
                             "base_money"       : html_node.find("table").find("#id_base_money").val(),
-                        },function(){
                         });
 
                     }
