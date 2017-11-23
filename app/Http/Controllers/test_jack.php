@@ -351,6 +351,7 @@ class test_jack  extends Controller
         $day_time = strtotime(date("Y-m-d",$lesson_end));
         $begin_time = $day_time+9.5*3600;
         $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_end);
+        dd($list);
         foreach($list as $item){
             $teacherid = $item["teacherid"];
             if($item["lesson_type"]==2){
