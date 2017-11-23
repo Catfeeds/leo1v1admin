@@ -2088,7 +2088,7 @@ class ajax_deal2 extends Controller
                 "系统推送 分享",
                 "点击分享",
                 "分享:$title",
-                "$url?web_page_id=$web_page_id&from_adminid=$adminid",
+                $send_url,
                 "点击进入 分享到朋友圈 "
             );
         }
