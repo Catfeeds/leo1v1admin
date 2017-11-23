@@ -127,7 +127,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
             " select l.*,"
-            ."ss.global_tq_called_flag,if(ss.userid>0,0,1) del_flag,"
+            ."ss.global_tq_called_flag,if(ss.userid>0,0,1) del_flag,ss.hand_get_adminid,"
             ."s.phone,s.origin "
             ." from %s l "
             ." left join %s ss on ss.userid=l.new "
