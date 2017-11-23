@@ -1331,6 +1331,9 @@ class user_manage extends Controller
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
+            $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
+            \App\Helper\Utils::unixtime2date_for_item($item,"qc_deal_time");
+
             $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
             $item['subject_str'] = E\Esubject::get_desc($item['subject']);
@@ -1390,7 +1393,6 @@ class user_manage extends Controller
                 $item["$key3_name"] = '';
                 $item["$reason_name"]     = "";
                 $item["$dep_score_name"]  = "";
-
 
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){

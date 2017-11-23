@@ -82,6 +82,7 @@ class Image
                 return;
             }
         }
+
         //获取或者创建图像文件失败则生成空白PNG图片
         $im = imagecreatetruecolor($width, $height);
         $bgc = imagecolorallocate($im, 255, 255, 255);

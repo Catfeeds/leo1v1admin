@@ -343,12 +343,13 @@ class test_jack  extends Controller
 
     public function test_period(){
 
-        $time = time()-7*86400;
-        $day_time = strtotime(date("Y-m-d",$time));
+        // $time = time()-7*86400;
+        // $day_time = strtotime(date("Y-m-d",$time));
 
-        $lesson_end = $this->get_in_str_val("lesson_end","2017-11-23 22:00:00");
+        $lesson_end = $this->get_in_str_val("lesson_end","2017-11-22 22:00:00");
         $lesson_end = strtotime($lesson_end);
-        $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($time,$lesson_end);
+        $day_time = strtotime(date("Y-m-d",$lesson_end));
+        $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_end);
         foreach($list as $item){
             $h = date("H",$item["lesson_start"]);
             if($h<9){

@@ -16,6 +16,145 @@ class test_boby extends Controller
 //      $this->switch_tongji_database();
     }
 
+    public function get_new_qq_group_html($grade_start,$grade_part_ex,$subject){
+        // 528851744 原答疑1群，人数已满
+        if ( $grade_start >= 5 ) {
+            $grade = 300;
+        } else if ($grade_start >= 3) {
+            $grade = 200;
+        } else if($grade_start > 0 ) {
+            $grade = 100;
+        }else if ($grade_part_ex == 1) {
+            $grade = 100;
+        }else if ($grade_part_ex == 2) {
+            $grade = 200;
+        }else if ($grade_part_ex == 3) {
+            $grade = 300;
+        }else{
+            $grade = 100;
+        }
+
+        $qq_answer = [
+            1  => ["答疑语文","126321887","用于薪资，软件等综合问题"],
+            2  => ["答疑数学","29759286","用于薪资，软件等综合问题"],
+            3  => ["答疑英语","451786901","用于薪资，软件等综合问题"],
+            99 => ["答疑综合学科","513683916","用于薪资，软件等综合问题"],
+        ];
+        $qq_group  = [
+            '100' => [
+                1=>[
+                    ["教研-小学语文","653665526","处理教学相关事务"],
+                    ["排课-小学语文","387090573","用于抢课"]
+                ],2=>[
+                    ["教研-小学数学","644724773","处理教学相关事务"],
+                    ["排课-小学数学","527321518","用于排课"],
+                ],3=>[
+                    ["教研-小学英语","653621142","处理教学相关事务"],
+                    ["排课-小学英语","456074027","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ],
+            ],
+            '200' => [
+                1=>[
+                    ["教研-初中语文","623708298","处理教学相关事务"],
+                    ["排课-初中语文","465023367","用于抢课"]
+                ],2=>[
+                    ["教研-初中数学","373652928","处理教学相关事务"],
+                    ["排课-初中数学","665840444","用于排课"],
+                ],3=>[
+                    ["教研-初中英语","161287264","处理教学相关事务"],
+                    ["排课-初中英语","463756557","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ]
+            ],
+            '300' => [
+                1=>[
+                    ["教研-高中语文","653689781","处理教学相关事务"],
+                    ["排课-高中语文","573564364","用于抢课"]
+                ],2=>[
+                    ["教研-高中数学","644249518","处理教学相关事务"],
+                    ["排课-高中数学","659192934","用于排课"],
+                ],3=>[
+                    ["教研-高中英语","456994484","处理教学相关事务"],
+                    ["排课-高中英语","280781299","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ]
+            ],
+        ];
+
+        $html="";
+        $list = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
+        $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
+        // dd($list);
+        foreach($list as $val){
+            $html .= "<li>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</li>";
+        }
+        return $html;
+    }
+
+    public function send_msg_to_tea_wx(){
+        // return 1;
+        //boby oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM
+        $tea_list = [[
+        'wx_openid' => 'oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM',
+        'grade_start' => 1,
+        'subject' => 1,
+        'grade_part_ex' =>0
+        ]];
+        /**
+         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+         * 标题课程 : 待办事项提醒
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+
+        foreach ($tea_list as $item) {
+            $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
+
+
+            $wx_openid = $item['wx_openid'];
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = "老师您好，为了给大家提供更优质的服务，现对教研、排课及答疑群按学段和科目进行分类重建，旧群已作废。";
+            $data['keyword1'] = "加入相关QQ群";
+            $data['keyword2'] = $html;
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "";
+            // $url = "http://www.leo1v1.com/login/teacher";
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+
+        return 'ok';
+    }
+
+
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
         foreach ($th_arr as $v) {
@@ -241,7 +380,6 @@ class test_boby extends Controller
     }
 
     //添加给老师添加公开课学生
-
     public function add_stu_to_tea_open_lesson(){
         $start_time = strtotime('2017-09-01');
         $end_time = strtotime('2017-10-01');
@@ -623,44 +761,6 @@ class test_boby extends Controller
 
     }
 
-    public function send_msg_to_tea_wx(){
-        // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
-        return 1;
-        $tea_list = [[
-            'wx_openid' => 'oJ_4fxMltd-j8Pc4-GtJgll0i5SQ',
-            'grade_start' => 1,
-            'subject' => 1,
-            'grade_part_ex' =>0
-        ]];
-        /**
-         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-         * 标题课程 : 待办事项提醒
-         * {{first.DATA}}
-         * 待办主题：{{keyword1.DATA}}
-         * 待办内容：{{keyword2.DATA}}
-         * 日期：{{keyword3.DATA}}
-         * {{remark.DATA}}
-         */
-
-        foreach ($tea_list as $item) {
-            $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
-
-
-            $wx_openid = $item['wx_openid'];
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = "老师您好，为了给大家提供更优质的服务，现对教研、排课及答疑群按学段和科目进行分类重建，旧群已作废。";
-            $data['keyword1'] = "加入相关QQ群";
-            $data['keyword2'] = $html;
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "";
-            // $url = "http://www.leo1v1.com/login/teacher";
-            $url = "";
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-        }
-
-        return 'ok';
-    }
-
     public function test_job(){
         //给老师发送微信推送
         // dispatch( new \App\Jobs\send_wx_to_teacher());
@@ -854,7 +954,6 @@ class test_boby extends Controller
         return $s;
     }
 
-
     public function test_img(){
         $wx_openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
         $phone = 18898881852;
@@ -1042,6 +1141,5 @@ class test_boby extends Controller
         ]);
 
     }
-
 
 }

@@ -76,7 +76,7 @@ class make_and_send_wx_img extends Job implements ShouldQueue
         //强制刷新token
         if ( !array_key_exists('headimgurl', $data) ){
 
-            $access_token = $wx->get_new_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"],true);
             $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
 
             \App\Helper\Utils::logger("url info:". $url);

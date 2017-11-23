@@ -437,6 +437,12 @@ $(function(){
                     "identity"           : 0,
                     "add_type"           : 1,
                     "wx_use_flag"        : 0,
+                },function(result){
+                    if(result.ret!=0){
+                        BootstrapDialog.alert(result.info);
+                    }else{
+                        load_data();
+                    }
                 });
             }
         });
@@ -448,6 +454,6 @@ $(function(){
         BootstrapDialog.alert(url);
     });
 
- download_hide();
+    download_hide();
 
 });
