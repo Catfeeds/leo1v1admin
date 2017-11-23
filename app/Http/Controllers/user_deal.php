@@ -5375,7 +5375,7 @@ class user_deal extends Controller
 
     public function fulltime_teacher_positive_require_deal_main_master(){
         $id   = $this->get_in_int_val("id");
-        $main_master_deal_flag  = $this->get_in_int_val("main_master_deal_flag");
+        $main_master_deal_flag  = $this->get_in_int_val("master_deal_flag");
         $base_money= $this->get_in_int_val("base_money");
 
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[

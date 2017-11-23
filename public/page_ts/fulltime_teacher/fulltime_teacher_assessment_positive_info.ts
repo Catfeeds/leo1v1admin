@@ -355,24 +355,22 @@ $(function(){
                     label: '审核',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
+
                         $.do_ajax(url,{
-                            "id"         : id,
-                            post_data    : html_node.find("table").find("#master_deal_flag").val(),
-                            "base_money" : html_node.find("table").find("#id_base_money").val(),
-                        },function(){
-                            return ;
+                            "id"               : id,
+                            "master_deal_flag" : html_node.find("table").find("#master_deal_flag").val(),
+                            "base_money"       : html_node.find("table").find("#id_base_money").val(),
                         });
+
                     }
                 }],
                 onshown:function(){
                     if(main_flag==1){
                         url = "/user_deal/fulltime_teacher_positive_require_deal_main_master";
-                        post_data = "main_master_deal_flag";
                         $("#id_set_fulltime_teacher_positive_require").html(data.master_deal_flag_str);
                         $("#id_set_fulltime_teacher_positive_require_master").append(select_html);
                     }else{
                         url = "/user_deal/fulltime_teacher_positive_require_deal_master";
-                        post_data = "master_deal_flag";
                         $("#id_set_fulltime_teacher_positive_require").append(select_html);
                     }
                 }

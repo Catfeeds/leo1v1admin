@@ -1,0 +1,4 @@
+syntax = "proto3";
+package common;
+option php_namespace = "Proto\\yb_account\\common"; 
+

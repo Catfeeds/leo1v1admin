@@ -1,0 +1,16 @@
+#!/bin/bash
+cd $(dirname $0)
+project_name=yb_account
+./gen_proto  --controller_dir=./  $project_name
+
+proto_dir=~/server_others/dbserver/app/proto
+rm -rf $proto_dir/$project_name
+mkdir -p    $proto_dir
+cp -rf ./php_${project_name}  $proto_dir/$project_name
+
+#rm -rf ../app/proto/$project_name/
+#mkdir -p   ../app/proto/
+#cp -rf ./php_${project_name} ../app/proto/$project_name
+
+mkdir -p ../public/proto/
+cp -rf ./php_${project_name}/$project_name*.json   ../public/proto/
