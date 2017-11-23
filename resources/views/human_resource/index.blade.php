@@ -529,7 +529,7 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                @if(in_array($acc,["ted","夏宏东","haku","low-key","zoe","amyshen"]) || in_array($account_role,[12]))
+                                @if(in_array($acc,["ted","夏宏东","haku","low-key","zoe","amyshen","朱丽莎","陆小梅"]) || in_array($account_role,[12]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
@@ -540,7 +540,7 @@
                                 @if(in_array($acc,["coco","nick","wander","memo","lemon","CoCo老师","lily","melody","niki"]))
                                     <a class="opt-change-good-teacher">优秀老师</a>
                                 @endif
-                                @if(in_array($acc,["amyshen"]))
+                                @if(in_array($acc,["amyshen","朱丽莎","陆小梅"]))
                                     <a class="opt-trial-pass div_show"  title="设置试讲/培训通过">通过信息</a>
                                 @endif
                                 @if(in_array($acc,["ted","alan","CoCo老师"]))

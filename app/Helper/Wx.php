@@ -1,7 +1,7 @@
 <?php
 namespace App\Helper;
-class Wx{
 
+class Wx{
     var  $appid="";
     var  $appsecret="";
 

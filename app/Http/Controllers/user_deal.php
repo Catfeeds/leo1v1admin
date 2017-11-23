@@ -5347,10 +5347,10 @@ class user_deal extends Controller
         $base_money= $this->get_in_int_val("base_money");
 
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
-            "master_deal_flag"   =>$master_deal_flag,
-            "mater_adminid"      =>$this->get_account_id(),
-            "master_assess_time" =>time(),
-            "base_money" =>$base_money
+            "master_deal_flag"   => $master_deal_flag,
+            "mater_adminid"      => $this->get_account_id(),
+            "master_assess_time" => time(),
+            "base_money"         => $base_money*100
         ]);
         $adminid = $this->t_fulltime_teacher_positive_require_list->get_adminid($id);
         $name = $this->t_manager_info->get_name($adminid);

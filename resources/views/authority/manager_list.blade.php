@@ -180,6 +180,9 @@
                                     @if(in_array($acc,["jim","jack","孙瞿"]))
                                         <a href="javascript:;" title="权限删除测试" class="opt-delete-permission">权限删除测</a>
                                     @endif
+                                    @if(in_array($acc,["michelle","jack","jim"]))
+                                        <a href="javascript:;" title="权限备份互换" class="opt-change-permission-new">权限更换</a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
