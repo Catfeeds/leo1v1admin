@@ -2348,7 +2348,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_lesson_row_info($teacherid,$lesson_type,$num,$userid=-1){
+    public function get_lesson_row_info($teacherid,$lesson_type,$num,$userid=-1,$desc_flag=0){
         $where_arr = [
             ["teacherid= %u",$teacherid,-1],
             ["userid= %u",$userid,-1],
@@ -2361,11 +2361,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }else{
             $where_arr[] = ["lesson_type= %u",$lesson_type,-1];
         }
+        $str="";
+        if($desc_flag==1){
+            $str="desc";
+        }
 
         $sql = $this->gen_sql_new("select lessonid,userid,subject,lesson_start from %s"
-                                  ." where %s order by lesson_start desc limit %u,1",
+                                  ." where %s order by lesson_start %s limit %u,1",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
+                                  $str,
                                   $num
         );
         return $this->main_get_row($sql);

@@ -433,129 +433,128 @@ function table_init() {
     var thead=$(".common-table thead  ");
 
 
-    $.each(thead, function(table_i,th_item){
-        if ($(th_item).parent().hasClass("table-clean-flag") ){
-            return;
-        }
-        var path_list=window.location.pathname.split("/");
-        var table_key=path_list[1]+"-"+path_list[2]+"-"+ table_i;
-        var opt_td=$(th_item).find ("td:last");
-        var download_item=$( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
-        var download_fun=function () {
-            var list_data=[];
-            var $tr_list=$(th_item).closest("table").find("tr" );
-            $.each($tr_list ,function(i,tr_item )  {
-                var row_data= [];
-                var $td_list= $(tr_item ).find("td");
-                $.each(  $td_list, function( i, td_item)  {
-                    if ( i>0 && i< $td_list.length-1 ) {
-                        row_data.push( $.trim( $(td_item).text()) );
-                    }
-                });
-                list_data.push(row_data);
-            });
+    // $.each(thead, function(table_i,th_item){
+    //     if ($(th_item).parent().hasClass("table-clean-flag") ){
+    //         return;
+    //     }
+    //     var path_list=window.location.pathname.split("/");
+    //     var table_key=path_list[1]+"-"+path_list[2]+"-"+ table_i;
+    //     var opt_td=$(th_item).find ("td:last");
+    //     var download_item=$( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
+    //     var download_fun=function () {
+    //         var list_data=[];
+    //         var $tr_list=$(th_item).closest("table").find("tr" );
+    //         $.each($tr_list ,function(i,tr_item )  {
+    //             var row_data= [];
+    //             var $td_list= $(tr_item ).find("td");
+    //             $.each(  $td_list, function( i, td_item)  {
+    //                 if ( i>0 && i< $td_list.length-1 ) {
+    //                     row_data.push( $.trim( $(td_item).text()) );
+    //                 }
+    //             });
+    //             list_data.push(row_data);
+    //         });
 
-            $.do_ajax ( "/page_common/upload_xls_data",{
-                xls_data :  JSON.stringify(list_data )
-            },function(data){
-                window.location.href= "/common_new/download_xls";
-            });
+    //         $.do_ajax ( "/page_common/upload_xls_data",{
+    //             xls_data :  JSON.stringify(list_data )
+    //         },function(data){
+    //             window.location.href= "/common_new/download_xls";
+    //         });
 
-        };
+    //     };
 
-        download_item.on("click",function(){
-            if ($(".page-opt-show-all").length >0 ) {
+    //     download_item.on("click",function(){
+    //         if ($(".page-opt-show-all").length >0 ) {
 
-                BootstrapDialog.show({
-                    title: '下载为xls',
-                    message: '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
-                    buttons: [{
-                        label: '返回',
-                        action: function(dialog) {
-                            dialog.close();
-                        }
-                    }, {
-                        label: '确认',
-                        cssClass: 'btn-warning',
-                        action: function(dialog) {
-                            download_fun();
+    //             BootstrapDialog.show({
+    //                 title: '下载为xls',
+    //                 message: '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
+    //                 buttons: [{
+    //                     label: '返回',
+    //                     action: function(dialog) {
+    //                         dialog.close();
+    //                     }
+    //                 }, {
+    //                     label: '确认',
+    //                     cssClass: 'btn-warning',
+    //                     action: function(dialog) {
+    //                         download_fun();
 
-                        }
-                    }]
-                });
+    //                     }
+    //                 }]
+    //             });
 
-            }else{
-                download_fun();
-            }
-
-
-        });
-
-        opt_td.append(download_item );
-        if (!opt_td.css("min-width")  ) {
-            opt_td.css("min-width","80px");
-        }
+    //         }else{
+    //             download_fun();
+    //         }
 
 
-        var config_item=$( " <a href=\"javascript:; \" style=\"color:red;\" title=\" 列显示配置\"   >列</a>");
-        config_item.on("click",function(){
-            var $table= $(this).closest("table");
-            var $th=$table.find("thead >tr");
+    //     });
 
-            var $th_td_list= $th.find("td");
-            var arr=[];
-            $.each($th_td_list, function(i,item){
-                if (!(i==0 || i== $th_td_list.length-1)) {
-                    var $item=$(item);
-                    var title= $.trim($item.text());
-                    var display= $item.css("display");
-                    var $input=$("<input type=\"checkbox\"/>");
-                    if (display=="none") {
-                        $input.attr("checked",false) ;
-                    }else{
-                        $input.attr("checked","checked") ;
-                    }
+    //     opt_td.append(download_item );
+    //     if (!opt_td.css("min-width")  ) {
+    //         opt_td.css("min-width","80px");
+    //     }
 
-                    $input.data("index",title);
-                    arr.push([ title,  $input]);
-                }
-            });
 
-            $.show_key_value_table("列显示配置", arr ,[{
-                label: '默认',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    $.do_ajax("/page_common/opt_table_field_list",{
-                        "opt_type":"set",
-                        "table_key":table_key,
-                        "data":""
-                    });
-                    $.reload();
-                }
-            },{
+    //     var config_item=$( " <a href=\"javascript:; \" style=\"color:red;\" title=\" 列显示配置\"   >列</a>");
+    //     config_item.on("click",function(){
+    //         var $table= $(this).closest("table");
+    //         var $th=$table.find("thead >tr");
 
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    var config_map={
-                    };
-                    $.each(arr, function(i,item){
-                        var $input=item[1];
-                        var index=$input.data("index");
-                        var value=$input.prop("checked");
-                        config_map[index]=value;
-                    });
-                    $.do_ajax("/page_common/opt_table_field_list",{
-                        "opt_type":"set",
-                        "table_key":table_key,
-                        "data":JSON.stringify(config_map)
-                    });
-                }
-            }]);
-        });
-        opt_td.append(config_item);
+    //         var $th_td_list= $th.find("td");
+    //         var arr=[];
+    //         $.each($th_td_list, function(i,item){
+    //             if (!(i==0 || i== $th_td_list.length-1)) {
+    //                 var $item=$(item);
+    //                 var title= $.trim($item.text());
+    //                 var display= $item.css("display");
+    //                 var $input=$("<input type=\"checkbox\"/>");
+    //                 if (display=="none") {
+    //                     $input.attr("checked",false) ;
+    //                 }else{
+    //                     $input.attr("checked","checked") ;
+    //                 }
 
-    });
+    //                 $input.data("index",title);
+    //                 arr.push([ title,  $input]);
+    //             }
+    //         });
+
+    //         $.show_key_value_table("列显示配置", arr ,[{
+    //             label: '默认',
+    //             cssClass: 'btn-primary',
+    //             action: function(dialog) {
+    //                 $.do_ajax("/page_common/opt_table_field_list",{
+    //                     "opt_type":"set",
+    //                     "table_key":table_key,
+    //                     "data":""
+    //                 });
+    //                 $.reload();
+    //             }
+    //         },{
+
+    //             label: '确认',
+    //             cssClass: 'btn-warning',
+    //             action: function(dialog) {
+    //                 var config_map={
+    //                 };
+    //                 $.each(arr, function(i,item){
+    //                     var $input=item[1];
+    //                     var index=$input.data("index");
+    //                     var value=$input.prop("checked");
+    //                     config_map[index]=value;
+    //                 });
+    //                 $.do_ajax("/page_common/opt_table_field_list",{
+    //                     "opt_type":"set",
+    //                     "table_key":table_key,
+    //                     "data":JSON.stringify(config_map)
+    //                 });
+    //             }
+    //         }]);
+    //     });
+    //     opt_td.append(config_item);
+    // });
 
 
     var $table_list=$(".common-table") ;

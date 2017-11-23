@@ -346,36 +346,46 @@ class test_jack  extends Controller
         // $time = time()-7*86400;
         // $day_time = strtotime(date("Y-m-d",$time));
 
-        $lesson_end = $this->get_in_str_val("lesson_end","2017-11-22 22:00:00");
+        $lesson_end = $this->get_in_str_val("lesson_end","2017-11-22 09:00:00");
         $lesson_end = strtotime($lesson_end);
         $day_time = strtotime(date("Y-m-d",$lesson_end));
+        $begin_time = $day_time+9.5*3600;
         $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_end);
         foreach($list as $item){
-            $h = date("H",$item["lesson_start"]);
-            if($h<9){
-                $teacherid = $item["teacherid"];
-                if($item["lesson_type"]==2){
-                    $lesson_end = $item["lesson_end"]+1200;
-                }else{
-                    $lesson_end = $item["lesson_end"];
+            $teacherid = $item["teacherid"];
+            if($item["lesson_type"]==2){
+                $lesson_end = $item["lesson_end"]+1200;
+            }else{
+                $lesson_end = $item["lesson_end"];
+            }
+            $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+            $attendance_type = $this->t_fulltime_teacher_attendance_list->get_attendance_type($id);
+            if($id>0 && $attendance_type==2){
+                $end = $this->get_last_lesson_end($teacherid,$lesson_end);
+                $delay_time = $end+5400;
+                if($delay_time>$begin_time){
+                    $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                        "delay_work_time" =>$delay_time,
+                    ]);
                 }
-                $check_exist = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-                if($check_exist != 1){
-                    $end = $this->get_last_lesson_end($teacherid,$lesson_end);
-                    echo date("Y-m-d H:i",$lesson_end)."<br>";
-                    echo date("Y-m-d H:i",$end)."<br>";
-                    //$lesson_end = $item["lesson_start"]-5400;
-                    // $start = $task->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
-                    // $off_time = $start-5400;
-                    // $task->t_fulltime_teacher_attendance_list->row_insert([
-                    //     "teacherid"  =>$teacherid,
-                    //     "add_time"   =>$time,
-                    //     "attendance_type" =>2,
-                    //     "attendance_time"  =>$day_time,
-                    //     "off_time"         =>$off_time,
-                    //     "adminid"          =>$item["uid"]
-                    // ]);
+                echo $delay_time."111<br>";
+            }elseif(empty($id)){
+                $end = $this->get_last_lesson_end($teacherid,$lesson_end);
+                $delay_time = $end+5400;
+                if($delay_time>$begin_time){
+                    $this->t_fulltime_teacher_attendance_list->row_insert([
+                        "teacherid"  =>$teacherid,
+                        "add_time"   =>time(),
+                        "attendance_type" =>2,
+                        "attendance_time"  =>$day_time,
+                        "delay_work_time"         =>$delay_time,
+                        "adminid"          =>$item["uid"]
+                    ]);
+
                 }
+                echo $delay_time."222<br>";
+
+
             }
  
         }

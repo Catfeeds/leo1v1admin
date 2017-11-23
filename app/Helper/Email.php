@@ -6,6 +6,9 @@ use \App\Enums as  E;
 
 class Email{
 
+    /**
+     * 理优教研组
+     */
     static public function SendMailLeoCom($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
         $MailHost = "smtp.leoedu.com";
         $Username = "jim@leoedu.com";
@@ -18,19 +21,18 @@ class Email{
     }
 
     /**
-     * 
+     * 教学管理事业部教学部
      */
-    static public function SendMailleojiaoxuebu($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+    static public function SendMailJiaoXue($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
         $MailHost = "smtp.leoedu.com";
-        $Username = "jim@leoedu.com";
-        $Password = "xcwen142857";
-        $From     = "jim@leoedu.com";
-        $FromName = "理优教研组";
+        $Username = "leojiaoxuebu@leoedu.com";
+        $Password = "leojiaoxuebu123";
+        $From     = "leojiaoxuebu@leoedu.com";
+        $FromName = "教学管理事业部教学部";
 
         $ret = self::SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
         return $ret;
     }
-
 
     /**
      * 发送邮件

@@ -1264,14 +1264,19 @@ $test=	3;
      * @ 使用方法请参看 http://ts.whytouch.com/help.php#dev
      * @ 测试期间请勿上传过量文件，以免影响系统正常运行，否则客服人员可能暂停或关闭本测试账户。
      * @ michael@leoedu.com 密码 ： 021130
-     * @
+     * @gf5090e8e98978bfbf0e3e074593ade[cq161]
+     * @ g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
+     * @ curl -F doc=@'/home/ybai/test.pdf' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&f n=新文件.pptx'
      **/
     public function translate_pdf(){
-        //g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
         $path = $this->get_in_str_val('path');
         $cmd  = "curl -F doc=@'$path' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pptx'";
-        $out = exec($cmd);
-        dd($out);
+        $uuid = exec($cmd);
+        dd($uuid);
+    }
+
+    public function ce(){
+        $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
     }
 
 

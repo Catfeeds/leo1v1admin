@@ -1621,14 +1621,33 @@ class ajax_deal2 extends Controller
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
         $teacherid             = $this->get_in_int_val("teacherid");
-        $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1);
+        $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1,1);
         if(@$normal["lesson_start"]>0){
             $last_time =date("Y-m-d H:i",$normal["lesson_start"]);
         }else{
             $last_time="无";
         }
+        $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,2,0,-1);
+        $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1);
+        $time = $this->t_teacher_flow->get_simul_test_lesson_pass_time($teacherid );
+        if(empty($time)){
+            $time = $this->t_teacher_info->get_train_through_new_time($teacherid);
+        }
+        if(@$data["lesson_start"]>0){
+            $first_test =date("Y-m-d H:i",$data["lesson_start"]);
+        }else{
+            $first_test="无";
+        }
+        if(@$normal["lesson_start"]>0){
+            $first_normal =date("Y-m-d H:i",$normal["lesson_start"]);
+        }else{
+            $first_normal="无";
+        }
+
         return $this->output_succ([
             "last_time" =>@$last_time,
+            "first_normal"=>$first_normal,
+            "first_test"  =>$first_test
         ]);
 
 
@@ -2054,13 +2073,22 @@ class ajax_deal2 extends Controller
         $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
         $url=$web_page_info["url"];
         $title=$web_page_info["title"];
+        $send_url="";
+
+
         foreach($userid_list as $adminid ) {
+            if (preg_match("/\?/", $url ) ){
+                $send_url="$url&web_page_id=$web_page_id&from_adminid=$adminid";
+            }else {
+                $send_url="$url?web_page_id=$web_page_id&from_adminid=$adminid";
+            }
+
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $adminid,
                 "系统推送 分享",
                 "点击分享",
                 "分享:$title",
-                "$url?web_page_id=$web_page_id&from_adminid=$adminid",
+                $send_url,
                 "点击进入 分享到朋友圈 "
             );
         }

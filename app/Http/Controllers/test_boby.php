@@ -155,9 +155,15 @@ class test_boby extends Controller
     }
 
     public function test_wx(){
-        $wx = 'oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM';
-        \App\Helper\WxSendMsg::template_tea_simulation_tip($wx);
-        \App\Helper\WxSendMsg::template_tea_simulation_tip($wx,false);
+        $info['teacherid'] = 438630;
+
+        $info['wx_openid'] = 'oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM';
+        // \App\Helper\WxSendMsg::template_tea_simulation_tip($wx);
+        // \App\Helper\WxSendMsg::template_tea_simulation_tip($wx,false);
+        // \App\Helper\WxSendMsg::template_tea_offer_tip($info, '五星教师');
+        \App\Helper\WxSendMsg::template_tea_first_test_tip($info['wx_openid'], 1);
+        \App\Helper\WxSendMsg::template_tea_first_test_tip($info['wx_openid'], 2);
+        \App\Helper\WxSendMsg::template_tea_first_test_tip($info['wx_openid'], 3);
     }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';

@@ -398,15 +398,12 @@ function table_init() {
                         }
                     }]
                 });
-
             }else{
                 download_fun();
             }
-
-
         });
 
-        opt_td.append(download_item );
+        // opt_td.append(download_item );
         if (!opt_td.css("min-width")  ) {
             opt_td.css("min-width","80px");
         }
@@ -1038,12 +1035,12 @@ $(function(){
 
 
     //处理 page select num
-    $(".pages > .page-opt-show-all-xls"). on("click", function( e){
-        var url=$(this).attr("data");
-        var page_num=0xFFFFFFFF+2;
-        url=url.replace(/{Page}/, page_num  );
-        window.location.href=url;
-    });
+    // $(".pages > .page-opt-show-all-xls"). on("click", function( e){
+    //     var url=$(this).attr("data");
+    //     var page_num=0xFFFFFFFF+2;
+    //     url=url.replace(/{Page}/, page_num  );
+    //     window.location.href=url;
+    // });
 
     //do role
 
@@ -1734,12 +1731,12 @@ function get_page_node(page_info ,reload_func)
         reload_func(url);
     });
 
-    $node.find(".page-opt-show-all-xls"). on("click", function( e){
-        var url=$(this).attr("data");
-        var page_num=0xFFFFFFFF+2;
-        url=url.replace(/{Page}/, page_num  );
-        reload_func(url);
-    });
+    // $node.find(".page-opt-show-all-xls"). on("click", function( e){
+    //     var url=$(this).attr("data");
+    //     var page_num=0xFFFFFFFF+2;
+    //     url=url.replace(/{Page}/, page_num  );
+    //     reload_func(url);
+    // });
 
 
     return $node;

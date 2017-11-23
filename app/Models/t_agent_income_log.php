@@ -179,6 +179,7 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
     public function get_last_daily_lottery_time($id){
         $where_arr = [
             ['agent_id = %u',$id],
+            'agent_income_type'=>6,
         ];
         $sql = $this->gen_sql_new(
             'select create_time from %s where %s order by logid desc limit 1',
