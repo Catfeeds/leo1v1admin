@@ -6,7 +6,6 @@
 	  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
 	  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.pie.min.js"></script>
     <script type="text/javascript" >
-     
      var g_grade_map= <?php  echo json_encode ($grade_map); ?> ;
      var g_grade_count_map= <?php  echo json_encode ($grade_count_map); ?> ;
      var g_subject_count_map= <?php  echo json_encode ($subject_count_map); ?> ;
@@ -14,6 +13,7 @@
      var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
      var g_phone_map= <?php  echo json_encode ($phone_map); ?> ;
      var g_phone_count_map= <?php  echo json_encode ($phone_count_map); ?> ;
+     
     </script>
 
     <section class="content">
