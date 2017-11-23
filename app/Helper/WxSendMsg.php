@@ -52,7 +52,8 @@ class WxSendMsg{
      */
     static public function template_tea_test_lesson_ok($teacherid,$nick, $lesson_time_str, $require_phone, $demand,$bgk_arr = []){
         //$bgk_arr备用数组
-        $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+        $task = new  \App\Console\Tasks\TaskController();
+        $wx_openid = $task->t_teacher_info->get_wx_openid($teacherid);
 
         if($wx_openid!='') {
 
