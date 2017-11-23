@@ -3037,8 +3037,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_user_split_total($userid,$competition_flag){
         $where_arr = [
-            ["o1.userid=%u",$userid,0],
-            ["o1.competition_flag=%u",$competition_flag,0],
+            ["o1.userid=%u",$userid,-1],
+            ["o1.competition_flag=%u",$competition_flag,-1],
         ];
         $sql = $this->gen_sql_new("select sum(o2.from_parent_order_lesson_count)/100 "
                                   ." from %s o1"

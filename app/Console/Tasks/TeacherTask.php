@@ -127,7 +127,6 @@ class TeacherTask extends TaskController
                         ."\n课时数:".($lesson_count/100)."课时"
                         .$str_ex;
 
-        \App\Helper\Notice::send_lesson_deduct_late();
         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
     }
 

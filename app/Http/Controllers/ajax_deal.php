@@ -290,8 +290,11 @@ class ajax_deal extends Controller
         $id                  = $this->get_in_int_val('id');
         $check_money_flag    = $this->get_in_int_val('check_money_flag');
         $check_money_desc    = $this->get_in_str_val('check_money_desc');
+        $is_test_flag = \App\Helper\Utils::check_env_is_test();
+        $is_local_flag = \App\Helper\Utils::check_env_is_local();
         if($check_money_adminid != 301){
-            return $this->output_err('无权限!');
+            if(!$is_test_flag && !$is_local_flag)
+                return $this->output_err('无权限!');
         }
         $this->t_agent_cash->field_update_list($id,[
             "check_money_adminid" => $check_money_adminid,

@@ -4119,10 +4119,11 @@ class human_resource extends Controller
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
-       
+
         if($adminid==486 || $adminid==478){
             $tea_subject = "";
         }
+
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
             $arr       = explode(",",$free_time);
