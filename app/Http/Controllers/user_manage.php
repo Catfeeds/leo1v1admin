@@ -879,7 +879,7 @@ class user_manage extends Controller
             //结课未续费人数增加
             $refund_time = $this->t_order_refund->get_last_apply_time($userid);
             $last_lesson_time = $this->t_student_info->get_last_lesson_time($userid);
-            
+
             if(empty($refund_time) || $refund_time>$last_lesson_time){
                 $assistantid = $this->t_student_info->get_assistantid($userid);
                 $adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
@@ -899,7 +899,7 @@ class user_manage extends Controller
                     ]);
                 }
 
- 
+
             }
 
         }
@@ -1021,8 +1021,8 @@ class user_manage extends Controller
             }
         }elseif($type=="student_ass"){ //助教学生
             //  $adminid=324;
-            $adminid = $this->get_account_id(); 
-            $ret_list= $this->t_student_info->get_ass_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);           
+            $adminid = $this->get_account_id();
+            $ret_list= $this->t_student_info->get_ass_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);
         }
 
         $lru_list=null;
@@ -2031,6 +2031,14 @@ class user_manage extends Controller
                     $is_teaching_flag = false;
                 }
 
+                /**
+                 * @demand 老师管理或教学部出现责任划分时，该部分自动引用之老师和科目选择的字段，若无责任则默认空值
+                 **/
+                if(($v2['score'] >0 && $v2['department'] == '教学部') || ($v2['score']>0 && $v2['department'] == '老师管理') ){
+                    $duty = 1;
+                }
+
+
                 if($v2['department'] == $v1['value']){
                     $num++;
                     $score += $v2['score'];
@@ -2065,6 +2073,7 @@ class user_manage extends Controller
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;
         $arr['list']       = $list;
+        $arr['duty']       = $duty;
         return $arr;
     }
 
@@ -3189,7 +3198,7 @@ class user_manage extends Controller
         return $this->output_bool_ret($ret_set);
     }
 
-     
+
 
 
 

@@ -774,15 +774,18 @@ class wx_parent_gift extends Controller
     /**
      * @ 市场部 日常分享活动
      * @ 获取客户的openid
+     * @ web_page_id=$web_page_id&from_adminid=$adminid"
      */
 
     public function marketing_department_activity () {
         $p_appid     = \App\Helper\Config::get_wx_appid();
         $p_appsecret = \App\Helper\Config::get_wx_appsecret();
         $type = $this->get_in_int_val('type');
+        $web_page_id = $this->get_in_int_val('web_page_id');
+        $from_adminid = $this->get_in_int_val('from_adminid');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewrite_url?type=$type" );
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewrite_url?type=$type&web_page_id=$web_page_id&from_adminid=$from_adminid");
         $wx->goto_wx_login( $redirect_url );
     }
 
@@ -800,10 +803,13 @@ class wx_parent_gift extends Controller
         $type = $this->get_in_int_val("type");
         $is_share = $this->t_market_department_activity->check_flag($openid,$type);
 
+        $web_page_id  = $this->get_in_int_val('web_page_id');
+        $from_adminid = $this->get_in_int_val('from_adminid');
+
         if($is_share){
             header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&type=".$type);
         }else{
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&type=".$type);
+            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
         }
         return ;
     }
