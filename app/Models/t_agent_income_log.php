@@ -225,4 +225,19 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取用户现金活动id_str
+    public function get_agent_money_ex_arr($agent_id,$last_succ_cash_time){
+        $where_arr = [
+            ['agent_id = %u',$agent_id,0],
+            ['create_time > %u',$last_succ_cash_time],
+            "agent_money_ex_id <> '' ",
+            'agent_income_type' => 5
+        ];
+        $sql = $this->gen_sql_new(
+            'select agent_money_ex_id from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
