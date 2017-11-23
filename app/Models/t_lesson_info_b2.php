@@ -443,6 +443,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "(tss.success_flag is null or tss.success_flag in (0,1))",
             "l.lesson_type<1000",
             "l.lesson_start <".$lesson_start,
+            "l.lesson_start >".strtotime(date("Y-m-d",$lesson_start)),
             // "l.lesson_end >".$lesson_end
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
@@ -496,6 +497,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid=".$teacherid,
             //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
+            "l.lesson_start >".strtotime(date("Y-m-d",$lesson_start)),
             "l.lesson_type<1000",
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
@@ -513,7 +515,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
 
     }
-    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){
+    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){        
         $where_arr=[
             "m.account_role=5",
             "m.del_flag=0",
@@ -523,6 +525,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid=".$teacherid,
             //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
+            "l.lesson_start >".strtotime(date("Y-m-d",$lesson_start)),
             "l.lesson_type<1000",
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
