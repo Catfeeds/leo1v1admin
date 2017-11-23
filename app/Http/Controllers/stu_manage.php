@@ -245,7 +245,6 @@ class stu_manage extends Controller
         $this->t_course_order->set_user_assistantid( $this->sid,$assistantid  );
 
         if(!$is_test_user){
-
             if($sys_operator){
                 $seller_adminid = $this->t_manager_info->get_id_by_account($sys_operator);
             }else{
