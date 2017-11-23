@@ -623,43 +623,6 @@ class test_boby extends Controller
 
     }
 
-    public function send_msg_to_tea_wx(){
-        // $tea_list = $this->t_teacher_info->get_all_has_wx_tea();
-        return 1;
-        $tea_list = [[
-            'wx_openid' => 'oJ_4fxMltd-j8Pc4-GtJgll0i5SQ',
-            'grade_start' => 1,
-            'subject' => 1,
-            'grade_part_ex' =>0
-        ]];
-        /**
-         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-         * 标题课程 : 待办事项提醒
-         * {{first.DATA}}
-         * 待办主题：{{keyword1.DATA}}
-         * 待办内容：{{keyword2.DATA}}
-         * 日期：{{keyword3.DATA}}
-         * {{remark.DATA}}
-         */
-
-        foreach ($tea_list as $item) {
-            $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
-
-
-            $wx_openid = $item['wx_openid'];
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = "老师您好，为了给大家提供更优质的服务，现对教研、排课及答疑群按学段和科目进行分类重建，旧群已作废。";
-            $data['keyword1'] = "加入相关QQ群";
-            $data['keyword2'] = $html;
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "";
-            // $url = "http://www.leo1v1.com/login/teacher";
-            $url = "";
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-        }
-
-        return 'ok';
-    }
 
     public function test_job(){
         //给老师发送微信推送
@@ -854,7 +817,6 @@ class test_boby extends Controller
         return $s;
     }
 
-
     public function test_img(){
         $wx_openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
         $phone = 18898881852;
@@ -1043,5 +1005,42 @@ class test_boby extends Controller
 
     }
 
+    public function send_msg_to_tea_wx(){
+        // return 1;
+        //boby oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM
+        $tea_list = [[
+        'wx_openid' => 'oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM',
+        'grade_start' => 1,
+        'subject' => 1,
+        'grade_part_ex' =>0
+        ]];
+        /**
+         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+         * 标题课程 : 待办事项提醒
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+
+        foreach ($tea_list as $item) {
+            $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
+
+
+            $wx_openid = $item['wx_openid'];
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = "老师您好，为了给大家提供更优质的服务，现对教研、排课及答疑群按学段和科目进行分类重建，旧群已作废。";
+            $data['keyword1'] = "加入相关QQ群";
+            $data['keyword2'] = $html;
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "";
+            // $url = "http://www.leo1v1.com/login/teacher";
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+
+        return 'ok';
+    }
 
 }
