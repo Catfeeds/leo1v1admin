@@ -55,7 +55,7 @@
      }
      .json_input{
          width:100%;
-         height:100px;
+         height:240px;
      }
     </style>
     <section class="content">
@@ -312,7 +312,7 @@
                                     <span >json字符串:</span>
                                 </div>
                                 <div class="col-xs-5 col-md-5  row-td-field-value">
-                                    <textarea class="json_input"></textarea>
+                                    <textarea class="json_input" disabled ="disabled">{{@$ret_info['discount_json']}}</textarea>
                                 </div>
                                 <div class="col-xs-1 col-md-1  row-td-field-value">
                                     <button style="margin-left:10px"  id="opt_edit_07" type="button" class="btn btn-primary">编辑</button> 
