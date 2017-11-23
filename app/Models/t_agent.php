@@ -1605,7 +1605,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if($all_open_cush_money+$no_cash_daily_lottery-$all_cush_money > 2500){
             if($no_cash_daily_lottery > 0){
                 $all_open_cush_money += $no_cash_daily_lottery;
-                $id_str = $this->get_daily_lottery_id_str($id,$no_cash_dialy_lottery);
+                $id_str = $this->get_daily_lottery_id_str($id,$no_cash_daily_lottery);
                 //将每日转盘奖励计入资金记录
                 //添加收入记录
                 $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
