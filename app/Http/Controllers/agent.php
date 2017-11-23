@@ -558,16 +558,16 @@ class agent extends Controller
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
         $start = strtotime(date('Y-m-1',$min));
         $end   = strtotime(date('Y-m-1',$max));
+        $ret = [];
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
-            // echo date('Y-m-d',$start_time).'-'.date('Y-m-d',$end_time).'/';
+            echo date('Y-m-d',$start_time).'-'.date('Y-m-d',$end_time).\n;
             // $ret = $this->t_seller_student_new->get_all_list($start_time,$end_time);
-            $ret = $this->t_test_lesson_subject->get_all_list($start_time,$end_time);
-            dd($ret);
-            $userid_arr = array_unique(array_column($ret,'userid'));
+            $ret[] = $this->t_test_lesson_subject->get_all_list($start_time,$end_time);
             $start = strtotime('+1 month',$start);
         }
+        dd($ret);
     }
 
     //处理等级头像
