@@ -17,7 +17,7 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
             ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"f.attendance_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select t.realname,f.teacherid,f.adminid,f.add_time,f.attendance_time,f.attendance_type,f.day_num,f.off_time,f.cancel_flag,f.cancel_reason,f.id,f.lesson_count from %s f"
+        $sql = $this->gen_sql_new("select t.realname,f.teacherid,f.adminid,f.add_time,f.attendance_time,f.attendance_type,f.day_num,f.off_time,f.cancel_flag,f.cancel_reason,f.id,f.lesson_count,f.delay_work_time from %s f"
                                   ." left join %s t on f.teacherid = t.teacherid"
                                   ." left join %s m on f.adminid = m.uid"
                                   ." where %s",
