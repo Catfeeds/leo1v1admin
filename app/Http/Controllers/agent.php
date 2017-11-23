@@ -559,8 +559,8 @@ class agent extends Controller
         // $time = ceil(ceil(($max-$min)/(3600*24))/30);
         $start = strtotime(date('Y-m-1',$min));
         $end = strtotime(date('Y-m-1',$max));
-        dd($start,$end);
-        for($i=1;$i<=$count;$i++){
+        // dd($date1,$date2,$count);
+        for($i=0;$i<=$count;$i++){
             $start_time = $start;
             echo date('Y-m-d',$start_time).'/';
             $end_time = strtotime('+1 month',$start);

@@ -996,7 +996,7 @@ class seller_student_new2 extends Controller
         $origin_ex             = $this->get_in_str_val("origin_ex");
         $global_tq_called_flag = $this->get_in_int_val('global_tq_called_flag',-1);
         $page_info             = $this->get_in_page_info();
-        if(in_array($hand_get_adminid,[1,2,3,4])){
+        if(in_array($hand_get_adminid,[1,2,3,4,5])){
             $ret_info = $this->t_seller_student_new->get_distribution_list($uid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info,$user_name);
             if(in_array($hand_get_adminid,[1,2])){
                 foreach($ret_info['list'] as &$item){
