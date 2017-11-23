@@ -21,6 +21,23 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	uid	:any;
+	type	:any;
+	create_time	:any;
+	adminid	:any;
+	old	:any;
+	new	:any;
+	global_tq_called_flag	:any;
+	del_flag	:any;
+	hand_get_adminid	:any;
+	phone	:any;
+	origin	:any;
+	adminid_nick	:any;
+	uid_nick	:any;
+	del_flag_str	:any;
+	global_tq_called_flag_str	:any;
+	hand_get_adminid_str	:any;
 }
 
 /*
