@@ -496,6 +496,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid=".$teacherid,
             //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
+            "l.lesson_type<1000",
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
         $sql = $this->gen_sql_new("select max(l.lesson_start)  "
@@ -522,6 +523,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid=".$teacherid,
             //  "l.lesson_end >".$lesson_end,
             "l.lesson_start <".$lesson_start,
+            "l.lesson_type<1000",
         ];
         $where_arr[] = "if(l.lesson_type=2,l.lesson_end>".($lesson_end-1200).",l.lesson_end>".$lesson_end.")";
         $sql = $this->gen_sql_new("select l.lesson_end,l.lesson_type  "
