@@ -1372,8 +1372,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
             ." left join %s tr on tr.require_id=tss.require_id "
-            ." where %s order by n.free_time ",
-            // ." where %s order by n.seller_add_time ",
+            ." where %s order by %s ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
@@ -1381,7 +1380,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_test_lesson_subject_require::DB_TABLE_NAME,
-            $where_arr
+            $where_arr,
+            $opt_date_str
         );
         if(($nick || $phone) && $userid>0) {
             return $this->main_get_list_as_page($sql);
