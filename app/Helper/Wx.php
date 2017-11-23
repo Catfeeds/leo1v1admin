@@ -24,7 +24,7 @@ class Wx{
     }
 
     public function goto_wx_login($redirect_url) {
-        $url=$this->get_wx_login_url($redirect_url);
+        $url = $this->get_wx_login_url($redirect_url);
         header("location: $url");
         exit;
     }
