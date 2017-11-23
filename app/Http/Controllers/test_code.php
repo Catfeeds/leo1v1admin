@@ -1517,6 +1517,7 @@ class test_code extends Controller
         $AddAddressKey = 2;
 
         \App\Helper\Email::SendMailLeoCom($Address, $Title, $Message, $IsHtml, $AddAddressKey);
+        \App\Helper\Email::SendMailJiaoXue($Address, $Title, $Message, $IsHtml, $AddAddressKey);
     }
 
 
