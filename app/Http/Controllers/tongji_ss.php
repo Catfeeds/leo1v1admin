@@ -8110,8 +8110,13 @@ class tongji_ss extends Controller
         $end_time = strtotime("2017-11-01");
         // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
         $list = $this->t_teacher_info->get_data_to_teacher_flow(0,0,1);
+
         foreach($list as &$item){           
-            $item["time_str"]=date("Y-m-d H:i",$item["simul_test_lesson_pass_time"]);           
+            if($item["simul_test_lesson_pass_time"]>0){
+                $item["time_str"]=date("Y-m-d H:i",$item["simul_test_lesson_pass_time"]);           
+            }else{
+                $item["time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);           
+            }
             E\Esubject::set_item_value_str($item,"subject");
 
         }
