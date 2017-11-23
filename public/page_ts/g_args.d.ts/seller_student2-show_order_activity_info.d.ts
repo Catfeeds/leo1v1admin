@@ -18,11 +18,9 @@ interface RowData {
 	title	:any;
 	date_range_start	:any;
 	date_range_end	:any;
-	user_join_time_srart	:any;
 	user_join_time_end	:any;
 	lesson_times_min	:any;
 	lesson_times_max	:any;
-	last_test_lesson_srart	:any;
 	last_test_lesson_end	:any;
 	grade_list	:any;
 	open_flag	:any;
@@ -32,9 +30,11 @@ interface RowData {
 	power_value	:any;
 	max_count	:any;
 	max_change_value	:any;
-	max_count_activity_type_list	:any;
 	order_activity_discount_type	:any;
 	discount_json	:any;
+	max_count_activity_type_list	:any;
+	last_test_lesson_start	:any;
+	user_join_time_start	:any;
 	period_flag_list_str	:any;
 	contract_type_list_str	:any;
 	can_disable_flag_str	:any;
@@ -43,6 +43,8 @@ interface RowData {
 	grade_list_str	:any;
 	date_range_time	:any;
 	lesson_times_range	:any;
+	user_join_time_range	:any;
+	last_test_lesson_range	:any;
 }
 
 /*

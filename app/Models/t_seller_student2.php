@@ -52,6 +52,15 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
 
     }
 
+    public function get_activity_list_by_id($id){
+        $sql=$this->gen_sql("select id,title from %s where id <>%u and open_flag <> 0"
+                            ,self::DB_TABLE_NAME
+                            ,$id
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }
 
 
