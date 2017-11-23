@@ -1128,7 +1128,7 @@ class seller_student_new extends Controller
     public function get_free_seller_list_data() {
         // list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -7,0,0,[
+            -6,1,0,[
                 0 => array("n.seller_add_time","例子翻新时间"),
                 1 => array("n.free_time","回流公海时间"),
                 2 => array("n.add_time","资源进来时间"),
