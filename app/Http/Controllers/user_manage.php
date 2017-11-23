@@ -2073,7 +2073,7 @@ class user_manage extends Controller
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;
         $arr['list']       = $list;
-        $arr['duty']       = $duty;
+        // $arr['duty']       = $duty;
         return $arr;
     }
 
