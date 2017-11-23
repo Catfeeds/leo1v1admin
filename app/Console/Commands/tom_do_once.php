@@ -56,20 +56,44 @@ class tom_do_once extends Command
      */
     public function handle()
     {
+        $min   = $this->task->t_seller_student_new->get_min_add_time();
+        $max   = $this->task->t_seller_student_new->get_max_add_time();
+        $date1 = explode('-',date('Y-m-d',$min));
+        $date2 = explode('-',date('Y-m-d',$max));
+        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
+        $start = strtotime(date('Y-m-1',$min));
+        $end   = strtotime(date('Y-m-1',$max));
+        $seller_add_time = strtotime(date('Y-m-d'));
+        $ret = [];
+        $limit = ceil(2000/$count);
+        for($i=1;$i<=$count+1;$i++){
+            $start_time = $start;
+            $end_time = strtotime('+1 month',$start);
+            $ret[$i] = $this->task->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
+            foreach($ret[$i] as $key=>$item){
+                $userid = $item['userid'];
+                $this->task->t_seller_student_new->field_update_list($userid,[
+                    'seller_add_time'=>$seller_add_time,
+                ]);
+                echo $userid.':'.$item['last_revisit_time']."=>".$seller_add_time."\n";
+            }
+            $start = strtotime('+1 month',$start);
+        }
+
         // $start_time = 1509465600;
         // $end_time = 1510156800;
-        $ret = $this->task->t_seller_student_new->get_all_list();
-        foreach($ret as $item){
-            $userid = $item['userid'];
-            $add_time = $item['add_time'];
-            $seller_add_time = $item['seller_add_time'];
-            if($seller_add_time == 0){
-                $this->task->t_seller_student_new->field_update_list($userid,[
-                    'seller_add_time'=>$add_time,
-                ]);
-                echo $userid.':'.$item['seller_add_time']."=>".$add_time."\n";
-            }
-        }
+        // $ret = $this->task->t_seller_student_new->get_all_list();
+        // foreach($ret as $item){
+        //     $userid = $item['userid'];
+        //     $add_time = $item['add_time'];
+        //     $seller_add_time = $item['seller_add_time'];
+        //     if($seller_add_time == 0){
+        //         $this->task->t_seller_student_new->field_update_list($userid,[
+        //             'seller_add_time'=>$add_time,
+        //         ]);
+        //         echo $userid.':'.$item['seller_add_time']."=>".$add_time."\n";
+        //     }
+        // }
 
 
 
