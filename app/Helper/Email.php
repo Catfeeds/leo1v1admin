@@ -15,7 +15,7 @@ class Email{
         $From     = "jim@leoedu.com";
         $FromName = "理优教研组";
 
-        $ret = self::SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
         return $ret;
     }
 
@@ -28,7 +28,7 @@ class Email{
         $From     = "leojiaoxuebu@leoedu.com";
         $FromName = "教学管理事业部教学部";
 
-        $ret = self::SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
         return $ret;
     }
 
@@ -41,7 +41,7 @@ class Email{
         $From     = "emd@leoedu.com";
         $FromName = "理优教学管理部";
 
-        $ret = self::SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
         return $ret;
     }
 
@@ -59,7 +59,7 @@ class Email{
      * @param integer AddAddressKey 当Address为array时，前Key个为发送人，剩余的为抄送人
      * @return
      */
-    static public function SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey){
+    static public function SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey){
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
         //设定时区东八区
