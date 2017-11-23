@@ -154,7 +154,9 @@ class test_boby extends Controller
         return 'ok';
     }
 
-
+    public function test_wx(){
+        \App\Helper\WxSendMsg::template_tea_test_lesson_ok(438630,'boby','10:00',18898881852,'asdfa');
+    }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
         foreach ($th_arr as $v) {
