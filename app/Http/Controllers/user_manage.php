@@ -1388,8 +1388,14 @@ class user_manage extends Controller
              * @demand 获取孩子[首次上课时间] [末次上课时间]
              */
             $lesson_time_arr = $this->t_lesson_info_b3->get_extreme_lesson_time($item['userid']);
-            $item['max_time_str'] = unixtime2date($item['max_time']);
-            $item['min_time_str'] = unixtime2date($item['min_time']);
+
+            if(empty($lesson_time_arr)){
+                $item['max_time_str'] = 0;
+                $item['min_time_str'] = 0;
+            }else{
+                $item['max_time_str'] = @unixtime2date($item['max_time']);
+                $item['min_time_str'] = @unixtime2date($item['min_time']);
+            }
 
 
             foreach($arr['key1_value'] as &$v1){
