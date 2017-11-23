@@ -435,7 +435,7 @@ trait TeaPower {
             $tea_right      = 1;
             if($adminid==793){
                 $tea_subject="(5)";
-            }elseif($adminid==770){
+            }elseif($adminid==770 || $adminid==1271 ){
                 $tea_subject="(4,6)";
             }elseif($adminid==895){
                 $tea_subject="";
@@ -2645,7 +2645,7 @@ trait TeaPower {
                 $subject=-1;
             }elseif(in_array($adminid,[793])){
                 $subject=-5;
-            }else if(in_array($adminid,[770])){
+            }else if(in_array($adminid,[770,1271])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
                 $subject=-1;
@@ -2664,7 +2664,7 @@ trait TeaPower {
                 $subject=3;
             }elseif(in_array($adminid,[793])){
                 $subject=-5;
-            }else if(in_array($adminid,[770])){
+            }else if(in_array($adminid,[770,1271])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
                 $subject=10;
