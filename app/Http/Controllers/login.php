@@ -19,7 +19,7 @@ class login extends Controller
         $item_1          = "";
         $role_str        = "";
         $role_item_count = 0;
-
+        
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
@@ -89,8 +89,8 @@ class login extends Controller
             }
 
         }else{
-            @$check_powerid = $url_power_map[$node["url"]] ;
-            if (isset($power_map[$check_powerid ])) {
+            @$check_powerid = @$url_power_map[$node["url"]] ;
+            if (isset($power_map[$check_powerid ]) && @$url_power_map[$node["url"]] >0 ) {
                 //不再显示
                 unset($power_map[$check_powerid ]);
 

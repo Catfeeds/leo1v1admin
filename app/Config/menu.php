@@ -7,7 +7,8 @@ class menu{
             ["power_id"=>40, "name"=>"核心数据",  "list"=> [
                 ["power_id"=>1, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
                 ["power_id"=>2, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
-                ["power_id"=>3, "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
+
+                // ["power_id"=>3, "name"=>"教师试讲预约-招师",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
                 ["power_id"=>4, "name"=>"试听转化率统计-质监", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                 ["power_id"=>5, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
                 ["power_id"=>6, "name"=>"兼职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total"],
