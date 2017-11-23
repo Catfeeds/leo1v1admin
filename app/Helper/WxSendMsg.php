@@ -12,7 +12,7 @@ class WxSendMsg{
      * 日期：{{keyword3.DATA}}
      * {{remark.DATA}}
      */
-    protected $todo_reminder = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+    static $todo_reminder = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
 
     public function __construct() {
     }
@@ -62,7 +62,7 @@ class WxSendMsg{
     static public function template_tea_simulation_tip($wx_openid, $flag=true){
         $data=[];
         // $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        $template_id      = $this->todo_reminder;
+        $template_id      = WxSendMsg::$todo_reminder;
         $data['first']    = "请尽快登录老师后台完成模拟试听";
         $data['keyword1'] = "模拟试听";
         if($flag == true){
