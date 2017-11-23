@@ -146,6 +146,8 @@
                         <td  style="display:none;">责任鉴定 | 客户情况变化</td>
                         <td  style="display:none;">责任鉴定 | 老师</td>
                         <td  style="display:none;">责任鉴定 | 科目</td>
+                        <td  style="display:none;">处理人</td>
+                        <td  style="display:none;">处理时间</td>
 
 
                         <td style="min-width:120px;">操作</td>
@@ -252,6 +254,9 @@
                             <td  >{{@$var["客户情况变化责任值"]}}</td>
                             <td  >{{@$var["老师责任值"]}}</td>
                             <td  >{{@$var["科目责任值"]}}</td>
+
+                            <td  >{{@$var["deal_nick"]}}</td>
+                            <td  >{{@$var["qc_deal_time"]}}</td>
 
 
 

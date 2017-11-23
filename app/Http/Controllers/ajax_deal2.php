@@ -2073,13 +2073,22 @@ class ajax_deal2 extends Controller
         $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
         $url=$web_page_info["url"];
         $title=$web_page_info["title"];
+        $send_url="";
+
+
         foreach($userid_list as $adminid ) {
+            if (preg_match("/\?/", $url ) ){
+                $send_url="$url&web_page_id=$web_page_id&from_adminid=$adminid";
+            }else {
+                $send_url="$url?web_page_id=$web_page_id&from_adminid=$adminid";
+            }
+
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $adminid,
                 "系统推送 分享",
                 "点击分享",
                 "分享:$title",
-                "$url?web_page_id=$web_page_id&from_adminid=$adminid",
+                $send_url,
                 "点击进入 分享到朋友圈 "
             );
         }

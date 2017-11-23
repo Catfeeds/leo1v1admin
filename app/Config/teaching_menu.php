@@ -2,7 +2,6 @@
 namespace App\Config;
 class teaching_menu{
     static  public  function get_config()  {
-
         return [
             ["name"=> "教学管理事业部" , "list" => [
                 [ "name"=>"核心数据",  "list"=>[

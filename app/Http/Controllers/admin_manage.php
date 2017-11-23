@@ -102,7 +102,7 @@ class admin_manage extends Controller
     public  function  web_page_share ( ) {
         $web_page_id= $this->get_in_int_val("web_page_id");
         $web_page_info= $this->t_web_page_info->field_get_list($web_page_id,"*");
-        $page_info=null;
+        $page_info= $this->get_in_page_info();
         $adminid               = $this->get_in_int_val('uid',-1);
         $account_role      = $this->get_in_e_account_role(E\Eaccount_role::V_2 );
 
