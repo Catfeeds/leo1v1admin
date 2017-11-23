@@ -2242,5 +2242,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_extreme_lesson_time($userid){
+        $where_arr = [
+            "userid = $userid",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_del_flag=0",
+            "l.lesson_status=2"
+        ];
+
+        $sql = $this->gen_sql_new("  select max(l.lesson_start) as max_time, min(l.lesson_end) as min_time from %s l"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $sql;
+        return $this->main_get_row($sql);
+    }
 
 }

@@ -1313,6 +1313,7 @@ class user_manage extends Controller
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "apply_time", "申请时间"),
             1 => array("flow_status_time","审批时间"),
+            2 => array("qc_deal_time","定责时间"),
         ]);
 
         $adminid       = $this->get_account_id();
@@ -1380,6 +1381,16 @@ class user_manage extends Controller
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
+            $item['duty']            = $arr['duty'];
+            E\Eboolean::set_item_value_str($item, "duty");
+
+            /**
+             * @demand 获取孩子[首次上课时间] [末次上课时间]
+             */
+            $lesson_time_arr = $this->t_lesson_info_b3->get_extreme_lesson_time($item['userid']);
+            $item['max_time_str'] = unixtime2date($item['max_time']);
+            $item['min_time_str'] = unixtime2date($item['min_time']);
+
 
             foreach($arr['key1_value'] as &$v1){
                 $key1_name = @$v1['value'].'一级原因';
@@ -2019,6 +2030,7 @@ class user_manage extends Controller
         $total_score = 0;
         $key1_value  = $this->t_order_refund_confirm_config->get_all_key1_value();
         $is_teaching_flag = true;
+        $duty = 0;
 
         foreach($key1_value as $k1=>&$v1){
             $num = 0;
@@ -2073,7 +2085,7 @@ class user_manage extends Controller
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;
         $arr['list']       = $list;
-        // $arr['duty']       = $duty;
+        $arr['duty']       = $duty;
         return $arr;
     }
 
