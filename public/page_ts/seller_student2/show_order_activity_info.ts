@@ -16,7 +16,7 @@ $(function(){
 
     //添加活动
     $('#id_add_activity').on('click',function(){
-        var id_title = $("<input/>");
+        var id_title = $("<input style='width:100%'/>");
         var arr=[
             ["活动标题", id_title ],
         ];

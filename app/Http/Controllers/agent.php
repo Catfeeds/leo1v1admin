@@ -559,12 +559,13 @@ class agent extends Controller
         $start = strtotime(date('Y-m-1',$min));
         $end   = strtotime(date('Y-m-1',$max));
         $ret = [];
+        $limit = ceil(2000/$count);
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
             echo date('Y-m-d',$start_time).'-'.date('Y-m-d',$end_time)."\n";
             // $ret = $this->t_seller_student_new->get_all_list($start_time,$end_time);
-            $ret[] = $this->t_test_lesson_subject->get_all_list($start_time,$end_time);
+            $ret[] = $this->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
             $start = strtotime('+1 month',$start);
         }
         dd($ret);
