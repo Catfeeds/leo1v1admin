@@ -368,6 +368,7 @@ class test_jack  extends Controller
                         "delay_work_time" =>$delay_time,
                     ]);
                 }
+                echo $delay_time."111<br>";
             }elseif(empty($id)){
                 $end = $this->get_last_lesson_end($teacherid,$lesson_end);
                 $delay_time = $end+5400;
@@ -382,6 +383,8 @@ class test_jack  extends Controller
                     ]);
 
                 }
+                echo $delay_time."222<br>";
+
 
             }
  

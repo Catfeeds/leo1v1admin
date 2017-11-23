@@ -1146,7 +1146,7 @@ trait TeaPower {
         if($end>0){
             return $this->get_last_lesson_end($teacherid,$end);
         }else{
-            return $end;
+            return $lesson_end;
         }
     }
 
