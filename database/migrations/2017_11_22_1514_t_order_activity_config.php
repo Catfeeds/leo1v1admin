@@ -35,7 +35,6 @@ class TOrderActivityConfig extends Migration
             t_field($table->integer('max_count_activity_type_list')->nullable(),"总配额组合");
             t_field($table->integer('order_activity_discount_type')->nullable(),"优惠类型 1:按课次数打折 2:按年级打折 3:按课次数送课 4:按金额立减");
             t_field($table->string('discount_json')->nullable(),"打折活动封装的json字符串");
-            $table->primary('id');
         });
     }
 
