@@ -154,7 +154,11 @@ class test_boby extends Controller
         return 'ok';
     }
 
-
+    public function test_wx(){
+        $wx = 'oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM';
+        \App\Helper\WxSendMsg::template_tea_simulation_tip($wx);
+        \App\Helper\WxSendMsg::template_tea_simulation_tip($wx,false);
+    }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
         foreach ($th_arr as $v) {

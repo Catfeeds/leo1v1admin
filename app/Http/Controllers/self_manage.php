@@ -163,7 +163,7 @@ class self_manage extends Controller
                         'agent_income_type' => E\Eagent_income_type::V_ACTIVITY_INCOME,
                         'money' => $agent_money_ex['money'],
                         'agent_id' => $agent_money_ex['agent_id'],
-                        'child_agent_id' => '',
+                        'agent_money_ex_id' => $flow_info['from_key_int'],
                         'create_time' => time(NULL)
                     ]);
                 }

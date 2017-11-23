@@ -1285,16 +1285,25 @@ class wx_yxyx_api extends Controller
         }
         //获取上次提现成功的申请体现时间
         $last_succ_cash_time = $this->t_agent_cash->get_last_succ_cash_time($agent_id);
-        //获取未体现的转盘奖励id_str
+        //获取未体现的转盘奖励id_str  
         $daily_lottery_id_str = $this->t_agent_income_log->get_daily_lottery_id_str($agent_id,$last_succ_cash_time);
         $lid_str = '';
+        $lid_arr = [];
         foreach($daily_lottery_id_str as $val){
             $lid_arr[]=$val['activity_id_str'];
         }
         if($lid_arr)
             $lid_str = join(',',$lid_arr);
-
-        $reward_list = $this->t_agent_money_ex->get_reward_list($agent_id,$page_info,$page_count,$is_cash,$lid_str);
+        //获取未体现赠送现金奖励id_str
+        $agent_money_ex_arr = $this->t_agent_income_log->get_agent_money_ex_arr($agent_id,$last_succ_cash_time);
+        $agent_money_id_arr = [];
+        $agent_money_id_str = '';
+        foreach($agent_money_ex_arr as $val){
+            $agent_money_id_arr[] = $val['agent_money_ex_id'];
+        }
+        if($agent_money_id_arr)
+            $agent_money_id_str = join(',',$agent_money_id_arr);
+        $reward_list = $this->t_agent_money_ex->get_reward_list($agent_id,$page_info,$page_count,$is_cash,$lid_str,$agent_money_id_str);
         foreach($reward_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time",'',"Y-m-d");
             if($item['activity_type'] ==1)
@@ -1313,7 +1322,7 @@ class wx_yxyx_api extends Controller
             $activity_daily_lottery = $this->t_agent_daily_lottery->get_sum_daily_lottery($agent_id,$is_cash);
         }else{
             //获取活动奖励
-            $activity_total_money = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$is_cash);
+            $activity_total_money = $this->t_agent_money_ex->get_can_cash_activity_money($agent_id,$is_cash,$last_succ_cash_time);
             //获取未体现的转盘奖励id_str
             $daily_lottery_id_str = $this->t_agent_income_log->get_daily_lottery_id_str($agent_id,$last_succ_cash_time);
             $lid_str = '';
@@ -1377,7 +1386,7 @@ class wx_yxyx_api extends Controller
             $commission_reward =$l1_child_can_cash_commission_reward-$l1_child_has_cash+$l2_child_can_cash_commission_reward-$l2_child_has_cash ;
             $commission_reward /= 100;
             //获取活动奖励
-            $activity_money_ex_all = $this->t_agent_money_ex->get_agent_sum_activity_money($agent_id,$check_flag);
+            $activity_money_ex_all = $this->t_agent_money_ex->get_can_cash_activity_money($agent_id,$check_flag,$last_succ_cash_time);
             //获取未体现的转盘奖励id_str
             $daily_lottery_id_str = $this->t_agent_income_log->get_daily_lottery_id_str($agent_id,$last_succ_cash_time);
             $lid_str = '';
