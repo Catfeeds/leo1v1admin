@@ -291,7 +291,6 @@ abstract class NewModel
                 $ret_list[]=$row;
             }
         }
-
         return \App\Helper\Utils::list_to_page_info($ret_list);
     }
 
