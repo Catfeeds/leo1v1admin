@@ -346,10 +346,7 @@ class test_jack  extends Controller
         // $time = time()-7*86400;
         // $day_time = strtotime(date("Y-m-d",$time));
 
-        $end = $this->get_last_lesson_end(97313,1509847200);
-        dd($end);
-        $end_info = $this->t_lesson_info_b2->check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start);
-
+       
         $lesson_end = $this->get_in_str_val("lesson_end","2017-11-05 09:00:00");
         $lesson_end = strtotime($lesson_end);
         $day_time = strtotime(date("Y-m-d",$lesson_end));

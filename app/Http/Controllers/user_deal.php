@@ -5426,19 +5426,19 @@ class user_deal extends Controller
                          ."目前教师等级:初级<br>"
                          ."转正后教师等级:中级"
                          ."转正后基本工资:$base_money";
-                \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
 
-                foreach($email as $e){
-                    dispatch( new \App\Jobs\SendEmailNew(
-                        $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
-                    ));
-                }
+                \App\Helper\Email::SendMailJiaoXue($send_email, $title, $content, true, 2);
+                // \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
+                // foreach($email as $e){
+                //     dispatch( new \App\Jobs\SendEmailNew(
+                //         $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
+                //     ));
+                // }
 
                 //微信通知主管和老师
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
-
             }elseif($main_master_deal_flag==2){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);

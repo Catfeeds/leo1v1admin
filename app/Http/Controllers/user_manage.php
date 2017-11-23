@@ -1389,8 +1389,8 @@ class user_manage extends Controller
              */
             $lesson_time_arr = $this->t_lesson_info_b3->get_extreme_lesson_time($item['userid']);
 
-            $item['max_time_str'] = $item['max_time']?@unixtime2date($item['max_time']):'无';
-            $item['min_time_str'] = $item['min_time']?@unixtime2date($item['min_time']):'无';
+            $item['max_time_str'] = @$lesson_time_arr['max_time']?@unixtime2date($lesson_time_arr['max_time']):'无';
+            $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
 
             foreach($arr['key1_value'] as &$v1){
                 $key1_name = @$v1['value'].'一级原因';
