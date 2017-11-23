@@ -346,11 +346,16 @@ class test_jack  extends Controller
         // $time = time()-7*86400;
         // $day_time = strtotime(date("Y-m-d",$time));
 
-        $lesson_end = $this->get_in_str_val("lesson_end","2017-11-22 09:00:00");
+        $end = $this->get_last_lesson_end(97313,1509847200);
+        dd($end);
+        $end_info = $this->t_lesson_info_b2->check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start);
+
+        $lesson_end = $this->get_in_str_val("lesson_end","2017-11-05 09:00:00");
         $lesson_end = strtotime($lesson_end);
         $day_time = strtotime(date("Y-m-d",$lesson_end));
         $begin_time = $day_time+9.5*3600;
         $list = $this->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_end);
+        $i=0;
         foreach($list as $item){
             $teacherid = $item["teacherid"];
             if($item["lesson_type"]==2){
@@ -358,6 +363,8 @@ class test_jack  extends Controller
             }else{
                 $lesson_end = $item["lesson_end"];
             }
+            echo $i."<br>";
+            $i++;
             $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
             $attendance_type = $this->t_fulltime_teacher_attendance_list->get_attendance_type($id);
             if($id>0 && $attendance_type==2){
