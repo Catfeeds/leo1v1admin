@@ -742,8 +742,8 @@ trait TeaPower {
             }
         }else{
 
-            $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
-            if($test_lesson_num >=6 && $is_test==0 && $teacher_type !=3){                
+            // $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
+            if($test_lesson_num >=6 && $is_test==0){                
                 return $this->output_err(
                     "新入职老师,试听课一周限排6节!目前老师已排".$test_lesson_num."节!目前老师已排".$test_lesson_num."节."
                 );
