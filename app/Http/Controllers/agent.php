@@ -550,39 +550,27 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $min   = $this->t_seller_student_new->get_min_add_time();
-        $max   = $this->t_seller_student_new->get_max_add_time();
-        $date1 = explode('-',date('Y-m-d',$min));
-        $date2 = explode('-',date('Y-m-d',$max));
-        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
-        $start = strtotime(date('Y-m-1',$min));
-        $end   = strtotime(date('Y-m-1',$max));
-        $ret = [];
-        $userid_arr = [];
-        for($i=1;$i<=$count+1;$i++){
-            $start_time = $start;
-            $end_time = strtotime('+1 month',$start);
-            $ret = $this->t_seller_student_new->get_all_list($start_time,$end_time);
-            $userid_arr = array_unique(array_column($ret,'userid'));
-            foreach($userid_arr as $item){
-                $num = 0;
-                $userid = $item;
-                $cc_no_called_count = 0;
-                foreach($ret as $info){
-                    if($item == $info['userid']){
-                        $is_called_phone = $info['is_called_phone'];
-                        $cc_no_called_count = $info['cc_no_called_count'];
-                        if($is_called_phone == 1){
-                            $num = 0;
-                            break;
-                        }elseif($is_called_phone == 0){
-                            $num += 1;
-                        }
-                    }
-                }
-                if($num != $cc_no_called_count){
-                    $this->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-                    echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+        //查看下级
+        $require_adminid_list_new = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex_new='销售,咨询五部,战狼队,');
+        $show_son_flag = false;
+        if(count($require_adminid_list_new)>0){//查看下级人员的
+            // $adminid = $this->get_account_id();
+            $adminid = 1200;
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
+            $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
+            dd($intersect);
+            if(count($intersect)>0){
+                // $require_adminid_list_new = $intersect;
+                $admin_revisiterid = $require_adminid_list_new[0];
+                if($admin_revisiterid != $this->get_account_id()){
+                    $show_son_flag = true;
                 }
             }
         }
