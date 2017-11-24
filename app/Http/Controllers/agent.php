@@ -551,8 +551,9 @@ class agent extends Controller
 
     public function test_new(){
         //查看下级
-        $ret_info = $this->t_seller_student_new->get_item_list();
-        foreach($ret_info as &$item){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_student_new->get_item_list($page_info);
+        foreach($ret_info['list'] as &$item){
             E\Eseller_level::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__,$ret_info);
