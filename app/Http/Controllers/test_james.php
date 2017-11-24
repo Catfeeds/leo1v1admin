@@ -1285,5 +1285,15 @@ $test=	3;
     }
 
 
+    public function new_table(){
+        Schema::create("db_weiyi.t_product_feedback_list", function(Blueprint $table) {
+            t_field($table->increments("id"),"产品问题记录表");
+            t_field($table->integer("feedback_adminid"),"反馈人");
+            t_field($table->integer("record_adminid"),"记录者");
+            t_field($table->string('name', 1024),"课程链接");
+        });
+    }
+
+
 
 }

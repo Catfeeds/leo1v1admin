@@ -99,7 +99,7 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
             'ca.phone as ca_phone,ca.nickname as ca_nickname '.
             'from %s ail '.
             'left join %s a on ail.agent_id=a.id '.
-            'left join %s ca on ail.child_agent_id = a.id '.
+            'left join %s ca on ail.child_agent_id = ca.id '.
             'where %s',
             self::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
