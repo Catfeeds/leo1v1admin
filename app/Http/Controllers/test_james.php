@@ -1231,20 +1231,31 @@ $test=	3;
 
     public function wx_news(){ // 使用客服接口发送消息
         //使用客服接口发送消息
+        // $txt_arr = [
+        //     'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+        //     'msgtype'  => 'news',
+        //     "news"=>[
+        //         "articles"=> [
+        //             [
+        //                 "title"=>"TEST MSG",
+        //                 "description"=>"Is Really A Happy Day",
+        //                 "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
+        //                 "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+        //             ]
+        //         ]
+        //     ]
+        // ];
+
+
+        //使用客服接口发送消息
         $txt_arr = [
             'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
-            'msgtype'  => 'news',
-            "news"=>[
-                "articles"=> [
-                    [
-                        "title"=>"TEST MSG",
-                        "description"=>"Is Really A Happy Day",
-                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
-                    ]
-                ]
+            'msgtype'  => 'text',
+            "text"=>[
+                "content"=>"Hello World <a href='https://baidu.com'>百度</a>"
             ]
         ];
+
 
         $appid_tec     = config('admin')['teacher_wx']['appid'];
         $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
@@ -1257,6 +1268,24 @@ $test=	3;
         $txt_ret = $this->https_post($url,$txt);
 
     }
+
+
+    public function test_wx(){
+        $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        $data = [
+            "first"     => "微信 老师推送测试",
+            "keyword1"  => "\<a href='https://baidu.com \>1\<\/a\>",
+            "keyword2"  => "微信推送测试 ".'<a href="https://baidu.com">百度</a>',
+            "keyword3"  => date('Y-m-d H:i:s'),
+        ];
+        $openid = "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc";
+        $url    = "http://admin.leo1v1.com/test_james/wx_news";
+
+        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+    }
+
+
+
 
     /**
      * @ 测试 文件上传
@@ -1282,6 +1311,17 @@ $test=	3;
 
         dd($lesson_start);
         $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
+    }
+
+
+
+    public function new_table(){
+        Schema::create("db_weiyi.t_product_feedback_list", function(Blueprint $table) {
+            t_field($table->increments("id"),"产品问题记录表");
+            t_field($table->integer("feedback_adminid"),"反馈人");
+            t_field($table->integer("record_adminid"),"记录者");
+            t_field($table->string('name', 1024),"课程链接");
+        });
     }
 
 

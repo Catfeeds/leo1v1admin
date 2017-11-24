@@ -7,12 +7,13 @@ class t_admin_card_log extends \App\Models\Zgen\z_t_admin_card_log
     {
         parent::__construct();
     }
-    public function get_list ($page_num, $start_time,$end_time, $adminid ,$page_count=10) {
+    public function get_list ($page_num, $start_time,$end_time, $adminid ,$page_count=10,$account_role=-1) {
         $where_arr=[
             ["logtime>=%u" , $start_time, -1 ],
             ["logtime<%u" , $end_time, -1 ],
             //["m.uid=%u" , $adminid, -1 ],
             ["c.cardid=%u" , $adminid, -1 ],
+            ["m.account_role=%u",$account_role,-1]
         ];
         $sql=$this->gen_sql_new("select  logtime, m.uid,  c.cardid,m.account from %s c ".
                                 "left join %s m on c.cardid=m.uid".

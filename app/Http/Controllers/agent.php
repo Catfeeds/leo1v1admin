@@ -550,27 +550,29 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $min   = $this->t_seller_student_new->get_min_add_time();
-        $max   = $this->t_seller_student_new->get_max_add_time();
-        $date1 = explode('-',date('Y-m-d',$min));
-        $date2 = explode('-',date('Y-m-d',$max));
-        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
-        $start = strtotime(date('Y-m-1',$min));
-        $end   = strtotime(date('Y-m-1',$max));
-        $seller_add_time = strtotime(date('Y-m-d'));
-        $ret = [];
-        $limit = ceil(2000/$count);
-        for($i=1;$i<=$count+1;$i++){
-            $start_time = $start;
-            $end_time = strtotime('+1 month',$start);
-            $ret[$i] = $this->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
-            foreach($ret[$i] as $key=>$item){
-                $userid = $item['userid'];
-                $this->t_seller_student_new->field_update_list($userid,[
-                    'seller_add_time'=>$seller_add_time,
-                ]);
+        //查看下级
+        $require_adminid_list_new = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex_new='销售,咨询五部,战狼队,');
+        $show_son_flag = false;
+        if(count($require_adminid_list_new)>0){//查看下级人员的
+            // $adminid = $this->get_account_id();
+            $adminid = 1200;
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
             }
-            $start = strtotime('+1 month',$start);
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
+            $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
+            dd($require_adminid_list_new,$son_adminid,$intersect);
+            if(count($intersect)>0){
+                // $require_adminid_list_new = $intersect;
+                $admin_revisiterid = $require_adminid_list_new[0];
+                if($admin_revisiterid != $this->get_account_id()){
+                    $show_son_flag = true;
+                }
+            }
         }
     }
 
