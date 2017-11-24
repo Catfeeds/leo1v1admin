@@ -1388,10 +1388,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr,
             $opt_date_str
         );
-        if(($nick || $phone) && $userid>0) {
-            return $this->main_get_list_as_page($sql);
+        if($opt_date_str == 'n.last_revisit_time'){
+            return $this->main_get_list_by_page($sql,$page_num);
         }else{
-            return $this->main_get_page_random($sql,1);
+            if(($nick || $phone) && $userid>0) {
+                return $this->main_get_list_as_page($sql);
+            }else{
+                return $this->main_get_page_random($sql,1);
+            }    
         }
     }
 

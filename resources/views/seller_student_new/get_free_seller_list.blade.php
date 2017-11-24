@@ -107,6 +107,7 @@
                 @endforeach
             </tbody>
         </table>
+        @include("layouts.page")
     </section>
 
 @endsection
