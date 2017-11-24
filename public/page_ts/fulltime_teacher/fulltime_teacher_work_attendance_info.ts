@@ -24,7 +24,7 @@ $(function(){
         }
     });
     $('#id_adminid').val(g_args.adminid);
-    $.admin_select_user( $("#id_adminid"),"admin", load_data  );
+    $.admin_select_user( $("#id_adminid"),"admin", load_data,true,{"main_type":5}  );
 
 
     $('.opt-change').set_input_change_event(load_data);

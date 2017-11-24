@@ -36,8 +36,8 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["title"]}} </td>
-                        <td>{{@$var["start_logtime"]}} </td>
-                        <td>{{@$var["end_logtime"]}} </td>
+                        <td>{{@$var["start_logtime_str"]}} </td>
+                        <td>{{@$var["end_logtime_str"]}} </td>
                         <td>{{@$var["work_time_str"]}} </td>
                         <td><font color="red"> {{@$var["error_flag_str"]}}  </font></td>
                         <td>
