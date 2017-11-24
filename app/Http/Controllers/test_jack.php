@@ -344,7 +344,9 @@ class test_jack  extends Controller
     public function test_period(){
 
         // $time = time()-7*86400;
-        $day_time = strtotime("2017-10-08");
+        $day_time = strtotime("2017-10-09");
+        $check_holiday = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday(231463,$day_time);
+        dd($check_holiday);
         //节假日延休        
         $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
         if($festival_info){
