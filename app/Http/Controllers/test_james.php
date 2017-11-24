@@ -1276,7 +1276,7 @@ $test=	3;
     }
 
     public function ce(){
-        $unbound_list = $t_teacher_info->get_unbound_teacher_list();
+        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
 
         dd($unbound_list);
 
