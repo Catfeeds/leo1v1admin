@@ -954,8 +954,8 @@ class tongji2 extends Controller
             // $val["all_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["all_price"]/100:0;
             $val["all_price"] = $val["renw_price"]+$val["tran_price"];
             // $val["tran_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
-            $val["tran_num"] = isset($ass_month[$k])?$ass_month[$k]["tran_num"]/100:0;
-            $val["cc_tran_num"] = isset($ass_month[$k])?$ass_month[$k]["cc_tran_num"]/100:0;
+            $val["tran_num"] = isset($ass_month[$k])?$ass_month[$k]["tran_num"]:0;
+            $val["cc_tran_num"] = isset($ass_month[$k])?$ass_month[$k]["cc_tran_num"]:0;
             // $val["new_num"] = isset($new_revisit[$k])?$new_revisit[$k]["new_num"]:0;
             //$val["first_revisit_num"] = isset($new_revisit[$k]["first_num"])?$new_revisit[$k]["first_num"]:0;
             $val["first_revisit_num"] = isset($ass_month[$k])?$ass_month[$k]["first_revisit_num"]:0;
