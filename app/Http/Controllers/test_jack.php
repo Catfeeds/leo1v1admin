@@ -346,8 +346,21 @@ class test_jack  extends Controller
         $end_time = strtotime("2017-10-01");
         $contract_type = $this->get_in_int_val("contract_type",0);
         $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
-        $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
-        dd([$order_info,$order_info_t]);
+        // $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
+        $arr=[];
+        $money=0;
+        foreach($order_info as $val){
+            $money +=$val["price"];
+            if(!isset($arr[$val["userid"]])){
+                $arr[$val["userid"]]=$val["userid"];
+            }
+
+            if(count($arr) >= 56){
+                break;
+            }
+        }
+
+        dd([$arr,$money]);
         // $time = time()-7*86400;
         dd(date("w",time()));
         $day_time = strtotime("2017-10-09");
