@@ -342,7 +342,12 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
+        $contract_type = $this->get_in_int_val("contract_type",0);
+        $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
+        $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
+        dd([$order_info,$order_info_t]);
         // $time = time()-7*86400;
         dd(date("w",time()));
         $day_time = strtotime("2017-10-09");
