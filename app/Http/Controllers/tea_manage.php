@@ -149,6 +149,7 @@ class tea_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
     public function lesson_list_seller() {
         $this->set_in_value("test_seller_adminid", $this->get_in_int_val('test_seller_id',-1));
         $adminid = $this->get_account_id();

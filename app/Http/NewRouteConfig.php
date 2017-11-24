@@ -359,7 +359,6 @@ class NewRouteConfig {
         "/user_book/set_class_time"      => true,
         "/user_book/get_tea_schedule"    => true,
         "/user_book/set_course_teacher"  => true,
-        "/user_book/audition_list"       => true,
 
         "/stu_manage/index"                    => true,
         "/stu_manage/score_list"                    => true,

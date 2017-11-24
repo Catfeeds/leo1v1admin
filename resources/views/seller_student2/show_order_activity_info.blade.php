@@ -52,6 +52,7 @@
         <table   class="common-table"   >
             <thead>
                 <tr>
+                    <td >活动ID</td>
                     <td >活动标题</td>
                     <td >活动时间</td>
                     <td >活动适配年级</td>
@@ -66,36 +67,39 @@
                     <td style="display:none">最大修改累计值</td>
                     <td style="display:none">用户加入时间范围</td>
                     <td style="display:none">最近一次试听时间范围</td>
+                    <td style="display:none">优惠信息</td>
                     <td >操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-            <tr>
-                <td >{{$var["title"]}}</td>
-                <td >{{$var["date_range_time"]}}</td>
-                <td >{{$var["grade_list_str"]}}</td>
-                <td >{{$var["contract_type_list_str"]}}</td>
-                <td >{{$var["period_flag_list_str"]}}</td>
-                <td >{{$var["lesson_times_range"]}}</td>
-                <td >{{$var["order_activity_discount_type_str"]}}</td>
-                <td >{{$var["open_flag_str"]}}</td>
+                    <tr>
+                        <td >{{$var["id"]}}</td>
+                        <td >{{$var["title"]}}</td>
+                        <td >{{$var["date_range_time"]}}</td>
+                        <td >{{$var["grade_list_str"]}}</td>
+                        <td >{{$var["contract_type_list_str"]}}</td>
+                        <td >{{$var["period_flag_list_str"]}}</td>
+                        <td >{{$var["lesson_times_range"]}}</td>
+                        <td >{{$var["order_activity_discount_type_str"]}}</td>
+                        <td >{{$var["open_flag_str"]}}</td>
 
-                <td >{{$var["can_disable_flag_str"]}}</td>
-                <td >{{$var["power_value"]}}</td>
-                <td >{{$var["max_count"]}}</td>
-                <td >{{$var["max_change_value"]}}</td>
-                <td >{{$var["user_join_time_range"]}}</td>
-                <td >{{$var["last_test_lesson_range"]}}</td>
-                <td >
-                    <div 
-                        {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                    >
-                        <a class=" fa-edit opt-set" title="编辑活动"> </a>
-                        <a class="fa fa-times opt-del" title="删除"> </a>
-                    </div>
-                </td>
-            </tr>
+                        <td >{{$var["can_disable_flag_str"]}}</td>
+                        <td >{{$var["power_value"]}}</td>
+                        <td >{{$var["max_count"]}}</td>
+                        <td >{{$var["max_change_value"]}}</td>
+                        <td >{{$var["user_join_time_range"]}}</td>
+                        <td >{{$var["last_test_lesson_range"]}}</td>
+                        <td >{{$var["discount_list"]}}</td>
+                        <td >
+                            <div 
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                                <a class=" fa-edit opt-set" title="编辑活动"> </a>
+                                <a class="fa fa-times opt-del" title="删除"> </a>
+                            </div>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
