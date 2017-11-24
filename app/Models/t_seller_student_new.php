@@ -298,6 +298,27 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
+    public function get_seller_list_for_select ( $page_info,$userid , $phone, $nick )  {
+        $where_arr=[
+            ["n.userid=%u",$userid, -1],
+            ["n.phone like '%s%%'", $phone , ""],
+            ["s.nick like '%s%%'",$nick, ""],
+        ];
+
+        $sql=$this->gen_sql_new(
+            "select n.userid,  s.grade, s.nick, n.phone, t.subject , s.origin  "
+            ."from  %s t "
+            ." left join %s n on  n.userid = t.userid "
+            ."  left join %s s on n.userid=s.userid   "
+            ." where  %s  "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
 
 
     public function get_seller_list (
