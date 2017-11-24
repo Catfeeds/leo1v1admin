@@ -4744,7 +4744,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_test_user=0",
             "quit_time=0",
             "bankcard=0",
-            "lesson_hold_flag=0",
+            // "lesson_hold_flag=0",
             "t.wx_openid !=''",
             "t.train_through_new=1"
         ];
