@@ -13,14 +13,14 @@ use \App\Enums as E;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-class tom_do_once extends Command
+class update_seller_add_time extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:tom_do_once';
+    protected $signature = 'command:update_seller_add_time';
 
     /**
      * The console command description.
@@ -75,7 +75,7 @@ class tom_do_once extends Command
                 $this->task->t_seller_student_new->field_update_list($userid,[
                     'seller_add_time'=>$seller_add_time,
                 ]);
-                echo $userid.':'.$item['seller_add_time']."=>".$seller_add_time."\n";
+                // echo $userid.':'.$item['seller_add_time']."=>".$seller_add_time."\n";
             }
             $start = strtotime('+1 month',$start);
         }

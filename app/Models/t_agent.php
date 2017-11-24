@@ -1576,6 +1576,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         //活动奖励
         $activity_money=$this->task->t_agent_money_ex->get_all_money($id);
+        //活动奖励可提现部分
+        $examined_activity_money=$this->task->t_agent_money_ex->get_examined_activity_money($id);
 
         //双11活动
         if($userid){
@@ -1596,7 +1598,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
         //可提现大转盘奖励
         $has_cash_daily_lottery = $this->task->t_agent_daily_lottery->get_sort_daily_lottery($id,1);
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money+$has_cash_daily_lottery;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$examined_activity_money+$ruffian_money+$has_cash_daily_lottery;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
         $all_cush_money = $this->task->t_agent_cash->get_have_cash($id,[0,1]);
         //未提现大转盘奖励

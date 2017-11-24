@@ -177,4 +177,22 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         );
         return $this->main_get_value($sql);
     }
+    //@desn:获取用户可体现活动金额[已审批]
+    //@param:$id 用户优学优享id
+    public function get_examined_activity_money($id){
+        $where_arr = [
+            ['ame.agent_id = %u',$id],
+            'f.flow_status' => E\Eflow_status::V_PASS,
+        ];
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s ame '.
+            'left join %s f on ame.id = f.from_key_int and f.flow_type = %u '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            E\Eflow_type::V_4002,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
