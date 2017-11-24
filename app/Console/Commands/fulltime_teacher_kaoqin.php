@@ -41,12 +41,12 @@ class fulltime_teacher_kaoqin extends Command
         $task=new \App\Console\Tasks\TaskController();
 
         $time = time();
+        $day_time = strtotime(date("Y-m-d",$time));
         
         $w = date("w");
 
         //全职老师提前下班
         if($w !=1 && $w != 2){
-            $day_time = strtotime(date("Y-m-d",$time));
             $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
             $lesson_start = $lesson_end+1800;
             $lesson_list = $task->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
@@ -70,6 +70,14 @@ class fulltime_teacher_kaoqin extends Command
                 }
             }
         }
+
+
+        //节假日延休        
+        $festival_info = $task->t_festival_info->get_festival_info_by_end_time($day_time);
+
+
+
+
 
         //第二天满8课时,在家办公(教研/全职老师)
         // if($w >=2){

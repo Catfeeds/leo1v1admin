@@ -56,7 +56,7 @@ $(function(){
             ["名称",id_name],
             ["开始时间",id_start_time],
             ["结束时间",id_end_time],
-            ["时长",id_days],
+           // ["时长",id_days],
         ];
 
         $.show_key_value_table("新增假日",arr,{
@@ -67,12 +67,84 @@ $(function(){
                     "name"   : id_name.val(),
                     "start" : id_start_time.val(),
                     "end"   : id_end_time.val(),
-                    "days"   : id_days.val(),
+                  //  "days"   : id_days.val(),
                 })
             }
         });
 
     });
+    $(".opt-edit").on("click",function(){
+        var data           = $(this).get_opt_data();
+        var id = data.id;
+        var id_name = $("<input/>");
+        var id_days   = $("<input/>");
+        var id_start_time = $("<input />");
+        var id_end_time = $("<input />");
+        id_start_time.datetimepicker({
+            datepicker:true,
+            timepicker:false,
+            format:'Y-m-d',
+            step:30,
+            onChangeDateTime :function(){
+
+            }
+
+        });
+        id_end_time.datetimepicker({
+            datepicker:true,
+            timepicker:false,
+            format:'Y-m-d',
+            step:30,
+            onChangeDateTime :function(){
+
+            }
+        });
+
+
+        var arr = [
+            ["名称",id_name],
+            ["开始时间",id_start_time],
+            ["结束时间",id_end_time],
+           // ["时长",id_days],
+        ];
+        id_name.val(data.name);
+        id_start_time.val(data.begin_time_str);
+        id_end_time.val(data.end_time_str);
+        id_days.val(data.days);
+
+        $.show_key_value_table("修改",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/festival/update_festival_new",{
+                    "name"   : id_name.val(),
+                    "start" : id_start_time.val(),
+                    "end"   : id_end_time.val(),
+                  //  "days"   : id_days.val(),
+                    "id"     : id
+                })
+            }
+        });
+
+    });
+
+
+    $(".opt-del").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+
+        BootstrapDialog.confirm(
+            "确认要删除?",
+            function(val) {
+                if  (val)  {
+                    $.do_ajax( "/festival/del_festival", {
+                        "id": opt_data.id
+                    });
+                }
+            }
+        );
+    });
+
+
 
 
 
