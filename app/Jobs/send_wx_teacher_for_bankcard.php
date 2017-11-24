@@ -39,8 +39,6 @@ class send_wx_teacher_for_bankcard extends Job implements ShouldQueue
            {{remark.DATA}}
         **/
 
-        \App\Helper\Utils::logger("bankcard send1");
-
         $this->delete();
         $t_teacher_info = new  \App\Models\t_teacher_info();
 
