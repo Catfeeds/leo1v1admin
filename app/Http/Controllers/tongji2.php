@@ -970,7 +970,8 @@ class tongji2 extends Controller
             $val["kk_succ"] = (isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k])?$ass_month[$k]["hand_kk_num"]:0);
             $val["cc_tran_money"] = isset($ass_month[$k])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍金额
             $val["hand_tran_num"] = isset($ass_month[$k])?$ass_month[$k]["hand_tran_num"]:0;//手动确认转介绍人数
-            $val["tran_num"] = $val["hand_tran_num"]+$val["tran_num"];//目前以两者相加为准(9月之后准确)
+            // $val["tran_num"] = $val["hand_tran_num"]+$val["tran_num"]+$val["cc_tran_num"];//目前以两者相加为准(9月之后准确)
+            $val["tran_num"] = $val["hand_tran_num"]+$val["tran_num"]+$val["cc_tran_num"];//目前以两者相加为准(9月之后准确)
 
 
             //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
