@@ -551,29 +551,11 @@ class agent extends Controller
 
     public function test_new(){
         //查看下级
-        $require_adminid_list_new = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex_new='销售,咨询五部,战狼队,');
-        $show_son_flag = false;
-        if(count($require_adminid_list_new)>0){//查看下级人员的
-            // $adminid = $this->get_account_id();
-            $adminid = 1200;
-            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
-            $son_adminid_arr = [];
-            foreach($son_adminid as $item){
-                $son_adminid_arr[] = $item['adminid'];
-            }
-            array_unshift($son_adminid_arr,$adminid);
-            $require_adminid_arr = array_unique($son_adminid_arr);
-            $group_type = count($require_adminid_arr)>1?1:0;
-            $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
-            dd($require_adminid_list_new,$son_adminid,$intersect);
-            if(count($intersect)>0){
-                // $require_adminid_list_new = $intersect;
-                $admin_revisiterid = $require_adminid_list_new[0];
-                if($admin_revisiterid != $this->get_account_id()){
-                    $show_son_flag = true;
-                }
-            }
+        $ret_info = $this->t_seller_student_new->get_item_list();
+        foreach($ret_info as &$item){
+            E\Eseller_level::set_item_value_str($item);
         }
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     //处理等级头像
