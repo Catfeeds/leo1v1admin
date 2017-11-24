@@ -1274,8 +1274,8 @@ $test=	3;
         $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $data = [
             "first"     => "微信 老师推送测试",
-            "keyword1"  => "微信推送测试",
-            "keyword2"  => "微信推送测试 ".<a href='https://baidu.com'>百度</a>,
+            "keyword1"  => "\<a href='https://baidu.com \>1\<\/a\>",
+            "keyword2"  => "微信推送测试 ".'<a href="https://baidu.com">百度</a>',
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
         $openid = "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc";
