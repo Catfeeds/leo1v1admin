@@ -910,6 +910,12 @@ class user_deal extends Controller
                             "新签合同赠送 抢新生名额[$count] "
                             ,"学生:". $this->cache_get_student_nick($userid)
                             ,"");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            'tom',
+                            "系统",
+                            "新签合同赠送 抢新生名额[$count] "
+                            ,"学生:". $this->cache_get_student_nick($userid)
+                            ,"");
                     }
                 }
             }
