@@ -11,7 +11,7 @@
 
             <div class="col-xs-6 col-md-3" data-always_show="1"   >
                 <div class="input-group ">
-                    <input class="opt-change form-control" style="display:block;" id="id_phone_name" placeholder="电话,回车搜索"/>
+                    <input class="opt-change form-control" style="display:block;" id="id_phone_name" placeholder="学生电话,回车搜索"/>
                 </div>
             </div>
 
