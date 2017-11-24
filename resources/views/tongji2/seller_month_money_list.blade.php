@@ -26,9 +26,11 @@
                     <td>第四周试听成功数 </td>
                     <td>取消率 </td>
                     <td>绩效对应系数 </td>
-                    <td>月末定级 </td>
                     <td >签约总金额 </td>
+                    <td>月末定级 </td>
                     <td >基本工资 </td>
+                    <td >保密津贴 </td>
+                    <td >绩效工资 </td>
                     <td >分期金额 </td>
                     <td >非分期金额 </td>
                     <td >一天内签约金额 </td>
@@ -73,9 +75,11 @@
                         <td class="suc_fourth_week"></td>
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
-                        <td class="last_seller_level"></td>
                         <td class="all_price" ></td>
+                        <td class="last_seller_level"></td>
                         <td class="base_salary" ></td>
+                        <td class="sup_salary" ></td>
+                        <td class="per_salary" ></td>
                         <td class="stage_money" ></td>
                         <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>

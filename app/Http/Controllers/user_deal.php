@@ -4071,7 +4071,14 @@ class user_deal extends Controller
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
-        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_new);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($start_time_new>=$item['start_time'] && $start_time_new<$item['end_time']){
+                $start_time_this = $item['def_time'];
+                break;
+            }
+        }
+        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
         $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
         $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
         $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
