@@ -477,7 +477,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
-                                  ." where %s",
+                                  ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
