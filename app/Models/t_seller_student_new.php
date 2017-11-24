@@ -306,7 +306,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         ];
 
         $sql=$this->gen_sql_new(
-            "select n.userid,  s.grade, s.nick, n.phone, t.subject , s.origin  "
+            "select n.userid,  test_lesson_subject_id, s.grade, s.nick, n.phone, t.subject , s.origin  "
             ."from  %s t "
             ." left join %s n on  n.userid = t.userid "
             ."  left join %s s on n.userid=s.userid   "
