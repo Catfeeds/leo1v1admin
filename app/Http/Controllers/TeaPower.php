@@ -2877,7 +2877,7 @@ trait TeaPower {
 
     //获取质监/教研 空闲时间
     public function get_not_free_time_list($subject,$grade){
-        $start_time = strtotime("+1 day",strtotime(date("Y-m-d 9:00",time())));
+        $start_time = strtotime(date("Y-m-d 9:00",time()));
         $end_time   = strtotime("+1 week",strtotime(date("Y-m-d 20:00",time())));
 
         if($subject==0 || $grade==0){
