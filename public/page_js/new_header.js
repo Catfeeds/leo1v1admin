@@ -201,7 +201,6 @@ function hide_menu_by_power_list( ){
                 $item.show();
                 var $p=$item.parents(".treeview");
 
-                //console.log( "xx:"+$p.length);
                 $p.show();
                 /**
                    $p=$p.parents(".treeview");
@@ -294,7 +293,6 @@ function table_init() {
         show_all_btn.on("click",function(){
             var show_all_flag= !$(this).data("show_all_flag");
             $(this).data("show_all_flag", show_all_flag);
-            //
             $.each( item_list, function(i,item){
                 var $item=$(item);
                 var input=$item.find("select");
@@ -303,11 +301,9 @@ function table_init() {
                     input=$item.find("input");//input
                     if (input.length>0) {
                         if (show_all_flag) {
-
-                            if ( !input.parent().parent().data("always_hide") ) {
+                            if (!input.parent().parent().data("always_hide")){
                                 input.parent().parent().show();
                             }
-
                         }else{
                             field_name=input.attr("id").substr(3);
                             if (g_args[field_name] == -1  ||   g_args[field_name] === ""   ) {
@@ -339,11 +335,7 @@ function table_init() {
         });
     }
 
-
-
-
     var thead=$(".common-table thead  ");
-
 
     $.each(thead, function(table_i,th_item){
         if ($(th_item).parent().hasClass("table-clean-flag") ){
@@ -352,65 +344,59 @@ function table_init() {
         var path_list     = window.location.pathname.split("/");
         var table_key     = path_list[1]+"-"+path_list[2]+"-"+ table_i;
         var opt_td        = $(th_item).find ("td:last");
-        var download_item = $( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
-        var download_fun=function () {
-            var list_data=[];
-            var $tr_list=$(th_item).closest("table").find("tr" );
-            $.each($tr_list ,function(i,tr_item )  {
-                var row_data= [];
-                var $td_list= $(tr_item ).find("td");
-                $.each(  $td_list, function( i, td_item)  {
-                    console.log(td_item.className);
+        // var download_item = $( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
+        // var download_fun  = function () {
+        //     var list_data = [];
+        //     var $tr_list  = $(th_item).closest("table").find("tr" );
+        //     $.each($tr_list ,function(i,tr_item )  {
+        //         var row_data= [];
+        //         var $td_list= $(tr_item ).find("td");
+        //         $.each(  $td_list, function( i, td_item)  {
+        //             console.log(td_item.className);
 
-                    if ( i>0 && i< $td_list.length-1 ) {
-                        if(td_item.className != 'ellipsis_jiaowu'){
-                            row_data.push( $.trim( $(td_item).text()) );
-                        }
-                        // row_data.push( $.trim( $(td_item).text()) );
-                    }
-                });
-                list_data.push(row_data);
-            });
+        //             if ( i>0 && i< $td_list.length-1 ) {
+        //                 if(td_item.className != 'ellipsis_jiaowu'){
+        //                     row_data.push( $.trim( $(td_item).text()) );
+        //                 }
+        //             }
+        //         });
+        //         list_data.push(row_data);
+        //     });
 
-            $.do_ajax ( "/page_common/upload_xls_data",{
-                xls_data :  JSON.stringify(list_data )
-            },function(data){
-                window.location.href= "/common_new/download_xls";
-            });
-        };
+        //     $.do_ajax ( "/page_common/upload_xls_data",{
+        //         xls_data :  JSON.stringify(list_data )
+        //     },function(data){
+        //         window.location.href= "/common_new/download_xls";
+        //     });
+        // };
 
-        download_item.on("click",function(){
-            if ($(".page-opt-show-all").length >0 ) {
-                BootstrapDialog.show({
-                    title   : '下载为xls',
-                    message : '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
-                    buttons : [{
-                        label  : '返回',
-                        action : function(dialog) {
-                            dialog.close();
-                        }
-                    }, {
-                        label    : '确认',
-                        cssClass : 'btn-warning',
-                        action   : function(dialog) {
-                            download_fun();
+        // download_item.on("click",function(){
+        //     if($(".page-opt-show-all").length >0 ) {
+        //         BootstrapDialog.show({
+        //             title   : '下载为xls',
+        //             message : '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
+        //             buttons : [{
+        //                 label  : '返回',
+        //                 action : function(dialog) {
+        //                     dialog.close();
+        //                 }
+        //             }, {
+        //                 label    : '确认',
+        //                 cssClass : 'btn-warning',
+        //                 action   : function(dialog) {
+        //                     download_fun();
+        //                 }
+        //             }]
+        //         });
+        //     }else{
+        //         download_fun();
+        //     }
+        // });
 
-                        }
-                    }]
-                });
-
-            }else{
-                download_fun();
-            }
-
-
-        });
-
-        opt_td.append(download_item );
+        // opt_td.append(download_item );
         if (!opt_td.css("min-width")  ) {
             opt_td.css("min-width","80px");
         }
-
 
         var config_item=$( " <a href=\"javascript:; \" style=\"color:red;\" title=\" 列显示配置\"   >列</a>");
         config_item.on("click",function(){
@@ -1038,28 +1024,26 @@ $(function(){
 
 
     //处理 page select num
-    $(".pages > .page-opt-show-all-xls"). on("click", function( e){
-        var url=$(this).attr("data");
-        var page_num=0xFFFFFFFF+2;
-        url=url.replace(/{Page}/, page_num  );
-        window.location.href=url;
-    });
+    // $(".pages > .page-opt-show-all-xls"). on("click", function( e){
+    //     var url=$(this).attr("data");
+    //     var page_num=0xFFFFFFFF+2;
+    //     url=url.replace(/{Page}/, page_num  );
+    //     window.location.href=url;
+    // });
 
     //do role
-
     do_role();
 
 });
-function do_role() {
 
-    var get_count_item= function( count ,title, url )  {
+function do_role() {
+    var get_count_item = function( count ,title, url )  {
         var $count_item=$('<li title="' + title+ '"   > <a href="' +url+ '" style="  font-size: 18px; font-weight: bold; " > <span >' + count + '</span> </a> </li>');
         if (count>0) {
             $count_item.find("a").css("background-color",  "orange" );
         }
         return $count_item;
     };
-
 
     if(typeof(g_account_role)!="undefined"){
         get_self_todo_list();
@@ -1503,7 +1487,6 @@ Enum_map = {
         };
     },
     append_option_list : function (group_name, $select , not_add_all_option, id_list ){
-        //console.log(group_name);
         var desc_map=g_enum_map[group_name]["desc_map"];
 
         var html_str="";
@@ -1573,7 +1556,6 @@ Enum_map = {
         });
     },
     append_option_list_new : function (group_name, $select , not_add_all_option, id_list ){
-        //console.log(group_name);
         var desc_map=g_enum_map[group_name]["desc_map"];
         var newkey = Object.keys(desc_map).sort().reverse();
         var newObj = {};//创建一个新的对象，用于存放排好序的键值对
@@ -1734,12 +1716,12 @@ function get_page_node(page_info ,reload_func)
         reload_func(url);
     });
 
-    $node.find(".page-opt-show-all-xls"). on("click", function( e){
-        var url=$(this).attr("data");
-        var page_num=0xFFFFFFFF+2;
-        url=url.replace(/{Page}/, page_num  );
-        reload_func(url);
-    });
+    // $node.find(".page-opt-show-all-xls"). on("click", function( e){
+    //     var url=$(this).attr("data");
+    //     var page_num=0xFFFFFFFF+2;
+    //     url=url.replace(/{Page}/, page_num  );
+    //     reload_func(url);
+    // });
 
 
     return $node;
@@ -2791,13 +2773,9 @@ var get_new_whiteboard = function (obj_drawing_list){
                             ,"stroke-color"     : "white"
                         };
                         break;
-
-
                     default :
                         console.log( "ERROR : " +  item_data.opt_type );
                         break;
-
-
                     }
 
                     item_data["opt_args"] = opt_args;
@@ -2810,26 +2788,80 @@ var get_new_whiteboard = function (obj_drawing_list){
                 //加载mp3
                 audiojs.events.ready(function(){
                     var as = audiojs.createAll({}, audio_node  );
-                    //reset width
-                    //
                     html_node.find(".audiojs").css("width",""+w+"px" );
                     html_node.find(".scrubber").css("width", (w-174).toString()+"px" );
-                    //
                     as[0].load( mp3_file  );
                 });
             });
         }
     };
-    // console.log(ret);
     return ret;
 };
 
-//下载隐藏
-function download_hide(){
-    $(".fa-download").hide();
-    $(".page-opt-show-all-xls").hide();
-}
 
+//下载显示
+function download_show(){
+    var thead=$(".common-table thead  ");
+
+    $.each(thead, function(table_i,th_item){
+        if ($(th_item).parent().hasClass("table-clean-flag") ){
+            return;
+        }
+        var path_list     = window.location.pathname.split("/");
+        var table_key     = path_list[1]+"-"+path_list[2]+"-"+ table_i;
+        var opt_td        = $(th_item).find ("td:last");
+        var download_item = $( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
+        var download_fun  = function () {
+            var list_data = [];
+            var $tr_list  = $(th_item).closest("table").find("tr" );
+            $.each($tr_list ,function(i,tr_item )  {
+                var row_data= [];
+                var $td_list= $(tr_item ).find("td");
+                $.each(  $td_list, function( i, td_item)  {
+                    console.log(td_item.className);
+
+                    if ( i>0 && i< $td_list.length-1 ) {
+                        if(td_item.className != 'ellipsis_jiaowu'){
+                            row_data.push( $.trim( $(td_item).text()) );
+                        }
+                    }
+                });
+                list_data.push(row_data);
+            });
+
+            $.do_ajax ( "/page_common/upload_xls_data",{
+                xls_data :  JSON.stringify(list_data )
+            },function(data){
+                window.location.href= "/common_new/download_xls";
+            });
+        };
+
+        download_item.on("click",function(){
+            if($(".page-opt-show-all").length >0 ) {
+                BootstrapDialog.show({
+                    title   : '下载为xls',
+                    message : '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
+                    buttons : [{
+                        label  : '返回',
+                        action : function(dialog) {
+                            dialog.close();
+                        }
+                    }, {
+                        label    : '确认',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
+                            download_fun();
+                        }
+                    }]
+                });
+            }else{
+                download_fun();
+            }
+        });
+
+        opt_td.append(download_item );
+    });
+}
 
 $(function () {
     $('.common-table').each(function(){
@@ -2839,4 +2871,7 @@ $(function () {
     });
 });
 
-//countly_log("管理平台");
+//下载隐藏
+function download_hide(){
+    $(".page-opt-show-all-xls").hide();
+}

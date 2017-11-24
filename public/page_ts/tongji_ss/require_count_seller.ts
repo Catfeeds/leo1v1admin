@@ -25,12 +25,13 @@ $(function(){
     });
 
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
-
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
-
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 
     init_show_level();
+    if(g_adminid==726){
+        download_show();
+    }
 });
 
 function  init_show_level() {

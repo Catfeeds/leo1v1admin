@@ -60,6 +60,12 @@
                     <td >课时区间</td>
                     <td >优惠类型</td>
                     <td >是否开启</td>
+                    <td style="display:none">是否手动开启</td>
+                    <td style="display:none">优惠力度</td>
+                    <td style="display:none">最大合同数</td>
+                    <td style="display:none">最大修改累计值</td>
+                    <td style="display:none">用户加入时间范围</td>
+                    <td style="display:none">最近一次试听时间范围</td>
                     <td >操作</td>
                 </tr>
             </thead>
@@ -74,6 +80,13 @@
                 <td >{{$var["lesson_times_range"]}}</td>
                 <td >{{$var["order_activity_discount_type_str"]}}</td>
                 <td >{{$var["open_flag_str"]}}</td>
+
+                <td >{{$var["can_disable_flag_str"]}}</td>
+                <td >{{$var["power_value"]}}</td>
+                <td >{{$var["max_count"]}}</td>
+                <td >{{$var["max_change_value"]}}</td>
+                <td >{{$var["user_join_time_range"]}}</td>
+                <td >{{$var["last_test_lesson_range"]}}</td>
                 <td >
                     <div 
                         {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -89,12 +102,6 @@
         @include("layouts.page")
 
     </section>
-    <div class="grade_arr hide">
-        @foreach ($gradeArr as $var => $val)
-            <label><input name="re_submit" type="checkbox" value="{{$var}}" />{{$val}}</label>
-        @endforeach
-    </div>
-
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>

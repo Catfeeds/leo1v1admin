@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "yb_account/common.proto";
+
+//__CMD: 0x1001
+//__DESC: 用户登录
+//__TAGS: for_app,for_admin
+
+message in  {
+  int32  role = 1; // 角色
+  string phone = 2; //电话
+  string passwd = 3; //密码 :md5( md5(passswd)."@leo1v1" ) 
+}
+
+message out {
+  int32  login_succ_flag = 1;
+  int32  id = 2 ;
+}
+
