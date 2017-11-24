@@ -804,6 +804,9 @@ $(function(){
                    // console.log(userid_list);
                     var tb = html_node.find("#id_time_body_1").find("tr");
                     var th = html_node.find("#th_list_1");
+                    var now_date = new Date(); //时间对象
+                    var now_time = now_date.getTime();
+
                     th.each(function(){
                         var $this=$(this);
                         $this.find("th").each(function(i,item){
@@ -812,7 +815,7 @@ $(function(){
                                 var tmp_date1=$.DateFormat(next_day+(i-2)*86400,"MM-dd" );
                                 $th.text(tmp_date1);
                             }
-                            console.log(i);
+                            //console.log(i);
                         });
                     });
                    // console.log(tb);
@@ -829,8 +832,9 @@ $(function(){
 
                                     var $td=$(item);
                                     var tmt = tmp_date+" "+timeid;
+                                    var oldTime = (new Date(tmt)).getTime();
                                   //  console.log(tmt);
-                                    if(tmt == it){
+                                    if(tmt == it || now_time>=oldTime){
                                         $td.addClass("select_free_time");
                                     }
                                 }
