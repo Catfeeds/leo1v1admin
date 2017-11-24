@@ -58,9 +58,7 @@ class TeacherMoneyTask extends TaskController
      */
     public function set_teacher_trial_success_reward($type,$day){
         $begin_time = $this->get_begin_time($type,$day);
-        if($type==5){
-            $list = $this->t_test_lesson_subject_sub_list->get_trial_reward_lesson_list($begin_time,$type);
-        }
+
         $this->t_test_lesson_subject_sub_list->switch_tongji_database();
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
 

@@ -741,7 +741,9 @@ trait TeaPower {
                 );
             }
         }else{
-            if($test_lesson_num >=6 && $is_test==0){
+
+            $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
+            if($test_lesson_num >=6 && $is_test==0 && $teacher_type !=3){                
                 return $this->output_err(
                     "新入职老师,试听课一周限排6节!目前老师已排".$test_lesson_num."节!目前老师已排".$test_lesson_num."节."
                 );
@@ -2877,7 +2879,7 @@ trait TeaPower {
 
     //获取质监/教研 空闲时间
     public function get_not_free_time_list($subject,$grade){
-        $start_time = strtotime("+1 day",strtotime(date("Y-m-d 9:00",time())));
+        $start_time = strtotime(date("Y-m-d 9:00",time()));
         $end_time   = strtotime("+1 week",strtotime(date("Y-m-d 20:00",time())));
 
         if($subject==0 || $grade==0){

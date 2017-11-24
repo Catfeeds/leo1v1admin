@@ -218,6 +218,7 @@ return [
             "118.190.142.107",//q8
             "118.190.32.129",//q_9
             "118.190.32.67" ,//q_10
+            "47.104.59.33" ,//q_11
         ]),
     "xmpp_server_list"=>[
         "118.190.65.189",//q
@@ -240,6 +241,12 @@ return [
             400 => "0.08",
             540 => "0.09",
         ],
+    ],
+    // 企业微信
+    'company_wx'=>[
+        'url'    => 'https://qyapi.weixin.qq.com',
+        'CorpID' => 'wwe9748dcadfba90f7',
+        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk'
     ],
 
 ];

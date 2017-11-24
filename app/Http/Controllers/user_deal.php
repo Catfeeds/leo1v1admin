@@ -910,6 +910,12 @@ class user_deal extends Controller
                             "新签合同赠送 抢新生名额[$count] "
                             ,"学生:". $this->cache_get_student_nick($userid)
                             ,"");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            'tom',
+                            "系统",
+                            "新签合同赠送 抢新生名额[$count] "
+                            ,"学生:". $this->cache_get_student_nick($userid)
+                            ,"");
                     }
                 }
             }
@@ -4071,8 +4077,18 @@ class user_deal extends Controller
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
-        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_new);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($start_time_new>=$item['start_time'] && $start_time_new<$item['end_time']){
+                $start_time_this = $item['def_time'];
+                break;
+            }
+        }
+        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
         $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
+        $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
+        $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
 
         return $this->output_succ($arr);
     }

@@ -2440,7 +2440,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["t.check_subject=%u",$subject,0],
             ["t.check_grade like '%%%s%%'",$grade,""],
-            "m.account_role in (4,9)",
+            "m.account_role in (9)",
         ];
 
         $sql = $this->gen_sql_new("select teacherid,account_role "
@@ -4744,12 +4744,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_test_user=0",
             "quit_time=0",
             "bankcard=0",
-            "lesson_hold_flag=0",
-            "t.wx_openid !=''"
+            // "lesson_hold_flag=0",
+            "t.wx_openid !=''",
+            "t.train_through_new=1"
         ];
 
         $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
-                                  ." where %s limit 1"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -4801,13 +4802,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_identity_for_teacher_type() {
+    public function get_identity_for_teacher_type($type='') {
         $where_arr = [
             't.identity=0',
             'ta.teacher_type!=0'
         ];
+        if ($type == 1) {
+            $where_arr = [
+                't.identity!=0',
+                'ta.teacher_type!=0',
+                't.identity!=ta.teacher_type'
+            ];
+        }
             //select ta.teacher_type from t_teacher_lecture_appointment_info ta left join t_teacher_info t on ta.phone=t.phone where t.identity = 0 and ta.teacher_type !=0
-        $sql = $this->gen_sql_new("select t.teacherid,ta.teacher_type "
+        $sql = $this->gen_sql_new("select t.teacherid,t.identity,ta.id,ta.teacher_type "
                                   ."from %s ta left join %s t "
                                   ."on ta.phone=t.phone where %s",
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
