@@ -565,7 +565,7 @@ class agent extends Controller
             $require_adminid_arr = array_unique($son_adminid_arr);
             $group_type = count($require_adminid_arr)>1?1:0;
             $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
-            dd($intersect);
+            dd($require_adminid_list_new,$son_adminid,$intersect);
             if(count($intersect)>0){
                 // $require_adminid_list_new = $intersect;
                 $admin_revisiterid = $require_adminid_list_new[0];
