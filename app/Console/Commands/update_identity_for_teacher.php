@@ -49,5 +49,16 @@ class update_identity_for_teacher extends Command
             ]);
             $i ++;
         }
+
+        // llsl
+        $identity = $task->t_teacher_info->get_identity_for_teacher_type(1);
+        $i = 1;
+        foreach($identity as $item) {
+            if ($i % 1000 == 0) sleep(10);
+            $task->t_teacher_lecture_appointment_info->field_update_list($item['id'],[
+                'teacher_type' => $item['identity']
+            ]);
+            $i ++;
+        }
     }
 }
