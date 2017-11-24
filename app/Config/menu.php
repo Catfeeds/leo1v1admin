@@ -134,7 +134,6 @@ class menu{
             ]],
             ["power_id"=>2, "name"=>"课程管理", "list"=> [
                 ["power_id"=>1, "name"=>"课程管理",   "url"=>"/tea_manage/lesson_list"],
-                ["power_id"=>12, "name"=>"error 课程视频",   "url"=>"/user_manage_new/get_error_record_lesson_list"],
                 ["power_id"=>11, "name"=>"课程列表", "list"=> [
                     ["power_id"=>1, "name"=>"老师-课程列表",   "url"=>"/tea_manage/tea_lesson_list"],
                 ]],
@@ -149,7 +148,6 @@ class menu{
                 ]],
                 ["power_id"=>14, "name"=>"培训课堂",   "url"=>"/tea_manage/train_lesson_list"],
                 ["power_id"=>15, "name"=>"培训未通过",   "url"=>"/tea_manage/train_not_through_list"],
-                ["power_id"=>8, "name"=>"课程错误报告",  "url"=>"/lesson_manage/error_info"],
                 ["power_id"=>9, "name"=>"课程统计信息",   "url"=>"/tea_manage/lesson_account"],
                 ["power_id"=>10, "name"=>"登陆过多统计",   "url"=>"/lesson_manage/stu_login_count"]
             ]],

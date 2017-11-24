@@ -42,6 +42,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             return $item['lessonid'];
         });
     }
+
     public function lesson_common_where_arr($others_arr=[]) {
         $others_arr[] ="lesson_del_flag=0" ;
         $others_arr[] ="confirm_flag<2" ;
@@ -61,13 +62,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
-    }
-
-    public function get_all_lesson_by_userid($userid) {
-        $sql=$this->gen_sql_new("select lesson_count  from  %s  "
-                                ."where userid=%u   "
-                                ,self::DB_TABLE_NAME
-        );
     }
 
     public function lesson_account($lesson_type,$start_date_s,$end_date_s,$teacherid,$page_num){
