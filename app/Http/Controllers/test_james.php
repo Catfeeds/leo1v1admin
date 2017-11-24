@@ -1250,16 +1250,9 @@ $test=	3;
         //使用客服接口发送消息
         $txt_arr = [
             'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
-            'msgtype'  => 'news',
-            "news"=>[
-                "articles"=> [
-                    [
-                        "title"=>"TEST MSG",
-                        "description"=>"Is Really A Happy Day",
-                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-                        "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
-                    ]
-                ]
+            'msgtype'  => 'text',
+            "text"=>[
+                "content"=>"Hello World <a href='https://baidu.com'>百度</a>"
             ]
         ];
 
