@@ -51,6 +51,7 @@ class Kernel extends ConsoleKernel
         Commands\audio_post::class,
         Commands\sync_email_account::class,
         Commands\tom_do_once::class,
+        Commands\update_seller_add_time::class,
         Commands\office_close::class,
         Commands\reset_lesson_online_user_status_by_stroke_time::class,
         Commands\update_lesson_call_time::class,

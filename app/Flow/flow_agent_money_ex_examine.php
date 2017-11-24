@@ -45,7 +45,10 @@ class flow_agent_money_ex_examine extends flow_base{
 
     static function next_node_process_0 ($flowid ,$adminid){ //
         $task=static::get_task_controler();
-        return $task->t_manager_info->get_id_by_account("jim");
+        if(\App\Helper\Utils::check_env_is_local())
+            return $task->t_manager_info->get_id_by_account("jim");
+        else
+            return $task->t_manager_info->get_id_by_account("amanda");
     }
 
     static function next_node_process_1 ($flowid ,$adminid){ //

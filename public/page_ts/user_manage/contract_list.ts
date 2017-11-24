@@ -3179,5 +3179,10 @@ $(function(){
     if(g_args.show_download == 0){
         $(".fa-download").hide();
     }
+
+    //施文斌
+    if(g_adminid==540){
+        download_show();
+    }
 });
 

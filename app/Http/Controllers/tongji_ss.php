@@ -1511,17 +1511,8 @@ class tongji_ss extends Controller
             $item['call_time_long'] = $hour.'时'.$min.'分'.$sec.'秒';
         }
 
-        $adminid = $this->get_account_id();
-        $download_flag = 0;
-        if($adminid==726 || \App\Helper\Utils::check_env_is_local()){
-            $download_flag = 1;
-        }else{
-            $download_flag = 0;
-        }
-
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right"=>$adminid_right,
-            "download_flag"=>$download_flag
         ]);
     }
 

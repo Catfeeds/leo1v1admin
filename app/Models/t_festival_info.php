@@ -21,14 +21,23 @@ class t_festival_info extends \App\Models\Zgen\z_t_festival_info
         ]);
     }
 
-    public function get_new_crate_festival_list($page_info,$start_time,$end_time){
+    public function get_new_create_festival_list($page_info,$start_time,$end_time){
         $where_arr=[
             ["begin_time>=%u",$start_time,0],  
-            ["end_time<%u",$end_time,0],
+            ["begin_time<%u",$end_time,0],
             "days>0"
         ];
         $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_festival_info_by_end_time($end_time){
+        $where_arr=[ 
+            ["end_time=%u",$end_time,0],
+            "days>0"
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
     }
 }
 
