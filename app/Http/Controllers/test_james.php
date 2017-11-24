@@ -1252,7 +1252,7 @@ $test=	3;
             'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
             'msgtype'  => 'text',
             "text"=>[
-                "content"=>"Hello World <a href='https://baidu.com'>百度</a>"
+                "content"=>"Hello World <a href='https://baidu.com' onclick='alert('你已经点击了我！');' >百度</a>"
             ]
         ];
 
@@ -1275,7 +1275,7 @@ $test=	3;
         $data = [
             "first"     => "微信 老师推送测试",
             "keyword1"  => "\<a href='https://baidu.com \>1\<\/a\>",
-            "keyword2"  => "微信推送测试 ".'<a href="https://baidu.com">百度</a>',
+            "keyword2"  => "微信推送测试 ".'<a onclick="alert("你已经点击了我！");" >百度</a>',
             "keyword3"  => date('Y-m-d H:i:s'),
         ];
         $openid = "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc";
