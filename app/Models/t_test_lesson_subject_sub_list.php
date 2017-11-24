@@ -247,69 +247,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_list($sql);
     }
 
-    public function get_trial_reward_lesson_list($start_time,$type){
-        $where_arr = [
-            ["l.lesson_start>%u",$start_time,0],
-            "l.lesson_type=2",
-            "l.lesson_del_flag=0",
-            "l.lesson_status=2",
-            "t.is_test_user=0",
-            "l.stu_attend>0",
-            "l.tea_attend>0",
-        ];
-
-        if($type==5){
-            $where_arr[] = "l.teacher_money_type in (4,5,6) ";
-        }elseif($type==3){
-            $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
-        }
-        $normal_arr = [
-            "lesson_type in (0,1,3)",
-            "l.lesson_start<lesson_start",
-            "l.teacherid=teacherid",
-            "l.subject=subject",
-            "l.userid=userid",
-            "confirm_flag!=2",
-            "lesson_del_flag=0",
-            "lesson_status=2",
-        ];
-        $money_arr = [
-            "l.lessonid=lessonid",
-            "type=2",
-        ];
-        //试听课取常规课前最后一节
-        $last_lesson_arr = [
-            "lesson_type=2",
-            "l.lesson_start<lesson_start",
-            "l.teacherid=teacherid",
-            "l.userid=userid",
-            "lesson_del_flag=0",
-            "lesson_status=2",
-        ];
-        $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start"
-                                  // ." ,t.phone,tls.require_admin_type"
-                                  ." from %s l"
-                                  ." left join %s t on l.teacherid=t.teacherid"
-                                  ." where %s "
-                                  ." and exists (select 1 from %s where %s)"
-                                  ." and not exists (select 1 from %s where %s)"
-                                  ." and not exists (select 1 from %s where %s)"
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,$where_arr
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$normal_arr
-                                  ,t_teacher_money_list::DB_TABLE_NAME
-                                  ,$money_arr
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$last_lesson_arr
-        );
-        if(\App\Helper\Utils::check_env_is_local()){
-            dd($sql);exit;
-        }
-        return $this->main_get_list($sql);
-    }
-
     public function  tongji_lesson_count_list($start_time,$end_time){
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);

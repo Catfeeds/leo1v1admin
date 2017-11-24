@@ -342,36 +342,6 @@ class index extends Controller
 
     }
 
-    public function s() {
-        if (false===\App\Helper\Common::send_mail_leo_com("329732001@qq.com","test" , "KKK sadfas" )) {
-            echo "fail";
-
-        }else{
-            echo "succ";
-        }
-
-
-        //dispatch(new \App\Jobs\send_error_mail("329732001@qq.com","SSSS 看得到", "KKK sadfas" ));
-
-        //dispatch(new \App\Jobs\send_error_mail("329732001@qq.com","SSSS 看得到", "KKK sadfas" ) deal_ssh_lock_user );
-
-        /*
-        if (false===\App\Helper\Common::send_mail_admin("329732001@qq.com","sssxx" , "KKK sadfas" )) {
-            echo "faile" ;
-        }
-        */
-        /*
-        $job= new \App\Jobs\StdentResetLessonCount(60001);
-        */
-        /*
-        $job=new \App\Jobs\SendEmail("xcwenn@qq.com",
-            "XXX",
-             "KKKKKKKKKKK" );
-        */
-        //dispatch($job);
-        //\App\Helper\Net::send_sms_taobao("15601830297",0, 7771547 ,["time"=>"xx"]);
-    }
-
     public function get_admin_phone(){
         $account=$this->get_in_str_val("account");
 
