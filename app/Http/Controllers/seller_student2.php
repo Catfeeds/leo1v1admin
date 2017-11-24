@@ -116,8 +116,9 @@ class seller_student2 extends Controller
         $can_disable_flag = $this->get_in_int_val('can_disable_flag',1);
         $open_flag = $this->get_in_int_val('open_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
-
+        $id = date('YmdHis',strtotime("now")).'01';
         return $this->t_seller_student2->row_insert([
+            "id"   => $id,
             "title"   => $title,
             "period_flag_list"   => $period_flag_list,
             "contract_type_list"   => $contract_type_list,
@@ -281,7 +282,26 @@ class seller_student2 extends Controller
     }
 
     public function update_order_activity_01(){
+        //返回结果
+        $result['status'] = 200;
+       
         $id = $this->get_in_int_val('id');
+        $id_after = $this->get_in_int_val('id_after');
+
+        if(empty($id_after)){
+            $result['status'] = 500;
+            $result['info'] = "id不能为空！";
+            return $result;
+
+        }
+        if( $id != $id_after){
+            $item = $this->t_seller_student2->get_by_id($id_after);
+            if($item){
+                $result['status'] = 500;
+                $result['info'] = "id:".$id_after."已经存在，请换个id输入！";
+                return $result;
+            }
+        }
         $title = $this->get_in_str_val('title','-1');
         $date_range_start = trim($this->get_in_str_val('date_range_start',null));
         $date_range_end = trim($this->get_in_str_val('date_range_end',null));
@@ -290,6 +310,7 @@ class seller_student2 extends Controller
 
         $updateArr = [
             'title' => $title,
+            'id'=>$id_after,
             'lesson_times_min' => $lesson_times_min,
             'lesson_times_max' => $lesson_times_max,
         ];
@@ -297,11 +318,16 @@ class seller_student2 extends Controller
         !empty($date_range_start) ? $updateArr['date_range_start'] = strtotime($date_range_start.' 00:00:00') : $updateArr['date_range_start'] = null;
         !empty($date_range_end) ? $updateArr['date_range_end'] = strtotime($date_range_end.' 23:59:59') : $updateArr['date_range_end'] = null;
 
-
+ 
         if($this->t_seller_student2->field_update_list($id,$updateArr)){
-            return $this->output_succ();
+            $result['info'] = '更新成功';
+            $result['data'] = $id_after;
+            return $this->output_succ($result);
         }else{
-            return $this->output_err("更新出错！");
+            $result['info'] = '更新失败';
+            $result['status'] = 500;
+            return $this->output_succ($result);
+
         };
 
     }
