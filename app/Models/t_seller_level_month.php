@@ -22,15 +22,18 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_row_by_adminid_month_date($adminid=-1,$month_date=-1){
+    public function get_row_by_adminid_month_date($adminid=-1,$month_date=-1,$define_date=1509465600){
         $where_arr = [
-            ['adminid=%u',$adminid,-1],
-            ['month_date=%u',$month_date,-1],
+            ['m.adminid=%u',$adminid,-1],
+            ['m.month_date=%u',$month_date,-1],
+            ['s.define_date=%u',$define_date,-1],
         ];
         $sql = $this->gen_sql_new(
-            " select * "
-            ." from %s "
-            ." where % s limit 1 "
+            " select m.seller_level,"
+            ."s.base_salary,s.sup_salary,s.per_salary "
+            ." from %s m "
+            ." left join %s s on s.seller_level=m.seller_level"
+            ." where %s limit 1 "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
