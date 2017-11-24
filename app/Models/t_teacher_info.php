@@ -4802,13 +4802,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_identity_for_teacher_type() {
+    public function get_identity_for_teacher_type($type='') {
         $where_arr = [
             't.identity=0',
             'ta.teacher_type!=0'
         ];
+        if ($type == 1) {
+            $where_arr = [
+                't.identity!=0',
+                'ta.teacher_type!=0',
+                't.identity!=ta.teacher_type'
+            ];
+        }
             //select ta.teacher_type from t_teacher_lecture_appointment_info ta left join t_teacher_info t on ta.phone=t.phone where t.identity = 0 and ta.teacher_type !=0
-        $sql = $this->gen_sql_new("select t.teacherid,ta.teacher_type "
+        $sql = $this->gen_sql_new("select t.teacherid,t.identity,ta.id,ta.teacher_type "
                                   ."from %s ta left join %s t "
                                   ."on ta.phone=t.phone where %s",
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
