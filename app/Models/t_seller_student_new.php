@@ -1338,11 +1338,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             // ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($opt_date_str == 'n.seller_add_time'){
-            $where_arr[] = ['n.seller_add_time=%u',strtotime(date('Y-m-d'))];
             $opt_date_str = 'n.last_revisit_time';
-        }else{
-            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         }
         if($nick || $phone) {
             $userid = $this->task->t_phone_to_user->get_userid($phone);
@@ -1395,7 +1393,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 return $this->main_get_list_as_page($sql);
             }else{
                 return $this->main_get_page_random($sql,1);
-            }    
+            }
         }
     }
 
