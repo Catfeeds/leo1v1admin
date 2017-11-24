@@ -7,10 +7,11 @@ syntax = "proto3";
 message in  {
   int32  role = 1; // 角色
   string phone = 2; //电话
-  string passwd = 3; //密码
+  string passwd = 3; //密码 md5(passwd) 
+  string reg_ip = 4; //注册ip (xxx.xx.xx.xx)
+  string reg_channel = 5; //注册渠道
 }
 
 message out {
-  int32  login_succ_flag = 1;
-  int32  id = 2 ;
+  int32  id = 1 ;
 }

@@ -1147,14 +1147,14 @@ class ss_deal extends Controller
     }
 
     public function get_test_lesson_subject_list_js() {
-        $page_num=$this->get_in_page_num();
+        $page_info=$this->get_in_page_info();
         $userid = $this->get_in_userid();
         //$admin_revisiterid, $seller_student_status_in_str , $userid,  $seller_student_status ,
              //$origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
              //$phone_location, $has_pad, $seller_resource_type ,$origin_assistantid,$tq_called_flag
              //,$phone, $nick ,$origin_assistant_role,$success_flag,$seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1
 
-        $ret_list=$this->t_seller_student_new ->get_seller_list  ($page_num, -1,"",$userid,-1,"","add_time", 0, 0, -1,-1,"",-1,-1, -1, -1, "","",-1, -1 );
+        $ret_list=$this->t_seller_student_new ->get_seller_list_for_select  ($page_info, $userid,"","" );
 
         foreach($ret_list["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
