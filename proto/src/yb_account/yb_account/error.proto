@@ -2,7 +2,12 @@ syntax = "proto3";
 package error;
 option php_namespace = "Proto\\yb_account\\error"; 
 enum  enum_error {
+
+  //成功
   ERR_SUCC  =0;
+
+  //系统出错
+  ERR_SYSTEM  = 1002 ;
 
   //报文长度长度不对(IN)
   ERR_IN_PROTO_LEN  = 1000 ;
