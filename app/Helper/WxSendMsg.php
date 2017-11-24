@@ -2,7 +2,7 @@
 namespace App\Helper;
 
 class WxSendMsg{
-    //wx-parent-for-prize.php549
+
     /**
      * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
      * 标题课程 : 待办事项提醒
@@ -13,6 +13,29 @@ class WxSendMsg{
      * {{remark.DATA}}
      */
     static $tea_todo_reminder = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+
+    /**
+     * 模板ID   : J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o
+     * 待定模板----调课结果待定,老师
+     * {{first.DATA}}
+     * {{keyword1.DATA}}
+     * {{keyword2.DATA}}
+     * {{keyword3.DATA}}
+     * {{remark.DATA}}
+     */
+    static $tea_change_lesson_wait_pass = 'J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o';
+
+    /**
+     * 模板ID   : Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
+     * 待定模板----调课结果待定,家长
+     * {{first.DATA}}
+     * 课程名称：{{keyword1.DATA}}
+     * 课程时间：{{keyword2.DATA}}
+     * 学生姓名：{{keyword3.DATA}}
+     * {{remark.DATA}}
+     */
+    static $par_change_lesson_wait_pass = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+
 
     /**
      * 模板ID   : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
@@ -163,21 +186,6 @@ class WxSendMsg{
     public function __construct() {
     }
 
-    static public function get_app_id_secret($type='yxyx'){
-        $arr = [];
-        if ($type == 'yxyx'){
-            $arr['appid']     = \App\Helper\Config::get_wx_appid();
-            $arr['appsecret'] = \App\Helper\Config::get_wx_appsecret();
-        } else if ($type == 'teacher') {
-            $arr['appid']     = \App\Helper\Config::get_teacher_wx_appid();
-            $arr['appsecret'] = \App\Helper\Config::get_teacher_wx_appsecret();
-        } else if ($type == 'online'){
-            // $arr['appid']     = \App\Helper\Config::get_teacher_wx_appid();
-            // $arr['appsecret'] = \App\Helper\Config::get_teacher_wx_appsecret();
-        }
-        return $arr;
-    }
-
     //老师 待办事项提醒
     static public function template_tea_tip($wx_openid,$first, $keyword1, $keyword2,$keyword3,$remark,$url){
         $template_id      = WxSendMsg::$tea_todo_reminder;
@@ -186,7 +194,7 @@ class WxSendMsg{
         $data['keyword2'] = $keyword2;
         $data['keyword3'] = $keyword3;
         $data['remark']   = $remark;
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
     }
 
     //老师　面试通知
@@ -202,7 +210,7 @@ class WxSendMsg{
         $data['keyword3'] = date("Y-m-d H:i",time());
         $data['remark']   = "请查阅邮件(报名时填写的邮箱),准备好耳机和话筒,并在面试开始前5分钟进入软件,理优教育致力于打造高水平的教学服务团队,期待您的加入,加油!";
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data);
 
     }
 
@@ -216,7 +224,7 @@ class WxSendMsg{
         $data['keyword3'] = date("Y-m-d",time());
         $data['remark']   = "如有任何疑问可在新师培训群：315540732咨询【师训】沈老师。";
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data);
 
     }
 
@@ -240,7 +248,7 @@ class WxSendMsg{
             $data['remark']   = "";
             $url = "http://www.leo1v1.com/login/teacher";
 
-            self::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
 
         }
     }
@@ -268,7 +276,7 @@ class WxSendMsg{
             $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
         }
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
 
     }
 
@@ -285,9 +293,8 @@ class WxSendMsg{
         }
         $data['keyword3'] = date("Y-m-d H:i",time());
         $data['remark']   = "通过模拟试听即可获得晋升，理优教育致力于打造高水平的教学服务团队，期待您能通过审核，加油！";
-        $url = "";
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data);
 
     }
 
@@ -300,7 +307,7 @@ class WxSendMsg{
         $data['keyword3'] = date("Y-m-d H:i:s");
         $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
         $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?id=".$info['id'];
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
 
     }
 
@@ -314,7 +321,7 @@ class WxSendMsg{
         $data["keyword3"] = date("Y年m月d日",time());
         $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
         $offer_url        = "http://admin.leo1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
-        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
+        self::wx_send_to_teacher($teacher_info['wx_openid'],$template_id,$data,$offer_url);
 
     }
 
@@ -328,8 +335,7 @@ class WxSendMsg{
             "keyword3" => $teacher_info['stu_nick'],
             "remark"   => '可登录学生端查看详情，谢谢！',
         ];
-        $url = '';
-        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id, $data,$url);
+        self::wx_send_to_teacher($teacher_info['wx_openid'],$template_id, $data);
 
     }
 
@@ -357,8 +363,7 @@ class WxSendMsg{
             $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
         }
 
-        $url = '';
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -370,7 +375,7 @@ class WxSendMsg{
         $data['keyword2'] = $content;
         $data['keyword3'] = date("Y-m-d H:i",time());
         $data['remark']   = "";
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -388,8 +393,7 @@ class WxSendMsg{
                         ."\n3、联系助教/咨询老师进行协调处理"
                         ."\n希望老师之后碰到相关问题切莫惊慌，镇定处理。理优期待与你一起共同进步，提供高品质教学服务。";
 
-        $url = '';
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -407,7 +411,7 @@ class WxSendMsg{
         $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?teacherid=".$teacher_info['teacherid']
              ."&type=".$info['type']."&add_time=".$info['add_time'];
 
-        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id, $data,$url);
+        self::wx_send_to_teacher($teacher_info['wx_openid'],$template_id, $data,$url);
 
     }
 
@@ -421,7 +425,7 @@ class WxSendMsg{
         $data['remark']   = "\n升级原因:".$info['record_info']."\n您将获得20元的课时奖励,愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
         $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacher_info['teacherid'];
 
-        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id, $data,$url);
+        self::wx_send_to_teacher($teacher_info['wx_openid'],$template_id, $data,$url);
 
     }
 
@@ -434,8 +438,7 @@ class WxSendMsg{
         $data['keyword3'] = date("Y-m-d H:i",time());
         $data['remark']   = "升级后你的课时费每课时增加".$info['diff_money']."元，期待你在理优平台进一步成长进步，加油！";
 
-        $url = '';
-        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id, $data,$url);
+        self::wx_send_to_teacher($teacher_info['wx_openid'],$template_id, $data);
 
     }
 
@@ -452,7 +455,7 @@ class WxSendMsg{
         $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
         $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data,$url);
 
     }
 
@@ -466,7 +469,7 @@ class WxSendMsg{
         $data['keyword1'] = "试听课";
         $data['keyword2'] = $info['lesson_time'];
         $data['remark']   = $info['remark_ex']."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
-        self::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id, $data);
+        self::wx_send_to_teacher($teacher_info['wx_openid'],$template_id, $data);
 
     }
 
@@ -482,7 +485,7 @@ class WxSendMsg{
         $data['keyword2'] = date("Y-m-d H:i",time());
         $data['remark']   = "参加相关培训达标后，系统会放开排课限制，"
                           ."如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提高教学服务质量。";
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -493,7 +496,7 @@ class WxSendMsg{
         $data['keyword1'] = "试听课";
         $data['keyword2'] = date("Y-m-d H:i",time());
         $data['remark']   = "请继续关注理优的培训活动，理优期待与你一起共同进步，提高教学服务质量。";
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -508,7 +511,7 @@ class WxSendMsg{
                           ."如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提高教学服务质量。";
 
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -525,25 +528,25 @@ class WxSendMsg{
         $data['remark']   = "请继续关注理优的培训活动，理优期待与你一起共同进步，提高教学服务质量。";
 
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
     //老师　优秀视频推荐
-    static public function template_tea_good_video($wx_openid, $info){
+    static public function template_tea_good_video($wx_openid, $tea_name,$grade,$content,$lesson_start,$reason,$url){
         $template_id      = WxSendMsg::$tea_todo_reminder;
-        $data['first']    = $info["realname"]."老师试听转化率较高，现推荐该老师的部分优秀视频供老师们观看，希望有所帮助";
+        $data['first']    = $tea_name."老师试听转化率较高，现推荐该老师的部分优秀视频供老师们观看，希望有所帮助";
         $data['keyword1'] = "优秀视频推荐";
-        $data['keyword2'] = $info['grade_str'].",课程内容:".$info['class_content'];
-        $data['keyword3'] = date("Y-m-d H:i",$info['lesson_start']);
-        $data['remark']   = $info['send_reason']
+        $data['keyword2'] = $grade.",课程内容:".$content;
+        $data['keyword3'] = date("Y-m-d H:i",$lesson_start);
+        $data['remark']   = $reason
                           ."\n理优期待与你共同进步,打造高品质教学服务！"
                           ."\n立即观看优秀视频";
-        self::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
 
     }
 
-    //老师　投诉通知
+    //老师　投诉处理　反馈
     static public function template_tea_complaint($wx_openid, $nick,$content){
         $template_id = WxSendMsg::$tea_complaint;
 
@@ -552,7 +555,7 @@ class WxSendMsg{
         $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
         $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
@@ -560,19 +563,44 @@ class WxSendMsg{
     static public function template_tea_complaint_process($wx_openid, $keyword1,$keyword2='',$remark=''){
         $template_id = WxSendMsg::$tea_complaint_process;
 
+        $data["first"]    = "老师您好，您所提交的反馈已处理。";
         if($keyword2=='' && $remark == '') {
+            $data['first']      = "您好,您的反馈我们已经收到! ";
             $keyword2 = "已提交";
             $remark   = "我们会在3个工作日内处理,感谢您的反馈!";
         }
-        $data["first"]    = "老师您好，您所提交的反馈已处理。";
         $data['keyword1']   = $keyword1;
-        $data['keyword2']   = $keyword2;
-        $data['remark']     = $remark;
+        $data['keyword2']   = @$keyword2;
+        $data['remark']     = @$remark;
 
-        self::send_teacher_msg_for_wx($wx_openid,$template_id, $data);
+        self::wx_send_to_teacher($wx_openid,$template_id, $data);
 
     }
 
+    //后台　老师投诉通知
+    static public function template_leo_tea_complaint($wx_openid_arr, $nick,$content,$time,$is_app=false){
+        $template_id      = WxSendMsg::$wait_deal;
+        if($is_app == false){
+            $data = [
+                "first"     => "$nick 老师发布了一条投诉",
+                "keyword1"  => "常规投诉",
+                "keyword2"  => "老师投诉内容:$content",
+                "keyword3"  => "投诉时间 $time ",
+            ];
+            $url = 'http://admin.leo1v1.com/user_manage/qc_complaint/';
+        } else {
+            $data = [
+                "first"     => "$nick 老师发布了一条软件使用反馈",
+                "keyword1"  => "软件使用反馈",
+                "keyword2"  => "老师反馈内容:$content",
+                "keyword3"  => "反馈时间 $time ",
+            ];
+            $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_product';
+        }
+        foreach($wx_openid_arr as $openid){
+            self::wx_send_to_teacher($openid,$template_id, $data, $url);
+        }
+    }
 
     //后台　投诉待处理通知
     static public function template_complaint_tip($wx_openid, $nick, $content, $time){
@@ -584,7 +612,7 @@ class WxSendMsg{
             "keyword2"  => " 投诉内容:$content",
             "keyword3"  => " 分配时间:$time",
         ];
-        self::send_wx_to_manager($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
 
     }
 
@@ -600,7 +628,7 @@ class WxSendMsg{
             "remark"   => '申请说明:'.$content,
         ];
         $url = 'http://admin.leo1v1.com/test_lesson_review/test_lesson_review_list';
-        self::send_wx_to_manager($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
 
     }
 
@@ -615,7 +643,7 @@ class WxSendMsg{
             "keyword3"  => "QC投诉时间 $time ",
         ];
         $url = 'http://admin.leo1v1.com/user_manage/qc_complaint/';
-        self::send_wx_to_manager($wx_openid,$template_id,$data,$url);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
 
     }
 
@@ -624,14 +652,14 @@ class WxSendMsg{
 
         $template_id = WxSendMsg::$complaint_res;
 
-        $data_msg = [
+        $data = [
             "first"     => "尊敬的 家长 $nick 您好,您的投诉我们已处理",
             "keyword1"  => $content,
             "keyword2"  => "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!",
             "keyword3"  => $time_date,
         ];
 
-        self::send_wx_to_parent($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
 
     }
 
@@ -646,7 +674,54 @@ class WxSendMsg{
             "keyword3"  => $time,
             "remark"    => " 我们会在3个工作日内进行处理,感谢您的反馈!"
         ];
-        self::send_wx_to_parent($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
+
+    }
+
+    //后台　家长投诉待处理通知
+    static public function template_par_complaint($wx_openid, $nick, $content, $time){
+
+        $template_id = WxSendMsg::$wait_deal;
+        $data = [
+            "first"     => "家长投诉通知",
+            "keyword1"  => "家长投诉待处理",
+            "keyword2"  => "家长 $nick 投诉 $content",
+            "keyword3"  => "投诉时间 $time",
+        ];
+        $url = "http://admin.leo1v1.com/user_manage/complaint_department_deal_parent";
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
+
+    }
+
+    //后台　学生上传成绩提醒
+    static public function template_upload_score($wx_openid, $nick, $userid){
+
+        $template_id = WxSendMsg::$wait_deal;
+        $data = [
+            "first"     => "$nick 同学的家长上传了学生成绩",
+            "keyword1"  => "成绩录入提醒",
+            "keyword2"  => "点击详情进行查看",
+            "keyword3"  => date('Y-m-d H:i:s'),
+        ];
+        $url = 'http://admin.leo1v1.com/stu_manage/score_list?sid='.$userid;
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
+
+    }
+
+    //QC及上级领导　投诉处理
+    static public function template_qc_complaint($wx_openid,$first,$nick,$type,$content,$time,$deal_account,$deal_info){
+
+        $template_id = WxSendMsg::$qc_complaint_res;
+        $data = [
+            "first"     => $first,
+            "keyword1"  => $nick,
+            "keyword2"  => $type,
+            "keyword3"  => $time,
+            "keyword4"  => $content,
+            "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
+        ];
+        $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_teacher/';
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
 
     }
 
@@ -663,7 +738,7 @@ class WxSendMsg{
             "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
         ];
 
-        self::send_wx_to_parent($par_openid,$template_id,$data,$url);//发送给家长
+        self::wx_send_to_parent_or_leo($par_openid,$template_id,$data,$url);//发送给家长
 
         $template_id = WxSendMsg::$tea_todo_reminder;
         $tea_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
@@ -672,54 +747,7 @@ class WxSendMsg{
         $data['keyword2']   = " 原上课时间: $start ~ $end ;$result";
         $data['keyword3']   = $time;
         $data['remark']     = "请点击详情查看家长勾选的时间并进行处理!";
-        self::send_teacher_msg_for_wx($tea_openid,$template_id,$data,$url);//发送给老师
-    }
-
-    //后台　家长投诉待处理通知
-    static public function template_par_complaint($wx_openid, $nick, $content, $time){
-
-        $template_id = WxSendMsg::$wait_deal;
-        $data = [
-            "first"     => "家长投诉通知",
-            "keyword1"  => "家长投诉待处理",
-            "keyword2"  => "家长 $nick 投诉 $content",
-            "keyword3"  => "投诉时间 $time",
-        ];
-        $url = "http://admin.leo1v1.com/user_manage/complaint_department_deal_parent";
-        self::send_wx_to_manager($wx_openid,$template_id,$data,$url);
-
-    }
-
-    //后台　学生上传成绩提醒
-    static public function template_upload_score($wx_openid, $nick, $userid){
-
-        $template_id = WxSendMsg::$wait_deal;
-        $data = [
-            "first"     => "$nick 同学的家长上传了学生成绩",
-            "keyword1"  => "成绩录入提醒",
-            "keyword2"  => "点击详情进行查看",
-            "keyword3"  => date('Y-m-d H:i:s'),
-        ];
-        $url = 'http://admin.leo1v1.com/stu_manage/score_list?sid='.$userid;
-        self::send_wx_to_manager($wx_openid,$template_id,$data,$url);
-
-    }
-
-    //QC及上级领导　投诉处理
-    static public function template_qc_complaint($wx_openid,$first,$nick,$type,$content,$time,$deal_account,$deal_info){
-
-        $template_id = WxSendMsg::$qc_complaint_res;
-        $data_msg = [
-            "first"     => $first,
-            "keyword1"  => $nick,
-            "keyword2"  => $type,
-            "keyword3"  => $time,
-            "keyword4"  => $content,
-            "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
-        ];
-        $url = 'http://admin.leo1v1.com/user_manage/complaint_department_deal_teacher/';
-        self::send_wx_to_manager($wx_openid,$template_id,$data,$url);
-
+        self::wx_send_to_teacher($tea_openid,$template_id,$data,$tea_url);//发送给老师
     }
 
     //家长　调课进程通知
@@ -733,7 +761,7 @@ class WxSendMsg{
             "keyword3"  => $time,
             "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
         ];
-        self::send_wx_to_parent($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
     }
 
     //助教,教务,家长　学生上课时间调整通知
@@ -748,10 +776,129 @@ class WxSendMsg{
             "remark"     => " 修改人: $account 联系电话: $phone"
         ];
         if($type == 1){//助教,教务
-            self::send_wx_to_manager($wx_openid,$template_id,$data);
+            self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
         }else if ($type == 2){//家长
-            $data_msg['keyword2'] = "您 从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end";
+            $data['keyword2'] = "您 从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end";
             self::send_wx_to_par($wx_openid,$template_id,$data);
+        }
+
+    }
+
+    //老师　调课时间结果等待同意 通知
+    static public function template_tea_change_lesson_wait_pass($wx_openid,$stu_nick,$lesson_old_date,$result,$data_date){
+
+        $template_id      = WxSendMsg::$tea_todo_reminder;
+        $data['first']      = "您申请修改学生{ $stu_nick } 的家长发起的申请修改{ $lesson_old_date } 的上课时间 ";
+        $data['keyword1']   = " 调换{ $stu_nick } 的家长发起的换时间申请";
+        $data['keyword2']   = "原上课时间:{ $lesson_old_date } ,$result";
+        $data['keyword3']   = $day_date;
+        $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
+        self::wx_send_to_teacher($wx_openid,$template_id,$data);
+    }
+
+    //家长　调课时间结果等待同意　通知
+    static public function template_par_change_lesson_wait_pass($wx_openid,$tea_nick,$lesson_old_date,$result,$data_date){
+
+        $template_id        = WxSendMsg::$wait_deal;
+        $data = [
+            'first' => "{ $tea_nick } 老师要求调换您发起的换时间申请",
+            'keyword1' =>"调换{ $lesson_old_date }上课时间",
+            'keyword2' => "原上课时间:{ $lesson_old_date },$result",
+            'keyword3' => $day_date,
+            'remark'   => "请点击详情查看老师勾选的时间并进行处理!"
+        ];
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
+    }
+
+    //后台，家长，老师　　调课结果同意／拒绝　通知 **********开发中
+    static public function template_change_lesson_ret($par_openid,$tea_openid,$tea_nick,$stu_nick,$lesson_old_time,$lesson_new_time,$lesson_name,$master_openid_arr,$is_teacher_agree,$is_agree){
+        if($is_agree){
+
+            if($is_teacher_agree == 1){ // 家长同意
+                $data['first']        = "$tea_nick 老师您好, { $stu_nick }的家长同意将时间做出如下修改,原课程时间:{ $lesson_old_time },最终时间调整至{ $lesson_new_time }";
+
+                $data_parent['first'] = "$stu_nick 的家长您好,您发起的调课申请更改如下: 原课程时间:{ $lesson_old_time }; 最终时间调整至{ $lesson_new_time }";
+
+                $data_leo['first'] = "{ $tea_nick } 老师申请调整{ $stu_nick }的家长发起的调课申请,已获得{ $stu_nick }家长的同意,原课程时间{ $lesson_old_time },最终时间调整至{ $lesson_new_time }";
+            }elseif($is_teacher_agree == 2){ //老师同意
+                $data['first']      = " $tea_nick 老师您好,您于{".$lesson_old_time."的".$lesson_name."},已调整至{".$lesson_new_time."} ";
+
+                $data_parent['first'] = "$stu_nick 的家长您好,您的调课申请已经得到 $tea_nick 老师的同意,{ $lesson_old_time }已调整至{ $lesson_new_time }";
+
+                $data_leo['first']    = "$stu_nick 的家长的调课申请,已经得到{ $tea_nick }老师的同意,{ $lesson_old_time }已经调整至{ $lesson_new_time }";
+
+
+            }
+
+            $template_id_teacher  = self::$tea_change_lesson_wait_pass;
+            $data['keyword1']   = " {".$lesson_name."}";
+            $data['keyword2']   = " {".$lesson_new_time."}";
+            $data['keyword3']   = " {".$stu_nick."}";
+            $data['remark']     = "感谢老师的支持!";
+
+            self::wx_send_to_teacher($tea_openid,$template_id_teacher, $data);//发给老师
+
+            $parent_template_id      = self::$par_change_lesson_wait_pass;
+            $data_parent = [
+                'keyword1' => $lesson_name,
+                'keyword2' => $lesson_new_time,
+                'keyword3' => $stu_nick,
+                'remark'   => '请注意调整后的时间,感谢家长的支持!'
+            ];
+            self::wx_send_to_parent_or_leo($par_openid, $parent_template_id, $data_parent);
+
+
+            $data_leo = [
+                'keyword1' => "$lesson_name",
+                'keyword2' => "$lesson_new_time",
+                'keyword3' => "$stu_nick",
+                'remark'   => "请注意调整您的时间安排!"
+            ];
+
+            foreach($master_openid_arr as $item_openid ){
+                self::wx_send_to_parent_or_leo($item_openid, $parent_template_id, $data_leo);
+            }
+        } else {//拒绝
+
+            if($is_teacher_keep == 1){ // 1:家长
+
+                $teacher_keep_original_remark = $this->t_lesson_time_modify->get_teacher_keep_original_remark($lessonid);
+                $result = "原因: $teacher_keep_original_remark";
+
+                $first    = "您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间被{ $tea_nick }老师拒绝!";
+                $keyword1 = "老师拒绝调课申请";
+                $keyword2 = "原上课时间:{ $lesson_start_date }; $result";
+
+                // 给家长推送结果
+                $parent_template_id  = self::$wait_deal;
+                $data_parent = [
+                    'first' => "您已拒绝{ $tea_nick } 老师要求调换您发起的换时间申请",
+                    'keyword1' =>"拒绝调课申请",
+                    'keyword2' => "原上课时间:{ $lesson_old_date },您已拒绝",
+                    'keyword3' => "$day_date",
+                    'remark'   => "详细进度稍后将以推送的形式发给您,请注意查看!"
+                ];
+
+            } elseif($is_teacher_keep == 2){ // 2:老师
+                //推送给老师
+
+                $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
+                $result = "原因: $parent_keep_original_remark ";
+
+
+                $first    = "您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间被{ $teacher_nick }老师拒绝!";
+                $keyword1 = "老师拒绝调课申请";
+
+                $keyword2 = "原上课时间:{ $lesson_start_date }; $result";
+
+                $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+                $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']      = " 您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间,您已拒绝! ";
+                $data['keyword1']   = " 拒绝调课申请";
+                $data['keyword2']   = " 原上课时间:{".$lesson_start_date."};您已拒绝";
+                $data['keyword3']   = "$day_date";
+                $data['remark']     = "详细进度稍后将以推送的形式发给您,请注意查收!";
+            }
         }
 
     }
@@ -760,13 +907,13 @@ class WxSendMsg{
     static public function template_refuse_cc($wx_openid, $account, $nick){
 
         $template_id      = WxSendMsg::$wait_deal;
-        $data_msg = [
+        $data = [
             "first"     => $account."已处理 ".$nick."同学被驳回的交接单 ",
             "keyword1"  => " CC交接单驳回处理完成",
             "keyword2"  => " CC交接单驳回处理完成",
             "keyword3"  => " 提交时间:".date('Y-m-d H:i:s'),
         ];
-        self::send_wx_to_manager($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
 
     }
 
@@ -774,7 +921,7 @@ class WxSendMsg{
     static public function template_refuse_master($wx_openid,$name,$orderid,$time,$reason){
 
         $template_id = WxSendMsg::$wait_deal;
-        $data_msg = [
+        $data = [
             "first"     => "交接单被驳回",
             "keyword1"  => "交接单驳回处理",
             "keyword2"  => "$name 驳回交接单, 交接单合同号$orderid,驳回原因:$reason",
@@ -782,14 +929,14 @@ class WxSendMsg{
         ];
         $url = 'http://admin.leo1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
 
-        self::send_wx_to_manager($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
     }
 
     //master 交接单更新通知
     static public function template_transfer_change($wx_openid,$stu,$account,$userid){
 
         $template_id = WxSendMsg::$wait_deal;
-        $data_msg = [
+        $data = [
             "first"    => "PDF 交接单 更新",
             "keyword1" => "学生-$stu",
             "keyword2" => "助教-$account",
@@ -798,14 +945,43 @@ class WxSendMsg{
         ];
         $url = "http://admin.leo1v1.com/user_manage_new/ass_contract_list?studentid=$userid";
 
-        self::send_wx_to_manager($wx_openid,$template_id,$data);
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
     }
 
+    //家长　理优周年庆
+    static public function template_par_leo_year($wx_openid,$content){
 
-    static public function send_teacher_msg_for_wx($openid,$template_id,$data,$url=""){
+        $template_id      = WxSendMsg::$wait_deal;
+        $data = [
+            "first"     => "您有一条未处理的\"理优周年庆\"活动奖励，请及时处理",
+            "keyword1"  => "理优周年庆活动",
+            "keyword2"  => "奖学金现金劵使用码",
+            "keyword3"  => date("Y-m-d"),
+            "remark"    => $content,
+        ];
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data);
+    }
 
-        $app = self::get_app_id_secret('teacher');
-        $teacher_wx = new \App\Helper\Wx($app['appid'],$app['appsecret']);
+    //家长　奖品券推送
+    static public function template_par_lottery($wx_openid){
+
+        $template_id      = WxSendMsg::$wait_deal;
+        $data = [
+            "first"     => "您好，您的双十一奖品券已存放进您的账户",
+            "keyword1"  => "获奖详情",
+            "keyword2"  => "点击 个人中心→奖品区 即可兑换奖券",
+            "keyword3"  => date('Y-m-d H:i:s'),
+        ];
+        $url = "http://wx-parent-web.leo1v1.com/prizes";
+
+        self::wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url);
+    }
+
+    //微信发送给老师
+    static public function wx_send_to_teacher($openid,$template_id,$data,$url=""){
+        $appid     = \App\Helper\Config::get_teacher_wx_appid();
+        $appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
+        $teacher_wx = new \App\Helper\Wx($appid,$appsecret);
 
         $is_success = $teacher_wx->send_template_msg($openid,$template_id,$data,$url);
 
@@ -822,15 +998,10 @@ class WxSendMsg{
         ]);
     }
 
-    static public function send_wx_to_parent($wx_openid,$template_id,$data,$url=""){
+    //微信发送给家长或后台
+    static public function wx_send_to_parent_or_leo($wx_openid,$template_id,$data,$url=""){
         $wx  = new \App\Helper\Wx();
         $ret = $wx->send_template_msg($wx_openid,$template_id,$data,$url);
     }
-
-    static public function send_wx_to_manager($wx_openid,$template_id,$data,$url=""){
-        $wx  = new \App\Helper\Wx();
-        $ret = $wx->send_template_msg($wx_openid,$template_id,$data,$url);
-    }
-
 
 };

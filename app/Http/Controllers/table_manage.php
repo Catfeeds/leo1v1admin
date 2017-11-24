@@ -400,7 +400,9 @@ class table_manage extends Controller
         */
         $file_name="/tmp/sql.".rand().rand() ;
         file_put_contents($file_name, $format_sql );
-        $cmd= "fsqlf $file_name";
+        $cmd= app_path("../tools/fsqlf" ). " $file_name";
+        \App\Helper\Utils::logger("cmd:$cmd ");
+
         $format_sql=\App\Helper\Utils::exec_cmd($cmd);
         unlink($file_name);
 
@@ -452,7 +454,9 @@ class table_manage extends Controller
         }
         $file_name="/tmp/sql.".rand().rand() ;
         file_put_contents($file_name, $format_sql );
-        $cmd= "fsqlf $file_name";
+        $cmd= app_path("../tools/fsqlf" ). " $file_name";
+        \App\Helper\Utils::logger("cmd:$cmd ");
+
         $new_format_sql=\App\Helper\Utils::exec_cmd($cmd);
         unlink($file_name);
 

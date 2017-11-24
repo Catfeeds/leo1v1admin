@@ -189,6 +189,11 @@ class Net {
 
         $key = $phone.'_'.$role;
         $result = $redis->setex($key, 3600*2, $passwd);
+        $key = "md5_two_".$phone.'_'.$role;
+        $passwd_2= md5($passwd."@leo" );
+        \App\Helper\Utils::logger("save :$key => $passwd_2");
+
+        $result = $redis->setex($key, 3600*2, $passwd_2 );
         //$redis->close();
         return $result;
     }

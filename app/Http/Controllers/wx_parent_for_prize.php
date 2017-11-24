@@ -878,7 +878,6 @@ class wx_parent_for_prize extends Controller
 
 
         // 给老师推送结果
-
         /**
            {{first.DATA}}
            课程名称：{{keyword1.DATA}}
@@ -887,7 +886,6 @@ class wx_parent_for_prize extends Controller
            {{remark.DATA}}
            //J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o
            **/
-
         $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
         $teacher_url = ''; //待定
         $template_id_teacher  = "J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o";
@@ -902,13 +900,12 @@ class wx_parent_for_prize extends Controller
         // 给家长推送结果
 
         /**
+           Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
            {{first.DATA}}
            课程名称：{{keyword1.DATA}}
            课程时间：{{keyword2.DATA}}
            学生姓名：{{keyword3.DATA}}
            {{remark.DATA}}
-           // Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
-
            **/
         $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
         $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
@@ -924,7 +921,6 @@ class wx_parent_for_prize extends Controller
 
 
         // 给助教// 销售 // 教务 推送结果
-
         $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
         $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
         $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
@@ -946,7 +942,6 @@ class wx_parent_for_prize extends Controller
 
 
     public function send_wx_msg_by_keep($lessonid,$is_teacher_keep){ // 家长或老师维持原有时间 发送微信推送
-
         $lesson_start_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $lesson_start_date = date('m月d日',$lesson_start_time );
         $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
@@ -976,7 +971,6 @@ class wx_parent_for_prize extends Controller
             ];
             $url_parent = '';
             $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
-
         } elseif($is_teacher_keep == 2){ // 2:老师
             //推送给老师
 
