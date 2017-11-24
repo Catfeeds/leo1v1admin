@@ -31,10 +31,11 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
         
     }
 
-    public function check_is_exist($teacherid,$day_time){
+    public function check_is_exist($teacherid,$day_time,$attendance_type=-1){
         $where_arr=[
             ["attendance_time=%u",$day_time,-1],
             ["teacherid=%u",$teacherid,-1],
+            ["attendance_type=%u",$attendance_type,-1],
         ];
         $sql = $this->gen_sql_new("select id from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
@@ -43,8 +44,8 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
 
     public function check_is_in_holiday($teacherid,$day_time){
         $where_arr=[
-            ["attendance_time>=%u",$day_time,-1],
-            ["holiday_end_time<=%u",$day_time,-1],
+            ["attendance_time<=%u",$day_time,-1],
+            ["holiday_end_time>=%u",$day_time,-1],
             ["teacherid=%u",$teacherid,-1],
             "attendance_type=3"
         ];
