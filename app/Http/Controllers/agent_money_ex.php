@@ -51,7 +51,7 @@ class agent_money_ex extends Controller
         return $this->output_succ();
     }
    public function agent_money_ex_del() {
-       if (!$this->check_account_in_arr(["jim"]) ) {
+       if (!$this->check_account_in_arr(["jim","amanda"]) ) {
            return $this->output_err("没有权限");
        }
        

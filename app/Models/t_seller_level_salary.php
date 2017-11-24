@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_seller_level_salary extends \App\Models\Zgen\z_t_seller_level_salary
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function get_all_list($seller_level,$page_info){
         $where_arr = [
@@ -39,4 +39,5 @@ class t_seller_level_salary extends \App\Models\Zgen\z_t_seller_level_salary
         );
         return $this->main_get_row($sql);
     }
+
 }

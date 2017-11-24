@@ -1,5 +1,10 @@
 interface GargsStatic {
-	order_activity_type:	number;//\App\Enums\Eorder_activity_type
+	id_open_flag:	number;
+	id_can_disable_flag:	number;
+	id_contract_type:	number;
+	id_period_flag:	number;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -22,14 +27,19 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		order_activity_type:	$('#id_order_activity_type').val()
+		id_open_flag:	$('#id_id_open_flag').val(),
+		id_can_disable_flag:	$('#id_id_can_disable_flag').val(),
+		id_contract_type:	$('#id_id_contract_type').val(),
+		id_period_flag:	$('#id_id_period_flag').val()
     });
 }
 $(function(){
 
-	Enum_map.append_option_list("order_activity_type",$("#id_order_activity_type"));
 
-	$('#id_order_activity_type').val(g_args.order_activity_type);
+	$('#id_id_open_flag').val(g_args.id_open_flag);
+	$('#id_id_can_disable_flag').val(g_args.id_can_disable_flag);
+	$('#id_id_contract_type').val(g_args.id_contract_type);
+	$('#id_id_period_flag').val(g_args.id_period_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -42,9 +52,29 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">order_activity_type</span>
-                <select class="opt-change form-control" id="id_order_activity_type" >
-                </select>
+                <span class="input-group-addon">id_open_flag</span>
+                <input class="opt-change form-control" id="id_id_open_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_can_disable_flag</span>
+                <input class="opt-change form-control" id="id_id_can_disable_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_contract_type</span>
+                <input class="opt-change form-control" id="id_id_contract_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_period_flag</span>
+                <input class="opt-change form-control" id="id_id_period_flag" />
             </div>
         </div>
 */

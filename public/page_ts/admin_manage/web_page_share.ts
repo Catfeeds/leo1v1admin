@@ -52,8 +52,7 @@ $(function(){
             if($item.iCheckValue()) {
                 select_userid_list.push( $item.data("userid") ) ;
             }
-        } ) ;
-
+        });
 
 
         var arr=[
@@ -77,6 +76,3 @@ $(function(){
     });
 
 });
-
-
-

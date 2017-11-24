@@ -251,6 +251,7 @@ class fulltime_teacher extends Controller
     public function fulltime_teacher_assessment_positive_info(){
         $adminid = $this->get_in_int_val("adminid",-1);
         $main_flag = $this->get_in_int_val("main_flag",-1);
+
         $become_full_member_flag = $this->get_in_int_val("become_full_member_flag",0);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $page_info= $this->get_in_page_info();
@@ -556,5 +557,51 @@ class fulltime_teacher extends Controller
         }
         */
     	return $this->pageView(__METHOD__);
+    }
+
+
+    /**
+     * @author    jack
+     * @function  全职老师考勤
+     */
+    public function fulltime_teacher_work_attendance_info(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $adminid= $this->get_in_int_val("adminid",480 );
+        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
+
+        foreach ($ret_info["list"] as $item ) {
+            $logtime=$item["logtime"];
+            $opt_date=date("Y-m-d",$logtime);
+            $date_item= &$date_list[$opt_date];
+            if (!isset($date_item["start_logtime"])) {
+                $date_item["start_logtime"]=$logtime;
+                $date_item["end_logtime"]=$logtime;
+            }else{
+                if ($date_item["start_logtime"] > $logtime  ) {
+                    $date_item["start_logtime"] = $logtime;
+                }
+                if ($date_item["end_logtime"] < $logtime  ) {
+                    $date_item["end_logtime"] = $logtime;
+                }
+            }
+        }
+
+        foreach( $date_list as  &$d_item ) {
+            if (isset ( $d_item["start_logtime"]) ){
+                $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
+                $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );
+                \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "","H:i:s");
+                \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"", "H:i:s");
+
+                $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+                if ($d_item["error_flag"]) {
+                    $d_item["error_flag_str"] ="是";
+                }
+            }
+        }
+
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );
+
     }
 }

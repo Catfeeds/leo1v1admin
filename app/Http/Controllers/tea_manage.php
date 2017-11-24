@@ -173,8 +173,6 @@ class tea_manage extends Controller
         return $this->lesson_list();
     }
 
-
-
     public function lesson_list()
     {
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
@@ -364,7 +362,6 @@ class tea_manage extends Controller
             $this->cache_set_item_account_nick($item,"test_confirm_adminid","test_confirm_admin_nick");
 
         }
-        // dd($ret_info['list']);
         $seller_list      = $this->t_admin_group->get_admin_list_by_gorupid(E\Eaccount_role::V_1 );
         $adminid          = $this->get_account_id();
         $self_groupid     = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
@@ -2298,7 +2295,7 @@ class tea_manage extends Controller
 
         $this->switch_tongji_database();
         $teacherid = -1;
-        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen"]) && $is_all==0){
+        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];

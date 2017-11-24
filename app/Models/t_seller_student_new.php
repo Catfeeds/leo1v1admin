@@ -298,6 +298,27 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
+    public function get_seller_list_for_select ( $page_info,$userid , $phone, $nick )  {
+        $where_arr=[
+            ["n.userid=%u",$userid, -1],
+            ["n.phone like '%s%%'", $phone , ""],
+            ["s.nick like '%s%%'",$nick, ""],
+        ];
+
+        $sql=$this->gen_sql_new(
+            "select n.userid,  test_lesson_subject_id, s.grade, s.nick, n.phone, t.subject , s.origin  "
+            ."from  %s t "
+            ." left join %s n on  n.userid = t.userid "
+            ."  left join %s s on n.userid=s.userid   "
+            ." where  %s  "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
 
 
     public function get_seller_list (
@@ -1333,25 +1354,27 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "t.seller_student_status <> 50",
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
-            "n.seller_resource_type=1",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
-        if($nick || $phone) {
-            $userid = $this->task->t_phone_to_user->get_userid($phone);
-            $userid = $this->task->t_test_subject_free_list->get_userid_by_adminid($adminid,$userid);
-            if($userid>0){//历史回流人
-                $where_arr[] = ['n.userid =%u',$userid];
-            }
-        }else{
+        if($opt_date_str == 'n.seller_add_time'){
+            $opt_date_str = 'n.last_revisit_time';
+        }
+        // if($nick || $phone) {
+        //     $userid = $this->task->t_phone_to_user->get_userid($phone);
+        //     $userid = $this->task->t_test_subject_free_list->get_userid_by_adminid($adminid,$userid);
+        //     if($userid>0){//历史回流人
+        //         $where_arr[] = ['n.userid =%u',$userid];
+        //     }
+        // }else{
             // $new_time = time(null)-432000;
             // $where_arr[] = "n.free_time<$new_time";
             // $where_arr[] = ['n.free_time<%u',$new_time];
             // $this->where_arr_add_time_range($where_arr,'n.free_time',$new_time-3600*24*60,$new_time);
-        }
+        // }
         if($phone_location){
             $where_arr[] = ["n.phone_location like '%s%%'", $this->ensql( $phone_location), ""];
         }
@@ -1373,8 +1396,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
             ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
             ." left join %s tr on tr.require_id=tss.require_id "
-            ." where %s order by n.free_time desc ",
-            // ." where %s order by n.seller_add_time ",
+            ." where %s order by %s ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
@@ -1382,12 +1404,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_test_lesson_subject_require::DB_TABLE_NAME,
-            $where_arr
+            $where_arr,
+            $opt_date_str
         );
-        if($nick || $phone) {
-            return $this->main_get_list_as_page($sql);
+        if($opt_date_str == 'n.last_revisit_time'){
+            return $this->main_get_list_by_page($sql,$page_num);
         }else{
-            return $this->main_get_page_random($sql,1);
+            if($nick || $phone) {
+                return $this->main_get_list_as_page($sql);
+            }else{
+                return $this->main_get_page_random($sql,1);
+            }
         }
     }
 
@@ -1600,13 +1627,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_favorite_num($adminid) {
+        $where_arr = [
+            ['favorite_adminid=%u',$adminid,-1],
+            ['admin_revisiterid=%u',$adminid,-1],
+        ];
         $sql = $this->gen_sql_new(
             " select "
             ." count(userid) "
             ." from %s "
-            ." where favorite_adminid=%u ",
-            self::DB_TABLE_NAME
-            ,$adminid
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
         );
 
         return $this->main_get_value($sql);
@@ -2972,7 +3003,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info){
+    public function get_distribution_list($adminid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info,$user_name){
         $where_arr = [
             ['n.admin_revisiterid=%u',$adminid],
             'n.admin_revisiterid<>n.admin_assignerid',
@@ -2980,11 +3011,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ['m.account_role=%u',E\Eaccount_role::V_2],
             's.is_test_user=0',
         ];
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
         $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(" select n.admin_assignerid adminid,n.admin_revisiterid uid,"
-                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,"
+                                  ."n.admin_assign_time create_time,n.global_tq_called_flag,n.hand_get_adminid,"
                                   ." s.phone,if(n.userid>0,0,1) del_flag,s.origin "
                                   ." from %s n "
                                   ." left join %s m on m.uid=n.admin_revisiterid "
@@ -3052,28 +3089,28 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_min_userid(){
+    public function get_min_add_time(){
         $where_arr = [
             'userid>0',
         ];
         $sql = $this->gen_sql_new(
-            "select userid "
+            "select add_time "
             ." from %s "
-            ." where %s order by userid limit 1 "
+            ." where %s order by add_time limit 1 "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_value($sql);
     }
 
-    public function get_max_userid(){
+    public function get_max_add_time(){
         $where_arr = [
             'userid>0',
         ];
         $sql = $this->gen_sql_new(
-            "select userid "
+            "select add_time "
             ." from %s "
-            ." where %s order by userid desc limit 1 "
+            ." where %s order by add_time desc limit 1 "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );

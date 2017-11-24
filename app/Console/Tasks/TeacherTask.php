@@ -233,8 +233,6 @@ class TeacherTask extends TaskController
                         "wx_come_flag"     => $wx_come_flag,
                         "deduct_come_late" => 1
                     ]);
-
-
                 }else{
                     $account_str = "";
                     if($val['assistantid']>0 && $val['lesson_type']!=2){
@@ -1148,7 +1146,6 @@ class TeacherTask extends TaskController
                          * 日期：{{keyword3.DATA}}
                          * {{remark.DATA}}
                          */
-
                         $data=[];
                         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
                         $data['first']    = $val["tea_nick"]."老师您好，".$lesson_time."的模拟试听课程已结束，您未能按时进入课堂。 ";

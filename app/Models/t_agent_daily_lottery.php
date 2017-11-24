@@ -40,7 +40,11 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
     }
     //@desn:跟新用户所有的转盘奖励状态为可提现
     public function update_all_flag($agent_id){
-        $sql = sprintf('update %s set is_can_cash_flag = 1 where agent_id = %u',self::DB_TABLE_NAME,$agent_id);
+        $sql = sprintf(
+            'update %s set is_can_cash_flag = 1 where agent_id = %u and is_can_cash_flag <> 1',
+            self::DB_TABLE_NAME,
+            $agent_id
+        );
         return $this->main_update($sql);
     }
     //@desn:获取新增大转盘奖励数组
@@ -67,6 +71,19 @@ class t_agent_daily_lottery extends \App\Models\Zgen\z_t_agent_daily_lottery
         ];
         if($lid_str)
             $where_arr[] = 'lid in ('.$lid_str.')';
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取不同种类的大转盘奖励之和
+    public function get_sort_daily_lottery($id,$is_can_cash_flag){
+        $where_arr = [
+            ['agent_id = %u',$id],
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"is_can_cash_flag",$is_can_cash_flag);
         $sql = $this->gen_sql_new(
             'select sum(money) from %s where %s',
             self::DB_TABLE_NAME,

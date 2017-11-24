@@ -904,6 +904,12 @@ class user_deal extends Controller
                     $hand_get_adminid = $this->t_seller_student_new->field_get_value($userid,'hand_get_adminid');
                     if($hand_get_adminid == E\Ehand_get_adminid::V_5){
                         $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,$seller_new_count_type,$count=5,$adminid,$value_ex);
+                        $this->t_manager_info->send_wx_todo_msg(
+                            '龚隽',
+                            "系统",
+                            "新签合同赠送 抢新生名额[$count] "
+                            ,"学生:". $this->cache_get_student_nick($userid)
+                            ,"");
                     }
                 }
             }
@@ -4065,8 +4071,18 @@ class user_deal extends Controller
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
-        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_new);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($start_time_new>=$item['start_time'] && $start_time_new<$item['end_time']){
+                $start_time_this = $item['def_time'];
+                break;
+            }
+        }
+        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
         $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
+        $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
+        $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
 
         return $this->output_succ($arr);
     }
@@ -5347,10 +5363,10 @@ class user_deal extends Controller
         $base_money= $this->get_in_int_val("base_money");
 
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
-            "master_deal_flag"   =>$master_deal_flag,
-            "mater_adminid"      =>$this->get_account_id(),
-            "master_assess_time" =>time(),
-            "base_money" =>$base_money
+            "master_deal_flag"   => $master_deal_flag,
+            "mater_adminid"      => $this->get_account_id(),
+            "master_assess_time" => time(),
+            "base_money"         => $base_money*100
         ]);
         $adminid = $this->t_fulltime_teacher_positive_require_list->get_adminid($id);
         $name = $this->t_manager_info->get_name($adminid);
@@ -5369,7 +5385,7 @@ class user_deal extends Controller
 
     public function fulltime_teacher_positive_require_deal_main_master(){
         $id   = $this->get_in_int_val("id");
-        $main_master_deal_flag  = $this->get_in_int_val("main_master_deal_flag");
+        $main_master_deal_flag  = $this->get_in_int_val("master_deal_flag");
         $base_money= $this->get_in_int_val("base_money");
 
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
@@ -5420,19 +5436,19 @@ class user_deal extends Controller
                          ."目前教师等级:初级<br>"
                          ."转正后教师等级:中级"
                          ."转正后基本工资:$base_money";
-                \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
 
-                foreach($email as $e){
-                    dispatch( new \App\Jobs\SendEmailNew(
-                        $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
-                    ));
-                }
+                \App\Helper\Email::SendMailJiaoXue($send_email, $title, $content, true, 2);
+                // \App\Helper\Common::send_mail_leo_com($send_email,$title,$content,true);
+                // foreach($email as $e){
+                //     dispatch( new \App\Jobs\SendEmailNew(
+                //         $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
+                //     ));
+                // }
 
                 //微信通知主管和老师
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
-
             }elseif($main_master_deal_flag==2){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.leo1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);

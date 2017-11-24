@@ -203,10 +203,10 @@ class common extends Controller
         </div>
     </body>";
 
-        $html=$header.$body.$footer;
-        $title="上海理优教研室";
-        //$mail_ret=send_mail($to,$title,$html,true);
-        $ret = \App\Helper\Common::send_paper_mail($to,$title,$html);
+        $html  = $header.$body.$footer;
+        $title = "上海理优教研室";
+        // $ret   = \App\Helper\Common::send_paper_mail($to,$title,$html);
+        $ret   = \App\Helper\Email::SendMailEmd($to,$title,$html);
 
         $name   = $this->get_in_str_val("name","");
         $phone  = $this->get_in_str_val("phone","");

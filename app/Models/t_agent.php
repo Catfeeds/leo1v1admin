@@ -1282,6 +1282,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $pp_agent_status_money_open_flag = $item["pp_agent_status_money_open_flag"];
             $l2_agent_status_all_money +=$item["pp_agent_status_money"];
             $orderid=$item["orderid"];
+            $log_money = 2500;
             if ($orderid) { //有订单
                 if ($pp_agent_status_money_open_flag !=1 ) {
                     $this->field_update_list($child_id,[
@@ -1291,7 +1292,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $order_count+=1;
                 //添加收入记录
                 $agent_income_type = E\Eagent_income_type::V_L2_CHILD_INVITE_INCOME;
-                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$l2_agent_status_all_money,$agent_income_type);
+                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$log_money,$agent_income_type);
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
@@ -1300,7 +1301,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ];
                     //添加收入记录
                     $agent_income_type = E\Eagent_income_type::V_L2_CHILD_INVITE_INCOME;
-                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$l2_agent_status_all_money,$agent_income_type);
+                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$log_money,$agent_income_type);
                 }else{
                     if ($pp_agent_status_money_open_flag !=0 ) { //没有开放
                         $this->field_update_list($child_id,[
@@ -1354,6 +1355,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
             $l1_agent_status_all_money +=$item["agent_status_money"];
             $orderid=$item["orderid"];
+            $log_money = 5000;
             if ($orderid) { //有订单
                 if ($agent_status_money_open_flag !=1 ) {
                     $this->field_update_list($child_id,[
@@ -1363,7 +1365,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $order_count+=1;
                 //添加收入记录
                 $agent_income_type = E\Eagent_income_type::V_L1_CHILD_INVITE_INCOME;
-                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$l1_agent_status_all_money,$agent_income_type);
+                $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$log_money,$agent_income_type);
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
@@ -1372,7 +1374,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     ];
                     //添加收入记录
                     $agent_income_type = E\Eagent_income_type::V_L1_CHILD_INVITE_INCOME;
-                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$l1_agent_status_all_money,$agent_income_type);
+                    $this->task->t_agent_income_log->insert_reward_log($id,$child_id,$log_money,$agent_income_type);
 
                 }else{
                     if ($agent_status_money_open_flag !=0 ) { //没有开放
@@ -1576,6 +1578,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         //活动奖励
         $activity_money=$this->task->t_agent_money_ex->get_all_money($id);
+        //活动奖励可提现部分
+        $examined_activity_money=$this->task->t_agent_money_ex->get_examined_activity_money($id);
 
         //双11活动
         if($userid){
@@ -1594,28 +1598,26 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money +$ruffian_money+$daily_lottery_money;
         // $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money ;
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money+$ruffian_money;
-        //如果用户存在佣金奖励 或者试听奖励 [每日转盘活动金额直接进入可提现]
-        if($order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money > 0){
-            $all_open_cush_money += $daily_lottery_money;
-            $id_str = $this->get_daily_lottery_id_str($id,$daily_lottery_money);
-            //将每日转盘奖励计入资金记录
-            //添加收入记录
-            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
-            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
-            $this->task->t_agent_daily_lottery->update_all_flag($id);
-        }elseif($daily_lottery_money >= 2500){  //或者是抽奖金额达到25 [进入可提现]
-            $all_open_cush_money += $daily_lottery_money;
-            $id_str = $this->get_daily_lottery_id_str($id,$daily_lottery_money);
-            //将每日转盘奖励计入资金记录
-            //添加收入记录
-            $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
-            $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
-            $this->task->t_agent_daily_lottery->update_all_flag($id);
-        }
-
+        //可提现大转盘奖励
+        $has_cash_daily_lottery = $this->task->t_agent_daily_lottery->get_sort_daily_lottery($id,1);
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$examined_activity_money+$ruffian_money+$has_cash_daily_lottery;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
-
+        $all_cush_money = $this->task->t_agent_cash->get_have_cash($id,[0,1]);
+        //未提现大转盘奖励
+        $no_cash_daily_lottery = $this->task->t_agent_daily_lottery->get_sort_daily_lottery($id,0);
+        //如果用户剩余可体现金额超过25 [每日转盘活动金额直接进入可提现]
+        if($all_open_cush_money+$no_cash_daily_lottery-$all_cush_money > 2500){
+            if($no_cash_daily_lottery > 0){
+                $all_open_cush_money += $no_cash_daily_lottery;
+                $id_str = $this->get_daily_lottery_id_str($id,$no_cash_daily_lottery);
+                //将每日转盘奖励计入资金记录
+                //添加收入记录
+                $agent_income_type = E\Eagent_income_type::V_AGENT_DAILY_LOTTERY;
+                $this->task->t_agent_income_log->insert_daily_lottery_log($id,$daily_lottery_money,$agent_income_type,$id_str);
+                $this->task->t_agent_daily_lottery->update_all_flag($id);
+            }
+        }
+        
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
             "star_count" => $star_count,
@@ -2492,7 +2494,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr_2 = [
             ['agent_id = %u',$agent_id],
             ['create_time >= %u',$last_succ_cash_time],
-            'agent_income_type' => 1
+            'agent_income_type' => 2
         ];
         $sql = $this->gen_sql_new(
             "select a.phone,a.nickname,a.pp_agent_status_money as agent_status_money,a.agent_status,si.nick "
@@ -2925,7 +2927,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             t_agent_income_log::DB_TABLE_NAME,
             $where_arr
         );
-        $this->main_get_value($sql);
+        return $this->main_get_value($sql);
     }
     //@desn:获取用户可提现的二级试听奖励 [不包括用户已体现金额]
     //@param:$agent_id 优学优享id
@@ -2944,7 +2946,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             t_agent_income_log::DB_TABLE_NAME,
             $where_arr
         );
-        $this->main_get_value($sql);
+        return $this->main_get_value($sql);
     }
     //@desn:获取用户新增转盘记录
     //@param:$id 用户优学优享id

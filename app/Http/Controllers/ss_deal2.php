@@ -192,9 +192,6 @@ class ss_deal2 extends Controller
             if(!$ret){
                 return $this->output_err('该例子为公海领取的例子,请拨打后回流!');
             }
-            // if($item['last_contact_time']<$item["admin_assign_time"]){
-            //     return $this->output_err($phone.'为公海领取的例子,请拨打后回流!');
-            // }
         }
         $ret_update = $this->t_book_revisit->add_book_revisit(
             $phone,
@@ -226,7 +223,6 @@ class ss_deal2 extends Controller
             "hand_get_adminid" => $hand_get_adminid,
         ]);
         return $this->output_succ();
-
     }
     public function set_user_free_new () {
         $userid_list = $this->get_in_str_val('userid',-1);

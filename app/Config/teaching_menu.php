@@ -2,7 +2,6 @@
 namespace App\Config;
 class teaching_menu{
     static  public  function get_config()  {
-
         return [
             ["name"=> "教学管理事业部" , "list" => [
                 [ "name"=>"核心数据",  "list"=>[
@@ -33,7 +32,7 @@ class teaching_menu{
                         ["name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info"],
                         [ "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
 
-                        [ "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
+                        [ "name"=>"教师试讲预约-招师",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
                         [ "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list"],
                         [ "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_reference"],
                         [ "name"=>"面试试讲列表",   "url"=>"/train_teacher/train_lecture_lesson_list"],

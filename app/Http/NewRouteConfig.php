@@ -399,7 +399,18 @@ class NewRouteConfig {
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
-
+        "/seller_student2/add_order_activity"  => true,
+        "/seller_student2/dele_order_activity"  => true,
+        "/seller_student2/update_order_activity_01"  => true,
+        "/seller_student2/update_order_activity_02"  => true,
+        "/seller_student2/update_order_activity_03"  => true,
+        "/seller_student2/update_order_activity_04"  => true,
+        "/seller_student2/update_order_activity_05"  => true,
+        "/seller_student2/update_order_activity_06"  => true,
+        "/seller_student2/update_order_activity_07"  => true,
+        "/seller_student2/get_order_activity"  => true,
+        "/seller_student2/get_activity_list"  => true,
+ 
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,

@@ -52,6 +52,7 @@ interface RowData {
 	reference_name	:any;
 	teacherid	:any;
 	answer_begin_time	:any;
+	grade_ex	:any;
 	t_subject	:any;
 	t_teacherid	:any;
 	t_create_time	:any;
@@ -64,10 +65,17 @@ interface RowData {
 	trans_grade_start	:any;
 	trans_grade_end	:any;
 	wx_openid	:any;
+	user_agent	:any;
+	accept_account	:any;
+	zs_name	:any;
 	appointment_id	:any;
 	retrial_info	:any;
 	teacher_accuracy_score	:any;
+	full_time	:any;
+	train_through_new_time	:any;
+	train_through_new	:any;
 	trans_grade_str	:any;
+	full_time_str	:any;
 	num	:any;
 	add_time_str	:any;
 	answer_begin_time_str	:any;
@@ -79,6 +87,9 @@ interface RowData {
 	status_str	:any;
 	t_subject_str	:any;
 	have_wx_flag	:any;
+	train_status_str	:any;
+	train_through_str	:any;
+	phone_ex	:any;
 }
 
 /*

@@ -69,19 +69,28 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
     //@desn:获取该用户当前所有奖励
     //@param:$is_cash   0所有 2可提现
     //@param:$lid_str 大转盘未体现id_str
-    public function get_reward_list($agent_id,$page_info,$page_count,$is_cash,$lid_str){
+    //@param:$agent_money_id_str 优学优享现金活动未提现id_str
+    public function get_reward_list($agent_id,$page_info,$page_count,$is_cash,$lid_str,$agent_money_id_str){
         $where_arr = [
             ['agent_id = %u',$agent_id,'-1']
         ];
-        if($is_cash)
+        if($is_cash){
             $this->where_arr_add_int_field($where_arr,'flow_status',$is_cash);
+            if($agent_money_id_str)
+                $where_arr[] = 'ame.id in ('.$agent_money_id_str.')';
+            else
+                $where_arr[] = 'false';
+        }
         $where_arr2 = [
             ['agent_id = %u',$agent_id,'-1'],
             'money > 0',
         ];
         if($is_cash){
             $this->where_arr_add_int_field($where_arr2,'is_can_cash_flag',1);
-            $where_arr2[] = 'lid in ('.$lid_str.')';
+            if($lid_str)
+                $where_arr2[] = 'lid in ('.$lid_str.')';
+            else
+                $where_arr2[] ='false';
         }
         $sql = $this->gen_sql_new(
             "select ame.agent_money_ex_type,ame.money,ame.add_time,@type:=1 as activity_type ".
@@ -136,6 +145,52 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
             self::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取用户可体现奖励之和
+    //@param:$agent_id 优学优享id
+    //@param:$check_flag 审核状态 2通过 
+    //@param:$last_succ_cash_time 上次体现时间  
+    public function get_can_cash_activity_money($agent_id,$check_flag,$last_succ_cash_time){
+        $where_arr = [
+            ['ame.agent_id = %u',$agent_id,'-1'],
+        ];
+        $this->where_arr_add_int_field($where_arr,'f.flow_status',$check_flag,0);
+        $where_arr_2 = [
+            ['agent_id = %u',$agent_id],
+            ['create_time > %u',$last_succ_cash_time],
+            'agent_income_type' => 5
+        ];
+        // $this->where_arr_add_int_field($where_arr,'f.flow_status',$check_flag);
+        $sql = $this->gen_sql_new(
+            "select sum(money) from %s ame ".
+            "left join %s f on ame.id = f.from_key_int and f.flow_type = %u ".
+            "where %s and ame.id in (select agent_money_ex_id from %s where %s)",
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE,
+            $where_arr,
+            t_agent_income_log::DB_TABLE_NAME,
+            $where_arr_2
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取用户可体现活动金额[已审批]
+    //@param:$id 用户优学优享id
+    public function get_examined_activity_money($id){
+        $where_arr = [
+            ['ame.agent_id = %u',$id],
+            'f.flow_status' => E\Eflow_status::V_PASS,
+        ];
+        $sql = $this->gen_sql_new(
+            'select sum(money) from %s ame '.
+            'left join %s f on ame.id = f.from_key_int and f.flow_type = %u '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            E\Eflow_type::V_4002,
             $where_arr
         );
         return $this->main_get_value($sql);

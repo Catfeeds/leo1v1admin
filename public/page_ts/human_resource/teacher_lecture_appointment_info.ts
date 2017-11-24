@@ -4,26 +4,26 @@ $(function(){
     function load_data(){
         $.reload_self_page ({
             date_type                  : $('#id_date_type').val(),
-			opt_date_type              : $('#id_opt_date_type').val(),
-			start_time                 : $('#id_start_time').val(),
-			end_time                   : $('#id_end_time').val(),
+			      opt_date_type              : $('#id_opt_date_type').val(),
+			      start_time                 : $('#id_start_time').val(),
+			      end_time                   : $('#id_end_time').val(),
             lecture_appointment_status : $('#id_lecture_appointment_status').val(),
             teacherid                  : $('#id_teacherid').val(),
-			user_name                  : $('#id_user_name').val(),
-			status                     : $('#id_status').val(),
-			record_status              : $('#id_record_status').val(),
-			grade                      : $('#id_grade').val(),
-			subject                    : $('#id_subject').val(),
-			teacher_ref_type           : $('#id_teacher_ref_type').val(),
-			interview_type             : $('#id_interview_type').val(),
-			lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
-			lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
-			have_wx                    : $('#id_have_wx').val(),
-			full_time                  : $('#id_full_time').val(),
-			fulltime_teacher_type      : $('#id_fulltime_teacher_type').val(),
-			accept_adminid             : $('#id_accept_adminid').val(),
+			      user_name                  : $('#id_user_name').val(),
+			      status                     : $('#id_status').val(),
+			      record_status              : $('#id_record_status').val(),
+			      grade                      : $('#id_grade').val(),
+			      subject                    : $('#id_subject').val(),
+			      teacher_ref_type           : $('#id_teacher_ref_type').val(),
+			      interview_type             : $('#id_interview_type').val(),
+			      lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
+			      lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
+			      have_wx                    : $('#id_have_wx').val(),
+			      full_time                  : $('#id_full_time').val(),
+			      fulltime_teacher_type      : $('#id_fulltime_teacher_type').val(),
+			      accept_adminid             : $('#id_accept_adminid').val(),
             second_train_status        : $('#id_second_train_status').val(),
-			teacher_pass_type          : $('#id_teacher_pass_type').val(),
+			      teacher_pass_type          : $('#id_teacher_pass_type').val(),
         });
     }
 
@@ -560,52 +560,6 @@ $(function(){
         });
     });
 
-    $(".opt-plan-train_lesson").on("click",function(){
-        var opt_data          = $(this).get_opt_data();
-        var id_subject        = $("<select/>");
-        var id_grade          = $("<select/>");
-        var id_record_teacher = $("<input/>");
-        var id_start_time     = $("<input/>");
-
-        id_start_time.datetimepicker( {
-            lang       : 'ch',
-            timepicker : true,
-            format     : "Y-m-d H:i",
-            onChangeDateTime :function(){
-            }
-        });
-
-        Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
-        id_subject.val(opt_data.subject_ex);
-        id_grade.val(opt_data.grade_ex);
-
-        var arr = [
-            ["审核老师",  id_record_teacher ]  ,
-            ["科目",  id_subject ]  ,
-            ["年级 ", id_grade]  ,
-            ["上课时间",id_start_time],
-        ];
-
-        $.show_key_value_table("排课", arr ,[{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
-                $.do_ajax("/tea_manage_new/add_train_lesson_new",{
-                    "phone"            : opt_data.phone,
-                    "lesson_start"     : id_start_time.val(),
-                    "subject"          : id_subject.val(),
-                    "grade"            : id_grade.val(),
-                    "record_teacherid" : id_record_teacher.val(),
-                    "tea_nick"         : opt_data.name,
-                    "id"               : opt_data.id
-                });
-            }
-        }],function(){
-            $.admin_select_user( id_record_teacher, "research_teacher");
-        });
-    });
-
     $(".show_detail").on("click",function(){
         var val = $(this).data("value");
         BootstrapDialog.alert({
@@ -838,7 +792,7 @@ $(function(){
                     return;
                 }
                 var title = "空闲时间选择";
-                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
+                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
                 
                 $.do_ajax('/user_deal/get_teacher_no_free_list',{
                     "subject" : subject,
@@ -850,14 +804,18 @@ $(function(){
                    // console.log(userid_list);
                     var tb = html_node.find("#id_time_body_1").find("tr");
                     var th = html_node.find("#th_list_1");
+                    var now_date = new Date(); //时间对象
+                    var now_time = now_date.getTime();
+
                     th.each(function(){
                         var $this=$(this);
                         $this.find("th").each(function(i,item){
                             if (i!=0) {
                                 var $th=$(item);
-                                var tmp_date1=$.DateFormat(next_day+(i-1)*86400,"MM-dd" );
+                                var tmp_date1=$.DateFormat(next_day+(i-2)*86400,"MM-dd" );
                                 $th.text(tmp_date1);
                             }
+                            //console.log(i);
                         });
                     });
                    // console.log(tb);
@@ -870,12 +828,13 @@ $(function(){
                             var timeid=$this.data("timeid");
                             $this.find("td").each(function(i,item){
                                 if (i!=0) {//过滤１
-                                    var tmp_date=$.DateFormat(next_day+(i-1)*86400,"yyyy-MM-dd" );
+                                    var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
 
                                     var $td=$(item);
                                     var tmt = tmp_date+" "+timeid;
+                                    var oldTime = (new Date(tmt)).getTime();
                                   //  console.log(tmt);
-                                    if(tmt == it){
+                                    if(tmt == it || now_time>=oldTime){
                                         $td.addClass("select_free_time");
                                     }
                                 }
@@ -889,7 +848,7 @@ $(function(){
                         var timeid=$this.data("timeid");
                         $this.find("td").each(function(i,item){
                             if (i!=0) {//过滤１
-                                var tmp_date=$.DateFormat(next_day+(i-1)*86400,"yyyy-MM-dd" );
+                                var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
 
                                 var $td=$(item);
                                 var tmt = tmp_date+" "+timeid;

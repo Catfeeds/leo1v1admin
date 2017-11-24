@@ -1128,11 +1128,12 @@ class seller_student_new extends Controller
     public function get_free_seller_list_data() {
         // list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -7,0,0,[
-                0 => array("n.add_time","资源进来时间"),
-                1 => array("l.lesson_start","试听成功时间"),
-                2 => array("n.free_time","回流公海时间"),
-            ], 0,0, true
+            0,0,0,[
+                0 => array("n.seller_add_time","例子翻新时间"),
+                1 => array("n.free_time","回流公海时间"),
+                2 => array("n.add_time","资源进来时间"),
+                3 => array("l.lesson_start","试听成功时间"),
+            ], 1,0, true
         );
         $page_num   = $this->get_in_page_num();
         $phone_name = trim($this->get_in_str_val("phone_name"));
@@ -1151,7 +1152,8 @@ class seller_student_new extends Controller
         $grade=$this->get_in_grade(-1);
         $has_pad=$this->get_in_has_pad(-1);
         $subject=$this->get_in_subject(-1);
-        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',E\Etest_lesson_count_flag::V_1);
+        // $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',E\Etest_lesson_count_flag::V_1);
+        $test_lesson_count_flag=$this->get_in_int_val('test_lesson_count_flag',-1);
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class,-1);
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
@@ -1213,6 +1215,7 @@ class seller_student_new extends Controller
         $end_time = time();
         $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
         $left_count = (30-$history_count)>0?30-$history_count:0;
+        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info,['left_count'=>$left_count]);
     }
 

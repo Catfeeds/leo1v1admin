@@ -1258,61 +1258,30 @@ $test=	3;
 
     }
 
-    public function get_stu_date(){
-        $month_start = strtotime($this->get_in_str_val('m'));
-        $month_end = strtotime($this->get_in_str_val('e'));
-        /**
-         * 1.     8,9,10 三个月的上过试听课且签单成功的学员
-         * 2.     上试听课的老师与第一节常规课老师不匹配的学员
-         * 3.      试听课的科目需要和第一节常规课相同
-         **/
+    /**
+     * @ 测试 文件上传
+     * @ 已为您生成SDK测试账号，token：bbcffc83539bd9069b755e1d359bc70a，其权限与微演示账户michael@leoedu.com相同。
+     * @ 使用方法请参看 http://ts.whytouch.com/help.php#dev
+     * @ 测试期间请勿上传过量文件，以免影响系统正常运行，否则客服人员可能暂停或关闭本测试账户。
+     * @ michael@leoedu.com 密码 ： 021130
+     * @gf5090e8e98978bfbf0e3e074593ade[cq161]
+     * @ g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
+     * @ curl -F doc=@'/home/ybai/test.pdf' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&f n=新文件.pptx'
+     **/
+    public function translate_pdf(){
+        $path = $this->get_in_str_val('path');
+        $cmd  = "curl -F doc=@'$path' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pptx'";
+        $uuid = exec($cmd);
+        dd($uuid);
+    }
 
-        $stu_list = $this->t_order_info->get_stu_date_num($month_start,$month_end);
+    public function ce(){
+        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
 
-        // dd($stu_list);
-        $a = [];
+        dd($unbound_list);
 
-        foreach($stu_list as $i=>$item){
-            $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['subject'],$item['userid'],$item['grade'],$item['lesson_start']);
-
-
-            if( ($last_normal_id>0) &&($last_normal_id != $item['teacherid'] )){
-                $a[] = $stu_list[$i];
-                // unset($stu_list[$i]);
-            }
-
-
-
-            // $last_normal_id = $this->t_order_lesson_list->get_last_lessonid($item['orderid']);
-
-            // $normal_info = $this->t_order_lesson_list->get_lesson_info_tmp($last_normal_id);
-
-            // if( $normal_info &&($item['subject'] == $normal_info['subject'])  && ($item['teacherid'] != $normal_info['teacherid']) && ($item['userid']==$normal_info['userid'])){
-            //     $a[] = $stu_list[$i];
-            //     unset($stu_list[$i]);
-            // }
-        }
-
-        
-        echo count($a)." 签合同人数:".count($stu_list);
-
-        dd($a);
-        // if(empty($a)){
-        //     echo count($a);
-        //     dd($stu_list);
-        // }else{
-        //     echo '2';
-        //     dd($a);
-        // }
-
-
-
-        // 2017_11_22_112950_create_t_market_department_activity.php
-        //                                                      2017_11_22_113213_create_t_market_department_activity.php
-        //                                                      2017_11_22_113302_create_t_market_department_activity.php
-
-        // dd($stu_list);
-
+        dd($lesson_start);
+        $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
     }
 
 

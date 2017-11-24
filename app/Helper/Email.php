@@ -6,20 +6,47 @@ use \App\Enums as  E;
 
 class Email{
 
+    /**
+     * 理优教研组
+     */
     static public function SendMailLeoCom($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
-        $MailHost = "smtp.leoedu.com";
         $Username = "jim@leoedu.com";
         $Password = "xcwen142857";
         $From     = "jim@leoedu.com";
         $FromName = "理优教研组";
 
-        $ret = self::SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        return $ret;
+    }
+
+    /**
+     * 教学管理事业部教学部
+     */
+    static public function SendMailJiaoXue($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $Username = "leojiaoxuebu@leoedu.com";
+        $Password = "leojiaoxuebu123";
+        $From     = "leojiaoxuebu@leoedu.com";
+        $FromName = "教学管理事业部教学部";
+
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
+        return $ret;
+    }
+
+    /**
+     * 理优教学管理部
+     */
+    static public function SendMailEmd($Address,$Title,$Message,$IsHtml=true,$AddAddressKey=0){
+        $Username = "emd@leoedu.com";
+        $Password = "emd123456";
+        $From     = "emd@leoedu.com";
+        $FromName = "理优教学管理部";
+
+        $ret = self::SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey);
         return $ret;
     }
 
     /**
      * 发送邮件
-     * @param string MailHost 企业邮局域名
      * @param string UserName 邮局用户名
      * @param string Password 邮局密码
      * @param string From 邮件发送者email地址
@@ -31,7 +58,7 @@ class Email{
      * @param integer AddAddressKey 当Address为array时，前Key个为发送人，剩余的为抄送人
      * @return
      */
-    static public function SendMail($MailHost,$Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey){
+    static public function SendMail($Username,$Password,$From,$FromName,$Address,$Title,$Message,$IsHtml,$AddAddressKey){
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
         //设定时区东八区
@@ -42,7 +69,8 @@ class Email{
         $mail->IsSMTP();
         //设置编码，否则发送中文乱码
         $mail->CharSet ="UTF-8";
-        $mail->Host = $MailHost;
+        $mail->Host = "smtp.leoedu.com";
+
         // 启用SMTP验证功能
         $mail->SMTPAuth = true;
         $mail->SMTPSecure="tls";
@@ -63,7 +91,7 @@ class Email{
                 }
             }
         }else{
-            $mail->AddAddress($address, $address);
+            $mail->AddAddress($Address, $Address);
         }
 
         //$mail->AddAttachment("/var/tmp/file.tar.gz"); // 添加附件
