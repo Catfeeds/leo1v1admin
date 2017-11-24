@@ -3122,4 +3122,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_item_list(){
+        $sql = "select n.admin_revisiterid,"
+            ."m.account,m.seller_level,"
+            ."sum(if(n.admin_revisiterid>0,1,0)) count "
+            ."from t_seller_student_new n "
+            ."left join db_weiyi_admin.t_manager_info m on m.uid=n.admin_revisiterid "
+            ."where n.admin_revisiterid>0 and m.account_role=2  group by n.admin_revisiterid";
+        return $this->main_get_list($sql);
+    }
+
 }
