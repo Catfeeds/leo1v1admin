@@ -2591,9 +2591,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list($min,$max){
-        $where_arr = [];
-        $this->where_arr_add_time_range($where_arr,'n.userid',$min,$max);
+    public function get_all_list($start_time,$end_time){
+        $where_arr = [
+            ['tq.admin_role=%u',E\Eaccount_role::V_2],
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select n.userid,n.phone,n.cc_no_called_count,"
             ." tq.is_called_phone,tq.admin_role "

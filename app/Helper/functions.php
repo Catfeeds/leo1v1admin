@@ -44,9 +44,13 @@ function outputJson($array){
     }
 
     if( isset ($_GET['callback']) ) {
-        return htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
+        $content= htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
+        return $content;
     }else{
-        return  $json_data ;
+        $content= $json_data ;
+        $response=\Illuminate\Support\Facades\Response::make ($content, 200 );
+        $response->header('Content-Type', "application/json");
+        return $response;
     }
 }
 
