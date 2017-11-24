@@ -45,28 +45,87 @@ class fulltime_teacher_kaoqin extends Command
         
         $w = date("w");
 
-        //全职老师提前下班
+        //全职老师上班打卡延后时间/提前下班
         if($w !=1 && $w != 2){
+            //全职老师上班打卡延后时间
+            $begin_time = $day_time+9.5*3600;
+            $lesson_start = strtotime(date("Y-m-d",$time)." 09:00:00");
+            $list = $task->t_lesson_info_b2->get_delay_work_time_lesson_info($day_time,$lesson_start);
+            foreach($list as $item){
+                $teacherid = $item["teacherid"];
+                if($item["lesson_type"]==2){
+                    $lesson_end = $item["lesson_end"]+1200;
+                }else{
+                    $lesson_end = $item["lesson_end"];
+                }
+                $check_holiday = $task->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
+                if(!$check_holiday){
+                    $id = $task->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+                    $attendance_type = $task->t_fulltime_teacher_attendance_list->get_attendance_type($id);
+                    if($id>0 && $attendance_type==2){
+                        $end = $task->get_last_lesson_end($teacherid,$lesson_end);
+                        $delay_time = $end+5400;
+                        if($delay_time>$begin_time){
+                            $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                                "delay_work_time" =>$delay_time,
+                            ]);
+                        }
+
+                    }elseif(empty($id)){
+                        $end = $task->get_last_lesson_end($teacherid,$lesson_end);
+                        $delay_time = $end+5400;
+                        if($delay_time>$begin_time){
+                            $task->t_fulltime_teacher_attendance_list->row_insert([
+                                "teacherid"  =>$teacherid,
+                                "add_time"   =>time(),
+                                "attendance_type" =>2,
+                                "attendance_time"  =>$day_time,
+                                "delay_work_time"  =>$delay_time,
+                                "adminid"          =>$item["uid"]
+                            ]);
+
+                        }
+                    }
+ 
+                }
+                 
+            }
+
+
+
+            //全职老师提前下班
             $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
             $lesson_start = $lesson_end+1800;
             $lesson_list = $task->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
             foreach($lesson_list as $item){
                 $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($item["uid"]);
                 $teacherid = $teacher_info["teacherid"];
-                $check_exist = $task->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-                if($check_exist != 1){
-                    $start = $task->get_first_lesson_start($teacherid,$item["lesson_start"]);
-                    //$lesson_end = $item["lesson_start"]-5400;
-                    // $start = $task->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
-                    $off_time = $start-5400;
-                    $task->t_fulltime_teacher_attendance_list->row_insert([
-                        "teacherid"  =>$teacherid,
-                        "add_time"   =>$time,
-                        "attendance_type" =>2,
-                        "attendance_time"  =>$day_time,
-                        "off_time"         =>$off_time,
-                        "adminid"          =>$item["uid"]
-                    ]);
+                $check_holiday = $task->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
+                if(!$check_holiday){
+                    $id = $task->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+                    $attendance_type = $task->t_fulltime_teacher_attendance_list->get_attendance_type($id);
+                    if($id>0 && $attendance_type==2){
+                        $start = $task->get_first_lesson_start($teacherid,$item["lesson_start"]);
+                        //$lesson_end = $item["lesson_start"]-5400;
+                        // $start = $task->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
+                        $off_time = $start-5400;
+                        $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                            "off_time"         =>$off_time,
+                        ]);
+                    }elseif(empty($id)){
+                        $start = $task->get_first_lesson_start($teacherid,$item["lesson_start"]);
+                        $off_time = $start-5400;
+                        $task->t_fulltime_teacher_attendance_list->row_insert([
+                            "teacherid"  =>$teacherid,
+                            "add_time"   =>$time,
+                            "attendance_type" =>2,
+                            "attendance_time"  =>$day_time,
+                            "off_time"         =>$off_time,
+                            "adminid"          =>$item["uid"]
+                        ]);
+
+                    }
+ 
                 }
             }
         }
@@ -147,7 +206,7 @@ class fulltime_teacher_kaoqin extends Command
 
             //email
             $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
-            $table .= '<tr><td>假期名称</td><td><font color="red">'.$festival_info["name"].'</font></td><td></td><td></td></tr>';
+            $table .= '<tr><td>假期名称</td><td colspan="3" align="center"><font color="red">'.$festival_info["name"].'</font></td></tr>';
             $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
             foreach ($arr as $key => $value) {
                 if($value['day_num'] != 0){
@@ -207,23 +266,29 @@ class fulltime_teacher_kaoqin extends Command
             if($item>=8){
                 $account_role = $task->t_manager_info->get_account_role($k);
                 if($account_role==5 && $w >=2){
-                    $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
-              
+                                 
                     $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($k);                   
                     $teacherid = $teacher_info["teacherid"];
-                    $realname = $task->t_teacher_info->get_realname($teacherid);
-                    $task->t_fulltime_teacher_attendance_list->row_insert([
-                        "teacherid"  =>$teacherid,
-                        "add_time"   =>$time,
-                        "attendance_type" =>1,
-                        "attendance_time"  =>strtotime(date("Y-m-d",$time+86400)),
-                        "day_num"           =>1,
-                        "adminid"           =>$k,
-                        "lesson_count"      =>$item*100
-                    ]);
+                    $attendance_day = $day_time+86400;
+                    $check_holiday = $task->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$attendance_day);
+                    if(!$check_holiday){
+                        $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
+                        $realname = $task->t_teacher_info->get_realname($teacherid);
+                        $task->t_fulltime_teacher_attendance_list->row_insert([
+                            "teacherid"  =>$teacherid,
+                            "add_time"   =>$time,
+                            "attendance_type" =>1,
+                            "attendance_time"  =>strtotime(date("Y-m-d",$time+86400)),
+                            "day_num"           =>1,
+                            "adminid"           =>$k,
+                            "lesson_count"      =>$item*100
+                        ]);
  
-                    $name_list .= $realname.",";
-                    $num++;
+                        $name_list .= $realname.",";
+                        $num++;
+
+                    }
+
                 }elseif($account_role==4){
                     $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
               
