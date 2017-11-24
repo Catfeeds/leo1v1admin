@@ -86,6 +86,17 @@ $(function(){
     });
 
 
+    //id_test
+    $(".id_test").on("click", function(){
+        $.do_ajax("/test_james/wx_news",{
+            "id"  : 1,
+        } );
+
+    } );
+
+
+
+
 
     $(".opt-del").on("click", function(){
         var opt_data=$(this).get_opt_data();

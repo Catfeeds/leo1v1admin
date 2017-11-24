@@ -21,6 +21,14 @@
                     </div>
                 </div>
 
+                <div class="col-md-1 col-xs-5 " style="display:none">
+                    <div class="input-group input-group-btn">
+                        <button type="button" class="btn btn-warning id_test form-control">测试</button>
+
+                    </div>
+                </div>
+
+
             </div>
         </div>
         <hr/>
