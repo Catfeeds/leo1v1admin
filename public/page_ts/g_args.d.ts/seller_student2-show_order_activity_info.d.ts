@@ -25,8 +25,6 @@ interface RowData {
 	grade_list	:any;
 	open_flag	:any;
 	can_disable_flag	:any;
-	period_flag_list	:any;
-	contract_type_list	:any;
 	power_value	:any;
 	max_count	:any;
 	max_change_value	:any;
@@ -35,6 +33,8 @@ interface RowData {
 	max_count_activity_type_list	:any;
 	last_test_lesson_start	:any;
 	user_join_time_start	:any;
+	period_flag_list	:any;
+	contract_type_list	:any;
 	period_flag_list_str	:any;
 	contract_type_list_str	:any;
 	can_disable_flag_str	:any;
@@ -45,6 +45,7 @@ interface RowData {
 	lesson_times_range	:any;
 	user_join_time_range	:any;
 	last_test_lesson_range	:any;
+	discount_list	:any;
 }
 
 /*

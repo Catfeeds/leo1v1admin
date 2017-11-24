@@ -18,12 +18,29 @@ class seller_student2 extends Controller
         $page_num        = $this->get_in_page_num();
  
         $ret_list = $this->t_seller_student2->get_list($open_flag,$can_disable_flag,$contract_type_list,$period_flag_list,$page_num);
-        //dd($ret_list);
+        
         $gradeArr = E\Egrade::$desc_map;
         if($ret_list['list']){
             foreach( $ret_list['list'] as &$item){
-                $item['period_flag_list_str'] = $item['period_flag_list'] == -1 ? '全部' : E\Eperiod_flag::get_desc($item['period_flag_list']);
-                $item['contract_type_list_str'] = $item['contract_type_list'] == -1 ? '全部' : E\Econtract_type::get_desc($item['contract_type_list']);
+                $item['period_flag_list_str'] = '';
+                if($item['period_flag_list']){
+                    $periodArr = explode(",",$item['period_flag_list']);
+                    foreach($periodArr as $pe){
+                        $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
+                    }
+                    $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+                }
+
+                $item['contract_type_list_str'] = '';
+                if($item['contract_type_list']){
+                    $conArr = explode(",",$item['contract_type_list']);
+                    foreach($conArr as $con){
+                        $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
+                    }
+                    $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+                }
+
+
                 $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
                 $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
@@ -66,8 +83,18 @@ class seller_student2 extends Controller
                 }else{
                     $item['last_test_lesson_range'] = "未设置";
                 }
-
-
+              
+                //优惠列表展示
+                $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
+                
+                $discount_str = '';
+                if(!empty($discount_list)){
+                    foreach( $discount_list as $v){
+                        $discount_str .= $v.' ; ';
+                    }
+                }
+         
+                $item['discount_list'] = $discount_str;
             }
         }
         return $this->pageView(__METHOD__,$ret_list,
@@ -81,8 +108,8 @@ class seller_student2 extends Controller
     public function add_order_activity(){
         $title = $this->get_in_str_val('title');
 
-        $period_flag_list = $this->get_in_int_val('period_flag_list',0);
-        $contract_type_list = $this->get_in_int_val('contract_type_list',0);
+        $period_flag_list = $this->get_in_str_val('period_flag_list','0,1');
+        $contract_type_list = $this->get_in_str_val('contract_type_list','0,3');
         $grade_list = $this->get_in_str_val('grade_list',0);
         $max_count = $this->get_in_int_val('max_count',20);
 
@@ -110,10 +137,29 @@ class seller_student2 extends Controller
     public function get_order_activity(){
         $id = $this->get_in_int_val('id');
         $item = $this->t_seller_student2->get_by_id($id);
-       
+        $activity_type_list_str = []; //已选组合列表
+        $_activity_type_list = [];    //所有组合列表
+        $dicount_list = [];           //优惠信息
         if($item){
-            $item['period_flag_list_str']   =  $item['period_flag_list'] == -1 ? '全部' : E\Eperiod_flag::get_desc($item['period_flag_list']);
-            $item['contract_type_list_str']   =  $item['contract_type_list'] == -1 ? '全部' : E\Econtract_type::get_desc($item['contract_type_list']);
+            $item['period_flag_list_str'] = '';
+            if($item['period_flag_list']){
+                $periodArr = explode(",",$item['period_flag_list']);
+                foreach($periodArr as $pe){
+                    $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
+                }
+                $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+            }
+
+            $item['contract_type_list_str'] = '';
+            if($item['contract_type_list']){
+                $conArr = explode(",",$item['contract_type_list']);
+                foreach($conArr as $con){
+                    $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
+                }
+                $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+            }
+
+
             $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
             $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
             $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
@@ -159,19 +205,81 @@ class seller_student2 extends Controller
                 }
 
             }
+
+            //优惠列表展示
+            $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
+            
         }
         $gradeArr = E\Egrade::$desc_map;
         return $this->pageView(__METHOD__,null,
             [
-                "_publish_version"      => "201711231450",
-                "gradeArr" => $gradeArr,
+                "_publish_version"      => "201711241729",
                 "ret_info" => $item,
+                "gradeArr" => $gradeArr,
+                "discount_list"=>$discount_list,
                 'activity_type_list_str' => $activity_type_list_str,
                 '_activity_type_list'=>$_activity_type_list, //配额组合
             ]
         );
- 
+
     }
+
+    private function discount_list($discount_type,$discout_json){
+        $dicount_list = array();
+        $before = '';
+        $middle = '';
+        $after = '';
+        if(!$discout_json){
+            return $dicount_list;
+        }
+        
+        $discount_type = (int)$discount_type;
+        $discout = json_decode($discout_json);
+        if(is_array($discout) || is_object($discout)){
+            switch($discount_type){
+            case 1:
+                $before = '满课次数：';
+                $middle = ' 打';
+                $after = '折';
+                foreach( $discout as $var => $val){
+                    $dicount_list[] = $before.$var.$middle.$val.$after;
+                }
+                break;
+            case 2:
+                $before = '年级：';
+                $middle = ' 打';
+                $after = '折';
+                foreach( $discout as $var => $val){
+                    $grade = E\Egrade::get_desc($var);
+                    $dicount_list[] = $before.$grade.$middle.$val.$after;
+                }
+                break;
+            case 3:
+                $before = '满课次数：';
+                $middle = ' 送';
+                $after = '课';
+                foreach( $discout as $var => $val){
+                    $dicount_list[] = $before.$var.$middle.$val.$after;
+                }
+                break;
+            case 4:
+                $before = '满金额：￥';
+                $middle = ' 立减￥';
+                $after = '元';
+                foreach( $discout as $var => $val){
+                    $dicount_list[] = $before.$var.$middle.$val.$after;
+                }
+                break;
+            default:
+                $dicount_list = array();
+                break;
+            }
+            
+        }
+        
+        return $dicount_list;
+    }
+
     public function update_order_activity_01(){
         $id = $this->get_in_int_val('id');
         $title = $this->get_in_str_val('title','-1');
@@ -200,8 +308,8 @@ class seller_student2 extends Controller
 
     public function update_order_activity_02(){
         $id = $this->get_in_int_val('id');
-        $contract_type_list = $this->get_in_int_val('contract_type_list',null);
-        $period_flag_list = $this->get_in_int_val('period_flag_list',null);
+        $contract_type_list = $this->get_in_str_val('contract_type_list',null);
+        $period_flag_list = $this->get_in_str_val('period_flag_list',null);
         $grade_list = $this->get_in_str_val('grade_list',null);
         $updateArr = [
             'contract_type_list' => $contract_type_list,
