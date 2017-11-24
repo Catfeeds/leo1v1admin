@@ -91,6 +91,7 @@ class tom_do_once extends Command
                     echo $userid.':'.$cc_no_called_count."=>".$num."\n";
                 }
             }
+            $start = strtotime('+1 month',$start);
         }
     }
 
