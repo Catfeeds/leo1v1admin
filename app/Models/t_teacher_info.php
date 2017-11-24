@@ -4744,12 +4744,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_test_user=0",
             "quit_time=0",
             "bankcard=0",
-            "lesson_hold_flag=0",
-            "t.wx_openid !=''"
+            // "lesson_hold_flag=0",
+            "t.wx_openid !=''",
+            "t.train_through_new=1"
         ];
 
         $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
-                                  ." where %s limit 1"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

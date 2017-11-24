@@ -1215,6 +1215,7 @@ class seller_student_new extends Controller
         $end_time = time();
         $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
         $left_count = (30-$history_count)>0?30-$history_count:0;
+        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info,['left_count'=>$left_count]);
     }
 

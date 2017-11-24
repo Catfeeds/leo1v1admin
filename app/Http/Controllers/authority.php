@@ -76,6 +76,7 @@ class authority extends Controller
         }
 
         $ret_info = $this->t_manager_info->get_all_manager( $page_info,$uid,$user_info,$has_question_user, $creater_adminid,$account_role,$del_flag,$cardid,$tquin,$day_new_user_flag,$seller_level,$adminid,$fulltime_teacher_type,$call_phone_type);
+
         $group_list=$this->t_authority_group->get_auth_groups();
         $group_map=[];
         foreach($group_list as $group_item) {
@@ -120,6 +121,7 @@ class authority extends Controller
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
         }
         $acc= $this->get_account();
+
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"  =>$acc
         ]);

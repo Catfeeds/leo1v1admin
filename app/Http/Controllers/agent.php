@@ -550,22 +550,26 @@ class agent extends Controller
     }
 
     public function test_new(){
-        //0-303000,0,50186-437671
-        $min = $this->t_seller_student_new->get_min_add_time();
-        $max = $this->t_seller_student_new->get_max_add_time();
+        $min   = $this->t_seller_student_new->get_min_add_time();
+        $max   = $this->t_seller_student_new->get_max_add_time();
         $date1 = explode('-',date('Y-m-d',$min));
         $date2 = explode('-',date('Y-m-d',$max));
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
-        // $time = ceil(ceil(($max-$min)/(3600*24))/30);
         $start = strtotime(date('Y-m-1',$min));
-        $end = strtotime(date('Y-m-1',$max));
-        // dd($date1,$date2,$count);
-        for($i=0;$i<=$count;$i++){
+        $end   = strtotime(date('Y-m-1',$max));
+        $seller_add_time = strtotime(date('Y-m-d'));
+        $ret = [];
+        $limit = ceil(2000/$count);
+        for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
-            echo date('Y-m-d',$start_time).'/';
             $end_time = strtotime('+1 month',$start);
-            $ret = $this->t_seller_student_new->get_all_list($min,$max);
-            $userid_arr = array_unique(array_column($ret,'userid'));
+            $ret[$i] = $this->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
+            foreach($ret[$i] as $key=>$item){
+                $userid = $item['userid'];
+                $this->t_seller_student_new->field_update_list($userid,[
+                    'seller_add_time'=>$seller_add_time,
+                ]);
+            }
             $start = strtotime('+1 month',$start);
         }
     }

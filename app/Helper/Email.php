@@ -47,7 +47,6 @@ class Email{
 
     /**
      * 发送邮件
-     * @param string MailHost 企业邮局域名
      * @param string UserName 邮局用户名
      * @param string Password 邮局密码
      * @param string From 邮件发送者email地址
@@ -92,7 +91,7 @@ class Email{
                 }
             }
         }else{
-            $mail->AddAddress($address, $address);
+            $mail->AddAddress($Address, $Address);
         }
 
         //$mail->AddAttachment("/var/tmp/file.tar.gz"); // 添加附件

@@ -22,8 +22,8 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade::$desc_map;
         if($ret_list['list']){
             foreach( $ret_list['list'] as &$item){
-                $item['period_flag_list_str']   = E\Eperiod_flag::get_desc($item['period_flag_list']);
-                $item['contract_type_list_str']   = E\Econtract_type::get_desc($item['contract_type_list']);
+                $item['period_flag_list_str'] = $item['period_flag_list'] == -1 ? '全部' : E\Eperiod_flag::get_desc($item['period_flag_list']);
+                $item['contract_type_list_str'] = $item['contract_type_list'] == -1 ? '全部' : E\Econtract_type::get_desc($item['contract_type_list']);
                 $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
                 $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
@@ -55,7 +55,7 @@ class seller_student2 extends Controller
                     $item['lesson_times_range'] = "未设置";
                 }
 
-                if( $item['user_join_time_start'] && $item['user_join_time_start']){
+                if( $item['user_join_time_start'] && $item['user_join_time_end']){
                     $item['user_join_time_range'] = date('Y-m-d',$item["user_join_time_start"]).' 至 '.date('Y-m-d',$item["user_join_time_end"]);
                 }else{
                     $item['user_join_time_range'] = "未设置";
@@ -72,7 +72,7 @@ class seller_student2 extends Controller
         }
         return $this->pageView(__METHOD__,$ret_list,
            [
-             "_publish_version"      => "2017112211839",
+             "_publish_version"      => "2017112211840",
              "gradeArr" => $gradeArr,
            ]
         );
@@ -112,8 +112,8 @@ class seller_student2 extends Controller
         $item = $this->t_seller_student2->get_by_id($id);
        
         if($item){
-            $item['period_flag_list_str']   = E\Eperiod_flag::get_desc($item['period_flag_list']);
-            $item['contract_type_list_str']   = E\Econtract_type::get_desc($item['contract_type_list']);
+            $item['period_flag_list_str']   =  $item['period_flag_list'] == -1 ? '全部' : E\Eperiod_flag::get_desc($item['period_flag_list']);
+            $item['contract_type_list_str']   =  $item['contract_type_list'] == -1 ? '全部' : E\Econtract_type::get_desc($item['contract_type_list']);
             $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
             $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
             $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);

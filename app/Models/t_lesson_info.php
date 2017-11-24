@@ -250,12 +250,10 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    s.userid as stu_id,"
                      ."    s.phone as stu_phone,"
                      ."    s.nick as stu_nick,"
-
                      ."    s.user_agent as stu_user_agent,"
-                     // ."l.stu_agent as stu_user_agent,"
                      ."    s.origin as origin_str,"
                      ."    s.stu_email,"
-                     .""
+
                      ."    h.work_intro,"
                      ."    h.work_status,"
                      ."    h.issue_url,"
@@ -338,40 +336,24 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    tts.fail_greater_4_hour_flag ,"
                      ."    c.current_server,"
                      ."    tts.fail_reason "
-                     ."    from"
-                     ."    db_weiyi.t_lesson_info as l"
-                     ."    LEFT JOIN db_weiyi.t_homework_info as h"
-                     ."    ON l.lessonid = h.lessonid "
-
-                     ."    LEFT JOIN db_weiyi.t_student_info as s"
-                     ."    ON s.userid = l.userid"
-                     ."    LEFT JOIN db_weiyi.t_parent_info as pi"
-                     ."    ON s.parentid = pi.parentid"
-
-                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts"
-                     ."    ON tts.lessonid = l.lessonid"
-
-                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_require as tr"
-                     ."    ON tr.require_id = tts.require_id "
-
-                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject as t"
-                     ."    ON t.test_lesson_subject_id = tr.test_lesson_subject_id "
-
-                     ."    LEFT JOIN  %s as f"
-                     ."    ON ( f.flow_type=2003 and l.lessonid=f.from_key_int  ) "
-
-                     ."    LEFT JOIN  %s c on (c.courseid=l.courseid) "
-
-
-                     ."    LEFT JOIN db_weiyi.t_teacher_info as tt"
-                     ."    ON tt.teacherid = l.teacherid "
-                     ."    LEFT JOIN db_weiyi_admin.t_manager_info as m"
-                     ."    ON tt.phone = m.phone "
-                     ."    where"
-                     ."    %s  "
+                     ."    from %s as l"
+                     ."    LEFT JOIN db_weiyi.t_homework_info as h ON l.lessonid = h.lessonid "
+                     ."    LEFT JOIN db_weiyi.t_student_info as s ON s.userid = l.userid"
+                     ."    LEFT JOIN db_weiyi.t_parent_info as pi ON s.parentid = pi.parentid"
+                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts ON tts.lessonid = l.lessonid"
+                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_require as tr ON tr.require_id = tts.require_id "
+                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject as t ON t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                     ."    LEFT JOIN %s as f ON ( f.flow_type=2003 and l.lessonid=f.from_key_int  ) "
+                     ."    LEFT JOIN %s c on (c.courseid=l.courseid) "
+                     ."    LEFT JOIN %s as tt ON tt.teacherid = l.teacherid "
+                     ."    LEFT JOIN %s as m ON tt.phone = m.phone "
+                     ."    where %s  "
                      ."    order by lesson_start asc, l.lessonid asc "
-                     , t_flow::DB_TABLE_NAME
-                     , t_course_order::DB_TABLE_NAME
+                     ,t_lesson_info::DB_TABLE_NAME
+                     ,t_flow::DB_TABLE_NAME
+                     ,t_course_order::DB_TABLE_NAME
+                     ,t_teacher_info::DB_TABLE_NAME
+                     ,t_manager_info::DB_TABLE_NAME
                      ,$cond_str
         );
         return $this->main_get_list_by_page($sql, $page_num, 10);
