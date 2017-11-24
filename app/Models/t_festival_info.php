@@ -37,7 +37,7 @@ class t_festival_info extends \App\Models\Zgen\z_t_festival_info
             "days>0"
         ];
         $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 }
 
