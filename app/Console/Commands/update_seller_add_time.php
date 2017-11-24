@@ -69,13 +69,13 @@ class update_seller_add_time extends Command
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
-            $ret[$i] = $this->task->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
-            foreach($ret[$i] as $key=>$item){
+            $ret = $this->task->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
+            foreach($ret as $item){
                 $userid = $item['userid'];
                 $this->task->t_seller_student_new->field_update_list($userid,[
                     'seller_add_time'=>$seller_add_time,
                 ]);
-                echo $userid.':'.$item['last_revisit_time']."=>".$seller_add_time."\n";
+                // echo $userid.':'.$item['seller_add_time']."=>".$seller_add_time."\n";
             }
             $start = strtotime('+1 month',$start);
         }
