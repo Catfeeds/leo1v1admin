@@ -1252,7 +1252,7 @@ $test=	3;
             'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
             'msgtype'  => 'text',
             "text"=>[
-                "content"=>"Hello World <a href='https://baidu.com' onclick='alert('你已经点击了我！');' >百度</a>"
+                "content"=>"Hello World <a  onclick='alert('你已经点击了我！');' >百度</a>"
             ]
         ];
 
