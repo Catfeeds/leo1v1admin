@@ -612,8 +612,8 @@ class fulltime_teacher extends Controller
                         $attendance_type = $attendance_info["attendance_type"];
                         if($attendance_type==2){
                             if (isset ( $d_item["start_logtime"]) ){              
-                                $off_time = $attendance_info["off_time"]==0?($day_time+9.5*86400):$attendance_info["off_time"];                              
-                                $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*86400):$attendance_info["delay_work_time"];
+                                $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
+                                $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
                                 if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
                                     $d_item["error_flag"]=true;
                                     $d_item["error_flag_str"] ="是"; 
@@ -629,8 +629,8 @@ class fulltime_teacher extends Controller
  
                     }else{
                         if (isset ( $d_item["start_logtime"]) ){              
-                            $off_time = $day_time+9.5*86400;                              
-                            $delay_time = $day_time+18.5*86400;
+                            $off_time = $day_time+9.5*3600;                              
+                            $delay_time = $day_time+18.5*3600;
                             if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
                                 $d_item["error_flag"]=true;
                                 $d_item["error_flag_str"] ="是"; 
