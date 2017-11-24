@@ -2,7 +2,6 @@
 @section('content')
     <script type="text/javascript" >
      var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
-     var download_flag = {{$download_flag}};
     </script>
 
     <section class="content ">
