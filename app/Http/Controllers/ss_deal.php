@@ -2682,7 +2682,9 @@ class ss_deal extends Controller
 
 
 
+        $test_id = $this->get_account_id();
 
+        if($test_id == 436){
 
         /**
          * @demand 课程取消后 通知到对应咨询（或者对应助教），对应教务
@@ -2847,6 +2849,7 @@ class ss_deal extends Controller
 
                 \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
             }
+        }
         }
 
         return $this->output_succ();
