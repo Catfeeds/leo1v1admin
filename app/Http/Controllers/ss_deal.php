@@ -2695,8 +2695,7 @@ class ss_deal extends Controller
             $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                // $set_lesson_adminid,
-                '684', //james
+                $set_lesson_adminid,
                 "来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
             );
@@ -2704,8 +2703,7 @@ class ss_deal extends Controller
             $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
             if($require_adminid != $set_lesson_adminid){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                    '684', //james
-                    // $require_adminid,
+                    $require_adminid,
                     "$require_adminid 来自:".$this->get_account(),
                     "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
                 );
@@ -2740,8 +2738,7 @@ class ss_deal extends Controller
              * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
-            // \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-            \App\Helper\Utils::sms_common('17802193367',46785153,[ //james
+            \App\Helper\Utils::sms_common($teacher_phone,46785153,[
                 "name"        => $teacher_nick,
                 "lesson_time" => $lesson_time." ".$nick,
                 "reason"      => $cancel_cause,
@@ -2786,8 +2783,7 @@ class ss_deal extends Controller
              * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
-            // \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-            \App\Helper\Utils::sms_common('17802193367',46785153,[ //james
+            \App\Helper\Utils::sms_common($teacher_phone,46785153,[
                 "name"        => $teacher_nick,
                 "lesson_time" => $lesson_time." ".$nick,
                 "reason"      => "学生原因",
@@ -2823,8 +2819,7 @@ class ss_deal extends Controller
              * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
              故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
-            // \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
-            \App\Helper\Utils::sms_common("17802193367", 46680138,[ //james
+            \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
                 "name"         => $teacher_nick,
                 "lesson_time"  => $lesson_time,
                 "student_nick" => $nick,
