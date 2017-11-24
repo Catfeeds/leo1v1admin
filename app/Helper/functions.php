@@ -1,4 +1,5 @@
 <?php
+
 function check_utf8_encode($str){
     if (strlen($str)>0) {
         $tmp_data=json_encode(["v" => $str ]);
@@ -24,6 +25,7 @@ function deal_json_utf8_encode(&$arr )   {
         }
     }
 }
+
 /**
  * 输出json 格式 并且程序终止
  * @return string
