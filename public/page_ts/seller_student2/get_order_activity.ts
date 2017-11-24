@@ -27,12 +27,14 @@ $(function(){
     $('#opt_edit_01').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data(); 
         var id_title = $("<input style='width:400px'/>");
+        var id_id = $('<input onkeypress="keyPressCheck(this)" onkeyup="keyUpCheck(this)" />');
         var id_date_range_start = $("<input/>");
         var id_date_range_end = $("<input/>");
         var id_lesson_times_min = $("<input/>");
         var id_lesson_times_max = $("<input/>");
 
         id_title.val(opt_data.title);
+        id_id.val(opt_data.id);
         id_date_range_start.val(opt_data.date_range_start);
         id_date_range_end.val(opt_data.date_range_end);
         id_lesson_times_min.val(opt_data.lesson_times_min);
@@ -44,6 +46,7 @@ $(function(){
 
         var arr=[
             ["活动标题", id_title ],
+            ["活动ID", id_id ],
             ["活动日期开始时间*", id_date_range_start ],
             ["活动日期结束时间*", id_date_range_end ],
             ["参加活动最小课时*", id_lesson_times_min ],
@@ -79,6 +82,7 @@ $(function(){
 
                 var data = {
                     'id': opt_data.id,
+                    'id_after': id_id.val(),
                     'title':title,
                     'date_range_start':date_range_start,
                     'date_range_end':date_range_end,
@@ -92,8 +96,12 @@ $(function(){
                     dataType :"json",
                     data     :data,
                     success : function(result){
-                        BootstrapDialog.alert(result['info']);
-                        window.location.reload();
+                        console.log(result);
+                        BootstrapDialog.alert(result.info);
+                        var return_url = GetQueryString("return_url");
+                        if(result.status == 200){
+                            window.location = '/seller_student2/get_order_activity?id='+result.data+'&return_url='+return_url;
+                        }
                     }
                 });
             }
@@ -603,4 +611,11 @@ function bindTime(itemArr){
             step:30,
         });
     }
+}
+
+function keyPressCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+}
+function keyUpCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
 }

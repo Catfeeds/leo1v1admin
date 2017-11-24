@@ -129,49 +129,50 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/agent-check.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		self_groupid:	$('#id_self_groupid').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		order_by_str:	$('#id_order_by_str').val(),
+		userid:	$('#id_userid').val(),
+		origin:	$('#id_origin').val(),
+		origin_ex:	$('#id_origin_ex').val(),
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		phone_location:	$('#id_phone_location').val(),
+		admin_revisiterid:	$('#id_admin_revisiterid').val(),
+		tq_called_flag:	$('#id_tq_called_flag').val(),
+		global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
+		seller_student_status:	$('#id_seller_student_status').val(),
+		has_pad:	$('#id_has_pad').val(),
+		sub_assign_adminid_2:	$('#id_sub_assign_adminid_2').val(),
+		origin_assistantid:	$('#id_origin_assistantid').val(),
+		tmk_adminid:	$('#id_tmk_adminid').val(),
+		account_role:	$('#id_account_role').val(),
+		origin_level:	$('#id_origin_level').val(),
+		seller_student_sub_status:	$('#id_seller_student_sub_status').val(),
+		tmk_student_status:	$('#id_tmk_student_status').val(),
+		seller_resource_type:	$('#id_seller_resource_type').val(),
+		sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
+		publish_flag:	$('#id_publish_flag').val(),
+		show_list_flag:	$('#id_show_list_flag').val(),
+		seller_level:	$('#id_seller_level').val(),
+		admin_del_flag:	$('#id_admin_del_flag').val(),
+		wx_invaild_flag:	$('#id_wx_invaild_flag').val(),
+		filter_flag:	$('#id_filter_flag').val(),
+		first_seller_adminid:	$('#id_first_seller_adminid').val(),
+		call_phone_count:	$('#id_call_phone_count').val(),
+		call_count:	$('#id_call_count').val(),
+		suc_test_count:	$('#id_suc_test_count').val(),
+		main_master_flag:	$('#id_main_master_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			self_groupid:	$('#id_self_groupid').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			order_by_str:	$('#id_order_by_str').val(),
-			userid:	$('#id_userid').val(),
-			origin:	$('#id_origin').val(),
-			origin_ex:	$('#id_origin_ex').val(),
-			grade:	$('#id_grade').val(),
-			subject:	$('#id_subject').val(),
-			phone_location:	$('#id_phone_location').val(),
-			admin_revisiterid:	$('#id_admin_revisiterid').val(),
-			tq_called_flag:	$('#id_tq_called_flag').val(),
-			global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
-			seller_student_status:	$('#id_seller_student_status').val(),
-			has_pad:	$('#id_has_pad').val(),
-			sub_assign_adminid_2:	$('#id_sub_assign_adminid_2').val(),
-			origin_assistantid:	$('#id_origin_assistantid').val(),
-			tmk_adminid:	$('#id_tmk_adminid').val(),
-			account_role:	$('#id_account_role').val(),
-			origin_level:	$('#id_origin_level').val(),
-			seller_student_sub_status:	$('#id_seller_student_sub_status').val(),
-			tmk_student_status:	$('#id_tmk_student_status').val(),
-			seller_resource_type:	$('#id_seller_resource_type').val(),
-			sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
-			publish_flag:	$('#id_publish_flag').val(),
-			show_list_flag:	$('#id_show_list_flag').val(),
-			seller_level:	$('#id_seller_level').val(),
-			admin_del_flag:	$('#id_admin_del_flag').val(),
-			wx_invaild_flag:	$('#id_wx_invaild_flag').val(),
-			filter_flag:	$('#id_filter_flag').val(),
-			first_seller_adminid:	$('#id_first_seller_adminid').val(),
-			call_phone_count:	$('#id_call_phone_count').val(),
-			call_count:	$('#id_call_count').val(),
-			suc_test_count:	$('#id_suc_test_count').val(),
-			main_master_flag:	$('#id_main_master_flag').val()
-        });
-    }
 
 	Enum_map.append_option_list("subject",$("#id_subject"));
 	Enum_map.append_option_list("tq_called_flag",$("#id_tq_called_flag"));

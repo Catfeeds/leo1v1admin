@@ -366,7 +366,6 @@ class seller_student_new extends Controller
             $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
             if(count($intersect)>0){
                 $show_son_flag = true;
-                // $admin_revisiterid = $require_adminid_list_new[0];
                 $require_adminid_list_new = $intersect;
             }
         }
