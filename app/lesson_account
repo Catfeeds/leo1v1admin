@@ -1,0 +1,965 @@
+Console/Commands/ResetTeacherLessonCount.php:            $tea_list = $this->task->t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
+Console/Commands/ResetTeacherLessonCount.php:                    $stu_list = $this->task->t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
+Console/Commands/ResetTeacherLessonCount.php:                            $this->task->t_lesson_info->reset_teacher_student_already_lesson_count(
+Console/Commands/ResetTeacherLessonCount.php:                $this->task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/reset_lesson_count_when_lesson_start.php:            $list = $task->t_lesson_info->get_current_student_list_by_start_time($lesson_start);
+Console/Commands/CheckTeacherIsInRoom.php:            $lesson_list = $task->t_lesson_info->get_need_check_teacher_lesson($type,$start_time,$end_time);
+Console/Commands/send_small_class_courseware_PDF_email_to_stu.php:        $lesson_info = $task->t_lesson_info->get_small_class_lesson_info_for_send_email($start_time,$end_time);
+Console/Commands/send_small_class_courseware_PDF_email_to_stu.php:                            $task->t_lesson_info->field_update_list($item['lessonid'],["lesson_end_todo_flag"=>1]);
+Console/Commands/reset_lesson_info_real_begin_time.php:        $this->task->t_lesson_info->reset_real_begin_time();
+Console/Commands/friday_send_new_teacher_info_wx.php:        $all_teacher_info = $task->t_lesson_info->get_all_teacher_test_lesson_info($start_time,$end_time);
+Console/Commands/ResetStudentLessonCount.php:        $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start,$end,E\Elesson_status::V_0);
+Console/Commands/ResetStudentLessonCount.php:                    // $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
+Console/Commands/send_small_class_course_comment_emial_to_stu.php:        $lesson_info = $task->t_lesson_info->get_small_class_performance_stu_new($start_time,$end_time);
+Console/Commands/send_small_class_course_comment_emial_to_stu.php:                        $task->t_lesson_info->field_update_list($item['lessonid'],["lesson_comment_send_email_flag"=>1]);
+Console/Commands/reset_lesson_online_user_status_by_stroke_time.php:                        $this->task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/cr_info_month.php:        $lesson_consume    = $task->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量,上课学生数
+Console/Commands/cr_info_month.php:        $leave_num         = $task->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
+Console/Commands/cr_info_month.php:        $lesson_plan    = $task->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量
+Console/Commands/cr_info_month.php:        $lesson_income  = $task->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入
+Console/Commands/cr_info_month.php:        $lesson_consume    = $task->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
+Console/Commands/teacher_train_interview_lesson_wx.php:            $task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/update_teacher_limit_require_seller.php:            $res = $task->t_lesson_info->check_seller_plan_lesson($item["teacherid"],$item["add_time"]);
+Console/Commands/add_new_tea_entry.php:        $imit_sum = $task->t_lesson_info->get_imit_audi_sched_count($item['trial_lecture_pass_time'], $item['teacherid']);
+Console/Commands/add_new_tea_entry.php:        //$attend_sum = $task->t_lesson_info->get_attend_lesson_count($item['trial_lecture_pass_time'], $item['teacherid']);
+Console/Commands/update_test_lesson_opt_flag.php:                            $task->t_lesson_info->field_update_list($info,[
+Console/Commands/teacher_test_lesson_low_pre.php:        $res = $task->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+Console/Commands/teacher_test_lesson_low_pre.php:        $teacherid_list = $task->t_lesson_info->get_have_eight_test_lesson_teacher_list($start_time,-1,"",$end_time,0);
+Console/Commands/teacher_test_lesson_low_pre.php:            $ret = $task->t_lesson_info->get_test_lesson_order_info_by_teacherid($teacherid,$start_time,$end_time);
+Console/Commands/send_course_comment_emial_to_stu.php:        $lesson_info = $task->t_lesson_info->get_performance_stu_new($start_time,$end_time);
+Console/Commands/send_course_comment_emial_to_stu.php:                    $task->t_lesson_info->field_update_list($item['lessonid'],["lesson_comment_send_email_flag"=>1]);
+Console/Commands/teacher_first_test_lesson_wx.php:        $lessonid_list = $task->t_lesson_info->get_all_first_lesson_teacher($start_time,$end_time);
+Console/Commands/notify_teacher_lesson_tomorrow.php:        $list = $task->t_lesson_info->get_teacher_lesson_list($start_time,$end_time);
+Console/Commands/send_Teach_Pdf_email_to_parent.php:        $list=$task->t_lesson_info->get_current_student_list_by_start_time($lesson_start);
+Console/Commands/teacher_have_order_send_wx_for_money.php:            $order_per_info  =$task->t_lesson_info->get_teacher_month_order_info($start_time,$end_time,$item["teacherid"]);
+Console/Commands/teacher_have_order_send_wx_for_money.php:                $lesson_start = $task->t_lesson_info->get_lesson_start($lessonid);
+Console/Commands/teacher_have_order_send_wx_for_money.php:                $ret = $task->t_lesson_info->check_is_first($lessonid,$item["teacherid"]);
+Console/Commands/send_tea_record_by_email_week.php:        $res = $task->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+Console/Commands/send_tea_record_by_email_week.php:        $teacherid_list = $task->t_lesson_info->get_have_ten_test_lesson_teacher_list_new($start_time,-1,"",$end_time);
+Console/Commands/send_tea_record_by_email_week.php:            $ret = $task->t_lesson_info->get_test_lesson_order_info_by_teacherid($teacherid,$start_time,$end_time,$test_lesson_num);
+Console/Commands/send_tea_record_by_email_week.php:            $ret = $task->t_lesson_info->check_teacher_have_test_lesson($teacherid,$lessonid,$lstart);
+Console/Commands/send_tea_record_by_email_week.php:                    $ret = $task->t_lesson_info->get_lesson_info_stu($ss);
+Console/Commands/CheckLessonTeacherMoneyType.php:            $this->task->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Commands/jhp.php:        $user_map_60 = $task->t_lesson_info->get_user_list(60);
+Console/Commands/jhp.php:        $user_map_90 = $task->t_lesson_info->get_user_list(90);
+Console/Commands/jhp.php:          $ret_lesson_stop_info = $task->t_lesson_info->get_lesson_list_stop_id();
+Console/Commands/jhp.php:          $ret_lesson_end_info = $task->t_lesson_info->get_lesson_list_end_id();
+Console/Commands/jhp.php:        //$list=$task->t_lesson_info-> //60
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $first_info = $task->t_lesson_info->get_interview_teacher_first_lesson_info_subject($start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $tea_list = $task->t_lesson_info->get_all_first_lesson_teacher_list($start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $lesson_info = $task->t_lesson_info->get_teacher_arr_lesson_order_info_subject($start_time,$end_time,$tea_arr);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $first_lesson_info = $task->t_lesson_info->get_teacher_arr_first_lesson_order_info_subject($start_time,$end_time,$tea_arr);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $test_person_num= $task->t_lesson_info->get_test_person_num_list_by_subject( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $test_person_num_other= $task->t_lesson_info->get_test_person_num_list_subject_other( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_subject_list( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_subject_list( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $test_person_num_all= $task->t_lesson_info->get_test_person_num_list_by_subject_grade( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $test_person_num_other_all= $task->t_lesson_info->get_test_person_num_list_subject_grade_other( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $kk_test_person_num_all= $task->t_lesson_info->get_kk_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info_subject.php:        $change_test_person_num_all= $task->t_lesson_info->get_change_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Console/Commands/teacher_first_test_lesson_wx_day.php:        $lessonid_list = $task->t_lesson_info->get_all_first_lesson_teacher($start_time,$end_time);
+Console/Commands/update_haruteru_award.php:        $p_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,[],2,false);
+Console/Commands/update_haruteru_award.php:        $m_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,200,[],2,false);
+Console/Commands/update_haruteru_award.php:        $s_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,300,[],2,false);
+Console/Commands/teacher_test_lesson_tra_day_wx.php:        $res = $task->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+Console/Commands/teacher_test_lesson_tra_day_wx.php:        //$ret_info = $task->t_lesson_info->tongji_teacher_test_lesson_info_list($start_time,$end_time);
+Console/Commands/teacher_test_lesson_tra_day_wx.php:        $test_person_num= $task->t_lesson_info->get_teacher_test_person_num_list_subject( $start_time,$end_time);
+Console/Commands/teacher_test_lesson_tra_day_wx.php:        $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_num_list_subject( $start_time,$end_time);
+Console/Commands/teacher_test_lesson_tra_day_wx.php:        $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_subject( $start_time,$end_time);
+Console/Commands/teacher_test_lesson_tra_day_wx.php:        //$success_test_lesson_list = $task->t_lesson_info->get_success_test_lesson_list_new_subject($start_time,$end_time);
+Console/Commands/regular_course_un_plan_send_wx.php:        $lesson_num = $task->t_lesson_info->get_stu_normal_lesson_num($lstart,$lend,$user_list);
+Console/Commands/regular_course_un_plan_send_wx.php:        $lesson_num2 = $task->t_lesson_info->get_stu_normal_lesson_num($lstart+7*86400,$lend+7*86400,$user_list);
+Console/Commands/regular_course_un_plan_send_wx.php:        $lesson_num3 = $task->t_lesson_info->get_stu_normal_lesson_num($lstart+14*86400,$lend+14*86400,$user_list);
+Console/Commands/get_research_teacher_kpi_info.php:        $first_info = $task->t_lesson_info->get_interview_teacher_first_lesson_info($start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info.php:        $tea_list = $task->t_lesson_info->get_all_first_lesson_teacher_list($start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info.php:        $lesson_info = $task->t_lesson_info->get_teacher_arr_lesson_order_info($start_time,$end_time,$tea_arr);
+Console/Commands/get_research_teacher_kpi_info.php:        $first_lesson_info = $task->t_lesson_info->get_teacher_arr_first_lesson_order_info($start_time,$end_time,$tea_arr);
+Console/Commands/get_research_teacher_kpi_info.php:            $test_person_num= $task->t_lesson_info->get_test_person_num_list_by_subject_grade( $start_time,$end_time,$subject_arr,$grade_arr);
+Console/Commands/get_research_teacher_kpi_info.php:            $test_person_num_other= $task->t_lesson_info->get_test_person_num_list_subject_grade_other( $start_time,$end_time,$subject_arr,$grade_arr);
+Console/Commands/get_research_teacher_kpi_info.php:            $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_subject_grade_list( $start_time,$end_time,$subject_arr,$grade_arr);
+Console/Commands/get_research_teacher_kpi_info.php:            $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_subject_grade_list( $start_time,$end_time,$subject_arr,$grade_arr);
+Console/Commands/get_research_teacher_kpi_info.php:        $test_person_num_all= $task->t_lesson_info->get_test_person_num_list_by_subject_grade( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info.php:        $test_person_num_other_all= $task->t_lesson_info->get_test_person_num_list_subject_grade_other( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info.php:        $kk_test_person_num_all= $task->t_lesson_info->get_kk_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Console/Commands/get_research_teacher_kpi_info.php:        $change_test_person_num_all= $task->t_lesson_info->get_change_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Console/Commands/test_command.php:        // $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start_time,$end_time);
+Console/Commands/test_command.php:        //             $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
+Console/Commands/teacher_limit_lesson_num_change.php:            $test_lesson_num = $task->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Console/Commands/teacher_limit_lesson_num_change.php:            $test_lesson_num_next = $task->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart_next,$lend_next);
+Console/Commands/check_stu_tea.php:          $ret_lesson_stop_info = $task->t_lesson_info->get_lesson_list_stop_id();
+Console/Commands/check_stu_tea.php:          $ret_lesson_end_info = $task->t_lesson_info->get_lesson_list_end_id();
+Console/Commands/check_stu_tea.php:        //$list=$task->t_lesson_info-> //60
+Console/Commands/limit_require_deal.php:            $ret_row1 = $task->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+Console/Commands/limit_require_deal.php:            $ret_row2=$task->t_lesson_info->check_teacher_time_free(
+Console/Commands/limit_require_deal.php:            $lessonid     = $task->t_lesson_info->add_lesson(
+Console/Commands/limit_require_deal.php:            $task->t_lesson_info->reset_lesson_list($courseid);
+Console/Commands/teacher_advance_send_wx.php:            $task->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
+Console/Commands/send_courseware_PDF_email_to_stu.php:        $lesson_info = $task->t_lesson_info->get_lesson_info_for_send_email($start_time,$end_time);
+Console/Commands/send_courseware_PDF_email_to_stu.php:                    $task->t_lesson_info->field_update_list($item['lessonid'],["lesson_end_todo_flag"=>1]);
+Console/Commands/update_teaching_core_data.php:            $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+Console/Commands/update_teaching_core_data.php:            $kk_test_person_num= $task->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1);
+Console/Commands/update_teaching_core_data.php:            $scc_test_info =$task->t_lesson_info->get_teacher_test_person_num_list_total($start_time,$end_time);
+Console/Commands/update_teaching_core_data.php:            $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+Console/Commands/update_teaching_core_data.php:            // $change_test_person_num= $task->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1);
+Console/Commands/update_train_lesson_email_send_info.php:                $task->t_lesson_info->field_update_list($val["lessonid"],[
+Console/Commands/set_xmpp_server.php:            $this->task->t_lesson_info->field_update_list($item["lessonid"],[
+Console/Commands/teacher_test_lesson_tra_order.php:        $res = $task->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+Console/Commands/teacher_test_lesson_tra_order.php:        $teacherid_list = $task->t_lesson_info->get_have_ten_test_lesson_teacher_list($start_time,-1,"",$end_time,0);
+Console/Commands/teacher_test_lesson_tra_order.php:            $ret = $task->t_lesson_info->get_test_lesson_order_info_by_teacherid($teacherid,$start_time,$end_time,$test_lesson_num);
+Console/Commands/teacher_test_lesson_tra_order.php:                    $test_lesson_num_week_end = $task->t_lesson_info->get_limit_type_teacher_end_lesson_num($teacherid,$lstart,$lend);            
+Console/Commands/cr_info_week.php:        $lesson_consume    = $task->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量,上课学生数
+Console/Commands/cr_info_week.php:        $leave_num         = $task->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
+Console/Commands/cr_info_week.php:        $lesson_plan    = $task->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量
+Console/Commands/cr_info_week.php:        $lesson_income  = $task->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入
+Console/Commands/set_lesson_audio_record_server_at_time.php:        $lesson_list= $task->t_lesson_info->get_current_lessons("");
+Console/Commands/set_lesson_audio_record_server_at_time.php:                    $task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/set_lesson_audio_record_server_at_time.php:                    $task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/deal_pdf_to_png.php:                $ret = $this->task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+Console/Commands/send_teacher_train_interview_before.php:            $task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/NoticeTomorrowLessonToParent.php:        $ret_id   = $task->t_lesson_info->get_today_lesson_list($start_time,$end_time);
+Console/Commands/NoticeTomorrowLessonToParent.php:        $ret_1v1   = $task->t_lesson_info->get_1v1_user_list($v1_l);
+Console/Commands/NoticeTomorrowLessonToParent.php:        $ret_open  = $task->t_lesson_info->get_open_user_list($open_l);
+Console/Commands/NoticeTomorrowLessonToParent.php:        $ret_small = $task->t_lesson_info->get_small_user_list($small_l);
+Console/Commands/reset_lesson_online_user_status.php:            $this->task->t_lesson_info->field_update_list($lessonid,[
+Console/Commands/NoticeStudent.php:        $lesson_list = $task->t_lesson_info->get_lesson_stu_late($start_time,$end_time,$type);
+Console/Commands/import_to_teacher_flow.php:            $subject = $task->t_lesson_info->get_subject_for_teacherid($teacherid);
+Console/Commands/set_lesson_audio_record_server_at_time_new.php:        $lesson_list= $this->task->t_lesson_info->get_current_lessons("");
+Console/Commands/set_lesson_audio_record_server_at_time_new.php:                $this->task->t_lesson_info->field_update_list($lessonid,[
+Console/Tasks/TeacherMoneyTask.php:        $lesson_list  = $this->t_lesson_info->get_teacher_lesson_total_list($start,$end);
+Console/Tasks/LessonTask.php:        $lesson_list=$this->t_lesson_info->get_need_set_lesson_begin_list();
+Console/Tasks/LessonTask.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Console/Tasks/LessonTask.php:        $lesson_list = $this->t_lesson_info->get_need_set_lesson_end_list();
+Console/Tasks/LessonTask.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Console/Tasks/LessonTask.php:                        $this->t_lesson_info->field_update_list($lessonid,[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $lesson_list = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:                    $last_lesson_end = $this->t_lesson_info->get_last_lesson_end($val['lesson_start'],$val['teacherid']);
+Console/Tasks/TeacherTask.php:                        $late_num = $this->t_lesson_info->get_cost_num($month_date['start'],$month_date['end'],$val['teacherid'],1);
+Console/Tasks/TeacherTask.php:                        $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $ret_list    = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+Console/Tasks/TeacherTask.php:                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_not_check_homework_lesson($start_time,$end_time,$week_time);
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:            $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:        $lesson_info = $this->t_lesson_info->get_all_lesson_info($lessonid);
+Console/Tasks/TeacherTask.php:        $ret_list = $this->t_lesson_info->get_error_lesson_list($start,$end);
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_tea_paper_lesson_list($start_time,$end_time);
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                        $this->t_lesson_info->field_update_list($lesson_val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:            $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $ret_list    = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+Console/Tasks/TeacherTask.php:                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/TeacherTask.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/TeacherTask.php:                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/CommonTask.php:        $ret_id = $this->t_lesson_info->get_today_lesson_list($start,$end);
+Console/Tasks/CommonTask.php:        $ret_id = $this->t_lesson_info->get_today_tea_lesson_list($start,$end);
+Console/Tasks/CommonTask.php:        $ret_1v1   = $this->t_lesson_info->get_1v1_user_list($v1_l);
+Console/Tasks/CommonTask.php:        $ret_open  = $this->t_lesson_info->get_open_user_list($open_l);
+Console/Tasks/CommonTask.php:        $ret_small = $this->t_lesson_info->get_small_user_list($small_l);
+Console/Tasks/CommonTask.php:        $ret_id = $this->t_lesson_info->get_lesson_list_push_homework( $start, $end );
+Console/Tasks/CommonTask.php:        $ret_info = $this->t_lesson_info->get_lesson_list($time_start,$time_end);
+Console/Tasks/CommonTask.php:            $this->t_lesson_info->set_upload_info($val['lessonid'],$val['real_begin_time'],$val['real_end_time']
+Console/Tasks/CommonTask.php:        $ret_id = $this->t_lesson_info->get_lesson_list_not_set_performance($start,$end);
+Console/Tasks/TongjiTask.php:        $lesson_list=$this->t_lesson_info->tongji_get_1v1_lesson_list($start_time,$end_time);
+Console/Tasks/TongjiTask.php:        $test_user_count = $this->t_lesson_info->tongji_get_test_count($start_time,$end_time);
+Console/Tasks/TongjiTask.php:        $deal_lesson_count_list = $this->t_lesson_info->tongji_get_lesson_count_list($start_time,$end_time);
+Console/Tasks/TongjiTask.php:        $teacher_count=$this->t_lesson_info->tongji_get_teacher_count($start_time,$end_time);
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $lesson_list = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':                    $last_lesson_end = $this->t_lesson_info->get_last_lesson_end($val['lesson_start'],$val['teacherid']);
+Console/Tasks/':                        $late_num = $this->t_lesson_info->get_cost_num($month_date['start'],$month_date['end'],$val['teacherid'],1);
+Console/Tasks/':                        $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $ret_list    = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+Console/Tasks/':                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_not_check_homework_lesson($start_time,$end_time,$week_time);
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':            $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':        $lesson_info = $this->t_lesson_info->get_all_lesson_info($lessonid);
+Console/Tasks/':        $ret_list = $this->t_lesson_info->get_error_lesson_list($start,$end);
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_tea_paper_lesson_list($start_time,$end_time);
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                        $this->t_lesson_info->field_update_list($lesson_val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':            $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $ret_list    = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+Console/Tasks/':                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Console/Tasks/':        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+Console/Tasks/':                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+Flow/flow_ass_lesson_confirm_flag_4.php:        return $t_lesson_info->field_get_list($from_key_int ,"*");
+Flow/flow_ass_lesson_confirm_flag_4.php:        $task->t_lesson_info->field_update_list( $self_info["lessonid"] ,[
+Flow/flow_recheck_lesson_sucess.php:        return $task->t_lesson_info->field_get_list($lessonid,"*") ;
+Http/Controllers/tongji2.php:        $lesson_info=$this->t_lesson_info->get_ass_lesson_info($start_time,$end_time, $require_adminid_list);
+Http/Controllers/tongji2.php:            $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量,上课学生数
+Http/Controllers/tongji2.php:            $leave_num         = $this->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
+Http/Controllers/tongji2.php:            $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
+Http/Controllers/tongji2.php:        $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
+Http/Controllers/tongji2.php:            $success_num = $this->t_lesson_info->get_subject_transfer($time1,$time2);
+Http/Controllers/tongji2.php:            $lesson_num  = $this->t_lesson_info->get_subject_success($time1,$time2);
+Http/Controllers/tongji2.php:        $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
+Http/Controllers/ss_deal.php:            $lesson_start=$this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/ss_deal.php:        $ret_row1 = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/ss_deal.php:            //$this->t_lesson_info->row_delete($lessonid);
+Http/Controllers/ss_deal.php:        $ret_row2=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/ss_deal.php:            //$this->t_lesson_info->row_delete($lessonid);
+Http/Controllers/ss_deal.php:        $lesson_row= $this->t_lesson_info->field_get_list($current_lessonid,"courseid,teacherid,lesson_start ");
+Http/Controllers/ss_deal.php:        $lessonid=$this->t_lesson_info->add_lesson(
+Http/Controllers/ss_deal.php:        $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+Http/Controllers/ss_deal.php:        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+Http/Controllers/ss_deal.php:        $lessonid     = $this->t_lesson_info->add_lesson(
+Http/Controllers/ss_deal.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/ss_deal.php:            if($this->t_lesson_info-> get_succ_test_lesson_count($userid)>1) {
+Http/Controllers/ss_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/ss_deal.php:        $lesson_info      = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_start,lesson_end");
+Http/Controllers/ss_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/ss_deal.php:        $lesson_info      = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_start,lesson_end");
+Http/Controllers/ss_deal.php:        $ret_row1 = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/ss_deal.php:        $ret_row2=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/ss_deal.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/ss_deal.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/ss_deal.php:        $this->t_lesson_info->field_update_list($old_lessonid,["lesson_del_flag"=>1]);
+Http/Controllers/ss_deal.php:            $test_info = $this->t_lesson_info->field_get_list($lessonid,"lesson_start,subject,userid,teacherid");
+Http/Controllers/ss_deal.php:            $teacherid_arr = $this->t_lesson_info->get_have_ten_test_lesson_teacher_list_ss($tea_qua_list);
+Http/Controllers/ss_deal.php:                    $ret = $this->t_lesson_info->get_thirty_lesson_order_info_by_teacherid($item["teacherid"]);
+Http/Controllers/ss_deal.php:            $teacherid_arr = $this->t_lesson_info->get_have_ten_test_lesson_teacher_list_ss($tea_qua_list);
+Http/Controllers/ss_deal.php:                    $ret = $this->t_lesson_info->get_thirty_lesson_order_info_by_teacherid($item["teacherid"]);
+Http/Controllers/ss_deal.php:        $teacherid_arr = $this->t_lesson_info->get_test_lesson_num_by_free_time_new($lesson_time,$end_time);
+Http/Controllers/ss_deal.php:                $ret_num = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($item["teacherid"],time());
+Http/Controllers/stu_manage.php:        $ret_info= $this->t_lesson_info->get_lessons_available($this->sid,$courseid,$all_flag, 1, 100000);
+Http/Controllers/stu_manage.php:        $this->t_lesson_info->set_user_assistantid( $this->sid,$assistantid  );
+Http/Controllers/stu_manage.php:        $db_teacherid=$this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/stu_manage.php:        $lesson_type=$this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/stu_manage.php:        $status=$this->t_lesson_info->get_lesson_status($lessonid);
+Http/Controllers/stu_manage.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/stu_manage.php:        $ret_lesson = $this->t_lesson_info->get_lesson_list_info($this->sid,$start_time_s,$end_time_s);
+Http/Controllers/stu_manage.php:            $lesson_cost  = $this->t_lesson_info->get_user_lesson_cost_by_courseid($courseid);
+Http/Controllers/stu_manage.php:            $ret_info = $this->t_lesson_info->field_get_list($lessonid,"grade,subject");
+Http/Controllers/stu_manage.php:            $ret_info = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/stu_manage.php:        $ret_info = $this->t_lesson_info->get_lessons_available($this->sid,$courseid,$all_flag, 1, 100000);
+Http/Controllers/stu_manage.php:        $lesson_sum = $this->t_lesson_info->get_user_lesson_list_sum($sid,$competition_flag);
+Http/Controllers/stu_manage.php:        $lesson_list = $this->t_lesson_info->get_user_lesson_list($sid,$competition_flag);
+Http/Controllers/stu_manage.php:                $ret=$this->t_lesson_info->set_subject_by_courseid($courseid,$subject);
+Http/Controllers/stu_manage.php:        $ret_info = $this->t_lesson_info->test_lesson_list($page_num,$userid, -1);
+Http/Controllers/stu_manage.php:        $lesson_num=$this->t_lesson_info->get_course_lesson_num($courseid);
+Http/Controllers/stu_manage.php:            $ret = $this->t_lesson_info->set_lesson_week_comment_num($courseid,$week_comment_num);
+Http/Controllers/stu_manage.php:        $lesson_num = $this->t_lesson_info->get_course_lesson_num($courseid);
+Http/Controllers/stu_manage.php:            $ret = $this->t_lesson_info->set_lesson_enable_video($courseid,$enable_video);
+Http/Controllers/teacher_money_www.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
+Http/Controllers/common_new.php:        $ret_list=$this->t_lesson_info->get_current_lessons("");
+Http/Controllers/common_new.php:        $ret_list=$this->t_lesson_info->get_current_lessons($client_ip);
+Http/Controllers/common_new.php:        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/common_new.php:        $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
+Http/Controllers/common_new.php:                    $list = $this->t_lesson_info->main_get_list($desc_sql);
+Http/Controllers/common_new.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/common_new.php:        $lesson_list = $this->t_lesson_info->get_need_set_lesson_end_list();
+Http/Controllers/lesson.php:        $time = $this->t_lesson_info->check_comment_status($lessonid);
+Http/Controllers/lesson.php:        $lesson_intro = $this->t_lesson_info->get_lesson_intro($lessonid);
+Http/Controllers/lesson.php:        $stu_per = $this->t_lesson_info->get_common_stu_performance($lessonid);
+Http/Controllers/teacher_info_admin.php:        $test_lesson_list = $this->t_lesson_info->get_teacher_week_test_lesson_info($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_admin.php:                    $tea_comment=$this->t_lesson_info->get_stu_performance($item['lessonid']);
+Http/Controllers/teacher_info_admin.php:        $lesson_list=$this->t_lesson_info->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+Http/Controllers/wx_teacher_api.php:        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/teacher_apply.php:            $lesson_info = $this->t_lesson_info->get_lesson_info_by_lessonid_new('lessonid,lesson_type,lesson_name',array_column($ret_info['list'],'lessonid'));
+Http/Controllers/user.php:        $lesson_end = $this->t_lesson_info->get_lesson_end($lessonid);
+Http/Controllers/teacher_info_new.php:        $ret_info = $this->t_lesson_info->get_teacher_lesson_list_new(
+Http/Controllers/teacher_info_new.php:            $trial_train_list = $this->t_lesson_info->get_trial_train_list($teacherid);
+Http/Controllers/teacher_info_new.php:        $student_list = $this->t_lesson_info->get_student_list($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_new.php:        $lesson_info = $this->t_lesson_info->get_lesson_info_by_lessonid('lessonid,assistantid,lesson_type,lesson_name,train_type',array_column($ret_info['list'],'lessonid'));
+Http/Controllers/teacher_info_new.php:            $tea_comment = $this->t_lesson_info->get_stu_performance($lesson_info['lessonid']);
+Http/Controllers/teacher_info_new.php:        $ret_info=$this->t_lesson_info->get_teacher_lesson_list($teacherid,$start_time,$end_time,$lesson_type_in_str, $page_num);
+Http/Controllers/teacher_info_new.php:        $lesson_list=$this->t_lesson_info->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_new.php:        $ret_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/teacher_info_new.php:        $db_teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/teacher_info_new.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/teacher_info_new.php:        $lesson_type=$this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/teacher_info_new.php:        $old_list = $this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
+Http/Controllers/teacher_info_new.php:        $old_list           = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_new.php:            $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+Http/Controllers/teacher_info_new.php:        $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Http/Controllers/teacher_info_new.php:        $ret = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($teacherid,$lstart);
+Http/Controllers/teacher_info_new.php:        $test_lesson_num_day = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$day_start,$day_end);
+Http/Controllers/teacher_info_new.php:        $stu_free = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+Http/Controllers/teacher_info_new.php:        $tea_free=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/teacher_info_new.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/teacher_info_new.php:        $stu_free = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/teacher_info_new.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/teacher_info_new.php:            $tea_list = $this->t_lesson_info->get_tea_month_list($start_time,$end_time,trim($teacherid_str,","));
+Http/Controllers/teacher_info_new.php:                        $this->t_lesson_info->get_teacher_last_month_lesson_count($tid,$last_start_time,$last_end_time);
+Http/Controllers/teacher_info_new.php:        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/ajax_deal.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/ajax_deal.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/lesson_manage.php:        $row_data     = $this->t_lesson_info->field_get_list($lessonid,"*");
+Http/Controllers/fulltime_teacher.php:        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/fulltime_teacher.php:        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/fulltime_teacher.php:        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/fulltime_teacher.php:        $teacher_lesson_count_total        = $this->t_lesson_info->get_teacher_lesson_count_total(time(),$date["edate"],$qz_tea_arr,1);
+Http/Controllers/fulltime_teacher.php:        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
+Http/Controllers/Controller.php:        $ret_row1 = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/Controller.php:        $ret_row2=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/user_manage_new.php:        $ret_list   = $this->t_lesson_info->get_confirm_lesson_list($start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $ret_total  = $this->t_lesson_info->get_confirm_lesson_total($start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $week_total = $this->t_lesson_info->get_confirm_lesson_total($date_week["sdate"],$date_week["edate"]);
+Http/Controllers/user_manage_new.php:        $ret_list=$this->t_lesson_info->get_confirm_lesson_list_user($page_num,$start_time,$end_time,$assistantid);
+Http/Controllers/user_manage_new.php:        $ret_list = $this->t_lesson_info->get_tea_confirm_lesson_list($start_time,$end_time,$teacher_money_type);
+Http/Controllers/user_manage_new.php:        $old_list = $this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $lesson_list=$this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
+Http/Controllers/user_manage_new.php:        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
+Http/Controllers/user_manage_new.php:                $item["lesson_start"] = $this->t_lesson_info->get_user_test_lesson_start($userid,$item["order_time"]);
+Http/Controllers/user_manage_new.php:        $lessonid_list = $this->t_lesson_info->get_lessonid_list($courseid,0);
+Http/Controllers/user_manage_new.php:        $lesson_list=$this->t_lesson_info-> get_lesson_list_for_tongji($start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $ret_info = $this->t_lesson_info->get_lesson_info_for_teacher($start_time,$end_time,$has_check_adminid_flag,$check_adminid);
+Http/Controllers/user_manage_new.php:            $subject = $this->t_lesson_info->get_teacher_subject($teacherid,$start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $ret_info=$this->t_lesson_info->get_lesson_student_grade_list($start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $old_list     = $this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/user_manage_new.php:        $ret_info=$this->t_lesson_info->get_error_record_lesson_list($page_num,$lesson_type,$start_time,$end_time );
+Http/Controllers/user_manage_new.php:        $tea_list = $this->t_lesson_info->get_tea_month_list(
+Http/Controllers/user_manage_new.php:            $full_tea_list = $this->t_lesson_info->get_tea_month_list(
+Http/Controllers/user_manage_new.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/user_manage_new.php:        $list = $this->t_lesson_info->get_tea_wages_count_list($start_time,$end_time);
+Http/Controllers/user_manage_new.php:        $fourth_list = $this->t_lesson_info->get_all_fourth_teacher_already_lesson_count($start_fourth,$end_fourth);
+Http/Controllers/user_manage_new.php:        $list = $this->t_lesson_info->get_teacher_1v1_money($start,$end);
+Http/Controllers/user_manage_new.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/user_manage_new.php:            $tea_list   = $this->t_lesson_info->get_tea_month_list(
+Http/Controllers/user_manage_new.php:            $full_tea_list   = $this->t_lesson_info->get_tea_month_list(
+Http/Controllers/user_manage_new.php:            $stu_num  = $this->t_lesson_info->get_stu_total($start_time,$end_time);
+Http/Controllers/user_manage_new.php:                        $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
+Http/Controllers/user_manage_new.php:                        $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type,$level);
+Http/Controllers/user_manage_new.php:                        $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type,$level);
+Http/Controllers/user_manage_new.php:        $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+Http/Controllers/user_manage_new.php:        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+Http/Controllers/user_manage_new.php:        $lessonid     = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_manage_new.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_manage_new.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/common.php:                    $check_flag = $this->t_lesson_info->check_train_lesson_new($answer['userid']);
+Http/Controllers/common.php:        $lesson_start = $this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/common.php:        $lesson_info = $this->t_lesson_info->get_lesson_info($courseid,$lesson_num);
+Http/Controllers/common.php:                $userid=$this->t_lesson_info->get_userid($lessonid);
+Http/Controllers/common.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/common.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tec_stu_logtime.php:        $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
+Http/Controllers/teacher_info.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
+Http/Controllers/user_book.php:            $ret_lesson=$this->t_lesson_info->get_lesson_info_by_userid($item['userid']);
+Http/Controllers/user_book.php:        $ret_info = $this->t_lesson_info->lesson_account($lesson_type,$start_date_s,$end_date_s,$teacherid,$page_num);
+Http/Controllers/test.php:        $old_list=$this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$start_time,$end_time);
+Http/Controllers/human_resource.php:        $lesson_tea_list = $this->t_lesson_info->get_teacher_lesson_list_by_week($tea_list);
+Http/Controllers/human_resource.php:        $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
+Http/Controllers/human_resource.php:                $ret_num = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($item["teacherid"],time());
+Http/Controllers/human_resource.php:        $teacherid_arr = $this->t_lesson_info->get_test_lesson_num_by_free_time_new($free_start,$free_end);
+Http/Controllers/human_resource.php:        $test_info = $this->t_lesson_info->get_test_lesson_num_by_free_time($free_start,$free_end,$teacherid_arr);
+Http/Controllers/human_resource.php:                $ret = $this->t_lesson_info->get_lesson_info_stu($item);
+Http/Controllers/human_resource.php:                $ret = $this->t_lesson_info->get_lesson_info_stu($item);
+Http/Controllers/human_resource.php:                $ret = $this->t_lesson_info->get_lesson_info_stu($item);
+Http/Controllers/human_resource.php:        $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/human_resource.php:                    $ret = $this->t_lesson_info->get_lesson_info_stu($item);
+Http/Controllers/human_resource.php:                        $ret = $this->t_lesson_info->get_lesson_info_stu($item);
+Http/Controllers/human_resource.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/human_resource.php:            $ret[$i]['stu_new_num'] = $this->t_lesson_info->get_stu_total_by_type($start_time,$end_time,1);
+Http/Controllers/human_resource.php:            $ret[$i]['stu_old_num'] = $this->t_lesson_info->get_stu_total_by_type($start_time,$end_time,2);
+Http/Controllers/human_resource.php:            $ret[$i]['stu_all_num'] = $this->t_lesson_info->get_stu_total($start_time,$end_time);
+Http/Controllers/human_resource.php:            $subject_new = $this->t_lesson_info->get_stu_subject_list($start_time,$end_time,1);
+Http/Controllers/human_resource.php:            $subject_old = $this->t_lesson_info->get_stu_subject_list($start_time,$end_time,2);
+Http/Controllers/human_resource.php:            $ret[$i]['lesson_total_new']   = $this->t_lesson_info->get_lesson_total_by_stuid($start_time,$end_time,1);
+Http/Controllers/human_resource.php:            $ret[$i]['lesson_total_old']   = $this->t_lesson_info->get_lesson_total_by_stuid($start_time,$end_time,2);
+Http/Controllers/human_resource.php:            $ret[$i]['lesson_trial_total'] = $this->t_lesson_info->get_trial_lesson_total($start_time,$end_time);
+Http/Controllers/human_resource.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_lesson_full_num($start_time,$end_time);
+Http/Controllers/human_resource.php:        $all_teacher = $this->t_lesson_info->tongji_get_teacher_count($start_time,$end_time);
+Http/Controllers/human_resource.php:        $all_teacher = $this->t_lesson_info->tongji_get_teacher_count($start_time,$end_time);
+Http/Controllers/human_resource.php:        $lesson_list = $this->t_lesson_info->get_lesson_list_for_lesson_full_num($start_time,$end_time);
+Http/Controllers/human_resource.php:         $list = $this->t_lesson_info->get_lesson_full_wage_old($start_time,$end_time,$lesson_num,$order_type);
+Http/Controllers/human_resource.php:        $lesson_num = $this->t_lesson_info->get_teacher_level_num($teacherid,$old_level);
+Http/Controllers/human_resource.php:            $ret = $this->t_lesson_info->reset_lesson_teacher_level($teacherid,$level);
+Http/Controllers/human_resource.php:            $item["lesson_total"] = $this->t_lesson_info->get_month_stu_lesson_count($start,$end,$teacherid,$userid);
+Http/Controllers/human_resource.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/human_resource.php:        $all_lesson_list = $this->t_lesson_info->get_all_lesson_num_info( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $test_person_num_old= $this->t_lesson_info->get_teacher_test_person_num_list_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $test_person_num_other= $this->t_lesson_info->get_teacher_test_person_num_list_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $success_not_in_lesson_list =  $this->t_lesson_info->get_success_not_test_lesson_list_new($start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $have_order_list =$this->t_lesson_info->get_have_order_list_new($start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $subject_num_list = $this->t_lesson_info->get_teacher_test_subject_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+Http/Controllers/human_resource.php:        $teacher_regular_stu_list          = $this->t_lesson_info->get_regular_stu_num($date["sdate"],$date["edate"],$teacherid_list);
+Http/Controllers/human_resource.php:        $teacher_test_lesson_num_list      = $this->t_lesson_info->get_test_lesson_num_list(time(),time()+21*86400,$teacherid_list);
+Http/Controllers/human_resource.php:        $teacher_lesson_count_total        = $this->t_lesson_info->get_teacher_lesson_count_total(time(),$date["edate"],$teacherid_list);
+Http/Controllers/human_resource.php:        $teacher_test_lesson_num_list_week = $this->t_lesson_info->get_test_lesson_num_list(time(),$date_week["edate"],$teacherid_list);
+Http/Controllers/human_resource.php:        $rr = $this->t_lesson_info->get_order_add_time();
+Http/Controllers/human_resource.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/human_resource.php:        $rr = $this->t_lesson_info->get_order_add_time();
+Http/Controllers/human_resource.php:        $all_lesson_total = $this->t_lesson_info->get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $test_person_num_total_old= $this->t_lesson_info->get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $test_person_num_total_other= $this->t_lesson_info->get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+Http/Controllers/human_resource.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/human_resource.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/human_resource.php:        $res = $this->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+Http/Controllers/human_resource.php:            $ret_db = $this->t_lesson_info->get_lesson_info_by_adminid($adminid, $timestamp, $teacherid);
+Http/Controllers/test_a.php:        $old_list=$this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_money.php:        $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_money.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/teacher_money.php:            $start_time = $this->t_lesson_info->get_first_lesson_start($teacherid);
+Http/Controllers/teacher_money.php:        $data['come_late']  = $this->t_lesson_info->get_cost_num($time['start'],$time['end'],$teacherid,1);
+Http/Controllers/teacher_money.php:        $data['change_num'] = $this->t_lesson_info->get_cost_num($time['start'],$time['end'],$teacherid,2);
+Http/Controllers/teacher_money.php:                $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
+Http/Controllers/teacher_money.php:        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/teacher_money.php:        $teacherid    = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/teacher_money.php:        $lesson_info  = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/teacher_money.php:        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/TeaPower.php:        $lesson_count_ex   = ($this->t_lesson_info->get_lesson_count_all_by_teacherid_new($teacherid,$day_start,$day_end))/100;
+Http/Controllers/TeaPower.php:        $lesson_count_week = ($this->t_lesson_info->get_lesson_count_all_by_teacherid_new($teacherid,$date_week["sdate"],$date_week["edate"]))/100;
+Http/Controllers/TeaPower.php:                   $test_num = $this->t_lesson_info->get_test_lesson_num_by_teacherid($month_start,$month_end,$teacherid,$normal_stu_list);
+Http/Controllers/TeaPower.php:                    $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num(
+Http/Controllers/TeaPower.php:        $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Http/Controllers/TeaPower.php:        $ret             = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($teacherid,$lstart);
+Http/Controllers/TeaPower.php:        $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Http/Controllers/TeaPower.php:        $test_lesson_num_day = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$day_start,$day_end);
+Http/Controllers/TeaPower.php:        $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Http/Controllers/TeaPower.php:        $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+Http/Controllers/TeaPower.php:        $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+Http/Controllers/TeaPower.php:        $lessonid     = $this->t_lesson_info->add_lesson(
+Http/Controllers/TeaPower.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/TeaPower.php:        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/TeaPower.php:        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/TeaPower.php:        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/TeaPower.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/TeaPower.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/TeaPower.php:        $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+Http/Controllers/TeaPower.php:        $lesson_list    = $this->t_lesson_info->get_not_free_lesson_list($start_time,$end_time,$teacherid_str);
+Http/Controllers/TeaPower.php:        $teacherid_has  = $this->t_lesson_info->get_teacherid_for_free_time_by_lessonid($lesson_start,$lesson_end,$teacherid_str);
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->field_update_list($val["lessonid"],[
+Http/Controllers/TeaPower.php:        $this->t_lesson_info->start_transaction();
+Http/Controllers/TeaPower.php:            $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($old_lessonid);
+Http/Controllers/TeaPower.php:            $lessonid = $this->t_lesson_info->add_lesson_new(
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:            $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/TeaPower.php:            $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:                $ret_row = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/TeaPower.php:                    $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:            $ret_row=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:            $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/TeaPower.php:                $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->rollback();
+Http/Controllers/TeaPower.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/TeaPower.php:            $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+Http/Controllers/TeaPower.php:            $this->t_lesson_info->commit();
+Http/Controllers/TeaPower.php:            $this->t_lesson_info->commit();
+Http/Controllers/TeaPower.php:            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
+Http/Controllers/seller_student.php:        $test_list=$this->t_lesson_info->get_test_listen_info($start_time, $end_time);
+Http/Controllers/seller_student.php:            $lesson_start= $this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/seller_student.php:            $cancel_teacherid= $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/seller_student.php:                $userid= $this->t_lesson_info->get_userid($lessonid);
+Http/Controllers/seller_student.php:                $this->t_lesson_info-> delete_test_lesson($lessonid);
+Http/Controllers/seller_student.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/seller_student.php:                $lesson_start = $this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/seller_student.php:                $lesson_end   = $this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/seller_student.php:        $test_lesson_info=$this->t_lesson_info->field_get_list($st_arrange_lessonid, "*");
+Http/Controllers/seller_student.php:        $row=$this->t_lesson_info->field_get_list($st_arrange_lessonid, "lesson_start,lesson_end,teacherid");
+Http/Controllers/seller_student.php:        $this->t_lesson_info->field_update_list(
+Http/Controllers/seller_student.php:        $ret_row=$this->t_lesson_info->check_teacher_time_free($teacherid,0,$start_time,$end_time);
+Http/Controllers/seller_student.php:        $lessonid     = $this->t_lesson_info->add_lesson(0,0,$userid,0,2,$teacherid,0,
+Http/Controllers/main_page.php:        $lesson_info=$this->t_lesson_info->tongji_count($start_time, $end_time);
+Http/Controllers/main_page.php:        $record_server_list=$this->t_lesson_info->tongji_record_server_info($start_time, $end_time);
+Http/Controllers/main_page.php:            $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list($teacher_list);
+Http/Controllers/main_page.php:        $stu_info["week_stu_num"] = $this->t_lesson_info->get_week_stu_num_info($lstart,$lend,$account_id);
+Http/Controllers/main_page.php:            //$imit = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
+Http/Controllers/main_page.php:            //$attend = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
+Http/Controllers/main_page.php:            $imit_sum = $this->t_lesson_info->get_imit_audi_sched_count($end_time, $id);
+Http/Controllers/seller_api.php:        $list = $this->t_lesson_info->get_stu_test_lesson_info_for_api($userid);
+Http/Controllers/seller_api.php:        $stu_performance = $this->t_lesson_info->get_performance_stu_by_lessonid($lessonid);
+Http/Controllers/ajax_deal2.php:        $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid);
+Http/Controllers/ajax_deal2.php:        $first_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_start,$first_end);
+Http/Controllers/ajax_deal2.php:        $second_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_end,$second_end);
+Http/Controllers/ajax_deal2.php:        $third_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$second_end,$third_end);
+Http/Controllers/ajax_deal2.php:        $fourth_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$third_end,$fourth_end);
+Http/Controllers/ajax_deal2.php:        $info = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_end");
+Http/Controllers/ajax_deal2.php:        $courseid=$this->t_lesson_info->get_courseid($lessonid);
+Http/Controllers/ajax_deal2.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/ajax_deal2.php:        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,2);
+Http/Controllers/ajax_deal2.php:        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,1);
+Http/Controllers/ajax_deal2.php:        // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+Http/Controllers/ajax_deal2.php:        // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
+Http/Controllers/ajax_deal2.php:        // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+Http/Controllers/ajax_deal2.php:        // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
+Http/Controllers/ajax_deal2.php:        // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
+Http/Controllers/train_teacher.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/train_teacher.php:        $ret_info = $this->t_lesson_info->get_train_lesson(
+Http/Controllers/user_manage.php:            $ret_cost  = $this->t_lesson_info->get_user_lesson_cost($start);
+Http/Controllers/user_manage.php:            $ret_info[$i] = $this->t_lesson_info->get_user_info_by_month($i);
+Http/Controllers/user_manage.php:            $ret_info[$i] = $this->t_lesson_info->get_subject_by_month($i);
+Http/Controllers/user_manage.php:            $item_tmp_arr     = $this->t_lesson_info->get_actual_lesson_time($item['userid'], $start_time);
+Http/Controllers/user_manage.php:            $weeks_actual_time[] = $this->t_lesson_info->get_week_actual_time($weeks,$item['userid'], $year);
+Http/Controllers/user_manage.php:        $ret_info = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,0); //普通排课
+Http/Controllers/user_manage.php:        $ret_info_top = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,1,0); //Top
+Http/Controllers/user_manage.php:        $ret_info_take = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,1); //抢课
+Http/Controllers/user_manage.php:        $ret_list=$this->t_lesson_info->get_single_confirm_lesson_list_user($page_num,$start_time,$end_time,
+Http/Controllers/user_manage.php:        $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
+Http/Controllers/user_manage.php:        $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
+Http/Controllers/tea_manage_new.php:            $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level,$start_time);
+Http/Controllers/tea_manage_new.php:        $ret_info = $this->t_lesson_info->get_teacher_free_time_info_new( $teacherid, $start_time,$end_time );
+Http/Controllers/tea_manage_new.php:        $list = $this->t_lesson_info->get_seller_and_ass_lesson_info($lessonid);
+Http/Controllers/tea_manage_new.php:        $ret_row2   = $this->t_lesson_info->check_teacher_time_free($record_teacherid,0,$lesson_start,$lesson_end);
+Http/Controllers/tea_manage_new.php:        $ret_row1 = $this->t_lesson_info->check_train_lesson_time_free($teacherid,0,$lesson_start,$lesson_end);
+Http/Controllers/tea_manage_new.php:        $this->t_lesson_info->row_insert([
+Http/Controllers/tea_manage_new.php:        $lessonid = $this->t_lesson_info->get_last_insertid();
+Http/Controllers/tea_manage_new.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage_new.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage_new.php:            $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage_new.php:                        $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+Http/Controllers/tea_manage_new.php:                            $lessonid  = $this->t_lesson_info->add_open_lesson(
+Http/Controllers/teacher_level.php:        $test_person_num        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:        $kk_test_person_num     = $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:        $change_test_person_num = $this->t_lesson_info->get_change_teacher_test_person_num_list(
+Http/Controllers/teacher_level.php:        $test_person_num        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:        $kk_test_person_num     = $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:        $change_test_person_num = $this->t_lesson_info->get_change_teacher_test_person_num_list(
+Http/Controllers/teacher_level.php:        $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:        $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+Http/Controllers/teacher_level.php:            $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
+Http/Controllers/testbb.php:            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+Http/Controllers/user_deal.php:        $ret_list=$this->t_lesson_info->get_list_for_ajax_list($userid,$lesson_type,$page_num);
+Http/Controllers/user_deal.php:        $lesson_type=$this->t_lesson_info-> get_lesson_type($lessonid);
+Http/Controllers/user_deal.php:        // $this->t_lesson_info->del_if_no_start($lessonid);
+Http/Controllers/user_deal.php:        // $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $lesson_status = $this->t_lesson_info->get_lesson_status($lessonid);
+Http/Controllers/user_deal.php:        $lesson_start=$this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/user_deal.php:        $ret=$this->t_lesson_info->check_lesson_count_for_change($lessonid, $lesson_count);
+Http/Controllers/user_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:        /* $tea_attend = $this->t_lesson_info->get_tea_attend($lessonid);
+Http/Controllers/user_deal.php:        $lesson_info  = $this->t_lesson_info->get_all_lesson_info($lessonid);
+Http/Controllers/user_deal.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:            $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($lessonid);
+Http/Controllers/user_deal.php:                $lessonid = $this->t_lesson_info->add_lesson_new(
+Http/Controllers/user_deal.php:                $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:                $teacherid   = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/user_deal.php:                $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/user_deal.php:                $userid      = $this->t_lesson_info->get_userid($lessonid);
+Http/Controllers/user_deal.php:                    $ret_row = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                $ret_row=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/user_deal.php:                $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/user_deal.php:                    $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+Http/Controllers/user_deal.php:                    $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:                    $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                        $change_num = $this->t_lesson_info->get_cost_num($time['start'],$time['end'],$lesson_info['teacherid'],2);
+Http/Controllers/user_deal.php:                $this->t_lesson_info->field_update_list($lesson_info['lessonid'],[
+Http/Controllers/user_deal.php:        $ret=$this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/user_deal.php:        $userid    = $this->t_lesson_info->get_userid($lessonid);
+Http/Controllers/user_deal.php:        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/user_deal.php:            $db_lesson_start=$this->t_lesson_info->get_lesson_start($lessonid);
+Http/Controllers/user_deal.php:            $userid = $this->t_lesson_info->get_userid($lessonid);
+Http/Controllers/user_deal.php:        $userid = $this->t_lesson_info->get_userid($lessonid);
+Http/Controllers/user_deal.php:            $ret_row = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/user_deal.php:        $ret_row=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/user_deal.php:        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/user_deal.php:            $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+Http/Controllers/user_deal.php:                $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:            $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                $assistantid = $this->t_lesson_info->get_assistantid($lessonid);
+Http/Controllers/user_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $this->t_lesson_info-> set_subject_by_courseid($courseid,$subject );
+Http/Controllers/user_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $list = $this->t_lesson_info->get_student_list_by_teacher($teacherid,$start_time,$end_time);
+Http/Controllers/user_deal.php:            $this->t_lesson_info->reset_teacher_student_already_lesson_count($teacherid,$studentid);
+Http/Controllers/user_deal.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $ret_row = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/user_deal.php:        $ret_row=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/user_deal.php:        $this->t_lesson_info->start_transaction();
+Http/Controllers/user_deal.php:            $this->t_lesson_info->rollback();
+Http/Controllers/user_deal.php:            $this->t_lesson_info->rollback();
+Http/Controllers/user_deal.php:            $this->t_lesson_info->rollback();
+Http/Controllers/user_deal.php:                $this->t_lesson_info->rollback();
+Http/Controllers/user_deal.php:        $this->t_lesson_info->commit();
+Http/Controllers/user_deal.php:            $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:            $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:        $lesson_count=$this->t_lesson_info->get_course_lesson_count($courseid);
+Http/Controllers/user_deal.php:        $this->t_lesson_info-> course_set_teacher_subject($courseid,$teacherid,$subject);
+Http/Controllers/user_deal.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:            $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                $this->t_lesson_info->row_delete($lessonid);
+Http/Controllers/user_deal.php:            $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                $this->t_lesson_info->row_delete($lessonid);
+Http/Controllers/user_deal.php:            $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:            $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
+Http/Controllers/user_deal.php:                            $lesson_use = $this->t_lesson_info->get_lesson_count_all_without_lessonid(
+Http/Controllers/user_deal.php:                                $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:                                $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:                                $ret_row1 = $this->t_lesson_info->check_student_time_free(
+Http/Controllers/user_deal.php:                                $ret_row2=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/user_deal.php:                                $ret1 = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+Http/Controllers/user_deal.php:                                    $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:                        $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                            $lesson_use = $this->t_lesson_info->get_lesson_count_all_without_lessonid($val['courseid'],"");
+Http/Controllers/user_deal.php:                            $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                    /* $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:                                $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:                                $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                                    $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                                    $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                $ret1 = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+Http/Controllers/user_deal.php:                                    $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:                                    $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:        $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                        $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                            $lesson_use = $this->t_lesson_info->get_lesson_count_all_without_lessonid($val['courseid'],"");
+Http/Controllers/user_deal.php:                            $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                    /* $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                $lessonid=$this->t_lesson_info->add_lesson(
+Http/Controllers/user_deal.php:                                $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/user_deal.php:                                $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                                    $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:                                    $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:                                $ret1 = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+Http/Controllers/user_deal.php:                                    $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:                                    $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+Http/Controllers/user_deal.php:        $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+Http/Controllers/user_deal.php:        $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade($start_time,$end_time);
+Http/Controllers/user_deal.php:        $lesson_info = $this->t_lesson_info->field_get_list($lessonid,"subject,grade,userid,teacherid");
+Http/Controllers/user_deal.php:        $lesson_end_time = $this->t_lesson_info->get_lesson_end($from_key_int);
+Http/Controllers/user_deal.php:            $teacherid_arr = $this->t_lesson_info->get_test_lesson_num_by_free_time_new($lesson_time,$end_time);
+Http/Controllers/user_deal.php:                    $ret_num = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($val["teacherid"],$start_time);
+Http/Controllers/user_deal.php:        /* $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/user_deal.php:        $trial_train_num = $this->t_lesson_info->get_trial_train_num($lessonid);
+Http/Controllers/user_deal.php:        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/user_deal.php:        $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
+Http/Controllers/revisit.php:            $revisit_show_all_flag = $this->t_lesson_info-> get_book_user_lesson_count($userid)>0;
+Http/Controllers/tongji_ss.php:        $from_list=$this->t_lesson_info->get_user_count_list($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $test_lesson_info = $this->t_lesson_info->get_test_lesson_device_info($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->tongji_teacher_test_lesson_info_list(
+Http/Controllers/tongji_ss.php:        $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $success_not_in_lesson_list =  $this->t_lesson_info->get_success_not_test_lesson_list_new($start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $have_order_list =$this->t_lesson_info->get_have_order_list_new($start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $subject_num_list = $this->t_lesson_info->get_teacher_test_subject_num_list( $start_time,$end_time,$subject,$grade_part_ex);
+Http/Controllers/tongji_ss.php:        $teacher_regular_stu_list          = $this->t_lesson_info->get_regular_stu_num($date["sdate"],$date["edate"]);
+Http/Controllers/tongji_ss.php:        $teacher_test_lesson_num_list      = $this->t_lesson_info->get_test_lesson_num_list(time(),time()+21*86400);
+Http/Controllers/tongji_ss.php:        $teacher_lesson_count_total        = $this->t_lesson_info->get_teacher_lesson_count_total(time(),$date["edate"]);
+Http/Controllers/tongji_ss.php:        $teacher_test_lesson_num_list_week = $this->t_lesson_info->get_test_lesson_num_list(time(),$date_week["edate"]);
+Http/Controllers/tongji_ss.php:        $rr = $this->t_lesson_info->get_order_add_time();
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_teacher_test_lesson_history_info($start_time,$end_time,$teacherid,$subject);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_teacher_test_lesson_history_success_info($start_time,$end_time,$teacherid,$subject);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_teacher_test_lesson_history_success_info($start_time,$end_time,$teacherid,$subject);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $regular_stu_list =$this->t_lesson_info->get_regular_stu_num_by_teacher($date["sdate"],$date["edate"],$teacherid);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $teacher_test_lesson_num_list = $this->t_lesson_info->get_test_lesson_num_list_detail(time(),time()+21*86400,$teacherid);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $teacher_test_lesson_num_list = $this->t_lesson_info->get_test_lesson_num_list_detail(time(),$date_week["edate"],$teacherid);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_teacher_test_info_old(
+Http/Controllers/tongji_ss.php:        $teacher_regular_stu_list =$this->t_lesson_info->get_regular_stu_num($date["sdate"],$date["edate"]);
+Http/Controllers/tongji_ss.php:        $teacher_test_lesson_num_list = $this->t_lesson_info->get_test_lesson_num_list(time(),time()+21*86400);
+Http/Controllers/tongji_ss.php:        $teacher_test_lesson_num_list_week = $this->t_lesson_info->get_test_lesson_num_list(time(),$date_week["edate"]);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $teacherid_list = $this->t_lesson_info->get_have_ten_test_lesson_teacher_list($start_time,$subject,$tea_subject,$end_time,$limit_plan_lesson_type,$is_record_flag,$is_do_sth,$wx_type,$start_time_ex,$end_time_ex,$qz_flag);
+Http/Controllers/tongji_ss.php:            $test_lesson_num_week = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Http/Controllers/tongji_ss.php:            $ret = $this->t_lesson_info->get_test_lesson_order_info_by_teacherid($teacherid,$start_time,$end_time,$test_lesson_num);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_test_lesson_order_info_by_teacherid_new($teacherid,$start_time,$end_time,$test_lesson_num);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $list = $this->t_lesson_info->get_week_test_lesson_info_new($teacherid,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:            $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list($teacher_list);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:                $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list_new(-1,$teacher_list);
+Http/Controllers/tongji_ss.php:                $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list_new($reference,$teacher_list);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $res = $this->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $stu_cost_list = $this->t_lesson_info->get_stu_cost_list($check_start_time,$end_time,$select_type,$student_type);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $teacher_list = $this->t_lesson_info->get_teacher_trial_lesson_list(
+Http/Controllers/tongji_ss.php:        $ret_list= $this->t_lesson_info->get_teacher_trial_lesson_list($start_time,$end_time,0,0,0,"",$count_type,$teacherid);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret = $this->t_lesson_info->get_all_first_lesson_teacher($start_time,$end_time,$subject,$tea_subject);
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_teacher_first_test_lesson_info($teacherid_arr,-1,$record_flag,$record_adminid);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_first_test_lesson_order_info_by_teacherid_new($teacherid);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $all_test_lesson_info = $this->t_lesson_info->get_all_test_lesson_info_by_subject_and_grade($last_month_start,$start_time);
+Http/Controllers/tongji_ss.php:                 $res = $this->t_lesson_info->get_research_test_lesson_info_list($item["subject"],$item["grade"],$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $subject_order_per_list = $this->t_lesson_info->get_subject_order_list_new($start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $subject_order_per_list_sub1 = $this->t_lesson_info->get_subject_order_list_new2($start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $subject_order_per_list_sub2 = $this->t_lesson_info->get_subject_order_list_new3($start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:                 $res = $this->t_lesson_info->get_research_test_lesson_info_list($item["subject"],$item["grade"],$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $subject_order_per_list = $this->t_lesson_info->get_subject_order_list_new($start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $subject_order_per_list_sub1 = $this->t_lesson_info->get_subject_order_list_new2($start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $subject_order_per_list_sub2 = $this->t_lesson_info->get_subject_order_list_new3($start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $data = $this->t_lesson_info->get_research_test_lesson_info_list_by_grade($subject,$grade,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $list = $this->t_lesson_info->get_subject_order_list_new($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $all_teacher_info = $this->t_lesson_info->get_all_teacher_test_lesson_info($start_time,$end_time,$grade_part_ex,$subject,$train_through_new);
+Http/Controllers/tongji_ss.php:            $first_time  = $this->t_lesson_info->get_first_test_lesson_by_teacher($item["teacherid"]);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_test_lesson_info_by_subject_and_grade($page_num,$subject,$grade,$start_time,$end_time,$have_order,$page_count);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_seller_test_lesson_info($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
+Http/Controllers/tongji_ss.php:                $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($item["cur_require_adminid"],$start_time,$end_time);
+Http/Controllers/tongji_ss.php:                $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);
+Http/Controllers/tongji_ss.php:            $data = $this->t_lesson_info->get_seller_test_lesson_order_info_new($start_time,$end_time,$adminid);
+Http/Controllers/tongji_ss.php:            $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($adminid,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:            $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $ret_info = $this->t_lesson_info->get_teacher_test_lesson_order_info($start_time,$end_time,$subject,$grade);
+Http/Controllers/tongji_ss.php:        $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
+Http/Controllers/tongji_ss.php:                    $lesson_info = $this->t_lesson_info->get_tea_test_lesson_detail_info($item["teacherid"],$item["add_time"]);
+Http/Controllers/tongji_ss.php:         $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:         $list = $this->t_lesson_info->get_test_lesson_order_per_subject($start_time,$end_time);
+Http/Controllers/tongji_ss.php:                 $lesson_info = $this->t_lesson_info->get_tea_test_lesson_detail_info($i["teacherid"],$i["add_time"]);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $first_info = $this->t_lesson_info->get_interview_teacher_first_lesson_info($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $tea_list = $this->t_lesson_info->get_all_first_lesson_teacher_list($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $lesson_info = $this->t_lesson_info->get_teacher_arr_lesson_order_info($start_time,$end_time,$tea_arr);
+Http/Controllers/tongji_ss.php:        $first_lesson_info = $this->t_lesson_info->get_teacher_arr_first_lesson_order_info($start_time,$end_time,$tea_arr);
+Http/Controllers/tongji_ss.php:            $test_person_num= $this->t_lesson_info->get_test_person_num_list_by_subject_grade( $start_time,$end_time,$subject_arr,$grade_arr);
+Http/Controllers/tongji_ss.php:            $test_person_num_other= $this->t_lesson_info->get_test_person_num_list_subject_grade_other( $start_time,$end_time,$subject_arr,$grade_arr);
+Http/Controllers/tongji_ss.php:            $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_subject_grade_list( $start_time,$end_time,$subject_arr,$grade_arr);
+Http/Controllers/tongji_ss.php:            $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_subject_grade_list( $start_time,$end_time,$subject_arr,$grade_arr);
+Http/Controllers/tongji_ss.php:        $test_person_num_all= $this->t_lesson_info->get_test_person_num_list_by_subject_grade( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $test_person_num_other_all= $this->t_lesson_info->get_test_person_num_list_subject_grade_other( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $kk_test_person_num_all= $this->t_lesson_info->get_kk_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $change_test_person_num_all= $this->t_lesson_info->get_change_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tongji_ss.php:        $first_info = $this->t_lesson_info->get_interview_teacher_first_lesson_info_subject($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $tea_list = $this->t_lesson_info->get_all_first_lesson_teacher_list($start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $lesson_info = $this->t_lesson_info->get_teacher_arr_lesson_order_info_subject($start_time,$end_time,$tea_arr);
+Http/Controllers/tongji_ss.php:        $first_lesson_info = $this->t_lesson_info->get_teacher_arr_first_lesson_order_info_subject($start_time,$end_time,$tea_arr);
+Http/Controllers/tongji_ss.php:        $test_person_num= $this->t_lesson_info->get_test_person_num_list_by_subject( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $test_person_num_other= $this->t_lesson_info->get_test_person_num_list_subject_other( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_subject_list( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_subject_list( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $test_person_num_all= $this->t_lesson_info->get_test_person_num_list_by_subject_grade( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $test_person_num_other_all= $this->t_lesson_info->get_test_person_num_list_subject_grade_other( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $kk_test_person_num_all= $this->t_lesson_info->get_kk_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $change_test_person_num_all= $this->t_lesson_info->get_change_teacher_test_person_subject_grade_list( $start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $list = $this->t_lesson_info->get_teacher_trial_count($start_time,$end_time,$teacherid,$teacher_money_type,$subject);
+Http/Controllers/tongji_ss.php:        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+Http/Controllers/tongji_ss.php:        $teacher_lesson_count_total        = $this->t_lesson_info->get_teacher_lesson_count_total(time(),$date["edate"],$qz_tea_arr,1);
+Http/Controllers/tongji_ss.php:            // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+Http/Controllers/tongji_ss.php:            // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
+Http/Controllers/tongji_ss.php:        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,$grade,$tea_arr,2);
+Http/Controllers/tongji_ss.php:        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,$grade,$tea_arr,1);
+Http/Controllers/test_boby.php:        //     $courseid = $this->t_lesson_info->get_courseid($lessonid);
+Http/Controllers/wx_teacher_info.php:        $lesson_list=$this->t_lesson_info->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_feedback.php:        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/teacher_feedback.php:                $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/teacher_feedback.php:                    $this->t_lesson_info->field_update_list($lessonid,$lesson_arr);
+Http/Controllers/teacher_feedback.php:                $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/tongji.php:        $list = $this->t_lesson_info->test_lesson_require_tongji($start_time,$end_time,$admin_revisiterid);
+Http/Controllers/tongji.php:        $list = $this->t_lesson_info->test_lesson_get_tongji($start_time,$end_time,$admin_revisiterid);
+Http/Controllers/tongji.php:        $ret_info = $this->t_lesson_info->get_lesson_info_ass_tongji($start_time,$end_time, $assistantid ,$require_adminid_list  );
+Http/Controllers/tongji.php:        $list = $this->t_lesson_info->admin_revisiter_test_lesson_require_tongji($start_time,$end_time,$admin_revisiterid);
+Http/Controllers/tongji.php:        $list = $this->t_lesson_info-> admin_revisiter_test_lesson_get_tongji($start_time,$end_time,$admin_revisiterid);
+Http/Controllers/tongji.php:            $date_time_list=$this->t_lesson_info->get_lesson_time_list($start_time ,$end_time);
+Http/Controllers/tongji.php:            $date_time_list=$this->t_lesson_info->get_lesson_time_list($opt_time,$opt_time+86399 );
+Http/Controllers/tongji.php:        $contact_lesson_num_info = $this->t_lesson_info->get_not_contact_lesson_num( $start_time, $end_time );
+Http/Controllers/teacher_info_www.php:        $ret_info = $this->t_lesson_info->get_teacher_lesson_list_new(
+Http/Controllers/teacher_info_www.php:            $trial_train_list = $this->t_lesson_info->get_trial_train_list($teacherid);
+Http/Controllers/teacher_info_www.php:        $student_list = $this->t_lesson_info->get_student_list($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_www.php:        $lesson_info = $this->t_lesson_info->get_lesson_info_by_lessonid('lessonid,assistantid,lesson_type,lesson_name,train_type',array_column($ret_info['list'],'lessonid'));
+Http/Controllers/teacher_info_www.php:            $tea_comment = $this->t_lesson_info->get_stu_performance($lesson_info['lessonid']);
+Http/Controllers/teacher_info_www.php:        $ret_info=$this->t_lesson_info->get_teacher_lesson_list($teacherid,$start_time,$end_time,$lesson_type_in_str, $page_num);
+Http/Controllers/teacher_info_www.php:        $lesson_list=$this->t_lesson_info->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_www.php:        $ret_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/teacher_info_www.php:        $db_teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/teacher_info_www.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/teacher_info_www.php:        $lesson_type=$this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/teacher_info_www.php:        $old_list = $this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
+Http/Controllers/teacher_info_www.php:        $old_list           = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+Http/Controllers/teacher_info_www.php:            $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+Http/Controllers/teacher_info_www.php:        $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+Http/Controllers/teacher_info_www.php:        $ret = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($teacherid,$lstart);
+Http/Controllers/teacher_info_www.php:        $test_lesson_num_day = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$day_start,$day_end);
+Http/Controllers/teacher_info_www.php:        $stu_free = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+Http/Controllers/teacher_info_www.php:        $tea_free=$this->t_lesson_info->check_teacher_time_free(
+Http/Controllers/teacher_info_www.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/teacher_info_www.php:        $stu_free = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+Http/Controllers/teacher_info_www.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/teacher_info_www.php:            $tea_list = $this->t_lesson_info->get_tea_month_list($start_time,$end_time,trim($teacherid_str,","));
+Http/Controllers/teacher_info_www.php:                        $this->t_lesson_info->get_teacher_last_month_lesson_count($tid,$last_start_time,$last_end_time);
+Http/Controllers/teacher_info_www.php:        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/small_class.php:        $ret_list = $this->t_lesson_info->get_lesson_list_new($courseid,$lessonid,$page_num);
+Http/Controllers/small_class.php:            $ret_info = $this->t_lesson_info->get_teacher_clothes_info($lessonid,$teacherid);
+Http/Controllers/small_class.php:            $ret = $this->t_lesson_info->set_teacher_clothes($lessonid,$clothes);
+Http/Controllers/small_class.php:            $ret= $this->t_lesson_info->field_update_list($lessonid,$set_field_arr);
+Http/Controllers/small_class.php:            $new_lessonid = $this->t_lesson_info->get_lessonid_list($courseid,0);
+Http/Controllers/small_class.php:            $old_lessonid = $this->t_lesson_info->get_lessonid_list($old_courseid,0);
+Http/Controllers/lesson_info.php:        $ret = $this->t_lesson_info->field_update_list($lessonid,$update_arr);
+Http/Controllers/lesson_info.php:        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/lesson_info.php:        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/test_code.php:            $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+Http/Controllers/test_code.php:            $success = $this->t_lesson_info->get_teacher_test_person_num_list( $create_start,$create_end,-1,-1,[$val['teacherid']]);
+Http/Controllers/test_code.php:                $this->t_lesson_info->row_delete($val['lessonid']);
+Http/Controllers/test_code.php:                $this->t_lesson_info->field_update_list($val['lessonid'],[
+Http/Controllers/test_code.php:            $this->t_lesson_info->row_delete($l_val['lessonid']);
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->get_open_lessons($lesson_status,$teacherid,$lesson_type,
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->get_open_from_list($courseid,$course_type,$search_str,$page_num);
+Http/Controllers/tea_manage.php:        $lesson_intro=$this->t_lesson_info->get_lesson_intro($lessonid);
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->lesson_account($lesson_type,$start_date_s,$end_date_s,$teacherid,$page_num);
+Http/Controllers/tea_manage.php:            $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
+Http/Controllers/tea_manage.php:            $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex_new(
+Http/Controllers/tea_manage.php:            $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex(
+Http/Controllers/tea_manage.php:        $ret_arr=$this->t_lesson_info->field_get_list($lessonid,"*");
+Http/Controllers/tea_manage.php:        $ret      = $this->t_lesson_info->get_lesson_after($lessonid);
+Http/Controllers/tea_manage.php:        $ret                             =  $this->t_lesson_info->delete_open_lesson($lessonid);
+Http/Controllers/tea_manage.php:            $enter_type = $this->t_lesson_info->get_open_class_enter_type($lessonid);
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->add_from_lessonid($courseid,$from_lessonid);
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->can_set_from_lessonid($lessonid,$can_set);
+Http/Controllers/tea_manage.php:        $this->t_lesson_info->field_update_list($lessonid,["lesson_intro" => $lesson_intro]);
+Http/Controllers/tea_manage.php:        $ret_info=$this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/tea_manage.php:        $ret=$this->t_lesson_info->get_stu_performance($lessonid);
+Http/Controllers/tea_manage.php:        $ret=$this->t_lesson_info->get_stu_performance($lessonid);
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->field_update_list($lessonid,array('stu_performance'=>$stu_performance));
+Http/Controllers/tea_manage.php:        $ret_info=$this->t_lesson_info->field_update_list($lessonid,array('tea_price'=>$tea_money));
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->get_lesson_name_and_intro($lessonid);
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage.php:        $from_lesson = $this->t_lesson_info->get_all_lesson_info($from_lessonid);
+Http/Controllers/tea_manage.php:            $this->t_lesson_info->row_insert([
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid,$subject,$lesson_type);
+Http/Controllers/tea_manage.php:        $ret_lesson_info = $this->t_lesson_info->get_lesson_info_ass_all_new($start_time,$end_time,$ass_userid);
+Http/Controllers/tea_manage.php:        $lesson_time_info = $this->t_lesson_info->get_lesson_info_time_new($start_time,$end_time,$lesson_userid);
+Http/Controllers/tea_manage.php:        $ret_lesson_info = $this->t_lesson_info->get_lesson_info_ass_all_new($start_time,$end_time,$ass_userid);
+Http/Controllers/tea_manage.php:        $lesson_time_info = $this->t_lesson_info->get_lesson_info_time_new($start_time,$end_time,$lesson_userid);
+Http/Controllers/tea_manage.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Http/Controllers/tea_manage.php:        $this->t_lesson_info->reset_lesson_list($courseid);
+Http/Controllers/tea_manage.php:        $db_teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/tea_manage.php:        $lesson_type  = $this->t_lesson_info->get_lesson_type($lessonid);
+Http/Controllers/tea_manage.php:        $status       = $this->t_lesson_info->get_lesson_status($lessonid);
+Http/Controllers/tea_manage.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->get_train_lesson(
+Http/Controllers/tea_manage.php:        $this->t_lesson_info->switch_tongji_database();
+Http/Controllers/tea_manage.php:        $ret_info = $this->t_lesson_info->get_train_lesson(
+Http/Controllers/tea_manage.php:            $ret = $this->t_lesson_info->row_insert([
+Http/Controllers/tea_manage.php:            $old = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/tea_manage.php:            $ret = $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage.php:        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+Http/Controllers/tea_manage.php:        $lesson_teacher = $this->t_lesson_info->get_teacherid($lessonid);
+Http/Controllers/tea_manage.php:            $train_type = $this->t_lesson_info->get_train_type($lessonid);
+Http/Controllers/tea_manage.php:        $ret=$this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage.php:        $lesson_info = $this->t_lesson_info->get_lesson_info_for_send_email_by_lessonid($lessonid);
+Http/Controllers/tea_manage.php:                $this->t_lesson_info->field_update_list($item['lessonid'],["lesson_end_todo_flag"=>1]);
+Http/Controllers/tea_manage.php:            $this->t_lesson_info->field_update_list($lessonid,[
+Http/Controllers/tea_manage.php:        $ret_arr=$this->t_lesson_info->field_get_list($lessonid,"*");
+Http/Controllers/seller_student_new2.php:        $ret_info = $this->t_lesson_info->get_error_test_lesson_list( $page_num, $start_time,$end_time);
+Http/Controllers/supervisor.php:        //     $ret_info    = $this->t_lesson_info->get_lesson_condition_list_new(
+Http/Controllers/supervisor.php:        $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
+Http/Controllers/supervisor.php:        $ret_info = $this->t_lesson_info->get_lesson_conditions($start_time,$end_time, $st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid );
+Http/Controllers/supervisor.php:        //$ret_info = $this->t_lesson_info->update_server_type($type,$lessonid);
+Http/Controllers/supervisor.php:        $ret_info = $this->t_lesson_info->get_lesson_info_by_lessonid($lessonid);
+Http/Controllers/supervisor.php:        $log_num_str = $this->t_lesson_info->get_lesson_conditions_by_lessonid($lessonid);
+Http/Controllers/test_james.php:            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+Jobs/ResetAlreadyLessonCount.php:        $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($this->start,$this->end);
+Jobs/ResetAlreadyLessonCount.php:                $stu_list = $t_lesson_info->get_student_list_by_teacher($val['teacherid'],$this->start,$this->end);
+Jobs/ResetAlreadyLessonCount.php:                        $t_lesson_info->reset_teacher_student_already_lesson_count($val['teacherid'],$item['userid']);
+Jobs/lesson_check.php:        $task->t_lesson_info->field_update_list($lessonid,[
+Jobs/UpdateOrderLessonList.php:            $lesson_list = $t_lesson_info->get_user_lesson_list(
+Jobs/ResetTeacherMonthMoney.php:        $already_lesson_count = $this->task->t_lesson_info->get_teacher_last_month_lesson_count(
+Jobs/AddUserToTrainLesson.php:                $lesson       = $t_lesson_info->get_lesson_info($lessonid);
+Jobs/UpdateSetLessonFullNum.php:            $lesson_list = $t_lesson_info->get_lesson_list_for_lesson_full_num($this->start_time);
+Jobs/UpdateSetLessonFullNum.php:                $t_lesson_info->field_update_list($val['lessonid'],[
+Jobs/add_train_lesson.php:                $check_flag = $this->task->t_lesson_info->check_teacher_time_free(
+Jobs/add_train_lesson.php:        $this->task->t_lesson_info->row_insert([
+Jobs/add_train_lesson.php:        $lessonid = $this->task->t_lesson_info->get_last_insertid();
+Jobs/add_train_lesson.php:            $this->task->t_lesson_info->field_update_list($lessonid,[
+Jobs/deal_lesson_online_status.php:        $ret_video_arr = $t_lesson_info->get_lesson_url($lessonid);
+Jobs/deal_lesson_online_status.php:                    $t_lesson_info->field_update_list($lessonid,[
+Jobs/deal_pdf_to_image.php:            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+Models/t_test_lesson_subject_sub_list.php:        $this->t_lesson_info->field_update_list($lessonid,[
+Models/t_test_lesson_subject_require.php:        $lessonid = $this->t_lesson_info->add_lesson(
+Models/t_lesson_info_b3.php:                $this->task->t_lesson_info->reset_lesson_list($item['courseid']);
+Models/t_lesson_info_b3.php:                $this->task->t_lesson_info->reset_lesson_list($item['courseid']);
+Models/t_student_info.php:        $lesson_use_all    = $this->t_lesson_info->get_lesson_use_all($studentid);
+Models/t_student_info.php:        $last_lesson_time = $this->t_lesson_info->get_last_lesson_time($studentid);
+Models/t_student_info.php:                    $this->t_lesson_info->set_user_assistantid( $userid,$origin_assistantid);
+Models/t_agent.php:                        $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+Models/t_agent.php:                        $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+Models/t_agent.php:                        $this->task->t_lesson_info->field_update_list($lesson_info["lessonid"],[
+Models/t_agent.php:                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+Models/t_agent.php:                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($test_lessonid);
+Todo/todo_seller_after_lesson_call.php:        $lesson_info= $task->t_lesson_info->field_get_list($lessonid,"userid,lesson_start");
+Todo/todo_seller_after_lesson_call.php:        $lesson_info= $task->t_lesson_info->field_get_list($lessonid,"userid,lesson_start");
+Todo/todo_seller_before_lesson_call.php:        $lesson_info= $task->t_lesson_info->field_get_list($lessonid,"userid,lesson_start");
+Todo/todo_seller_before_lesson_call.php:        $lesson_info= $task->t_lesson_info->field_get_list($lessonid,"userid,lesson_start");

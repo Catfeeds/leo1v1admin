@@ -1359,7 +1359,7 @@ class user_manage extends Controller
             E\Eqc_voluntarily_status::set_item_value_str($item);
 
             \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
-            \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
+            $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
             if(!empty($refund_qc_list['qc_other_reason'])
@@ -1370,7 +1370,7 @@ class user_manage extends Controller
             }
 
             $pass_time = $item['apply_time']-$item['order_time'];
-            if($pass_time >= 90*24*3600){ // 下单是否超过3个月
+            if($pass_time >= (90*24*3600)){ // 下单是否超过3个月
                 $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
             }else{
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
