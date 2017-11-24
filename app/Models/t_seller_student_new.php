@@ -1627,13 +1627,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_favorite_num($adminid) {
+        $where_arr = [
+            ['favorite_adminid=%u',$adminid,-1],
+            ['admin_revisiterid=%u',$adminid,-1],
+        ];
         $sql = $this->gen_sql_new(
             " select "
             ." count(userid) "
             ." from %s "
-            ." where favorite_adminid=%u ",
-            self::DB_TABLE_NAME
-            ,$adminid
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
         );
 
         return $this->main_get_value($sql);
