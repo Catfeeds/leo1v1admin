@@ -420,7 +420,7 @@ class test_jack  extends Controller
 
             //email
             $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
-            $table .= '<tr><td>假期名称</td><td><font color="red">'.$festival_info["name"].'</font></td><td></td><td></td></tr>';
+            $table .= '<tr><td>假期名称</td><td colspan=\"3\" align=\"center\"><font color="red">'.$festival_info["name"].'</font></td></tr>';
             $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
             foreach ($arr as $key => $value) {
                 if($value['day_num'] != 0){
