@@ -3142,8 +3142,6 @@ class ss_deal extends Controller
             }
             $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_GET_NEW_COUNT
                                      ,$adminid,$userid);
-
-
         }else  {
             if ($free_flag) {
                 //持有个数
