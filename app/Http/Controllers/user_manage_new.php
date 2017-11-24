@@ -3724,12 +3724,20 @@ class user_manage_new extends Controller
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
             // 在校学生总数
             $info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            if ($teacherid == 269222) { // 处理赵志园二个账号
+                $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
+                $info['stu_sum'] += $num;
+            }
             $info['stu_reward'] = 20;
             if ($info['stu_sum'] > 10) $info['stu_reward'] = 30;
             if ($info['stu_sum'] > 20) $info['stu_reward'] = 50;
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
             $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            if ($teacherid == 269222) {
+                $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
+                $info['tea_sum'] += $num;
+            }
             $info['tea_reward'] = 40;
             if ($info['tea_sum'] > 10) $info['tea_reward'] = 50;
             if ($info['tea_sum'] > 20) $info['tea_reward'] = 70;
