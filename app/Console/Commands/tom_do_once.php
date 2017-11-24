@@ -88,7 +88,7 @@ class tom_do_once extends Command
                 }
                 if($num != $cc_no_called_count){
                     $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-                    // echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+                    echo $userid.':'.$cc_no_called_count."=>".$num."\n";
                 }
             }
             $start = strtotime('+1 month',$start);
