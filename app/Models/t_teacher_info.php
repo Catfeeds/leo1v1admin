@@ -2440,7 +2440,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["t.check_subject=%u",$subject,0],
             ["t.check_grade like '%%%s%%'",$grade,""],
-            "m.account_role in (4,9)",
+            "m.account_role in (9)",
         ];
 
         $sql = $this->gen_sql_new("select teacherid,account_role "
