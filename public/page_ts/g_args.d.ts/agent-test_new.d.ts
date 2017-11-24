@@ -15,10 +15,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../user_manage_new; vi  ../user_manage_new/parent_report.ts
+	 mkdir -p ../agent; vi  ../agent/test_new.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage_new-parent_report.d.ts" />
+/// <reference path="../g_args.d.ts/agent-test_new.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

@@ -364,7 +364,7 @@ class assistant_performance extends Controller
 
             /*转介绍奖金*/
             //转介绍个数
-            $cc_tran_num = $item["cc_tran_num"];
+            $cc_tran_num = $item["cc_tran_num"]+$item["tran_num"]+$item["hand_tran_num"];
             $cc_tran_num_reword=0;
             if($cc_tran_num>5){
                 $cc_tran_num_reword = $cc_tran_num*50000;

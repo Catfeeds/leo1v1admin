@@ -4,12 +4,15 @@ interface GargsStatic {
 	start_date:	string;
 	end_date:	string;
 	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
 }
 declare var g_args: GargsStatic;
 declare var g_account: string;
+declare var g_account_role: any;
+declare var g_adminid: any;
 interface RowData {
 	lessonid	:any;
 	courseid	:any;
@@ -23,20 +26,21 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../user_book ; vi  ../user_book/audition_list.ts
+	 mkdir -p ../user_book; vi  ../user_book/audition_list.ts
 
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_book-audition_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		lesson_type:	$('#id_lesson_type').val(),
+		teacherid:	$('#id_teacherid').val(),
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			lesson_type:	$('#id_lesson_type').val(),
-			teacherid:	$('#id_teacherid').val(),
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val()
-        });
-    }
 
 
 	$('#id_lesson_type').val(g_args.lesson_type);

@@ -166,14 +166,14 @@
                             </td>
                             <td >{{$var["grade_str"]}}</td>
                             <td >
-                                时间:{{$var["order_time"]}} <br/>
+                                时间:{{$var["order_time_str"]}} <br/>
                                 类型:{{$var["contract_type_str"]}} <br/>
                                 总课时:{{$var["lesson_total"]}} <br/>
                                 原价:{{$var["discount_price"]}} <br/>
                                 实付:{{$var["price"]}} <br/>
                             </td>
                             <td >{{$var["sys_operator"]}}</td>
-                            <td >{{$var["order_time"]}}</td>
+                            <td >{{$var["order_time_str"]}}</td>
                             <td >{{$var["contract_type_str"]}}</td>
                             <td >{{$var["lesson_total"]}}</td>
                             <td >{{$var["should_refund"]}}</td>
