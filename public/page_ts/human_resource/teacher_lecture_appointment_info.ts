@@ -848,7 +848,7 @@ $(function(){
                         var timeid=$this.data("timeid");
                         $this.find("td").each(function(i,item){
                             if (i!=0) {//过滤１
-                                var tmp_date=$.DateFormat(next_day+(i-1)*86400,"yyyy-MM-dd" );
+                                var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
 
                                 var $td=$(item);
                                 var tmt = tmp_date+" "+timeid;
