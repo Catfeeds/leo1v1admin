@@ -564,7 +564,6 @@ class agent extends Controller
             $end_time = strtotime('+1 month',$start);
             $ret = $this->t_seller_student_new->get_all_list($start_time,$end_time);
             $userid_arr = array_unique(array_column($ret,'userid'));
-            dd($ret);
             foreach($userid_arr as $item){
                 $num = 0;
                 $userid = $item;

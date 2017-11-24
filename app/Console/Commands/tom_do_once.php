@@ -63,21 +63,34 @@ class tom_do_once extends Command
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
         $start = strtotime(date('Y-m-1',$min));
         $end   = strtotime(date('Y-m-1',$max));
-        $seller_add_time = strtotime(date('Y-m-d'));
         $ret = [];
-        $limit = ceil(2000/$count);
+        $userid_arr = [];
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
-            $ret = $this->task->t_test_lesson_subject->get_all_list($start_time,$end_time,$limit);
-            foreach($ret as $item){
-                $userid = $item['userid'];
-                $this->task->t_seller_student_new->field_update_list($userid,[
-                    'seller_add_time'=>$seller_add_time,
-                ]);
-                echo $userid.':'.$item['seller_add_time']."=>".$seller_add_time."\n";
+            $ret = $this->task->t_seller_student_new->get_all_list($start_time,$end_time);
+            $userid_arr = array_unique(array_column($ret,'userid'));
+            foreach($userid_arr as $item){
+                $num = 0;
+                $userid = $item;
+                $cc_no_called_count = 0;
+                foreach($ret as $info){
+                    if($item == $info['userid']){
+                        $is_called_phone = $info['is_called_phone'];
+                        $cc_no_called_count = $info['cc_no_called_count'];
+                        if($is_called_phone == 1){
+                            $num = 0;
+                            break;
+                        }elseif($is_called_phone == 0){
+                            $num += 1;
+                        }
+                    }
+                }
+                if($num != $cc_no_called_count){
+                    $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+                    echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+                }
             }
-            $start = strtotime('+1 month',$start);
         }
     }
 
