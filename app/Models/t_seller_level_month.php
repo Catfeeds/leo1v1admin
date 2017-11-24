@@ -35,6 +35,7 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
             ." left join %s s on s.seller_level=m.seller_level"
             ." where %s limit 1 "
             ,self::DB_TABLE_NAME
+            ,t_seller_level_salary::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_row($sql);
