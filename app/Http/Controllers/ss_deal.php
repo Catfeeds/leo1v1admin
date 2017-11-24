@@ -2672,8 +2672,6 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
-
             }
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(
@@ -2684,7 +2682,9 @@ class ss_deal extends Controller
 
 
 
+        $test_id = $this->get_account_id();
 
+        if($test_id == 436){
 
         /**
          * @demand 课程取消后 通知到对应咨询（或者对应助教），对应教务
@@ -2698,7 +2698,7 @@ class ss_deal extends Controller
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 // $set_lesson_adminid,
-                '684', //james
+                '436', //james
                 "来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
             );
@@ -2706,7 +2706,7 @@ class ss_deal extends Controller
             $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
             if($require_adminid != $set_lesson_adminid){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                    '684', //james
+                    '436', //james
                     "测试 申请人 来自:".$this->get_account(),//james
                     // $require_adminid,
                     // "来自:".$this->get_account(),
@@ -2744,7 +2744,7 @@ class ss_deal extends Controller
              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
             // \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-            \App\Helper\Utils::sms_common('17802193367',46785153,[ //james
+            \App\Helper\Utils::sms_common('13024121385',46785153,[ //james
                 "name"        => $teacher_nick,
                 "lesson_time" => $lesson_time." ".$nick,
                 "reason"      => $cancel_cause,
@@ -2770,7 +2770,7 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data); //正式
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2790,7 +2790,7 @@ class ss_deal extends Controller
              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
             // \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-            \App\Helper\Utils::sms_common('17802193367',46785153,[ //james
+            \App\Helper\Utils::sms_common('13024121385',46785153,[ //james
                 "name"        => $teacher_nick,
                 "lesson_time" => $lesson_time." ".$nick,
                 "reason"      => "学生原因",
@@ -2808,7 +2808,7 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2827,7 +2827,7 @@ class ss_deal extends Controller
              故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
             // \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
-            \App\Helper\Utils::sms_common("17802193367", 46680138,[ //james
+            \App\Helper\Utils::sms_common("13024121385", 46680138,[ //james
                 "name"         => $teacher_nick,
                 "lesson_time"  => $lesson_time,
                 "student_nick" => $nick,
@@ -2847,8 +2847,9 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
             }
+        }
         }
 
         return $this->output_succ();
@@ -3205,8 +3206,6 @@ class ss_deal extends Controller
             }
             $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_GET_NEW_COUNT
                                      ,$adminid,$userid);
-
-
         }else  {
             if ($free_flag) {
                 //持有个数

@@ -1,5 +1,9 @@
 <?php
 return array(
+    ['db_weiyi_admin','t_company_wx_auth','id'],
+    ['db_weiyi_admin','t_company_wx_role','id'],
+    ['db_weiyi_admin',"t_company_wx_users","id"],
+    ["db_weiyi_admin","t_company_wx_department","id"],
     ["db_weiyi","t_market_department_activity","lid"],
     ["db_weiyi","t_agent_daily_lottery","lid"],
     ["db_weiyi","t_agent_income_log","logid"],
