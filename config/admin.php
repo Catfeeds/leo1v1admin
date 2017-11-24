@@ -241,5 +241,11 @@ return [
             540 => "0.09",
         ],
     ],
+    // 企业微信
+    'company_wx'=>[
+        'url'    => 'https://qyapi.weixin.qq.com',
+        'CorpID' => 'wwe9748dcadfba90f7',
+        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk'
+    ],
 
 ];
