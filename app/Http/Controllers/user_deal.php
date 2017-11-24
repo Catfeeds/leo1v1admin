@@ -4073,6 +4073,9 @@ class user_deal extends Controller
         //月末定级
         $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_new);
         $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
+        $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
+        $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
 
         return $this->output_succ($arr);
     }
