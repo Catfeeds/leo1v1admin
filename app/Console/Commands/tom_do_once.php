@@ -68,7 +68,7 @@ class tom_do_once extends Command
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
-            if($i == 1){
+            if($i == 6){
                 $ret = $this->task->t_seller_student_new->get_all_list($start_time,$end_time);
                 $userid_arr = array_unique(array_column($ret,'userid'));
                 foreach($userid_arr as $item){
