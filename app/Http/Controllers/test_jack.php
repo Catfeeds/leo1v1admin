@@ -344,7 +344,121 @@ class test_jack  extends Controller
     public function test_period(){
 
         // $time = time()-7*86400;
-        // $day_time = strtotime(date("Y-m-d",$time));
+        $day_time = strtotime("2017-10-09");
+        $check_holiday = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday(231463,$day_time);
+        dd($check_holiday);
+        //节假日延休        
+        $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
+        if($festival_info){
+            $attendance_day = $day_time+86400;
+            $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info_b2($festival_info["begin_time"],$attendance_day);
+            $list=[];
+            foreach($lesson_info as $val){
+                if($val["lesson_type"]==1100 && $val["train_type"]==5){
+                    @$list[$val["uid"]] += 0.8;
+                }elseif($val["lesson_type"]==2){
+                    @$list[$val["uid"]] += 1.5;
+                }else{
+                    @$list[$val["uid"]] += $val["lesson_count"]/100;
+                }
+            }
+            $arr = [];
+            foreach ($list as $key => $value) {
+                $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($key);
+                $teacherid = $teacher_info["teacherid"];
+                $realname = $this->t_teacher_info->get_realname($teacherid);
+                @$arr[$key]['teacherid'] = $teacherid;
+                @$arr[$key]['realname']  = $this->t_teacher_info->get_realname($teacherid);
+                @$arr[$key]['lesson_count'] = $value;
+                @$arr[$key]['day_num'] = floor($value/10.5);
+                @$arr[$key]['attendance_time'] = $attendance_day;
+                @$arr[$key]['holiday_end_time'] = $attendance_day+($arr[$key]['day_num']-1)*86400;
+                if($arr[$key]['day_num'] == 0){
+                    @$arr[$key]['cross_time'] = "";
+                }else{
+                    @$arr[$key]['cross_time'] = date('m.d',$attendance_day)."-".date('m.d',$arr[$key]['holiday_end_time']);
+                }
+              
+            }
+            //insert data
+            // foreach ($arr as $key => $value) {
+            //     if($value['day_num']>=1){
+            //         $task->t_fulltime_teacher_attendance_list->row_insert([
+            //             "teacherid"        =>$value['teacherid'],
+            //             "add_time"         =>$time,
+            //             "attendance_type"  =>3,
+            //             "attendance_time"  =>$value["attendance_time"],
+            //             "day_num"          =>$value['day_num'],
+            //             "adminid"          =>$key,
+            //             "lesson_count"     =>$value['lesson_count']*100,
+            //             "holiday_end_time" =>$value["holiday_end_time"],
+            //         ]);
+            //     } 
+            // }
+            //wx
+            foreach ($arr as $key => $value) {
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                    349,
+                    $festival_info["name"]."延休统计",
+                    "延休数据汇总",
+                    "\n老师:".$value['realname'].
+                    "\n时间:2017-10-1 0:0:0 ~ 2017-10-8 22:0:0".
+                    "\n累计上课课时:".$value['lesson_count'].
+                    "\n延休天数:".$value['day_num'].
+                    "\n延休日期:".$value['cross_time'],'');
+            }
+            $namelist = '';
+            $num = 0;
+            foreach ($arr as $key => $value) {
+                if($value['day_num'] != 0){
+                    $namelist .= $value['realname'];
+                    $namelist .= ',';
+                    ++$num;
+                }
+            }
+            $namelist = trim($namelist,',');
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349, $festival_info["name"]."延休统计","全职老师".$festival_info["name"]."延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); //erick
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349, $festival_info["name"]."延休统计","全职老师".$festival_info["name"]."延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); //low-key
+
+            //email
+            $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
+            $table .= '<tr><td>假期名称</td><td colspan="3" align="center"><font color="red">'.$festival_info["name"].'</font></td></tr>';
+            $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
+            foreach ($arr as $key => $value) {
+                if($value['day_num'] != 0){
+                    $table .= '<tr>';
+                    $table .= '<td><font color="red">'.$value['realname'].'</font></td>';
+                    $table .= '<td><font color="red">'.$value['lesson_count'].'</font></td>';
+                    $table .= '<td><font color="red">'.$value['day_num'].'</font></td>';
+                    $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
+                    $table .= '</tr>';
+                }
+            }
+            $table .= "</table>";
+            $content = "Dear all：<br>全职老师".$festival_info["name"]."延休安排情况如下<br/>";
+            $content .= "数据见下表<br>";
+            $content .= $table;
+            $content .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优教育</div><div>";
+            // $email_arr = ["low-key@leoedu.com",
+            //               "erick@leoedu.com",
+            //               "hejie@leoedu.com",
+            //               "sherry@leoedu.com",
+            //               "cindy@leoedu.com",
+            //               "limingyu@leoedu.com"];
+            $email_arr = ["jack@leoedu.com"];
+
+            foreach($email_arr as $email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,
+                    "全职老师".$festival_info["name"]."假期累计上课时间及延休安排",
+                    $content
+                ));  
+            }
+
+        }
+        dd(1111);
+
+
 
        
         $lesson_end = $this->get_in_str_val("lesson_end","2017-11-23 09:00:00");
