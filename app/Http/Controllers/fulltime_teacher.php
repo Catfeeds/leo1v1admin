@@ -589,6 +589,7 @@ class fulltime_teacher extends Controller
             }
         }
 
+        $today_time = strtotime(date("Y-m-d",time()));
         foreach( $date_list as  &$d_item ) {
             $year=date("Y",$start_time);
             $day_time = strtotime($year."-".$d_item["title"]);
@@ -601,7 +602,7 @@ class fulltime_teacher extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "_str","H:i:s");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"_str", "H:i:s");    
             }
-            if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"])){
+            if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
                 $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
                 if(!$check_holiday_flag){
                     $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
