@@ -2612,67 +2612,69 @@ class ss_deal extends Controller
             );
 
 
-            //勿删
-            $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
-            $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                $set_lesson_adminid,
-                "来自:".$this->get_account(),
-                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
-            //勿删
+            // //勿删
+            // $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+            // $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
+            // $this->t_manager_info->send_wx_todo_msg_by_adminid(
+            //     $set_lesson_adminid,
+            //     "来自:".$this->get_account(),
+            //     "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
+            // //勿删
 
 
-            $remark_ex = "";
-            if($fail_greater_4_hour_flag ) {
-                /**
-                 * 试听取消-不付工资2-14
-                 * SMS_46785153
-                 * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
-                 我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
-                 */
-                \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-                    "name"        => $teacher_nick,
-                    "lesson_time" => $lesson_time." ".$nick,
-                    "reason"      => "学生原因",
-                ]);
-            }else{
-                /**
-                 * 通知老师课程取消-付工资2-14
-                 * SMS_46680138
-                 * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
-                 故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
-                 */
-                \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
-                    "name"         => $teacher_nick,
-                    "lesson_time"  => $lesson_time,
-                    "student_nick" => $nick,
-                    "reason"       => "学生原因",
-                ]);
-                $remark_ex = "本次课的课时费将照常如数结算给您！";
-            }
+            // $remark_ex = "";
+            // if($fail_greater_4_hour_flag ) {
+            //     /**
+            //      * 试听取消-不付工资2-14
+            //      * SMS_46785153
+            //      * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
+            //      我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+            //      */
+            //     \App\Helper\Utils::sms_common($teacher_phone,46785153,[
+            //         "name"        => $teacher_nick,
+            //         "lesson_time" => $lesson_time." ".$nick,
+            //         "reason"      => "学生原因",
+            //     ]);
+            // }else{
+            //     /**
+            //      * 通知老师课程取消-付工资2-14
+            //      * SMS_46680138
+            //      * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
+            //      故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+            //      */
+            //     \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
+            //         "name"         => $teacher_nick,
+            //         "lesson_time"  => $lesson_time,
+            //         "student_nick" => $nick,
+            //         "reason"       => "学生原因",
+            //     ]);
+            //     $remark_ex = "本次课的课时费将照常如数结算给您！";
+            // }
 
-            /**
-             * 模板ID : eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4
-             * 标题   : 课程取消通知
-             * {{first.DATA}}
-             * 课程类型：{{keyword1.DATA}}
-             * 上课时间：{{keyword2.DATA}}
-             * {{remark.DATA}}
-             */
-            $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
-            if($openid!=''){
-                $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
-                $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
-                $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
-                //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
+            // /**
+            //  * 模板ID : eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4
+            //  * 标题   : 课程取消通知
+            //  * {{first.DATA}}
+            //  * 课程类型：{{keyword1.DATA}}
+            //  * 上课时间：{{keyword2.DATA}}
+            //  * {{remark.DATA}}
+            //  */
+            // $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
+            // if($openid!=''){
+            //     $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
+            //     $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
+            //     $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
+            //     //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
 
-                $data['first']    = $first_info;
-                $data['keyword1'] = "试听课";
-                $data['keyword2'] = $lesson_time;
-                $data['remark']   = $remark_info;
-                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+            //     $data['first']    = $first_info;
+            //     $data['keyword1'] = "试听课";
+            //     $data['keyword2'] = $lesson_time;
+            //     $data['remark']   = $remark_info;
+            //     \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+            // }
 
-            }
+
+
         }else{
             $this->t_test_lesson_subject_require->set_test_lesson_status(
                 $require_id,
@@ -2681,10 +2683,6 @@ class ss_deal extends Controller
 
 
 
-
-        $test_id = $this->get_account_id();
-
-        if($test_id == 436){
 
         /**
          * @demand 课程取消后 通知到对应咨询（或者对应助教），对应教务
@@ -2698,7 +2696,7 @@ class ss_deal extends Controller
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 // $set_lesson_adminid,
-                '436', //james
+                '684', //james
                 "来自:".$this->get_account(),
                 "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
             );
@@ -2706,10 +2704,9 @@ class ss_deal extends Controller
             $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
             if($require_adminid != $set_lesson_adminid){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                    '436', //james
-                    "测试 申请人 来自:".$this->get_account(),//james
+                    '684', //james
                     // $require_adminid,
-                    // "来自:".$this->get_account(),
+                    "$require_adminid 来自:".$this->get_account(),
                     "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
                 );
             }
@@ -2735,7 +2732,7 @@ class ss_deal extends Controller
             if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_111){
                 $cancel_cause = '学生原因';
             }else{
-                $cancel_cause = '老师原因';
+                $cancel_cause = '老师您的原因';
             }
             /**
              * 试听取消-不付工资2-14
@@ -2744,7 +2741,7 @@ class ss_deal extends Controller
              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
             // \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-            \App\Helper\Utils::sms_common('13024121385',46785153,[ //james
+            \App\Helper\Utils::sms_common('17802193367',46785153,[ //james
                 "name"        => $teacher_nick,
                 "lesson_time" => $lesson_time." ".$nick,
                 "reason"      => $cancel_cause,
@@ -2768,9 +2765,9 @@ class ss_deal extends Controller
                 $data['keyword1'] = "试听课";
                 $data['keyword2'] = $lesson_time;
                 $data['remark']   = $remark_info;
-                // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data); //正式
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data); //正式
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2790,7 +2787,7 @@ class ss_deal extends Controller
              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
             // \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-            \App\Helper\Utils::sms_common('13024121385',46785153,[ //james
+            \App\Helper\Utils::sms_common('17802193367',46785153,[ //james
                 "name"        => $teacher_nick,
                 "lesson_time" => $lesson_time." ".$nick,
                 "reason"      => "学生原因",
@@ -2806,9 +2803,9 @@ class ss_deal extends Controller
                 $data['keyword1'] = "试听课";
                 $data['keyword2'] = $lesson_time;
                 $data['remark']   = $remark_info;
-                // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2827,7 +2824,7 @@ class ss_deal extends Controller
              故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
             */
             // \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
-            \App\Helper\Utils::sms_common("13024121385", 46680138,[ //james
+            \App\Helper\Utils::sms_common("17802193367", 46680138,[ //james
                 "name"         => $teacher_nick,
                 "lesson_time"  => $lesson_time,
                 "student_nick" => $nick,
@@ -2845,13 +2842,11 @@ class ss_deal extends Controller
                 $data['keyword1'] = "试听课";
                 $data['keyword2'] = $lesson_time;
                 $data['remark']   = $remark_info;
-                // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxB7HrjmQ_pxKCaAOPv7NEmU',$template_id,$data);//测试 [james]
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
-        }
-
         return $this->output_succ();
     }
 
