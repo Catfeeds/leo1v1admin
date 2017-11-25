@@ -550,9 +550,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $a = $b ?? 2;
-        dd($a);
-        // phpinfo();
+        phpinfo();
         //查看下级
         // $page_info = $this->get_in_page_info();
         // $ret_info = $this->t_seller_student_new->get_item_list($page_info);
