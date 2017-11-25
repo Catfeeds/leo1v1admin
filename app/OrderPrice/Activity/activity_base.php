@@ -53,6 +53,8 @@ class activity_base {
 
     public  $args;
     public  $grade;
+    //课程 1次课 价格
+    public  $grade_price;
 
 
     public function __construct(  $args   ) {
@@ -62,6 +64,7 @@ class activity_base {
             $this->contract_type = $args["contract_type"];
             $this->userid = $args["userid"];
             $this->grade= $args["grade"];
+            $this->grade_price= $args["grade_price"];
             $this->args = $args;
         }
     }
@@ -131,7 +134,7 @@ class activity_base {
         return $last_value;
     }
 
-    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0 ) {
+    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0 ) {
         \App\Helper\Utils::logger("  $desc ");
 
         return [ "order_activity_type" => static::$order_activity_type ,
@@ -141,6 +144,7 @@ class activity_base {
                  "cur_present_lesson_count" => $cur_present_lesson_count,
                  "can_period_flag" => $can_period_flag,
                  "change_value" => $change_value,
+                 "off_money" => $off_money,
         ];
     }
 

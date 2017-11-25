@@ -7,12 +7,15 @@ class activity_2017112501 extends  activity_config_base {
 
     public function __construct(  $args   ) {
         parent::__construct($args);
-        $this->date_range=[ "2017-11-25"  , "2017-11-30"];
+        //$this->open_flag=false;
+
+        $this->date_range=[ "2017-11-24"  , "2017-11-30"];
         $this->user_join_time_range=["2017-11-11", "2017-11-30"];
         $this->period_flag_list= [ E\Eperiod_flag::V_0  ];
         $this->contract_type_list = [E\Econtract_type::V_0 ];
         $this->lesson_times_range = [10 ,  10000];
         $this->max_count=188;
+
 
         $this-> price_off_money_list=[
             10000  => 500,

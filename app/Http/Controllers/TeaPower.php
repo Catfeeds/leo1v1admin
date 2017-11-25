@@ -7,9 +7,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
 use \App\Enums as E;
 
-/**
- * @use \App\Http\Controllers\Controller
- */
 trait TeaPower {
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
@@ -716,14 +713,8 @@ trait TeaPower {
                 $teacher_subject["not_grade"]
             );
         }
-<<<<<<< HEAD
 
-        if(is_numeric($check_subject) && $check_subject == 1){
-}else{
-=======
-        
-        if($check_subject != 1){
->>>>>>> 458d0cfe0ec3f2f6423a090171efe4fd49544cf9
+        if($check_subject){
             return $check_subject;
         }
 
@@ -862,9 +853,9 @@ trait TeaPower {
                 return $this->output_err("该老师对应年级段已被冻结!");
             }
 
-            return 1;
+            // return 1;
         }else{
-            return 1;
+            // return 1;
         }
     }
 
@@ -884,7 +875,7 @@ trait TeaPower {
             return $this->output_err("该老师对应年级段已被冻结!");
         }
 
-        return 1;
+        // return 1;
     }
 
     public function get_seller_limit_require_info($teacherid,$lesson_start,$grade,$subject,$account_role,$master_adminid,$is_green_flag){
@@ -977,10 +968,13 @@ trait TeaPower {
                             "老师年级段不相符,不能做特殊申请!"
                         );
                     }
+
                 }
             }
 
         }
+
+
 
         //冻结排课
 
@@ -999,7 +993,7 @@ trait TeaPower {
         }
 
         //申请数量限制
-        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"8500","12"=>"9000"];
+        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"18500","12"=>"19000"];
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
@@ -4100,14 +4094,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-    /**
-     * 获取老师的总工资明细
-     * @param int teacherid 老师id
-     * @param int start_time 拉取老师工资的开始时间
-     * @param int end_time   拉取老师工资的结束时间
-     * @param string show_type 拉取老师工资的结束时间
-     * @return array list
-     */
     public function get_teacher_money_list($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));

@@ -1322,13 +1322,14 @@ class ajax_deal2 extends Controller
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
+                           . "<td> <font color=\"red\"> ". @$item["off_money"]."  </font> "
                         . "<td>  ". $period_str
                         . " </tr> ";
                 }
             }
             $row_count= count( $arr);
         }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr class=\"table-header\"> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时 <th> 修改值 <th> 启用分期  </tr>  $tr_str </table>";
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr class=\"table-header\"> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时 <th> 修改值 <th> 现金价值 <th>  启用分期  </tr>  $tr_str </table>";
         return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 
