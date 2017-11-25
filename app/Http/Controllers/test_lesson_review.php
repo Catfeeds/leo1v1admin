@@ -47,6 +47,7 @@ class test_lesson_review extends Controller
         $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid);
         $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
         $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
+        $major_master_adminid = isset($p_pp_adminid['major_master_adminid'])?$p_pp_adminid['major_master_adminid']:0;
         $ret_info = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
         $ret = 0;
         $count = count($ret_info);
@@ -66,6 +67,7 @@ class test_lesson_review extends Controller
             ],false,false,true);
             $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
             $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
+            $major_wx_openid = $this->t_manager_info->get_wx_openid($major_master_adminid);
             $template_id     = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
             $url = 'http://admin.leo1v1.com/test_lesson_review/test_lesson_review_list';
             $wx              = new \App\Helper\Wx();
