@@ -11,10 +11,10 @@ class activity_2017112501 extends  activity_config_base {
 
         $this->date_range=[ "2017-11-24"  , "2017-11-30"];
         $this->user_join_time_range=["2017-11-11", "2017-11-30"];
-        $this->period_flag_list= [ E\Eperiod_flag::V_0  ];
+        $this->period_flag_list= [ E\Eperiod_flag::V_0, E\Eperiod_flag::V_1  ];
         $this->contract_type_list = [E\Econtract_type::V_0 ];
         $this->lesson_times_range = [10 ,  10000];
-        $this->max_count=188;
+        $this->max_count=50;
 
 
         $this-> price_off_money_list=[
