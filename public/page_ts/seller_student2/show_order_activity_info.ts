@@ -93,8 +93,6 @@ function load_data(){
     var data = {
         id_open_flag   : $("#id_open_flag").val(),
         id_can_disable_flag    : $("#id_can_disable_flag").val(),
-        id_contract_type       : $("#id_contract_type").val(),
-        id_period_flag   : $("#id_period_flag").val(),
     };
 
     //$.do_ajax("/seller_student2/show_order_activity_info",data,function(){});

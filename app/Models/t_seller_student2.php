@@ -7,13 +7,11 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
         parent::__construct();
     }
 
-    public function get_list($open_flag,$can_disable_flag,$contract_type_list,$period_flag_list,$page_num)
+    public function get_list($open_flag,$can_disable_flag,$page_num)
     {
         $where_arr = [
             ["open_flag=%d" , $open_flag,-1 ],
             ["can_disable_flag=%d",$can_disable_flag,-1 ],
-            ["contract_type_list=%d" , $contract_type_list,-1 ],
-            ["period_flag_list=%d" ,  $period_flag_list,-1 ],
         ];
 
         $where_str=$this->where_str_gen( $where_arr);
