@@ -88,8 +88,7 @@ $(function(){
                 if( res.key!='' ){
                     $('#img').attr('src', qiniu_pub+'/'+res.key);
                 }
-            }, [], ["jpg","png"],function(){}
-                              );
+            }, [], ["jpg","png"],function(){});
 
         },false,900);
     });
