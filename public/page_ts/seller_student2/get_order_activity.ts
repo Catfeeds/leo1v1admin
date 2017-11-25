@@ -283,11 +283,16 @@ $(function(){
 
         var id_open_flag =$("<select/>");
         Enum_map.append_option_list("open_flag", id_open_flag,true);
-        
+
+        var id_need_spec_require_flag =$("<select/>");
+        Enum_map.append_option_list("need_spec_require", id_need_spec_require_flag,true);
+
         id_can_disable_flag.val(opt_data.can_disable_flag);
         id_open_flag.val(opt_data.open_flag);
-
+        id_need_spec_require_flag.val(opt_data.need_spec_require_flag);
+ 
         var arr=[
+            ["是否需要特殊申请", id_need_spec_require_flag ],
             ["是否开启活动", id_open_flag ],
             ["是否手动开启活动", id_can_disable_flag ],
         ];
@@ -301,6 +306,7 @@ $(function(){
                     'id': opt_data.id,
                     'can_disable_flag':id_can_disable_flag.val(),
                     'open_flag':id_open_flag.val(),
+                    'need_spec_require_flag':id_need_spec_require_flag.val(),
                 }
               
                 $.ajax({
@@ -540,7 +546,6 @@ function editJson(id_discount_json,edit_json,discount_type){
 
 //回车添加新的输入框
 function addActivity(event,act){
-   
     if (event.keyCode == '13'){
 
         var nextActivity = 1;
@@ -623,4 +628,12 @@ function bindTime(itemArr){
             step:30,
         });
     }
+}
+
+function keyPressCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+}
+
+function keyUpCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
 }

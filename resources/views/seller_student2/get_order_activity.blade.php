@@ -250,6 +250,20 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span >是否需要特殊申请:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <span>{{@$ret_info['need_spec_require_flag_str']}}</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
                     
                     <div class="row">
                         <div class="col-xs-10 col-md-10"  >
