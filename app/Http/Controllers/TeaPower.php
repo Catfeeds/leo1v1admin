@@ -4097,12 +4097,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function get_teacher_money_list($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
-
-        $teacher_info       = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_money_type = $teacher_info['teacher_money_type'];
-        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
-        $teacher_type       = $teacher_info['teacher_type'];
-
         $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
             $j     = $i+1;
@@ -4159,7 +4153,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $list[$i]['lesson_normal'] += $val['lesson_base'];
                         $reward = $this->get_lesson_reward_money(
-                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
+                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
                         );
                     }else{
                         $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
@@ -4204,7 +4198,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                                   +$item['lesson_reward_reference']
                                                   +$item['lesson_reward_chunhui']
                                                   +$item['lesson_reward_train']
-
             );
             $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
             $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);
