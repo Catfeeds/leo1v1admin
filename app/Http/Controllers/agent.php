@@ -550,8 +550,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid=487);
-        dd($p_pp_adminid);
+        // $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid=487);
+        // dd($p_pp_adminid);
         $page_info = $this->get_in_page_info();
         $grade = $this->get_in_int_val("grade",-1);
         $subject = $this->get_in_int_val("subject",-1);
