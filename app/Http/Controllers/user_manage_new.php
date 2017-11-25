@@ -1755,12 +1755,12 @@ class user_manage_new extends Controller
 
         // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
-        dd($test_leeson_list);
+        // dd($test_leeson_list);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
         //试听成功数
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
@@ -5152,12 +5152,25 @@ class user_manage_new extends Controller
     }
 
     public function product_info(){
+        $page_num  = $this->get_in_page_num();
         $deal_flag = $this->get_in_int_val('deal_flag',-1);
         $feedback_adminid = $this->get_in_int_val('feedback_adminid',-1);
-        list($start_time,$end_time)=$this->get_in_date_range(date("Y-m-01"),0,1,[],3);
+        list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01"),0,1,[
+            1 => array("pf.create_time","录入时间"),
+        ],3);
 
-        $ret_info  = $this->t_product_feedback_list->get_product_list($deal_flag, $feedback_adminid, $start_time, $end_time);
+        $ret_list  = $this->t_product_feedback_list->get_product_list($deal_flag, $feedback_adminid, $start_time, $end_time, $page_num, $opt_date_type);
 
+        foreach($ret_list['list'] as &$item){
+            $item['stu_agent_simple'] = get_machine_info_from_user_agent($item["stu_agent"] );
+            $item['tea_agent_simple'] = get_machine_info_from_user_agent($item["tea_agent"] );
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
+            $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
+            $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
+        }
+
+        return $this->Pageview(__METHOD__,$ret_list,[]);
     }
 
 }

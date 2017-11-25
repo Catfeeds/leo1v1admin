@@ -1,6 +1,8 @@
 interface GargsStatic {
 	id_open_flag:	number;
 	id_can_disable_flag:	number;
+	id_discount_type:	number;
+	id_spec_need_flg:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -33,8 +35,10 @@ interface RowData {
 	max_count_activity_type_list	:any;
 	order_activity_discount_type	:any;
 	discount_json	:any;
+	need_spec_require_flag	:any;
 	period_flag_list_str	:any;
 	contract_type_list_str	:any;
+	need_spec_require_flag_str	:any;
 	can_disable_flag_str	:any;
 	open_flag_str	:any;
 	order_activity_discount_type_str	:any;
@@ -58,7 +62,9 @@ function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
 		id_open_flag:	$('#id_id_open_flag').val(),
-		id_can_disable_flag:	$('#id_id_can_disable_flag').val()
+		id_can_disable_flag:	$('#id_id_can_disable_flag').val(),
+		id_discount_type:	$('#id_id_discount_type').val(),
+		id_spec_need_flg:	$('#id_id_spec_need_flg').val()
     });
 }
 $(function(){
@@ -66,6 +72,8 @@ $(function(){
 
 	$('#id_id_open_flag').val(g_args.id_open_flag);
 	$('#id_id_can_disable_flag').val(g_args.id_can_disable_flag);
+	$('#id_id_discount_type').val(g_args.id_discount_type);
+	$('#id_id_spec_need_flg').val(g_args.id_spec_need_flg);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -87,6 +95,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">id_can_disable_flag</span>
                 <input class="opt-change form-control" id="id_id_can_disable_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_discount_type</span>
+                <input class="opt-change form-control" id="id_id_discount_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id_spec_need_flg</span>
+                <input class="opt-change form-control" id="id_id_spec_need_flg" />
             </div>
         </div>
 */

@@ -368,9 +368,7 @@
                         <td >分配主管/时间 </td>
                         <td >分配cc/时间 </td>
                         <td > 状态 </td>
-
                     @endif
-
                     <td style="min-width:130px" >操作</td>
                 </tr>
             </thead>

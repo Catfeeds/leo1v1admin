@@ -13,9 +13,19 @@ class seller_student2 extends Controller
     public function show_order_activity_info() {
         $open_flag   = $this->get_in_int_val('id_open_flag',-1);
         $can_disable_flag   = $this->get_in_int_val('id_can_disable_flag',-1);
+        $order_activity_discount_type   = $this->get_in_int_val('id_discount_type',-1);
+        $need_spec_require_flag   = $this->get_in_int_val('id_spec_need_flg',-1);
+
+        $where_arr = [
+            ["open_flag=%d" , $open_flag,-1 ],
+            ["can_disable_flag=%d",$can_disable_flag,-1 ],
+            ["order_activity_discount_type=%d",$order_activity_discount_type,-1 ],
+            ["need_spec_require_flag=%d",$need_spec_require_flag,-1 ],
+        ];
+
         $page_num        = $this->get_in_page_num();
  
-        $ret_list = $this->t_seller_student2->get_list($open_flag,$can_disable_flag,$page_num);
+        $ret_list = $this->t_seller_student2->get_list($where_arr,$page_num);
         
         $gradeArr = E\Egrade_only::$desc_map;
         if($ret_list['list']){
@@ -38,7 +48,7 @@ class seller_student2 extends Controller
                     $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
                 }
 
-
+                $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
                 $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
                 $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
@@ -123,9 +133,12 @@ class seller_student2 extends Controller
         $max_count = $this->get_in_int_val('max_count',20);
 
         $can_disable_flag = $this->get_in_int_val('can_disable_flag',1);
-        $open_flag = $this->get_in_int_val('open_flag',0);
+        $open_flag = $this->get_in_int_val('open_flag',2);
+        $need_spec_require_flag = $this->get_in_int_val('need_spec_require_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
-       
+        $power_value =  $this->get_in_int_val('power_value',100);
+
+
         $ret = $this->t_seller_student2->row_insert([
             "id"   => $id,
             "title"   => $title,
@@ -134,7 +147,9 @@ class seller_student2 extends Controller
             "grade_list"   => $grade_list,
             "can_disable_flag"   => $can_disable_flag,
             "open_flag"   => $open_flag,
+            "need_spec_require_flag"=>$need_spec_require_flag,
             "order_activity_discount_type"   => $order_activity_discount_type,
+            "power_value" => $power_value
         ]);
         if($ret){
             $result['status'] = 200;
@@ -178,7 +193,7 @@ class seller_student2 extends Controller
                 $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
             }
 
-
+            $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
             $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
             $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
             $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
@@ -415,11 +430,13 @@ class seller_student2 extends Controller
 
     public function update_order_activity_05(){
         $id = $this->get_in_int_val('id');
-        $can_disable_flag = $this->get_in_int_val('can_disable_flag',null);
-        $open_flag = $this->get_in_int_val('open_flag',null);
+        $can_disable_flag = $this->get_in_int_val('can_disable_flag',1);
+        $open_flag = $this->get_in_int_val('open_flag',2);
+        $need_spec_require_flag = $this->get_in_int_val('need_spec_require_flag',0);
         $updateArr = [
             'can_disable_flag' => $can_disable_flag,
             'open_flag' => $open_flag,
+            'need_spec_require_flag' => $need_spec_require_flag,
         ];
         if($this->t_seller_student2->field_update_list($id,$updateArr)){
             return $this->output_succ();

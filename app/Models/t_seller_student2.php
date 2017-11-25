@@ -7,13 +7,8 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
         parent::__construct();
     }
 
-    public function get_list($open_flag,$can_disable_flag,$page_num)
+    public function get_list($where_arr,$page_num)
     {
-        $where_arr = [
-            ["open_flag=%d" , $open_flag,-1 ],
-            ["can_disable_flag=%d",$can_disable_flag,-1 ],
-        ];
-
         $where_str=$this->where_str_gen( $where_arr);
         $sql = $this->gen_sql("select * from %s where  %s order by id desc ",
                               self::DB_TABLE_NAME,

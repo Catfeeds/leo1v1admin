@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TLessonInfoAddTeacherType extends Migration
+class TProductFeedbackListRename extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class TLessonInfoAddTeacherType extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
-        {
-            t_field($table->Integer("teacher_type"),"老师类型 具体见枚举类 teacher_type ");
+        Schema::table("db_weiyi.t_product_feedback_list", function(Blueprint $table) {
+            $table->dropColumn('describe');
+            t_field($table->string('describe_msg', 1024),"问题描述");
         });
+
     }
 
     /**
