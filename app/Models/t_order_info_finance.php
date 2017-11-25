@@ -204,6 +204,11 @@ class t_order_info_finance extends \App\Models\Zgen\z_t_order_info_finance
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
+    public function get_add_info(){
+        $sql = $this->gen_sql_new("select * from %s where parent_order_id=3000",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+
 
 
 }

@@ -73,7 +73,10 @@ class order_price_20171001 extends order_price_base
 
         $grade_price_config=static::$grade_price_config;
 
-        $grade_price = $grade_price_config[$check_grade];
+        $grade_price = @$grade_price_config[$check_grade];
+        if(!$grade_price ) { //年级有错
+            $grade_price = 10000;
+        }
         $off_config_id = static::$grade_price_off_config[$check_grade];
         \App\Helper\Utils::logger("off_config_id:$off_config_id");
         $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
@@ -120,7 +123,7 @@ class order_price_20171001 extends order_price_base
             //2017-1125 24-30  可叠加  CC 回流例子(11.10以前)  送课(88个)
             $do_activity_fun ( Activity\activity_2017112502::class  );
 
-            $do_activity_fun ( Activity\activity_2017112503::class  );
+            //$do_activity_fun ( Activity\activity_2017112503::class  );
 
             $do_activity_fun ( Activity\activity_2017112504::class  );
 
