@@ -713,7 +713,8 @@ trait TeaPower {
                 $teacher_subject["not_grade"]
             );
         }
-
+        
+        //$check_subject json/num
         if($check_subject != 1){
             return $check_subject;
         }
