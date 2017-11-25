@@ -992,12 +992,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr[]= $ret_in_str;
 
         $sql=$this->gen_sql_new(
-            "select cur_require_adminid as admin_revisiterid, count(*) as test_lesson_count, "
-            ." sum( test_lesson_fail_flag in (1,2,3) ) as fail_need_pay_count  "
-            .", sum( lesson_user_online_status =2 and  (f.flow_status is null  or f.flow_status <>2 ) ) fail_all_count "
-            .", sum( lesson_user_online_status in (0,1) or  f.flow_status = 2  ) succ_all_count "
-            .",sum(green_channel_teacherid>0) green_lesson_count"
-            .", sum(success_flag in (0,1) and green_channel_teacherid>0) succ_green_count "
+            "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
+            ."sum(lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count,"
+            ."sum(lesson_user_online_status =2 and (f.flow_status is null or f.flow_status <>2)) fail_all_count "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
@@ -1005,8 +1002,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s s  on l.userid=s.userid"
             ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
             ." where %s "
-            ." group by  cur_require_adminid "
-            ,
+            ." group by  cur_require_adminid ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -1014,7 +1010,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             $where_arr);
-
         return $this->main_get_list_as_page($sql);
     }
 
