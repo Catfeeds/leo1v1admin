@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddVotesToTAgentIncomeLog_2 extends Migration
+class TLessonInfoAddTeacherType extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class AddVotesToTAgentIncomeLog_2 extends Migration
      */
     public function up()
     {
-        Schema::table('t_agent_income_log', function (Blueprint $table) {
-            //
-            t_field($table->integer('agent_money_ex_id'),"优学优享活动id");
+        //
+        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
+        {
+            t_field($table->Integer("teacher_type"),"老师类型 具体见枚举类 teacher_type ");
         });
     }
 
@@ -25,8 +26,6 @@ class AddVotesToTAgentIncomeLog_2 extends Migration
      */
     public function down()
     {
-        Schema::table('t_agent_income_log', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

@@ -1135,7 +1135,7 @@ function show_ajax_table(options){
                     options.bind($id_body,dlg,result);
                 }
 
-                var page_html_node=get_page_node(ret_page_info,function(url){
+                var page_html_node = get_page_node(ret_page_info,function(url){
                     reload_data({
                         url :url
                     });

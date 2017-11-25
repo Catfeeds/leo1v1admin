@@ -8,8 +8,6 @@ use \App\Enums as E;
 class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ) {
         $where_arr=[
-            //"lesson_status=1" ,
-
             ["record_audio_server1='%s'", $record_audio_server1, "" ],
             ["xmpp_server_name='%s'", $xmpp_server_name, "" ],
         ];
@@ -1069,7 +1067,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start>%u",time(),0],
             "lesson_status=0",
             "lesson_type<1000",
-            "(l.teacher_money_type!=t.teacher_money_type or l.level!=t.level)",
+            "(l.teacher_money_type!=t.teacher_money_type or l.level!=t.level or l.teacher_type!=t.teacher_type)",
         ];
         $sql = $this->gen_sql_new("select l.lessonid,l.teacher_money_type as l_teacher_money_type,l.level as l_level,"
                                   ." t.teacher_money_type,t.level"
