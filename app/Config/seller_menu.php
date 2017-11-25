@@ -5,7 +5,7 @@ class seller_menu{
         return [
             ["power_id"=>45, "name"=>"TSR事业部门户", "list"=>[
                 ["power_id"=>11, "name"=>"排行榜",   "url"=>"/main_page/seller"],
-                ["power_id"=>44, "name"=>"tom拉数据",   "url"=>"/agent/check" ],
+                // ["power_id"=>44, "name"=>"tom拉数据",   "url"=>"/agent/check" ],
                 ["power_id"=>18, "name"=>"藏金阁签约排名",   "url"=>"/main_page/seller_gold_room" ],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>12, "name"=>"学员中心", "list"=>[
