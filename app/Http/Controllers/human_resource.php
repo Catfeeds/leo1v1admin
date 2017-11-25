@@ -1005,7 +1005,7 @@ class human_resource extends Controller
     public function get_free_teacherid_arr_new($free_time){
         $arr       = explode(",",$free_time);
         $free_start = strtotime($arr[0]);
-        $free_end = strtotime($arr[1]);
+        $free_end = strtotime(@$arr[1]);
 
         $teacherid_arr = $this->t_lesson_info->get_test_lesson_num_by_free_time_new($free_start,$free_end);
         return $teacherid_arr;
