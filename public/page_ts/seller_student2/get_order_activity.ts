@@ -285,7 +285,7 @@ $(function(){
         Enum_map.append_option_list("open_flag", id_open_flag,true);
 
         var id_need_spec_require_flag =$("<select/>");
-        Enum_map.append_option_list("need_spec_require", id_need_spec_require_flag,true);
+        Enum_map.append_option_list("boolean", id_need_spec_require_flag,true);
 
         id_can_disable_flag.val(opt_data.can_disable_flag);
         id_open_flag.val(opt_data.open_flag);

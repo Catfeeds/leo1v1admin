@@ -48,7 +48,7 @@ class seller_student2 extends Controller
                     $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
                 }
 
-                $item['need_spec_require_flag_str']   = E\Eneed_spec_require::get_desc($item['need_spec_require_flag']);
+                $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
                 $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
                 $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
@@ -192,7 +192,7 @@ class seller_student2 extends Controller
                 $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
             }
 
-            $item['need_spec_require_flag_str']   = E\Eneed_spec_require::get_desc($item['need_spec_require_flag']);
+            $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
             $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
             $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
             $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
