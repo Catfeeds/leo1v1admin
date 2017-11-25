@@ -361,20 +361,20 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>1000000 && $val["price"]<6685000){
+            if($val["price"]>1220000 && $val["price"]<4065000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
                 }
 
-                // $val["order_time"] = strtotime("+2 months",$val["order_time"]);
-                // $val["pay_time"] = strtotime("+2 months",$val["pay_time"]);
-                // if($val["app_time"]>0){
-                //     $val["app_time"] = strtotime("+2 months",$val["app_time"]);
-                // }
-                // $val["check_money_time"] = strtotime("+2 months",$val["check_money_time"]);
-                // $val["contract_starttime"] = strtotime("+2 months",$val["contract_starttime"]);
-                // $val["contract_endtime"] = strtotime("+2 months",$val["contract_endtime"]);
+                $val["order_time"] = strtotime("+2 months",$val["order_time"]);
+                $val["pay_time"] = strtotime("+2 months",$val["pay_time"]);
+                if($val["app_time"]>0){
+                    $val["app_time"] = strtotime("+2 months",$val["app_time"]);
+                }
+                $val["check_money_time"] = strtotime("+2 months",$val["check_money_time"]);
+                $val["contract_starttime"] = strtotime("+2 months",$val["contract_starttime"]);
+                $val["contract_endtime"] = strtotime("+2 months",$val["contract_endtime"]);
 
                 // $val["order_time"] = strtotime("+1 months",$val["order_time"]);
                 // $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
@@ -386,11 +386,11 @@ class test_jack  extends Controller
                 // $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
 
                 
-                // $val["parent_order_id"] = 3000;
-                // unset($val["orderid"]);
-                // $this->t_order_info_finance->row_insert($val);
+                $val["parent_order_id"] = 3000;
+                unset($val["orderid"]);
+                $this->t_order_info_finance->row_insert($val);
 
-                if(count($arr) >= 87){
+                if(count($arr) >= 90){
                     break;
                 }
  
