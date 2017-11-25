@@ -690,6 +690,7 @@ return array(
     'TUserInfoPasswdMd5Two' => $baseDir . '/database/migrations/2017_11_23_164411_t_user_info_passwd_md5_two.php',
     'TUserLog' => $baseDir . '/database/migrations/2017_10_24_132146_t_user_log.php',
     'TWebPageTraceLogAddShareWxFlag' => $baseDir . '/database/migrations/2017_11_25_174305_t_web_page_trace_log_add_share_wx_flag.php',
+    'TWebPageTraceLogAddWx' => $baseDir . '/database/migrations/2017_11_25_180044_t_web_page_trace_log_add_wx.php',
     'TWxGiveBookModifyColumon' => $baseDir . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
