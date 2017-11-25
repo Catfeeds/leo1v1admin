@@ -1768,6 +1768,7 @@ class user_manage_new extends Controller
         }
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
         $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new);
+        dd($test_leeson_list_new);
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
@@ -5148,6 +5149,15 @@ class user_manage_new extends Controller
             if ($num > 30) $reward = 60;
         }
         return $reward * 100;
+    }
+
+    public function product_info(){
+        $deal_flag = $this->get_in_int_val('deal_flag',-1);
+        $feedback_adminid = $this->get_in_int_val('feedback_adminid',-1);
+        list($start_time,$end_time)=$this->get_in_date_range(date("Y-m-01"),0,1,[],3);
+
+        $ret_info  = $this->t_product_feedback_list->get_product_list($deal_flag, $feedback_adminid, $start_time, $end_time);
+
     }
 
 }
