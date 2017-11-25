@@ -565,7 +565,10 @@ class agent extends Controller
             $item["textbook_str"] = trim($item["textbook_str"],",");
         }
         $ret_arr = array_unique(array_column($ret_info,'textbook_str'));
-        dd($ret_arr);
+        $ret = [];
+        foreach($ret_arr as $key=>$item){
+            $ret[$key]['textbook_str'] = $item;
+        }
         // dd($ret_arr);
         // $ret_info = $ret_arr;
         // dd($ret_info);
@@ -576,7 +579,7 @@ class agent extends Controller
         // foreach($ret_info['list'] as &$item){
         //     E\Eseller_level::set_item_value_str($item);
         // }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_arr));
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret));
     }
 
     //处理等级头像
