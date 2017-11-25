@@ -6,6 +6,7 @@ use \App\Enums as E;
  * @property   \App\Console\Tasks\TaskController $task
  */
 class activity_base {
+    static public $need_spec_require_flag= 0; 
     static public $class_map = [
         E\Eorder_activity_type::V_0           =>  activity_0::class,
         E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
@@ -36,6 +37,8 @@ class activity_base {
         E\Eorder_activity_type::V_2017111706  =>  activity_2017111706::class,
         E\Eorder_activity_type::V_2017112501  =>  activity_2017112501::class,
         E\Eorder_activity_type::V_2017112502  =>  activity_2017112502::class,
+        E\Eorder_activity_type::V_2017112503  =>  activity_2017112503::class,
+        E\Eorder_activity_type::V_2017112504  =>  activity_2017112504::class,
     ];
 
     /**
@@ -134,19 +137,22 @@ class activity_base {
         return $last_value;
     }
 
-    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0 ) {
+    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0   ) {
         \App\Helper\Utils::logger("  $desc ");
 
-        return [ "order_activity_type" => static::$order_activity_type ,
-                 "succ_flag"=> $succ_flag ,
-                 "activity_desc"=>$desc,
-                 "cur_price" => $cur_price  ,
-                 "cur_present_lesson_count" => $cur_present_lesson_count,
-                 "can_period_flag" => $can_period_flag,
-                 "change_value" => $change_value,
-                 "off_money" => $off_money,
+        return [
+            "order_activity_type"      => static::$order_activity_type ,
+            "succ_flag"                => $succ_flag ,
+            "activity_desc"            => $desc,
+            "cur_price"                => $cur_price  ,
+            "cur_present_lesson_count" => $cur_present_lesson_count,
+            "can_period_flag"          => $can_period_flag,
+            "change_value"             => $change_value,
+            "off_money"                => $off_money,
+            "need_spec_require_flag"   => $succ_flag==1? static::$need_spec_require_flag:0,
         ];
     }
+
 
 
     //需要实现

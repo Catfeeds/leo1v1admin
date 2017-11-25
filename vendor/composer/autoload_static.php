@@ -877,6 +877,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TNewTeaEntry' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_131431_t_new_tea_entry.php',
         'TOnlineCountXmppLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_184809_t_online_count_xmpp_log.php',
         'TOrderActivityAddOffMoney' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_194648_t_order_activity_add_off_money.php',
+        'TOrderActivityAddSpecRequireFlag' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_103530_t_order_activity_add_spec_require_flag.php',
         'TOrderActivityConfigChangeValue' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_0811_t_order_activity_config_change_value.php',
         'TOrderActivityInfoAddChangeValue' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_180834_t_order_activity_info_add_change_value.php',
         'TOrderActivityInfoCanPeriodFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_163754_t_order_activity_info_can_period_flag.php',

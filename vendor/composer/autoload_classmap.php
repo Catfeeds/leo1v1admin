@@ -606,6 +606,7 @@ return array(
     'TNewTeaEntry' => $baseDir . '/database/migrations/2017_10_20_131431_t_new_tea_entry.php',
     'TOnlineCountXmppLog' => $baseDir . '/database/migrations/2017_10_19_184809_t_online_count_xmpp_log.php',
     'TOrderActivityAddOffMoney' => $baseDir . '/database/migrations/2017_11_24_194648_t_order_activity_add_off_money.php',
+    'TOrderActivityAddSpecRequireFlag' => $baseDir . '/database/migrations/2017_11_25_103530_t_order_activity_add_spec_require_flag.php',
     'TOrderActivityConfigChangeValue' => $baseDir . '/database/migrations/2017_11_24_0811_t_order_activity_config_change_value.php',
     'TOrderActivityInfoAddChangeValue' => $baseDir . '/database/migrations/2017_11_18_180834_t_order_activity_info_add_change_value.php',
     'TOrderActivityInfoCanPeriodFlag' => $baseDir . '/database/migrations/2017_10_27_163754_t_order_activity_info_can_period_flag.php',

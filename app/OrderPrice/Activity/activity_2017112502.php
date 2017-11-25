@@ -5,6 +5,8 @@ class activity_2017112502  extends  activity_config_base {
 
     public static $order_activity_type= E\Eorder_activity_type::V_2017112502;
 
+    public static $need_spec_require_flag = 0;
+
     public function __construct(  $args   ) {
         parent::__construct($args);
         //$this->open_flag=false;
@@ -18,7 +20,7 @@ class activity_2017112502  extends  activity_config_base {
         $this->lesson_times_present_lesson_count = [
             60  => 4,
             90  => 6,
-            120  => 8,
+            120 => 8,
         ];
     }
 }
