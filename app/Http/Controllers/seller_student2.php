@@ -149,6 +149,7 @@ class seller_student2 extends Controller
             "open_flag"   => $open_flag,
             "need_spec_require_flag"=>$need_spec_require_flag,
             "order_activity_discount_type"   => $order_activity_discount_type,
+            "power_value" => $power_value
         ]);
         if($ret){
             $result['status'] = 200;
