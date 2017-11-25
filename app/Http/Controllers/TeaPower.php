@@ -4116,13 +4116,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_money_type = $teacher_info['teacher_money_type'];
         $teacher_ref_type   = $teacher_info['teacher_ref_type'];
         $teacher_type       = $teacher_info['teacher_type'];
-        //检测老师是否需要被渠道抽成
-        $check_flag = $this->t_teacher_lecture_appointment_info->check_tea_ref($teacherid,$teacher_ref_type);
-        if($check_flag){
-            $teacher_ref_rate = $this->get_teacher_ref_rate(
-                $start_time,$teacher_ref_type,$teacher_money_type
-            );
-        }
 
         $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
@@ -4168,9 +4161,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$i]['lesson_reward_small_class'] = $reward_list[E\Ereward_type::V_9]['money'];
             //公开课工资
             $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
-
-            $list[$i]["lesson_ref_money"]  = "0";
-            $list[$i]["teacher_ref_money"] = "0";
 
             //拉取上个月的课时信息
             $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
@@ -4242,12 +4232,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                          +$item['lesson_reward_small_class']
                                          +$item['lesson_reward_open_class'];
 
-            //计算平台合作的抽成费用
-            if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
-                $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
-                $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
-                $item['teacher_ref_rate']  = $teacher_ref_rate;
-            }
             if($item['lesson_price']>0){
                 $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                 $item['lesson_price'] -= $item['lesson_cost_tax'];

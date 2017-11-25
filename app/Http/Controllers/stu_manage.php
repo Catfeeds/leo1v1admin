@@ -167,7 +167,7 @@ class stu_manage extends Controller
         $courseid=$this->get_in_courseid($courseid);
         $ret_info= $this->t_lesson_info->get_lessons_available($this->sid,$courseid,$all_flag, 1, 100000);
         foreach ($ret_info["list"] as &$item ) {
-            $item["teacher_nick"] = $this->cache_get_teacher_nick($item["teacherid"]);
+            // $item["teacher_nick"] = $this->cache_get_teacher_nick($item["teacherid"]);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start", "_str" );
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end", "_str");
             E\Elesson_status::set_item_value_str($item);
