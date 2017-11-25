@@ -852,6 +852,35 @@ class ss_deal2 extends Controller
 
     }
 
+    public function add_product_info(){
+        $feedback_adminid = $this->get_in_int_val('feedback_id');
+        $describe   = $this->get_in_str_val('describe');
+        $lesson_url = $this->get_in_str_val('lesson_url');
+        $reason     = $this->get_in_str_val('reason');
+        $solution   = $this->get_in_str_val('solution');
+        $student_id = $this->get_in_str_val('student_id');
+        $teacher_id = $this->get_in_str_val('teacher_id');
+        $deal_flag  = $this->get_in_int_val('deal_flag');
+        $remark     = $this->get_in_str_val('remark');
+        $record_adminid = $this->get_account_id();
+
+        $ret = $this->t_product_feedback_list->row_insert([
+            "feedback_adminid" => $feedback_adminid,
+            "record_adminid"   => $record_adminid,
+            "describe"     => $describe,
+            "lesson_url"   => $lesson_url,
+            "reason"       => $reason,
+            "solution"     => $solution,
+            "student_id"   => $student_id,
+            "teacher_id"   => $teacher_id,
+            "deal_flag"    => $deal_flag,
+            "remark"       => $remark,
+            "create_time"  => time()
+        ]);
+
+        return $this->output_succ();
+    }
+
 
 
 }

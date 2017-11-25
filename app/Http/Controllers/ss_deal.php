@@ -2719,8 +2719,6 @@ class ss_deal extends Controller
                 $data['keyword2'] = $lesson_time;
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data); //正式
-
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2757,7 +2755,6 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2795,7 +2792,6 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
         return $this->output_succ();

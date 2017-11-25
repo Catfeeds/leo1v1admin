@@ -40,9 +40,9 @@ $(function(){
     $('#id_check_money_flag').val(g_args.check_money_flag);
     $('#id_assistantid').val(g_args.assistantid);
     $('#id_contract_type').val(g_args.contract_type);
-	$('#id_check_money_flag').val(g_args.check_money_flag);
-	$('#id_have_init').val(g_args.have_init);
-	$('#id_have_master').val(g_args.have_master);
+	  $('#id_check_money_flag').val(g_args.check_money_flag);
+	  $('#id_have_init').val(g_args.have_init);
+	  $('#id_have_master').val(g_args.have_master);
 
 
     $.admin_select_user($("#id_studentid"),"student", load_data);
