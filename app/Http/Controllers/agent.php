@@ -550,6 +550,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid=487);
+        dd($p_pp_adminid);
         $page_info = $this->get_in_page_info();
         $grade = $this->get_in_int_val("grade",-1);
         $subject = $this->get_in_int_val("subject",-1);
@@ -564,22 +566,24 @@ class agent extends Controller
             }
             $item["textbook_str"] = trim($item["textbook_str"],",");
         }
-        $ret_arr = array_unique(array_column($ret_info,'textbook_str'));
-        $ret = [];
-        foreach($ret_arr as $key=>$item){
-            $ret[$key]['textbook_str'] = $item;
+        $ret_arr = array_unique(array_column($ret_info,'teacher_textbook'));
+        $textid_arr = [];
+        foreach($ret_arr as $item){
+            $arr= explode(",",$item);
+            if(count($arr)>1){
+                foreach($arr as $info){
+                    $textid_arr[] = $info;
+                }
+            }else{
+                $textid_arr[] = $item;
+            }
         }
-        // dd($ret_arr);
-        // $ret_info = $ret_arr;
-        // dd($ret_info);
-        // dd($ret_arr);
-        //查看下级
-        // $page_info = $this->get_in_page_info();
-        // $ret_info = $this->t_seller_student_new->get_item_list($page_info);
-        // foreach($ret_info['list'] as &$item){
-        //     E\Eseller_level::set_item_value_str($item);
-        // }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret));
+        $textid_arr = array_unique($textid_arr);
+        $list = [];
+        foreach($textid_arr as $key=>$item){
+            $list[$key]['textbook_str'] = E\Eregion_version::get_desc($item);
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 
     //处理等级头像
