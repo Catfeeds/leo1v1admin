@@ -37,6 +37,8 @@ class seller_student2 extends Controller
                         $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
                     }
                     $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+                }else{
+                    $item['period_flag_list_str'] = E\Eperiod_flag::get_desc($item['period_flag_list']);
                 }
 
                 $item['contract_type_list_str'] = '';
@@ -46,6 +48,8 @@ class seller_student2 extends Controller
                         $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
                     }
                     $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+                }else{
+                    $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']); 
                 }
 
                 $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
@@ -182,6 +186,8 @@ class seller_student2 extends Controller
                     $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
                 }
                 $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+            }else{
+                $item['period_flag_list_str'] = E\Eperiod_flag::get_desc($item['period_flag_list']);
             }
 
             $item['contract_type_list_str'] = '';
@@ -191,6 +197,8 @@ class seller_student2 extends Controller
                     $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
                 }
                 $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+            }else{
+                $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
             }
 
             $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
