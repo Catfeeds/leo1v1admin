@@ -5,41 +5,7 @@ use \App\Enums as E;
 /**
  * @property   \App\Console\Tasks\TaskController $task
  */
-class activity_base {
-    static public $need_spec_require_flag= 0; 
-    static public $class_map = [
-        E\Eorder_activity_type::V_0           =>  activity_0::class,
-        E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
-        E\Eorder_activity_type::V_2017090101  =>  activity_2017090101::class,
-        E\Eorder_activity_type::V_2017100701  =>  activity_2017100701::class,
-        E\Eorder_activity_type::V_2017102701  =>  activity_2017102701::class,
-        E\Eorder_activity_type::V_2017102702  =>  activity_2017102702::class,
-        E\Eorder_activity_type::V_2017110301  =>  activity_2017110301::class,
-        E\Eorder_activity_type::V_2017110401  =>  activity_2017110401::class,
-        E\Eorder_activity_type::V_2017110801  =>  activity_2017110801::class,
-        E\Eorder_activity_type::V_2017110802  =>  activity_2017110802::class,
-        E\Eorder_activity_type::V_2017110803  =>  activity_2017110803::class,
-
-        E\Eorder_activity_type::V_2017110901  =>  activity_2017110901::class,
-        E\Eorder_activity_type::V_2017111001  =>  activity_2017111001::class,
-        E\Eorder_activity_type::V_2017111002  =>  activity_2017111002::class,
-        E\Eorder_activity_type::V_2017111003  =>  activity_2017111003::class,
-
-        E\Eorder_activity_type::V_2017111101  =>  activity_2017111101::class,
-        E\Eorder_activity_type::V_2017111102  =>  activity_2017111102::class,
-        E\Eorder_activity_type::V_2017111201  =>  activity_2017111201::class,
-        E\Eorder_activity_type::V_2017111301  =>  activity_2017111301::class,
-        E\Eorder_activity_type::V_2017111701  =>  activity_2017111701::class,
-        E\Eorder_activity_type::V_2017111702  =>  activity_2017111702::class,
-        E\Eorder_activity_type::V_2017111703  =>  activity_2017111703::class,
-        E\Eorder_activity_type::V_2017111704  =>  activity_2017111704::class,
-        E\Eorder_activity_type::V_2017111705  =>  activity_2017111705::class,
-        E\Eorder_activity_type::V_2017111706  =>  activity_2017111706::class,
-        E\Eorder_activity_type::V_2017112501  =>  activity_2017112501::class,
-        E\Eorder_activity_type::V_2017112502  =>  activity_2017112502::class,
-        E\Eorder_activity_type::V_2017112503  =>  activity_2017112503::class,
-        E\Eorder_activity_type::V_2017112504  =>  activity_2017112504::class,
-    ];
+class activity_new_base {
 
     /**
      * 购买课程次数
@@ -72,7 +38,7 @@ class activity_base {
         }
     }
 
-    static function check_use_count($max_count ) {
+    function check_use_count($max_count ) {
         $task= self::get_task_controler();
         $order_activity_type=static::$max_count_activity_type_list;
         $order_activity_type[]=static::$order_activity_type;
@@ -137,19 +103,17 @@ class activity_base {
         return $last_value;
     }
 
-    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0   ) {
+    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0 ) {
         \App\Helper\Utils::logger("  $desc ");
 
-        return [
-            "order_activity_type"      => static::$order_activity_type ,
-            "succ_flag"                => $succ_flag ,
-            "activity_desc"            => $desc,
-            "cur_price"                => $cur_price  ,
-            "cur_present_lesson_count" => $cur_present_lesson_count,
-            "can_period_flag"          => $can_period_flag,
-            "change_value"             => $change_value,
-            "off_money"                => $off_money,
-            "need_spec_require_flag"   => $succ_flag==1? static::$need_spec_require_flag:0,
+        return [ "order_activity_type" => static::$order_activity_type ,
+                 "succ_flag"=> $succ_flag ,
+                 "activity_desc"=>$desc,
+                 "cur_price" => $cur_price  ,
+                 "cur_present_lesson_count" => $cur_present_lesson_count,
+                 "can_period_flag" => $can_period_flag,
+                 "change_value" => $change_value,
+                 "off_money" => $off_money,
         ];
     }
 

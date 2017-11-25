@@ -120,6 +120,11 @@ class order_price_20171001 extends order_price_base
             //2017-1125 24-30  可叠加  CC 回流例子(11.10以前)  送课(88个)
             $do_activity_fun ( Activity\activity_2017112502::class  );
 
+            $do_activity_fun ( Activity\activity_2017112503::class  );
+
+            $do_activity_fun ( Activity\activity_2017112504::class  );
+
+
 
             //优惠券 cc
             $do_activity_fun ( Activity\activity_2017110802::class  );
