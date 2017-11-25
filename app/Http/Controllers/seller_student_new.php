@@ -365,11 +365,8 @@ class seller_student_new extends Controller
             $group_type = count($require_adminid_arr)>1?1:0;
             $intersect = array_intersect($require_adminid_list_new,$require_adminid_arr);
             if(count($intersect)>0){
-                // $require_adminid_list_new = $intersect;
-                $admin_revisiterid = $require_adminid_list_new[0];
-                if($admin_revisiterid != $this->get_account_id()){
-                    $show_son_flag = true;
-                }
+                $show_son_flag = true;
+                $require_adminid_list_new = $intersect;
             }
         }
 
@@ -380,7 +377,7 @@ class seller_student_new extends Controller
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
             $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,
-            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag) ;
+            $current_require_id_flag,$favorite_flag ,$global_tq_called_flag,$show_son_flag,$require_adminid_list_new) ;
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;

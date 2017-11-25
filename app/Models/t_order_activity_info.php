@@ -10,15 +10,17 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
     public function add_order_info( $orderid, $activity_list) {
         foreach($activity_list as $i=> $item ) {
             $this->row_insert([
-                "orderid" =>$orderid,
-                "subid" => $i,
-                "order_activity_type" => $item["order_activity_type"  ],
-                "activity_desc"  =>$item["activity_desc"],
-                "succ_flag"  =>$item["succ_flag"],
-                "cur_price" => $item["cur_price"  ],
+                "orderid"                  => $orderid,
+                "subid"                    => $i,
+                "order_activity_type"      => $item["order_activity_type"  ],
+                "activity_desc"            => $item["activity_desc"],
+                "succ_flag"                => $item["succ_flag"],
+                "cur_price"                => $item["cur_price"  ],
                 "cur_present_lesson_count" => $item["cur_present_lesson_count"  ],
-                "can_period_flag" => $item["can_period_flag"  ],
-                "change_value" => $item["change_value"  ],
+                "can_period_flag"          => $item["can_period_flag"  ],
+                "change_value"             => $item["change_value"  ],
+                "off_money"                => $item["off_money"  ],
+                "need_spec_require_flag"   => $item["need_spec_require_flag"],
             ]);
 
         }

@@ -134,7 +134,6 @@ class menu{
             ]],
             ["power_id"=>2, "name"=>"课程管理", "list"=> [
                 ["power_id"=>1, "name"=>"课程管理",   "url"=>"/tea_manage/lesson_list"],
-                ["power_id"=>12, "name"=>"error 课程视频",   "url"=>"/user_manage_new/get_error_record_lesson_list"],
                 ["power_id"=>11, "name"=>"课程列表", "list"=> [
                     ["power_id"=>1, "name"=>"老师-课程列表",   "url"=>"/tea_manage/tea_lesson_list"],
                 ]],
@@ -149,7 +148,6 @@ class menu{
                 ]],
                 ["power_id"=>14, "name"=>"培训课堂",   "url"=>"/tea_manage/train_lesson_list"],
                 ["power_id"=>15, "name"=>"培训未通过",   "url"=>"/tea_manage/train_not_through_list"],
-                ["power_id"=>8, "name"=>"课程错误报告",  "url"=>"/lesson_manage/error_info"],
                 ["power_id"=>9, "name"=>"课程统计信息",   "url"=>"/tea_manage/lesson_account"],
                 ["power_id"=>10, "name"=>"登陆过多统计",   "url"=>"/lesson_manage/stu_login_count"]
             ]],
@@ -410,13 +408,6 @@ class menu{
                     ["power_id"=>2, "name"=>"兑换管理",   "url"=>"/present/index"],
                     ["power_id"=>3, "name"=>"兑换管理-new",   "url"=>"/user_manage_new/commodity_exchange_management"],
                 ]],
-                // ["power_id"=>2, "name"=>"家长端", "list"=>[
-                //     ["power_id"=>1, "name"=>"查分数线",   "url"=>"/school_info/search_scores"],
-                //     ["power_id"=>2, "name"=>"找卷子",   "url"=>"/school_info/search_paper"],
-                //     ["power_id"=>3, "name"=>"查学校",   "url"=>"/school_info/search_school"],
-                //     ["power_id"=>4, "name"=>"政策百科",   "url"=>"/news_info/news_ency_info"],
-                //     ["power_id"=>5, "name"=>"升学头条",   "url"=>"/news_info/news_headlines_info"],
-                // ]],
                 ["power_id"=>3, "name"=>"消息记录", "list"=>[
                     ["power_id"=>1, "name"=>"api 实时调用消息",   "url"=>"/monitor/api_func"],
                     ["power_id"=>2, "name"=>"微信推送",   "url"=>"/monitor/wxMonitor"],
@@ -426,16 +417,14 @@ class menu{
                     ["power_id"=>5, "name"=>"消息统计",   "url"=>"/monitor/aggregate"],
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
-                // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
-
-                // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
-                // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
+                ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
             ]],
+
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
                 ["power_id"=>10, "name"=>"排行榜数据",   "url"=>"/tongji_ex/top_list"],
@@ -540,6 +529,7 @@ class menu{
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
                 ["power_id"=>60, "name"=>"排行榜",   "url"=>"/main_page/seller" ],
+                // ["power_id"=>44, "name"=>"tom拉数据",   "url"=>"/agent/check" ],
                 ["power_id"=>61, "name"=>"藏金阁签约排名",   "url"=>"/main_page/seller_gold_room" ],
                 ["power_id"=>62, "name"=>"转化率统计总表",   "url"=>"/seller_student_new2/tongji_sign_rate" ],
                 ["power_id"=>49, "name"=>"测试课堂列表",   "url"=>"/test_lesson_opt/test_opt_list"],
@@ -889,6 +879,7 @@ class menu{
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
+                ["power_id"=>81, "name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
                 ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
                 ["power_id"=>20, "name"=>"全职老师转化折线",   "url"=>"/human_resource/get_broken_line_order_rate"],

@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 // require_once (app_path("Libs/qiniu-7/src/Qiniu/functions.php"));
 
-
 class teacher_info_new extends Controller
 {
     use CacheNick;

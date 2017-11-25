@@ -4,6 +4,7 @@ use \App\Enums as E;
 class activity_config_base extends  activity_base {
     public static $order_activity_type = 0;
 
+    public $open_flag=true;
     // 活动开始时间, 结束时间
     public $date_range=[];
 
@@ -54,8 +55,11 @@ class activity_config_base extends  activity_base {
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
-        //开启检查
+        if (!$this->open_flag ) {
+            return false;
+        }
 
+        //手动开启检查
         if ($this->can_disable_flag ) {
             if ( in_array( static::$order_activity_type ,$this->args["disable_activity_list"] ) ) {
 
@@ -162,7 +166,8 @@ class activity_config_base extends  activity_base {
                 list( $check_ok_flag,$now_all_change_value, $activity_desc_cur_count )= $this->check_max_change_value($this->max_change_value, $present_lesson_count_1);
                 if ( $check_ok_flag ) {
                     $present_lesson_count += $present_lesson_count_1 *3;
-                    $desc_list[] = static::gen_activity_item(1, "  $activity_desc 购满 $find_free_lesson_level 次课 送 $present_lesson_count_1 次课  $activity_desc_cur_count "   , $price,  $present_lesson_count, $can_period_flag, $present_lesson_count_1 );
+                    $off_money=  $present_lesson_count_1 * $this->grade_price *0.6;
+                    $desc_list[] = static::gen_activity_item(1, "  $activity_desc 购满 $find_free_lesson_level 次课 送 $present_lesson_count_1 次课  $activity_desc_cur_count "   , $price,  $present_lesson_count, $can_period_flag, $present_lesson_count_1 , $off_money );
                     return true;
                 }else{
                     $desc_list[]=static::gen_activity_item(0, " $activity_desc   购满 $find_free_lesson_level 次课 送 $present_lesson_count_1 次课  $activity_desc_cur_count 配额不足  ", $price,  $present_lesson_count,$can_period_flag );
@@ -181,7 +186,7 @@ class activity_config_base extends  activity_base {
                 $this->price_off_money_list,  $price , [0,0] );
             if ( $off_money) {
                 $price-=$off_money;
-                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_money_level 元 立减 $off_money 元 "   , $price,  $present_lesson_count, $can_period_flag, $off_money );
+                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_money_level 元 立减 $off_money 元 "   , $price,  $present_lesson_count, $can_period_flag, $off_money, $off_money ,$off_money );
                 return true;
             }else{
                 $desc_list[]=static::gen_activity_item(0, " $activity_desc 购买 $price 未匹配", $price,  $present_lesson_count,$can_period_flag );
@@ -197,7 +202,7 @@ class activity_config_base extends  activity_base {
                 $tmp_price=  intval($price* $off_percent /100) ;
                 $diff_money= $price- $tmp_price;
                 $price= $tmp_price;
-                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_lesson_times_level 次课 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag , $diff_money );
+                $desc_list[] = static::gen_activity_item(1, " $activity_desc 购满 $find_lesson_times_level 次课 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag , $diff_money,$diff_money );
                 return true;
             }else{
                 $desc_list[]=static::gen_activity_item(0, " $activity_desc {$this->lesson_times}次课 未匹配", $price,  $present_lesson_count,$can_period_flag );
