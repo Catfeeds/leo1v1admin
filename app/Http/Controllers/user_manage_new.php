@@ -1755,12 +1755,12 @@ class user_manage_new extends Controller
 
         // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
-        dd($test_leeson_list);
+        // dd($test_leeson_list);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
         //试听成功数
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
