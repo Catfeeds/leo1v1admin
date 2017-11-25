@@ -342,29 +342,29 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
         $contract_type = $this->get_in_int_val("contract_type",0);
         $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
-        // $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
-        $arr=[];
-        $money=0;
-        foreach($order_info as $val){
-            if($val["price"]>1500000 && $val["price"]<2300000){
-                $money +=$val["price"];
-                if(!isset($arr[$val["userid"]])){
-                    $arr[$val["userid"]]=$val["userid"];
-                }
+        $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
+        // $arr=[];
+        // $money=0;
+        // foreach($order_info as $val){
+        //     if($val["price"]>1500000 && $val["price"]<2300000){
+        //         $money +=$val["price"];
+        //         if(!isset($arr[$val["userid"]])){
+        //             $arr[$val["userid"]]=$val["userid"];
+        //         }
 
-                if(count($arr) >= 56){
-                    break;
-                }
+        //         if(count($arr) >= 56){
+        //             break;
+        //         }
  
-            }
-        }
-
+        //     }
+        // }
+        dd([$order_info,$order_info_t]);
         dd([$arr,$money]);
-        // $time = time()-7*86400;
+        $time = time()-7*86400;
         dd(date("w",time()));
         $day_time = strtotime("2017-10-09");
         $check_holiday = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday(231463,$day_time);
