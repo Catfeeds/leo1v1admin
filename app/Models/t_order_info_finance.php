@@ -37,7 +37,7 @@ class t_order_info_finance extends \App\Models\Zgen\z_t_order_info_finance
             "o.contract_status>0",
             " o.check_money_flag =1"
         ];
-        $sql = $this->gen_sql_new("select count(o.userid) num,sum(o.price) money  "
+        $sql = $this->gen_sql_new("select count(distinct o.userid) num,sum(o.price) money  "
                                   ." from %s o left join %s s on o.userid = s.userid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
