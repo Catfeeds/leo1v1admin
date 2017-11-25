@@ -4,7 +4,7 @@
 $(function(){
     Enum_map.append_option_list("open_flag", $("#id_open_flag"));
     Enum_map.append_option_list("can_disable_flag", $("#id_can_disable_flag"));
-    Enum_map.append_option_list("need_spec_require", $("#id_spec_need_flg"));
+    Enum_map.append_option_list("boolean", $("#id_spec_need_flg"));
     Enum_map.append_option_list("order_activity_discount_type", $("#id_discount_type"));
 
     $("#id_open_flag").val(g_args.id_open_flag);

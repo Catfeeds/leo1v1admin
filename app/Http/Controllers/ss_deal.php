@@ -66,8 +66,9 @@ class ss_deal extends Controller
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
         $origin_userid = $this->get_in_int_val("origin_userid", 1);
+        $account = $this->get_account();
 
-        if (strlen($phone )!=11) {
+        if (strlen($phone )!=11 && $account!="adrian") {
             return $this->output_err("电话号码长度不对");
         }
 
@@ -2718,8 +2719,6 @@ class ss_deal extends Controller
                 $data['keyword2'] = $lesson_time;
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data); //正式
-
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2756,7 +2755,6 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
 
@@ -2794,7 +2792,6 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
             }
         }
         return $this->output_succ();
