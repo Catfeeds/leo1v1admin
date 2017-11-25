@@ -364,7 +364,7 @@ class test_jack  extends Controller
         // }
         dd([$order_info,$order_info_t]);
         dd([$arr,$money]);
-        $time = time()-7*86400;
+        // $time = time()-7*86400;
         dd(date("w",time()));
         $day_time = strtotime("2017-10-09");
         $check_holiday = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday(231463,$day_time);
