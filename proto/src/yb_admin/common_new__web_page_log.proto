@@ -8,6 +8,7 @@ syntax = "proto3";
 message in  {
   uint32 web_page_id =1; // 文章id 
   uint32 from_adminid =2; //  来自谁的转发
+  uint32 share_wx_flag =3; //  是否是分享微信 
 }
 
 message out {
