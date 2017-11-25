@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config;
+use Illuminate\Support\Facades\Hash;
 
 include(app_path("Wx/Yxyx/lanewechat_yxyx.php"));
 
@@ -1152,4 +1153,17 @@ class test_boby extends Controller
 
     }
 
+
+    public function test_md5(){
+        return $this->pageView( __METHOD__,[]);
+    }
+
+    public function hash_check(){
+
+        $str1 = $this->get_in_str_val('str1');
+        $str2 = $this->get_in_str_val('str2');
+        $ret = Hash::check($str1, $str2);
+        dd($ret);
+
+    }
 }
