@@ -279,6 +279,49 @@ class teacher_money extends Controller
         ]);
     }
 
+    public function get_teacher_total_money_list(){
+        $type       = $this->get_in_str_val("type","wx");
+        $show_type  = $this->get_in_str_val("show_type","current");
+        $teacherid  = $this->get_in_int_val("teacherid");
+
+        if(!$teacherid){
+            return $this->output_err("老师id错误!");
+        }
+
+        $this->t_lesson_info->switch_tongji_database();
+        if($type=="wx"){
+            $start_time = $this->t_lesson_info->get_first_lesson_start($teacherid);
+            $node_time  = strtotime("2016-12-1");
+            if($start_time<$node_time){
+                $start_time = $node_time;
+            }
+            $now_time = strtotime("+1 month",strtotime(date("Y-m-01",time())));
+        }elseif($type=="admin"){
+            $start_time   = strtotime($this->get_in_str_val("start_time",date("Y-m-d",time())));
+            $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
+            $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+            $check_flag   = $this->check_full_time_teacher($teacherid,$teacher_type);
+            if($check_flag){
+                $now_time   = $start_time;
+                $start_time = strtotime("-1 month",$start_time);
+            }
+
+            if($start_time=='' || $now_time==''){
+                return $this->output_err("时间错误!");
+            }
+        }else{
+            return $this->output_err("参数错误!");
+        }
+
+        $teacher_info = $this->get_teacher_info_for_total_money($teacherid);
+        $list = $this->get_teacher_lesson_money_list($teacherid,$start_time,$now_time,$show_type);
+
+        return $this->output_succ([
+            "teacher_info" => $teacher_info,
+            "data"         => $list,
+        ]);
+    }
+
     /**
      * 老师荣誉榜 每周二结算
      * 通过命令 Command:SetTeacherMoney --type=1 执行

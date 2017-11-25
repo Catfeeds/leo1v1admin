@@ -99,7 +99,7 @@ class seller_student2 extends Controller
         }
         return $this->pageView(__METHOD__,$ret_list,
            [
-             "_publish_version"      => "201711251212",
+             "_publish_version"      => "201711251255",
              "gradeArr" => $gradeArr,
            ]
         );
@@ -107,7 +107,6 @@ class seller_student2 extends Controller
 
     public function add_order_activity(){
         $title = $this->get_in_str_val('title');
-
         $id = $this->get_in_int_val('id');
         if(empty($id)){
             $id = date('Ymd',strtotime('now')).rand(1,99);
@@ -115,7 +114,7 @@ class seller_student2 extends Controller
             $item = $this->t_seller_student2->get_by_id($id);
             if($item){
                 $result['status'] = 500;
-                $result['info'] = "活动id:".$id."已经存在，请换个id输入！";
+                $result['msg'] = "活动id:".$id."已经存在，请换个id输入！";
                 return $this->output_succ($result); 
             }
         }
@@ -129,7 +128,7 @@ class seller_student2 extends Controller
         $open_flag = $this->get_in_int_val('open_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
        
-        return $this->t_seller_student2->row_insert([
+        $ret = $this->t_seller_student2->row_insert([
             "id"   => $id,
             "title"   => $title,
             "period_flag_list"   => $period_flag_list,
@@ -139,6 +138,16 @@ class seller_student2 extends Controller
             "open_flag"   => $open_flag,
             "order_activity_discount_type"   => $order_activity_discount_type,
         ]);
+        if($ret){
+            $result['status'] = 200;
+            $result['msg'] = "插入成功";
+            return $this->output_succ($result); 
+        }else{
+            $result['status'] = 500;
+            $result['msg_get_queue($key, $perms)'] = "插入失败！";
+            return $this->output_succ($result); 
+
+        }
     }
 
     public function dele_order_activity(){
@@ -260,7 +269,6 @@ class seller_student2 extends Controller
         $result['status'] = 200;
         $result['data'] = $info;
         // \App\Helper\Utils::logger("返回结果: ".json_encode($result));
-        \App\Helper\Utils::logger("返回结果: ".json_encode($this->output_succ($result)));
 
         return $this->output_succ($result);
     }
