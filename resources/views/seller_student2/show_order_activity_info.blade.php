@@ -3,18 +3,27 @@
     <section class="content">
     <div class="row">
         
-        <div class="col-xs-2 col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon">合同类型</span>
-                <select class="opt-change form-control" id="id_contract_type">
-                </select>
-            </div>
-        </div>      
+        <!-- <div class="col-xs-2 col-md-2">
+             <div class="input-group">
+             <span class="input-group-addon">合同类型</span>
+             <select class="opt-change form-control" id="id_contract_type">
+             </select>
+             </div>
+             </div>      
+
+             <div class="col-xs-2 col-md-2">
+             <div class="input-group">
+             <span class="input-group-addon">是否分期</span>
+             <select class="opt-change form-control" id="id_period_flag">
+             </select>
+             </div>
+             </div>
+        -->
 
         <div class="col-xs-2 col-md-2">
             <div class="input-group">
-                <span class="input-group-addon">是否分期</span>
-                <select class="opt-change form-control" id="id_period_flag">
+                <span class="input-group-addon">是否开启</span>
+                <select class="opt-change form-control" id="id_open_flag">
                 </select>
             </div>
         </div>
@@ -27,13 +36,6 @@
             </div>
         </div>
 
-        <div class="col-xs-2 col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon">是否开启活动</span>
-                <select class="opt-change form-control" id="id_open_flag">
-                </select>
-            </div>
-        </div>
 
         <div class="col-xs-2 col-md-2">
             <div class="input-group">
