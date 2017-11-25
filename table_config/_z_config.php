@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_resource","resource_id"],
     ["db_weiyi","t_market_department_activity","lid"],
     ["db_weiyi","t_agent_daily_lottery","lid"],
     ["db_weiyi","t_agent_income_log","logid"],
