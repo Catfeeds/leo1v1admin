@@ -267,14 +267,17 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
     public function get_group_master_adminid($adminid){
         $sql = $this->gen_sql_new(" select u.adminid, "
                                   ." g.master_adminid group_adminid, "
-                                  ." am.master_adminid master_adminid "
+                                  ." am.master_adminid master_adminid, "
+                                  ." gm.master_adminid major_master_adminid "
                                   ." from %s u "
                                   ." left join %s g on u.groupid = g.groupid"
                                   ." left join %s am on g.up_groupid = am.groupid"
+                                  ." left join %s gm on gm.groupid = am.up_groupid"
                                   ." where u.adminid = %u",
                                   self::DB_TABLE_NAME,//u
                                   t_admin_group_name::DB_TABLE_NAME,//g
                                   t_admin_main_group_name::DB_TABLE_NAME,//am
+                                  t_main_major_group_name_month::DB_TABLE_NAME,//gm
                                   $adminid
         );
         return $this->main_get_row($sql);
