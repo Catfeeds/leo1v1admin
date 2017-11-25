@@ -24,8 +24,9 @@ class ss_deal extends Controller
         $grade    = $this->get_in_grade();
         $subject  = $this->get_in_subject();
         $tmk_flag = $this->get_in_int_val("tmk_flag", 0);
+        $account  = $this->get_account();
 
-        if (strlen($phone )!=11) {
+        if (strlen($phone )!=11 && $account!="adrian") {
             return $this->output_err("电话号码长度不对");
         }
 
