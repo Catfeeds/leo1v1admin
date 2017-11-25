@@ -342,8 +342,8 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        // $start_time = strtotime("2017-09-01");
-        // $end_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
         // $list = $this->t_order_info_finance->get_add_info();
         // foreach($list as $val){
         //     $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
