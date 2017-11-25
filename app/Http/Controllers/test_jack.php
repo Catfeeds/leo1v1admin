@@ -361,7 +361,7 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            // if($val["price"]>860000 && $val["price"]<1865000){
+            if($val["price"]>860000 && $val["price"]<1865000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -384,7 +384,7 @@ class test_jack  extends Controller
                     break;
                 }
  
-                // }
+              }
         }
         // dd([$order_info,$order_info_t]);
         dd([$arr,$money]);
