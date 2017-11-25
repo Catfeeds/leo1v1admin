@@ -13,11 +13,9 @@ class seller_student2 extends Controller
     public function show_order_activity_info() {
         $open_flag   = $this->get_in_int_val('id_open_flag',-1);
         $can_disable_flag   = $this->get_in_int_val('id_can_disable_flag',-1);
-        $contract_type_list     = $this->get_in_int_val('id_contract_type',-1);
-        $period_flag_list     = $this->get_in_int_val('id_period_flag',-1);
         $page_num        = $this->get_in_page_num();
  
-        $ret_list = $this->t_seller_student2->get_list($open_flag,$can_disable_flag,$contract_type_list,$period_flag_list,$page_num);
+        $ret_list = $this->t_seller_student2->get_list($open_flag,$can_disable_flag,$page_num);
         
         $gradeArr = E\Egrade_only::$desc_map;
         if($ret_list['list']){
@@ -99,7 +97,7 @@ class seller_student2 extends Controller
         }
         return $this->pageView(__METHOD__,$ret_list,
            [
-             "_publish_version"      => "201711251255",
+             "_publish_version"      => "201711251256",
              "gradeArr" => $gradeArr,
            ]
         );
