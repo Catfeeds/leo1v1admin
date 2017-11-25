@@ -254,6 +254,7 @@ class send_wx_msg_common_lesson extends Command
 
     public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){
         $subject_str = E\Esubject::get_desc($item['subject']);
+        // $data = [];
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
                 $data = [
@@ -405,7 +406,7 @@ class send_wx_msg_common_lesson extends Command
                     "keyword3" => "课程时间: ".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."学生姓名:".$item['stu_nick']." 老师姓名:".$item['teacher_nick']."助教姓名:".$item['ass_nick'],
                     "remark"   => "请立刻联系 $name_tmp"
                 ];
-        }
+            }
 
         }
         return $data;
