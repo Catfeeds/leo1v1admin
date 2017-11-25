@@ -92,7 +92,7 @@ $(function(){
                     dataType :"json",
                     data     :data,
                     success : function(result){
-                        console.log(result);
+                        //console.log(result);
                         BootstrapDialog.alert(result.info);
                         var return_url = GetQueryString("return_url");
                         if(result.status == 200){
