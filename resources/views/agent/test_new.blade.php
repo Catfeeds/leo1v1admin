@@ -22,18 +22,14 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>销售 </td>
-                    <td>等级 </td>
-                    <td>例子个数 </td>
+                    <td>教材 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["account"]}} </td>
-                        <td>{{@$var["seller_level_str"]}} </td>
-                        <td>{{@$var["count"]}} </td>
+                        <td>{{@$var["textbook_str"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

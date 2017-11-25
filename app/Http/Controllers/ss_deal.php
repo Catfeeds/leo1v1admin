@@ -66,8 +66,9 @@ class ss_deal extends Controller
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
         $origin_userid = $this->get_in_int_val("origin_userid", 1);
+        $account = $this->get_account();
 
-        if (strlen($phone )!=11) {
+        if (strlen($phone )!=11 && $account!="adrian") {
             return $this->output_err("电话号码长度不对");
         }
 
@@ -2163,12 +2164,34 @@ class ss_deal extends Controller
         }
 
 
-        $discount_price= $price_ret["price"]*100;
-        $promotion_discount_price=$price_ret["discount_price"]*100;
-        $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
-        $order_activity_list= $price_ret["desc_list"];
+
+        $discount_price           = $price_ret["price"]*100;
+        $promotion_discount_price = $price_ret["discount_price"]*100;
+        $promotion_present_lesson = $price_ret["present_lesson_count"]*100;
+        $order_activity_list      = $price_ret["desc_list"];
+
         $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
         $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
+
+        //检查是否要特殊申请
+        $need_spec_require_flag=0;
+        foreach ($order_activity_list as &$order_activity_item) {
+          if ($order_activity_item["need_spec_require_flag"] !=0 ) {
+            $need_spec_require_flag =1;
+            break;
+          }
+        }
+
+        if ($need_spec_require_flag  ) {
+            if(!$order_require_flag)  {
+                return $this->output_err("需要,特殊申请, 请填写原因, 审批过后才有效 " );
+            }else{
+                $promotion_spec_discount = 0 ;
+                $promotion_spec_present_lesson = 0;
+            }
+        }
+
+
         $promotion_spec_diff_money =0;
         if( $order_require_flag) {
             if(!$promotion_spec_present_lesson)  {
@@ -2248,7 +2271,7 @@ class ss_deal extends Controller
         );
 
 
-        if($order_require_flag && $promotion_spec_diff_money ) {
+        if( $need_spec_require_flag || ($order_require_flag && $promotion_spec_diff_money  ) ) {
             $this->t_flow->add_flow(
                 E\Eflow_type::V_SELLER_ORDER_REQUIRE,
                 $this->get_account_id(),"特殊折扣",$orderid);

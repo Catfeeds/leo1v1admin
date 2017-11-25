@@ -688,7 +688,6 @@ class stu_manage extends Controller
         $all_flag = $this->get_in_int_val("all_flag",0);
         $ret_info = $this->t_lesson_info->get_lessons_available($this->sid,$courseid,$all_flag, 1, 100000);
         foreach ($ret_info["list"] as &$item){
-            $this->cache_set_item_teacher_nick($item);
             $item["confirm_admin_nick"] = $this->cache_get_account_nick($item["confirm_adminid"]);
             $item["lesson_count"] /=100;
             $item['lesson_diff'] = $item['lesson_end']-$item['lesson_start'];

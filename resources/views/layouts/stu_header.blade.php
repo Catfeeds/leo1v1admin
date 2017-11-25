@@ -37,7 +37,7 @@
         <!-- jQuery 2.0.2 -->
         <script src="/js/jquery-2.1.4.js" type="text/javascript"></script>
         <script src="/js/jquery.query.js" type="text/javascript"></script>
-        <script src="/page_js/header.js?{{@$_publish_version}}" type="text/javascript"></script>
+        <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
         <!-- jQuery UI 1.10.3 -->

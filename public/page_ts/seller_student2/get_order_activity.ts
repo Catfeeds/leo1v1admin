@@ -27,14 +27,12 @@ $(function(){
     $('#opt_edit_01').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data(); 
         var id_title = $("<input style='width:400px'/>");
-        var id_id = $('<input onkeypress="keyPressCheck(this)" onkeyup="keyUpCheck(this)" />');
         var id_date_range_start = $("<input/>");
         var id_date_range_end = $("<input/>");
         var id_lesson_times_min = $("<input/>");
         var id_lesson_times_max = $("<input/>");
 
         id_title.val(opt_data.title);
-        id_id.val(opt_data.id);
         id_date_range_start.val(opt_data.date_range_start);
         id_date_range_end.val(opt_data.date_range_end);
         id_lesson_times_min.val(opt_data.lesson_times_min);
@@ -46,7 +44,6 @@ $(function(){
 
         var arr=[
             ["活动标题", id_title ],
-            ["活动ID", id_id ],
             ["活动日期开始时间*", id_date_range_start ],
             ["活动日期结束时间*", id_date_range_end ],
             ["参加活动最小课时*", id_lesson_times_min ],
@@ -82,7 +79,6 @@ $(function(){
 
                 var data = {
                     'id': opt_data.id,
-                    'id_after': id_id.val(),
                     'title':title,
                     'date_range_start':date_range_start,
                     'date_range_end':date_range_end,
@@ -96,11 +92,11 @@ $(function(){
                     dataType :"json",
                     data     :data,
                     success : function(result){
-                        console.log(result);
+                        //console.log(result);
                         BootstrapDialog.alert(result.info);
                         var return_url = GetQueryString("return_url");
                         if(result.status == 200){
-                            window.location = '/seller_student2/get_order_activity?id='+result.data+'&return_url='+return_url;
+                            window.location.reload();
                         }
                     }
                 });
@@ -155,7 +151,7 @@ $(function(){
         },function(){
             $.enum_multi_select_new( $('#contract_type_list'), 'contract_type', function(){});
             $.enum_multi_select_new( $('#period_flag_list'), 'period_flag', function(){});
-            $.enum_multi_select_new( $('#grade_list'), 'grade', function(){});
+            $.enum_multi_select_new( $('#grade_list'), 'grade_only', function(){});
             
         } ,false,900)
         
@@ -211,24 +207,37 @@ $(function(){
     $('#opt_edit_04').on('click',function(){
 
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
+        var id_activity_list = $("<div id='activity_list'/>");
+        $.ajax({
+            type : "post",
+            url : "/seller_student2/get_activity_all_list",
+            dataType : "json",
+            data:{id:opt_data.id,max_count_activity_type_list:opt_data.max_count_activity_type_list}, 
+            success : function(res){
+                
+                if( res.status = 200 ){
+                    var html = '';
+                    for(var x in res.data){
+                        if(res.data[x].check == "checked"){
+                            html += "<div><input type='checkbox' checked='checked' value='"+
+                                     x +"' />";
+                        }else{
+                            html += "<div><input type='checkbox' value='"+
+                                     x +"' />";
 
-        var activity_type_list = $("._activity_type_list").clone();
-        activity_type_list.removeClass('hide');
-        
-        var activity_exits = opt_data.max_count_activity_type_list.toString();
-        if( activity_exits != ''){
-            var activity_arr = activity_exits.split(',');
-            activity_type_list.find("div").each(function(){
-                var activity = $(this).find("input[type='checkbox']").val();
-                if($.inArray(activity, activity_arr) != -1){
-                    $(this).find("input[type='checkbox']").prop("checked", "checked");
+                        }
+                        html+= "<span>" + res.data[x].title + "</span></div>"
+                    } 
                 }
-            });
-
-        }
+                id_activity_list.append(html);
+            },
+            error:function(){
+                BootstrapDialog.alert('取出错误');
+            }
+        });
 
         var arr=[
-            ["总配额组合", activity_type_list ],
+            ["总配额组合", id_activity_list ],
         ];
 
         $.show_key_value_table("编辑活动", arr ,{
@@ -236,7 +245,7 @@ $(function(){
             cssClass: 'btn-warning',
             action : function(dialog) {
                 var activity_list = '';
-                activity_type_list.find("div").each(function(){
+                id_activity_list.find("div").each(function(){
                     if($(this).find("input[type='checkbox']:checked").length > 0 ){
                         activity_list += $(this).find("input[type='checkbox']:checked").val() + ",";
                     }
@@ -248,7 +257,7 @@ $(function(){
                     'id': opt_data.id,
                     'max_count_activity_type_list':activity_list,
                 }
-               
+              
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_04",
@@ -270,15 +279,20 @@ $(function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
 
         var id_can_disable_flag =$("<select/>");
-        Enum_map.append_option_list("can_disable_flag", id_can_disable_flag);
+        Enum_map.append_option_list("can_disable_flag", id_can_disable_flag,true);
 
         var id_open_flag =$("<select/>");
-        Enum_map.append_option_list("open_flag", id_open_flag);
-        
+        Enum_map.append_option_list("open_flag", id_open_flag,true);
+
+        var id_need_spec_require_flag =$("<select/>");
+        Enum_map.append_option_list("boolean", id_need_spec_require_flag,true);
+
         id_can_disable_flag.val(opt_data.can_disable_flag);
         id_open_flag.val(opt_data.open_flag);
-
+        id_need_spec_require_flag.val(opt_data.need_spec_require_flag);
+ 
         var arr=[
+            ["是否需要特殊申请", id_need_spec_require_flag ],
             ["是否开启活动", id_open_flag ],
             ["是否手动开启活动", id_can_disable_flag ],
         ];
@@ -292,6 +306,7 @@ $(function(){
                     'id': opt_data.id,
                     'can_disable_flag':id_can_disable_flag.val(),
                     'open_flag':id_open_flag.val(),
+                    'need_spec_require_flag':id_need_spec_require_flag.val(),
                 }
               
                 $.ajax({
@@ -394,7 +409,8 @@ $(function(){
         var discount_type = opt_data.order_activity_discount_type;
 
         //展示编辑页面
-        editJson(id_discount_json,edit_json,discount_type,1);
+        
+        editJson(id_discount_json,edit_json,discount_type);
         
         var arr=[
             ["优惠类型", id_discount_type ],
@@ -459,7 +475,7 @@ function changeActivity(obj){
     id_discount_json.html('');
     if( act == discount_type ){
         //编辑
-        editJson(id_discount_json,edit_json,discount_type,act);
+        editJson(id_discount_json,edit_json,discount_type);
     }else{
         //新增
         id_discount_json.html(activity);
@@ -502,7 +518,7 @@ function showActivity(config){
 }
 
 //编辑活动
-function editJson(id_discount_json,edit_json,discount_type,act){
+function editJson(id_discount_json,edit_json,discount_type){
     
     if( edit_json != ''){
         var index = 0;
@@ -519,16 +535,17 @@ function editJson(id_discount_json,edit_json,discount_type,act){
 
             index++;
         }
+        var activity = showActivity(discount_type);
+        id_discount_json.append(activity);
+    }else{
+        var activity = showActivity(1);
+        id_discount_json.append(activity);
     }
-
-    var activity = showActivity(act);
-    id_discount_json.append(activity);
     
 }
 
 //回车添加新的输入框
 function addActivity(event,act){
-   
     if (event.keyCode == '13'){
 
         var nextActivity = 1;
@@ -616,6 +633,7 @@ function bindTime(itemArr){
 function keyPressCheck(ob) {
     if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
 }
+
 function keyUpCheck(ob) {
     if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
 }
