@@ -17,8 +17,10 @@ $(function(){
     //添加活动
     $('#id_add_activity').on('click',function(){
         var id_title = $("<input style='width:100%'/>");
+        var id_id = $('<input onkeypress="keyPressCheck(this)" onkeyup="keyUpCheck(this)" />');
         var arr=[
             ["活动标题", id_title ],
+            ["活动ID", id_id ],
         ];
         $.show_key_value_table("添加活动", arr ,{
             label: '确认',
@@ -27,12 +29,14 @@ $(function(){
 
                 var title = id_title.val();
                 var data = {
-                    'title':title
+                    'title':title,
+                    'id':id_id.val()
                 }
                 if(!title){
                     BootstrapDialog.alert("活动标题必填");
                     return false;
-                }
+                }   
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/add_order_activity",
@@ -91,3 +95,9 @@ function load_data(){
     $.reload_self_page(data);
 }
 
+function keyPressCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+}
+function keyUpCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+}
