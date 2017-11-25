@@ -1768,6 +1768,7 @@ class user_manage_new extends Controller
         }
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
         $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new);
+        dd($test_leeson_list_new);
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
@@ -1802,7 +1803,6 @@ class user_manage_new extends Controller
         $this->t_order_info->switch_tongji_database();
 
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
-        dd($order_new);
         foreach($order_new as $k=>$v){
             $res[$k]['all_new_contract_for_month'] = $v['all_new_contract'];
             if(isset($res[$k]['succ_all_count_for_month']) && $res[$k]['succ_all_count_for_month'] != 0){
