@@ -35,6 +35,7 @@ class activity_base {
         E\Eorder_activity_type::V_2017111705  =>  activity_2017111705::class,
         E\Eorder_activity_type::V_2017111706  =>  activity_2017111706::class,
         E\Eorder_activity_type::V_2017112501  =>  activity_2017112501::class,
+        E\Eorder_activity_type::V_2017112502  =>  activity_2017112502::class,
     ];
 
     /**

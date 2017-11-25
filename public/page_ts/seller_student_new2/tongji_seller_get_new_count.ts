@@ -40,4 +40,9 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
     $(".common-table" ).table_admin_level_4_init();
+
+    if(g_adminid==726){
+        download_show();
+    }
+
 });

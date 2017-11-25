@@ -1,31 +1,24 @@
 <?php
 namespace App\OrderPrice\Activity;
 use \App\Enums as E;
-class activity_2017111701 extends  activity_config_base {
+class activity_2017111102  extends  activity_config_base {
 
-    public static $order_activity_type= E\Eorder_activity_type::V_2017111701;
+    public static $order_activity_type= E\Eorder_activity_type::V_2017111102;
 
     public function __construct(  $args   ) {
         parent::__construct($args);
-        $this->date_range=[ "2017-11-17"  , "2017-11-20"];
-        $this->period_flag_list= [ E\Eperiod_flag::V_0 ,E\Eperiod_flag::V_1  ];
-        $this->contract_type_list = [E\Econtract_type::V_0 ];
-        $this->lesson_times_range = [10 ,  10000];
-        $this->max_count=66;
 
-        $this-> price_off_money_list=[
-            15000 => 500,
-            30000 => 1000,
-            45000 => 1500,
-            60000 => 2000,
-            75000 => 2500,
-            90000 => 3000,
-            105000 => 3500,
-            120000 => 4000,
-            135000 => 4500,
-            150000 => 5000,
+        //2017-1110-12 ,CR,90次, 全款, 送9次
+        $this->date_range=[ "2017-11-11"  , "2017-11-13"];
+        $this->user_join_time_range=["2017-11-01", "2017-11-15"];
+
+        $this->period_flag_list= [ E\Eperiod_flag::V_0 , E\Eperiod_flag::V_1  ];
+        $this->contract_type_list = [ E\Econtract_type::V_0 ];
+        //$this->lesson_times_range=[90,90];
+
+        $this->lesson_times_present_lesson_count = [
+            60  => 3,
+            90  => 5,
         ];
-
     }
-
 }
