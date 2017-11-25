@@ -714,7 +714,7 @@ trait TeaPower {
             );
         }
 
-        if($check_subject != 1){
+        if($check_subject){
             return $check_subject;
         }
 
@@ -853,9 +853,9 @@ trait TeaPower {
                 return $this->output_err("该老师对应年级段已被冻结!");
             }
 
-            return 1;
+            // return 1;
         }else{
-            return 1;
+            // return 1;
         }
     }
 
@@ -875,7 +875,7 @@ trait TeaPower {
             return $this->output_err("该老师对应年级段已被冻结!");
         }
 
-        return 1;
+        // return 1;
     }
 
     public function get_seller_limit_require_info($teacherid,$lesson_start,$grade,$subject,$account_role,$master_adminid,$is_green_flag){
@@ -968,10 +968,13 @@ trait TeaPower {
                             "老师年级段不相符,不能做特殊申请!"
                         );
                     }
+
                 }
             }
 
         }
+
+
 
         //冻结排课
 
@@ -990,7 +993,7 @@ trait TeaPower {
         }
 
         //申请数量限制
-        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"8500","12"=>"9000"];
+        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"18500","12"=>"19000"];
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
@@ -4094,19 +4097,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function get_teacher_money_list($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
-
-        $teacher_info       = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_money_type = $teacher_info['teacher_money_type'];
-        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
-        $teacher_type       = $teacher_info['teacher_type'];
-        //检测老师是否需要被渠道抽成
-        $check_flag = $this->t_teacher_lecture_appointment_info->check_tea_ref($teacherid,$teacher_ref_type);
-        if($check_flag){
-            $teacher_ref_rate = $this->get_teacher_ref_rate(
-                $start_time,$teacher_ref_type,$teacher_money_type
-            );
-        }
-
         $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
             $j     = $i+1;
@@ -4152,9 +4142,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             //公开课工资
             $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
 
-            $list[$i]["lesson_ref_money"]  = "0";
-            $list[$i]["teacher_ref_money"] = "0";
-
             //拉取上个月的课时信息
             $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
@@ -4166,7 +4153,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $list[$i]['lesson_normal'] += $val['lesson_base'];
                         $reward = $this->get_lesson_reward_money(
-                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
+                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
                         );
                     }else{
                         $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
@@ -4211,7 +4198,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                                   +$item['lesson_reward_reference']
                                                   +$item['lesson_reward_chunhui']
                                                   +$item['lesson_reward_train']
-
             );
             $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
             $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);
@@ -4225,12 +4211,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                          +$item['lesson_reward_small_class']
                                          +$item['lesson_reward_open_class'];
 
-            //计算平台合作的抽成费用
-            if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
-                $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
-                $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
-                $item['teacher_ref_rate']  = $teacher_ref_rate;
-            }
             if($item['lesson_price']>0){
                 $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
