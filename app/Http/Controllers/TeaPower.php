@@ -714,7 +714,8 @@ trait TeaPower {
             );
         }
 
-        if($check_subject != 1){
+        if(is_numeric($check_subject) && $check_subject == 1){
+}else{
             return $check_subject;
         }
 
