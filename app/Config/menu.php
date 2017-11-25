@@ -408,13 +408,6 @@ class menu{
                     ["power_id"=>2, "name"=>"兑换管理",   "url"=>"/present/index"],
                     ["power_id"=>3, "name"=>"兑换管理-new",   "url"=>"/user_manage_new/commodity_exchange_management"],
                 ]],
-                // ["power_id"=>2, "name"=>"家长端", "list"=>[
-                //     ["power_id"=>1, "name"=>"查分数线",   "url"=>"/school_info/search_scores"],
-                //     ["power_id"=>2, "name"=>"找卷子",   "url"=>"/school_info/search_paper"],
-                //     ["power_id"=>3, "name"=>"查学校",   "url"=>"/school_info/search_school"],
-                //     ["power_id"=>4, "name"=>"政策百科",   "url"=>"/news_info/news_ency_info"],
-                //     ["power_id"=>5, "name"=>"升学头条",   "url"=>"/news_info/news_headlines_info"],
-                // ]],
                 ["power_id"=>3, "name"=>"消息记录", "list"=>[
                     ["power_id"=>1, "name"=>"api 实时调用消息",   "url"=>"/monitor/api_func"],
                     ["power_id"=>2, "name"=>"微信推送",   "url"=>"/monitor/wxMonitor"],
@@ -424,16 +417,14 @@ class menu{
                     ["power_id"=>5, "name"=>"消息统计",   "url"=>"/monitor/aggregate"],
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
-                // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
-
-                // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
-                // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
+                ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
             ]],
+
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
                 ["power_id"=>10, "name"=>"排行榜数据",   "url"=>"/tongji_ex/top_list"],
