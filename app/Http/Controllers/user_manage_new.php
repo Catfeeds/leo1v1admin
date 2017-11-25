@@ -1825,7 +1825,7 @@ class user_manage_new extends Controller
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         // $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
         $ret_info=\App\Helper\Common::gen_admin_member_data_new($res,[],0,strtotime(date("Y-m-01",$start_time )));
-        // dd($ret_info);
+        dd($ret_info);
         foreach( $ret_info as $key=>&$item ){
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
