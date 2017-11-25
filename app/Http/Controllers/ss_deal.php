@@ -66,8 +66,9 @@ class ss_deal extends Controller
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
         $origin_userid = $this->get_in_int_val("origin_userid", 1);
+        $account = $this->get_account();
 
-        if (strlen($phone )!=11) {
+        if (strlen($phone )!=11 && $account!="adrian") {
             return $this->output_err("电话号码长度不对");
         }
 
@@ -2163,12 +2164,34 @@ class ss_deal extends Controller
         }
 
 
-        $discount_price= $price_ret["price"]*100;
-        $promotion_discount_price=$price_ret["discount_price"]*100;
-        $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
-        $order_activity_list= $price_ret["desc_list"];
+
+        $discount_price           = $price_ret["price"]*100;
+        $promotion_discount_price = $price_ret["discount_price"]*100;
+        $promotion_present_lesson = $price_ret["present_lesson_count"]*100;
+        $order_activity_list      = $price_ret["desc_list"];
+
         $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
         $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
+
+        //检查是否要特殊申请
+        $need_spec_require_flag=0;
+        foreach ($order_activity_list as &$order_activity_item) {
+          if ($order_activity_item["need_spec_require_flag"] !=0 ) {
+            $need_spec_require_flag =1;
+            break;
+          }
+        }
+
+        if ($need_spec_require_flag  ) {
+            if(!$order_require_flag)  {
+                return $this->output_err("需要,特殊申请, 请填写原因, 审批过后才有效 " );
+            }else{
+                $promotion_spec_discount = 0 ;
+                $promotion_spec_present_lesson = 0;
+            }
+        }
+
+
         $promotion_spec_diff_money =0;
         if( $order_require_flag) {
             if(!$promotion_spec_present_lesson)  {
@@ -2248,7 +2271,7 @@ class ss_deal extends Controller
         );
 
 
-        if($order_require_flag && $promotion_spec_diff_money ) {
+        if( $need_spec_require_flag || ($order_require_flag && $promotion_spec_diff_money  ) ) {
             $this->t_flow->add_flow(
                 E\Eflow_type::V_SELLER_ORDER_REQUIRE,
                 $this->get_account_id(),"特殊折扣",$orderid);
@@ -2602,34 +2625,6 @@ class ss_deal extends Controller
         $teacherid    = $lesson_info["teacherid"] ;
         $teacher_nick = $this->cache_get_teacher_nick($teacherid);
 
-        /**
-         * @demand 课程取消后 通知到对应咨询（或者对应助教），对应教务
-         * @date 2017/11/23
-         * @ 开发中...
-         **/
-        $cancel_reason = E\Etest_lesson_fail_flag::get_desc($test_lesson_fail_flag);
-
-        if($success_flag == 2){
-            $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
-            $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                // $set_lesson_adminid,
-                '684',
-                "来自:".$this->get_account(),
-                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
-            );
-
-            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
-            if($require_adminid != $set_lesson_adminid){
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(
-                    '684',
-                    // $require_adminid,
-                    "来自:".$this->get_account(),
-                    "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
-                );
-            }
-        }
-
 
 
         if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1  ){
@@ -2639,45 +2634,71 @@ class ss_deal extends Controller
                 E\Eseller_student_status::V_120 , $this->get_account()
             );
 
+        }else{
+            $this->t_test_lesson_subject_require->set_test_lesson_status(
+                $require_id,
+                E\Eseller_student_status::V_290 , $this->get_account() );
+        }
 
-            //勿删
+
+        /**
+         * @demand 课程取消后 通知到对应咨询（或者对应助教），对应教务
+         * @date 2017/11/23
+         **/
+        $cancel_reason = E\Etest_lesson_fail_flag::get_desc($test_lesson_fail_flag);
+
+        if($success_flag == 2){
             $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
             $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
             $this->t_manager_info->send_wx_todo_msg_by_adminid(
                 $set_lesson_adminid,
                 "来自:".$this->get_account(),
-                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
-            //勿删
+                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
+            );
 
-
-            $remark_ex = "";
-            if($fail_greater_4_hour_flag ) {
-                /**
-                 * 试听取消-不付工资2-14
-                 * SMS_46785153
-                 * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
-                 我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
-                 */
-                \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-                    "name"        => $teacher_nick,
-                    "lesson_time" => $lesson_time." ".$nick,
-                    "reason"      => "学生原因",
-                ]);
-            }else{
-                /**
-                 * 通知老师课程取消-付工资2-14
-                 * SMS_46680138
-                 * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
-                 故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
-                 */
-                \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
-                    "name"         => $teacher_nick,
-                    "lesson_time"  => $lesson_time,
-                    "student_nick" => $nick,
-                    "reason"       => "学生原因",
-                ]);
-                $remark_ex = "本次课的课时费将照常如数结算给您！";
+            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+            if($require_adminid != $set_lesson_adminid){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(
+                    $require_adminid,
+                    "$require_adminid 来自:".$this->get_account(),
+                    "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str] 取消原因:$cancel_reason","",""
+                );
             }
+        }
+
+
+        /**
+         * @ 不付老师工资
+         * @ 老师原因取消试听课
+         * @ "[不付] 老师未到/旷课 ",
+         * @ "[不付] 看错时间/抢错试听课 ",
+         * @ "[不付] 内容不全/试卷/教材不清楚 ",
+         * @ "[不付] 老师有常规课冲突 ",
+         * @ "[不付] 老师个人原因 ",
+        */
+        if( $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_109
+            || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_110
+            || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_112
+            || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_111
+            || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_113
+        ){
+            $cancel_cause = '';
+            if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_111){
+                $cancel_cause = '学生原因';
+            }else{
+                $cancel_cause = '老师您的原因';
+            }
+            /**
+             * 试听取消-不付工资2-14
+             * SMS_46785153
+             * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
+             我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+            */
+            \App\Helper\Utils::sms_common($teacher_phone,46785153,[
+                "name"        => $teacher_nick,
+                "lesson_time" => $lesson_time." ".$nick,
+                "reason"      => $cancel_cause,
+            ]);
 
             /**
              * 模板ID : eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4
@@ -2689,10 +2710,44 @@ class ss_deal extends Controller
              */
             $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
             if($openid!=''){
-                $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
-                $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
+                $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于".$cancel_cause."无法如期进行,故作取消";
+                $remark_info = "理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
                 $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
-                //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
+
+                $data['first']    = $first_info;
+                $data['keyword1'] = "试听课";
+                $data['keyword2'] = $lesson_time;
+                $data['remark']   = $remark_info;
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data); //正式
+            }
+        }
+
+
+        /**
+         * @ 4小时外取消
+         * @ 课程取消
+         * @ [不付] 学生未到/课程取消
+         * @ [不付]换老师/课程取消
+         * @ [不付] 换时间/学生设备出错
+         **/
+        if($fail_greater_4_hour_flag && ( $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_106 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_107 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_108)){
+            /**
+             * 试听取消-不付工资2-14
+             * SMS_46785153
+             * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
+             我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+            */
+            \App\Helper\Utils::sms_common($teacher_phone,46785153,[
+                "name"        => $teacher_nick,
+                "lesson_time" => $lesson_time." ".$nick,
+                "reason"      => "学生原因",
+            ]);
+
+            $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
+            if($openid!=''){
+                $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
+                $remark_info = "理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
+                $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
 
                 $data['first']    = $first_info;
                 $data['keyword1'] = "试听课";
@@ -2700,94 +2755,45 @@ class ss_deal extends Controller
                 $data['remark']   = $remark_info;
                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
-
             }
-        }else{
-            $this->t_test_lesson_subject_require->set_test_lesson_status(
-                $require_id,
-                E\Eseller_student_status::V_290 , $this->get_account() );
         }
 
 
         /**
-         * @ 发送微信推送
-         * @ 开发中
-         */
+         * @ 4小时内取消
+         * @ [付] 学生未到/课程取消
+         * @ [付] 换时间/学生设备网络出错
+         **/
+        if(!$fail_greater_4_hour_flag && ( $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_2 )){
+            $remark_ex = "";
+            /**
+             * 通知老师课程取消-付工资2-14
+             * SMS_46680138
+             * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
+             故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+            */
+            \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
+                "name"         => $teacher_nick,
+                "lesson_time"  => $lesson_time,
+                "student_nick" => $nick,
+                "reason"       => "学生原因",
+            ]);
+            $remark_ex = "本次课的课时费将照常如数结算给您！";
 
-        if( $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_109
-           || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_110
-           || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_112
-           || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_113
-        ){
+            $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
+            if($openid!=''){
+                $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
+                $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
+                $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
 
+                $data['first']    = $first_info;
+                $data['keyword1'] = "试听课";
+                $data['keyword2'] = $lesson_time;
+                $data['remark']   = $remark_info;
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+
+            }
         }
-
-        // if($fail_greater_4_hour_flag){ // 不付工资
-        //     if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100
-        //        || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_106
-        //        || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_107
-        //        || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_111
-        //     ){
-        //         $remark_ex = "";
-        //         if($fail_greater_4_hour_flag ) {
-        //             /**
-        //              * 试听取消-不付工资2-14
-        //              * SMS_46785153
-        //              * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
-        //              我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
-        //             */
-        //             \App\Helper\Utils::sms_common($teacher_phone,46785153,[
-        //                 "name"        => $teacher_nick,
-        //                 "lesson_time" => $lesson_time." ".$nick,
-        //                 "reason"      => "学生原因",
-        //             ]);
-        //         }else{
-        //             /**
-        //              * 通知老师课程取消-付工资2-14
-        //              * SMS_46680138
-        //              * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
-        //              故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
-        //             */
-        //             \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
-        //                 "name"         => $teacher_nick,
-        //                 "lesson_time"  => $lesson_time,
-        //                 "student_nick" => $nick,
-        //                 "reason"       => "学生原因",
-        //             ]);
-        //             $remark_ex = "本次课的课时费将照常如数结算给您！";
-        //         }
-
-
-        //         /**
-        //          * 模板ID : eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4
-        //          * 标题   : 课程取消通知
-        //          * {{first.DATA}}
-        //          * 课程类型：{{keyword1.DATA}}
-        //          * 上课时间：{{keyword2.DATA}}
-        //          * {{remark.DATA}}
-        //          */
-        //         $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
-        //         if($openid!=''){
-        //             $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
-        //             $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
-        //             $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
-        //             //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
-
-        //             $data['first']    = $first_info;
-        //             $data['keyword1'] = "试听课";
-        //             $data['keyword2'] = $lesson_time;
-        //             $data['remark']   = $remark_info;
-        //             // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
-
-        //             \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',$template_id,$data);//测试 [james]
-
-        //         }
-        //     }
-        // }
-
-
-
         return $this->output_succ();
     }
 
@@ -3142,8 +3148,6 @@ class ss_deal extends Controller
             }
             $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_GET_NEW_COUNT
                                      ,$adminid,$userid);
-
-
         }else  {
             if ($free_flag) {
                 //持有个数

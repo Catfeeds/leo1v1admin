@@ -26,7 +26,6 @@ class textbook_manage extends Controller
                 @$item["textbook_str"] .=  E\Eregion_version::get_desc ($val).",";
             }
             $item["textbook_str"] = trim($item["textbook_str"],",");
- 
         }
         return $this->pageView(__METHOD__,$ret_info);
 

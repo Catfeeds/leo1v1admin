@@ -1005,7 +1005,7 @@ class human_resource extends Controller
     public function get_free_teacherid_arr_new($free_time){
         $arr       = explode(",",$free_time);
         $free_start = strtotime($arr[0]);
-        $free_end = strtotime($arr[1]);
+        $free_end = strtotime(@$arr[1]);
 
         $teacherid_arr = $this->t_lesson_info->get_test_lesson_num_by_free_time_new($free_start,$free_end);
         return $teacherid_arr;
@@ -2100,7 +2100,7 @@ class human_resource extends Controller
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
 
-            if($item['status']=="-2" && empty($item["lesson_start"])){
+            if(($item['status']=="-2" && empty($item["lesson_start"])) || ($item['add_time'] <= 0 && $item['status'] <= 0 && $item['trial_train_status'] == -2)){
                 $item['status_str'] = "无试讲";
             }elseif(($item['status']==0 && (($item["trial_train_status"] ==-2 && $item["lesson_start"]>0) || empty($item["lesson_start"]))) || (($item['status']==0 || $item['status']=="-2") && ($item["trial_train_status"] ==-2 && $item["lesson_start"]>0))){
                 $item['status_str'] = "未审核";
@@ -4119,11 +4119,10 @@ class human_resource extends Controller
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
-
+       
         if($adminid==486 || $adminid==478){
             $tea_subject = "";
         }
-
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
             $arr       = explode(",",$free_time);

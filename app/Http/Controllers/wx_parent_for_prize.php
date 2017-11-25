@@ -688,7 +688,7 @@ class wx_parent_for_prize extends Controller
         }
     }
 
-    public function keep_lesson_time(){ // 1029 // 老师|家长  维持原有时间 [提交原因]
+    public function keep_lesson_time(){ //1029 // 老师|家长  维持原有时间 [提交原因]
         $lessonid        = $this->get_in_int_val('lessonid');
         $is_role_account = $this->get_in_int_val('role_account'); // 1:家长 2:老师
 
@@ -977,10 +977,8 @@ class wx_parent_for_prize extends Controller
             $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
             $result = "原因: $parent_keep_original_remark ";
 
-
             $first    = "您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间被{ $teacher_nick }老师拒绝!";
             $keyword1 = "老师拒绝调课申请";
-
             $keyword2 = "原上课时间:{ $lesson_start_date }; $result";
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);

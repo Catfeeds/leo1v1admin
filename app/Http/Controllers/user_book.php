@@ -261,22 +261,5 @@ class user_book extends Controller
 
         return outputjson_success();
     }
-    
-    //adcc
-    public function audition_list()
-    {
-        $lesson_type  = $this->get_in_int_val('lesson_type',-1);
-        $teacherid    = $this->get_in_int_val('teacherid',-1);
-        $start_date   = $this->get_in_str_val('start_date',date('Y-m-d', time(NULL)-3*86400 ));
-        $end_date     = $this->get_in_str_val('end_date',date('Y-m-d', time(NULL)+86400 ));
-        $page_num     = $this->get_in_page_num();
-
-        $start_date_s = strtotime($start_date);
-        $end_date_s   = strtotime($end_date)+86400;
-
-        $ret_info = $this->t_lesson_info->lesson_account($lesson_type,$start_date_s,$end_date_s,$teacherid,$page_num);
-
-        return $this->pageView(__METHOD__,$ret_info);
-    }
 
 }

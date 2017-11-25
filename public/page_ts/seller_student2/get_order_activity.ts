@@ -92,8 +92,12 @@ $(function(){
                     dataType :"json",
                     data     :data,
                     success : function(result){
-                        BootstrapDialog.alert(result['info']);
-                        window.location.reload();
+                        //console.log(result);
+                        BootstrapDialog.alert(result.info);
+                        var return_url = GetQueryString("return_url");
+                        if(result.status == 200){
+                            window.location.reload();
+                        }
                     }
                 });
             }
@@ -105,30 +109,16 @@ $(function(){
     $('#opt_edit_02').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
         
-        //适配年级区间
-        var id_grade_list = $(".grade_arr").clone();
-        id_grade_list.removeClass('hide');
+        var id_grade_list =$("<input id='grade_list' />");
+        id_grade_list.val(opt_data.grade_list);
 
-        var grade_exits = opt_data.grade_list.toString();
-        if( grade_exits != '' ){
-            var grade_arr = grade_exits.split(',');
-            id_grade_list.find("label").each(function(){
-                var grade = $(this).find("input[type='checkbox']").val();
-                if($.inArray(grade, grade_arr) != -1){
-                    $(this).find("input[type='checkbox']").prop("checked", "checked");
-                }
-            });
 
-        }
-        var id_contract_type_list =$("<select/>");
-        Enum_map.append_option_list("contract_type", id_contract_type_list);
-
-        var id_period_flag_list =$("<select/>");
-        Enum_map.append_option_list("period_flag", id_period_flag_list);
-        
+        var id_contract_type_list =$("<input id='contract_type_list'/> ");
         id_contract_type_list.val(opt_data.contract_type_list);
-        id_period_flag_list.val(opt_data.period_flag_list);
 
+        var id_period_flag_list =$("<input id='period_flag_list'/> ");
+        id_period_flag_list.val(opt_data.period_flag_list);
+        
         var arr=[
             ["适配年级", id_grade_list ],
             ["分期试用*", id_period_flag_list ],
@@ -140,22 +130,13 @@ $(function(){
             cssClass: 'btn-warning',
             action : function(dialog) {
 
-                var grade_list = '';
-                id_grade_list.find("label").each(function(){
-                    if($(this).find("input[type='checkbox']:checked").length > 0 ){
-                        grade_list += $(this).find("input[type='checkbox']:checked").val() + ",";
-                    }
-                });
-
-                grade_list = grade_list.substring(0,grade_list.length-1);
-
                 var data = {
                     'id': opt_data.id,
                     'period_flag_list':id_period_flag_list.val(),
                     'contract_type_list':id_contract_type_list.val(),
-                    'grade_list':grade_list,
+                    'grade_list':id_grade_list.val(),
                 }
-
+                
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_02",
@@ -167,9 +148,15 @@ $(function(){
                     }
                 });
             }
-        })
-
+        },function(){
+            $.enum_multi_select_new( $('#contract_type_list'), 'contract_type', function(){});
+            $.enum_multi_select_new( $('#period_flag_list'), 'period_flag', function(){});
+            $.enum_multi_select_new( $('#grade_list'), 'grade_only', function(){});
+            
+        } ,false,900)
+        
     })
+
 
     //编辑活动3
     $('#opt_edit_03').on('click',function(){
@@ -220,24 +207,37 @@ $(function(){
     $('#opt_edit_04').on('click',function(){
 
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
+        var id_activity_list = $("<div id='activity_list'/>");
+        $.ajax({
+            type : "post",
+            url : "/seller_student2/get_activity_all_list",
+            dataType : "json",
+            data:{id:opt_data.id,max_count_activity_type_list:opt_data.max_count_activity_type_list}, 
+            success : function(res){
+                
+                if( res.status = 200 ){
+                    var html = '';
+                    for(var x in res.data){
+                        if(res.data[x].check == "checked"){
+                            html += "<div><input type='checkbox' checked='checked' value='"+
+                                     x +"' />";
+                        }else{
+                            html += "<div><input type='checkbox' value='"+
+                                     x +"' />";
 
-        var activity_type_list = $("._activity_type_list").clone();
-        activity_type_list.removeClass('hide');
-        
-        var activity_exits = opt_data.max_count_activity_type_list.toString();
-        if( activity_exits != ''){
-            var activity_arr = activity_exits.split(',');
-            activity_type_list.find("div").each(function(){
-                var activity = $(this).find("input[type='checkbox']").val();
-                if($.inArray(activity, activity_arr) != -1){
-                    $(this).find("input[type='checkbox']").prop("checked", "checked");
+                        }
+                        html+= "<span>" + res.data[x].title + "</span></div>"
+                    } 
                 }
-            });
-
-        }
+                id_activity_list.append(html);
+            },
+            error:function(){
+                BootstrapDialog.alert('取出错误');
+            }
+        });
 
         var arr=[
-            ["总配额组合", activity_type_list ],
+            ["总配额组合", id_activity_list ],
         ];
 
         $.show_key_value_table("编辑活动", arr ,{
@@ -245,7 +245,7 @@ $(function(){
             cssClass: 'btn-warning',
             action : function(dialog) {
                 var activity_list = '';
-                activity_type_list.find("div").each(function(){
+                id_activity_list.find("div").each(function(){
                     if($(this).find("input[type='checkbox']:checked").length > 0 ){
                         activity_list += $(this).find("input[type='checkbox']:checked").val() + ",";
                     }
@@ -257,7 +257,7 @@ $(function(){
                     'id': opt_data.id,
                     'max_count_activity_type_list':activity_list,
                 }
-               
+              
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_04",
@@ -279,15 +279,20 @@ $(function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
 
         var id_can_disable_flag =$("<select/>");
-        Enum_map.append_option_list("can_disable_flag", id_can_disable_flag);
+        Enum_map.append_option_list("can_disable_flag", id_can_disable_flag,true);
 
         var id_open_flag =$("<select/>");
-        Enum_map.append_option_list("open_flag", id_open_flag);
-        
+        Enum_map.append_option_list("open_flag", id_open_flag,true);
+
+        var id_need_spec_require_flag =$("<select/>");
+        Enum_map.append_option_list("boolean", id_need_spec_require_flag,true);
+
         id_can_disable_flag.val(opt_data.can_disable_flag);
         id_open_flag.val(opt_data.open_flag);
-
+        id_need_spec_require_flag.val(opt_data.need_spec_require_flag);
+ 
         var arr=[
+            ["是否需要特殊申请", id_need_spec_require_flag ],
             ["是否开启活动", id_open_flag ],
             ["是否手动开启活动", id_can_disable_flag ],
         ];
@@ -301,6 +306,7 @@ $(function(){
                     'id': opt_data.id,
                     'can_disable_flag':id_can_disable_flag.val(),
                     'open_flag':id_open_flag.val(),
+                    'need_spec_require_flag':id_need_spec_require_flag.val(),
                 }
               
                 $.ajax({
@@ -390,35 +396,56 @@ $(function(){
         })
 
     })
-
+  
     //编辑活动7
     $('#opt_edit_07').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
 
-        var id_discount_type =$("<select/>");
+        var id_discount_type =$("<select onchange='changeActivity(this)'/>");
         Enum_map.append_option_list("order_activity_discount_type", id_discount_type);
-        
-        var id_discount_json = $("<textarea style='height:200px;wisth:100%'/>");
-
         id_discount_type.val(opt_data.order_activity_discount_type);
-        id_discount_json.val(opt_data.discount_json);
+        var id_discount_json = $("<div class='discount_activity' style='width:420px'/>");
+        var edit_json = opt_data.discount_json;
+        var discount_type = opt_data.order_activity_discount_type;
 
+        //展示编辑页面
+        
+        editJson(id_discount_json,edit_json,discount_type);
+        
         var arr=[
             ["优惠类型", id_discount_type ],
-            ["json字符串",id_discount_json  ],
+            ["优惠方案",id_discount_json  ],
         ];
 
         $.show_key_value_table("编辑活动", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-               
+                var checkFull = 1;
+                var discount_json = {};
+                $('.discount_activity').find('.lesson_activity').each(function(){
+                    var condition = $(this).find('.show_activity:eq(0)').val();
+                    var discount = $(this).find('.show_activity:eq(1)').val();
+                    if( condition == '' || discount == ''){
+                        checkFull = 0;
+                    }
+                    
+                    discount_json[condition] = discount;
+                   
+                });
+                
+                if( checkFull == 0 ){
+                    BootstrapDialog.alert("请输入完整，再点击提交");
+                    return false;
+                }
+                discount_json = JSON.stringify(discount_json);
+                
                 var data = {
                     'id': opt_data.id,
                     'order_activity_discount_type':id_discount_type.val(),
-                    'discount_json':id_discount_json.val(),
+                    'discount_json':discount_json,
                 }
-               
+                
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_07",
@@ -435,6 +462,119 @@ $(function(){
     })
 
 });
+//根据不同的优惠活动选择不同的选项
+function changeActivity(obj){
+    //1 按课次数打折 2 按年级打折 3 按课次数送课 4 按金额立减
+    var act = $(obj).val();
+    var activity = showActivity(act);
+    var opt_data = $('#id_tea_info').get_self_opt_data();
+
+    var edit_json = opt_data.discount_json;
+    var discount_type = opt_data.order_activity_discount_type;
+    var id_discount_json = $('.discount_activity');
+    id_discount_json.html('');
+    if( act == discount_type ){
+        //编辑
+        editJson(id_discount_json,edit_json,discount_type);
+    }else{
+        //新增
+        id_discount_json.html(activity);
+    }
+}
+
+function showActivity(config){
+ 
+    var activity = '';
+    var config = parseInt(config);
+    switch(config){
+    case 1:
+        activity = $(".lesson_times_off_perent_list:hidden").clone();
+        break;
+    case 2:
+        activity = $(".grade_off_perent_list:hidden").clone();
+        break;
+    case 3:
+        activity = $(".lesson_times_present_lesson_count:hidden").clone();
+        break;
+    case 4:
+        activity = $(".price_off_money_list:hidden").clone();
+        break;
+    default:
+        activity = $(".lesson_times_off_perent_list:hidden").clone();
+        break;
+    }
+
+    var index = $('.discount_activity .lesson_activity').length;
+
+    activity.find('button').attr({
+        'onclick':"remove_activity("+index+")"
+    })
+
+    activity.addClass('activity_'+index);
+
+    activity.removeClass('hide');
+
+    return activity;
+}
+
+//编辑活动
+function editJson(id_discount_json,edit_json,discount_type){
+    
+    if( edit_json != ''){
+        var index = 0;
+        for(var x in edit_json){
+            var divShow = showActivity(discount_type);
+            id_discount_json.append(divShow);
+            var className = id_discount_json.find('.lesson_activity:eq('+index+')').attr('class').replace(/[0-9]/ig,"")+index;
+            id_discount_json.find('.lesson_activity:eq('+index+')').attr({'class':className});
+            id_discount_json.find('.activity_'+index+' .show_activity:eq(0)').val(x);
+            id_discount_json.find('.activity_'+index+' .show_activity:eq(1)').val(edit_json[x]);
+            id_discount_json.find('.activity_'+index+' button').attr({
+                'onclick':"remove_activity("+index+")"
+            });
+
+            index++;
+        }
+        var activity = showActivity(discount_type);
+        id_discount_json.append(activity);
+    }else{
+        var activity = showActivity(1);
+        id_discount_json.append(activity);
+    }
+    
+}
+
+//回车添加新的输入框
+function addActivity(event,act){
+    if (event.keyCode == '13'){
+
+        var nextActivity = 1;
+        $('.discount_activity').find('.lesson_activity').each(function(){
+            var condition = $(this).find('input:eq(0)').val();
+            var gift = $(this).find('input:eq(1)').val();
+            if( condition == '' || gift == ''){
+                nextActivity = 0;
+            }
+        });
+        if( nextActivity == 1){
+            var activity = showActivity(act);
+            $('.discount_activity').append(activity);
+            $('.discount_activity .lesson_activity:last .show_activity:eq(0)').focus();
+        }else{
+            BootstrapDialog.alert("请输入完整，再点击回车");
+            return false;
+        }
+    }
+}
+//将下个输入框激活
+function nextInput(event){
+    if (event.keyCode == '13'){
+        $('.discount_activity .show_activity:empty').focus();
+    }
+}
+function remove_activity(index){
+    $('.discount_activity .activity_'+index).remove();
+};
 //获取链接参数
 function GetQueryString(name)
 {
@@ -442,6 +582,7 @@ function GetQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null) return unescape(r[2]); return null;
 }
+
 //必须检查输入
 function  checkInput(haveInput)
 {
@@ -487,4 +628,12 @@ function bindTime(itemArr){
             step:30,
         });
     }
+}
+
+function keyPressCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+}
+
+function keyUpCheck(ob) {
+    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
 }

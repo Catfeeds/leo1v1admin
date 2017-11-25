@@ -42,6 +42,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             return $item['lessonid'];
         });
     }
+
     public function lesson_common_where_arr($others_arr=[]) {
         $others_arr[] ="lesson_del_flag=0" ;
         $others_arr[] ="confirm_flag<2" ;
@@ -61,13 +62,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
-    }
-
-    public function get_all_lesson_by_userid($userid) {
-        $sql=$this->gen_sql_new("select lesson_count  from  %s  "
-                                ."where userid=%u   "
-                                ,self::DB_TABLE_NAME
-        );
     }
 
     public function lesson_account($lesson_type,$start_date_s,$end_date_s,$teacherid,$page_num){
@@ -293,7 +287,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    l.use_ppt,"
                      ."    l.tea_cw_url,"
                      ."    l.is_complained,"
-                     ."    l.complain_note,"
                      ."    l.lesson_upload_time,"
                      ."    l.stu_performance,"
                      ."    l.audio,"
@@ -493,7 +486,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    l.use_ppt,"
                      ."    l.tea_cw_url,"
                      ."    l.is_complained,"
-                     ."    l.complain_note,"
                      ."    l.lesson_upload_time,"
                      ."    l.stu_performance,"
                      ."    l.audio,"
@@ -802,15 +794,22 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     public function get_lessons_available($userid,$courseid, $all_flag, $page_num, $page_size)
     {
         $lesson_status_str= $this->where_get_in_str("lesson_status", $all_flag?[0,1,2]:[0,1] );
-
-        $sql = sprintf("select lessonid, l.subject,l.grade ,courseid, lesson_num, lesson_type, l.userid,s.phone,l.teacherid, l.assistantid,"
-                       ." has_quiz, lesson_start, lesson_end, lesson_intro, lesson_status,lesson_count ,confirm_flag, "
-                       ." confirm_adminid,confirm_time,confirm_reason, level ,teacher_money_type "
-                       ." ,lesson_cancel_reason_type  "
-                       ." ,lesson_cancel_reason_next_lesson_time  "
-                       ." from %s l left join %s s on l.userid = s.userid where "
-                       ." l.userid = %u and courseid=%u and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num  ",
-                       self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME, $userid, $courseid, $lesson_status_str  );
+        $sql = sprintf("select l.lessonid, l.subject,l.grade ,l.courseid, l.lesson_num, l.lesson_type, "
+                       ." l.userid,s.phone,l.teacherid, l.assistantid,t.realname as teacher_nick,"
+                       ." has_quiz, lesson_start, lesson_end, lesson_intro, l.lesson_status,l.lesson_count ,confirm_flag, "
+                       ." l.confirm_adminid,l.confirm_time,l.confirm_reason, l.level ,l.teacher_money_type, "
+                       ." l.lesson_cancel_reason_type,l.lesson_cancel_reason_next_lesson_time  "
+                       ." from %s l "
+                       ." left join %s s on l.userid = s.userid "
+                       ." left join %s t on l.teacherid= t.teacherid"
+                       ." where l.userid = %u "
+                       ." and courseid=%u "
+                       ." and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num  "
+                       ,self::DB_TABLE_NAME
+                       ,t_student_info::DB_TABLE_NAME
+                       ,t_teacher_info::DB_TABLE_NAME
+                       ,$userid
+                       , $courseid, $lesson_status_str  );
         return $this->main_get_list_by_page($sql, $page_num, $page_size);
     }
 
@@ -8840,152 +8839,6 @@ lesson_type in (0,1) "
             self::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_list($sql);
-    }
-
-
-
-    public function get_lesson_condition_list_ex_by_lessonid($lessonid){
-        $where_arr = [];
-
-        $where_arr[] = sprintf("l.lessonid=%u",$lessonid);
-
-
-        $cond_str=$this->where_str_gen($where_arr);
-
-        $sql=sprintf(" select"
-                     ."    l.lessonid,"
-                     ."    l.courseid,"
-                     ."    l.pcm_file_all_size,"
-                     ."    l.pcm_file_count,"
-                     ."    l.lesson_type,"
-                     ."    l.lesson_count,"
-                     ."    l.lesson_cancel_reason_type,"
-                     ."    l.lesson_user_online_status,"
-                     ."    l.teacherid,"
-                     ."    l.origin,"
-                     ."    l.system_version,"
-                     ."    l.record_audio_server1,"
-                     ."    l.record_audio_server2,"
-                     ."    l.system_version,"
-                     ."    l.lesson_cancel_time_type,"
-                     ."    l.lesson_start, l.lesson_end,l.real_begin_time,"
-                     ."    l.gen_video_grade,"
-                     ."    s.userid as stu_id,"
-                     ."    s.phone as stu_phone,"
-                     ."    s.nick as stu_nick,"
-                     ."    s.user_agent as stu_user_agent,"
-                     ."    s.origin as origin_str,"
-                     ."    s.stu_email,"
-                     .""
-                     ."    h.work_intro,"
-                     ."    h.work_status,"
-                     ."    h.issue_url,"
-                     ."    h.finish_url,"
-                     ."    h.check_url,"
-                     ."    h.tea_research_url,"
-                     ."    h.ass_research_url,     "
-                     ."    h.score,     "
-                     ."    h.issue_time,"
-                     ."    h.finish_time,"
-                     ."    h.check_time,"
-                     ."    h.tea_research_time,"
-                     ."    h.ass_research_time,     "
-
-                     ."    l.lesson_status,"
-                     ."    l.stu_score,"
-                     ."    l.stu_comment,"
-                     ."    l.stu_attitude,"
-                     ."    l.stu_attention,"
-                     ."    l.stu_ability,"
-                     ."    l.stu_stability,"
-                     ."    l.teacher_score,"
-                     ."    l.teacher_comment,"
-                     ."    l.tea_rate_time,"
-                     ."    l.lesson_intro,"
-                     ."    l.teacher_effect,"
-                     ."    l.teacher_quality,"
-                     ."    l.teacher_interact,"
-                     ."    l.stu_praise,"
-                     ."    l.stu_cw_upload_time,"
-                     ."    l.stu_cw_status,"
-                     ."    l.stu_cw_url,"
-                     ."    l.tea_cw_name,"
-                     ."    l.tea_cw_upload_time,"
-                     ."    l.tea_cw_status,"
-                     ."    l.use_ppt,"
-                     ."    l.tea_cw_url,"
-                     ."    l.is_complained,"
-                     ."    l.complain_note,"
-                     ."    l.lesson_upload_time,"
-                     ."    l.stu_performance,"
-                     ."    l.audio,"
-                     ."    l.draw,"
-                     ."    l.lesson_cancel_reason_type,"
-                     ."    l.lesson_cancel_reason_next_lesson_time,"
-                     ."    l.draw,"
-                     ."    l.lesson_quiz,"
-                     ."    l.lesson_quiz_status,"
-                     ."    l.subject,"
-                     ."    l.grade,"
-                     ."    l.confirm_flag,"
-                     ."    l.confirm_adminid,"
-                     ."    l.confirm_time,"
-                     ."    l.confirm_reason,"
-                     ."    l.lesson_num,"
-                     ."    l.tea_price,"
-                     ."    l.level,"
-                     ."    l.grade,"
-                     ."    l.teacher_interact,"
-                     ."    l.teacher_comment,"
-                     ."    l.teacher_quality,"
-                     ."    l.teacher_effect,"
-                     ."    l.stu_stability,"
-                     ."    b.admin_revisiterid,"
-                     ."    t.require_adminid ,"
-                     ."    b.origin as test_lesson_origin,"
-                     ."    pi.phone fa_phone,"
-                     ."    l.lesson_name,"
-                     ."    l.deduct_come_late,"
-                     ."    l.deduct_change_class,"
-                     ."    l.deduct_upload_cw,"
-                     ."    l.deduct_rate_student,"
-                     ."    l.deduct_check_homework,"
-                     ."    l.lesson_full_num,"
-                     ."    t.ass_test_lesson_type, "
-                     ."    f.flow_status as require_lesson_success_flow_status  "
-                     ."    from"
-                     ."    db_weiyi.t_lesson_info as l"
-                     ."    LEFT JOIN db_weiyi.t_homework_info as h"
-                     ."    ON l.lessonid = h.lessonid "
-
-                     ."    LEFT JOIN db_weiyi.t_student_info as s"
-                     ."    ON s.userid = l.userid"
-                     ."    LEFT JOIN db_weiyi.t_parent_info as pi"
-                     ."    ON s.parentid = pi.parentid"
-
-                     ."    LEFT JOIN db_weiyi.t_seller_student_info as b"
-                     ."    ON b.st_arrange_lessonid = l.lessonid"
-
-                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts"
-                     ."    ON tts.lessonid = l.lessonid"
-
-                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_require as tr"
-                     ."    ON tr.require_id = tts.require_id "
-
-                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject as t"
-                     ."    ON t.test_lesson_subject_id = tr.test_lesson_subject_id "
-
-                     ."    LEFT JOIN  %s as f"
-                     ."    ON ( f.flow_type=2003 and l.lessonid=f.from_key_int  ) "
-
-                     ."    where"
-                     ."    %s"
-                     ."    order by lesson_start asc, l.lessonid asc "
-                     , t_flow::DB_TABLE_NAME
-                     ,$cond_str
-        );
-
         return $this->main_get_list($sql);
     }
 

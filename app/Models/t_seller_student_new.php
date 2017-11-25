@@ -327,7 +327,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $subject=-1,$phone_location="", $has_pad=-1, $seller_resource_type=-1 ,$origin_assistantid=-1,
         $tq_called_flag=-1,$phone="", $nick="" ,$origin_assistant_role=-1,$success_flag=-1,
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
-        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1
+        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,$show_son_flag=false,$require_adminid_list_new=[]
     ) {
         if ($userid >0 || $phone || $nick) {
             if(in_array($admin_revisiterid,[384,412])){//张植源,张龙
@@ -425,9 +425,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
         }
-
-        $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
-        $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
+        if($show_son_flag){
+            $this->where_arr_add_int_or_idlist($where_arr,"ss.admin_revisiterid",$require_adminid_list_new);
+            $this->where_arr_add_int_or_idlist($where_arr,"t.require_adminid",$require_adminid_list_new);
+        }else{
+            $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
+            $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
+        }
         if($favorite_flag){
             $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
         }
@@ -2591,9 +2595,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list($min,$max){
-        $where_arr = [];
-        $this->where_arr_add_time_range($where_arr,'n.userid',$min,$max);
+    public function get_all_list($start_time,$end_time){
+        $where_arr = [
+            ['tq.admin_role=%u',E\Eaccount_role::V_2],
+            'seller_add_time=1511452800',
+        ];
+        // $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select n.userid,n.phone,n.cc_no_called_count,"
             ." tq.is_called_phone,tq.admin_role "
@@ -3116,4 +3123,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_item_list($page_info){
+        $sql = "select n.admin_revisiterid,"
+            ."m.account,m.seller_level,"
+            ."sum(if(n.admin_revisiterid>0,1,0)) count "
+            ."from t_seller_student_new n "
+            ."left join db_weiyi_admin.t_manager_info m on m.uid=n.admin_revisiterid "
+            ."where n.admin_revisiterid>0 and m.account_role=2  group by n.admin_revisiterid";
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
 }

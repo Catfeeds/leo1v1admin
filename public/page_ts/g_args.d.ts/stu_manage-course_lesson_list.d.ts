@@ -21,6 +21,7 @@ interface RowData {
 	phone	:any;
 	teacherid	:any;
 	assistantid	:any;
+	teacher_nick	:any;
 	has_quiz	:any;
 	lesson_start	:any;
 	lesson_end	:any;
@@ -35,7 +36,6 @@ interface RowData {
 	teacher_money_type	:any;
 	lesson_cancel_reason_type	:any;
 	lesson_cancel_reason_next_lesson_time	:any;
-	teacher_nick	:any;
 	confirm_admin_nick	:any;
 	lesson_diff	:any;
 	lesson_start_str	:any;

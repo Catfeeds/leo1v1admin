@@ -670,7 +670,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
                     'content' =>
 '【分享海报邀请好友报名】
 '
-.self::unicode2utf8('\ue12f').'审核通过即可领取伯乐奖'.self::unicode2utf8('\ue12f').'
+.self::unicode2utf8('\ue12f').'面试及培训通过即可领取伯乐奖'.self::unicode2utf8('\ue12f').'
 • 邀请高校生
 第1～10人 '.self::unicode2utf8('\ue12f').'20元/人；
 第11~20人 '.self::unicode2utf8('\ue12f').'30元/人；
@@ -681,7 +681,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 第11~20人 '.self::unicode2utf8('\ue12f').'50元/人；
 第21~30人 '.self::unicode2utf8('\ue12f').'70元/人；
 第31~50人 '.self::unicode2utf8('\ue12f').'80元/人；
-'.self::unicode2utf8('\ue12f').'伯乐奖通过银行卡发放
+'.self::unicode2utf8('\ue12f').'伯乐奖通过银行卡发放,请立刻绑定银行卡
 '.self::unicode2utf8('\ue12f').'[我的收入]中可查看详情
 '.self::unicode2utf8('\ue22f').' 分享邀请海报，领取伯乐奖！
 ']
