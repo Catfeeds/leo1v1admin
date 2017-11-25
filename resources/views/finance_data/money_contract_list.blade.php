@@ -115,7 +115,6 @@
                     <td style="display:none;" >联系电话</td>
                     <td >合同状态</td>
                     <td >合同类型</td>
-                    <td style="display:none;" >生效日期</td>
                     <td >课时数</td>
                     <td >原价</td>
                     <td style="min-width:80px;" >促销</td>
@@ -165,7 +164,6 @@
                             @endif
                         </td>
 
-                        <td class="contract_starttime"  >{{$var["contract_starttime"]}}</td>
                         <td >{{$var["lesson_total"] * $var["default_lesson_count"]/100}}</td>
                         <td >{{$var["discount_price"]/100}}</td>
                         <td >
@@ -210,8 +208,6 @@
                                 <a class="fa-user opt-user " title="个人信息" ></a>
                                 <a class="fa-gavel opt-money-check " title="财务确认" ></a>
                                 <a class="fa-edit opt-edit-invoice " title="编辑" ></a>
-                                <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
-                                <a class="fa opt-flow-node-list fa-facebook " title="审核进度"></a>
                                 <a class="fa opt-update-order-time" title="修改下单时间">下单时间</a>
                                 <a class="fa opt-update-price" title="修改合同价格">价格</a>
                                 @if($var["price"]>0)
