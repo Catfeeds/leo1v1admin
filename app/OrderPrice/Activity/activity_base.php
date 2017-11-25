@@ -9,6 +9,7 @@ class activity_base {
     static public $need_spec_require_flag= 0; 
     static public $class_map = [
         E\Eorder_activity_type::V_0           =>  activity_0::class,
+        E\Eorder_activity_type::V_1           =>  activity_1::class,
         E\Eorder_activity_type::V_2017080101  =>  activity_2017080101::class,
         E\Eorder_activity_type::V_2017090101  =>  activity_2017090101::class,
         E\Eorder_activity_type::V_2017100701  =>  activity_2017100701::class,

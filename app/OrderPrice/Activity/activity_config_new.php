@@ -228,10 +228,10 @@ class activity_config_new extends  activity_new_base {
 
     public function get_desc() {
         $arr=[];
+        $arr[]=["开启:", E\Eopen_flag::get_desc($this->open_flag) ];
         $arr[]=["条件", "--" ];
 
 
-        $arr[]=["开启:", E\Eopen_flag::get_desc($this->open_flag) ];
 
         if ($this->need_spec_require_flag ) {
             $arr[]=["是否需要特殊申请",  E\Eboolean::get_desc( $this->need_spec_require_flag) ];
@@ -341,6 +341,5 @@ class activity_config_new extends  activity_new_base {
 
         return $arr;
     }
-
 
 }
