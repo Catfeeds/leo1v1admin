@@ -529,6 +529,7 @@ class menu{
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
                 ["power_id"=>60, "name"=>"排行榜",   "url"=>"/main_page/seller" ],
+                ["power_id"=>44, "name"=>"tom拉数据",   "url"=>"/agent/check" ],
                 ["power_id"=>61, "name"=>"藏金阁签约排名",   "url"=>"/main_page/seller_gold_room" ],
                 ["power_id"=>62, "name"=>"转化率统计总表",   "url"=>"/seller_student_new2/tongji_sign_rate" ],
                 ["power_id"=>49, "name"=>"测试课堂列表",   "url"=>"/test_lesson_opt/test_opt_list"],
