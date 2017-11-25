@@ -7,8 +7,8 @@ class activity_2017112502  extends  activity_config_base {
 
     public function __construct(  $args   ) {
         parent::__construct($args);
-
-        $this->date_range=[ "2017-11-25"  , "2017-11-30"];
+        //$this->open_flag=false;
+        $this->date_range=[ "2017-11-24"  , "2017-11-30"];
         $this->user_join_time_range=["2015-11-01", "2017-11-10"];
 
         $this->period_flag_list= [ E\Eperiod_flag::V_0  ];

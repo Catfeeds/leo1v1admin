@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
 use \App\Enums as E;
 
+/**
+ * @use \App\Http\Controllers\Controller
+ */
 trait TeaPower {
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
@@ -713,8 +716,14 @@ trait TeaPower {
                 $teacher_subject["not_grade"]
             );
         }
+<<<<<<< HEAD
+
+        if(is_numeric($check_subject) && $check_subject == 1){
+}else{
+=======
         
         if($check_subject != 1){
+>>>>>>> 458d0cfe0ec3f2f6423a090171efe4fd49544cf9
             return $check_subject;
         }
 
@@ -4091,6 +4100,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
+    /**
+     * 获取老师的总工资明细
+     * @param int teacherid 老师id
+     * @param int start_time 拉取老师工资的开始时间
+     * @param int end_time   拉取老师工资的结束时间
+     * @param string show_type 拉取老师工资的结束时间
+     * @return array list
+     */
     public function get_teacher_money_list($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
