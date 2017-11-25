@@ -716,7 +716,8 @@ trait TeaPower {
                 $teacher_subject["not_grade"]
             );
         }
-        if($check_subject != 1){
+
+        if($check_subject){
             return $check_subject;
         }
 
@@ -855,9 +856,9 @@ trait TeaPower {
                 return $this->output_err("该老师对应年级段已被冻结!");
             }
 
-            return 1;
+            // return 1;
         }else{
-            return 1;
+            // return 1;
         }
     }
 
@@ -877,7 +878,7 @@ trait TeaPower {
             return $this->output_err("该老师对应年级段已被冻结!");
         }
 
-        return 1;
+        // return 1;
     }
 
     public function get_seller_limit_require_info($teacherid,$lesson_start,$grade,$subject,$account_role,$master_adminid,$is_green_flag){
