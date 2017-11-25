@@ -114,8 +114,12 @@ class order_price_20171001 extends order_price_base
             //2017-1117   可叠加 CR 限量送课
             $do_activity_fun ( Activity\activity_2017111706::class  );
 
-            //2017-1125 25-30  可叠加  CC 每满15000 立减500 (88个) 
+            //2017-1125 24-30  可叠加  CC (11.10以后)  每满10000 立减500 (188个) 
             $do_activity_fun ( Activity\activity_2017112501::class  );
+
+            //2017-1125 24-30  可叠加  CC 回流例子(11.10以前)  送课(88个)
+            $do_activity_fun ( Activity\activity_2017112502::class  );
+
 
             //优惠券 cc
             $do_activity_fun ( Activity\activity_2017110802::class  );

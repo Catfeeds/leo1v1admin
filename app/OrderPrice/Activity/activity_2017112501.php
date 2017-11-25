@@ -7,23 +7,32 @@ class activity_2017112501 extends  activity_config_base {
 
     public function __construct(  $args   ) {
         parent::__construct($args);
-        $this->date_range=[ "2017-11-25"  , "2017-11-30"];
-        $this->period_flag_list= [ E\Eperiod_flag::V_0 ,E\Eperiod_flag::V_1  ];
+        //$this->open_flag=false;
+
+        $this->date_range=[ "2017-11-24"  , "2017-11-30"];
+        $this->user_join_time_range=["2017-11-11", "2017-11-30"];
+        $this->period_flag_list= [ E\Eperiod_flag::V_0  ];
         $this->contract_type_list = [E\Econtract_type::V_0 ];
         $this->lesson_times_range = [10 ,  10000];
-        $this->max_count=88;
+        $this->max_count=188;
+
 
         $this-> price_off_money_list=[
-            15000 => 500,
-            30000 => 1000,
-            45000 => 1500,
-            60000 => 2000,
-            75000 => 2500,
-            90000 => 3000,
-            105000 => 3500,
-            120000 => 4000,
-            135000 => 4500,
-            150000 => 5000,
+            10000  => 500,
+            20000  => 1000,
+            30000  => 1500,
+            40000  => 2000,
+            50000  => 2500,
+            60000  => 3000,
+            70000  => 3500,
+            80000  => 4000,
+            90000  => 4500,
+            100000 => 5000,
+            110000 => 5500,
+            120000 => 6000,
+            130000 => 6500,
+            140000 => 7000,
+            150000 => 7500,
         ];
 
     }

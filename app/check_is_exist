@@ -1,9 +1,0 @@
-Console/Commands/fulltime_teacher_kaoqin.php:                $check_exist = $task->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-Console/Commands/fulltime_teacher_kaoqin.php:                    $task->t_fulltime_teacher_attendance_list->row_insert([
-Console/Commands/fulltime_teacher_kaoqin.php:                    $task->t_fulltime_teacher_attendance_list->row_insert([
-Console/Commands/fulltime_teacher_kaoqin.php:                    $task->t_fulltime_teacher_attendance_list->row_insert([
-Console/Commands/fulltime_teacher_kaoqin.php:              $task->t_fulltime_teacher_attendance_list->row_insert([
-Http/Controllers/test_jack.php:                $check_exist = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-Http/Controllers/test_jack.php:                    // $task->t_fulltime_teacher_attendance_list->row_insert([
-Http/Controllers/user_manage_new.php:        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role,$fulltime_teacher_type);
-Http/Controllers/user_deal.php:        $this->t_fulltime_teacher_attendance_list->row_delete($id);
