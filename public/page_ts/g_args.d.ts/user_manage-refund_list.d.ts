@@ -20,6 +20,8 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	qc_adminid	:any;
+	qc_deal_time	:any;
 	assistantid	:any;
 	subject	:any;
 	teacher_id	:any;
@@ -52,6 +54,7 @@ interface RowData {
 	grade	:any;
 	need_receipt	:any;
 	is_staged_flag	:any;
+	deal_nick	:any;
 	ass_nick	:any;
 	tea_nick	:any;
 	subject_str	:any;
@@ -67,10 +70,15 @@ interface RowData {
 	qc_advances_status_str	:any;
 	qc_contact_status_str	:any;
 	qc_voluntarily_status_str	:any;
+	order_time_str	:any;
 	is_pass	:any;
 	qc_other_reason	:any;
 	qc_analysia	:any;
 	qc_reply	:any;
+	duty	:any;
+	duty_str	:any;
+	max_time_str	:any;
+	min_time_str	:any;
 	助教部一级原因	:any;
 	助教部二级原因	:any;
 	助教部三级原因	:any;

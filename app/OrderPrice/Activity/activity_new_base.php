@@ -7,6 +7,11 @@ use \App\Enums as E;
  */
 class activity_new_base {
 
+    public $order_activity_type = 0;
+
+    //是否需要特殊申请
+    public $need_spec_require_flag = 0;
+
     /**
      * 购买课程次数
      */
@@ -40,8 +45,8 @@ class activity_new_base {
 
     function check_use_count($max_count ) {
         $task= self::get_task_controler();
-        $order_activity_type=static::$max_count_activity_type_list;
-        $order_activity_type[]=static::$order_activity_type;
+        $order_activity_type= $this->max_count_activity_type_list;
+        $order_activity_type[]=$this->order_activity_type;
 
         $now_count= $task->t_order_activity_info->get_count_by_order_activity_type( $order_activity_type );
         $activity_desc_cur_count="当前已用($now_count/$max_count) ";
@@ -51,8 +56,8 @@ class activity_new_base {
     static function check_max_change_value($max_change_value, $need_change_count ) {
         if ($max_change_value >0 ) {
             $task= self::get_task_controler();
-            $order_activity_type=static::$max_count_activity_type_list;
-            $order_activity_type[]=static::$order_activity_type;
+            $order_activity_type=$this->max_count_activity_type_list;
+            $order_activity_type[]=$this->$order_activity_type;
 
             $now_count= $task->t_order_activity_info->get_all_change_value_by_order_activity_type($order_activity_type) ;
             $activity_desc_cur_count="当前已用($now_count/$max_change_value) ";
@@ -103,17 +108,19 @@ class activity_new_base {
         return $last_value;
     }
 
-    static public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0 ) {
+    public function gen_activity_item($succ_flag, $desc , $cur_price, $cur_present_lesson_count ,$can_period_flag , $change_value=0, $off_money =0 ) {
         \App\Helper\Utils::logger("  $desc ");
 
-        return [ "order_activity_type" => static::$order_activity_type ,
-                 "succ_flag"=> $succ_flag ,
-                 "activity_desc"=>$desc,
-                 "cur_price" => $cur_price  ,
-                 "cur_present_lesson_count" => $cur_present_lesson_count,
-                 "can_period_flag" => $can_period_flag,
-                 "change_value" => $change_value,
-                 "off_money" => $off_money,
+        return [
+            "order_activity_type" => $this->order_activity_type ,
+            "need_spec_require_flag" => $this->need_spec_require_flag ,
+            "succ_flag"=> $succ_flag ,
+            "activity_desc"=>$desc,
+            "cur_price" => $cur_price  ,
+            "cur_present_lesson_count" => $cur_present_lesson_count,
+            "can_period_flag" => $can_period_flag,
+            "change_value" => $change_value,
+            "off_money" => $off_money,
         ];
     }
 

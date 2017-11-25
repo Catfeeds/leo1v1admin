@@ -4,13 +4,13 @@
 $(function(){
     Enum_map.append_option_list("open_flag", $("#id_open_flag"));
     Enum_map.append_option_list("can_disable_flag", $("#id_can_disable_flag"));
-    //Enum_map.append_option_list("contract_type", $("#id_contract_type"));
-    //Enum_map.append_option_list("period_flag", $("#id_period_flag"));
+    Enum_map.append_option_list("boolean", $("#id_spec_need_flg"));
+    Enum_map.append_option_list("order_activity_discount_type", $("#id_discount_type"));
 
     $("#id_open_flag").val(g_args.id_open_flag);
     $("#id_can_disable_flag").val(g_args.id_can_disable_flag);
-    //$("#id_contract_type").val(g_args.id_contract_type);
-    //$("#id_period_flag").val(g_args.id_period_flag);
+    $("#id_spec_need_flg").val(g_args.id_spec_need_flg);
+    $("#id_discount_type").val(g_args.id_discount_type);
 
     $('.opt-change').set_input_change_event(load_data);
 
@@ -93,6 +93,8 @@ function load_data(){
     var data = {
         id_open_flag   : $("#id_open_flag").val(),
         id_can_disable_flag    : $("#id_can_disable_flag").val(),
+        id_spec_need_flg    : $("#id_spec_need_flg").val(),
+        id_discount_type    : $("#id_discount_type").val(),
     };
 
     //$.do_ajax("/seller_student2/show_order_activity_info",data,function(){});
