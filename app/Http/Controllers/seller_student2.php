@@ -19,7 +19,7 @@ class seller_student2 extends Controller
  
         $ret_list = $this->t_seller_student2->get_list($open_flag,$can_disable_flag,$contract_type_list,$period_flag_list,$page_num);
         
-        $gradeArr = E\Egrade::$desc_map;
+        $gradeArr = E\Egrade_only::$desc_map;
         if($ret_list['list']){
             foreach( $ret_list['list'] as &$item){
                 $item['period_flag_list_str'] = '';
@@ -49,12 +49,12 @@ class seller_student2 extends Controller
                         $gradeArr = explode(",",$item['grade_list']);
                         $item['grade_list_str'] = '';
                         foreach( $gradeArr as $grade){
-                            $item['grade_list_str'] .= E\Egrade::get_desc($grade).',';
+                            $item['grade_list_str'] .= E\Egrade_only::get_desc($grade).',';
                         }
                         $item['grade_list_str'] = substr($item['grade_list_str'],0,-1);
 
                     }else{
-                        $item['grade_list_str'] = E\Egrade::get_desc($item['grade_list']);
+                        $item['grade_list_str'] = E\Egrade_only::get_desc($item['grade_list']);
                     }
                 }else{
                     $item['grade_list_str'] = '未设置';
@@ -99,7 +99,7 @@ class seller_student2 extends Controller
         }
         return $this->pageView(__METHOD__,$ret_list,
            [
-             "_publish_version"      => "2017112211840",
+             "_publish_version"      => "201711251212",
              "gradeArr" => $gradeArr,
            ]
         );
@@ -107,6 +107,18 @@ class seller_student2 extends Controller
 
     public function add_order_activity(){
         $title = $this->get_in_str_val('title');
+
+        $id = $this->get_in_int_val('id');
+        if(empty($id)){
+            $id = date('Ymd',strtotime('now')).rand(1,99);
+        }else{
+            $item = $this->t_seller_student2->get_by_id($id);
+            if($item){
+                $result['status'] = 500;
+                $result['info'] = "活动id:".$id."已经存在，请换个id输入！";
+                return $this->output_succ($result); 
+            }
+        }
 
         $period_flag_list = $this->get_in_str_val('period_flag_list','0,1');
         $contract_type_list = $this->get_in_str_val('contract_type_list','0,3');
@@ -116,7 +128,7 @@ class seller_student2 extends Controller
         $can_disable_flag = $this->get_in_int_val('can_disable_flag',1);
         $open_flag = $this->get_in_int_val('open_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
-        $id = date('YmdHis',strtotime("now")).'01';
+       
         return $this->t_seller_student2->row_insert([
             "id"   => $id,
             "title"   => $title,
@@ -138,9 +150,8 @@ class seller_student2 extends Controller
     public function get_order_activity(){
         $id = $this->get_in_int_val('id');
         $item = $this->t_seller_student2->get_by_id($id);
-        $activity_type_list_str = []; //已选组合列表
-        $_activity_type_list = [];    //所有组合列表
-        $dicount_list = [];           //优惠信息
+        $activity_type_list = []; //已选组合列表
+        $discount_list = [];           //优惠信息
         if($item){
             $item['period_flag_list_str'] = '';
             if($item['period_flag_list']){
@@ -169,12 +180,12 @@ class seller_student2 extends Controller
                     $gradeArr = explode(",",$item['grade_list']);
                     $item['grade_list_str'] = '';
                     foreach( $gradeArr as $grade){
-                        $item['grade_list_str'] .= E\Egrade::get_desc($grade).',';
+                        $item['grade_list_str'] .= E\Egrade_only::get_desc($grade).',';
                     }
                     $item['grade_list_str'] = substr($item['grade_list_str'],0,-1);
 
                 }else{
-                    $item['grade_list_str'] = E\Egrade::get_desc($item['grade_list']);
+                    $item['grade_list_str'] = E\Egrade_only::get_desc($item['grade_list']);
                 }
             }else{
                 $item['grade_list_str'] = '';
@@ -187,42 +198,71 @@ class seller_student2 extends Controller
             $item["last_test_lesson_start"] = !empty($item["last_test_lesson_start"]) ? date('Y-m-d',$item["last_test_lesson_start"]) : '';
             $item["last_test_lesson_end"] = !empty($item["last_test_lesson_end"]) ? date('Y-m-d',$item["last_test_lesson_end"]) : '';
  
-            //寻找其它配额组合
-            $_activity_list = $this->t_seller_student2->get_activity_list_by_id($id);
-            $_activity_type_list = array_column($_activity_list, 'title', 'id');
-           
-            $activity_type_list_str = [];
-            if($item['max_count_activity_type_list'] && $_activity_list){
-             
-                if(strpos($item['max_count_activity_type_list'], ",")>0){
-               
-                    $_activity_arr = explode(",",$item['max_count_activity_type_list']);
-                    foreach( $_activity_arr as $type_id){
-                        $activity_type_list_str[] = $_activity_type_list[$type_id];
-                    }
-                }else{
-                    $type_id = $item['max_count_activity_type_list'];
-                    $activity_type_list_str[] = $_activity_type_list[$type_id];   
-                }
-
-            }
-
+            //寻找配额组合
+            $activity_type_list = $this->t_seller_student2->get_activity_exits_list($item['max_count_activity_type_list']);
+            
+            
             //优惠列表展示
             $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
             
         }
-        $gradeArr = E\Egrade::$desc_map;
+        $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
             [
-                "_publish_version"      => "201711241729",
+                "_publish_version"      => "201711251155",
                 "ret_info" => $item,
                 "gradeArr" => $gradeArr,
                 "discount_list"=>$discount_list,
-                'activity_type_list_str' => $activity_type_list_str,
-                '_activity_type_list'=>$_activity_type_list, //配额组合
+                'activity_type_list' => $activity_type_list,
             ]
         );
 
+    }
+
+    //拿到所有的配额组合
+    public function get_activity_all_list(){
+        $id = $this->get_in_int_val('id');
+        $activity_type_list_id = $this->get_in_str_val('max_count_activity_type_list');
+
+        $activity_type_list = $this->t_seller_student2->get_activity_all_list($id);
+
+        $result['status'] = 201;
+        $result['data'] = null;
+        if(empty($activity_type_list)){
+            return $this->output_succ($result);
+        }
+        $all_activity_type_list = array_column($activity_type_list, 'title', 'id');
+        
+        $exits_arr = [];
+        $info = [];
+        if($activity_type_list_id){
+            $exits_arr = explode(',',$activity_type_list_id);
+            foreach( $all_activity_type_list as $k => $v){
+                $info[$k] = [
+                    'title' => $v,
+                    'check' => "unchecked"
+                ];
+                if(in_array($k,$exits_arr)>0){
+                    $info[$k]['check'] = "checked";
+                }
+            }
+
+        }else{
+            foreach( $all_activity_type_list as $k => $v){
+                $info[$k] = [
+                    'title' => $v,
+                    'check' => "unchecked"
+                ];
+
+            }
+        }
+
+        $result['status'] = 200;
+        $result['data'] = $info;
+        // \App\Helper\Utils::logger("返回结果: ".json_encode($result));
+        \App\Helper\Utils::logger("返回结果: ".json_encode($this->output_succ($result)));
+
+        return $this->output_succ($result);
     }
 
     private function discount_list($discount_type,$discout_json){
@@ -251,7 +291,7 @@ class seller_student2 extends Controller
                 $middle = ' 打';
                 $after = '折';
                 foreach( $discout as $var => $val){
-                    $grade = E\Egrade::get_desc($var);
+                    $grade = E\Egrade_only::get_desc($var);
                     $dicount_list[] = $before.$grade.$middle.$val.$after;
                 }
                 break;
@@ -286,22 +326,8 @@ class seller_student2 extends Controller
         $result['status'] = 200;
        
         $id = $this->get_in_int_val('id');
-        $id_after = $this->get_in_int_val('id_after');
-
-        if(empty($id_after)){
-            $result['status'] = 500;
-            $result['info'] = "id不能为空！";
-            return $result;
-
-        }
-        if( $id != $id_after){
-            $item = $this->t_seller_student2->get_by_id($id_after);
-            if($item){
-                $result['status'] = 500;
-                $result['info'] = "id:".$id_after."已经存在，请换个id输入！";
-                return $result;
-            }
-        }
+        
+        
         $title = $this->get_in_str_val('title','-1');
         $date_range_start = trim($this->get_in_str_val('date_range_start',null));
         $date_range_end = trim($this->get_in_str_val('date_range_end',null));
@@ -310,7 +336,6 @@ class seller_student2 extends Controller
 
         $updateArr = [
             'title' => $title,
-            'id'=>$id_after,
             'lesson_times_min' => $lesson_times_min,
             'lesson_times_max' => $lesson_times_max,
         ];
@@ -321,7 +346,6 @@ class seller_student2 extends Controller
  
         if($this->t_seller_student2->field_update_list($id,$updateArr)){
             $result['info'] = '更新成功';
-            $result['data'] = $id_after;
             return $this->output_succ($result);
         }else{
             $result['info'] = '更新失败';
