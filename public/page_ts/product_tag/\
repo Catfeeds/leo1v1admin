@@ -10,11 +10,17 @@ $(function(){
         });
     }
 
+    $('#id_tag_l1_sort').val(g_args.id_tag_l1_sort);
     Enum_map.append_option_list("tag_l1_sort", $("#id_tag_l1_sort"));
+    $('#id_tag_l2_sort').val(g_args.id_tag_l2_sort);
     Enum_map.append_option_list("tag_l2_sort", $("#id_tag_l2_sort"));
-    $('#id_tag_name').val(g_args.tag_name);
-    $('#id_tag_l2_sort').val(g_args.tag_l2_sort > 0 ? g_args.tag_l2_sort:-1);
-    $('#id_tag_l1_sort').val(g_args.tag_l1_sort  > 0 ? g_args.tag_l1_sort:-1);
+    $('#id_tag_l1_sort').val(g_args.id_tag_l1_sort);
+    Enum_map.append_option_list("tag_l1_sort", $("#id_tag_l1_sort"));
+
+    $.enum_multi_select( $('#id_tag_l1_sort'), 'tag_l1_sort', function(){load_data();} )
+    $('#id_tag_l2_sort').val(g_args.id_tag_l2_sort);
+    $.enum_multi_select( $('#id_tag_l2_sort'), 'tag_l2_sort', function(){load_data();} )
+    $('#id_msg').val(g_args.tag_name);
 
     $('.opt-change').set_input_change_event(load_data);
 
@@ -106,11 +112,11 @@ $(function(){
     $(".opt-del").on("click",function(){
       var opt_data=$(this).get_opt_data();
         BootstrapDialog.confirm(
-            "要删除名称为-" + opt_data.tag_name+"-的标签吗？"  ,
+            "要删除名称为-" + opt_data.tag_name+"的标签吗？"  ,
             function(val){
                 if (val) {
                     $.do_ajax("/product_tag/tag_del",{
-                        "tag_id" : opt_data.tag_id
+                        "id" : opt_data.id
                     });
 
                 }

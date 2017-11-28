@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
+
     <section class="content ">
 
         <div>
@@ -8,18 +9,21 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">标签一级分类</span>
-                        <input class="opt-change form-control" id="id_tag_l1_sort" />
+                        <select class="opt-change form-control" id="id_tag_l1_sort" >
+                        </select>
+
                     </div>
                 </div>
-
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">标签二级分类</span>
-                        <input class="opt-change form-control" id="id_tag_l2_sort" />
+                        <select class="opt-change form-control" id="id_tag_l2_sort" >
+                        </select>
+
                     </div>
                 </div>
-
+                
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">标签名称</span>

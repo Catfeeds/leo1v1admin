@@ -69,4 +69,11 @@ class product_tag extends Controller
         return $this->output_succ();
 
     }
+    //@desn:删除标签库
+    public function tag_del(){
+        $id = $this->get_in_int_val("tag_id");
+        $this->t_tag_library->row_delete($id);
+        return $this->output_succ();
+    }
+
 }
