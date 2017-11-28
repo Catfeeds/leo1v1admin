@@ -71,6 +71,7 @@
                 <td style="display:none">最大修改累计值</td>
                 <td style="display:none">用户加入时间范围</td>
                 <td style="display:none">最近一次试听时间范围</td>
+                <td style="display:none">打包活动总配额</td>
                 <td style="display:none">优惠信息</td>
                 <td >操作</td>
             </tr>
@@ -95,6 +96,7 @@
                     <td >{{$var["max_change_value"]}}</td>
                     <td >{{$var["user_join_time_range"]}}</td>
                     <td >{{$var["last_test_lesson_range"]}}</td>
+                    <td >{{$var["activity_type_list_str"]}}</td>
                     <td >{{$var["discount_list"]}}</td>
                     <td >
                         <div 

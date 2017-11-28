@@ -21,7 +21,7 @@ interface RowData {
 	deal_flag	:any;
 	feedback_adminid	:any;
 	record_adminid	:any;
-	describe	:any;
+	describe_msg	:any;
 	lesson_url	:any;
 	reason	:any;
 	solution	:any;
@@ -30,6 +30,8 @@ interface RowData {
 	stu_nick	:any;
 	stu_phone	:any;
 	stu_agent	:any;
+	sid	:any;
+	tid	:any;
 	tea_nick	:any;
 	tea_phone	:any;
 	tea_agent	:any;

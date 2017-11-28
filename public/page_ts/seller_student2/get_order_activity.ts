@@ -173,7 +173,7 @@ $(function(){
         var arr=[
             ["优惠力度(power_value)", id_power_value ],
             ["最大合同数", id_max_count ],
-            ["最大修改金额累计值", id_max_change_value ],
+            ["优惠份额最大个数", id_max_change_value ],
         ];
 
         $.show_key_value_table("编辑活动", arr ,{
