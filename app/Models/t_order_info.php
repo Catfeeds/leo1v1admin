@@ -4247,4 +4247,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_seller_add_time_by_orderid_str($orderid_arr){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr,'o.orderid',$orderid_arr);
+        $sql = $this->gen_sql_new("select orderid,n.add_time "
+                                  ." from %s o "
+                                  ." left join %s n on n.userid=o.userid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

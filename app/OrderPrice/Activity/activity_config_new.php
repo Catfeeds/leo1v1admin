@@ -50,6 +50,7 @@ class activity_config_new extends  activity_new_base {
 
     public function init_activity_config( $activity_config ) {
         //TODO
+        
 
     }
 
