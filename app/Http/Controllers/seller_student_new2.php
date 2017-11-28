@@ -1343,6 +1343,7 @@ class seller_student_new2 extends Controller
         }
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         $arr['succ_all_count_for_month'] = $res[$adminid]['succ_all_count_for_month'];
+        $arr['fail_all_count_for_month'] = $res[$adminid]['fail_all_count_for_month'];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         if($end_time_new >= time()){
             $end_time_new = time();
