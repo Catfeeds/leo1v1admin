@@ -33,7 +33,6 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
                 var opt_data = $tr.find(".opt-show").get_opt_data();
-                var order_per = 0;
                 $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
                     "adminid"    : opt_data.adminid,
                     "start_time" : g_args.start_time,
@@ -48,10 +47,11 @@ $(function(){
                     $tr.find(".fail_all_count_for_month").text(data["fail_all_count_for_month"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);
                     $tr.find(".kpi").text(data["kpi"]);
-                    // if(data["succ_all_count_for_month"] != 0){
+                    // if(data["succ_all_count_for_month"] > 0){
                     //     order_per = Math.round(opt_data.all_new_contract_for_month/data["succ_all_count_for_month"])*100;
                     // }
-                    $tr.find(".order_per").text(opt_data.all_new_contract_for_month+'%');
+                    var order_per = Math.round(opt_data.all_new_contract_for_month/data["succ_all_count_for_month"]);
+                    $tr.find(".order_per").text(order_per);
                     do_index++;
                     do_one();
                 });
