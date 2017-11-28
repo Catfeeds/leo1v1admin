@@ -1182,12 +1182,12 @@ class tea_manage_new extends Controller
             $orderid_arr = [];
             foreach($arr as $item){
                 foreach($item as $info){
+                    dd($item,$info);
                     if(is_int($info) && $info>0){
                         $orderid_arr[] = $info;
                     }
                 }
             }
-            dd($orderid_arr);
         }
     }
 
