@@ -1183,11 +1183,11 @@ class tea_manage_new extends Controller
             foreach($arr as $item){
                 foreach($item as $info){
                     if(!is_string($info) && $info>0){
-                        dd($item,$info);
-                        $orderid_arr[] = $info;
+                        $orderid_arr[] = (int)$info;
                     }
                 }
             }
+            dd($orderid_arr);
         }
     }
 
