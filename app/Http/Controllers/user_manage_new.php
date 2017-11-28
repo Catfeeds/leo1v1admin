@@ -1731,6 +1731,7 @@ class user_manage_new extends Controller
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
         }
+        dd($res);
         //学生上课数,试听成功数,取消数
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
