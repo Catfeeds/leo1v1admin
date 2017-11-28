@@ -3143,7 +3143,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         ];
         $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct n.userid) stu_num,sum(if(l.lessonid>0,1,0)) lesson_num,"
-                                  ." sum(o.price) order_price,sum(if(o.orderid>0,1,0)) order_num "
+                                  ." sum(o.price) order_price,sum(if(o.orderid>0,1,0)) order_num,"
+                                  ."count(distinct l.userid) lesson_user "
                                   ." from %s n left join %s s on n.userid = s.userid"
                                   ." left join %s l on n.userid = l.userid and l.lesson_type=2 and l.lesson_del_flag=0 and l.lesson_user_online_status<2"
                                   ." left join %s o on l.lessonid = o.from_test_lesson_id and o.contract_type in (0,3) and o.contract_status>0"
