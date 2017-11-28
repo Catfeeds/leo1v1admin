@@ -5136,6 +5136,8 @@ class user_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
             $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
+            $item["tea_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["tea_phone"]);
+            $item["stu_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["stu_phone"]);
             if($item['deal_flag'] == -1){
                 $item['deal_flag_str'] = '<font color="blue">未设置</font>';
             }else{
