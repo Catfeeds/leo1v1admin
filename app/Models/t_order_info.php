@@ -4256,9 +4256,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s n on n.userid=o.userid "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,seller_student_new::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list($sql);
     }
 }
