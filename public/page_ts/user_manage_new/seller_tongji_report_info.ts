@@ -53,7 +53,6 @@ $(function(){
             }
         };
         do_one();
-
     };
     load_row_data ();
 
