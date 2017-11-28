@@ -40,7 +40,7 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
                 'parentid'  => '271968'
             ],
             [
-                'wx_openid' => '11',
+                'wx_openid' => 'orwGAs6J8tzBAO3mSKez8SX-DWq4',
                 'parentid'  => '271968'
             ],
             [
@@ -56,7 +56,7 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
         foreach($parent_list as $item){
             $data_leo = [
                 'first'    => "家长,您好！ios端理优升学帮新版本V4.5.0正式上线了",
-                'keyword1' => "功能上线通知",
+                'keyword1' => "新版本上线通知",
                 'keyword2' => "该版本增加了建行分期付款功能，请及时更新哦~",
                 'keyword3' => date('Y-m-d H:i:s'),
                 'remark'   => "点击推文,前往下载页面"
