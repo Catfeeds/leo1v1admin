@@ -25,7 +25,7 @@
 
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <button type="button" class="btn btn-warning" id="id_submit">提交</button>
+                    <button type="button" class="btn btn-warning" id="id_submit">添加</button>
                 </div>
             </div>
 
@@ -88,17 +88,6 @@
                 @endforeach
             </tbody>
         </table>
-
-        <div style="display:none;" >
-            <div id="id_assign_log">
-                <table   class="table table-bordered "   >
-                    <tr>  <th> 合同id <th>驳回人 <th>驳回原因 <th>驳回时间  </tr>
-                        <tbody class="data-body">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-
 
 
         @include("layouts.page")
