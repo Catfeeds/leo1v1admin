@@ -272,6 +272,28 @@ class teacher_test_lesson_tra_day_wx extends Command
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日全职试听转化率","本月签单率:".$all["order_per"].",扩课签单率:".$all["kk_per"].",换老师签单率:".$all["change_per"].";其中语文签单率:".$yw["order_per"].",扩课签单率:".$yw["kk_per"].",换老师签单率:".$yw["change_per"].";数学签单率:".$sx["order_per"].",扩课签单率:".$sx["kk_per"].",换老师签单率:".$sx["change_per"].";英语签单率:".$yy["order_per"].",扩课签单率:".$yy["kk_per"].",换老师签单率:".$yy["change_per"].";物理签单率:".$wl["order_per"].",扩课签单率:".$wl["kk_per"].",换老师签单率:".$wl["change_per"].";小学科签单率:".$zh["order_per"].",扩课签单率:".$zh["kk_per"].",换老师签单率:".$zh["change_per"],"");   
         }
 
+
+
+        //每日各模式试听转化率
+        $top_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
+        $top_seller_total["per"] = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+
+        $green_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
+        $green_seller_total["per"] = !empty($green_seller_total["person_num"])?round($green_seller_total["have_order"]/$green_seller_total["person_num"]*100,2):0;
+
+        $normal_seller_total_grab = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,1); //咨询/老师普通排课总体(抢课)
+        $normal_seller_total_grab["per"] = !empty($normal_seller_total_grab["person_num"])?round($normal_seller_total_grab["have_order"]/$normal_seller_total_grab["person_num"]*100,2):0;
+
+        $normal_seller_total = $task->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,0); //咨询/老师普通排课总体(非抢课)
+        $normal_seller_total["per"] = !empty($normal_seller_total["person_num"])?round($normal_seller_total["have_order"]/$normal_seller_total["person_num"]*100,2):0;
+        // $admin_arr2=[349,72,448];
+        $admin_arr2=[349];
+        foreach($admin_arr2 as $vv){
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($vv,"理优监课组","每日各模式试听转化率","\n抢单模式:".$normal_seller_total_grab["per"]."%\n普排模式:".$normal_seller_total["per"]."%\n精排模式:".$top_seller_total["per"]."%\n绿色通道:".$green_seller_total["per"]."%","");   
+        }
+
+
+
        
 
 
