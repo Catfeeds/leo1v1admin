@@ -1338,11 +1338,7 @@ $test=	3;
         });
     }
 
-    public function send_wx(){
-        $a= new \App\Jobs\send_wx_notic_for_software();
-        dispatch($a);
 
-    }
 
 
 

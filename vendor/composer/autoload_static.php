@@ -277,6 +277,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $classMap = array (
+        'AddPermissionForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_173608_add_permission_for_company_wx_users.php',
         'AddRidForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_103609_add_rid_for_company_wx_users.php',
         'AddVotesToTAgent' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
         'AddVotesToTAgentDailyLottery' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_163011_add_votes_to_t_agent_daily_lottery.php',
@@ -393,7 +394,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
-        'OrderActivityConfigChangeValue' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_t_order_activity_config_change_value.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
@@ -900,6 +900,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TRequirementInfoAddProductComment' => __DIR__ . '/../..' . '/database/migrations/2017_10_17_101518_t_requirement_info_add_product_comment.php',
         'TRequirementInfoAddProductName' => __DIR__ . '/../..' . '/database/migrations/2017_10_17_110436_t_requirement_info_add_product_name.php',
         'TRequirementInfoUpdateProductComment' => __DIR__ . '/../..' . '/database/migrations/2017_10_17_101814_t_requirement_info_update_product_comment.php',
+        'TResourceAddIsUse' => __DIR__ . '/../..' . '/database/migrations/2017_11_28_092651_t_resource_add_is_use.php',
         'TRevisitAssessInfoDropRevisitNumCallCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
         'TRevisitCallCountDrop' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_183545_t_revisit_call_count_drop.php',
         'TRuffianActivityAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
@@ -959,6 +960,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTestLessonSubjectRequireAddIndexTestLessonOrderFailFlag' => __DIR__ . '/../..' . '/database/migrations/2017_11_02_133537_t_test_lesson_subject_require_add_index_test_lesson_order_fail_flag.php',
         'TTestSubjectFreeListAddIndexAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_20_101727_t_test_subject_free_list_add_index_add_time.php',
         'TTqCallInfoAddIndexAdminRole' => __DIR__ . '/../..' . '/database/migrations/2017_11_08_134149_t_tq_call_info_add_index_admin_role.php',
+        'TTqCallInfoAddIndexAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_11_28_181501_t_tq_call_info_add_index_adminid.php',
         'TTqCallInfoAddObjStartTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_09_182200_t_tq_call_info_add_obj_start_time.php',
         'TUserInfoPasswdMd5Two' => __DIR__ . '/../..' . '/database/migrations/2017_11_23_164411_t_user_info_passwd_md5_two.php',
         'TUserLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_132146_t_user_log.php',
