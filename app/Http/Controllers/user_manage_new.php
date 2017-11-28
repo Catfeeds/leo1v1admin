@@ -1937,7 +1937,6 @@ class user_manage_new extends Controller
             }
         }
         \App\Helper\Utils::logger("OUTPUT");
-
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
     public function seller_require_tq_time_list(){

@@ -1330,4 +1330,21 @@ class seller_student_new2 extends Controller
 
     }
 
+    public function seller_test_lesson_info(){
+        $adminid = $this->get_in_int_val('adminid');
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+        }
+        $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
+        $arr['succ_all_count_for_month'] = $res[$adminid]['succ_all_count_for_month'];
+        $arr['fail_all_count_for_month'] = $res[$adminid]['fail_all_count_for_month'];
+        // $arr['lesson_per'] = $res[$adminid]['lesson_per'];
+        // $arr['kpi'] = $res[$adminid]['kpi'];
+        return $this->output_succ($arr);
+    }
 }

@@ -33,18 +33,20 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
                 var opt_data = $tr.find(".opt-show").get_opt_data();
-                $.do_ajax("/user_deal/seller_month_money_info",{
-                    "adminid"  : opt_data.adminid ,
+                $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
+                    "adminid"    : opt_data.adminid,
                     "start_time" : g_args.start_time,
                     "end_time"   : g_args.end_time,
                 },function(data){
-                    $tr.find(".suc_first_week").text(data["suc_first_week"]);
-                    $tr.find(".suc_second_week").text(data["suc_second_week"]);
-                    $tr.find(".suc_third_week").text(data["suc_third_week"]);
-                    $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
+                    $tr.find(".test_lesson_count").text(data["test_lesson_count"]);
+                    $tr.find(".succ_all_count_for_month").text(data["succ_all_count_for_month"]);
+                    $tr.find(".suc_lesson_count_one").text(data["suc_lesson_count_one"]);
+                    $tr.find(".suc_lesson_count_two").text(data["suc_lesson_count_two"]);
+                    $tr.find(".suc_lesson_count_three").text(data["suc_lesson_count_three"]);
+                    $tr.find(".suc_lesson_count_four").text(data["suc_lesson_count_four"]);
+                    $tr.find(".fail_all_count_for_month").text(data["fail_all_count_for_month"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);
                     $tr.find(".kpi").text(data["kpi"]);
-                    $tr.find(".last_seller_level").text(data["last_seller_level"]);
                     do_index++;
                     do_one();
                 });
