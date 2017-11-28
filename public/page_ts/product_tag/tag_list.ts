@@ -1,0 +1,117 @@
+/// <reference path="../common.d.ts" />
+/// <reference path="../g_args.d.ts/test_luki-test_list.d.ts" />
+
+$(function(){
+    function load_data(){
+        $.reload_self_page ( {
+            tag_l1_sort:	$('#id_tag_l1_sort').val(),
+            tag_l2_sort:	$('#id_tag_l2_sort').val(),
+            tag_name:	$('#id_tag_name').val()
+        });
+    }
+
+    $('#id_tag_l1_sort').val(g_args.id_tag_l1_sort);
+    $.enum_multi_select( $('#id_tag_l1_sort'), 'tag_l1_sort', function(){load_data();} )
+    $('#id_tag_l2_sort').val(g_args.id_tag_l2_sort);
+    $.enum_multi_select( $('#id_tag_l2_sort'), 'tag_l2_sort', function(){load_data();} )
+    $('#id_msg').val(g_args.tag_name);
+
+
+    $('.opt-change').set_input_change_event(load_data);
+
+    $("#id_add").on("click",function(){
+        var tag_l1_sort= $("<select/>" );
+        Enum_map.append_option_list("tag_l1_sort", tag_l1_sort);
+        var tag_l2_sort= $("<select/>" );
+        Enum_map.append_option_list("tag_l2_sort", tag_l2_sort);
+        var tag_name = $('<input/>')
+        var tag_desc = $('<textarea/>')
+        var tag_object= $("<select/>" );
+        Enum_map.append_option_list("tag_object", tag_object);
+        var tag_weight = $("<input type='number'/>")
+
+        var arr=[
+            ["标签一级分类" ,tag_l1_sort  ],
+            ["标签二级分类" ,tag_l2_sort  ],
+            ["标签名称" ,tag_name ],
+            ["标签定义" ,tag_desc  ],
+            ["设定对象" ,tag_object  ],
+            ["权重系数" ,tag_weight  ],
+        ] ;
+
+        $.show_key_value_table("添加标签", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/product_tag/tag_add",{
+                    "tag_l1_sort" : tag_l1_sort.val(),
+                    "tag_l2_sort" : tag_l2_sort.val(),
+                    "tag_name" : tag_name.val(),
+                    "tag_desc" : tag_desc.val(),
+                    "tag_object" : tag_object.val(),
+                    "tag_weight" : tag_weight.val(),
+                });
+            }
+        });
+
+    });
+
+
+    $(".opt-edit").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var tag_l1_sort= $("<select/>" );
+        Enum_map.append_option_list("tag_l1_sort", tag_l1_sort);
+        var tag_l2_sort= $("<select/>" );
+        Enum_map.append_option_list("tag_l2_sort", tag_l2_sort);
+        var tag_name = $('<input/>')
+        var tag_desc = $('<textarea/>')
+        var tag_object= $("<select/>" );
+        Enum_map.append_option_list("tag_object", tag_object);
+        var tag_weight = $("<input type='number'/>")
+
+        var arr=[
+            ["标签一级分类" ,tag_l1_sort  ],
+            ["标签二级分类" ,tag_l2_sort  ],
+            ["标签名称" ,tag_name ],
+            ["标签定义" ,tag_desc  ],
+            ["设定对象" ,tag_object  ],
+            ["权重系数" ,tag_weight  ],
+        ] ;
+        tag_l1_sort.val(opt_data.tag_l1_sort);
+        tag_l2_sort.val(opt_data.tag_l2_sort);
+        tag_name.val(opt_data.tag_name);
+        tag_desc.val(opt_data.tag_desc);
+        tag_object.val(opt_data.tag_object);
+        tag_weight.val(opt_data.tag_weight);
+
+
+        $.show_key_value_table("修改标签库", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/product_tag/tag_update",{
+                    "id" : opt_data.tag_id,
+                    "tag_l1_sort" : tag_l1_sort.val(),
+                    "tag_l2_sort" : tag_l2_sort.val(),
+                    "tag_name" : tag_name.val(),
+                    "tag_desc" : tag_desc.val(),
+                    "tag_object" : tag_object.val(),
+                    "tag_weight" : tag_weight.val(),
+                });
+            }
+        });
+
+
+    });
+
+    $(".opt-del").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+
+        $.do_ajax("/test_abner/test_del",{
+            "id" : opt_data.id,
+        });
+
+    });
+
+
+});

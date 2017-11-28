@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddPermissionForCompanyWxUsers' => $baseDir . '/database/migrations/2017_11_25_173608_add_permission_for_company_wx_users.php',
     'AddRidForCompanyWxUsers' => $baseDir . '/database/migrations/2017_11_24_103609_add_rid_for_company_wx_users.php',
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
     'AddVotesToTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_18_163011_add_votes_to_t_agent_daily_lottery.php',
@@ -36,6 +37,7 @@ return array(
     'CreateTRuleDetailInfo' => $baseDir . '/database/migrations/2017_11_17_102008_create_t_rule_detail_info.php',
     'CreateTRuleInfo' => $baseDir . '/database/migrations/2017_11_17_101959_create_t_rule_info.php',
     'CreateTSumActivityQuota' => $baseDir . '/database/migrations/2017_11_25_132434_create_t_sum_activity_quota.php',
+    'CreateTTagLibrary' => $baseDir . '/database/migrations/2017_11_28_163729_create_t_tag_library.php',
     'CreateTTeacherSalaryList' => $baseDir . '/database/migrations/2017_10_26_184755_create_t_teacher_salary_list.php',
     'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
     'CreateTableCompanyWxAuth' => $baseDir . '/database/migrations/2017_11_24_105425_create_table_company_wx_auth.php',
@@ -122,7 +124,6 @@ return array(
     'Hamcrest\\Util' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
     'Hamcrest\\Xml\\HasXPath' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
-    'OrderActivityConfigChangeValue' => $baseDir . '/database/migrations/2017_11_25_t_order_activity_config_change_value.php',
     'PHPUnit_Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit_Extensions_GroupTestSuite' => $vendorDir . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
     'PHPUnit_Extensions_PhptTestCase' => $vendorDir . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
@@ -629,6 +630,7 @@ return array(
     'TRequirementInfoAddProductComment' => $baseDir . '/database/migrations/2017_10_17_101518_t_requirement_info_add_product_comment.php',
     'TRequirementInfoAddProductName' => $baseDir . '/database/migrations/2017_10_17_110436_t_requirement_info_add_product_name.php',
     'TRequirementInfoUpdateProductComment' => $baseDir . '/database/migrations/2017_10_17_101814_t_requirement_info_update_product_comment.php',
+    'TResourceAddIsUse' => $baseDir . '/database/migrations/2017_11_28_092651_t_resource_add_is_use.php',
     'TRevisitAssessInfoDropRevisitNumCallCount' => $baseDir . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
     'TRevisitCallCountDrop' => $baseDir . '/database/migrations/2017_10_12_183545_t_revisit_call_count_drop.php',
     'TRuffianActivityAddItem' => $baseDir . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
