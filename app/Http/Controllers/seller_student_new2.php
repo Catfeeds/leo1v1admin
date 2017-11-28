@@ -1395,7 +1395,7 @@ class seller_student_new2 extends Controller
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
 
-        $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1,$amdinid);
+        $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1,$adminid);
         foreach($order_new as $k=>$v){
             $res[$adminid]['all_new_contract_for_month'] = $v['all_new_contract'];
         }
