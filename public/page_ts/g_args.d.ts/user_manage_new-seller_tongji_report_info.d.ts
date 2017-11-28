@@ -14,16 +14,6 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	require_test_count_for_month	:any;
-	suc_lesson_count_one	:any;
-	suc_lesson_count_two	:any;
-	suc_lesson_count_three	:any;
-	suc_lesson_count_four	:any;
-	suc_lesson_count_one_rate	:any;
-	suc_lesson_count_two_rate	:any;
-	suc_lesson_count_three_rate	:any;
-	suc_lesson_count_four_rate	:any;
-	suc_lesson_count_rate_all	:any;
-	suc_lesson_count_rate	:any;
 	main_type	:any;
 	first_group_name	:any;
 	up_group_name	:any;
@@ -40,9 +30,6 @@ interface RowData {
 	del_flag	:any;
 	main_type_str	:any;
 	seller_level_str	:any;
-	lesson_per	:any;
-	kpi	:any;
-	order_per	:any;
 	finish_per	:any;
 	finish_personal_per	:any;
 	duration_count_for_day	:any;
@@ -52,6 +39,8 @@ interface RowData {
 	del_flag_str	:any;
 	become_member_num	:any;
 	leave_member_num	:any;
+	suc_lesson_count_rate	:any;
+	kpi	:any;
 }
 
 /*

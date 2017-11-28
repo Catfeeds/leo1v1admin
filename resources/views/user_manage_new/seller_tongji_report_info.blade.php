@@ -112,7 +112,7 @@
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
-                        <td >{{@$var["order_per"]}}</td>
+                        <td class="order_per"></td>
                         <td >{{@$var["all_price_for_month"]}}</td>
                         <td >{{@$var["ave_price_for_month"]}}</td>
                         <td >{{@$var["target_money"]}}</td>
