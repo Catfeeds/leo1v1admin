@@ -16,9 +16,30 @@ class t_product_feedback_list extends \App\Models\Zgen\z_t_product_feedback_list
 
         $this->where_arr_add_time_range($where_arr, $opt_date_type, $start_time, $end_time);
 
-        $sql = $this->gen_sql_new("  select pf.id, pf.deal_flag, pf.feedback_adminid, pf.record_adminid, pf.describe, pf.lesson_url, pf.reason,"
+        $sql = $this->gen_sql_new("  select pf.id, pf.deal_flag, pf.feedback_adminid, pf.record_adminid, pf.describe_msg, pf.lesson_url, pf.reason,"
                                   ." pf.solution, pf.remark, pf.deal_flag, pf.create_time, s.nick as stu_nick, s.phone stu_phone, "
-                                  ." s.user_agent as stu_agent, t.nick tea_nick, t.phone tea_phone, t.user_agent tea_agent"
+                                  ." s.user_agent as stu_agent,s.userid as sid, t.teacherid as tid, t.nick tea_nick, t.phone tea_phone, t.user_agent tea_agent"
+                                  ." from %s pf"
+                                  ." left join %s s on s.userid=pf.student_id"
+                                  ." left join %s t on t.teacherid=pf.teacher_id"
+                                  ." where %s  order by pf.create_time desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list_by_page($sql, $page_num, 10);
+    }
+
+    public function get_feedback_info($id){
+        $where_arr = [
+            ["pf.id=%d",$id,-1],
+        ];
+
+        $sql = $this->gen_sql_new("  select pf.id, pf.deal_flag, pf.feedback_adminid, pf.record_adminid, pf.describe_msg, pf.lesson_url, pf.reason,"
+                                  ." pf.solution, pf.remark, pf.deal_flag, pf.create_time, s.nick as stu_nick, s.phone stu_phone, "
+                                  ." s.user_agent as stu_agent,s.userid as sid, t.teacherid as tid, t.nick tea_nick, t.phone tea_phone, t.user_agent tea_agent"
                                   ." from %s pf"
                                   ." left join %s s on s.userid=pf.student_id"
                                   ." left join %s t on t.teacherid=pf.teacher_id"
@@ -29,7 +50,7 @@ class t_product_feedback_list extends \App\Models\Zgen\z_t_product_feedback_list
                                   ,$where_arr
         );
 
-        return $this->main_get_list_by_page($sql, $page_num, 10);
-    }
+        return $this->main_get_row($sql);
 
+    }
 }

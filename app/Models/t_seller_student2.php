@@ -55,9 +55,8 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
 
 
     public function get_activity_all_list($id){
-        $sql=$this->gen_sql("select id,title from %s where id <> %u "
+        $sql=$this->gen_sql("select id,title from %s "
                             ,self::DB_TABLE_NAME
-                            ,$id
         );
         return $this->main_get_list($sql);
     }
