@@ -1,4 +1,5 @@
 interface GargsStatic {
+	user_type:	number;
 	resource_type:	number;
 	subject:	number;
 	grade:	number;
@@ -39,6 +40,7 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		user_type:	$('#id_user_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
@@ -48,6 +50,7 @@ function load_data(){
 $(function(){
 
 
+	$('#id_user_type').val(g_args.user_type);
 	$('#id_resource_type').val(g_args.resource_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
@@ -61,6 +64,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">user_type</span>
+                <input class="opt-change form-control" id="id_user_type" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
