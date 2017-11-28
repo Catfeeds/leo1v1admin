@@ -1,4 +1,6 @@
 interface GargsStatic {
+	id:	number;
+	type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -21,12 +23,15 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-
+		id:	$('#id_id').val(),
+		type:	$('#id_type').val()
     });
 }
 $(function(){
 
 
+	$('#id_id').val(g_args.id);
+	$('#id_type').val(g_args.type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -36,4 +41,18 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">id</span>
+                <input class="opt-change form-control" id="id_id" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">type</span>
+                <input class="opt-change form-control" id="id_type" />
+            </div>
+        </div>
 */
