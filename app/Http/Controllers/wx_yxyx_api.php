@@ -1474,13 +1474,13 @@ class wx_yxyx_api extends Controller
         $begin_time = strtotime(date('Y-m-d'));
         $end_time = strtotime(date('Y-m-d 23:59:59'));
         $agent_today_invite_list = $this->t_agent->get_today_invite_list($agent_id,$begin_time,$end_time);
-        $student_flog = false;
-        $member_flog = false;
+        $student_flag = false;
+        $member_flag = false;
         foreach($agent_today_invite_list as &$item){
-            if($item['type'] == 1 && !isset($student_flog)){
+            if($item['type'] == 1 && !isset($student_flag)){
                 $daily_lottery_count++;
                 $student_flag = true;
-            }elseif($item['type'] ==2 && !isset($member_flog)){
+            }elseif($item['type'] ==2 && !isset($member_flag)){
                 $daily_lottery_count++;
                 $member_flag = true;
             }elseif($item['type'] == 3){

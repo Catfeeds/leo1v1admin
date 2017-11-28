@@ -36,12 +36,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-present_manage_new.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		del_flag:	$('#id_del_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			del_flag:	$('#id_del_flag').val()
-        });
-    }
 
 
 	$('#id_del_flag').val(g_args.del_flag);
