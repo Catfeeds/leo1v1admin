@@ -21,7 +21,6 @@
     <div class="zTreeDemoBackground left">
 		    <ul id="treeDemo" class="ztree"></ul>
 	  </div>
-    <button id="confirm">确定</button>
     <table class="common-table">
     </table>
 
