@@ -25,7 +25,7 @@ class seller_student2 extends Controller
 
         $page_num        = $this->get_in_page_num();
  
-        $ret_list = $this->t_seller_student2->get_list($where_arr,$page_num);
+        $ret_list = $this->t_order_activity_config->get_list($where_arr,$page_num);
         
         $gradeArr = E\Egrade_only::$desc_map;
         if($ret_list['list']){
@@ -113,7 +113,7 @@ class seller_student2 extends Controller
                 //配额组合
                 $activity_type_list_str = '';
                 if($item['max_count_activity_type_list']){
-                    $activity_type_list = $this->t_seller_student2->get_activity_exits_list($item['max_count_activity_type_list']);
+                    $activity_type_list = $this->t_order_activity_config->get_activity_exits_list($item['max_count_activity_type_list']);
                     if(!empty($activity_type_list)){
                         foreach( $activity_type_list as $v){
                             $activity_type_list_str .= $v['title'].' ; ';
@@ -137,7 +137,7 @@ class seller_student2 extends Controller
         if(empty($id)){
             $id = date('Ymd',strtotime('now')).rand(1,99);
         }else{
-            $item = $this->t_seller_student2->get_by_id($id);
+            $item = $this->t_order_activity_config->get_by_id($id);
             if($item){
                 $result['status'] = 500;
                 $result['msg'] = "活动id:".$id."已经存在，请换个id输入！";
@@ -157,7 +157,7 @@ class seller_student2 extends Controller
         $power_value =  $this->get_in_int_val('power_value',100);
 
 
-        $ret = $this->t_seller_student2->row_insert([
+        $ret = $this->t_order_activity_config->row_insert([
             "id"   => $id,
             "title"   => $title,
             "period_flag_list"   => $period_flag_list,
@@ -183,13 +183,13 @@ class seller_student2 extends Controller
 
     public function dele_order_activity(){
         $id = $this->get_in_int_val('id');
-        $this->t_seller_student2->del_by_id($id);
+        $this->t_order_activity_config->del_by_id($id);
         return $this->output_succ(); 
     }
     
     public function get_order_activity(){
         $id = $this->get_in_int_val('id');
-        $item = $this->t_seller_student2->get_by_id($id);
+        $item = $this->t_order_activity_config->get_by_id($id);
         $activity_type_list = []; //已选组合列表
         $discount_list = [];           //优惠信息
         if($item){
@@ -243,7 +243,7 @@ class seller_student2 extends Controller
             $item["last_test_lesson_end"] = !empty($item["last_test_lesson_end"]) ? date('Y-m-d',$item["last_test_lesson_end"]) : '';
  
             //寻找配额组合
-            $activity_type_list = $this->t_seller_student2->get_activity_exits_list($item['max_count_activity_type_list']);
+            $activity_type_list = $this->t_order_activity_config->get_activity_exits_list($item['max_count_activity_type_list']);
             
             
             //优惠列表展示
@@ -268,7 +268,7 @@ class seller_student2 extends Controller
         
         $open_flag   = $this->get_in_int_val('id_open_flag',-1);
         $page_num        = $this->get_in_page_num();
-        $ret = $this->t_seller_student2->get_current_activity($open_flag,$page_num);
+        $ret = $this->t_order_activity_config->get_current_activity($open_flag,$page_num);
         
         if($ret['list']){
             foreach($ret['list'] as &$item){
@@ -295,7 +295,7 @@ class seller_student2 extends Controller
         $id = $this->get_in_int_val('id');
         $activity_type_list_id = $this->get_in_str_val('max_count_activity_type_list');
 
-        $activity_type_list = $this->t_seller_student2->get_activity_all_list($id);
+        $activity_type_list = $this->t_order_activity_config->get_activity_all_list($id);
 
         $result['status'] = 201;
         $result['data'] = null;
@@ -414,7 +414,7 @@ class seller_student2 extends Controller
         !empty($date_range_end) ? $updateArr['date_range_end'] = strtotime($date_range_end.' 23:59:59') : $updateArr['date_range_end'] = null;
 
  
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             $result['info'] = '更新成功';
             return $this->output_succ($result);
         }else{
@@ -436,7 +436,7 @@ class seller_student2 extends Controller
             'period_flag_list' => $period_flag_list,
             'grade_list' => $grade_list,
         ];
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");
@@ -454,7 +454,7 @@ class seller_student2 extends Controller
             'max_count' => $max_count,
             'max_change_value' => $max_change_value,
         ];
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");
@@ -468,7 +468,7 @@ class seller_student2 extends Controller
         $updateArr = [
             'max_count_activity_type_list' => $max_count_activity_type_list,
         ];
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");
@@ -487,7 +487,7 @@ class seller_student2 extends Controller
             'open_flag' => $open_flag,
             'need_spec_require_flag' => $need_spec_require_flag,
         ];
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");
@@ -509,7 +509,7 @@ class seller_student2 extends Controller
         !empty($last_test_lesson_end) ? $updateArr['last_test_lesson_end'] = strtotime($last_test_lesson_end.' 23:59:59') : $updateArr['last_test_lesson_end'] = null;
 
 
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");
@@ -528,7 +528,7 @@ class seller_student2 extends Controller
             'order_activity_discount_type' => $order_activity_discount_type,
             'discount_json' => $discount_json,
         ];
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");
@@ -542,7 +542,7 @@ class seller_student2 extends Controller
         $updateArr = [
             'power_value' => $power_value,
         ];
-        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
         }else{
             return $this->output_err("更新出错！");

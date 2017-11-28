@@ -1182,12 +1182,16 @@ class tea_manage_new extends Controller
             $orderid_arr = [];
             foreach($arr as $item){
                 foreach($item as $info){
-                    dd($item,$info);
-                    if(is_int($info) && $info>0){
-                        $orderid_arr[] = $info;
+                    if(!is_string($info) && $info>0){
+                        $orderid_arr[] = (int)$info;
                     }
                 }
             }
+            $ret_info = $this->t_order_info->get_seller_add_time_by_orderid_str($orderid_arr);
+            foreach($ret_info as &$item){
+                \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            }
+            dd($ret_info);
         }
     }
 
