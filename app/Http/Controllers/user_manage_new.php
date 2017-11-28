@@ -1731,7 +1731,6 @@ class user_manage_new extends Controller
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
         }
-        dd($res);
         //学生上课数,试听成功数,取消数
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
@@ -1776,7 +1775,7 @@ class user_manage_new extends Controller
             $res[$key]['suc_lesson_count_rate_all'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
             $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate_all'].'%';
         }
-
+        dd($res);
         $this->t_order_info->switch_tongji_database();
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
         foreach($order_new as $k=>$v){
