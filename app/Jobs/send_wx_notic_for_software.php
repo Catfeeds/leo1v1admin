@@ -41,10 +41,10 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
                 'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
                 'parentid' => '271968'
             ],
-            // [
-            //     'wx_openid' => 'orwGAs6J8tzBAO3mSKez8SX-DWq4',
-            //     'parentid' => '271968'
-            // ]
+            [
+                'wx_openid' => 'orwGAs6J8tzBAO3mSKez8SX-DWq4',
+                'parentid' => '271968'
+            ]
 
         ];
 
