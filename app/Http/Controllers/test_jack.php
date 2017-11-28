@@ -342,7 +342,7 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        $start_time = strtotime("2017-12-15");
+        $start_time = strtotime("2017-11-15");
         $list = $this->t_seller_student_new->get_ass_tran_stu_info_new($start_time,time());
 
         dd($list);
