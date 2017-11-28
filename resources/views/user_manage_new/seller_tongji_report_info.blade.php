@@ -128,7 +128,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
+                                <a class="fa fa-edit opt-show"  title="编辑"> </a>
                             </div>
                         </td>
                     </tr>
