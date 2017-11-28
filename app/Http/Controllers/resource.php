@@ -18,15 +18,16 @@ class resource extends Controller
     }
 
     public function get_all() {
+        $user_type     = $this->get_in_int_val('user_type', 1);
         $resource_type = $this->get_in_int_val('resource_type', 1);
-        $subject     = $this->get_in_int_val('subject', -1);
-        $grade    = $this->get_in_int_val('grade', -1);
-        $file_title  = $this->get_in_str_val('file_title', '');
-        $page_info   = $this->get_in_page_info();
-        $ret_info    = $this->t_resource->get_all($resource_type, $subject, $grade, $file_title, $page_info);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $file_title    = $this->get_in_str_val('file_title', '');
+        $page_info     = $this->get_in_page_info();
+        $ret_info      = $this->t_resource->get_all($user_type ,$resource_type, $subject, $grade, $file_title, $page_info);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
-            // \App\Helper\Utils::transform_1tg_0tr($item,'is_use');
+            \App\Helper\Utils::transform_1tg_0tr($item,'is_use');
             $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
             $item['file_size'] /= 1024;
         }
@@ -45,18 +46,18 @@ class resource extends Controller
     }
 
     public function add_resource() {
+        $user_type     = $this->get_in_int_val('user_type');
         $resource_type = $this->get_in_int_val('resource_type');
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $tag_one       = $this->get_in_int_val('tag_one');
         $tag_two       = $this->get_in_int_val('tag_two');
         $tag_three     = $this->get_in_int_val('tag_three');
-        $file_title    = trim( $this->get_in_str_val('file_title') );
+        $file_title    = $this->get_in_str_val('file_title');
+        $file_size     = $this->get_in_str_val('file_size');
+        $file_hash     = $this->get_in_str_val('file_hash');
 
         $adminid = $this->get_account_id();
-        if($file_title == '') {
-            return $this->output_err('请填写文件名称！');
-        }
 
         $this->t_resource->row_insert([
             'resource_type' => $resource_type,
@@ -66,6 +67,8 @@ class resource extends Controller
             'tag_two'       => $tag_two,
             'tag_three'     => $tag_three,
             'file_title'    => $file_title,
+            'file_size'     => $file_size,
+            'file_hash'     => $file_hash,
             'adminid'       => $adminid,
             'edit_adminid'  => $adminid,
             'create_time'   => time(),
