@@ -47,11 +47,7 @@ $(function(){
                     $tr.find(".fail_all_count_for_month").text(data["fail_all_count_for_month"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);
                     $tr.find(".kpi").text(data["kpi"]);
-                    // if(data["succ_all_count_for_month"] > 0){
-                    //     order_per = Math.round(opt_data.all_new_contract_for_month/data["succ_all_count_for_month"])*100;
-                    // }
-                    var order_per = Math.round(opt_data.all_new_contract_for_month/data["succ_all_count_for_month"]);
-                    $tr.find(".order_per").text(order_per);
+                    $tr.find(".order_per").text(data["order_per"]);
                     do_index++;
                     do_one();
                 });

@@ -1334,7 +1334,8 @@ class seller_student_new2 extends Controller
         $adminid = $this->get_in_int_val('adminid');
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $res = [];
-        list($res[$adminid]['test_lesson_count'],$res[$adminid]['succ_all_count_for_month'],$res[$adminid]['fail_all_count_for_month'],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4]) = [0,0,0,0,0,[],[],[],[]];
+        list($res[$adminid]['test_lesson_count'],$res[$adminid]['succ_all_count_for_month'],$res[$adminid]['fail_all_count_for_month'],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['all_new_contract_for_month'],$res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4]) = [0,0,0,0,0,0,[],[],[],[]];
+        $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
@@ -1349,6 +1350,7 @@ class seller_student_new2 extends Controller
             $end_time_new = time();
         }
         $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
+        $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list_new['list'] as $item){
             $lesson_start = $item['lesson_start'];
@@ -1383,7 +1385,7 @@ class seller_student_new2 extends Controller
         $arr['suc_lesson_count_two'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_lesson_count_three'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_lesson_count_four'] = $res[$adminid]['suc_lesson_count_four'];
-        $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count_for_month']/$res[$adminid]['test_lesson_count'],2)*100):0;
+        $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count_for_month']/$res[$adminid]['test_lesson_count'],3)*100):0;
         $res[$adminid]['lesson_per'] = $res[$adminid]['test_lesson_count']!=0?$lesson_per."%":0;
         $lesson_kpi = $lesson_per<18?40:0;
         $kpi = $lesson_kpi+$res[$adminid]['suc_lesson_count_rate_all'];
@@ -1394,6 +1396,13 @@ class seller_student_new2 extends Controller
         }
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
+
+        $this->t_order_info->switch_tongji_database();
+        $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1,$adminid);
+        foreach($order_new as $k=>$v){
+            $res[$adminid]['all_new_contract_for_month'] = $v['all_new_contract'];
+        }
+        $arr['order_per'] = $res[$adminid]['succ_all_count_for_month']!=0?(round($res[$adminid]['all_new_contract_for_month']/$res[$adminid]['succ_all_count_for_month'],3)*100)."%":0;
 
         return $this->output_succ($arr);
     }
