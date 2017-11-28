@@ -1169,7 +1169,6 @@ class tea_manage_new extends Controller
     public function add_open_class_by_xls_new(){
         \App\Helper\Utils::logger("begin create open class");
         $file = Input::file('file');
-        dd($file,isValid());
         if ($file->isValid()) {
             $tmpName  = $file->getFileName();
             $realPath = $file->getRealPath();
@@ -1183,7 +1182,7 @@ class tea_manage_new extends Controller
             $info = "";
             $subject_arr = E\Esubject::$desc_map;
             $grade_arr   = E\Egrade::$desc_map;
-
+            dd($arr);
             //时间 科目 年级 任课老师 手机号 适合学生 课题 内容介绍
             foreach($arr as $key=>$val){
                 if($key!=0 && count($val)==8){
