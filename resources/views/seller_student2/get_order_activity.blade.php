@@ -55,8 +55,18 @@
      }
      .json_input{
          width:100%;
-         height:240px;
+         border: 1px solid #ccc;
+         border-collapse: separate;
+         color: #555;
+         background-color: #FFF;
      }
+     .lesson_activity{
+         margin-bottom:10px;
+     }
+     .lesson_times_off_perent_list span,input{
+         display:inline-block;
+     }
+     .show_activity{ width:100px;}
     </style>
     <section class="content">
         <div class="row">
@@ -65,6 +75,20 @@
                 <div style="width:98%" id="id_tea_info"
                      {!!  \App\Helper\Utils::gen_jquery_data($ret_info)  !!}
                 >
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span >活动ID:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <span>{{@$ret_info['id']}}</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-xs-10 col-md-10"  >
                             <div class="row">
@@ -189,7 +213,7 @@
                         <div class="col-xs-10 col-md-10"  >
                             <div class="row">
                                 <div class="col-xs-2 col-md-2 row-td-field-name"  >
-                                    <span >最大修改金额累计值:</span>
+                                    <span >优惠份额最大个数:</span>
                                 </div>
                                 <div class="col-xs-5 col-md-5  row-td-field-value">
                                     <span>{{@$ret_info['max_change_value']}}</span>
@@ -210,9 +234,9 @@
                                     <span>总配额组合:</span>
                                 </div>
                                 <div class="col-xs-5 col-md-5  row-td-field-value">
-                                    @if(!empty($_activity_type_list))
-                                        @foreach ($activity_type_list_str as $var => $val)
-                                            <span>{{$val}}</span>
+                                    @if(!empty($activity_type_list))
+                                        @foreach ($activity_type_list as $var => $val)
+                                            <span>{{@$val['title']}}</span>
                                         @endforeach
                                     @else
                                         <span></span>
@@ -222,6 +246,20 @@
                                     <button style="margin-left:10px"  id="opt_edit_04" type="button" class="btn btn-primary">编辑</button> 
                                 </div>
 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span >是否需要特殊申请:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <span>{{@$ret_info['need_spec_require_flag_str']}}</span>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -309,6 +347,25 @@
                         <div class="col-xs-10 col-md-10"  >
                             <div class="row">
                                 <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span >优惠信息:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <div class="json_input discount_input" style="padding:5px">
+                                        @foreach ($discount_list as $var => $val)
+                                            {{$val}}<br/>
+                                        @endforeach
+
+                                    </div>
+                                </div>                    
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
                                     <span >json字符串:</span>
                                 </div>
                                 <div class="col-xs-5 col-md-5  row-td-field-value">
@@ -341,22 +398,46 @@
         </div>
 
     </section>
-    
-    <div class="grade_arr hide">
-        @foreach ($gradeArr as $var => $val)
-            <label><input name="re_submit" type="checkbox" value="{{$var}}" />{{$val}}</label>
-        @endforeach
+
+    <div class="lesson_activity lesson_times_off_perent_list hide">
+        <span>课时数：</span>
+        <input type="text" class="show_activity lesson_counts" onkeypress="nextInput(event)">
+        <span>打折：</span>
+        <input type="text" class="show_activity give_perent" onkeypress="addActivity(event,1)">
+        <span> 输完回车</span>
+        <button onclick="remove_activity()"> 移除</button>
     </div>
 
-    <div class="_activity_type_list hide">
-        @if($_activity_type_list)
-            @foreach ($_activity_type_list as $var => $val)
-                <div>
-                    <input name="re_submit" type="checkbox" value="{{$var}}" />
-                    <span>{{$val}}</span>
-                </div>
+    <div class="lesson_activity lesson_times_present_lesson_count hide">
+        <span>课时数：</span>
+        <input type="text" class="show_activity lesson_have" onkeypress="nextInput(event)">
+        <span>送课：</span>
+        <input type="text" class="show_activity give_lessons" onkeypress="addActivity(event,3)">
+        <span> 输完回车</span>
+        <button onclick="remove_activity()"> 移除</button>
+    </div>
+
+    <div class="lesson_activity price_off_money_list hide">
+        <span>金额：</span>
+        <input type="text" class="show_activity lesson_pay" onkeypress="nextInput(event)">
+        <span>立减：</span>
+        <input type="text" class="show_activity give_money" onkeypress="addActivity(event,4)">
+        <span> 输完回车</span>
+        <button onclick="remove_activity()"> 移除</button>
+
+    </div>
+
+    <div class="lesson_activity grade_off_perent_list hide">     
+        <span>年级：</span>
+        <select class="show_activity lesson_grade" onkeypress="nextInput(event)">
+            @foreach ($gradeArr as $var => $val)
+                <option value="{{$var}}">{{$val}}</option>
             @endforeach
-        @endif
+        </select>
+        <span>打折：</span>
+        <input type="text" class="show_activity give_grade_perent" onkeypress="addActivity(event,2)">
+        <span> 输完回车</span>
+        <button onclick="remove_activity()">移除</button>
     </div>
 
 @endsection

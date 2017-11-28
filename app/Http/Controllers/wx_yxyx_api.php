@@ -1474,13 +1474,13 @@ class wx_yxyx_api extends Controller
         $begin_time = strtotime(date('Y-m-d'));
         $end_time = strtotime(date('Y-m-d 23:59:59'));
         $agent_today_invite_list = $this->t_agent->get_today_invite_list($agent_id,$begin_time,$end_time);
-        $student_flog = false;
-        $member_flog = false;
+        $student_flag = false;
+        $member_flag = false;
         foreach($agent_today_invite_list as &$item){
-            if($item['type'] == 1 && !isset($student_flog)){
+            if($item['type'] == 1 && !$student_flag){
                 $daily_lottery_count++;
                 $student_flag = true;
-            }elseif($item['type'] ==2 && !isset($member_flog)){
+            }elseif($item['type'] ==2 && !$member_flag){
                 $daily_lottery_count++;
                 $member_flag = true;
             }elseif($item['type'] == 3){
@@ -1495,6 +1495,8 @@ class wx_yxyx_api extends Controller
         $has_used_count = $this->t_agent_daily_lottery->get_has_used_count($agent_id,$begin_time,$end_time);
 
         $daily_lottery_count = $daily_lottery_count - $has_used_count;
+        if(\App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test())
+            $daily_lottery_count  = 1;
         return $daily_lottery_count;
     }
     //@desn:优学优享每日抽奖
@@ -1514,7 +1516,7 @@ class wx_yxyx_api extends Controller
 
         //用户可抽奖次数校验
         $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
-        if(\App\Helper\Utils::check_env_is_local())
+        if(\App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test())
             $daily_lottery_count = 1;
 
         if($daily_lottery_count > 0){

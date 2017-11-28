@@ -13,18 +13,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	colconel_id	:any;
-	colconel_name	:any;
-	test_lesson_count	:any;
-	member_count	:any;
-	student_count	:any;
-	order_count	:any;
-	order_money	:any;
-	is_colconel	:any;
-	level	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
 }
 
 /*

@@ -7,7 +7,7 @@
       "php-path-list": [
           "./app",
           "./tests",
-          "./vendor/laravel/framework/src/Illuminate/Database/Schema/"
+          "./vendor/"
       ],
     "php-path-list-without-subdir": []
   }

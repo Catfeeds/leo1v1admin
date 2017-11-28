@@ -12,10 +12,10 @@ class AddVotesToTAgentIncomeLog extends Migration
      */
     public function up()
     {
-        Schema::table('t_agent_income_log', function (Blueprint $table) {
-            //
-            t_field($table->string('activity_id_str'),"活动奖励记录id_str");
-        });
+        // Schema::table('t_agent_income_log', function (Blueprint $table) {
+        //     //
+        //     t_field($table->string('activity_id_str'),"活动奖励记录id_str");
+        // });
     }
 
     /**

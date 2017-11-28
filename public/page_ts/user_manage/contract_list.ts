@@ -1045,6 +1045,7 @@ $(function(){
             title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type)+']' ,
             message  : html_node,
             closable : true,
+            size: BootstrapDialog.SIZE_WIDE ,
             buttons: [{
                 label  : '返回',
                 action : function(dialog) {
@@ -1054,6 +1055,7 @@ $(function(){
                 label  : '确认',
                 action : function(dialog) {
                     var  deal_func=function() {
+
                         $.do_ajax("/ss_deal/seller_add_contract_new",{
                             require_id                    : require_id,
                             contract_type                 : contract_type,

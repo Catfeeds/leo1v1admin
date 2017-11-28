@@ -403,4 +403,7 @@ $(function(){
 
     };
 
+    if(g_adminid==540){
+        download_show();
+    }
 });

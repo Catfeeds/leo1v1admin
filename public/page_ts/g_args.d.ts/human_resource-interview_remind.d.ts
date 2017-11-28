@@ -15,17 +15,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	hr_adminid	:any;
-	interviewer_id	:any;
-	name	:any;
-	post	:any;
-	interview_time	:any;
-	dept	:any;
-	is_send_flag	:any;
-	send_msg_time	:any;
-	interviewer_name	:any;
-	is_send_flag_str	:any;
 }
 
 /*

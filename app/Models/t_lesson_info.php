@@ -42,6 +42,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             return $item['lessonid'];
         });
     }
+
     public function lesson_common_where_arr($others_arr=[]) {
         $others_arr[] ="lesson_del_flag=0" ;
         $others_arr[] ="confirm_flag<2" ;
@@ -61,13 +62,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
-    }
-
-    public function get_all_lesson_by_userid($userid) {
-        $sql=$this->gen_sql_new("select lesson_count  from  %s  "
-                                ."where userid=%u   "
-                                ,self::DB_TABLE_NAME
-        );
     }
 
     public function lesson_account($lesson_type,$start_date_s,$end_date_s,$teacherid,$page_num){
@@ -800,15 +794,22 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     public function get_lessons_available($userid,$courseid, $all_flag, $page_num, $page_size)
     {
         $lesson_status_str= $this->where_get_in_str("lesson_status", $all_flag?[0,1,2]:[0,1] );
-
-        $sql = sprintf("select lessonid, l.subject,l.grade ,courseid, lesson_num, lesson_type, l.userid,s.phone,l.teacherid, l.assistantid,"
-                       ." has_quiz, lesson_start, lesson_end, lesson_intro, lesson_status,lesson_count ,confirm_flag, "
-                       ." confirm_adminid,confirm_time,confirm_reason, level ,teacher_money_type "
-                       ." ,lesson_cancel_reason_type  "
-                       ." ,lesson_cancel_reason_next_lesson_time  "
-                       ." from %s l left join %s s on l.userid = s.userid where "
-                       ." l.userid = %u and courseid=%u and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num  ",
-                       self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME, $userid, $courseid, $lesson_status_str  );
+        $sql = sprintf("select l.lessonid, l.subject,l.grade ,l.courseid, l.lesson_num, l.lesson_type, "
+                       ." l.userid,s.phone,l.teacherid, l.assistantid,t.realname as teacher_nick,"
+                       ." has_quiz, lesson_start, lesson_end, lesson_intro, l.lesson_status,l.lesson_count ,confirm_flag, "
+                       ." l.confirm_adminid,l.confirm_time,l.confirm_reason, l.level ,l.teacher_money_type, "
+                       ." l.lesson_cancel_reason_type,l.lesson_cancel_reason_next_lesson_time  "
+                       ." from %s l "
+                       ." left join %s s on l.userid = s.userid "
+                       ." left join %s t on l.teacherid= t.teacherid"
+                       ." where l.userid = %u "
+                       ." and courseid=%u "
+                       ." and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num  "
+                       ,self::DB_TABLE_NAME
+                       ,t_student_info::DB_TABLE_NAME
+                       ,t_teacher_info::DB_TABLE_NAME
+                       ,$userid
+                       , $courseid, $lesson_status_str  );
         return $this->main_get_list_by_page($sql, $page_num, $page_size);
     }
 
