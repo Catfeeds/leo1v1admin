@@ -1,11 +1,14 @@
 <?php
 namespace App\Models;
-class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
+use \App\Enums as E;
+class t_order_activity_config extends \App\Models\Zgen\z_t_order_activity_config
 {
     public function __construct()
     {
         parent::__construct();
     }
+
+
 
     public function get_list($where_arr,$page_num)
     {
@@ -75,7 +78,7 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
     }
 
     public function get_current_activity($open_flag,$page_num){
-        
+
         $where_arr = [
             ['date_range_start<=%d',time()],
             ['date_range_end>=%d',time()],
@@ -88,13 +91,14 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
 
         $where_str=$this->where_str_gen( $where_arr);
 
-        $sql = $this->gen_sql("select id,title,power_value,open_flag,date_range_start,date_range_end from %s where  %s order by power_value,id desc ",
+        $sql = $this->gen_sql("select id,title,power_value,open_flag,date_range_start,date_range_end from %s where  %s order by power_value desc ,id desc ",
                               self::DB_TABLE_NAME,
                               [$where_str]
         );
-        return  $this->main_get_list_by_page($sql,$page_num,10);
+        return  $this->main_get_list_by_page($sql,null);
 
     }
+
 
 
 }
