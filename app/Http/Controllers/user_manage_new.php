@@ -1731,7 +1731,6 @@ class user_manage_new extends Controller
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
         }
-        dd($res);
         //学生上课数,试听成功数,取消数
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
@@ -1804,6 +1803,7 @@ class user_manage_new extends Controller
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
+
             $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count'],2)*100):0;
             $item['lesson_per'] = @$item['test_lesson_count']!=0?$lesson_per."%":0;
             $lesson_kpi = $lesson_per<18?40:0;
@@ -1812,6 +1812,7 @@ class user_manage_new extends Controller
             if($item["become_member_time"]>0 && ($end_time-$item["become_member_time"])<3600*24*60 && $item["del_flag"]==0){
                 $item['kpi'] = "100%";
             }
+
             $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
             $item['finish_per'] =@$item['target_money']!=0?(round(@$item['all_price_for_month']/$item['target_money'],2)*100)."%":0;
             $item['finish_personal_per'] =@$item['target_personal_money']!=0?(round(@$item['all_price_for_month']/$item['target_personal_money'],2)*100)."%":0;
