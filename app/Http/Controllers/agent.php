@@ -415,7 +415,7 @@ class agent extends Controller
     }
 
     public function check(){
-$page_info = $this->get_in_page_info();
+        $page_info = $this->get_in_page_info();
         $grade = $this->get_in_int_val("grade",-1);
         $subject = $this->get_in_int_val("subject",-1);
         $address  = trim($this->get_in_str_val('address',''));
@@ -446,7 +446,10 @@ $page_info = $this->get_in_page_info();
         foreach($textid_arr as $key=>$item){
             $list[$key]['textbook_str'] = E\Eregion_version::get_desc($item);
         }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+
+        $qiniu_url=\App\Helper\Config::get_qiniu_public_url();
+        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($list),["qiniu_domain"=>$qiniu_url]);
     }
 
     public function test_new(){
