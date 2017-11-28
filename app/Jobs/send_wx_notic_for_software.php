@@ -58,7 +58,7 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
             ];
             $url_leo = '';
 
-            $wx->send_template_msg('orwGAs_IqKFcTuZcU1xwuEtV3Kek', $parent_template_id, $data_leo, $url_leo);//james
+            $wx->send_template_msg('orwGAs6J8tzBAO3mSKez8SX-DWq4', $parent_template_id, $data_leo, $url_leo);//james
             // $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
 
             // $t_parent_send_mgs_log->row_insert([
