@@ -124,10 +124,10 @@ class seller_student2 extends Controller
             }
         }
         return $this->pageView(__METHOD__,$ret_list,
-           [
-             "_publish_version"      => "201711251256",
-             "gradeArr" => $gradeArr,
-           ]
+                               [
+                                   "_publish_version"      => "201711251256",
+                                   "gradeArr" => $gradeArr,
+                               ]
         );
     }
 
@@ -252,13 +252,40 @@ class seller_student2 extends Controller
         }
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
-            [
-                "_publish_version"      => "201711251155",
-                "ret_info" => $item,
-                "gradeArr" => $gradeArr,
-                "discount_list"=>$discount_list,
-                'activity_type_list' => $activity_type_list,
-            ]
+                               [
+                                   "_publish_version"      => "201711251155",
+                                   "ret_info" => $item,
+                                   "gradeArr" => $gradeArr,
+                                   "discount_list"=>$discount_list,
+                                   'activity_type_list' => $activity_type_list,
+                               ]
+        );
+
+    }
+
+    //获取当前时间内所有有效活动
+    public function get_current_activity(){
+        
+        $open_flag   = $this->get_in_int_val('id_open_flag',-1);
+        $page_num        = $this->get_in_page_num();
+        $ret = $this->t_seller_student2->get_current_activity($open_flag,$page_num);
+        
+        if($ret['list']){
+            foreach($ret['list'] as &$item){
+                $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
+                if( $item['date_range_start'] && $item['date_range_end']){
+                    $item['date_range_time'] = date('Y-m-d',$item["date_range_start"]).' 至 '.date('Y-m-d',$item["date_range_end"]);
+                }else{
+                    $item['date_range_time'] = "未设置";
+                }
+
+            }
+        }
+        return $this->pageView(__METHOD__,$ret,
+                               [
+                                   "_publish_version"      => "201711281347",
+                                   "ret_info" => $ret,
+                               ]
         );
 
     }
@@ -508,5 +535,20 @@ class seller_student2 extends Controller
         };
 
     }
+
+    public function update_power_value(){
+        $id = $this->get_in_int_val('id');
+        $power_value = $this->get_in_int_val('power_value',100);
+        $updateArr = [
+            'power_value' => $power_value,
+        ];
+        if($this->t_seller_student2->field_update_list($id,$updateArr)){
+            return $this->output_succ();
+        }else{
+            return $this->output_err("更新出错！");
+        };
+
+    }
+
 
 }
