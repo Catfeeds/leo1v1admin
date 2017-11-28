@@ -13,17 +13,17 @@ class TTestLessonSubjectRequireAddIndexAcceptFlag extends Migration
     public function up()
     {
         //
-        Schema::create('db_weiyi.t_test_lesson_subject', function (Blueprint $table){
-            $table->index("require_admin_type");
+        Schema::table('db_weiyi.t_test_lesson_subject', function (Blueprint $table){
+            $table->index("require_admin_type",'require_admin_type');
         });
-        Schema::create('db_weiyi.t_test_lesson_subject_require', function (Blueprint $table){
-            $table->index("accept_flag");
+        Schema::table('db_weiyi.t_test_lesson_subject_require', function (Blueprint $table){
+            $table->index("accept_flag",'accept_flag');
         });
-        Schema::create('db_weiyi.t_lesson_info', function (Blueprint $table){
-            $table->index("lesson_user_online_status");
+        Schema::table('db_weiyi.t_lesson_info', function (Blueprint $table){
+            $table->index("lesson_user_online_status",'online_status');
         });
-        Schema::create('db_weiyi_admin.t_flow', function (Blueprint $table){
-            $table->index("flow_status");
+        Schema::table('db_weiyi_admin.t_flow', function (Blueprint $table){
+            $table->index("flow_status",'flow_status');
         });
     }
 
