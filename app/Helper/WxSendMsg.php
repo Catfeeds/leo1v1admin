@@ -1004,4 +1004,10 @@ class WxSendMsg{
         $ret = $wx->send_template_msg($wx_openid,$template_id,$data,$url);
     }
 
+    static public function send_wx_notic_for_software($wx_openid, $data, $url){
+        $wx  = new \App\Helper\Wx();
+        $template_id = WxSendMsg::$wait_deal;
+        $ret = $wx->send_template_msg($wx_openid,$template_id,$data,$url);
+    }
+
 };
