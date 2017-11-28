@@ -74,4 +74,27 @@ class t_seller_student2 extends \App\Models\Zgen\z_t_order_activity_config
         return null;
     }
 
+    public function get_current_activity($open_flag,$page_num){
+        
+        $where_arr = [
+            ['date_range_start<=%d',time()],
+            ['date_range_end>=%d',time()],
+        ];
+        if($open_flag != -1 && ( $open_flag == 1 || $open_flag == 2) ){
+            $where_arr[] = ['open_flag = %d',$open_flag];
+        }else{
+            $where_arr[] = ['open_flag != %d ',0];
+        }
+
+        $where_str=$this->where_str_gen( $where_arr);
+
+        $sql = $this->gen_sql("select id,title,power_value,open_flag,date_range_start,date_range_end from %s where  %s order by power_value,id desc ",
+                              self::DB_TABLE_NAME,
+                              [$where_str]
+        );
+        return  $this->main_get_list_by_page($sql,$page_num,10);
+
+    }
+
+
 }

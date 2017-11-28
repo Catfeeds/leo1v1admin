@@ -1333,6 +1333,7 @@ class seller_student_new2 extends Controller
     public function seller_test_lesson_info(){
         $adminid = $this->get_in_int_val('adminid');
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        dd($adminid,$start_time,$end_time);
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
