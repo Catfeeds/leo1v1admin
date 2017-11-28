@@ -1,6 +1,15 @@
 @extends('layouts.app')
 @section('content')
     <style>
+     .opt_add_order_activity{
+         margin-left:5%;
+     }
+     #tr_template{
+         display:none;
+     }
+     .order_activity_quota{
+         float:left;
+     }
      .center-title {
          font-size:20px;
          text-align:center;
@@ -50,7 +59,9 @@
      .panel-yellow a:hover {
          color: #df8a13;
      }
-
+     #order_activity_quota_detail{
+         clear:left;
+     }
 
     </style>
 
@@ -104,9 +115,83 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="order_activity_quota col-md-4">
+                    <!-- 合同活动配额  begin -->
+                    <div class="col-xs-12 col-md-12">
+                        <div class="panel panel-warning"  >
+                            <div class="panel-heading center-title">
+                                合同相关活动配额汇总
+                            </div>
+                            <div class="panel-body">
+                                <table   class="table table-bordered "   >
+                                    <thead>
+                                        <tr>
+                                            <td>总预算</td>
+                                            <td>已投放预算</td>
+                                            <td>已使用预算</td>
+                                            <td>结余预算</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        <tr>
+                                            <td><span>{{$sum_order_activity_quota['sum_activity_quota']}}</span><a id="id_edit_order_sum_activity_quota" class="fa fa-edit" href="#" ></td>
+                                            <td>{{$sum_order_activity_quota['put_quota']}}  </td>
+                                            <td> {{$sum_order_activity_quota['used_quota']}} </td>
+                                            <td> {{$sum_order_activity_quota['left_quota']}} </td>
+                                        </tr>
 
+                                    </tbody>
+                                </table>
 
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- 合同活动配额  end -->
+
+                    <!-- 合同活动明细配额  begin -->
+                    <div class="col-xs-12 col-md-12" id="order_activity_quota_detail">
+                        <div class="panel panel-warning"  >
+                            <div class="panel-heading center-title">
+                                合同相关活动配额明细 <a class="fa fa-plus opt_add_order_activity"></a>
+                            </div>
+                            <div class="panel-body">
+                                <table   class="table table-bordered "   >
+                                    <thead>
+                                        <tr>
+                                            <td>活动名</td>
+                                            <td>预算配额</td>
+                                            <td>已用额度</td>
+                                            <td>剩余额度</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        <!-- <tr id ="tr_template">
+                                             <td><span id=""> </span> <a id="id_edit_order_activity_desc" class="fa fa-edit" href="#" ></td>
+                                             <td> <span> </span> <a id="id_edit_order_activity_quota" class="fa fa-edit" href="#" ></td>
+                                             <td> </td>
+                                             <td> </td>
+                                             </tr>
+                                           -->
+                                        @foreach($order_activity_detail as $val)
+                                        <tr>
+                                            <td style="display:none;"> <span>{{$val['id']}}</span> </td>
+                                            <td><span>{{$val['order_activity_desc']}}</span> <a  class="fa fa-edit opt-edit_order_activity_detail" href="#" ></td>
+                                            <td> <span>{{$val['market_quota']}}</span> </td>
+                                                <td> {{$val['used_quota']}}</td>
+                                                <td> {{$val['left_quota']}} </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 合同活动明细配额  end -->
+                </div>
 
 
             </div>

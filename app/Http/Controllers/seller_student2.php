@@ -37,6 +37,8 @@ class seller_student2 extends Controller
                         $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
                     }
                     $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+                }else{
+                    $item['period_flag_list_str'] = E\Eperiod_flag::get_desc($item['period_flag_list']);
                 }
 
                 $item['contract_type_list_str'] = '';
@@ -46,6 +48,8 @@ class seller_student2 extends Controller
                         $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
                     }
                     $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+                }else{
+                    $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']); 
                 }
 
                 $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
@@ -93,16 +97,30 @@ class seller_student2 extends Controller
                 }
               
                 //优惠列表展示
-                $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
-                
                 $discount_str = '';
-                if(!empty($discount_list)){
-                    foreach( $discount_list as $v){
-                        $discount_str .= $v.' ; ';
+                if($item['discount_json']){
+                    //优惠列表展示
+                    $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
+                    if(!empty($discount_list)){
+                        foreach( $discount_list as $v){
+                            $discount_str .= $v.' ; ';
+                        }
                     }
                 }
          
                 $item['discount_list'] = $discount_str;
+
+                //配额组合
+                $activity_type_list_str = '';
+                if($item['max_count_activity_type_list']){
+                    $activity_type_list = $this->t_seller_student2->get_activity_exits_list($item['max_count_activity_type_list']);
+                    if(!empty($activity_type_list)){
+                        foreach( $activity_type_list as $v){
+                            $activity_type_list_str .= $v['title'].' ; ';
+                        }
+                    }
+                }
+                $item['activity_type_list_str'] = $activity_type_list_str;
             }
         }
         return $this->pageView(__METHOD__,$ret_list,
@@ -182,6 +200,8 @@ class seller_student2 extends Controller
                     $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
                 }
                 $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+            }else{
+                $item['period_flag_list_str'] = E\Eperiod_flag::get_desc($item['period_flag_list']);
             }
 
             $item['contract_type_list_str'] = '';
@@ -191,6 +211,8 @@ class seller_student2 extends Controller
                     $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
                 }
                 $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+            }else{
+                $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
             }
 
             $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);

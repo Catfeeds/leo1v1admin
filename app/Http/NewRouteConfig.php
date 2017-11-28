@@ -51,6 +51,7 @@ class NewRouteConfig {
         "wx"=>true,
         "test_lesson_opt"=>true,
         "rule_txt"=>true,
+        "resource"=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -59,6 +60,8 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/resource/add_resource"       =>true,
+        "/resource/get_all"            => true,
         "/rule_txt/add_or_update_name"            => true,
         "/rule_txt/process_info"                  => true,
         "/rule_txt/update_process"                => true,
