@@ -5167,7 +5167,11 @@ class user_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
             $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
-            $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
+            if($item['deal_flag'] == -1){
+                $item['deal_flag_str'] = '<font color="blue">未设置</font>';
+            }else{
+                $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
+            }
         }
 
         return $this->Pageview(__METHOD__,$ret_list,[]);
