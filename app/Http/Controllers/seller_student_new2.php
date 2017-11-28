@@ -1334,6 +1334,7 @@ class seller_student_new2 extends Controller
         $adminid = $this->get_in_int_val('adminid');
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+        $res = [];
         foreach($test_leeson_list['list'] as $item){
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
