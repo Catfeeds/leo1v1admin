@@ -1495,7 +1495,7 @@ class wx_yxyx_api extends Controller
         $has_used_count = $this->t_agent_daily_lottery->get_has_used_count($agent_id,$begin_time,$end_time);
 
         $daily_lottery_count = $daily_lottery_count - $has_used_count;
-        if(\App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test())
+        if(\App\Helper\Utils::check_env_is_local())
             $daily_lottery_count  = 1;
         return $daily_lottery_count;
     }
@@ -1516,7 +1516,7 @@ class wx_yxyx_api extends Controller
 
         //用户可抽奖次数校验
         $daily_lottery_count = $this->agent_daily_lottery_count($agent_id);
-        if(\App\Helper\Utils::check_env_is_local() || \App\Helper\Utils::check_env_is_test())
+        if(\App\Helper\Utils::check_env_is_local())
             $daily_lottery_count = 1;
 
         if($daily_lottery_count > 0){

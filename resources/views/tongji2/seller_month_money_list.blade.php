@@ -58,7 +58,6 @@
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
-
                     <tr class="{{$var["level"]}}">
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
                         <td  data-class_name="{{@$var["first_group_name_class"]}}" class=" first_group_name  {{$var["main_type_class"]}} {{@$var["first_group_name_class"]}}  " >{{@$var["first_group_name"]}}</td>

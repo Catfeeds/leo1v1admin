@@ -1166,6 +1166,31 @@ class tea_manage_new extends Controller
         }
     }
 
+    public function add_open_class_by_xls_new(){
+        \App\Helper\Utils::logger("begin create open class");
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            $tmpName  = $file->getFileName();
+            $realPath = $file->getRealPath();
+
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            $obj_file  = "/tmp/001.xls";
+            move_uploaded_file($realPath,$obj_file);
+            $objPHPExcel = $objReader->load($obj_file);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr  = $objPHPExcel->getActiveSheet()->toArray();
+            $orderid_arr = [];
+            foreach($arr as $item){
+                foreach($item as $info){
+                    dd($item,$info);
+                    if(is_int($info) && $info>0){
+                        $orderid_arr[] = $info;
+                    }
+                }
+            }
+        }
+    }
+
     public function set_teacher_check_info(){
         $teacherid = $this->get_in_int_val("teacherid");
         $subject   = $this->get_in_int_val("subject");
