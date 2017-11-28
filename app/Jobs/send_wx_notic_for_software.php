@@ -64,15 +64,15 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
             $url_leo = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yibai.android.parent&fromcase=40002';
 
             $WxSend = new \App\Helper\WxSendMsg();
-            if($item['wx_openid']){
-                $WxSend::send_wx_notic_for_software($item['wx_openid'], $data_leo, $url_leo);
-            }
+            // if($item['wx_openid']){
+            //     $WxSend::send_wx_notic_for_software($item['wx_openid'], $data_leo, $url_leo);
+            // }
 
-            $t_parent_send_mgs_log->row_insert([
-                "parentid"     => $item['parentid'],
-                "create_time"  => time(),
-                "is_send_flag" => 4 // ios升级微信通知
-            ]);
+            // $t_parent_send_mgs_log->row_insert([
+            //     "parentid"     => $item['parentid'],
+            //     "create_time"  => time(),
+            //     "is_send_flag" => 4 // ios升级微信通知
+            // ]);
         }
     }
 }
