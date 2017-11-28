@@ -48,6 +48,7 @@ interface RowData {
 	user_join_time_range	:any;
 	last_test_lesson_range	:any;
 	discount_list	:any;
+	activity_type_list_str	:any;
 }
 
 /*
