@@ -292,7 +292,7 @@ class wx_yxyx_common extends Controller
         $insert_flag = 0;
         if(isset($ret_info['id'])){//已存在,则更新父级和类型
             if($type == $ret_info['type'] or $ret_info['type']==3){
-                return $this->output_err("您已被邀请过!");
+                return $this->output_err("你已是在读学员，无法再次被邀请!");
             }
             $type_new = $ret_info['type']=0?$type:3;
             $this->t_agent->field_update_list($ret_info['id'],[

@@ -1560,11 +1560,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function web_page_log()    {
         $web_page_id=$this->get_in_int_val("web_page_id");
         $from_adminid=$this->get_in_int_val("from_adminid");
+        $share_wx_flag=$this->get_in_int_val("share_wx_flag");
 
         $ip=ip2long( $this->get_in_client_ip() );
         $this->t_web_page_trace_log->row_insert([
             "from_adminid" =>$from_adminid,
             "web_page_id" =>$web_page_id,
+            "share_wx_flag" =>$share_wx_flag,
             "ip" =>$ip,
             "log_time" =>time(NULL),
         ]);

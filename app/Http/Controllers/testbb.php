@@ -53,7 +53,6 @@ class testbb extends Controller
         $origin = $this->get_in_str_val('origin');
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
         $change_teacher_reason = $this->get_in_str_val('change_teacher_reason');
-
         $ret= $this->t_test_lesson_subject_require->field_update_list($require_id,[
             "origin" => $origin,
             "change_teacher_reason_type" => $change_teacher_reason_type,
@@ -75,6 +74,7 @@ class testbb extends Controller
         $a = 'http://1111';
         $d = preg_match('/Http/i',$a);
         dd($d);
+
 
         $rand = mt_rand(0,100000);
         $money = $rand;
