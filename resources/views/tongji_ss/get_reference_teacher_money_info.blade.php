@@ -15,14 +15,10 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>teacherid</td>                   
-                    <td>名字</td>                   
-                    <td>电话</td>                   
-                    <td>第一科目</td>                   
-                    <td>入职时间</td>                   
-                    <td>第一次试听课</td>                    
-                    <td>第一次常规课</td>                    
-                    <td>最后一次常规课</td>                    
+                    <td>月份</td>                   
+                    <td>常规课</td>                   
+                    <td>转化率</td>                   
+                                   
                                  
                      <td> 操作</td>
                 </tr>
@@ -30,19 +26,14 @@
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
-                        <td>{{@$var["teacherid"]}} </td>     
-                        <td>{{@$var["realname"]}} </td>     
-                        <td>{{@$var["phone"]}} </td>     
-                        <td>{{@$var["subject_str"]}} </td>     
-                        <td>{{@$var["time_str"]}} </td>     
-                           
-                        <td class="first_test"> </td>                           
-                        <td class="first_normal"> </td>                           
-                        <td class="last_time"> </td>                           
+                        <td>{{@$k}} </td>     
+                                                
+                        <td class="lesson_count"> </td>                           
+                        <td class="cc_per"> </td>                           
                                                 
                                           
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
+                            <div class="row-data" data-teacherid="{{$var["start_time"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
