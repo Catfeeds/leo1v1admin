@@ -41,10 +41,10 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
                 'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
                 'parentid' => '271968'
             ],
-            [
-                'wx_openid' => 'orwGAs6J8tzBAO3mSKez8SX-DWq4',
-                'parentid' => '271968'
-            ]
+            // [
+            //     'wx_openid' => 'orwGAs6J8tzBAO3mSKez8SX-DWq4',
+            //     'parentid' => '271968'
+            // ]
 
         ];
 
@@ -60,7 +60,7 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
                 'keyword3' => date('Y-m-d H:i:s'),
                 'remark'   => "点击推文前往下载页面"
             ];
-            $url_leo = 'http://a.app.qq.com/o/image/microQr.png?pkgName=com.yibai.android.parent';
+            $url_leo = "http://a.app.qq.com/o/simple.jsp?pkgname=com.yibai.android.parent&fromcase=40002";
 
             // $wx->send_template_msg('orwGAs6J8tzBAO3mSKez8SX-DWq4', $parent_template_id, $data_leo, $url_leo);//james
             $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
