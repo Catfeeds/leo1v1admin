@@ -1394,7 +1394,6 @@ class seller_student_new2 extends Controller
         }
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
-        // $res[$adminid]['order_per'] = $res[$adminid]['succ_all_count_for_month']!=0?(round($res[$adminid]['all_new_contract_for_month']/$res[$adminid]['succ_all_count_for_month'],2)*100)."%":0;
 
         return $this->output_succ($arr);
     }
