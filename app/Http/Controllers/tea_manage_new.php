@@ -1179,58 +1179,15 @@ class tea_manage_new extends Controller
             $objPHPExcel = $objReader->load($obj_file);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr  = $objPHPExcel->getActiveSheet()->toArray();
-            $info = "";
-            $subject_arr = E\Esubject::$desc_map;
-            $grade_arr   = E\Egrade::$desc_map;
-            dd($arr);
-            //时间 科目 年级 任课老师 手机号 适合学生 课题 内容介绍
-            foreach($arr as $key=>$val){
-                if($key!=0 && count($val)==8){
-                    $lesson_start  = strtotime($val[0]);
-                    $subject       = $val[1];
-                    $grade         = $val[2];
-                    $tea_name      = $val[3];
-                    $phone         = $val[4];
-                    $suit_student  = $val[5];
-                    $title         = $val[6];
-                    $package_intro = $val[7];
-
-                    if(!$lesson_start){
-                        continue;
-                    }else{
-                        $subject = array_search($subject,$subject_arr);
-                        $grade   = array_search($grade,$grade_arr);
-
-                        $check_phone=\App\Helper\Utils::check_phone($phone);
-                        if($check_phone){
-                            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-                        }else{
-                            $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_name);
-                        }
-                        if(!$teacherid){
-                            \App\Helper\Utils::logger("add open course 老师不存在".$tea_name);
-                            continue;
-                        }
-
-                        $lesson_end = $lesson_start+5400;
-                        $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
-
-                        if($ret){
-                            \App\Helper\Utils::logger("有现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
-                        }else{
-                            $packageid = $this->t_appointment_info->add_appoint(
-                                $title,E\Econtract_type::V_1001,$package_intro,$suit_student,$subject,$grade
-                            );
-                            $courseid  = $this->t_course_order->add_open_course(
-                                $teacherid,$title,$grade,$subject,E\Econtract_type::V_1001,$packageid,1
-                            );
-                            $lessonid  = $this->t_lesson_info->add_open_lesson(
-                                $teacherid,$courseid,$lesson_start,$lesson_end,$subject,$grade,E\Econtract_type::V_1001
-                            );
-                        }
+            $orderid_arr = [];
+            foreach($arr as $item){
+                foreach($item as $info){
+                    if(is_int($info) && $info>0){
+                        $orderid_arr[] = $info;
                     }
                 }
             }
+            dd($orderid_arr);
         }
     }
 
