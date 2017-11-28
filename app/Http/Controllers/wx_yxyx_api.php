@@ -1477,10 +1477,10 @@ class wx_yxyx_api extends Controller
         $student_flag = false;
         $member_flag = false;
         foreach($agent_today_invite_list as &$item){
-            if($item['type'] == 1 && !isset($student_flag)){
+            if($item['type'] == 1 && !$student_flag){
                 $daily_lottery_count++;
                 $student_flag = true;
-            }elseif($item['type'] ==2 && !isset($member_flag)){
+            }elseif($item['type'] ==2 && !$member_flag){
                 $daily_lottery_count++;
                 $member_flag = true;
             }elseif($item['type'] == 3){
