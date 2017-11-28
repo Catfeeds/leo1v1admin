@@ -1,4 +1,5 @@
 interface GargsStatic {
+	user_type:	number;
 	resource_type:	number;
 	subject:	number;
 	grade:	number;
@@ -14,18 +15,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	resource_id	:any;
-	resource_type	:any;
-	file_title	:any;
-	file_size	:any;
-	file_type	:any;
-	update_time	:any;
-	edit_adminid	:any;
-	down_num	:any;
-	error_num	:any;
-	is_use	:any;
-	is_use_str	:any;
-	nick	:any;
 }
 
 /*
@@ -39,6 +28,7 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		user_type:	$('#id_user_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
@@ -48,6 +38,7 @@ function load_data(){
 $(function(){
 
 
+	$('#id_user_type').val(g_args.user_type);
 	$('#id_resource_type').val(g_args.resource_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
@@ -61,6 +52,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">user_type</span>
+                <input class="opt-change form-control" id="id_user_type" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

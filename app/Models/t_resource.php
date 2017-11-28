@@ -18,7 +18,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             $where_arr[] = ["file_title like '%s%%'", $this->ensql( $file_title), ""];
         }
         $sql = $this->gen_sql_new(
-            "select resource_id,resource_type,file_title,file_size,file_type,update_time,edit_adminid,down_num,error_num,use_num"
+            "select resource_id,resource_type,file_title,file_size,file_type,update_time,edit_adminid,down_num,error_num,is_use,user_type"
             ." from %s"
             ." where %s order by resource_id desc"
             ,self::DB_TABLE_NAME

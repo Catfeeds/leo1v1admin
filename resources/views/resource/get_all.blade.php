@@ -27,10 +27,18 @@
             <div class="row">
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span class="input-group-addon">使用角色</span>
+                        <select class="form-control" id="id_user_type"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span class="input-group-addon">资源类型</span>
                         <select class="form-control" id="id_resource_type"> </select>
                     </div>
                 </div>
+
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
@@ -78,7 +86,7 @@
                     <td style="width:10%">文件大小</td>
                     <td style="width:10%">下载次数</td>
                     <td style="width:10%">纠错次数</td>
-                    <td style="width:10%">使用次数</td>
+                    <td style="width:10%">是否使用</td>
                     <!-- <td> 操作  </td> -->
                 </tr>
             </thead>
@@ -102,5 +110,19 @@
         </table>
         @include("layouts.page")
     </section>
+
+    <div class="col-md-12 ">
+        <table class="table table-striped table-hover text-left"   style="width:600px;position:fixed;right:0;top:200px;border:1px solid red;">
+            <thead>
+                <tr>
+                    <th class="col-md-4">文件名</th>
+                    <th class="col-md-2">文件大小</th>
+                    <th class="col-md-6">上传进度</th>
+                </tr>
+            </thead>
+            <tbody id="fsUploadProgress">
+            </tbody>
+        </table>
+    </div>
 
 @endsection

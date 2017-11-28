@@ -9,7 +9,7 @@ class t_company_wx_department extends \App\Models\Zgen\z_t_company_wx_department
 	}
 
     public function get_all_list() {
-        $sql = $this->gen_sql_new("select id,name,parentid from %s order by id asc",self::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select id,name,parentid pId from %s order by `order` desc",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 

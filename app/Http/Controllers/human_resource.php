@@ -2100,7 +2100,7 @@ class human_resource extends Controller
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
 
-            if(($item['status']=="-2" && empty($item["lesson_start"])) || ($item['add_time'] <= 0 && $item['status'] <= 0 && $item['trial_train_status'] == -2)){
+            if(($item['status']=="-2" && empty($item["lesson_start"])) || ($item['add_time'] <= 0 && $item['status'] <= 0 && $item['trial_train_status'] == -2 && $item['lesson_start'] <= 0)){
                 $item['status_str'] = "无试讲";
             }elseif(($item['status']==0 && (($item["trial_train_status"] ==-2 && $item["lesson_start"]>0) || empty($item["lesson_start"]))) || (($item['status']==0 || $item['status']=="-2") && ($item["trial_train_status"] ==-2 && $item["lesson_start"]>0))){
                 $item['status_str'] = "未审核";
