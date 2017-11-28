@@ -80,9 +80,8 @@
                     <td> 操作  </td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
-
                     <tr class="{{$var["level"]}}">
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
                         <td  data-class_name="{{@$var["first_group_name_class"]}}" class=" first_group_name  {{$var["main_type_class"]}} {{@$var["first_group_name_class"]}}  " >{{@$var["first_group_name"]}}</td>
@@ -112,7 +111,7 @@
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
-                        <td >{{@$var["order_per"]}}</td>
+                        <td class="order_per"></td>
                         <td >{{@$var["all_price_for_month"]}}</td>
                         <td >{{@$var["ave_price_for_month"]}}</td>
                         <td >{{@$var["target_money"]}}</td>

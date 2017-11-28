@@ -412,7 +412,9 @@ class NewRouteConfig {
         "/seller_student2/update_order_activity_07"  => true,
         "/seller_student2/get_order_activity"  => true,
         "/seller_student2/get_activity_all_list"  => true,
-
+        "/seller_student2/get_current_activity"  => true,
+        "/seller_student2/update_power_value"  => true,
+        
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,

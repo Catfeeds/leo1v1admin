@@ -342,7 +342,6 @@ class tongji2 extends Controller
     }
 
     public function seller_month_money_list() {
-
         $adminid=$this->get_in_adminid(-1);
         //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);

@@ -588,6 +588,22 @@ class test_boby extends Controller
         echo 'ok';
     }
 
+    //@desn:根据当前价格更新赞个数
+    public function update_all_praise_count(){
+        $cur_ratio = Config::get_current_ratio();
+        $ret_info = $this->t_gift_info->get_gift_id_price();
+
+        foreach($ret_info as $item){
+            if($item['cost_price']> 0){
+                $praise = ceil($item['cost_price']/100*$cur_ratio);
+                $this->t_gift_info->field_update_list($item['giftid'],[
+                    'current_praise' => $praise,
+                ]);
+            }
+        }
+        echo 'ok';
+    }
+
     public function get_info_by_time(){
         $this->switch_tongji_database();
         $start = $this->get_in_str_val('start',0);
