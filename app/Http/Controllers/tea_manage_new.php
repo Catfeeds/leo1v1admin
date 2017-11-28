@@ -1187,7 +1187,11 @@ class tea_manage_new extends Controller
                     }
                 }
             }
-            dd($orderid_arr);
+            $ret_info = $this->t_order_info->get_seller_add_time_by_orderid_str($orderid_arr);
+            foreach($ret_info as &$item){
+                \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            }
+            dd($ret_info);
         }
     }
 
