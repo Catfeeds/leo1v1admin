@@ -1633,7 +1633,7 @@ class ajax_deal2 extends Controller
     public function get_three_month_stu_num(){
         $start_time             = $this->get_in_int_val("teacherid");
         $end_time = strtotime("+1 months",$start_time);
-        $list =$this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,-1,0);
+        $list =$this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,0,0);
         $lesson_count = @$list["lesson_total"];
 
         $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1,-1);
