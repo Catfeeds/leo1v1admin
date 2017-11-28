@@ -13,15 +13,27 @@ class company_wx extends Controller
             exit('没有配置');
         }
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret'];
-        $tocken = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
+        $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
+        $url = $config['url'].'/cgi-bin/tag/list?access_token='.$token;
+        $tag = $this->get_company_wx_data($url,'taglist');
+        if ($tag) {
+            foreach($tag as $item) {
+                $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
+                $users = $this->get_company_wx_data($url,"userlist");
+                //dd($users);
+            }
+        }
+        dd($tag);
 
-        $url = $config['url'].'/cgi-bin/department/list?access_token='.$tocken;
+        $url = $config['url'].'/cgi-bin/department/list?access_token='.$token;
         $department = $this->get_company_wx_data($url, 'department');
+        print_r($department);
+        exit;
         $users = '';
         if ($department) {
             foreach ($department as $val) {
                 $department = $val['id'];
-                $url = $config['url'].'/cgi-bin/user/list?access_token='.$tocken.'&department_id='.$department.'&fetch_child=0';
+                $url = $config['url'].'/cgi-bin/user/list?access_token='.$token.'&department_id='.$department.'&fetch_child=0';
                 $users = $this->get_company_wx_data($url, 'userlist');
                 if ($users) {
                     foreach($users as $item) {
