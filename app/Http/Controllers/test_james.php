@@ -1338,16 +1338,7 @@ $test=	3;
         });
     }
 
-    public function send_wx(){
-        $a= new \App\Jobs\send_wx_notic_for_software();
-        dispatch($a);
-    }
 
-    public function get_parent_num(){
-        $a = $this->t_parent_info->get_openid_list();
-        dd(count($a));
-
-    }
 
 
 
