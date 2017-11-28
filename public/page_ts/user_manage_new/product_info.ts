@@ -106,7 +106,7 @@ $(function(){
         },function(result){
             var $feedback_id = $("<input/>");
             var $describe    = $("<textarea>");
-            var $lesson_url  = $("<input/>");
+            var $lesson_url  = $("<input />");
             var $reason      = $("<textarea>");
             var $solution    = $("<textarea>");
             var $student     = $("<input/>");
@@ -161,6 +161,12 @@ $(function(){
                 $.admin_select_user($feedback_id,"admin");
                 $.admin_select_user($student,"student");
                 $.admin_select_user($teacher,"teacher");
+
+                $lesson_url.css('width','90%');
+                $feedback_id.next().css('width','20%');
+                $student.next().css('width','20%');
+                $teacher.next().css('width','20%');
+                $deal_flag.css('width','20%');
             });
         });
     });
