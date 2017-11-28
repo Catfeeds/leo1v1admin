@@ -1345,7 +1345,7 @@ $test=	3;
 
     public function get_parent_num(){
         $a = $this->t_parent_info->get_openid_list();
-        dd($a);
+        dd(count($a));
 
     }
 
