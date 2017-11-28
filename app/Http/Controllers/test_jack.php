@@ -366,7 +366,7 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>650000 && $val["price"]<1000000){
+            if($val["price"]>490000 && $val["price"]<2300000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -394,6 +394,9 @@ class test_jack  extends Controller
                 // $val["parent_order_id"] = 3000;
                 // unset($val["orderid"]);
                 // $this->t_order_info_finance->row_insert($val);
+                $this->t_order_info_finance->field_update_list($val["orderid"],[
+                   "contract_type"=>100 
+                ]);
 
                 if(count($arr) >= 26){
                     break;
