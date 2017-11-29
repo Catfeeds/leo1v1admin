@@ -43,7 +43,11 @@ $(function(){
         add_or_update();
     });
 
+    var last_id  = 0;
+    var stu_hash = '';
+    var stu_link = '';
     var add_or_update = function(id_str = ''){
+
         var id_user_type     = $("<select class=\"user\"/>");
         var id_resource_type = $("<select class=\"resource\"/>");
         var id_subject       = $("<select/>");
@@ -51,7 +55,8 @@ $(function(){
         var id_tag_one       = $("<select class=\"tag_one sel_flag\"/>");
         var id_tag_two       = $("<select class=\"tag_two sel_flag\"/>");
         var id_tag_three     = $("<select class=\"tag_three sel_flag\"/>");
-        var id_file          = $("<button class=\"btn\" id=\"id_file\">选择文件</button>");
+        var id_tea_file      = $("<button class=\"btn\" id=\"id_tea_file\">选择文件</button>");//老师
+        var id_stu_file      = $("<button class=\"btn\" id=\"id_stu_file\">选择文件</button>");//学生
 
         Enum_map.append_option_list("user_type",id_user_type,true);
         Enum_map.append_option_list("resource_type",id_resource_type,true);
@@ -65,6 +70,11 @@ $(function(){
         id_resource_type.val(g_args.resource_type);
         id_subject.val(g_args.subject);
         id_grade.val(g_args.grade);
+        if( id_str != '' ){
+            id_user_type.attr('disabled','disabled');
+            id_resource_type.attr('disabled','disabled');
+            id_subject.attr('disabled','disabled');
+        }
 
         var arr= [
             ["使用角色：", id_user_type],
@@ -74,45 +84,51 @@ $(function(){
             ["教材版本：", id_tag_one],
             ["资料类型：", id_tag_two],
             ["春署秋寒：", id_tag_three],
-            ["", id_file],
+            ["老师版", id_tea_file],
+            ["学生版", id_stu_file],
         ];
 
         if(id_str == '') {
             var title = '新建';
         } else {
             var title = '移动';
-            id_file.hide();
+            id_tea_file.hide();
+            id_stu_file.hide();
         }
 
         $.show_key_value_table(title, arr,{
             label    : '确认',
-            cssClass : 'btn-info hide move',
+            cssClass : 'btn-info btn-mark',
+            // id : 'btn-mark',
             action   : function() {
-                $.ajax({
-                    type     : "post",
-                    url      : "/resource/add_resource",
-                    dataType : "json",
-                    data : {
-                        'id_str'        : id_str,
-                        'user_type'     : id_user_type.val(),
-                        'resource_type' : id_resource_type.val(),
-                        'subject'       : id_subject.val(),
-                        'grade'         : id_grade.val(),
-                        'tag_one'       : id_tag_one.val(),
-                        'tag_two'       : id_tag_two.val(),
-                        'tag_three'     : id_tag_three.val(),
-                    } ,
-                    success   : function(result){
-                        if(result.ret == 0){
-                            // window.location.reload();
-                        } else {
-                            alert(result.info);
+                if(id_str != ''){//移动
+                    $.ajax({
+                        type     : "post",
+                        url      : "/resource/add_resource",
+                        dataType : "json",
+                        data : {
+                            'id_str'        : id_str,
+                            'user_type'     : id_user_type.val(),
+                            'resource_type' : id_resource_type.val(),
+                            'subject'       : id_subject.val(),
+                            'grade'         : id_grade.val(),
+                            'tag_one'       : id_tag_one.val(),
+                            'tag_two'       : id_tag_two.val(),
+                            'tag_three'     : id_tag_three.val(),
+                        } ,
+                        success   : function(result){
+                            if(result.ret == 0){
+                                // window.location.reload();
+                            } else {
+                                alert(result.info);
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
             }
         },function(){
+
+            $('.btn-mark').attr('id','up_load');//确认上传标记
             $('.resource').change(function(){
                 $('.sel_flag').empty();
                 $('.sel_flag').val(0);
@@ -121,7 +137,15 @@ $(function(){
             });
 
             if(id_str == '') {//新增
-                multi_upload_file('id_file',1,function(up,file) {
+                //老师版
+                multi_upload_file(true,false,'id_tea_file',1,function(files){
+                    var name_str = '';
+                    $(files).each(function(i){
+                        name_str = name_str+'<br/><span>'+files[i].name+'</span>';;
+                    });
+                    $('#id_tea_file').after(name_str);
+                },function(up,file) {
+
                     $('.close').click();
                     $('.opt_process').show();
                 },function(up, file, info) {
@@ -144,22 +168,40 @@ $(function(){
                                 'file_type'     : file.type,
                                 'file_size'     : file.size,
                                 'file_hash'     : res.hash,
+                                'file_link'     : res.key,
                             } ,
                             success   : function(result){
                                 if(result.ret == 0){
                                     // window.location.reload();
+                                    last_id = result.resource_id;
+                                    add_stu_hash(last_id,stu_hash,stu_link);
                                 } else {
                                     alert(result.info);
                                 }
                             }
                         });
-
                     }
 
                 }, ["jpg","png"],'fsUploadProgress');
 
-            } else {
-                $('.move').removeClass('hide');
+                //相关联的学生版
+                multi_upload_file(false,false,'id_stu_file',1,function(files){
+                    var name_str = '';
+                    $(files).each(function(i){
+                        name_str = name_str+'<br/><span>'+files[i].name+'</span>';;
+                    });
+                    $('#id_stu_file').after(name_str);
+                },function(){},function(up, file, info) {
+                    var res = $.parseJSON(info.response);
+                    if( info.status == 200){
+                        stu_hash = res.hash;
+                        stu_link = res.key;
+                        add_stu_hash(last_id,stu_hash,stu_link);
+                    }
+
+                }, ["jpg","png"],'fsUploadProgress');
+
+
             }
         },false,600);
     };
@@ -267,6 +309,28 @@ $(function(){
         }
     };
 
+    var add_stu_hash = function(last_id, stu_hash, stu_link){
+        if(last_id != 0 && stu_hash != '' && stu_hash != ''){
+            //说明两个版本都上传成功
+            $.ajax({
+                type     : "post",
+                url      : "/resource/update_stu_hash",
+                dataType : "json",
+                data : {
+                    'resource_id' : last_id,
+                    'stu_hash'    : stu_hash,
+                    'stu_link'    : stu_link,
+                } ,
+                success  : function(result){
+                    if(result.ret != 0){
+                        alert(result.info);
+                    }
+                }
+            });
+
+        }
+    }
+
     var do_copy = function(resource_id){
         alert('需要再讨论');
         // if( confirm('确定要删除？') ){
@@ -318,7 +382,7 @@ $(function(){
 
     var re_upload = function(resource_id){
 
-        multi_upload_file('upload_flag',1,function(up,file) {
+        multi_upload_file(false,true,'upload_flag',1,'',function(up,file) {
             $('.opt_process').show();
         },function(up, file, info) {
             var res = $.parseJSON(info.response);
@@ -333,6 +397,7 @@ $(function(){
                         'file_type'     : file.type,
                         'file_size'     : file.size,
                         'file_hash'     : res.hash,
+                        'file_link'     : res.key,
                     } ,
                     success   : function(result){
                         if(result.ret == 0){
