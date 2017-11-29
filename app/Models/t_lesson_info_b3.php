@@ -2319,7 +2319,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,10,false);
+        return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
     public function get_violation_num($start_time, $end_time, $teacherid){
