@@ -56,7 +56,9 @@
                             {{@$var['cr_rate']*100}}"%
                         </td>
                         <td>
-                            {{@$var['violation_num']}}
+                            <a id="violation_num">
+                                {{@$var['violation_num']}}
+                            </a>
                         </td>
 
 
@@ -78,5 +80,15 @@
         </table>
         @include("layouts.page")
     </section>
+    <div style="display:none;" >
+        <div id="id_assign_log">
+            <table   class="table table-bordered "   >
+                <tr>  <th> 类别 <th>数量   </tr>
+                    <tbody class="data-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
 
 @endsection

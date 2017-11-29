@@ -25,9 +25,44 @@ $(function(){
         }
     });
 
-    $('#stu_num').on("click",function(){
-        var $teacherid = g_args.teacherid;
+
+    $("#violation_num").on("click",function(){
+        var data         = $(this).get_opt_data();
+        var teacherid    = data.teacherid;
+        var html_node    = $.obj_copy_node("#id_assign_log");
+
+        BootstrapDialog.show({
+            title: "老师违规详情",
+            message: html_node,
+            closable: true
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/ss_deal/get_violation_info",
+            dataType: "json",
+            data: {
+                'teacherid': teacherid,
+            },
+            success: function (result) {
+                if (result['ret'] == 0) {
+                    var data = result['data'];
+
+                    var html_str = "";
+                    // $.each(data, function (i, item) {
+                    var cls = "success";
+
+                    html_str = "<tr class=\"" + cls + "\" > <td>" + '迟到' + "<td>" + data.late_num +"<td>"+'未评论'+data.comment_num+"<td>"+'未传课件'+data.tea_cw_num + "<td>"+'未布置作业'+data.work_num +"</tr>";
+                    // });
+
+                    html_node.find(".data-body").html(html_str);
+
+                }
+            }
+        });
+
     });
+
 
 
   $('.opt-change').set_input_change_event(load_data);
