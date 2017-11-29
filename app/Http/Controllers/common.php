@@ -1070,6 +1070,12 @@ class common extends Controller
                 'open_id' => 'wx636f1058abca1bc1'
             );
             break;
+        case 'wx_pub_qr':
+            $extra = array(
+                'product_id' => $orderNo
+            );
+            break;
+
 
 
 
