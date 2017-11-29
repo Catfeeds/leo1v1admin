@@ -1236,11 +1236,11 @@ class tea_manage_new extends Controller
 
 
         foreach($ret_info['list'] as &$item){
-            $item['cc_conversion'] = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],1);
-            $item['cc_rate'] = $item['cc_conversion']['lesson_num']>0?($item['cc_conversion']['order_num']/$item['cc_conversion']['lesson_num']):0;
+            $cc_conversion = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],1);
+            $item['cc_rate'] = $cc_conversion['lesson_num']>0?($cc_conversion['order_num']/$cc_conversion['lesson_num']):0;
 
-            $item['cr_conversion'] = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],2);
-            $item['cr_rate'] = $item['cr_conversion']['lesson_num']>0?($item['cr_conversion']['order_num']/$item['cr_conversion']['lesson_num']):0;
+            $cr_conversion = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],2);
+            $item['cr_rate'] = $cr_conversion['lesson_num']>0?($cr_conversion['order_num']/$cr_conversion['lesson_num']):0;
 
             $item['violation_num']=0;
         }
