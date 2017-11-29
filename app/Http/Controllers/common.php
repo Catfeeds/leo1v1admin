@@ -1082,6 +1082,7 @@ class common extends Controller
                     'app'       => array('id' => APP_ID)
                 )
             );
+            dd($ch);
 
             if($ch){
                 $this->t_orderid_orderno_list->row_insert([
