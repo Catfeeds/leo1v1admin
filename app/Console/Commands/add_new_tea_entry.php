@@ -41,6 +41,12 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+        // 拉取数据
+        $info = $task->t_teacher_lecture_appointment_info_b2->get_ref_type_data();
+        foreach($info as $item) {
+            echo $item['nick'].'('.E\Eteacher_ref_type::get_desc($item['teacher_ref_type']).'-'.E\Eteacher_type::get_desc($item['teacher_type']).'),';
+        }
+        exit;
 
         // 加载老师绑定数据
         $file = '/tmp/bank.txt';
