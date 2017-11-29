@@ -42,7 +42,6 @@ class NewRouteConfig {
         "supervisor"=>true,
         "teacher_free"=>true,
         "tea_manage"=>true,
-        "tea_manage_new"=>true,
         "test_info"=>true,
         "todo"=>true,
         "upload"=>true,
