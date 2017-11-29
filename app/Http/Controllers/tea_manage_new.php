@@ -1232,9 +1232,6 @@ class tea_manage_new extends Controller
         $ret_info = [];
         $ret_info = $this->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time,$page_num);
 
-
-
-
         foreach($ret_info['list'] as &$item){
             $cc_conversion = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],1);
             $item['cc_rate'] = $cc_conversion['lesson_num']>0?($cc_conversion['order_num']/$cc_conversion['lesson_num']):0;
@@ -1242,11 +1239,14 @@ class tea_manage_new extends Controller
             $cr_conversion = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],2);
             $item['cr_rate'] = $cr_conversion['lesson_num']>0?($cr_conversion['order_num']/$cr_conversion['lesson_num']):0;
 
-            $item['violation_num']=0;
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+
+            $item['violation_info'] = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
+            $item['violation_num'] = 0;
         }
 
+        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 
