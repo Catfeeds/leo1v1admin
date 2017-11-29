@@ -13,10 +13,26 @@ declare var g_adminid: any;
 interface RowData {
 	id	:any;
 	title	:any;
-	power_value	:any;
-	open_flag	:any;
 	date_range_start	:any;
 	date_range_end	:any;
+	user_join_time_end	:any;
+	lesson_times_min	:any;
+	lesson_times_max	:any;
+	last_test_lesson_end	:any;
+	grade_list	:any;
+	open_flag	:any;
+	can_disable_flag	:any;
+	power_value	:any;
+	max_count	:any;
+	max_change_value	:any;
+	order_activity_discount_type	:any;
+	discount_json	:any;
+	max_count_activity_type_list	:any;
+	last_test_lesson_start	:any;
+	user_join_time_start	:any;
+	period_flag_list	:any;
+	contract_type_list	:any;
+	need_spec_require_flag	:any;
 	open_flag_str	:any;
 	date_range_time	:any;
 }
