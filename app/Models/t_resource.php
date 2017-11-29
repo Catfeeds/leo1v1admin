@@ -8,11 +8,13 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 		parent::__construct();
 	}
 
-    public function get_all($resource_type,$subject,$grade,$file_title,$page_info){
+    public function get_all($user_type,$resource_type,$subject,$grade,$file_title,$page_info){
         $where_arr = [
+            ['user_type=%u', $user_type, -1],
             ['resource_type=%u', $resource_type, -1],
             ['subject=%u', $subject, -1],
             ['grade=%u', $grade, -1],
+            'is_del=0',
         ];
         if($file_title != ''){
             $where_arr[] = ["file_title like '%s%%'", $this->ensql( $file_title), ""];
