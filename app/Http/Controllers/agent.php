@@ -459,7 +459,7 @@ class agent extends Controller
         $key3_arr = array_unique(array_column($ret_info,'key3'));
         $key4_arr = array_unique(array_column($ret_info,'key4'));
         $array = array_merge($key1_arr,$key2_arr,$key3_arr,$key4_arr);
-        if(in_array('活力未来',$array)){
+        if(in_array('in生活',$array)){
             dd('a');
         }else{
             dd('b');
