@@ -348,6 +348,15 @@ class test_jack  extends Controller
         // dd($list);
         // $arr=[];
         $noti_account = $this->t_assistant_info->get_account_by_id(441550);
+        $header_msg="测试";
+        $msg="学生:" ;
+        $url="/user_manage/ass_archive_ass";
+        $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
+        if($ret) {
+        }else{
+            return $this->output_err("发送WX通知失败,请确认[$noti_account]有绑定微信");
+        }
+
         dd($noti_account);
 
         $start_time = strtotime("2017-03-01");
