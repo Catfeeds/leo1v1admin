@@ -351,7 +351,23 @@ class test_jack  extends Controller
         $header_msg="测试";
         $msg="学生:" ;
         $url="/user_manage/ass_archive_ass";
-        $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
+        // $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
+       
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+        $data=[
+            "first"    => "测试",
+            "keyword1" => "测试",
+            "keyword2" => "测试",
+            "keyword3" => date("Y-m-d H:i:s"),
+            "remark"   => "测试",
+        ];
+        $url="";
+
+        $wx     = new \App\Helper\Wx();
+        $openid = $this->t_manager_info->get_wx_openid_by_account($noti_account);
+        $ret = $wx->send_template_msg($openid,$template_id,$data ,$url);
+
         if($ret) {
         }else{
             return $this->output_err("发送WX通知失败,请确认[$noti_account]有绑定微信");
