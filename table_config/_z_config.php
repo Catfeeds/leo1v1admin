@@ -1,6 +1,7 @@
 <?php
 return array(
     ["db_weiyi","t_tag_library","tag_id"],
+    ['db_weiyi_admin','t_company_wx_tag','id'],
     ["db_weiyi","t_resource","resource_id"],
     ['db_weiyi','t_sum_activity_quota','id'],
     ['db_weiyi','t_activity_quota_detail','id'],
