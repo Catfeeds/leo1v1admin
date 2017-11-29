@@ -27,7 +27,7 @@ $(function(){
         var tag_desc = $("<textarea class='opt-mandatory'/>")
         var tag_object= $("<select />" );
         Enum_map.append_option_list("tag_object", tag_object);
-        var tag_weight = $("<input />")
+        var tag_weight = $("<input /><span class='note'>数值越大，优先展示</span>")
 
         var arr=[
             ["<span style='color:red;'>*</span>标签一级分类" ,tag_l1_sort  ],
@@ -87,7 +87,7 @@ $(function(){
         var tag_desc = $('<textarea/>')
         var tag_object= $("<select/>" );
         Enum_map.append_option_list("tag_object", tag_object);
-        var tag_weight = $("<input type='number'/>")
+        var tag_weight = $("<input type='number'/><span class='note'>数值越大，优先展示</span>")
 
         var arr=[
             ["<span style='color:red;'>*</span>标签一级分类" ,tag_l1_sort  ],
@@ -95,7 +95,7 @@ $(function(){
             ["<span style='color:red;'>*</span>标签名称" ,tag_name ],
             ["<span style='color:red;'>*</span>标签定义" ,tag_desc  ],
             ["<span style='color:red;'>*</span>设定对象" ,tag_object  ],
-            ["权重系数" ,tag_weight  ],
+            ["权重系数" ,tag_weight],
         ] ;
         tag_l1_sort.val(opt_data.tag_l1_sort);
         tag_l2_sort.val(opt_data.tag_l2_sort);
