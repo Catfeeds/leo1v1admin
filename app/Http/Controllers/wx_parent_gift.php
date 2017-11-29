@@ -810,7 +810,7 @@ class wx_parent_gift extends Controller
             if($type == 1){
                 header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
             }elseif($type == 2){
-                header("location: http://wx-parent-web.leo1v1.com/wx-activity-book/share.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+                header("location: http://wx-parent-web.leo1v1.com/wx-activity-book/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
             }
         }else{
             if($type == 1){
