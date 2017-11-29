@@ -480,6 +480,8 @@ $(function(){
     if(g_adminid==889 || g_adminid==716 || g_adminid==301 || g_adminid==780){
         download_show();
     }
-
+    // if(g_adminid==889 || g_adminid==716 || g_adminid==301 || g_adminid==780 || g_adminid==778){
+    //     download_show();
+    // }
 
 });
