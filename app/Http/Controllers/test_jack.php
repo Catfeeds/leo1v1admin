@@ -347,8 +347,8 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
-        // $start_time = strtotime("2017-07-01");
-        // $end_time = strtotime("2017-08-01");
+        $start_time = strtotime("2017-03-01");
+        $end_time = strtotime("2017-04-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         // foreach($teacher_arr_ex as $k=>$val){
