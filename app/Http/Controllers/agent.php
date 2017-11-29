@@ -453,8 +453,17 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid=487);
-        dd($p_pp_adminid);
+        $ret_info = $this->t_origin_key->get_all_key_list();
+        $key1_arr = array_unique(array_column($ret_info,'key1'));
+        $key2_arr = array_unique(array_column($ret_info,'key2'));
+        $key3_arr = array_unique(array_column($ret_info,'key3'));
+        $key4_arr = array_unique(array_column($ret_info,'key4'));
+        $array = array_merge($key1_arr,$key2_arr,$key3_arr,$key4_arr);
+        if(in_array('in生活',$array)){
+            dd('a');
+        }else{
+            dd('b');
+        }
     }
 
     //处理等级头像

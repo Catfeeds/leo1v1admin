@@ -37,7 +37,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <a href="http://admin.leo1v1.com/human_resource/teacher_info_new?teacherid={{@$var['teacherid']}}">
+                            <a href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
                                 {{@$var["tea_nick"]}}
                             </a>
                         </td>
@@ -48,10 +48,10 @@
                             {{@$var['lesson_num']}}
                         </td>
                         <td>
-                            {{@$var['cc_rate']}}
+                            {{@$var['cc_rate']}}*100.'%'
                         </td>
                         <td>
-                            {{@$var['cr_rate']}}
+                            {{@$var['cr_rate']}}*100."%"
                         </td>
                         <td>
                             {{@$var['violation_num']}}

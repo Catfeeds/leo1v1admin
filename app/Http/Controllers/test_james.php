@@ -1312,7 +1312,8 @@ class test_james extends Controller
     }
 
     public function get_add_time(){
-
+        $a=array('a'=>5,'b'=>15,'c'=>25);
+        echo array_sum($a);
 
     }
 
