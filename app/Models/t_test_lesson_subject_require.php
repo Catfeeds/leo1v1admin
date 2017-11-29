@@ -513,6 +513,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_id" => $require_id,
             "set_lesson_adminid"  => $cur_require_adminid,
             "set_lesson_time"  => time(NULL) ,
+
         ]);
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             "current_lessonid" => $lessonid,

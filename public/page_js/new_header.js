@@ -2189,7 +2189,7 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
-function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_list,process_id ){
+function multi_upload_file(btn_id,  is_public_bucket ,befor_func, complete_func, ext_file_list,process_id ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
@@ -2234,6 +2234,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
                             progress.setChunkProgess(chunk_size);
                         }
                     }
+                    befor_func(up, file);
 
                 },
                 'UploadProgress': function(up, file) {
@@ -2277,6 +2278,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
     });
 
 };
+
 
 
 function do_ajax_get_nick( type,  id, func) {
