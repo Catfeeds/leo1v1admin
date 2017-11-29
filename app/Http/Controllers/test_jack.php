@@ -670,9 +670,10 @@ class test_jack  extends Controller
         $start_time = time()-5*86400;
         $end_time = time();
         $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
+
         foreach($list as &$val){
             $subject = $val["subject"];
-            $grade = floor($val["grade"]/100);
+            $grade = $val["grade"];
             if($grade==1){
                 $val["grade_str"]="小学";
             }elseif($grade==2){
@@ -681,6 +682,7 @@ class test_jack  extends Controller
                 $val["grade_str"]="高中";
             }
             E\Esubject::set_item_value_str($val,"subject");
+            $val["num"]=0;
             
         }
        

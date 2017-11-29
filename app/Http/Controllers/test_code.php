@@ -31,7 +31,6 @@ class test_code extends Controller
     var $teacher_money_type_month_key      = "teacher_money_type_month";
 
     public function __construct(){
-        // $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -41,9 +40,6 @@ class test_code extends Controller
         }else{
             $this->teacherid="60024";
         }
-    }
-
-    public function salary_table(){
     }
 
     public function get_b_txt($file_name="b"){
@@ -160,37 +156,6 @@ class test_code extends Controller
         return $lesson_price;
     }
 
-    public function get_textbook_match_degree(){
-        $start_date = $this->get_in_str_val("month_start","2017-9-1");
-        $end_date   = $this->get_in_str_val("month_end","2017-10-1");
-
-        $region_version = array_flip(E\Eregion_version::$desc_map);
-        $start_time = strtotime($start_date);
-        $end_time   = strtotime($end_date);
-
-        $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
-        $all_num = 0;
-        $match_num = 0;
-        foreach($list as $val){
-            $all_num++;
-            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
-                $stu_textbook = $region_version[$val['textbook']];
-            }else{
-                $stu_textbook = $val['editionid'];
-            }
-            // echo "stu_textbook:".$stu_textbook;
-            // echo "<br>";
-            // echo "tea_textbook:".$val['teacher_textbook'];
-            // echo "<br>";
-            // echo "<br>";
-            $tea_textbook = explode(",",$val['teacher_textbook']);
-            if(in_array($stu_textbook,$tea_textbook)){
-                $match_num++;
-            }
-        }
-        $match_per = $all_num>0?($match_num/$all_num):0;
-        echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
-    }
 
     public function get_success_lesson(){
         $day  = $this->get_in_int_val("day",30);
@@ -217,29 +182,6 @@ class test_code extends Controller
             $begin_time = $check_time;
         }
         return $begin_time;
-    }
-
-    /**
-     * 切换工作室渠道的老师工资版本
-     adrian
-     */
-    public function change_studio_tea_list(){
-        $reference = $this->get_in_str_val("reference");
-        if($reference==""){
-            return $this->output_err("手机号不能为空!");
-        }
-
-        $tea_list = $this->t_teacher_info->get_teacher_list_by_reference($reference);
-        foreach($tea_list as $val){
-            if($val['trial_lecture_is_pass']>0 && $val['train_through_new']>0){
-                echo $val['teacherid'];
-                echo "<br>";
-            }
-            // $this->t_teacher_info->field_update_list($val['teacherid'],[
-            //     "teacher_money_type" => E\Eteacher_money_type::V_6,
-            //     "teacher_ref_type"   => E\Eteacher_ref_type::V_0,
-            // ]);
-        }
     }
 
     /**
@@ -1494,6 +1436,8 @@ class test_code extends Controller
         curl_close($ch);
         return $result;
     }
+
+
 
 
 
