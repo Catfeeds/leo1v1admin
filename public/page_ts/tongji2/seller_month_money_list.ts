@@ -97,4 +97,8 @@ $(function(){
 
     };
     load_row_data ();
+
+    if(g_account=='tom'){
+        download_show();
+    }
 });

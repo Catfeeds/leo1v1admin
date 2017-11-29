@@ -173,7 +173,9 @@ $(function(){
             }
         })
     });
-
+    if(g_account=='tom'){
+        download_show();
+    }
 
 
 });
