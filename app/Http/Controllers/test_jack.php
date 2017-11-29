@@ -365,7 +365,7 @@ class test_jack  extends Controller
         $url="";
 
         $wx     = new \App\Helper\Wx();
-        $openid = $this->t_manager_info->get_wx_openid_by_account($noti_account);
+        $openid = $this->t_manager_info->get_wx_openid_by_account("jack");
         $ret = $wx->send_template_msg($openid,$template_id,$data ,$url);
 
         if($ret) {
