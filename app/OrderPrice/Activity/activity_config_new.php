@@ -119,7 +119,7 @@ class activity_config_new extends  activity_new_base {
     {
 
         //\App\Helper\Utils::logger("dayin: ".json_encode($this));
-        if ( in_array( session("acc") ["jim", "bacon"]) ) {
+        if ( in_array( session("acc"), ["jim", "bacon"]) ) {
             if (!$this->open_flag ) {
                 return false;
             }
