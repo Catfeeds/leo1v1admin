@@ -42,6 +42,7 @@ class NewRouteConfig {
         "supervisor"=>true,
         "teacher_free"=>true,
         "tea_manage"=>true,
+        "tea_manage_new"=>true,
         "test_info"=>true,
         "todo"=>true,
         "upload"=>true,
@@ -60,6 +61,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/tea_manage_new/approved_data" => true,
         "/resource/reupload_resource"  =>true,
         "/resource/rename_resource"    =>true,
         "/resource/del_resource"       =>true,

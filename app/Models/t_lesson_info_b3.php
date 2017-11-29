@@ -2275,4 +2275,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num){
+        $where_arr = [
+            "t.trial_lecture_is_pass=1",
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select t.teacherid, t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num from %s l "
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s group by t.teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num,10,false);
+    }
+
 }
