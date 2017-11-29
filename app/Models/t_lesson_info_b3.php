@@ -2285,12 +2285,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.confirm_flag<>2",
             ["l.subject=%u",$subject,-1]
         ];
-        if($garde==1){
-            $where_arr="l.grade>=100 and l.grade<200";
+        if($grade==1){
+            $where_arr[]="l.grade>=100 and l.grade<200";
         }elseif($grade==2){
-            $where_arr="l.grade>=200 and l.grade<300";
+            $where_arr[]="l.grade>=200 and l.grade<300";
         }elseif($grade==3){
-            $where_arr="l.grade>=300 and l.grade<400";
+            $where_arr[]="l.grade>=300 and l.grade<400";
         }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
