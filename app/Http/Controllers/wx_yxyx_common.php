@@ -404,12 +404,16 @@ class wx_yxyx_common extends Controller
                 return $this->output_err("数据请求异常!");
             }
         }elseif($type == 1 && $insert_flag == 1){
+            //获取用户id
+            $agent_id = $this->t_agent->get_agentid_by_phone($phone);
             $userid = null;
             $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if($userid_new){
                 $userid = $userid_new;
             }
-            $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+            $ret = $this->t_agent->field_update_list($agent_id,[
+                'userid' => $userid,
+            ]);
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_succ("系统出错!");
