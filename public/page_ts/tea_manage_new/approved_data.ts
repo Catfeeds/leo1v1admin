@@ -1,15 +1,14 @@
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage_new-approved_data.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+        date_type_config:	$('#id_date_type_config').val(),
+        date_type:	$('#id_date_type').val(),
+        opt_date_type:	$('#id_opt_date_type').val(),
+        start_time:	$('#id_start_time').val(),
+        end_time:	$('#id_end_time').val()
     });
 }
 $(function(){
@@ -26,7 +25,10 @@ $(function(){
         }
     });
 
+    $('#stu_num').on("click",function(){
+        var $teacherid = g_args.teacherid;
+    });
 
-	$('.opt-change').set_input_change_event(load_data);
+
+  $('.opt-change').set_input_change_event(load_data);
 });
-

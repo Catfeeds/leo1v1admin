@@ -42,7 +42,9 @@
                             </a>
                         </td>
                         <td>
-                            {{@$var['stu_num']}}
+                            <a id="stu_num">
+                                {{@$var['stu_num']}}
+                            </a>
                         </td>
                         <td>
                             {{@$var['lesson_num']}}
