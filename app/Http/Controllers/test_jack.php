@@ -347,6 +347,9 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
+        $noti_account = $this->t_assistant_info->get_account_by_id(441550);
+        dd($noti_account);
+
         $start_time = strtotime("2017-03-01");
         $end_time = strtotime("2017-04-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
