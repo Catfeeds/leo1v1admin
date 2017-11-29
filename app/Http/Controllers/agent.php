@@ -1842,7 +1842,6 @@ class agent extends Controller
 
         $agent_all_group_result['order_money'] = ($agent_member_result['order_money']+$colconel_order_money)/100;
         $agent_all_group_result['name'] = '总计';
-        // dd($agent_all_group_result);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info(@$member_list),[
             'agent_all_group_result' => $agent_all_group_result,
         ]);

@@ -294,7 +294,7 @@ class wx_yxyx_common extends Controller
             if($type == $ret_info['type'] or $ret_info['type']==3){
                 return $this->output_err("你已是在读学员，无法再次被邀请!");
             }
-            $type_new = $ret_info['type']=0?$type:3;
+            $type_new = $ret_info['type']==0?$type:3;
             $this->t_agent->field_update_list($ret_info['id'],[
                 //"parentid" => $parentid,
                 "type"     => $type_new,
@@ -404,6 +404,12 @@ class wx_yxyx_common extends Controller
                 return $this->output_err("数据请求异常!");
             }
         }elseif($type == 1 && $insert_flag == 1){
+            $userid = null;
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            if($userid_new){
+                $userid = $userid_new;
+            }
+            $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_succ("系统出错!");
