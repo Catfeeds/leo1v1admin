@@ -15,7 +15,7 @@ function load_data(){
 }
 $(function(){
 
-    $(".id_teacherid").val(g_args.teacherid);
+    $("#id_teacherid").val(g_args.teacherid);
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
 
@@ -31,7 +31,7 @@ $(function(){
     });
 
 
-    $("#violation_num").on("click",function(){
+    $(".violation_num").on("click",function(){
         var data         = $(this).get_opt_data();
         var teacherid    = data.teacherid;
         var html_node    = $.obj_copy_node("#id_assign_log");
