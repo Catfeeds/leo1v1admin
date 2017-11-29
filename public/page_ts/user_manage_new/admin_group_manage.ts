@@ -880,7 +880,8 @@ $(function(){
 
     });
 
-
-
+    if(g_account=='龚隽'){
+        download_show();
+    }
     $('.opt-change').set_input_change_event(load_data);
 });

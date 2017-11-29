@@ -44,7 +44,7 @@ class add_new_tea_entry extends Command
         $teacherid = 250328;
         $reference_price = 30;
         $recommended_teacherid = 410880;
-        $this->t_teacher_money_list->row_insert([
+        $task->t_teacher_money_list->row_insert([
             "teacherid"  => $teacherid,
             "money"      => $reference_price*100,
             "money_info" => $recommended_teacherid,
