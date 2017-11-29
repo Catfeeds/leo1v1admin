@@ -19,29 +19,50 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
     $("#id_add").on("click",function(){
-        var tag_l1_sort= $("<select/>" );
+        var tag_l1_sort= $("<select />" );
         Enum_map.append_option_list("tag_l1_sort", tag_l1_sort);
-        var tag_l2_sort= $("<select/>" );
+        var tag_l2_sort= $("<select />" );
         Enum_map.append_option_list("tag_l2_sort", tag_l2_sort);
-        var tag_name = $('<input/>')
-        var tag_desc = $('<textarea/>')
-        var tag_object= $("<select/>" );
+        var tag_name = $("<input />")
+        var tag_desc = $("<textarea class='opt-mandatory'/>")
+        var tag_object= $("<select />" );
         Enum_map.append_option_list("tag_object", tag_object);
-        var tag_weight = $("<input type='number'/>")
+        var tag_weight = $("<input />")
 
         var arr=[
-            ["标签一级分类" ,tag_l1_sort  ],
-            ["标签二级分类" ,tag_l2_sort  ],
-            ["标签名称" ,tag_name ],
-            ["标签定义" ,tag_desc  ],
-            ["设定对象" ,tag_object  ],
+            ["<span style='color:red;'>*</span>标签一级分类" ,tag_l1_sort  ],
+            ["<span style='color:red;'>*</span>标签二级分类" ,tag_l2_sort  ],
+            ["<span style='color:red;'>*</span>标签名称" ,tag_name ],
+            ["<span style='color:red;'>*</span>标签定义" ,tag_desc  ],
+            ["<span style='color:red;'>*</span>设定对象" ,tag_object  ],
             ["权重系数" ,tag_weight  ],
         ] ;
 
+        
         $.show_key_value_table("添加标签", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
+                if(tag_l1_sort.val() <= 0){
+                    alert('一级标签为必填项!');
+                    return false;
+                }
+                if(tag_l2_sort.val() <= 0){
+                    alert('二级标签为必填项!');
+                    return false;
+                }
+                if(tag_name.val() == ''){
+                    alert('标签名称为必填项!');
+                    return false;
+                }
+                if(tag_desc.val() == ''){
+                    alert('标签定义为必填项!');
+                    return false;
+                }
+                if(tag_object.val() <= 0){
+                    alert('设定对象为必填项!');
+                    return false;
+                }
                 $.do_ajax("/product_tag/tag_add",{
                     "tag_l1_sort" : tag_l1_sort.val(),
                     "tag_l2_sort" : tag_l2_sort.val(),
@@ -69,11 +90,11 @@ $(function(){
         var tag_weight = $("<input type='number'/>")
 
         var arr=[
-            ["标签一级分类" ,tag_l1_sort  ],
-            ["标签二级分类" ,tag_l2_sort  ],
-            ["标签名称" ,tag_name ],
-            ["标签定义" ,tag_desc  ],
-            ["设定对象" ,tag_object  ],
+            ["<span style='color:red;'>*</span>标签一级分类" ,tag_l1_sort  ],
+            ["<span style='color:red;'>*</span>标签二级分类" ,tag_l2_sort  ],
+            ["<span style='color:red;'>*</span>标签名称" ,tag_name ],
+            ["<span style='color:red;'>*</span>标签定义" ,tag_desc  ],
+            ["<span style='color:red;'>*</span>设定对象" ,tag_object  ],
             ["权重系数" ,tag_weight  ],
         ] ;
         tag_l1_sort.val(opt_data.tag_l1_sort);
@@ -88,6 +109,27 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
+                if(tag_l1_sort.val() <= 0){
+                    alert('一级标签为必填项!');
+                    return false;
+                }
+                if(tag_l2_sort.val() <= 0){
+                    alert('二级标签为必填项!');
+                    return false;
+                }
+                if(tag_name.val() == ''){
+                    alert('标签名称为必填项!');
+                    return false;
+                }
+                if(tag_desc.val() == ''){
+                    alert('标签定义为必填项!');
+                    return false;
+                }
+                if(tag_object.val() <= 0){
+                    alert('设定对象为必填项!');
+                    return false;
+                }
+
                 $.do_ajax("/product_tag/tag_update",{
                     "id" : opt_data.tag_id,
                     "tag_l1_sort" : tag_l1_sort.val(),
@@ -116,6 +158,6 @@ $(function(){
                 }
             });
     });
-
+    
 
 });
