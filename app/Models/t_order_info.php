@@ -662,8 +662,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
     public function  get_admin_list($start_time ,$end_time , $account_role=-1)  {
-
-
         $where_arr=[
             ["account_role=%u", $account_role, -1],
             "is_test_user=0"
