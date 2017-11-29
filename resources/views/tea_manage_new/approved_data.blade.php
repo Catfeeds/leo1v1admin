@@ -48,10 +48,10 @@
                             {{@$var['lesson_num']}}
                         </td>
                         <td>
-                            {{@$var['cc_rate']}}*100.'%'
+                            {{@$var['cc_rate']*100}}%
                         </td>
                         <td>
-                            {{@$var['cr_rate']}}*100."%"
+                            {{@$var['cr_rate']*100}}"%
                         </td>
                         <td>
                             {{@$var['violation_num']}}
