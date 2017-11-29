@@ -419,17 +419,7 @@ class user_manage_new extends Controller
                 $lesson_count_level = 1;
             }
 
-            $diff = ($item["lesson_end"]-$item["lesson_start"])/60;
-            if ($diff<=40) {
-                $def_lesson_count = 100;
-            } else if ( $diff <= 60) {
-                $def_lesson_count = 150;
-            } else if ( $diff <=90 ) {
-                $def_lesson_count = 200;
-            }else{
-                $def_lesson_count = ceil($diff/40)*100 ;
-            }
-
+            $def_lesson_count = \App\Helper\Utils::get_lesson_count($item['lesson_start'],$item['lesson_end']);
             if ($lesson_count != $def_lesson_count ) {
                 $item["lesson_count_err"] = "background-color:red;";
             }

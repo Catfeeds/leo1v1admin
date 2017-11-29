@@ -47,12 +47,8 @@ class ResetStudentLessonCount extends cmd_base
             echo "lessonid|lesson_count|real_lesson_count|diff_time";
             echo PHP_EOL;
             foreach($lesson_list as $l_val){
-                $diff_time = $l_val['lesson_end']-$l_val['lesson_start'];
-                if($diff_time == 5400){
-                    $real_lesson_count = 200;
-                }else{
-                    $real_lesson_count = $diff_time/2400*100;
-                }
+                $time_difference = $l_val['lesson_end']-$l_val['lesson_start'];
+                $real_lesson_count = \App\Helper\Utils::get_lesson_count($time_difference);
                 if($real_lesson_count != $l_val['lesson_count']){
                     echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count."|".$diff_time;
                     echo PHP_EOL;
