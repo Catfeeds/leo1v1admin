@@ -17,6 +17,12 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师</span>
+                        <input id="id_teacherid" class="opt-change"  />
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -53,7 +59,7 @@
                             {{@$var['cc_rate']*100}}%
                         </td>
                         <td>
-                            {{@$var['cr_rate']*100}}"%
+                            {{@$var['cr_rate']*100}}%
                         </td>
                         <td>
                             <a id="violation_num">

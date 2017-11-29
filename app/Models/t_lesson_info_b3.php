@@ -2304,12 +2304,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
-    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num){
+    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num,$teacherid){
         $where_arr = [
             "t.trial_lecture_is_pass=1",
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
         $sql = $this->gen_sql_new("  select t.teacherid, t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num from %s l "

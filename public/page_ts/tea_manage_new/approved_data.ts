@@ -8,10 +8,15 @@ function load_data(){
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
         start_time:	$('#id_start_time').val(),
-        end_time:	$('#id_end_time').val()
+        end_time:	$('#id_end_time').val(),
+        teacherid    : $("#id_teacherid").val(),
+
     });
 }
 $(function(){
+
+    $("#id_teacherid").val(g_args.teacherid);
+    $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
 
     $('#id_date_range').select_date_range({
@@ -52,7 +57,7 @@ $(function(){
                     // $.each(data, function (i, item) {
                     var cls = "success";
 
-                    html_str = "<tr class=\"" + cls + "\" > <td>" + '迟到' + "<td>" + data.late_num +"<td>"+'未评论'+data.comment_num+"<td>"+'未传课件'+data.tea_cw_num + "<td>"+'未布置作业'+data.work_num +"</tr>";
+                    html_str = "<tr class=\"" + cls + "\" > <td>" + '迟到' + "<td>" + data.late_num +"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未评论'+"<td>"+data.comment_num+"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未传课件'+"<td>"+data.tea_cw_num + "<tr class=\"" + cls + "\">" + "<td>"+'未布置作业'+ "<td>" +data.work_num +"</tr>";
                     // });
 
                     html_node.find(".data-body").html(html_str);
