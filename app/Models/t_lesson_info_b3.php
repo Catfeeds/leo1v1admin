@@ -2259,4 +2259,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    public function get_tea_info_by_subject($start_time,$end_time){
+        $where_arr=[
+            "t.is_test_user=0",
+            "l.subject in (1,2,3)"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num,floor(l.grade/100) grade,l.subject "
+                                  ."from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s group by l.subject,grade",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
