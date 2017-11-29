@@ -2322,4 +2322,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_by_page($sql,$page_num,10,false);
     }
 
+    public function get_violation_num($start_time, $end_time, $teacherid){
+        $where_arr = [
+            "l.lesson_type in (0,1,3)",
+            "l.teacherid=$teacherid"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+
+        // select 1 from t_lesson_info where absenteeism_flag=1
+
+        $sql = $this->gen_sql_new("  select COUNT( CASE WHEN l.lesson_cancel_reason_type=23 THEN 1 ELSE null END ) as late_num,"//迟到
+                                  ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as late_num,"//旷课
+                                  ." COUNT( CASE WHEN l.stu_performance='' THEN 1 ELSE null END ) as comment_num,"//未评价
+                                  ." COUNT( CASE WHEN l.tea_cw_status=0 THEN 1 ELSE null END ) as tea_cw_num,"//未传课件
+                                  ." COUNT( CASE WHEN h.work_status=0 THEN 1 ELSE null END ) as work_num"//未留作业
+                                  ." from %s l"
+                                  ." left join %s h on h.courseid=l.courseid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_homework_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
 }

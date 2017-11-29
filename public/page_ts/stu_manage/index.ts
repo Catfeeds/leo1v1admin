@@ -127,17 +127,15 @@ $(function(){
         if(old_area == ''){
             old_city="选择区（县）";
         }
-       
-        
 
-        var province = html_node.find("#province");  
-        var city = html_node.find("#city");  
-        var area = html_node.find("#area");  
+        var province = html_node.find("#province");
+        var city = html_node.find("#city");
+        var area = html_node.find("#area");
         var preProvince = "<option value=\"\">"+old_province+"</option>";  
         var preCity = "<option value=\"\">"+old_city+"</option>";  
         var preArea = "<option value=\"\">"+old_area+"</option>";  
-        
-        //初始化  
+
+        //初始化
         province.html(preProvince);  
         city.html(preCity);  
         area.html(preArea);

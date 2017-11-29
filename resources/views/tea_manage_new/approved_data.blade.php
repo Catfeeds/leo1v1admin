@@ -37,7 +37,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <a href="http://admin.leo1v1.com/human_resource/teacher_info_new?teacherid={{@$var['teacherid']}}">
+                            <a href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
                                 {{@$var["tea_nick"]}}
                             </a>
                         </td>

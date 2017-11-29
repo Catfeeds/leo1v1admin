@@ -252,4 +252,11 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         return $this->main_get_list($sql);
     }
 
+    public function get_all_key_list(){
+        $sql=$this->gen_sql_new("select * from %s "
+                                , self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
