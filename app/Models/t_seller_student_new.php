@@ -3146,4 +3146,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_row($sql);
     }
 
+    public function get_add_time_by_order_time($orderid){
+        $sql = $this->gen_sql_new("  select s.add_time from %s s "
+                                  ." left join %s o on o.userid=s.userid"
+                                  ." where o.orderid=$orderid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }
