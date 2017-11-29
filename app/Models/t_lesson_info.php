@@ -4374,7 +4374,7 @@ lesson_type in (0,1) "
     }
 
 
-    public function get_teacher_test_person_num_list_subject( $start_time,$end_time){
+    public function get_teacher_test_person_num_list_subject( $start_time,$end_time,$qz_flag=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -4383,6 +4383,11 @@ lesson_type in (0,1) "
             "lesson_del_flag = 0",
             "require_admin_type =2"
         ];
+        if($qz_flag==0){
+            $where_arr[] ="(m.account_role !=5  or m.account_role is null)";
+        }elseif($qz_flag==1){
+            $where_arr[] ="m.account_role =5 ";
+        }
 
 
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num,l.subject "
@@ -4396,21 +4401,26 @@ lesson_type in (0,1) "
                                   ." and l.teacherid = c.teacherid "
                                   ." and l.subject = c.subject "
                                   ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone"
                                   ." where %s group by l.subject" ,
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["subject"];
         });
 
+
     }
 
-    public function get_kk_teacher_test_person_num_list_subject( $start_time,$end_time){
+    public function get_kk_teacher_test_person_num_list_subject( $start_time,$end_time,$qz_flag=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -4421,6 +4431,12 @@ lesson_type in (0,1) "
             "tq.origin like '%%扩课%%'"
 
         ];
+        if($qz_flag==0){
+            $where_arr[] ="(m.account_role !=5  or m.account_role is null)";
+        }elseif($qz_flag==1){
+            $where_arr[] ="m.account_role =5 ";
+        }
+
 
 
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) kk_num,l.subject "
@@ -4434,12 +4450,16 @@ lesson_type in (0,1) "
                                   ." and l.teacherid = c.teacherid "
                                   ." and l.subject = c.subject "
                                   ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone"
                                   ." where %s group by l.subject" ,
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -4447,7 +4467,7 @@ lesson_type in (0,1) "
         });
 
     }
-    public function get_change_teacher_test_person_num_list_subject( $start_time,$end_time){
+    public function get_change_teacher_test_person_num_list_subject( $start_time,$end_time,$qz_flag=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -4458,6 +4478,11 @@ lesson_type in (0,1) "
             "tq.origin like '%%换老师%%'"
 
         ];
+        if($qz_flag==0){
+            $where_arr[] ="(m.account_role !=5  or m.account_role is null)";
+        }elseif($qz_flag==1){
+            $where_arr[] ="m.account_role =5 ";
+        }
 
 
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) change_num,l.subject "
@@ -4471,12 +4496,16 @@ lesson_type in (0,1) "
                                   ." and l.teacherid = c.teacherid "
                                   ." and l.subject = c.subject "
                                   ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone"
                                   ." where %s group by l.subject" ,
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){

@@ -1109,7 +1109,6 @@ class test_james extends Controller
 
         $arr = json_decode($xsl_date,true);
 
-        dd($arr);
 
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
@@ -1149,7 +1148,6 @@ class test_james extends Controller
       $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 
       $objWriter->save('php://output');
-$test=	3;
     }
 
 
@@ -1313,34 +1311,127 @@ $test=	3;
         $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
     }
 
+    public function get_add_time(){
+        $a = [
+            24026,
+            25234,
+            24564,
+            24219,
+            25989,
+            25391,
+            23735,
+            25727,
+            25620,
+            25540,
+            24886,
+            24757,
+            26153,
+            23845,
+            25473,
+            25186,
+            25453,
+            24559,
+            25760,
+            25518,
+            25624,
+            25381,
+            24028,
+            25533,
+            25522,
+            26225,
+            25648,
+            23770,
+            25745,
+            24645,
+            23915,
+            25510,
+            25047,
+            24779,
+            26177,
+            26090,
+            24882,
+            24543,
+            25840,
+            24933,
+            24828,
+            26254,
+            25320,
+            23998,
+            23683,
+            26170,
+            25632,
+            23902,
+            26223,
+            25598,
+            24977,
+            27999,
+            27855,
+            27843,
+            27624,
+            27296,
+            27210,
+            27039,
+            26775,
+            26698,
+            26528,
+            26527,
+            27522,
+            26988,
+            26801,
+            26682,
+            26564,
+            26718,
+            26620,
+            27623,
+            27937,
+            27371,
+            26547,
+            27580,
+            27551,
+            27282,
+            27075,
+            26702,
+            27208,
+            26629,
+            27556,
+            27383,
+            26429,
+            27391,
+            27315,
+            26787,
+            26655,
+            27201,
+            27784,
+            26427,
+            27575,
+            27448,
+            27104,
+            27501,
+            27935,
+            26481,
+            26838,
+            27649,
+            27539,
+            27172,
+            26868,
+            26464,
+            27714,
+            26738,
+            26473,
+            26525,
+            27451,
+            27173,
+            26948,
+        ];
 
+        $add_time_list = [];
 
-    public function new_table(){
-        Schema::create("db_weiyi.t_product_feedback_list", function(Blueprint $table) {
-            t_field($table->increments("id"),"产品问题记录表");
-            t_field($table->integer("feedback_adminid"),"反馈人");
-            t_field($table->integer("record_adminid"),"记录者");
-            t_field($table->string('describe', 1024),"问题描述");
-            t_field($table->string('name', 1024),"课程链接");
-            t_field($table->string('reason', 256),"原因");
-            t_field($table->string('solution', 1024),"解决方案");
-            t_field($table->integer("student_id"),"学生id");
-            t_field($table->integer("teacher_id"),"老师id");
-            t_field($table->tinyInteger('deal_flag'),"是否解决 0:未解决 1:已解决");
-            t_field($table->string('remark', 1024),"备注");
-            t_field($table->integer("create_time"),"添加时间");
+        foreach($a as $v){
+            $add_time_list[$v] = date('Y-m-d H:i:s',$this->t_seller_student_new->get_add_time_by_order_time($v));
+        }
 
-            $table->index('create_time');
-            $table->index('feedback_adminid');
-            $table->index('record_adminid');
-            $table->index('student_id');
-            $table->index('teacher_id');
-        });
-    }
+        dd($add_time_list);
 
-    public function send_wx(){
-        $a= new \App\Jobs\send_wx_notic_for_software();
-        // dispatch($a);
 
     }
 

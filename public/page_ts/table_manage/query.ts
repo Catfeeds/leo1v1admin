@@ -43,6 +43,7 @@ $(function(){
         });
 
     });
-
-
+    if(g_account_role==12){
+        download_show();
+    }
 });

@@ -36,8 +36,7 @@
             </div>
         </div>
 
-
-        <div class="col-xs-2 col-md-2">
+        <div class="col-xs-1 col-md-1">
             <div class="input-group">
                 <div class=" input-group-btn ">
                     <button id="id_add_activity" type="submit"  class="btn  btn-warning" >
@@ -46,7 +45,13 @@
                 </div>
             </div>
         </div>
-        
+
+        <div class="col-xs-1 col-md-1">
+            <div class="input-group">
+                <button style="margin-left:10px" id="current_activity" type="button" class="btn btn-primary">当前有效活动</button>
+            </div>
+        </div>
+
     </div>
 
     <hr/>

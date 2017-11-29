@@ -95,9 +95,12 @@ class order_price_20171001 extends order_price_base
 
         $out_args=[];
 
-        $do_activity_fun= function($class_name ) use ( &$args, &$out_args, &$can_period_flag, &$price,&$present_lesson_count,&$desc_list ) {
+        $do_activity_fun= function( $class_name ) use ( &$args, &$out_args, &$can_period_flag, &$price,&$present_lesson_count,&$desc_list ) {
             return (new $class_name($args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list) ;
         };
+        //get do act list >=100, < 100
+        //$row
+
         $do_activity_fun ( Activity\activity_0::class  );
         $do_activity_fun ( Activity\activity_2017100701::class  );
 

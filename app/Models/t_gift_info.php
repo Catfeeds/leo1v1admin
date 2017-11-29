@@ -42,6 +42,17 @@ class t_gift_info extends \App\Models\Zgen\z_t_gift_info
         return $this->main_get_list($sql);
     }
 
+    //@desn:获取全部礼品id及当前价格
+    public function get_gift_id_price(){
+        $sql = $this->gen_sql_new(
+            "select giftid,cost_price "
+            ."from %s",
+            self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
     public function update_all_price( $giftid, $price ){
         $sql = $this->gen_sql_new(

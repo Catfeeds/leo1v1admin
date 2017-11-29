@@ -1631,7 +1631,28 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $teacherid             = $this->get_in_int_val("teacherid");
+        $start_time             = $this->get_in_int_val("teacherid");
+        $end_time = strtotime("+1 months",$start_time);
+        $list =$this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,0,0);
+        $lesson_count = @$list["lesson_total"];
+
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1,-1);
+        //
+      
+        $total_arr=[];
+        $total_arr["test_person_num"] =  $test_person_num_total["person_num"];//
+        $total_arr["have_order"] = $test_person_num_total["have_order"];//
+        //
+       
+
+        $total_arr["order_num_per"] = !empty($total_arr["test_person_num"])?round($total_arr["have_order"]/$total_arr["test_person_num"],4)*100:0;
+        return $this->output_succ([
+            "lesson_count" =>$lesson_count/100,
+            "cc_per"=>$total_arr["order_num_per"]."%"
+        ]);
+
+
+
         $normal= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,-2,0,-1,1);
         if(@$normal["lesson_start"]>0){
             $last_time =date("Y-m-d H:i",$normal["lesson_start"]);

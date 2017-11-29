@@ -4093,6 +4093,8 @@ class user_deal extends Controller
         return $this->output_succ($arr);
     }
 
+    
+
     public function get_renw_flag_change_list(){
         $id = $this->get_in_int_val("id",0);
         $data = $this->t_ass_warning_renw_flag_modefiy_list->get_info_by_warning_id($id);
