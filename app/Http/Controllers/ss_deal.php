@@ -4008,20 +4008,6 @@ class ss_deal extends Controller
                 "first_tmk_set_valid_time"=>time(null),
                 "cc_no_called_count"=>0,
             ]);
-            //优学优享例子分配,张植源,张龙
-            $origin = $this->t_student_info->field_get_value($userid,'origin');
-            if($origin == '优学优享'){
-                $last_adminid = $this->t_id_opt_log->get_yxyx_last_adminid();
-                if($last_adminid == 412){
-                    $opt_adminid=384;
-                }else{
-                    $opt_adminid=412;
-                }
-                $opt_account = $this->t_manager_info->get_account($opt_adminid);
-                $account = $this->get_account();
-                $this->t_seller_student_new->set_admin_info_new(
-                    $opt_type=3,$userid,$opt_adminid,$this->get_account_id(),$opt_account,$account,$assign_time=time(null));
-            }
         }elseif($tmk_student_status != $tmk_student_status_old && $tmk_student_status == E\Etmk_student_status::V_2){//tmk无效
             $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
                 "seller_student_status"=>E\Eseller_student_status::V_50,

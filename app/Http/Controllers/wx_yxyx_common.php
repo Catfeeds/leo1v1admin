@@ -364,24 +364,24 @@ class wx_yxyx_common extends Controller
             }
 
             //自动分配给ｔｍｋ
-            if($parent_adminid == 0){//不是内部推荐的，自动分配
-                $time = strtotime('today');
-                $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-                if( $count <= 20 ){//分给张龙 384,张植源412
-                    $auto_allot_adminid = ( $count%4 == 0 ) ? 412 :384 ;
-                    $opt_account = ( $count%4 == 0 ) ?'张植源':'张龙';
-                } else { //分配给邵少鹏759和蒋文武689
-                    $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
-                    $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
-                }
+            // if($parent_adminid == 0){//不是内部推荐的，自动分配
+            //     $time = strtotime('today');
+            //     $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
+            //     if( $count <= 20 ){//分给张龙 384,张植源412
+            //         $auto_allot_adminid = ( $count%4 == 0 ) ? 412 :384 ;
+            //         $opt_account = ( $count%4 == 0 ) ?'张植源':'张龙';
+            //     } else { //分配给邵少鹏759和蒋文武689
+            //         $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
+            //         $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
+            //     }
 
-                $account = '系统';
-                $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
+            //     $account = '系统';
+            //     $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
 
-                if( $count <= 30 ){//分给张龙 384,张植源412
-                    $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
-                }
-            }
+            //     if( $count <= 30 ){//分给张龙 384,张植源412
+            //         $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
+            //     }
+            // }
         }
 
 
