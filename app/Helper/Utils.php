@@ -2208,9 +2208,9 @@ class Utils  {
      */
     static public function get_lesson_count($lesson_start,$lesson_end){
         //单位：秒
-        $default_per_lesson_count_time = 2400;
+        $default_per_lesson_count_time = 40*60;
 
-        $time_difference = ($lesson_end-$lesson_start)/60;
+        $time_difference = $lesson_end-$lesson_start;
         if($time_difference == 5400){
             $lesson_count = 200;
         }else{

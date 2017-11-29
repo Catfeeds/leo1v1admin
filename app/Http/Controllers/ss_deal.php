@@ -7104,6 +7104,6 @@ class ss_deal extends Controller
         $this->t_interview_remind->row_delete($id);
 
         return $this->output_succ();
-
     }
+
 }
