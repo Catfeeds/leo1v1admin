@@ -123,7 +123,7 @@ class common_new extends Controller
                 }
             }
         }
-        return $this->output_succ(["config_userid" => $config_userid]);
+        return $this->output_succ(["config_userid" => $config_userid, "client_ip" =>$ip ]);
 
     }
 
