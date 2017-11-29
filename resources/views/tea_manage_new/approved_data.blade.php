@@ -24,14 +24,41 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>编号</td>
-                    <td> 操作  </td>
+                    <td >老师</td>
+                    <td >学生数</td>
+                    <td >课耗</td>
+                    <td >CC转化率</td>
+                    <td >CR转化率</td>
+                    <td >老师违规数</td>
+                    <td > 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}}</td>
+                        <td>
+                            <a href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
+                                {{@$var["tea_nick"]}}
+                            </a>
+                        </td>
+                        <td>
+                            {{@$var['stu_num']}}
+                        </td>
+                        <td>
+                            {{@$var['lesson_num']}}
+                        </td>
+                        <td>
+                            {{@$var['cc_rate']}}*100.'%'
+                        </td>
+                        <td>
+                            {{@$var['cr_rate']}}*100."%"
+                        </td>
+                        <td>
+                            {{@$var['violation_num']}}
+                        </td>
+
+
+
 
                         <td>
                             <div

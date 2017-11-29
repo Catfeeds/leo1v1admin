@@ -1,6 +1,7 @@
 interface GargsStatic {
-	tag_l1_sort:	number;
-	tag_l2_sort:	number;
+	tag_l1_sort:	string;
+	tag_l2_sort:	string;
+	tag_l3_sort:	string;
 	tag_name:	string;
 	page_num:	number;
 	page_count:	number;
@@ -17,14 +18,13 @@ interface RowData {
 	tag_name	:any;
 	tag_l1_sort	:any;
 	tag_l2_sort	:any;
+	tag_l3_sort	:any;
 	tag_weight	:any;
 	tag_object	:any;
 	tag_desc	:any;
 	create_time	:any;
 	manager_id	:any;
 	account	:any;
-	tag_l1_sort_str	:any;
-	tag_l2_sort_str	:any;
 	tag_object_str	:any;
 }
 
@@ -41,6 +41,7 @@ function load_data(){
     $.reload_self_page ( {
 		tag_l1_sort:	$('#id_tag_l1_sort').val(),
 		tag_l2_sort:	$('#id_tag_l2_sort').val(),
+		tag_l3_sort:	$('#id_tag_l3_sort').val(),
 		tag_name:	$('#id_tag_name').val()
     });
 }
@@ -49,6 +50,7 @@ $(function(){
 
 	$('#id_tag_l1_sort').val(g_args.tag_l1_sort);
 	$('#id_tag_l2_sort').val(g_args.tag_l2_sort);
+	$('#id_tag_l3_sort').val(g_args.tag_l3_sort);
 	$('#id_tag_name').val(g_args.tag_name);
 
 
@@ -71,6 +73,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">tag_l2_sort</span>
                 <input class="opt-change form-control" id="id_tag_l2_sort" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tag_l3_sort</span>
+                <input class="opt-change form-control" id="id_tag_l3_sort" />
             </div>
         </div>
 

@@ -505,7 +505,8 @@ class tongji extends Controller
 
         return $this->pageView(__METHOD__,$ret_info);
     }
-    public function upload_from_xls_card_log()
+
+   public function upload_from_xls_card_log()
     {
 
 

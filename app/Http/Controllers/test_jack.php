@@ -406,13 +406,13 @@ class test_jack  extends Controller
         // }
         // dd(111);
 
-        $contract_type = $this->get_in_int_val("contract_type",0);
+        $contract_type = $this->get_in_int_val("contract_type",3);
         $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
         // $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>1030000 && $val["price"]<6300000){
+            if($val["price"]>630000 && $val["price"]<6300000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -427,26 +427,26 @@ class test_jack  extends Controller
                 // $val["contract_starttime"] = strtotime("+2 months",$val["contract_starttime"]);
                 // $val["contract_endtime"] = strtotime("+2 months",$val["contract_endtime"]);
 
-                $val["order_time"] = strtotime("+1 months",$val["order_time"]);
-                $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
-                if($val["app_time"]>0){
-                    $val["app_time"] = strtotime("+1 months",$val["app_time"]);
-                }
-                $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
-                $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
-                $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
+                // $val["order_time"] = strtotime("+1 months",$val["order_time"]);
+                // $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
+                // if($val["app_time"]>0){
+                //     $val["app_time"] = strtotime("+1 months",$val["app_time"]);
+                // }
+                // $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
+                // $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
+                // $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
 
                 
-                $val["parent_order_id"] = 3000;
-                unset($val["orderid"]);
-                $this->t_order_info_finance->row_insert($val);
+                // $val["parent_order_id"] = 3000;
+                // unset($val["orderid"]);
+                // $this->t_order_info_finance->row_insert($val);
 
 
                 // $this->t_order_info_finance->field_update_list($val["orderid"],[
                 //    "contract_type"=>100 
                 // ]);
 
-                if(count($arr) >= 36){
+                if(count($arr) >= 23){
                     break;
                 }
  
@@ -667,13 +667,13 @@ class test_jack  extends Controller
 
 
         $this->switch_tongji_database();
-        $start_time = time()-92*86400;
+        $start_time = time()-5*86400;
         $end_time = time();
         $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
-        $arr=[];
+
         foreach($list as &$val){
             $subject = $val["subject"];
-            $grade = floor($val["grade"]/100);
+            $grade = $val["grade"];
             if($grade==1){
                 $val["grade_str"]="小学";
             }elseif($grade==2){
@@ -682,8 +682,10 @@ class test_jack  extends Controller
                 $val["grade_str"]="高中";
             }
             E\Esubject::set_item_value_str($val,"subject");
+            $val["num"]=0;
             
         }
+       
         
         //  dd($list);
         // // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);

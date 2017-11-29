@@ -555,12 +555,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1
     ) {
 
-
         if ($userid>0) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
             ];
-
             if ( $sub_assign_adminid_2 >0 ) { //
                 $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
             }
@@ -607,10 +605,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }else if($publish_flag ==1 ){
                 $where_arr[]="t.seller_student_status <>50";
             }
-
             $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
             $where_arr[]= $ret_in_str;
-
             $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
             $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
             $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
@@ -629,7 +625,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ( !$order_by_str ) {
             $order_by_str= " order by $opt_date_str desc";
         }
-
 
         $sql=$this->gen_sql_new(
             "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "

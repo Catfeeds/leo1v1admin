@@ -674,11 +674,9 @@ $(function(){
                             BootstrapDialog.alert(result.info);
                         }
                     })
-
 		            }
 	          }]
         });
-
     });
 
     $(".opt-edit-hand").on("click",function(){
@@ -696,7 +694,7 @@ $(function(){
         var id_teacher_type                 = $("<select />");
         var id_reference                    = $("<input />");
         var id_self_introduction_experience = $("<textarea />");
-        var id_lecture_revisit_type         = $("<select/>");        
+        var id_lecture_revisit_type         = $("<select/>");
 
         id_answer_end_time.datetimepicker({
             datepicker:true,
@@ -1014,18 +1012,76 @@ $(function(){
     });
 
     $(".opt-set-part-teacher").on("click",function(){
-        var data           = $(this).get_opt_data();
+        var data  = $(this).get_opt_data();
         var phone = data.phone;
         BootstrapDialog.confirm("确定设置为兼职老师", function(val){
             if (val) {
                 $.do_ajax( '/ss_deal2/set_part_time_teacher', {
                     'phone' : phone
                 });
-            } 
+            }
         });
-
-
     });
+
+    $(".opt-set-teacher-info").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id       = opt_data.id;
+
+        var id_lecture_appointment_status = $("<select/>");
+        var id_reference                  = $("<input/>");
+        var id_phone                      = $("<input/>");
+        var id_email                      = $("<input/>");
+        var id_name                       = $("<input/>");
+        var id_qq                         = $("<input/>");
+        var id_lecture_revisit_type       = $("<select/>");
+        var id_return_revisit_note        = $("<textarea />");
+
+        Enum_map.append_option_list("lecture_appointment_status", id_lecture_appointment_status, true );
+        if(opt_data.full_time==0){
+            Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
+        }else{
+            Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,2,5,6,8] );
+        }
+
+        var arr = [
+            ["老师姓名", id_name],
+            ["QQ", id_qq],
+            ["状态", id_lecture_appointment_status],
+            ["推荐人号码",id_reference],
+            ["号码",id_phone],
+            ["邮箱",id_email],
+            ["回访状态", id_lecture_revisit_type],
+            ["备注",id_return_revisit_note],
+        ];
+
+        id_reference.val(opt_data.reference);
+        id_phone.val(opt_data.phone);
+        id_email.val(opt_data.email);
+        id_lecture_appointment_status.val(opt_data.lecture_appointment_status);
+        id_name.val(opt_data.name);
+        id_qq.val(opt_data.qq);
+        id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
+        id_return_revisit_note.val(opt_data.custom);
+
+        $.show_key_value_table("修改状态", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax('/ss_deal/update_lecture_appointment_info',{
+                    "id"                         : id,
+                    "lecture_appointment_status" : id_lecture_appointment_status.val(),
+                    "reference"                  : id_reference.val(),
+                    "phone"                      : id_phone.val(),
+                    "email"                      : id_email.val(),
+                    "name"                       : id_name.val(),
+                    "qq"                         : id_qq.val(),
+                    "lecture_revisit_type"       : id_lecture_revisit_type.val(),
+                    "custom"                     : id_return_revisit_note.val()
+                });
+            }
+        });
+    });
+
 
 
 });

@@ -17,22 +17,23 @@
         <thead>
             <tr>
                 <td>id </td>
-                <td>用户名</td>
-                <td>所属标签名</td>
+                <td>属标签名</td>
                 <td>领导权限</td>
                 <td>非领导权限</td>
-                <td>权限组id</td>
+                <td>操作</td>
             </tr>
         </thead>
         <tbody>
             @foreach($info as $var)
             <tr>
-                <td>{{$var['userid']}}</td>
-                <td>{{$var['username']}}</td>
+                <td>{{$var['id']}}</td>
                 <td>{{$var['name']}}</td>
-                <td>@if($var['isleader'] == 1) 是 @endif</td>
-                <td>@if($var['isleader'] == 0) 是 @endif</td>
-                <td>{{$var['permission']}}</td>
+                <td>11</td>
+                <td>12</td>
+                <td>
+                    <a class="fa fa-edit opt-leader" title="添加领导权限"></a>
+                    <a class="fa fa-edit opt-not-leader" title="添加非领导权限"></a>
+                </td>
             </tr>
             @endforeach
         </tbody>

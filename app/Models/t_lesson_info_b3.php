@@ -2262,6 +2262,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_tea_info_by_subject($start_time,$end_time){
         $where_arr=[
             "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000",
+            "l.confirm_flag<>2",
             "l.subject in (1,2,3)"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2274,6 +2277,32 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+    public function get_tea_num_by_subject_grade($start_time,$end_time,$subject,$grade){
+        $where_arr=[
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000",
+            "l.confirm_flag<>2",
+            ["l.subject=%u",$subject,-1]
+        ];
+        if($grade==1){
+            $where_arr[]="l.grade>=100 and l.grade<200";
+        }elseif($grade==2){
+            $where_arr[]="l.grade>=200 and l.grade<300";
+        }elseif($grade==3){
+            $where_arr[]="l.grade>=300 and l.grade<400";
+        }
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
+                                  ."from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
     public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num){
         $where_arr = [
@@ -2291,6 +2320,32 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,false);
+    }
+
+    public function get_violation_num($start_time, $end_time, $teacherid){
+        $where_arr = [
+            "l.lesson_type in (0,1,3)",
+            "l.teacherid=$teacherid",
+            "l.lesson_del_flag=0"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+
+        // select 1 from t_lesson_info where absenteeism_flag=1
+
+        $sql = $this->gen_sql_new("  select COUNT( CASE WHEN l.lesson_cancel_reason_type=23 THEN 1 ELSE null END ) as late_num,"//迟到
+                                  ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as late_num,"//旷课
+                                  ." COUNT( CASE WHEN l.stu_performance='' THEN 1 ELSE null END ) as comment_num,"//未评价
+                                  ." COUNT( CASE WHEN l.tea_cw_status=0 THEN 1 ELSE null END ) as tea_cw_num,"//未传课件
+                                  ." COUNT( CASE WHEN h.work_status=0 THEN 1 ELSE null END ) as work_num"//未留作业
+                                  ." from %s l"
+                                  ." left join %s h on h.lessonid=l.lessonid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_homework_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
     }
 
 }

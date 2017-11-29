@@ -80,4 +80,10 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
             return $item['assistantid'];
         });
     }
+
+    public function get_ref_type_data() {
+        //select nick,teacher_type,teacher_ref_type from t_teacher_info where (teacher_type=21 or teacher_type=22) and (teacher_ref_type=1 or teacher_ref_type=2)
+        $sql = $this->gen_sql_new("select nick,teacher_type,teacher_ref_type from %s where (teacher_type=21 or teacher_type=22) and (teacher_ref_type=1 or teacher_ref_type=2) ", t_teacher_info::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

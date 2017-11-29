@@ -29,11 +29,11 @@
                         <td>{{@$var["subject_str"]}} </td>     
                         
                         <td class="lesson_count">{{@$var["grade_str"]}}  </td>                           
-                        <td class="cc_per"> {{@$var["num"]}} </td>                           
+                        <td class="num"> {{@$var["num"]}} </td>                           
                                                 
                                           
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["num"]}}" >
+                            <div class="row-data" data-grade="{{$var["grade"]}}" data-subject="{{$var["subject"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
