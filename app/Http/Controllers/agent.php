@@ -467,8 +467,9 @@ class agent extends Controller
         $account = '张植源';
         $ret_info = $this->t_seller_student_new->get_item_list_new();
         $ret = [];
-        foreach($ret_info as $item){
-            $userid=$item['userid'];
+        foreach($ret_info as $info){
+            $userid=$info['userid'];
+            $item=$this->t_seller_student_new->get_user_info_for_free($userid);
             $phone=$item["phone"];
             $seller_student_status = $item["seller_student_status"];
             $ret_update = $this->t_book_revisit->add_book_revisit(
