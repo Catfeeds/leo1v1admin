@@ -2325,7 +2325,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_violation_num($start_time, $end_time, $teacherid){
         $where_arr = [
             "l.lesson_type in (0,1,3)",
-            "l.teacherid=$teacherid"
+            "l.teacherid=$teacherid",
+            "l.lesson_del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
@@ -2335,9 +2336,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as late_num,"//旷课
                                   ." COUNT( CASE WHEN l.stu_performance='' THEN 1 ELSE null END ) as comment_num,"//未评价
                                   ." COUNT( CASE WHEN l.tea_cw_status=0 THEN 1 ELSE null END ) as tea_cw_num,"//未传课件
-                                  ." COUNT( CASE WHEN h.work_status=0 THEN 1 ELSE null END ) as work_num,"//未留作业
+                                  ." COUNT( CASE WHEN h.work_status=0 THEN 1 ELSE null END ) as work_num"//未留作业
                                   ." from %s l"
-                                  ." left join %s h on h.courseid=l.courseid"
+                                  ." left join %s h on h.lessonid=l.lessonid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_homework_info::DB_TABLE_NAME
