@@ -390,6 +390,7 @@ class test_jack  extends Controller
         $train_succ = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
         $arr[9]=["参加培训"=>$train_all,"通过培训"=>$train_succ];
         dd($arr);
+        dd(1111);
 
 
         // $list = $this->t_order_info_finance->get_add_info();
