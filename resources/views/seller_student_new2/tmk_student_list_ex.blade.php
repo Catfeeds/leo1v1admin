@@ -208,9 +208,7 @@
                                 <a title="手机拨打" class=" fa-phone  opt-telphone "></a>
                                 <a class="fa fa-flag opt-publish-flag " title="设置是否出现在公海"> </a>
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                @if ($var['auto_allot_adminid'] == 0)
-                                    <a class="fa fa-share opt-jump"  title="分配例子"> </a>
-                                @endif
+                                <a class="fa fa-share opt-jump"  title="分配例子"> </a>
                             </div>
                         </td>
                     </tr>

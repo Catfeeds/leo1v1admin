@@ -2,7 +2,6 @@
 /// <reference path="../g_args.d.ts/seller_student_new-seller_student_list.d.ts" />
 
 
-
 var show_name_key="";
 
 function load_data(){
@@ -2967,14 +2966,13 @@ function init_edit() {
                 }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 clearTimeout(th);
             }, 1000);
-
-
         });
-
     };
 
 
 
-
+    if(g_adminid==540){
+        download_show();
+    }
 
 }

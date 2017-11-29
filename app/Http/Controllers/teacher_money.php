@@ -279,7 +279,7 @@ class teacher_money extends Controller
         ]);
     }
 
-    public function get_teacher_total_money_list(){
+    public function get_teacher_total_money_new(){
         $type       = $this->get_in_str_val("type","wx");
         $show_type  = $this->get_in_str_val("show_type","current");
         $teacherid  = $this->get_in_int_val("teacherid");
@@ -314,7 +314,7 @@ class teacher_money extends Controller
         }
 
         $teacher_info = $this->get_teacher_info_for_total_money($teacherid);
-        $list = $this->get_teacher_lesson_money_list($teacherid,$start_time,$now_time,$show_type);
+        $list = $this->get_teacher_lesson_money_list_new($teacherid,$start_time,$now_time,$show_type);
 
         return $this->output_succ([
             "teacher_info" => $teacher_info,

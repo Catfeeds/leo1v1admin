@@ -9,7 +9,8 @@ return [
 
     'qiniu' => [
         "public" => [
-            "url"    => env('QINIU_PUBLIC_URL','http://7u2f5q.com2.z0.glb.qiniucdn.com'),
+            // "url"    => env('QINIU_PUBLIC_URL','http://7u2f5q.com2.z0.glb.qiniucdn.com'),
+            "url"    => env('QINIU_PUBLIC_URL','https://ybprodpub.leo1v1.com'),
             "bucket" => env('QINIU_PUBLIC_BUCKET',"ybprodpub"),
         ] ,
         "private_url" => [
