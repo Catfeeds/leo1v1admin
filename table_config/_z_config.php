@@ -66,7 +66,7 @@ return array(
 
     ["db_weiyi","t_teacher_switch_money_type_list", "id"],
     ["db_weiyi","t_teacher_reward_rule_list","rewrad_type"],
-    ["db_weiyi","t_order_activity_config","id"],
+    // ["db_weiyi","t_order_activity_config","id"],
 
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],
@@ -101,7 +101,7 @@ return array(
     ["db_weiyi_admin","t_refund_analysis","id"],
     ["db_weiyi_admin","t_order_refund_confirm_config","id"],
     ["db_weiyi_admin","t_admin_campus_list","campus_id"],
-    ["db_weiyi_admin","t_order_info_finance","orderid"],
+    // ["db_weiyi_admin","t_order_info_finance","orderid"],
 
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],
