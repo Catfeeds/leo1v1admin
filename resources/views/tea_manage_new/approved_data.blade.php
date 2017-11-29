@@ -48,9 +48,7 @@
                             </a>
                         </td>
                         <td>
-                            <a id="stu_num">
-                                {{@$var['stu_num']}}
-                            </a>
+                            {{@$var['stu_num']}}
                         </td>
                         <td>
                             {{@$var['lesson_num']}}
@@ -62,7 +60,7 @@
                             {{@$var['cr_rate']*100}}%
                         </td>
                         <td>
-                            <a id="violation_num">
+                            <a class="violation_num">
                                 {{@$var['violation_num']}}
                             </a>
                         </td>

@@ -15,7 +15,7 @@ function load_data(){
 }
 $(function(){
 
-    $("#id_teacherid").val(g_args.teacherid);
+    $(".id_teacherid").val(g_args.teacherid);
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
 
