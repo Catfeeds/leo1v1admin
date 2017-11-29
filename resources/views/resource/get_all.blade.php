@@ -2,12 +2,13 @@
 @section('content')
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <!-- <script type="text/javascript" src="/js/qiniu/ui.js"></script> -->
+    <script type="text/javascript" src="/js/qiniu/new_ui.js"></script>
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
-    <section class="content ">
+    <section class="content">
 
         <div>
             <!-- <div class="row  row-query-list" >
@@ -76,7 +77,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table" id="menu_mark">
+        <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
                     <td style="width:10px">
