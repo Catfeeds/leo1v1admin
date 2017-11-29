@@ -2277,6 +2277,32 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+    public function get_tea_num_by_subject_grade($start_time,$end_time,$subject,$grade){
+        $where_arr=[
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000",
+            "l.confirm_flag<>2",
+            ["l.subject=%u",$subject,-1]
+        ];
+        if($garde==1){
+            $where_arr="l.grade>=100 and l.grade<200";
+        }elseif($grade==2){
+            $where_arr="l.grade>=200 and l.grade<300";
+        }elseif($grade==3){
+            $where_arr="l.grade>=300 and l.grade<400";
+        }
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num "
+                                  ."from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
     public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num){
         $where_arr = [

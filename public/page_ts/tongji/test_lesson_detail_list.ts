@@ -61,6 +61,9 @@ $(function(){
     });
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
+    if(g_adminid==748){
+        download_show();
+    }
 });
 
