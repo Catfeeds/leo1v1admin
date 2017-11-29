@@ -2262,7 +2262,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num){
         $where_arr = [
             "t.trial_lecture_is_pass=1",
-            "t.is_quit=0",
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)"
