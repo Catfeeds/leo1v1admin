@@ -9,6 +9,8 @@ class activity_new_base {
 
     public $order_activity_type = 0;
 
+    public $title = "";
+
     //是否需要特殊申请
     public $need_spec_require_flag = 0;
 
@@ -136,7 +138,9 @@ class activity_new_base {
         $old_price= $price;
         $old_present_lesson_count= $present_lesson_count;
         $old_desc_list = $desc_list;
-        \App\Helper\Utils::logger("do : " . E\Eorder_activity_type::get_desc(static::$order_activity_type ) );
+
+        \App\Helper\Utils::logger("do : " . $this->order_activity_type .":" .   $this->title  );
+
 
 
         $this->do_exec( $out_args,$can_period_flag, $price,$present_lesson_count,$desc_list);

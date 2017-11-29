@@ -42,83 +42,19 @@ class activity_config_new extends  activity_new_base {
 
 
     public function __construct(  $activity_config ,  $args ) {
-        //\App\Helper\Utils::logger("activity_config:".json_encode($activity_config));
         parent::__construct($args);
         if ($activity_config ) {
             $this->init_activity_config($activity_config);
         }
     }
 
-    public function init_activity_config( $item ) {
-
-        $date_range_start = !empty($item['date_range_start']) ? date('Y-m-d H:i:s',$item['date_range_start']) : null;
-        $date_range_end = !empty($item['date_range_end']) ? date('Y-m-d H:i:s',$item['date_range_end']) : null;
-        $user_join_time_start = !empty($item['user_join_time_start']) ? date('Y-m-d H:i:s',$item['user_join_time_start']) : null;
-        $user_join_time_end = !empty($item['user_join_time_end']) ? date('Y-m-d H:i:s',$item['user_join_time_end']) : null;
-        $last_test_lesson_start = !empty($item['last_test_lesson_start']) ?  date('Y-m-d H:i:s',$item['last_test_lesson_start']) : null;
-        $last_test_lesson_end = !empty($item['last_test_lesson_end']) ?  date('Y-m-d H:i:s',$item['last_test_lesson_end']) : null;
-        $this->order_activity_type = $item['id'];
-        $this->date_range = [];
-        $this->user_join_time_range = [];
-        $this->last_test_lesson_range = [];
-        $this->lesson_times_range = [];
-        $this->title = $item["title"] ;
-
-
-        if( $date_range_start && $date_range_end){
-            $this->date_range = [$date_range_start,$date_range_end];
-        }
-        if( $user_join_time_start && $user_join_time_end){
-            $this->user_join_time_range = [$user_join_time_start,$user_join_time_end];
-        }
-        if( $last_test_lesson_start && $last_test_lesson_end){
-            $this->last_test_lesson_range = [$last_test_lesson_start,$last_test_lesson_end];
-        }
-        if( $item['lesson_times_min'] && $item['lesson_times_max'] ){
-            $this->lesson_times_range = [$item['lesson_times_min'],$item['lesson_times_max']];
-        }
-
-        $this->period_flag_list = explode(",",$item['period_flag_list']);
-
-        $this->open_flag = $item['open_flag'];
-
-        $this->can_disable_flag = $item['can_disable_flag'] == 1 ? true : false;
-
-        $this->check_grade_list = explode(",",$item['grade_list']);
-        $this->max_count_activity_type_list = explode(",",$item['max_count_activity_type_list']);
-        $this->max_count = $item['max_count'];
-        $this->max_change_value = $item['max_change_value'];
-        $this->need_spec_require_flag = $item['need_spec_require_flag'];
-        $this->contract_type_list = explode(",",$item['contract_type_list']);
-
-        $discount_json = json_decode($item['discount_json']);
-
-        switch($item['order_activity_discount_type']){
-        case 1:
-            //按课次数打折
-            $this->lesson_times_off_perent_list = (array)$discount_json;
-            break;
-        case 2:
-            //按年级打折
-            $this->grade_off_perent_list = (array)$discount_json;
-            break;
-        case 3:
-            //按课次数送课
-            $this->lesson_times_present_lesson_count = (array)$discount_json;
-            break;
-        case 4:
-            //按金额 立减
-            $this->price_off_money_list = (array)$discount_json;
-            break;
-        }
-        \App\Helper\Utils::logger("activity_config:".json_encode($this));
+    public function init_activity_config( $activity_config ) {
+        //TODO
 
     }
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
-
-        //\App\Helper\Utils::logger("dayin: ".json_encode($this));
         if (!$this->open_flag ) {
             return false;
         }
@@ -131,6 +67,7 @@ class activity_config_new extends  activity_new_base {
                 return false;
             }
         }
+
 
         //时间检查
         if (count($this->date_range)==2 ) {
@@ -158,7 +95,6 @@ class activity_config_new extends  activity_new_base {
         }
 
         $lesson_times= $this->lesson_times;
-
         //课次数检查
         if (count($this->lesson_times_range )==2 ) {
             if  (!( $lesson_times>= $this->lesson_times_range[0]
@@ -181,6 +117,7 @@ class activity_config_new extends  activity_new_base {
                 $activity_desc.=" 加入时间:$user_add_time_str, ";
             }
         }
+
 
         if (count($this->last_test_lesson_range)==2) {
             $from_test_lesson_id=$this->from_test_lesson_id;
@@ -258,11 +195,10 @@ class activity_config_new extends  activity_new_base {
         }
 
         //按课次数打折
-        \App\Helper\Utils::logger("按课次数打折: ".json_encode($this->lesson_times_off_perent_list));
-        if ( count ($this->lesson_times_off_perent_list) > 0 ) {
+        if ( isset ($this->lesson_times_off_perent_list) ) {
             list($find_lesson_times_level , $off_percent )=$this->get_value_from_config_ex(
                 $this->lesson_times_off_perent_list,  $lesson_times , [0,100] );
-            if ( $off_percent &&  $off_percent !=100  ) {
+            if ( $off_percent) {
                 $tmp_price=  intval($price* $off_percent /100) ;
                 $diff_money= $price- $tmp_price;
                 $price= $tmp_price;
@@ -275,7 +211,7 @@ class activity_config_new extends  activity_new_base {
 
         }
         //按年级打折
-        if ( count ($this->grade_off_perent_list) > 0 ) {
+        if ( isset ($this->grade_off_perent_list) ) {
             $off_percent=  @$this->grade_off_perent_list [$this->grade];
             if ($off_percent) {
                 $grade_str= E\Egrade::get_desc($this->grade);
@@ -287,6 +223,7 @@ class activity_config_new extends  activity_new_base {
             }
         }
         return true;
+
     }
 
     public function get_desc() {

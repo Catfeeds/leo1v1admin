@@ -2,7 +2,7 @@
 namespace App\OrderPrice;
 use \App\Enums as E;
 
-class order_price_new extends order_price_base
+class order_price_20171001 extends order_price_base
 {
 
     static $grade_price_config = [
