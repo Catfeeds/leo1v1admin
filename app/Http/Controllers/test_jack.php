@@ -667,10 +667,9 @@ class test_jack  extends Controller
 
 
         $this->switch_tongji_database();
-        $start_time = time()-92*86400;
+        $start_time = time()-5*86400;
         $end_time = time();
         $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
-        $arr=[];
         foreach($list as &$val){
             $subject = $val["subject"];
             $grade = floor($val["grade"]/100);
@@ -684,6 +683,7 @@ class test_jack  extends Controller
             E\Esubject::set_item_value_str($val,"subject");
             
         }
+       
         
         //  dd($list);
         // // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
