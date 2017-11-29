@@ -1,6 +1,12 @@
 @extends('layouts.app')
 @section('content')
-
+    <style>
+     .note{
+         margin-left:10px;
+         font-size:13px;
+         color: #999999;
+     }
+    </style>
 
     <section class="content ">
 
