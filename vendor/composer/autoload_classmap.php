@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddLeaderPowerForCompanyWxTag' => $baseDir . '/database/migrations/2017_11_29_144910_add_leader_power_for_company_wx_tag.php',
     'AddPermissionForCompanyWxUsers' => $baseDir . '/database/migrations/2017_11_25_173608_add_permission_for_company_wx_users.php',
     'AddRidForCompanyWxUsers' => $baseDir . '/database/migrations/2017_11_24_103609_add_rid_for_company_wx_users.php',
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
@@ -588,6 +589,7 @@ return array(
     'TAssStuChangeListAddOldAssAdminid' => $baseDir . '/database/migrations/2017_11_10_110244_t_ass_stu_change_list_add_old_ass_adminid.php',
     'TAssWeeklyInfoAddReadStudentList' => $baseDir . '/database/migrations/2017_11_08_132904_t_ass_weekly_info_add_read_student_list.php',
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
+    'TCourseOrderAddResetLessonCountFlag' => $baseDir . '/database/migrations/2017_11_29_164616_t_course_order_add_reset_lesson_count_flag.php',
     'TCrWeekMonthInfoAddGradeStuList' => $baseDir . '/database/migrations/2017_11_15_160956_t_cr_week_month_info_add_grade_stu_list.php',
     'TCrWeekMonthInfoAveragePersonEffect' => $baseDir . '/database/migrations/2017_11_15_114315_t_cr_week_month_info_average_person_effect.php',
     'TCreateSellerLevelMonth' => $baseDir . '/database/migrations/2017_11_18_125202_t_create_seller_level_month.php',
@@ -638,7 +640,7 @@ return array(
     'TRuffianActivityAddItem' => $baseDir . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
     'TRuffianActivityAddStuType' => $baseDir . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
     'TRuffianActivityDropAddTime' => $baseDir . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
-    'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
+    'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_11_03_155743_t_ruffian_activity_modify.php',
     'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerLevelGoal' => $baseDir . '/database/migrations/2017_10_09_163301_t_seller_level_goal.php',
     'TSellerLevelGoalAddLevelIcon' => $baseDir . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',

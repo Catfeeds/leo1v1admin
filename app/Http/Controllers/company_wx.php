@@ -25,21 +25,32 @@ class company_wx extends Controller
         $tag = $this->get_company_wx_data($url,'taglist');
         if ($tag) {
             foreach($tag as $item) {
-                $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
-                $users = $this->get_company_wx_data($url,"partylist");
-                $users = implode(",", $users);
                 $info = $this->t_company_wx_tag->get_name($item['tagid']);
                 if (!$info) {
-                    $this->t_company_wx_tag->row_insert([
+                    $id = $this->t_company_wx_tag->row_insert([
                         "id" => $item['tagid'],
                         'name' => $item['tagname'],
-                        'department' => $users
                     ]);
+
+                }
+                $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
+                $users = $this->get_company_wx_data($url,"partylist");
+                $users = [278,279,280,281,281];
+                foreach($users as $val) {
+                    //$info = $this->t_company_wx_tag_department->get_name($item['tagid']);
+                    //if (!$info) {
+                        $this->t_company_wx_tag_department->row_insert([
+                            "id" => $item['tagid'],
+                            'department' => $val
+                        ]);
+
+                    //}
 
                 }
             }
             echo '加载标签完成';
         }
+        exit;
 
         $url = $config['url'].'/cgi-bin/department/list?access_token='.$token;
         $department = $this->get_company_wx_data($url, 'department');
@@ -165,16 +176,9 @@ class company_wx extends Controller
 
     public function all_users() {
         $tag = $this->t_company_wx_tag->get_all_list();
-
-        foreach($tag as $item) {
-            $info = $this->t_company_wx_users->get_all_list_for_depart($item['department']);
-            foreach($info as $key => $val) {
-                $info[$key]['name'] = $item['name'];
-            }
-        }
         
         return $this->pageView(__METHOD__, '', [
-            'info' => $info
+            'info' => $tag
         ]);
     }
 

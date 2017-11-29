@@ -2189,7 +2189,7 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
-function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_list,process_id ){
+function multi_upload_file(btn_id,  is_public_bucket ,befor_func, complete_func, ext_file_list,process_id ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
@@ -2202,7 +2202,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
             browse_button: btn_id , //choose files id
             // container: 'container',
             // drop_element: 'container',
-            max_file_size: '30mb',
+            max_file_size: '100mb',
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
             // dragdrop: true,
             chunk_size: '4mb',
@@ -2222,7 +2222,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
                     plupload.each(files, function(file) {
                         var progress = new FileProgress(file, 'fsUploadProgress');
                         progress.setStatus("等待...");
-                        // progress.bindUploadCancel(up);
+                        progress.bindUploadCancel(up);
                     });
                 },
                 'BeforeUpload': function(up, file) {
@@ -2234,6 +2234,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
                             progress.setChunkProgess(chunk_size);
                         }
                     }
+                    befor_func(up, file);
 
                 },
                 'UploadProgress': function(up, file) {
@@ -2241,8 +2242,6 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
                         var progress = new FileProgress(file, process_id);
                         var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                         progress.setProgress(file.percent + "%", file.speed, chunk_size);
-                        $('.hide_mark').hide();
-
                     }
                 },
                 'UploadComplete': function() {
@@ -2251,8 +2250,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
                 'FileUploaded': function(up, file, info) {
                     if(process_id != '') {
                         var progress = new FileProgress(file, process_id);
-                        progress.setComplete(up, info.response);
-                        $('.hide_mark').hide();
+                        progress.setComplete(up, info.response,false);
                     }
                     complete_func(up, file, info);
 
@@ -2263,7 +2261,6 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
                         var progress = new FileProgress(err.file, process_id);
                         progress.setError();
                         progress.setStatus(errTip);
-                        $('.hide_mark').hide();
                     }
                 }
                 // ,
@@ -2277,6 +2274,7 @@ function multi_upload_file(btn_id,  is_public_bucket , complete_func, ext_file_l
     });
 
 };
+
 
 
 function do_ajax_get_nick( type,  id, func) {

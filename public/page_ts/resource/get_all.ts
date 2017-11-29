@@ -40,10 +40,10 @@ $(function(){
     });
 
     $('.opt-add').on('click', function(){
-        add_info();
+        add_or_update();
     });
 
-    var add_info = function(){
+    var add_or_update = function(id_str = ''){
         var id_user_type     = $("<select class=\"user\"/>");
         var id_resource_type = $("<select class=\"resource\"/>");
         var id_subject       = $("<select/>");
@@ -61,6 +61,11 @@ $(function(){
         Enum_map.append_option_list("resource_type2",id_tag_two,true);
         Enum_map.append_option_list("resource_season",id_tag_three,true);
 
+        id_user_type.val(g_args.user_type);
+        id_resource_type.val(g_args.resource_type);
+        id_subject.val(g_args.subject);
+        id_grade.val(g_args.grade);
+
         var arr= [
             ["使用角色：", id_user_type],
             ["资源类型：", id_resource_type],
@@ -72,48 +77,91 @@ $(function(){
             ["", id_file],
         ];
 
+        if(id_str == '') {
+            var title = '新建';
+        } else {
+            var title = '移动';
+            id_file.hide();
+        }
 
-        $.show_key_value_table('新建', arr,false,function(){
+        $.show_key_value_table(title, arr,{
+            label    : '确认',
+            cssClass : 'btn-info hide move',
+            action   : function() {
+                $.ajax({
+                    type     : "post",
+                    url      : "/resource/add_resource",
+                    dataType : "json",
+                    data : {
+                        'id_str'        : id_str,
+                        'user_type'     : id_user_type.val(),
+                        'resource_type' : id_resource_type.val(),
+                        'subject'       : id_subject.val(),
+                        'grade'         : id_grade.val(),
+                        'tag_one'       : id_tag_one.val(),
+                        'tag_two'       : id_tag_two.val(),
+                        'tag_three'     : id_tag_three.val(),
+                    } ,
+                    success   : function(result){
+                        if(result.ret == 0){
+                            // window.location.reload();
+                        } else {
+                            alert(result.info);
+                        }
+                    }
+                });
+
+            }
+        },function(){
             $('.resource').change(function(){
                 $('.sel_flag').empty();
                 $('.sel_flag').val(0);
                 $('.sel_flag').parent().parent().show();
                 change_tag($(this).val());
             });
-            multi_upload_file('id_file',1,function(up, file, info) {
-                var res = $.parseJSON(file);
-                console.log(res);
-                if( res.key!='' ){
-                    console.log(res.key);
-                    $.ajax({
-                        type     : "post",
-                        url      : "/resource/add_resource",
-                        dataType : "json",
-                        data : {
-                            'user_type'     : id_user_type.val(),
-                            'resource_type' : id_resource_type.val(),
-                            'subject'       : id_subject.val(),
-                            'grade'         : id_grade.val(),
-                            'tag_one'       : id_tag_one.val(),
-                            'tag_two'       : id_tag_two.val(),
-                            'tag_three'     : id_tag_three.val(),
-                            'file_title'    : res.name,
-                            'file_size'     : res.size,
-                            'file_hash'     : res.hash,
-                        } ,
-                        success   : function(result){
-                            if(result.ret == 0){
-                                window.location.reload();
-                            } else {
-                                alert(result.info);
+
+            if(id_str == '') {//新增
+                multi_upload_file('id_file',1,function(up,file) {
+                    $('.close').click();
+                    $('.opt_process').show();
+                },function(up, file, info) {
+
+                    var res = $.parseJSON(info.response);
+                    if( info.status == 200){
+                        $.ajax({
+                            type     : "post",
+                            url      : "/resource/add_resource",
+                            dataType : "json",
+                            data : {
+                                'user_type'     : id_user_type.val(),
+                                'resource_type' : id_resource_type.val(),
+                                'subject'       : id_subject.val(),
+                                'grade'         : id_grade.val(),
+                                'tag_one'       : id_tag_one.val(),
+                                'tag_two'       : id_tag_two.val(),
+                                'tag_three'     : id_tag_three.val(),
+                                'file_title'    : file.name,
+                                'file_type'     : file.type,
+                                'file_size'     : file.size,
+                                'file_hash'     : res.hash,
+                            } ,
+                            success   : function(result){
+                                if(result.ret == 0){
+                                    // window.location.reload();
+                                } else {
+                                    alert(result.info);
+                                }
                             }
-                        }
-                    });
+                        });
 
-                }
-            }, ["jpg","png"],'fsUploadProgress');
+                    }
 
-        },false,600,'');
+                }, ["jpg","png"],'fsUploadProgress');
+
+            } else {
+                $('.move').removeClass('hide');
+            }
+        },false,600);
     };
 
     var change_tag = function(val){
@@ -170,6 +218,195 @@ $(function(){
             $('.tag_three').parent().parent().hide();
         }
     };
+
+    $('.opt-move').on('click', function(){
+        var id_list = [];
+        $('.opt-select-item').each(function(){
+            if( $(this).iCheckValue()){
+                id_list.push( $(this).data('id') );
+            }
+        });
+
+        if(id_list.length == 0) {
+            BootstrapDialog.alert('请先选择文件！');
+        } else {
+            var id_info = JSON.stringify(id_list);
+            console.log(id_info);
+            add_or_update(id_info);
+        }
+    });
+
+    $('.opt-del').on('click', function(){
+        do_del();
+    });
+
+    var do_del = function(){
+        var id_list = [];
+        $('.opt-select-item').each(function(){
+            if( $(this).iCheckValue()){
+                id_list.push( $(this).data('id') );
+            }
+        });
+
+        if(id_list.length == 0) {
+            BootstrapDialog.alert('请先选择文件！');
+        } else {
+            var id_info = JSON.stringify(id_list);
+            if( confirm('确定要删除？') ){
+                $.ajax({
+                    type    : "post",
+                    url     : "/resource/del_resource",
+                    data    : "id_str="+id_info,
+                    success : function(result){
+                        if(result.ret == 0){
+                            window.location.reload();
+                        }
+                    }
+                });
+            };
+        }
+    };
+
+    var do_copy = function(resource_id){
+        alert('需要再讨论');
+        // if( confirm('确定要删除？') ){
+        //     $.ajax({
+        //         type    : "post",
+        //         url     : "/resource/del_resource",
+        //         data    : "id_str="+id_info,
+        //         success : function(result){
+        //             if(result.ret == 0){
+        //                 window.location.reload();
+        //             }
+        //         }
+        //     });
+        // };
+
+    };
+
+    var re_name = function(obj){
+        var id_file_title = $("<input />");
+        id_file_title.val(obj.data('file_title'));
+        var arr= [
+            ["文件名称：", id_file_title],
+        ];
+
+        $.show_key_value_table('重命名', arr,{
+            label    : '确认',
+            cssClass : 'btn-info',
+            action   : function() {
+                $.ajax({
+                    type     : "post",
+                    url      : "/resource/rename_resource",
+                    dataType : "json",
+                    data : {
+                        'resource_id' : obj.data('resource_id'),
+                        'file_title'  : id_file_title.val(),
+                    } ,
+                    success  : function(result){
+                        if(result.ret == 0){
+                            window.location.reload();
+                        } else {
+                            alert(result.info);
+                        }
+                    }
+                });
+
+            }
+        },'',false,600);
+    };
+
+    var re_upload = function(resource_id){
+
+        multi_upload_file('upload_flag',1,function(up,file) {
+            $('.opt_process').show();
+        },function(up, file, info) {
+            var res = $.parseJSON(info.response);
+            if( info.status == 200){
+                $.ajax({
+                    type     : "post",
+                    url      : "/resource/reupload_resource",
+                    dataType : "json",
+                    data : {
+                        'resource_id'     : resource_id,
+                        // 'file_title'    : file.name,
+                        'file_type'     : file.type,
+                        'file_size'     : file.size,
+                        'file_hash'     : res.hash,
+                    } ,
+                    success   : function(result){
+                        if(result.ret == 0){
+                            // window.location.reload();
+                        } else {
+                            alert(result.info);
+                        }
+                    }
+                });
+
+            }
+        }, ["jpg","png"],'fsUploadProgress');
+
+    };
+
+    var menu_hide = function(){
+        $('#contextify-menu').hide();
+        return $('#contextify-menu');
+    };
+
+    //右键自定义
+    var options = {items:[
+        // {header: '右键功能菜单'},
+        // {divider: true},
+        {text: '重命名', onclick: function() {
+            var data_obj = menu_hide();
+            re_name(data_obj);
+        }},
+        {text: '上传新版本',onclick: function() {
+            menu_hide();
+        }, id:'upload_flag'},
+        {text: '复制', onclick: function() {
+            var data_obj = menu_hide();
+            do_copy( data_obj.data('resource_id') );
+        }},
+        {text: '移动', onclick: function() {
+            var data_obj = menu_hide();
+            add_or_update( data_obj.data('resource_id') );
+        }},
+
+        {text: '删除', onclick: function() {
+            var data_obj = menu_hide();
+            do_del();
+        }},
+        {text: '下载', onclick: function() {
+            var data_obj = menu_hide();
+
+        }},
+        {text: '操作记录', onclick: function() {
+
+            var data_obj = menu_hide();
+
+        }},
+      // {divider: true},
+        // {text: '更多...', href: '#'}
+    ],before:function(){
+        var resource_id = $(this).attr('resource_id');
+        re_upload(resource_id);
+        //选中标记
+        $(".opt-select-item").each(function(){
+            var $item=$(this);
+            if ( resource_id == $(this).data('id') ) {
+                $item.iCheck("check");
+            }else{
+                $item.iCheck("uncheck");
+            }
+        } );
+
+    }};
+    $('.right-menu').contextify(options);
+
+    $('body').click(function(){
+        menu_hide();
+    });
 
     $('.opt-change').set_input_change_event(load_data);
 });

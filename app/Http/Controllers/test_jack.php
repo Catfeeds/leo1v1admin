@@ -347,6 +347,7 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
+      
         $start_time = strtotime("2017-03-01");
         $end_time = strtotime("2017-04-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
@@ -411,7 +412,7 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>1200000 && $val["price"]<6300000){
+            if($val["price"]>1030000 && $val["price"]<6300000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -629,6 +630,234 @@ class test_jack  extends Controller
 
 
     }
+
+    public function test_wx(){
+        $noti_account = $this->t_assistant_info->get_account_by_id(441550);
+        $header_msg="测试";
+        $msg="学生:" ;
+        $url="/user_manage/ass_archive_ass";
+        // $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
+       
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+        $data=[
+            "first"    => "测试",
+            "keyword1" => "测试",
+            "keyword2" => "测试",
+            "keyword3" => date("Y-m-d H:i:s"),
+            "remark"   => "测试",
+        ];
+        $url="";
+
+        $wx     = new \App\Helper\Wx();
+        $openid = $this->t_manager_info->get_wx_openid_by_account("巫叔敏");
+        $ret = $wx->send_template_msg("orwGAs-t9gt9GrqKIPN0nBLZuMgg",$template_id,$data ,$url);
+
+        if($ret) {
+        }else{
+            return $this->output_err("发送WX通知失败,请确认[$noti_account]有绑定微信");
+        }
+
+        dd($noti_account);
+ 
+    }
+
+
+    public function get_reference_teacher_money_info(){
+
+
+        $this->switch_tongji_database();
+        $start_time = time()-5*86400;
+        $end_time = time();
+        $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
+
+        foreach($list as &$val){
+            $subject = $val["subject"];
+            $grade = $val["grade"];
+            if($grade==1){
+                $val["grade_str"]="小学";
+            }elseif($grade==2){
+                $val["grade_str"]="初中";
+            }else{
+                $val["grade_str"]="高中";
+            }
+            E\Esubject::set_item_value_str($val,"subject");
+            $val["num"]=0;
+            
+        }
+       
+        
+        //  dd($list);
+        // // $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
+        // $list = $this->t_teacher_info->get_data_to_teacher_flow(0,0,1);
+
+        // foreach($list as &$item){           
+        //     if($item["simul_test_lesson_pass_time"]>0){
+        //         $item["time_str"]=date("Y-m-d H:i",$item["simul_test_lesson_pass_time"]);           
+        //     }else{
+        //         $item["time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);           
+        //     }
+        //     E\Esubject::set_item_value_str($item,"subject");
+
+        // }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list
+        ]);
+
+        // $first_month = strtotime("2016-01-01");
+        // // $end_month = strtotime(date("Y-m-01",time()));
+        // // $next_month = strtotime(date("Y-m-01",strtotime("+1 months", $first_month)));
+        // $num = (date("Y",time())-2016)*12+date("m",time())-1+1;
+
+        // // $order_money_info = $this->t_order_info->get_order_lesson_money_info($first_month,$next_month);
+        // //  $order_money_info = $this->t_order_info->get_order_lesson_money_use_info($first_month,$next_month);
+        // $list=[];
+        // for($i=1;$i<=$num;$i++){
+        //     $first = strtotime(date("Y-m-01",strtotime("+".($i-1)." months", $first_month)));
+        //     $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+        //     $month = date("Y-m-d",$first);
+        //     /* $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
+        //        $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
+        //        $list[$month]["stu_num"] = @$order_money_info["stu_num"];
+        //        $list[$month]["all_price"] = @$order_money_info["all_price"];
+        //        $list[$month]["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+        //        foreach($order_money_month as $val){
+        //        $list[$month][$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+        //        }*/
+        //     $list[$month]["month"] = date("Y年m月",$first);
+        //     $list[$month]["month_start"] = $first;
+
+
+        // }
+
+        // return $this->pageView(__METHOD__,null,[
+        //     "list"  =>$list ,
+        //     "num"  =>count($list)
+        // ]);
+
+
+        // $start_time = strtotime("2017-10-01");
+        // $end_time = strtotime("2017-11-01");
+        // $grade = $this->get_in_int_val("grade",1);
+        // $list = $this->t_lesson_info_b3->get_test_lesson_teacher_list($start_time,$end_time,$grade);
+        // $list = $this->t_teacher_info->get_part_remarks(240314);
+        // $arr= explode(",",$list);
+        // $ret_info=[];
+        // foreach($arr as  $val){
+        //     $ret_info[]=["phone"=>$val];
+        // }
+        //$list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
+        // $list = $this->t_teacher_info->get_teacher_openid_list_new();
+        //$list["list"][]=["teacherid"=>240314,"realname"=>"hahah","wx_openid"=>1111];
+        // dd($list);
+
+        $arr=[];
+        for($i=1;$i<=11;$i++){
+
+            $time =strtotime("2016-12-01");
+            $start_time=strtotime("+".$i." month",$time);
+            $end_time = strtotime("+".($i+1)." month",$time);
+            $date= date("m",$start_time);
+
+
+            // $list = $this->t_lesson_info_b3->get_teacher_list_by_time_new($start_time,$end_time);
+            // $lesson_count=0;$tea_arr=[];
+            // foreach($list as $val){
+            //     $lesson_count +=$val["lesson_total"];
+            //     $tea_arr[$val["teacherid"]]=$val["teacherid"];
+                
+            // }
+            // $tea_num = count($tea_arr);
+
+            // $cc_num=$cc_order=$cr_num=$cr_order=0;
+            // $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,2);
+            // foreach($cc_list as $val){
+            //     $cc_num +=$val["person_num"];
+            //     $cc_order +=$val["have_order"];
+            // }
+            // $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
+            // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
+            
+            // foreach($cr_list as $val){
+            //     $cr_num +=$val["person_num"];
+            //     $cr_order +=$val["have_order"];
+            // }
+            // $cr_per= $cr_num>0?round($cr_order/$cr_num*100,2):0;
+
+
+            $arr[$date]=[
+                "start_time"=>$start_time,
+                // "tea_num" =>$tea_num,
+                // "lesson_count"=>$lesson_count,
+                // "cc_per"=>$cc_per,
+                // "cr_per"=>$cr_per
+            ];
+            
+        }
+        
+        //  foreach($list["list"] as $k=>&$item){
+        //      /* if($item['grade_start']>0){
+        //          $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
+        //              ."-".E\Egrade_range::get_desc($item['grade_end']);
+        //      }else{
+        //          $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_part_ex']);
+        //      }
+        //      $item['subject_ex']   = E\Esubject::get_desc($item['subject']);*/
+        //      if($item["teacher_money_type"]==6){
+        //          $item["teacher_money_type_str"] = "第四版规则";
+        //      }else{
+        //          $item["teacher_money_type_str"] = "平台合作";
+        //      }
+
+        //  }
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$arr
+        ]);
+
+        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+        //  foreach($ret_info["list"] as &$item){
+        /* if($item["train_through_new"]==1){
+           $item["train_through_new_str"]="已入职";
+           }else{
+           $item["train_through_new_str"]="未入职";
+           }
+           if($item["train_through_new_time"]>0){*/
+        //$item["train_through_new_time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);
+        /* }else{
+           $item["train_through_new_time_str"]="无";
+           }
+           E\Eidentity::set_item_value_str($item,"teacher_type");
+           if($item['grade_start']>0){
+           $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
+           ."-".E\Egrade_range::get_desc($item['grade_end']);
+           $item['subject_ex']   = E\Esubject::get_desc($item['subject_ex']);
+           }elseif(is_numeric($item['grade_ex'])){
+           $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_ex']);
+           }*/
+        //  E\Eteacher_type::set_item_value_str($item,"teacher_type");
+        // E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
+        // E\Egender::set_item_value_str($item,"gender");
+        /* E\Esubject::set_item_value_str($item,"subject");
+           E\Elevel::set_item_value_str($item,"level");
+           // E\Esubject::set_item_value_str($item,"second_subject");
+           // E\Esubject::set_item_value_str($item,"third_subject");
+           E\Eidentity::set_item_value_str($item);
+           //E\Elevel::set_item_value_str($item,"level");
+           E\Eteacher_money_type::set_item_value_str($item);
+           // E\Eteacher_ref_type::set_item_value_str($item); //是否全职
+
+           E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+
+           E\Egrade_range::set_item_value_str($item,"grade_start");
+           E\Egrade_range::set_item_value_str($item,"grade_end");*/
+
+
+
+        // }
+        // return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
 
 
 
