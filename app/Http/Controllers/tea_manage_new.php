@@ -1225,6 +1225,24 @@ class tea_manage_new extends Controller
 
     }
 
+    public function approved_data(){
+        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        $page_num = $this->get_in_int_val('page_num',1);
+
+        $ret_info = [];
+        $ret_info = $this->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time,$page_num);
+
+
+        dd($ret_info);
+
+        foreach($ret_info as $v){
+
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
 
 
 }
