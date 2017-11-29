@@ -62,6 +62,7 @@ class resource extends Controller
         $file_type     = $this->get_in_str_val('file_type');
         $file_size     = intval( $this->get_in_str_val('file_size') /1024);
         $file_hash     = $this->get_in_str_val('file_hash');
+        $file_link     = $this->get_in_str_val('file_link');
         $id_str        = $this->get_in_str_val('id_str');
 
         $adminid   = $this->get_account_id();
@@ -81,12 +82,15 @@ class resource extends Controller
                 'file_type'     => $file_type,
                 'file_size'     => $file_size,
                 'file_hash'     => $file_hash,
+                'file_link'     => $file_link,
                 'adminid'       => $adminid,
                 'edit_adminid'  => $adminid,
                 'create_time'   => time(),
                 'update_time'   => time(),
             ]);
 
+            $last_id = $this->t_resource->get_last_insertid();
+            return $this->output_succ(['resource_id' => $last_id]);
         } else {
             $id_str = ltrim($id_str,'[');
             $id_str = rtrim($id_str,']');
@@ -121,12 +125,29 @@ class resource extends Controller
         return $this->output_succ();
     }
 
+    public function update_stu_hash() {
+        $resource_id = $this->get_in_int_val('resource_id');
+        $stu_hash    = $this->get_in_str_val('stu_hash');
+        $stu_link    = $this->get_in_str_val('stu_link');
+
+        $adminid   = $this->get_account_id();
+        $this->t_resource->field_update_list($resource_id, [
+            'stu_link'     => $stu_link,
+            'stu_hash'     => $stu_hash,
+            'edit_adminid' => $adminid,
+            'update_time'  => time(),
+        ]);
+        return $this->output_succ();
+    }
+
+
     public function reupload_resource() {
         $resource_id = $this->get_in_int_val('resource_id');
         // $file_title    = $this->get_in_str_val('file_title');
         $file_type     = $this->get_in_str_val('file_type');
         $file_size     = intval( $this->get_in_str_val('file_size') /1024);
         $file_hash     = $this->get_in_str_val('file_hash');
+        $file_link     = $this->get_in_str_val('file_link');
 
         $adminid   = $this->get_account_id();
         $this->t_resource->field_update_list($resource_id, [
@@ -134,6 +155,7 @@ class resource extends Controller
             'file_type'    => $file_type,
             'file_size'    => $file_size,
             'file_hash'    => $file_hash,
+            'file_link'    => $file_link,
             'edit_adminid' => $adminid,
             'update_time'  => time(),
         ]);
@@ -149,7 +171,7 @@ class resource extends Controller
             $id_str = rtrim($id_str,']');
             $id_arr = explode(',', $id_str);
             foreach($id_arr as $id){
-               $this->t_resource->row_delete($id);
+                $this->t_resource->field_update_list($id, ['is_del' => 1]);
             }
 
             return $this->output_succ();
