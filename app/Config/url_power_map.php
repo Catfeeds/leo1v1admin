@@ -307,6 +307,7 @@ class url_power_map {
 			'/news_info/stu_message_list'	=>1090700,
 			'/news_info/stu_detail_message_list'	=>1091000,
 			'/user_manage_new/product_info'	=>1093500,
+			'/tea_manage_new/approved_data'	=>1093600,
 			'/tongji_ex/top_list'	=>1101000,
 			'/human_resource/get_input_score_list'	=>1101300,
 			'/human_resource/get_lesson_modify_list'	=>1101400,

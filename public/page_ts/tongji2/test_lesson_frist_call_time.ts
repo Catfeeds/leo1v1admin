@@ -173,7 +173,9 @@ $(function(){
             }
         })
     });
-
+    // if(g_account=='龚隽'){
+    //     download_show();
+    // }
 
 
 });
