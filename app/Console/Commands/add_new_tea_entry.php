@@ -41,11 +41,16 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        $task->t_teacher_info->field_update_list(403459, [
-            'bank_account' => '赵志园',
-            'bankcard' => '6217002000003462324',
-            'bank_phone' => '15062628743',
-            'bank_type' => '中国建设银行'
+        $teacherid = 250328;
+        $reference_price = 30;
+        $recommended_teacherid = 410880;
+        $this->t_teacher_money_list->row_insert([
+            "teacherid"  => $teacherid,
+            "money"      => $reference_price*100,
+            "money_info" => $recommended_teacherid,
+            "add_time"   => time(),
+            "type"       => E\Ereward_type::V_6,
+            "recommended_teacherid" => $recommended_teacherid,
         ]);
         exit;
 
