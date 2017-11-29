@@ -425,6 +425,7 @@ class menu{
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
+                ["power_id"=>36, "name"=>"审批参考数据",   "url"=>"/tea_manage_new/approved_data"],
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

@@ -906,16 +906,18 @@ class user_deal extends Controller
                         $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,$seller_new_count_type,$count=5,$adminid,$value_ex);
                         $this->t_manager_info->send_wx_todo_msg(
                             '龚隽',
-                            "系统",
-                            "新签合同赠送 抢新生名额[$count] "
-                            ,"学生:". $this->cache_get_student_nick($userid)
-                            ,"");
+                            "CC:".$sys_operator,
+                            "公海签单赠送 抢新生名额[$count] ",
+                            "学生:". $this->cache_get_student_nick($userid),
+                            ""
+                        );
                         $this->t_manager_info->send_wx_todo_msg(
                             'tom',
-                            "系统",
-                            "新签合同赠送 抢新生名额[$count] "
-                            ,"学生:". $this->cache_get_student_nick($userid)
-                            ,"");
+                            "CC:".$sys_operator,
+                            "公海签单赠送 抢新生名额[$count]",
+                            "学生:". $this->cache_get_student_nick($userid),
+                            ""
+                        );
                     }
                 }
             }
