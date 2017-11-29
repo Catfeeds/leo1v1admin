@@ -2,11 +2,11 @@
 /// <reference path="../g_args.d.ts/company_wx-role_list.d.ts" />
 
      var setting = {view: {showIcon: false},
-         check: {  
-             enable: true,  
-             chkStyle: "checkbox",  
-             chkboxType: { "Y": "ps", "N": "ps" }  
-         }, 
+         // check: {  
+         //     enable: true,  
+         //     chkStyle: "checkbox",  
+         //     chkboxType: { "Y": "ps", "N": "ps" }  
+         // }, 
          data: {
              simpleData: {
                  enable: true
