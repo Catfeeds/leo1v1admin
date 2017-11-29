@@ -4278,7 +4278,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s tll on tll.lessonid=l.lessonid"
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s tls on tls.test_lesson_subject_id=tlr.test_lesson_subject_id"
-                                  ." where %s group by t.teacherid"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
