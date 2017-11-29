@@ -6715,8 +6715,8 @@ lesson_type in (0,1) "
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
-            //   "tss.success_flag in (0,1)",
-            //"l.lesson_user_online_status =1",
+            "tss.success_flag in (0,1)",
+            "l.lesson_user_online_status =1",
             "(m.account_role=2 or tq.origin like '%%转介绍%%' )",
             "m.del_flag=0"
             //"require_admin_type =2"
@@ -6755,8 +6755,8 @@ lesson_type in (0,1) "
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
-            // "tss.success_flag in (0,1)",
-            //  "l.lesson_user_online_status =1",
+            "tss.success_flag in (0,1)",
+            "l.lesson_user_online_status =1",
             // "require_admin_type =1",
             "tq.origin like '%%扩课%%'"
 
@@ -6793,8 +6793,8 @@ lesson_type in (0,1) "
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
-            //  "tss.success_flag in (0,1)",
-            //  "l.lesson_user_online_status =1",
+            "tss.success_flag in (0,1)",
+            "l.lesson_user_online_status =1",
             // "require_admin_type =1",
             "tq.origin like '%%换老师%%'"
         ];
