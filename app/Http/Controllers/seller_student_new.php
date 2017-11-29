@@ -346,10 +346,6 @@ class seller_student_new extends Controller
 
         // $ftf = json_encode($require_adminid_list);
         // \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
-        //优学优享,张植源,张龙
-        if(in_array($this->get_account_id(),[384,412])){
-            $origin = '优学优享';
-        }
         //查看下级
         $require_adminid_list_new = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex_new);
         $show_son_flag = false;
@@ -1387,7 +1383,6 @@ class seller_student_new extends Controller
     }
 
     public function tel_student_list(){
-
         $this->switch_tongji_database();
         $self_groupid          = $this->get_in_int_val("self_groupid",-1);
         $userid                = $this->get_in_userid(-1);
@@ -1406,14 +1401,8 @@ class seller_student_new extends Controller
 
         $seller_student_status = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
-        // $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
-        //判断是否是张龙384,张植源412，邵少鹏759，蒋文武689,
-        $adminid = $this->get_account_id();
-        if (!in_array($adminid, [384,412,759,689])){
-            $adminid = 0;
-        }
-
-        $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject,$adminid);
+        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
+        // $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
 
 
         // dd($ret_info);
