@@ -51,7 +51,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ." from %s r  left join %s o on r.orderid = o.orderid"
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s a on s.assistantid=a.assistantid"
-                                  ." left join %s m on a.phone = m.phone"
+                                  ." left join %s m on r.refund_userid  = m.uid"
                                   ." where %s group by m.uid",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,

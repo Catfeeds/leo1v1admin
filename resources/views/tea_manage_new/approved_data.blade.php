@@ -37,24 +37,28 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <a href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
+                            <a target="_blank" href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
                                 {{@$var["tea_nick"]}}
                             </a>
                         </td>
                         <td>
-                            {{@$var['stu_num']}}
+                            <a id="stu_num">
+                                {{@$var['stu_num']}}
+                            </a>
                         </td>
                         <td>
                             {{@$var['lesson_num']}}
                         </td>
                         <td>
-                            {{@$var['cc_rate']}}
+                            {{@$var['cc_rate']*100}}%
                         </td>
                         <td>
-                            {{@$var['cr_rate']}}
+                            {{@$var['cr_rate']*100}}"%
                         </td>
                         <td>
-                            {{@$var['violation_num']}}
+                            <a id="violation_num">
+                                {{@$var['violation_num']}}
+                            </a>
                         </td>
 
 
@@ -76,5 +80,15 @@
         </table>
         @include("layouts.page")
     </section>
+    <div style="display:none;" >
+        <div id="id_assign_log">
+            <table   class="table table-bordered "   >
+                <tr>  <th> 类别 <th>数量   </tr>
+                    <tbody class="data-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
 
 @endsection

@@ -1227,7 +1227,7 @@ class tea_manage_new extends Controller
 
     public function approved_data(){
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $page_num = $this->get_in_int_val('page_num',1);
+        $page_num = $this->get_in_page_num();
 
         $ret_info = [];
         $ret_info = $this->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time,$page_num);
@@ -1241,11 +1241,10 @@ class tea_manage_new extends Controller
 
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
 
-            $item['violation_info'] = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
-            $item['violation_num'] = 0;
+            $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
+            $item['violation_num'] = array_sum($violation_info);
         }
 
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
