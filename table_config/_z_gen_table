@@ -57,7 +57,7 @@ foreach ($t_config as $item) {
     $table_list[] = "$db_name.$table_name";
 }
 
-$url= "http://$url_fix.admin.leo1v1.com/common_new/show_create_table_list";
+$url= "http://$url_fix.admin.yb1v1.com/common_new/show_create_table_list";
 echo "start url : $url\n";
 $json_data= send_post_data($url,  ["table_list" =>  json_encode($table_list) ]  );
 echo "end url\n";
