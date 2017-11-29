@@ -682,6 +682,7 @@ class test_jack  extends Controller
                 $val["grade_str"]="高中";
             }
             E\Esubject::set_item_value_str($val,"subject");
+            $val["num"]=0;
             
         }
        
