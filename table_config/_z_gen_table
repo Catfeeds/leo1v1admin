@@ -64,9 +64,8 @@ echo "end url\n";
 
  //echo $url;
 // exit;
-//echo $json_data;
-//echo $url;
-//exit;
+// echo $json_data;
+// exit;
 
 $table_map = json_decode($json_data,true);
  //return;
