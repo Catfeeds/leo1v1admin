@@ -2038,8 +2038,6 @@ class human_resource extends Controller
             2 => array("ta.lesson_start", "面试时间"),
         ]);
 
-
-        // list($start_time,$end_time) = $this->get_in_date_range(-7,0);
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);

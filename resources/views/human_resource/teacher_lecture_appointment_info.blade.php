@@ -123,18 +123,6 @@
                         </select>
                     </div>
                 </div>
-
-
-
-                <!--  <div class="col-xs-6 col-md-2">
-                     <div class="input-group ">
-                     <span class="input-group-addon">推荐渠道</span>
-                     <select class="opt-change form-control" id="id_teacher_ref_type" >
-                     <option value="-2">所有渠道</option>
-                     </select>
-                     </div>
-                     </div>
-                   -->
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">推荐渠道(多选)</span>
@@ -157,7 +145,6 @@
                             <option value='1'>通过</option>
                             <option value='2'>老师未到</option>
                             <option value='3'>待定</option>
-
                         </select>
                     </div>
                 </div>
@@ -172,15 +159,12 @@
                         </select>
                     </div>
                 </div>
-
-
-
                 <div class="col-xs-6 col-md-4" data-always_show="1">
                     <div class="input-group">
                         <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="user_name"
                                id="id_user_name" placeholder="姓名,手机号,QQ,科目,年级段,教材,院校,师资 回车查找"/>
                     </div>
-                </div>               
+                </div>
                 <div class="col-md-2 col-xs-6 "  >
                     <div>
                         <button class="btn btn-danger" id="id_add_teacher_lecture_appointment">新增试讲预约</button>
@@ -270,7 +254,6 @@
                         <td>{{@$var["trans_subject_ex_str"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
-                        
                         <td>
                             {{@$var["status_str"]}}<br><br>
                             @if(!empty($var["reason"]) )
@@ -285,7 +268,7 @@
                             <td>{{@$var["interviewer_teacher_str"]}}</td>
                             <td>{{@$var["lecture_revisit_type_new_str"]}}<br/>
                                 @if ($var['lesson_start']>0)
-                                @else    
+                                @else
                                     {{@$var['custom']}}</td>
                                 @endif
                             <td>
@@ -309,14 +292,13 @@
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
+                                <a class="fa-edit opt-edit" title="编辑状态"></a>
                                 @if($show_full_time==1)
-                                    <a class="fa-edit opt-edit" title="编辑状态"></a>
-                                    <a class="opt-set-lecture-revisit-type " title="设置邀约状态" >邀约状态</a>
+                                    <a class="opt-set-lecture-revisit-type" title="设置邀约状态" >邀约状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
                                     <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                     <a class="opt-set-part-teacher " title="设置为兼职老师" >兼</a>
                                 @else
-                                    <a class="fa-edit opt-edit" title="编辑状态"></a>
                                     <a class="fa-times opt-del" title="删除"></a>
                                     <a class="opt-more_grade">邮</a>
                                     <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
@@ -328,6 +310,7 @@
                                 @endif
                                 <a class="opt-1v1-lesson-set-new">1v1-new</a>
                                 <a class="opt-set-teacher-pass-type" title="修改入职状态">入</a>
+                                <a class="opt-set-teacher-info" title="老师信息">老师信息</a>
                             </div>
                         </td>
                     </tr>

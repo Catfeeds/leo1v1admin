@@ -62,6 +62,9 @@ $(function(){
 
     upload_func( "id_upload_xls", "/tongji/upload_from_xls_card_log" );
 
+    if(g_adminid==748){
+        download_show();
+    }
 });
 
 

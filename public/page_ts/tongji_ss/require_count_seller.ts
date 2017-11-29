@@ -91,4 +91,7 @@ function  init_show_level() {
     $("#id_level_show_all").on("click",function(){
         $(".common-table tr" ).show();
     });
+    if(g_account=='龚隽'){
+        download_show();
+    }
 }
