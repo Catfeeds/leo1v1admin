@@ -139,9 +139,9 @@ class activity_new_base {
         $old_present_lesson_count= $present_lesson_count;
         $old_desc_list = $desc_list;
 
-        \App\Helper\Utils::logger("do : " . $this->order_activity_type .":" .   $this->title  );
-
-
+        \App\Helper\Utils::logger("do : " . $this->order_activity_type  );
+        //\App\Helper\Utils::logger("do : " . json_encode($desc_list)  );
+        //\App\Helper\Utils::logger("do : " . @$desc_list[0]['activity_desc']  );
 
         $this->do_exec( $out_args,$can_period_flag, $price,$present_lesson_count,$desc_list);
         if ( count($desc_list ) - count($old_desc_list )  > 1 ) {
