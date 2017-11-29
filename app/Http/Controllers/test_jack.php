@@ -342,8 +342,86 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        $start_time = strtotime("2017-06-01");
-        $end_time = strtotime("2017-07-01");
+        // $start_time = strtotime("2017-11-15");
+        // $list = $this->t_seller_student_new->get_ass_tran_stu_info_new($start_time,time());
+
+        // dd($list);
+        // $arr=[];
+        $noti_account = $this->t_assistant_info->get_account_by_id(441550);
+        $header_msg="测试";
+        $msg="学生:" ;
+        $url="/user_manage/ass_archive_ass";
+        // $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
+       
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+
+        $data=[
+            "first"    => "测试",
+            "keyword1" => "测试",
+            "keyword2" => "测试",
+            "keyword3" => date("Y-m-d H:i:s"),
+            "remark"   => "测试",
+        ];
+        $url="";
+
+        $wx     = new \App\Helper\Wx();
+        $openid = $this->t_manager_info->get_wx_openid_by_account("巫叔敏");
+        $ret = $wx->send_template_msg($openid,$template_id,$data ,$url);
+
+        if($ret) {
+        }else{
+            return $this->output_err("发送WX通知失败,请确认[$noti_account]有绑定微信");
+        }
+
+        dd($noti_account);
+
+        $start_time = strtotime("2017-03-01");
+        $end_time = strtotime("2017-04-01");
+        // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        // foreach($teacher_arr_ex as $k=>$val){
+        //     if(!isset($teacher_list_ex[$k])){
+        //         $teacher_list_ex[$k]=$k;
+        //     }
+        // }
+
+        // $all_tea_ex = count($teacher_list_ex);
+        // dd($teacher_list_ex);
+        // $train_all = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
+        // $train_succ = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
+        // $arr[7]=["参加培训"=>$train_all,"通过培训"=>$train_succ];
+        // $start_time = strtotime("2017-08-01");
+        // $end_time = strtotime("2017-09-01");
+        // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        // foreach($teacher_arr_ex as $k=>$val){
+        //     if(!isset($teacher_list_ex[$k])){
+        //         $teacher_list_ex[$k]=$k;
+        //     }
+        // }
+
+        // $all_tea_ex = count($teacher_list_ex);
+        // $train_all = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
+        // $train_succ = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
+        // $arr[8]=["参加培训"=>$train_all,"通过培训"=>$train_succ];
+        // $start_time = strtotime("2017-09-01");
+        // $end_time = strtotime("2017-10-01");
+        // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        // foreach($teacher_arr_ex as $k=>$val){
+        //     if(!isset($teacher_list_ex[$k])){
+        //         $teacher_list_ex[$k]=$k;
+        //     }
+        // }
+
+        // $all_tea_ex = count($teacher_list_ex);
+        // $train_all = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
+        // $train_succ = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
+        // $arr[9]=["参加培训"=>$train_all,"通过培训"=>$train_succ];
+        // dd($arr);
+        // dd(1111);
+
+
         // $list = $this->t_order_info_finance->get_add_info();
         // foreach($list as $val){
         //     $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
@@ -361,7 +439,7 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>615000 && $val["price"]<2425000){
+            if($val["price"]>1200000 && $val["price"]<6300000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -390,7 +468,12 @@ class test_jack  extends Controller
                 // unset($val["orderid"]);
                 // $this->t_order_info_finance->row_insert($val);
 
-                if(count($arr) >= 120){
+
+                // $this->t_order_info_finance->field_update_list($val["orderid"],[
+                //    "contract_type"=>100 
+                // ]);
+
+                if(count($arr) >= 36){
                     break;
                 }
  

@@ -4,6 +4,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+        user_type     :	$('#id_user_type').val(),
         resource_type :	$('#id_resource_type').val(),
         subject       :	$('#id_subject').val(),
         grade         :	$('#id_grade').val(),
@@ -12,10 +13,12 @@ function load_data(){
 }
 $(function(){
 
+    Enum_map.append_option_list("user_type", $("#id_user_type"),true);
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true);
     Enum_map.append_option_list("subject", $("#id_subject"));
     Enum_map.append_option_list("grade", $("#id_grade"));
 
+    $('#id_user_type').val(g_args.user_type);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
@@ -41,23 +44,30 @@ $(function(){
     });
 
     var add_info = function(){
+        var id_user_type     = $("<select class=\"user\"/>");
         var id_resource_type = $("<select class=\"resource\"/>");
         var id_subject       = $("<select/>");
         var id_grade         = $("<select class=\"grade sel_flag\"/>");
         var id_tag_one       = $("<select class=\"tag_one sel_flag\"/>");
         var id_tag_two       = $("<select class=\"tag_two sel_flag\"/>");
         var id_tag_three     = $("<select class=\"tag_three sel_flag\"/>");
-        var id_file          = $("<button class=\"btn sel_flag\" id=\"id_file\">选择文件</button>");
+        var id_file          = $("<button class=\"btn\" id=\"id_file\">选择文件</button>");
 
+        Enum_map.append_option_list("user_type",id_user_type,true);
         Enum_map.append_option_list("resource_type",id_resource_type,true);
         Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_option_list("resource_grade",id_grade,true);
+        Enum_map.append_option_list("grade",id_grade,true);
         Enum_map.append_option_list("region_version",id_tag_one,true);
         Enum_map.append_option_list("resource_type2",id_tag_two,true);
         Enum_map.append_option_list("resource_season",id_tag_three,true);
 
+        id_user_type.val(g_args.user_type);
+        id_resource_type.val(g_args.resource_type);
+        id_subject.val(g_args.subject);
+        id_grade.val(g_args.grade);
+
         var arr= [
-            ['merge', '新建资料'],
+            ["使用角色：", id_user_type],
             ["资源类型：", id_resource_type],
             ["科目：", id_subject],
             ["年级：", id_grade],
@@ -67,37 +77,8 @@ $(function(){
             ["", id_file],
         ];
 
-        $.tea_show_key_value_table('新建', arr,{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function() {
-                if(!id_file_title.val) {
-                    alert('请填写文件名称！');
-                } else {
-                    $.ajax({
-                    type     : "post",
-                    url      : "/resource/add_resource",
-                    dataType : "json",
-                    data : {
-                        'resource_type' : id_resource_type.val(),
-                        'subject'       : id_subject.val(),
-                        'grade'         : id_grade.val(),
-                        'tag_one'       : id_tag_one.val(),
-                        'tag_two'       : id_tag_two.val(),
-                        'tag_three'     : id_tag_three.val(),
-                        // 'file_title'    : id_file_title.val(),
-                    } ,
-                    success             : function(result){
-                        if(result.ret == 0){
-                            window.location.reload();
-                        } else {
-                            alert(result.info);
-                        }
-                    }
-                });
-                }
-            }
-        },function(){
+
+        $.show_key_value_table('新建', arr,false,function(){
             $('.resource').change(function(){
                 $('.sel_flag').empty();
                 $('.sel_flag').val(0);
@@ -105,15 +86,45 @@ $(function(){
                 change_tag($(this).val());
             });
 
-            custom_upload_file('id_file',1,function(up, file, info) {
-                console.log(file)
-                var res = $.parseJSON(file);
-                if( res.key!='' ){
-                    console.log(res.key);
-                }
-            }, [], ["jpg","png"],function(){});
+            multi_upload_file('id_file',1,function(up,file) {
+                $('.close').click();
+                $('.opt_process').show();
+            },function(up, file, info) {
+                console.log(info.response);
+                console.log(info.response.hash);
+                console.log(info.response['hash']);
+                // if( info.status == 200){
+                //     $.ajax({
+                //         type     : "post",
+                //         url      : "/resource/add_resource",
+                //         dataType : "json",
+                //         data : {
+                //             'user_type'     : id_user_type.val(),
+                //             'resource_type' : id_resource_type.val(),
+                //             'subject'       : id_subject.val(),
+                //             'grade'         : id_grade.val(),
+                //             'tag_one'       : id_tag_one.val(),
+                //             'tag_two'       : id_tag_two.val(),
+                //             'tag_three'     : id_tag_three.val(),
+                //             'file_title'    : file.name,
+                //             'file_type'     : file.type,
+                //             'file_size'     : file.size,
+                //             'file_hash'     : info.response.hash,
+                //         } ,
+                //         success   : function(result){
+                //             if(result.ret == 0){
+                //                 // window.location.reload();
+                //             } else {
+                //                 alert(result.info);
+                //             }
+                //         }
+                //     });
 
-        },false,600,'');
+                // }
+
+            }, ["jpg","png"],'fsUploadProgress');
+
+        },false,600);
     };
 
     var change_tag = function(val){
@@ -171,5 +182,15 @@ $(function(){
         }
     };
 
+    $('.opt-del').on('click', function(){
+        $('.opt-select-item').each(function(){
+
+            console.log($(this).attr('checked'));
+
+        });
+    });
+
+
     $('.opt-change').set_input_change_event(load_data);
 });
+

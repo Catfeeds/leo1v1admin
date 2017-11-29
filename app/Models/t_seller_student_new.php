@@ -330,20 +330,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,$show_son_flag=false,$require_adminid_list_new=[]
     ) {
         if ($userid >0 || $phone || $nick) {
-            if(in_array($admin_revisiterid,[384,412])){//张植源,张龙
-                $where_arr=[
-                    ["ss.userid=%u",$userid, -1],
-                    ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                    ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
-                ];
-            }else{
-                $where_arr=[
-                    ["ss.userid=%u",$userid, -1],
-                    ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                    ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
-                    "s.origin<>'优学优享'",
-                ];
-            }
+            $where_arr=[
+                ["ss.userid=%u",$userid, -1],
+                ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
+                ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
+            ];
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
         }else{
@@ -2230,7 +2221,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ,$adminid){
+    public function get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ,$adminid=-1){
 
         $competition_call_time = time(NULL)   -3600*2;
         $last_contact_time = time(NULL)   -3600*1;
@@ -2239,6 +2230,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             'n.tmk_student_status<>3 ',
             " competition_call_time <  $competition_call_time ",
             "last_contact_time <  $last_contact_time ",
+            't.seller_student_status in (1,2,101,102)',
             // '((s.origin_level in (1,2,3) and n.cc_no_called_count>3) or (s.origin_level=4 and n.cc_no_called_count>2))',
         ];
 
@@ -2247,12 +2239,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
         $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
 
-        if ($adminid > 0 ) {
-            $where_arr[] = " ( t.seller_student_status in (1,2,101,102) or ( n.auto_allot_adminid = $adminid and t.seller_student_status in (0,1,2,101,102) ) )";
-        } else {
-            $where_arr[] = 't.seller_student_status in (1,2,101,102)';
-            $where_arr[] = 'n.auto_allot_adminid = 0';
-        }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 
         $sql=$this->gen_sql_new(
@@ -3132,6 +3118,43 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."left join db_weiyi_admin.t_manager_info m on m.uid=n.admin_revisiterid "
             ."where n.admin_revisiterid>0 and m.account_role=2  group by n.admin_revisiterid";
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_ass_tran_stu_info_new($start_time,$end_time){
+        $where_arr=[
+            "s.is_test_user=0",
+            "s.origin_assistantid>0",
+            "s.origin_userid>0",
+            "m.account_role=1"
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct n.userid) stu_num,sum(if(l.lessonid>0,1,0)) lesson_num,"
+                                  ." sum(o.price) order_price,sum(if(o.orderid>0,1,0)) order_num,"
+                                  ."count(distinct l.userid) lesson_user "
+                                  ." from %s n left join %s s on n.userid = s.userid"
+                                  ." left join %s l on n.userid = l.userid and l.lesson_type=2 and l.lesson_del_flag=0 and l.lesson_user_online_status<2"
+                                  ." left join %s o on l.lessonid = o.from_test_lesson_id and o.contract_type in (0,3) and o.contract_status>0"
+                                  ." left join %s m on s.origin_assistantid = m.uid "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_add_time_by_order_time($orderid){
+        $sql = $this->gen_sql_new("  select s.add_time from %s s "
+                                  ." left join %s o on o.userid=s.userid"
+                                  ." where o.orderid=$orderid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

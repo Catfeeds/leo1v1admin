@@ -7,6 +7,7 @@ class t_upload_student_info extends \App\Models\Zgen\z_t_upload_student_info
     {
         parent::__construct();
     }
+
     public function get_list( $postid,$is_new_flag) {
         $where_arr=[];
         $this->where_arr_add_int_field($where_arr,"is_new_flag", $is_new_flag);

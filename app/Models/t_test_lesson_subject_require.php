@@ -513,6 +513,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_id" => $require_id,
             "set_lesson_adminid"  => $cur_require_adminid,
             "set_lesson_time"  => time(NULL) ,
+
         ]);
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             "current_lessonid" => $lessonid,
@@ -964,8 +965,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s s  on l.userid=s.userid"
             ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
             ." where %s "
-            ." group by  cur_require_adminid "
-            ,
+            ." group by  cur_require_adminid ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -998,9 +998,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-            ." join %s s  on l.userid=s.userid"
-            ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
+            ." join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s s on l.userid=s.userid"
+            ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
             ." where %s "
             ." group by  cur_require_adminid ",
             self::DB_TABLE_NAME,
@@ -1019,7 +1019,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_admin_type=2",
             "is_test_user=0",
             '(lesson_user_online_status in (0,1) or  f.flow_status = 2)',
-            // 'cur_require_adminid>0',
             ['cur_require_adminid=%u',$adminid,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -1029,7 +1028,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr[]= $ret_in_str;
 
         $sql=$this->gen_sql_new(
-            "select cur_require_adminid as admin_revisiterid, "
+            "select cur_require_adminid as admin_revisiterid,"
             ." lesson_start "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "

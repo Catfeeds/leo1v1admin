@@ -2189,6 +2189,98 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
+function multi_upload_file(btn_id,  is_public_bucket ,befor_func, complete_func, ext_file_list,process_id ){
+    do_ajax( "/common/get_bucket_info",{
+        is_public: is_public_bucket ? 1:0
+    },function(ret){
+        var domain_name=ret.domain;
+        var token=ret.token;
+
+        var uploader = Qiniu.uploader({
+            // disable_statistics_report: false,
+            runtimes: 'html5,flash,html4',
+            browse_button: btn_id , //choose files id
+            // container: 'container',
+            // drop_element: 'container',
+            max_file_size: '30mb',
+            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+            // dragdrop: true,
+            chunk_size: '4mb',
+            multi_selection: !(moxie.core.utils.Env.OS.toLowerCase() === "ios"),
+            uptoken: token,
+            domain: "http://"+domain_name,
+            get_new_uptoken: false,
+            auto_start: true,
+            log_level: 5,
+            init: {
+                'BeforeChunkUpload': function(up, file) {
+                    // console.log("before chunk upload:", file.name);
+                },
+                'FilesAdded': function(up, files) {
+                    $('table').show();
+                    $('#success').hide();
+                    plupload.each(files, function(file) {
+                        var progress = new FileProgress(file, 'fsUploadProgress');
+                        progress.setStatus("等待...");
+                        // progress.bindUploadCancel(up);
+                    });
+                },
+                'BeforeUpload': function(up, file) {
+
+                    if(process_id != '') {
+                        var progress = new FileProgress(file, process_id);
+                        var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+                        if (up.runtime === 'html5' && chunk_size) {
+                            progress.setChunkProgess(chunk_size);
+                        }
+                    }
+                    befor_func(up, file);
+
+                },
+                'UploadProgress': function(up, file) {
+                    if(process_id != '') {
+                        var progress = new FileProgress(file, process_id);
+                        var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+                        progress.setProgress(file.percent + "%", file.speed, chunk_size);
+                        $('.hide_mark').hide();
+
+                    }
+                },
+                'UploadComplete': function() {
+                    // $('#success').show();
+                },
+                'FileUploaded': function(up, file, info) {
+                    if(process_id != '') {
+                        var progress = new FileProgress(file, process_id);
+                        progress.setComplete(up, info.response);
+                        $('.hide_mark').hide();
+                    }
+                    complete_func(up, file, info);
+
+                },
+                'Error': function(up, err, errTip) {
+                    // $('table').show();
+                    if(process_id != '') {
+                        var progress = new FileProgress(err.file, process_id);
+                        progress.setError();
+                        progress.setStatus(errTip);
+                        $('.hide_mark').hide();
+                    }
+                }
+                // ,
+                // 'Key': function(up, file) {
+                //     var key = "";
+                //     // do something with key
+                //     return key
+                // }
+            }
+        });
+    });
+
+};
+
+
+
 function do_ajax_get_nick( type,  id, func) {
     $.ajax({
         type     : "post",
