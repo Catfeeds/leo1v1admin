@@ -27,7 +27,7 @@ $(function(){
         var tag_desc = $("<textarea class='opt-mandatory'/>")
         var tag_object= $("<select />" );
         Enum_map.append_option_list("tag_object", tag_object);
-        var tag_weight = $("<input /><span class='note'>数值越大，优先展示</span>")
+        var tag_weight = $("<input type='number'/><span class='note'>数值越大，优先展示</span>")
 
         var arr=[
             ["<span style='color:red;'>*</span>标签一级分类" ,tag_l1_sort  ],
