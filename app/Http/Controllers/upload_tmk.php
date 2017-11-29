@@ -205,6 +205,7 @@ class upload_tmk extends Controller {
     public function get_in_postid($def_value=0) {
         return $this->get_in_int_val("postid",$def_value);
     }
+
     public function del_upload_post() {
         $postid= $this->get_in_postid();
         $ret_info=$this->t_upload_student_info->get_list($postid);
@@ -234,7 +235,6 @@ class upload_tmk extends Controller {
         $postid = $this->get_in_postid();
 
         $ret_info=$this->t_upload_student_info->get_list($postid,1);
-
         foreach( $ret_info["list"] as $i=> &$item) {
             $this->t_seller_student_new->book_free_lesson_new( $item['name'],$item['phone'],$item['grade'], $item['origin'], $item['subject'], $item['has_pad'] , $item['user_desc'] );
         }
