@@ -173,9 +173,9 @@ $(function(){
             }
         })
     });
-    if(g_account=='tom'){
-        download_show();
-    }
+    // if(g_account=='龚隽'){
+    //     download_show();
+    // }
 
 
 });
