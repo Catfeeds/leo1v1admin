@@ -4,7 +4,7 @@ use \App\Enums as E;
 class activity_config_new extends  activity_new_base {
 
 
-    public $open_flag=true;
+    public $open_flag=0 ;
     // 活动开始时间, 结束时间
     public $date_range=[];
 
@@ -119,8 +119,15 @@ class activity_config_new extends  activity_new_base {
     {
 
         //\App\Helper\Utils::logger("dayin: ".json_encode($this));
-        if (!$this->open_flag ) {
-            return false;
+        if ( in_array( session("acc") ["jim", "bacon"]) ) {
+            if (!$this->open_flag ) {
+                return false;
+            }
+
+        }else{
+            if ($this->open_flag !=1 ) {
+                return false;
+            }
         }
 
         //手动开启检查
@@ -291,6 +298,7 @@ class activity_config_new extends  activity_new_base {
 
     public function get_desc() {
         $arr=[];
+
         $arr[]=["开启:", E\Eopen_flag::get_desc($this->open_flag) ];
         $arr[]=["条件", "--" ];
 
