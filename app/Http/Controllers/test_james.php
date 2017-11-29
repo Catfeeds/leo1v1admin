@@ -1103,14 +1103,14 @@ class test_james extends Controller
 
     public function download_xls ()  { // 测试
         // $xls_data= session("xls_data" );
-        $xsl_date = '
+        $xsl_data = '
 [["Field","Type","Collation","Null","Key","Default","Extra","Privileges","Comment"],["id","int(10) unsigned","","NO","PRI","","auto_increment","select,insert,update",""],["parentid","int(11)","","NO","MUL","","","select,insert,update","家长id"],["get_prize_time","varchar(255)","latin1_bin","NO","MUL","","","select,insert,update","领奖时间"],["presenterid","int(11)","","NO","MUL","","","select,insert,update","发奖人"],["prize_time","int(11)","","NO","","","","select,insert,update","抽奖时间"],["stu_type","tinyint(4)","","NO","","","","select,insert,update","学员类型 1:新用户 2:老用户"],["create_time","int(11)","","NO","","","","select,insert,update","后台奖品录入时间"],["validity_time","int(11)","","NO","","","","select,insert,update","有效期"],["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id"],["prize_type","int(11)","","NO","","","","select,insert,update","ruffian_prize_type 枚举类"]]
 ';
 
-        $arr = json_decode($xsl_date,true);
+        $xsl_data = json_decode($xsl_data,true);
 
 
-        if(!is_array($xls_data)) {
+        if(!is_array($xsl_data)) {
             return $this->output_err("download error");
         }
 
@@ -1133,7 +1133,7 @@ class test_james extends Controller
 
         ];
 
-        foreach( $xls_data as $index=> $item ) {
+        foreach( $xsl_data as $index=> $item ) {
             foreach ( $item as $key => $cell_data ) {
                 $index_str = $index+1;
                 $pos_str   = $col_list[$key].$index_str;
@@ -1312,125 +1312,6 @@ class test_james extends Controller
     }
 
     public function get_add_time(){
-        $a = [
-            24026,
-            25234,
-            24564,
-            24219,
-            25989,
-            25391,
-            23735,
-            25727,
-            25620,
-            25540,
-            24886,
-            24757,
-            26153,
-            23845,
-            25473,
-            25186,
-            25453,
-            24559,
-            25760,
-            25518,
-            25624,
-            25381,
-            24028,
-            25533,
-            25522,
-            26225,
-            25648,
-            23770,
-            25745,
-            24645,
-            23915,
-            25510,
-            25047,
-            24779,
-            26177,
-            26090,
-            24882,
-            24543,
-            25840,
-            24933,
-            24828,
-            26254,
-            25320,
-            23998,
-            23683,
-            26170,
-            25632,
-            23902,
-            26223,
-            25598,
-            24977,
-            27999,
-            27855,
-            27843,
-            27624,
-            27296,
-            27210,
-            27039,
-            26775,
-            26698,
-            26528,
-            26527,
-            27522,
-            26988,
-            26801,
-            26682,
-            26564,
-            26718,
-            26620,
-            27623,
-            27937,
-            27371,
-            26547,
-            27580,
-            27551,
-            27282,
-            27075,
-            26702,
-            27208,
-            26629,
-            27556,
-            27383,
-            26429,
-            27391,
-            27315,
-            26787,
-            26655,
-            27201,
-            27784,
-            26427,
-            27575,
-            27448,
-            27104,
-            27501,
-            27935,
-            26481,
-            26838,
-            27649,
-            27539,
-            27172,
-            26868,
-            26464,
-            27714,
-            26738,
-            26473,
-            26525,
-            27451,
-            27173,
-            26948,
-        ];
-
-        $add_time_list = [];
-
-        foreach($a as $v){
-            $add_time_list[$v] = date('Y-m-d H:i:s',$this->t_seller_student_new->get_add_time_by_order_time($v));
-        }
-
-        dd($add_time_list);
 
 
     }

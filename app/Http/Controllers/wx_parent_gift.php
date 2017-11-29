@@ -807,9 +807,17 @@ class wx_parent_gift extends Controller
         $from_adminid = $this->get_in_int_val('from_adminid');
 
         if($is_share){
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            if($type == 1){
+                header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            }elseif($type == 2){
+                header("location: http://wx-parent-web.leo1v1.com/wx-activity-book/share.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            }
         }else{
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            if($type == 1){
+                header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            }elseif($type == 2){
+                header("location: http://wx-parent-web.leo1v1.com/wx-activity-book/index.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            }
         }
         return ;
     }
@@ -821,9 +829,6 @@ class wx_parent_gift extends Controller
     public function record_share(){ // 分享接口
         $openid = $this->get_in_str_val('openid');
         $type   = $this->get_in_int_val('type');
-
-        \App\Helper\Utils::logger("wx_type1: $type");
-
 
         $del_share = $this->t_market_department_activity->del_row($openid,$type);
         $this->t_market_department_activity->row_insert([
