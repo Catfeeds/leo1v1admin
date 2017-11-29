@@ -407,7 +407,7 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
                             ."(case when confirm_flag in (2,4) then 0 else t2.lesson_count end) "
                             ."end ) as finish_lesson_count,t1.add_time, "
                             ."t1.teacherid, t1.assistantid,t1.course_type,t1.default_lesson_count,t1.assigned_lesson_count, "
-                            ."course_status,t1.week_comment_num,t1.enable_video"
+                            ."course_status,t1.week_comment_num,t1.enable_video,t1.reset_lesson_count_flag"
                             ." from %s t1 "
                             ." left join %s t2 on t1.courseid = t2.courseid "
                             ." and (lesson_del_flag=0 or lesson_del_flag is null)"

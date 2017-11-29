@@ -58,6 +58,7 @@
                     <td> 默认课时</td>
                     <td> 每周评价</td>
                     <td> 开启视频</td>
+                    <td> 常规课上奥数课标识</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -78,18 +79,15 @@
                         <td> {{$var["default_lesson_count"]}} </td>
                         <td> {{$var["week_comment_num_str"]}} </td>
                         <td> {{$var["enable_video_str"]}} </td>
+                        <td> {{$var["reset_lesson_count_flag_str"]}} </td>
                         <td>
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-list opt-lesson-list" title="排课"> </a>
-                                <a class="fa fa-edit opt-set-course-status" title="修改课程包信息"> </a>
+                                <a class="fa opt-set-course-status" title="修改课程包信息"> 课程包信息</a>
                                 <a class="fa fa-trash-o opt-del" title="删除空课程包"> </a>
                                 <a class="fa opt-assigned_lesson_count" title="分配课时">分配课时 </a>
-                                <a style="display:none;" class="fa opt-set_subject"  title="修改科目">修改科目 </a>
-                                <a style="display:none;" class="fa opt-set-orderid "  title="绑定合同，兼容">绑定合同,兼容</a>
-                                <a class="opt-set_week_comment_num" title="周次评价切换">评</a>
-                                <a class="opt-set_enable_video" title="开始/关闭课堂视频功能">视</a>
                             </div>
                         </td>
                     </tr>
