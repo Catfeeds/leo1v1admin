@@ -29,7 +29,17 @@
 
                     </div>
                 </div>
-                
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">标签三级分类</span>
+                        <select class="opt-change form-control" id="id_tag_l3_sort" >
+                        </select>
+
+                    </div>
+                </div>
+
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">标签名称</span>
@@ -40,6 +50,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <button id="id_add" class="btn btn-primary"> add </button>
+                        <button id="id_search" class="btn btn-primary"> search </button>
                     </div>
                 </div>
             </div>
@@ -52,6 +63,7 @@
                     <td>标签名称</td>
                     <td>标签一级分类</td>
                     <td>标签二级分类</td>
+                    <td>标签三级分类</td>
                     <td>权重系数</td>
                     <td>设定对象</td>
                     <td>标签定义</td>
@@ -65,8 +77,9 @@
                     <tr>
                         <td>{{@$var["tag_id"]}} </td>
                         <td>{{$var["tag_name"]}} </td>
-                        <td>{{$var["tag_l1_sort_str"]}} </td>
-                        <td>{{$var["tag_l2_sort_str"]}} </td>
+                        <td>{{$var["tag_l1_sort"]}} </td>
+                        <td>{{$var["tag_l2_sort"]}} </td>
+                        <td>{{$var["tag_l3_sort"]}} </td>
                         <td>{{$var["tag_weight"]}} </td>
                         <td>{{$var["tag_object_str"]}} </td>
                         <td>{{$var["tag_desc"]}} </td>
