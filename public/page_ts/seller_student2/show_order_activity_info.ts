@@ -85,7 +85,14 @@ $(function(){
         );
     });
 
-      
+    //当前有效活动
+    $('#current_activity').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        window.open(
+            '/seller_student2/get_current_activity?'+"return_url="+ encodeURIComponent(window.location.href)
+        );
+    });
+  
 });
     
 function load_data(){

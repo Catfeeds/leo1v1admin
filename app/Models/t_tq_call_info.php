@@ -528,7 +528,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     public function get_call_info_row($tquin,$phone){
         $where_arr = [
             ['uid = %d',$tquin,-1],
-            ['phone = %d',$phone,-1],
+            ["phone='%s'", $phone,-1],
             'is_called_phone = 1',
         ];
         $this->where_arr_add_time_range($where_arr,'start_time',time()-3600*24,time());
@@ -543,7 +543,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     public function get_call_info_row_new($adminid,$phone,$start_time){
         $where_arr = [
             ['adminid = %d',$adminid,-1],
-            ['phone = %d',$phone,-1],
+            ["phone='%s'", $phone,-1],
         ];
         $this->where_arr_add_time_range($where_arr,'start_time',$start_time,time(null));
         $sql = $this->gen_sql_new(" select id from %s "

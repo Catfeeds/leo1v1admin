@@ -36,8 +36,7 @@
             </div>
         </div>
 
-
-        <div class="col-xs-2 col-md-2">
+        <div class="col-xs-1 col-md-1">
             <div class="input-group">
                 <div class=" input-group-btn ">
                     <button id="id_add_activity" type="submit"  class="btn  btn-warning" >
@@ -46,7 +45,13 @@
                 </div>
             </div>
         </div>
-        
+
+        <div class="col-xs-1 col-md-1">
+            <div class="input-group">
+                <button style="margin-left:10px" id="current_activity" type="button" class="btn btn-primary">当前有效活动</button>
+            </div>
+        </div>
+
     </div>
 
     <hr/>
@@ -71,6 +76,7 @@
                 <td style="display:none">最大修改累计值</td>
                 <td style="display:none">用户加入时间范围</td>
                 <td style="display:none">最近一次试听时间范围</td>
+                <td style="display:none">打包活动总配额</td>
                 <td style="display:none">优惠信息</td>
                 <td >操作</td>
             </tr>
@@ -95,6 +101,7 @@
                     <td >{{$var["max_change_value"]}}</td>
                     <td >{{$var["user_join_time_range"]}}</td>
                     <td >{{$var["last_test_lesson_range"]}}</td>
+                    <td >{{$var["activity_type_list_str"]}}</td>
                     <td >{{$var["discount_list"]}}</td>
                     <td >
                         <div 

@@ -80,9 +80,8 @@
                     <td> 操作  </td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
-
                     <tr class="{{$var["level"]}}">
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
                         <td  data-class_name="{{@$var["first_group_name_class"]}}" class=" first_group_name  {{$var["main_type_class"]}} {{@$var["first_group_name_class"]}}  " >{{@$var["first_group_name"]}}</td>
@@ -102,17 +101,17 @@
                              <td >{{@$var["require_test_count_for_day"]}}</td> -->
                         <td >{{@$var["require_test_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
-                        <td >{{@$var["test_lesson_count"]}}</td>
-                        <td >{{@$var["succ_all_count_for_month"]}}</td>
-                        <td >{{@$var["suc_lesson_count_one"]}}</td>
-                        <td >{{@$var["suc_lesson_count_two"]}}</td>
-                        <td >{{@$var["suc_lesson_count_three"]}}</td>
-                        <td >{{@$var["suc_lesson_count_four"]}}</td>
-                        <td >{{@$var["fail_all_count_for_month"]}}</td>
-                        <td >{{@$var["lesson_per"]}}</td>
-                        <td >{{@$var["kpi"]}}</td>
+                        <td class="test_lesson_count"></td>
+                        <td class="succ_all_count_for_month"></td>
+                        <td class="suc_lesson_count_one"></td>
+                        <td class="suc_lesson_count_two"></td>
+                        <td class="suc_lesson_count_three"></td>
+                        <td class="suc_lesson_count_four"></td>
+                        <td class="fail_all_count_for_month"></td>
+                        <td class="lesson_per"></td>
+                        <td class="kpi"></td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
-                        <td >{{@$var["order_per"]}}</td>
+                        <td class="order_per"></td>
                         <td >{{@$var["all_price_for_month"]}}</td>
                         <td >{{@$var["ave_price_for_month"]}}</td>
                         <td >{{@$var["target_money"]}}</td>
@@ -129,7 +128,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
+                                <a class="fa fa-edit opt-show"  title="编辑"> </a>
                             </div>
                         </td>
                     </tr>

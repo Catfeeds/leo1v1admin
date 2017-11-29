@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config;
+use Illuminate\Support\Facades\Hash;
 
 include(app_path("Wx/Yxyx/lanewechat_yxyx.php"));
 
@@ -587,6 +588,22 @@ class test_boby extends Controller
         echo 'ok';
     }
 
+    //@desn:根据当前价格更新赞个数
+    public function update_all_praise_count(){
+        $cur_ratio = Config::get_current_ratio();
+        $ret_info = $this->t_gift_info->get_gift_id_price();
+
+        foreach($ret_info as $item){
+            if($item['cost_price']> 0){
+                $praise = ceil($item['cost_price']/100*$cur_ratio);
+                $this->t_gift_info->field_update_list($item['giftid'],[
+                    'current_praise' => $praise,
+                ]);
+            }
+        }
+        echo 'ok';
+    }
+
     public function get_info_by_time(){
         $this->switch_tongji_database();
         $start = $this->get_in_str_val('start',0);
@@ -1152,4 +1169,17 @@ class test_boby extends Controller
 
     }
 
+
+    public function test_md5(){
+        return $this->pageView( __METHOD__,[]);
+    }
+
+    public function hash_check(){
+
+        $str1 = $this->get_in_str_val('str1');
+        $str2 = $this->get_in_str_val('str2');
+        $ret = Hash::check($str1, $str2);
+        dd($ret);
+
+    }
 }

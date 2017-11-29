@@ -250,6 +250,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         $where_arr = [
             "wx_openid!=''",
             "wx_openid!='0'",
+            "wx_openid is not null"
         ];
 
         $sql = $this->gen_sql_new("select wx_openid, parentid from %s "
