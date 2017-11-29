@@ -1241,11 +1241,10 @@ class tea_manage_new extends Controller
 
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
 
-            $item['violation_info'] = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
-            $item['violation_num'] = 0;
+            $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
+            $item['violation_num'] = array_sum($violation_info);
         }
 
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
