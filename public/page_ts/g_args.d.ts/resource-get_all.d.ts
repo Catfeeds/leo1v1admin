@@ -25,8 +25,9 @@ interface RowData {
 	down_num	:any;
 	error_num	:any;
 	is_use	:any;
-	is_use_str	:any;
+	user_type	:any;
 	nick	:any;
+	is_use_str	:any;
 }
 
 /*

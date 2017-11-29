@@ -61,6 +61,11 @@ $(function(){
         Enum_map.append_option_list("resource_type2",id_tag_two,true);
         Enum_map.append_option_list("resource_season",id_tag_three,true);
 
+        id_user_type.val(g_args.user_type);
+        id_resource_type.val(g_args.resource_type);
+        id_subject.val(g_args.subject);
+        id_grade.val(g_args.grade);
+
         var arr= [
             ["使用角色：", id_user_type],
             ["资源类型：", id_resource_type],
@@ -80,40 +85,46 @@ $(function(){
                 $('.sel_flag').parent().parent().show();
                 change_tag($(this).val());
             });
-            multi_upload_file('id_file',1,function(up, file, info) {
-                var res = $.parseJSON(file);
-                console.log(res);
-                if( res.key!='' ){
-                    console.log(res.key);
-                    $.ajax({
-                        type     : "post",
-                        url      : "/resource/add_resource",
-                        dataType : "json",
-                        data : {
-                            'user_type'     : id_user_type.val(),
-                            'resource_type' : id_resource_type.val(),
-                            'subject'       : id_subject.val(),
-                            'grade'         : id_grade.val(),
-                            'tag_one'       : id_tag_one.val(),
-                            'tag_two'       : id_tag_two.val(),
-                            'tag_three'     : id_tag_three.val(),
-                            'file_title'    : res.name,
-                            'file_size'     : res.size,
-                            'file_hash'     : res.hash,
-                        } ,
-                        success   : function(result){
-                            if(result.ret == 0){
-                                window.location.reload();
-                            } else {
-                                alert(result.info);
-                            }
-                        }
-                    });
 
-                }
+            multi_upload_file('id_file',1,function(up,file) {
+                $('.close').click();
+                $('.opt_process').show();
+            },function(up, file, info) {
+                console.log(info.response);
+                console.log(info.response.hash);
+                console.log(info.response['hash']);
+                // if( info.status == 200){
+                //     $.ajax({
+                //         type     : "post",
+                //         url      : "/resource/add_resource",
+                //         dataType : "json",
+                //         data : {
+                //             'user_type'     : id_user_type.val(),
+                //             'resource_type' : id_resource_type.val(),
+                //             'subject'       : id_subject.val(),
+                //             'grade'         : id_grade.val(),
+                //             'tag_one'       : id_tag_one.val(),
+                //             'tag_two'       : id_tag_two.val(),
+                //             'tag_three'     : id_tag_three.val(),
+                //             'file_title'    : file.name,
+                //             'file_type'     : file.type,
+                //             'file_size'     : file.size,
+                //             'file_hash'     : info.response.hash,
+                //         } ,
+                //         success   : function(result){
+                //             if(result.ret == 0){
+                //                 // window.location.reload();
+                //             } else {
+                //                 alert(result.info);
+                //             }
+                //         }
+                //     });
+
+                // }
+
             }, ["jpg","png"],'fsUploadProgress');
 
-        },false,600,'');
+        },false,600);
     };
 
     var change_tag = function(val){
@@ -171,5 +182,15 @@ $(function(){
         }
     };
 
+    $('.opt-del').on('click', function(){
+        $('.opt-select-item').each(function(){
+
+            console.log($(this).attr('checked'));
+
+        });
+    });
+
+
     $('.opt-change').set_input_change_event(load_data);
 });
+
