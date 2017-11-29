@@ -37,6 +37,7 @@ return array(
     'CreateTRuleDetailInfo' => $baseDir . '/database/migrations/2017_11_17_102008_create_t_rule_detail_info.php',
     'CreateTRuleInfo' => $baseDir . '/database/migrations/2017_11_17_101959_create_t_rule_info.php',
     'CreateTSumActivityQuota' => $baseDir . '/database/migrations/2017_11_25_132434_create_t_sum_activity_quota.php',
+    'CreateTTagLibrary' => $baseDir . '/database/migrations/2017_11_28_163729_create_t_tag_library.php',
     'CreateTTeacherSalaryList' => $baseDir . '/database/migrations/2017_10_26_184755_create_t_teacher_salary_list.php',
     'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
     'CreateTableCompanyWxAuth' => $baseDir . '/database/migrations/2017_11_24_105425_create_table_company_wx_auth.php',
