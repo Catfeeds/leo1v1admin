@@ -120,7 +120,7 @@ $(function(){
                 change_tag($(this).val());
             });
 
-            if(id_str == '') {//移动，没必要new七牛
+            if(id_str == '') {//新增
                 multi_upload_file('id_file',1,function(up,file) {
                     $('.close').click();
                     $('.opt_process').show();
@@ -231,6 +231,7 @@ $(function(){
             BootstrapDialog.alert('请先选择文件！');
         } else {
             var id_info = JSON.stringify(id_list);
+            console.log(id_info);
             add_or_update(id_info);
         }
     });
@@ -264,6 +265,23 @@ $(function(){
                 });
             };
         }
+    };
+
+    var do_copy = function(resource_id){
+        alert('需要再讨论');
+        // if( confirm('确定要删除？') ){
+        //     $.ajax({
+        //         type    : "post",
+        //         url     : "/resource/del_resource",
+        //         data    : "id_str="+id_info,
+        //         success : function(result){
+        //             if(result.ret == 0){
+        //                 window.location.reload();
+        //             }
+        //         }
+        //     });
+        // };
+
     };
 
     var re_name = function(obj){
@@ -330,40 +348,45 @@ $(function(){
 
     };
 
+    var menu_hide = function(){
+        $('#contextify-menu').hide();
+        return $('#contextify-menu');
+    };
+
     //右键自定义
     var options = {items:[
         // {header: '右键功能菜单'},
         // {divider: true},
         {text: '重命名', onclick: function() {
-            var data_obj = $(this).parent().parent();
-            data_obj.hide();
+            var data_obj = menu_hide();
             re_name(data_obj);
         }},
-        {text: '上传新版本', id:'upload_flag'},
+        {text: '上传新版本',onclick: function() {
+            menu_hide();
+        }, id:'upload_flag'},
         {text: '复制', onclick: function() {
-            var data_obj = $(this).parent().parent();
-            data_obj.hide();
-
+            var data_obj = menu_hide();
+            do_copy( data_obj.data('resource_id') );
         }},
         {text: '移动', onclick: function() {
-            var data_obj = $(this).parent().parent();
-            data_obj.hide();
-            // add_or_update(data_obj.data['resource_id']);
-            add_or_update(data_obj);
+            var data_obj = menu_hide();
+            add_or_update( data_obj.data('resource_id') );
         }},
 
         {text: '删除', onclick: function() {
+            var data_obj = menu_hide();
             do_del();
         }},
         {text: '下载', onclick: function() {
+            var data_obj = menu_hide();
 
-            var data_obj = $(this).parent().parent();
         }},
         {text: '操作记录', onclick: function() {
 
-            var data_obj = $(this).parent().parent();
+            var data_obj = menu_hide();
+
         }},
-        // {divider: true},
+      // {divider: true},
         // {text: '更多...', href: '#'}
     ],before:function(){
         var resource_id = $(this).attr('resource_id');
@@ -381,8 +404,8 @@ $(function(){
     }};
     $('.right-menu').contextify(options);
 
-    $('.right-menu').click(function(){
-        $('#contextify-menu').hide();
+    $('body').click(function(){
+        menu_hide();
     });
 
     $('.opt-change').set_input_change_event(load_data);

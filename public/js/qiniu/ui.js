@@ -93,10 +93,7 @@ FileProgress.prototype.setChunkProgess = function(chunk_size) {
         return false;
     }
 
-    // var viewProgess = $('<button class="btn btn-default">查看分块上传进度</button>');
-    var viewProgess = $('<button class="btn btn-default hide_mark">查看分块上传进度</button>');
-    //添加了hide_mark
-
+    var viewProgess = $('<button class="btn btn-default">查看分块上传进度</button>');
     var progressBarChunkTr = $('<tr class="chunk-status-tr"><td colspan=3></td></tr>');
     var progressBarChunk = $('<div/>');
     for (var i = 1; i <= chunk_amount; i++) {
@@ -195,13 +192,13 @@ FileProgress.prototype.setComplete = function(up, info) {
     var url;
     if (res.url) {
         url = res.url;
-        str = "<div class=hide_mark><strong>Link:</strong><a href=" + res.url + " target='_blank' > " + res.url + "</a></div>" +
+        str = "<div><strong>Link:</strong><a href=" + res.url + " target='_blank' > " + res.url + "</a></div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     } else {
         var domain = up.getOption('domain');
         url = domain + encodeURI(res.key);
         var link = domain + res.key;
-        str = "<div class=hide_mark><strong>Link:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
+        str = "<div><strong>Link:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     }
 
