@@ -358,6 +358,7 @@ class test_jack  extends Controller
         }
 
         $all_tea_ex = count($teacher_list_ex);
+        dd($teacher_list_ex);
         $train_all = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
         $train_succ = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
         $arr[7]=["参加培训"=>$train_all,"通过培训"=>$train_succ];
