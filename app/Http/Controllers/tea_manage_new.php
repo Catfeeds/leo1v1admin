@@ -1227,18 +1227,6 @@ class tea_manage_new extends Controller
 
     public function approved_data(){
 
-        $sum_field_list = [
-            "stu_num",
-            "lesson_num",
-            "cc_rate",
-            "cr_rate",
-            "violation_num"
-        ];
-        $order_field_arr = array_merge(["nick"],$sum_field_list);
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr,"nick desc");
-
-
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $page_num = $this->get_in_page_num();
         $teacherid = $this->get_in_int_val("teacherid",-1);
@@ -1258,14 +1246,6 @@ class tea_manage_new extends Controller
             $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
             $item['violation_num'] = array_sum($violation_info);
         }
-
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::logger("order_field_name_Jm: $order_field_name ,order_type: $order_type");
-
-            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
-        }
-
-        \App\Helper\Utils::logger("shshJames: $order_in_db_flag ");
 
 
         return $this->pageView(__METHOD__,$ret_info);
