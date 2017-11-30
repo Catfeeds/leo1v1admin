@@ -121,7 +121,7 @@ $(function(){
         var html_node    = $.obj_copy_node("#id_assign_log");
 
         BootstrapDialog.show({
-            title: "老师违规次数详情",
+            title: "分配列表",
             message: html_node,
             closable: true
         });

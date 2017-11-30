@@ -55,7 +55,7 @@ class order_price_20171001 extends order_price_base
     static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count,$args){
 
         $present_lesson_count=0;
-        \App\Helper\Utils::logger("lesson_count: $lesson_count");
+        //\App\Helper\Utils::logger("lesson_count: $lesson_count");
 
         $lesson_times= $lesson_count/3;
         $args["lesson_times"] = $lesson_times;
@@ -98,49 +98,56 @@ class order_price_20171001 extends order_price_base
         $do_activity_fun= function( $class_name ) use ( &$args, &$out_args, &$can_period_flag, &$price,&$present_lesson_count,&$desc_list ) {
             return (new $class_name($args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list) ;
         };
-        //get do act list >=100, < 100
-        //$row
 
-        $do_activity_fun ( Activity\activity_0::class  );
-        $do_activity_fun ( Activity\activity_2017100701::class  );
+        $do_activity_fun ( Activity\activity_1::class  );
+        $do_activity_fun ( Activity\activity_2017100701::class  ); 
 
-        // cr 11.18打折
-        $off_ret=false;
-        /*
-        $off_ret= $do_activity_fun ( Activity\activity_2017111702::class  )
-                ||$do_activity_fun ( Activity\activity_2017111703::class  )
-                ||$do_activity_fun ( Activity\activity_2017111704::class  )
-                ||$do_activity_fun ( Activity\activity_2017111705::class  );
-        */
+        $new_do_activity_fun= function( $activity_config ) use ( &$args, &$out_args, &$can_period_flag, &$price,&$present_lesson_count,&$desc_list ) {
+            return (new  Activity\activity_config_new ( $activity_config , $args))->exec( $out_args, $can_period_flag, $price,$present_lesson_count,$desc_list) ;
+        };
+        $task=static::get_task_controler();
 
-        if (!$off_ret) {
-            //常规打折
+        $current_activity_list = $task->t_order_activity_config->get_current_activity(null, null);
+        $power_big = [];
+        $power_small = [];
+        $activity = [];
+        if($current_activity_list){
+            foreach($current_activity_list['list'] as $v){
+                if(in_array($v['id'], [1, 2017100701, 2017110802,2017110803,2017080101])){
+                    continue;
+                }
+
+                if($v['power_value'] >= 100){
+                    $power_big[] = $v;
+                }else{
+                    $power_small[] = $v;
+                }
+            }
+        }
+
+        $find_big_true=false;
+
+        foreach( $power_big as $item){
+            $find_big_true= $new_do_activity_fun ( $item );
+            if ($find_big_true) {
+                break;
+            }
+        }
+
+        if (! $find_big_true){
             $do_activity_fun ( Activity\activity_2017090101::class  );
-
-            //2017-1117   可叠加 CR 限量送课
-            $do_activity_fun ( Activity\activity_2017111706::class  );
-
-            //2017-1125 24-30  可叠加  CC (11.10以后)  每满10000 立减500 (188个) 
-            $do_activity_fun ( Activity\activity_2017112501::class  );
-
-            //2017-1125 24-30  可叠加  CC 回流例子(11.10以前)  送课(88个)
-            $do_activity_fun ( Activity\activity_2017112502::class  );
-
-            //$do_activity_fun ( Activity\activity_2017112503::class  );
-
-            $do_activity_fun ( Activity\activity_2017112504::class  );
-
-
-
+            foreach( $power_small as $item){
+                //\App\Helper\Utils::logger("item each: ".json_encode($item));
+                $new_do_activity_fun ( $item );
+            }
             //优惠券 cc
             $do_activity_fun ( Activity\activity_2017110802::class  );
             //优惠券 cr
             $do_activity_fun ( Activity\activity_2017110803::class  );
-
             //当配
             $do_activity_fun ( Activity\activity_2017080101::class  );
-        }
 
+        }
 
         return [
              "price"                => $old_price,
