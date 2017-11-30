@@ -375,24 +375,24 @@ class tongji2 extends Controller
         }
 
         //
-        // $week = [];
-        // $week_info = $this->t_month_def_type->get_month_week_time($start_time=-1);
-        // foreach($week_info as $item){
-        //     $week_order = $item['week_order'];
-        //     $start_time = date('Y-m-d',$item['start_time']);
-        //     $end_time = date('Y-m-d',$item['end_time']);
-        //     if($week_order == E\Eweek_order::V_1){
-        //         $week[E\Eweek_order::V_1][] = $start_time.'-'.$end_time;
-        //     }elseif($week_order == E\Eweek_order::V_2){
-        //         $week[E\Eweek_order::V_2][] = $start_time.'-'.$end_time;
-        //     }elseif($week_order == E\Eweek_order::V_3){
-        //         $week[E\Eweek_order::V_3][] = $start_time.'-'.$end_time;
-        //     }elseif($week_order == E\Eweek_order::V_4){
-        //         $week[E\Eweek_order::V_4][] = $start_time.'-'.$end_time;
-        //     }
-        // }
-        // dd($week);
-        return $this->pageView(__METHOD__,$ret_info);
+        $week = [];
+        $week_info = $this->t_month_def_type->get_month_week_time($month);
+        foreach($week_info as $item){
+            $week_order = $item['week_order'];
+            $start_time = date('Y-m-d',$item['start_time']);
+            $end_time = date('Y-m-d',$item['end_time']);
+            if($week_order == E\Eweek_order::V_1){
+                $week[E\Eweek_order::V_1][] = $start_time.'-'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_2){
+                $week[E\Eweek_order::V_2][] = $start_time.'-'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_3){
+                $week[E\Eweek_order::V_3][] = $start_time.'-'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_4){
+                $week[E\Eweek_order::V_4][] = $start_time.'-'.$end_time;
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,["week"=>$week]);
     }
 
     public function test_lesson_frist_call_time_master(){

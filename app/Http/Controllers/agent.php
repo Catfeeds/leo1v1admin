@@ -453,8 +453,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time )= $this->get_in_date_range_month(0);
+        $month = strtotime( date("Y-m-01", $start_time));
         $week = [];
-        $week_info = $this->t_month_def_type->get_month_week_time($start_time=-1);
+        $week_info = $this->t_month_def_type->get_month_week_time($month);
         foreach($week_info as $item){
             $week_order = $item['week_order'];
             $start_time = date('Y-m-d',$item['start_time']);
