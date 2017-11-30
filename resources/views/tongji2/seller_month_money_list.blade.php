@@ -33,7 +33,7 @@
                     <td >绩效工资 </td>
                     <td >分期金额 </td>
                     <td >非分期金额 </td>
-                    <td >一天内签约金额 </td>
+                    <td style="display:none;">一天内签约金额 </td>
                     <td >团队签约金额</td>
                     <td >团队签约分期金额</td>
                     <td >团队签约非分期金额</td>
@@ -48,7 +48,7 @@
                     <td >提成点</td>
                     <td >主管提成点</td>
                     <td >入职时间</td>
-                    <td >新员工提成系数</td>
+                    <td style="display:none;">新员工提成系数</td>
                     <td >提成金额</td>
                     <td >单月提成金额</td>
                     <td >季度提成金额</td>

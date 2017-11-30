@@ -50,7 +50,7 @@ class ResetStudentLessonCount extends cmd_base
             $now = time();
             foreach($lesson_list as $l_val){
                 if($l_val['reset_lesson_count_flag']==0){
-                    if($l_val['subject']==E\Esubject::V_2 && $now<$check_time ){
+                    if($l_val['subject']!=E\Esubject::V_2 || $now>$check_time ){
                         $real_lesson_count = \App\Helper\Utils::get_lesson_count($l_val['lesson_start'],$l_val['lesson_end']);
                         if($real_lesson_count != $l_val['lesson_count']){
                             echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
