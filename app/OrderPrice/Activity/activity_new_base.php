@@ -61,9 +61,9 @@ class activity_new_base {
             $task= self::get_task_controler();
             $order_activity_type=$this->max_count_activity_type_list;
 
-            \App\Helper\Utils::logger("order_activity_type :". json_encode($order_activity_type));
+            //\App\Helper\Utils::logger("order_activity_type :". json_encode($this->order_activity_type));
 
-            $order_activity_type[]=$this->$order_activity_type;
+            $order_activity_type[]=$this->order_activity_type;
 
             $now_count= $task->t_order_activity_info->get_all_change_value_by_order_activity_type($order_activity_type) ;
             $activity_desc_cur_count="当前已用($now_count/$max_change_value) ";

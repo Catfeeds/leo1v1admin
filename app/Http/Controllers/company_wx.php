@@ -106,6 +106,9 @@ class company_wx extends Controller
         $info = $this->t_company_wx_department->get_all_list();
         $info[0]['open'] = true;
         $info[1]['open'] = true;
+        // 获取TSR事业部 74下所有子节点
+        $info = $this->getTree($info, 0, 74);
+        dd($info);
         $users = $this->t_company_wx_users->get_all_list();
         $ext['id'] = $id;
         $ext['type'] = $type;
@@ -167,7 +170,8 @@ class company_wx extends Controller
             $info = array_merge($info,$users);
         }
 
-        //$info = $this->getTree($info, 0, $people);
+        $info = $this->getTree($info, 0);
+        dd($info);
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
             'ext' => $ext
@@ -182,17 +186,25 @@ class company_wx extends Controller
         ]);
     }
 
-    function getTree($data, $pId, $users)
+    function getTree($data, $pId, $parent = '')
     {
         $tree = '';
+        $all_child = '';
         foreach($data as $k => $v)
         {
-            if($v['parentid'] == $pId)
+            if($v['pId'] == $pId)
             {
-                $v['children'] = $this->getTree($data, $v['id'], $users); // 找子节点
-                if (isset($users[$v['id']])) {
-                    $v['users'] = $users[$v['id']];
+                //$v['children'] = $this->getTree($data, $v['id'], ); // 找子节点
+                if ($v['pId'] == $parent) {
+                    $v['children'] = $this->getTree($data, $v['id'], $v['id']);
+                    $all_child[] = $v['id'];
+                }else {
+                    $v['children'] = $this->getTree($data, $v['id'], $parent);
                 }
+                
+                // if (isset($users[$v['id']])) {
+                //     $v['users'] = $users[$v['id']];
+                // }
                 $tree[] = $v;
             }
         }
