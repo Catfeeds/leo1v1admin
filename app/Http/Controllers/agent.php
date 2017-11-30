@@ -453,13 +453,19 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $all_price = 0;
-        $order_list = $this->t_order_info->get_1v1_order_seller_month_money_new($sys_operator='蔡明霞',$start_time=1506960000,$end_time=1509465600);
-        foreach ($order_list as  $item ) {
-            $all_price+= $item["price"];
+        //月末定级,根据上上月非退费签单金额
+        $price_very_last = $this->t_order_info->get_1v1_order_seller_month_money_new($account='蔡明霞',$start_time_very_last=1506960000,$end_time_very_last=1509465600);
+        $price_very_last = isset($price_very_last)?$price_very_last/100:0;
+        dd($price_very_last);
+        if($price_very_last<$level_goal){//降级
+            $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+            $this->task->t_seller_level_month->row_insert([
+                'adminid' => $adminid,
+                'month_date' => $month_date,
+                'seller_level' => $month_level,
+                'create_time' => $time,
+            ]);
         }
-        $all_price = $all_price/100;
-        dd($all_price);
         $ret_info = $this->t_origin_key->get_all_key_list();
         $key1_arr = array_unique(array_column($ret_info,'key1'));
         $key2_arr = array_unique(array_column($ret_info,'key2'));

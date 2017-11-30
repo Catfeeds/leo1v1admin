@@ -923,31 +923,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list ($sql);
     }
 
-    public function get_1v1_order_seller_month_money_new( $account ,$start_time,$end_time ) {
+    public function get_1v1_order_seller_month_money_new($account,$start_time,$end_time) {
         $where_arr = [
             ["o1.order_time>=%u" , $start_time, -1],
             ["o1.order_time<=%u" , $end_time, -1],
             ["is_test_user=%u" , 0, -1],
             "o1.contract_type =0 ",
             ["o1.sys_operator='%s'" ,$account,""],
+            'contract_status in (1,2)',
         ];
         $sql = $this->gen_sql_new(
-            " select  o1.order_time,o1.orderid ,o1.price ,flowid, o1.grade,"
-            ." o1.default_lesson_count* o1.lesson_total/100 as lesson_count,lesson_start,o1.promotion_spec_is_not_spec_flag,"
-            ." if(o1.price>0 and o1.can_period_flag=1,o1.price,0) stage_price,"
-            ." if(o1.price>0 and o1.can_period_flag=0,o1.price,0) no_stage_price"
+            " select sum(o1.price) "
             ." from %s o1 "
             ." left join %s s2 on o1.userid = s2.userid "
-            ." left join %s f on (f.from_key_int = o1.orderid  and f.flow_type=2002  ) "
-            ." left join %s l on o1.from_test_lesson_id = l.lessonid "
-            ." where %s and  contract_status in (1,2)   ",
+            ." where %s ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
-            t_flow::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_list ($sql);
+        return $this->main_get_value($sql);
     }
 
     public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
