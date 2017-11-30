@@ -19,12 +19,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_info_admin-free_time.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		teacherid:	$('#id_teacherid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacherid:	$('#id_teacherid').val()
-        });
-    }
 
 
 	$('#id_teacherid').val(g_args.teacherid);

@@ -108,6 +108,14 @@ class common_new extends Controller
     public function recode_server_init () {
         $ip=$this->get_in_client_ip();
         $this->t_audio_record_server->add_server($ip);
+        $max_record_count=$this->get_in_int_val("max_record_count");
+        if ($max_record_count) {
+            if (!$this->t_audio_record_server->get_max_record_count($ip)) {
+                $this->t_audio_record_server->field_update_list($ip, [
+                    "max_record_count" => $max_record_count,
+                ]);
+            }
+        }
         $config_userid=$this->t_audio_record_server->get_config_userid($ip);
         if (!$config_userid) {
 
