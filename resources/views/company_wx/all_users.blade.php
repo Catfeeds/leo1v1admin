@@ -28,8 +28,8 @@
             <tr>
                 <td class="id">{{$var['id']}}</td>
                 <td>{{$var['name']}}</td>
-                <td >{{$var['leader_power']}}</td>
-                <td>{{$var['no_leader_power']}}</td>
+                <td class="leader_power">{{$var['leader_power']}}</td>
+                <td class="no_leader_power">{{$var['no_leader_power']}}</td>
                 <td>
                     <a class="fa fa-edit opt-leader" title="添加领导权限"></a>
                     <a class="fa fa-edit opt-not-leader" title="添加非领导权限"></a>

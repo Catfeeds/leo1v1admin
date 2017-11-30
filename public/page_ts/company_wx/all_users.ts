@@ -10,7 +10,7 @@ function load_data(){
 $(function(){
     $('.opt-leader').on('click', function() {
         var id = $(this).parent().parent().find('.id').text();
-        var permission = '';
+        var permission = $(this).parent().parent().find('.leader_power').text();
         var show_all_flag = true;
         update_permission(permission, show_all_flag, id, 1);
 
@@ -18,7 +18,7 @@ $(function(){
 
     $('.opt-not-leader').on('click', function() {
         var id = $(this).parent().parent().find('.id').text();
-        var permission = '';
+        var permission = $(this).parent().parent().find('.no_leader_power').text();
         var show_all_flag = true;
         update_permission(permission, show_all_flag, id, 2);
     });
