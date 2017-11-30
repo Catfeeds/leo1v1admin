@@ -923,7 +923,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list ($sql);
     }
 
-
+    public function get_1v1_order_seller_month_money_new($account,$start_time,$end_time) {
+        $where_arr = [
+            ["o1.order_time>=%u" , $start_time, -1],
+            ["o1.order_time<=%u" , $end_time, -1],
+            ["is_test_user=%u" , 0, -1],
+            "o1.contract_type =0 ",
+            ["o1.sys_operator='%s'" ,$account,""],
+            'contract_status in (1,2)',
+        ];
+        $sql = $this->gen_sql_new(
+            " select sum(o1.price) "
+            ." from %s o1 "
+            ." left join %s s2 on o1.userid = s2.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
     public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
         $where_arr = [
@@ -2157,7 +2176,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $self_group_info = $this->task->t_group_user_month->get_group_info_by_adminid(-1 , $adminid ,$start_time_new);
         // $self_group_info= $this->t_admin_group_user->get_group_info_by_adminid(-1 , $adminid );
 
-        $order_list=$this-> get_1v1_order_seller_month_money($sys_operator, $start_time, $end_time );
+        $order_list=$this->get_1v1_order_seller_month_money($sys_operator, $start_time, $end_time );
         $all_price = 0;
         $all_stage_price = 0;
         $all_no_stage_price = 0;
@@ -2167,7 +2186,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $v_24_hour_all_price=0;
         $require_and_24_hour_price=0;
         foreach ($order_list as  $item ) {
-
             $require_flag=false;
             $v_24_hour_flag=false;
             $all_price+= $item["price"];

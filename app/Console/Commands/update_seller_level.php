@@ -89,9 +89,16 @@ class update_seller_level extends cmd_base
                         }
                     }
                     $update_flag = 1;
-                    $month_level = $next_level;
+                    // $month_level = $next_level;
                 }
-                //月末定级
+                //月末定级,根据上上月非退费签单金额
+                $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
+                $price_very_last = isset($price_very_last)?$price_very_last/100:0;
+                foreach($ret_level_goal as $item){
+                    if($price_very_last >= $item['level_goal']){
+                        $month_level = $item['seller_level'];
+                    }
+                }
                 $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
                 $this->task->t_seller_level_month->row_insert([
                     'adminid' => $adminid,

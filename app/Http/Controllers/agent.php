@@ -453,37 +453,26 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($start_time,$end_time )= $this->get_in_date_range_month(0);
-        $month = strtotime( date("Y-m-01", $start_time));
-        list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4]) = [[],[],[],[]];
-        $week_info = $this->t_month_def_type->get_month_week_time($month);
-        foreach($week_info as $item){
-            $week_order = $item['week_order'];
-            $start_time = date('m-d',$item['start_time']);
-            $end_time = date('m-d',$item['end_time']);
-            if($week_order == E\Eweek_order::V_1){
-                $week[E\Eweek_order::V_1][] = $start_time.'/'.$end_time;
-            }elseif($week_order == E\Eweek_order::V_2){
-                $week[E\Eweek_order::V_2][] = $start_time.'/'.$end_time;
-            }elseif($week_order == E\Eweek_order::V_3){
-                $week[E\Eweek_order::V_3][] = $start_time.'/'.$end_time;
-            }elseif($week_order == E\Eweek_order::V_4){
-                $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
+        //月末定级,根据上上月非退费签单金额
+        $month_level = 0;
+        $price_very_last = $this->t_order_info->get_1v1_order_seller_month_money_new($account='蔡明霞',$start_time_very_last=1506960000,$end_time_very_last=1509465600);
+        $price_very_last = isset($price_very_last)?$price_very_last/100:0;
+        $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
+        foreach($ret_level_goal as $item){
+            if($price_very_last >= $item['level_goal']){
+                $month_level = $item['seller_level'];
             }
         }
-        $ret_week = [];
-        foreach($week as $key=>$item){
-            foreach($item as $key_n=>$info){
-                if($key_n>0){
-                    $ret_week[$key] = $ret_week[$key].','.$info;
-                }else{
-                    $ret_week[$key] = $info;
-                }
-            }
+        dd($price_very_last,E\Eseller_level::get_desc($month_level));
+        if($price_very_last<$level_goal){//降级
+            $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+            $this->task->t_seller_level_month->row_insert([
+                'adminid' => $adminid,
+                'month_date' => $month_date,
+                'seller_level' => $month_level,
+                'create_time' => $time,
+            ]);
         }
-        dd($ret_week);
-        $agent_info = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
-        dd($agent_info);
         $ret_info = $this->t_origin_key->get_all_key_list();
         $key1_arr = array_unique(array_column($ret_info,'key1'));
         $key2_arr = array_unique(array_column($ret_info,'key2'));
