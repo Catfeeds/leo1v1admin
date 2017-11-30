@@ -455,7 +455,7 @@ class agent extends Controller
     public function test_new(){
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month = strtotime( date("Y-m-01", $start_time));
-        $week = [];
+        list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4]) = [[],[],[],[]];
         $week_info = $this->t_month_def_type->get_month_week_time($month);
         foreach($week_info as $item){
             $week_order = $item['week_order'];
@@ -471,19 +471,17 @@ class agent extends Controller
                 $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
             }
         }
-        dd($week);
-        foreach($week as &$item){
-            foreach($item as $key=>$info){
-                if($key>0){
-                    $item = $info.'-';
+        $ret_week = [];
+        foreach($week as $key=>$item){
+            foreach($item as $key_n=>$info){
+                if($key_n>0){
+                    $ret_week[$key] = $ret_week[$key].','.$info;
                 }else{
-                    $item = $info;
+                    $ret_week[$key] = $info;
                 }
             }
         }
-        dd($week);
-        dd($week);
-        dd($week_info);
+        dd($ret_week);
         $agent_info = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
         dd($agent_info);
         $ret_info = $this->t_origin_key->get_all_key_list();
