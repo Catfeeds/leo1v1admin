@@ -1060,6 +1060,24 @@ class common extends Controller
                 'name'  =>'tt',//真实姓名
             );
             break;
+        case 'alipay_pc_direct':
+            $extra = array(
+                'success_url' => 'http://admin.leo1v1.com/common/get_webhooks_notice'
+            );
+            break;
+        case 'wx_pub':
+            $extra = array(
+                'open_id' => 'wx636f1058abca1bc1'
+            );
+            break;
+        case 'wx_pub_qr':
+            $extra = array(
+                'product_id' => $orderNo
+            );
+            break;
+
+
+
 
 
         }
@@ -1082,7 +1100,6 @@ class common extends Controller
                     'app'       => array('id' => APP_ID)
                 )
             );
-
             if($ch){
                 $this->t_orderid_orderno_list->row_insert([
                     "order_no"  =>$orderNo,
@@ -1128,6 +1145,9 @@ class common extends Controller
             $channel = $event->data->object->channel;
             $aa = E\Eorder_channel::s2v($channel);
             $channel_name = E\Eorder_channel::get_desc($aa);
+            if(empty($channel_name)){
+                $channel_name = $channel;
+            }
 
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $order_type = $this->t_orderid_orderno_list->get_order_type($orderNo);

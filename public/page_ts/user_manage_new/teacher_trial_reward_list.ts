@@ -121,15 +121,17 @@ $(function(){
     });
 
     $("#id_add_teacher_money").on("click",function(){
-	      var id_teacherid  = $("<input/>");
+	      var id_teacherid  = $("<input />");
 	      var id_type       = $("<select/>");
 	      var id_grade      = $("<select/>");
 	      var id_money      = $("<input/>");
 	      var id_money_info = $("<input/>");
 	      var id_add_time   = $("<input/>");
+        var id_teacher_type = $("<div id='id_type'/>");
 
         var arr = [
             ["老师",id_teacherid],
+            ['老师类型',id_teacher_type],
             ["类型",id_type],
             ["年级",id_grade],
             ["---","伯乐奖不用填写金额"],
@@ -166,7 +168,13 @@ $(function(){
 		            timepicker : true,
 		            format     : 'Y-m-d H:i',
 	          });
-            $.admin_select_user(id_teacherid,"teacher");
+            $.admin_select_user(id_teacherid,"teacher",function(){
+                $.do_ajax("/teacher_money/get_teacher_type",{
+                    "teacherid":id_teacherid.val()
+                },function(result){
+                    id_teacher_type.text(result.type);
+                });
+            });
         });
     });
 

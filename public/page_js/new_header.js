@@ -2189,7 +2189,7 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
-function multi_upload_file(btn_id,  is_public_bucket ,befor_func, complete_func, ext_file_list,process_id ){
+function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file_list,process_id ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
@@ -2206,19 +2206,20 @@ function multi_upload_file(btn_id,  is_public_bucket ,befor_func, complete_func,
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
             // dragdrop: true,
             chunk_size: '4mb',
-            multi_selection: !(moxie.core.utils.Env.OS.toLowerCase() === "ios"),
+            multi_selection: is_multi,
             uptoken: token,
             domain: "http://"+domain_name,
             get_new_uptoken: false,
-            auto_start: true,
+            auto_start: is_auto_start,
             log_level: 5,
             init: {
                 'BeforeChunkUpload': function(up, file) {
                     // console.log("before chunk upload:", file.name);
                 },
                 'FilesAdded': function(up, files) {
-                    $('table').show();
-                    $('#success').hide();
+                    select_func(files);
+                    // $('table').show();
+                    // $('#success').hide();
                     plupload.each(files, function(file) {
                         var progress = new FileProgress(file, 'fsUploadProgress');
                         progress.setStatus("等待...");
@@ -2270,6 +2271,10 @@ function multi_upload_file(btn_id,  is_public_bucket ,befor_func, complete_func,
                 //     return key
                 // }
             }
+        });
+
+        $('#up_load').on('click', function(){
+            uploader.start();
         });
     });
 

@@ -605,10 +605,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }else if($publish_flag ==1 ){
                 $where_arr[]="t.seller_student_status <>50";
             }
-
             $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
             $where_arr[]= $ret_in_str;
-
             $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
             $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
             $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
@@ -3117,6 +3115,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_item_list_new(){
+        $sql = "select * from db_weiyi.t_seller_student_new where admin_revisiterid=412";
+        return $this->main_get_list($sql);
+    }
     public function get_ass_tran_stu_info_new($start_time,$end_time){
         $where_arr=[
             "s.is_test_user=0",

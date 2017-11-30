@@ -41,17 +41,11 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        $teacherid = 250328;
-        $reference_price = 30;
-        $recommended_teacherid = 410880;
-        $task->t_teacher_money_list->row_insert([
-            "teacherid"  => $teacherid,
-            "money"      => $reference_price*100,
-            "money_info" => $recommended_teacherid,
-            "add_time"   => time(),
-            "type"       => E\Ereward_type::V_6,
-            "recommended_teacherid" => $recommended_teacherid,
-        ]);
+        // 拉取数据
+        $info = $task->t_teacher_lecture_appointment_info_b2->get_ref_type_data();
+        foreach($info as $item) {
+            echo $item['nick'].'('.E\Eteacher_ref_type::get_desc($item['teacher_ref_type']).'-'.E\Eteacher_type::get_desc($item['teacher_type']).'),';
+        }
         exit;
 
         // 加载老师绑定数据

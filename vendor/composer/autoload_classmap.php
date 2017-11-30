@@ -14,6 +14,7 @@ return array(
     'AddVotesToTAgentIncomeLog' => $baseDir . '/database/migrations/2017_11_22_104231_add_votes_to_t_agent_income_log.php',
     'AddVotesToTAgentIncomeLog_2' => $baseDir . '/database/migrations/2017_11_23_094700_add_votes_to_t_agent_income_log.php',
     'CreateCompanyWxDepartment' => $baseDir . '/database/migrations/2017_11_23_132147_create_company_wx_department.php',
+    'CreateNewTTagLibrary' => $baseDir . '/database/migrations/2017_11_29_160524_create_new_t_tag_library.php',
     'CreateTActivityQuotaDetail' => $baseDir . '/database/migrations/2017_11_25_132506_create_t_activity_quota_detail.php',
     'CreateTAgentCashMoneyFreeze' => $baseDir . '/database/migrations/2017_11_08_183206_create_t_agent_cash_money_freeze.php',
     'CreateTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_15_094711_create_t_agent_daily_lottery.php',

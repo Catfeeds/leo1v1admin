@@ -796,4 +796,17 @@ class teacher_money extends Controller
         ]);
         return $this->output_succ();
     }
+
+    public function get_teacher_type() {
+        $teacherid = $this->get_in_int_val("teacherid");
+        $type = $this->t_teacher_info->get_teacher_type($teacherid);
+        if ($type == 1) {
+            $type = '全职老师';
+        } else if ($type == 2) {
+            $type = '兼职老师';
+        } else {
+            $type = '未设置';
+        }
+        return $this->output_succ(["type"=>$type]);
+    }
 }

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<district>
+	<tag_l1_sort text="教师相关">
+		<tag_l2_sort text="风格性格"></tag_l2_sort>
+		<tag_l2_sort text="专业能力"></tag_l2_sort>
+		<tag_l2_sort text="身份"></tag_l2_sort>
+		<tag_l2_sort text="年龄"></tag_l2_sort>
+		<tag_l2_sort text="性别"></tag_l2_sort>
+	</tag_l1_sort>
+
+	<tag_l1_sort text="课堂相关">
+    <tag_l2_sort text="课堂气氛"></tag_l2_sort>
+    <tag_l2_sort text="课件要求"></tag_l2_sort>
+  </tag_l1_sort>
+	<tag_l1_sort text="教学相关">
+    <tag_l2_sort text="素质培养"></tag_l2_sort>
+	</tag_l1_sort>
+	<tag_l1_sort text="学科化内容标签">
+    <tag_l2_sort text="小一">
+						<tag_l3_sort text="语文"></tag_l3_sort>
+						<tag_l3_sort text="数学"></tag_l3_sort>
+						<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+		<tag_l2_sort text="小二">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="小二">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="小三">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="小四">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="小五">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="小六">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="初一">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+			<tag_l3_sort text="物理"></tag_l3_sort>
+			<tag_l3_sort text="化学"></tag_l3_sort>
+			<tag_l3_sort text="生物"></tag_l3_sort>
+			<tag_l3_sort text="政治"></tag_l3_sort>
+			<tag_l3_sort text="地理"></tag_l3_sort>
+			<tag_l3_sort text="历史"></tag_l3_sort>
+			<tag_l3_sort text="科学"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="初二">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+			<tag_l3_sort text="物理"></tag_l3_sort>
+			<tag_l3_sort text="化学"></tag_l3_sort>
+			<tag_l3_sort text="生物"></tag_l3_sort>
+			<tag_l3_sort text="政治"></tag_l3_sort>
+			<tag_l3_sort text="地理"></tag_l3_sort>
+			<tag_l3_sort text="历史"></tag_l3_sort>
+			<tag_l3_sort text="科学"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="初三">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+			<tag_l3_sort text="物理"></tag_l3_sort>
+			<tag_l3_sort text="化学"></tag_l3_sort>
+			<tag_l3_sort text="生物"></tag_l3_sort>
+			<tag_l3_sort text="政治"></tag_l3_sort>
+			<tag_l3_sort text="地理"></tag_l3_sort>
+			<tag_l3_sort text="历史"></tag_l3_sort>
+			<tag_l3_sort text="科学"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="高一">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+			<tag_l3_sort text="物理"></tag_l3_sort>
+			<tag_l3_sort text="化学"></tag_l3_sort>
+			<tag_l3_sort text="生物"></tag_l3_sort>
+			<tag_l3_sort text="政治"></tag_l3_sort>
+			<tag_l3_sort text="地理"></tag_l3_sort>
+			<tag_l3_sort text="历史"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="高二">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+			<tag_l3_sort text="物理"></tag_l3_sort>
+			<tag_l3_sort text="化学"></tag_l3_sort>
+			<tag_l3_sort text="生物"></tag_l3_sort>
+			<tag_l3_sort text="政治"></tag_l3_sort>
+			<tag_l3_sort text="地理"></tag_l3_sort>
+			<tag_l3_sort text="历史"></tag_l3_sort>
+		</tag_l2_sort>
+    <tag_l2_sort text="高三">
+			<tag_l3_sort text="语文"></tag_l3_sort>
+			<tag_l3_sort text="数学"></tag_l3_sort>
+			<tag_l3_sort text="英语"></tag_l3_sort>
+			<tag_l3_sort text="物理"></tag_l3_sort>
+			<tag_l3_sort text="化学"></tag_l3_sort>
+			<tag_l3_sort text="生物"></tag_l3_sort>
+			<tag_l3_sort text="政治"></tag_l3_sort>
+			<tag_l3_sort text="地理"></tag_l3_sort>
+			<tag_l3_sort text="历史"></tag_l3_sort>
+		</tag_l2_sort>
+  </tag_l1_sort>
+</district>
