@@ -4587,7 +4587,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("  select t.teacherid,t.wx_openid from %s t "
-                                  ." where %s "
+                                  ." where %s limit 1 "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
