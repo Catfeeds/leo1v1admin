@@ -35,7 +35,7 @@ class company_wx extends Controller
                 }
                 $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
                 $users = $this->get_company_wx_data($url,"partylist");
-                $users = [278,279,280,281,281];
+                $users = [278,279,280,281,282];
                 foreach($users as $val) {
                     //$info = $this->t_company_wx_tag_department->get_name($item['tagid']);
                     //if (!$info) {
@@ -106,10 +106,13 @@ class company_wx extends Controller
         $info = $this->t_company_wx_department->get_all_list();
         $info[0]['open'] = true;
         $info[1]['open'] = true;
+        // 获取TSR事业部 74下所有子节点
+        $info = $this->getTree($info, 0, 74);
+        dd($info);
         $users = $this->t_company_wx_users->get_all_list();
         $ext['id'] = $id;
         $ext['type'] = $type;
-        $tag = $this->t_company_wx_tag->get_all_list();
+        $tag = $this->t_company_wx_tag->get_all_department();
         foreach($tag as $key => $item) {
             $tag[$key]['department'] = explode(',', $item['department']);
         }
@@ -167,7 +170,8 @@ class company_wx extends Controller
             $info = array_merge($info,$users);
         }
 
-        //$info = $this->getTree($info, 0, $people);
+        $info = $this->getTree($info, 0);
+        dd($info);
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
             'ext' => $ext
@@ -182,17 +186,25 @@ class company_wx extends Controller
         ]);
     }
 
-    function getTree($data, $pId, $users)
+    function getTree($data, $pId, $parent = '')
     {
         $tree = '';
+        $all_child = '';
         foreach($data as $k => $v)
         {
-            if($v['parentid'] == $pId)
+            if($v['pId'] == $pId)
             {
-                $v['children'] = $this->getTree($data, $v['id'], $users); // 找子节点
-                if (isset($users[$v['id']])) {
-                    $v['users'] = $users[$v['id']];
+                //$v['children'] = $this->getTree($data, $v['id'], ); // 找子节点
+                if ($v['pId'] == $parent) {
+                    $v['children'] = $this->getTree($data, $v['id'], $v['id']);
+                    $all_child[] = $v['id'];
+                }else {
+                    $v['children'] = $this->getTree($data, $v['id'], $parent);
                 }
+                
+                // if (isset($users[$v['id']])) {
+                //     $v['users'] = $users[$v['id']];
+                // }
                 $tree[] = $v;
             }
         }
@@ -244,12 +256,23 @@ class company_wx extends Controller
     }
 
     public function set_permission() {
-        $userid = $this->get_in_str_val("userid",0);
+        //$userid = $this->get_in_str_val("userid",0);
+        $id = $this->get_in_int_val("id");
+        $status = $this->get_in_int_val("status");
         $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("groupid_list"));
         $permission = implode(",",$groupid_list);
-        $this->t_company_wx_users->update_field_list('db_weiyi_admin.t_company_wx_users',[
-            "permission" => $permission
-        ],"userid",$userid);
+        // $this->t_company_wx_users->update_field_list('db_weiyi_admin.t_company_wx_users',[
+        //     "permission" => $permission
+        // ],"userid",$userid);
+        if ($status == 1) {
+            $this->t_company_wx_tag->field_update_list($id, [
+                "leader_power" => $permission
+            ]);
+        } elseif ($status == 2) {
+            $this->t_company_wx_tag->field_update_list($id, [
+                "no_leader_power" => $permission
+            ]);
+        }
         return $this->output_succ();
 
         // //$old_permission = $this-> get_in_str_val('old_permission');

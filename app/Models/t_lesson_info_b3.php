@@ -2304,17 +2304,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
-    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num){
+    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num,$teacherid){
         $where_arr = [
             "t.trial_lecture_is_pass=1",
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
         $sql = $this->gen_sql_new("  select t.teacherid, t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid"
-                                  ." where %s group by t.teacherid"
+                                  ." where %s group by t.teacherid "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
@@ -2333,7 +2334,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         // select 1 from t_lesson_info where absenteeism_flag=1
 
         $sql = $this->gen_sql_new("  select COUNT( CASE WHEN l.lesson_cancel_reason_type=23 THEN 1 ELSE null END ) as late_num,"//迟到
-                                  ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as late_num,"//旷课
+                                  ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as cancel_num,"//旷课
                                   ." COUNT( CASE WHEN l.stu_performance='' THEN 1 ELSE null END ) as comment_num,"//未评价
                                   ." COUNT( CASE WHEN l.tea_cw_status=0 THEN 1 ELSE null END ) as tea_cw_num,"//未传课件
                                   ." COUNT( CASE WHEN h.work_status=0 THEN 1 ELSE null END ) as work_num"//未留作业

@@ -1,10 +1,13 @@
 interface GargsStatic {
+	order_by_str:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
 	page_num:	number;
+	page_count:	number;
+	teacherid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -27,11 +30,13 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		teacherid:	$('#id_teacherid').val()
     });
 }
 $(function(){
@@ -47,6 +52,8 @@ $(function(){
             load_data();
         }
     });
+	$('#id_order_by_str').val(g_args.order_by_str);
+	$('#id_teacherid').val(g_args.teacherid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -56,4 +63,18 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacherid</span>
+                <input class="opt-change form-control" id="id_teacherid" />
+            </div>
+        </div>
 */

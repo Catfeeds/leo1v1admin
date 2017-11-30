@@ -77,55 +77,61 @@ class activity_config_new extends  activity_new_base {
         if( $item['lesson_times_min'] && $item['lesson_times_max'] ){
             $this->lesson_times_range = [$item['lesson_times_min'],$item['lesson_times_max']];
         }
+        if( !empty($item['grade_list']) ){
+            $this->check_grade_list = explode(",",$item['grade_list']);
+        }
+        if( !empty($item['max_count_activity_type_list']) ){
+            $this->max_count_activity_type_list = explode(",",$item['max_count_activity_type_list']);
+        }
+        if( isset($item['contract_type_list']) ){
+            $this->contract_type_list = explode(",",$item['contract_type_list']);
+        }
 
-        $this->period_flag_list = explode(",",$item['period_flag_list']);
+        if( isset($item['period_flag_list'])){
+            $this->period_flag_list = explode(",",$item['period_flag_list']);
+        }
 
         $this->open_flag = $item['open_flag'];
 
         $this->can_disable_flag = $item['can_disable_flag'] == 1 ? true : false;
 
-        $this->check_grade_list = explode(",",$item['grade_list']);
-        $this->max_count_activity_type_list = explode(",",$item['max_count_activity_type_list']);
         $this->max_count = $item['max_count'];
         $this->max_change_value = $item['max_change_value'];
         $this->need_spec_require_flag = $item['need_spec_require_flag'];
-        $this->contract_type_list = explode(",",$item['contract_type_list']);
 
-        $discount_json = json_decode($item['discount_json']);
+        $discount_json = json_decode($item['discount_json'],true);
 
         switch($item['order_activity_discount_type']){
         case 1:
             //按课次数打折
-            $this->lesson_times_off_perent_list = (array)$discount_json;
+            $this->lesson_times_off_perent_list = $discount_json;
             break;
         case 2:
             //按年级打折
-            $this->grade_off_perent_list = (array)$discount_json;
+            $this->grade_off_perent_list = $discount_json;
             break;
         case 3:
             //按课次数送课
-            $this->lesson_times_present_lesson_count = (array)$discount_json;
+            $this->lesson_times_present_lesson_count = $discount_json;
             break;
         case 4:
             //按金额 立减
-            $this->price_off_money_list = (array)$discount_json;
+            $this->price_off_money_list = $discount_json;
             break;
         }
-        \App\Helper\Utils::logger("activity_config:".json_encode($this));
 
     }
 
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
 
-        //\App\Helper\Utils::logger("dayin: ".json_encode($this));
+
         if ( in_array( session("acc"), ["jim", "bacon"]) ) {
-            if (!$this->open_flag ) {
+            if ( $this->open_flag ==0 ) { // 1,2
                 return false;
             }
-
         }else{
-            if ($this->open_flag !=1 ) {
+            if ($this->open_flag !=1 ) { //1
                 return false;
             }
         }
@@ -158,14 +164,12 @@ class activity_config_new extends  activity_new_base {
             return false;
         }
         $contract_type=$this->contract_type;
-
         //常规,续费检查
         if ( !in_array( $contract_type , $this->contract_type_list ) ) {
             return false;
         }
 
         $lesson_times= $this->lesson_times;
-
         //课次数检查
         if (count($this->lesson_times_range )==2 ) {
             if  (!( $lesson_times>= $this->lesson_times_range[0]
@@ -189,6 +193,7 @@ class activity_config_new extends  activity_new_base {
             }
         }
 
+        //用户试听时间检查
         if (count($this->last_test_lesson_range)==2) {
             $from_test_lesson_id=$this->from_test_lesson_id;
             if($from_test_lesson_id ) {
@@ -227,12 +232,15 @@ class activity_config_new extends  activity_new_base {
             }
         }
 
+        //\App\Helper\Utils::logger("按课次数送课: ".$this->title.json_encode($this->lesson_times_present_lesson_count));
+
         //按课次数送课
         if (count($this->lesson_times_present_lesson_count)>0 ) {
             $tmp_present_lesson_count=0 ;
             list($find_free_lesson_level , $present_lesson_count_1 )=$this->get_value_from_config_ex(
                 $this->lesson_times_present_lesson_count ,  $this->lesson_times , [0,0] );
             if ( $present_lesson_count_1) {
+         
                 list( $check_ok_flag,$now_all_change_value, $activity_desc_cur_count )= $this->check_max_change_value($this->max_change_value, $present_lesson_count_1);
                 if ( $check_ok_flag ) {
                     $present_lesson_count += $present_lesson_count_1 *3;
@@ -265,10 +273,10 @@ class activity_config_new extends  activity_new_base {
         }
 
         //按课次数打折
-        \App\Helper\Utils::logger("按课次数打折: ".json_encode($this->lesson_times_off_perent_list));
         if ( count ($this->lesson_times_off_perent_list) > 0 ) {
             list($find_lesson_times_level , $off_percent )=$this->get_value_from_config_ex(
                 $this->lesson_times_off_perent_list,  $lesson_times , [0,100] );
+
             if ( $off_percent &&  $off_percent !=100  ) {
                 $tmp_price=  intval($price* $off_percent /100) ;
                 $diff_money= $price- $tmp_price;
@@ -281,15 +289,16 @@ class activity_config_new extends  activity_new_base {
             }
 
         }
+
         //按年级打折
         if ( count ($this->grade_off_perent_list) > 0 ) {
-            $off_percent=  @$this->grade_off_perent_list [$this->grade];
+            $off_percent = @$this->grade_off_perent_list[$this->grade];
             if ($off_percent) {
                 $grade_str= E\Egrade::get_desc($this->grade);
-                $price=  intval($price* $off_percent /100) ;
+                $tmp_price =  intval($price* $off_percent /100) ;
                 $diff_money= $price- $tmp_price;
                 $price= $tmp_price;
-                $desc_list[] = $this->gen_activity_item(1, " $activity_desc  ,年级 $grade_str 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag, $diff_money );
+                $desc_list[] = $this->gen_activity_item(1, " $activity_desc  年级 $grade_str 打 $off_percent 折   "   , $price,  $present_lesson_count, $can_period_flag, $diff_money );
                 return true;
             }
         }

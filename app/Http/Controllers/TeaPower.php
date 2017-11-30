@@ -4208,9 +4208,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // );
             $identity = $recommended_info['identity'];
             if (in_array($identity,[5,6,7])) {
-                $type = 1;
+                $type = 1; // 机构老师
             } else {
-                $type = 0;
+                $type = 0; // 在样学生
             }
             $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
 
@@ -4230,6 +4230,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
+            if ($teacherid == 274115) { // join中国 60元/个
+                $reference_price = 60;
+            }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,

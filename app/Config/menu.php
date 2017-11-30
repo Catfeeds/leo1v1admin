@@ -269,6 +269,10 @@ class menu{
                     ["power_id"=>1, "name"=>"销售额以及时间",   "url"=>"/user_manage_new/admin_member_list"],
                     ["power_id"=>2, "name"=>"销售个人出勤",   "url"=>"/user_manage_new/seller_attendance_info"]
                 ]],
+                ["power_id"=>104, "name"=>"合同配置管理", "list"=>[
+                    ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
+                ]],
+
                 ["power_id"=>5, "name"=>"权限管理",   "url"=>"/user_manage_new/power_group_edit"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
                 ["power_id"=>6, "name"=>"权限查询",   "url"=>"/authority/get_acc_power_list"],
@@ -425,7 +429,7 @@ class menu{
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
-                ["power_id"=>36, "name"=>"审批参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>36, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

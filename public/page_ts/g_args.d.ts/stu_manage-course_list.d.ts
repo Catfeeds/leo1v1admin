@@ -17,6 +17,7 @@ interface RowData {
 	teacherid	:any;
 	lesson_grade_type	:any;
 	lesson_count	:any;
+	competition_flag	:any;
 	no_finish_lesson_count	:any;
 	finish_lesson_count	:any;
 	add_time	:any;
@@ -27,6 +28,7 @@ interface RowData {
 	course_status	:any;
 	week_comment_num	:any;
 	enable_video	:any;
+	reset_lesson_count_flag	:any;
 	left_lesson_count	:any;
 	add_time_str	:any;
 	teacher_nick	:any;
@@ -35,6 +37,7 @@ interface RowData {
 	grade_str	:any;
 	subject_str	:any;
 	enable_video_str	:any;
+	reset_lesson_count_flag_str	:any;
 	course_type_str	:any;
 	week_comment_num_str	:any;
 }

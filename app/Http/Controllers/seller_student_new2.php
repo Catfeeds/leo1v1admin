@@ -1273,11 +1273,9 @@ class seller_student_new2 extends Controller
         $order_activity_type = $this->get_in_e_order_activity_type();
         $class_map = \App\OrderPrice\Activity\activity_base::$class_map;
         $list = [];
-        if(isset($class_map[$order_activity_type])){
-            $class_name=  $class_map[$order_activity_type];
-            $class=new $class_name([]);
-            $list=$class->get_desc();
-        }
+        $activity_config=$this->t_order_activity_config->field_get_list($order_activity_type , "*");
+        $class=new \App\OrderPrice\Activity\activity_config_new($activity_config, null);
+        $list=$class->get_desc();
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list));
     }
 

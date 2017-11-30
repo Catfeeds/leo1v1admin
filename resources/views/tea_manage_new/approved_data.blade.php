@@ -1,12 +1,41 @@
 @extends('layouts.app')
 @section('content')
+    <!-- <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+         <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+         <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+         <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+         <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+         <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+         <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+    -->
+
+
+
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <link rel='stylesheet' href='/css/fullcalendar.css' />
+    <script src='/js/moment.js'></script>
+    <script src='/js/fullcalendar.js'></script>
+    <script src='/js/lang-all.js'></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
     <script type="text/javascript" src="/js/qiniu/ui.js"></script>
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_record.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/select_course.js"></script>
+    <script type="text/javascript" src="//g.alicdn.com/sj/aliphone-sdk/aliphone.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <script type="text/javascript" src="/page_js/teacher_freeze_limit_record.js"></script>
+
 
     <section class="content ">
 
@@ -17,6 +46,12 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师</span>
+                        <input id="id_teacherid" class="opt-change"  />
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -25,11 +60,14 @@
             <thead>
                 <tr>
                     <td >老师</td>
-                    <td >学生数</td>
-                    <td >课耗</td>
-                    <td >CC转化率</td>
-                    <td >CR转化率</td>
-                    <td >老师违规数</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["学生数","stu_num" ],
+                        ["课耗","lesson_num" ],
+                        ["CC转化率","cc_rate" ],
+                        ["CR转化率","cr_rate" ],
+                        ["老师违规数","violation_num" ],
+                       ])  !!}
+
                     <td > 操作  </td>
                 </tr>
             </thead>
@@ -37,14 +75,10 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <a target="_blank" href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
-                                {{@$var["tea_nick"]}}
-                            </a>
+                            {{@$var["tea_nick"]}}
                         </td>
                         <td>
-                            <a id="stu_num">
-                                {{@$var['stu_num']}}
-                            </a>
+                            {{@$var['stu_num']}}
                         </td>
                         <td>
                             {{@$var['lesson_num']}}
@@ -53,10 +87,10 @@
                             {{@$var['cc_rate']*100}}%
                         </td>
                         <td>
-                            {{@$var['cr_rate']*100}}"%
+                            {{@$var['cr_rate']*100}}%
                         </td>
                         <td>
-                            <a id="violation_num">
+                            <a class="violation_num" data-teacherid="{{@$var['teacherid']}}">
                                 {{@$var['violation_num']}}
                             </a>
                         </td>

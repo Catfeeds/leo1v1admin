@@ -1688,7 +1688,6 @@ class user_manage_new extends Controller
 
                     }
                 }
-
             }
             $res[$k]['month_work_day'] = $i;
             $res[$k]['month_work_day_now'] = $j;
@@ -1722,49 +1721,50 @@ class user_manage_new extends Controller
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
         }
         //学生上课数,试听成功数,取消数
-        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
-        // foreach($test_leeson_list['list'] as $item){
-        //     $adminid = $item['admin_revisiterid'];
-        //     $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
-        //     $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
-        //     $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-        // }
-        // list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
-        // if($end_time_new >= time()){
-        //     $end_time_new = time();
-        // }
-        // $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
-        // $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new);
-        // foreach($test_leeson_list_new['list'] as $item){
-        //     $adminid = $item['admin_revisiterid'];
-        //     $lesson_start = $item['lesson_start'];
-        //     foreach($ret_new as $info){
-        //         $start = $info['start_time'];
-        //         $end = $info['end_time'];
-        //         $week_order = $info['week_order'];
-        //         if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
-        //             $res[$adminid][$week_order][] = $item;
-        //         }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
-        //             $res[$adminid][$week_order][] = $item;
-        //         }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
-        //             $res[$adminid][$week_order][] = $item;
-        //         }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
-        //             $res[$adminid][$week_order][] = $item;
-        //         }
-        //     }
-        // }
-        // foreach($res as $key=>$item){
-        //     $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
-        //     $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
-        //     $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
-        //     $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
-        //     $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
-        //     $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
-        //     $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
-        //     $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
-        //     $res[$key]['suc_lesson_count_rate_all'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
-        //     $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate_all'].'%';
-        // }
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+        }
+        list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
+        if($end_time_new >= time()){
+            $end_time_new = time();
+        }
+        $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
+        $test_leeson_list_new=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new);
+        foreach($test_leeson_list_new['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $lesson_start = $item['lesson_start'];
+            foreach($ret_new as $info){
+                $start = $info['start_time'];
+                $end = $info['end_time'];
+                $week_order = $info['week_order'];
+                if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
+                    $res[$adminid][$week_order][] = $item;
+                }
+            }
+        }
+        foreach($res as $key=>$item){
+            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
+            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
+            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
+            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+            $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
+            $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
+            $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
+            $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
+            $res[$key]['suc_lesson_count_rate_all'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
+            $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate_all'].'%';
+        }
+
         $this->t_order_info->switch_tongji_database();
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
         foreach($order_new as $k=>$v){
@@ -1791,18 +1791,19 @@ class user_manage_new extends Controller
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
+            $item['suc_lesson_count_rate_all'] = isset($item["suc_lesson_count_rate_all"])?$item["suc_lesson_count_rate_all"]:0;
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
 
-            // $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count'],2)*100):0;
-            // $item['lesson_per'] = @$item['test_lesson_count']!=0?$lesson_per."%":0;
-            // $lesson_kpi = $lesson_per<18?40:0;
-            // $kpi = $lesson_kpi+$item['suc_lesson_count_rate_all'];
-            // $item['kpi'] = ($kpi && @$item['test_lesson_count']>0)>0?$kpi."%":0;
-            // if($item["become_member_time"]>0 && ($end_time-$item["become_member_time"])<3600*24*60 && $item["del_flag"]==0){
-            //     $item['kpi'] = "100%";
-            // }
-            // $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
+            $lesson_per = @$item['test_lesson_count']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count'],2)*100):0;
+            $item['lesson_per'] = @$item['test_lesson_count']!=0?$lesson_per."%":0;
+            $lesson_kpi = $lesson_per<18?40:0;
+            $kpi = $lesson_kpi+$item['suc_lesson_count_rate_all'];
+            $item['kpi'] = ($kpi && @$item['test_lesson_count']>0)>0?$kpi."%":0;
+            if($item["become_member_time"]>0 && ($end_time-$item["become_member_time"])<3600*24*60 && $item["del_flag"]==0){
+                $item['kpi'] = "100%";
+            }
+            $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
 
             $item['finish_per'] =@$item['target_money']!=0?(round(@$item['all_price_for_month']/$item['target_money'],2)*100)."%":0;
             $item['finish_personal_per'] =@$item['target_personal_money']!=0?(round(@$item['all_price_for_month']/$item['target_personal_money'],2)*100)."%":0;
@@ -3694,7 +3695,7 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
             $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
-            if ($teacherid == 269222) {
+            if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
             }
@@ -5079,6 +5080,13 @@ class user_manage_new extends Controller
         $start_time = strtotime(date('Y-m-01', time()));
         $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
         foreach($re_teacherid as $item) {
+            // if ($teacherid == 274115 && $item['money'] != 60) { // 处理join中国
+            //     $this->t_teacher_money_list->field_update_list($item['id'], [
+            //         'money' => $reward,
+            //         'acc' => $acc
+            //     ]);
+            //     continue;
+            // }
             $type = 1;
             if ($item['identity'] == 0 || $item['identity'] == 8) {
                 $type = 0;
