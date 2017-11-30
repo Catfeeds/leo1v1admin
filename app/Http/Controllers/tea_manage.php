@@ -431,7 +431,7 @@ class tea_manage extends Controller
         if($type_flag ==1){
             $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&roomId={$ret_arr['roomid']}&xmpp={$ret_arr['xmpp']}&webrtc={$ret_arr['webrtc']}&ownerId={$ret_arr['teacherid']}&type={$ret_arr['type']}&audioService={$ret_arr['audioService']}";
         }else{
-            $qr_info = "title=lessonid : {$lessonid}&beginTime={$ret_arr['real_begin']}&endTime={$ret_arr['real_end']}&drawUrl={$ret_arr['draw']}&audioUrl={$ret_arr['audio']}";
+            $qr_info = "title=lessonid : {$lessonid}&beginTime={$ret_arr['real_begin_time']}&endTime={$ret_arr['real_end_time']}&drawUrl={$ret_arr['draw']}&audioUrl={$ret_arr['audio']}";
         }
 
         $base64_qr = base64_encode($qr_info);
