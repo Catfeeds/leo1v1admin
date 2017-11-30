@@ -471,6 +471,7 @@ class agent extends Controller
                 $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
             }
         }
+        dd($week);
         foreach($week as &$item){
             foreach($item as $key=>$info){
                 if($key>0){
