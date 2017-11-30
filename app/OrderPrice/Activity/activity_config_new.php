@@ -57,7 +57,7 @@ class activity_config_new extends  activity_new_base {
         $user_join_time_end = !empty($item['user_join_time_end']) ? date('Y-m-d H:i:s',$item['user_join_time_end']) : null;
         $last_test_lesson_start = !empty($item['last_test_lesson_start']) ?  date('Y-m-d H:i:s',$item['last_test_lesson_start']) : null;
         $last_test_lesson_end = !empty($item['last_test_lesson_end']) ?  date('Y-m-d H:i:s',$item['last_test_lesson_end']) : null;
-        $this->order_activity_type = $item['title'];
+        $this->order_activity_type = $item['id'];
         $this->date_range = [];
         $this->user_join_time_range = [];
         $this->last_test_lesson_range = [];
