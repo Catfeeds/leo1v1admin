@@ -398,6 +398,7 @@ class menu{
                 ["power_id"=>14, "name"=>"学生数据",   "url"=>"/finance_data/student_data"],
                 ["power_id"=>15, "name"=>"试听学生&&在读学生",   "url"=>"/finance_data/student_type_data"],
                 ["power_id"=>16, "name"=>"试听转化率以及渠道统计",   "url"=>"/finance_data/test_lesson_origin_tongji"],
+                ["power_id"=>17, "name"=>"合同管理",   "url"=>"/finance_data/money_contract_list"],
 
                 ["power_id"=>9, "name"=>"考勤", "list"=>[
                     ["power_id"=>4, "name"=>"考勤记录",   "url"=>"/tongji/admin_card_log_list"],
