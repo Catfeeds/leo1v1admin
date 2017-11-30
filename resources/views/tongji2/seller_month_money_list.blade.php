@@ -22,31 +22,19 @@
                     <td>成员 </td>
                     <td>
                         第一周试听成功数
-                        (@foreach($week[1] as $var)
-                            {{$var}}
-                            &nbsp
-                        @endforeach)
+                        {{$week[1]}}
                     </td>
                     <td>
                         第二周试听成功数
-                        (@foreach($week[2] as $var)
-                        {{$var}}
-                        &nbsp
-                        @endforeach)
+                        {{$week[2]}}
                     </td>
                     <td>
                         第三周试听成功数
-                        (@foreach($week[3] as $var)
-                        {{$var}}
-                        &nbsp
-                        @endforeach)
+                        {{$week[3]}}
                     </td>
                     <td>
                         第四周试听成功数
-                        (@foreach($week[4] as $var)
-                        {{$var}}
-                        &nbsp
-                        @endforeach)
+                        {{$week[4]}}
                     </td>
                     <td>取消率 </td>
                     <td>绩效对应系数 </td>
