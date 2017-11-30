@@ -1260,8 +1260,11 @@ class tea_manage_new extends Controller
         }
 
         if (!$order_in_db_flag) {
+
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
+
+        \App\Helper\Utils::logger("shshJames: $order_in_db_flag ");
 
 
         return $this->pageView(__METHOD__,$ret_info);
