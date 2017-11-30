@@ -1791,6 +1791,7 @@ class user_manage_new extends Controller
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
+            $item['suc_lesson_count_rate_all'] = isset($item["suc_lesson_count_rate_all"])?$item["suc_lesson_count_rate_all"]:0;
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
 

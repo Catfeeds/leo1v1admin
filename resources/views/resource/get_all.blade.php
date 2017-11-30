@@ -8,6 +8,11 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
+    <script>
+     var tag_one = '{{$tag_info['tag_one']['menu']}}';
+     var tag_two = '{{$tag_info['tag_two']['menu']}}';
+     var tag_three = '{{$tag_info['tag_three']['menu']}}';
+    </script>
     <section class="content">
 
         <div>
@@ -16,15 +21,8 @@
                  <div  id="id_date_range" >
                  </div>
                  </div>
-
-                 <div class="col-xs-6 col-md-2">
-                 <div class="input-group " >
-                 <span >xx</span>
-                 <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                 </div>
-                 </div>
                  </div> -->
-            <div class="row">
+            <div class="row row-query-list">
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">使用角色</span>
@@ -51,6 +49,27 @@
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
                         <select class="form-control opt-change" id="id_grade"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2 {{$tag_info['tag_one']['hide']}}">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{$tag_info['tag_one']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_one"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2 {{$tag_info['tag_two']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{$tag_info['tag_two']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_two"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2 {{$tag_info['tag_three']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{$tag_info['tag_three']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_three"> </select>
                     </div>
                 </div>
 

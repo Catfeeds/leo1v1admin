@@ -240,7 +240,7 @@ class activity_config_new extends  activity_new_base {
             list($find_free_lesson_level , $present_lesson_count_1 )=$this->get_value_from_config_ex(
                 $this->lesson_times_present_lesson_count ,  $this->lesson_times , [0,0] );
             if ( $present_lesson_count_1) {
-
+         
                 list( $check_ok_flag,$now_all_change_value, $activity_desc_cur_count )= $this->check_max_change_value($this->max_change_value, $present_lesson_count_1);
                 if ( $check_ok_flag ) {
                     $present_lesson_count += $present_lesson_count_1 *3;

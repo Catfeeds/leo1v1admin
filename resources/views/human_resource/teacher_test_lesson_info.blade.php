@@ -157,11 +157,11 @@
                     </div>
                 </div>
 
-               
+
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td>老师</td>
@@ -170,14 +170,14 @@
                     <td>入职时长</td>
                     <td width="320px">面试评价</td>
                     <td>面试人</td>
-                    <td>状态</td>                        
-                    <td>年级段</td>                        
-                    <td style="display:none">第二科目年级段</td>                        
+                    <td>状态</td>
+                    <td>年级段</td>
+                    <td style="display:none">第二科目年级段</td>
                     <td> 当前常规课学生数</td>
                     <td>本月剩余课时数</td>
                     <td>今后三周试听课数</td>
                     <td>本周剩余试听课数</td>
-                    {!!\App\Helper\Utils::th_order_gen([          
+                    {!!\App\Helper\Utils::th_order_gen([
                         ["试听排课数","all_lesson" ],
                         ["试听成功课数","success_lesson" ],
                         ["试听成功课数(销售-old)","lesson_num_old" ],
@@ -203,7 +203,7 @@
                     <td>操作</td>
                 </tr>
             </thead>
-            <tbody>                
+            <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["realname"]}}</td>
@@ -234,7 +234,7 @@
                             <a href="javascript:;" >{{@$var["test_lesson_num_week"]}}</a>
                         </td>
                         <td class="all_lesson" data-teacherid="{{@$var["teacherid"]}}" >
-                            
+
                             <a href="javascript:;" > {{@$var["all_lesson"]}}</a>
                         </td>
 
@@ -243,19 +243,19 @@
                         </td>
                         <td class="lesson_num_old" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
                             {{@$var["lesson_num_old"]}}
-                        </td> 
+                        </td>
 
                         <td class="lesson_num" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
                              <a href="javascript:;" >{{@$var["lesson_num"]}}</a>
 
-                        </td> 
+                        </td>
                         <td class="test_person_num" data-teacherid="{{@$var["teacherid"]}}" >
                            {{@$var["test_person_num"]}}
                         </td>
                         <!--<td class="lesson_num_other" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
                             {{@$var["lesson_num_other"]}}
                         </td>-->
-    
+
                         <td class="kk_num" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
                             {{@$var["kk_num"]}}
                         </td>
@@ -266,10 +266,10 @@
 
                         <td>
                             @if (isset($var["success_per"]))
-                                {{@$var["success_per"]}}%   
+                                {{@$var["success_per"]}}%
                             @endif
                         </td>
-                        
+
                         <td class="have_order">{{@$var["have_order"]}}</td>
                         <td class="order_number">{{@$var["order_number"]}}</td>
                         <!-- <td class="have_order_other">{{@$var["have_order_other"]}}</td> -->
@@ -278,29 +278,29 @@
                         <td class="order_num_per" data-teacherid="{{@$var["teacherid"]}}">
                             <a href="javascript:;" >
                                 @if (isset($var["order_num_per"]))
-                                    {{@$var["order_num_per"]}}%   
+                                    {{@$var["order_num_per"]}}%
                                 @endif
                             </a>
                         </td>
                         <td class="order_per">
                             @if (isset($var["order_per"]))
-                                {{@$var["order_per"]}}%   
+                                {{@$var["order_per"]}}%
                             @endif
                         </td>
                        <!-- <td class="order_num_per_other">
                             @if (isset($var["order_num_per_other"]))
-                                {{@$var["order_num_per_other"]}}%   
+                                {{@$var["order_num_per_other"]}}%
                             @endif
                         </td>
-                        --> 
+                        -->
                         <td class="kk_per">
                             @if (isset($var["kk_per"]))
-                                {{@$var["kk_per"]}}%   
+                                {{@$var["kk_per"]}}%
                             @endif
                         </td>
                         <td class="change_per">
                             @if (isset($var["change_per"]))
-                                {{@$var["change_per"]}}%   
+                                {{@$var["change_per"]}}%
                             @endif
                         </td>
                         <td>
@@ -315,7 +315,7 @@
                                 操作人:{{$var["limit_plan_lesson_account"]}}<br>
                                 操作时间:{{$var["limit_plan_lesson_time_str"]}}<br>
                             @endif
-                        </td>                      
+                        </td>
 
                         <td>
                             <div class="data"
