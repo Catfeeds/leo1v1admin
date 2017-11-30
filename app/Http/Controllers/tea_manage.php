@@ -396,7 +396,8 @@ class tea_manage extends Controller
      * 老师课程列表 pad实时播放二维码
      */
     public function get_tea_pad_lesson_qr(){
-        $lessonid=$this->get_in_lessonid();
+        $lessonid = $this->get_in_lessonid();
+        $type_flag = $this->get_in_int_val('type_flag', 1);
         $ret_arr=$this->t_lesson_info->field_get_list($lessonid,"*");
         $ret_arr["roomid"]= \App\Helper\Utils::gen_roomid_name( $ret_arr["lesson_type"],
                                 $ret_arr["courseid"], $ret_arr["lesson_num"]);
@@ -427,10 +428,15 @@ class tea_manage extends Controller
         }
         // dd($ret_arr);
         //图片信息
-        $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&roomId={$ret_arr['roomid']}&xmpp={$ret_arr['xmpp']}&webrtc={$ret_arr['webrtc']}&ownerId={$ret_arr['teacherid']}&type={$ret_arr['type']}&audioService={$ret_arr['audioService']}";
+        if($type_flag ==1){
+            $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&roomId={$ret_arr['roomid']}&xmpp={$ret_arr['xmpp']}&webrtc={$ret_arr['webrtc']}&ownerId={$ret_arr['teacherid']}&type={$ret_arr['type']}&audioService={$ret_arr['audioService']}";
+        }else{
+            $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&drawUrl={$ret_arr['draw']}&audioUrl={$ret_arr['audio']}";
+        }
+
         $base64_qr = base64_encode($qr_info);
 
-        $lessonid_qr_name = $lessonid."_qr_new.png";
+        $lessonid_qr_name = $lessonid.$type_flag."_qr_new.png";
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $qiniu_url = $qiniu['public']['url'];
         $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$lessonid_qr_name);
