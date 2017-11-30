@@ -1314,11 +1314,11 @@ class test_james extends Controller
     public function get_add_time(){
 
         $a = $this->t_order_info->get_cc_lesson_num('1509465600', '1512057600', '292171', '2');
+        $b = $this->t_order_info->get_cc_test_lesson_num('1509465600', '1512057600', '292171', '2');
 
-        dd($a);
-
-        $a=array('a'=>5,'b'=>15,'c'=>25);
-        echo array_sum($a);
+        print_r($a);
+        print_r($b);
+        
 
     }
 
