@@ -408,11 +408,11 @@ abstract class NewModel
             }else{
                 $this->commit();
             }
-            return $ret;
         }else{
-            return $this->update_field_list($this->field_table_name,$set_field_arr,
-                               $this->field_id1_name ,$id);
+            $ret = $this->update_field_list($this->field_table_name,$set_field_arr,$this->field_id1_name,$id);
         }
+
+        return $ret;
     }
 
 

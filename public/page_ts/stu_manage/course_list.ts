@@ -251,8 +251,11 @@ $(function(){
             ["默认课时数",id_default_lesson_count ]  ,
             ["周评类型",id_week_comment_num]  ,
             ["视屏功能",id_enable_video],
-            ["常规课上奥数课标识",id_reset_lesson_count_flag],
         ];
+        var arr_ex = ["常规课上奥数课标识",id_reset_lesson_count_flag];
+        if(opt_data.competition_flag==0){
+            arr.push(arr_ex);
+        }
 
         $.show_key_value_table("课程状态", arr ,{
             label    : '确认',

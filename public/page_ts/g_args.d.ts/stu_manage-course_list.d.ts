@@ -17,6 +17,7 @@ interface RowData {
 	teacherid	:any;
 	lesson_grade_type	:any;
 	lesson_count	:any;
+	competition_flag	:any;
 	no_finish_lesson_count	:any;
 	finish_lesson_count	:any;
 	add_time	:any;
