@@ -453,37 +453,13 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($start_time,$end_time )= $this->get_in_date_range_month(0);
-        $month = strtotime( date("Y-m-01", $start_time));
-        list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4]) = [[],[],[],[]];
-        $week_info = $this->t_month_def_type->get_month_week_time($month);
-        foreach($week_info as $item){
-            $week_order = $item['week_order'];
-            $start_time = date('m-d',$item['start_time']);
-            $end_time = date('m-d',$item['end_time']);
-            if($week_order == E\Eweek_order::V_1){
-                $week[E\Eweek_order::V_1][] = $start_time.'/'.$end_time;
-            }elseif($week_order == E\Eweek_order::V_2){
-                $week[E\Eweek_order::V_2][] = $start_time.'/'.$end_time;
-            }elseif($week_order == E\Eweek_order::V_3){
-                $week[E\Eweek_order::V_3][] = $start_time.'/'.$end_time;
-            }elseif($week_order == E\Eweek_order::V_4){
-                $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
-            }
+        $all_price = 0;
+        $order_list = $this->t_order_info->get_1v1_order_seller_month_money_new($sys_operator='蔡明霞',$start_time=1506960000,$end_time=1509465600);
+        foreach ($order_list as  $item ) {
+            $all_price+= $item["price"];
         }
-        $ret_week = [];
-        foreach($week as $key=>$item){
-            foreach($item as $key_n=>$info){
-                if($key_n>0){
-                    $ret_week[$key] = $ret_week[$key].','.$info;
-                }else{
-                    $ret_week[$key] = $info;
-                }
-            }
-        }
-        dd($ret_week);
-        $agent_info = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
-        dd($agent_info);
+        $all_price = $all_price/100;
+        dd($all_price);
         $ret_info = $this->t_origin_key->get_all_key_list();
         $key1_arr = array_unique(array_column($ret_info,'key1'));
         $key2_arr = array_unique(array_column($ret_info,'key2'));
