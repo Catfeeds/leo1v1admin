@@ -1234,9 +1234,9 @@ class tea_manage_new extends Controller
             "cr_rate",
             "violation_num"
         ];
-        $order_field_arr = array_merge(["tea_nick"],$sum_field_list);
+        $order_field_arr = array_merge(["nick"],$sum_field_list);
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr,"tea_nick desc");
+            =$this->get_in_order_by_str($order_field_arr,"nick desc");
 
 
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
