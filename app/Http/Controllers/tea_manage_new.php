@@ -1226,6 +1226,7 @@ class tea_manage_new extends Controller
     }
 
     public function approved_data(){
+
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $page_num = $this->get_in_page_num();
         $teacherid = $this->get_in_int_val("teacherid",-1);
@@ -1245,6 +1246,7 @@ class tea_manage_new extends Controller
             $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
             $item['violation_num'] = array_sum($violation_info);
         }
+
 
         return $this->pageView(__METHOD__,$ret_info);
     }

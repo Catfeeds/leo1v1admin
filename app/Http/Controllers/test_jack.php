@@ -347,9 +347,13 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
+        // $order_info = $this->t_order_info->field_get_list(13868,"*");
+        // unset($order_info["orderid"]);
+        // $this->t_order_info_finance->row_insert($order_info);
+
       
-        $start_time = strtotime("2017-01-01");
-        $end_time = strtotime("2017-02-01");
+        $start_time = strtotime("2016-12-01");
+        $end_time = strtotime("2017-01-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         // foreach($teacher_arr_ex as $k=>$val){
@@ -413,7 +417,7 @@ class test_jack  extends Controller
         $money=0;
         foreach($order_info as $val){
 
-            if($val["price"]>200000 && $val["price"]<500000 && in_array($val["orderid"],[13933,13868])){
+            if($val["price"]>400000 && $val["price"]<1630000 && in_array($val["orderid"],[13344,12948])){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -633,6 +637,8 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $this->t_student_info->reset_lesson_count(440915);
+        dd(111);
         $aa = E\Eorder_channel::s2v("alipay_pc_direct");
         $channel_name = E\Eorder_channel::get_desc($aa);
         dd($channel_name);

@@ -287,6 +287,7 @@ class url_power_map {
 			'/finance_data/student_data'	=>1081400,
 			'/finance_data/student_type_data'	=>1081500,
 			'/finance_data/test_lesson_origin_tongji'	=>1081600,
+			'/finance_data/money_contract_list'	=>1081700,
 			'/tongji/admin_card_log_list'	=>1080904,
 			'/tongji/admin_card_date_log_list'	=>1080905,
 			'/tongji/admin_card_admin_log_list'	=>1080906,

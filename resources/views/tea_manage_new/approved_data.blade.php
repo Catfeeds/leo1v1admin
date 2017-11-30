@@ -63,17 +63,10 @@
                             </a>
                         </td>
 
-
-
-
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
-
-
-
                             </div>
                         </td>
                     </tr>

@@ -4203,9 +4203,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $begin_time = strtotime($begin_date);
             }
 
-            // $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            //     $teacher_info['phone'],$reference_type,$begin_time
-            // );
             $identity = $recommended_info['identity'];
             if (in_array($identity,[5,6,7])) {
                 $type = 1; // 机构老师
@@ -4243,16 +4240,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 "recommended_teacherid" => $recommended_teacherid,
             ]);
 
-            // if($notice_flag && $teacher_info['wx_openid']!=""){
-            //     $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-            //     $wx_data["first"]    = $recommended_info['nick']."已成功入职";
-            //     $wx_data["keyword1"] = "已入职";
-            //     $wx_data["keyword2"] = "";
-            //     $wx_data["remark"]   = "您已获得".$reference_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
-            //                          ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
-            //                          ."请及时绑定银行卡号，如未绑定将无法发放。";
-            //     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$wx_data);
-            // }
+            if($notice_flag && $teacher_info['wx_openid']!=""){
+                $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+                $wx_data["first"]    = $recommended_info['nick']."已成功入职";
+                $wx_data["keyword1"] = "已入职";
+                $wx_data["keyword2"] = "";
+                $wx_data["remark"]   = "您已获得".$reference_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
+                                     ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+                                     ."请及时绑定银行卡号，如未绑定将无法发放。";
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$wx_data);
+            }
         }
     }
 
