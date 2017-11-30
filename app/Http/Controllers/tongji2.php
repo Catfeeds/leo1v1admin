@@ -391,17 +391,18 @@ class tongji2 extends Controller
                 $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
             }
         }
-        foreach($week as &$item){
-            foreach($item as $key=>$info){
-                if($key>0){
-                    $item = $info.'-';
+        $ret_week = [];
+        foreach($week as $key=>$item){
+            foreach($item as $key_n=>$info){
+                if($key_n>0){
+                    $ret_week[$key] = $ret_week[$key].','.$info;
                 }else{
-                    $item = $info;
+                    $ret_week[$key] = $info;
                 }
             }
         }
-        dd($week);
-        return $this->pageView(__METHOD__,$ret_info,["week"=>$week]);
+        dd($ret_week);
+        return $this->pageView(__METHOD__,$ret_info,["week"=>$ret_week]);
     }
 
     public function test_lesson_frist_call_time_master(){
