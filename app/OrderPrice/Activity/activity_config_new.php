@@ -125,14 +125,13 @@ class activity_config_new extends  activity_new_base {
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
 
-        //\App\Helper\Utils::logger("dayin: ".json_encode($this));
+
         if ( in_array( session("acc"), ["jim", "bacon"]) ) {
-            if (!$this->open_flag ) {
+            if ( $this->open_flag ==0 ) { // 1,2
                 return false;
             }
-
         }else{
-            if ($this->open_flag !=1 ) {
+            if ($this->open_flag !=1 ) { //1
                 return false;
             }
         }
