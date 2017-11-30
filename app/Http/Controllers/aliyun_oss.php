@@ -37,6 +37,9 @@ class aliyun_oss  extends Controller
     }
     public function upload_add(Request $request){
         $file = $_FILES['file'];
+        echo "<pre>";
+        var_dump($file);
+        echo "</per>";
         if($file['error'] != 0){
             dd("文件上传有误,错误代码".$file['error']);
         }
@@ -53,18 +56,30 @@ class aliyun_oss  extends Controller
         }
         $tmp_url = $file['tmp_name'];
         $tmp_type = $file['type'];
-
+        /*
         $ret_info = $this->oss::publicUpload('sam-test', $new_name, $tmp_url, [
             'ContentType' => $tmp_type,
         ]);
-        $data = [
-            "publish_time" => time(),
-            "file_path"  => $new_name,
-            "file_type"    => $file_type,
-            "file_url"     => $file_type,
-        ];
-        $this->t_version_control->row_insert($data);
-        print("<a href=upload_list>点击跳转到列表页</a>"); 
+        */
+        $ret_info = $this->oss::multi_publicUpload('sam-test', $new_name, $tmp_url, [
+            'ContentType' => $tmp_type,
+        ]);
+        
+        if($ret_info){
+            echo "<pre>";
+            var_dump($ret_info);
+            echo "</pre>";
+            $data = [
+                "publish_time" => time(),
+                "file_path"  => $new_name,
+                "file_type"    => $file_type,
+                "file_url"     => $file_type,
+            ];
+            $this->t_version_control->row_insert($data);
+            print("<a href=upload_list>点击跳转到列表页</a>");
+        }else{
+            dd("上传出错");
+        }
     }
     public function file_manage(){
         $ret_info = $this->oss::publicUpload('sam-test', 'student/test_sam01.jpg', '/home/sam/coder01.jpg', [
@@ -77,8 +92,18 @@ class aliyun_oss  extends Controller
         $file_type = $this->get_in_int_val("file_type",-1);
         $file_name = $this->get_in_str_val("file_name","");
         $file_url  = $this->get_in_str_val("file_url","");
-
-        dd($file_type,$file_name,$file_url);
+        $data = [
+            "publish_time" => time(),
+            "file_path"    => $file_name,
+            "file_type"    => $file_type,
+            "file_url"     => $file_url,
+        ];
+        $ret_info = $this->t_version_control->row_insert($data);
+        if($ret_info){
+            return outputjson_success();
+        }else{
+            return outputjson_error();
+        }
     }
 
 }

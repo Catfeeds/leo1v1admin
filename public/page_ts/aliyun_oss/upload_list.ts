@@ -24,38 +24,71 @@ $(function(){
             load_data();
         }
     });
-    $('#id_add_file').on('click',function(){
+    $('#id_add_file1').on('click',function(){
         var opt_data=$(this).get_opt_data();
         window.open(
               '/aliyun_oss/upload_page'
           );
     });
 
-    $("#id_add_file1").on("click",function(){
+    $("#id_add_file").on("click",function(){
         var opt_data = $(this).get_opt_data;
         var id_file_type        = $("<select/>");  //文件类型
         var id_file_name        = $("<input/>");  //文件名
-        var id_file_url         = $("<input type=\"file\"/>");
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\"> </a>   </div>");
+        var $upload_btn  = $upload_div.find("button") ;
+        var $upload_link = $upload_div.find("a") ;
+        $upload_link.attr('href',"");
+
         Enum_map.append_option_list("file_type", id_file_type, true);
         var arr = [
             ["类型",id_file_type],
             ["文件名",id_file_name],
-            ["上传",id_file_url],
         ];
-        $.show_key_value_table("增加考试记录", arr, {
+        //arr.push(['上传文件',$upload_div]);
+
+
+        $.show_key_value_table("请填写软件信息", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',
-            action   :   function(dialog){
-
-                $.do_ajax("/aliyun_oss/add_file",{
-                    "file_type" : id_file_type.val(),
-                    "file_name" : id_file_name.val(),
-                    "file_url"  : id_file_url.val(),
-                });
+            action   :   function(dialog){    
+                var arr_new = [];
+                arr_new.push(['上传文件',$upload_div]);
+                var file_type = id_file_type.val();
+                var file_name = id_file_name.val();
+                $.show_key_value_table("请上传记录", arr_new, {
+                    label    :  "确认",
+                    cssClass :  'btn-waring',
+                    action   :   function(dialog){      
+                        $.do_ajax("/aliyun_oss/add_file",{
+                            "file_type" : file_type,
+                            "file_name" : file_name,
+                            "file_url"  : $upload_link.attr('href'),
+                        });
+                    }
+                },function(){
+                    $.custom_upload_file_soft(
+                        file_type,
+                        file_name,
+                        "id_upload_from_url" ,
+                        true,
+                        function( up, info, file ){
+                            var res = $.parseJSON(info);
+                            var url=res.key;
+                            $.do_ajax("/common_new/get_qiniu_download",{
+                                "file_url" :res.key ,
+                                "public_flag" :1,
+                            }, function(resp){
+                                $upload_link.attr("href", resp.url);
+                                $upload_link.html("查看");
+                            })
+                        },
+                        null,
+                        ["exe","jpg","jpeg","zip","rar","gz","pdf","doc","deb"] );
+                })
             }
         },function(){
         })
-        alert(2);
     });
     $('.opt-change').set_input_change_event(load_data);
 });

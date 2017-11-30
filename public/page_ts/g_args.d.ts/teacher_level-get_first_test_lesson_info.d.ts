@@ -29,20 +29,21 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_level-get_first_test_lesson_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		subject:	$('#id_subject').val(),
+		teacherid:	$('#id_teacherid').val(),
+		record_flag:	$('#id_record_flag').val(),
+		acc:	$('#id_acc').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			subject:	$('#id_subject').val(),
-			teacherid:	$('#id_teacherid').val(),
-			record_flag:	$('#id_record_flag').val(),
-			acc:	$('#id_acc').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
