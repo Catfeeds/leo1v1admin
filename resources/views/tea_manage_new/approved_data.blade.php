@@ -31,11 +31,14 @@
             <thead>
                 <tr>
                     <td >老师</td>
-                    <td >学生数</td>
-                    <td >课耗</td>
-                    <td >CC转化率</td>
-                    <td >CR转化率</td>
-                    <td >老师违规数</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["学生数","stu_num" ],
+                        ["课耗","lesson_num" ],
+                        ["CC转化率","cc_rate" ],
+                        ["CR转化率","cr_rate" ],
+                        ["老师违规数","violation_num" ],
+                       ])  !!}
+
                     <td > 操作  </td>
                 </tr>
             </thead>
