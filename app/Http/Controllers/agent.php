@@ -453,11 +453,24 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $id = $this->t_agent->get_id_by_wx_openid($wx_openid='aaa');
-        if($id>0){
-            return $this->output_err("该微信已绑定,请换个账号重试!");
+        $week = [];
+        $week_info = $this->t_month_def_type->get_month_week_time($start_time=-1);
+        foreach($week_info as $item){
+            $week_order = $item['week_order'];
+            $start_time = date('Y-m-d',$item['start_time']);
+            $end_time = date('Y-m-d',$item['end_time']);
+            if($week_order == E\Eweek_order::V_1){
+                $week[E\Eweek_order::V_1][] = $start_time.'-'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_2){
+                $week[E\Eweek_order::V_2][] = $start_time.'-'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_3){
+                $week[E\Eweek_order::V_3][] = $start_time.'-'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_4){
+                $week[E\Eweek_order::V_4][] = $start_time.'-'.$end_time;
+            }
         }
-        dd($id);
+        dd($week);
+        dd($week_info);
         $agent_info = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
         dd($agent_info);
         $ret_info = $this->t_origin_key->get_all_key_list();

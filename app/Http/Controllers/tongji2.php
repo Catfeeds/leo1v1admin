@@ -373,6 +373,25 @@ class tongji2 extends Controller
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
         }
+
+        //
+        // $week = [];
+        // $week_info = $this->t_month_def_type->get_month_week_time($start_time=-1);
+        // foreach($week_info as $item){
+        //     $week_order = $item['week_order'];
+        //     $start_time = date('Y-m-d',$item['start_time']);
+        //     $end_time = date('Y-m-d',$item['end_time']);
+        //     if($week_order == E\Eweek_order::V_1){
+        //         $week[E\Eweek_order::V_1][] = $start_time.'-'.$end_time;
+        //     }elseif($week_order == E\Eweek_order::V_2){
+        //         $week[E\Eweek_order::V_2][] = $start_time.'-'.$end_time;
+        //     }elseif($week_order == E\Eweek_order::V_3){
+        //         $week[E\Eweek_order::V_3][] = $start_time.'-'.$end_time;
+        //     }elseif($week_order == E\Eweek_order::V_4){
+        //         $week[E\Eweek_order::V_4][] = $start_time.'-'.$end_time;
+        //     }
+        // }
+        // dd($week);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -1243,9 +1262,9 @@ class tongji2 extends Controller
 
 
 
- 
+
                 }
-               
+
 
 
 
@@ -1479,13 +1498,13 @@ class tongji2 extends Controller
 
 
             //课时消耗目标数量
-            $last_year_start = strtotime("-1 years",$month_start); 
-            $last_year_end = strtotime("+1 months",$last_year_start); 
+            $last_year_start = strtotime("-1 years",$month_start);
+            $last_year_end = strtotime("+1 months",$last_year_start);
 
             $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($month_start,$type);
             $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
             $grade_arr = json_decode($month_start_grade_str,true); //月初各年级在读人数
-        
+
             $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
             $lesson_consume_target = 0;
             foreach($lesson_consume as $kk=>$vv){
