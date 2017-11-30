@@ -1313,12 +1313,8 @@ class test_james extends Controller
 
     public function get_add_time(){
 
-        $a = $this->t_order_info->get_cc_lesson_num('1509465600', '1512057600', '292171', '2');
-        $b = $this->t_order_info->get_cc_test_lesson_num('1509465600', '1512057600', '292171', '2');
-
-        print_r($a);
-        print_r($b);
-        
+        $a = $this->t_teacher_info->get_unbound_teacher_list();
+        dd($a);
 
     }
 
