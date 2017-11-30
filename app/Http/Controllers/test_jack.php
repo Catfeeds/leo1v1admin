@@ -348,8 +348,8 @@ class test_jack  extends Controller
         // dd($list);
         // $arr=[];
       
-        $start_time = strtotime("2017-02-01");
-        $end_time = strtotime("2017-03-01");
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-02-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         // foreach($teacher_arr_ex as $k=>$val){
@@ -412,7 +412,7 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>200000 && $val["price"]<1300000){
+            if($val["price"]>200000 && $val["price"]<500000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -427,26 +427,26 @@ class test_jack  extends Controller
                 // $val["contract_starttime"] = strtotime("+2 months",$val["contract_starttime"]);
                 // $val["contract_endtime"] = strtotime("+2 months",$val["contract_endtime"]);
 
-                $val["order_time"] = strtotime("+1 months",$val["order_time"]);
-                $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
-                if($val["app_time"]>0){
-                    $val["app_time"] = strtotime("+1 months",$val["app_time"]);
-                }
-                $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
-                $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
-                $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
+                // $val["order_time"] = strtotime("+1 months",$val["order_time"]);
+                // $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
+                // if($val["app_time"]>0){
+                //     $val["app_time"] = strtotime("+1 months",$val["app_time"]);
+                // }
+                // $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
+                // $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
+                // $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
 
                 
-                $val["parent_order_id"] = 3000;
-                unset($val["orderid"]);
-                $this->t_order_info_finance->row_insert($val);
+                // $val["parent_order_id"] = 3000;
+                // unset($val["orderid"]);
+                // $this->t_order_info_finance->row_insert($val);
 
 
                 // $this->t_order_info_finance->field_update_list($val["orderid"],[
                 //    "contract_type"=>100 
                 // ]);
 
-                if(count($arr) >= 16){
+                if(count($arr) >= 2){
                     break;
                 }
  
