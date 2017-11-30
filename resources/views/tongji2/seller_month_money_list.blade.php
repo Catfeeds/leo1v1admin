@@ -22,19 +22,19 @@
                     <td>成员 </td>
                     <td>
                         第一周试听成功数
-                        {{$week[1]}}
+                        {{$first_week}}
                     </td>
                     <td>
                         第二周试听成功数
-                        {{$week[2]}}
+                        {{$second_week}}
                     </td>
                     <td>
                         第三周试听成功数
-                        {{$week[3]}}
+                        {{$third_week}}
                     </td>
                     <td>
                         第四周试听成功数
-                        {{$week[4]}}
+                        {{$four_week}}
                     </td>
                     <td>取消率 </td>
                     <td>绩效对应系数 </td>
