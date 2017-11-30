@@ -2334,7 +2334,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         // select 1 from t_lesson_info where absenteeism_flag=1
 
         $sql = $this->gen_sql_new("  select COUNT( CASE WHEN l.lesson_cancel_reason_type=23 THEN 1 ELSE null END ) as late_num,"//迟到
-                                  ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as late_num,"//旷课
+                                  ." COUNT( CASE WHEN l.lesson_cancel_reason_type=21 THEN 1 ELSE null END ) as cancel_num,"//旷课
                                   ." COUNT( CASE WHEN l.stu_performance='' THEN 1 ELSE null END ) as comment_num,"//未评价
                                   ." COUNT( CASE WHEN l.tea_cw_status=0 THEN 1 ELSE null END ) as tea_cw_num,"//未传课件
                                   ." COUNT( CASE WHEN h.work_status=0 THEN 1 ELSE null END ) as work_num"//未留作业

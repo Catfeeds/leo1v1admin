@@ -51,10 +51,11 @@ $(function(){
                     var data = result['data'];
 
                     var html_str = "";
+                    //cancel_num
                     // $.each(data, function (i, item) {
                     var cls = "success";
 
-                    html_str = "<tr class=\"" + cls + "\" > <td>" + '迟到' + "<td>" + data.late_num +"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未评论'+"<td>"+data.comment_num+"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未传课件'+"<td>"+data.tea_cw_num + "<tr class=\"" + cls + "\">" + "<td>"+'未布置作业'+ "<td>" +data.work_num +"</tr>";
+                    html_str = "<tr class=\"" + cls + "\" > <td>" + '迟到' + "<td>" + data.late_num +"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未评论'+"<td>"+data.comment_num+"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未传课件'+"<td>"+data.tea_cw_num + "<tr class=\"" + cls + "\">" + "<td>"+'未布置作业'+ "<td>" +data.work_num +"</tr>" + "<tr class=\"" + cls + "\">" + "<td>"+'旷课'+ "<td>" +data.cancel_num +"</tr>";
                     // });
 
                     html_node.find(".data-body").html(html_str);
