@@ -42,14 +42,10 @@ $(function(){
             closable: true
         });
 
-        $.ajax({
-            type: "post",
-            url: "/ss_deal/get_violation_info",
-            dataType: "json",
-            data: {
+
+        $.do_ajax("/ss_deal/get_violation_info",{
                 'teacherid': teacherid,
-            },
-            success: function (result) {
+            },function (result) {
                 console.log(result);
 
                 if (result['ret'] == 0) {
@@ -66,7 +62,34 @@ $(function(){
 
                 }
             }
-        });
+        );
+
+
+        // $.ajax({
+        //     type: "post",
+        //     url: "/ss_deal/get_violation_info",
+        //     dataType: "json",
+        //     data: {
+        //         'teacherid': teacherid,
+        //     },
+        //     success: function (result) {
+        //         console.log(result);
+
+        //         if (result['ret'] == 0) {
+        //             var data = result['data'];
+
+        //             var html_str = "";
+        //             // $.each(data, function (i, item) {
+        //             var cls = "success";
+
+        //             html_str = "<tr class=\"" + cls + "\" > <td>" + '迟到' + "<td>" + data.late_num +"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未评论'+"<td>"+data.comment_num+"</tr>"+"<tr class=\"" + cls + "\">"+"<td>"+'未传课件'+"<td>"+data.tea_cw_num + "<tr class=\"" + cls + "\">" + "<td>"+'未布置作业'+ "<td>" +data.work_num +"</tr>";
+        //             // });
+
+        //             html_node.find(".data-body").html(html_str);
+
+        //         }
+        //     }
+        // });
 
     });
 
