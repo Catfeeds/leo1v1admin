@@ -291,8 +291,6 @@
                                 @if(in_array($account_role,[12,13]))
                                     <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
                                     <a class="fa-cny opt-change-money" title="更改金额"> </a>
-                                    <!-- <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a> -->
-                                    <!-- <a class="fa-glass opt-change-contract-starttime" title="修改合同生效时间"> </a> -->
                                 @endif
                                 <a class="fa-arrow-right  opt-next " title="课时包详情"> </a>
                                 <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
