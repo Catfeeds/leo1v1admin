@@ -964,8 +964,8 @@ $(function(){
         $.do_ajax( "/common/encode_text",{
             "text" : lessonid
         }, function(ret){
-            
-            // 
+
+            //
             BootstrapDialog.alert(
                 $( "<dir><font color=red> 问题报告群链接: </font> http://admin.leo1v1.com/supervisor/lesson_all_info?lessonid="+lessonid +" <br/>  <br/> 分享观看链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text + "</div>" )  );
         });
@@ -984,13 +984,9 @@ $(function(){
             var data=result.data;
 
             var args="title=lessonid:"+lessonid+"&beginTime="+data.lesson_start+"&endTime="+data.lesson_end+"&roomId="+data.roomid+"&xmpp="+data.xmpp+"&webrtc="+data.webrtc+"&ownerId="+data.teacherid+"&type="+data.type+"&audioService="+data.audioService ;
-
             var args_64 = $.base64.encode(args);
 
-            console.log(args);
-
             var text = encodeURIComponent(url+args_64);
-
             var dlg = BootstrapDialog.show({
                 title: title,
                 message :"<div style = \"text-align:center\"><img width=\"350px\" src=\"/common/get_qr?text="+text+"\"></img>" ,
@@ -1007,7 +1003,8 @@ $(function(){
         var title = $(this).attr("title");
         //得到
         $.do_ajax("/tea_manage/get_tea_pad_lesson_qr",{
-            "lessonid" :lessonid
+            "lessonid"  :lessonid,
+            "type_flag" : 1,
         },function(result){
 
             console.log(result.data);
@@ -1019,13 +1016,9 @@ $(function(){
             });
 
           });
-
     });
 
-
-
     $(".opt-qr-pad").on("click",function(){
-
         var lessonid= $(this).get_opt_data("lessonid");
         var url = $(this).data("type");
         var title=$(this).attr("title");
@@ -1038,7 +1031,6 @@ $(function(){
             var args_64 = $.base64.encode(args);
             var text = encodeURIComponent(url+args_64);
 
-            console.log(text);
             var dlg = BootstrapDialog.show({
                 title: title,
                 message  : "<div style=\"text-align:center\"><img width=\"300\" src=\"/common/get_qr?text="+text+"\"></img><br/>" +  url+args_64+"<br/> "+args +"</div>",
@@ -1047,7 +1039,25 @@ $(function(){
         });
     });
 
+    $(".opt-qr-pad-new").on("click",function(){
+        var lessonid= $(this).get_opt_data("lessonid");
+        var title = $(this).attr("title");
+        //得到
+        $.do_ajax("/tea_manage/get_tea_pad_lesson_qr",{
+            "lessonid"  : lessonid,
+            "type_flag" : 2,
+        },function(result){
 
+            console.log(result.data);
+            var img_src = result.data;
+            var dlg = BootstrapDialog.show({
+                title: title,
+                message :"<div style = \"text-align:center\"><img width=\"350px\" src=\""+img_src+"\"></img>" ,
+                closable : true
+            });
+
+          });
+    });
 
 
     $(".opt-add-error").on("click", function(){
@@ -2013,7 +2023,7 @@ $(function(){
                     var title = "反馈详情";
                     var list = resp.data;
                     console.log(list);
-                    var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");                          
+                    var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");
                     var html_score=
                         "<tr>"
                         +"<td>讲义设计情况评分</td>"
@@ -2100,7 +2110,7 @@ $(function(){
                 });
 
             }else{
-                
+
                 var lessonid = opt_data.lessonid;
                 var teacherid = opt_data.teacherid;
                 var id_jysj =  $("<select class=\"class_score\" />");
@@ -2112,8 +2122,8 @@ $(function(){
                 var id_rjcz =  $("<select class=\"class_score\" />");
                 var id_skhj =  $("<select class=\"class_score\" />");
                 var id_khfk =  $("<select class=\"class_score\" />");
-                var id_lcgf =  $("<select class=\"class_score\" />");                  
-                var id_lesson_invalid_flag =  $("<select ><option value=\"1\">有效课程</option><option value=\"2\">无效课程</option></select>");     
+                var id_lcgf =  $("<select class=\"class_score\" />");
+                var id_lesson_invalid_flag =  $("<select ><option value=\"1\">有效课程</option><option value=\"2\">无效课程</option></select>");
 
                 var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"6\" />幽默风趣 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"7\" />生动活泼 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"8\" />循循善诱 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"9\" />细致耐心 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"10\" />考纲熟悉 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"11\" />善于互动</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"12\" />没有口音</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"13\" />经验丰富</label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"14\" />功底扎实</label> ");
 
@@ -2152,42 +2162,42 @@ $(function(){
                 ];
                 id_lesson_invalid_flag.on("change",function(){
                     if($(this).val() ==2){
-                        id_jysj.parent().parent().hide();  
-                        id_yybd.parent().parent().hide();  
-                        id_zyzs.parent().parent().hide();  
-                        id_jxjz.parent().parent().hide();  
-                        id_hdqk.parent().parent().hide();  
-                        id_bsqk.parent().parent().hide();  
-                        id_skhj.parent().parent().hide();  
-                        id_khfk.parent().parent().hide();  
-                        id_lcgf.parent().parent().hide();  
-                        id_score.parent().parent().hide();  
-                        id_no_tea_score.parent().parent().hide();  
-                        id_jkqk.parent().parent().hide();  
-                        id_sshd.parent().parent().hide();  
-                        id_rjcz.parent().parent().hide();  
-                        
+                        id_jysj.parent().parent().hide();
+                        id_yybd.parent().parent().hide();
+                        id_zyzs.parent().parent().hide();
+                        id_jxjz.parent().parent().hide();
+                        id_hdqk.parent().parent().hide();
+                        id_bsqk.parent().parent().hide();
+                        id_skhj.parent().parent().hide();
+                        id_khfk.parent().parent().hide();
+                        id_lcgf.parent().parent().hide();
+                        id_score.parent().parent().hide();
+                        id_no_tea_score.parent().parent().hide();
+                        id_jkqk.parent().parent().hide();
+                        id_sshd.parent().parent().hide();
+                        id_rjcz.parent().parent().hide();
+
                     }else{
-                        id_jysj.parent().parent().show();  
-                        id_yybd.parent().parent().show();  
-                        id_zyzs.parent().parent().show();  
-                        id_jxjz.parent().parent().show();  
-                        id_hdqk.parent().parent().show();  
-                        id_bsqk.parent().parent().show();  
-                        id_skhj.parent().parent().show();  
-                        id_khfk.parent().parent().show();  
-                        id_lcgf.parent().parent().show();  
-                        id_score.parent().parent().show();  
-                        id_no_tea_score.parent().parent().show();  
-                        id_jkqk.parent().parent().show();  
-                        id_sshd.parent().parent().show();  
-                        id_rjcz.parent().parent().show();  
-                        
+                        id_jysj.parent().parent().show();
+                        id_yybd.parent().parent().show();
+                        id_zyzs.parent().parent().show();
+                        id_jxjz.parent().parent().show();
+                        id_hdqk.parent().parent().show();
+                        id_bsqk.parent().parent().show();
+                        id_skhj.parent().parent().show();
+                        id_khfk.parent().parent().show();
+                        id_lcgf.parent().parent().show();
+                        id_score.parent().parent().show();
+                        id_no_tea_score.parent().parent().show();
+                        id_jkqk.parent().parent().show();
+                        id_sshd.parent().parent().show();
+                        id_rjcz.parent().parent().show();
+
                     }
-                    
+
                 });
 
-                
+
                 $.show_key_value_table("试听评价", arr,{
                     label    : '确认',
                     cssClass : 'btn-warning',
@@ -2207,7 +2217,7 @@ $(function(){
                         id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                             sshd_good.push($(this).val());
                         });
-                        
+
                         $.do_ajax("/teacher_level/set_teacher_record_info",{
                             "teacherid"    : teacherid,
                             "lesson_invalid_flag":id_lesson_invalid_flag.val(),
@@ -2246,13 +2256,13 @@ $(function(){
                     id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
                     id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
 
-                    
+
                 });
             }
 
         });
 
-        
+
     });
 
 
@@ -2261,5 +2271,5 @@ $(function(){
     $(".opt-teacher-url").show();
     $(".opt-student-url").show();
     $(".opt-homework-url").show();
-    $(".opt-quiz-url").show();		
+    $(".opt-quiz-url").show();
 });

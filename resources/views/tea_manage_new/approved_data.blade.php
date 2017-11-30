@@ -1,12 +1,41 @@
 @extends('layouts.app')
 @section('content')
+    <!-- <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+         <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+         <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+         <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+         <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+         <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+         <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+    -->
+
+
+
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <link rel='stylesheet' href='/css/fullcalendar.css' />
+    <script src='/js/moment.js'></script>
+    <script src='/js/fullcalendar.js'></script>
+    <script src='/js/lang-all.js'></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
     <script type="text/javascript" src="/js/qiniu/ui.js"></script>
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_record.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/select_course.js"></script>
+    <script type="text/javascript" src="//g.alicdn.com/sj/aliphone-sdk/aliphone.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <script type="text/javascript" src="/page_js/teacher_freeze_limit_record.js"></script>
+
 
     <section class="content ">
 
