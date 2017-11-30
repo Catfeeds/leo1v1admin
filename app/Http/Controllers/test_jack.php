@@ -347,9 +347,9 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
-        $order_info = $this->t_order_info->field_get_list(13868,"*");
-        unset($order_info["orderid"]);
-        $this->t_order_info_finance->row_insert($order_info);
+        // $order_info = $this->t_order_info->field_get_list(13868,"*");
+        // unset($order_info["orderid"]);
+        // $this->t_order_info_finance->row_insert($order_info);
 
       
         $start_time = strtotime("2017-01-01");
@@ -410,14 +410,14 @@ class test_jack  extends Controller
         // }
         // dd(111);
 
-        $contract_type = $this->get_in_int_val("contract_type",3);
+        $contract_type = $this->get_in_int_val("contract_type",0);
         $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
         // $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
         $arr=[];
         $money=0;
         foreach($order_info as $val){
 
-            if($val["price"]>200000 && $val["price"]<500000 && in_array($val["orderid"],[13919])){
+            if($val["price"]>2000000 && $val["price"]<3500000 ){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -432,26 +432,26 @@ class test_jack  extends Controller
                 // $val["contract_starttime"] = strtotime("+2 months",$val["contract_starttime"]);
                 // $val["contract_endtime"] = strtotime("+2 months",$val["contract_endtime"]);
 
-                $val["order_time"] = strtotime("+1 months",$val["order_time"]);
-                $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
-                if($val["app_time"]>0){
-                    $val["app_time"] = strtotime("+1 months",$val["app_time"]);
-                }
-                $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
-                $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
-                $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
+                // $val["order_time"] = strtotime("+1 months",$val["order_time"]);
+                // $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
+                // if($val["app_time"]>0){
+                //     $val["app_time"] = strtotime("+1 months",$val["app_time"]);
+                // }
+                // $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
+                // $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
+                // $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
 
                 
-                $val["parent_order_id"] = 3000;
-                unset($val["orderid"]);
-                $this->t_order_info_finance->row_insert($val);
+                // $val["parent_order_id"] = 3000;
+                // unset($val["orderid"]);
+                // $this->t_order_info_finance->row_insert($val);
 
 
                 // $this->t_order_info_finance->field_update_list($val["orderid"],[
                 //    "contract_type"=>100 
                 // ]);
 
-                if(count($arr) >= 2){
+                if(count($arr) >= 20){
                     break;
                 }
  
