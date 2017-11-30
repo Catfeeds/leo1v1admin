@@ -1235,8 +1235,8 @@ class tea_manage_new extends Controller
         $ret_info = $this->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time,$page_num,$teacherid);
 
         foreach($ret_info['list'] as &$item){
-            $cc_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'1');
-            $cc_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '1');
+            $cc_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'2');
+            $cc_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '2');
             // $item['cc_rate'] = $cc_lesson_num>0?($cc_order_num/$cc_lesson_num):0;
             if($cc_lesson_num>0){
                 $item['cc_rate'] = $cc_order_num/$cc_lesson_num;
@@ -1244,8 +1244,8 @@ class tea_manage_new extends Controller
                 $item['cc_rate'] = 0;
             }
 
-            $cr_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'2');
-            $cr_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '2');
+            $cr_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'1');
+            $cr_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '1');
             if($cr_order_num>0){
                 $item['cr_rate'] = $cr_order_num/$cr_lesson_num;
             }else{
