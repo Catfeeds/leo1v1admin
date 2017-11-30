@@ -3694,7 +3694,7 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
             $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
-            if ($teacherid == 269222) {
+            if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
             }
@@ -5079,6 +5079,13 @@ class user_manage_new extends Controller
         $start_time = strtotime(date('Y-m-01', time()));
         $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
         foreach($re_teacherid as $item) {
+            // if ($teacherid == 274115 && $item['money'] != 60) { // 处理join中国
+            //     $this->t_teacher_money_list->field_update_list($item['id'], [
+            //         'money' => $reward,
+            //         'acc' => $acc
+            //     ]);
+            //     continue;
+            // }
             $type = 1;
             if ($item['identity'] == 0 || $item['identity'] == 8) {
                 $type = 0;
