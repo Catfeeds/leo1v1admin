@@ -330,20 +330,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0,$global_tq_called_flag=-1,$show_son_flag=false,$require_adminid_list_new=[]
     ) {
         if ($userid >0 || $phone || $nick) {
-            if(in_array($admin_revisiterid,[384,412])){//张植源,张龙
-                $where_arr=[
-                    ["ss.userid=%u",$userid, -1],
-                    ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                    ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
-                ];
-            }else{
-                $where_arr=[
-                    ["ss.userid=%u",$userid, -1],
-                    ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                    ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
-                    "s.origin<>'优学优享'",
-                ];
-            }
+            $where_arr=[
+                ["ss.userid=%u",$userid, -1],
+                ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
+                ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
+            ];
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
         }else{
@@ -564,12 +555,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1
     ) {
 
-
         if ($userid>0) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
             ];
-
             if ( $sub_assign_adminid_2 >0 ) { //
                 $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
             }
@@ -616,10 +605,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }else if($publish_flag ==1 ){
                 $where_arr[]="t.seller_student_status <>50";
             }
-
             $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
             $where_arr[]= $ret_in_str;
-
             $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
             $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
             $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
@@ -638,7 +625,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ( !$order_by_str ) {
             $order_by_str= " order by $opt_date_str desc";
         }
-
 
         $sql=$this->gen_sql_new(
             "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
@@ -2230,7 +2216,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ,$adminid){
+    public function get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ,$adminid=-1){
 
         $competition_call_time = time(NULL)   -3600*2;
         $last_contact_time = time(NULL)   -3600*1;
@@ -2239,6 +2225,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             'n.tmk_student_status<>3 ',
             " competition_call_time <  $competition_call_time ",
             "last_contact_time <  $last_contact_time ",
+            't.seller_student_status in (1,2,101,102)',
             // '((s.origin_level in (1,2,3) and n.cc_no_called_count>3) or (s.origin_level=4 and n.cc_no_called_count>2))',
         ];
 
@@ -2247,12 +2234,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
         $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
 
-        if ($adminid > 0 ) {
-            $where_arr[] = " ( t.seller_student_status in (1,2,101,102) or ( n.auto_allot_adminid = $adminid and t.seller_student_status in (0,1,2,101,102) ) )";
-        } else {
-            $where_arr[] = 't.seller_student_status in (1,2,101,102)';
-            $where_arr[] = 'n.auto_allot_adminid = 0';
-        }
         $order_by_str= " order by s.origin_level,n.add_time desc ";
 
         $sql=$this->gen_sql_new(
@@ -3134,6 +3115,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_item_list_new(){
+        $sql = "select * from db_weiyi.t_seller_student_new where admin_revisiterid=412";
+        return $this->main_get_list($sql);
+    }
     public function get_ass_tran_stu_info_new($start_time,$end_time){
         $where_arr=[
             "s.is_test_user=0",
@@ -3159,5 +3144,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_row($sql);
     }
+
 
 }

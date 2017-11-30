@@ -2200,4 +2200,24 @@ class Utils  {
         return $relative_path;
     }
 
+    /**
+     * 获取课堂的课时
+     * @param int lesson_start 课程开始时间
+     * @param int lesson_end 课程结束时间
+     * @return int 课时
+     */
+    static public function get_lesson_count($lesson_start,$lesson_end){
+        //分钟十位取整（四舍五入）
+        $time_difference = round(($lesson_end-$lesson_start)/600)*10;
+        //单位：分钟
+        $default_per_lesson_count_time = 40;
+
+        if($time_difference == 90){
+            $lesson_count = 200;
+        }else{
+            $lesson_count = $time_difference/$default_per_lesson_count_time*100;
+        }
+        return $lesson_count;
+    }
+
 };

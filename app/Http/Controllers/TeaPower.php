@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
 use \App\Enums as E;
 
+/**
+ * @use \App\Http\Controllers\Controller
+ */
 trait TeaPower {
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
@@ -2849,11 +2852,32 @@ trait TeaPower {
             $data[$r_key]['money'] = 0;
         }
         foreach($reward_list as $val){
-            $reward_key = $val['type'];
+            $reward_key   = $val['type'];
             $reward_money = $val['money']/100;
             $data[$reward_key]['money'] += $reward_money;
         }
         $data['list'] = $reward_list;
+
+        return $data;
+    }
+
+    /**
+     * 获取时间段内老师额外奖金明细
+     * @param int teacherid 老师id
+     * @param int start_time 开始时间
+     * @param int end_time 结束时间
+     * @return array
+     */
+    public function get_teacher_reward_money_list_new($teacherid,$start_time,$end_time){
+        $reward_list      = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
+        $reward_type_list = E\Ereward_type::$desc_map;
+        $data = [];
+        foreach($reward_list as $val){
+            $reward_key   = $val['type'];
+            $reward_money = $val['money']/100;
+            \App\Helper\Utils::check_isset_data($data[$reward_key]['money'],$reward_money);
+        }
+
         return $data;
     }
 
@@ -4094,7 +4118,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-    public function get_teacher_money_list($teacherid,$start_time,$end_time,$show_type="current"){
+    public function get_teacher_lesson_money_list_new($teacherid,$start_time,$end_time,$show_type="current"){
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$end_time));
         $list = [];
@@ -4110,37 +4134,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$i]["date"]               = date("Y年m月",$start);
             $list[$i]["start_time"]         = $start;
             $list[$i]["end_time"]           = $end;
-            $list[$i]["lesson_price"]       = "0";
-            $list[$i]["lesson_normal"]      = "0";
-            $list[$i]["lesson_trial"]       = "0";
-            $list[$i]["lesson_reward"]      = "0";
-            $list[$i]["lesson_full_reward"] = "0";
-            $list[$i]["lesson_cost"]        = "0";
-            //常规课扣款综合，本字段供后台统计使用
-            $list[$i]["lesson_cost_normal"] = "0";
-            $list[$i]["lesson_cost_tax"]    = "0";
-            $list[$i]["lesson_total"]       = "0";
-            $reward_list = $this->get_teacher_reward_money_list($teacherid,$start,$end);
-            //荣誉榜奖励金额
-            $list[$i]['lesson_reward_ex']   = $reward_list[E\Ereward_type::V_1]['money'];
-            //试听课奖金
-            $list[$i]['lesson_reward_trial'] = $reward_list[E\Ereward_type::V_2]['money'];
-            //90分钟课程补偿
-            $list[$i]['lesson_reward_compensate'] = $reward_list[E\Ereward_type::V_3]['money'];
-            //工资补偿
-            $list[$i]['lesson_reward_compensate_price'] = $reward_list[E\Ereward_type::V_4]['money'];
-            //模拟试听奖金
-            $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money'];
-            //伯乐奖
-            $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money'];
-            //春晖奖
-            $list[$i]['lesson_reward_chunhui'] = $reward_list[E\Ereward_type::V_7]['money'];
-            //微课工资
-            $list[$i]['lesson_reward_weike'] = $reward_list[E\Ereward_type::V_8]['money'];
-            //小班课工资
-            $list[$i]['lesson_reward_small_class'] = $reward_list[E\Ereward_type::V_9]['money'];
-            //公开课工资
-            $list[$i]['lesson_reward_open_class'] = $reward_list[E\Ereward_type::V_10]['money'];
+            $list[$i]["lesson_price"]       = 0;
+            $list[$i]["lesson_normal"]      = 0;
+            $list[$i]["lesson_trial"]       = 0;
+            $list[$i]["lesson_reward"]      = 0;
+            $list[$i]["lesson_cost"]        = 0;
+            $list[$i]["lesson_cost_normal"] = 0;
+            $list[$i]["lesson_total"]       = 0;
+            $reward_list = $this->get_teacher_reward_money_list_new($teacherid,$start,$end);
+            $list[$i]['reward_list']        = $reward_list;
 
             //拉取上个月的课时信息
             $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
@@ -4151,7 +4153,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     if($val['lesson_type'] != 2){
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
-                        $list[$i]['lesson_normal'] += $val['lesson_base'];
+                        \App\Helper\Utils::check_isset_data($list[$i]['lesson_normal'],$val['lesson_base']);
                         $reward = $this->get_lesson_reward_money(
                             $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
                         );
@@ -4159,11 +4161,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
                             $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
                         );
-                        $list[$i]['lesson_trial'] += $val['lesson_base'];
-                        $reward = "0";
+                        \App\Helper\Utils::check_isset_data($list[$i]['lesson_trial'],$val['lesson_base']);
+                        $reward = 0;
                     }
-                    $val['lesson_full_reward'] = 0;
-                    $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
+                    $val['lesson_reward'] = $reward*$lesson_count;
 
                     $this->get_lesson_cost_info($val);
                     $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
@@ -4172,51 +4173,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $list[$i]['lesson_cost']        += $val['lesson_cost'];
                     $list[$i]['lesson_cost_normal'] += $val['lesson_cost_normal'];
                     $list[$i]['lesson_total']       += $lesson_count;
-                    $list[$i]['lesson_full_reward'] += $val['lesson_full_reward'];
                 }
             }
         }
-
-        foreach($list as &$item){
-            $item['lesson_price'] = strval(
-                $item['lesson_price']
-                +$item['lesson_reward_ex']
-                +$item['lesson_reward_trial']
-                +$item['lesson_reward_compensate']
-                +$item['lesson_reward_compensate_price']
-                +$item['lesson_reward_reference']
-                +$item['lesson_reward_train']
-            );
-            $item['lesson_normal']       = strval($item['lesson_normal']);
-            $item['lesson_trial']        = strval($item['lesson_trial']);
-            $item['lesson_reward']       = strval(
-                $item['lesson_reward']
-                +$item['lesson_reward_compensate']
-                +$item['lesson_reward_compensate_price']
-            );
-            $item['lesson_reward_extra'] = strval($item['lesson_reward_trial']
-                                                  +$item['lesson_reward_reference']
-                                                  +$item['lesson_reward_chunhui']
-                                                  +$item['lesson_reward_train']
-            );
-            $item['lesson_reward_ex']    = strval($item['lesson_reward_ex']);
-            $item['lesson_reward_trial'] = strval($item['lesson_reward_trial']);
-            $item['lesson_cost']         = strval($item['lesson_cost']);
-            $item['lesson_cost_normal']  = strval($item['lesson_cost_normal']);
-            $item['lesson_total']        = strval($item['lesson_total']);
-            $item['lesson_price_tax']    = strval($item['lesson_price']);
-
-            $item['lesson_reward_admin'] = $item['lesson_reward_chunhui']
-                                         +$item['lesson_reward_weike']
-                                         +$item['lesson_reward_small_class']
-                                         +$item['lesson_reward_open_class'];
-
-            if($item['lesson_price']>0){
-                $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
-                $item['lesson_price'] -= $item['lesson_cost_tax'];
-            }
-        }
-        array_multisort($start_list,SORT_DESC,$list);
 
         return $list;
     }
@@ -4244,14 +4203,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $begin_time = strtotime($begin_date);
             }
 
-            // $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            //     $teacher_info['phone'],$reference_type,$begin_time
-            // );
             $identity = $recommended_info['identity'];
             if (in_array($identity,[5,6,7])) {
-                $type = 1;
+                $type = 1; // 机构老师
             } else {
-                $type = 0;
+                $type = 0; // 在样学生
             }
             $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
 
@@ -4271,6 +4227,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
+            if ($teacherid == 274115) { // join中国 60元/个
+                $reference_price = 60;
+            }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,

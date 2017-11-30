@@ -102,5 +102,7 @@ $(function(){
     if (g_args.hide_cur_require_adminid) {
         $("#id_cur_require_adminid").parent().parent().hide();
     }
-
+    if(g_account=='龚隽'){
+        download_show();
+    }
 });

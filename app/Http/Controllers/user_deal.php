@@ -906,16 +906,18 @@ class user_deal extends Controller
                         $this->t_seller_new_count->add($start_time,$start_time+15*86400-1,$seller_new_count_type,$count=5,$adminid,$value_ex);
                         $this->t_manager_info->send_wx_todo_msg(
                             '龚隽',
-                            "系统",
-                            "新签合同赠送 抢新生名额[$count] "
-                            ,"学生:". $this->cache_get_student_nick($userid)
-                            ,"");
+                            "CC:".$sys_operator,
+                            "公海签单赠送 抢新生名额[$count] ",
+                            "学生:". $this->cache_get_student_nick($userid),
+                            ""
+                        );
                         $this->t_manager_info->send_wx_todo_msg(
                             'tom',
-                            "系统",
-                            "新签合同赠送 抢新生名额[$count] "
-                            ,"学生:". $this->cache_get_student_nick($userid)
-                            ,"");
+                            "CC:".$sys_operator,
+                            "公海签单赠送 抢新生名额[$count]",
+                            "学生:". $this->cache_get_student_nick($userid),
+                            ""
+                        );
                     }
                 }
             }
@@ -1573,11 +1575,17 @@ class user_deal extends Controller
         $grade                = $this->get_in_int_val("grade");
         $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
         $default_lesson_count = $this->get_in_int_val("default_lesson_count");
+        $week_comment_num     = $this->get_in_int_val("week_comment_num");
+        $enable_video         = $this->get_in_int_val("enable_video");
+        $reset_lesson_count_flag = $this->get_in_int_val("reset_lesson_count_flag");
         $account              = $this->get_account();
 
         $check_flag = $this->check_teacher_is_pass($teacherid);
         if(!$check_flag){
             return $this->output_err("该老师不是正式老师!");
+        }
+        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag=1){
+            return $this->output_err("只有数学可以设置‘常规课上奥数课标示’为‘是’!\n如果原课程包变更科目，请新增课程包！");
         }
 
         $data = [
@@ -1587,6 +1595,9 @@ class user_deal extends Controller
             "grade"                => $grade,
             "lesson_grade_type"    => $lesson_grade_type,
             "default_lesson_count" => $default_lesson_count,
+            "week_comment_num"     => $week_comment_num,
+            "enable_video"         => $enable_video,
+            "reset_lesson_count_flag" => $reset_lesson_count_flag,
         ];
 
         $ret = $this->t_course_order->field_update_list($courseid,$data);
@@ -1628,9 +1639,7 @@ class user_deal extends Controller
 
         $confirm_flag = $this->t_student_cc_to_cr->get_confirm_flag($userid);
         if($confirm_flag == 1){
-            //
         }
-
 
         $this->t_course_order->row_insert([
             "userid"                => $userid,

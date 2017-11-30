@@ -123,7 +123,7 @@ class common_new extends Controller
                 }
             }
         }
-        return $this->output_succ(["config_userid" => $config_userid]);
+        return $this->output_succ(["config_userid" => $config_userid, "client_ip" =>$ip ]);
 
     }
 
@@ -750,7 +750,7 @@ class common_new extends Controller
         if ( !\App\Helper\Utils::check_env_is_local() ){
             return $this->output_err("没有权限");
         }
-        
+
         $table_list = json_decode($this->get_in_str_val("table_list"));
         $ret_map    = [];
         if(is_array($table_list)){
@@ -768,8 +768,9 @@ class common_new extends Controller
                     $row  = $this->t_lesson_info ->main_get_row($create_sql);
                     $list = $this->t_lesson_info->main_get_list($desc_sql);
                 }
-                $ret_map[$db_table_name] = ["table_desc" => $row["Create Table"],
-                                            "desc_list" => $list
+                $ret_map[$db_table_name] = [
+                    "table_desc" => $row["Create Table"],
+                    "desc_list"  => $list
                 ];
             }
         }

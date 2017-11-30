@@ -36,11 +36,6 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-2">
-                <div class="input-group ">
-                    <button class="btn btn-primary" id="id_reset_already_lesson_count">重置累计课时</button>
-                </div>
-            </div>
         </div>
         <hr/>
         <div class="row">

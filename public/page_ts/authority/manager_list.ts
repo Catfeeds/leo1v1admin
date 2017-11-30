@@ -861,6 +861,8 @@ $(function(){
     uploader.bind('FilesAdded',function(up, files) {
         uploader.start();
     });
-
+    if(g_account=='龚隽'){
+        download_show();
+    }
 
 });

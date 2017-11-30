@@ -522,7 +522,7 @@ $(function(){
                             'userid':userid
                         }, success  : function(result){
                             if(result.ret == -1){
-                                alert(result.info);
+                                BootstrapDialog.alert(result.info);
                             }else{
                                 window.location.reload();
                             }

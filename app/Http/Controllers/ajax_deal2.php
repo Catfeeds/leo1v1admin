@@ -1631,7 +1631,16 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $start_time             = $this->get_in_int_val("teacherid");
+        $subject             = $this->get_in_int_val("subject");
+        $grade             = $this->get_in_int_val("grade");
+        $start_time = time()-90*86400;
+        $end_time = time();
+        $num = $this->t_lesson_info_b3->get_tea_num_by_subject_grade($start_time,$end_time,$subject,$grade);
+        return $this->output_succ([
+            "num" =>$num
+        ]);
+
+
         $end_time = strtotime("+1 months",$start_time);
         $list =$this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,0,0);
         $lesson_count = @$list["lesson_total"];

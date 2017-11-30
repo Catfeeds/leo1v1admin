@@ -174,7 +174,7 @@ class get_ass_stu_info_update extends Command
         $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
         $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
 
-        foreach($ass_list as $k=>&$item){
+        foreach($ass_list as $k=>$item){
             if(!isset($item["warning_student"])){
                 $item["warning_student"]=0;
             }
@@ -465,6 +465,237 @@ class get_ass_stu_info_update extends Command
             }
 
         }
+
+        //每月1日,2日执行 回访以及销售月课时计算
+        if(date("d",time())=="01" || date("d",time())=="02"){
+            $start_time = strtotime(date("Y-m-01",time()-3*86400));        
+            $end_time = strtotime("+1 months",$start_time);        
+
+
+            $month_half = $start_time+15*86400;
+            $last_month = strtotime("-1 month",$start_time);
+            $ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+            $last_ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        
+
+            // //销售月拆解
+            $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+            $first_week = $start_info["sdate"];
+            $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+            if($end_info["edate"] <= $end_time){
+                $last_week =  $end_info["sdate"];
+            }else{
+                $last_week =  $end_info["sdate"]-7*86400;
+            }
+            $n = ($last_week-$first_week)/(7*86400)+1;
+
+            //每周课时/学生数
+            $lesson_count_list=[];
+            for($i=0;$i<$n;$i++){
+                $week = $first_week+$i*7*86400;
+                $week_edate = $week+7*86400;
+                $lesson_count_list[] = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+            }
+
+            foreach($ass_month as $k=>$item){
+                /*回访*/
+                $revisit_reword_per = 0.2;
+                //当前在读学员
+                $read_student_list = $item["userid_list"];
+                if($read_student_list){
+                    $read_student_arr = json_decode($read_student_list,true);
+                    foreach($read_student_arr as $val){
+                        //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
+                        $regular_lesson_list = $task->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
+                        $assign_time = $task->t_student_info->get_ass_assign_time($val);
+                        $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
+                        foreach($regular_lesson_list as $t_item){
+                            if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
+                                $revisit_end = $t_item["lesson_start"]+86400;
+                            
+                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
+                                if($revisit_num <=0){
+                                    $revisit_reword_per -=0.05;
+                                }
+
+                            
+                            }
+                            if($t_item["lesson_start"]<$first_lesson_time){
+                                $first_lesson_time = $t_item["lesson_start"];
+                            }
+
+                            if($revisit_reword_per <=0){
+                                break;
+                            }
+                        }
+                        if($revisit_reword_per <=0){
+                            break;
+                        }
+
+                        if($first_lesson_time>0 && $first_lesson_time<$month_half){
+                            if($assign_time < $month_half){
+                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
+                                if($revisit_num <2){
+                                    $revisit_reword_per -=0.05;
+                                }
+                            }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
+                                if($revisit_num <1){
+                                    $revisit_reword_per -=0.05;
+                                }
+
+                            }
+                        }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
+                            $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }
+                        if($revisit_reword_per <=0){
+                            break;
+                        }
+
+
+
+                    
+                    }
+                }
+                if($revisit_reword_per >0){
+                    //检查本月带过的历史学生 
+                    $history_list = $task->t_ass_stu_change_list->get_ass_history_list($k,$start_time,$end_time);
+                       
+                    foreach($history_list as $val){
+                        $add_time = $val["add_time"];
+                        if($add_time<$month_half){
+                            $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }else{
+                            $assign_time = $val["assign_ass_time"];
+                            if($assign_time <$month_half){
+                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
+                                if($revisit_num <2){
+                                    $revisit_reword_per -=0.05;
+                                }
+
+                            }else{
+                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
+                                if($revisit_num <1){
+                                    $revisit_reword_per -=0.05;
+                                }
+
+                            }
+                        }
+                        if($revisit_reword_per <=0){
+                            break;
+                        }
+
+            
+                    }
+
+                }
+
+                if($revisit_reword_per>0){
+                    //检查停课学生回访状态
+                    $stop_student_list = $item["stop_student_list"];
+                    if($stop_student_list){
+                        $stop_student_arr = json_decode($stop_student_list,true);
+                        foreach($stop_student_arr as $val){
+                            //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
+                            $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
+                            $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
+
+                            if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
+                                if($assign_time < $month_half){
+                                    $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
+                                    if($revisit_num <2){
+                                        $revisit_reword_per -=0.05;
+                                    }
+                                }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+                                    $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
+                                    if($revisit_num <1){
+                                        $revisit_reword_per -=0.05;
+                                    }
+
+                                }
+                            }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
+                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
+                                if($revisit_num <1){
+                                    $revisit_reword_per -=0.05;
+                                }
+
+                            }
+                            if($revisit_reword_per <=0){
+                                break;
+                            }
+
+
+
+                    
+                        }
+                    }
+
+                }
+                if($revisit_reword_per <0){
+                    $revisit_reword_per=0;
+                }
+                $item["revisit_reword_per"] = $revisit_reword_per;
+           
+
+                //课时消耗达成率
+                $read_student_list = @$last_ass_month[$k]["userid_list"];//改为在读人数
+                // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
+                if( $read_student_list){
+                    $read_student_arr = json_decode( $read_student_list,true);
+                    $last_stu_num = count($read_student_arr);//月初在读人员数
+                    $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
+                    $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
+                }else{
+                    $read_student_arr=[];      
+                    $estimate_month_lesson_count =100;
+                }
+
+                //得到单位学员平均课时数完成率
+                $seller_lesson_count =$seller_stu_num=0;
+                foreach($lesson_count_list as $p_item){
+                    $seller_lesson_count += @$p_item[$k]["lesson_count"]; 
+                    $seller_stu_num += @$p_item[$k]["user_count"]; 
+                }
+                $seller_stu_num = $seller_stu_num/$n;
+                // $seller_stu_num = $item["seller_week_stu_num"];
+                // $seller_lesson_count = $item["seller_month_lesson_count"];
+                // $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
+                if(empty($seller_stu_num)){
+                    $lesson_count_finish_per=0;
+                }else{
+                    $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
+                }
+
+                //算出kpi中课时消耗达成率的情况
+                if($lesson_count_finish_per>=70){
+                    $kpi_lesson_count_finish_per = 0.4;
+                }else{
+                    $kpi_lesson_count_finish_per=0;
+                }
+
+                $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
+                    "revisit_reword_per"  =>$revisit_reword_per*100,
+                    "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per*100,
+                    "estimate_month_lesson_count" =>$estimate_month_lesson_count,
+                    "seller_month_lesson_count"   =>$seller_lesson_count,
+                    "seller_week_stu_num"         =>$seller_stu_num
+                ]);
+            
+            }
+        }
+
+
+
+
         
         //update
         $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);

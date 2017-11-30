@@ -17,7 +17,7 @@
          }
      };
 
-     function zTreeOnClick(event, treeId, treeNode) {
+function zTreeOnClick(event, treeId, treeNode) {
          // 处理
         var userid= treeNode.userid;
         var show_list=[];

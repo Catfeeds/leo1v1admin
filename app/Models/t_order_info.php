@@ -662,8 +662,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
     public function  get_admin_list($start_time ,$end_time , $account_role=-1)  {
-
-
         $where_arr=[
             ["account_role=%u", $account_role, -1],
             "is_test_user=0"
@@ -4261,4 +4259,56 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_cc_test_lesson_num($start_time, $end_time, $teacherid, $require_admin_type){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.lesson_type=2",
+            "l.teacherid=$teacherid",
+            "l.confirm_flag in (0,1)",
+            "o.contract_type in (0,1,3)",
+            "o.contract_status>0",
+            "tls.require_admin_type=$require_admin_type"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select count(distinct(o.orderid)) order_num from %s l"
+                                  ." left join %s o on l.lessonid=o.from_test_lesson_id"
+                                  ." left join %s tll on tll.lessonid=l.lessonid"
+                                  ." left join %s tlr on tlr.require_id=tll.require_id"
+                                  ." left join %s tls on tls.test_lesson_subject_id=tlr.test_lesson_subject_id"
+                                  ." where %s "
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
+    public function get_cc_lesson_num($start_time, $end_time, $teacherid, $require_admin_type){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.lesson_type=2",
+            "l.teacherid=$teacherid",
+            "l.confirm_flag in (0,1)",
+            "tls.require_admin_type=$require_admin_type"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select count(distinct(l.lessonid)) lesson_num from %s l"
+                                  ." left join %s tll on tll.lessonid=l.lessonid"
+                                  ." left join %s tlr on tlr.require_id=tll.require_id"
+                                  ." left join %s tls on tls.test_lesson_subject_id=tlr.test_lesson_subject_id"
+                                  ." where %s "
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 }

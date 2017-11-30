@@ -1505,20 +1505,23 @@ lesson_type in (0,1) "
     public function get_lesson_list_info($userid,$start,$end,$lesson_status=2)
     {
         $where_arr = [
-            ["lesson_start>%u",$start,0],
-            ["lesson_start<%u",$end,0],
-            ["userid=%u",$userid,-1],
-            ["lesson_status=%u",$lesson_status,-1],
-            "lesson_type<1000",
-            "lesson_del_flag=0",
+            ["l.lesson_start>%u",$start,0],
+            ["l.lesson_start<%u",$end,0],
+            ["l.userid=%u",$userid,-1],
+            ["l.lesson_status=%u",$lesson_status,-1],
+            "l.lesson_type<1000",
+            "l.lesson_del_flag=0",
         ];
-        $sql = $this->gen_sql_new("select lessonid,userid,teacherid,assistantid,lesson_start,lesson_num,stu_attend, "
-                                  ." lesson_end,lesson_count, "
-                                  ." teacher_score,teacher_comment,teacher_effect,teacher_quality,teacher_interact,stu_performance,"
-                                  ." stu_score,stu_comment,stu_attitude,stu_attention,stu_ability,stu_stability,confirm_flag "
-                                  ." from %s "
+        $sql = $this->gen_sql_new("select l.lessonid,l.userid,l.teacherid,l.assistantid,l.lesson_start,l.lesson_num,l.stu_attend, "
+                                  ." l.lesson_end,l.lesson_count,l.teacher_score,l.teacher_comment,l.teacher_effect, "
+                                  ." l.teacher_quality,l.teacher_interact,l.stu_performance,l.subject,"
+                                  ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,"
+                                  ." l.stu_ability,l.stu_stability,l.confirm_flag,c.reset_lesson_count_flag "
+                                  ." from %s l"
+                                  ." left join %s c on l.courseid = c.courseid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

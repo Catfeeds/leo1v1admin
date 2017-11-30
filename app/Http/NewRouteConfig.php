@@ -60,8 +60,13 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/resource/add_resource"       =>true,
-        "/resource/get_all"            => true,
+        "/tea_manage_new/approved_data" => true,
+        "/resource/update_stu_hash"     => true,
+        "/resource/reupload_resource"   => true,
+        "/resource/rename_resource"     => true,
+        "/resource/del_resource"        => true,
+        "/resource/add_resource"        => true,
+        "/resource/get_all"             => true,
         "/rule_txt/add_or_update_name"            => true,
         "/rule_txt/process_info"                  => true,
         "/rule_txt/update_process"                => true,

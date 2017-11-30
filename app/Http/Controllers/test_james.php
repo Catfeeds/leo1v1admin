@@ -1103,15 +1103,14 @@ class test_james extends Controller
 
     public function download_xls ()  { // 测试
         // $xls_data= session("xls_data" );
-        $xsl_date = '
+        $xsl_data = '
 [["Field","Type","Collation","Null","Key","Default","Extra","Privileges","Comment"],["id","int(10) unsigned","","NO","PRI","","auto_increment","select,insert,update",""],["parentid","int(11)","","NO","MUL","","","select,insert,update","家长id"],["get_prize_time","varchar(255)","latin1_bin","NO","MUL","","","select,insert,update","领奖时间"],["presenterid","int(11)","","NO","MUL","","","select,insert,update","发奖人"],["prize_time","int(11)","","NO","","","","select,insert,update","抽奖时间"],["stu_type","tinyint(4)","","NO","","","","select,insert,update","学员类型 1:新用户 2:老用户"],["create_time","int(11)","","NO","","","","select,insert,update","后台奖品录入时间"],["validity_time","int(11)","","NO","","","","select,insert,update","有效期"],["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id"],["prize_type","int(11)","","NO","","","","select,insert,update","ruffian_prize_type 枚举类"]]
 ';
 
-        $arr = json_decode($xsl_date,true);
+        $xsl_data = json_decode($xsl_data,true);
 
-        dd($arr);
 
-        if(!is_array($xls_data)) {
+        if(!is_array($xsl_data)) {
             return $this->output_err("download error");
         }
 
@@ -1134,7 +1133,7 @@ class test_james extends Controller
 
         ];
 
-        foreach( $xls_data as $index=> $item ) {
+        foreach( $xsl_data as $index=> $item ) {
             foreach ( $item as $key => $cell_data ) {
                 $index_str = $index+1;
                 $pos_str   = $col_list[$key].$index_str;
@@ -1149,7 +1148,6 @@ class test_james extends Controller
       $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 
       $objWriter->save('php://output');
-$test=	3;
     }
 
 
@@ -1313,32 +1311,16 @@ $test=	3;
         $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
     }
 
+    public function get_add_time(){
 
+        $a = $this->t_order_info->get_cc_lesson_num('1509465600', '1512057600', '292171', '2');
+        $b = $this->t_order_info->get_cc_test_lesson_num('1509465600', '1512057600', '292171', '2');
 
-    public function new_table(){
-        Schema::create("db_weiyi.t_product_feedback_list", function(Blueprint $table) {
-            t_field($table->increments("id"),"产品问题记录表");
-            t_field($table->integer("feedback_adminid"),"反馈人");
-            t_field($table->integer("record_adminid"),"记录者");
-            t_field($table->string('describe', 1024),"问题描述");
-            t_field($table->string('name', 1024),"课程链接");
-            t_field($table->string('reason', 256),"原因");
-            t_field($table->string('solution', 1024),"解决方案");
-            t_field($table->integer("student_id"),"学生id");
-            t_field($table->integer("teacher_id"),"老师id");
-            t_field($table->tinyInteger('deal_flag'),"是否解决 0:未解决 1:已解决");
-            t_field($table->string('remark', 1024),"备注");
-            t_field($table->integer("create_time"),"添加时间");
+        print_r($a);
+        print_r($b);
+        
 
-            $table->index('create_time');
-            $table->index('feedback_adminid');
-            $table->index('record_adminid');
-            $table->index('student_id');
-            $table->index('teacher_id');
-        });
     }
-
-
 
 
 

@@ -63,6 +63,7 @@ interface RowData {
 	trial_train_status	:any;
 	subject	:any;
 	grade	:any;
+	add_time	:any;
 	acc	:any;
 	reason	:any;
 	record_info	:any;

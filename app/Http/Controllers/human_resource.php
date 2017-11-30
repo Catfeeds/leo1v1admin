@@ -2038,8 +2038,6 @@ class human_resource extends Controller
             2 => array("ta.lesson_start", "面试时间"),
         ]);
 
-
-        // list($start_time,$end_time) = $this->get_in_date_range(-7,0);
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
         $teacherid                  = $this->get_in_int_val('teacherid',"-1");
         $status                     = $this->get_in_int_val("status",-1);
@@ -3817,6 +3815,7 @@ class human_resource extends Controller
         $rr = $this->t_lesson_info->get_order_add_time();
         $order_lesson_day = !empty($rr["all_count"])?round(($rr["lesson_time"]-$rr["order_time"])/$rr["all_count"]/86400,1):0;
         if (!$order_in_db_flag) {
+
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
 

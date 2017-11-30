@@ -134,6 +134,10 @@ class wx_yxyx_common extends Controller
             $userid     = $agent_info['userid'];
             $headimgurl = $user_info['headimgurl'];
             $nickname   = $user_info['nickname'];
+            $id = $this->t_agent->get_id_by_wx_openid($wx_openid);
+            if($id>0){
+                return $this->output_err("该微信已绑定,请换个账号重试!");
+            }
             if(isset($agent_info['id'])){
                 $student_info = $this->t_student_info->field_get_list($userid,"*");
                 $orderid = 0;
@@ -155,7 +159,7 @@ class wx_yxyx_common extends Controller
                 $id = $agent_info['id'];
             }else{
                 $userid = null;
-                $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+                $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT);
                 if($userid_new){
                     $userid = $userid_new;
                 }
@@ -294,7 +298,7 @@ class wx_yxyx_common extends Controller
             if($type == $ret_info['type'] or $ret_info['type']==3){
                 return $this->output_err("你已是在读学员，无法再次被邀请!");
             }
-            $type_new = $ret_info['type']=0?$type:3;
+            $type_new = $ret_info['type']==0?$type:3;
             $this->t_agent->field_update_list($ret_info['id'],[
                 //"parentid" => $parentid,
                 "type"     => $type_new,
@@ -364,24 +368,24 @@ class wx_yxyx_common extends Controller
             }
 
             //自动分配给ｔｍｋ
-            if($parent_adminid == 0){//不是内部推荐的，自动分配
-                $time = strtotime('today');
-                $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
-                if( $count <= 20 ){//分给张龙 384,张植源412
-                    $auto_allot_adminid = ( $count%4 == 0 ) ? 412 :384 ;
-                    $opt_account = ( $count%4 == 0 ) ?'张植源':'张龙';
-                } else { //分配给邵少鹏759和蒋文武689
-                    $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
-                    $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
-                }
+            // if($parent_adminid == 0){//不是内部推荐的，自动分配
+            //     $time = strtotime('today');
+            //     $count = $this->t_seller_student_new->get_today_auto_allot_num($time);
+            //     if( $count <= 20 ){//分给张龙 384,张植源412
+            //         $auto_allot_adminid = ( $count%4 == 0 ) ? 412 :384 ;
+            //         $opt_account = ( $count%4 == 0 ) ?'张植源':'张龙';
+            //     } else { //分配给邵少鹏759和蒋文武689
+            //         $auto_allot_adminid = ( $count%2 == 0 ) ? 759 : 689;
+            //         $opt_account = ( $count%2 == 0 ) ?'邵少鹏':'蒋文武';
+            //     }
 
-                $account = '系统';
-                $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
+            //     $account = '系统';
+            //     $this->t_seller_student_new->auto_allot_yxyx_userid($auto_allot_adminid, $opt_account, $userid, $account,$phone);
 
-                if( $count <= 30 ){//分给张龙 384,张植源412
-                    $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
-                }
-            }
+            //     if( $count <= 30 ){//分给张龙 384,张植源412
+            //         $this->t_test_lesson_subject->auto_allot_yxyx_userid($userid, $auto_allot_adminid);
+            //     }
+            // }
         }
 
 
@@ -404,6 +408,16 @@ class wx_yxyx_common extends Controller
                 return $this->output_err("数据请求异常!");
             }
         }elseif($type == 1 && $insert_flag == 1){
+            //获取用户id
+            $agent_id = $this->t_agent->get_agentid_by_phone($phone);
+            $userid = null;
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            if($userid_new){
+                $userid = $userid_new;
+            }
+            $ret = $this->t_agent->field_update_list($agent_id,[
+                'userid' => $userid,
+            ]);
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_succ("系统出错!");
