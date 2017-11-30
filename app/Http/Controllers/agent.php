@@ -453,6 +453,13 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $id = $this->t_agent->get_id_by_wx_openid($wx_openid='aaa');
+        if($id>0){
+            return $this->output_err("该微信已绑定,请换个账号重试!");
+        }
+        dd($id);
+        $agent_info = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
+        dd($agent_info);
         $ret_info = $this->t_origin_key->get_all_key_list();
         $key1_arr = array_unique(array_column($ret_info,'key1'));
         $key2_arr = array_unique(array_column($ret_info,'key2'));
