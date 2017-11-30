@@ -401,7 +401,6 @@ class tongji2 extends Controller
                 }
             }
         }
-        dd($ret_week);
         return $this->pageView(__METHOD__,$ret_info,["week"=>$ret_week]);
     }
 
