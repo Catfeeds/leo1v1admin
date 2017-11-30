@@ -3815,6 +3815,8 @@ class human_resource extends Controller
         $rr = $this->t_lesson_info->get_order_add_time();
         $order_lesson_day = !empty($rr["all_count"])?round(($rr["lesson_time"]-$rr["order_time"])/$rr["all_count"]/86400,1):0;
         if (!$order_in_db_flag) {
+            \App\Helper\Utils::logger("order_field_name_Jm: $order_field_name ,order_type: $order_type");
+
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
 
