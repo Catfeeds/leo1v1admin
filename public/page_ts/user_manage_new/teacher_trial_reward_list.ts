@@ -131,9 +131,9 @@ $(function(){
 
         var arr = [
             ["老师",id_teacherid],
+            ['老师类型',id_teacher_type],
             ["类型",id_type],
             ["年级",id_grade],
-            ['老师类型',id_teacher_type],
             ["---","伯乐奖不用填写金额"],
             ["金额",id_money],
             ["金额信息",id_money_info],
