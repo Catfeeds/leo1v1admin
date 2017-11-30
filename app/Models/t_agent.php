@@ -2967,4 +2967,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
         return $id_str;
     }
+
+    public function get_id_by_wx_openid($wx_openid){
+        $where_arr = [];
+        $this->where_arr_add_str_field($where_arr,'wx_openid',$wx_openid);
+        $sql = $this->gen_sql_new(
+            'select id '.
+            'from %s '.
+            'where %s limit 1',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

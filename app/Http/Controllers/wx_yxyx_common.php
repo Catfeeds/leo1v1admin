@@ -134,6 +134,10 @@ class wx_yxyx_common extends Controller
             $userid     = $agent_info['userid'];
             $headimgurl = $user_info['headimgurl'];
             $nickname   = $user_info['nickname'];
+            $id = $this->t_agent->get_id_by_wx_openid($wx_openid);
+            if($id>0){
+                return $this->output_err("该微信已绑定,请换个账号重试!");
+            }
             if(isset($agent_info['id'])){
                 $student_info = $this->t_student_info->field_get_list($userid,"*");
                 $orderid = 0;
@@ -155,7 +159,7 @@ class wx_yxyx_common extends Controller
                 $id = $agent_info['id'];
             }else{
                 $userid = null;
-                $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+                $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT);
                 if($userid_new){
                     $userid = $userid_new;
                 }
