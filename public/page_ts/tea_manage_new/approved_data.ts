@@ -51,6 +51,7 @@ $(function(){
             },
             success: function (result) {
                 console.log(result);
+
                 if (result['ret'] == 0) {
                     var data = result['data'];
 
