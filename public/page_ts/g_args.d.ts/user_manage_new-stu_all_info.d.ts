@@ -30,13 +30,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-stu_all_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		student_type:	$('#id_student_type').val(),
+		teacherid:	$('#id_teacherid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			student_type:	$('#id_student_type').val(),
-			teacherid:	$('#id_teacherid').val()
-        });
-    }
 
 
 	$('#id_student_type').val(g_args.student_type);

@@ -52,10 +52,10 @@
                             {{@$var['lesson_num']}}
                         </td>
                         <td>
-                            {{@$var['cc_rate']*100}}%
+                            {{@round($var['cc_rate']*100,2)}}%
                         </td>
                         <td>
-                            {{@$var['cr_rate']*100}}%
+                            {{@round($var['cr_rate']*100,2)}}%
                         </td>
                         <td>
                             <a class="violation_num" data-teacherid="{{@$var['teacherid']}}">
@@ -63,17 +63,10 @@
                             </a>
                         </td>
 
-
-
-
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
-
-
-
                             </div>
                         </td>
                     </tr>

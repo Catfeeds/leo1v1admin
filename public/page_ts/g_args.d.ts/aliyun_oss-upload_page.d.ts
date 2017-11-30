@@ -8,16 +8,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	month	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/subject_by_month.ts
+	 mkdir -p ../aliyun_oss; vi  ../aliyun_oss/upload_page.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage-subject_by_month.d.ts" />
+/// <reference path="../g_args.d.ts/aliyun_oss-upload_page.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

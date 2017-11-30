@@ -155,7 +155,6 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ,$parent_orderid
         );
         return $this->main_update( $sql );
- 
     }
 
     public function get_period_price_by_parent_orderid($parent_orderid){

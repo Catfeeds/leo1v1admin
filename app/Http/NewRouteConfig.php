@@ -596,7 +596,6 @@ class NewRouteConfig {
         "/requirement/requirement_del"                   => true,
         "/requirement/re_edit_requirement_info"          => true,
         "/requirement/re_edit_requirement_info_new"      => true,
-
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
@@ -610,13 +609,13 @@ class NewRouteConfig {
         "/requirement/product_add"                       => true,
         "/requirement/development_deal"                  => true,
         "/requirement/development_reject"                => true,
-        "/requirement/development_do"     => true,
-        "/requirement/development_finish" => true,
-        "/requirement/test_deal"          => true,
-        "/requirement/test_reject"        => true,
-        "/requirement/test_do"            => true,
-        "/requirement/test_finish"        => true,
-
+        "/requirement/development_do"                    => true,
+        "/requirement/development_finish"                => true,
+        "/requirement/test_deal"                         => true,
+        "/requirement/test_reject"                       => true,
+        "/requirement/test_do"                           => true,
+        "/requirement/test_finish"                       => true,
+        "/aliyun_oss/file_manage"                        => true,
         "/channel_manage/admin_channel_manage"           => true,
         "/channel_manage/add_channel"                    => true,
         "/channel_manage/set_channel_id"                 => true,
@@ -624,6 +623,7 @@ class NewRouteConfig {
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
+
     ];
 
     static $dev_url_map = [

@@ -3,6 +3,9 @@ interface GargsStatic {
 	resource_type:	number;
 	subject:	number;
 	grade:	number;
+	tag_one:	number;
+	tag_two:	number;
+	tag_three:	number;
 	file_title:	string;
 	page_num:	number;
 	page_count:	number;
@@ -45,6 +48,9 @@ function load_data(){
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
+		tag_one:	$('#id_tag_one').val(),
+		tag_two:	$('#id_tag_two').val(),
+		tag_three:	$('#id_tag_three').val(),
 		file_title:	$('#id_file_title').val()
     });
 }
@@ -55,6 +61,9 @@ $(function(){
 	$('#id_resource_type').val(g_args.resource_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
+	$('#id_tag_one').val(g_args.tag_one);
+	$('#id_tag_two').val(g_args.tag_two);
+	$('#id_tag_three').val(g_args.tag_three);
 	$('#id_file_title').val(g_args.file_title);
 
 
@@ -91,6 +100,27 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">grade</span>
                 <input class="opt-change form-control" id="id_grade" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tag_one</span>
+                <input class="opt-change form-control" id="id_tag_one" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tag_two</span>
+                <input class="opt-change form-control" id="id_tag_two" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tag_three</span>
+                <input class="opt-change form-control" id="id_tag_three" />
             </div>
         </div>
 

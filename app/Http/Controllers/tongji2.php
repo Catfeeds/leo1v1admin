@@ -373,7 +373,35 @@ class tongji2 extends Controller
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
         }
-        return $this->pageView(__METHOD__,$ret_info);
+
+        //周试听成功自定义时间
+        list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4]) = [[],[],[],[]];
+        $week_info = $this->t_month_def_type->get_month_week_time($month);
+        foreach($week_info as $item){
+            $week_order = $item['week_order'];
+            $start_time = date('m-d',$item['start_time']);
+            $end_time = date('m-d',$item['end_time']);
+            if($week_order == E\Eweek_order::V_1){
+                $week[E\Eweek_order::V_1][] = $start_time.'/'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_2){
+                $week[E\Eweek_order::V_2][] = $start_time.'/'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_3){
+                $week[E\Eweek_order::V_3][] = $start_time.'/'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_4){
+                $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
+            }
+        }
+        $ret_week = [];
+        foreach($week as $key=>$item){
+            foreach($item as $key_n=>$info){
+                if($key_n>0){
+                    $ret_week[$key] = $ret_week[$key].','.$info;
+                }else{
+                    $ret_week[$key] = $info;
+                }
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info,["week"=>$ret_week]);
     }
 
     public function test_lesson_frist_call_time_master(){
@@ -1243,9 +1271,9 @@ class tongji2 extends Controller
 
 
 
- 
+
                 }
-               
+
 
 
 
@@ -1479,13 +1507,13 @@ class tongji2 extends Controller
 
 
             //课时消耗目标数量
-            $last_year_start = strtotime("-1 years",$month_start); 
-            $last_year_end = strtotime("+1 months",$last_year_start); 
+            $last_year_start = strtotime("-1 years",$month_start);
+            $last_year_end = strtotime("+1 months",$last_year_start);
 
             $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($month_start,$type);
             $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
             $grade_arr = json_decode($month_start_grade_str,true); //月初各年级在读人数
-        
+
             $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
             $lesson_consume_target = 0;
             foreach($lesson_consume as $kk=>$vv){
