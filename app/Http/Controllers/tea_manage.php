@@ -436,14 +436,18 @@ class tea_manage extends Controller
 
         $base64_qr = base64_encode($qr_info);
 
-        $lessonid_qr_name = $lessonid."_type_".$type_flag."_qr_new.png";
+        $lessonid_qr_name = $lessonid."_t_".$type_flag."_qr_new.png";
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $qiniu_url = $qiniu['public']['url'];
         $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$lessonid_qr_name);
 
         if(!$is_exists ){
             //text待转化为二维码的内容
-            $text           = "leoedu://meeting.leoedu.com/meeting=".$base64_qr;
+            if($type_flag ==1){
+                $text = "leoedu://meeting.leoedu.com/meeting=".$base64_qr;
+            } else {
+                $text = "leoedu://video.leoedu.com/video=".$base64_qr;
+            }
             $qr_url         = "/tmp/".$lessonid.".png";
             $teacher_qr_url = "/tmp/".$lessonid_qr_name;
 
