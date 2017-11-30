@@ -1260,6 +1260,7 @@ class tea_manage_new extends Controller
         }
 
         if (!$order_in_db_flag) {
+            \App\Helper\Utils::logger("order_field_name_Jm: $order_field_name ,order_type: $order_type");
 
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
