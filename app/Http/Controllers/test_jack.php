@@ -352,8 +352,8 @@ class test_jack  extends Controller
         // $this->t_order_info_finance->row_insert($order_info);
 
       
-        $start_time = strtotime("2017-01-01");
-        $end_time = strtotime("2017-02-01");
+        $start_time = strtotime("2016-12-01");
+        $end_time = strtotime("2017-01-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         // foreach($teacher_arr_ex as $k=>$val){
@@ -417,7 +417,7 @@ class test_jack  extends Controller
         $money=0;
         foreach($order_info as $val){
 
-            if($val["price"]>1300000 && $val["price"]<3500000 ){
+            if($val["price"]>300000 && $val["price"]<600000 ){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -447,11 +447,11 @@ class test_jack  extends Controller
                 // $this->t_order_info_finance->row_insert($val);
 
 
-                $this->t_order_info_finance->field_update_list($val["orderid"],[
-                   "contract_type"=>100 
-                ]);
+                // $this->t_order_info_finance->field_update_list($val["orderid"],[
+                //    "contract_type"=>100 
+                // ]);
 
-                if(count($arr) >= 23){
+                if(count($arr) >= 20){
                     break;
                 }
  
