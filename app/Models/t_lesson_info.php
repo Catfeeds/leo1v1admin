@@ -1514,7 +1514,7 @@ lesson_type in (0,1) "
         ];
         $sql = $this->gen_sql_new("select l.lessonid,l.userid,l.teacherid,l.assistantid,l.lesson_start,l.lesson_num,l.stu_attend, "
                                   ." l.lesson_end,l.lesson_count,l.teacher_score,l.teacher_comment,l.teacher_effect, "
-                                  ." l.teacher_quality,l.teacher_interact,l.stu_performance,"
+                                  ." l.teacher_quality,l.teacher_interact,l.stu_performance,l.subject,"
                                   ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,"
                                   ." l.stu_ability,l.stu_stability,l.confirm_flag,c.reset_lesson_count_flag "
                                   ." from %s l"
