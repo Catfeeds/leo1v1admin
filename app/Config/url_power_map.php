@@ -198,6 +198,7 @@ class url_power_map {
 			'/user_manage_new/admin_main_assign_percent_edit'	=>1062400,
 			'/user_manage_new/admin_member_list'	=>1062301,
 			'/user_manage_new/seller_attendance_info'	=>1062302,
+			'/seller_student2/show_order_activity_info'	=>1070401,
 			'/user_manage_new/power_group_edit'	=>1060500,
 			'/authority/jurisdiction'	=>1060400,
 			'/authority/get_acc_power_list'	=>1060600,
