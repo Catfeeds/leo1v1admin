@@ -374,8 +374,8 @@ class tongji2 extends Controller
             E\Eseller_level::set_item_value_str($item);
         }
 
-        //
-        $week = [];
+        //周试听成功自定义时间
+        list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4]) = [[],[],[],[]];
         $week_info = $this->t_month_def_type->get_month_week_time($month);
         foreach($week_info as $item){
             $week_order = $item['week_order'];
