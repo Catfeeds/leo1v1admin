@@ -60,7 +60,7 @@
                             {{@$var['cr_rate']*100}}%
                         </td>
                         <td>
-                            <a class="violation_num">
+                            <a class="violation_num" data-teacherid="{{@$var['teacherid']}}">
                                 {{@$var['violation_num']}}
                             </a>
                         </td>

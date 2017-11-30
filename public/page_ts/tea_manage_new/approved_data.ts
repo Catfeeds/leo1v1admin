@@ -33,9 +33,10 @@ $(function(){
 
     $(".violation_num").on("click",function(){
         var data         = $(this).get_opt_data();
-        var teacherid    = data.teacherid;
+        var teacherid    = $(this).attr('data-teacherid');
         var html_node    = $.obj_copy_node("#id_assign_log");
         console.log(data);
+        console.log(teacherid);
 
         BootstrapDialog.show({
             title: "老师违规详情",
