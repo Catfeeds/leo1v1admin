@@ -348,8 +348,8 @@ class test_jack  extends Controller
         // dd($list);
         // $arr=[];
       
-        $start_time = strtotime("2017-03-01");
-        $end_time = strtotime("2017-04-01");
+        $start_time = strtotime("2017-02-01");
+        $end_time = strtotime("2017-03-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         // foreach($teacher_arr_ex as $k=>$val){
@@ -406,13 +406,13 @@ class test_jack  extends Controller
         // }
         // dd(111);
 
-        $contract_type = $this->get_in_int_val("contract_type",3);
+        $contract_type = $this->get_in_int_val("contract_type",0);
         $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
         // $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>320000 && $val["price"]<3650000){
+            if($val["price"]>120000 && $val["price"]<550000){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -446,7 +446,7 @@ class test_jack  extends Controller
                 //    "contract_type"=>100 
                 // ]);
 
-                if(count($arr) >= 24){
+                if(count($arr) >= 11){
                     break;
                 }
  
