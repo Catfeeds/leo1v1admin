@@ -1575,6 +1575,9 @@ class user_deal extends Controller
         $grade                = $this->get_in_int_val("grade");
         $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
         $default_lesson_count = $this->get_in_int_val("default_lesson_count");
+        $week_comment_num     = $this->get_in_int_val("week_comment_num");
+        $enable_video         = $this->get_in_int_val("enable_video");
+        $reset_lesson_count_flag = $this->get_in_int_val("reset_lesson_count_flag");
         $account              = $this->get_account();
 
         $check_flag = $this->check_teacher_is_pass($teacherid);
@@ -1589,6 +1592,9 @@ class user_deal extends Controller
             "grade"                => $grade,
             "lesson_grade_type"    => $lesson_grade_type,
             "default_lesson_count" => $default_lesson_count,
+            "week_comment_num"     => $week_comment_num,
+            "enable_video"         => $enable_video,
+            "reset_lesson_count_flag" => $reset_lesson_count_flag,
         ];
 
         $ret = $this->t_course_order->field_update_list($courseid,$data);

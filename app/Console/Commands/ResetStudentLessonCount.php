@@ -44,17 +44,19 @@ class ResetStudentLessonCount extends cmd_base
         $lesson_list = $this->task->t_lesson_info->get_lesson_list_info(-1,$start,$end,E\Elesson_status::V_0);
 
         if(is_array($lesson_list) && !empty($lesson_list)){
-            echo "lessonid|lesson_count|real_lesson_count|diff_time";
+            echo "lessonid|lesson_count|real_lesson_count";
             echo PHP_EOL;
             foreach($lesson_list as $l_val){
-                $real_lesson_count = \App\Helper\Utils::get_lesson_count($l_val['lesson_start'],$l_val['lesson_end']);
-                if($real_lesson_count != $l_val['lesson_count']){
-                    echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
-                    echo PHP_EOL;
+                if($l_val['reset_lesson_count_flag']==0){
+                    $real_lesson_count = \App\Helper\Utils::get_lesson_count($l_val['lesson_start'],$l_val['lesson_end']);
+                    if($real_lesson_count != $l_val['lesson_count']){
+                        echo $l_val['lessonid']."|".$l_val['lesson_count']."|".$real_lesson_count;
+                        echo PHP_EOL;
 
-                    // $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
-                    //     "lesson_count" => $real_lesson_count
-                    // ]);
+                        // $this->task->t_lesson_info->field_update_list($l_val['lessonid'],[
+                        //     "lesson_count" => $real_lesson_count
+                        // ]);
+                    }
                 }
             }
         }

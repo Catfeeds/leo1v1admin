@@ -589,6 +589,8 @@ return array(
     'TAssStuChangeListAddOldAssAdminid' => $baseDir . '/database/migrations/2017_11_10_110244_t_ass_stu_change_list_add_old_ass_adminid.php',
     'TAssWeeklyInfoAddReadStudentList' => $baseDir . '/database/migrations/2017_11_08_132904_t_ass_weekly_info_add_read_student_list.php',
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
+    'TCourseOrderAddFlag' => $baseDir . '/database/migrations/2017_11_29_175027_t_course_order_add_flag.php',
+    'TCourseOrderAddFlagDefault' => $baseDir . '/database/migrations/2017_11_29_175531_t_course_order_add_flag_default.php',
     'TCourseOrderAddResetLessonCountFlag' => $baseDir . '/database/migrations/2017_11_29_164616_t_course_order_add_reset_lesson_count_flag.php',
     'TCrWeekMonthInfoAddGradeStuList' => $baseDir . '/database/migrations/2017_11_15_160956_t_cr_week_month_info_add_grade_stu_list.php',
     'TCrWeekMonthInfoAveragePersonEffect' => $baseDir . '/database/migrations/2017_11_15_114315_t_cr_week_month_info_average_person_effect.php',
