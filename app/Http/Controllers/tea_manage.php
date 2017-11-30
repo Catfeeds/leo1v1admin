@@ -431,19 +431,23 @@ class tea_manage extends Controller
         if($type_flag ==1){
             $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&roomId={$ret_arr['roomid']}&xmpp={$ret_arr['xmpp']}&webrtc={$ret_arr['webrtc']}&ownerId={$ret_arr['teacherid']}&type={$ret_arr['type']}&audioService={$ret_arr['audioService']}";
         }else{
-            $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&drawUrl={$ret_arr['draw']}&audioUrl={$ret_arr['audio']}";
+            $qr_info = "title=lessonid : {$lessonid}&beginTime={$ret_arr['real_begin_time']}&endTime={$ret_arr['real_end_time']}&drawUrl={$ret_arr['draw']}&audioUrl={$ret_arr['audio']}";
         }
 
         $base64_qr = base64_encode($qr_info);
 
-        $lessonid_qr_name = $lessonid.$type_flag."_qr_new.png";
+        $lessonid_qr_name = $lessonid."_t_".$type_flag."_qr_new.png";
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $qiniu_url = $qiniu['public']['url'];
         $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$lessonid_qr_name);
 
         if(!$is_exists ){
             //text待转化为二维码的内容
-            $text           = "leoedu://meeting.leoedu.com/meeting=".$base64_qr;
+            if($type_flag ==1){
+                $text = "leoedu://meeting.leoedu.com/meeting=".$base64_qr;
+            } else {
+                $text = "leoedu://video.leoedu.com/video=".$base64_qr;
+            }
             $qr_url         = "/tmp/".$lessonid.".png";
             $teacher_qr_url = "/tmp/".$lessonid_qr_name;
 

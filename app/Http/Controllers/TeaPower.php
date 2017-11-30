@@ -4203,9 +4203,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $begin_time = strtotime($begin_date);
             }
 
-            // $reference_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            //     $teacher_info['phone'],$reference_type,$begin_time
-            // );
             $identity = $recommended_info['identity'];
             if (in_array($identity,[5,6,7])) {
                 $type = 1; // 机构老师

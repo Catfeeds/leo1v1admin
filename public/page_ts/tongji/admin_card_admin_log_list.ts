@@ -28,4 +28,7 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
     $(".common-table" ).table_admin_level_4_init();
 
+    if(g_account=="程燕"){
+        download_show();
+    }
 });
