@@ -655,11 +655,39 @@ jQuery.extend({
                               }, bucket_info ,noti_origin_file_func  );
 
     },
+    custom_upload_file_process_soft :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
+
+        var html_node=$('        <div class="row">'+
+                        '            <div class="progress">'+
+                        '                <div class="progress-bar" role="progressbar" aria-valuenow="60" '+
+                        '                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">'+
+                        '                    <span class="sr-only">40% 完成</span>'+
+                        '                </div>'+
+                        '            </div>'+
+                        '        </div>');
+        var dlg=null;
+
+        $.custom_upload_file_soft( btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list,
+                              function(percentage){
+                                  if (percentage==101) { //succ
+                                      alert("上传完成");
+                                      dlg.close();
+                                  }
+                                  html_node.find(".progress-bar") .css('width', percentage+'%');
+                              },function(){ //before_upload
+                                  dlg=BootstrapDialog.show({
+                                      title: "上传进度",
+                                      message: html_node
+                                  });
+                              }, bucket_info ,noti_origin_file_func  );
+
+    },
+    
+    
     custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process , before_upload, bucket_info,noti_origin_file_func ){
         var init_upload=function( ret ) {
             var domain_name=ret.domain;
             var token=ret.token;
-
             var uploader = Qiniu.uploader({
                 runtimes: 'html5, flash, html4',
                 browse_button: btn_id , //choose files id
@@ -1019,6 +1047,105 @@ jQuery.extend({
         });
 
     },
+    custom_upload_file_soft :function (file_type, file_name,btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
+        do_ajax( "/common/get_bucket_info",{
+            is_public: is_public_bucket ? 1:0
+        },function(ret){
+            var domain_name=ret.domain;
+            var token=ret.token;
+
+            var uploader = Qiniu.uploader({
+                runtimes: 'html5, flash, html4',
+                browse_button: btn_id , //choose files id
+                uptoken: token,
+                domain: "http://"+domain_name,
+                max_file_size: '100mb',
+                dragdrop: true,
+                flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+                chunk_size: '4mb',
+                unique_names: false,
+                save_key: false,
+                auto_start: true,
+                multi_selection: false,
+                filters: {
+                    mime_types: [
+                        {title: "", extensions: ext_file_list.join(",") }
+                    ]
+                },
+                init: {
+                    'FilesAdded': function(up, files) {
+                        plupload.each(files, function(file) {
+                            console.log('waiting...'+file.name );
+                        });
+                    },
+                    'BeforeUpload': function(up, file) {
+                        console.log('before uplaod the file 11111');
+                        var match = file.name.match(/.*\.(.*)?/);
+                        var file_ext=match[1];
+                        var check_flag=false;
+                        $.each ( ext_file_list,  function(i,item) {
+                            if ( item.toLowerCase() ==file_ext.toLowerCase()) {
+                                check_flag=true;
+                            }
+                        });
+                        if (!check_flag  ) {
+                            BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
+                            return false;
+                        }
+                        console.log('before uplaod the file');
+                        return true;
+
+                    },
+                    'UploadProgress': function(up,file) {
+                        if(noti_process) {
+                            noti_process (file.percent);
+                        }
+                        console.log(file.percent);
+                        console.log('upload progress');
+                    },
+                    'UploadComplete': function() {
+                        console.log(' UploadComplete .. end ');
+                    },
+                    'FileUploaded' : function(up, file, info) {
+                        if(noti_process) {
+                            noti_process (0);
+                        }
+                        console.log('Things below are from FileUploaded');
+                        console.log(1111);
+                        if(info.response){
+                            complete_func(up, info.response, file, ctminfo);
+                        }else{
+                            complete_func(up, info, file, ctminfo);
+                        }
+
+                    },
+                    'Error': function(up, err, errTip) {
+                        console.log('Things below are from Error');
+                        BootstrapDialog.alert(errTip);
+                    },
+                    'Key': function(up, file) {
+                        var key = "";
+                        var time = (new Date()).valueOf();
+                        var match = file.name.match(/.*\.(.*)?/);
+                        //var file_name=$.md5(file.name) +time +'.' + match[1];
+                        if(file_type == 1){
+                            var new_file_name = "student/"+file_name+'.'+match[1];
+                        }else if(file_type == 2){
+                            var new_file_name = "teacher/"+file_name+'.'+match[1];
+                        }else{
+                            var new_file_name = file_name+'.'+match[1];
+                        }
+                        console.log('gen file_name:'+new_file_name);
+                        return new_file_name;
+
+                    }
+                }
+
+            });
+        });
+
+    },
+   
 
     check_in_wx :function (){
         //window.
