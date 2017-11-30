@@ -276,6 +276,24 @@ $(function(){
             }
         },function(){
             $.admin_select_user(id_teacherid,"teacher");
+
+            var subject = id_subject.val();
+            console.log(subject);
+            if(subject==2){
+                id_reset_lesson_count_flag.parents("tr").show();
+            }else{
+                id_reset_lesson_count_flag.parents("tr").hide();
+            }
+
+            id_subject.on("change",function(){
+                var subject = id_subject.val();
+                console.log(subject);
+                if(subject==2){
+                    id_reset_lesson_count_flag.parents("tr").show();
+                }else{
+                    id_reset_lesson_count_flag.parents("tr").hide();
+                }
+            });
         });
     });
 
