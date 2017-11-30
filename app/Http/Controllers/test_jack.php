@@ -410,14 +410,14 @@ class test_jack  extends Controller
         // }
         // dd(111);
 
-        $contract_type = $this->get_in_int_val("contract_type",0);
+        $contract_type = $this->get_in_int_val("contract_type",3);
         $order_info = $this->t_order_info_finance->get_order_info($start_time,$end_time,$contract_type);
         // $order_info_t = $this->t_order_info_finance->get_order_tongji_info($start_time,$end_time,$contract_type);
         $arr=[];
         $money=0;
         foreach($order_info as $val){
 
-            if($val["price"]>400000 && $val["price"]<630000 ){
+            if($val["price"]>400000 && $val["price"]<1630000 && in_array($val["orderid"],[13344,12948])){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -451,7 +451,7 @@ class test_jack  extends Controller
                 //    "contract_type"=>100 
                 // ]);
 
-                if(count($arr) >= 22){
+                if(count($arr) >= 2){
                     break;
                 }
  
