@@ -347,6 +347,10 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
+        $order_info = $this->t_order_info->field_get_list(13868,"*");
+        unset($order_info["orderid"]);
+        $this->t_order_info_finance->row_insert($order_info);
+
       
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2017-02-01");
@@ -413,7 +417,7 @@ class test_jack  extends Controller
         $money=0;
         foreach($order_info as $val){
 
-            if($val["price"]>200000 && $val["price"]<500000 && in_array($val["orderid"],[13933,13868])){
+            if($val["price"]>200000 && $val["price"]<500000 && in_array($val["orderid"],[13919])){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
