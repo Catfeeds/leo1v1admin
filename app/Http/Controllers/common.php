@@ -1145,6 +1145,9 @@ class common extends Controller
             $channel = $event->data->object->channel;
             $aa = E\Eorder_channel::s2v($channel);
             $channel_name = E\Eorder_channel::get_desc($aa);
+            if(empty($channel_name)){
+                $channel_name = $channel;
+            }
 
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $order_type = $this->t_orderid_orderno_list->get_order_type($orderNo);
