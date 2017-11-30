@@ -463,7 +463,7 @@ class agent extends Controller
                 $month_level = $item['seller_level'];
             }
         }
-        dd($price_very_last,$month_level);
+        dd($price_very_last,E\Eseller_level::get_desc($month_level));
         if($price_very_last<$level_goal){//降级
             $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
             $this->task->t_seller_level_month->row_insert([
