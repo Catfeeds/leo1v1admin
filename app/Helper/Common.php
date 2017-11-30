@@ -1225,11 +1225,10 @@ class Common {
         /**  @var  $t_manager_info \App\Models\t_manager_info  */
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
-
-        if($monthtime_flag==1 || strtotime( date("Y-m-01")) == $month ){
+        if($monthtime_flag==1 || strtotime( date("Y-m-01")) == $month ){//非历史组织架构
             // $admin_list = $t_manager_info->get_admin_member_list();
             $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
-        }else{
+        }else{//月组织架构
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
 

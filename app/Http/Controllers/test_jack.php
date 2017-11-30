@@ -632,6 +632,10 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $aa = E\Eorder_channel::s2v("alipay_pc_direct");
+        $channel_name = E\Eorder_channel::get_desc($aa);
+        dd($channel_name);
+
         $noti_account = $this->t_assistant_info->get_account_by_id(441550);
         $header_msg="测试";
         $msg="学生:" ;
