@@ -7109,15 +7109,8 @@ class ss_deal extends Controller
     public function get_violation_info(){
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $teacherid = $this->get_in_int_val('teacherid');
-
-        return $this->output_succ(['data'=>$teacherid]);
-
-
-
         $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $teacherid);
-
         return $this->output_succ(['data'=>$violation_info]);
-
     }
 
 }
