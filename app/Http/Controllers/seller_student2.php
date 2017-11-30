@@ -154,7 +154,7 @@ class seller_student2 extends Controller
         $open_flag = $this->get_in_int_val('open_flag',2);
         $need_spec_require_flag = $this->get_in_int_val('need_spec_require_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
-        $power_value =  $this->get_in_int_val('power_value',100);
+        $power_value =  $this->get_in_int_val('power_value',null);
 
 
         $ret = $this->t_order_activity_config->row_insert([
@@ -253,7 +253,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
                                [
-                                   "_publish_version"      => "201711251155",
+                                   "_publish_version"      => "201711251755",
                                    "ret_info" => $item,
                                    "gradeArr" => $gradeArr,
                                    "discount_list"=>$discount_list,
@@ -283,7 +283,7 @@ class seller_student2 extends Controller
         }
         return $this->pageView(__METHOD__,$ret,
                                [
-                                   "_publish_version"      => "201711281347",
+                                   "_publish_version"      => "201711281348",
                                    "ret_info" => $ret,
                                ]
         );
@@ -538,9 +538,11 @@ class seller_student2 extends Controller
 
     public function update_power_value(){
         $id = $this->get_in_int_val('id');
-        $power_value = $this->get_in_int_val('power_value',100);
+        $power_value = $this->get_in_int_val('power_value',90);
+        $open_flag = $this->get_in_int_val('open_flag',2);
         $updateArr = [
             'power_value' => $power_value,
+            'open_flag' => $open_flag,
         ];
         if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();
