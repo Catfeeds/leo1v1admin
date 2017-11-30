@@ -35,6 +35,7 @@ $(function(){
         var data         = $(this).get_opt_data();
         var teacherid    = data.teacherid;
         var html_node    = $.obj_copy_node("#id_assign_log");
+        console.log(data);
 
         BootstrapDialog.show({
             title: "老师违规详情",
