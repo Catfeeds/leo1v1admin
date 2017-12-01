@@ -2919,4 +2919,3 @@ $(function () {
 function download_hide(){
     $(".page-opt-show-all-xls").hide();
 }
-
