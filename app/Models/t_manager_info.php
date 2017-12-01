@@ -743,7 +743,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_seller_list_new_two($account_role){
         $where_arr = [
             ["m.account_role =%u ",$account_role,  -1] ,
-            "m.del_flag =0 ",
+            // "m.del_flag =0 ",
         ];
         $sql=$this->gen_sql_new(
             "select uid,account,account_role,m.create_time,m.seller_level,m.face_pic,m.level_face_pic,"

@@ -455,6 +455,10 @@ class agent extends Controller
     public function test_new(){
         // $userid=$this->t_phone_to_user->get_userid_by_phone($phone='13514048977',E\Erole::V_STUDENT);
         // dd($userid);
+        $account_role = E\Eaccount_role::V_2;
+        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
+        dd($seller_list);
+
         $ret = $this->t_phone_to_user->add($phone='13514048977',E\Erole::V_STUDENT,$userid=447677);
         dd($ret);
         $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time=time(null)))-1));
