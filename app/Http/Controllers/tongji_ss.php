@@ -7403,7 +7403,7 @@ class tongji_ss extends Controller
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
         //整体转化量
-        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,-1,-1,$teacherid_list);
+        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,-1,-1,$qz_tea_arr);
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
