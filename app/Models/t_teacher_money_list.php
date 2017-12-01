@@ -101,7 +101,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 		$has_sql = "true";
         if($lessonid==-1){
             $where_arr = [
-                ["add_time>%u",$start_time,0],
+                ["add_time>=%u",$start_time,0],
                 ["add_time<%u",$end_time,0],
                 ["type=%u",$type,-1],
                 ["tm.teacherid=%u",$teacherid,-1],
