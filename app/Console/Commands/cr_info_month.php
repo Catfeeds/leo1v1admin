@@ -358,6 +358,11 @@ class cr_info_month extends Command
         $new_student_num_last = $task->t_cr_week_month_info->get_new_student_num($start_time,$type);
         $read_num_last = $task->t_cr_week_month_info->get_read_num($start_time,$type);
         $lesson_consume_target += $new_student_num_last*600;
+        echo  date("Y-m-d H:i:s",$start_time)."<br>";
+        echo $type."<br>";
+        echo $read_num_last."<br>";
+        echo $new_student_num_last."<br>";
+        dd(111);
         $lesson_target  = $lesson_consume_target/($read_num_last+ $new_student_num_last);
 
 
