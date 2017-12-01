@@ -130,6 +130,14 @@ $(function(){
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
         } );
+
+        $.do_ajax("/ajax_deal2/check_phone_status",{
+            "phone" : opt_data.data ,
+        } ,function(ret){
+            if(ret == 0){
+                alert("请一个小时后再拨打");
+            }
+        }
         //
         $(me).parent().find(".opt-edit-new_new").click();
     });

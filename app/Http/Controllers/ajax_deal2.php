@@ -2224,4 +2224,15 @@ class ajax_deal2 extends Controller
             return 0;
         }
     }
+
+    public function check_phone_status(){
+        $phone = $this->get_in_int_val('phone',-1);
+        $ret_info = $this->t_seller_student_new->get_last_revisit_time_by_phone($phone);
+        $time = time();
+        if($time - $ret_info > 86400){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }
