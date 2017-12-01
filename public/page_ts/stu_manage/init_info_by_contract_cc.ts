@@ -42,10 +42,6 @@ $(function(){
 
         var is_submit_show = 0;
         $.each(init_data,function(i,item){
-            // if(i == 'is_submit_show' && item == 0){
-            //     $("#id_submit_succ").hide();
-            // }
-
             if(i == 'is_submit_show' ){
                 is_submit_show = item;
             }

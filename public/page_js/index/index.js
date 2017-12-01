@@ -179,7 +179,11 @@ $(function(){
                                     'dataType': 'json',
                                     success: function(ret) {
                                         if (ret.flag ) {
-                                            window.location.reload();
+                                            if ( $.query.get("to_url") ){
+                                                window.location.href= $.query.get("to_url") ;
+                                            }else{
+                                                window.location.reload();
+                                            }
                                         }
                                     }
                                 });
