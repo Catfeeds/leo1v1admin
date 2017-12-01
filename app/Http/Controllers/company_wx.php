@@ -12,6 +12,7 @@ class company_wx extends Controller
         if (!$config) {
             exit('没有配置');
         }
+
         $info = $this->t_company_wx_department->get_all_list();
         $depart_info = array_column($info, 'id');
         $users = $this->t_company_wx_users->get_all_list();
@@ -43,6 +44,9 @@ class company_wx extends Controller
                 }
                 // 获取标签部门
                 $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
+                $info = file_get_contents($url);
+                $info = json_decode($info, true);
+
                 $users = $this->get_company_wx_data($url,"partylist");
                 foreach($users as $val) {
                     if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { 
@@ -98,13 +102,37 @@ class company_wx extends Controller
         }
     }
 
-    public function get_company_wx_data($url, $index) { //根据不同路由获取不同的数据 (企业微信)
+    public function get_approve() { // 获取审批数据
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $start_time = $this->get_in_str_val('start_time');
+        $end_time = $this->get_in_str_val('end_time');
+        // 获取token
+        $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
+        $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
+
+        $start_time = strtotime('2017-11-29');
+        $end_time = strtotime('2017-12-1');
+        // 获取审批数据
+        $url = $config['url'].'/cgi-bin/corp/getapprovaldata?access_token='.$token;
+        $post_data = json_encode(["starttime" => $start_time,"endtime" => $end_time]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $output = json_decode($output, true);
+        dd($output);
+    }
+
+    public function get_company_wx_data($url, $index='') { //根据不同路由获取不同的数据 (企业微信)
         $info = file_get_contents($url);
         $info = json_decode($info, true);
-        if (isset($info[$index])) {
+        if ($index && isset($info[$index])) {
             return $info[$index];
         }
-        return;
+        return $info;
     }
 
     public function show_department_users() {

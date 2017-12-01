@@ -837,10 +837,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
    }
 
-    public function get_jw_teacher_list_new(){
+    public function get_jw_teacher_list_new($del_flag=0){
+        $where_arr=[
+            ["del_flag=%u",$del_flag,-1]  
+        ];
         $sql = $this->gen_sql_new("select uid,account from %s ".
-                                  " where account_role = 3 and del_flag = 0 "
+                                  " where account_role = 3 and %s "
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return  $this->main_get_list($sql);
     }
