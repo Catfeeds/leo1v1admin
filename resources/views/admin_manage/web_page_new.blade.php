@@ -43,7 +43,7 @@
 
                             <td> {{@$var["count"]}}</td>
                             <td> {{@$var["ip_count"]}}</td>
-                            <td> {{@$var["share_wx_flag_str"]}}</td>
+                            <td> {{@$var["share_wx_flag"]}}</td>
                          
                             <td>
                                 <div class=" row-data"  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
