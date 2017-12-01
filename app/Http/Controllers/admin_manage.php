@@ -168,7 +168,7 @@ class admin_manage extends Controller
         $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id);
 
         foreach ($ret_info["list"] as &$item  ) {
-            $this->cache_set_item_account_nick($item,"adminid", "from_adminid_nick" );
+            $this->cache_set_item_account_nick($item,"adminid", "adminid_nick" );
             if(!$item['group_name']){
                 $item['group_name'] = '未定义';
             }
@@ -184,7 +184,12 @@ class admin_manage extends Controller
         /*$ret_info= $this->gen_admin_member_data($admin_info['list']);*/
         //dd($ret_info);
        
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
+        return $this->pageView(__METHOD__,
+                               \App\Helper\Utils::list_to_page_info($ret_info),
+                               [
+                                   "data_ex_list" => $ret_info,
+                                   "_publish_version" => 201712010945
+                               ]);
 
     }
 
