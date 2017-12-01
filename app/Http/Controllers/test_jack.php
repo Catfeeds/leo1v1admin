@@ -644,6 +644,11 @@ class test_jack  extends Controller
             ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
             ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
         ];
+        $tt = "1,2,3,5";
+        $list = json_encode( $arr);
+        $aa = json_decode($list,true);
+        $bb = json_decode($tt,true);
+        dd(is_array($bb));
         $list=[];
         foreach( $arr as $val){
             $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
