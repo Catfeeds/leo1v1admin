@@ -9,13 +9,11 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	share_wx_flag	:any;
+	share_count	:any;
 	count	:any;
 	ip_count	:any;
 	up_groupid	:any;
-	adminid_nick	:any;
-	share_wx_flag_str	:any;
-	main_type_str	:any;
+	is_share	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -25,6 +23,7 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	main_type_str	:any;
 }
 
 /*

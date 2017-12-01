@@ -774,7 +774,7 @@ $(function(){
         });
     });
 
-    if(g_account=="wenbin"){
+    if(g_account=="wenbin" || g_account=="sherry"){
         download_show();
     }
 });
