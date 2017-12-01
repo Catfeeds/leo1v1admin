@@ -247,7 +247,8 @@ return [
     'company_wx'=>[
         'url'    => 'https://qyapi.weixin.qq.com',
         'CorpID' => 'wwe9748dcadfba90f7',
-        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk'
+        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk',
+        'Secret2' => '26laMHHmbs0Pc7oxgCWpz6rS_J42QuApEpf2pFGlpRs' // 审批
     ],
 
 ];
