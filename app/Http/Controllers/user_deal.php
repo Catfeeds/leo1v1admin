@@ -1584,7 +1584,7 @@ class user_deal extends Controller
         if(!$check_flag){
             return $this->output_err("该老师不是正式老师!");
         }
-        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag=1){
+        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag==1){
             return $this->output_err("只有数学可以设置‘常规课上奥数课标示’为‘是’!\n如果原课程包变更科目，请新增课程包！");
         }
 
