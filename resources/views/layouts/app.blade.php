@@ -224,6 +224,12 @@
             <script src="/AdminLTE-2.4.0-rc/dist/js/adminlte.js"></script>
             <script src="/AdminLTE-2.4.0-rc/plugins/iCheck/icheck.js"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+            <script type="text/javascript" >
+             var g_account="{{$_account}}";
+             var g_account_role="{{$_account_role}}";
+             var g_adminid="{{$_adminid}}";
+            </script>
+
             <!-- AdminLTE for demo purposes -->
             <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
             <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
@@ -232,11 +238,6 @@
             <!-- 全局变量  -->
             {!!  @$js_values_str !!}
 
-            <script type="text/javascript" >
-             var g_account="{{$_account}}";
-             var g_account_role="{{$_account_role}}";
-             var g_adminid="{{$_adminid}}";
-            </script>
 
             <script type="text/javascript">
              g_power_list= {!! $_power_list !!} ;
@@ -255,5 +256,12 @@
             </div>
         </div>
         <!-- ./wrapper -->
+
     </body>
+        <script type="text/javascript">
+            if(g_account=="jack"){
+            download_show();
+            }
+            </script>
+
 </html>
