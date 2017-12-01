@@ -1073,7 +1073,8 @@ class common extends Controller
             break;
         case 'wx_pub_qr':
             $extra = array(
-                'product_id' => $orderNo
+                'product_id' => $orderNo,
+                'success_url' => 'http://admin.leo1v1.com/common/get_webhooks_notice'
             );
             break;
 
