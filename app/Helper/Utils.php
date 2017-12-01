@@ -429,11 +429,21 @@ class Utils  {
         if (  !self::check_env_is_testing()
              && ( $g_request  instanceof \Illuminate\Http\Request  )
         ) {
+            /*
+            if (!class_exists('QuantumPHP', false)) {
+                include_once( app_path("Libs/QuantumPHP.php") );
+            }
+            $time_str=date('H:i:s', time(NULL));
+            \QuantumPHP::log($time_str, substr( $message,0,4000 ));
+            */
+
+
             if (!class_exists('ChromePhp', false)) {
                 include_once( app_path("Libs/ChromePhp.php") );
             }
             $time_str=date('H:i:s', time(NULL));
             \ChromePhp::log($time_str, substr( $message,0,4000 ));
+
             /*
             if (!class_exists('FB', false)) {
                 include_once( app_path("Libs/FirePHPCore/fb.php") );
