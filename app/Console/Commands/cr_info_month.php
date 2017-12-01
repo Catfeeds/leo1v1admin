@@ -332,7 +332,7 @@ class cr_info_month extends Command
         $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
 
         //各年级在读学生统计
-        $grade_list = $this->t_student_info->get_read_num_by_grade();
+        $grade_list = $task->t_student_info->get_read_num_by_grade();
         $arrr=[];
         foreach($grade_list as $k=>$val){
             $arrr[$k]=$val["num"];
