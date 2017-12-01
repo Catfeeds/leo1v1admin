@@ -1188,7 +1188,7 @@ $(function(){
                                     alert("请填写备注");
                                     return;
                                 }
-                                if(html_node.find("#id_seller_student_sub_status").val() <= 0){
+                                if(html_node.find("#id_stu_status").val() <= 0){
                                     alert("请选择回访状态");
                                     return;
                                 }
