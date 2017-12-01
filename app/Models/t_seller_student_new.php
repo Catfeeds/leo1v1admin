@@ -3149,8 +3149,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr , "add_time", $start_time, $end_time);
         $sql= $this->gen_sql_new(
-            "select first_admin_revisiterid as adminid,   count(*) as count from %s"
-            . "  where  %s group  by first_admin_revisiterid ",
+            "select first_seller_adminid as adminid,   count(*) as count from %s"
+            . "  where  %s group  by first_seller_adminid ",
             self::DB_TABLE_NAME, 
             $where_arr
         );
