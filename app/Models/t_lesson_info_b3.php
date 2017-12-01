@@ -2375,4 +2375,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
+
+    public function check_is_fail($lessonid,$lesson_type){
+        $where_arr = [
+            " tr.stu_lesson_content != '正常上课' ",
+            " tr.stu_lesson_content != '顺利完成' ",
+            " tr.stu_lesson_content != ' ' ",
+            "l.lesson_del_flag=0",
+            "l.lesson_type=$lesson_type",
+            "l.lessonid=$lessonid"
+        ];
+
+
+        $sql = $this->gen_sql_new("  select 1 from %s l "
+                                  ." left join %s tss on tss.lessonid=l.lessonid"
+                                  ." left join %s tr on tr.require_id=tss.require_id"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+
 }
