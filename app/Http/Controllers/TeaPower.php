@@ -2278,18 +2278,11 @@ trait TeaPower {
     /**
      * 老师培训通过后的处理操作
      */
-    public function teacher_train_through_deal($teacher_info,$flag){
-        if($flag==0){
-            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-                "train_through_new"      => 1,
-                "train_through_new_time" => time(),
-            ]);
-        }elseif($flag==1){
-            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-                "train_through_new_time" => time(),
-            ]);
-            $teacher_info['level']=0;
-        }
+    public function teacher_train_through_deal($teacher_info){
+        $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+            "train_through_new_time" => time(),
+        ]);
+        $teacher_info['level']=0;
         $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
@@ -2299,6 +2292,13 @@ trait TeaPower {
             }else{
                 $notice_flag = true;
             }
+
+            \App\Helper\Utils::logger(
+                " add_reference_price reference_info:".$reference_info['teacherid']
+                ." teacher_info: ".$teacher_info['teacherid']
+                ." notice_flag:".$notice_flag
+            );
+
             $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid'],$notice_flag);
         }
     }
