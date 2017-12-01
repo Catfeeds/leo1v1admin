@@ -1,6 +1,6 @@
 syntax = "proto3";
 package common;
-option php_namespace = "Proto\\yb_admin\\common"; 
+option php_namespace = "Proto\\class_api\\common"; 
 
 
 
