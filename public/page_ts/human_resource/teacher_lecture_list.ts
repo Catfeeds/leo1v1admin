@@ -828,7 +828,7 @@ $(function(){
                                     id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                                         sshd_good.push($(this).val());
                                     });
-                                    
+
                                     var not_grade = "";
                                     $("input[name='not_grade']:checked").each(function(){
                                         if(not_grade==""){

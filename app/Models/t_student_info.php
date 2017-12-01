@@ -1363,17 +1363,16 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function register( $phone, $passwd, $reg_channel , $grade , $ip, $nick,  $region)
     {
-        $userid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);
+        $userid=$this->task->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);
         if($userid>0){
             return $userid;
         }
 
-        $userid= $this->t_user_info->user_reg($passwd,$reg_channel,ip2long($ip));
+        $userid= $this->task->t_user_info->user_reg($passwd,$reg_channel,ip2long($ip));
         if(!$userid){
             return false;
         }
-
-        $ret = $this->t_phone_to_user->add($phone,E\Erole::V_STUDENT,$userid);
+        $ret = $this->task->t_phone_to_user->add($phone,E\Erole::V_STUDENT,$userid);
         if(!$ret){
             return false;
         }
