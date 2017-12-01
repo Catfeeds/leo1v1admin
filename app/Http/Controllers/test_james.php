@@ -1311,11 +1311,19 @@ class test_james extends Controller
         $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
     }
 
+
+    /**
+     * @ 叶老师 试听课
+     **/
     public function get_add_time(){
 
-        $a = $this->t_teacher_info->get_unbound_teacher_list();
-        dd($a);
 
+        $start_time = $this->get_in_int_val("s");
+        $end_time   = $this->get_in_int_val("e");
+        $type = $this->get_in_int_val('type',-1);
+        $num = $this->t_lesson_info_b3->get_unlesson($start_time, $end_time,$type);
+
+        dd($num);
     }
 
 

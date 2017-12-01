@@ -2660,6 +2660,13 @@ class human_resource extends Controller
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
+        $new_tag_flag                     = $this->get_in_int_val("new_tag_flag",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+
 
         $acc= $this->t_teacher_record_list->get_acc($id);
         $account = $this->get_account();
@@ -2691,8 +2698,18 @@ class human_resource extends Controller
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
-
-        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+        if($new_tag_flag==0){
+            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
+        }elseif($new_tag_flag==1){
+            $tea_tag_arr=[
+                "style_character"=>$style_character,
+                "professional_ability"=>$professional_ability,
+                "classroom_atmosphere"=>$classroom_atmosphere,
+                "courseware_requirements"=>$courseware_requirements,
+                "diathesis_cultivation"=>$diathesis_cultivation,
+            ];
+            $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2); 
+        }
 
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);

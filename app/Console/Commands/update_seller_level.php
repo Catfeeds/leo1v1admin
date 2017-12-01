@@ -69,6 +69,9 @@ class update_seller_level extends cmd_base
             $update_flag = 0;
             $adminid = $item['uid'];
             $account = $item['account'];
+            if($account == '倪姣'){
+                echo $account;
+            }
             $face_pic = $item['face_pic']!=''?$item['face_pic']:'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
             $this_level = $item['seller_level'];
             $num = isset($item['num'])?$item['num']:0;
