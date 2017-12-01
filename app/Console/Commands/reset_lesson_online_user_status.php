@@ -79,6 +79,8 @@ class reset_lesson_online_user_status extends Command
              **/
             $is_fail=0;
             if($lesson_type == 2){
+                echo "xx0".$lessonid." <br />";
+
                 $is_fail = $this->task->t_lesson_info_b3->check_is_fail($lessonid,$lesson_type);
             }
 
