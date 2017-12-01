@@ -2230,4 +2230,26 @@ class Utils  {
         return $lesson_count;
     }
 
+    static public function push_arr_to_arr(&$arr1,$arr2,$feild){
+        foreach($arr1 as &$v){
+            $arr = [];
+            $arr['name'] = $v;
+            $arr[$feild] = $arr2;
+            $v = $arr;
+        }
+    }
+
+    static public function push_arr_to_arr_new($arr1,$arr2,$feild){
+        foreach($arr1 as &$v){
+            $arr = [];
+            $arr['name'] = $v;
+            $arr[$feild] = $arr2;
+            $v = $arr;
+        }
+        return $arr1;
+    }
+
+
+
+
 };
