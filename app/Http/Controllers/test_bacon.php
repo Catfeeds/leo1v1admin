@@ -168,13 +168,13 @@ class test_bacon extends Controller
         $ret = @\App\Helper\Utils::list_to_page_info($list)['list'];
         $power_menu = [];
         foreach($ret as $item){
-            if(@$item['has_power_flag'] == 'checked'){
+            if( ( @$item['has_power_flag'] == 'checked' && @$item['url'] != '' ) || ( @$item['level'] == 1 ) ){
                 $power_menu[] = $item;
             }
         }
-        //print_r($power_menu);
-        $this-> download_xls($power_menu);
         //dd($power_menu);
+        $this-> download_xls($power_menu);
+        //dd($ret);
       
     }
     public function download_xls ($ret)  {
