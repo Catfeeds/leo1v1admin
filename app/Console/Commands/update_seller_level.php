@@ -74,8 +74,12 @@ class update_seller_level extends cmd_base
             $num = isset($item['num'])?$item['num']:0;
             $level_goal = isset($item['level_goal'])?$item['level_goal']:0;
             $become_member_time = $item['create_time'];
+            $no_update_seller_level_flag = $item['no_update_seller_level_flag'];
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($num+1);
             $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
+            if($no_update_seller_level_flag == 1){//不参与降级
+                $reduce_flag == 0;
+            }
             if($reduce_flag == 1){//月头
                 $month_level = $this_level;
                 //统计上个月
@@ -89,7 +93,6 @@ class update_seller_level extends cmd_base
                         }
                     }
                     $update_flag = 1;
-                    // $month_level = $next_level;
                 }
                 //月末定级,根据上上月非退费签单金额
                 $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
@@ -108,6 +111,7 @@ class update_seller_level extends cmd_base
                         'seller_level' => $month_level,
                         'create_time' => $time,
                     ]);
+                    echo $account.':'.$month_level."\n";
                 }
             }else{//月中
                 //统计本月
