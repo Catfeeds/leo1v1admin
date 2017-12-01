@@ -637,6 +637,27 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+        dd($list);
+
+        $list = $this->t_tag_library->get_tag_name_list("教师相关","风格性格");
+        dd($list);
+
         $adminid = $this->get_account_id();
         $arr=[
             ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
