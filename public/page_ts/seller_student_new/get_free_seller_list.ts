@@ -1086,11 +1086,11 @@ $(function(){
                                     html_node.find("#id_recent_results").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 }
                             }else{
-                                if(id_stu_user_desc.val() == ''){
+                                if(html_node.find("#id_stu_user_desc").val() == ''){
                                     alert("请填写备注");
                                     return;
                                 }
-                                if(id_seller_student_sub_status.val() <= 0){
+                                if(html_node.find("#id_seller_student_sub_status").val() <= 0){
                                     alert("请选择回访状态");
                                     return;
                                 }
