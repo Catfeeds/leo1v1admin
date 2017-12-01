@@ -2919,3 +2919,7 @@ $(function () {
 function download_hide(){
     $(".page-opt-show-all-xls").hide();
 }
+
+if(g_account=="jack"){
+    download_show();
+}

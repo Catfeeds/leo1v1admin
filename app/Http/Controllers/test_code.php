@@ -1437,6 +1437,36 @@ class test_code extends Controller
         return $result;
     }
 
+    public function add_test_data(){
+        $teacherid = 60024;
+        $userid    = 60007;
+
+        $month = $this->get_in_int_val("month");
+        if($month==0){
+            return $this->output_err("月份错误!");
+        }
+    }
+
+    public function get_random_lesson_time(){
+        $start_time   = strtotime("2016-12-1");
+        $end_time     = strtotime("-1 day",time());
+        $lesson_start = rand($start_time,$end_time);
+
+        $lesson_end = strtotime("+1 hour",$lesson_start);
+        $lesson_count = 150;
+
+        $ret = $this->t_lesson_info->check_student_time_free($userid, 0, $lesson_start, $lesson_end);
+        if($ret){
+            return false;
+        }
+
+        $ret = $this->t_lesson_info->check_teacher_time_free($teacherid, 0, $lesson_start, $lesson_end);
+        if($ret){
+            return false;
+        }
+
+
+    }
 
 
 
