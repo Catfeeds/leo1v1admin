@@ -2387,7 +2387,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             " tr.stu_lesson_content != ' ' ",
             "l.lesson_del_flag=0",
             ['l.lesson_user_online_status=%d',$type,-1],
-            "l.lesson_type=2"
+            "l.lesson_type=2",
+            "t.teacher_type in (3,4)"
         ];
 
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
@@ -2395,10 +2396,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("  select l.lessonid, tr.stu_lesson_content from %s l "
                                   ." left join %s tss on tss.lessonid=l.lessonid"
                                   ." left join %s tr on tr.require_id=tss.require_id"
+                                  ." left join %s t on t.teacherid=l.teacherid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
@@ -2414,17 +2417,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             " tr.stu_lesson_content != ' ' ",
             "l.lesson_del_flag=0",
             "l.lesson_type=$lesson_type",
-            "l.lessonid=$lessonid"
+            "l.lessonid=$lessonid",
+            "t.teacher_type in (3,4)"
         ];
 
 
         $sql = $this->gen_sql_new("  select 1 from %s l "
                                   ." left join %s tss on tss.lessonid=l.lessonid"
                                   ." left join %s tr on tr.require_id=tss.require_id"
+                                  ." left join %s t on t.teacherid=l.teacherid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 

@@ -14,6 +14,7 @@ interface GargsStatic {
 	test_lesson_count_flag:	number;
 	test_lesson_order_fail_flag:	number;//App\Enums\Etest_lesson_order_fail_flag
 	origin:	string;
+	return_publish_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -72,7 +73,8 @@ function load_data(){
 		subject:	$('#id_subject').val(),
 		test_lesson_count_flag:	$('#id_test_lesson_count_flag').val(),
 		test_lesson_order_fail_flag:	$('#id_test_lesson_order_fail_flag').val(),
-		origin:	$('#id_origin').val()
+		origin:	$('#id_origin').val(),
+		return_publish_count:	$('#id_return_publish_count').val()
     });
 }
 $(function(){
@@ -100,6 +102,7 @@ $(function(){
 	$('#id_test_lesson_count_flag').val(g_args.test_lesson_count_flag);
 	$('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
 	$('#id_origin').val(g_args.origin);
+	$('#id_return_publish_count').val(g_args.return_publish_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -167,6 +170,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">origin</span>
                 <input class="opt-change form-control" id="id_origin" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">return_publish_count</span>
+                <input class="opt-change form-control" id="id_return_publish_count" />
             </div>
         </div>
 */

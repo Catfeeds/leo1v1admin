@@ -108,7 +108,10 @@ class test_bacon extends Controller
         return $list;
     }
 
+
     public function power_group_edit() {
+        
+        $sql = "select * from db_weiyi_admin.t_authority_group where groupid in (57,38,74,77,104,129,133,94,102)";
         // $group_arr = [
         //     ['groupid'=>57],
         //     ['groupid'=>38],
@@ -120,17 +123,18 @@ class test_bacon extends Controller
         //     ['groupid'=>94],
         //     ['groupid'=>102],
         // ];
-        $group_arr = [ 57,38,74,77,104,129,133,94,102];
-       
-        $arr = [];
-        foreach( $group_arr as $groupid){
-            $auth = $this->t_authority_group->get_auth_group_map($groupid);
-            $auth = array_keys($auth);
-            //print_r($auth);
-            $arr = array_merge($arr,$auth);
+        $group_arr = "( 57,38,74,77,104,129,133,94,102 )";
+        $auth_arr = $this->t_authority_group->get_auth_group_more($group_arr);
+        
+        $auth_str = '';
+        foreach( $auth_arr as $auth){
+            $auth_str .= $auth['group_authority'];
+            //dd($arr);
         }
-        //dd($arr);
+       
+        $arr = explode(',', $auth_str);
         $arr = array_unique($arr);
+        
         foreach($arr as $k=>$v){
             $power_map[$v] = true;
         }
@@ -162,8 +166,15 @@ class test_bacon extends Controller
             $list[]=$n;
         }
         $ret = @\App\Helper\Utils::list_to_page_info($list)['list'];
-        $this-> download_xls($ret);
-        dd($ret);
+        $power_menu = [];
+        foreach($ret as $item){
+            if(@$item['has_power_flag'] == 'checked'){
+                $power_menu[] = $item;
+            }
+        }
+        //print_r($power_menu);
+        $this-> download_xls($power_menu);
+        //dd($power_menu);
       
     }
     public function download_xls ($ret)  {
@@ -182,16 +193,16 @@ class test_bacon extends Controller
              ->setCategory("jim  category");
 
         //dd($xls_data);
-        foreach( $xls_data as $index=> $item ) {
      
+        foreach( $xls_data as $index=> $item ) {
             $index_str = $index+1;
             $objPHPExcel->getActiveSheet()
                  ->setCellValue('A'.$index_str, @$item['k1'])
                  ->setCellValue('B'.$index_str, @$item['k2'])
                  ->setCellValue('C'.$index_str, @$item['k3'])
                  ->setCellValue('D'.$index_str, @$item['url']);
-        
         }
+        
         //$objPHPExcel->getActiveSheet()->setCellValue('A1','haode');
 
         $objPHPExcel->getActiveSheet()->setTitle('User');

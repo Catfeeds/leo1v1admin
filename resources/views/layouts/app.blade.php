@@ -259,7 +259,7 @@
 
     </body>
         <script type="text/javascript">
-            if(g_account=="jack" || g_account=="jim" ){
+            if(g_account=="jack" || g_account=="jim" || g_account=="adrian" ){
                 download_show();
             }
             </script>
