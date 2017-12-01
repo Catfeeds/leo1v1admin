@@ -101,6 +101,7 @@
                             >
                                 <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone   "></a>
                                 <a   class=" btn fa  opt-set-self" title="">抢学生 </a>
+                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                             </div>
                         </td>
                     </tr>
