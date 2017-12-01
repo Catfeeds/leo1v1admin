@@ -2360,23 +2360,11 @@ trait TeaPower {
         $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
-        if(isset($reference_info['teacherid'])
-           && !empty($reference_info['teacherid'])
-           && $reference_info['teacher_ref_type']!=E\Eteacher_ref_type::V_11
-        ){
+        if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
+            //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $notice_flag = true;
-            }else{
-                $notice_flag = false;
+                $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid']);
             }
-
-            \App\Helper\Utils::logger(
-                " add_reference_price reference_info:".$reference_info['teacherid']
-                ." teacher_info: ".$teacher_info['teacherid']
-                ." notice_flag:".$notice_flag
-            );
-
-            $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid'],$notice_flag);
         }
     }
 
