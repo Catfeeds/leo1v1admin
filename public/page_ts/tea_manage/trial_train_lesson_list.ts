@@ -536,23 +536,30 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         console.log(opt_data.stu_comment);
         var teacherid = opt_data.teacherid;
-        var teaching_related_labels=$("<div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"> </div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"> </div>");
-
+       
         $.do_ajax('/ajax_deal2/get_teacher_tag_info',{
         },function(resp) {
             var list = resp.data;
+            var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\professional_ability\"> </div><div>");
+           
+
             $.each(list,function(i,item){
                 if(i=="风格性格"){
-                    var style_character="";
+                    var tt="";
                     $.each(item,function(ii,item_p){
                         console.log(item_p);
-                        style_character += "<label><input name=\"风格性格\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                        tt += "<label><input name=\"风格性格\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                       
+
                     });
+                    teaching_related_labels.find("#style_character").append(tt);
+
+                   
 
                 }
             });
 
-            console.log(list);
+            console.log(teaching_related_labels);
             var id_jysj = $("<select class=\"class_score\" />");
             var id_yybd = $("<select class=\"class_score\" />");
             var id_zyzs = $("<select class=\"class_score\" />");
@@ -600,7 +607,7 @@ $(function(){
                 ["模拟试听是否通过",id_trial_train_status],
                 ["监课情况",id_jkqk],
                 ["意见或建议",id_record],
-                ["老师标签",id_sshd]
+                ["老师标签",teaching_related_labels]
             ];
             
             $.show_key_value_table("试听评价", arr,{
