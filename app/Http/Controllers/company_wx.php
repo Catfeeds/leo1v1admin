@@ -19,8 +19,17 @@ class company_wx extends Controller
         foreach($users as $item) {
             $peo[] = $item['pId'].$item['userid'];
         }
+        $tag_department = $this->t_company_wx_tag_department->get_all_list();
+        $tag_depart = [];
+        foreach($tag_department as $item) {
+            $tag_depart[$item['id']][] = $item['department'];
+        }
+
+        // 获取token
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
+
+        // 获取标签
         $url = $config['url'].'/cgi-bin/tag/list?access_token='.$token;
         $tag = $this->get_company_wx_data($url,'taglist');
         if ($tag) {
@@ -31,33 +40,31 @@ class company_wx extends Controller
                         "id" => $item['tagid'],
                         'name' => $item['tagname'],
                     ]);
-
                 }
+                // 获取标签部门
                 $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
                 $users = $this->get_company_wx_data($url,"partylist");
-                $users = [278,279,280,281,282];
                 foreach($users as $val) {
-                    //$info = $this->t_company_wx_tag_department->get_name($item['tagid']);
-                    //if (!$info) {
+                    if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { 
                         $this->t_company_wx_tag_department->row_insert([
                             "id" => $item['tagid'],
                             'department' => $val
                         ]);
-
-                    //}
-
+                    }
                 }
+
             }
             echo '加载标签完成';
         }
-        exit;
 
+        // 获取部门
         $url = $config['url'].'/cgi-bin/department/list?access_token='.$token;
         $department = $this->get_company_wx_data($url, 'department');
         $users = '';
         if ($department) {
             foreach ($department as $val) {
                 $department = $val['id'];
+                // 获取部门下的用户
                 $url = $config['url'].'/cgi-bin/user/list?access_token='.$token.'&department_id='.$department.'&fetch_child=0';
                 $users = $this->get_company_wx_data($url, 'userlist');
                 if ($users) {
@@ -106,9 +113,6 @@ class company_wx extends Controller
         $info = $this->t_company_wx_department->get_all_list();
         $info[0]['open'] = true;
         $info[1]['open'] = true;
-        // 获取TSR事业部 74下所有子节点
-        $info = $this->getTree($info, 0, 74);
-        dd($info);
         $users = $this->t_company_wx_users->get_all_list();
         $ext['id'] = $id;
         $ext['type'] = $type;
@@ -170,8 +174,7 @@ class company_wx extends Controller
             $info = array_merge($info,$users);
         }
 
-        $info = $this->getTree($info, 0);
-        dd($info);
+        //$info = $this->genTree($info, 0);
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
             'ext' => $ext
@@ -184,31 +187,6 @@ class company_wx extends Controller
         return $this->pageView(__METHOD__, '', [
             'info' => $tag
         ]);
-    }
-
-    function getTree($data, $pId, $parent = '')
-    {
-        $tree = '';
-        $all_child = '';
-        foreach($data as $k => $v)
-        {
-            if($v['pId'] == $pId)
-            {
-                //$v['children'] = $this->getTree($data, $v['id'], ); // 找子节点
-                if ($v['pId'] == $parent) {
-                    $v['children'] = $this->getTree($data, $v['id'], $v['id']);
-                    $all_child[] = $v['id'];
-                }else {
-                    $v['children'] = $this->getTree($data, $v['id'], $parent);
-                }
-                
-                // if (isset($users[$v['id']])) {
-                //     $v['users'] = $users[$v['id']];
-                // }
-                $tree[] = $v;
-            }
-        }
-        return $tree;
     }
 
     public function role_list() {
@@ -291,5 +269,79 @@ class company_wx extends Controller
         // ],false,false,true );
         //return $this->output_succ();
 
+    }
+
+    public function test_list() {
+        $info = $this->t_company_wx_department->get_all_list();
+
+        // 生成树节点
+        //$info = $this->genTree($info, 74);
+        //dd($info);
+
+        // 获取某节点的所有父节点
+        //$info = $this->get_parent_node($info,74);
+
+        // 获取某节点的所有子节点
+        $info = $this->get_child_node($info, 74);
+        // 根据部门获取对应的tag
+        // $tag_department = $this->t_company_wx_tag_department->get_all_list();
+        // $tag_depart = [];
+        // foreach($tag_department as $item) {
+        //     $tag_depart[$item['id']] = $item['department'];
+        // }
+        // $tag = $this->t_company_wx_tag->get_all_list();
+        
+        dd($info);
+    }
+
+    public function genTree($data,$pid) {
+        $tree = '';
+        foreach($data as $k => $v)
+        {
+            if($v['pId'] == $pid)
+            {
+                $arr = $this->genTree($data, $v['id']); // 找子节点
+                // if (isset($users[$v['id']])) {
+                //     $v['users'] = $users[$v['id']];
+                // }
+                $tree[] = $v;
+            }
+        }
+        return $tree;
+    }
+
+    public function get_parent_node($data, $parent) { // 获取某节点的所有父节点
+        foreach($data as $k => $v) {
+            if ($parent == 0) {
+                return $parent;
+            }
+            if ($v['id'] == $parent) {
+                $parent .= '-'.$this->get_parent_node($data, $v['pId']);
+                break;
+            }
+        }
+        return $parent;
+    }
+
+    public function get_child_node($data, $child) { // 获取某节点的所有子节点
+        $tree = '';
+        foreach($data as $k => $v) {
+            if ($v['pId'] == $child) {
+                $ret = $this->get_child_node($data, $v['id']);
+                // if (is_array($ret)) { // 数组方式显现
+                //     $tree[] = $v;
+                //     $tree = array_merge($tree, $ret);
+                // } else {
+                //     $tree[] = $v;
+                // }
+                if ($ret) {
+                    $tree[] = $v['id'];
+                    $tree = array_merge($tree, $ret);
+                } else {
+                    $tree[] = $v['id'];
+                }
+            }
+        }
+        return $tree;
     }
 }

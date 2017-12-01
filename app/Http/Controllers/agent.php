@@ -453,17 +453,12 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',1512057600))-1));
-        dd($month_date);
-        if($price_very_last<$level_goal){//降级
-            $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
-            $this->task->t_seller_level_month->row_insert([
-                'adminid' => $adminid,
-                'month_date' => $month_date,
-                'seller_level' => $month_level,
-                'create_time' => $time,
-            ]);
+        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time=time(null)))-1));
+        $row = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid=99,$month_date=1509465600);
+        if(!$row){
+            return $this->output_err('该定级已存在,不能重复添加');
         }
+        dd($row);
         $ret_info = $this->t_origin_key->get_all_key_list();
         $key1_arr = array_unique(array_column($ret_info,'key1'));
         $key2_arr = array_unique(array_column($ret_info,'key2'));

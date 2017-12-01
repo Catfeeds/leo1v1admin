@@ -82,7 +82,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     public function get_teacher_honor_money_list($teacherid,$start,$end,$type=0){
         $where_arr = [
             ["tm.teacherid=%u",$teacherid,0],
-            ["tm.add_time>%u",$start,0],
+            ["tm.add_time>=%u",$start,0],
             ["tm.add_time<%u",$end,0],
             ["tm.type=%u",$type,0],
         ];

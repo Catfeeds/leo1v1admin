@@ -30,7 +30,8 @@
                         <td>浏览次数</td>
                         <td>独立ip数</td>
                         <td>是否分享微信</td>
-                        <td>列</td>
+                        <td>分享微信次数</td>
+                        <td></td>
                 </thead>
                 <tbody>
                     @foreach ($table_data_list as $var)
@@ -39,15 +40,16 @@
                             <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
                             <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
                             <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
-                            <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["adminid_nick"]}}</td>
+                            <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{@$var["account"]}}</td>
 
                             <td> {{@$var["count"]}}</td>
                             <td> {{@$var["ip_count"]}}</td>
-                            <td> {{@$var["share_wx_flag_str"]}}</td>
+                            <td> {{@$var["is_share"]}}</td>
+                            <td> {{@$var["share_count"]}}</td>
                          
                             <td>
                                 <div class=" row-data"  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
-                                    <a class="fa-comments opt-comments" > </a>
+               
                                 </div>
                             </td>
                         </tr>

@@ -99,7 +99,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="手机拨打" style="display:none;" class=" btn fa fa-phone  opt-telphone   "></a>
+                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone   "></a>
                                 <a   class=" btn fa  opt-set-self" title="">抢学生 </a>
                             </div>
                         </td>
