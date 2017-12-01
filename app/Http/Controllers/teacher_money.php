@@ -780,6 +780,7 @@ class teacher_money extends Controller
             $all_money += $t_val['money'];
         }
         $all_money_tax = $all_money*0.98;
+        $this->set_filed_for_js("g_adminid",$this->get_account_id());
         return $this->pageView(__METHOD__,$ret_info,[
             "all_money" => $all_money,
             "all_money_tax" => $all_money_tax,
