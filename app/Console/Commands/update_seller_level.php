@@ -108,7 +108,6 @@ class update_seller_level extends cmd_base
                         'seller_level' => $month_level,
                         'create_time' => $time,
                     ]);
-                    echo $account.':'.$month_level."\n";
                 }
             }else{//月中
                 //统计本月

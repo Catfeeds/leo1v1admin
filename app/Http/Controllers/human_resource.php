@@ -1777,9 +1777,6 @@ class human_resource extends Controller
             "course_review_score"                => $course_review_score,
             "teacher_lecture_score"              => $teacher_lecture_score,
         ]);
-        $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,[
-            "teacher_type" => $identity,
-        ]);
 
         $check_info = [
             "subject"   => $subject,
@@ -1787,8 +1784,12 @@ class human_resource extends Controller
             "not_grade" => $not_grade,
         ];
 
-        if($status==1){
+        if($status==E\Echeck_status::V_1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
+
+
+
+
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             $nick = $appointment_info['name'];
             if($full_time==1){
@@ -1797,7 +1798,11 @@ class human_resource extends Controller
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
             }
 
+            $notice_reference_flag = false;
             if(!empty($teacher_info)){
+                if($teacher_info['trial_lecture_is_pass']==1){
+                    $notice_reference_flag = true;
+                }
                 $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("set teacher label_list");
                 $this->check_teacher_lecture_is_pass($teacher_info);
@@ -1806,6 +1811,7 @@ class human_resource extends Controller
                     return $this->output_err("更新老师年级出错！请重试！");
                 }
             }else{
+                $notice_reference_flag = true;
                 \App\Helper\Utils::logger("add teacher info");
                 $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
                 $add_info    = [
@@ -1829,7 +1835,10 @@ class human_resource extends Controller
                 //老师标签
                 $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
-                //通知推荐人
+            }
+
+            //老师通过试讲通知推荐人
+            if($notice_reference_flag){
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($lecture_info['phone']);
                 if(!empty($reference_info)){
                     $wx_openid    = $reference_info['wx_openid'];
@@ -1841,6 +1850,7 @@ class human_resource extends Controller
                     }
                 }
             }
+
         }
 
         return $this->output_succ();
