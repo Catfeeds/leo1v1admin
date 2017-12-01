@@ -37,6 +37,7 @@ class t_user_info extends \App\Models\Zgen\z_t_user_info
         ]);
         return $this->get_last_insertid();
     }
+
     public function parent_reg($passwd,$reg_channel,$ip){
         $this->row_insert([
             "passwd"      => $passwd,
