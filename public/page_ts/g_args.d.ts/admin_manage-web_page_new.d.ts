@@ -13,7 +13,7 @@ interface RowData {
 	count	:any;
 	ip_count	:any;
 	up_groupid	:any;
-	from_adminid_nick	:any;
+	adminid_nick	:any;
 	share_wx_flag_str	:any;
 	main_type_str	:any;
 	main_type	:any;
