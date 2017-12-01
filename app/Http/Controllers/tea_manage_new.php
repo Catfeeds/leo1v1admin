@@ -1237,14 +1237,13 @@ class tea_manage_new extends Controller
         foreach($ret_info['list'] as &$item){
             $cc_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'2');
             $cc_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '2');
-            // $item['cc_rate'] = $cc_lesson_num>0?($cc_order_num/$cc_lesson_num):0;
             if($cc_lesson_num>0){
                 $item['cc_rate'] = $cc_order_num/$cc_lesson_num;
             }else{
                 $item['cc_rate'] = 0;
             }
 
-            $cr_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'1');
+            $cr_order_num  = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'1');
             $cr_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '1');
             if($cr_order_num>0){
                 $item['cr_rate'] = $cr_order_num/$cr_lesson_num;
@@ -1252,9 +1251,7 @@ class tea_manage_new extends Controller
                 $item['cr_rate'] = 0;
             }
 
-
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-
             $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
             $item['violation_num'] = array_sum($violation_info);
         }

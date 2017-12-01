@@ -711,7 +711,7 @@ class Utils  {
             $start_id   = floor((($start_time+28800)%86400)/300);
             $end_id     = ceil((($end_time+28800)%86400)/300);
             for( ; $start_id<=$end_id; $start_id++ ) {
-                $time_list[$start_id]++;
+                @$time_list[$start_id]++;
             }
         }
         return $time_list;

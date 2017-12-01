@@ -2002,7 +2002,7 @@ class tongji_ss extends Controller
 
         $day_time = $this->get_avg_conversion_time(time(),2);
         $rr = $this->t_lesson_info->get_order_add_time();
-        $order_lesson_day = @round(($rr["lesson_time"]-$rr["order_time"])/$rr["all_count"]/86400,1);
+        $order_lesson_day = round(($rr["lesson_time"]-$rr["order_time"])/$rr["all_count"]/86400,1);
 
 
         return $this->pageView(__METHOD__,$ret_info,[

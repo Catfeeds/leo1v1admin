@@ -1005,6 +1005,18 @@ class wx_teacher_api extends Controller
 
     }
 
+    public function get_test_lesson_info(){
+        $teacherid = $this->get_teacherid();
+        $lessonid  = $this->get_in_int_val('lessonid',-1);
+
+        $ret_info = $this->t_test_lesson_subject->get_test_require_info($lessonid);
+
+        return $this->output_succ(["data"=>$ret_info]);
+    }
+
+    public function get_resource_list(){
+
+    }
 
 
 

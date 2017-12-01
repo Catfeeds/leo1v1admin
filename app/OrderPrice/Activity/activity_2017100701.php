@@ -26,7 +26,7 @@ class activity_2017100701 extends  activity_config_base {
             $can_period_flag= E\Eperiod_flag::V_PERIOD;
             $grade=$this->args["grade"] ;
             $grade_str=E\Egrade::get_desc($grade);
-            if (($this->lesson_times>=45 && $grade = E\Egrade::V_303  ) || $this->lesson_times>=60  ){
+            if (($grade = E\Egrade::V_303 && $this->lesson_times>=30     ) || $this->lesson_times>=60  ){
                 //$desc_list[]=static::gen_activity_item(1, "$grade_str  ", $price,    $present_lesson_count ,$can_period_flag  );
             }else{
                 $can_period_flag= E\Eperiod_flag::V_NOT_PERIOD ;

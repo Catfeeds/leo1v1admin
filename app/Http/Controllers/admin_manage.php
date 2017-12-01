@@ -163,5 +163,29 @@ class admin_manage extends Controller
 
     }
 
+    public  function  web_page_new ( ) {
+        $web_page_id= $this->get_in_int_val("web_page_id");
+        $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id);
+
+        foreach ($ret_info["list"] as &$item  ) {
+            $this->cache_set_item_account_nick($item,"adminid", "from_adminid_nick" );
+            if(!$item['group_name']){
+                $item['group_name'] = '未定义';
+            }
+            if(!$item['up_group_name']){
+                $item['up_group_name'] = '未定义';
+            } 
+            $item['share_wx_flag_str'] = E\Eboolean::get_desc($item['share_wx_flag']);
+            E\Emain_type::set_item_value_str($item);
+
+            
+        }
+        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],[],0, strtotime( date("Y-m-01" )   ));
+        /*$ret_info= $this->gen_admin_member_data($admin_info['list']);*/
+        //dd($ret_info);
+       
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
+
+    }
 
 }
