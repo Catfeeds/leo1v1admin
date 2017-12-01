@@ -150,7 +150,7 @@
                                 <a   class=" btn fa  opt-set-self" title="">抢学生 </a>
                                 @if(in_array($acc,["tom","sam",]))
                                 <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone   "></a>
-                                <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
+                                <a title="手机拨打&录入回访信息" class="btn fa fa-phone  opt-telphone_new"></a>
                                 <a title="查看回访" class="fa fa-comments show-in-select  opt-return-back-list"></a>
                                 @endif
                             </div>
