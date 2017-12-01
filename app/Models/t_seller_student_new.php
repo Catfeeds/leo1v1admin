@@ -3145,5 +3145,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_row($sql);
     }
 
+    public function get_first_admin_info( $start_time, $end_time ) {
+        $where_arr=[];
+        $this->where_arr_add_time_range($where_arr , "add_time", $start_time, $end_time);
+        $sql= $this->gen_sql_new(
+            "select first_seller_adminid as adminid,   count(*) as count from %s"
+            . "  where  %s group  by first_seller_adminid ",
+            self::DB_TABLE_NAME, 
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

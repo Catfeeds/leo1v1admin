@@ -7402,6 +7402,9 @@ class tongji_ss extends Controller
 
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+        //整体转化量
+        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,-1,-1,$qz_tea_arr);
+
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
@@ -7425,6 +7428,8 @@ class tongji_ss extends Controller
             $item["kk_order_num"] =  isset($qz_tea_list_kk[$item["teacherid"]])?$qz_tea_list_kk[$item["teacherid"]]["order_num"]:0;
             $item["hls_lesson_num"] =  isset($qz_tea_list_hls[$item["teacherid"]])?$qz_tea_list_hls[$item["teacherid"]]["all_lesson"]:0;
             $item["hls_order_num"] =  isset($qz_tea_list_hls[$item["teacherid"]])?$qz_tea_list_hls[$item["teacherid"]]["order_num"]:0;
+            $item["all_order_num"] =  isset( $success_test_lesson_list[$item["teacherid"]])? $success_test_lesson_list[$item["teacherid"]]["order_number"]:0;
+
             $item["cc_per"] = !empty($item["cc_lesson_num"])?round($item["cc_order_num"]/$item["cc_lesson_num"]*100,2):0;
             $item["kk_per"] = !empty($item["kk_lesson_num"])?round($item["kk_order_num"]/$item["kk_lesson_num"]*100,2):0;
             $item["hls_per"] = !empty($item["hls_lesson_num"])?round($item["hls_order_num"]/$item["hls_lesson_num"]*100,2):0;
@@ -7472,6 +7477,7 @@ class tongji_ss extends Controller
             @$tran_avg["hls_order_num"] +=$item["hls_order_num"];
             @$tran_avg["lesson_all"] +=$item["lesson_all"];
             @$tran_avg["order_all"] +=$item["order_all"];
+            @$tran_avg["all_order_num"] +=$item["all_order_num"];
 
         }
 

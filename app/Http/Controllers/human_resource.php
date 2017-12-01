@@ -961,6 +961,15 @@ class human_resource extends Controller
 
             if(empty($item["teacher_tags"])){
                 $item["teacher_tags"]="";
+            }else{
+                $tag= json_decode($item["teacher_tags"],true);
+                if(is_array($tag)){
+                    $str_tag="";
+                    foreach($tag as $d=>$t){
+                        $str_tag .= $d."  ".$t."<br>";
+                    }
+                    $item["teacher_tags"] = $str_tag;
+                }
             }
             if($item["test_transfor_per"]>=20){
                 $item["fine_dimension"]="维度A";
@@ -1768,9 +1777,6 @@ class human_resource extends Controller
             "course_review_score"                => $course_review_score,
             "teacher_lecture_score"              => $teacher_lecture_score,
         ]);
-        $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,[
-            "teacher_type" => $identity,
-        ]);
 
         $check_info = [
             "subject"   => $subject,
@@ -1778,8 +1784,12 @@ class human_resource extends Controller
             "not_grade" => $not_grade,
         ];
 
-        if($status==1){
+        if($status==E\Echeck_status::V_1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
+
+
+
+
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             $nick = $appointment_info['name'];
             if($full_time==1){
@@ -1788,7 +1798,11 @@ class human_resource extends Controller
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
             }
 
+            $notice_reference_flag = false;
             if(!empty($teacher_info)){
+                if($teacher_info['trial_lecture_is_pass']==1){
+                    $notice_reference_flag = true;
+                }
                 $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("set teacher label_list");
                 $this->check_teacher_lecture_is_pass($teacher_info);
@@ -1797,6 +1811,7 @@ class human_resource extends Controller
                     return $this->output_err("更新老师年级出错！请重试！");
                 }
             }else{
+                $notice_reference_flag = true;
                 \App\Helper\Utils::logger("add teacher info");
                 $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
                 $add_info    = [
@@ -1820,7 +1835,10 @@ class human_resource extends Controller
                 //老师标签
                 $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
-                //通知推荐人
+            }
+
+            //老师通过试讲通知推荐人
+            if($notice_reference_flag){
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($lecture_info['phone']);
                 if(!empty($reference_info)){
                     $wx_openid    = $reference_info['wx_openid'];
@@ -1832,6 +1850,7 @@ class human_resource extends Controller
                     }
                 }
             }
+
         }
 
         return $this->output_succ();
@@ -2650,6 +2669,13 @@ class human_resource extends Controller
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
+        $new_tag_flag                     = $this->get_in_int_val("new_tag_flag",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+
 
         $acc= $this->t_teacher_record_list->get_acc($id);
         $account = $this->get_account();
@@ -2681,8 +2707,18 @@ class human_resource extends Controller
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
-
-        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+        if($new_tag_flag==0){
+            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
+        }elseif($new_tag_flag==1){
+            $tea_tag_arr=[
+                "style_character"=>$style_character,
+                "professional_ability"=>$professional_ability,
+                "classroom_atmosphere"=>$classroom_atmosphere,
+                "courseware_requirements"=>$courseware_requirements,
+                "diathesis_cultivation"=>$diathesis_cultivation,
+            ];
+            $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2); 
+        }
 
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);

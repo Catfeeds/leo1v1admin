@@ -243,12 +243,10 @@
                            </select>
                        </div>
                    </div>
-
                @if ( $cur_page==10001 )
                    <div class="col-xs-6 col-md-1">
                        <button class="btn btn-primary fa fa-plus" id="id_add" > 转介绍</button>
                    </div>
-
                @elseif ( $cur_page==10002 )
 
                @else

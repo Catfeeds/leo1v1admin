@@ -63,7 +63,7 @@ class send_course_comment_emial_to_stu extends Command
                     }
                     $num  = count(@$ret_info['point_stu_desc']);
                     $time = date('Y-m-d H:i:s',time());
-                    
+
                     if(is_array($ret_info['stu_comment'])){
                         $str = json_encode($ret_info['stu_comment']);
                         $str = "总结如下:<br>".$task->get_test_lesson_comment_str($str);
@@ -98,7 +98,6 @@ class send_course_comment_emial_to_stu extends Command
                     \App\Helper\Utils::logger("send email.lessonid:".$item['lessonid']." date:".date("Y-m-d H:i",time()));
                 }
             }
-            
         }
 
     }

@@ -976,6 +976,7 @@ class user_deal extends Controller
         $call_phone_passwd       = $this->get_in_str_val("call_phone_passwd");
         $call_phone_type         = $this->get_in_int_val("call_phone_type");
         $main_department         = $this->get_in_int_val("main_department");
+        $no_update_seller_level_flag = $this->get_in_int_val("no_update_seller_level_flag");
         if (!$tquin) {
             $tquin=NULL;
         }
@@ -1021,6 +1022,7 @@ class user_deal extends Controller
             "become_full_member_flag" => $become_full_member_flag,
             "main_department" =>$main_department,
             "level_face_pic" => $level_face_pic,
+            "no_update_seller_level_flag" => $no_update_seller_level_flag,
         ];
 
         if ($cardid) {
@@ -1584,7 +1586,7 @@ class user_deal extends Controller
         if(!$check_flag){
             return $this->output_err("该老师不是正式老师!");
         }
-        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag=1){
+        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag==1){
             return $this->output_err("只有数学可以设置‘常规课上奥数课标示’为‘是’!\n如果原课程包变更科目，请新增课程包！");
         }
 

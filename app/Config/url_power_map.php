@@ -221,6 +221,7 @@ class url_power_map {
 			'/tongji/origin_count_yxb_simple'	=>1070855,
 			'/tongji_ss/origin_count_yhyy'	=>1070852,
 			'/tongji_ss/origin_count_tmk'	=>1070850,
+			'/seller_student_new2/seller_first_admin_info'	=>1070811,
 			'/tongji2/seller_origin_info'	=>1070810,
 			'/seller_student_new2/origin_user_list'	=>1070860,
 			'/tongji_ss/rejion_count_list'	=>1070820,

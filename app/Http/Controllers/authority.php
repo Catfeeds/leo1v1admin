@@ -100,6 +100,7 @@ class authority extends Controller
             E\Eseller_level::set_item_value_str($item);
             E\Edepartment::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"become_full_member_flag");
+            E\Eboolean::set_item_value_str($item,"no_update_seller_level_flag");
             $item['del_flag_str'] = ($item['del_flag']==0)?'在职':'离职';
             if($item['leave_member_time']){
                 $item['leave_member_time'] = date('Y/m/d H:i',$item['leave_member_time']);

@@ -1415,7 +1415,7 @@ lesson_type in (0,1) "
      * 重叠取反即可：t3<t2 && t4>t1
      */
     public function check_student_time_free( $userid,$cur_lessonid, $lesson_start,$lesson_end ) {
-        $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
+        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end "
                             ." from %s l "
                             ." left join %s tss on l.lessonid = tss.lessonid "
                             ." where userid=%u "

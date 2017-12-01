@@ -195,6 +195,80 @@ trait TeaPower {
         }
     }
 
+
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin){
+        $tag_info = json_encode($tea_tag_arr);
+        if(!empty($tag_info)){
+
+            $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+            if($id>0 && $lessonid>0){
+                $this->t_teacher_label->field_update_list($id,[
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "tag_info"=>$tag_info
+                ]);
+            }else{
+                $this->t_teacher_label->row_insert([
+                    "teacherid"=>$teacherid,
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "lessonid"    =>$lessonid,
+                    "lesson_list"=>$lesson_list,
+                    "tea_label_type"=>$tag_info
+                ]);
+            }
+
+
+            $style_character = json_decode(@$tea_tag_arr["style_character"],true);
+            $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
+            $classroom_atmosphere= json_decode(@$tea_tag_arr["classroom_atmosphere"],true);
+            $courseware_requirements= json_decode(@$tea_tag_arr["courseware_requirements"],true);
+            $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
+            $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
+            $teacher_tags_list = json_decode($teacher_tags_old,true);
+            if(is_array($teacher_tags_list)){
+                
+            }else{
+                $tag = trim($teacher_tags_list,",");
+                if($tag){
+                    $arr = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr as $val){
+                        $teacher_tags_list[$val]=1;
+                    }
+ 
+                }else{
+                    $teacher_tags_list=[];
+                }
+            }
+
+            foreach($tea_tag_arr as $item){
+                $ret= json_decode($item,true);
+                if(is_array($ret)){
+                    foreach($ret as $val){
+                        if(isset($teacher_tags_list[$val])){
+                            $v = $teacher_tags_list[$val]+1;
+                        }else{
+                            $v = 1;
+                        }
+                        $teacher_tags_list[$val]=$v;
+                    }
+                }
+
+            }
+
+            $teacher_tags = json_encode($teacher_tags_list);
+            
+            
+
+
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "teacher_tags"  =>$teacher_tags
+            ]);
+        }
+    }
+
+
     public function get_teacher_label_new($tea_arr){
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
         $arr = [];
@@ -2278,27 +2352,30 @@ trait TeaPower {
     /**
      * 老师培训通过后的处理操作
      */
-    public function teacher_train_through_deal($teacher_info,$flag){
-        if($flag==0){
-            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-                "train_through_new"      => 1,
-                "train_through_new_time" => time(),
-            ]);
-        }elseif($flag==1){
-            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-                "train_through_new_time" => time(),
-            ]);
-            $teacher_info['level']=0;
-        }
+    public function teacher_train_through_deal($teacher_info){
+        $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+            "train_through_new_time" => time(),
+        ]);
+        $teacher_info['level']=0;
         $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
-        if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
+        if(isset($reference_info['teacherid'])
+           && !empty($reference_info['teacherid'])
+           && $reference_info['teacher_ref_type']!=E\Eteacher_ref_type::V_11
+        ){
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $notice_flag = false;
-            }else{
                 $notice_flag = true;
+            }else{
+                $notice_flag = false;
             }
+
+            \App\Helper\Utils::logger(
+                " add_reference_price reference_info:".$reference_info['teacherid']
+                ." teacher_info: ".$teacher_info['teacherid']
+                ." notice_flag:".$notice_flag
+            );
+
             $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid'],$notice_flag);
         }
     }
@@ -4204,7 +4281,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $identity = $recommended_info['identity'];
-            if (in_array($identity,[5,6,7])) {
+            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6,E\Eidentity::V_7])) {
                 $type = 1; // 机构老师
             } else {
                 $type = 0; // 在样学生
@@ -4220,15 +4297,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
                     $reference_num += 30;
                     break;
-                case E\Eteacher_ref_type::V_3:
-                    $reference_num += 10;
-                    break;
                 }
             }
 
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             if ($teacherid == 274115) { // join中国 60元/个
                 $reference_price = 60;
+            }elseif($teacherid == 149697){ //明日之星 50元/个
+                $reference_price = 50;
             }
 
             $this->t_teacher_money_list->row_insert([
@@ -4265,7 +4341,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
            "order_partition_flag" =>$order_partition_flag
         ]);
     }
-
 
     //教务抢课链接限制
     public function check_jw_plan_limit($requireids){
@@ -4305,12 +4380,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $per = $grab_num/($plan_num+$grab_num);
             $account = $this->t_manager_info->get_account($k);
             if($per>0.20 && in_array($account,$account_list)){
-                return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
+                return $this->output_err(" $account 当天抢课投放量超过总量的25%,请重新选择!");
             }
         }
-
     }
-
 
     //确认老师例子是否入库(分配招师专员)
     public function check_lecture_appointment_assign_flag($grade,$subject,$teacher_type){
@@ -4382,4 +4455,5 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $str;
         }
     }
+
 }
