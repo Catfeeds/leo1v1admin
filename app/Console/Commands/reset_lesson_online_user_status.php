@@ -71,19 +71,25 @@ class reset_lesson_online_user_status extends Command
             $studentid = $item["userid"];
             $teacherid = $item["teacherid"];
             $lesson_type = $item["lesson_type"];
-            $check_time= $item["lesson_start"]+30*60;
+            $check_time  = $item["lesson_start"]+30*60;
 
+
+            /**
+             * @ 试听课如果不是[顺利完成] 或者 [正常上课] 则直接判定无效课程 [叶老师]
+             **/
+            $is_fail=0;
             if($lesson_type == 2){
                 $is_fail = $this->task->t_lesson_info_b3->check_is_fail($lessonid,$lesson_type);
             }
 
             if($is_fail == 1){
-                $this->task->t_lesson_info->field_update_list($lessonid,[
-                    "lesson_user_online_status" => 2,
-                    "lesson_login_status" =>  0,
-                ]);
-            }else{
+                // $this->task->t_lesson_info->field_update_list($lessonid,[
+                //     "lesson_user_online_status" => 2,
+                //     "lesson_login_status" =>  0,
+                // ]);
+                echo 1;
 
+            }else{
                 list($tea_logintime ,$check_teacher_online_flag) =$this->task->t_lesson_opt_log->check_online_flag($lessonid,$teacherid, $check_time );
 
                 list($stu_logintime ,$check_student_online_flag) =$this->task->t_lesson_opt_log->check_online_flag($lessonid,$studentid, $check_time );
@@ -95,14 +101,16 @@ class reset_lesson_online_user_status extends Command
                     //优学优享
                     $agent_id= $this->task->t_agent->get_agentid_by_userid($studentid);
                     if ($agent_id) {
-                        dispatch( new \App\Jobs\agent_reset($agent_id) );
+                        echo 2;
+                        // dispatch( new \App\Jobs\agent_reset($agent_id) );
                     }
                 }
 
-                $this->task->t_lesson_info->field_update_list($lessonid,[
-                    "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
-                    "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
-                ]);
+                echo 3;
+                // $this->task->t_lesson_info->field_update_list($lessonid,[
+                //     "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
+                //     "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
+                // ]);
             }
 
         }
