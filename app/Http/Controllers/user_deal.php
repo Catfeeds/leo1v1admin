@@ -1257,18 +1257,21 @@ class user_deal extends Controller
     }
 
     public function origin_get_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
-        $key_str="key1";
+        $key_str="key0";
         if ($key3){
             $key_str="key4";
         }else  if ($key2){
             $key_str="key3";
         }else  if ($key1){
             $key_str="key2";
+        }elseif($key0){
+            $key_str="key1";
         }
-        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str);
+        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str,$key0);
         $list=\App\Helper\Common::sort_pinyin($list,"k");
         $last_level=$this->t_origin_key->get_last_level( $key1, $key2 );
 

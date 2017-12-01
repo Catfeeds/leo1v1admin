@@ -1,4 +1,5 @@
 interface GargsStatic {
+	key0:	string;
 	key1:	string;
 	key2:	string;
 	key3:	string;
@@ -17,6 +18,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	key0	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;
@@ -39,6 +41,7 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		key0:	$('#id_key0').val(),
 		key1:	$('#id_key1').val(),
 		key2:	$('#id_key2').val(),
 		key3:	$('#id_key3').val(),
@@ -51,6 +54,7 @@ function load_data(){
 $(function(){
 
 
+	$('#id_key0').val(g_args.key0);
 	$('#id_key1').val(g_args.key1);
 	$('#id_key2').val(g_args.key2);
 	$('#id_key3').val(g_args.key3);
@@ -67,6 +71,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">key0</span>
+                <input class="opt-change form-control" id="id_key0" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
