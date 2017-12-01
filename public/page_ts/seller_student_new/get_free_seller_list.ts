@@ -1099,7 +1099,7 @@ $(function(){
                         
 
 
-                        $.do_ajax("/ss_deal/save_user_info_new",{
+                        $.do_ajax("/ss_deal/save_user_info_new_new",{
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,
