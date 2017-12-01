@@ -162,7 +162,7 @@ class test_bacon extends Controller
             $list[]=$n;
         }
         $ret = @\App\Helper\Utils::list_to_page_info($list)['list'];
-        $this-> download_xls($ret);
+        //$this-> download_xls($ret);
         dd($ret);
       
     }
