@@ -31,7 +31,7 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
     public function get_web_page($web_page_id) {
 
         $sql=$this->gen_sql_new(
-            "select log.from_adminid as adminid,log.share_wx_flag,count(log.id) as count,count(distinct log.ip) as ip_count,
+            "select log.from_adminid as adminid,count(log.share_wx_flag) as share_count,count(log.id) as count,count(distinct log.ip) as ip_count,
              user.groupid,gro.main_type, gro.group_name as group_name,gro.up_groupid,gup.group_name as up_group_name
              from %s log 
              left join %s user on log.from_adminid = user.adminid

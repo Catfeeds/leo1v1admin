@@ -29,7 +29,7 @@
 
                         <td>浏览次数</td>
                         <td>独立ip数</td>
-                        <td>是否分享微信</td>
+                        <td>分享微信次数</td>
                         <td></td>
                 </thead>
                 <tbody>
@@ -43,7 +43,7 @@
 
                             <td> {{@$var["count"]}}</td>
                             <td> {{@$var["ip_count"]}}</td>
-                            <td> {{@$var["share_wx_flag"]}}</td>
+                            <td> {{@$var["share_count"]}}</td>
                          
                             <td>
                                 <div class=" row-data"  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
