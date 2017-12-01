@@ -292,6 +292,8 @@
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
+                                <a title="测试" class=" fa fa-download"></a>
+
                                 <a class="fa-edit opt-edit" title="编辑状态"></a>
                                 @if($show_full_time==1)
                                     <a class="opt-set-lecture-revisit-type" title="设置邀约状态" >邀约状态</a>
