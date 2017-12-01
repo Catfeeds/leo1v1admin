@@ -304,6 +304,7 @@ class url_power_map {
 			'/monitor/aggregate'	=>1090305,
 			'/user_manage_new/teacher_send_video_list'	=>1090307,
 			'/resource/get_all'	=>1096800,
+			'/resource/get_del'	=>1096900,
 			'/grab_lesson/get_all_grab_info'	=>1096700,
 			'/pic_manage/pic_info'	=>1090400,
 			'/festival/festival_list'	=>1090500,
