@@ -88,7 +88,7 @@
                                         <td rowspan="2">老师</td> 
                                         <td rowspan="2">入职天数</td> 
                                         <td colspan="4">试听学生</td>
-                                        <td colspan="4">转化学生</td>
+                                        <td colspan="5">转化学生</td>
                                         <td colspan="4">转化率</td>
                                         <td colspan="6">绩效</td>
                                        
@@ -103,6 +103,7 @@
                                         <td>扩课</td>
                                         <td>换老师</td>
                                         <td>合计</td>
+                                        <td>合计(非求和)</td>
 
                                         <td>cc</td>
                                         <td>扩课</td>
@@ -132,6 +133,7 @@
                                             <td> {{@$var["kk_order_num"]}} </td> 
                                             <td> {{@$var["hls_order_num"]}} </td> 
                                             <td> {{@$var["order_all"]}} </td> 
+                                            <td> {{@$var["all_order_num"]}} </td> 
 
                                             <td> {{@$var["cc_per"]}}% </td> 
                                             <td> {{@$var["kk_per"]}}% </td> 

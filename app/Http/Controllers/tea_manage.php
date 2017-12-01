@@ -2605,7 +2605,6 @@ class tea_manage extends Controller
         }
     }
 
-
     public function set_train_lecture_status_b1(){
         $teacherid   = $this->get_in_int_val("teacherid");
         $lessonid    = $this->get_in_int_val("lessonid");
@@ -2923,8 +2922,6 @@ class tea_manage extends Controller
         }
         return $this->output_succ();
     }
-
-
 
      /**
      * @author    sam

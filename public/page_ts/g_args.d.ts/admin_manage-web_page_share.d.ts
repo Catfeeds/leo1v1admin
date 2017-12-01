@@ -1,5 +1,7 @@
 interface GargsStatic {
 	web_page_id:	number;
+	page_num:	number;
+	page_count:	number;
 	uid:	number;
 	account_role:	number;//\App\Enums\Eaccount_role
 	web_page_title:	number;

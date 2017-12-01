@@ -2188,4 +2188,40 @@ class ajax_deal2 extends Controller
         // $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
 
     }
+
+
+    //获取审核用标签
+    public function get_teacher_tag_info(){
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+
+        return $this->output_succ(["data"=>$list]);
+    }
+
+
+    public function get_tq_info(){
+        $adminid=$this->get_in_adminid();
+        $phone = $this->get_in_int_val('phone',-1);
+        $ret_info = $this->t_tq_call_info->get_time_by_phone_adminid($adminid,$phone);
+        $time = time()-2*3600;
+        if($ret_info['is_called_phone'] == 1 &&  $ret_info['duration'] >= 60  && $ret_info['end_time'] > $time ){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }

@@ -643,7 +643,6 @@ $(function(){
                                 }
                             });
 
-
                             $.do_ajax("/tea_manage/set_train_lecture_status_b2",{
                                 "teacherid"   : data.teacherid,
                                 "lessonid"    : data.lessonid,

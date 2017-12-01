@@ -185,6 +185,7 @@ class news_info extends Controller
             $this->t_baidu_msg->rollback();
             return $this->output_err("添加失败！请重试！");
         }
+
         if($parentid>0){
             $ret = $this->t_baidu_msg->baidu_push_msg($parentid,$content,$value,4014,0);
             if(!$ret){

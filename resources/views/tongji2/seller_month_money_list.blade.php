@@ -20,13 +20,26 @@
                     <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
-                    <td>第一周试听成功数 </td>
-                    <td>第二周试听成功数 </td>
-                    <td>第三周试听成功数 </td>
-                    <td>第四周试听成功数 </td>
+                    <td>
+                        第一周试听成功数
+                        {{$first_week}}
+                    </td>
+                    <td>
+                        第二周试听成功数
+                        {{$second_week}}
+                    </td>
+                    <td>
+                        第三周试听成功数
+                        {{$third_week}}
+                    </td>
+                    <td>
+                        第四周试听成功数
+                        {{$four_week}}
+                    </td>
                     <td>取消率 </td>
                     <td>绩效对应系数 </td>
                     <td >签约总金额 </td>
+                    <td>上月签单 </td>
                     <td>月末定级 </td>
                     <td >基本工资 </td>
                     <td >保密津贴 </td>
@@ -63,7 +76,7 @@
                         <td  data-class_name="{{@$var["first_group_name_class"]}}" class=" first_group_name  {{$var["main_type_class"]}} {{@$var["first_group_name_class"]}}  " >{{@$var["first_group_name"]}}</td>
                         <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name {{@$var["first_group_name_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
-                        <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}
+                        <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}} "  >{{$var["account"]}}
                             @if(isset($var['seller_level']))
                                 /{{$var["seller_level_str"]}}
                             @endif
@@ -75,6 +88,7 @@
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
                         <td class="all_price" ></td>
+                        <td class="last_all_price" ></td>
                         <td class="last_seller_level"></td>
                         <td class="base_salary" ></td>
                         <td class="sup_salary" ></td>

@@ -108,6 +108,14 @@ class common_new extends Controller
     public function recode_server_init () {
         $ip=$this->get_in_client_ip();
         $this->t_audio_record_server->add_server($ip);
+        $max_record_count=$this->get_in_int_val("max_record_count");
+        if ($max_record_count) {
+            if (!$this->t_audio_record_server->get_max_record_count($ip)) {
+                $this->t_audio_record_server->field_update_list($ip, [
+                    "max_record_count" => $max_record_count,
+                ]);
+            }
+        }
         $config_userid=$this->t_audio_record_server->get_config_userid($ip);
         if (!$config_userid) {
 
@@ -364,7 +372,7 @@ class common_new extends Controller
                 \App\Helper\Utils::logger("reference_info".json_encode($reference_info));
                 $wx_openid      = $reference_info['wx_openid'];
                 $teacher_type   = $reference_info['teacher_type'];
-                if($wx_openid!="" && !in_array($teacher_type,[21,22,31])){
+                if($wx_openid!="" && !in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
                     \App\Helper\Utils::logger("微信推送".$reference);
 
                     $record_info = $name."已填写报名信息";

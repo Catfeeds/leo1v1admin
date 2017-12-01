@@ -1415,7 +1415,7 @@ lesson_type in (0,1) "
      * 重叠取反即可：t3<t2 && t4>t1
      */
     public function check_student_time_free( $userid,$cur_lessonid, $lesson_start,$lesson_end ) {
-        $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
+        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end "
                             ." from %s l "
                             ." left join %s tss on l.lessonid = tss.lessonid "
                             ." where userid=%u "
@@ -1514,7 +1514,7 @@ lesson_type in (0,1) "
         ];
         $sql = $this->gen_sql_new("select l.lessonid,l.userid,l.teacherid,l.assistantid,l.lesson_start,l.lesson_num,l.stu_attend, "
                                   ." l.lesson_end,l.lesson_count,l.teacher_score,l.teacher_comment,l.teacher_effect, "
-                                  ." l.teacher_quality,l.teacher_interact,l.stu_performance,l.subject,"
+                                  ." l.teacher_quality,l.teacher_interact,l.stu_performance,l.subject,l.lesson_type,"
                                   ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,"
                                   ." l.stu_ability,l.stu_stability,l.confirm_flag,c.reset_lesson_count_flag "
                                   ." from %s l"
@@ -6721,7 +6721,7 @@ lesson_type in (0,1) "
             "tss.success_flag in (0,1)",
             "l.lesson_user_online_status =1",
             "(m.account_role=2 or tq.origin like '%%转介绍%%' )",
-            "m.del_flag=0"
+            // "m.del_flag=0"
             //"require_admin_type =2"
         ];
         $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr );

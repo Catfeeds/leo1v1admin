@@ -777,11 +777,16 @@ class user_manage extends Controller
     public function del_contract(){
         $orderid = $this->get_in_int_val("orderid");
         $userid  = $this->get_in_int_val("userid");
-
+        $account = $this->get_account();
+        \App\Helper\Utils::logger("del_contract orderid:".$orderid." account:".$account);
 
         $child_status = $this->t_child_order_info->chick_all_order_have_pay($orderid,1);
         if($child_status==1 && !in_array($this->get_account(),["jack"])){
             return $this->output_err("已有子合同付过款,不能删除");
+        }
+        $contract_status = $this->t_order_info->get_contract_status($orderid);
+        if($contract_status!=0){
+            return $this->output_err("只能删除未付款合同");
         }
 
         //get from_type
@@ -795,10 +800,11 @@ class user_manage extends Controller
         $this->t_flow->flow_del_by_from_key_int($opt_adminid, E\Eflow_type::V_SELLER_ORDER_REQUIRE,$orderid);
 
         $ret = $this->t_order_info->del_contract($orderid,$userid);
-        if ($ret){
+        if($ret){
+
             //处理
             if ($from_type == E\Efrom_type::V_1 ) {
-                $total_money=$this->t_user_lesson_account->get_total_money($lesson_account_id);
+                $total_money = $this->t_user_lesson_account->get_total_money($lesson_account_id);
                 if ($total_money==0) {//删掉.
                     $this->t_user_lesson_account->row_delete($lesson_account_id);
                 }
@@ -816,15 +822,16 @@ class user_manage extends Controller
             $this->t_order_activity_info->del_by_orderid($orderid);
         }
 
-        return outputjson_ret($ret);
+
+        return outputjson_ret($ret,"删除失败，请刷新重试！");
     }
 
     public function get_contract_count_by_courseid(){
         $courseid = $this->get_in_int_val("courseid") ;
 
-        $count= $this->t_course_order->count_course($courseid);
+        $count = $this->t_course_order->count_course($courseid);
 
-        return outputjson_success( ["count"=> $count]);
+        return outputjson_success(["count"=> $count]);
     }
 
 

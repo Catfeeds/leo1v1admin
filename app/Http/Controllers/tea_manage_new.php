@@ -977,7 +977,27 @@ class tea_manage_new extends Controller
         $subject = $this->get_in_subject();
         $grade   = $this->get_in_grade();
         $num = $this->t_teacher_lecture_info->get_re_submit_num($phone,$subject,$grade);
-        return $this->output_succ(["num"=>$num]);
+
+
+        //老师标签
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+
+        return $this->output_succ(["num"=>$num,"data"=>$list]);
     }
 
     public function set_re_submit_and_lecture_out_info(){
@@ -1227,18 +1247,6 @@ class tea_manage_new extends Controller
 
     public function approved_data(){
 
-        $sum_field_list = [
-            "stu_num",
-            "lesson_num",
-            "cc_rate",
-            "cr_rate",
-            "violation_num"
-        ];
-        $order_field_arr = array_merge(["nick"],$sum_field_list);
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr,"nick desc");
-
-
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $page_num = $this->get_in_page_num();
         $teacherid = $this->get_in_int_val("teacherid",-1);
@@ -1247,25 +1255,26 @@ class tea_manage_new extends Controller
         $ret_info = $this->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time,$page_num,$teacherid);
 
         foreach($ret_info['list'] as &$item){
-            $cc_conversion = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],1);
-            $item['cc_rate'] = $cc_conversion['lesson_num']>0?($cc_conversion['order_num']/$cc_conversion['lesson_num']):0;
+            $cc_order_num = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'2');
+            $cc_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '2');
+            if($cc_lesson_num>0){
+                $item['cc_rate'] = $cc_order_num/$cc_lesson_num;
+            }else{
+                $item['cc_rate'] = 0;
+            }
 
-            $cr_conversion = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],2);
-            $item['cr_rate'] = $cr_conversion['lesson_num']>0?($cr_conversion['order_num']/$cr_conversion['lesson_num']):0;
+            $cr_order_num  = $this->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $item['teacherid'],'1');
+            $cr_lesson_num = $this->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '1');
+            if($cr_order_num>0){
+                $item['cr_rate'] = $cr_order_num/$cr_lesson_num;
+            }else{
+                $item['cr_rate'] = 0;
+            }
 
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-
             $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
             $item['violation_num'] = array_sum($violation_info);
         }
-
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::logger("order_field_name_Jm: $order_field_name ,order_type: $order_type");
-
-            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
-        }
-
-        \App\Helper\Utils::logger("shshJames: $order_in_db_flag ");
 
 
         return $this->pageView(__METHOD__,$ret_info);

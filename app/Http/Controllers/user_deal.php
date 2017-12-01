@@ -976,6 +976,7 @@ class user_deal extends Controller
         $call_phone_passwd       = $this->get_in_str_val("call_phone_passwd");
         $call_phone_type         = $this->get_in_int_val("call_phone_type");
         $main_department         = $this->get_in_int_val("main_department");
+        $no_update_seller_level_flag = $this->get_in_int_val("no_update_seller_level_flag");
         if (!$tquin) {
             $tquin=NULL;
         }
@@ -1021,6 +1022,7 @@ class user_deal extends Controller
             "become_full_member_flag" => $become_full_member_flag,
             "main_department" =>$main_department,
             "level_face_pic" => $level_face_pic,
+            "no_update_seller_level_flag" => $no_update_seller_level_flag,
         ];
 
         if ($cardid) {
@@ -1584,7 +1586,7 @@ class user_deal extends Controller
         if(!$check_flag){
             return $this->output_err("该老师不是正式老师!");
         }
-        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag=1){
+        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag==1){
             return $this->output_err("只有数学可以设置‘常规课上奥数课标示’为‘是’!\n如果原课程包变更科目，请新增课程包！");
         }
 
@@ -4098,11 +4100,24 @@ class user_deal extends Controller
         $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
         $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
         $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
+        //上月非退费签单金额
+        $account = $this->t_manager_info->get_account_by_uid($adminid);
+        $timestamp = strtotime(date("Y-m-01",$start_time));
+        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
+        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
+        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
+        foreach($ret_time as $item){//上月
+            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
+                $start_time_last = $item['start_time'];
+                $end_time_last = $item['end_time'];
+            }
+        }
+        $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
+        $last_all_price = isset($last_all_price)?$last_all_price/100:0;
+        $arr['last_all_price'] = $last_all_price;
 
         return $this->output_succ($arr);
     }
-
-    
 
     public function get_renw_flag_change_list(){
         $id = $this->get_in_int_val("id",0);

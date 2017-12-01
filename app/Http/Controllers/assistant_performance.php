@@ -103,7 +103,7 @@ class assistant_performance extends Controller
     public function performance_info(){
               
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        if($start_time <strtotime("2017-08-01") || $start_time>= strtotime("2017-11-01")){
+        if($start_time <strtotime("2017-08-01") ){
             return $this->pageView(__METHOD__,null);
         }
         $test_time = strtotime("2017-10-01");        
@@ -137,7 +137,6 @@ class assistant_performance extends Controller
         // }
 
 
-        $ppp=1;
         foreach($ass_month as $k=>&$item){
             /*回访*/
             $revisit_reword_per = 0.2;
@@ -403,10 +402,15 @@ class assistant_performance extends Controller
             $item["kk_reword_per"] = $kk_reword_per;
 
             //停课
-            //   $all_stu_num = $item["all_ass_stu_num"];//所有学员
-            $all_stu_num =  @$test_month[$k]["all_ass_stu_num"];
-            // $all_stop_num = $item["stop_student"];//停课学员
-            $all_stop_num =  @$test_month[$k]["stop_student"];
+            if($start_time <strtotime("2017-11-01")){
+                $all_stu_num =  @$test_month[$k]["all_ass_stu_num"];
+                $all_stop_num =  @$test_month[$k]["stop_student"];
+
+            }else{
+                $all_stu_num = $item["all_ass_stu_num"];//所有学员
+                $all_stop_num = $item["stop_student"];//停课学员               
+            }
+
             $stop_per = $all_stu_num>0?($all_stop_num/$all_stu_num):0;
             if($all_stu_num>=100 && $stop_per<=0.06){
                 $stop_reword_per = 0.15;
@@ -420,8 +424,11 @@ class assistant_performance extends Controller
             $item["stop_reword_per"]=$stop_reword_per;
 
             //结课未续费
-            $end_no_renw_num = $item["end_no_renw_num"];
-            $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替
+            if($start_time <strtotime("2017-11-01")){
+                $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替 
+            }else{
+                $end_no_renw_num = $item["end_no_renw_num"]; 
+            }
             $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
             if($end_no_renw_per <=0.08){
                 $end_no_renw_reword_per = 0.05;

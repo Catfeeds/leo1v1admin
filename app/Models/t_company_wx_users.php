@@ -18,6 +18,14 @@ class t_company_wx_users extends \App\Models\Zgen\z_t_company_wx_users
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list_for_manager() {
+        $sql = $this->gen_sql_new("select m.uid,m.account,m.phone,u.userid,u.department,u.isleader from %s u left join %s m on u.mobile=m.phone where m.uid != ''",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

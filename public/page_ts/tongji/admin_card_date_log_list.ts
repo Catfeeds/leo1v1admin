@@ -33,9 +33,7 @@ $(function(){
         $("#id_adminid").parent().parent().hide();
     }
 
-    if(g_adminid==748){
-        download_show();
-    }
+    download_show();
 
 
 });

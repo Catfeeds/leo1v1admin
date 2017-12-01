@@ -305,6 +305,7 @@ class menu{
 
                     ["power_id"=>52, "name"=>"渠道统计-用户运营", "url"=>"/tongji_ss/origin_count_yhyy"],
                     ["power_id"=>50, "name"=>"渠道统计-微信运营/tmk", "url"=>"/tongji_ss/origin_count_tmk"],
+                    ["power_id"=>11, "name"=>"渠道cc 获得新例子", "url"=>"/seller_student_new2/seller_first_admin_info"],
                     ["power_id"=>10, "name"=>"渠道cc产出统计", "url"=>"/tongji2/seller_origin_info"],
                     ["power_id"=>60, "name"=>"渠道用户明细", "url"=>"/seller_student_new2/origin_user_list"],
 
@@ -431,7 +432,8 @@ class menu{
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
-                ["power_id"=>36, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
+                ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

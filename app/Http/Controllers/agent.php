@@ -453,13 +453,20 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $id = $this->t_agent->get_id_by_wx_openid($wx_openid='aaa');
-        if($id>0){
-            return $this->output_err("该微信已绑定,请换个账号重试!");
+        // $userid=$this->t_phone_to_user->get_userid_by_phone($phone='13514048977',E\Erole::V_STUDENT);
+        // dd($userid);
+        $account_role = E\Eaccount_role::V_2;
+        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
+        dd($seller_list);
+
+        $ret = $this->t_phone_to_user->add($phone='13514048977',E\Erole::V_STUDENT,$userid=447677);
+        dd($ret);
+        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time=time(null)))-1));
+        $row = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid=99,$month_date=1509465600);
+        if(!$row){
+            return $this->output_err('该定级已存在,不能重复添加');
         }
-        dd($id);
-        $agent_info = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
-        dd($agent_info);
+        dd($row);
         $ret_info = $this->t_origin_key->get_all_key_list();
         $key1_arr = array_unique(array_column($ret_info,'key1'));
         $key2_arr = array_unique(array_column($ret_info,'key2'));

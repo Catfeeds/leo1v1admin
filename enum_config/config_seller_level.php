@@ -13,6 +13,7 @@ return array(
 	array(401,"","C2" ),
 	array(500,"","D" ),
 	array(600,"","E" ),
+	array(700,"","F" ),
 	array(1000,"","test" ),
 	array(9000,"","TMK" ),
 
