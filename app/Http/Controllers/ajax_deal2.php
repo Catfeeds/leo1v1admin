@@ -2217,7 +2217,8 @@ class ajax_deal2 extends Controller
         $adminid=$this->get_in_adminid();
         $phone = $this->get_in_int_val('phone',-1);
         $ret_info = $this->t_tq_call_info->get_time_by_phone_adminid($adminid,$phone);
-        if($ret_info['is_called_phone'] == 1 &&  $ret_info['duration'] >= 60 ){
+        $time = time()-2*3600;
+        if($ret_info['is_called_phone'] == 1 &&  $ret_info['duration'] >= 60  && $ret_info['end_time'] > $time ){
             return 1;
         }else{
             return 0;
