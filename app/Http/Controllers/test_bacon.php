@@ -123,7 +123,7 @@ class test_bacon extends Controller
         //     ['groupid'=>94],
         //     ['groupid'=>102],
         // ];
-        $group_arr = "( 31,32,57,38,74,77,104,129,133,94,102 )";
+        $group_arr = "( 57,38,74,77,104,129,133,94,102 )";
         $auth_arr = $this->t_authority_group->get_auth_group_more($group_arr);
         
         $auth_str = '';
@@ -173,7 +173,7 @@ class test_bacon extends Controller
             }
         }
         //print_r($power_menu);
-        $this-> download_xls($power_menu);
+        //$this-> download_xls($power_menu);
         dd($power_menu);
       
     }
