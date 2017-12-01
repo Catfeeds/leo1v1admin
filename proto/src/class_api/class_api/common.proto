@@ -1,0 +1,27 @@
+syntax = "proto3";
+package common;
+option php_namespace = "Proto\\yb_admin\\common"; 
+
+
+
+message get_check_lesson_end_item_t {
+  string room_id =1 ;  //  like : l_42623y23y0
+  uint32 lessonid =2 ;  //  课程id 
+  uint32 teacherid =3 ;  //  老师id 
+}
+
+message get_office_cmd_item_t {
+  /*
+        $= @$cmd_arr["office_device_type"];
+        $= @$cmd_arr["device_opt_type"];
+        $= @$cmd_arr["device_sub_type"];
+        $= @$cmd_arr["device_id"];
+        $ = @$cmd_arr[""];
+        */
+
+  uint32 office_device_type=1 ;  //  
+  uint32 device_opt_type=2 ;  //  
+  uint32 device_sub_type=3 ;  //  
+  uint32 device_id =4 ;  //  
+  uint32  value = 5 ;  //  
+}
