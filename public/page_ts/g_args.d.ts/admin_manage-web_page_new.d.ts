@@ -13,9 +13,7 @@ interface RowData {
 	count	:any;
 	ip_count	:any;
 	up_groupid	:any;
-	adminid_nick	:any;
 	share_wx_flag_str	:any;
-	main_type_str	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -25,6 +23,7 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	main_type_str	:any;
 }
 
 /*
