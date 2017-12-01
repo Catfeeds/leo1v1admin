@@ -24,6 +24,8 @@ interface RowData {
 	file_title	:any;
 	file_size	:any;
 	file_type	:any;
+	update_time	:any;
+	edit_adminid	:any;
 	error_num	:any;
 	use_type	:any;
 	file_hash	:any;
@@ -36,28 +38,16 @@ interface RowData {
 	file_link	:any;
 	file_id	:any;
 	file_use_type	:any;
-	update_time	:any;
-	edit_adminid	:any;
 	nick	:any;
-	tag_one_name	:any;
-	tag_two_name	:any;
-	tag_three_name	:any;
-	tag_four_name	:any;
-	subject_str	:any;
-	grade_str	:any;
-	resource_type_str	:any;
-	tag_one_str	:any;
-	tag_two_str	:any;
-	tag_three_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../resource; vi  ../resource/get_all.ts
+	 mkdir -p ../resource; vi  ../resource/get_del.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource-get_all.d.ts" />
+/// <reference path="../g_args.d.ts/resource-get_del.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
