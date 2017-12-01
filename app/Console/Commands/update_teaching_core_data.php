@@ -49,7 +49,8 @@ class update_teaching_core_data extends Command
             $month_st=1;
         }
         // dd(1111);
-        for($i=$month_st;$i<=$month_num;$i++){
+        // for($i=$month_st;$i<=$month_num;$i++){
+        for($i=1;$i<=11;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);
