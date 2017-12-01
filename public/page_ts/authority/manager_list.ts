@@ -292,6 +292,7 @@ $(function(){
         var $account_role=$("<select/>");
         var $seller_level=$("<select/>");
         var $become_full_member_flag=$("<select/>");
+        var $no_update_seller_level_flag=$("<select/>");
         var $day_new_user_flag=$("<select/>");
         var $name=$("<input/>").val(opt_data.name);
         var $tquin=$("<input/>").val(opt_data.tquin);
@@ -311,6 +312,7 @@ $(function(){
         Enum_map.append_option_list("seller_level", $seller_level,true);
         Enum_map.append_option_list("boolean", $day_new_user_flag,true);
         Enum_map.append_option_list("boolean", $become_full_member_flag,true);
+        Enum_map.append_option_list("boolean", $no_update_seller_level_flag,true);
         Enum_map.append_option_list("call_phone_type", $call_phone_type ,true);
         Enum_map.append_option_list("main_department", $main_department ,true);
         $call_phone_type.val(opt_data.call_phone_type);
@@ -320,6 +322,7 @@ $(function(){
         $seller_level.val(opt_data.seller_level);
         $day_new_user_flag.val(opt_data.day_new_user_flag);
         $become_full_member_flag.val(opt_data.become_full_member_flag);
+        $no_update_seller_level_flag.val(opt_data.no_update_seller_level_flag);
 
         var arr=[
             ["uid",opt_data.uid] ,
@@ -340,7 +343,8 @@ $(function(){
             ["微信号",$wx_id] ,
             ["上级",$up_adminid],
             ["转正",$become_full_member_flag],
-            ["部门",$main_department]
+            ["部门",$main_department],
+            ["不参加升级",$no_update_seller_level_flag],
         ];
 
         $.show_key_value_table("修改用户信息", arr ,{
@@ -364,7 +368,8 @@ $(function(){
                     'call_phone_passwd': $call_phone_passwd.val(),
                     //'ytx_phone': $ytx_phone.val(),
                     'wx_id': $wx_id.val(),
-                    'main_department':$main_department.val()
+                    'main_department':$main_department.val(),
+                    'no_update_seller_level_flag': $no_update_seller_level_flag.val(),
                 });
             }
         },function(){
