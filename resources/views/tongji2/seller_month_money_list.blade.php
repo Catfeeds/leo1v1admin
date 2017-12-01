@@ -39,6 +39,7 @@
                     <td>取消率 </td>
                     <td>绩效对应系数 </td>
                     <td >签约总金额 </td>
+                    <td>上月签单 </td>
                     <td>月末定级 </td>
                     <td >基本工资 </td>
                     <td >保密津贴 </td>
@@ -87,6 +88,7 @@
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
                         <td class="all_price" ></td>
+                        <td class="last_all_price" ></td>
                         <td class="last_seller_level"></td>
                         <td class="base_salary" ></td>
                         <td class="sup_salary" ></td>
