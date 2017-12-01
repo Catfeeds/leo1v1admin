@@ -195,6 +195,56 @@ trait TeaPower {
         }
     }
 
+
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin){
+        $tag_info = json_encode($tea_tag_arr);
+        if(!empty($tag_info)){
+
+            $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+            if($id>0 && $lessonid>0){
+                $this->t_teacher_label->field_update_list($id,[
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "tag_info"=>$tag_info
+                ]);
+            }else{
+                $this->t_teacher_label->row_insert([
+                    "teacherid"=>$teacherid,
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "lessonid"    =>$lessonid,
+                    "lesson_list"=>$lesson_list,
+                    "tea_label_type"=>$tag_info
+                ]);
+            }
+
+
+            $style_character = @$tea_tag_arr["style_character"];
+            $professional_ability= @$tea_tag_arr["professional_ability"];
+            $classroom_atmosphere= @$tea_tag_arr["classroom_atmosphere"];
+            $courseware_requirements= @$tea_tag_arr["courseware_requirements"];
+            $diathesis_cultivation= @$tea_tag_arr["diathesis_cultivation"];
+            $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
+            $teacher_tags_list = json_decode($teacher_tags_old,true);
+            if(is_array($teacher_tags_list)){
+                
+            }else{
+                $tag = trim($teacher_tags_list,",");
+                $arr = explode(",",$tag);
+                $teacher_tags_list=[];
+                foreach($arr as $val){
+                    $teacher_tags_list[$val]=1;
+                }
+            }
+
+
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "teacher_tags"  =>$teacher_tags_old
+            ]);
+        }
+    }
+
+
     public function get_teacher_label_new($tea_arr){
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
         $arr = [];
