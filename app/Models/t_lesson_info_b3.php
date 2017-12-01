@@ -2351,7 +2351,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_unlesson($start_time, $end_time,$type){
         $where_arr = [
-            "tr.stu_lesson_content != '正常上课'",
+            " tr.stu_lesson_content != '正常上课' ",
+            " tr.stu_lesson_content != '顺利完成' ",
             "l.lesson_del_flag=0",
             ['l.lesson_user_online_status=%d',$type,-1],
             "l.lesson_type=2"
