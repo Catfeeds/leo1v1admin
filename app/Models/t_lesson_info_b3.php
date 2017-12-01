@@ -882,7 +882,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql,function(){
+        return $this->main_get_list($sql,function($item){
             return $item["teacherid"];
         });
     }

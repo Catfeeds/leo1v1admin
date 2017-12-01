@@ -58,7 +58,7 @@ class update_teaching_core_data extends Command
         //  $end_time =strtotime("2017-02-01");
 
 
-            //新增有常规课但无试听课老师数
+            //新增无常规课但有试听课老师数
             $reg_list = $task->t_lesson_info_b3->get_teacher_list_by_lesson_time($start_time,$end_time,-2);
             $tes_list = $task->t_lesson_info_b3->get_teacher_list_by_lesson_time($start_time,$end_time,2);
             $tea_nu=0;
