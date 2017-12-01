@@ -1,5 +1,26 @@
 @extends('layouts.app')
 @section('content')
+<script type="text/javascript" src="/page_js/lib/flow.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+<script type="text/javascript" src="/page_js/select_course.js"></script>
+<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+<script type="text/javascript" src="/page_js/select_user.js"></script>
+<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+<script src='/page_js/select_teacher_free_time.js?{{@$_publish_version}}'></script>
+<script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+
     <section class="content ">
 
         <div class="row">
@@ -99,8 +120,12 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone   "></a>
+                                
                                 <a   class=" btn fa  opt-set-self" title="">抢学生 </a>
+                                @if(in_array($acc,["tom","sam",]))
+                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone   "></a>
+                                <a title="查看回访" class="fa fa-comments show-in-select  opt-return-back-list"></a>
+                                @endif
                             </div>
                         </td>
                     </tr>
