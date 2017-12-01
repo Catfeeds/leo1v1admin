@@ -126,6 +126,10 @@
                                     @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
                                         <a class="opt-edit" title="更改状态">审核 </a>
                                     @endif
+                                    @if(in_array($acc,["jack","jim"]))
+                                        <a class="opt-edit-new" title="更改状态">审核-new </a>
+                                    @endif
+
                                     @if($var["trial_train_status"]>0)
                                         <a class="opt-confirm-score" title="审核详情">审核详情</a>
                                     @endif
