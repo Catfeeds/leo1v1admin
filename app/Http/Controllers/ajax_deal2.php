@@ -2211,4 +2211,16 @@ class ajax_deal2 extends Controller
 
         return $this->output_succ(["data"=>$list]);
     }
+
+
+    public function get_tq_info(){
+        $adminid=$this->get_in_adminid();
+        $phone = $ths->get_in_int_val('phone',-1);
+        $ret_info = $this->t_tq_call_info->get_time_by_phone_adminid($adminid,$phone);
+        if($ret_info['is_called_phone'] == 1 &&  $ret_info['duration'] >= 60 ){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }

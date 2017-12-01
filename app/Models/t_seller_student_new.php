@@ -1332,7 +1332,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
-    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location
+    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location,$return_publish_count
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -1348,6 +1348,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
+            ['n.return_publish_count=%u',$return_publish_count,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
         if($opt_date_str == 'n.seller_add_time'){
@@ -1378,7 +1379,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
-            ."tr.test_lesson_order_fail_flag"
+            ."tr.test_lesson_order_fail_flag,n.return_publish_count"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
