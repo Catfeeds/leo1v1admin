@@ -1327,6 +1327,21 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
 
     }
+    public function seller_first_admin_info () {
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $list=$this->t_seller_student_new->get_first_admin_info( $start_time, $end_time );
+
+        $ret_info=\App\Helper\Common::gen_admin_member_data($list,[],0, strtotime( date("Y-m-01" )   ));
+
+
+        foreach( $ret_info as $k => &$item ) {
+            E\Emain_type::set_item_value_str($item);
+        }
+        //dd($ret_info);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info));
+
+
+    }
 
     public function seller_test_lesson_info(){
         $adminid = $this->get_in_int_val('adminid');
