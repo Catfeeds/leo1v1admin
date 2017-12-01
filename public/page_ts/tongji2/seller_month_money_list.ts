@@ -98,7 +98,7 @@ $(function(){
     };
     load_row_data ();
 
-    if(g_account=='龚隽'){
+    if(g_account=='龚隽' || g_account=='tom'){
         download_show();
     }
 });
