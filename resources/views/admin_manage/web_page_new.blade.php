@@ -29,6 +29,7 @@
 
                         <td>浏览次数</td>
                         <td>独立ip数</td>
+                        <td>是否分享微信</td>
                         <td>分享微信次数</td>
                         <td></td>
                 </thead>
@@ -43,6 +44,7 @@
 
                             <td> {{@$var["count"]}}</td>
                             <td> {{@$var["ip_count"]}}</td>
+                            <td> {{@$var["is_share"]}}</td>
                             <td> {{@$var["share_count"]}}</td>
                          
                             <td>

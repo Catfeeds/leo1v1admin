@@ -383,7 +383,7 @@ class Utils  {
      * @return array
      */
     static function get_month_range($timestamp,$is_full_month=false ){
-        $ret = array();
+        $ret          = array();
         $mdays        = date('t',$timestamp);
         $ret['sdate'] = strtotime( date('Y-m-1 00:00:00',$timestamp));
         if($is_full_month){

@@ -13,8 +13,16 @@
 	add_time	:any;
 	record_monitor_class	:any;
 	record_info	:any;
+	acc	:any;
+	trial_train_status	:any;
+	trial_train_num	:any;
+	stu_comment	:any;
 	stu_request_test_lesson_demand	:any;
 	subject_str	:any;
 	grade_str	:any;
 	lesson_status_str	:any;
 	lesson_time	:any;
+	trial_train_status_str	:any;
+	lesson_num	:any;
+	add_time_str	:any;
+	paper_url	:any;
