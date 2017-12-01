@@ -173,8 +173,8 @@ class test_bacon extends Controller
             }
         }
         //print_r($power_menu);
-        //$this-> download_xls($power_menu);
-        dd($power_menu);
+        $this-> download_xls($power_menu);
+        //dd($power_menu);
       
     }
     public function download_xls ($ret)  {
