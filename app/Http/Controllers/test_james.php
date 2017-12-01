@@ -1326,14 +1326,11 @@ class test_james extends Controller
                 "lesson_user_online_status"=>2
             ]);
         }
-
         dd($lesson_list);
     }
 
 
     public function get_lesson_list(){
-
-
         $start_time = $this->get_in_int_val("s");
         $end_time   = $this->get_in_int_val("e");
         $type = $this->get_in_int_val('type',-1);
@@ -1342,9 +1339,8 @@ class test_james extends Controller
     }
 
     public function ddd(){
-        $lessonid = $this->get_in_int_val("s");
-        $lesson_type   = $this->get_in_int_val("e");
-
+        $lessonid    = $this->get_in_int_val("s");
+        $lesson_type = $this->get_in_int_val("e");
         $is_fail = $this->t_lesson_info_b3->check_is_fail($lessonid,$lesson_type);
 
         dd($is_fail);
