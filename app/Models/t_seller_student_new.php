@@ -1397,7 +1397,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr,
             $opt_date_str
         );
-        dd($sql);
         if($opt_date_str == 'n.last_revisit_time'){
             return $this->main_get_list_by_page($sql,$page_num);
         }else{
