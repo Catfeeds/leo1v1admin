@@ -104,7 +104,7 @@ class cr_info_month extends Command
         }else{
             $arr['contract_per']   = 0;
         }
-        if($arr['person_num_thirty']){
+        if($arr['person_num_thirty'] > 0){
             $arr['person_num_thirty_per'] = round($arr['total_price_thirty'] / $arr['person_num_thirty'],2);//A5-平均人效
         }else{
             $arr['person_num_thirty_per'] = 0;
@@ -130,11 +130,12 @@ class cr_info_month extends Command
         //续费
         $arr['total_renew'] = round($ret_total['total_renew']/100,2); //续费金额
         $arr['renew_num']   = $ret_total['renew_num'];       //总笔数
-        if($arr['renew_num']){
+        if($arr['renew_num']>0){
             $arr['renew_num_per'] = round($arr['total_renew']/$arr['renew_num'],2); //平均单笔
         }else{
             $arr['renew_num_per'] = 0;
         }
+
         //转介绍
         $tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
         $tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
@@ -172,7 +173,7 @@ class cr_info_month extends Command
         $arr['lesson_plan']    = $lesson_plan['total_plan']; //计划排课数量
         $arr['student_arrive'] = $lesson_plan['student_arrive']; //学生有效课程数量
         $arr['lesson_income'] = round($lesson_income/100,2);                                      //B11-课时收入
-        if($arr['lesson_plan']){
+        if($arr['lesson_plan']>0){
             $arr['student_arrive_per'] = round(100*$arr['student_arrive']/$arr['lesson_plan'],2); //B10-学生到课率
         }else{
             $arr['student_arrive_per'] = 0;
@@ -184,7 +185,6 @@ class cr_info_month extends Command
           $userlist .= ','.$value['userid'];
         }
         $userlist = trim($userlist,',');
-
 
 
         //转介绍 
@@ -205,7 +205,7 @@ class cr_info_month extends Command
 
         //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($start_time,$end_time);
         if($tranfer_total_month['total_orderid']){
-          $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
+          $arr['tranfer_success_per'] = $tranfer_total_month['total_num']==0 ? 0:round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
         }else{
           $arr['tranfer_success_per'] = 0;
         }
@@ -257,6 +257,8 @@ class cr_info_month extends Command
             $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
         }
         $arr['expect_finish_num'] = $warning_num; //预计结课学生数量
+
+
         //月初至今
         $month_warning_list = $task->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
         $month_renew_student_list = $task->t_order_info->get_renew_student_list(strtotime($end_month),$end_time);
@@ -293,7 +295,7 @@ class cr_info_month extends Command
 
         $all_pay = $task->t_student_info->get_student_list_for_finance_count();//所有有效合同数
         $refund_info = $task->t_order_refund->get_refund_userid_by_month(-1,$end_time);//所有退费信息
-        $arr["cumulative_refund_rate"] = round(@$refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
+        $arr["cumulative_refund_rate"] = $all_pay["orderid_count"] == 0 ? 0:round($refund_info["orderid_count"]/$all_pay["orderid_count"]*100,2)*100;//合同累计退费率
 
         // 获取停课,休学,假期数
         $ret_info_stu = $task->t_student_info->get_student_count_archive();
@@ -311,7 +313,8 @@ class cr_info_month extends Command
         //新签合同未排量(已分配/未分配)/新签学生数
         $user_order_list = $task->t_order_info->get_order_user_list_by_month($end_time);
         $new_user = [];//上月新签
-
+        $arr['new_order_assign_num'] = 0;
+        $arr['new_order_unassign_num'] = 0;
         foreach ( $user_order_list as $item ) {
             if ($item['order_time'] >= $start_time ){
                 $new_user[] = $item['userid'];
@@ -329,7 +332,7 @@ class cr_info_month extends Command
 
         //结课率
         $arr["all_registered_student"] = $arr['finish_num']+$arr["read_num"]+$arr["stop_student"]+$arr["drop_student"]+$arr["summer_winter_stop_student"];
-        $arr["student_end_per"] = round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
+        $arr["student_end_per"] = $arr["all_registered_student"] == 0 ? 0:round($arr["finish_num"]/$arr["all_registered_student"]*100,2)*100;
 
         //各年级在读学生统计
         $grade_list = $task->t_student_info->get_read_num_by_grade();
@@ -359,9 +362,8 @@ class cr_info_month extends Command
         $read_num_last = $task->t_cr_week_month_info->get_read_num($start_time,$type);
         $new_student_num_last = @$month_start_grade_info["read_num"];
         $lesson_consume_target += $new_student_num_last*600;
-        $lesson_target  = $lesson_consume_target/($read_num_last+ $new_student_num_last);
-
-
+        $lesson_target_total = $read_num_last+ $new_student_num_last;
+        $lesson_target  = $lesson_target_total == 0 ?0 :$lesson_consume_target/ $lesson_target_total ;
 
 
         $insert_data = [
@@ -433,8 +435,8 @@ class cr_info_month extends Command
           "student_end_per"         => $arr["student_end_per"],   //结课率
           "new_student_num"         => $arr["new_student_num"],   //本月新签学生数
           "grade_stu_list"          => $grade_str ,        //各年级在读学生数,json格式
-          "lesson_target"          => $lesson_target  ,        //课时系数目标量
-          "lesson_consume_target"          => $lesson_consume_target ,        //课时消耗目标数量
+          "lesson_target"           => $lesson_target  ,        //课时系数目标量
+          "lesson_consume_target"   => $lesson_consume_target ,        //课时消耗目标数量
         ];
 
         
