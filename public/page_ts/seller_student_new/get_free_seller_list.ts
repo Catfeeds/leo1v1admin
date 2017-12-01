@@ -133,7 +133,7 @@ $(function(){
         //
         alert(2);
         $(me).parent().find(".opt-edit-new_new").click();
-
+		alert(5);
     });
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();
