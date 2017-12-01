@@ -3158,4 +3158,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_last_revisit_time_by_phone($phone){
+        $sql = "select last_revisit_time from db_weiyi.t_seller_student_new where phone= $phone ";
+        return $this->main_get_value($sql);
+    }
+
 }
