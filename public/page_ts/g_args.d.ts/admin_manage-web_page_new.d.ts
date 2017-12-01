@@ -13,6 +13,7 @@ interface RowData {
 	count	:any;
 	ip_count	:any;
 	up_groupid	:any;
+	is_share	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;

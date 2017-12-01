@@ -167,19 +167,24 @@ class admin_manage extends Controller
         $web_page_id= $this->get_in_int_val("web_page_id");
         $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id);
 
-        foreach ($ret_info["list"] as &$item  ) {
+        foreach ($ret_info["list"] as $k => &$item){
             if(!$item['group_name']){
                 $item['group_name'] = '未定义';
             }
             if(!$item['up_group_name']){
                 $item['up_group_name'] = '未定义';
             }
+            $ret_info["list"][$k]['is_share'] = 0;
+            if($item['share_count'] > 0){
+                $ret_info["list"][$k]['is_share'] = 1;
+            }
+
         }
       
         $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],[],0, strtotime( date("Y-m-01" )   ));
         
         foreach( $ret_info as $k => &$item ) {
-            E\Emain_type::set_item_value_str($item);        
+            E\Emain_type::set_item_value_str($item);
         }
         //dd($ret_info);
         return $this->pageView(__METHOD__,
