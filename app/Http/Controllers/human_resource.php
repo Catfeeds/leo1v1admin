@@ -961,6 +961,15 @@ class human_resource extends Controller
 
             if(empty($item["teacher_tags"])){
                 $item["teacher_tags"]="";
+            }else{
+                $tag= json_decode($item["teacher_tags"],true);
+                if(is_array($tag)){
+                    $str_tag="";
+                    foreach($tag as $d=>$t){
+                        $str_tag .= $d."  ".$t."<br>";
+                    }
+                    $item["teacher_tags"] = $str_tag;
+                }
             }
             if($item["test_transfor_per"]>=20){
                 $item["fine_dimension"]="维度A";

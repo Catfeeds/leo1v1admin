@@ -219,27 +219,51 @@ trait TeaPower {
             }
 
 
-            $style_character = @$tea_tag_arr["style_character"];
-            $professional_ability= @$tea_tag_arr["professional_ability"];
-            $classroom_atmosphere= @$tea_tag_arr["classroom_atmosphere"];
-            $courseware_requirements= @$tea_tag_arr["courseware_requirements"];
-            $diathesis_cultivation= @$tea_tag_arr["diathesis_cultivation"];
+            $style_character = json_decode(@$tea_tag_arr["style_character"],true);
+            $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
+            $classroom_atmosphere= json_decode(@$tea_tag_arr["classroom_atmosphere"],true);
+            $courseware_requirements= json_decode(@$tea_tag_arr["courseware_requirements"],true);
+            $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
             $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
             $teacher_tags_list = json_decode($teacher_tags_old,true);
             if(is_array($teacher_tags_list)){
                 
             }else{
                 $tag = trim($teacher_tags_list,",");
-                $arr = explode(",",$tag);
-                $teacher_tags_list=[];
-                foreach($arr as $val){
-                    $teacher_tags_list[$val]=1;
+                if($tag){
+                    $arr = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr as $val){
+                        $teacher_tags_list[$val]=1;
+                    }
+ 
+                }else{
+                    $teacher_tags_list=[];
                 }
             }
 
+            foreach($tea_tag_arr as $item){
+                $ret= json_decode($item,true);
+                if(is_array($ret)){
+                    foreach($ret as $val){
+                        if(isset($teacher_tags_list[$val])){
+                            $v = $teacher_tags_list[$val]+1;
+                        }else{
+                            $v = 1;
+                        }
+                        $teacher_tags_list[$val]=$v;
+                    }
+                }
+
+            }
+
+            $teacher_tags = json_encode($teacher_tags_list);
+            
+            
+
 
             $this->t_teacher_info->field_update_list($teacherid,[
-                "teacher_tags"  =>$teacher_tags_old
+                "teacher_tags"  =>$teacher_tags
             ]);
         }
     }
