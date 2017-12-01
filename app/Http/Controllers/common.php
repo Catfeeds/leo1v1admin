@@ -1171,6 +1171,8 @@ class common extends Controller
                         "合同定金付款通知",
                         "学生:".$nick." 合同定金付款成功,支付方式".$channel_name.",订单号:".$orderNo,
                         "/user_manage_new/money_contract_list?studentid=$userid");
+                   
+
                     $this->t_manager_info->send_wx_todo_msg(
                         $sys_operator,
                         "合同定金付款通知",
