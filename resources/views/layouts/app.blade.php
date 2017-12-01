@@ -236,7 +236,7 @@
              var g_account="{{$_account}}";
              var g_account_role="{{$_account_role}}";
              var g_adminid="{{$_adminid}}";
-             if(g_account=="jack"){
+             if(g_account=="jack" || g_account=="adrian"){
                  download_show();
              }
             </script>
