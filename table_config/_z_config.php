@@ -1,5 +1,10 @@
 <?php
 return array(
+    ["db_weiyi","t_resource_file","file_id"],
+    ["db_weiyi","t_resource_file_visit_info","visit_id"],
+    ["db_weiyi","t_lore_info","lore_id"],
+    ["db_weiyi","t_resource_lock_info","lock_id"],
+    ["db_weiyi","t_resource","resource_id"],
     ['db_weiyi_admin','t_company_wx_tag_department','id'],
     ["db_weiyi","t_tag_library","tag_id"],
     ['db_weiyi_admin','t_company_wx_tag','id'],
