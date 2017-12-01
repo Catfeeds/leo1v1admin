@@ -359,8 +359,7 @@ class cr_info_month extends Command
             }
         }
         $new_student_num_last = @$month_start_grade_info["new_student_num"];
-        $read_num_last = $task->t_cr_week_month_info->get_read_num($start_time,$type);
-        $new_student_num_last = @$month_start_grade_info["read_num"];
+        $read_num_last = @$month_start_grade_info["read_num"];
         $lesson_consume_target += $new_student_num_last*600;
         $lesson_target_total = $read_num_last+ $new_student_num_last;
         $lesson_target  = $lesson_target_total == 0 ?0 :$lesson_consume_target/ $lesson_target_total ;
