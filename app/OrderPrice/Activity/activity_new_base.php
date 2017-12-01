@@ -48,6 +48,7 @@ class activity_new_base {
     function check_use_count($max_count ) {
         $task= self::get_task_controler();
         $order_activity_type= $this->max_count_activity_type_list;
+
         $order_activity_type[]=$this->order_activity_type;
 
         $now_count= $task->t_order_activity_info->get_count_by_order_activity_type( $order_activity_type );
@@ -55,11 +56,14 @@ class activity_new_base {
         $count_check_ok_flag= ($now_count<$max_count);
         return array( $count_check_ok_flag,$now_count, $activity_desc_cur_count);
     }
-    static function check_max_change_value($max_change_value, $need_change_count ) {
+    function check_max_change_value($max_change_value, $need_change_count ) {
         if ($max_change_value >0 ) {
             $task= self::get_task_controler();
             $order_activity_type=$this->max_count_activity_type_list;
-            $order_activity_type[]=$this->$order_activity_type;
+
+            //\App\Helper\Utils::logger("order_activity_type :". json_encode($this->order_activity_type));
+
+            $order_activity_type[]=$this->order_activity_type;
 
             $now_count= $task->t_order_activity_info->get_all_change_value_by_order_activity_type($order_activity_type) ;
             $activity_desc_cur_count="当前已用($now_count/$max_change_value) ";
@@ -139,9 +143,9 @@ class activity_new_base {
         $old_present_lesson_count= $present_lesson_count;
         $old_desc_list = $desc_list;
 
-        \App\Helper\Utils::logger("do : " . $this->order_activity_type .":" .   $this->title  );
-
-
+        \App\Helper\Utils::logger("do : " . $this->order_activity_type  );
+        //\App\Helper\Utils::logger("do : " . json_encode($desc_list)  );
+        //\App\Helper\Utils::logger("do : " . @$desc_list[0]['activity_desc']  );
 
         $this->do_exec( $out_args,$can_period_flag, $price,$present_lesson_count,$desc_list);
         if ( count($desc_list ) - count($old_desc_list )  > 1 ) {

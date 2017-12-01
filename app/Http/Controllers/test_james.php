@@ -1312,8 +1312,9 @@ class test_james extends Controller
     }
 
     public function get_add_time(){
-        $a=array('a'=>5,'b'=>15,'c'=>25);
-        echo array_sum($a);
+
+        $a = $this->t_teacher_info->get_unbound_teacher_list();
+        dd($a);
 
     }
 

@@ -11,6 +11,12 @@
             </div>
         </div>
 
+        <div class="col-xs-1 col-md-1">
+            <div class="input-group">
+                <button style="margin-left:10px" id="all_activity" type="button" class="btn btn-primary">所有活动</button>
+            </div>
+        </div>
+
     </div>
 
     <hr/>
@@ -21,7 +27,7 @@
                 <td >活动ID</td>
                 <td >活动标题</td>
                 <td >优惠力度</td>
-                <td style="display:none">活动时间</td>
+                <td >活动时间</td>
                 <td >开启类型</td>
                 <td >操作</td>
             </tr>
@@ -36,7 +42,9 @@
                     <td >{{$var["open_flag_str"]}}</td>
                     <td >
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
+                            <a class="fa-hand-o-up opt-stu-origin btn fa" title="编辑优惠力度"></a>
                             <a href="javascript:;" class="fa-edit btn act-edit" title="编辑活动"></a>
+                            <a href="javascript:;" class="fa-comment opt-return-back btn fa act-look" title="查看活动"></a>
                         </div>
                     </td>
                 </tr>

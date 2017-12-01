@@ -269,6 +269,10 @@ class menu{
                     ["power_id"=>1, "name"=>"销售额以及时间",   "url"=>"/user_manage_new/admin_member_list"],
                     ["power_id"=>2, "name"=>"销售个人出勤",   "url"=>"/user_manage_new/seller_attendance_info"]
                 ]],
+                ["power_id"=>104, "name"=>"合同配置管理", "list"=>[
+                    ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
+                ]],
+
                 ["power_id"=>5, "name"=>"权限管理",   "url"=>"/user_manage_new/power_group_edit"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
                 ["power_id"=>6, "name"=>"权限查询",   "url"=>"/authority/get_acc_power_list"],
@@ -394,6 +398,7 @@ class menu{
                 ["power_id"=>14, "name"=>"学生数据",   "url"=>"/finance_data/student_data"],
                 ["power_id"=>15, "name"=>"试听学生&&在读学生",   "url"=>"/finance_data/student_type_data"],
                 ["power_id"=>16, "name"=>"试听转化率以及渠道统计",   "url"=>"/finance_data/test_lesson_origin_tongji"],
+                ["power_id"=>17, "name"=>"合同管理",   "url"=>"/finance_data/money_contract_list"],
 
                 ["power_id"=>9, "name"=>"考勤", "list"=>[
                     ["power_id"=>4, "name"=>"考勤记录",   "url"=>"/tongji/admin_card_log_list"],
@@ -425,7 +430,8 @@ class menu{
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
-                ["power_id"=>36, "name"=>"审批参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
+                ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

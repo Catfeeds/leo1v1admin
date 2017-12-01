@@ -2,7 +2,7 @@ syntax = "proto3";
 import "yb_account/common.proto";
 
 //__CMD: 0x1001
-//__DESC: 用户登录
+//__DESC: 192.168.0.6:8001/account/login 用户登录 
 //__TAGS: for_app,for_admin
 
 message in  {

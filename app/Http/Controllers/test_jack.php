@@ -347,9 +347,13 @@ class test_jack  extends Controller
 
         // dd($list);
         // $arr=[];
+        // $order_info = $this->t_order_info->field_get_list(13868,"*");
+        // unset($order_info["orderid"]);
+        // $this->t_order_info_finance->row_insert($order_info);
+
       
-        $start_time = strtotime("2017-03-01");
-        $end_time = strtotime("2017-04-01");
+        $start_time = strtotime("2016-12-01");
+        $end_time = strtotime("2017-01-01");
         // $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         // $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         // foreach($teacher_arr_ex as $k=>$val){
@@ -412,7 +416,8 @@ class test_jack  extends Controller
         $arr=[];
         $money=0;
         foreach($order_info as $val){
-            if($val["price"]>630000 && $val["price"]<6300000){
+
+            if($val["price"]>400000 && $val["price"]<1630000 && in_array($val["orderid"],[13344,12948])){
                 $money +=$val["price"];
                 if(!isset($arr[$val["userid"]])){
                     $arr[$val["userid"]]=$val["userid"];
@@ -427,26 +432,26 @@ class test_jack  extends Controller
                 // $val["contract_starttime"] = strtotime("+2 months",$val["contract_starttime"]);
                 // $val["contract_endtime"] = strtotime("+2 months",$val["contract_endtime"]);
 
-                // $val["order_time"] = strtotime("+1 months",$val["order_time"]);
-                // $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
-                // if($val["app_time"]>0){
-                //     $val["app_time"] = strtotime("+1 months",$val["app_time"]);
-                // }
-                // $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
-                // $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
-                // $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
+                $val["order_time"] = strtotime("+1 months",$val["order_time"]);
+                $val["pay_time"] = strtotime("+1 months",$val["pay_time"]);
+                if($val["app_time"]>0){
+                    $val["app_time"] = strtotime("+1 months",$val["app_time"]);
+                }
+                $val["check_money_time"] = strtotime("+1 months",$val["check_money_time"]);
+                $val["contract_starttime"] = strtotime("+1 months",$val["contract_starttime"]);
+                $val["contract_endtime"] = strtotime("+1 months",$val["contract_endtime"]);
 
                 
-                // $val["parent_order_id"] = 3000;
-                // unset($val["orderid"]);
-                // $this->t_order_info_finance->row_insert($val);
+                $val["parent_order_id"] = 3000;
+                unset($val["orderid"]);
+                $this->t_order_info_finance->row_insert($val);
 
 
                 // $this->t_order_info_finance->field_update_list($val["orderid"],[
                 //    "contract_type"=>100 
                 // ]);
 
-                if(count($arr) >= 23){
+                if(count($arr) >= 2){
                     break;
                 }
  
@@ -632,6 +637,65 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+        dd($list);
+
+        $list = $this->t_tag_library->get_tag_name_list("教师相关","风格性格");
+        dd($list);
+
+        $adminid = $this->get_account_id();
+        $arr=[
+            ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"耐心绅士","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"口语标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"普通话标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"熟悉考纲","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"激昂热情","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"丰富有趣","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"游戏相关","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"图片精美","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"嘻嘻哈哈","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"兴趣培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"习惯培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"信心建立","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"学习方法技巧","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"文学素养培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+           
+
+        ];
+        foreach($arr as $var){
+            $this->t_tag_library->row_insert($var);
+ 
+        }
+               // return $this->output_succ();
+
+        // $this->t_student_info->reset_lesson_count(440915);
+        dd(111);
+        $aa = E\Eorder_channel::s2v("alipay_pc_direct");
+        $channel_name = E\Eorder_channel::get_desc($aa);
+        dd($channel_name);
+
         $noti_account = $this->t_assistant_info->get_account_by_id(441550);
         $header_msg="测试";
         $msg="学生:" ;

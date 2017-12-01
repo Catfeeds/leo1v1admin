@@ -2,7 +2,7 @@
 return array(
     ['db_weiyi_admin','t_company_wx_tag_department','id'],
     ["db_weiyi","t_tag_library","tag_id"],
-    ['db_weiyi_admin','t_company_wx_tag','id'],
+    //  ['db_weiyi_admin','t_company_wx_tag','id'],
     ["db_weiyi","t_resource","resource_id"],
     ['db_weiyi','t_sum_activity_quota','id'],
     ['db_weiyi','t_activity_quota_detail','id'],
@@ -231,6 +231,7 @@ return array(
     ["db_weiyi","t_location_subject_grade_textbook_info","id"] ,
     ["db_weiyi","t_student_subject_list","userid","subject"] ,
     ["db_weiyi","t_period_repay_list","orderid","period"] ,
+    ["db_weiyi","t_version_control","id"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,

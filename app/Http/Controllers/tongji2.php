@@ -346,8 +346,8 @@ class tongji2 extends Controller
         //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month = strtotime( date("Y-m-01", $start_time));
-        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
 
+        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
         $admin_list=&$ret_info["list"];
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
@@ -373,7 +373,39 @@ class tongji2 extends Controller
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        //周试听成功自定义时间
+        list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4],$ret_week[E\Eweek_order::V_1],$ret_week[E\Eweek_order::V_2],$ret_week[E\Eweek_order::V_3],$ret_week[E\Eweek_order::V_4]) = [[],[],[],[],'','','',''];
+        $week_info = $this->t_month_def_type->get_month_week_time($month);
+        foreach($week_info as $item_k){
+            $week_order = $item_k['week_order'];
+            $start_time = date('m-d',$item_k['start_time']);
+            $end_time = date('m-d',$item_k['end_time']);
+            if($week_order == E\Eweek_order::V_1){
+                $week[E\Eweek_order::V_1][] = $start_time.'/'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_2){
+                $week[E\Eweek_order::V_2][] = $start_time.'/'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_3){
+                $week[E\Eweek_order::V_3][] = $start_time.'/'.$end_time;
+            }elseif($week_order == E\Eweek_order::V_4){
+                $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
+            }
+        }
+        foreach($week as $key=>$item_w){
+            foreach($item_w as $key_n=>$info){
+                if($key_n>0){
+                    $ret_week[$key] = $ret_week[$key].','.$info;
+                }else{
+                    $ret_week[$key] = $info;
+                }
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            'first_week'=>$ret_week[E\Eweek_order::V_1],
+            'second_week'=>$ret_week[E\Eweek_order::V_2],
+            'third_week'=>$ret_week[E\Eweek_order::V_3],
+            'four_week'=>$ret_week[E\Eweek_order::V_4],
+        ]);
     }
 
     public function test_lesson_frist_call_time_master(){

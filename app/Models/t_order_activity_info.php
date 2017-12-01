@@ -43,8 +43,9 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
         );
         return $this->main_get_value($sql);
     }
+
     public function get_all_change_value_by_order_activity_type( $order_activity_type) {
-        $where_arr=[];
+        $where_arr = [];
         $this->where_arr_add_int_or_idlist($where_arr, "order_activity_type", $order_activity_type );
 
         $sql = $this ->gen_sql_new(
@@ -56,12 +57,14 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
     }
 
     public function del_by_orderid($orderid ) {
-        $sql=$this->gen_sql_new(
-            "delete  from %s  "
-            . " where orderid=%u  ",
-            self::DB_TABLE_NAME, $orderid );
+        $sql = $this->gen_sql_new("delete from %s  "
+                                  ." where orderid=%u  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$orderid
+        );
         return $this->main_update($sql);
     }
+
     //@desn:获取某活动该月份使用的配额
     //@param: $order_activity_desc 活动名称
     public function get_used_quota($order_activity_desc,$start_time,$end_time){

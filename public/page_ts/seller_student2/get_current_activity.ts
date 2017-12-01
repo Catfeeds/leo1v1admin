@@ -8,15 +8,22 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
     //编辑活动
-    $('.act-edit').on('click',function(){
+    $('.opt-stu-origin').on('click',function(){
         var opt_data = $(this).get_opt_data();
 
         var id_power_value = $("<input/>");
-        id_power_value.val(opt_data.power_value); 
+        id_power_value.val(opt_data.power_value);
+
+        var id_open_flag = $("<select/>");
+        Enum_map.append_option_list("open_flag", id_open_flag,true);
+
+        id_open_flag.val(opt_data.open_flag);
+
         var arr=[
             ["活动ID", opt_data.id ],
             ["活动标题", opt_data.title ],
             ["活动力度", id_power_value ],
+            ["是否开启", id_open_flag ],
         ];
         $.show_key_value_table("编辑活动", arr ,{
             label: '确认',
@@ -25,7 +32,8 @@ $(function(){
                 var power_value = id_power_value.val();
                 var data = {
                     'id':opt_data.id,
-                    'power_value':power_value
+                    'power_value':power_value,
+                    'open_flag':id_open_flag.val()
                 }
                 if(!power_value){
                     BootstrapDialog.alert("活动力度必填");
@@ -48,13 +56,28 @@ $(function(){
     })
 
     //进入编辑页面
-    $('.opt-set').on('click',function(){
+    $('.act-edit').on('click',function(){
         var opt_data=$(this).get_opt_data();
         window.open(
             '/seller_student2/get_order_activity?id='+ opt_data.id +"&return_url="+ encodeURIComponent(window.location.href)
         );
     });
-  
+
+    //返回主页面
+    $('#all_activity').on('click',function(){
+        window.open(
+            '/seller_student2/show_order_activity_info'
+        );
+    });
+
+    //打开活动页面
+    $('.act-look').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        window.open(
+            '/seller_student_new2/show_order_activity_info?order_activity_type='+opt_data.id
+        );
+    });
+
 });
     
 function load_data(){

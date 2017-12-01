@@ -17,6 +17,12 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师</span>
+                        <input id="id_teacherid" class="opt-change"  />
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -37,9 +43,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <a href="http://admin.leo1v1.com/human_resource/index?teacherid={{@$var['teacherid']}}">
-                                {{@$var["tea_nick"]}}
-                            </a>
+                            {{@$var["tea_nick"]}}
                         </td>
                         <td>
                             {{@$var['stu_num']}}
@@ -48,26 +52,21 @@
                             {{@$var['lesson_num']}}
                         </td>
                         <td>
-                            {{@$var['cc_rate']}}*100.'%'
+                            {{@round($var['cc_rate']*100,2)}}%
                         </td>
                         <td>
-                            {{@$var['cr_rate']}}*100."%"
+                            {{@round($var['cr_rate']*100,2)}}%
                         </td>
                         <td>
-                            {{@$var['violation_num']}}
+                            <a class="violation_num" data-teacherid="{{@$var['teacherid']}}">
+                                {{@$var['violation_num']}}
+                            </a>
                         </td>
-
-
-
 
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
-
-
-
                             </div>
                         </td>
                     </tr>
@@ -76,5 +75,15 @@
         </table>
         @include("layouts.page")
     </section>
+    <div style="display:none;" >
+        <div id="id_assign_log">
+            <table   class="table table-bordered "   >
+                <tr>  <th> 类别 <th>数量   </tr>
+                    <tbody class="data-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
 
 @endsection

@@ -1688,7 +1688,6 @@ class user_manage_new extends Controller
 
                     }
                 }
-
             }
             $res[$k]['month_work_day'] = $i;
             $res[$k]['month_work_day_now'] = $j;
@@ -1765,6 +1764,7 @@ class user_manage_new extends Controller
         //     $res[$key]['suc_lesson_count_rate_all'] = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
         //     $res[$key]['suc_lesson_count_rate'] = $res[$key]['suc_lesson_count_rate_all'].'%';
         // }
+
         $this->t_order_info->switch_tongji_database();
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
         foreach($order_new as $k=>$v){
@@ -1791,6 +1791,7 @@ class user_manage_new extends Controller
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
+            $item['suc_lesson_count_rate_all'] = isset($item["suc_lesson_count_rate_all"])?$item["suc_lesson_count_rate_all"]:0;
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
 
@@ -3694,7 +3695,7 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
             $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
-            if ($teacherid == 269222) {
+            if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
             }
@@ -5079,6 +5080,13 @@ class user_manage_new extends Controller
         $start_time = strtotime(date('Y-m-01', time()));
         $re_teacherid = $this->t_teacher_money_list->get_recommended_for_teacherid($start_time,$teacherid);
         foreach($re_teacherid as $item) {
+            // if ($teacherid == 274115 && $item['money'] != 60) { // 处理join中国
+            //     $this->t_teacher_money_list->field_update_list($item['id'], [
+            //         'money' => $reward,
+            //         'acc' => $acc
+            //     ]);
+            //     continue;
+            // }
             $type = 1;
             if ($item['identity'] == 0 || $item['identity'] == 8) {
                 $type = 0;

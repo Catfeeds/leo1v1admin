@@ -104,7 +104,6 @@ interface RowData {
 	use_ppt	:any;
 	tea_cw_url	:any;
 	is_complained	:any;
-	complain_note	:any;
 	lesson_upload_time	:any;
 	stu_performance	:any;
 	audio	:any;

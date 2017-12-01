@@ -401,13 +401,13 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
             "t1.course_type in (0,1,3)"  ,
         ]);
         $sql=$this->gen_sql("select t1.userid,t1.courseid,t1.grade,t1.subject, t1.teacherid,t1.lesson_grade_type,"
-                            ."sum(t2.lesson_count) as lesson_count, "
+                            ."sum(t2.lesson_count) as lesson_count,t1.competition_flag, "
                             ."sum(case when lesson_status=0 then lesson_count else 0 end )  as no_finish_lesson_count , "
                             ."sum(case when lesson_status=0 then 0 else "
                             ."(case when confirm_flag in (2,4) then 0 else t2.lesson_count end) "
                             ."end ) as finish_lesson_count,t1.add_time, "
                             ."t1.teacherid, t1.assistantid,t1.course_type,t1.default_lesson_count,t1.assigned_lesson_count, "
-                            ."course_status,t1.week_comment_num,t1.enable_video"
+                            ."course_status,t1.week_comment_num,t1.enable_video,t1.reset_lesson_count_flag"
                             ." from %s t1 "
                             ." left join %s t2 on t1.courseid = t2.courseid "
                             ." and (lesson_del_flag=0 or lesson_del_flag is null)"
@@ -417,8 +417,6 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
                             ,t_lesson_info::DB_TABLE_NAME
                             ,[$where_str]
         );
-        //print_r($sql);
-        //dd($sql);
         return $this->main_get_list($sql);
     }
 

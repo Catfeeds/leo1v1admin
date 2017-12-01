@@ -390,6 +390,8 @@ trait  InputDeal {
 
     public function get_in_order_by_str( $no_order_in_db_field_list=[],$def="", $key_map=[] ) {
         $str=$this->get_in_str_val("order_by_str",$def);
+        \App\Helper\Utils::logger("shaixun_J: $str ");
+
         if ($str) {
             $arr=preg_split("/ /",$str);
             $field_name=$arr[0];

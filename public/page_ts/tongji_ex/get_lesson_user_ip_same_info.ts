@@ -14,7 +14,6 @@ function load_data(){
 }
 $(function(){
 
-
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
@@ -28,7 +27,12 @@ $(function(){
 	  $('#id_match_type').val(g_args.match_type);
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
+
+    if(g_account=="wenbin"){
+        download_show();
+    }
+
 });
 
 

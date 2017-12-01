@@ -1578,11 +1578,17 @@ class user_deal extends Controller
         $grade                = $this->get_in_int_val("grade");
         $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
         $default_lesson_count = $this->get_in_int_val("default_lesson_count");
+        $week_comment_num     = $this->get_in_int_val("week_comment_num");
+        $enable_video         = $this->get_in_int_val("enable_video");
+        $reset_lesson_count_flag = $this->get_in_int_val("reset_lesson_count_flag");
         $account              = $this->get_account();
 
         $check_flag = $this->check_teacher_is_pass($teacherid);
         if(!$check_flag){
             return $this->output_err("该老师不是正式老师!");
+        }
+        if($subject!=E\Esubject::V_2 && $reset_lesson_count_flag==1){
+            return $this->output_err("只有数学可以设置‘常规课上奥数课标示’为‘是’!\n如果原课程包变更科目，请新增课程包！");
         }
 
         $data = [
@@ -1592,6 +1598,9 @@ class user_deal extends Controller
             "grade"                => $grade,
             "lesson_grade_type"    => $lesson_grade_type,
             "default_lesson_count" => $default_lesson_count,
+            "week_comment_num"     => $week_comment_num,
+            "enable_video"         => $enable_video,
+            "reset_lesson_count_flag" => $reset_lesson_count_flag,
         ];
 
         $ret = $this->t_course_order->field_update_list($courseid,$data);
@@ -1633,9 +1642,7 @@ class user_deal extends Controller
 
         $confirm_flag = $this->t_student_cc_to_cr->get_confirm_flag($userid);
         if($confirm_flag == 1){
-            //
         }
-
 
         $this->t_course_order->row_insert([
             "userid"                => $userid,
@@ -4094,11 +4101,24 @@ class user_deal extends Controller
         $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
         $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
         $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
+        //上月非退费签单金额
+        $account = $this->t_manager_info->get_account_by_uid($adminid);
+        $timestamp = strtotime(date("Y-m-01",$start_time));
+        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
+        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
+        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
+        foreach($ret_time as $item){//上月
+            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
+                $start_time_last = $item['start_time'];
+                $end_time_last = $item['end_time'];
+            }
+        }
+        $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
+        $last_all_price = isset($last_all_price)?$last_all_price/100:0;
+        $arr['last_all_price'] = $last_all_price;
 
         return $this->output_succ($arr);
     }
-
-    
 
     public function get_renw_flag_change_list(){
         $id = $this->get_in_int_val("id",0);

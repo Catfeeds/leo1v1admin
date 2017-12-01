@@ -310,6 +310,7 @@ class common extends Controller
                 $train_time = $this->t_train_lesson_user->get_max_lesson_time($answer['userid']);
                 $train_flag = 1;
 
+                //培训通过
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
                 }
@@ -1072,7 +1073,8 @@ class common extends Controller
             break;
         case 'wx_pub_qr':
             $extra = array(
-                'product_id' => $orderNo
+                'product_id' => $orderNo,
+                'success_url' => 'http://admin.leo1v1.com/common/get_webhooks_notice'
             );
             break;
 
@@ -1145,6 +1147,9 @@ class common extends Controller
             $channel = $event->data->object->channel;
             $aa = E\Eorder_channel::s2v($channel);
             $channel_name = E\Eorder_channel::get_desc($aa);
+            if(empty($channel_name)){
+                $channel_name = $channel;
+            }
 
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $order_type = $this->t_orderid_orderno_list->get_order_type($orderNo);

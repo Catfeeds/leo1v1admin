@@ -732,7 +732,7 @@ class stu_manage extends Controller
         }else{
             $list = [];
         }
-        //dd($list);
+
         foreach($list as &$item){
             $assigned_lesson_count          = $item["assigned_lesson_count"];
             $item["left_lesson_count"]      = ($assigned_lesson_count-$item["finish_lesson_count"])/100;
@@ -748,6 +748,7 @@ class stu_manage extends Controller
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"enable_video");
+            E\Eboolean::set_item_value_str($item,"reset_lesson_count_flag");
             E\Econtract_type::set_item_value_str($item,"course_type");
             if($item['week_comment_num']>0){
                 $item['week_comment_num_str']="只用评1节";
@@ -1436,3 +1437,6 @@ class stu_manage extends Controller
     }
 
 }
+
+
+
