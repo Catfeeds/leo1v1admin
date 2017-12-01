@@ -259,8 +259,8 @@
 
     </body>
         <script type="text/javascript">
-            if(g_account=="jack"){
-            download_show();
+            if(g_account=="jack" || g_account=="jim" ){
+                download_show();
             }
             </script>
 

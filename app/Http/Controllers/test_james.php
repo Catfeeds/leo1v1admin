@@ -1315,16 +1315,41 @@ class test_james extends Controller
     /**
      * @ 叶老师 试听课
      **/
-    public function get_add_time(){
+    public function update_lesson_list(){
+        $start_time = $this->get_in_int_val("s");
+        $end_time   = $this->get_in_int_val("e");
+        $type = $this->get_in_int_val('type',-1);
+        $lesson_list = $this->t_lesson_info_b3->get_unlesson($start_time, $end_time,$type);
+
+        foreach($lesson_list as $item){
+            $this->t_lesson_info_b3->field_update_list($item['lessonid'], [
+                "lesson_user_online_status"=>2
+            ]);
+        }
+
+        dd($lesson_list);
+    }
+
+
+    public function get_lesson_list(){
 
 
         $start_time = $this->get_in_int_val("s");
         $end_time   = $this->get_in_int_val("e");
         $type = $this->get_in_int_val('type',-1);
-        $num = $this->t_lesson_info_b3->get_unlesson($start_time, $end_time,$type);
-
-        dd($num);
+        $lesson_list = $this->t_lesson_info_b3->get_unlesson($start_time, $end_time,$type);
+        dd($lesson_list);
     }
+
+    public function ddd(){
+        $lessonid = $this->get_in_int_val("s");
+        $lesson_type   = $this->get_in_int_val("e");
+
+        $is_fail = $this->t_lesson_info_b3->check_is_fail($lessonid,$lesson_type);
+
+        dd($is_fail);
+    }
+
 
 
 
