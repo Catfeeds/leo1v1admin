@@ -131,15 +131,12 @@ $(function(){
             "phone": opt_data.phone
         } );
         //
-        alert(2);
         $(me).parent().find(".opt-edit-new_new").click();
-		alert(5);
     });
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
         var click_type=2;
-        alert(3);
         edit_user_info_new(opt_data,opt_obj,click_type);
     });
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
