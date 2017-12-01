@@ -765,6 +765,7 @@ $(function(){
             show_status_list.push(status);
             alert(opt_data.stu_type);
             alert(show_status_list);
+			alert(seller_student_status);
             Enum_map.append_option_list("seller_student_status", id_status ,true , show_status_list );
             Enum_map.append_option_list("gender", id_gender, true);
             Enum_map.append_option_list("region_version", id_editionid, true);
