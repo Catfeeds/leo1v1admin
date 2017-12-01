@@ -4254,7 +4254,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $identity = $recommended_info['identity'];
-            if (in_array($identity,[5,6,7])) {
+            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6,E\Eidentity::V_7])) {
                 $type = 1; // 机构老师
             } else {
                 $type = 0; // 在样学生
@@ -4270,15 +4270,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
                     $reference_num += 30;
                     break;
-                case E\Eteacher_ref_type::V_3:
-                    $reference_num += 10;
-                    break;
                 }
             }
 
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             if ($teacherid == 274115) { // join中国 60元/个
                 $reference_price = 60;
+            }elseif($teacherid == 149697){ //明日之星 50元/个
+                $reference_price = 50;
             }
 
             $this->t_teacher_money_list->row_insert([
@@ -4315,7 +4314,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
            "order_partition_flag" =>$order_partition_flag
         ]);
     }
-
 
     //教务抢课链接限制
     public function check_jw_plan_limit($requireids){
@@ -4355,12 +4353,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $per = $grab_num/($plan_num+$grab_num);
             $account = $this->t_manager_info->get_account($k);
             if($per>0.20 && in_array($account,$account_list)){
-                return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
+                return $this->output_err(" $account 当天抢课投放量超过总量的25%,请重新选择!");
             }
         }
-
     }
-
 
     //确认老师例子是否入库(分配招师专员)
     public function check_lecture_appointment_assign_flag($grade,$subject,$teacher_type){
