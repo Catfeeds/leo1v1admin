@@ -57,7 +57,7 @@ $(function(){
     };
     load_row_data ();
 
-    if(g_account=='龚隽'){
+    if(g_account=='龚隽' || g_account=='sherry'){
         download_show();
     }
     $('.opt-change').set_input_change_event(load_data);
