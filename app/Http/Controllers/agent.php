@@ -453,17 +453,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        //月末定级,根据上上月非退费签单金额
-        $month_level = 0;
-        $price_very_last = $this->t_order_info->get_1v1_order_seller_month_money_new($account='蔡明霞',$start_time_very_last=1506960000,$end_time_very_last=1509465600);
-        $price_very_last = isset($price_very_last)?$price_very_last/100:0;
-        $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
-        foreach($ret_level_goal as $item){
-            if($price_very_last >= $item['level_goal']){
-                $month_level = $item['seller_level'];
-            }
-        }
-        dd($price_very_last,E\Eseller_level::get_desc($month_level));
+        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',1512057600))-1));
+        dd($month_date);
         if($price_very_last<$level_goal){//降级
             $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
             $this->task->t_seller_level_month->row_insert([
