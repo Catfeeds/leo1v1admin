@@ -13,7 +13,7 @@ class NoticeAssForFirstLesson extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:NoticeAssForFirstLesson';
 
     /**
      * The console command description.
