@@ -3,14 +3,6 @@
 @section('content')
 <section class='content'>
     <div> <!-- search ... -->
-        <div class='col-xs-12 col-md-5' data-title='时间段'>
-        </div>
-        <div class='row  row-query-list' >
-            <div class='col-xs-12 col-md-5'>
-                <div id='id_date_range' >
-                </div>
-            </div>
-        </div>
     </div>
     <hr/>
     <table class="common-table">
@@ -30,11 +22,11 @@
             <td>绑卡时间</td>
         </thead>
         <tbody>
-            @foreach($info as $var)
+            @foreach($table_data_list as $var)
                 <tr>
                     <td>{{$var['teacherid']}}</td>
                     <td>{{$var['nick']}}</td>
-                    <td>{{$var['subject']}}</td>
+                    <td>{{$var['subject_str']}}</td>
                     <td>{{$var['phone']}}</td>
                     <td>{{$var['bank_account']}}</td>
                     <td>{{$var['bankcard']}}</td>

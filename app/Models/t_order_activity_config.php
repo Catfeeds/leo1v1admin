@@ -99,6 +99,21 @@ class t_order_activity_config extends \App\Models\Zgen\z_t_order_activity_config
 
     }
 
+    public function get_all_activity($id,$open_flag,$title,$page_num){
+        $where_arr = [
+            ['id = %d',$id,-1],
+            ['open_flag = %d',$open_flag,-1],
+        ];
+        if ($title) {
+            $where_arr[]=sprintf( "(title like '%s%%' )",$this->ensql($title));
+        }
 
+        $where_str=$this->where_str_gen( $where_arr);
 
+        $sql = $this->gen_sql("select * from %s where  %s order by id desc ",
+                              self::DB_TABLE_NAME,
+                              [$where_str]
+        );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+    }
 }

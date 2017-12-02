@@ -98,6 +98,10 @@
                                        title="视频播放二维码" > </a>
 
                                     <a class="opt-fifth-lesson-record" >反馈</a>
+                                    @if(in_array($acc,["jack","jim"]))
+                                        <a class="opt-fifth-lesson-record-new" >反馈-new</a>
+                                    @endif
+
                                     @if($var["record_info"])
                                         <a class="opt-fifth-lesson-record-list" >反馈详情</a>
                                     @endif

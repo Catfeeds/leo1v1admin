@@ -637,31 +637,44 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
-        $arr=[
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
-            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
-        ];
-        $tt = "1,2,3,5";
-        $list = json_encode( $arr);
-        $aa = json_decode($list,true);
-        $bb = json_decode($tt,true);
-        dd(is_array($bb));
-        $list=[];
-        foreach( $arr as $val){
-            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
-            $rr=[];
-            foreach($ret as $item){
-                $rr[]=$item["tag_name"];
-            }
-            $list[$val["tag_l2_sort"]]=$rr;
-        }
-        dd($list);
 
-        $list = $this->t_tag_library->get_tag_name_list("教师相关","风格性格");
-        dd($list);
+        $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
+        $i=2;
+        foreach($list as $val){
+            $this->t_teacher_record_list->row_insert([
+                "teacherid"      => $val["teacherid"],
+                "type"           => 1,
+                "train_lessonid" => $val["lessonid"],
+                "lesson_time"    => $val["lesson_start"],
+                "lesson_style"   => $i,
+                "add_time"       => time()+$i*100,
+                "userid"         => $val["userid"]
+            ]);
+            $i++;
+ 
+        }
+        
+
+        // $arr=[
+        //     ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+        //     ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+        //     ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+        //     ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+        //     ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        // ];
+        // $list=[];
+        // foreach( $arr as $val){
+        //     $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+        //     $rr=[];
+        //     foreach($ret as $item){
+        //         $rr[]=$item["tag_name"];
+        //     }
+        //     $list[$val["tag_l2_sort"]]=$rr;
+        // }
+        // dd($list);
+
+        // $list = $this->t_tag_library->get_tag_name_list("教师相关","风格性格");
+        // dd($list);
 
         $adminid = $this->get_account_id();
         $arr=[
