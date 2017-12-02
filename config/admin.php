@@ -33,7 +33,7 @@ return [
     'monitor_url'               => env('MONITOR_URL', 'http://monitor.yb1v1.com/'),
     'monitor_new_url'           => env('MONITOR_NEW_URL', 'http://admin.leo1v1.com'),
     //课时审查时间节点
-    "lesson_confirm_start_time" => "2017-08-01",
+    "lesson_confirm_start_time" => "2017-10-01",
     //老师伯乐奖累计计算时间
     "teacher_ref_start_time"    => "2017-07-01",
     //新版优学优享开始时间
@@ -254,7 +254,8 @@ return [
     'company_wx'=>[
         'url'    => 'https://qyapi.weixin.qq.com',
         'CorpID' => 'wwe9748dcadfba90f7',
-        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk'
+        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk',
+        'Secret2' => '26laMHHmbs0Pc7oxgCWpz6rS_J42QuApEpf2pFGlpRs' // 审批
     ],
 
 ];

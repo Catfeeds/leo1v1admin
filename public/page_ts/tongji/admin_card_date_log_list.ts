@@ -33,9 +33,7 @@ $(function(){
         $("#id_adminid").parent().parent().hide();
     }
 
-    if(g_account=="程燕"){
-        download_show();
-    }
+    download_show();
 
 
 });

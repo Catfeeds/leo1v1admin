@@ -416,7 +416,7 @@ class lesson extends TeaWxController
 
     public function update_comment_pre_listen_new(){ // 新版试听课评价 标号3002
         $teacherid    = $this->get_teacherid();
-        $now          = time(NUll);
+        $now          = time(NULL);
         $lessonid     = $this->get_in_int_val('lessonid',-1);
 
         if ($lessonid == -1) {

@@ -308,13 +308,13 @@ class common extends Controller
                 }
 
                 $train_time = $this->t_train_lesson_user->get_max_lesson_time($answer['userid']);
-                $train_flag = 1;
 
                 //培训通过
-                if($totalvalue>=90 && $teacher_info['train_through_new']==0){
-                    $this->teacher_train_through_deal($teacher_info,$train_flag);
-                }
-                if($totalvalue>=90){
+                if($totalvalue>=90 ){
+                    if($teacher_info['train_through_new']==0){
+                        $this->teacher_train_through_deal($teacher_info);
+                    }
+
                     //发送微信通知进行模拟课堂
                     $check_flag = $this->t_lesson_info->check_train_lesson_new($answer['userid']);
                     if(empty($check_flag)){
@@ -1171,6 +1171,8 @@ class common extends Controller
                         "合同定金付款通知",
                         "学生:".$nick." 合同定金付款成功,支付方式".$channel_name.",订单号:".$orderNo,
                         "/user_manage_new/money_contract_list?studentid=$userid");
+                   
+
                     $this->t_manager_info->send_wx_todo_msg(
                         $sys_operator,
                         "合同定金付款通知",

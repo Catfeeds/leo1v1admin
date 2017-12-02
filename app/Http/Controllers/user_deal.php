@@ -976,6 +976,7 @@ class user_deal extends Controller
         $call_phone_passwd       = $this->get_in_str_val("call_phone_passwd");
         $call_phone_type         = $this->get_in_int_val("call_phone_type");
         $main_department         = $this->get_in_int_val("main_department");
+        $no_update_seller_level_flag = $this->get_in_int_val("no_update_seller_level_flag");
         if (!$tquin) {
             $tquin=NULL;
         }
@@ -1021,6 +1022,7 @@ class user_deal extends Controller
             "become_full_member_flag" => $become_full_member_flag,
             "main_department" =>$main_department,
             "level_face_pic" => $level_face_pic,
+            "no_update_seller_level_flag" => $no_update_seller_level_flag,
         ];
 
         if ($cardid) {
@@ -3291,12 +3293,12 @@ class user_deal extends Controller
         $arr["student_end_per"] = round($finish_num/$arr["all_registered_student"]*100,2)*100;
 
         //课时消耗目标数量
-        $last_year_start = strtotime("-1 years",$start_time); 
-        $last_year_end = strtotime("+1 months",$last_year_start); 
+        $last_year_start = strtotime("-1 years",$start_time);
+        $last_year_end = strtotime("+1 months",$last_year_start);
 
 
         $insert_data = [
-         
+
             "average_person_effect"   => $arr["average_person_effect"],  //平均人效(非入职完整月)
             "cumulative_refund_rate"  => $arr["cumulative_refund_rate"], //合同累计退费率
             "stop_student"            => $arr["stop_student"],      //停课学生
@@ -3310,7 +3312,7 @@ class user_deal extends Controller
 
         ];
 
-        
+
         if($ret_id>0){
             $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
         }else{
@@ -3319,7 +3321,7 @@ class user_deal extends Controller
 
 
         dd($str);
-        
+
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
 
@@ -4094,7 +4096,7 @@ class user_deal extends Controller
             }
         }
         $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
-        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_salary_level::get_desc($last_seller_level['seller_level']):'';
         $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
         $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
         $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
@@ -4113,6 +4115,7 @@ class user_deal extends Controller
         $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
         $arr['last_all_price'] = $last_all_price;
+        //
 
         return $this->output_succ($arr);
     }
