@@ -63,7 +63,7 @@ $(function(){
 
 
     do_get_env(function( env) {
-        if (env != "local") {
+        if (env != "local" && g_account!="adrian") {
             $(".opt-field-comment").hide();
             $(".opt-set-none").hide();
         }

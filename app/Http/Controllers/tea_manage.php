@@ -393,7 +393,7 @@ class tea_manage extends Controller
 
 
     /**
-     * 老师课程列表 pad实时播放二维码
+     * 老师课程列表 type_flag=1实时播放二维码/　type_flag=2录制视频回放
      */
     public function get_tea_pad_lesson_qr(){
         $lessonid = $this->get_in_lessonid();

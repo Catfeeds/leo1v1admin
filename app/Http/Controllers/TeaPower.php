@@ -4467,4 +4467,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
+    /**
+     * 试听排课检测可上课时间
+     */
+    public function check_teacher_free_time_for_trial_lesson(){
+
+    }
 }

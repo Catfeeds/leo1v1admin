@@ -319,7 +319,6 @@ $(function(){
 
     $(".opt-add_reward_90").on("click",function(){
 	      var data = $(this).get_opt_data();
-        //alert(data.lesson_time);
         BootstrapDialog.show({
 	          title   : "操作确认",
 	          message : "是否添加此老师90分钟的补偿金额?",
