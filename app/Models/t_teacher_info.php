@@ -4662,4 +4662,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             return $item['teacherid'];
         });
     }
+
+    public function get_teacher_bank_info() {
+        $sql = $this->gen_sql_new("select teacherid,nick,subject,phone,bank_account,bankcard,bank_type,bank_province,bank_city,bank_address,bank_phone,idcard,bind_bankcard_time from %s", self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

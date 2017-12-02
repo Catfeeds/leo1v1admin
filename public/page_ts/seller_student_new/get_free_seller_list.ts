@@ -114,6 +114,7 @@ $(function(){
         //
         $(this).parent().find(".opt-edit").click();
     });
+
     $(".opt-telphone_new").on("click",function(){
         //
         var me=this;
@@ -137,7 +138,7 @@ $(function(){
             if(ret == 0){
                 alert("请一个小时后再拨打");
             }
-        }
+        });
         //
         $(me).parent().find(".opt-edit-new_new").click();
     });

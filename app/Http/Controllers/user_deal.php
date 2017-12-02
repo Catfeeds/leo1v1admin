@@ -3290,12 +3290,12 @@ class user_deal extends Controller
         $arr["student_end_per"] = round($finish_num/$arr["all_registered_student"]*100,2)*100;
 
         //课时消耗目标数量
-        $last_year_start = strtotime("-1 years",$start_time); 
-        $last_year_end = strtotime("+1 months",$last_year_start); 
+        $last_year_start = strtotime("-1 years",$start_time);
+        $last_year_end = strtotime("+1 months",$last_year_start);
 
 
         $insert_data = [
-         
+
             "average_person_effect"   => $arr["average_person_effect"],  //平均人效(非入职完整月)
             "cumulative_refund_rate"  => $arr["cumulative_refund_rate"], //合同累计退费率
             "stop_student"            => $arr["stop_student"],      //停课学生
@@ -3309,7 +3309,7 @@ class user_deal extends Controller
 
         ];
 
-        
+
         if($ret_id>0){
             $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
         }else{
@@ -3318,7 +3318,7 @@ class user_deal extends Controller
 
 
         dd($str);
-        
+
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
 
@@ -4015,6 +4015,10 @@ class user_deal extends Controller
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201709", $adminid, $start_time, $end_time );
             break;
+        case "201710" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201710", $adminid, $start_time, $end_time );
+            break;
         default:
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
@@ -4093,7 +4097,7 @@ class user_deal extends Controller
             }
         }
         $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
-        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_salary_level::get_desc($last_seller_level['seller_level']):'';
         $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
         $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
         $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
@@ -4112,6 +4116,26 @@ class user_deal extends Controller
         $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
         $arr['last_all_price'] = $last_all_price;
+        //
+        $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
+        if($no_update_seller_level_flag == 1){
+            $arr['base_salary'] = 6500;
+            $arr['sup_salary'] = 0;
+            switch(true){
+            case $arr['group_all_price']<500000 :
+                $arr['per_salary'] = 10*$kpi;
+                break;
+            case $arr['group_all_price']<800000 && $arr['group_all_price']>=500000:
+                $arr['per_salary'] = 25*$kpi;
+                break;
+            case $arr['group_all_price']<1000000 && $arr['group_all_price']>=800000:
+                $arr['per_salary'] = 35*$kpi;
+                break;
+            default:
+                $arr['per_salary'] = 50*$kpi;
+                break;
+            }
+        }
 
         return $this->output_succ($arr);
     }
