@@ -3117,7 +3117,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_item_list_new(){
-        $sql = "select * from db_weiyi.t_seller_student_new where admin_revisiterid=412";
+        $sql = "select * from db_weiyi.t_seller_student_new where admin_revisiterid=384";
         return $this->main_get_list($sql);
     }
     public function get_ass_tran_stu_info_new($start_time,$end_time){
