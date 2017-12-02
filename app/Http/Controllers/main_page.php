@@ -540,9 +540,6 @@ class main_page extends Controller
             }
         }
 
-        if($amdinid = 1221){
-            dd($no_order);
-        }
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
