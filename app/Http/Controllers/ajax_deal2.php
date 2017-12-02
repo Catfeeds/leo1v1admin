@@ -2226,7 +2226,9 @@ class ajax_deal2 extends Controller
             "diathesis_cultivation"=>$diathesis_cultivation,
         ];
         $set_flag=2;
-        $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2,$set_flag); 
+        $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,1000,$set_flag); 
+        return $this->output_succ();
+
 
  
     }

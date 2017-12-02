@@ -4266,6 +4266,19 @@ class human_resource extends Controller
                 $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
                 $item["address"]   = substr($item["address"], 0, -6);
             }
+            if(empty($item["teacher_tags"])){
+                $item["teacher_tags"]="";
+            }else{
+                $tag= json_decode($item["teacher_tags"],true);
+                if(is_array($tag)){
+                    $str_tag="";
+                    foreach($tag as $d=>$t){
+                        $str_tag .= $d."  ".$t."<br>";
+                    }
+                    $item["teacher_tags"] = $str_tag;
+                }
+            }
+
 
 
         }
