@@ -138,7 +138,7 @@ $(function(){
 
         //--三级联动下拉框--begin--
         var opt_data = '';
-        var old_tag_l1_sort = opt_data.region;
+        var old_tag_l1_sort = opt_data.tag_l1_sort;
         if(old_tag_l1_sort == null){
             old_tag_l1_sort="标签一级分类";
         }
@@ -175,7 +175,7 @@ $(function(){
         tag_l1_sort.change(function() {  
             //tag_l1_sort.val()  : 返回是每个省对应的下标,序号从0开始  
             if (tag_l1_sort.val() != "") {  
-                if(opt_data.region != tag_l1_sort.find("option:selected").text()){
+                if(opt_data.tag_l1_sort != tag_l1_sort.find("option:selected").text()){
                     var preTag_l2_sort = "<option value=\"\">标签二级分类</option>";  
                     var preTag_l3_sort = "<option value=\"\">标签三级分类</option>";   
                 }
