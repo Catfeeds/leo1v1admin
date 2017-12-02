@@ -67,7 +67,7 @@ class update_company_wx_data extends Command
 
         foreach ($info as $item) {
             $item['power'] = '';
-            if ($item['isleader'] == 1 && $item['uid'] == 287) { // 领导
+            if ($item['isleader'] == 1) { // 领导
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
                 $parent = $this->get_parent_node($department, $item['department']);
                 $parent = explode("-", $parent);
