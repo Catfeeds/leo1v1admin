@@ -814,11 +814,12 @@ class teacher_money extends Controller
 
     public function show_teacher_bank_info_human() { // 人事绩效 - 老师银行卡信息
         $info = $this->t_teacher_info->get_teacher_bank_info();
-        foreach($info as $key => $item) {
+        foreach($info as $key => &$item) {
             $info[$key]['bind_bankcard_time_str'] = '';
             if ($item['bind_bankcard_time']) {
                 $info[$key]['bind_bankcard_time_str'] = date('Y-m-d H:i:s', $item['bind_bankcard_time']);
             }
+            E\Esubject::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__, '',[
             'info' => $info
