@@ -66,9 +66,9 @@ class tom_do_once extends Command
             //入职小于2月,定级>D
             if(time(null)-$become_member_time<60*3600*24 && $this_level>E\Eseller_level::V_500){
                 $month_level = E\Eseller_level::V_500;
-                // $this->task->t_seller_level_month->field_update_list($id,[
-                //     'seller_level'=>$month_level,
-                // ]);
+                $this->task->t_seller_level_month->field_update_list($id,[
+                    'seller_level'=>$month_level,
+                ]);
                 echo $account.':'.$this_level."=>".$month_level."\n";
             }
         }
