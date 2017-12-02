@@ -148,7 +148,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             "se.adminid=697"
         ];
 
-        $this->where_arr_add_time_range($where_arr, $field_name, "se.create_time", $end_time);
+        $this->where_arr_add_time_range($where_arr, "se.create_time",$start_time, $end_time);
 
         $sql = $this->gen_sql_new("  select * from %s se "
                                   ." where %s"
