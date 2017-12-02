@@ -2091,6 +2091,7 @@ class seller_student extends Controller
 
     public function edit_origin_key()
     {
+        $key0 = trim($this->get_in_str_val('key0', ''));
         $key1 = trim($this->get_in_str_val('key1', ''));
         $key2 = trim($this->get_in_str_val('key2', ''));
         $key3 = trim($this->get_in_str_val('key3', ''));
@@ -2099,13 +2100,13 @@ class seller_student extends Controller
         $old_value = trim($this->get_in_str_val('old_value', ''));
         $origin_level = $this->get_in_int_val('origin_level');
 
-        $db_value= $this->t_origin_key-> get_origin_key_value ($key1, $key2,$key3,$key4 );
+        $db_value= $this->t_origin_key-> get_origin_key_value ($key1, $key2,$key3,$key4,$key0 );
         if ($db_value !=  $old_value ) {
-            return $this->output_err("$key1, $key2,$key3,$key4 => 已经绑定到 $db_value, 换个key4试试");
+            return $this->output_err("$key0,$key1, $key2,$key3,$key4 => 已经绑定到 $db_value, 换个key4试试");
         }
 
 
-        $ret_info=$this->t_origin_key->edit_origin_key($old_value, $key1, $key2, $key3, $key4, $value,$origin_level);
+        $ret_info=$this->t_origin_key->edit_origin_key($old_value, $key1, $key2, $key3, $key4, $value,$origin_level,$key0);
 
         return $this->output_succ();
 
