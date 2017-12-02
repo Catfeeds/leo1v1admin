@@ -23,6 +23,8 @@ $(function(){
         }
     });
 
+    // alert(g_adminid);
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

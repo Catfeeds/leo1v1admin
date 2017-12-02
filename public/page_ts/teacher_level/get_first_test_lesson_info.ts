@@ -393,7 +393,6 @@ $(function(){
                     id_score.parent().parent().hide();  
                     id_no_tea_score.parent().parent().hide();  
                     id_jkqk.parent().parent().hide();  
-                    id_sshd.parent().parent().hide();  
                     id_rjcz.parent().parent().hide();  
                     
                 }else{
@@ -409,7 +408,6 @@ $(function(){
                     id_score.parent().parent().show();  
                     id_no_tea_score.parent().parent().show();  
                     id_jkqk.parent().parent().show();  
-                    id_sshd.parent().parent().show();  
                     id_rjcz.parent().parent().show();  
  
                 }

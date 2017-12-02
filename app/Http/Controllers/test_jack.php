@@ -637,6 +637,10 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $start_time = strtotime("2017-11-01");
+        $end_time = strtotime("2017-12-01");
+        $list = $this->t_order_info->get_order_info_del($start_time,$end_time);
+        dd($list);
 
         $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
         $i=2;

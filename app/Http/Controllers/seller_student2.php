@@ -154,7 +154,7 @@ class seller_student2 extends Controller
         $open_flag = $this->get_in_int_val('open_flag',2);
         $need_spec_require_flag = $this->get_in_int_val('need_spec_require_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
-        $power_value =  $this->get_in_int_val('power_value',null);
+        $power_value =  $this->get_in_int_val('power_value',50);
 
 
         $ret = $this->t_order_activity_config->row_insert([
