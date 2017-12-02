@@ -30,7 +30,10 @@ $(function(){
 
     if(g_account_role == 12 || g_account_role == 10){ // 产品和研发 可以看法权限
         $(".opt-power").show();
+        console.log('g_account_role');
     }
+
+    console.log(g_account_role);
 
 
     $( "#id_user_info" ).autocomplete({
