@@ -73,7 +73,6 @@ class reset_lesson_online_user_status extends Command
             $lesson_type = $item["lesson_type"];
             $check_time  = $item["lesson_start"]+30*60;
 
-
             /**
              * @ 试听课如果不是[顺利完成] 或者 [正常上课] 则直接判定无效课程 [叶老师]
              **/
@@ -83,12 +82,10 @@ class reset_lesson_online_user_status extends Command
             }
 
             if($is_fail == 1){
-                // $this->task->t_lesson_info->field_update_list($lessonid,[
-                //     "lesson_user_online_status" => 2,
-                //     "lesson_login_status" =>  0,
-                // ]);
-                echo 1;
-
+                $this->task->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_user_online_status" => 2,
+                    "lesson_login_status" =>  0,
+                ]);
             }else{
                 list($tea_logintime ,$check_teacher_online_flag) =$this->task->t_lesson_opt_log->check_online_flag($lessonid,$teacherid, $check_time );
 
@@ -101,16 +98,14 @@ class reset_lesson_online_user_status extends Command
                     //优学优享
                     $agent_id= $this->task->t_agent->get_agentid_by_userid($studentid);
                     if ($agent_id) {
-                        echo 2;
-                        // dispatch( new \App\Jobs\agent_reset($agent_id) );
+                        dispatch( new \App\Jobs\agent_reset($agent_id) );
                     }
                 }
 
-                echo 3;
-                // $this->task->t_lesson_info->field_update_list($lessonid,[
-                //     "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
-                //     "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
-                // ]);
+                $this->task->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_user_online_status" =>  $lesson_online_user_status ? 1:2  ,
+                    "lesson_login_status" =>  $lesson_login_flag? 1:2  ,
+                ]);
             }
 
         }

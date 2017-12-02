@@ -69,6 +69,10 @@ $(function(){
         });
     });
 
+    if(g_args.g_adminid==780 || g_args.g_adminid==895){
+        download_show();
+    }
+
 
     function initPicker(obj)
     {

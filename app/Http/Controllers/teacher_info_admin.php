@@ -72,9 +72,9 @@ class teacher_info_admin extends Controller
     {
         $teacherid     = $this->teacherid;
         $free_time_new = $this->t_teacher_freetime_for_week->get_free_time_new($teacherid);
-        $date_week   = \App\Helper\Utils::get_week_range(time(),1);
-        $start_time = $date_week["sdate"];
-        $end_time = $start_time + 21*86400;
+        $date_week     = \App\Helper\Utils::get_week_range(time(),1);
+        $start_time    = $date_week["sdate"];
+        $end_time      = $start_time + 21*86400;
         $test_lesson_list = $this->t_lesson_info->get_teacher_week_test_lesson_info($teacherid,$start_time,$end_time);
         foreach($test_lesson_list as &$val){
             $lesson_start = $val["lesson_start"];

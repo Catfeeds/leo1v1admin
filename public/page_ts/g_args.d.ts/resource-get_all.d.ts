@@ -6,6 +6,7 @@ interface GargsStatic {
 	tag_one:	number;
 	tag_two:	number;
 	tag_three:	number;
+	tag_four:	number;
 	file_title:	string;
 	page_num:	number;
 	page_count:	number;
@@ -23,14 +24,31 @@ interface RowData {
 	file_title	:any;
 	file_size	:any;
 	file_type	:any;
+	error_num	:any;
+	use_type	:any;
+	file_hash	:any;
+	subject	:any;
+	grade	:any;
+	tag_one	:any;
+	tag_two	:any;
+	tag_three	:any;
+	tag_four	:any;
+	file_link	:any;
+	file_id	:any;
+	file_use_type	:any;
 	update_time	:any;
 	edit_adminid	:any;
-	down_num	:any;
-	error_num	:any;
-	is_use	:any;
-	user_type	:any;
 	nick	:any;
-	is_use_str	:any;
+	tag_one_name	:any;
+	tag_two_name	:any;
+	tag_three_name	:any;
+	tag_four_name	:any;
+	subject_str	:any;
+	grade_str	:any;
+	resource_type_str	:any;
+	tag_one_str	:any;
+	tag_two_str	:any;
+	tag_three_str	:any;
 }
 
 /*
@@ -51,6 +69,7 @@ function load_data(){
 		tag_one:	$('#id_tag_one').val(),
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
+		tag_four:	$('#id_tag_four').val(),
 		file_title:	$('#id_file_title').val()
     });
 }
@@ -64,6 +83,7 @@ $(function(){
 	$('#id_tag_one').val(g_args.tag_one);
 	$('#id_tag_two').val(g_args.tag_two);
 	$('#id_tag_three').val(g_args.tag_three);
+	$('#id_tag_four').val(g_args.tag_four);
 	$('#id_file_title').val(g_args.file_title);
 
 
@@ -121,6 +141,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">tag_three</span>
                 <input class="opt-change form-control" id="id_tag_three" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tag_four</span>
+                <input class="opt-change form-control" id="id_tag_four" />
             </div>
         </div>
 
