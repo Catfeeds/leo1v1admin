@@ -454,6 +454,92 @@ $(function(){
         BootstrapDialog.alert(url);
     });
 
+    $(".opt-set-teacher-label").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var tag_info = opt_data.tag_info;
+        console.log(tag_info);
+
+        $.do_ajax('/ajax_deal2/get_teacher_tag_info',{
+        },function(resp) {
+            var list = resp.data;
+            var teacher_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"professional_ability\"> </div><div>");
+            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂氛围:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
+             var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
+
+            $.each(list,function(i,item){
+                var str="";
+                $.each(item,function(ii,item_p){
+                    console.log(item_p);
+                    str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                });
+                if(i=="风格性格"){
+                    teacher_related_labels.find("#style_character").append(str);
+                }else if(i=="专业能力"){
+                     teacher_related_labels.find("#professional_ability").append(str);
+                }else if(i=="课堂氛围"){
+                    class_related_labels.find("#classroom_atmosphere").append(str);
+                }else if(i=="课件要求"){
+                     class_related_labels.find("#courseware_requirements").append(str);
+                }else if(i=="素质培养"){
+                     teaching_related_labels.find("#diathesis_cultivation").append(str);
+                }
+            });
+
+            console.log(teaching_related_labels);
+           
+            var arr = [
+                ["教师相关标签",teacher_related_labels],
+                ["课堂相关标签",class_related_labels],
+                ["教学相关标签",teaching_related_labels],
+            ];
+
+            $.show_key_value_table("标签", arr,{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+
+                    var style_character=[];
+                    teacher_related_labels.find("#style_character").find("input:checkbox[name='风格性格']:checked").each(function(i) {
+                        style_character.push($(this).val());
+                    });
+                    var professional_ability=[];
+                    teacher_related_labels.find("#professional_ability").find("input:checkbox[name='专业能力']:checked").each(function(i) {
+                        professional_ability.push($(this).val());
+                    });
+                    var classroom_atmosphere=[];
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂氛围']:checked").each(function(i) {
+                        classroom_atmosphere.push($(this).val());
+                    });
+                    var courseware_requirements=[];
+                    class_related_labels.find("#courseware_requirements").find("input:checkbox[name='课件要求']:checked").each(function(i) {
+                        courseware_requirements.push($(this).val());
+                    });
+                    var diathesis_cultivation=[];
+                    teaching_related_labels.find("#diathesis_cultivation").find("input:checkbox[name='素质培养']:checked").each(function(i) {
+                        diathesis_cultivation.push($(this).val());
+                    });
+                    if(courseware_requirements.length ==0 || style_character.length==0 || professional_ability.length==0 || classroom_atmosphere.length==0 || diathesis_cultivation.length==0){
+                        BootstrapDialog.alert("请填写标签内容");
+                        return ;
+
+                    }
+
+
+                    $.do_ajax("/ajax_deal2/set_teacher_tag_info",{
+                        "teacherid"                        : teacherid,                       
+                        "style_character"                  : JSON.stringify(style_character),
+                        "professional_ability"             : JSON.stringify(professional_ability),
+                        "classroom_atmosphere"             : JSON.stringify(classroom_atmosphere),
+                        "courseware_requirements"          : JSON.stringify(courseware_requirements),
+                        "diathesis_cultivation"            : JSON.stringify(diathesis_cultivation)
+                    });
+                }
+            });
+
+        });
+    });
+
     download_hide();
 
 });

@@ -76,7 +76,6 @@ $(function(){
 
     $(".opt-telphone").on("click",function(){
         //
-
         var opt_data= $(this).get_opt_data();
         var phone    = ""+ opt_data.phone;
         //opt_data.userid
@@ -142,6 +141,7 @@ $(function(){
         //
         $(me).parent().find(".opt-edit-new_new").click();
     });
+
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;

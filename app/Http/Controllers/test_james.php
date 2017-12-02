@@ -1215,17 +1215,26 @@ class test_james extends Controller
 
 
     public function get_check_data(){
-        $start_time = '1511971200';
-        $end_time = time();
+        $start_time = time();
+        $end_time   = $start_time+60;
 
-        $stu_list = $this->t_seller_edit_log->get_stu_list_tmp($start_time,$end_time);
-        $list = [];
+        $lesson_list = $this->t_lesson_info_b3->get_common_list($start_time,$end_time);
 
-        foreach($stu_list as $item){
-            $list[] = $this->t_seller_edit_log->get_first_uid_tmp($item['new'],$item['create_time']);
+        foreach($lesson_list as $i=>$item){
+            $not_first = $this->t_lesson_info_b3->check_not_first_lesson($item['userid'],$item['teacherid'],$item['subject'],$item['lesson_start']);
+
+            if($not_first == 1){
+                unset($lesson_list[$i]);
+            }
         }
 
-        dd($list);
+        foreach($lesson_list as &$item){
+            $item['lesson_count_str'] = $item['lesson_count']/100;
+            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+        }
+
+        dd($lesson_list);
     }
 
 

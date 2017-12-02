@@ -146,15 +146,13 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                
                                 <a   class=" btn fa  opt-set-self" title="">抢学生 </a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new" style="display: none"></a>
-                                <a title="手机拨打&录入回访信息" class="btn fa fa-phone  opt-telphone_new">测试请不要使用</a>
-                                <a title="查看回访" class="fa fa-comments show-in-select  opt-return-back-list"></a>
                                 @if(in_array($acc,["tom","sam",]))
-                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone   "></a>
-                                
+                                    <a title="手机拨打&录入回访信息" class="btn fa fa-phone opt-telphone_new">测试请不要使用</a>
                                 @endif
+                                <a title="查看回访" class="fa fa-comments show-in-select  opt-return-back-list"></a>
+                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone "></a>
                             </div>
                         </td>
                     </tr>

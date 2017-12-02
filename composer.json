@@ -22,7 +22,7 @@
         "classmap": [
             "database",
             "app/Libs/xmpp",
-            "app/Libs/Qiniu",
+            "app/Libs/Qiniu"
         ],
         "psr-4": {
             "App\\": "app/",

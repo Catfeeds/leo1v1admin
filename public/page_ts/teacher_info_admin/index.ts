@@ -26,6 +26,8 @@ $(function(){
         var id_advantage = $("<input >");
         var id_base_intro = $("<textarea />");
         var id_dialect_notes = $("<textarea />");
+        var id_teaching_achievement  = $("<textarea />");
+        var id_parent_student_evaluate = $("<textarea />");
         Enum_map.append_option_list("gender",id_gender,true);
         Enum_map.append_option_list("grade_part_ex",id_grade_part_ex,true);
         Enum_map.append_option_list("textbook_type",id_textbook_type,true);
@@ -50,6 +52,8 @@ $(function(){
             id_putonghua_is_correctly.val(resp.data.putonghua_is_correctly);
             id_dialect_notes.val(resp.data.dialect_notes);
             id_is_good_flag.val(resp.data.is_good_flag);
+            id_teaching_achievement.val(resp.data.teaching_achievement);
+            id_parent_student_evaluate.val(resp.data.parent_student_evaluate);
 
         });
 
@@ -78,6 +82,8 @@ $(function(){
             ["普通话是否标准",  id_putonghua_is_correctly] ,
             ["方言备注",  id_dialect_notes] ,
             ["教师介绍",  id_base_intro] ,
+            ["教学成果",  id_teaching_achievement] ,
+            ["家长/学生评价",  id_parent_student_evaluate] ,
         ];
         
         id_putonghua_is_correctly.on("change",function(){          
@@ -104,7 +110,9 @@ $(function(){
                     "advantage"              : id_advantage.val(),
                     "base_intro"             : id_base_intro.val(),
                     "putonghua_is_correctly" : id_putonghua_is_correctly.val(),
-                    "dialect_notes"          : id_dialect_notes.val()
+                    "dialect_notes"          : id_dialect_notes.val(),
+                    "teaching_achievement"   : id_teaching_achievement.val(),
+                    "parent_student_evaluate": id_parent_student_evaluate.val()
                 });
             }
         },function(){

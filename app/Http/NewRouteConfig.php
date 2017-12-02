@@ -405,6 +405,7 @@ class NewRouteConfig {
         "/stu_manage/return_record"            => true,
         "/stu_manage/set_subject"              => true,
         "/stu_manage/test_lesson_list"         => true,
+        "/seller_tongji/test"                  => true,
         "/stu_manage/regular_course_stu"       => true,
         "/stu_manage/user_login_list"          => true,
         "/stu_manage/one_three_grade_student"  => true,
