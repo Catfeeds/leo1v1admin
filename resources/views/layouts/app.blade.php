@@ -260,7 +260,9 @@
     </body>
         <script type="text/javascript">
             if(g_account=="jack" || g_account=="jim" || g_account=="adrian" ){
-                download_show();
+            download_show();
+            
+            $(".page-opt-show-all-xls").show();
             }
             </script>
 
