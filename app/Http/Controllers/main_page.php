@@ -31,11 +31,15 @@ class main_page extends Controller
         $server_map= $this->t_audio_record_server->get_server_map();
         $all_max_record_count=0;
 
+        $all_active_count=0;
         foreach ($record_server_list as &$s_item ) {
             $s_item["max_record_count"]= @$server_map[ $s_item["server"]]["max_record_count"];
+            $all_active_count+=$s_item["active_count"];
             $all_max_record_count+= $s_item["max_record_count"];
         }
-        $record_server_list[]=["max_record_count" => $all_max_record_count ];
+        $record_server_list[]=[
+            "max_record_count" => $all_max_record_count,
+            "active_count" => $all_active_count  ];
 
         foreach ($sms_list as &$item)  {
             E\Esms_type::set_item_value_str($item, "type");
