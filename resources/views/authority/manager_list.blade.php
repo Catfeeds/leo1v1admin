@@ -162,7 +162,7 @@
                                     <a href="javascript:;" title="设置角色" class="fa fa-venus-double set-account-role"></a>
                                     <a href="javascript:;" title="绑定微信账号" class="fa fa-link opt_set_openid"></a>
                                     <a href="javascript:;" title="更改员工状态" class="fa fa-trash-o  opt-del"></a>
-                                    <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power" ></a>
+                                    <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power" style="display:none"></a>
                                     <a href="javascript:;" title="用此账号登录" class="opt-login">登录</a>
                                     <a href="javascript:;" title="修改账号"
                                        class="fa fa-gears  opt-change-account"> </a>
