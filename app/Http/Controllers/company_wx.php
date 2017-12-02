@@ -161,7 +161,6 @@ class company_wx extends Controller
         $info[0]['open'] = true;
         $info[1]['open'] = true;
         $users = $this->t_company_wx_users->get_all_list();
-        dd($users);
         $ext['id'] = $id;
         $ext['type'] = $type;
         $tag = $this->t_company_wx_tag->get_all_department();
