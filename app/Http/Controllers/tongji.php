@@ -806,13 +806,16 @@ class tongji extends Controller
     }
 
     public function get_month_money_info(){
+        /*
         $year=$this->get_in_el_year(date('Y', time()));
         $start_time = $year[0].'-01-01 00:00:00';
         $end_time = date('Y-m-d 23:59:59', strtotime("$start_time +1 year -1day"));
         $end_time = strtotime($end_time);
-        $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
+        */
+        list( $start_time, $end_time)= $this->get_in_date_range_month(0);
+        $ret_list = $this->t_order_info->get_month_money_info($start_time, $end_time);
 
-        $lesson_list = $this->t_month_student_count->get_month_money_info(strtotime($start_time), $end_time);
+        $lesson_list = $this->t_month_student_count->get_month_money_info($start_time, $end_time);
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
             $now = date('Y-m', time());

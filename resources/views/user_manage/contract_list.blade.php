@@ -161,8 +161,7 @@
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
                     <span class="input-group-addon">活动</span>
-                    <select class="opt-change form-control" id="id_order_activity_type">
-                    </select>
+                    <input class="opt-change form-control" id="id_order_activity_type" />
                 </div>
             </div>
             <div class="col-xs-4 col-md-3">

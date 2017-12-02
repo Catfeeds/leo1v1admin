@@ -262,6 +262,20 @@ class seller_student2 extends Controller
         );
 
     }
+    //获取所有活动
+    public function get_all_activity(){
+        $id = $this->get_in_int_val('id',-1);
+        $open_flag = $this->get_in_int_val('open_flag',-1);
+        $title = $this->get_in_str_val('title');
+        $ret = $this->t_order_activity_config->get_all_activity($id,$open_flag,$title);
+        if($ret){
+            foreach($ret as &$item){
+                $item['open_flag_str'] = E\Eopen_flag::get_desc($item['open_flag']);
+            }
+        }
+        $ret_list  = \App\Helper\Utils::list_to_page_info($ret);
+        return $this->output_ajax_table($ret_list, [ "lru_list" => [] ]);
+    }
 
     //获取当前时间内所有有效活动
     public function get_current_activity(){
