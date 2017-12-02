@@ -4435,9 +4435,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     /**
      * 试听排课检测可上课时间
+     * @param string free_time  老师自己设置的空闲时间
      */
-    public function check_teacher_free_time_for_trial_lesson(){
-
+    public function check_teacher_free_time($free_time_new){
+        
     }
 
     public function get_teacher_tag_list(){
