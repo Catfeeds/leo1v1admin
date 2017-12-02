@@ -2142,6 +2142,17 @@ class user_manage_new extends Controller
         $opt_type = $this->get_in_str_val("opt_type","add") ;
         $this->t_manager_info->opt_group($uid,$opt_type,$groupid);
 
+        /**
+         * @ 产品部加 数据更改日志
+         */
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "权限管理页面,添加用户修改记录: [用户id:$uid,组别:$groupid]",
+            "user_log_type" => 4, //权限页面添加用户记录
+        ]);
+
+
         return $this->output_succ();
     }
 
@@ -2152,6 +2163,18 @@ class user_manage_new extends Controller
         $this->t_authority_group->field_update_list($groupid,[
             "group_authority" => $power_list_str,
         ]);
+
+        /**
+         * @ 产品部加 数据更改日志
+         */
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "权限管理页面,权限修改记录:$power_list_str",
+            "user_log_type" => 2, //权限页面修改记录
+        ]);
+
+
         return $this->output_succ();
     }
 
