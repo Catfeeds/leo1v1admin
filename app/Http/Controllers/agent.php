@@ -453,19 +453,14 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_info = $this->t_seller_level_month->get_all_list_new();
-        foreach($ret_info as $item){
-            $adminid = $item['adminid'];
-            $this_level = $item['seller_level'];
-            $become_member_time = $item['create_time'];
-            //入职小于2月,定级>D
-            if(time(null)-$become_member_time<60*3600*24 && $this_level>E\Eseller_level::V_500){
-                $month_level = E\Eseller_level::V_500;
-                $this->t_seller_level_month->field_update_list($adminid,[
-                    'seller_level'=>$month_level,
-                ]);
-            }
+        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1221);
+        $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
+        if($adminid == $get_self_adminid){
+            $is_group_leader_flag = 1;
+        }else{
+            $is_group_leader_flag = 0;
         }
+        dd($self_groupid,$is_group_leader_flag);
         // $account = '张植源';
         // $ret_info = $this->t_seller_student_new->get_item_list_new();
         // $ret = [];
