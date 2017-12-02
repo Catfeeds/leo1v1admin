@@ -13,37 +13,59 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	require_test_count_for_month	:any;
+	test_lesson_count_for_month	:any;
+	all_new_contract_for_month	:any;
+	all_price_for_month	:any;
 	main_type	:any;
+	first_group_name	:any;
 	up_group_name	:any;
 	group_name	:any;
 	account	:any;
 	main_type_class	:any;
+	first_group_name_class	:any;
 	up_group_name_class	:any;
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	become_member_time	:any;
+	leave_member_time	:any;
+	del_flag	:any;
+	suc_lesson_count_rate_all	:any;
 	main_type_str	:any;
-	lesson_target	:any;
+	seller_level_str	:any;
+	finish_per	:any;
+	finish_personal_per	:any;
+	duration_count_for_day	:any;
+	ave_price_for_month	:any;
+	los_money	:any;
+	los_personal_money	:any;
+	del_flag_str	:any;
+	become_member_num	:any;
+	leave_member_num	:any;
+	suc_lesson_count_rate	:any;
+	kpi	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage_new; vi  ../user_manage_new/assistant_admin_member_list.ts
+	 mkdir -p ../seller_tongji; vi  ../seller_tongji/month_tongji_report.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage_new-assistant_admin_member_list.d.ts" />
+/// <reference path="../g_args.d.ts/seller_tongji-month_tongji_report.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
