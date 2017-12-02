@@ -707,40 +707,6 @@ class test_james extends Controller
 
     }
 
-    public function jilu(){
-
-        $str="http://www.jb51.net";  //定义字符串
-        $result=urlencode($str);   //对指定字符串编码
-        echo $result;  //输出结果
-
-        header("Location:");
-
-        return;
-
-
-        $test = $this->get_in_int_val('test');
-
-        header("Loaction ");
-
-        if($test == 1){
-            // 存入数据库
-        }
-
-
-        /*
-
-
-
-
-
-
-
-
-         */
-
-        dd($test);
-    }
-
 
 
     public function power_group_edit() {
@@ -871,105 +837,6 @@ class test_james extends Controller
         }
         return $prize_type;
     }
-
-    public function cc(){
-        $now = '1510314240';
-        // $lesson_begin_five = $now-5*60;
-        // $lesson_end_five   = $now-4*60;
-
-        $lesson_begin_five = $now-15*60;
-        $lesson_end_five   = $now-14*60;
-        $common_lesson_list_five = $this->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
-
-
-
-        dd($common_lesson_list_five);
-
-    }
-
-    public function dd(){
-
-        $test = 3;
-        // $a = $this->t_test_lesson_subject_require->get_current_lessonid(63670);
-        // dd($a);
-        $now = time()-3600*10;
-        $test_list = $this->t_test_lesson_subject_require->get_test_list($now);
-
-        dd($test_list);
-
-
-        $t = $this->get_in_int_val('t');
-        $a = $this->t_lesson_info_b3->check_is_doing_test($t);
-
-        dd($a);
-        $ret = $this->t_teacher_info->get_unbound_teacher_list($now=0);
-        dd($ret);
-
-        $lesson_start = strtotime('+1 day',strtotime(date('Y-m-d')));
-        $lesson_end = $lesson_start+86400;
-
-
-
-        $teacherid = $this->get_in_int_val('t');
-
-
-        $par_lesson_list = $this->t_lesson_info_b3->get_parent_tomorrow_lesson_list($lesson_start, $lesson_end);
-        // $par_lesson_info = $this->t_lesson_info_b3->get_par_lesson_info($lesson_start, $lesson_end,$teacherid);
-
-        // dd($par_lesson_list);
-
-
-
-
-
-
-        $tea_lesson_list = $this->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
-
-        dd($tea_lesson_list);
-        $tea_lesson_info = $this->t_lesson_info_b3->get_tea_lesson_info($lesson_start, $lesson_end,$teacherid);
-
-
-        dd($tea_lesson_info);
-
-
-        $a = $this->t_lesson_info_b3->check_is_doing($t);
-
-        dd($a);
-        $a = [];
-        $now = time();
-        $late_time = $now-86400*2+15*60;
-        $late_lesson_info = $this->t_lesson_info_b3->get_late_lesson_info($late_time);
-
-        $lesson_begin_halfhour = $now+30*60;
-        $lesson_end_halfhour   = $now+31*60;
-        // 获取常规课 课前30分钟
-        $common_lesson_list_halfhour = $this->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
-
-
-        dd($common_lesson_list_halfhour);
-
-        dd(count($a));
-
-        $now = time();
-        $late_time = $now-86400*2-15*60;
-        $late_lesson_info = $this->t_lesson_info_b3->get_late_lesson_info($late_time);
-
-        dd($late_lesson_info);
-
-        $lesson_start = $this->get_in_int_val('s');
-        $lesson_end = $this->get_in_int_val('e');
-        $tea_lesson_list = $this->t_lesson_info_b3->get_teacher_tomorrow_lesson_list($lesson_start, $lesson_end);
-
-
-        dd($tea_lesson_list);
-
-        $now = strtotime('+1 day',strtotime(date('Y-m-d')));
-
-        dd($now);
-
-
-    }
-
 
 
 
@@ -1344,6 +1211,21 @@ class test_james extends Controller
         $is_fail = $this->t_lesson_info_b3->check_is_fail($lessonid,$lesson_type);
 
         dd($is_fail);
+    }
+
+
+    public function get_check_data(){
+        $start_time = '1511971200';
+        $end_time = time();
+
+        $stu_list = $this->t_seller_edit_log->get_stu_list_tmp($start_time,$end_time);
+        $list = [];
+
+        foreach($stu_list as $item){
+            $list[] = $this->t_seller_edit_log->get_first_uid_tmp($item['new'],$item['create_time']);
+        }
+
+        dd($list);
     }
 
 
