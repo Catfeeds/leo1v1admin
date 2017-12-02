@@ -2,6 +2,20 @@
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
 $(function(){
 
+
+    //判断是否是产品/研发
+
+    $.do_ajax("/user_deal/check_account_role",{
+        "account" : g_account,
+    },function(ret){
+        var flag = ret.data;
+        if(flag == 1){
+            $(".opt-power").show();
+        }
+    });
+
+
+
     var show_name_key="";
     show_name_key="account_name_"+g_adminid;
 
@@ -27,6 +41,8 @@ $(function(){
             adminid           :	$('#id_adminid').val()
         });
     }
+
+
     $( "#id_user_info" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
         minLength: 0,
@@ -383,6 +399,9 @@ $(function(){
 
     $(".opt-power").on("click",function(){
         var opt_data=$(this).get_opt_data();
+
+        // alert(g_adminid);
+
         // alert(opt_data.old_permission);
         var uid= opt_data.uid;
         var show_list=[];
@@ -869,5 +888,10 @@ $(function(){
     if(g_account=='龚隽'){
         download_show();
     }
+
+
+
+
+
 
 });

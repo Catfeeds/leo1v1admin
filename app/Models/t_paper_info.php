@@ -16,6 +16,7 @@ class t_paper_info extends \App\Models\Zgen\z_t_paper_info
         $where_arr = [
             ["paperid in (%s)",$paperid_str,""]
         ];
+
         $sql = $this->gen_sql_new("select paperid,paper_name,paper_url,paper_down "
                                   ." from %s "
                                   ." where %s"

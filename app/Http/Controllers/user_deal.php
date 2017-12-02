@@ -174,7 +174,7 @@ class user_deal extends Controller
         $default_lesson_count = 0;
 
         $lessonid = $this->t_lesson_info->add_lesson(
-            $item["courseid"],0,$item["userid"],0,$item["course_type"],$item["teacherid"],
+            $item["courseid"],0,$item["userid"],E\Efrom_type::V_0,$item["course_type"],$item["teacherid"],
             $item["assistantid"],0,0,$grade,$item["subject"],$default_lesson_count,
             $teacher_info["teacher_money_type"],$teacher_info["level"],
             $item["competition_flag"],2,$item['week_comment_num'],$item['enable_video']
@@ -622,10 +622,7 @@ class user_deal extends Controller
         // }else{
         //     $lesson_count= ceil($diff/40)*100 ;
         // }
-
-        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
-
-
+        $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start,$lesson_end);
 
         //百度分期用户首月排课限制
         /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
@@ -5990,5 +5987,12 @@ class user_deal extends Controller
 
         return $this->output_succ(['data'=>$reject_info]);
 
+    }
+
+
+    public function check_account_role(){
+        $account = $this->get_in_str_val('account');
+        $is_flag = $this->t_manager_info->get_account_role_by_account($account);
+        return $this->output_succ(['data'=>$is_flag]);
     }
 }

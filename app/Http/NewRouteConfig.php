@@ -425,6 +425,7 @@ class NewRouteConfig {
         "/seller_student2/get_activity_all_list"  => true,
         "/seller_student2/get_current_activity"  => true,
         "/seller_student2/update_power_value"  => true,
+        "/seller_student2/get_all_activity"  => true,
         "/test_bacon/power_group_edit"  => true,
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,

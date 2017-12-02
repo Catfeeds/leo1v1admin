@@ -220,7 +220,7 @@ class company_wx extends Controller
         //     }
         //     $info = array_merge($info, $people);
         // } else {
-        //     $info = array_merge($info,$users);
+             $info = array_merge($info,$users);
         // }
 
         //$info = $this->genTree($info, 0);

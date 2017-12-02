@@ -386,7 +386,7 @@ class human_resource extends Controller
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
         }
 
 
@@ -467,7 +467,7 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
-        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+        $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         // $diff=($lesson_end-$lesson_start)/60;
         // if(empty($lesson_count)){
@@ -559,7 +559,8 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
-        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+        $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
         // $diff=($lesson_end-$lesson_start)/60;
         // if(empty($lesson_count)){
         //     if ($diff<=40) {

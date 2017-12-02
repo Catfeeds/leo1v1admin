@@ -3090,11 +3090,7 @@ trait TeaPower {
     public function get_train_lesson_teacherid($subject,$grade,$lesson_start){
         $lesson_end = $lesson_start+1800;
         $week_day = date("w",$lesson_start);
-        if($week_day != 2){
-            $role_str = "9";
-        }else{
-            $role_str = "4,9";
-        }
+        $role_str = "9";
         $teacherid_list = $this->t_teacher_info->get_teacherid_by_role($role_str,$subject,$grade);
         $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list);
 
@@ -3865,7 +3861,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         }
 
@@ -4392,16 +4389,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
-    //根据课程开始以及结束时间来计算课时
-    public function get_lesson_count_by_lesson_time($start_time,$end_time){
-        $diff = $end_time-$start_time;
-        if($diff == 5400){
-            $lesson_count = 200;
-        }else{
-            $lesson_count = round($diff/2400,2)*100;
-        }
-        return $lesson_count;
-    }
 
     //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //老师张珍颖奥数 58812 所有都是75元/课时
@@ -4444,6 +4431,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    
+
+    /**
+     * 试听排课检测可上课时间
+     * @param string free_time  老师自己设置的空闲时间
+     */
+    public function check_teacher_free_time($free_time_new){
+        
+    }
 
     public function get_teacher_tag_list(){
         $arr=[
@@ -4462,15 +4458,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $list[$val["tag_l2_sort"]]=$rr;
         }
-
         return $list;
-    }
-
-
-    /**
-     * 试听排课检测可上课时间
-     */
-    public function check_teacher_free_time_for_trial_lesson(){
 
     }
 }

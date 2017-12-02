@@ -393,7 +393,6 @@ $(function(){
                     id_score.parent().parent().hide();  
                     id_no_tea_score.parent().parent().hide();  
                     id_jkqk.parent().parent().hide();  
-                    id_sshd.parent().parent().hide();  
                     id_rjcz.parent().parent().hide();  
                     
                 }else{
@@ -409,7 +408,6 @@ $(function(){
                     id_score.parent().parent().show();  
                     id_no_tea_score.parent().parent().show();  
                     id_jkqk.parent().parent().show();  
-                    id_sshd.parent().parent().show();  
                     id_rjcz.parent().parent().show();  
  
                 }
@@ -440,7 +438,7 @@ $(function(){
                     teaching_related_labels.find("#diathesis_cultivation").find("input:checkbox[name='素质培养']:checked").each(function(i) {
                         diathesis_cultivation.push($(this).val());
                     });
-                    if(courseware_requirements.length ==0 || style_character.length==0 || professional_ability.length==0 || classroom_atmosphere.length==0 || diathesis_cultivation.length==0){
+                    if((courseware_requirements.length ==0 || style_character.length==0 || professional_ability.length==0 || classroom_atmosphere.length==0 || diathesis_cultivation.length==0) && id_lesson_invalid_flag.val()==1){
                         BootstrapDialog.alert("请填写标签内容");
                         return ;
 
