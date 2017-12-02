@@ -110,7 +110,7 @@ class t_order_activity_config extends \App\Models\Zgen\z_t_order_activity_config
 
         $where_str=$this->where_str_gen( $where_arr);
 
-        $sql = $this->gen_sql("select * from %s where  %s order by power_value desc ,id desc ",
+        $sql = $this->gen_sql("select * from %s where  %s order by id desc ",
                               self::DB_TABLE_NAME,
                               [$where_str]
         );

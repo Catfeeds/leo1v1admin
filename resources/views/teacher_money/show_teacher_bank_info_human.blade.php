@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{$var['teacherid']}}</td>
                     <td>{{$var['nick']}}</td>
-                    <td>{{$var['subject']}}</td>
+                    <td>{{$var['subject_str']}}</td>
                     <td>{{$var['phone']}}</td>
                     <td>{{$var['bank_account']}}</td>
                     <td>{{$var['bankcard']}}</td>
