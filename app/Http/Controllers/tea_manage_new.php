@@ -980,22 +980,9 @@ class tea_manage_new extends Controller
 
 
         //老师标签
-        $arr=[
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
-            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
-        ];
-        $list=[];
-        foreach( $arr as $val){
-            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
-            $rr=[];
-            foreach($ret as $item){
-                $rr[]=$item["tag_name"];
-            }
-            $list[$val["tag_l2_sort"]]=$rr;
-        }
+        
+        $list = $this->get_teacher_tag_list();
+
 
         return $this->output_succ(["num"=>$num,"data"=>$list]);
     }

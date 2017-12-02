@@ -1701,6 +1701,13 @@ class human_resource extends Controller
         $sshd_good                          = $this->get_in_str_val("sshd_good");
         $not_grade                          = $this->get_in_str_val("not_grade");
         $acc                                = $this->get_account();
+        $new_tag_flag                     = $this->get_in_int_val("new_tag_flag",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+
         if($identity<=0){
             return $this->output_err("请选择老师身份！");
         }
@@ -1803,6 +1810,20 @@ class human_resource extends Controller
                 if($teacher_info['trial_lecture_is_pass']==1){
                     $notice_reference_flag = true;
                 }
+
+                if($new_tag_flag==0){
+                    $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
+                }elseif($new_tag_flag==1){
+                    $tea_tag_arr=[
+                        "style_character"=>$style_character,
+                        "professional_ability"=>$professional_ability,
+                        "classroom_atmosphere"=>$classroom_atmosphere,
+                        "courseware_requirements"=>$courseware_requirements,
+                        "diathesis_cultivation"=>$diathesis_cultivation,
+                    ];
+                    $this->set_teacher_label_new($teacher_info["teacherid"],0,"",$tea_tag_arr,3); 
+                }
+
                 $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("set teacher label_list");
                 $this->check_teacher_lecture_is_pass($teacher_info);
@@ -1833,7 +1854,19 @@ class human_resource extends Controller
                     return $this->output_err("生成老师失败！");
                 }
                 //老师标签
-                $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
+                if($new_tag_flag==0){
+                    $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
+                }elseif($new_tag_flag==1){
+                    $tea_tag_arr=[
+                        "style_character"=>$style_character,
+                        "professional_ability"=>$professional_ability,
+                        "classroom_atmosphere"=>$classroom_atmosphere,
+                        "courseware_requirements"=>$courseware_requirements,
+                        "diathesis_cultivation"=>$diathesis_cultivation,
+                    ];
+                    $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,3); 
+                }
+
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
             }
 
