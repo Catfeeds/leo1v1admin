@@ -57,13 +57,13 @@ class NoticeAssForFirstLesson extends Command
 
         //测试
 
-        $lesson_list[] = [
-            "lesson_count" => 150,
-            "lesson_start" => 1511971200,
-            "lesson_end"   => 1511978400,
-            "teacherid"    => 225427,
-            "subject"      => 3
-        ];
+        // $lesson_list[] = [
+        //     "lesson_count" => 150,
+        //     "lesson_start" => 1511971200,
+        //     "lesson_end"   => 1511978400,
+        //     "teacherid"    => 225427,
+        //     "subject"      => 3
+        // ];
 
 
         foreach($lesson_list as &$item){
@@ -82,7 +82,7 @@ class NoticeAssForFirstLesson extends Command
             $data = [
                 "first"    => '首次课后回访未设置',
                 "keyword1" => '首次课后回访',
-                "keyword2" => "课时信息:".$lesson_count_str."课时,上课时间:".date("Y-m-d H:i",$item['lesson_start'])." ~ ".date('H:is',$item['lesson_end']).", 科目:$subject_str , 老师:$tea_nick",
+                "keyword2" => "课时信息:".$lesson_count_str."课时,上课时间:".date("Y-m-d H:i",$item['lesson_start'])." ~ ".date('H:i',$item['lesson_end']).", 科目:$subject_str , 老师:$tea_nick",
                 "keyword3" => date('Y-m-d H:i:s'),
             ];
             $url = "";
