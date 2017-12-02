@@ -267,14 +267,17 @@ class seller_student2 extends Controller
         $id = $this->get_in_int_val('id',-1);
         $open_flag = $this->get_in_int_val('open_flag',-1);
         $title = $this->get_in_str_val('title');
-        $ret = $this->t_order_activity_config->get_all_activity($id,$open_flag,$title);
+        $page_num  = $this->get_in_page_num();
+        $ret  = \App\Helper\Utils::list_to_page_info([]);
+        $ret = $this->t_order_activity_config->get_all_activity($id,$open_flag,$title,$page_num);
+        
         if($ret){
-            foreach($ret as &$item){
+            foreach($ret['list'] as &$item){
                 $item['open_flag_str'] = E\Eopen_flag::get_desc($item['open_flag']);
             }
         }
-        $ret_list  = \App\Helper\Utils::list_to_page_info($ret);
-        return $this->output_ajax_table($ret_list, [ "lru_list" => [] ]);
+        
+        return $this->output_ajax_table($ret, [ "lru_list" => [] ]);
     }
 
     //获取当前时间内所有有效活动
