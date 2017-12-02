@@ -161,9 +161,10 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
 
 
     public function get_first_uid_tmp($new,$create_time){
-        $sql = $this->gen_sql_new("  select * from %s se "
-                                  ." where new=%d and create_time<%d and uid !=697"
+        $sql = $this->gen_sql_new("  select * from %s s left join %s m on m.uid=s.uid"
+                                  ." where new=%d and s.create_time<%d and s.uid !=697 and m.account_role=7 "
                                   ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$new
                                   ,$create_time
         );
