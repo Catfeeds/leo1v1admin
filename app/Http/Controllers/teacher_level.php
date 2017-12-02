@@ -1313,7 +1313,7 @@ class teacher_level extends Controller
                 "record_score"                     => $record_score,
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
-                "lesson_invalid_flag"              =>$lesson_invalid_flag,
+                "lesson_invalid_flag"              => $lesson_invalid_flag,
                 "userid"                           => $userid,
                 "train_type"                       => $train_type,
             ]);
@@ -1323,7 +1323,7 @@ class teacher_level extends Controller
         }
 
         //设置标签
-        if(empty($lesson_invalid_flag_old)){
+        if((empty($lesson_invalid_flag_old) || $lesson_invalid_flag_old==2) && $lesson_invalid_flag==1){
             if($new_tag_flag==0){
                 $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
             }elseif($new_tag_flag==1){
