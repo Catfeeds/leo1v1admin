@@ -3861,7 +3861,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         }
 
@@ -4388,6 +4389,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
+
     //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //老师张珍颖奥数 58812 所有都是75元/课时
     //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
@@ -4428,29 +4430,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $str;
         }
     }
-
-
-    public function get_teacher_tag_list(){
-        $arr=[
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
-            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
-        ];
-        $list=[];
-        foreach( $arr as $val){
-            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
-            $rr=[];
-            foreach($ret as $item){
-                $rr[]=$item["tag_name"];
-            }
-            $list[$val["tag_l2_sort"]]=$rr;
-        }
-
-        return $list;
-    }
-
 
     /**
      * 试听排课检测可上课时间
