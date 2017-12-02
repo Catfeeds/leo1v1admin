@@ -8,15 +8,10 @@ $(function(){
     $.do_ajax("/user_deal/check_account_role",{
         "account" : g_account,
     },function(ret){
-
-
-    // if(g_account_role == 12 || g_account_role == 10){ // 产品和研发 可以看法权限
-    //     $(".opt-power").show();
-    //     console.log('g_account_role');
-    // }
-
-    // console.log("角色:"+g_account_role);
-
+        var flag = ret.data;
+        if(flag == 1){
+            $(".opt-power").show();
+        }
     });
 
 
