@@ -495,6 +495,7 @@ class main_page extends Controller
         $week_2    = date('y-m-d 23:59:59',$next_week);
         $end_time = strtotime($week_2);
         //判断是不是助长
+        $no_order = [];
         $is_zuzhang = $this->t_admin_group_name->is_master($adminid);
         if ($is_zuzhang) {
             $no_order = $this->t_manager_info->get_no_order_list(1,$adminid,$month_start,$end_time);
@@ -524,7 +525,6 @@ class main_page extends Controller
             $is_sir = true;
             $no_order = $this->t_manager_info->get_no_order_list(4,$adminid,$month_start,$end_time);
         }
-
         if( $cur_time >= $next_week_2 && $cur_time < $next_week_2+86400 ) {//是节点
             $is_time = true;
         }
@@ -539,7 +539,6 @@ class main_page extends Controller
                 $force_flag = 'false';
             }
         }
-
 
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
@@ -695,8 +694,6 @@ class main_page extends Controller
 
 
         $half_week_info= $this->t_order_info->get_1v1_order_seller_list($hw_start_time,$hw_end_time, [-1],"limit 5" );
-
-
         foreach ($half_week_info["list"] as $key=> &$item) {
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
         }
@@ -724,7 +721,6 @@ class main_page extends Controller
         $self_top_info[14]["value"] = isset($test_fail_info[14]["value"])?$test_fail_info[14]["value"]:0;
         $self_top_info[15]["value"] = isset($test_fail_info[15]["value"])?$test_fail_info[15]["value"]:0;
         $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
-
 
         //今日需回访
         $today = date('Y-m-d',time());
