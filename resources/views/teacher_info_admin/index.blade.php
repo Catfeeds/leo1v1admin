@@ -257,7 +257,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 col-md-12"  >
+                        <div class="col-xs-12 col-md-12"  style="display:none">
                             <div class="row">
                                 <div class="col-xs-6 col-md-2 row-td-field-name"  >
                                     <span >教学特长:</span>
@@ -269,7 +269,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 col-md-12"  >
+                        <div class="col-xs-12 col-md-12" style="display:none" >
                             <div class="row">
                                 <div class="col-xs-6 col-md-2 row-td-field-name"  >
                                     <span >教师介绍:</span>
@@ -281,10 +281,39 @@
                         </div>
                     </div>
 
+                    
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-2 row-td-field-name"  >
+                                    <span >教学成果:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-10  row-td-field-value">
+                                    <span  >{{@$tea_info["teaching_achievement"]}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-2 row-td-field-name"  >
+                                    <span >家长/学员评价:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-10  row-td-field-value">
+                                    <span  >{{@$tea_info["parent_student_evaluate"]}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
                     <div class="row">
                         <div class="col-xs-6 col-md-2  row-td-field-name"   > <span>操作:</span></div>
                         <div class="col-xs-6 col-md-10  row-td-field-value"  data-teacherid="{{@$tea_info['teacherid']}}">
-                            @if(in_array($account_role,[4,5]) || in_array($adminid,[72,349,186,74]))
+                            @if(in_array($account_role,[4,5]) || in_array($adminid,[72,349,186,74]) || $acc=="jim")
                             <button style="margin-left:10px" id="id_set_teacher" type="button" class="btn btn-warning" >修改资料</button>
                             <button style="margin-left:10px"  id="id_upload_quiz_analyse" type="button" class="btn btn-danger" >更改经典试题(图片)</button> 
                             <button style="margin-left:10px"  id="id_upload_jianli" type="button" class="btn btn-info" >上传简历</button>
