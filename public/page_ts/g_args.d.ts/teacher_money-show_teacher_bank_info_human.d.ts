@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -8,6 +10,21 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacherid	:any;
+	nick	:any;
+	subject	:any;
+	phone	:any;
+	bank_account	:any;
+	bankcard	:any;
+	bank_type	:any;
+	bank_province	:any;
+	bank_city	:any;
+	bank_address	:any;
+	bank_phone	:any;
+	idcard	:any;
+	bind_bankcard_time	:any;
+	bind_bankcard_time_str	:any;
+	subject_str	:any;
 }
 
 /*

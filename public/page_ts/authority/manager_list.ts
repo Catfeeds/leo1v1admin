@@ -27,6 +27,12 @@ $(function(){
             adminid           :	$('#id_adminid').val()
         });
     }
+
+    if(g_account_role == 12 || g_account_role == 10){ // 产品和研发 可以看法权限
+        $(".opt-power").show();
+    }
+
+
     $( "#id_user_info" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
         minLength: 0,
@@ -383,6 +389,9 @@ $(function(){
 
     $(".opt-power").on("click",function(){
         var opt_data=$(this).get_opt_data();
+
+        // alert(g_adminid);
+
         // alert(opt_data.old_permission);
         var uid= opt_data.uid;
         var show_list=[];
@@ -869,5 +878,6 @@ $(function(){
     if(g_account=='龚隽'){
         download_show();
     }
+
 
 });

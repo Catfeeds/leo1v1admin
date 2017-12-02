@@ -110,7 +110,7 @@ class t_phone_to_user extends \App\Models\Zgen\z_t_phone_to_user
     }
 
     public function get_userid_by_phone( $phone,$role=1) {
-        $sql=$this->gen_sql("select userid  from %s where phone like '%s%%' and role =%u "
+        $sql=$this->gen_sql("select userid  from %s where phone like '%s%%' and role =%u for update "
                             ,self::DB_TABLE_NAME
                             ,$phone
                             ,$role
