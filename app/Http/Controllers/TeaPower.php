@@ -4392,17 +4392,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
-    //根据课程开始以及结束时间来计算课时
-    public function get_lesson_count_by_lesson_time($start_time,$end_time){
-        $diff = $end_time-$start_time;
-        if($diff == 5400){
-            $lesson_count = 200;
-        }else{
-            $lesson_count = round($diff/2400,2)*100;
-        }
-        return $lesson_count;
-    }
-
     //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //老师张珍颖奥数 58812 所有都是75元/课时
     //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
