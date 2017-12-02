@@ -648,7 +648,7 @@ class test_jack  extends Controller
                 "lesson_time"    => $val["lesson_start"],
                 "lesson_style"   => $i,
                 "add_time"       => time(),
-                "userid"         => $userid
+                "userid"         => $val["userid"]
             ]);
             $i++;
  
