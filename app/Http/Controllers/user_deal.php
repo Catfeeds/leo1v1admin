@@ -4018,6 +4018,10 @@ class user_deal extends Controller
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201709", $adminid, $start_time, $end_time );
             break;
+        case "201710" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201710", $adminid, $start_time, $end_time );
+            break;
         default:
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
