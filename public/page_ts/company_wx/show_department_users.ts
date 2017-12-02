@@ -67,4 +67,11 @@ function zTreeOnClick(event, treeId, treeNode) {
 
 $(function(){
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+    // 刷新数据
+    $('#id_flush_data').on("click", function() {
+        $.do_ajax('/company_wx/', {
+            ''
+        });
+    });
 });

@@ -236,6 +236,7 @@ class authority extends Controller
          */
         $this->t_user_log->row_insert([
             "add_time" => time(),
+            "userid"   => $uid, //被修改人
             "adminid"  => $this->get_account_id(),
             "msg"      => "用户管理页面,权限修改记录:$permission",
             "user_log_type" => 3, //用户页面修改记录

@@ -1213,11 +1213,10 @@ class seller_student_new extends Controller
         $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
         $left_count = (30-$history_count)>0?30-$history_count:0;
         $acc= $this->get_account();
-        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info,[
             'left_count'=>$left_count,
-             "acc"  =>$acc
-            ]);
+            "acc"  =>$acc
+        ]);
     }
 
     public function get_free_seller_test_fail_list () {
