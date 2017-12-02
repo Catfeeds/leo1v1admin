@@ -9,6 +9,7 @@ use \App\Enums as E;
 
 class NoticeAssForFirstLesson extends Command
 {
+    use  CacheNick;
     /**
      * The name and signature of the console command.
      *
