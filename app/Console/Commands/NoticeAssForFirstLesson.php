@@ -9,7 +9,6 @@ use \App\Enums as E;
 
 class NoticeAssForFirstLesson extends Command
 {
-    use  CacheNick;
     /**
      * The name and signature of the console command.
      *
@@ -70,7 +69,7 @@ class NoticeAssForFirstLesson extends Command
         foreach($lesson_list as &$item){
             $lesson_count_str = $item['lesson_count']/100;
             $subject_str      = E\Esubject::get_desc($item['subject']);
-            $tea_nick         = $this->cache_get_teacher_nick($item['teacherid']);
+            $tea_nick         = $this->task->t_teacher_info->get_nick($item['teacherid']);
 
             /**
                {{first.DATA}}
