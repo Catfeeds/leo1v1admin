@@ -153,6 +153,7 @@
                     <td class="tea_textbook">教材版本</td>
                     <td class="tea_textbook" width="220px">冻结情况</td>
                     <td class="tea_textbook"  width="220px">限课情况</td>
+                    <td   width="220px">标签</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -199,6 +200,7 @@
                                 操作时间:{{$var["limit_plan_lesson_time_str"]}}<br>
                             @endif
                         </td>
+                        <td>{!! @$var["teacher_tags"] !!} </td>
 
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!} >
@@ -219,9 +221,9 @@
                                     <a class="fa-gavel opt-set-tmp-passwd div_show"  title="临时密码"></a>
                                     <a class="opt-old ">旧版</a>
                                 @endif
-                                @if($var["label_id"]==0)
+                                @if($var["label_id"]==0 && in_array($acc,["jim","jack"]))
                                     <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
-                                @elseif($var["label_id"]>0)
+                                @elseif($var["label_id"]>0  && in_array($acc,["jim","jack","林文彬"]))
                                     <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
                                 @endif
                             </div>

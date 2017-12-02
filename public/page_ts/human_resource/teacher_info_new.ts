@@ -468,10 +468,53 @@ $(function(){
              var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
 
             $.each(list,function(i,item){
+                console.log(i);
+                var ti="";
+                if(i=="风格性格"){
+                    var ti = "style_character";
+                }else if(i=="专业能力"){
+                     var ti = "professional_ability";
+                }else if(i=="课堂氛围"){
+                     var ti = "classroom_atmosphere";
+                }else if(i=="课件要求"){
+                     var ti = "courseware_requirements";
+                }else if(i=="素质培养"){
+                     var ti = "diathesis_cultivation";
+                }
+
                 var str="";
                 $.each(item,function(ii,item_p){
                     console.log(item_p);
-                    str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                    var check_flag=0;
+                    var check_again=0;
+                    $.each(tag_info,function(iii,item_po){
+                        console.log(item_po);
+                        if(iii==ti){
+                            check_flag=1;
+                        }
+                        var arr_item = JSON.parse(item_po);
+                        console.log(arr_item);
+                        $.each(arr_item,function(iy,item_poo){
+                            console.log(item_poo);
+                            if(item_poo==item_p){
+                                check_again=1;
+                            }
+                            
+                            
+
+                        });
+
+                       
+
+                    });
+                    
+                    console.log(check_flag);
+                    console.log(check_again);
+                    if(check_again==1 && check_flag==1){
+                        str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" checked /> "+item_p+"</label>";
+                    }else{
+                        str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                    }
                 });
                 if(i=="风格性格"){
                     teacher_related_labels.find("#style_character").append(str);
@@ -486,7 +529,7 @@ $(function(){
                 }
             });
 
-            console.log(teaching_related_labels);
+           // console.log(teaching_related_labels);
            
             var arr = [
                 ["教师相关标签",teacher_related_labels],
