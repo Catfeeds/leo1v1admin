@@ -3090,11 +3090,7 @@ trait TeaPower {
     public function get_train_lesson_teacherid($subject,$grade,$lesson_start){
         $lesson_end = $lesson_start+1800;
         $week_day = date("w",$lesson_start);
-        if($week_day != 2){
-            $role_str = "9";
-        }else{
-            $role_str = "4,9";
-        }
+        $role_str = "9";
         $teacherid_list = $this->t_teacher_info->get_teacherid_by_role($role_str,$subject,$grade);
         $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list);
 
