@@ -1326,8 +1326,20 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
                 }else{
-                    $order_activity_type= $item["order_activity_type"];
-                    $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $order_activity_type). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
+                    $order_activity_config = $item["order_activity_type"];
+                    $order_activity_type = $item["order_activity_type"];
+
+                    if($item["order_activity_type"] == 0){
+                        $order_activity_config = 1;
+                    }
+                    $ret = $this->t_order_activity_config->get_by_id($order_activity_config);
+
+                    $title = '';
+                    if($ret){
+                        $title = $ret['title'];
+                    }
+
+                    $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". $title. "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "

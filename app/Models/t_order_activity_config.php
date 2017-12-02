@@ -105,7 +105,7 @@ class t_order_activity_config extends \App\Models\Zgen\z_t_order_activity_config
             ['open_flag = %d',$open_flag,-1],
         ];
         if ($title) {
-            $where_arr[]=sprintf( "(title like '%s%%' )",$this->ensql($title));
+            $where_arr[]=sprintf( "title like '%s%%'",$this->ensql($title));
         }
 
         $where_str=$this->where_str_gen( $where_arr);
