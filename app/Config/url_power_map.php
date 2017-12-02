@@ -144,7 +144,7 @@ class url_power_map {
 			'/human_resource/teacher_info_new'	=>1042400,
 			'/human_resource/teacher_assess'	=>1042300,
 			'/human_resource/specialty'	=>1122200,
-			'/show_teacher_bank_info_human/index'	=>1043000,
+			'/teacher_money/show_teacher_bank_info_human'	=>1043000,
 			'/human_resource/teacher_meeting_info'	=>1042101,
 			'/human_resource/teacher_meeting_join_info'	=>1042102,
 			'/user_manage_new/tea_lesson_count_total_list'	=>1040501,
