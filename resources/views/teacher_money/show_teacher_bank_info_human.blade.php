@@ -22,7 +22,7 @@
             <td>绑卡时间</td>
         </thead>
         <tbody>
-            @foreach($info as $var)
+            @foreach($table_data_list as $var)
                 <tr>
                     <td>{{$var['teacherid']}}</td>
                     <td>{{$var['nick']}}</td>
