@@ -1738,6 +1738,7 @@ class seller_student_new extends Controller
 
         return $this->pageView(__METHOD__,$ret_info);
     }
+
     /**
      *个人中心-分享知识库
      *
@@ -1768,7 +1769,6 @@ class seller_student_new extends Controller
                 }
             }
         }
-        //return $this->output_succ(['list' => $list]);
         return $this->output_succ(['list' => []]);
     }
 }
