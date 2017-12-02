@@ -1363,6 +1363,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function register( $phone, $passwd, $reg_channel , $grade , $ip, $nick,  $region)
     {
+        $this->task->t_phone_to_user->start_transaction();
         $userid=$this->task->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);
         if($userid>0){
             return $userid;
@@ -1374,8 +1375,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }
         $ret = $this->task->t_phone_to_user->add($phone,E\Erole::V_STUDENT,$userid);
         if(!$ret){
+            $this->task->t_phone_to_user->rollback();
             return false;
         }
+        $this->task->t_phone_to_user->commit();
 
         $ret = $this->add_student($userid,$grade,$phone,$nick,$region);
         if(!$ret){
