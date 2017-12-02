@@ -453,7 +453,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1178);
+        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1221);
         $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
         if($adminid == $get_self_adminid){
             $is_group_leader_flag = 1;
