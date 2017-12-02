@@ -1267,6 +1267,7 @@ class teacher_level extends Controller
 
         //
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        $lesson_invalid_flag_old = $this->t_teacher_record_list->get_lesson_invalid_flag($id);
         $add_time = time();
         if($id>0){
             $ret = $this->t_teacher_record_list->field_update_list($id,[
@@ -1317,7 +1318,12 @@ class teacher_level extends Controller
                 "train_type"                       => $train_type,
             ]);
 
-            //设置标签
+           
+
+        }
+
+        //设置标签
+        if(empty($lesson_invalid_flag_old)){
             if($new_tag_flag==0){
                 $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
             }elseif($new_tag_flag==1){
@@ -1330,9 +1336,8 @@ class teacher_level extends Controller
                 ];
                 $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2); 
             }
-
-
         }
+
 
         $this->t_teacher_info->field_update_list($teacherid,["is_record_flag"=>1]);
 
