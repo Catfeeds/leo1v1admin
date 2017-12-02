@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
