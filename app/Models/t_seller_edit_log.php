@@ -26,7 +26,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
 
     public function get_all_list_new($uid){
         $where_arr = [];
-        $this->where_arr_add_int_or_idlist($where_arr, $field_name,[E\Eseller_edit_log_type::V_1,E\Eseller_edit_log_type::V_2]);
+        $this->where_arr_add_int_or_idlist($where_arr,'type',[E\Eseller_edit_log_type::V_1,E\Eseller_edit_log_type::V_2]);
         if($uid){
             $this->where_arr_add_int_or_idlist($where_arr,'uid',$uid);
         }
