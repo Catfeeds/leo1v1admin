@@ -5988,4 +5988,11 @@ class user_deal extends Controller
         return $this->output_succ(['data'=>$reject_info]);
 
     }
+
+
+    public function check_account_role(){
+        $account = $this->get_in_str_val('account');
+        $is_flag = $this->t_manager_info->get_account_role_by_account($account);
+        return $this->output_succ(['data'=>$is_flag]);
+    }
 }
