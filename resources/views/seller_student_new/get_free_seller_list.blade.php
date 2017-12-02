@@ -713,10 +713,7 @@
                             <select id="id_stu_test_ipad_flag" class=" form-control "   >
                             </select>
                         </div>
-
                     </div>
-
-                   
 
                 </div>
             </div>
@@ -756,13 +753,6 @@
                         </div>
 
                     </div>
-
-                    
-
-
-                    
-                    
-
                 </div>
             </div>
 
