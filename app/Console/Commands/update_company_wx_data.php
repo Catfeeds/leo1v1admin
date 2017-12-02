@@ -178,6 +178,7 @@ class update_company_wx_data extends Command
                 }
                 $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
                 $tag_d_u = $this->get_company_wx_data($url);
+                var_dump($tag_d_u);
                 $department = $tag_d_u['partylist'];
                 foreach($department as $val) {
                     if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { // 添加标签部门数据
