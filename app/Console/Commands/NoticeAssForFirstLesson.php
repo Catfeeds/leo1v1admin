@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Helper\WxSendMsg;
+use \App\Enums as E;
 
 class NoticeAssForFirstLesson extends Command
 {
