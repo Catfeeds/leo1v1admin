@@ -4329,4 +4329,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_order_info_del($start_time,$end_time){
+        $where_arr = [
+            "o.contract_type =0",
+            "o.contract_status=0",
+            "s.is_test_user=0",
+            "o.check_money_flag =0"
+        ];
+        $this->where_arr_add_time_range($where_arr, "order_time", $start_time, $end_time);
+        $sql = $this->gen_sql_new("select o.orderid,o.price"
+                                  ." from %s o left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }
