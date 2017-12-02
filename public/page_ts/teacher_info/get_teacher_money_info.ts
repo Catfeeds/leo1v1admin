@@ -44,7 +44,7 @@ $(function(){
             }
         }
         loop_num=Math.ceil(loop_num);
-        // console.log(month_info);
+        console.log(month_info);
         while (num < check_num)
         {
             if(loop_num>= 0) {
