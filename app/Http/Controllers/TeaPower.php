@@ -3861,7 +3861,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         }
 
