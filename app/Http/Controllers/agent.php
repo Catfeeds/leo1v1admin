@@ -453,14 +453,14 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1178);
+        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1221);
         $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
         if($adminid == $get_self_adminid){
             $is_group_leader_flag = 1;
         }else{
             $is_group_leader_flag = 0;
         }
-        dd($is_group_leader_flag);
+        dd($self_groupid,$is_group_leader_flag);
         // $account = '张植源';
         // $ret_info = $this->t_seller_student_new->get_item_list_new();
         // $ret = [];
