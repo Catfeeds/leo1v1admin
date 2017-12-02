@@ -4271,9 +4271,18 @@ class human_resource extends Controller
         }
 
         $acc = $this->get_account();
+
+        //检查是否教务组长
+        $is_master_flag_jw = $this->t_admin_group_name->check_is_master(3,$this->get_account_id());
+        if($is_master_flag_jw==1 || in_array($acc,["jack","jim","CoCo老师","孙瞿"])){
+            $is_master_flag_jw=1;
+        }
+
+
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,
-            "account_role" => $this->get_account_role()
+            "account_role" => $this->get_account_role(),
+            "is_master_flag_jw" =>$is_master_flag_jw 
         ]);
     }
 

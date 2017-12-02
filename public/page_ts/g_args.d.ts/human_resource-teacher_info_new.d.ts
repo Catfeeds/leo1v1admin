@@ -190,6 +190,12 @@ interface RowData {
 	phone_location	:any;
 	sleep_flag	:any;
 	free_time	:any;
+	bind_bankcard_time	:any;
+	age	:any;
+	teaching_achievement	:any;
+	parent_student_evaluate	:any;
+	label_id	:any;
+	tag_info	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
@@ -199,7 +205,6 @@ interface RowData {
 	grade_start_str	:any;
 	grade_end_str	:any;
 	identity_str	:any;
-	age	:any;
 	level_str	:any;
 	teacher_money_type_str	:any;
 	textbook_type_str	:any;

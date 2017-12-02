@@ -42,6 +42,39 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
              
+        //临时数据
+        $start_time = strtotime("2017-01-01");
+        $end_time   = time();
+        $test_person_num_total= $task->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",1,-1,-1,1,-1);
+        //
+       
+
+        $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",1,-1,-1,1,-1);
+        $total_arr=[];
+       
+        $total_arr["success_lesson"] =  $success_test_lesson_list_total["success_lesson"];
+       
+        $total_arr["test_person_num"] =  $test_person_num_total["person_num"];//
+        $total_arr["have_order"] = $test_person_num_total["have_order"];//
+        //
+       
+        $total_arr["order_number"] = $success_test_lesson_list_total["order_number"];
+
+     
+
+        $total_arr["order_num_per"] = !empty($total_arr["test_person_num"])?round($total_arr["have_order"]/$total_arr["test_person_num"],4)*100:0;
+        //
+       
+
+        $total_arr["order_per"]   = !empty($total_arr["success_lesson"])?round($total_arr["order_number"]/$total_arr["success_lesson"],4)*100:0;
+        echo "success_lesson".$total_arr["success_lesson"]."<br>";
+        echo "order_number".$total_arr["order_number"]."<br>";
+        echo "order_per".$total_arr["order_per"]."<br>";
+        echo "test_person_num".$total_arr["test_person_num"]."<br>";
+        echo "have_order".$total_arr["have_order"]."<br>";
+        echo "order_num_per".$total_arr["order_num_per"]."<br>";
+        dd(1111);
+
 
         
 

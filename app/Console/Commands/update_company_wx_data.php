@@ -66,9 +66,9 @@ class update_company_wx_data extends Command
         $tag_users = $task->t_company_wx_tag_users->get_all_list();
 
         foreach ($info as $item) {
+            $item['power'] = '';
             if ($item['isleader'] == 1) { // 领导
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
-                $perm .= ','.$item['power'];
                 $parent = $this->get_parent_node($department, $item['department']);
                 $parent = explode("-", $parent);
                 $tag_d = [];
@@ -77,8 +77,15 @@ class update_company_wx_data extends Command
                 }
                 if ($tag_d) {
                     foreach($tag_d as $val) {
+
                         foreach($val as $v) {
-                            $perm .= ','.$tag[$v]['no_leader_power'];
+                            if ($tag[$v]['no_leader_power']) {
+                                if ($perm) {
+                                    $perm .= ','.$tag[$v]['no_leader_power'].',';
+                                } else {
+                                    $perm .= $tag[$v]['no_leader_power'].',';
+                                }
+                            }
                         }
                     }
                 }
@@ -96,13 +103,17 @@ class update_company_wx_data extends Command
             } else {
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['not_leader_power'];
             }
-            $perm = explode(',', $perm);
-            array_unique($perm);
-            $perm = implode(',', $perm);
-            $task->t_manager_info->field_update_list($item['uid'], [
-                'power' => $perm
-            ]);
-            echo 'uid: '.$item['uid'].'添加成功 添加权限:'.$perm.PHP_EOL;
+            if ($perm) {
+                if ($item['power']) $perm = $item['power'].',';
+                $perm = substr($perm,0,-1);
+                $perm = explode(',', $perm);
+                array_unique($perm);
+                $perm = implode(',', $perm);
+                $task->t_manager_info->field_update_list($item['uid'], [
+                    'power' => $perm
+                ]);
+                echo 'uid: '.$item['uid'].'添加成功 添加权限:'.$perm.PHP_EOL;
+            }
         }
     }
 

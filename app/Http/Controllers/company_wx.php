@@ -220,7 +220,7 @@ class company_wx extends Controller
         //     }
         //     $info = array_merge($info, $people);
         // } else {
-             $info = array_merge($info,$users);
+        //     $info = array_merge($info,$users);
         // }
 
         //$info = $this->genTree($info, 0);
@@ -392,5 +392,13 @@ class company_wx extends Controller
             }
         }
         return $tree;
+    }
+
+    public function flush_company_wx_data() {
+        $acc = $this->get_account();
+         
+        //exec($command, $output)
+        //$this->dispatch(new UpdateCompanyWxData($acc));
+        //return $this->output_succ();
     }
 }
