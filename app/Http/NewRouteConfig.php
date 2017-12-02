@@ -52,6 +52,7 @@ class NewRouteConfig {
         "test_lesson_opt"=>true,
         "rule_txt"=>true,
         "resource"=>true,
+        'test_bacon'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -64,11 +65,16 @@ class NewRouteConfig {
         "/resource/update_stu_hash"     => true,
         "/resource/reupload_resource"   => true,
         "/resource/rename_resource"     => true,
+        "/resource/restore_resource"    => true,
         "/resource/del_resource"        => true,
+        "/resource/add_file"            => true,
         "/resource/add_resource"        => true,
         "/resource/get_all"             => true,
-        "/rule_txt/add_or_update_name"            => true,
-        "/rule_txt/process_info"                  => true,
+        "/resource/get_del"             => true,
+        "/resource/resource_frame"      => true,
+        "/resource/get_list_by_resource_id_js" => true,
+        "/rule_txt/add_or_update_name"         => true,
+        "/rule_txt/process_info"               => true,
         "/rule_txt/update_process"                => true,
         "/rule_txt/get_all"                       => true,
         "/rule_txt/add_or_update_title"           => true,
@@ -419,7 +425,7 @@ class NewRouteConfig {
         "/seller_student2/get_activity_all_list"  => true,
         "/seller_student2/get_current_activity"  => true,
         "/seller_student2/update_power_value"  => true,
-        
+        "/test_bacon/power_group_edit"  => true,
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,

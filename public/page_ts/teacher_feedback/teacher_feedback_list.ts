@@ -332,6 +332,7 @@ $(function(){
 		            cssClass : "btn-warning",
 		            action   : function(dialog) {
                     $.do_ajax("/teacher_money/add_teacher_reward",{
+                        'add_time'   : data.lesson_time,
                         "money_info" : data.lessonid,
                         "type"       : 3,
                         "teacherid"  : data.teacherid

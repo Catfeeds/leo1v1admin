@@ -219,27 +219,51 @@ trait TeaPower {
             }
 
 
-            $style_character = @$tea_tag_arr["style_character"];
-            $professional_ability= @$tea_tag_arr["professional_ability"];
-            $classroom_atmosphere= @$tea_tag_arr["classroom_atmosphere"];
-            $courseware_requirements= @$tea_tag_arr["courseware_requirements"];
-            $diathesis_cultivation= @$tea_tag_arr["diathesis_cultivation"];
+            $style_character = json_decode(@$tea_tag_arr["style_character"],true);
+            $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
+            $classroom_atmosphere= json_decode(@$tea_tag_arr["classroom_atmosphere"],true);
+            $courseware_requirements= json_decode(@$tea_tag_arr["courseware_requirements"],true);
+            $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
             $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
             $teacher_tags_list = json_decode($teacher_tags_old,true);
             if(is_array($teacher_tags_list)){
                 
             }else{
                 $tag = trim($teacher_tags_list,",");
-                $arr = explode(",",$tag);
-                $teacher_tags_list=[];
-                foreach($arr as $val){
-                    $teacher_tags_list[$val]=1;
+                if($tag){
+                    $arr = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr as $val){
+                        $teacher_tags_list[$val]=1;
+                    }
+ 
+                }else{
+                    $teacher_tags_list=[];
                 }
             }
 
+            foreach($tea_tag_arr as $item){
+                $ret= json_decode($item,true);
+                if(is_array($ret)){
+                    foreach($ret as $val){
+                        if(isset($teacher_tags_list[$val])){
+                            $v = $teacher_tags_list[$val]+1;
+                        }else{
+                            $v = 1;
+                        }
+                        $teacher_tags_list[$val]=$v;
+                    }
+                }
+
+            }
+
+            $teacher_tags = json_encode($teacher_tags_list);
+            
+            
+
 
             $this->t_teacher_info->field_update_list($teacherid,[
-                "teacher_tags"  =>$teacher_tags_old
+                "teacher_tags"  =>$teacher_tags
             ]);
         }
     }
@@ -2337,19 +2361,10 @@ trait TeaPower {
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
+            //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $notice_flag = false;
-            }else{
-                $notice_flag = true;
+                $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid']);
             }
-
-            \App\Helper\Utils::logger(
-                " add_reference_price reference_info:".$reference_info['teacherid']
-                ." teacher_info: ".$teacher_info['teacherid']
-                ." notice_flag:".$notice_flag
-            );
-
-            $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid'],$notice_flag);
         }
     }
 
@@ -3075,11 +3090,7 @@ trait TeaPower {
     public function get_train_lesson_teacherid($subject,$grade,$lesson_start){
         $lesson_end = $lesson_start+1800;
         $week_day = date("w",$lesson_start);
-        if($week_day != 2){
-            $role_str = "9";
-        }else{
-            $role_str = "4,9";
-        }
+        $role_str = "9";
         $teacherid_list = $this->t_teacher_info->get_teacherid_by_role($role_str,$subject,$grade);
         $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list);
 
@@ -3850,7 +3861,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         }
 
@@ -4377,16 +4389,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
-    //根据课程开始以及结束时间来计算课时
-    public function get_lesson_count_by_lesson_time($start_time,$end_time){
-        $diff = $end_time-$start_time;
-        if($diff == 5400){
-            $lesson_count = 200;
-        }else{
-            $lesson_count = round($diff/2400,2)*100;
-        }
-        return $lesson_count;
-    }
 
     //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //老师张珍颖奥数 58812 所有都是75元/课时
@@ -4429,4 +4431,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    
+
+    /**
+     * 试听排课检测可上课时间
+     * @param string free_time  老师自己设置的空闲时间
+     */
+    public function check_teacher_free_time($free_time_new){
+        
+    }
+
+    public function get_teacher_tag_list(){
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+        return $list;
+
+    }
 }
