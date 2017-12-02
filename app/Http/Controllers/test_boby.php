@@ -213,6 +213,7 @@ class test_boby extends Controller
         $end_time  = strtotime('2017-08-01');
         $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
         $list  = $this->t_order_info->get_order_group_by_id(1, time());
+
         // $list = $this->t_order_info->get_phont_by_ip();
         // dd($list);
         $newarr = [];
