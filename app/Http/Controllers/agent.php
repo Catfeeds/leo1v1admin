@@ -460,7 +460,7 @@ class agent extends Controller
         }else{
             $is_group_leader_flag = 0;
         }
-        dd($is_group_leader_flag);
+        dd($self_groupid,$is_group_leader_flag);
         // $account = '张植源';
         // $ret_info = $this->t_seller_student_new->get_item_list_new();
         // $ret = [];
