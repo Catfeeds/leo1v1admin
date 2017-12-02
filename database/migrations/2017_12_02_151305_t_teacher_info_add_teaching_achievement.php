@@ -13,7 +13,7 @@ class TTeacherInfoAddTeachingAchievement extends Migration
     public function up()
     {
         //
-        Schema::table("db_weiyi.t_teaching_info", function(Blueprint $table) {
+        Schema::table("db_weiyi.t_teacher_info", function(Blueprint $table) {
             t_field($table->tinyInteger("age"), "年龄");
             t_field($table->text("teaching_achievement"), "教学成就");
             t_field($table->text("parent_student_evaluate"), "家长/学生评价");
