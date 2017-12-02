@@ -154,7 +154,7 @@ class seller_student2 extends Controller
         $open_flag = $this->get_in_int_val('open_flag',2);
         $need_spec_require_flag = $this->get_in_int_val('need_spec_require_flag',0);
         $order_activity_discount_type = $this->get_in_int_val('order_activity_discount_type',1);
-        $power_value =  $this->get_in_int_val('power_value',null);
+        $power_value =  $this->get_in_int_val('power_value',50);
 
 
         $ret = $this->t_order_activity_config->row_insert([
@@ -261,6 +261,23 @@ class seller_student2 extends Controller
                                ]
         );
 
+    }
+    //获取所有活动
+    public function get_all_activity(){
+        $id = $this->get_in_int_val('id',-1);
+        $open_flag = $this->get_in_int_val('open_flag',-1);
+        $title = $this->get_in_str_val('title');
+        $page_num  = $this->get_in_page_num();
+        $ret  = \App\Helper\Utils::list_to_page_info([]);
+        $ret = $this->t_order_activity_config->get_all_activity($id,$open_flag,$title,$page_num);
+        
+        if($ret){
+            foreach($ret['list'] as &$item){
+                $item['open_flag_str'] = E\Eopen_flag::get_desc($item['open_flag']);
+            }
+        }
+        
+        return $this->output_ajax_table($ret, [ "lru_list" => [] ]);
     }
 
     //获取当前时间内所有有效活动

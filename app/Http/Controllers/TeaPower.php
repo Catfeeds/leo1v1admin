@@ -192,79 +192,185 @@ trait TeaPower {
             $this->t_teacher_info->field_update_list($teacherid,[
                 "teacher_tags"  =>$str
             ]);
+
+
         }
     }
 
 
-    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin){
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1){
         $tag_info = json_encode($tea_tag_arr);
+        $style_character = json_decode(@$tea_tag_arr["style_character"],true);
+        $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
+        $classroom_atmosphere= json_decode(@$tea_tag_arr["classroom_atmosphere"],true);
+        $courseware_requirements= json_decode(@$tea_tag_arr["courseware_requirements"],true);
+        $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
+        $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
+        $teacher_tags_list = json_decode($teacher_tags_old,true);
+
         if(!empty($tag_info)){
-
-            $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
-            if($id>0 && $lessonid>0){
-                $this->t_teacher_label->field_update_list($id,[
-                    "add_time" =>time(),
-                    "label_origin"=>$label_origin,
-                    "tag_info"=>$tag_info
-                ]);
-            }else{
-                $this->t_teacher_label->row_insert([
-                    "teacherid"=>$teacherid,
-                    "add_time" =>time(),
-                    "label_origin"=>$label_origin,
-                    "lessonid"    =>$lessonid,
-                    "lesson_list"=>$lesson_list,
-                    "tea_label_type"=>$tag_info
-                ]);
-            }
-
-
-            $style_character = json_decode(@$tea_tag_arr["style_character"],true);
-            $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
-            $classroom_atmosphere= json_decode(@$tea_tag_arr["classroom_atmosphere"],true);
-            $courseware_requirements= json_decode(@$tea_tag_arr["courseware_requirements"],true);
-            $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
-            $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
-            $teacher_tags_list = json_decode($teacher_tags_old,true);
-            if(is_array($teacher_tags_list)){
-                
-            }else{
-                $tag = trim($teacher_tags_list,",");
-                if($tag){
-                    $arr = explode(",",$tag);
-                    $teacher_tags_list=[];
-                    foreach($arr as $val){
-                        $teacher_tags_list[$val]=1;
-                    }
- 
+            if($set_flag==1){
+                $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+                if($id>0 && $lessonid>0){
+                    $this->t_teacher_label->field_update_list($id,[
+                        "add_time" =>time(),
+                        "label_origin"=>$label_origin,
+                        "tag_info"=>$tag_info
+                    ]);
                 }else{
-                    $teacher_tags_list=[];
+                    $this->t_teacher_label->row_insert([
+                        "teacherid"=>$teacherid,
+                        "add_time" =>time(),
+                        "label_origin"=>$label_origin,
+                        "lessonid"    =>$lessonid,
+                        "lesson_list"=>$lesson_list,
+                        "tag_info"    =>$tag_info,
+                        "set_adminid"   =>$this->get_account_id(),
+                    ]);
                 }
-            }
-
-            foreach($tea_tag_arr as $item){
-                $ret= json_decode($item,true);
-                if(is_array($ret)){
-                    foreach($ret as $val){
-                        if(isset($teacher_tags_list[$val])){
-                            $v = $teacher_tags_list[$val]+1;
-                        }else{
-                            $v = 1;
+                if(is_array($teacher_tags_list)){
+                
+                }else{
+                    $tag = trim($teacher_tags_old,",");
+                    if($tag){
+                        $arr = explode(",",$tag);
+                        $teacher_tags_list=[];
+                        foreach($arr as $val){
+                            $teacher_tags_list[$val]=1;
                         }
-                        $teacher_tags_list[$val]=$v;
+ 
+                    }else{
+                        $teacher_tags_list=[];
                     }
                 }
 
+                foreach($tea_tag_arr as $item){
+                    $ret= json_decode($item,true);
+                    if(is_array($ret)){
+                        foreach($ret as $val){
+                            if(isset($teacher_tags_list[$val])){
+                                $v = $teacher_tags_list[$val]+1;
+                            }else{
+                                $v = 1;
+                            }
+                            $teacher_tags_list[$val]=$v;
+                        }
+                    }
+
+                }
+
+                $teacher_tags = json_encode($teacher_tags_list);
+                $this->t_teacher_info->field_update_list($teacherid,[
+                    "teacher_tags"  =>$teacher_tags
+                ]);
+
+
+            }elseif($set_flag==2){
+                            
+                $id = $this->t_teacher_label->check_label_exist_teacherid($teacherid);
+               
+
+                if($id>0){
+                    $old_tag = $this->t_teacher_label->get_tag_info($id);
+                    $this->t_teacher_label->field_update_list($id,[
+                        "add_time" =>time(),
+                        "tag_info"=>$tag_info,
+                        "set_adminid"   =>$this->get_account_id(),
+                    ]);
+
+                    $this->t_teacher_record_list->row_insert([
+                        "add_time"  =>time(),
+                        "teacherid"  =>$teacherid,
+                        "type"      =>15,
+                        "acc"       =>$this->get_account(),
+                        "record_info"=>$tag_info,
+                        "record_monitor_class"=>$old_tag
+                    ]);
+                    $old_tag_list = json_decode($old_tag,true);
+                    foreach($old_tag_list as $item){
+                        $ret= json_decode($item,true);
+                        if(is_array($ret)){
+                            foreach($ret as $val){
+                                if(isset($teacher_tags_list[$val])){
+                                    $v = $teacher_tags_list[$val]-1;
+                                    if($v<=0){
+                                        unset($teacher_tags_list[$val]);
+                                    }else{
+                                        $teacher_tags_list[$val]=$v; 
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                                      
+
+                    foreach($tea_tag_arr as $item){
+                        $ret= json_decode($item,true);
+                        if(is_array($ret)){
+                            foreach($ret as $val){
+                                if(isset($teacher_tags_list[$val])){
+                                    $v = $teacher_tags_list[$val]+1;
+                                }else{
+                                    $v = 1;
+                                }
+                                $teacher_tags_list[$val]=$v;
+                            }
+                        }
+
+                    }
+
+                    $teacher_tags = json_encode($teacher_tags_list);
+
+                }else{
+                    $this->t_teacher_label->row_insert([
+                        "teacherid"=>$teacherid,
+                        "add_time" =>time(),
+                        "label_origin"=>1000,
+                        "tag_info"    =>$tag_info,
+                        "set_adminid"   =>$this->get_account_id(),
+                    ]);
+                   
+                    if(is_array($teacher_tags_list)){
+                
+                    }else{
+                        $tag = trim($teacher_tags_old,",");
+                        if($tag){
+                            $arr = explode(",",$tag);
+                            $teacher_tags_list=[];
+                            foreach($arr as $val){
+                                $teacher_tags_list[$val]=1;
+                            }
+ 
+                        }else{
+                            $teacher_tags_list=[];
+                        }
+                    }
+
+                    foreach($tea_tag_arr as $item){
+                        $ret= json_decode($item,true);
+                        if(is_array($ret)){
+                            foreach($ret as $val){
+                                if(isset($teacher_tags_list[$val])){
+                                    $v = $teacher_tags_list[$val]+1;
+                                }else{
+                                    $v = 1;
+                                }
+                                $teacher_tags_list[$val]=$v;
+                            }
+                        }
+
+                    }
+
+                    $teacher_tags = json_encode($teacher_tags_list);
+
+                }
+                         
+                $this->t_teacher_info->field_update_list($teacherid,[
+                    "teacher_tags"  =>$teacher_tags
+                ]);
             }
-
-            $teacher_tags = json_encode($teacher_tags_list);
-            
-            
-
-
-            $this->t_teacher_info->field_update_list($teacherid,[
-                "teacher_tags"  =>$teacher_tags
-            ]);
         }
     }
 
@@ -914,6 +1020,7 @@ trait TeaPower {
                         return $this->output_err(
                             "请安排与老师年级段相符合的课程!"
                         );
+
                     }
                 }else if($grade>=300 ){
                     if($third_grade !=3 && $third_grade !=5){
@@ -3090,11 +3197,7 @@ trait TeaPower {
     public function get_train_lesson_teacherid($subject,$grade,$lesson_start){
         $lesson_end = $lesson_start+1800;
         $week_day = date("w",$lesson_start);
-        if($week_day != 2){
-            $role_str = "9";
-        }else{
-            $role_str = "4,9";
-        }
+        $role_str = "9";
         $teacherid_list = $this->t_teacher_info->get_teacherid_by_role($role_str,$subject,$grade);
         $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list);
 
@@ -3865,7 +3968,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         }
 
@@ -4392,16 +4496,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
-    //根据课程开始以及结束时间来计算课时
-    public function get_lesson_count_by_lesson_time($start_time,$end_time){
-        $diff = $end_time-$start_time;
-        if($diff == 5400){
-            $lesson_count = 200;
-        }else{
-            $lesson_count = round($diff/2400,2)*100;
-        }
-        return $lesson_count;
-    }
 
     //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //老师张珍颖奥数 58812 所有都是75元/课时
@@ -4444,4 +4538,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    
+
+    /**
+     * 试听排课检测可上课时间
+     * @param string free_time  老师自己设置的空闲时间
+     */
+    public function check_teacher_free_time($free_time_new){
+        
+    }
+
+    public function get_teacher_tag_list(){
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+        return $list;
+
+    }
 }

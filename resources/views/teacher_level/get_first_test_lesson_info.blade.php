@@ -83,23 +83,27 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                    <a class="opt-first-lesson-video" >视频</a>
-                                    <a class="opt-play-new" title="回放-new">回放-new</a>
-                                    <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
-                                    <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
-                                       data-type="leoedu://meeting.leoedu.com/meeting="
-                                       title="pad实时课程二维码" ></a>
-                                    <a class="btn fa fa-qrcode  opt-qr-pad "
-                                       data-type="leoedu://video.leoedu.com/video="
-                                       title="视频播放二维码" > </a>
+                                <a class="opt-first-lesson-video" >视频</a>
+                                <a class="opt-play-new" title="回放-new">回放-new</a>
+                                <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
+                                <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
+                                   data-type="leoedu://meeting.leoedu.com/meeting="
+                                   title="pad实时课程二维码" ></a>
+                                <a class="btn fa fa-qrcode  opt-qr-pad "
+                                   data-type="leoedu://video.leoedu.com/video="
+                                   title="视频播放二维码" > </a>
 
-                                    <a class="opt-first-lesson-record" >反馈</a>
-                                    @if($var["record_info"])
-                                        <a class="opt-first-lesson-record-list" >反馈详情</a>
-                                    @endif
-                                    @if(in_array($acc,["coco","jack","melody","wander","niki","seth","展慧东","CoCo老师","sam","孙瞿"]))
-                                        <a class="opt-reset-acc" >重置审核人</a>
-                                    @endif
+                                <a class="opt-first-lesson-record" >反馈</a>
+                                @if(in_array($acc,["jack","jim","林文彬"]))
+                                    <a class="opt-first-lesson-record-new" >反馈-new</a>
+                                @endif
+
+                                @if($var["record_info"])
+                                    <a class="opt-first-lesson-record-list" >反馈详情</a>
+                                @endif
+                                @if(in_array($acc,["coco","jack","melody","wander","niki","seth","展慧东","CoCo老师","sam","孙瞿"]))
+                                    <a class="opt-reset-acc" >重置审核人</a>
+                                @endif
 
 
                             </div>

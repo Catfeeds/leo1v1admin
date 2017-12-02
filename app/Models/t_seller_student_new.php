@@ -1030,7 +1030,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type) {
         if ( count($userid_list) ==0 ) {
             return false;
-        }
+      }
         $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
 
@@ -3156,6 +3156,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_last_revisit_time_by_phone($phone){
+        $sql = "select last_revisit_time from db_weiyi.t_seller_student_new where phone= $phone ";
+        return $this->main_get_value($sql);
     }
 
 }

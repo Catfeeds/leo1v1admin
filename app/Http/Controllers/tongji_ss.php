@@ -7965,7 +7965,9 @@ class tongji_ss extends Controller
             $show_all_flag=0;
         }
         
+        $this->switch_tongji_database();
         $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type,$show_all_flag );
+        $this->switch_tongji_database();
         $stu_num_all = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time,$teacher_money_type);
 
         // dd($ret_info);

@@ -718,5 +718,5 @@ $(function(){
     });
 
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });

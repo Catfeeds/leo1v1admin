@@ -453,31 +453,14 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $userid=$this->t_phone_to_user->get_userid_by_phone($phone='13514048977',E\Erole::V_STUDENT);
-        // dd($userid);
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        dd($seller_list);
-
-        $ret = $this->t_phone_to_user->add($phone='13514048977',E\Erole::V_STUDENT,$userid=447677);
-        dd($ret);
-        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time=time(null)))-1));
-        $row = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid=99,$month_date=1509465600);
-        if(!$row){
-            return $this->output_err('该定级已存在,不能重复添加');
-        }
-        dd($row);
-        $ret_info = $this->t_origin_key->get_all_key_list();
-        $key1_arr = array_unique(array_column($ret_info,'key1'));
-        $key2_arr = array_unique(array_column($ret_info,'key2'));
-        $key3_arr = array_unique(array_column($ret_info,'key3'));
-        $key4_arr = array_unique(array_column($ret_info,'key4'));
-        $array = array_merge($key1_arr,$key2_arr,$key3_arr,$key4_arr);
-        if(in_array('in生活',$array)){
-            dd('a');
+        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1221);
+        $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
+        if($adminid == $get_self_adminid){
+            $is_group_leader_flag = 1;
         }else{
-            dd('b');
+            $is_group_leader_flag = 0;
         }
+        dd($self_groupid,$is_group_leader_flag);
         // $account = '张植源';
         // $ret_info = $this->t_seller_student_new->get_item_list_new();
         // $ret = [];

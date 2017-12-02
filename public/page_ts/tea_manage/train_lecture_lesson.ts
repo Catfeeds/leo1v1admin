@@ -727,6 +727,273 @@ $(function(){
         });
     });
 
+    $(".opt-edit-pass").on("click",function(){
+        var data           = $(this).get_opt_data();
+        $.do_ajax('/ajax_deal2/get_teacher_tag_info',{
+        },function(resp) {
+            var list = resp.data;
+            var teacher_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"professional_ability\"> </div><div>");
+            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂氛围:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
+            var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
+
+            $.each(list,function(i,item){
+                var str="";
+                $.each(item,function(ii,item_p){
+                    console.log(item_p);
+                    str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                });
+                if(i=="风格性格"){
+                    teacher_related_labels.find("#style_character").append(str);
+                }else if(i=="专业能力"){
+                    teacher_related_labels.find("#professional_ability").append(str);
+                }else if(i=="课堂氛围"){
+                    class_related_labels.find("#classroom_atmosphere").append(str);
+                }else if(i=="课件要求"){
+                    class_related_labels.find("#courseware_requirements").append(str);
+                }else if(i=="素质培养"){
+                    teaching_related_labels.find("#diathesis_cultivation").append(str);
+                }
+            });
+
+
+
+            var id_lecture_content_design_score  =  $("<select class=\"class_score\" />");
+            var id_lecture_combined_score =  $("<select class=\"class_score\" />");
+            var id_teacher_point_explanation_score =  $("<select class=\"class_score\" />");
+            var id_teacher_dif_point_score =  $("<select class=\"class_score\" />");
+            var id_course_review_score  =  $("<select class=\"class_score\" />");
+            var id_teacher_mental_aura_score =  $("<select class=\"class_score\" />");
+            var id_teacher_class_atm_score  =  $("<select class=\"class_score\" />");
+            var id_teacher_explain_rhythm_score =  $("<select class=\"class_score\" />");
+            var id_teacher_blackboard_writing_score  =  $("<select class=\"class_score\" />");
+            var id_teacher_language_performance_score  =  $("<select class=\"class_score\" />");
+
+            var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"6\" />幽默风趣 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"7\" />生动活泼 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"8\" />循循善诱 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"9\" />细致耐心 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"10\" />考纲熟悉 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"11\" />善于互动</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"12\" />没有口音</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"13\" />经验丰富</label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"14\" />功底扎实</label> ");
+            var id_reason = $("<textarea/>");
+            var id_total_score = $("<input readonly /> ");
+            var id_res         = $("<select/>");
+            var flag_html      = "<option value='0'>不通过</option>"
+                +"<option value='1'>通过</option>"
+                +"<option value='2'>老师未到</option>";
+            id_res.append(flag_html);
+            var id_identity      = $("<select/>");
+            var id_work_year     = $("<input />");
+            var id_not_grade     = $("<div />");
+            var id_flag = $("<input />");
+            Enum_map.append_option_list("teacher_lecture_score",id_lecture_content_design_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_lecture_combined_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_point_explanation_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_dif_point_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_course_review_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_mental_aura_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_class_atm_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_explain_rhythm_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_blackboard_writing_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_teacher_language_performance_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("identity",id_identity,false,[5,6,7,8]);
+
+            var not_grade         = data.not_grade;
+            var grade_start       = data.grade_start;
+            var grade_end         = data.grade_end;
+            var trans_grade_start = data.trans_grade_start;
+            var trans_grade_end   = data.trans_grade_end;
+            var trans_grade       = data.trans_grade;
+            var identity          = data.teacher_type;
+            if(trans_grade>0){
+                grade_start = trans_grade_start;
+                grade_end   = trans_grade_end;
+            }
+
+            var id_not_grade_list = ["101","102","103","104","105","106","201","202","203","301","302","303"];
+            Enum_map.append_checkbox_list("grade",id_not_grade,"not_grade",id_not_grade_list);
+
+            var not_grade_arr=check_data_to_arr(not_grade,",");
+            id_identity.val(identity);
+
+            var arr = [
+                ["讲义内容设计", id_lecture_content_design_score],
+                ["讲练结合情况", id_lecture_combined_score],
+                ["知识点正确率", id_teacher_point_explanation_score],
+                ["重难点偏向性", id_teacher_dif_point_score],
+                ["课程回顾总结", id_course_review_score],
+                ["教师气场把控", id_teacher_mental_aura_score],
+                ["课堂氛围营造", id_teacher_class_atm_score],
+                ["教学节奏把握", id_teacher_explain_rhythm_score],
+                ["板书书写规范", id_teacher_blackboard_writing_score],
+                ["语言表达能力", id_teacher_language_performance_score],
+                ["总分",id_total_score],
+                ["结果",id_res],
+                ["原因或意见或建议",id_reason],
+                ["老师身份",id_identity],
+                ["工作年限",id_work_year],
+                ["禁止年级",id_not_grade],
+                ["教师相关标签",teacher_related_labels],
+                ["课堂相关标签",class_related_labels],
+                ["教学相关标签",teaching_related_labels],
+            ];
+            $.show_key_value_table("试听评价", arr,{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+                    var style_character=[];
+                    teacher_related_labels.find("#style_character").find("input:checkbox[name='风格性格']:checked").each(function(i) {
+                        style_character.push($(this).val());
+                    });
+                    var professional_ability=[];
+                    teacher_related_labels.find("#professional_ability").find("input:checkbox[name='专业能力']:checked").each(function(i) {
+                        professional_ability.push($(this).val());
+                    });
+                    var classroom_atmosphere=[];
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂氛围']:checked").each(function(i) {
+                        classroom_atmosphere.push($(this).val());
+                    });
+                    var courseware_requirements=[];
+                    class_related_labels.find("#courseware_requirements").find("input:checkbox[name='课件要求']:checked").each(function(i) {
+                        courseware_requirements.push($(this).val());
+                    });
+                    var diathesis_cultivation=[];
+                    teaching_related_labels.find("#diathesis_cultivation").find("input:checkbox[name='素质培养']:checked").each(function(i) {
+                        diathesis_cultivation.push($(this).val());
+                    });
+                    if(courseware_requirements.length ==0 || style_character.length==0 || professional_ability.length==0 || classroom_atmosphere.length==0 || diathesis_cultivation.length==0){
+                        BootstrapDialog.alert("请填写标签内容");
+                        return ;
+
+                    }
+
+                    var record_info = id_reason.val();
+                    if(record_info==""){
+                        BootstrapDialog.alert("请填写原因或意见或建议!");
+                        return ;
+                    }
+
+                    var not_grade = "";
+                    $("input[name='not_grade']:checked").each(function(){
+                        if(not_grade==""){
+                            not_grade = $(this).val();
+                        }else{
+                            not_grade += ","+$(this).val();
+                        }
+                    });
+
+                    $.do_ajax("/tea_manage/set_train_lecture_status_b2",{
+                        "teacherid"   : data.teacherid,
+                        "lessonid"    : data.lessonid,
+                        "phone"       : data.phone_spare,
+                        "flag"        : id_res.val(),
+                        "record_info" : id_reason.val(),
+                        "grade"       : data.grade,
+                        "subject"     : data.subject,
+                        "nick"        : data.nick,
+                        "account"     : data.account,
+                        "lecture_combined_score"             : id_lecture_combined_score.val(),
+                        "lecture_content_design_score"       : id_lecture_content_design_score.val(),
+                        "teacher_language_performance_score" : id_teacher_language_performance_score.val(),
+                        "teacher_explain_rhythm_score"       : id_teacher_explain_rhythm_score.val(),
+                        "teacher_point_explanation_score"    : id_teacher_point_explanation_score.val(),
+                        "course_review_score"                : id_course_review_score.val(),
+                        "teacher_mental_aura_score"          : id_teacher_mental_aura_score.val(),
+                        "teacher_dif_point_score"            : id_teacher_dif_point_score.val(),
+                        "teacher_class_atm_score"            : id_teacher_class_atm_score.val(),
+                        "teacher_blackboard_writing_score"   : id_teacher_blackboard_writing_score.val(),
+                        "total_score"                        : id_total_score.val(),
+                        "identity"                           : id_identity.val(),
+                        // "subject"                            : data.subject,
+                        // "grade"                              : data.grade,
+                        "not_grade"                          : not_grade,
+                        "work_year"                          : id_work_year.val(),
+                        "style_character"                  : JSON.stringify(style_character),
+                        "professional_ability"             : JSON.stringify(professional_ability),
+                        "classroom_atmosphere"             : JSON.stringify(classroom_atmosphere),
+                        "courseware_requirements"          : JSON.stringify(courseware_requirements),
+                        "diathesis_cultivation"            : JSON.stringify(diathesis_cultivation),
+                        "new_tag_flag" : 1
+                        // "not_grade"                          : not_grade,
+                       // "sshd_good"                          : JSON.stringify(sshd_good),
+                    },function(result){
+                        if(result.ret==-1){
+                            BootstrapDialog.alert(result.info);
+                        }else{
+                            window.location.reload();
+                        }
+                    });
+                }
+            },function(){
+                id_total_score.attr("placeholder","满分100分");
+                var check_not="";
+                if(not_grade_arr[0]){
+                    $.each(not_grade_arr,function(k,v){
+                        $("input[name='not_grade']").each(function(){
+                            check_not=$(this).val();
+                            if(check_not==v){
+                                $(this).attr("checked","true");
+                            }
+                        });
+                    });
+                }
+
+            });
+
+            //console.log(arr[0][1]);
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
+                id_total_score.val(parseInt(id_lecture_combined_score.val())+parseInt( id_lecture_content_design_score.val())+parseInt(id_teacher_language_performance_score.val())+parseInt(id_teacher_explain_rhythm_score.val())+parseInt(id_teacher_point_explanation_score.val())+parseInt(id_course_review_score.val())+parseInt(id_teacher_dif_point_score.val())+parseInt(id_teacher_mental_aura_score.val())+parseInt(id_teacher_class_atm_score.val())+parseInt(id_teacher_blackboard_writing_score.val()));
+                if(id_total_score.val() <60){
+                    id_res.val(0);
+                }else{
+                    id_res.val(1);
+                }
+
+            });
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("width",970);
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("left",-200);
+
+        });
+
+    });
+
+
+    $(".opt-edit-no-pass").on("click",function(){
+        var data           = $(this).get_opt_data();
+        var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"100\" />其他</label>");
+        var id_reason_all = $("<textarea/>");
+
+        var arr = [
+            ["未通过",id_lecture_out],
+            ["原因/建议",id_reason_all]
+        ];
+        $.show_key_value_table("审核-new",arr,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var lecture_out_list=[];
+                id_lecture_out.find("input:checkbox[name='lecture_out']:checked").each(function(i) {
+                    lecture_out_list.push($(this).val());
+                });  
+                
+                if(lecture_out_list.length==0 || id_reason_all.val()==""){
+                    BootstrapDialog.alert("请填写数据");
+                    return;
+
+                }else{
+                    $.do_ajax("/tea_manage/set_train_lecture_status_b1",{
+                        "teacherid"   : data.teacherid,
+                        "lessonid"    : data.lessonid,
+                        "phone"       : data.phone_spare,
+                        "flag"        : 0,
+                        "record_info" : id_reason_all.val(),
+                        "grade"       : data.grade,
+                        "subject"     : data.subject,
+                        "nick"        : data.nick,
+                        "account"     : data.account,
+                        "identity"    : data.identity,
+                        "lecture_out_list":JSON.stringify(lecture_out_list),
+                    });
+                }
+            }
+        });
+    });
+
+
     $(".opt-test").on("click",function(){
         var opt_data = $(this).get_opt_data();
         console.log(opt_data.tt_train_type);

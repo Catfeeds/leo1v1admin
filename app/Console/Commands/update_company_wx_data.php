@@ -61,11 +61,13 @@ class update_company_wx_data extends Command
             $tag_depart[$item['id']] = $item['department'];
             $tag_department[$item['department']][] = $item['id'];
         }
+
         $tag = $task->t_company_wx_tag->get_all_list();
         $tag_users = $task->t_company_wx_tag_users->get_all_list();
 
         foreach ($info as $item) {
-            if ($item['isleader'] == 323) { // 领导
+            $item['power'] = '';
+            if ($item['isleader'] == 1) { // 领导
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
                 $parent = $this->get_parent_node($department, $item['department']);
                 $parent = explode("-", $parent);
@@ -75,54 +77,43 @@ class update_company_wx_data extends Command
                 }
                 if ($tag_d) {
                     foreach($tag_d as $val) {
+
                         foreach($val as $v) {
-                            $perm .= ','.$tag[$v]['no_leader_power'];
+                            if ($tag[$v]['no_leader_power']) {
+                                if ($perm) {
+                                    $perm .= ','.$tag[$v]['no_leader_power'].',';
+                                } else {
+                                    $perm .= $tag[$v]['no_leader_power'].',';
+                                }
+                            }
                         }
                     }
                 }
-                // $perm = explode(',', $perm);
-                // array_unique($perm);
-                // $perm = implode(',', $perm);
-                // $task->t_manager_info->field_update_list($item['uid'], [
-                //     'power' => $perm
-                // ]);
-                // echo 'uid: '.$item['uid'].'添加成功 添加权限:'.$perm.PHP_EOL;
-                // dd($perm);
+
+                // if ($item['department']) {
+                //     $child = $this->get_child_node($department, $item['department']); // 获取当前用户所拥有的部门id
+
+                //     foreach($tag_depart as $key => $val) {
+                //         if(in_array($val, $child)) { // 当前用户所拥有的tag
+                //             $perm .= ','.$tag[$tag_depart[$key]]['leader_power'];
+                //         }
+                //     }
+
+                // }
             } else {
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['not_leader_power'];
             }
-            // $perm = explode(',', $perm);
-            // array_unique($perm);
-            // $perm = implode(',', $perm);
-            // $task->t_manager_info->field_update_list($item['uid'], [
-            //     'power' => $perm
-            // ]);
-            // echo 'uid: '.$item['uid'].'添加成功 添加权限:'.$perm.PHP_EOL;
-
-
-            //$perm = implode(',', $perm);
-            //dd($perm);
-            // if ($item['department'] && $item['department'] == 74) {
-            //     $child = $this->get_child_node($department, $item['department']); // 获取当前用户所拥有的部门id
-
-            //     foreach($tag_depart as $key => $val) {
-            //         echo $key;
-            //         if(in_array($val, $child)) { // 当前用户所拥有的tag
-            //             $perm = $task->t_manager_info->get_power($item['uid']);
-            //             if ($item['isleader'] == 1) {
-            //                 dd($tag[$key]);
-            //                 $task->t_company_wx_users->field_update_list($item['uid'], [
-            //                     'permission' => $item['leader_power']
-            //                 ]);
-            //             } else {
-            //                 $task->t_company_wx_users->field_update_list($id, [
-            //                     'permission' => $item['not_leader_power']
-            //                 ]);
-            //             }
-            //         }
-            //     }
-
-            // }
+            if ($perm) {
+                if ($item['power']) $perm = $item['power'].',';
+                $perm = substr($perm,0,-1);
+                $perm = explode(',', $perm);
+                array_unique($perm);
+                $perm = implode(',', $perm);
+                $task->t_manager_info->field_update_list($item['uid'], [
+                    'power' => $perm
+                ]);
+                echo 'uid: '.$item['uid'].'添加成功 添加权限:'.$perm.PHP_EOL;
+            }
         }
     }
 
@@ -198,6 +189,7 @@ class update_company_wx_data extends Command
                 }
                 $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
                 $tag_d_u = $this->get_company_wx_data($url);
+                var_dump($tag_d_u);
                 $department = $tag_d_u['partylist'];
                 foreach($department as $val) {
                     if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { // 添加标签部门数据

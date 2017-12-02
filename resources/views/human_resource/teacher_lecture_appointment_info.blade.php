@@ -308,7 +308,8 @@
                                 @if(@$var["hand_flag"]==1 || in_array($acc,["jack","李明玉"]))
                                     <a class="opt-edit-hand" title="修改" >修改</a>
                                 @endif
-                                <a class="opt-1v1-lesson-set-new">1v1-new</a>
+                                <a class="opt-plan-train_lesson">1v1</a>
+                                <!-- <a class="opt-1v1-lesson-set-new">1v1-new</a> -->
                                 <a class="opt-set-teacher-pass-type" title="修改入职状态">入</a>
                                 <a class="opt-set-teacher-info" title="老师信息">老师信息</a>
                             </div>

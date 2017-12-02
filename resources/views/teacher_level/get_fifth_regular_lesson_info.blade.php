@@ -92,7 +92,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                               
+                                
                                 <a class="opt-fifth-lesson-video" >视频</a>
                                 <a class="opt-play-new" title="回放-new">回放-new</a>
                                 <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
@@ -104,6 +104,10 @@
                                    title="视频播放二维码" > </a>
 
                                 <a class="opt-fifth-lesson-record" >反馈</a>
+                                @if(in_array($acc,["jack","jim","林文彬"]))
+                                    <a class="opt-fifth-lesson-record-new" >反馈-new</a>
+                                @endif
+
                                 @if($var["record_info"])
                                     <a class="opt-fifth-lesson-record-list" >反馈详情</a>
                                 @endif
