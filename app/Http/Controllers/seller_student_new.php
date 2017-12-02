@@ -188,13 +188,11 @@ class seller_student_new extends Controller
         }
 
         // 未分配信息
-        if ($self_groupid >0 ) { //主管
+        if($self_groupid >0) { //主管
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info_sub_assign_adminid_2($sub_assign_adminid_2);
         }else{
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
-        // $this->set_filed_for_js('adminid',$this->get_account_id());
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,
