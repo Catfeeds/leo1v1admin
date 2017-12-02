@@ -4120,6 +4120,25 @@ class user_deal extends Controller
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
         $arr['last_all_price'] = $last_all_price;
         //
+        $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
+        if($no_update_seller_level_flag == 1){
+            $arr['base_salary'] = 6500;
+            $arr['sup_salary'] = 0;
+            switch(true){
+            case $arr['group_all_price']<500000 :
+                $arr['per_salary'] = 10*$kpi;
+                break;
+            case $arr['group_all_price']<800000 && $arr['group_all_price']>=500000:
+                $arr['per_salary'] = 25*$kpi;
+                break;
+            case $arr['group_all_price']<1000000 && $arr['group_all_price']>=800000:
+                $arr['per_salary'] = 35*$kpi;
+                break;
+            default:
+                $arr['per_salary'] = 50*$kpi;
+                break;
+            }
+        }
 
         return $this->output_succ($arr);
     }
