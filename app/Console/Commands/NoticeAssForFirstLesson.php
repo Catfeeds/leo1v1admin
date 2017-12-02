@@ -57,7 +57,7 @@ class NoticeAssForFirstLesson extends Command
 
         //测试
 
-        $lesson_list = [
+        $lesson_list[] = [
             "lesson_count" => 150,
             "lesson_start" => 1511971200,
             "lesson_end"   => 1511978400,
