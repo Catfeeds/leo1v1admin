@@ -1062,6 +1062,7 @@ class test_sam  extends Controller
             echo "<td>".@$var['adminid']."</td>";
             echo "<td>".@$var['realname']."</td>";
             echo "<td>".@$var["attendance_type_str"]."</td>";
+            echo "<td>".@$var["attendance_time_str"]."</td>";
             if($var["attendance_type"] ==1 && $var["lesson_count"]>0){
                 echo "<td>".(@$var['lesson_count']/100)."</td>";
             }
