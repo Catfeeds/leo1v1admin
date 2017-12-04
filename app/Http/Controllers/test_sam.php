@@ -924,11 +924,10 @@ class test_sam  extends Controller
         $end_time   = 1512057600;
 
 
-        //$adminid= $this->get_in_int_val("adminid",480 );
-        $file = fopen("aa.txt","a+");   
+        //$adminid= $this->get_in_int_val("adminid",480 ); 
         $adminid_list = $this->t_manager_info->get_all_fulltime_teacherinfo();
         echo "<table >";
-        echo "<tr><td>姓名</td><td>日期</td><td>开始</td><td>结束</td> <td>间隔</td><td>异常</td></tr>";
+        echo "<tr><td>uid</td><td>姓名</td><td>日期</td><td>开始</td><td>结束</td> <td>间隔</td><td>异常</td></tr>";
         foreach ($adminid_list as $key => $value) {
             $adminid = $value['uid'];
             # code...
@@ -1018,6 +1017,7 @@ class test_sam  extends Controller
             foreach ($date_list as $var) {
                 # code...
                 echo "<tr>";
+                echo "<td>".@$value['uid']."</td>";
                 echo "<td>".@$value['name']."</td>";
                 echo "<td>".@$var["title"]."</td>";
                 echo "<td>".@$var["start_logtime_str"]."</td>";
