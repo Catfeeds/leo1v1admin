@@ -1382,7 +1382,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
-            ."tr.test_lesson_order_fail_flag,n.return_publish_count,n.cc_no_called_count,n.cc_called_count"
+            ."tr.test_lesson_order_fail_flag,n.return_publish_count,n.cc_no_called_count,n.cc_called_count,n.call_admin_count"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
