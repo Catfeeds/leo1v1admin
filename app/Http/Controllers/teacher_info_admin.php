@@ -30,9 +30,13 @@ class teacher_info_admin extends Controller
         $tea_info['grade_part_ex_str'] = empty($tea_info['grade_part_ex'])?"":@E\Egrade_part_ex::get_desc( $tea_info['grade_part_ex']);
         $tea_info['subject_str'] = empty($tea_info['subject'])?"":@E\Esubject::get_desc( $tea_info['subject']);
         $tea_info['putonghua_is_correctly_str'] = @E\Eputonghua_is_correctly::get_desc( $tea_info['putonghua_is_correctly']);
-        $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
-                               ."-".substr(@$tea_info['birth'],4,2)
-                               ."-".substr(@$tea_info['birth'],6,2);
+        if(@$tea_info['birth']){                   
+            $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
+                ."-".substr(@$tea_info['birth'],4,2)
+                ."-".substr(@$tea_info['birth'],6,2);
+        }else{
+            $tea_info['birth_str']="";
+        }
 
         $tea_info['phone'] = \App\Helper\Utils::get_teacher_contact_way($tea_info); 
 

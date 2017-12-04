@@ -642,7 +642,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     public function get_time_by_phone_adminid($adminid,$phone){
         $where_arr = [
-            ["adminid=%u",$adminid,-1],
+            ["adminid=%u",$adminid,-2],
             ["phone=%u",$phone,-1],
         ];
         $sql = $this->gen_sql_new("select * from %s where %s order by end_time desc limit 1",
