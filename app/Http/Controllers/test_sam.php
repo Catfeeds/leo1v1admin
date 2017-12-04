@@ -1047,7 +1047,7 @@ class test_sam  extends Controller
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
         if(!empty($ret_info)){
-            foreach($ret_info["list"] as &$item){
+            foreach($ret_info as &$item){
                 \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
                 $item["off_time_str"] = date("H:i",$item["off_time"]);
                 $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
