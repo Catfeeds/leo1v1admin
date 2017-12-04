@@ -4235,7 +4235,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             "is_test_user=0",
             "train_through_new_time>0",
-           // "teacher_tags <> '' and teacher_tags <>0"
+           "teacher_tags <> ''"
         ];
         $sql = $this->gen_sql_new("select teacherid,teacher_tags from %s where %s ",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql,function($item){
