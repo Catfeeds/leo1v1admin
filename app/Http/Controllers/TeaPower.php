@@ -144,6 +144,7 @@ trait TeaPower {
         $arr = json_decode($tea_label_type,true);
         if(!empty($arr)){
 
+
             $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
             if($id>0 && $lessonid>0){
                 $this->t_teacher_label->field_update_list($id,[
@@ -165,30 +166,83 @@ trait TeaPower {
             $list=[];
             foreach($arr as $v){
                 $s =  E\Etea_label_type::get_desc($v);
+                if($s=="循循善诱"){
+                    $s="鼓励激发";
+                }elseif($s=="细致耐心"){
+                    $s="耐心细致";
+                }elseif($s=="善于互动"){
+                    $s="互动引导";
+                }elseif($s=="没有口音"){
+                    $s="普通话标准";
+                }elseif($s=="考纲熟悉"){
+                    $s="熟悉考纲";
+                }
+
                 $list[$s] = $s;
             }
             //dd($list);
             $teacher_tags = $this->t_teacher_info->get_teacher_tags($teacherid);
-            $teacher_tags = trim($teacher_tags,",");
-            $tags= explode(",",$teacher_tags);
-            $str ="";
-            if(empty($tags) || empty($teacher_tags)){
-                foreach($list as $k){
-                    $str .= $k.",";
-                }
+            $teacher_tags_list = json_decode($teacher_tags,true);
+            if(is_array($teacher_tags_list)){
+                
             }else{
-                $tags_list=[];
-                foreach($tags as $v){
-                    $tags_list[$v]=$v;
-                }
-                foreach($list as $k){
-                    if(!isset($tags_list[$k]) && !empty($k)){
-                        $tags[] = $k;
+                $tag = trim($teacher_tags,",");
+                if($tag){
+                    $arr2 = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr2 as $val){
+                        if($val=="循循善诱"){
+                            $val="鼓励激发";
+                        }elseif($val=="细致耐心"){
+                            $val="耐心细致";
+                        }elseif($val=="善于互动"){
+                            $val="互动引导";
+                        }elseif($val=="没有口音"){
+                            $val="普通话标准";
+                        }elseif($val=="考纲熟悉"){
+                            $val="熟悉考纲";
+                        }
+
+                        $teacher_tags_list[$val]=1;
                     }
+ 
+                }else{
+                    $teacher_tags_list=[];
                 }
-                $str = implode(",",$tags);
-                $str .= ",";
+ 
             }
+
+            foreach($list as $val){
+                if(isset($teacher_tags_list[$val])){
+                    $v = $teacher_tags_list[$val]+1;
+                }else{
+                    $v = 1;
+                }
+                $teacher_tags_list[$val]=$v;
+
+            }
+            // $teacher_tags = trim($teacher_tags,",");
+            // $tags= explode(",",$teacher_tags);
+            // $str ="";
+            // if(empty($tags) || empty($teacher_tags)){
+            //     foreach($list as $k){
+            //         $str .= $k.",";
+            //     }
+            // }else{
+            //     $tags_list=[];
+            //     foreach($tags as $v){
+            //         $tags_list[$v]=$v;
+            //     }
+            //     foreach($list as $k){
+            //         if(!isset($tags_list[$k]) && !empty($k)){
+            //             $tags[] = $k;
+            //         }
+            //     }
+            //     $str = implode(",",$tags);
+            //     $str .= ",";
+            // }
+
+            $str = json_encode($teacher_tags_list);
             $this->t_teacher_info->field_update_list($teacherid,[
                 "teacher_tags"  =>$str
             ]);
