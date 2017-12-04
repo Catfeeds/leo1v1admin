@@ -650,4 +650,9 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
+
+    public function get_all_info_group_by_phone(){
+        $sql = ""
+    }
 }
