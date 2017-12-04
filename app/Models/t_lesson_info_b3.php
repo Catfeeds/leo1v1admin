@@ -2455,7 +2455,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new("  select m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
+        $sql = $this->gen_sql_new("  select l.userid, m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." left join %s m on m.phone=a.phone"

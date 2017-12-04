@@ -4233,12 +4233,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_all_teacher_tags(){
         $where_arr=[
-            "is_test_user=1",
-            // "train_through_new=1",
-            "(teacher_tags <> '' and teacher_tags <> 0 and teacher_tags <> ',')"
+            "is_test_user=0",
+            "trial_lecture_is_pass =1 and train_through_new_time=0",
+           "teacher_tags <> ''"
         ];
         $sql = $this->gen_sql_new("select teacherid,teacher_tags from %s where %s ",self::DB_TABLE_NAME,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
     }
 
     public function get_all_has_wx_tea(){
