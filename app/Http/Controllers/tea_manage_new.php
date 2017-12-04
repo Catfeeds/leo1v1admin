@@ -316,7 +316,11 @@ class tea_manage_new extends Controller
         $list = $this->t_lesson_info->get_seller_and_ass_lesson_info($lessonid);
         $list["subject_str"] = E\Esubject::get_desc($list["subject"]);
         $list["grade_str"] = E\Egrade::get_desc($list["grade"]);
-        return $this->output_succ(["data"=>$list]);
+
+
+        //获取标签列表
+        $tag = $this->get_teacher_tag_list();
+        return $this->output_succ(["data"=>$list,"tag"=>$tag]);
     }
 
     public function get_teacher_complaints_info(){

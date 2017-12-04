@@ -207,10 +207,11 @@ trait TeaPower {
         $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
         $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
         $teacher_tags_list = json_decode($teacher_tags_old,true);
+        $set_adminid = $this->get_account_id();
 
         if(!empty($tag_info)){
             if($set_flag==1){
-                $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+                $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin,$set_adminid);
                 if($id>0 && $lessonid>0){
                     $this->t_teacher_label->field_update_list($id,[
                         "add_time" =>time(),
@@ -485,7 +486,7 @@ trait TeaPower {
         // $ret = $this->t_admin_main_group_name->get_all_memeber_list(4,"小学科");
         $grade = substr($grade,0,1);
         $grade_list = [1=>[1,4],2=>[2,4,5],3=>[3,5,7]];
-        $grade_arr = $grade_list[$grade];
+        $grade_arr = @$grade_list[$grade];
 
         /* if($subject==3 || $subject==1){
             $list = $this->t_admin_main_group_name->get_all_memeber_list(4,"文综组");
