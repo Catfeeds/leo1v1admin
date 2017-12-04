@@ -47,12 +47,12 @@ class teacher_info_admin extends Controller
         $arr = explode(",",@$tea_info['quiz_analyse']);
         $tea_info['quiz_analyse'] = $arr[0];
         if(!empty($tea_info['create_time'])){
-            $tea_info['create_time'] = date('Y-m-d H:i:s',$tea_info['create_time']);
+            $tea_info['create_time'] = date('Y-m-d ',$tea_info['create_time']);
         }else{
             $tea_info['create_time'] = "";
         }
         if(!empty($tea_info['train_through_new_time'])){
-            $tea_info['train_through_new_time'] = date('Y-m-d H:i:s',$tea_info['train_through_new_time']);
+            $tea_info['train_through_new_time'] = date('Y-m-d',$tea_info['train_through_new_time']);
         }else{
             $tea_info['train_through_new_time'] = "";
         }
