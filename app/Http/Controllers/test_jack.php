@@ -639,7 +639,7 @@ class test_jack  extends Controller
     public function test_wx(){
         $list = $this->t_teacher_info->get_all_teacher_tags();
         foreach($list as $vall){
-            // $teacher_tags_list = json_decode($vall["teacher_tags"],true);
+            $teacher_tags_list = json_decode($vall["teacher_tags"],true);
             // \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
             if(is_array($teacher_tags_list)){
                 
