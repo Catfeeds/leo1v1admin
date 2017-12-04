@@ -103,9 +103,9 @@ class company_wx extends Controller
     }
 
     public function get_approve() { // 获取审批数据
-        list($start_time, $end_time) = $this->get_in_date_range_day(0);
-        $start_time = $this->get_in_str_val('start_time');
-        $end_time = $this->get_in_str_val('end_time');
+        // list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        // $start_time = $this->get_in_str_val('start_time');
+        // $end_time = $this->get_in_str_val('end_time');
         // 获取token
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
@@ -123,7 +123,26 @@ class company_wx extends Controller
         $output = curl_exec($ch);
         curl_close($ch);
         $output = json_decode($output, true);
+
         dd($output);
+        $info = $output['data'];
+        // foreach($info as $item) {
+        //     $approval_name = implode(',', $item['approval_name']);
+        //     $notify_name = implode(',', $item['notify_name']);
+        //     // 添加数据
+        //     $this->t_table_name->row_insert([
+        //         'spname' => $item['spane'],
+        //         'apply_name' => $item['apply_name'],
+        //         'apply_org' => $item['apply_org'],
+        //         'approval_name' => $approval_name,
+        //         'notify_name' => $notify_name,
+        //         'sp_status' => $item['sp_status'],
+        //         'sp_num' => $item['sp_num'],
+        //         'title' => $item['title'],
+        //"apply_time" => $item['apply_time'],
+        //          "apply_user_id" => $item['apply_user_id']
+        //     ]);
+        // }
     }
 
     public function get_company_wx_data($url, $index='') { //根据不同路由获取不同的数据 (企业微信)
@@ -171,7 +190,9 @@ class company_wx extends Controller
 
         //$role = $this->t_company_wx_role->get_all_for_auth(); // 获取当前权限组的所有成员
         foreach($users as $key => $item) {
-            $name = $item['position'].'-'.$item['name'];
+            $power = '';
+            if ($item['power']) $power = '('.$item['power'].')';
+            $name = $item['position'].'-'.$item['name'].$power;
             if ($item['isleader'] == 1) {
                 $name .= '(领导)';
             }
@@ -183,24 +204,24 @@ class company_wx extends Controller
             // }
         }
 
-        if ($type == 1) { // 部门授权 
-        } elseif ($type == 2) { // 职们授权
-            $people = [];
-            foreach($users as $item) {
-                $people[$item['position'].$item['pId']]['id'] = $item['id'];
-                $people[$item['position'].$item['pId']]['name'] = $item['position'];
-                $people[$item['position'].$item['pId']]['pId'] = $item['pId'];
-            }
-            $i = 0;
-            foreach($people as $key => $item) {
-                $people[$i] = $item;
-                unset($people[$key]);
-                $i ++;
-            }
-            $info = array_merge($info, $people);
-        } else {
-            $info = array_merge($info,$users);
-        }
+        // if ($type == 1) { // 部门授权 
+        // } elseif ($type == 2) { // 职们授权
+        //     $people = [];
+        //     foreach($users as $item) {
+        //         $people[$item['position'].$item['pId']]['id'] = $item['id'];
+        //         $people[$item['position'].$item['pId']]['name'] = $item['position'];
+        //         $people[$item['position'].$item['pId']]['pId'] = $item['pId'];
+        //     }
+        //     $i = 0;
+        //     foreach($people as $key => $item) {
+        //         $people[$i] = $item;
+        //         unset($people[$key]);
+        //         $i ++;
+        //     }
+        //     $info = array_merge($info, $people);
+        // } else {
+        //     $info = array_merge($info,$users);
+        // }
 
         //$info = $this->genTree($info, 0);
         return $this->pageView(__METHOD__, '', [
@@ -371,5 +392,13 @@ class company_wx extends Controller
             }
         }
         return $tree;
+    }
+
+    public function flush_company_wx_data() {
+        $acc = $this->get_account();
+         
+        //exec($command, $output)
+        //$this->dispatch(new UpdateCompanyWxData($acc));
+        //return $this->output_succ();
     }
 }

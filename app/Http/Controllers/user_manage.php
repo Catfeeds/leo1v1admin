@@ -728,7 +728,8 @@ class user_manage extends Controller
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
             "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
-            "acc"                           => $acc
+            "acc"                           => $acc,
+            "_publish_version"              => 201712021116,
         ]);
     }
 

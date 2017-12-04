@@ -453,68 +453,50 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $userid=$this->t_phone_to_user->get_userid_by_phone($phone='13514048977',E\Erole::V_STUDENT);
-        // dd($userid);
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        dd($seller_list);
-
-        $ret = $this->t_phone_to_user->add($phone='13514048977',E\Erole::V_STUDENT,$userid=447677);
-        dd($ret);
-        $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time=time(null)))-1));
-        $row = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid=99,$month_date=1509465600);
-        if(!$row){
-            return $this->output_err('该定级已存在,不能重复添加');
+        $orderid = $this->t_order_info->get_orderid_by_userid($userid=99, $sys_operator='张龙');
+        $account = '张龙';
+        $ret_info = $this->t_seller_student_new->get_item_list_new();
+        $ret = [];
+        $orderid_arr = [];
+        foreach($ret_info as $info){
+            $userid=$info['userid'];
+            $orderid = $this->t_order_info->get_orderid_by_userid($userid, $sys_operator='张龙');
+            if($orderid>0){
+                $orderid_arr[$userid] = $orderid;
+            }else{
+                $item=$this->t_seller_student_new->get_user_info_for_free($userid);
+                $phone=$item["phone"];
+                $seller_student_status = $item["seller_student_status"];
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者:$account 状态: 回到公海 ",
+                    "system"
+                );
+                $test_subject_free_type=0;
+                if ($seller_student_status==1) {
+                    $test_subject_free_type=3;
+                }
+                $this->t_test_subject_free_list->row_insert([
+                    "add_time" => time(NULL),
+                    "userid" =>   $item["userid"],
+                    "adminid" => 412,
+                    "test_subject_free_type" => $test_subject_free_type,
+                ],false,true);
+                $this->t_seller_student_new->set_user_free($userid);
+                $hand_get_adminid = 0;
+                $orderid = $this->t_order_info->get_orderid_by_userid($userid,'张植源');
+                if($orderid>0){
+                    $hand_get_adminid = $item["hand_get_adminid"];
+                }
+                $ret[$userid] = $this->t_seller_student_new->field_update_list($userid,[
+                    "free_adminid" => 412,
+                    "free_time" => time(null),
+                    "hand_free_count" => $item['hand_free_count']+1,
+                    "hand_get_adminid" => $hand_get_adminid,
+                ]);
+            }
         }
-        dd($row);
-        $ret_info = $this->t_origin_key->get_all_key_list();
-        $key1_arr = array_unique(array_column($ret_info,'key1'));
-        $key2_arr = array_unique(array_column($ret_info,'key2'));
-        $key3_arr = array_unique(array_column($ret_info,'key3'));
-        $key4_arr = array_unique(array_column($ret_info,'key4'));
-        $array = array_merge($key1_arr,$key2_arr,$key3_arr,$key4_arr);
-        if(in_array('in生活',$array)){
-            dd('a');
-        }else{
-            dd('b');
-        }
-        // $account = '张植源';
-        // $ret_info = $this->t_seller_student_new->get_item_list_new();
-        // $ret = [];
-        // foreach($ret_info as $info){
-        //     $userid=$info['userid'];
-        //     $item=$this->t_seller_student_new->get_user_info_for_free($userid);
-        //     $phone=$item["phone"];
-        //     $seller_student_status = $item["seller_student_status"];
-        //     $ret_update = $this->t_book_revisit->add_book_revisit(
-        //         $phone,
-        //         "操作者:$account 状态: 回到公海 ",
-        //         "system"
-        //     );
-        //     $test_subject_free_type=0;
-        //     if ($seller_student_status==1) {
-        //         $test_subject_free_type=3;
-        //     }
-        //     $this->t_test_subject_free_list->row_insert([
-        //         "add_time" => time(NULL),
-        //         "userid" =>   $item["userid"],
-        //         "adminid" => 412,
-        //         "test_subject_free_type" => $test_subject_free_type,
-        //     ],false,true);
-        //     $this->t_seller_student_new->set_user_free($userid);
-        //     $hand_get_adminid = 0;
-        //     $orderid = $this->t_order_info->get_orderid_by_userid($userid,'张植源');
-        //     if($orderid>0){
-        //         $hand_get_adminid = $item["hand_get_adminid"];
-        //     }
-        //     $ret[$userid] = $this->t_seller_student_new->field_update_list($userid,[
-        //         "free_adminid" => 412,
-        //         "free_time" => time(null),
-        //         "hand_free_count" => $item['hand_free_count']+1,
-        //         "hand_get_adminid" => $hand_get_adminid,
-        //     ]);
-        // }
-        // dd($ret);
+        dd($orderid_arr,$ret);
     }
 
     //处理等级头像

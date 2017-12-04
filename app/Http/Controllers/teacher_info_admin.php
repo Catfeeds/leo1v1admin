@@ -50,6 +50,7 @@ class teacher_info_admin extends Controller
             "tea_info"     => $tea_info,
             "account_role" => $account_role,
             "adminid"      => $adminid,
+            "acc"          => $this->get_account()
         ]);
     }
 
@@ -72,9 +73,9 @@ class teacher_info_admin extends Controller
     {
         $teacherid     = $this->teacherid;
         $free_time_new = $this->t_teacher_freetime_for_week->get_free_time_new($teacherid);
-        $date_week   = \App\Helper\Utils::get_week_range(time(),1);
-        $start_time = $date_week["sdate"];
-        $end_time = $start_time + 21*86400;
+        $date_week     = \App\Helper\Utils::get_week_range(time(),1);
+        $start_time    = $date_week["sdate"];
+        $end_time      = $start_time + 21*86400;
         $test_lesson_list = $this->t_lesson_info->get_teacher_week_test_lesson_info($teacherid,$start_time,$end_time);
         foreach($test_lesson_list as &$val){
             $lesson_start = $val["lesson_start"];
@@ -147,6 +148,8 @@ class teacher_info_admin extends Controller
         $advantage              = $this->get_in_str_val("advantage");
         $base_intro             = $this->get_in_str_val("base_intro");
         $dialect_notes          = $this->get_in_str_val("dialect_notes");
+        $teaching_achievement   = $this->get_in_str_val("teaching_achievement");
+        $parent_student_evaluate= $this->get_in_str_val("parent_student_evaluate");
 
         if(!empty($email)){
             if(preg_match('/^[1-9]\d{4,10}$/',$email)){
@@ -184,6 +187,8 @@ class teacher_info_admin extends Controller
             "base_intro"             => $base_intro,
             "putonghua_is_correctly" => $putonghua_is_correctly,
             "dialect_notes"          => $dialect_notes,
+            "parent_student_evaluate"=> $parent_student_evaluate,
+            "teaching_achievement"   => $teaching_achievement
         ]);
 
         return $this->output_succ();

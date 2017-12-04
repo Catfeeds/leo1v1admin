@@ -174,7 +174,7 @@ class user_deal extends Controller
         $default_lesson_count = 0;
 
         $lessonid = $this->t_lesson_info->add_lesson(
-            $item["courseid"],0,$item["userid"],0,$item["course_type"],$item["teacherid"],
+            $item["courseid"],0,$item["userid"],E\Efrom_type::V_0,$item["course_type"],$item["teacherid"],
             $item["assistantid"],0,0,$grade,$item["subject"],$default_lesson_count,
             $teacher_info["teacher_money_type"],$teacher_info["level"],
             $item["competition_flag"],2,$item['week_comment_num'],$item['enable_video']
@@ -622,10 +622,7 @@ class user_deal extends Controller
         // }else{
         //     $lesson_count= ceil($diff/40)*100 ;
         // }
-
-        $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
-
-
+        $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start,$lesson_end);
 
         //百度分期用户首月排课限制
         /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
@@ -773,7 +770,7 @@ class user_deal extends Controller
                     ];
 
                     $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
-                    $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
+                    // $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
                 }
 
                 //  $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
@@ -3293,12 +3290,12 @@ class user_deal extends Controller
         $arr["student_end_per"] = round($finish_num/$arr["all_registered_student"]*100,2)*100;
 
         //课时消耗目标数量
-        $last_year_start = strtotime("-1 years",$start_time); 
-        $last_year_end = strtotime("+1 months",$last_year_start); 
+        $last_year_start = strtotime("-1 years",$start_time);
+        $last_year_end = strtotime("+1 months",$last_year_start);
 
 
         $insert_data = [
-         
+
             "average_person_effect"   => $arr["average_person_effect"],  //平均人效(非入职完整月)
             "cumulative_refund_rate"  => $arr["cumulative_refund_rate"], //合同累计退费率
             "stop_student"            => $arr["stop_student"],      //停课学生
@@ -3312,7 +3309,7 @@ class user_deal extends Controller
 
         ];
 
-        
+
         if($ret_id>0){
             $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
         }else{
@@ -3321,7 +3318,7 @@ class user_deal extends Controller
 
 
         dd($str);
-        
+
         $tt = strtotime("-1 years",$time);
         dd(date("Y-m-d H:i:s",$tt));
 
@@ -4018,6 +4015,10 @@ class user_deal extends Controller
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201709", $adminid, $start_time, $end_time );
             break;
+        case "201710" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201710", $adminid, $start_time, $end_time );
+            break;
         default:
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
@@ -4096,7 +4097,7 @@ class user_deal extends Controller
             }
         }
         $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
-        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_salary_level::get_desc($last_seller_level['seller_level']):'';
         $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
         $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
         $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
@@ -4115,6 +4116,26 @@ class user_deal extends Controller
         $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
         $arr['last_all_price'] = $last_all_price;
+        //
+        $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
+        if($no_update_seller_level_flag == 1){
+            $arr['base_salary'] = 6500;
+            $arr['sup_salary'] = 0;
+            switch(true){
+            case $arr['group_all_price']<500000 :
+                $arr['per_salary'] = 10*$kpi;
+                break;
+            case $arr['group_all_price']<800000 && $arr['group_all_price']>=500000:
+                $arr['per_salary'] = 25*$kpi;
+                break;
+            case $arr['group_all_price']<1000000 && $arr['group_all_price']>=800000:
+                $arr['per_salary'] = 35*$kpi;
+                break;
+            default:
+                $arr['per_salary'] = 50*$kpi;
+                break;
+            }
+        }
 
         return $this->output_succ($arr);
     }
@@ -4564,6 +4585,12 @@ class user_deal extends Controller
         $stu_request_test_lesson_demand =trim($this->get_in_str_val("stu_request_test_lesson_demand"));
         $stu_score_info=trim($this->get_in_str_val("stu_score_info"));
         $stu_character_info=trim($this->get_in_str_val("stu_character_info"));
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+
         if(empty( $record_info) || empty( $url) ||  empty( $textbook)  || !(!empty( $stu_request_test_lesson_demand) || !(empty($is_change_teacher) || empty($tea_time)  || empty($stu_score_info ) || empty($stu_character_info) ))){
             return $this->output_err("请填写完整!");
         }
@@ -4597,6 +4624,15 @@ class user_deal extends Controller
         $id= $this->t_seller_and_ass_record_list->check_is_exist($lessonid);
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         if($res){
+            $tea_tag_arr=[
+                "style_character"=>$style_character,
+                "professional_ability"=>$professional_ability,
+                "classroom_atmosphere"=>$classroom_atmosphere,
+                "courseware_requirements"=>$courseware_requirements,
+                "diathesis_cultivation"=>$diathesis_cultivation,
+            ];
+            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5); 
+
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 
         }
@@ -5966,5 +6002,12 @@ class user_deal extends Controller
 
         return $this->output_succ(['data'=>$reject_info]);
 
+    }
+
+
+    public function check_account_role(){
+        $account = $this->get_in_str_val('account');
+        $is_flag = $this->t_manager_info->get_account_role_by_account($account);
+        return $this->output_succ(['data'=>$is_flag]);
     }
 }

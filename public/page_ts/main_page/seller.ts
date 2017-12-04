@@ -77,16 +77,13 @@ $(function(){
     });
     $(".show-group").on("click",function(){
         var groupid=$(this).data("groupid");
-
         /*$.wopen("/main_page/seller?groupid=" +groupid,true );*/
-
         if(g_args.self_groupid == 0){
             load_data(groupid);
         }else{
             var   show_flag=false;
             if ( g_account =="jim"  || g_account =="leowang"  ) {
                 show_flag=true;
-
             }
             if(groupid == g_args.self_groupid   ){
                 show_flag=true;

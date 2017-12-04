@@ -17,7 +17,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">使用角色</span>
-                        <select class="form-control opt-change" id="id_user_type"> </select>
+                        <select class="form-control opt-change" id="id_use_type"> </select>
                     </div>
                 </div>
 
@@ -103,7 +103,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         <td>
-                            <input type="checkbox" class="opt-select-item" data-id="{{$var["resource_id"]}}"/>
+                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["update_time"]}} </td>

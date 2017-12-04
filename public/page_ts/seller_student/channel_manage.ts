@@ -295,7 +295,7 @@ $(function(){
             ];
             if ( data.origin_level !=90 ) {
                 arr.push( [ "类别", id_origin_level]);
-            }  else if ( g_account=="张亚东"|| g_account=="jo"   ) {
+            }  else if ( g_account=="李晓晨"|| g_account=="jo"   ) {
                 arr.push( [ "类别", id_origin_level]);
             }
 

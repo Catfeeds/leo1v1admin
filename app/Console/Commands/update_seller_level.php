@@ -93,6 +93,10 @@ class update_seller_level extends cmd_base
                         }
                         $update_flag = 1;
                     }
+                    //入职小于2月,不降级
+                    if(time(null)-$become_member_time<60*3600*24){
+                        $update_flag = 0;
+                    }
                 }
                 //定级
                 if($no_update_seller_level_flag == 0){//参与
@@ -102,6 +106,10 @@ class update_seller_level extends cmd_base
                         if($price_very_last >= $item['level_goal']){
                             $month_level = $item['seller_level'];
                         }
+                    }
+                    //入职小于2月,定级>D
+                    if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
+                        $month_level = E\Eseller_level::V_500;
                     }
                 }
                 $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
@@ -113,7 +121,6 @@ class update_seller_level extends cmd_base
                         'seller_level' => $month_level,
                         'create_time' => $time,
                     ]);
-                    echo $account.':'.$month_level."\n";
                 }
             }else{//月中
                 //统计本月

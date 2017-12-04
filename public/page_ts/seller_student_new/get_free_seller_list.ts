@@ -76,7 +76,6 @@ $(function(){
 
     $(".opt-telphone").on("click",function(){
         //
-
         var opt_data= $(this).get_opt_data();
         var phone    = ""+ opt_data.phone;
         //opt_data.userid
@@ -114,6 +113,7 @@ $(function(){
         //
         $(this).parent().find(".opt-edit").click();
     });
+
     $(".opt-telphone_new").on("click",function(){
         //
         var me=this;
@@ -137,10 +137,12 @@ $(function(){
             if(ret == 0){
                 alert("请一个小时后再拨打");
             }
-        } );
+        });
+
         //
         $(me).parent().find(".opt-edit-new_new").click();
     });
+
     $(".opt-edit-new_new").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
