@@ -638,6 +638,45 @@ class test_jack  extends Controller
 
     public function test_wx(){
         $list = $this->t_teacher_info->get_all_teacher_tags();
+        foreach($list as $vall){
+            $teacher_tags_list = json_decode($vall["teacher_tags"],true);
+            \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
+            if(is_array($teacher_tags_list)){
+                
+            }else{
+                \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
+
+                $tag = trim($vall["teacher_tags"],",");
+                if($tag){
+                    $arr2 = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr2 as $val){
+                        if($val=="循循善诱"){
+                            $val="鼓励激发";
+                        }elseif($val=="细致耐心"){
+                            $val="耐心细致";
+                        }elseif($val=="善于互动"){
+                            $val="互动引导";
+                        }elseif($val=="没有口音"){
+                            $val="普通话标准";
+                        }elseif($val=="考纲熟悉"){
+                            $val="熟悉考纲";
+                        }
+
+                        $teacher_tags_list[$val]=1;
+                    }
+                    $str = json_encode($teacher_tags_list);
+                    $this->t_teacher_info->field_update_list($vall["teacherid"],[
+                        "teacher_tags" =>$str
+                    ]);
+ 
+                }else{
+                    $teacher_tags_list=[];
+                }
+                
+            }
+ 
+        }
         dd($list);
        
         $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
