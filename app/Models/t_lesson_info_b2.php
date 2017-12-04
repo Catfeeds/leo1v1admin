@@ -3321,7 +3321,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ,$where_arr
                                 ,$limit_str
         );
-
         return $this->main_get_list($sql);
         // return $this->main_get_list_by_page($sql,$page_num,300,true);
 
