@@ -926,6 +926,7 @@ class test_sam  extends Controller
 
         //$adminid= $this->get_in_int_val("adminid",480 ); 
         $adminid_list = $this->t_manager_info->get_all_fulltime_teacherinfo();
+        dd(2);
         echo "<table >";
         echo "<tr><td>uid</td><td>姓名</td><td>日期</td><td>开始</td><td>结束</td> <td>间隔</td><td>异常</td></tr>";
         foreach ($adminid_list as $key => $value) {
@@ -1030,6 +1031,65 @@ class test_sam  extends Controller
         }
         echo "</table>";
         echo "<tr/>";
+    }
+
+
+    public function get_fulltime_teacher_attendance_info(){
+        $this->set_in_value("account_role",5);
+        //$page_num       = $this->get_in_page_num();
+        //list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
+        $start_time = 1509465600;
+        $end_time   = 1512057600;
+        $attendance_type  = $this->get_in_int_val("attendance_type",-1);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $account_role = $this->get_in_int_val("account_role",-1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+        if(!empty($ret_info)){
+            foreach($ret_info["list"] as &$item){
+                \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
+                $item["off_time_str"] = date("H:i",$item["off_time"]);
+                $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
+                $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
+                E\Eattendance_type::set_item_value_str($item);
+            }
+        }
+        echo "<table >";
+        echo "<tr><td>uid</td><td>老师</td><td>类型</td><td>日期</td><td>当日课时</td> <td>延休天数</td><td>延迟上班时间</td><td>提前下班时间</td></tr>";
+        foreach ($ret_info as $var) {
+            echo "<tr>";
+            echo "<td>".@$var['adminid']."</td>";
+            echo "<td>".@$var['realname']."</td>";
+            echo "<td>".@$var["attendance_type_str"]."</td>";
+            if($var["attendance_type"] ==1 && $var["lesson_count"]>0){
+                echo "<td>".(@$var['lesson_count']/100)."</td>";
+            }
+            else
+                echo  "<td></td>";
+
+            if($var["attendance_type"] ==3)
+               echo "<td>".@$var['day_num']."天</td>";
+            else
+                echo  "<td></td>";
+
+            if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
+               echo "<td>".@$var['delay_work_time_str']."</td>";
+            else
+                echo  "<td></td>";
+
+            if($var["attendance_type"] ==2 && $var["off_time"]>0)
+               echo "<td>".@$var['off_time_str']."</td>";
+            else
+                echo  "<td></td>";
+
+            
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "<tr/>";
+
+        dd($ret_info);
     }
 }
 
