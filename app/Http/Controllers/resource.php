@@ -14,29 +14,37 @@ class resource extends Controller
     var $check_login_flag=true;
     public $tag_arr = [
             1 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '资料类型','menu' => 'resource_type2','hide' => ''],
-                  'tag_three' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => '']],
+                  'tag_two' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => ''],
+                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '资料类型','menu' => 'resource_type2','hide' => ''],
-                  'tag_three' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => '']],
-            3 => ['tag_one' => ['name' => '试听类型','menu' => 'resource_free','hide' => ''],
-                  'tag_two' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => ''],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_two' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => ''],
+                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+            3 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
+                  'tag_two' => ['name' => '试听类型','menu' => 'resource_free','hide' => ''],
+                  'tag_three' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => ''],
+                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => '']],
             4 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             5 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             6 => ['tag_one' => ['name' => '年份','menu' => 'resorece_year','hide' => ''],
                   'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
-                  'tag_three' => ['name' => '城市','menu' => '','hide' => '']],
+                  'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             7 => ['tag_one' => ['name' => '一级知识点','menu' => '','hide' => ''],
                   'tag_two' => ['name' => '二级知识点','menu' => '','hide' => ''],
-                  'tag_three' => ['name' => '三级知识点','menu' => '','hide' => '']],
+                  'tag_three' => ['name' => '三级知识点','menu' => '','hide' => ''],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             9 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '培训资料','menu' => 'resource_train','hide' => ''],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
         ];
 
     function __construct( ) {
@@ -44,7 +52,7 @@ class resource extends Controller
     }
 
     public function get_all() {
-        $user_type     = $this->get_in_int_val('user_type', 1);
+        $use_type      = $this->get_in_int_val('use_type', 1);
         $resource_type = $this->get_in_int_val('resource_type', 1);
         $subject       = $this->get_in_int_val('subject', -1);
         $grade         = $this->get_in_int_val('grade', -1);
@@ -54,19 +62,19 @@ class resource extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
-        if($resource_type == 3 || $resource_type == 9){//没有三级标签
-            $tag_three = -1;
-        } else if($resource_type == 4 || $resource_type == 5){//没有二，三级标签
-            $tag_two   = -1;
-            $tag_three = -1;
-        }
+        // if($resource_type == 3 || $resource_type == 9){//没有三级标签
+        //     $tag_three = -1;
+        // } else if($resource_type == 4 || $resource_type == 5){//没有二，三级标签
+        //     $tag_two   = -1;
+        //     $tag_three = -1;
+        // }
 
-        if ($resource_type != 3){
-            $tag_four = -1;
-        }
+        // if ($resource_type != 3){
+        //     $tag_four = -1;
+        // }
 
         $ret_info = $this->t_resource->get_all(
-            $user_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
@@ -92,14 +100,70 @@ class resource extends Controller
                 "subject",
                 "grade",
                 "resource_type",
+                "use_type",
                 $tag_arr['tag_one']['menu'] => 'tag_one',
                 $tag_arr['tag_two']['menu'] => 'tag_two',
                 $tag_arr['tag_three']['menu'] => 'tag_three',
-                // $tag_arr['tag_four']['menu'] => 'tag_four'
+                $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
         }
 
+        // dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $this->tag_arr[$resource_type]]);
+    }
+
+    public function resource_count(){
+        list($start_time,$end_time) = $this->get_in_date_range(-7, 0 );
+        $ret_info = $this->t_resource->get_count($start_time, $end_time);
+
+        $list = [];
+
+        foreach($ret_info as &$item){
+            $visit = ($item['visit_num'] > 0)?1:0;
+            $error = ($item['error_num'] > 0)?1:0;
+            $use   = ($item['use_num'] > 0)?1:0;
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['file_num']++;//上传文件数
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit_num'] += $item['visit_num'];//浏览次数
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $visit;//收藏量
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
+        }
+        $final_list = [];
+        foreach($list as $s=>$item){
+            //subject
+            foreach($item as $a=>$val){
+                //adminid
+                //标记,这个人的第一个
+                $mark = 1;
+                foreach($val as $r=>$v){
+                    //resource_type
+                    $final_list[] = [
+                        'mark'              => $mark,
+                        'subject'           => $s,
+                        'subject_str'       => E\Esubject::get_desc($s),
+                        'adminid'           => $a,
+                        'nick'              => $this->cache_get_account_nick($a),
+                        'resource_type'     => $r,
+                        'resource_type_str' => E\Eresource_type::get_desc($r),
+                        'file_num'          => $v['file_num'],
+                        'visit_num'         => $v['visit_num'],
+                        'error_num'         => $v['error_num'],
+                        'use_num'           => $v['use_num'],
+                        'visit'             => $v['visit'],
+                        'use'               => $v['use'],
+                        'error'             => $v['error'],
+                        'visit_rate'        => round( $v['visit']/$v['file_num'], 2),
+                        'error_rate'        => round( $v['error']/$v['file_num'], 2),
+                        'use_rate'          => round( $v['use']/$v['file_num'], 2),
+                        'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
+                    ];
+                    $mark++;
+                }
+            }
+        }
+        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list),['info' => $ret_info]);
     }
 
     public function resource_frame(){
@@ -183,22 +247,25 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two');
         $tag_three     = $this->get_in_int_val('tag_three');
         $tag_four      = $this->get_in_int_val('tag_four');
+        $add_num       = $this->get_in_int_val('add_num');
 
         $adminid = $this->get_account_id();
         $time    = time();
 
-        $this->t_resource->row_insert([
-            'use_type'      => $use_type,
-            'resource_type' => $resource_type,
-            'subject'       => $subject,
-            'grade'         => $grade,
-            'tag_one'       => $tag_one,
-            'tag_two'       => $tag_two,
-            'tag_three'     => $tag_three,
-            'tag_four'      => $tag_four,
-            'adminid'       => $adminid,
-            'create_time'   => $time,
-        ]);
+        for($a = 0; $a < $add_num; $a++){
+            $this->t_resource->row_insert([
+                'use_type'      => $use_type,
+                'resource_type' => $resource_type,
+                'subject'       => $subject,
+                'grade'         => $grade,
+                'tag_one'       => $tag_one,
+                'tag_two'       => $tag_two,
+                'tag_three'     => $tag_three,
+                'tag_four'      => $tag_four,
+                'adminid'       => $adminid,
+                'create_time'   => $time,
+            ]);
+        }
         $last_id = $this->t_resource->get_last_insertid();
         return $this->output_succ(['resource_id' => $last_id]);
     }
@@ -207,11 +274,16 @@ class resource extends Controller
         $resource_id   = $this->get_in_int_val('resource_id','');
         $file_title    = $this->get_in_str_val('file_title');
         $file_hash     = $this->get_in_str_val('file_hash');
-        $file_size     = $this->get_in_int_val('file_size');
-        $file_type     = $this->get_in_int_val('file_type');
+
+        $file_size     = round( $this->get_in_int_val('file_size')/1024, 2);
+        $file_type     = $this->get_in_str_val('file_type');
         $file_link     = $this->get_in_str_val('file_link');
         $file_use_type = $this->get_in_int_val('file_use_type');
-
+        //处理文件名
+        $dot_pos = strrpos($file_title,'.');
+        $file_title = substr($file_title,0,$dot_pos);
+        //处理文件类型
+        $file_type = trim( strrchr($file_type, '/'), '/' );
         $this->t_resource_file->row_insert([
             'resource_id'   => $resource_id,
             'file_title'    => $file_title,
@@ -265,69 +337,46 @@ class resource extends Controller
         return $this->output_succ();
     }
 
-    public function del_resource() {
-
-        $id_str = $this->get_in_str_val('id_str','');
-        $type   = $this->get_in_str_val('type','');
-        if($type == 'forever'){
-            $del = 2;
-        } else {
-            $del = 1;
-        }
-
-        $adminid = $this->get_account_id();
-        $time    = time();
-        if($id_str != '') {
-            $id_str = ltrim($id_str,'[');
-            $id_str = rtrim($id_str,']');
-            $id_arr = explode(',', $id_str);
-            $id_arr = array_unique($id_arr);
-            foreach($id_arr as $id){
-                $this->t_resource->field_update_list($id, [
-                    'is_del'       => $del,
-                ]);
-
-                if($del == 1){ //删除
-                    $this->t_resource_file->update_file_status($id, 1);
-                    $this->t_resource_file_visit_info->row_insert([
-                        'file_id'     => $id,
-                        'visit_type'  => 3,
-                        'create_time' => $time,
-                        'visitor_id'  => $adminid,
-                    ]);
-                } else { //彻底删除
-                    $this->t_resource_file_visit_info->row_insert([
-                        'file_id'     => $id,
-                        'visit_type'  => 6,
-                        'create_time' => $time,
-                        'visitor_id'  => $adminid,
-                    ]);
-                }
-            }
-            return $this->output_succ();
-        }
+    public function str_to_arr($str) {
+        $str = ltrim($str,'[');
+        $str = rtrim($str,']');
+        $arr = explode(',', $str);
+        $arr = array_unique($arr);
+        return $arr;
     }
 
-    public function restore_resource() {
+    public function del_or_restore_resource() {
 
-        $id_str = $this->get_in_str_val('id_str','');
+        $res_id_str  = $this->get_in_str_val('res_id_str','');
+        $file_id_str = $this->get_in_str_val('file_id_str','');
+        $type   = $this->get_in_str_val('type','');
+        //type 0 浏览 １重命名 2上传新版本　3删除　4还原 5 纠错　6彻底删除 7 使用
+
         $adminid = $this->get_account_id();
         $time    = time();
-        if($id_str != '') {
-            $id_str = ltrim($id_str,'[');
-            $id_str = rtrim($id_str,']');
-            $id_arr = explode(',', $id_str);
-            $id_arr = array_unique($id_arr);
-            foreach($id_arr as $id){
-                $this->t_resource->field_update_list($id, ['is_del' => 0]);
-                $this->t_resource_file->update_file_status($id, 0);
+        if($res_id_str != '') {
+            $res_id_arr  = $this->str_to_arr($res_id_str);
+            $file_id_arr = $this->str_to_arr($file_id_str);
+            foreach($res_id_arr as $id){
+                if($type == 3){//删除
+                    $this->t_resource->field_update_list($id, ['is_del' => 1]);
+                    $this->t_resource_file->update_file_status($id, 1);
+                } else if ($type == 4){//还原
+                    $this->t_resource->field_update_list($id, ['is_del' => 0]);
+                    $this->t_resource_file->update_file_status($id, 0);
+                } else if ($type == 6){//彻底删除
+                    $this->t_resource->field_update_list($id, ['is_del' => 2]);
+                }
+
+            }
+
+            foreach($file_id_arr as $file_id){
                 $this->t_resource_file_visit_info->row_insert([
-                    'file_id'     => $id,
-                    'visit_type'  => 4,
+                    'file_id'     => $file_id,
+                    'visit_type'  => $type,
                     'create_time' => $time,
                     'visitor_id'  => $adminid,
                 ]);
-
             }
             return $this->output_succ();
         }
@@ -352,7 +401,7 @@ class resource extends Controller
 
     public function get_del() {
 
-        $user_type     = $this->get_in_int_val('user_type', 1);
+        $use_type      = $this->get_in_int_val('use_type', 1);
         $resource_type = $this->get_in_int_val('resource_type', 1);
         $subject       = $this->get_in_int_val('subject', -1);
         $grade         = $this->get_in_int_val('grade', -1);
@@ -373,7 +422,7 @@ class resource extends Controller
         }
 
         $ret_info = $this->t_resource->get_all(
-            $user_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info, 1
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info, 1
         );
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
