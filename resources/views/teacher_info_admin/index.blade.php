@@ -257,7 +257,7 @@
                                     <span >入职时间:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["train_through_new_time_str"]}} </span>
+                                    <span  >{{@$tea_info["train_through_new_time"]}} </span>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +268,7 @@
                                     <span >信息创建时间:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-6  row-td-field-value">
-                                    <span  >{{@$tea_info["create_time_str"]}}</span>
+                                    <span  >{{@$tea_info["create_time"]}}</span>
                                 </div>
                             </div>
                         </div>
