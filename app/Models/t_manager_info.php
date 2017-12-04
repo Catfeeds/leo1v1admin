@@ -2282,4 +2282,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
+
+    public function get_all_fulltime_teacherinfo(){
+        $sql = $this->gen_sql_new("select uid,name from %s where fulltime_teacher_type =1",
+                                    self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }
