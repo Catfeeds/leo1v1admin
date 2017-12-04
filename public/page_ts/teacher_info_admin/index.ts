@@ -22,8 +22,12 @@ $(function(){
         var id_subject = $("<select />");
         var id_putonghua_is_correctly = $("<select />");
         var id_is_good_flag = $("<select />");
+        var id_identity = $("<select />");
         var id_work_year = $("<input />");
+        var id_qq_info = $("<input />");
+        var id_age = $("<input />");
         var id_advantage = $("<input >");
+        var id_teacher_textbook = $("<input >");
         var id_base_intro = $("<textarea />");
         var id_dialect_notes = $("<textarea />");
         var id_teaching_achievement  = $("<textarea />");
@@ -33,6 +37,7 @@ $(function(){
         Enum_map.append_option_list("textbook_type",id_textbook_type,true);
         Enum_map.append_option_list("subject",id_subject,true);
         Enum_map.append_option_list("teacher_is_good",id_is_good_flag,true);
+        Enum_map.append_option_list("identity",id_identity,true);
         Enum_map.append_option_list("putonghua_is_correctly",id_putonghua_is_correctly,true);
         $.do_ajax("/teacher_info_admin/get_teacher_info_for_js", {
             "teacherid":g_teacherid            
@@ -54,13 +59,17 @@ $(function(){
             id_is_good_flag.val(resp.data.is_good_flag);
             id_teaching_achievement.val(resp.data.teaching_achievement);
             id_parent_student_evaluate.val(resp.data.parent_student_evaluate);
+            id_qq_info.val(resp.data.qq_info);
+            id_age.val(resp.data.age);
+            id_teacher_textbook.val(resp.data.age);
+            id_identity.val(resp.data.identity);
 
         });
 
       
         id_birth.datetimepicker({
             datepicker:true,
-            timepicker:true,
+            timepicker:false,
             format:'Y-m-d',
             step:30,
             onChangeDateTime :function(){
@@ -72,16 +81,16 @@ $(function(){
         
         var arr = [
             ["昵称",  id_nick] ,
-            ["实名",  id_realname] ,
-            ["手机号",  id_phone] ,
-            ["邮箱",  id_email] ,
-            ["出生日期",  id_birth] ,
             ["性别",  id_gender] ,
+            ["QQ",  id_qq_info] ,
+            ["邮箱",  id_email] ,
+            ["年龄",  id_age] ,
+            ["出生日期",  id_birth] ,
             ["教龄",  id_work_year] ,
-            ["教学特长",  id_advantage] ,
+            ["教材版本",  id_teacher_textbook] ,
+            ["老师身份",  id_identity] ,
             ["普通话是否标准",  id_putonghua_is_correctly] ,
             ["方言备注",  id_dialect_notes] ,
-            ["教师介绍",  id_base_intro] ,
             ["教学成果",  id_teaching_achievement] ,
             ["家长/学生评价",  id_parent_student_evaluate] ,
         ];
@@ -93,6 +102,38 @@ $(function(){
                 id_dialect_notes.parent().parent().show(); 
             }
         });
+        
+        id_teacher_textbook.on("click",function(){
+            var textbook  = "";
+            console.log(textbook);
+            $.do_ajax("/user_deal/get_teacher_textbook",{
+                "textbook" : textbook
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["textbook"]  ]);
+
+                    if (this["has_textbook"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","教材版本" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+                        id_teacher_textbook.val(select_list);
+                        dlg.close();
+                    }
+                });
+                
+            });
+        });
+
 
         $.show_key_value_table("修改教师信息", arr ,{
             label    : '确认',
@@ -101,14 +142,18 @@ $(function(){
                 $.do_ajax("/teacher_info_admin/set_teacher_info", {
                     "teacherid"              : g_teacherid,
                     "nick"                   : id_nick.val(),
-                    "realname"               : id_realname.val(),
+                  //  "realname"               : id_realname.val(),
                     "phone"                  : id_phone.val(),
                     "email"                  : id_email.val(),
                     "birth"                  : id_birth.val(),
                     "gender"                 : id_gender.val(),
                     "work_year"              : id_work_year.val(),
-                    "advantage"              : id_advantage.val(),
-                    "base_intro"             : id_base_intro.val(),
+                    "qq_info"                : id_qq_info.val(),
+                    "age"                    : id_age.val(),
+                    "identity"               : id_identity.val(),
+                    "teacher_textbook"       : id_teacher_textbook.val(),
+                   // "advantage"              : id_advantage.val(),
+                 //   "base_intro"             : id_base_intro.val(),
                     "putonghua_is_correctly" : id_putonghua_is_correctly.val(),
                     "dialect_notes"          : id_dialect_notes.val(),
                     "teaching_achievement"   : id_teaching_achievement.val(),

@@ -637,6 +637,29 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+
+        $this->t_manager_info-> get_tquin_uid_map();
+
+        $start_time= time()-900;
+        $end_time = time();
+        $post_arr=[
+            "enterpriseId" => 3005131  ,
+            "userName" => "admin" ,
+            "pwd" =>md5(md5("Aa123456" )."seed1")  ,
+            "seed" => "seed1",
+            "startTime" => date("Y-m-d H:i:s", $start_time),
+            "endTime" => date("Y-m-d H:i:s", $end_time),
+        ];
+
+        $limit_count =500;
+        $index_start=0;
+        $post_arr["start"]  = $index_start;
+        $post_arr["limit"]  = $limit_count;
+        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        $ret=json_decode($return_content, true  );
+        dd($ret);
+
         $list = $this->t_teacher_info->get_all_teacher_tags();
         foreach($list as $vall){
             $teacher_tags_list = json_decode($vall["teacher_tags"],true);

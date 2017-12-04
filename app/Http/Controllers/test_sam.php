@@ -1090,7 +1090,6 @@ class test_sam  extends Controller
         echo "</table>";
         echo "<tr/>";
 
-        dd($ret_info);
     }
 
 
