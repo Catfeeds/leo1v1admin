@@ -637,6 +637,8 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $list = $this->t_teacher_info->get_all_teacher_tags();
+        dd($list);
        
         $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
         $i=2;
