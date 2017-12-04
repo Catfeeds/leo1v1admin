@@ -912,5 +912,122 @@ class test_sam  extends Controller
             echo "<br/>";
         }
     }
+
+
+    /**
+     * @author    jack
+     * @function  全职老师考勤
+     */
+    public function fulltime_teacher_work_attendance_info(){
+        //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $start_time = 1509465600;
+        $end_time   = 1512057600;
+
+
+        //$adminid= $this->get_in_int_val("adminid",480 );
+        $adminid_list = $this->t_manager_info->get_all_fulltime_teacherinfo();
+        foreach ($adminid_list as $key => $value) {
+            $adminid = $value['uid'];
+            # code...
+            $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+            $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
+            $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+            $teacherid = @$teacher_info["teacherid"];
+
+            foreach ($ret_info["list"] as $item ) {
+                $logtime=$item["logtime"];
+                $opt_date=date("Y-m-d",$logtime);
+                $date_item= &$date_list[$opt_date];
+                if (!isset($date_item["start_logtime"])) {
+                    $date_item["start_logtime"]=$logtime;
+                    $date_item["end_logtime"]=$logtime;
+                }else{
+                    if ($date_item["start_logtime"] > $logtime  ) {
+                        $date_item["start_logtime"] = $logtime;
+                    }
+                    if ($date_item["end_logtime"] < $logtime  ) {
+                        $date_item["end_logtime"] = $logtime;
+                    }
+                }
+            }
+
+            $today_time = strtotime(date("Y-m-d",time()));
+            foreach( $date_list as  &$d_item ) {
+                $year=date("Y",$start_time);
+                $day_time = strtotime($year."-".$d_item["title"]);
+                $w = date("w",$day_time);
+                $check_holiday = $this->t_festival_info->check_is_holiday($day_time);
+
+                if (isset ( $d_item["start_logtime"]) ){
+                    $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
+                    $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );
+                    \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "_str","H:i:s");
+                    \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"_str", "H:i:s");    
+                }
+                if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
+                    $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
+                    if(!$check_holiday_flag){
+                        $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+                        if($id>0){
+
+                            $attendance_info = $this->t_fulltime_teacher_attendance_list->field_get_list($id,"attendance_time,attendance_type,off_time,delay_work_time");
+                            $attendance_type = $attendance_info["attendance_type"];
+                            if($attendance_type==2){
+                                if (isset ( $d_item["start_logtime"]) ){              
+                                    $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
+                                    $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
+                                    if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+                                        $d_item["error_flag"]=true;
+                                        $d_item["error_flag_str"] ="是"; 
+                                    }
+
+                                }else{
+                                    $d_item["error_flag"]=true;
+                                    $d_item["error_flag_str"] ="是";
+                                }
+
+                            }
+                           
+     
+                        }else{
+                            if (isset ( $d_item["start_logtime"]) ){              
+                                $off_time = $day_time+9.5*3600;                              
+                                $delay_time = $day_time+18.5*3600;
+                                if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+                                    $d_item["error_flag"]=true;
+                                    $d_item["error_flag_str"] ="是"; 
+                                }
+                                // $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+                                // if ($d_item["error_flag"]) {
+                                //     $d_item["error_flag_str"] ="是";
+                                // }
+                            }else{
+                                $d_item["error_flag"]=true;
+                                $d_item["error_flag_str"] ="是";
+                            }
+     
+                        }
+                    }
+                    
+                }
+            }
+            echo "<table >";
+            echo "<tr><td>姓名</td><td>日期</td><td>开始</td><td>结束</td> <td>间隔</td><td>异常</td></tr>";
+            foreach ($date_list as $var) {
+                # code...
+                echo "<tr>";
+                echo "<td>".@$value['name']."</td>";
+                echo "<td>".@$var["title"]."</td>";
+                echo "<td>".@$var["start_logtime_str"]."</td>";
+                echo "<td>".@$var["end_logtime_str"]."</td>";
+                echo "<td>".@$var["work_time_str"]."</td>";
+                echo "<td>".@$var["error_flag_str"]."</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "<tr/>";
+        }
+
+    }
 }
 
