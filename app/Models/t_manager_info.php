@@ -2296,7 +2296,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_all_fulltime_teacherinfo(){
-        $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) )",
+        $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) ) and uid>=1000",
                                     self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }

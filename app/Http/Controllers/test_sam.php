@@ -925,6 +925,7 @@ class test_sam  extends Controller
 
 
         //$adminid= $this->get_in_int_val("adminid",480 );
+        $file = fopen("aa.txt","a+");   
         $adminid_list = $this->t_manager_info->get_all_fulltime_teacherinfo();
         echo "<table >";
         echo "<tr><td>姓名</td><td>日期</td><td>开始</td><td>结束</td> <td>间隔</td><td>异常</td></tr>";
