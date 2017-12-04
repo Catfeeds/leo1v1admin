@@ -27,8 +27,6 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
-
-        
     }
 
     public function check_is_exist($teacherid,$day_time,$attendance_type=-1){
@@ -58,6 +56,30 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
     public function get_holiday_info(){
         $sql = $this->gen_sql_new("select * from %s where attendance_type=3",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
+    }
+
+    public function get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role=-1,$fulltime_teacher_type=-1){
+        $where_arr=[
+            ["f.attendance_type=%u",$attendance_type,-1],
+            ["f.teacherid=%u",$teacherid,-1],
+            ["f.adminid=%u",$adminid,-1],
+            ["m.account_role=%u",$account_role,-1],
+            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"f.attendance_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select t.realname,f.teacherid,f.adminid,f.add_time,f.attendance_time,f.attendance_type,f.day_num,f.off_time,f.cancel_flag,f.cancel_reason,f.id,f.lesson_count,f.delay_work_time from %s f"
+                                  ." left join %s t on f.teacherid = t.teacherid"
+                                  ." left join %s m on f.adminid = m.uid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+        //return $this->main_get_list_by_page($sql,$page_num);
+
+        
     }
 
 }
