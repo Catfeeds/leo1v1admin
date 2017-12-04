@@ -92,7 +92,7 @@
                      {!!  \App\Helper\Utils::gen_jquery_data($tea_info)  !!}
                 >
                     <div class="row">
-                        <div class="col-xs-6 col-md-4"  >
+                        <div class="col-xs-6 col-md-3"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
                                     <span >teacherid:</span>
@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-md-4"  >
+                        <div class="col-xs-6 col-md-3"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
                                     <span >实名:</span>
@@ -112,19 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >邮箱:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["email"]}} </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 col-md-4"  >
+                        <div class="col-xs-6 col-md-3"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
                                     <span >昵称:</span>
@@ -134,25 +122,62 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="col-xs-6 col-md-4"  >
+                        <div class="col-xs-6 col-md-3"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
                                     <span >性别:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["gender_str"]}}</span>
+                                    <span  >{{@$tea_info["gender_str"]}} </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-md-4"  >
+
+
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
+                                    <span >QQ:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-7  row-td-field-value">
+                                    <span  >{{@$tea_info["qq_info"]}} </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-md-3"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
+                                    <span >邮箱:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-7  row-td-field-value">
+                                    <span  >{{@$tea_info["email"]}} </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-md-3"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
+                                    <span >年龄:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-7  row-td-field-value">
+                                    <span  >{{@$tea_info["age"]}} </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-6 col-md-3"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
                                     <span >出生日期:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  > {{@$tea_info["birth_str"]}}</span>
+                                    <span  >{{@$tea_info["birth_str"]}}</span>
                                 </div>
                             </div>
                         </div>
