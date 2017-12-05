@@ -4668,7 +4668,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_bank_info($page_info) {
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t left join %s l on t.teacherid=l.teacherid where lesson_start > 0 group by t.teacherid ",
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t left join %s l on t.teacherid=l.teacherid where lesson_start > 0 and t.is_test_user = 0 group by t.teacherid ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME
         );
@@ -4713,7 +4713,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." count(l_week.lessonid) as week_num,"
                                   ." count(l_month.lessonid) as month_num,"
                                   ." count(l_has.lessonid) as has_num"
-                                  ." from %s t "
+                                  ." from %s force index(subject) t"
                                   ." left join %s tf on t.teacherid=tf.teacherid"
                                   ." left join %s l_day on t.teacherid=l_day.teacherid and %s"
                                   ." left join %s l_week on t.teacherid=l_week.teacherid and %s"

@@ -524,6 +524,10 @@
                                         <a title="驳回申请" class=" opt-set-limit-require-refuce show_seller" >驳回 </a>
                                     @endif
                                     <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
+                                    @if(in_array($acc,["jack","jim","adrian"]))
+                                        <a title="排课" class="lesson-plan-new-test">排课</a>
+                                    @endif
+
 
                                 </div>
                             </td>

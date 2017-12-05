@@ -58,7 +58,6 @@ $(function(){
     $('#id_return_publish_count').val(g_args.return_publish_count);
     $('#id_cc_called_count').val(g_args.cc_called_count);
     $('#id_cc_no_called_count').val(g_args.cc_no_called_count);
-
     $('#id_call_admin_count').val(g_args.call_admin_count);
     $( "#id_phone_name" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
@@ -136,7 +135,7 @@ $(function(){
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
         } );
-
+        alert(opt_data.last_revisit_time);
         $.do_ajax("/ajax_deal2/check_phone_status",{
             "phone" : opt_data.data ,
         } ,function(ret){
