@@ -15,9 +15,7 @@ class TSellerStudentNewAddCcCalledCountNew extends Migration
         //
         Schema::table('db_weiyi.t_seller_student_new', function( Blueprint $table)
         {
-            t_field($table->integer("cc_called_count_new"), "接通次数");
-            t_field($table->integer("cc_no_called_count_new"), "未接通次数");
-            t_field($table->integer("call_admin_count_new"), "例子经手CC数");
+            t_field($table->integer("cc_no_called_count_new"), "连续未接通次数");
         });
     }
 

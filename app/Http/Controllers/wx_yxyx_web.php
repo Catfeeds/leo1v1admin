@@ -41,14 +41,14 @@ class wx_yxyx_web extends Controller
 
             $url = "$web_html_url/$action.html?v=1101";
             // 测试环境
-            if(\App\Helper\Utils::check_env_is_test())
+            if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_release())
                 $url=$wx_config["test_url"].'/index.html';
 
             if($action == 'bind'){
                 // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
                 //测试环境
-                if(\App\Helper\Utils::check_env_is_test())
+                if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_release())
                     $url = $wx_config["test_url"].'/login.html';
 
             }
