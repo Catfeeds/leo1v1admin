@@ -259,6 +259,7 @@
 
     </body>
     <script type="text/javascript">
+     console.log(g_account);
      if(g_account=="jack" || g_account=="jim" || g_account=="adrian"||g_account=="abner" || g_account=="michelle" ){
          download_show();
          $(".page-opt-show-all-xls").show();
