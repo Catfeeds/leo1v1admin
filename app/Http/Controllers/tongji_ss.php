@@ -609,7 +609,7 @@ class tongji_ss extends Controller
         //试听信息
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
-        dd($test_lesson_list);
+        // dd($test_lesson_list);
         foreach ($test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
