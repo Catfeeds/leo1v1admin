@@ -75,10 +75,11 @@ $(function(){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
             var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
+            console.log(nextItem);
             if(nextItem < 0){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
-
+            console.log('二：'+nextItem);
             var test_lesson_count = 0 ;
             var succ_all_count_for_month = 0;
             var suc_lesson_count_one = 0;
