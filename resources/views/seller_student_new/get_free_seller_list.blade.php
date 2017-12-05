@@ -88,19 +88,19 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">例子经手CC数</span>
-                    <input class="opt-change form-control" id="id_call_admin_count"  placeholder="数字-数字"/>
+                    <input class="opt-change form-control" id="id_1"  placeholder="不可用"/>
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">接通次数</span>
-                    <input class="opt-change form-control" id="id_cc_called_count" placeholder="数字-数字" />
+                    <input class="opt-change form-control" id="id_2" placeholder="不可用" />
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">未接通次数</span>
-                    <input class="opt-change form-control" id="id_cc_no_called_count_new" placeholder="数字-数字"/>
+                    <input class="opt-change form-control" id="id_3" placeholder="不可用"/>
                 </div>
             </div>
             <button class="btn btn-primary" id="id_left_count"  title="可领个数" > {{$left_count}}
@@ -123,9 +123,6 @@
                     <td>例子进入时间 </td>
                     <td>电话</td>
                     <td>回流公海次数</td>
-                    <td>接通次数</td>
-                    <td>未接通次数</td>
-                    <td>例子经手CC数</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -145,18 +142,14 @@
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["phone_hide"]}} </td>
                         <td>{{@$var['return_publish_count']}}</td>
-                        <td>{{@$var['cc_called_count']}}</td>
-                        <td>{{@$var['cc_no_called_count_new']}}</td>
-                        <td>{{@$var['call_admin_count']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone "></a>
                                 <a   class=" btn fa  opt-set-self" title="">抢学生 </a>
-                                <a title="录入回访信息" class="  fa-edit opt-edit-new_new" style="display: none"></a>
                                 <a title="手机拨打&录入回访信息" class="btn fa fa-phone opt-telphone_new">测试请不要使用</a>
                                 <a title="查看回访" class="fa fa-comments show-in-select  opt-return-back-list"></a>
-                                <a title="手机拨打"  class=" btn fa fa-phone  opt-telphone "></a>
                             </div>
                         </td>
                     </tr>
