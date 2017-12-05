@@ -41,6 +41,42 @@ class cr_info_month extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
+        $lesson_income  = $task->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入       
+        $arr['lesson_income'] = round($lesson_income/100,2);                                      //B11-课时收入
+        $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        if($ret_id>0){
+            $task->t_cr_week_month_info->field_update_list($ret_id,[
+                "lesson_income"           => intval($arr['lesson_income']*100),//B11-课时收入
+            ]);
+        }
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
+        $lesson_income  = $task->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入       
+        $arr['lesson_income'] = round($lesson_income/100,2);                                      //B11-课时收入
+        $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        if($ret_id>0){
+            $task->t_cr_week_month_info->field_update_list($ret_id,[
+                "lesson_income"           => intval($arr['lesson_income']*100),//B11-课时收入
+            ]);
+        }
+
+        $start_time = strtotime("2017-11-01");
+        $end_time = strtotime("2017-12-01");
+        $lesson_income  = $task->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入       
+        $arr['lesson_income'] = round($lesson_income/100,2);                                      //B11-课时收入
+        $ret_id = $task->t_cr_week_month_info->get_info_by_type_and_time(1,$end_time);
+        if($ret_id>0){
+            $task->t_cr_week_month_info->field_update_list($ret_id,[
+                "lesson_income"           => intval($arr['lesson_income']*100),//B11-课时收入
+            ]);
+        }
+        dd(111111);
+
+
+
+
         $timestamp = time(); 
 
 
