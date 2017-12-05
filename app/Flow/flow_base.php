@@ -122,9 +122,10 @@ class flow_base{
         return true;
     }
 
-    static function check_post_admin_account_type( $flowid,$adminid ) {
+    static function check_post_admin_account_type( $adminid, $check_role ) {
         $t_manager_info =  new \App\Models\t_manager_info();
         $account_role = $t_manager_info->get_account_role($adminid);
+        return $account_role == $check_role ;
     }
 
 }

@@ -13,7 +13,7 @@ class flow_ass_order_refund  extends flow_base{
         0=>[ 1 , "退费申请"  ],
         1=>[ 2,"主管审批"  ],
 
-        2=>[ 9,"[部]主审批" ],
+        2=>[ [9,8],"[部]主审批" ],
 
         9=>[ 8 ,"经理 " ],
 
@@ -113,7 +113,11 @@ class flow_ass_order_refund  extends flow_base{
 
     static function next_node_process_2 ($flowid, $adminid){ //
         $flag=\App\Helper\Utils::check_env_is_release() ;
-        return $flag? "孙佳旭":"jim" ;
+        if (static::check_post_admin_account_type( $adminid, E\Erole::V_ASSISTENT) ) {
+            return [8, $flag? "孙佳旭":"jim"] ;
+        }else {
+            return [9, $flag? "zero":"jim"] ;
+        }
 
     }
 
