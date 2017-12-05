@@ -71,15 +71,43 @@ $(function(){
         obj.find(".order_per").text(data["order_per"]);
     }
 
+    function job_tongji(className,nextName){
+        $("#id_tbody ."+className).each(function(){
+            var thisItem = $(this).index();
+            var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
+            
+            if(nextItem < 0){
+                nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
+            }
+            var at_job = 0;
+            var leave_job = 0;
+
+            if( nextItem >= thisItem ){
+                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+').'+nextName).each(function(){
+                    var field_1 = $(this).find('.at_job').text() == '' ? 0 : parseInt($(this).find('.at_job').text());
+                    var field_2 = $(this).find('.leave_job').text() == '' ? 0 : parseInt($(this).find('.leave_job').text());
+                    at_job += field_1;
+                    leave_job += field_2;
+                })
+            }
+            $(this).find('.at_job').text(at_job);
+            $(this).find('.leave_job').text(leave_job);
+        })
+    }
+
+    job_tongji('l-2','l-3');
+    job_tongji('l-1','l-2');
+    job_tongji('l-0','l-1');
+
     function superAdd(className,nextName){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
             var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
-            console.log(nextItem);
+            
             if(nextItem < 0){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
-            console.log('二：'+nextItem);
+            //console.log(nextItem);
             var test_lesson_count = 0 ;
             var succ_all_count_for_month = 0;
             var suc_lesson_count_one = 0;
