@@ -570,16 +570,10 @@ $(function(){
 
             }
         });
-
     });
 
-    if(g_args.tea_adminid !=349 && g_args.tea_adminid !=72 && g_args.tea_adminid !=448 && g_args.tea_adminid !=967 &&g_args.tea_adminid != 684 ){
-        $(".fa-download").hide();
-        $(".page-opt-show-all-xls").hide();
-    }
-
     $(".opt-edit-full_time").on("click",function(){
-      var data           = $(this).get_opt_data();
+        var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_record_info = $("<textarea/>");
         var flag_html      = "<option value='0'>不通过</option>"
