@@ -1087,7 +1087,7 @@ class ss_deal extends Controller
 
         $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
         if ( $ss_item["user_desc"] != $user_desc) {
-            $this->t_book_revisit->add_book_revisit($phone , "更新备注:$user_desc" , $this->get_account());
+            $this->t_book_revisit->add_book_revisit($phone , "[销售回访]更新备注:$user_desc" , $this->get_account());
         }
 
         /* if ($db_tt_item["stu_request_test_lesson_demand"] != $stu_request_test_lesson_demand) {
