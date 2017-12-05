@@ -25,84 +25,34 @@ $(function(){
         }
     });
     // $(".common-table").table_admin_level_4_init();
-    //$(".common-table").table_admin_level_5_init();
-    var whole_data = [];
+    $(".common-table").table_admin_level_5_init();
     function load_row_data (){
-        
         var row_list = $("#id_tbody .l-5");
-        var row_all = $("#id_tbody tr") ;
         var do_index = 0;
         function do_one() {
-            
-            var className = $("#id_tbody tr:eq("+do_index+")") .attr('class');
-          
-            var arr_4 = new Array();
-            var arr_3 = new Array();
-            var arr_2 = new Array();
-            var arr_1 = new Array();
-            var arr_0 = new Array();
-            whole_data[do_index] = {'level':className};
-      
-            if (do_index < row_all.length ){
-
-                if( className == 'l-4' ){
-                    arr_4.push(do_index)
-                }
-                if( className == 'l-3' ){
-                    arr_3.push(do_index)
-                }
-                if( className == 'l-2' ){
-                    arr_2.push(do_index)
-                }
-                if( className == 'l-1' ){
-                    arr_1.push(do_index)
-                }
-                if( className == 'l-0' ){
-                    arr_0.push(do_index)
-                }
-
-                if( className == 'l-5' ){
-                    var $tr      = $(row_all[do_index]);
-                    var opt_data = $tr.find(".opt-show").get_opt_data();
-                    $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
-                        "adminid"    : opt_data.adminid,
-                        "start_time" : g_args.start_time,
-                        "end_time"   : g_args.end_time,
-                    },function(data){
-                        pullData($tr,data);
-                        data['level'] = className;
-                        whole_data[do_index] = data;
-                        do_one();
-                    });
-                }
+            if (do_index < row_list.length ) {
+                var $tr      = $(row_list[do_index]);
+                var opt_data = $tr.find(".opt-show").get_opt_data();
+                $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
+                    "adminid"    : opt_data.adminid,
+                    "start_time" : g_args.start_time,
+                    "end_time"   : g_args.end_time,
+                },function(data){
+                    pushData($tr,data)
+                    do_index++;
+                    do_one();
+                });
             }
-           
-            if(do_index == row_all.length){
-              
-                var strArr = {
-                    'test_lesson_count':0,
-                    'succ_all_count_for_month':0,
-                    'suc_lesson_count_one':0,
-                    'suc_lesson_count_two':0,
-                    'suc_lesson_count_three':0,
-                    'suc_lesson_count_four':0,
-                    'fail_all_count_for_month':0
-                };
-                whole_data =  super_add(arr_4,whole_data,'l-5',strArr);
-                whole_data =  super_add(arr_3,whole_data,'l-4',strArr);
-                whole_data =  super_add(arr_2,whole_data,'l-3',strArr);
-                whole_data =  super_add(arr_1,whole_data,'l-2',strArr);
-                whole_data =  super_add(arr_0,whole_data,'l-1',strArr);
-                console.log(whole_data);
+            if (do_index == row_list.length ) {
+                superAdd('l-4','l-5');
             }
-            do_index++;
         };
         do_one();
     };
 
     load_row_data ();
 
-    function pullData(obj,data){
+    function pushData(obj,data){
         obj.find(".test_lesson_count").text(data["test_lesson_count"]);
         obj.find(".succ_all_count_for_month").text(data["succ_all_count_for_month"]);
         obj.find(".suc_lesson_count_one").text(data["suc_lesson_count_one"]);
@@ -115,44 +65,43 @@ $(function(){
         obj.find(".order_per").text(data["order_per"]);
     }
 
+    function superAdd(className,nextName){
+        $("#id_tbody ."+className).each(function(){
+            var thisItem = $(this).index();
+            var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
+            if(nextItem == undefined){
+                nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
+            }
+            if( nextItem >= thisItem ){
+                var test_lesson_count = 0 ;
+                var succ_all_count_for_month = 0;
+                var suc_lesson_count_one = 0;
+                var suc_lesson_count_two = 0;
+                var suc_lesson_count_three = 0;
+                var suc_lesson_count_four = 0;
+                var fail_all_count_for_month = 0;
+                $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+').'+nextName).each(function(){
+                    test_lesson_count += parseInt($(this).find('.test_lesson_count').text());
+                    succ_all_count_for_month += parseInt($(this).find('.succ_all_count_for_month').text());
+                    suc_lesson_count_one += parseInt($(this).find('.suc_lesson_count_one').text());
+                    suc_lesson_count_two += parseInt($(this).find('.suc_lesson_count_two').text());
+                    suc_lesson_count_three += parseInt($(this).find('.suc_lesson_count_three').text());
+                    suc_lesson_count_four += parseInt($(this).find('.suc_lesson_count_four').text());
+                    fail_all_count_for_month += parseInt($(this).find('.fail_all_count_for_month').text());
+                })
+            }
+            $(this).find('.test_lesson_count').text(test_lesson_count);
+            $(this).find('.succ_all_count_for_month').text(succ_all_count_for_month);
+            $(this).find('.suc_lesson_count_one').text(suc_lesson_count_one);
+            $(this).find('.suc_lesson_count_two').text(suc_lesson_count_two);
+            $(this).find('.suc_lesson_count_three').text(suc_lesson_count_three);
+            $(this).find('.suc_lesson_count_four').text(suc_lesson_count_four);
+            $(this).find('.fail_all_count_for_month').text(fail_all_count_for_month);
+        })
+    }
+
     if(g_account=='龚隽' || g_account=='sherry'){
         download_show();
     }
     $('.opt-change').set_input_change_event(load_data);
-
-    function super_add(arr_n,arr,lev,strArr){
-         if(!arr_n || !arr){
-            return arr;
-        } 
-        for( var x in arr_n){
-           
-            var first = arr_n[x] + 1;
-            var end = arr_n.length - 1;
-            if( arr_n[x] == arr_n[end] ){
-                var last = arr.length - 1;
-            }else{
-                var last = arr_n[x+1] - 1;
-            }
-
-            if(first > last){
-                arr[arr_n[x]] = strArr;
-            }else if(first == last){
-                arr[arr_n[x]] = arr[first];
-            }else{
-                for( var i = first; i <= last; i++ ){
-                    if(arr[i].level == lev){
-                        var obj = arr[i];
-                        var superObj = {};
-                        for( var y in strArr ){
-                            superObj[y] += obj[y];
-                        }
-                        arr[arr_n[x]] = superObj;
-                    }
-                }
-            }
-            arr[arr_n[x]].level = lev;
-                        
-        }
-        return arr;
-    }
 });

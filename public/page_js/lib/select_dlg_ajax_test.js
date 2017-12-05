@@ -99,7 +99,7 @@
     Cselect_dlg_ajax.prototype = {
         init_body:function() {
             var me=this;
-            var $body=$("<div ></div>");;
+            var $body=$("<div ></div>");
 
             $.each(me.options.filter_list,function (i,row_item){
                 var $filter_row= $('<div class="row"></div>');
@@ -347,9 +347,10 @@
                 }) ;
             }
 
-            var $dlg_form=$('<div class="row require_info" >'+
-                            '</div>'+
-                            '<div class="row">'+
+            var $dlg_form=$('<div class="row">'+
+                            '    <div class="col-xs-12 col-md-12 require_info">'+
+                            '    </div>'+
+
                             '    <div class="col-xs-12 col-md-12 ajax_list">'+
                             '    </div>'+
                            /* '    <div class="col-xs-12 col-md-4 lru_list " >'+
@@ -364,6 +365,7 @@
 
             $dlg_form.find( ".ajax_list"  ).append(me.$body);
             $dlg_form.find( ".lru_list"  ).append(me.$lru_body);
+
             $.ajax({
                 type     : "post",
                 url      : "/ajax_deal2/get_require_info_by_id",
@@ -371,20 +373,14 @@
                 data     : {require_id: me.options.requireid},
                 success  : function(result){
                     var require_list = result.data;
-                   /* $dlg_form.find( ".require_info"  ).append(
+                    $dlg_form.find( ".require_info"  ).append(
                         '<div class="row">'+
                             '<div  class="col-xs-12 col-md-2 ">姓名 :'+require_list.nick+'</div>'+
                             '<div  class="col-xs-12 col-md-2 ">性别:'+require_list.gender_str+'</div>'+
                             '<div  class="col-xs-12 col-md-2 ">年级:'+require_list.grade_str+'</div>'+
                             '<div  class="col-xs-12 col-md-2 ">科目:'+require_list.subject_str+'</div>'+
                             '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
-                            '</div>');*/
-                    alert(require_list.nick);
-                    console.log($dlg_form.find( ".require_info"  ));
-                    var str = $('<div  class="col-xs-12 col-md-2 ">姓名 :11111</div>');
-                    $dlg_form.find( ".require_info"  ).append(
-                        str
-                    );
+                            '</div>');
 
                     
 
