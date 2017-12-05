@@ -43,7 +43,7 @@ $(function(){
     });
 
     $('.opt-show').on('click', function (){
-        var pdf_url = $(this).attr('data-pdf');
+        var file_url = $(this).attr('data-pdf');
         // $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
 
         $.ajax({
