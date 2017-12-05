@@ -1005,19 +1005,60 @@ class wx_teacher_api extends Controller
 
     }
 
-    public function get_test_lesson_info(){
-        $teacherid = $this->get_teacherid();
+    //标签系统 微信推送
+    public function get_test_lesson_info(){ //标签系统 jack
         $lessonid  = $this->get_in_int_val('lessonid',-1);
 
         $ret_info = $this->t_test_lesson_subject->get_test_require_info($lessonid);
 
+        foreach($ret_info as &$item){
+            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+            $item['grade_str']   = E\Egrade::get_desc($item['grade']);
+            $item['lesson_time_str'] = date('m-d H:i',$item['lesson_start'])." ~ ".date('H:i',$item['lesson_end']);
+            $item['gender_str'] = E\Egender::get_desc($item['gender']);
+        }
+
         return $this->output_succ(["data"=>$ret_info]);
     }
 
-    public function get_resource_list(){
+    public function get_resource_list(){ // 讲义系统 boby
 
     }
 
+    public function update_accept_status(){ //更新接受状态并发送微信推送
+        $lessonid = $this->get_in_int_val('lessonid');
+        $status   = $this->get_in_int_val('status');
+
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+            "accept_status" => $status
+        ]);
+
+        if($status == 1){ //接受
+            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
+            $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
+            $stu_nick = $this->cache_get_teacher_nick($lesson_info['userid']);
+            $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
+            $data = [
+                "first" => "$stu_nick 同学的试听课排课成功",
+                "keyword1" => "排课成功提醒",
+                "keyword2" => "\n 学员姓名:$stu_nick \n 老师姓名:$tea_nick \n 教务姓名:$jw_nick \n 上课时间:$lesson_time_str",
+                "keyword3" => date("Y-m-d H:i:s"),
+            ];
+            $url = ""; //待定
+
+            $wx = new \App\Helper\WxSendMsg();
+            $wx->send_ass_for_first($wx_openid, $data, $url);
+        }
+
+        return $this->output_succ();
+    }
+
+    public function get_test_teacher_info(){ //排课人推送 点击详情数据接口
+        $lessonid = $this->get_in_int_val('lessonid');
+        $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
+        return $this->output_succ(["data"=>$teacher_info]);
+    }
 
 
 

@@ -2492,5 +2492,42 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_info_for_tag($lessonid){
+        $sql = $this->gen_sql_new("  select l.userid, l.teacherid, l.lesson_start, l.lesson_end, tr.accept_adminid"
+                                  ." from %s l "
+                                  ." left join %s tll on tll.lessonid=l.lessonid"
+                                  ." left join %s tr on tr.require_id=tll.require_id"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
