@@ -2099,6 +2099,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list() {
+        $sql = $this->gen_sql_new(" select account,name,phone from %s where leave_member_time=0",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['phone'];
+        });
+    }
+
     public function get_ass_leader_opneid($assid){
         $where_arr = [
             "au.adminid=$assid"
