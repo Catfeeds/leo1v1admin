@@ -195,12 +195,8 @@ class update_company_wx_data extends Command
         // $tag_users = $task->t_company_wx_tag_users->get_all_list();
 
         foreach ($info as $item) {
-            $task->t_manager_info->field_update_list($item['uid'], [
-                'power' => ''
-            ]);
-            continue;
             $item['power'] = '';
-            if ($item['isleader'] == 1) { // 领导
+            if ($item['isleader'] == 1 || true) { // 领导
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
                 $parent = $this->get_parent_node($department, $item['department']);
                 $parent = explode("-", $parent);

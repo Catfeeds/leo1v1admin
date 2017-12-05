@@ -42,7 +42,7 @@ class add_new_tea_entry extends Command
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
         // 拉取数据
-        $user = $this->t_manager_info->;
+        //$user = $this->t_manager_info->;
         $info = $this->t_teacher_lecture_appointment_info_b2->get_info_for_cc();
         exit;
         $info = $task->t_teacher_lecture_appointment_info_b2->get_name_for_tea_name();
