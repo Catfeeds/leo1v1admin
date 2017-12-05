@@ -1436,7 +1436,7 @@ class test_code extends Controller
     }
 
     public function get_lesson_count(){
-        
+        // $list = $this->t_order_lesson_list->
     }
 
 }
