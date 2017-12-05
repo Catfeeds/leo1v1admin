@@ -3243,7 +3243,8 @@ class user_manage_new extends Controller
         $end_date   = $this->get_in_str_val("end_time");
 
         $start_time = strtotime($start_date);
-        $end_time   = strtotime($end_date)+86400;
+        $end_time   = strtotime("+1 month",$start_time);
+        // $end_time   = strtotime($end_date)+86400;
 
         $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time);
 

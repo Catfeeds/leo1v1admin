@@ -3265,7 +3265,6 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-    //施文斌
     if(g_account=="wenbin"){
         download_show();
     }

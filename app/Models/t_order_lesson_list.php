@@ -81,6 +81,7 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
                                   ." left join %s ol on l.lessonid=ol.lessonid"
                                   ." left join %s s on l.userid=s.userid"
                                   ." where %s"
+                                  ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME

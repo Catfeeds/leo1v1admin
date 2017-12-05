@@ -4713,7 +4713,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." count(l_week.lessonid) as week_num,"
                                   ." count(l_month.lessonid) as month_num,"
                                   ." count(l_has.lessonid) as has_num"
-                                  ." from %s t "
+                                  ." from %s force index(subject) t"
                                   ." left join %s tf on t.teacherid=tf.teacherid"
                                   ." left join %s l_day on t.teacherid=l_day.teacherid and %s"
                                   ." left join %s l_week on t.teacherid=l_week.teacherid and %s"

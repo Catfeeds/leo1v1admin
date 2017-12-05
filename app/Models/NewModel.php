@@ -988,11 +988,9 @@ abstract class NewModel
      */
     public function lesson_common_sql($where_arr,$alias=''){
         $alias = $this->get_table_alias($alias);
-        $add_arr = [
-            $alias."lesson_del_flag=1",
-            $alias."confirm_flag!=2",
-        ];
-        return array_push($where_arr,$add_arr);
+        $where_arr[] = $alias."lesson_del_flag=1";
+        $where_arr[] = $alias."confirm_flag!=2";
+        return $where_arr;
     }
 
     /**
