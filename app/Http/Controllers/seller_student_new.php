@@ -1149,7 +1149,7 @@ class seller_student_new extends Controller
 
         $return_publish_count = $this->get_in_int_val('return_publish_count',-1);
         $cc_called_count      = $this->get_in_int_val('cc_called_count',-1);
-        $cc_no_called_count_new   = $this->get_in_int_val('cc_no_called_count_new',-1);
+        $cc_no_called_count_new = $this->get_in_int_val('cc_no_called_count_new',-1);
         $call_admin_count     = $this->get_in_int_val('call_admin_count',-1);
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
