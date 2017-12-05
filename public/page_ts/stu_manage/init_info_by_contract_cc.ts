@@ -47,7 +47,7 @@ $(function(){
             }
         });
 
-        if(is_submit_show !=1 && gg_acc!="long-张龙"){ // 未驳回
+        if(is_submit_show !=1 && g_args.gg_acc!="long-张龙"){ // 未驳回
             $("#id_submit_succ").hide();
         }else if(is_submit_show==1){
             $("#id_submit_succ").show();
