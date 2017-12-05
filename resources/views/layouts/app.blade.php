@@ -18,11 +18,7 @@
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-
         <link rel="stylesheet" href="/css/skin-blue-light.css">
-
-
-
         <!-- Morris chart -->
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.css">
         <!-- jvectormap -->
