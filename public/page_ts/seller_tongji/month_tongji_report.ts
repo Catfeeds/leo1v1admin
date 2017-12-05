@@ -26,9 +26,10 @@ $(function(){
     });
     // $(".common-table").table_admin_level_4_init();
     $(".common-table").table_admin_level_5_init();
+    var whole_data = new Array();
+    var do_index = 0;
     function load_row_data (){
         var row_list = $("#id_tbody .l-5");
-        var do_index = 0;
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
@@ -81,13 +82,23 @@ $(function(){
                 var suc_lesson_count_four = 0;
                 var fail_all_count_for_month = 0;
                 $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+').'+nextName).each(function(){
-                    test_lesson_count += parseInt($(this).find('.test_lesson_count').text());
-                    succ_all_count_for_month += parseInt($(this).find('.succ_all_count_for_month').text());
-                    suc_lesson_count_one += parseInt($(this).find('.suc_lesson_count_one').text());
-                    suc_lesson_count_two += parseInt($(this).find('.suc_lesson_count_two').text());
-                    suc_lesson_count_three += parseInt($(this).find('.suc_lesson_count_three').text());
-                    suc_lesson_count_four += parseInt($(this).find('.suc_lesson_count_four').text());
-                    fail_all_count_for_month += parseInt($(this).find('.fail_all_count_for_month').text());
+                   
+                    var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
+                    var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
+                    var field_3 = $(this).find('.suc_lesson_count_one').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_one').text());
+                    var field_4 = $(this).find('.suc_lesson_count_two').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_two').text());
+                    var field_5 = $(this).find('.suc_lesson_count_three').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_three').text());
+                    var field_6 = $(this).find('.suc_lesson_count_four').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_four').text());
+                    var field_7 = $(this).find('.fail_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.fail_all_count_for_month').text());
+                    console.log(field_1);
+                    test_lesson_count += field_1;
+                    succ_all_count_for_month += field_2;
+                    suc_lesson_count_one += field_3;
+                    suc_lesson_count_two += field_4;
+                    suc_lesson_count_three += field_5;
+                    suc_lesson_count_four += field_6;
+                    fail_all_count_for_month += field_7;
+
                 })
             }
             $(this).find('.test_lesson_count').text(test_lesson_count);
