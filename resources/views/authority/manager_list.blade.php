@@ -183,6 +183,9 @@
                                     @if(in_array($acc,["michelle","jack","jim"]))
                                         <a href="javascript:;" title="权限备份互换" class="opt-change-permission-new">权限更换</a>
                                     @endif
+                                    @if(in_array($acc, ['jim', 'ricky']))
+                                        <a href="javascript:;" title="个人拥有权限" class="opt-ower-permission">个人权限</a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
