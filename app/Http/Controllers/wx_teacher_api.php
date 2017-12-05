@@ -1025,7 +1025,15 @@ class wx_teacher_api extends Controller
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
         //上课要求标签[未定]
+        $ret_info['style'] = '风格标签';
+        $ret_info['major'] = '专业标签';
+        $ret_info['identity'] = '身份标签';
+        $ret_info['atmosphere'] = '课堂氛围标签';
+        $ret_info['courseware'] = '课件要求';
         //学科化内容标签[未定]
+        $ret_info['subject_tag_a'] = '学科标签A';
+        $ret_info['subject_tag_b'] = '学科标签B';
+        $ret_info['handout_flag'] = 0; //无讲义
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1039,14 +1047,14 @@ class wx_teacher_api extends Controller
         $status   = $this->get_in_int_val('status');
 
         $check_handout = '';// 待确认[boby]
-        if($check_handout){ //测试
+        if($check_handout){ //测试 若有讲义 则转到讲义列表页面
             header("Location: http://www.baidu.com");
         }
 
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
             // "accept_status" => $status// 新增字段
-        ]);
+        // ]);
 
         if($status == 1){ //接受
             $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
@@ -1066,12 +1074,30 @@ class wx_teacher_api extends Controller
             // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
         }
 
-        return $this->output_succ();
+        return $this->output_succ(["status"=>$status]);
     }
 
     public function get_test_teacher_info(){ //排课人推送 点击详情数据接口
         $lessonid = $this->get_in_int_val('lessonid');
         $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
+        $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
+        $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
+        $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
+
+
+        $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
+        $tea_label_type_str = "";
+
+        if($tea_label_type_arr){
+            foreach($tea_label_type_arr as $item){
+                $tea_label_type_str.=E\Etea_label_type::get_desc($item)."  ";
+            }
+        }
+
+        $teacher_info['harvest'] = "教学成果";
+        $teacher_info['evaluate'] = "家长/学元评价";
+
+        $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
 

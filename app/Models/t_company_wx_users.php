@@ -8,6 +8,15 @@ class t_company_wx_users extends \App\Models\Zgen\z_t_company_wx_users
 		parent::__construct();
 	}
 
+    public function get_all_users() {
+        $sql = $this->gen_sql_new("select userid,name,mobile from %s ",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['mobile'];
+        });
+    }
+
     public function get_all_list() {
         $sql = $this->gen_sql_new("select u.id+1000 id,u.userid,u.name,u.position,u.permission,u.isleader,u.department pId,m.power from %s u left join %s m on u.mobile=m.phone order by `order` desc",
                                   self::DB_TABLE_NAME,
