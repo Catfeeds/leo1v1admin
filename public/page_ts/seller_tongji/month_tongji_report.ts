@@ -70,7 +70,7 @@ $(function(){
             var thisItem = $(this).index();
             var nextItem = $(this).next('.'+className).index();
             if(!nextItem){
-               var nextItem = $('#id_tbody .'+nextName+':last').index();
+                var nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
             if( nextItem >= thisItem ){
                 var test_lesson_count = 0 ;
