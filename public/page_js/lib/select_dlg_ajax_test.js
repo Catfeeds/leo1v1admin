@@ -392,13 +392,19 @@
                             '</div>'+
                             '<div  class="col-xs-12 col-md-1 ">试听内容:</div>'+
                             '<div  class="col-xs-12 col-md-11 ">'+
-                            '<div  class="col-xs-12 col-md-4 ">'+
+                            '<div  class="col-xs-12 col-md-3 ">'+
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-6px">幽默风趣</span>'+
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-6px">幽默风趣</span>'+
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-6px">幽默风趣</span>'+
                             '</div>'+
-                            '<div  class="col-xs-12 col-md-8 ">'+require_list.test_stu_request_test_lesson_demand+'</div>'+
+                          //  '<div  class="col-xs-12 col-md-8 ">'+require_list.test_stu_request_test_lesson_demand+'</div>'+
+                            '<div  class="col-xs-12 col-md-9 "><p>哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈</p></div>'+
                             
+                            '</div>'+
+                            '<div  class="col-xs-12 col-md-1 ">意向度:</div>'+
+                            '<div  class="col-xs-12 col-md-11 ">'+
+                            '<span class="col-xs-12 col-md-6 " style="margin-top:-4px"><label>报价反应:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-6 " style="margin-top:-4px"><label>上课意向:</label>幽默风趣</span>'+
                             '</div>'+
                             '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
                             '</div>');
