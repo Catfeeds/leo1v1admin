@@ -45,7 +45,25 @@ $(function(){
     $('.opt-show').on('click', function (){
         var pdf_url = $(this).attr('data-pdf');
         // $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
-        window.open(pdf_url, '_blank');
+
+        $.ajax({
+            url      : "/tea_manage/get_pdf_download_url",
+            type     : 'GET',
+            dataType : 'json',
+            data     : {'file_url': file_url},
+            success : function(ret) {
+                if (ret.ret != 0) {
+                    BootstrapDialog.alert(ret.info);
+                } else {
+                    var match = file_url.match(/.*\.(.*)?/);
+                    if (match[1].toLowerCase() != "pdf") {
+                        window.open(ret.file_ex, '_blank');
+                        return;
+                    }
+                    window.open(ret.file, '_blank');
+                }
+            }
+        });
     })
 
     var cur_status = $('#my_status').attr('cur-status');

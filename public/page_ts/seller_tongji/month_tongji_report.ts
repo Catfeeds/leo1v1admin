@@ -88,7 +88,7 @@ $(function(){
             var fail_all_count_for_month = 0;
 
             if( nextItem >= thisItem ){
-                $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+')').each(function(){
+                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+')').each(function(){
                    
                     var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
                     var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
