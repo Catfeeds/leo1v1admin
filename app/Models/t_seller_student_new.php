@@ -3171,7 +3171,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_month_example_info($begin_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'add_time', $begin_time, $end_time);
-        $sql = 
+        $sql =$this->gen_sql_new(
+            'select userid,phone,seller_resource_type from %s '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

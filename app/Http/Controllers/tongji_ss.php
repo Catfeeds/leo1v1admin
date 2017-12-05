@@ -587,7 +587,7 @@ class tongji_ss extends Controller
         $test_grade_map   = [];
         //试听信息
         $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
-        // dd($test_data);
+        dd($test_data);
         foreach ($test_data as $a_item) {
             $subject   = $a_item["subject"];
             $grade     = $a_item["grade"];

@@ -38,9 +38,14 @@ class funnel_channel_statistics extends cmd_base
     public function handle()
     {
         //
-        $begin_time = strtotime(date('Y-m-01'));
+        $begin_time = strtotime(date('Y-11-01'));
         $end_time = strtotime('+1 month -1 second',$begin_time);
         $this->task->t_seller_student_origin->switch_tongji_database();
         $example_info = $this->task->t_seller_student_new->get_month_example_info($begin_time,$end_time);
+        foreach($example_info as $item){
+            $phone = $item['phone'];
+            echo "$phone ok";
+            \App\Helper\funnel_channel_sta::insert_funnel_channel_sta($item);
+        }
     }
 }
