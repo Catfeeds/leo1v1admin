@@ -306,6 +306,8 @@ class url_power_map {
 			'/monitor/baiduMonitor'	=>1090304,
 			'/monitor/aggregate'	=>1090305,
 			'/user_manage_new/teacher_send_video_list'	=>1090307,
+			'/resource/resource_frame'	=>1097100,
+			'/resource/resource_count'	=>1097000,
 			'/resource/get_all'	=>1096800,
 			'/resource/get_del'	=>1096900,
 			'/grab_lesson/get_all_grab_info'	=>1096700,

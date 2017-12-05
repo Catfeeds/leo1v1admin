@@ -103,6 +103,7 @@ $(function(){
         });
 
     };
+
     gen_data( g_subject_map,"subject","id_subject_pic");
     gen_data( g_grade_map,"grade","id_grade_pic",true);
     gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
