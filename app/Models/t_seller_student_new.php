@@ -3165,5 +3165,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = "select last_revisit_time from db_weiyi.t_seller_student_new where phone= $phone ";
         return $this->main_get_value($sql);
     }
+    //@desn:获取本月内所有例子数据
+    //@param:$begin_time 本月初时间
+    //@param:$end_time 本月末时间
+    public function get_month_example_info($begin_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'add_time', $begin_time, $end_time);
+        $sql = 
+    }
 
 }

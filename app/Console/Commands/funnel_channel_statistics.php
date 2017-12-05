@@ -38,6 +38,9 @@ class funnel_channel_statistics extends cmd_base
     public function handle()
     {
         //
-        echo '测试';
+        $begin_time = strtotime(date('Y-m-01'));
+        $end_time = strtotime('+1 month -1 second',$begin_time);
+        $this->task->t_seller_student_origin->switch_tongji_database();
+        $example_info = $this->task->t_seller_student_new->get_month_example_info($begin_time,$end_time);
     }
 }
