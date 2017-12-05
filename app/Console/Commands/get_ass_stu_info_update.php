@@ -50,7 +50,7 @@ class get_ass_stu_info_update extends Command
         $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
 
         $ass_month = $task->t_month_ass_student_info->get_ass_month_info($start_time);
-        foreach($ass_month as $val){
+        foreach($ass_month as $k=>$val){
             $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
             $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
             $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
