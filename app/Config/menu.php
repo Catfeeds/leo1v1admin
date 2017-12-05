@@ -426,6 +426,8 @@ class menu{
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
                 // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
+                ["power_id"=>71, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
+                ["power_id"=>70, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
                 ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
                 ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],

@@ -253,6 +253,50 @@ jQuery.fn.extend({
         });
     },
 
+    table_group_level_more_init:function(level=4, show_flag) {
+        var $table=$(this);
+
+        if (!show_flag) {
+            for(var a=2; a<level; a++){
+                $.each($table.find(".l-"+a),function(){
+                    $(this).hide();
+                });
+            }
+        }
+
+        var link_css=    {
+            color: "#3c8dbc",
+            cursor:"pointer"
+        };
+
+        for(var i=1; i<level; i++){
+            $table.find(".l-"+i+" .key"+i).css(link_css);
+        }
+
+        for(var b=1; b<(level-1); b++){
+
+            $table.find(".l-"+b+" .key"+b).on("click",function(){
+                var $this=$(this);
+                var class_name= $this.data("class_name");
+                var num = $this.data('index');
+                var c = 1+num;
+                var find_str = ".key"+c+"."+class_name;
+                var parent_str = ".l-"+c;
+                if ($this.data("show") ==true) {
+                    $table.find( find_str ).parent().hide();
+                }else{
+                    var $opt_item=$table.find( find_str ).parent( parent_str );
+                    $opt_item.show();
+                }
+                $this.parent().show();
+                $this.data("show", !$this.data("show") );
+
+            });
+        }
+
+    },
+
+
     tbody_scroll_table:function( height  )  {
         if(!$.check_in_phone() ) {
             var $table=$(this);

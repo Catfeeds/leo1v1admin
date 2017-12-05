@@ -4,18 +4,19 @@
     <section class="content ">
 
         <div>
-            <div class="row  row-query-list" >
+            <!-- <div class="row  row-query-list" > -->
+            <div class="row" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
                     <div  id="id_date_range" >
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
-                </div>
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group " >
+                     <span >xx</span>
+                     <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                     </div>
+                     </div> -->
             </div>
         </div>
         <hr/>
@@ -42,7 +43,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr class="mark" data-mark="{{$var["mark"]}}" key1="{{$var["subject"]}}" key2="{{$var["subject"]}}_{{$var["adminid"]}}">
                         <td class="key1" data-key1="{{$var["subject"]}}">{{@$var["subject_str"]}}</td>
-                        <td date-key2="{{$var["subject"]}}_{{$var["adminid"]}}">{{@$var["nick"]}} </td>
+                        <td class="key2" data-key2="{{$var["subject"]}}_{{$var["adminid"]}}">{{@$var["nick"]}} </td>
                         <td>{{@$var["resource_type_str"]}} </td>
                         <td>{{@$var["file_num"]}} </td>
                         <td>{{@$var["visit"]}} </td>
