@@ -3607,4 +3607,25 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_require_list_by_requireid($require_id){
+        $where_arr=[
+            ["require_id=%u",$require_id,-1]  
+        ];
+        $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
+                                  ."tq.curl_stu_request_test_lesson_time,"
+                                  ." tq.test_stu_request_test_lesson_demand,"
+                                  ." t.intention_level,t.quotation_reaction"
+                                  ." from %s tq left join %s t on tq.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." left join %s s on t.userid = s.userid"
+                                  ." left join %s n on t.userid = n.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }

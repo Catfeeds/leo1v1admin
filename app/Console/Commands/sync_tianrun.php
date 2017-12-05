@@ -46,7 +46,9 @@ class sync_tianrun extends cmd_base
             $post_arr["limit"]  = $limit_count;
             $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
             $ret=json_decode($return_content, true  );
-            $data_list= $ret["msg"]["data"];
+            $data_list= @$ret["msg"]["data"];
+			if (!is_array($data_list)) { break ;}
+			
             foreach ($data_list as $item) {
                 $this->do_record($item);
             }

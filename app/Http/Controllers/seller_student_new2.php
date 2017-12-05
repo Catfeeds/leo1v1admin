@@ -339,7 +339,8 @@ class seller_student_new2 extends Controller
             "adminid_right"     => $adminid_right,
             "admin_work_status" => $admin_work_status,
             "jw_teacher_list"   => $jw_teacher_list,
-            "adminid"           => $adminid
+            "adminid"           => $adminid,
+            "acc"               => $this->get_account()
         ]);
     }
 
