@@ -55,12 +55,7 @@ $(function(){
                 if (ret.ret != 0) {
                     BootstrapDialog.alert(ret.info);
                 } else {
-                    var match = file_url.match(/.*\.(.*)?/);
-                    if (match[1].toLowerCase() != "pdf") {
-                        window.open(ret.file_ex, '_blank');
-                        return;
-                    }
-                    window.open(ret.file, '_blank');
+                    window.open(ret.file_ex, '_blank');
                 }
             }
         });
