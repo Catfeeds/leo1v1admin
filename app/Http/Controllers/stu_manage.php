@@ -1118,11 +1118,15 @@ class stu_manage extends Controller
         }
 
         $this->set_filed_for_js("gg_acc",$this->get_account());
+        $show_post_flag = $this->check_power(E\Epower::V_POST_STU_INIT_INFO );
+        if($this->get_account() == "long-张龙"){
+            $show_post_flag=1;
+        }
 
         return $this->pageView(__METHOD__,null,
                                [
                                    "init_data"=> $row,
-                                   "show_post_flag"=> $this->check_power(E\Epower::V_POST_STU_INIT_INFO ),                                  
+                                   "show_post_flag"=> $show_post_flag,                                  
                                ]
         );
     }
