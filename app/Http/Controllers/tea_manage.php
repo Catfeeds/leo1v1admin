@@ -393,7 +393,7 @@ class tea_manage extends Controller
 
 
     /**
-     * 老师课程列表 pad实时播放二维码
+     * 老师课程列表 type_flag=1实时播放二维码/　type_flag=2录制视频回放
      */
     public function get_tea_pad_lesson_qr(){
         $lessonid = $this->get_in_lessonid();
@@ -2605,7 +2605,6 @@ class tea_manage extends Controller
         }
     }
 
-
     public function set_train_lecture_status_b1(){
         $teacherid   = $this->get_in_int_val("teacherid");
         $lessonid    = $this->get_in_int_val("lessonid");
@@ -2765,6 +2764,13 @@ class tea_manage extends Controller
         $teacher_explain_rhythm_score       = $this->get_in_int_val("teacher_explain_rhythm_score");
         $teacher_language_performance_score = $this->get_in_int_val("teacher_language_performance_score");
         $sshd_good                          = $this->get_in_str_val("sshd_good");
+        $new_tag_flag                     = $this->get_in_int_val("new_tag_flag",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+
 
         if($identity<=0 && $flag <2){
             return $this->output_err("请选择老师身份！");
@@ -2916,15 +2922,28 @@ class tea_manage extends Controller
                 "not_grade "         => $not_grade,
             ]);
 
-            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+
+            //设置标签
+
+            if($new_tag_flag==0){
+                $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
+            }elseif($new_tag_flag==1){
+                $tea_tag_arr=[
+                    "style_character"=>$style_character,
+                    "professional_ability"=>$professional_ability,
+                    "classroom_atmosphere"=>$classroom_atmosphere,
+                    "courseware_requirements"=>$courseware_requirements,
+                    "diathesis_cultivation"=>$diathesis_cultivation,
+                ];
+                $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2); 
+            }
+
         }
         if(!$ret){
             return $this->output_err("添加反馈失败！");
         }
         return $this->output_succ();
     }
-
-
 
      /**
      * @author    sam

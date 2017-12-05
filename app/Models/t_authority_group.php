@@ -74,7 +74,14 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
         }
         return $ret;
 	}
-    
+
+    public function get_auth_group_more($groupidArr)
+	{
+		$sql = $this->gen_sql("select group_authority from %s where groupid in %s",
+                              self::DB_TABLE_NAME, $groupidArr );
+	    return $this->main_get_list($sql);
+	}
+
     public function get_grp_auth($groupid)
     {
         $sql = $this->gen_sql("select group_authority from %s where groupid = %u ",

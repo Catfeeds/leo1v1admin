@@ -66,7 +66,6 @@ class update_seller_level extends cmd_base
         $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->task->t_seller_level_goal->get_all_list_new();
         foreach($seller_list as $item){
-            $update_flag = 0;
             $adminid = $item['uid'];
             $account = $item['account'];
             $face_pic = $item['face_pic']!=''?$item['face_pic']:'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
@@ -74,29 +73,43 @@ class update_seller_level extends cmd_base
             $num = isset($item['num'])?$item['num']:0;
             $level_goal = isset($item['level_goal'])?$item['level_goal']:0;
             $become_member_time = $item['create_time'];
+            $no_update_seller_level_flag = $item['no_update_seller_level_flag'];
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($num+1);
             $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
+            $update_flag = 0;
             if($reduce_flag == 1){//月头
                 $month_level = $this_level;
-                //统计上个月
-                $price = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
-                $price = $price/100;
-                if($price<$level_goal){//降级
+                //降级
+                if($no_update_seller_level_flag == 0){//参与
+                    //统计上个月
+                    $price = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
+                    $price = $price/100;
+                    if($price<$level_goal){//降级
+                        foreach($ret_level_goal as $item){
+                            if($price >= $item['level_goal']){
+                                $next_level = $item['seller_level'];
+                                $level_face = $item['level_face'];
+                            }
+                        }
+                        $update_flag = 1;
+                    }
+                    //入职小于2月,不降级
+                    if(time(null)-$become_member_time<60*3600*24){
+                        $update_flag = 0;
+                    }
+                }
+                //定级
+                if($no_update_seller_level_flag == 0){//参与
+                    $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
+                    $price_very_last = isset($price_very_last)?$price_very_last/100:0;
                     foreach($ret_level_goal as $item){
-                        if($price >= $item['level_goal']){
-                            $next_level = $item['seller_level'];
-                            $level_face = $item['level_face'];
+                        if($price_very_last >= $item['level_goal']){
+                            $month_level = $item['seller_level'];
                         }
                     }
-                    $update_flag = 1;
-                    // $month_level = $next_level;
-                }
-                //月末定级,根据上上月非退费签单金额
-                $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
-                $price_very_last = isset($price_very_last)?$price_very_last/100:0;
-                foreach($ret_level_goal as $item){
-                    if($price_very_last >= $item['level_goal']){
-                        $month_level = $item['seller_level'];
+                    //入职小于2月,定级>D
+                    if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
+                        $month_level = E\Eseller_level::V_500;
                     }
                 }
                 $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));

@@ -138,6 +138,7 @@ $(function(){
 
     });
 
+
     $(".opt-flow-def-list").on("click",function(){
         var opt_data=$(this).get_opt_data();
         $.flow_show_define_list( opt_data.flowid);

@@ -1,11 +1,5 @@
 @extends('layouts.app')
 @section('content')
-      <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
-      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-      <script type="text/javascript" src="/js/jquery.md5.js"></script>
       <script type="text/javascript" src="/js/jquery.md5.js"></script>
       <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
       <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -161,8 +155,7 @@
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
                     <span class="input-group-addon">活动</span>
-                    <select class="opt-change form-control" id="id_order_activity_type">
-                    </select>
+                    <input class="opt-change form-control" id="id_order_activity_type" />
                 </div>
             </div>
             <div class="col-xs-4 col-md-3">
@@ -685,7 +678,6 @@
                         <option value="0" >否</option>
                         <option value="1" >是</option>
                     </select>
-
                 </div>
             </div>
         </div>
@@ -702,13 +694,9 @@
                     <input class="form-control field-order_promotion_desc"/>
                 </div>
             </div>
-
         </div>
-
-
         <div class="row" >
             <div class="col-xs-12 col-md-12   field-order_desc_list ">
-
             </div>
         </div>
         <div class="row" >
@@ -758,11 +746,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-
-
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>

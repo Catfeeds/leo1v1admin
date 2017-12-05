@@ -25,6 +25,8 @@
                     <td class="custom" data-title="本月之前入职且在本月上过课的老师">本月留存上课老师数</td>
                     <td class="custom" data-title="本月之前入职且未在本月上过课的老师">本月流失上课老师数</td>
                     <td class="custom" data-title="本月之前入职且未在本月前三个月(包含本月)上过课的老师">流失老师数(三个月未上课)</td>
+                    <td class="custom" data-title="本月有试听课但无常规课老师数">试听(无常规)老师数</td>
+
                     <td class="custom" data-title="本月有过常规课的学生">在读学生数</td>
                     <td class="custom" data-title="本月有过常规课的老师/学生">师生比</td>
                     <td class="custom" data-title="本月上过试听课的老师">试听课老师数</td>
@@ -118,6 +120,7 @@
                         <td > {{@$var["old_lesson_teacher_num"]}} </td>
                         <td > {{@$var["lose_teacher_num"]}} </td>
                         <td > {{@$var["lose_teacher_num_three"]}} </td>
+                        <td > {{@$var["test_no_reg_num"]}} </td>
                         <td > {{@$var["read_stu_num"]}} </td>
                         <td > {{@$var["tea_stu_per"]}} </td>
                         <td > {{@$var["test_teacher_num"]}} </td>

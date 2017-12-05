@@ -24,6 +24,22 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list_new($uid){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr,'type',[E\Eseller_edit_log_type::V_1,E\Eseller_edit_log_type::V_2]);
+        if($uid){
+            $this->where_arr_add_int_or_idlist($where_arr,'uid',$uid);
+        }
+        $sql = $this->gen_sql_new (
+            " select * "
+            ." from %s where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
     public function get_count($start_time,$end_time,$origin_ex){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
@@ -141,4 +157,34 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+
+    public function get_stu_list_tmp($start_time,$end_time){
+        $where_arr = [
+            "se.uid=697",
+            "se.adminid=697"
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "se.create_time",$start_time, $end_time);
+
+        $sql = $this->gen_sql_new("  select * from %s se "
+                                  ." where %s"
+                                  ,t_seller_edit_log::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_first_uid_tmp($new,$create_time){
+        $sql = $this->gen_sql_new("  select * from %s s left join %s m on m.uid=s.uid"
+                                  ." where new=%d and s.create_time<%d and s.uid !=697 and m.account_role=7 "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$new
+                                  ,$create_time
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

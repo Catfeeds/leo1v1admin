@@ -18,16 +18,15 @@ $(function(){
     $("#id_lesson_status").val(g_args.lesson_status);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
     $("#id_teacher_type").val(g_args.teacher_type);
-
     function load_data(){
         $.reload_self_page ( {
-			      date_type_config : $('#id_date_type_config').val(),
-			      date_type        : $('#id_date_type').val(),
-			      opt_date_type    : $('#id_opt_date_type').val(),
-			      start_time       : $('#id_start_time').val(),
-			      end_time         : $('#id_end_time').val(),
-			      status           : $('#id_status').val(),
-			      grade            : $('#id_grade').val(),
+            date_type_config : $('#id_date_type_config').val(),
+            date_type        : $('#id_date_type').val(),
+            opt_date_type    : $('#id_opt_date_type').val(),
+            start_time       : $('#id_start_time').val(),
+            end_time         : $('#id_end_time').val(),
+            status           : $('#id_status').val(),
+            grade            : $('#id_grade').val(),
             subject          : $('#id_subject').val(),
             teacherid        : $('#id_teacherid').val(),
             is_test          : $('#id_is_test_flag').val(),
@@ -89,7 +88,7 @@ $(function(){
             ["意见或建议",id_record],
             ["老师标签",id_sshd]
         ];
-       
+
         $.show_key_value_table("试听评价", arr,{
             label    : '确认',
             cssClass : 'btn-warning',
@@ -108,7 +107,7 @@ $(function(){
                 var sshd_good=[];
                 id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                     sshd_good.push($(this).val());
-                });    
+                });
                 var not_grade = "";
                 $("input[name='not_grade']:checked").each(function(){
                     if(not_grade==""){
@@ -145,7 +144,7 @@ $(function(){
         },function(){
             id_score.attr("placeholder","满分100分");
             id_record.attr("placeholder","字数不能超过150字");
-           
+
         });
         arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
             id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
@@ -221,7 +220,7 @@ $(function(){
         var id        = $(this).get_opt_data("id");
         var lessonid        = $(this).get_opt_data("lessonid");
         console.log(id);
-        
+
         $.do_ajax('/ss_deal/get_train_lesson_record_info',{
             "id" : id,
             "lessonid":lessonid
@@ -229,7 +228,7 @@ $(function(){
             var title = "审核评分详情";
             var list = resp.data;
             console.log(list);
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");                          
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");
             var html_score=
                 "<tr>"
                 +"<td>讲义设计情况评分</td>"
@@ -329,9 +328,9 @@ $(function(){
                     $.do_ajax( '/user_deal/reset_record_acc', {
                         'id' : id
                     });
-                } 
+                }
             });
-            
+
         }
     });
 
@@ -388,17 +387,17 @@ $(function(){
     $(".opt-set-new-lesson").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id= opt_data.id;
-        
+
         BootstrapDialog.confirm("确定视频出错吗？", function(val){
             if (val) {
                 $.do_ajax( '/user_deal/set_new_train_lesson', {
                     'id' : id,
                     'lessonid':opt_data.lessonid
                 });
-            } 
+            }
         });
-            
-        
+
+
 
     });
 
@@ -410,7 +409,7 @@ $(function(){
             BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
         });
     });
-    
+
     $(".opt-play-new").on("click",function(){
         var lessonid = $(this).get_opt_data("lessonid");
         var id = $(this).get_opt_data("id");
@@ -430,20 +429,20 @@ $(function(){
 
     $(".opt-test").on("click",function(){
         var data = '{"hash":"FowenjfaE1uV_1oBhiH54IrpCcm3","key":"cf730e61cd80dd3eb69c3a63891655631503039454512.jpg"}';
-       	console.log(JSON.parse( data + "" )); 
+        console.log(JSON.parse( data + "" ));
     });
 
     $(".opt-get-stu-comment").on("click",function(){
         var lessonid        = $(this).get_opt_data("lessonid");
         console.log(lessonid);
-        
+
         $.do_ajax('/user_deal/get_train_lesson_comment',{
             "lessonid":lessonid
         },function(resp) {
             var title = "课后评价详情";
             var list = resp.data;
             console.log(list);
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类别</td><td>详情</td><tr></table></div>");                          
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类别</td><td>详情</td><tr></table></div>");
             var html_score=
                 "<tr>"
                 +"<td>试听情况</td>"
@@ -500,13 +499,13 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
         });
-        
+
     });
 
     $(".opt-show-stu-test-paper").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var url = opt_data.paper_url;
-        window.open(url, '_blank');   
+        window.open(url, '_blank');
     });
 
     $(".opt-get-interview-assess").on("click",function(){
@@ -524,10 +523,10 @@ $(function(){
             $.show_key_value_table("面试评价", arr,"");
 
         });
-        
+
     });
 
-    
+
     if (window.location.pathname=="/tea_manage/trial_train_lesson_list_zs" || window.location.pathname=="/tea_manage/trial_train_lesson_list_zs/") {
         $(".show_flag").children().hide();
     }
@@ -536,26 +535,30 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         console.log(opt_data.stu_comment);
         var teacherid = opt_data.teacherid;
-       
+
         $.do_ajax('/ajax_deal2/get_teacher_tag_info',{
         },function(resp) {
             var list = resp.data;
-            var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\professional_ability\"> </div><div>");
-           
+            var teacher_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"professional_ability\"> </div><div>");
+            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂氛围:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
+             var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
 
             $.each(list,function(i,item){
+                var str="";
+                $.each(item,function(ii,item_p){
+                    console.log(item_p);
+                    str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                });
                 if(i=="风格性格"){
-                    var tt="";
-                    $.each(item,function(ii,item_p){
-                        console.log(item_p);
-                        tt += "<label><input name=\"风格性格\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
-                       
-
-                    });
-                    teaching_related_labels.find("#style_character").append(tt);
-
-                   
-
+                    teacher_related_labels.find("#style_character").append(str);
+                }else if(i=="专业能力"){
+                     teacher_related_labels.find("#professional_ability").append(str);
+                }else if(i=="课堂氛围"){
+                    class_related_labels.find("#classroom_atmosphere").append(str);
+                }else if(i=="课件要求"){
+                     class_related_labels.find("#courseware_requirements").append(str);
+                }else if(i=="素质培养"){
+                     teaching_related_labels.find("#diathesis_cultivation").append(str);
                 }
             });
 
@@ -571,8 +574,7 @@ $(function(){
             var id_khfk = $("<select class=\"class_score\" />");
             var id_lcgf = $("<select class=\"class_score\" />");
 
-            var id_sshd=$("<div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\"><label><input name=\"Fruit\" type=\"checkbox\" value=\"6\" />幽默风趣 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"7\" />生动活泼 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"8\" />循循善诱 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"9\" />细致耐心 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"10\" />考纲熟悉 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"11\" />善于互动</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"12\" />没有口音</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"13\" />经验丰富</label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"14\" />功底扎实</label> </div>");
-
+         
             Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_zyzs,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -607,13 +609,52 @@ $(function(){
                 ["模拟试听是否通过",id_trial_train_status],
                 ["监课情况",id_jkqk],
                 ["意见或建议",id_record],
-                ["老师标签",teaching_related_labels]
+                ["教师相关标签",teacher_related_labels],
+                ["课堂相关标签",class_related_labels],
+                ["教学相关标签",teaching_related_labels],
             ];
-            
+
             $.show_key_value_table("试听评价", arr,{
                 label    : '确认',
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
+
+                    var style_character=[];
+                    teacher_related_labels.find("#style_character").find("input:checkbox[name='风格性格']:checked").each(function(i) {
+                        style_character.push($(this).val());
+                    });
+                    var professional_ability=[];
+                    teacher_related_labels.find("#professional_ability").find("input:checkbox[name='专业能力']:checked").each(function(i) {
+                        professional_ability.push($(this).val());
+                    });
+                    var classroom_atmosphere=[];
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂氛围']:checked").each(function(i) {
+                        classroom_atmosphere.push($(this).val());
+                    });
+                    var courseware_requirements=[];
+                    class_related_labels.find("#courseware_requirements").find("input:checkbox[name='课件要求']:checked").each(function(i) {
+                        courseware_requirements.push($(this).val());
+                    });
+                    var diathesis_cultivation=[];
+                    teaching_related_labels.find("#diathesis_cultivation").find("input:checkbox[name='素质培养']:checked").each(function(i) {
+                        diathesis_cultivation.push($(this).val());
+                    });
+                    if(courseware_requirements.length ==0 || style_character.length==0 || professional_ability.length==0 || classroom_atmosphere.length==0 || diathesis_cultivation.length==0){
+                        BootstrapDialog.alert("请填写标签内容");
+                        return ;
+
+                    }
+
+
+                    var not_grade = "";
+                    $("input[name='not_grade']:checked").each(function(){
+                        if(not_grade==""){
+                            not_grade = $(this).val();
+                        }else{
+                            not_grade += ","+$(this).val();
+                        }
+                    });
+                   
                     var record_info = id_record.val();
                     if(record_info==""){
                         BootstrapDialog.alert("请填写评价内容!");
@@ -625,19 +666,9 @@ $(function(){
                         return ;
                     }
 
-                    var sshd_good=[];
-                    id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
-                        sshd_good.push($(this).val());
-                    });    
-                    var not_grade = "";
-                    $("input[name='not_grade']:checked").each(function(){
-                        if(not_grade==""){
-                            not_grade = $(this).val();
-                        }else{
-                            not_grade += ","+$(this).val();
-                        }
-                    });
 
+
+                   
                     var trial_train_status = id_trial_train_status.val();
                     $.do_ajax("/human_resource/set_trial_train_lesson",{
                         "teacherid"                        : teacherid,
@@ -658,14 +689,19 @@ $(function(){
                         "no_tea_related_score"             : id_no_tea_score.val(),
                         "record_info"                      : id_record.val(),
                         "record_monitor_class"             : id_jkqk.val(),
-                        "sshd_good"                        : JSON.stringify(sshd_good),
-                        "record_lesson_list"               : JSON.stringify(opt_data.lessonid)
+                        "record_lesson_list"               : JSON.stringify(opt_data.lessonid),
+                        "style_character"                  : JSON.stringify(style_character),
+                        "professional_ability"             : JSON.stringify(professional_ability),
+                        "classroom_atmosphere"             : JSON.stringify(classroom_atmosphere),
+                        "courseware_requirements"          : JSON.stringify(courseware_requirements),
+                        "diathesis_cultivation"            : JSON.stringify(diathesis_cultivation),
+                        "new_tag_flag" : 1
                     });
                 }
             },function(){
                 id_score.attr("placeholder","满分100分");
                 id_record.attr("placeholder","字数不能超过150字");
-                
+
             });
             arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
                 id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
@@ -677,12 +713,10 @@ $(function(){
                 id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
             });
 
-
         });
 
     });
 
 
-
-	$('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });

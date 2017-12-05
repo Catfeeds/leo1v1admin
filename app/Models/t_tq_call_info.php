@@ -640,4 +640,19 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
+    public function get_time_by_phone_adminid($adminid,$phone){
+        $where_arr = [
+            ["adminid=%u",$adminid,-1],
+            ["phone=%u",$phone,-1],
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s order by end_time desc limit 1",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_row($sql);
+    }
+
+
+    public function get_all_info_group_by_phone(){
+        $sql = "";
+    }
 }

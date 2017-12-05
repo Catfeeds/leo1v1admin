@@ -9,6 +9,19 @@ class Enum_base {
             return $val;
         }
     }
+    static function set_item_field_list(&$item, $field_list  ) {
+
+        foreach ($field_list as $key=> $field ) {
+            if($key !== '' && $field !== ''){
+                if( is_string($key) ){
+                    $class_name= "\\App\\Enums\\E".$key;
+                }else {
+                    $class_name= "\\App\\Enums\\E".$field;
+                }
+                $class_name::set_item_value_str($item, $field  );
+            }
+        }
+    }
 
     static function get_color_desc($val) {
         $color= @static::$simple_desc_map[$val];

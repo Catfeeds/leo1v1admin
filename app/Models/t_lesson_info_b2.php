@@ -95,7 +95,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select lessonid ,userid, teacherid,lesson_start from %s ".
+            " select lessonid ,userid, teacherid,lesson_start, lesson_type from %s ".
             " where %s",
             self::DB_TABLE_NAME,
             $where_arr
@@ -3321,7 +3321,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ,$where_arr
                                 ,$limit_str
         );
-
         return $this->main_get_list($sql);
         // return $this->main_get_list_by_page($sql,$page_num,300,true);
 

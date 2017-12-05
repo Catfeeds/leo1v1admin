@@ -18,11 +18,7 @@
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-
         <link rel="stylesheet" href="/css/skin-blue-light.css">
-
-
-
         <!-- Morris chart -->
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.css">
         <!-- jvectormap -->
@@ -258,10 +254,11 @@
         <!-- ./wrapper -->
 
     </body>
-        <script type="text/javascript">
-            if(g_account=="jack"){
-            download_show();
-            }
-            </script>
-
+    <script type="text/javascript">
+     console.log(g_account);
+     if(g_account=="jack" || g_account=="jim" || g_account=="adrian"||g_account=="abner" || g_account=="michelle" ){
+         download_show();
+         $(".page-opt-show-all-xls").show();
+     }
+    </script>
 </html>

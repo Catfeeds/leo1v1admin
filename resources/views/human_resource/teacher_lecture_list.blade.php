@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('content')
-<script type="text/javascript" > 
- var acc= "{{$acc}}";
- var account_role= "{{$account_role}}";
- var g_adminid= "{{$adminid}}";
- var tea_subject= "{{$tea_subject}}";
-</script>
-<script type="text/javascript" src="/js/svg.js"></script>
-<script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" > 
+     var acc= "{{$acc}}";
+     var account_role= "{{$account_role}}";
+     var g_adminid= "{{$adminid}}";
+     var tea_subject= "{{$tea_subject}}";
+    </script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
     <section class="content ">
         <div>
             <div class="row">
@@ -103,11 +103,11 @@
                     </div>
                 </div>
                 @if($acc=="adrian")
-                <div class="col-xs-12 col-md-2">
-                    <div class="input-group ">
-                        <button class="btn btn-primary" id="id_reset_lecture_grade">重置试讲年级</button>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group ">
+                            <button class="btn btn-primary" id="id_reset_lecture_grade">重置试讲年级</button>
+                        </div>
                     </div>
-                </div>
                 @endif
             </div>
         </div>
@@ -186,7 +186,7 @@
                                 @if(in_array($account_role,["9","10","11","12"]) || $acc=="CoCo" || $acc=="wander")
                                     <a class="opt-reset">重置</a>
                                 @endif
-                                @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","ted"]) || $var["account"]==""
+                                @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","ted","jim"]) || $var["account"]==""
                                     || $account_role==8 )
                                     <a class="fa-video-camera opt-play" title="回放"></a>
                                     @if($var['status']==0)
@@ -195,13 +195,18 @@
                                     @if(in_array($acc,["adrian","jack"]))
                                         <a class="opt-set_test">测试数据切换</a>
                                     @endif
+                                    @if(in_array($acc,["jim","jack","林文彬"]))
+                                        <a class="opt-edit-pass" title="审核">审核-new </a>
+                                        <a class="opt-edit-no-pass" title="淘汰重审判定">不通过 </a>
+                                    @endif
+
                                     @if($var["account"]!="" || in_array($acc,["adrian"]) || $account_role==12)
                                         @if($account_role != 8) 
                                             <!-- 蔡老师要求　招师不可见 -->
                                             <a class="opt-update_lecture_status" title="更改状态">更改状态</a>
                                         @endif
                                         @if(($var['status']!=2 || in_array($acc,["adrian","alan","jack"]) || $account_role==12) && $account_role !=8)
-                                            <!-- 蔡老师要求　招师不可见   -->
+                                            <!-- 蔡老师要求 招师不可见   -->
                                             <a class="opt-edit-new" title="更改状态">审核 </a>
                                         @endif
                                         @if($var['identity_image']!='')

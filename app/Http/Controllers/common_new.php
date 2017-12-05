@@ -372,7 +372,7 @@ class common_new extends Controller
                 \App\Helper\Utils::logger("reference_info".json_encode($reference_info));
                 $wx_openid      = $reference_info['wx_openid'];
                 $teacher_type   = $reference_info['teacher_type'];
-                if($wx_openid!="" && !in_array($teacher_type,[21,22,31])){
+                if($wx_openid!="" && !in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
                     \App\Helper\Utils::logger("微信推送".$reference);
 
                     $record_info = $name."已填写报名信息";

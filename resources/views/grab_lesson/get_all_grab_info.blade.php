@@ -42,7 +42,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td> grabid </td>
@@ -88,6 +88,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

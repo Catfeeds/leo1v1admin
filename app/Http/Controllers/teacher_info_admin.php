@@ -30,19 +30,54 @@ class teacher_info_admin extends Controller
         $tea_info['grade_part_ex_str'] = empty($tea_info['grade_part_ex'])?"":@E\Egrade_part_ex::get_desc( $tea_info['grade_part_ex']);
         $tea_info['subject_str'] = empty($tea_info['subject'])?"":@E\Esubject::get_desc( $tea_info['subject']);
         $tea_info['putonghua_is_correctly_str'] = @E\Eputonghua_is_correctly::get_desc( $tea_info['putonghua_is_correctly']);
-        $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
-                               ."-".substr(@$tea_info['birth'],4,2)
-                               ."-".substr(@$tea_info['birth'],6,2);
+        if(@$tea_info['birth']){                   
+            $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
+                ."-".substr(@$tea_info['birth'],4,2)
+                ."-".substr(@$tea_info['birth'],6,2);
+        }else{
+            $tea_info['birth_str']="";
+        }
+        $tea_info['grade_str'] = $tea_info['grade_start']>0?(@E\Egrade_range::get_desc( $tea_info['grade_start'])."~".@E\Egrade_range::get_desc( $tea_info['grade_end'])):"未设置";
+        $tea_info['identity_str'] = @E\Eidentity::get_desc( $tea_info['identity']);
+        $tea_info['level_str'] = @E\Enew_level::get_simple_desc( $tea_info['level']);
+
 
         $tea_info['phone'] = \App\Helper\Utils::get_teacher_contact_way($tea_info); 
 
         $arr = explode(",",@$tea_info['quiz_analyse']);
         $tea_info['quiz_analyse'] = $arr[0];
         if(!empty($tea_info['create_time'])){
-            $tea_info['create_time'] = date('Y-m-d H:i:s',$tea_info['create_time']);
+            $tea_info['create_time'] = date('Y-m-d ',$tea_info['create_time']);
         }else{
             $tea_info['create_time'] = "";
         }
+        if(!empty($tea_info['train_through_new_time'])){
+            $tea_info['train_through_new_time'] = date('Y-m-d',$tea_info['train_through_new_time']);
+        }else{
+            $tea_info['train_through_new_time'] = "";
+        }
+        //  $tags_list = json_decode(@$tea_info["teacher_tags"],true);
+
+        $arr_text= explode(",",@$tea_info["teacher_textbook"]);
+        foreach($arr_text as $vall){
+            @$tea_info["textbook"] .=  E\Eregion_version::get_desc ($vall).",";
+        }
+        @$tea_info["textbook"] = trim($tea_info["textbook"],",");
+
+        if(empty(@$tea_info["teacher_tags"])){
+            $tags_list=[];
+        }else{
+            $tag= json_decode($tea_info["teacher_tags"],true);
+            $tags_list=[];
+            if(is_array($tag)){
+                foreach($tag as $d=>$t){
+                    $tags_list[]= $d."  ".$t;
+                }
+            }
+        }
+
+
+
         $adminid      = $this->get_account_id();
         $account_role = $this->t_manager_info->get_account_role($adminid);
 
@@ -50,6 +85,8 @@ class teacher_info_admin extends Controller
             "tea_info"     => $tea_info,
             "account_role" => $account_role,
             "adminid"      => $adminid,
+            "tags_list"      => $tags_list,
+            "acc"          => $this->get_account()
         ]);
     }
 
@@ -72,9 +109,9 @@ class teacher_info_admin extends Controller
     {
         $teacherid     = $this->teacherid;
         $free_time_new = $this->t_teacher_freetime_for_week->get_free_time_new($teacherid);
-        $date_week   = \App\Helper\Utils::get_week_range(time(),1);
-        $start_time = $date_week["sdate"];
-        $end_time = $start_time + 21*86400;
+        $date_week     = \App\Helper\Utils::get_week_range(time(),1);
+        $start_time    = $date_week["sdate"];
+        $end_time      = $start_time + 21*86400;
         $test_lesson_list = $this->t_lesson_info->get_teacher_week_test_lesson_info($teacherid,$start_time,$end_time);
         foreach($test_lesson_list as &$val){
             $lesson_start = $val["lesson_start"];
@@ -147,6 +184,12 @@ class teacher_info_admin extends Controller
         $advantage              = $this->get_in_str_val("advantage");
         $base_intro             = $this->get_in_str_val("base_intro");
         $dialect_notes          = $this->get_in_str_val("dialect_notes");
+        $teaching_achievement   = $this->get_in_str_val("teaching_achievement");
+        $parent_student_evaluate= $this->get_in_str_val("parent_student_evaluate");
+        $qq_info                = $this->get_in_str_val("qq_info");
+        $age                    = $this->get_in_int_val("age");
+        $identity               = $this->get_in_int_val("identity");
+        $teacher_textbook       = $this->get_in_str_val("teacher_textbook");
 
         if(!empty($email)){
             if(preg_match('/^[1-9]\d{4,10}$/',$email)){
@@ -174,16 +217,22 @@ class teacher_info_admin extends Controller
 
         $this->t_teacher_info->field_update_list($teacherid,[
             "nick"                   => $nick,
-            "realname"               => $realname,
-            "phone"                  => $phone,
+            //  "realname"               => $realname,
+            // "phone"                  => $phone,
             "email"                  => $email,
             "gender"                 => $gender,
             "birth"                  => $birth,
             "work_year"              => $work_year,
-            "advantage"              => $advantage,
-            "base_intro"             => $base_intro,
+            // "advantage"              => $advantage,
+            // "base_intro"             => $base_intro,
             "putonghua_is_correctly" => $putonghua_is_correctly,
             "dialect_notes"          => $dialect_notes,
+            "parent_student_evaluate"=> $parent_student_evaluate,
+            "teaching_achievement"   => $teaching_achievement,
+            "age"                    => $age,
+            "teacher_textbook"       => $teacher_textbook,
+            "qq_info"                => $qq_info,
+            "identity"               => $identity
         ]);
 
         return $this->output_succ();

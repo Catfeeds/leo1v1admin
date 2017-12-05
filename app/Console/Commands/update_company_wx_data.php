@@ -56,35 +56,80 @@ class update_company_wx_data extends Command
         $department = $task->t_company_wx_department->get_all_list();
         $tag_depart_temp = $task->t_company_wx_tag_department->get_all_list();
         $tag_depart = [];
+        $tag_department = [];
         foreach($tag_depart_temp as $item) {
             $tag_depart[$item['id']] = $item['department'];
+            $tag_department[$item['department']][] = $item['id'];
         }
+
         $tag = $task->t_company_wx_tag->get_all_list();
+        $tag_users = $task->t_company_wx_tag_users->get_all_list();
 
         foreach ($info as $item) {
-            if ($item['department'] && $item['department'] == 74) {
-                $child = $this->get_child_node($department, $item['department']); // 获取当前用户所拥有的部门id
+            $item['power'] = '';
+            if ($item['isleader'] == 1) { // 领导
+                $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
+                $parent = $this->get_parent_node($department, $item['department']);
+                $parent = explode("-", $parent);
+                $tag_d = [];
+                foreach ($parent as $val) {
+                    if (isset($tag_department[$val])) array_push($tag_d, $tag_department[$val]);
+                }
+                if ($tag_d) {
+                    foreach($tag_d as $val) {
 
-                foreach($tag_depart as $key => $val) {
-                    echo $key;
-                    if(in_array($val, $child)) { // 当前用户所拥有的tag
-                        $perm = $task->t_manager_info->get_power($item['uid']);
-                        if ($item['isleader'] == 1) {
-                            dd($tag[$key]);
-                            $task->t_company_wx_users->field_update_list($item['uid'], [
-                                'permission' => $item['leader_power']
-                            ]);
-                        } else {
-                            $task->t_company_wx_users->field_update_list($id, [
-                                'permission' => $item['not_leader_power']
-                            ]);
+                        foreach($val as $v) {
+                            if ($tag[$v]['no_leader_power']) {
+                                if ($perm) {
+                                    $perm .= ','.$tag[$v]['no_leader_power'].',';
+                                } else {
+                                    $perm .= $tag[$v]['no_leader_power'].',';
+                                }
+                            }
                         }
                     }
                 }
 
+                // if ($item['department']) {
+                //     $child = $this->get_child_node($department, $item['department']); // 获取当前用户所拥有的部门id
+
+                //     foreach($tag_depart as $key => $val) {
+                //         if(in_array($val, $child)) { // 当前用户所拥有的tag
+                //             $perm .= ','.$tag[$tag_depart[$key]]['leader_power'];
+                //         }
+                //     }
+
+                // }
+            } else {
+                $perm = @$tag[$tag_users[$item['userid']]['id']]['not_leader_power'];
+            }
+            if ($perm) {
+                if ($item['power']) $perm = $item['power'].',';
+                $perm = substr($perm,0,-1);
+                $perm = explode(',', $perm);
+                array_unique($perm);
+                $perm = implode(',', $perm);
+                $task->t_manager_info->field_update_list($item['uid'], [
+                    'power' => $perm
+                ]);
+                echo 'uid: '.$item['uid'].'添加成功 添加权限:'.$perm.PHP_EOL;
             }
         }
     }
+
+    public function get_parent_node($data, $parent) { // 获取某节点的所有父节点
+        foreach($data as $k => $v) {
+            if ($parent == 0) {
+                return $parent;
+            }
+            if ($v['id'] == $parent) {
+                $parent .= '-'.$this->get_parent_node($data, $v['pId']);
+                break;
+            }
+        }
+        return $parent;
+    }
+
 
     public function get_child_node($data, $child) { // 获取某节点的所有子节点
         $tree = '';
@@ -120,6 +165,11 @@ class update_company_wx_data extends Command
         foreach($tag_department as $item) {
             $tag_depart[$item['id']][] = $item['department'];
         }
+        $tag_users_temp = $task->t_company_wx_tag_users->get_all_list();
+        $tag_users = [];
+        foreach($tag_users_temp as $item) {
+            $tag_users[$item['id']][] = $item['userid'];
+        }
 
         // 1. 获取 token
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret'];
@@ -138,8 +188,10 @@ class update_company_wx_data extends Command
                     ]);
                 }
                 $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
-                $users = $this->get_company_wx_data($url,"partylist");
-                foreach($users as $val) {
+                $tag_d_u = $this->get_company_wx_data($url);
+                var_dump($tag_d_u);
+                $department = $tag_d_u['partylist'];
+                foreach($department as $val) {
                     if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { // 添加标签部门数据
                         $task->t_company_wx_tag_department->row_insert([
                             "id" => $item['tagid'],
@@ -148,6 +200,17 @@ class update_company_wx_data extends Command
                     }
 
                 }
+                // 添加标签用户数据
+                $users = $tag_d_u['userlist'];
+                foreach($users as $val) {
+                    if (!(isset($tag_users[$item['tagid']]) && in_array($val['userid'], $tag_users[$item['tagid']]))) {
+                        $task->t_company_wx_tag_users->row_insert([
+                            "id" => $item['tagid'],
+                            'userid' => $val['userid']
+                        ]);
+                    }
+                }
+
             }
             echo '加载标签完成';
         }
@@ -181,7 +244,7 @@ class update_company_wx_data extends Command
                     }
                 }
                 if (in_array($department, $depart_info)) continue;
-                $this->t_company_wx_department->row_insert([ // 加载部门数据
+                $task->t_company_wx_department->row_insert([ // 加载部门数据
                     "id" => $val['id'],
                     "name" => $val['name'],
                     "parentid" => $val['parentid'],
@@ -193,13 +256,13 @@ class update_company_wx_data extends Command
 
     }
 
-    public function get_company_wx_data($url, $index) { //根据不同路由获取不同的数据 (企业微信)
+    public function get_company_wx_data($url, $index = '') { //根据不同路由获取不同的数据 (企业微信)
         $info = file_get_contents($url);
         $info = json_decode($info, true);
-        if (isset($info[$index])) {
+        if ($index && isset($info[$index])) {
             return $info[$index];
         }
-        return;
+        return $info;
     }
 
 }

@@ -1329,8 +1329,20 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
                 }else{
-                    $order_activity_type= $item["order_activity_type"];
-                    $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $order_activity_type). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
+                    $order_activity_config = $item["order_activity_type"];
+                    $order_activity_type = $item["order_activity_type"];
+
+                    if($item["order_activity_type"] == 0){
+                        $order_activity_config = 1;
+                    }
+                    $ret = $this->t_order_activity_config->get_by_id($order_activity_config);
+
+                    $title = '';
+                    if($ret){
+                        $title = $ret['title'];
+                    }
+
+                    $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". $title. "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
@@ -2195,23 +2207,61 @@ class ajax_deal2 extends Controller
 
     //获取审核用标签
     public function get_teacher_tag_info(){
-        $arr=[
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
-            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
-            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
-        ];
-        $list=[];
-        foreach( $arr as $val){
-            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
-            $rr=[];
-            foreach($ret as $item){
-                $rr[]=$item["tag_name"];
-            }
-            $list[$val["tag_l2_sort"]]=$rr;
-        }
+       
+        $list = $this->get_teacher_tag_list();
 
         return $this->output_succ(["data"=>$list]);
+    }
+
+    //教务设置老师标签
+    public function set_teacher_tag_info(){
+        $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+        $tea_tag_arr=[
+            "style_character"=>$style_character,
+            "professional_ability"=>$professional_ability,
+            "classroom_atmosphere"=>$classroom_atmosphere,
+            "courseware_requirements"=>$courseware_requirements,
+            "diathesis_cultivation"=>$diathesis_cultivation,
+        ];
+        $set_flag=2;
+        $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,1000,$set_flag); 
+        return $this->output_succ();
+
+
+ 
+    }
+
+
+    public function get_tq_info(){
+        $adminid=$this->get_in_adminid();
+        $phone = $this->get_in_int_val('phone',-1);
+        $ret_info = $this->t_tq_call_info->get_time_by_phone_adminid($adminid,$phone);
+        $time = time()-2*3600;
+        if($ret_info['is_called_phone'] == 1 &&  $ret_info['duration'] >= 60  && $ret_info['end_time'] > $time ){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    public function check_phone_status(){
+        $phone = $this->get_in_int_val('phone',-1);
+        $ret_info = $this->t_seller_student_new->get_last_revisit_time_by_phone($phone);
+        $time = time();
+        if($time - $ret_info > 86400){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    public function get_require_info_by_id(){
+        $require_id = $this->get_in_int_val('require_id',-1); 
+        $data = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
     }
 }

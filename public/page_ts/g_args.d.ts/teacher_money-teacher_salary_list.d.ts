@@ -6,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	reference:	number;
 	teacherid:	number;
+	g_adminid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -34,7 +35,8 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		reference:	$('#id_reference').val(),
-		teacherid:	$('#id_teacherid').val()
+		teacherid:	$('#id_teacherid').val(),
+		g_adminid:	$('#id_g_adminid').val()
     });
 }
 $(function(){
@@ -52,6 +54,7 @@ $(function(){
     });
 	$('#id_reference').val(g_args.reference);
 	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_g_adminid').val(g_args.g_adminid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -73,6 +76,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacherid</span>
                 <input class="opt-change form-control" id="id_teacherid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">g_adminid</span>
+                <input class="opt-change form-control" id="id_g_adminid" />
             </div>
         </div>
 */

@@ -50,12 +50,27 @@ class update_teaching_core_data extends Command
         }
         // dd(1111);
         for($i=$month_st;$i<=$month_num;$i++){
+        // for($i=1;$i<=11;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);
             $end_time = strtotime("+".($i+1)." month",$time);
         // $start_time =strtotime("2017-01-01");
         //  $end_time =strtotime("2017-02-01");
+
+
+            //新增无常规课但有试听课老师数
+            $reg_list = $task->t_lesson_info_b3->get_teacher_list_by_lesson_time($start_time,$end_time,-2);
+            $tes_list = $task->t_lesson_info_b3->get_teacher_list_by_lesson_time($start_time,$end_time,2);
+            $tea_nu=0;
+            foreach($tes_list as $k=>$v){
+                if(!isset($reg_list[$k])){
+                    $tea_nu++;
+                }
+            }
+
+                     
+
 
             //新老师数(入职)
             $train_through_all = $task->t_teacher_info->tongji_train_through_info($start_time,$end_time);
@@ -471,7 +486,8 @@ class update_teaching_core_data extends Command
                     "lose_teacher_num_three_physics"=>$tea_num_lose_three_wuli,
                     "lose_teacher_num_three_multiple"=>$tea_num_lose_three_zonghe,
                     "tea_complaint_num"               =>$complaint_num,
-                    "tea_complaint_deal_time"         =>$deal_time
+                    "tea_complaint_deal_time"         =>$deal_time,
+                    "test_no_reg_num" =>$tea_nu
                 ]);
 
             }else{
@@ -552,12 +568,11 @@ class update_teaching_core_data extends Command
                     "lose_teacher_num_three_physics"=>$tea_num_lose_three_wuli,
                     "lose_teacher_num_three_multiple"=>$tea_num_lose_three_zonghe,
                     "tea_complaint_num"               =>$complaint_num,
-                    "tea_complaint_deal_time"         =>$deal_time
+                    "tea_complaint_deal_time"         =>$deal_time,
+                    "test_no_reg_num" =>$tea_nu
                 ]);
  
-              }
-
-           
+            }          
 
         }	
     }

@@ -42,13 +42,16 @@ class SetTeacherMoney extends cmd_base
         $task = new \App\Console\Tasks\TeacherMoneyTask();
         $type  = $this->get_in_value('type',2);
         $day   = $this->get_in_value('day',0);
-        $date  = $this->get_in_value('date',time());
+        $date  = $this->get_in_value('date',0);
 
         if($type==1){
             $task->set_teacher_lesson_total_list();
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
         }elseif($type==4){
+            if($date == 0){
+                $date = strtotime("-1 month",time());
+            }
             $task->set_teacher_salary_list($type,$date);
         }
     }

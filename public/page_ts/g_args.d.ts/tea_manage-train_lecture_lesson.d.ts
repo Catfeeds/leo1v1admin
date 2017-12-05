@@ -86,7 +86,7 @@ interface RowData {
 	lecture_status_str	:any;
 	add_time_str	:any;
 	have_wx_flag	:any;
-	teacher_type_str	:any;
+	identity_str	:any;
 	phone_ex	:any;
 }
 

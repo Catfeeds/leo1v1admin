@@ -215,7 +215,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_or_idlist($where_arr,"t1.del_flag", $del_flag);
         $this->where_arr_add_int_or_idlist($where_arr,"t1.uid", $adminid);
 
-        $sql =$this->gen_sql_new("select t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
+        $sql =$this->gen_sql_new("select t1.no_update_seller_level_flag,t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
                                  self::DB_TABLE_NAME,
                                  t_admin_users::DB_TABLE_NAME,
                                  t_wx_user_info::DB_TABLE_NAME,
@@ -742,11 +742,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_seller_list_new_two($account_role){
         $where_arr = [
-            ["m.account_role =%u ",$account_role,  -1] ,
-            "m.del_flag =0 ",
+            ["m.account_role =%u",$account_role,-1],
         ];
         $sql=$this->gen_sql_new(
-            "select uid,account,account_role,m.create_time,m.seller_level,m.face_pic,m.level_face_pic,"
+            "select uid,account,account_role,m.create_time,m.seller_level,"
+            ."m.face_pic,m.level_face_pic,no_update_seller_level_flag,"
             ."g.level_face,g.level_goal,g.num"
             ." from %s m "
             ." left join %s g on g.seller_level=m.seller_level "
@@ -837,10 +837,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
    }
 
-    public function get_jw_teacher_list_new(){
+    public function get_jw_teacher_list_new($del_flag=0){
+        $where_arr=[
+            ["del_flag=%u",$del_flag,-1]  
+        ];
         $sql = $this->gen_sql_new("select uid,account from %s ".
-                                  " where account_role = 3 and del_flag = 0 "
+                                  " where account_role = 3 and %s "
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return  $this->main_get_list($sql);
     }
@@ -2278,4 +2282,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
+
+
+
+
+    public function get_account_role_by_account($account){
+        $sql = $this->gen_sql_new("  select 1 from %s m "
+                                  ." where account='$account' and account_role in (10,12) "
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_all_fulltime_teacherinfo(){
+
+        $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) ) and uid<1000",
+                                    self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

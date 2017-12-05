@@ -144,6 +144,7 @@ trait TeaPower {
         $arr = json_decode($tea_label_type,true);
         if(!empty($arr)){
 
+
             $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
             if($id>0 && $lessonid>0){
                 $this->t_teacher_label->field_update_list($id,[
@@ -165,35 +166,269 @@ trait TeaPower {
             $list=[];
             foreach($arr as $v){
                 $s =  E\Etea_label_type::get_desc($v);
+                if($s=="循循善诱"){
+                    $s="鼓励激发";
+                }elseif($s=="细致耐心"){
+                    $s="耐心细致";
+                }elseif($s=="善于互动"){
+                    $s="互动引导";
+                }elseif($s=="没有口音"){
+                    $s="普通话标准";
+                }elseif($s=="考纲熟悉"){
+                    $s="熟悉考纲";
+                }
+
                 $list[$s] = $s;
             }
             //dd($list);
             $teacher_tags = $this->t_teacher_info->get_teacher_tags($teacherid);
-            $teacher_tags = trim($teacher_tags,",");
-            $tags= explode(",",$teacher_tags);
-            $str ="";
-            if(empty($tags) || empty($teacher_tags)){
-                foreach($list as $k){
-                    $str .= $k.",";
-                }
+            $teacher_tags_list = json_decode($teacher_tags,true);
+            if(is_array($teacher_tags_list)){
+                
             }else{
-                $tags_list=[];
-                foreach($tags as $v){
-                    $tags_list[$v]=$v;
-                }
-                foreach($list as $k){
-                    if(!isset($tags_list[$k]) && !empty($k)){
-                        $tags[] = $k;
+                $tag = trim($teacher_tags,",");
+                if($tag){
+                    $arr2 = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr2 as $val){
+                        if($val=="循循善诱"){
+                            $val="鼓励激发";
+                        }elseif($val=="细致耐心"){
+                            $val="耐心细致";
+                        }elseif($val=="善于互动"){
+                            $val="互动引导";
+                        }elseif($val=="没有口音"){
+                            $val="普通话标准";
+                        }elseif($val=="考纲熟悉"){
+                            $val="熟悉考纲";
+                        }
+
+                        $teacher_tags_list[$val]=1;
                     }
+ 
+                }else{
+                    $teacher_tags_list=[];
                 }
-                $str = implode(",",$tags);
-                $str .= ",";
+ 
             }
+
+            foreach($list as $val){
+                if(isset($teacher_tags_list[$val])){
+                    $v = $teacher_tags_list[$val]+1;
+                }else{
+                    $v = 1;
+                }
+                $teacher_tags_list[$val]=$v;
+
+            }
+            // $teacher_tags = trim($teacher_tags,",");
+            // $tags= explode(",",$teacher_tags);
+            // $str ="";
+            // if(empty($tags) || empty($teacher_tags)){
+            //     foreach($list as $k){
+            //         $str .= $k.",";
+            //     }
+            // }else{
+            //     $tags_list=[];
+            //     foreach($tags as $v){
+            //         $tags_list[$v]=$v;
+            //     }
+            //     foreach($list as $k){
+            //         if(!isset($tags_list[$k]) && !empty($k)){
+            //             $tags[] = $k;
+            //         }
+            //     }
+            //     $str = implode(",",$tags);
+            //     $str .= ",";
+            // }
+
+            $str = json_encode($teacher_tags_list);
             $this->t_teacher_info->field_update_list($teacherid,[
                 "teacher_tags"  =>$str
             ]);
+
+
         }
     }
+
+
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1){
+        $tag_info = json_encode($tea_tag_arr);
+        $style_character = json_decode(@$tea_tag_arr["style_character"],true);
+        $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
+        $classroom_atmosphere= json_decode(@$tea_tag_arr["classroom_atmosphere"],true);
+        $courseware_requirements= json_decode(@$tea_tag_arr["courseware_requirements"],true);
+        $diathesis_cultivation= json_decode(@$tea_tag_arr["diathesis_cultivation"],true);
+        $teacher_tags_old = $this->t_teacher_info->get_teacher_tags($teacherid);
+        $teacher_tags_list = json_decode($teacher_tags_old,true);
+        $set_adminid = $this->get_account_id();
+
+        if(!empty($tag_info)){
+            if($set_flag==1){
+                $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin,$set_adminid);
+                if($id>0 && $lessonid>0){
+                    $this->t_teacher_label->field_update_list($id,[
+                        "add_time" =>time(),
+                        "label_origin"=>$label_origin,
+                        "tag_info"=>$tag_info
+                    ]);
+                }else{
+                    $this->t_teacher_label->row_insert([
+                        "teacherid"=>$teacherid,
+                        "add_time" =>time(),
+                        "label_origin"=>$label_origin,
+                        "lessonid"    =>$lessonid,
+                        "lesson_list"=>$lesson_list,
+                        "tag_info"    =>$tag_info,
+                        "set_adminid"   =>$this->get_account_id(),
+                    ]);
+                }
+                if(is_array($teacher_tags_list)){
+                
+                }else{
+                    $tag = trim($teacher_tags_old,",");
+                    if($tag){
+                        $arr = explode(",",$tag);
+                        $teacher_tags_list=[];
+                        foreach($arr as $val){
+                            $teacher_tags_list[$val]=1;
+                        }
+ 
+                    }else{
+                        $teacher_tags_list=[];
+                    }
+                }
+
+                foreach($tea_tag_arr as $item){
+                    $ret= json_decode($item,true);
+                    if(is_array($ret)){
+                        foreach($ret as $val){
+                            if(isset($teacher_tags_list[$val])){
+                                $v = $teacher_tags_list[$val]+1;
+                            }else{
+                                $v = 1;
+                            }
+                            $teacher_tags_list[$val]=$v;
+                        }
+                    }
+
+                }
+
+                $teacher_tags = json_encode($teacher_tags_list);
+                $this->t_teacher_info->field_update_list($teacherid,[
+                    "teacher_tags"  =>$teacher_tags
+                ]);
+
+
+            }elseif($set_flag==2){
+                            
+                $id = $this->t_teacher_label->check_label_exist_teacherid($teacherid);
+               
+
+                if($id>0){
+                    $old_tag = $this->t_teacher_label->get_tag_info($id);
+                    $this->t_teacher_label->field_update_list($id,[
+                        "add_time" =>time(),
+                        "tag_info"=>$tag_info,
+                        "set_adminid"   =>$this->get_account_id(),
+                    ]);
+
+                    $this->t_teacher_record_list->row_insert([
+                        "add_time"  =>time(),
+                        "teacherid"  =>$teacherid,
+                        "type"      =>15,
+                        "acc"       =>$this->get_account(),
+                        "record_info"=>$tag_info,
+                        "record_monitor_class"=>$old_tag
+                    ]);
+                    $old_tag_list = json_decode($old_tag,true);
+                    foreach($old_tag_list as $item){
+                        $ret= json_decode($item,true);
+                        if(is_array($ret)){
+                            foreach($ret as $val){
+                                if(isset($teacher_tags_list[$val])){
+                                    $v = $teacher_tags_list[$val]-1;
+                                    if($v<=0){
+                                        unset($teacher_tags_list[$val]);
+                                    }else{
+                                        $teacher_tags_list[$val]=$v; 
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                                      
+
+                    foreach($tea_tag_arr as $item){
+                        $ret= json_decode($item,true);
+                        if(is_array($ret)){
+                            foreach($ret as $val){
+                                if(isset($teacher_tags_list[$val])){
+                                    $v = $teacher_tags_list[$val]+1;
+                                }else{
+                                    $v = 1;
+                                }
+                                $teacher_tags_list[$val]=$v;
+                            }
+                        }
+
+                    }
+
+                    $teacher_tags = json_encode($teacher_tags_list);
+
+                }else{
+                    $this->t_teacher_label->row_insert([
+                        "teacherid"=>$teacherid,
+                        "add_time" =>time(),
+                        "label_origin"=>1000,
+                        "tag_info"    =>$tag_info,
+                        "set_adminid"   =>$this->get_account_id(),
+                    ]);
+                   
+                    if(is_array($teacher_tags_list)){
+                
+                    }else{
+                        $tag = trim($teacher_tags_old,",");
+                        if($tag){
+                            $arr = explode(",",$tag);
+                            $teacher_tags_list=[];
+                            foreach($arr as $val){
+                                $teacher_tags_list[$val]=1;
+                            }
+ 
+                        }else{
+                            $teacher_tags_list=[];
+                        }
+                    }
+
+                    foreach($tea_tag_arr as $item){
+                        $ret= json_decode($item,true);
+                        if(is_array($ret)){
+                            foreach($ret as $val){
+                                if(isset($teacher_tags_list[$val])){
+                                    $v = $teacher_tags_list[$val]+1;
+                                }else{
+                                    $v = 1;
+                                }
+                                $teacher_tags_list[$val]=$v;
+                            }
+                        }
+
+                    }
+
+                    $teacher_tags = json_encode($teacher_tags_list);
+
+                }
+                         
+                $this->t_teacher_info->field_update_list($teacherid,[
+                    "teacher_tags"  =>$teacher_tags
+                ]);
+            }
+        }
+    }
+
 
     public function get_teacher_label_new($tea_arr){
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
@@ -305,7 +540,7 @@ trait TeaPower {
         // $ret = $this->t_admin_main_group_name->get_all_memeber_list(4,"小学科");
         $grade = substr($grade,0,1);
         $grade_list = [1=>[1,4],2=>[2,4,5],3=>[3,5,7]];
-        $grade_arr = $grade_list[$grade];
+        $grade_arr = @$grade_list[$grade];
 
         /* if($subject==3 || $subject==1){
             $list = $this->t_admin_main_group_name->get_all_memeber_list(4,"文综组");
@@ -840,6 +1075,7 @@ trait TeaPower {
                         return $this->output_err(
                             "请安排与老师年级段相符合的课程!"
                         );
+
                     }
                 }else if($grade>=300 ){
                     if($third_grade !=3 && $third_grade !=5){
@@ -2278,28 +2514,19 @@ trait TeaPower {
     /**
      * 老师培训通过后的处理操作
      */
-    public function teacher_train_through_deal($teacher_info,$flag){
-        if($flag==0){
-            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-                "train_through_new"      => 1,
-                "train_through_new_time" => time(),
-            ]);
-        }elseif($flag==1){
-            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-                "train_through_new_time" => time(),
-            ]);
-            $teacher_info['level']=0;
-        }
+    public function teacher_train_through_deal($teacher_info){
+        $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+            "train_through_new_time" => time(),
+        ]);
+        $teacher_info['level']=0;
         $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
+            //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $notice_flag = false;
-            }else{
-                $notice_flag = true;
+                $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid']);
             }
-            $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid'],$notice_flag);
         }
     }
 
@@ -3025,11 +3252,7 @@ trait TeaPower {
     public function get_train_lesson_teacherid($subject,$grade,$lesson_start){
         $lesson_end = $lesson_start+1800;
         $week_day = date("w",$lesson_start);
-        if($week_day != 2){
-            $role_str = "9";
-        }else{
-            $role_str = "4,9";
-        }
+        $role_str = "9";
         $teacherid_list = $this->t_teacher_info->get_teacherid_by_role($role_str,$subject,$grade);
         $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list);
 
@@ -3416,8 +3639,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-
-
     /**
      * 检测非测试老师是否成为正式老师
      */
@@ -3800,7 +4021,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             // }else{
             //     $lesson_count= ceil($diff/40)*100 ;
             // }
-            $lesson_count = $this->get_lesson_count_by_lesson_time($lesson_start,$lesson_end);
+
+            $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         }
 
@@ -4204,7 +4426,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $identity = $recommended_info['identity'];
-            if (in_array($identity,[5,6,7])) {
+            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6,E\Eidentity::V_7])) {
                 $type = 1; // 机构老师
             } else {
                 $type = 0; // 在样学生
@@ -4220,15 +4442,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
                     $reference_num += 30;
                     break;
-                case E\Eteacher_ref_type::V_3:
-                    $reference_num += 10;
-                    break;
                 }
             }
 
             $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             if ($teacherid == 274115) { // join中国 60元/个
                 $reference_price = 60;
+            }elseif($teacherid == 149697){ //明日之星 50元/个
+                $reference_price = 50;
             }
 
             $this->t_teacher_money_list->row_insert([
@@ -4265,7 +4486,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
            "order_partition_flag" =>$order_partition_flag
         ]);
     }
-
 
     //教务抢课链接限制
     public function check_jw_plan_limit($requireids){
@@ -4305,12 +4525,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $per = $grab_num/($plan_num+$grab_num);
             $account = $this->t_manager_info->get_account($k);
             if($per>0.20 && in_array($account,$account_list)){
-                return $this->output_err("$account 当天抢课投放量超过总量的25%,请重新选择!");
+                return $this->output_err(" $account 当天抢课投放量超过总量的25%,请重新选择!");
             }
         }
-
     }
-
 
     //确认老师例子是否入库(分配招师专员)
     public function check_lecture_appointment_assign_flag($grade,$subject,$teacher_type){
@@ -4331,16 +4549,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $flag;
     }
 
-    //根据课程开始以及结束时间来计算课时
-    public function get_lesson_count_by_lesson_time($start_time,$end_time){
-        $diff = $end_time-$start_time;
-        if($diff == 5400){
-            $lesson_count = 200;
-        }else{
-            $lesson_count = round($diff/2400,2)*100;
-        }
-        return $lesson_count;
-    }
 
     //老师黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //老师张珍颖奥数 58812 所有都是75元/课时
@@ -4383,4 +4591,24 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    public function get_teacher_tag_list(){
+        $arr=[
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
+            ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
+            ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
+        ];
+        $list=[];
+        foreach( $arr as $val){
+            $ret = $this->t_tag_library->get_tag_name_list($val["tag_l1_sort"],$val["tag_l2_sort"]);
+            $rr=[];
+            foreach($ret as $item){
+                $rr[]=$item["tag_name"];
+            }
+            $list[$val["tag_l2_sort"]]=$rr;
+        }
+        return $list;
+
+    }
 }

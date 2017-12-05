@@ -124,7 +124,7 @@
                     <td >微信号/姓名</td>
                     <td > 状态</td>
                     <td >每天新例子 </td>
-                    <td > 咨询师等级</td>
+                    <td > 咨询师等级/不参与升级</td>
                     <td > 入职时间</td>
                     <td > 离职时间</td>
                     <td > 打电话账号</td>
@@ -149,7 +149,7 @@
                             <td> {{$var["wx_id"]}} /{{$var["nickname"]}}</td>
                             <td>{{$var["del_flag_str"]}}</td>
                             <td>{{$var["day_new_user_flag_str"]}}</td>
-                            <td>{{$var["seller_level_str"]}}</td>
+                            <td>{{$var["seller_level_str"]}}/{{$var["no_update_seller_level_flag_str"]}}</td>
                             <td>{{$var["become_time"]}}</td>
                             <td>{{$var["leave_time"]}}</td>
                             <td>{{$var["tquin"]}}</td>
@@ -162,7 +162,7 @@
                                     <a href="javascript:;" title="设置角色" class="fa fa-venus-double set-account-role"></a>
                                     <a href="javascript:;" title="绑定微信账号" class="fa fa-link opt_set_openid"></a>
                                     <a href="javascript:;" title="更改员工状态" class="fa fa-trash-o  opt-del"></a>
-                                    <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power"></a>
+                                    <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power" style="display:none"></a>
                                     <a href="javascript:;" title="用此账号登录" class="opt-login">登录</a>
                                     <a href="javascript:;" title="修改账号"
                                        class="fa fa-gears  opt-change-account"> </a>

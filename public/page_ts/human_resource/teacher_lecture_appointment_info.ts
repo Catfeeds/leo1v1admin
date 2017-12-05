@@ -570,16 +570,10 @@ $(function(){
 
             }
         });
-
     });
 
-    if(g_args.tea_adminid !=349 && g_args.tea_adminid !=72 && g_args.tea_adminid !=448 && g_args.tea_adminid !=967 &&g_args.tea_adminid != 684 ){
-        $(".fa-download").hide();
-        $(".page-opt-show-all-xls").hide();
-    }
-
     $(".opt-edit-full_time").on("click",function(){
-      var data           = $(this).get_opt_data();
+        var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_record_info = $("<textarea/>");
         var flag_html      = "<option value='0'>不通过</option>"
@@ -1082,6 +1076,51 @@ $(function(){
         });
     });
 
+    $(".opt-plan-train_lesson").on("click",function(){
+        var opt_data          = $(this).get_opt_data();
+        var id_subject        = $("<select/>");
+        var id_grade          = $("<select/>");
+        var id_record_teacher = $("<input/>");
+        var id_start_time     = $("<input/>");
+
+        id_start_time.datetimepicker( {
+            lang       : 'ch',
+            timepicker : true,
+            format     : "Y-m-d H:i",
+            onChangeDateTime :function(){
+            }
+        });
+
+        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
+        id_subject.val(opt_data.subject_ex);
+        id_grade.val(opt_data.grade_ex);
+
+        var arr = [
+            ["审核老师",  id_record_teacher ]  ,
+            ["科目",  id_subject ]  ,
+            ["年级 ", id_grade]  ,
+            ["上课时间",id_start_time],
+        ];
+
+        $.show_key_value_table("排课", arr ,[{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/tea_manage_new/add_train_lesson_new",{
+                    "phone"            : opt_data.phone,
+                    "lesson_start"     : id_start_time.val(),
+                    "subject"          : id_subject.val(),
+                    "grade"            : id_grade.val(),
+                    "record_teacherid" : id_record_teacher.val(),
+                    "tea_nick"         : opt_data.name,
+                    "id"               : opt_data.id
+                });
+            }
+        }],function(){
+            $.admin_select_user( id_record_teacher, "research_teacher");
+        });
+    });
 
 
 });

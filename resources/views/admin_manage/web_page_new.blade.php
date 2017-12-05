@@ -14,9 +14,9 @@
 
      var g_data_ex_list= <?php  echo json_encode($table_data_list); ?> ;
     </script>
-    
+
     <section class="content">
-        
+
         <hr />
         <div class="body">
             <table class="common-table  ">
@@ -46,10 +46,10 @@
                             <td> {{@$var["ip_count"]}}</td>
                             <td> {{@$var["is_share"]}}</td>
                             <td> {{@$var["share_count"]}}</td>
-                         
+
                             <td>
                                 <div class=" row-data"  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
-               
+
                                 </div>
                             </td>
                         </tr>
