@@ -75,7 +75,7 @@ $(function(){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
             var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
-            if(nextItem == undefined){
+            if(nextItem < 0){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
 
