@@ -187,6 +187,7 @@ class Kernel extends ConsoleKernel
         Commands\update_test_lesson_opt_flag::class,
         Commands\get_agent_group_member_result::class,
         Commands\modify_origin_key::class,
+        Commands\funnel_channel_statistics::class,
     ];
 
     /**
