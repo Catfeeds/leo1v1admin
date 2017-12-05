@@ -25,61 +25,71 @@ $(function(){
         }
     });
     // $(".common-table").table_admin_level_4_init();
-    $(".common-table").table_admin_level_5_init();
+    //$(".common-table").table_admin_level_5_init();
     var whole_data = [];
     function load_row_data (){
+        
         var row_list = $("#id_tbody .l-5");
         var row_all = $("#id_tbody tr") ;
         var do_index = 0;
         function do_one() {
+            
             var className = $("#id_tbody tr:eq("+do_index+")") .attr('class');
-            whole_data[do_index]['level'] = className;
-            if (do_index < row_all.length && className == 'l-5'){
-                var $tr      = $(row_list[do_index]);
-                var opt_data = $tr.find(".opt-show").get_opt_data();
-                $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
-                    "adminid"    : opt_data.adminid,
-                    "start_time" : g_args.start_time,
-                    "end_time"   : g_args.end_time,
-                },function(data){
-                    pullData($tr,data);
-                    whole_data[do_index] = data;
-                    do_one();
-                });
-            }
-            if(do_index == row_all.length){
-                var arr_4 = new Array();
-                var arr_3 = new Array();
-                var arr_2 = new Array();
-                var arr_1 = new Array();
-                var arr_0 = new Array();
-                for(var x in whole_data){
-                    if(whole_data[x]['level'] == 'l-4' ){
-                        arr_4.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-3' ){
-                        arr_3.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-2' ){
-                        arr_2.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-1' ){
-                        arr_1.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-0' ){
-                        arr_0.push(x)
-                    }
-                    var strArr = ['test_lesson_count','succ_all_count_for_month','suc_lesson_count_one','suc_lesson_count_two','suc_lesson_count_three','suc_lesson_count_four','fail_all_count_for_month'];
-                    whole_data =  super_add(arr_4,whole_data,'l-5',strArr);
-                    whole_data =  super_add(arr_3,whole_data,'l-4',strArr);
-                    whole_data =  super_add(arr_2,whole_data,'l-3',strArr);
-                    whole_data =  super_add(arr_1,whole_data,'l-2',strArr);
-                    whole_data =  super_add(arr_0,whole_data,'l-1',strArr);
-                    console.log(whole_data);
+          
+            var arr_4 = new Array();
+            var arr_3 = new Array();
+            var arr_2 = new Array();
+            var arr_1 = new Array();
+            var arr_0 = new Array();
+            whole_data[do_index] = {'level':className};
+      
+            if (do_index < row_all.length ){
+
+                if( className == 'l-4' ){
+                    arr_4.push(do_index)
                 }
+                if( className == 'l-3' ){
+                    arr_3.push(do_index)
+                }
+                if( className == 'l-2' ){
+                    arr_2.push(do_index)
+                }
+                if( className == 'l-1' ){
+                    arr_1.push(do_index)
+                }
+                if( className == 'l-0' ){
+                    arr_0.push(do_index)
+                }
+
+                if( className == 'l-5' ){
+                    var $tr      = $(row_all[do_index]);
+                    var opt_data = $tr.find(".opt-show").get_opt_data();
+                    $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
+                        "adminid"    : opt_data.adminid,
+                        "start_time" : g_args.start_time,
+                        "end_time"   : g_args.end_time,
+                    },function(data){
+                        pullData($tr,data);
+                        data['level'] = className;
+                        whole_data[do_index] = data;
+                        do_one();
+                    });
+                }
+            }
+           
+            if(do_index == row_all.length){
+              
+                var strArr = ['test_lesson_count','succ_all_count_for_month','suc_lesson_count_one','suc_lesson_count_two','suc_lesson_count_three','suc_lesson_count_four','fail_all_count_for_month'];
+                whole_data =  super_add(arr_4,whole_data,'l-5',strArr);
+                whole_data =  super_add(arr_3,whole_data,'l-4',strArr);
+                whole_data =  super_add(arr_2,whole_data,'l-3',strArr);
+                whole_data =  super_add(arr_1,whole_data,'l-2',strArr);
+                whole_data =  super_add(arr_0,whole_data,'l-1',strArr);
+                console.log(whole_data);
             }
             do_index++;
         };
+        do_one();
     };
 
     load_row_data ();
@@ -136,8 +146,6 @@ $(function(){
             }
                         
         }
-
         return arr;
-
     }
 });
