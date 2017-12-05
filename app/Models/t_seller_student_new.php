@@ -3165,5 +3165,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = "select last_revisit_time from db_weiyi.t_seller_student_new where phone= $phone ";
         return $this->main_get_value($sql);
     }
-
+    public function update_cc_no_called_count_new($phone,$total){
+        $sql = "update db_weiyi.t_seller_student_new set cc_no_called_count_new = $total where phone = $phone ";
+        return $this->main_update($sql);
+    }
 }
