@@ -2258,6 +2258,7 @@ class ajax_deal2 extends Controller
     }
 
     public function get_require_info_by_id(){
-        
+        $require_id = $this->get_in_int_val('require_id',-1); 
+        $data = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
     }
 }

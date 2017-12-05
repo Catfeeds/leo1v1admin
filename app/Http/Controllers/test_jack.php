@@ -637,6 +637,30 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
+        $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+       
+
+        $lesson_money_all = $this->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
+        $lesson_count_all = $this->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
+        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
+
+        $ass_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        foreach($ass_month as $val){
+            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
+            $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+            $this->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
+                "lesson_money"  =>$item["lesson_money"],
+                "lesson_price_avg" =>$item["lesson_price_avg"]
+            ]);
+
+
+        }
+        dd(11);
+
+
+
         $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
 
         $this->t_manager_info-> get_tquin_uid_map();
