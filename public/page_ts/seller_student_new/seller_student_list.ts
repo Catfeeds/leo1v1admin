@@ -3597,12 +3597,12 @@ function init_edit() {
             html_node.find("#id_grade_rank_new_two").val(data.grade_rank);
             html_node.find("#id_recent_results_new_two").val(data.recent_results);
             html_node.find("#id_advice_flag_new_two").val(data.advice_flag);
+            html_node.find("#id_interest_cultivation_new_two").val(data.interest_cultivation);
+            html_node.find("#id_extra_improvement_new_two").val(data.extra_improvement);
             html_node.find("#id_academic_goal").val(data.academic_goal);
             html_node.find("#id_test_stress").val(data.test_stress);
             html_node.find("#id_entrance_school_type").val(data.entrance_school_type);
-            html_node.find("#id_interest_cultivation_new_two").val(data.interest_cultivation);
-            html_node.find("#id_extra_improvement").val(data.extra_improvement);
-            html_node.find("#id_habit_remodel").val(data.habit_remodel);
+            html_node.find("#id_habit_remodel_new_two").val(data.habit_remodel);
             html_node.find("#id_study_habit").val(data.study_habit);
             html_node.find("#id_interests_hobbies").val(data.interests_and_hobbies);
             html_node.find("#id_character_type").val(data.character_type);
