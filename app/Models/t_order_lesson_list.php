@@ -74,17 +74,20 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3)",
-            "s.is_test_user=0"
+            // "s.is_test_user=0"
+            "t.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select sum(price)/100 as all_money  "
                                   ." from %s l force index(lesson_type_and_start)"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
-                                  ." left join %s s on l.userid=s.userid"
+                                  // ." left join %s s on l.userid=s.userid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
                                   ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
+                                  // ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
