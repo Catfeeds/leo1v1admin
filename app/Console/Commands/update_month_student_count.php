@@ -30,6 +30,40 @@ class update_month_student_count extends cmd_base
 
         /**  @var \App\Console\Tasks\TaskController  $task*/
         $task = new \App\Console\Tasks\TaskController();
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
+        $lesson_money = $task->t_lesson_info_b3->get_lesson_count_money_info_by_month($start_time,$end_time);
+        $prev_month=[];
+        $prev_month['lesson_count']       = $lesson_money['lesson_count'];
+        $prev_month['lesson_count_money'] = $lesson_money['lesson_count_money'];
+        $prev_month['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
+
+        $id = $task->t_month_student_count->get_id_by_create_time($start_time);
+        $task->t_month_student_count->field_update_list($id,$prev_month);
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
+        $lesson_money = $task->t_lesson_info_b3->get_lesson_count_money_info_by_month($start_time,$end_time);
+        $prev_month=[];
+        $prev_month['lesson_count']       = $lesson_money['lesson_count'];
+        $prev_month['lesson_count_money'] = $lesson_money['lesson_count_money'];
+        $prev_month['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
+
+        $id = $task->t_month_student_count->get_id_by_create_time($start_time);
+        $task->t_month_student_count->field_update_list($id,$prev_month);
+        $start_time = strtotime("2017-11-01");
+        $end_time = strtotime("2017-12-01");
+        $lesson_money = $task->t_lesson_info_b3->get_lesson_count_money_info_by_month($start_time,$end_time);
+        $prev_month=[];
+        $prev_month['lesson_count']       = $lesson_money['lesson_count'];
+        $prev_month['lesson_count_money'] = $lesson_money['lesson_count_money'];
+        $prev_month['lesson_stu_num']     = $lesson_money['lesson_stu_num'];
+
+        $id = $task->t_month_student_count->get_id_by_create_time($start_time);
+        $task->t_month_student_count->field_update_list($id,$prev_month);
+        dd(11111);
+
+
+
 
         $start_time = strtotime( date('Y-m-01',time()) );
         $end_time   = strtotime( '+1 month',$start_time );

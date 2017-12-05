@@ -1407,7 +1407,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.confirm_flag in (0,1,3)",
             "l.lesson_type in (0,1,3)",
             "s.is_test_user=0",
-            // "l.lesson_user_online_status=1 ",
+            "l.lesson_user_online_status=1 ",
             "l.lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new(
