@@ -775,6 +775,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
+    /**
+     *
+     */
     public function get_all_usefull_teacher_list($page_num,$teacherid_arr,$subject,$grade,$lstart,$lend){
         $where_arr=[
             ["t.subject=%u",$subject,-1],
@@ -839,8 +842,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
-
-
     }
 
     public function get_usefull_teacher_list($teacherid_arr,$subject,$grade,$lstart,$lend){
@@ -4673,4 +4674,68 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql, $page_info);
     }
+
+    /**
+     * 获取符合试听需求的老师列表
+     * @param int subject 科目
+     * @param int grade 年级
+     * @param int lesson_start 试听需求的课程预约开始时间
+     */
+    public function get_teacher_list_for_trial_lesson($subject,$grade,$lesson_start){
+        $day_range   = \App\Helper\Utils::get_day_range($lesson_start);
+        $week_range  = \App\Helper\Utils::get_week_range($lesson_start);
+        $month_range = \App\Helper\Utils::get_month_range($lesson_start);
+
+        $day_arr   = $this->lesson_start_common_sql($day_range['sdate'],$day_range['edate'],"l_day");
+        $week_arr  = $this->lesson_start_common_sql($week_range['sdate'],$week_range['edate'],"l_week");
+        $month_arr = $this->lesson_start_common_sql($month_range['sdate'],$month_range['edate'],"l_month");
+        $lesson_end  = strtotime("+40 minute",$lesson_start);
+        $has_arr = [
+            ["l_has.lesson_start<%u",$lesson_end,0],
+            ["l_has.lesson_end>%u",$lesson_start,0],
+        ];
+        $has_arr = $this->lesson_common_sql($has_arr,"l_has");
+
+        $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
+        $where_arr   = [
+            $subject_str,
+            "t.trial_lecture_is_pass=1",
+            "t.train_through_new=1",
+            "t.wx_use_flag=1",
+            "t.is_test_user=0",
+        ];
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.grade_start,t.grade_end,t.second_grade_start,t.second_grade_end,"
+                                  ." t.subject,t.second_subject,t.limit_plan_lesson_type,t.limit_day_lesson_num,"
+                                  ." t.limit_week_lesson_num,t.limit_month_lesson_num,"
+                                  ." tf.free_time_new,"
+                                  ." count(l_day.lessonid) as day_num,"
+                                  ." count(l_week.lessonid) as week_num,"
+                                  ." count(l_month.lessonid) as month_num,"
+                                  ." count(l_has.lessonid) as has_num"
+                                  ." from %s t "
+                                  ." left join %s tf on t.teacherid=tf.teacherid"
+                                  ." left join %s l_day on t.teacherid=l_day.teacherid and %s"
+                                  ." left join %s l_week on t.teacherid=l_week.teacherid and %s"
+                                  ." left join %s l_month on t.teacherid=l_month.teacherid and %s"
+                                  ." left join %s l_has on t.teacherid=l_has.teacherid and %s"
+                                  ." where %s"
+                                  ." having has_num=0"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$day_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$week_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$month_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$has_arr
+                                  ,$where_arr
+        );
+        echo $sql;exit;
+        return $this->main_get_list($sql);
+    }
+
+
 }

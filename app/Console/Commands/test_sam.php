@@ -41,6 +41,9 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+
+        $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();
+        /*
         $is_full_time = 2;
         //$teacher_money_type = $task->get_in_int_val('teacher_money_type',-1);
         $teacher_money_type=-1;
@@ -68,6 +71,7 @@ class test_sam extends Command
         
         $ret_info = $task->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type,$show_all_flag );
         $stu_num_all = $task->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time,$teacher_money_type);
+        dd($start_time,$end_time);
         foreach($ret_info as &$item_list){
             $item_list['teacher_nick'] = $task->cache_get_teacher_nick($item_list['teacherid']);
 
@@ -173,5 +177,6 @@ class test_sam extends Command
             fwrite($fp, "\n");
         }
         fclose($fp);
+        */
     }
 }

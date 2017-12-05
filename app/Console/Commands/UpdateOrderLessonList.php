@@ -41,7 +41,7 @@ class UpdateOrderLessonList extends Command
         if ($day===null) {
             $start_time = $now-86400*2;
         }else{
-            $start_time = $now-$day*86400; 
+            $start_time = $now-$day*86400;
         }
         $end_time = $now;
 

@@ -258,12 +258,10 @@
         <!-- ./wrapper -->
 
     </body>
-        <script type="text/javascript">
-            if(g_account=="jack" || g_account=="jim" || g_account=="adrian"||g_account=="abner" ){
-            download_show();
-            
-            $(".page-opt-show-all-xls").show();
-            }
-            </script>
-
+    <script type="text/javascript">
+     if(g_account=="jack" || g_account=="jim" || g_account=="adrian"||g_account=="abner" || g_account=="michelle" ){
+         download_show();
+         $(".page-opt-show-all-xls").show();
+     }
+    </script>
 </html>
