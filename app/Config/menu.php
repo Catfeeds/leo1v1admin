@@ -247,7 +247,11 @@ class menu{
                 ["power_id"=>37, "name"=>"用户管理-全职老师(上海)",   "url"=>"/authority/manager_list_for_qz_shanghai"],
                 ["power_id"=>38, "name"=>"用户管理-全职老师(武汉)",   "url"=>"/authority/manager_list_for_qz_wuhan"],
 
-                ["power_id"=>31, "name"=>"部门管理",   "url"=>"/user_manage_new/admin_group_manage"],
+                ["power_id"=>31, "name"=>"部门管理",  "list" => [
+                    ["power_id"=> 40, "name"=>"部门管理", "url"=>"/user_manage_new/admin_group_manage"],
+                    ["power_id"=> 41, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
+                    ["power_id"=> 42, "name"=>"权限角色", "url"=>"/company_wx/all_users"]
+                ] ],
                 ["power_id"=>40, "name"=>"校区管理",   "url"=>"/campus_manage/admin_campus_manage"],
                 ["power_id"=>41, "name"=>"月份时间定义",   "url"=>"/month_def_type/def_list"],
                 ["power_id"=>35, "name"=>"各部门花名册", "list"=>[
@@ -539,6 +543,7 @@ class menu{
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
 
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
+                ["power_id"=>14, "name"=>"tmk合同",   "url"=>"/self_manage/get_self_order_list"],
                 //                ["power_id"=>14, "name"=>"分享知识库", "url"=>"/seller_student_new/share_knowledge"],
             ]],
 

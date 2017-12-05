@@ -43,6 +43,15 @@ class test_sam extends Command
         $task=new \App\Console\Tasks\TaskController();
 
         $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();
+        foreach ($ret_info as $key => $value) {
+            # code...
+            $phone = $value['phone'];
+            $total = $value['total'];
+            $data = [
+                'cc_no_called_count_new' => $total,
+            ];
+            $task->t_seller_student_new->update_cc_no_called_count_new($phone,$total);
+        }
         /*
         $is_full_time = 2;
         //$teacher_money_type = $task->get_in_int_val('teacher_money_type',-1);

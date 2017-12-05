@@ -350,18 +350,31 @@ class Utils  {
                                                      .static::unixtime2date($item[$end_name],$fmt_end_str);
     }
 
+    /**
+     * 获取指定日期所在天的开始时间与结束时间
+     * @param int timestamp 指定日期的时间戳
+     * @return array
+     */
     static function get_day_range( $timestamp){
         $ret=array();
-        $ret['sdate'] = strtotime( date('Y-m-d 00:00:00', $timestamp));
+        $ret['sdate'] = strtotime( date('Y-m-d ', $timestamp));
         $ret['edate'] =  $ret['sdate'] + 86400;
         return $ret;
     }
 
-    // 获取指定日期所在星期的开始时间与结束时间 ,
+    /**
+     * 获取指定日期所在星期的开始时间与结束时间
+     * @param int timestamp 指定日期的时间戳
+     * @param int start_fix 指定一周开始的星期  0 从本周日到下周日 1 从本周一到下周一 ...
+     * @return array
+     */
     static function get_week_range( $timestamp,$start_fix=0){
         $ret = array();
         //%w Numeric representation of the day of the week  0 (for Sunday) through 6 (for Saturday)
         $w   = strftime('%w',$timestamp);
+        if($start_fix>7){
+            $start_fix=7;
+        }
         if ($start_fix==0){//周日
             $start= $timestamp-($w-$start_fix)*86400;
         }else{ //周1 ==1
@@ -371,7 +384,7 @@ class Utils  {
             $start = $timestamp-($w-$start_fix)*86400;
         }
 
-        $ret['sdate'] = strtotime( date('Y-m-d 00:00:00',$start));
+        $ret['sdate'] = strtotime(date('Y-m-d',$start));
         $ret['edate'] = $ret['sdate'] + 86400*7-1;
         return $ret;
     }
@@ -379,13 +392,13 @@ class Utils  {
     /**
      * 获取指定日期所在月的开始日期与结束日期
      * @param int timestamp 当前时间戳
-     * @param int is_full_month 是否拉取整个月
+     * @param boolean is_full_month 是否拉取整个月 true 拉取整个月的时间 false 拉取到当天的时间
      * @return array
      */
     static function get_month_range($timestamp,$is_full_month=false ){
         $ret          = array();
         $mdays        = date('t',$timestamp);
-        $ret['sdate'] = strtotime( date('Y-m-1 00:00:00',$timestamp));
+        $ret['sdate'] = strtotime( date('Y-m-1',$timestamp));
         if($is_full_month){
             $ret['edate'] = strtotime("+1 month",$ret['sdate']);
         }else{
@@ -514,6 +527,9 @@ class Utils  {
         return $course_name;
     }
 
+    /**
+     * 获取下一年级
+     */
     static function get_next_grade( $grade){
         switch ( $grade ) {
         case 101 : return 102 ;
@@ -1329,9 +1345,24 @@ class Utils  {
         return $msg;
     }
 
+    /**
+     * 转换详细年级为年级阶段
+     * @param int grade 待转化的年级 eg:101,102,103,201,202,301,302等
+     */
+    static public function change_grade_to_grade_part($grade){
+        $grade_part = substr($grade,0,1)."00";
+        return $grade_part;
+    }
+
+    /**
+     * 转换年级为年级范围
+     * @param int grade 待转化的年级 eg:100,101,200,201,300,301等
+     */
     static public function change_grade_to_grade_range($grade){
         $grade_range = [];
-        switch($grade){
+
+        $grade_part = self::change_grade_to_grade_part($grade);
+        switch($grade_part){
         case 100:
             $grade_range['grade_start']=1;$grade_range['grade_end']=2;
             break;
@@ -1346,6 +1377,25 @@ class Utils  {
             break;
         }
         return $grade_range;
+    }
+
+    static public function change_grade_to_grade_range_part($grade){
+        if($grade<=103){
+            $grade_part = 1;
+        }elseif($grade<=106){
+            $grade_part = 2;
+        }elseif($grade<=202){
+            $grade_part = 3;
+        }elseif($grade==203){
+            $grade_part = 4;
+        }elseif($grade<=302){
+            $grade_part = 5;
+        }elseif($grade==303){
+            $grade_part = 6;
+        }else{
+            $grade_part = 0;
+        }
+        return $grade_part;
     }
 
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
@@ -1547,18 +1597,6 @@ class Utils  {
         $url=trim($url, "/");
         $path_name=trim($path_name, "/");
         return \App\Helper\Utils::gen_url($url."/".$path_name, $args);
-    }
-
-    static public function get_up_grade($grade){
-        if(in_array($grade,[106,203])){
-            $up_grade = (int)substr($grade,0,1)+1;
-            $grade    = $up_grade."01";
-        }elseif($grade==303){
-            $grade = (int)$grade;
-        }else{
-            $grade = (int)$grade+1;
-        }
-        return (int)$grade;
     }
 
     /**

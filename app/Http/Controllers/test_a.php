@@ -22,7 +22,7 @@ class test_a extends Controller
     }
 
     public function t() {
-        //app_path("/Libs/xx/init.php"); 
+        //app_path("/Libs/xx/init.php");
 
         $objReader = \PHPExcel_IOFactory::createReader('Excel2003XML');
         $objPHPExcel = $objReader->load("/tmp/001.xls");
@@ -59,6 +59,7 @@ class test_a extends Controller
                 $grade          = $item[6];
                 $subject        = $item[7];
                 $has_pad        = $item[8];
+                $str="sddd";
 
                 if ( !$this->t_seller_student_info->check_phone_existed($phone) ) {
                     $this->t_seller_student_info->add($phone,$origin,$nick,$user_desc,$grade,$subject,$has_pad);

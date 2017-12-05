@@ -19,11 +19,14 @@
         </div>
     </div>
     <hr/>
-    <div class="zTreeDemoBackground left">
+    <div class="zTreeDemoBackground left" style="weight: 400px'">
 		    <ul id="treeDemo" class="ztree"></ul>
 	  </div>
     <table class="common-table">
     </table>
+    <div id="log-msg" style="width:700px; height:600px; float:right;  overflow:scroll;">
+
+    </div>
 
 @include('layouts.page')
 </section>

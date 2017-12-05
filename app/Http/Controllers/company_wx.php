@@ -5,8 +5,25 @@ use \App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config as Config;
 
+use Illuminate\Support\Facades\Redis;
 class company_wx extends Controller
 {
+    public function test_redis() { // 测试redis
+        $redis = Redis::connection('cache_nick');
+        // for($i = 0; $i < 100; $i ++) {
+        //     $redis->lPush('flush_company_wx_data', date('Y-m-d H:i:s',time()).' 加载权限结束'.$i);
+        // }
+        // var_dump($redis -> lPush('favorite_fruit','cherry'));
+        // var_dump($redis -> lPush('favorite_fruit','banana'));
+        // $len = $redis -> lLen('flush_company_wx_data');
+        // $log = '';
+        // for ($i = 1; $i <= 10; $i ++) {
+        //     $log[] = $redis -> rPop('flush_company_wx_data');
+        // }
+        // dd($log);
+        // var_dump($redis -> lLen('flush_company_wx_data'));
+    }
+
     public function get_company_all_user() {
         $config = Config::get_config("company_wx");
         if (!$config) {
@@ -220,9 +237,9 @@ class company_wx extends Controller
         //     }
         //     $info = array_merge($info, $people);
         // } else {
-        //     $info = array_merge($info,$users);
+        //    $info = array_merge($info,$users);
         // }
-
+        $info = array_merge($info,$users);
         //$info = $this->genTree($info, 0);
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
@@ -231,10 +248,37 @@ class company_wx extends Controller
     }
 
     public function all_users() {
+        E\Eseller_student_status::V_100;
         $tag = $this->t_company_wx_tag->get_all_list();
+        $list    = $this->t_authority_group->get_all_list();
+        $group = [];
+        foreach($list as $item) {
+            $group[$item['groupid']] = $item['group_name'];
+        }
+
+        foreach($tag as &$item) {
+            if ($item['leader_power']) {
+                $power = explode(',', $item['leader_power']);
+                $power_s = '';
+                foreach($power as $val) {
+                    $power_s .= $val.'-'.$group[$val];
+                }
+                $item['leader_power'] = $power_s;
+            }
+            // no_leader_power
+            if ($item['no_leader_power']) {
+                $power = explode(',', $item['no_leader_power']);
+                $power_s = '';
+                foreach($power as $val) {
+                    $power_s .= $val.'-'.$group[$val];
+                }
+                $item['no_leader_power'] = $power_s;
+            }
+        }
         
         return $this->pageView(__METHOD__, '', [
-            'info' => $tag
+            'info' => $tag,
+            'group' => $group
         ]);
     }
 
@@ -396,9 +440,26 @@ class company_wx extends Controller
 
     public function flush_company_wx_data() {
         $acc = $this->get_account();
-         
-        //exec($command, $output)
-        //$this->dispatch(new UpdateCompanyWxData($acc));
-        //return $this->output_succ();
+        //$base = substr(dirname(__FILE__), 0, -20);
+        //$command = $base.'artisan command:update_company_wx_data 0 > /tmp/1.log';
+        //exec($command);
+        dispatch( new \App\Jobs\update_company_wx_data());
+        return $this->output_succ();
+    }
+
+    public function flush_company_wx_data_log() {
+        $redis = Redis::connection('cache_nick');
+        $len = $redis -> lLen('flush_company_wx_data');
+        $log = '';
+        for ($i = 1; $i <= $len; $i ++) {
+            $log[] = $redis -> rPop('flush_company_wx_data');
+        }
+        return $this->output_succ(['data' => $log]);
+    }
+
+    public function get_ower_power() {
+        $uid = $this->get_in_str_val('uid', 0);
+        $power = $this->t_manager_info->get_power($uid);
+        return $this->output_succ(['data' => $power]);
     }
 }

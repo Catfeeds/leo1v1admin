@@ -45,21 +45,7 @@ class  yxyx_wx_server extends Controller
 
 
         $menuList = array(
-            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'', 'code'=>''),
-            array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'', 'code'=>''),
-            array('id'=>'3', 'pid'=>'0', 'name'=>'账号管理', 'type'=>'', 'code'=>''),
-            array('id'=>'4', 'pid'=>'1', 'name'=>'邀请学员', 'type'=>'click', 'code'=>'invitation'),
-            array('id'=>'5', 'pid'=>'1', 'name'=>'邀请会员', 'type'=>'click', 'code'=>'invitation_member'),
-            array('id'=>'7', 'pid'=>'2', 'name'=>'理优简介', 'type'=>'view','code'=>'http://wx-yxyx-web.leo1v1.com/wx_yxyx_leo-Introduction/index.html'),
-            // array('id'=>'8', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
-            array('id'=>'8', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'click', 'code'=>'content'),
-            // array('id'=>'8', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'view', 'code'=>'http://www.leo1v1.com/wx-invite-article/index.html'),
-            array('id'=>'9', 'pid'=>'2', 'name'=>'学员反馈', 'type'=>'click', 'code'=>'feedback'),
-            // array('id'=>'10', 'pid'=>'2', 'name'=>'每日卡片', 'type'=>'click', 'code'=>'card'),
-            array('id'=>'11', 'pid'=>'2', 'name'=>'预约试听', 'type'=>'view', 'code'=>'http://www.leo1v1.com/market-l/index.html'),
-            array('id'=>'15', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=> "$base_url/wx_yxyx_web/index" ),
-            array('id'=>'16', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>"$base_url/wx_yxyx_web/bind"),
-            array('id'=>'18', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
+            array('id'=>'1', 'pid'=>'0', 'name'=>'个人中心', 'type'=>'view', 'code'=> "$base_url/wx_yxyx_web/index" ),
         );
 
         $ret =  \Yxyx\core\Menu::setMenu($menuList);
