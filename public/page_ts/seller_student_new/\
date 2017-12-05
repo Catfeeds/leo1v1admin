@@ -40,15 +40,6 @@ function load_data(){
     });
 }
 
-function add_subject_score(obj){
-    $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3'><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-    var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']");
-    Enum_map.append_option_list("subject",id_subject_score, true);
-}
-function del_subject_score(obj){
-    $(obj).parent().remove();
-}
-
 $(function(){
     show_name_key="stu_info_name_"+g_adminid;
     var status_opt_list=[];
@@ -1115,7 +1106,7 @@ function init_edit() {
             id_address.val(data.address);
             id_subject.val(data.subject);
             id_status.val(data.status);
-            //id_user_desc.val(data.user_desc);
+            id_user_desc.val(data.user_desc);
             id_revisite_info.val(data.revisite_info);
             id_has_pad.val(data.has_pad);
             id_school.val(data.school);
@@ -2124,7 +2115,7 @@ function init_edit() {
             var id_status            = html_node.find("#id_stu_status");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
             var id_user_desc         = html_node.find("#id_stu_user_desc");
-            //var id_revisite_info     = html_node.find("#id_stu_revisite_info");
+           // var id_revisite_info     = html_node.find("#id_stu_revisite_info");
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
             var id_school            = html_node.find("#id_stu_school");
@@ -2680,7 +2671,7 @@ function init_edit() {
             id_address.val(data.address);
             id_subject.val(data.subject);
             id_status.val(data.status);
-            //id_user_desc.val(data.user_desc);
+            id_user_desc.val(data.user_desc);
            // id_revisite_info.val(data.revisite_info);
             id_has_pad.val(data.has_pad);
             id_school.val(data.school);
@@ -2856,7 +2847,7 @@ function init_edit() {
                 }
             }
 
-
+            
 
 
 
@@ -2978,7 +2969,6 @@ function init_edit() {
     };
 
 
-
     $(".opt-edit-new_new_two").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
@@ -3060,10 +3050,7 @@ function init_edit() {
             var id_interests_hobbies = html_node.find("#id_interests_hobbies_new_two");
             var id_character_type    = html_node.find("#id_character_type_new_two");
             var id_address           = html_node.find("#id_stu_addr_new_two");
-            var id_subject_score     = html_node.find("select[name='subject_score_new_two']");
-            var id_test_stress = html_node.find("#id_test_stress_new_two");
-            var id_academic_goal = html_node.find("#id_academic_goal_new_two");
-            var id_entrance_school_type = html_node.find("#id_entrance_school_type_new_two");
+            var id_subject_score     = html_node.find("#id_subject_score_new_two");
 
             var id_status            = html_node.find("#id_stu_status");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
@@ -3074,6 +3061,9 @@ function init_edit() {
             var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
             var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
             var id_advice_flag = html_node.find("#id_advice_flag");
+            var id_academic_goal = html_node.find("#id_academic_goal");
+            var id_test_stress = html_node.find("#id_test_stress");
+            var id_entrance_school_type = html_node.find("#id_entrance_school_type");
             var id_extra_improvement = html_node.find("#id_extra_improvement");
             var id_habit_remodel = html_node.find("#id_habit_remodel");
             var id_interest_cultivation = html_node.find("#id_interest_cultivation");
@@ -3084,10 +3074,10 @@ function init_edit() {
             var id_demand_urgency = html_node.find("#id_demand_urgency");
             var id_quotation_reaction = html_node.find("#id_quotation_reaction");
             var id_revisit_info_new = html_node.find("#id_revisit_info_new");
+            html_node.find(".add_subject_score_new_two").on("click",function(){
+                $(this).parent().parent().parent().append("<div class='col-xs-12 col-md-3'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary add_subject_score_new_two'  title='添加新科目分数' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' id='del_subject_score_new_two'  title='删除新科目分数' ><i class='fa fa-minus'></i></button></div>");
+            });
 
-            // html_node.find(".add_subject_score_new_two").on("click",function(){
-            //     $(this).parent().parent().parent().append("<div class='col-xs-12 col-md-3'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary add_subject_score_new_two'  title='添加新科目分数' onclick='add_subject_score()' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' name='del_subject_score_new_two'  title='删除新科目分数' ><i class='fa fa-minus'></i></button></div>");
-            // });
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
             html_node.find("#id_stu_reset_next_revisit_time").on("click",function(){
                 id_next_revisit_time.val("");
@@ -3586,8 +3576,8 @@ function init_edit() {
             id_address.val(data.address);
             id_subject.val(data.subject);
             id_status.val(data.status);
-            //id_user_desc.val(data.user_desc);
-            // id_revisite_info.val(data.revisite_info);
+            id_user_desc.val(data.user_desc);
+           // id_revisite_info.val(data.revisite_info);
             id_has_pad.val(data.has_pad);
             id_school.val(data.school);
             id_editionid.val(data.editionid);
@@ -3595,12 +3585,10 @@ function init_edit() {
             html_node.find("#id_class_rank_new_two").val(data.class_rank);
             html_node.find("#id_class_num_new_two").val(data.class_num);
             html_node.find("#id_grade_rank_new_two").val(data.grade_rank);
-            html_node.find("#id_recent_results_new_two").val(data.recent_results);
-            html_node.find("#id_advice_flag_new_two").val(data.advice_flag);
             html_node.find("#id_academic_goal").val(data.academic_goal);
             html_node.find("#id_test_stress").val(data.test_stress);
             html_node.find("#id_entrance_school_type").val(data.entrance_school_type);
-            html_node.find("#id_interest_cultivation_new_two").val(data.interest_cultivation);
+            html_node.find("#id_interest_cultivation").val(data.interest_cultivation);
             html_node.find("#id_extra_improvement").val(data.extra_improvement);
             html_node.find("#id_habit_remodel").val(data.habit_remodel);
             html_node.find("#id_study_habit").val(data.study_habit);
@@ -3610,6 +3598,8 @@ function init_edit() {
             html_node.find("#id_intention_level").val(data.intention_level);
             html_node.find("#id_demand_urgency").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
+            html_node.find("#id_recent_results").val(data.recent_results);
+            html_node.find("#id_advice_flag").val(data.advice_flag);
             html_node.find("#id_test_paper").val(data.stu_test_paper);
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
@@ -3763,7 +3753,7 @@ function init_edit() {
                 }
             }
 
-
+            
 
 
 
