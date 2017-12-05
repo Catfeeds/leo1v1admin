@@ -68,10 +68,9 @@ $(function(){
     function superAdd(className,nextName){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
-            var nextIndex = thisItem + 1;
-            var nextItem = $(this).find("#id_tbody ."+className+"eq("+nextIndex+")").index();
-            if(!nextItem){
-                var nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
+            var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
+            if(nextItem == undefined){
+                nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
             if( nextItem >= thisItem ){
                 var test_lesson_count = 0 ;
@@ -81,7 +80,7 @@ $(function(){
                 var suc_lesson_count_three = 0;
                 var suc_lesson_count_four = 0;
                 var fail_all_count_for_month = 0;
-                $('#id_tbody .'+nextName+':gt('+thisItem+'):lt('+nextItem+')').each(function(){
+                $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+').'+nextName).each(function(){
                     test_lesson_count += parseInt($(this).find('.test_lesson_count').text());
                     succ_all_count_for_month += parseInt($(this).find('.succ_all_count_for_month').text());
                     suc_lesson_count_one += parseInt($(this).find('.suc_lesson_count_one').text());
