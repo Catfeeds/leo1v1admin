@@ -1046,7 +1046,7 @@ class wx_teacher_api extends Controller
     public function update_accept_status(){ //更新接受状态并发送微信推送
         $lessonid = $this->get_in_int_val('lessonid');
         $status   = $this->get_in_int_val('status');
-
+        
         $check_handout = '';// 待确认[boby]
         if($check_handout){ //测试 若有讲义 则转到讲义列表页面
             header("Location: http://www.baidu.com");
@@ -1085,9 +1085,9 @@ class wx_teacher_api extends Controller
         $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
         $tea_label_typ_str = "";
 
-        foreach($tea_label_type_arr as $item){
+        // foreach($tea_label_type_arr as $item){
             
-        }
+        // }
 
         return $this->output_succ(["data"=>$teacher_info]);
     }
