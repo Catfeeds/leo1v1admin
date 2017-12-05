@@ -79,7 +79,15 @@ $(function(){
            
             if(do_index == row_all.length){
               
-                var strArr = ['test_lesson_count','succ_all_count_for_month','suc_lesson_count_one','suc_lesson_count_two','suc_lesson_count_three','suc_lesson_count_four','fail_all_count_for_month'];
+                var strArr = {
+                    'test_lesson_count':0,
+                    'succ_all_count_for_month':0,
+                    'suc_lesson_count_one':0,
+                    'suc_lesson_count_two':0,
+                    'suc_lesson_count_three':0,
+                    'suc_lesson_count_four':0,
+                    'fail_all_count_for_month':0
+                };
                 whole_data =  super_add(arr_4,whole_data,'l-5',strArr);
                 whole_data =  super_add(arr_3,whole_data,'l-4',strArr);
                 whole_data =  super_add(arr_2,whole_data,'l-3',strArr);
@@ -112,7 +120,7 @@ $(function(){
     }
     $('.opt-change').set_input_change_event(load_data);
 
-    function super_add(arr_n,arr,level,strArr){
+    function super_add(arr_n,arr,lev,strArr){
          if(!arr_n || !arr){
             return arr;
         } 
@@ -127,23 +135,22 @@ $(function(){
             }
 
             if(first > last){
-                for( var x in strArr ){
-                    arr[arr_n[x]][strArr[x]] = 0;
-                }
-                
+                arr[arr_n[x]] = strArr;
             }else if(first == last){
-                for( var x in strArr ){
-                    arr[arr_n[x]][strArr[x]] = arr[first][strArr[x]];
-                }
+                arr[arr_n[x]] = arr[first];
             }else{
                 for( var i = first; i <= last; i++ ){
-                    if(arr[i]['level'] == level){
-                        for( var x in strArr ){
-                            arr[arr_n[x]][strArr[x]] += arr[first][strArr[x]];
+                    if(arr[i].level == lev){
+                        var obj = arr[i];
+                        var superObj = {};
+                        for( var y in strArr ){
+                            superObj[y] += obj[y];
                         }
+                        arr[arr_n[x]] = superObj;
                     }
                 }
             }
+            arr[arr_n[x]].level = lev;
                         
         }
         return arr;
