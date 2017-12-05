@@ -86,4 +86,20 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
         $sql = $this->gen_sql_new("select nick,teacher_type,teacher_ref_type from %s where (teacher_type=21 or teacher_type=22) and (teacher_ref_type=1 or teacher_ref_type=2) ", t_teacher_info::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+    public function get_info_for_cc($start_time, $end_time){
+        $where = [
+            'seller_student_status>=100',
+            'seller_student_status<200',
+            ['r.require_time>=%d',$start_time,0],
+            ['r.require_time<%d',$end_time,0]
+        ];
+        //select r.require_id,r.cur_require_adminid,s.userid,s.seller_student_status,o.orderid,o.order_time from t_test_lesson_subject_require r left join t_test_lesson_subject s on s.test_lesson_subject_id = r.test_lesson_subject_id left join t_order_info o on o.userid=s.userid where seller_student_status>=100 and seller_student_status<200 and r.require_time >= unix_timestamp('2017-11-1') and r.require_time < unix_timestamp('2017-12-1')
+        $sql = $this->gen_sql_new("select r.require_id,r.cur_require_adminid,s.userid,s.seller_studnet_status,o.orderid,o.order_time from %s r left join %s s on s.test_lesson_subject_id = r.test_lesson_subject_id left join %s o on o.userid=s.userid where %s",
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }

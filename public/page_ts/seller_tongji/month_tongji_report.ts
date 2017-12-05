@@ -34,6 +34,7 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
                 var opt_data = $tr.find(".opt-show").get_opt_data();
+                whole_data[do_index] = opt_data.adminid;
                 $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
                     "adminid"    : opt_data.adminid,
                     "start_time" : g_args.start_time,
@@ -46,6 +47,10 @@ $(function(){
             }
             if (do_index == row_list.length ) {
                 superAdd('l-4','l-5');
+                // superAdd('l-3','l-4');
+                // superAdd('l-2','l-3');
+                // superAdd('l-1','l-2');
+                // superAdd('l-0','l-1');
             }
         };
         do_one();
@@ -73,15 +78,17 @@ $(function(){
             if(nextItem == undefined){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
+
+            var test_lesson_count = 0 ;
+            var succ_all_count_for_month = 0;
+            var suc_lesson_count_one = 0;
+            var suc_lesson_count_two = 0;
+            var suc_lesson_count_three = 0;
+            var suc_lesson_count_four = 0;
+            var fail_all_count_for_month = 0;
+
             if( nextItem >= thisItem ){
-                var test_lesson_count = 0 ;
-                var succ_all_count_for_month = 0;
-                var suc_lesson_count_one = 0;
-                var suc_lesson_count_two = 0;
-                var suc_lesson_count_three = 0;
-                var suc_lesson_count_four = 0;
-                var fail_all_count_for_month = 0;
-                $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+').'+nextName).each(function(){
+                $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+')').each(function(){
                    
                     var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
                     var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
@@ -98,8 +105,8 @@ $(function(){
                     suc_lesson_count_three += field_5;
                     suc_lesson_count_four += field_6;
                     fail_all_count_for_month += field_7;
-
                 })
+                console.log('结束');
             }
             $(this).find('.test_lesson_count').text(test_lesson_count);
             $(this).find('.succ_all_count_for_month').text(succ_all_count_for_month);

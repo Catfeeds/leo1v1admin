@@ -380,6 +380,27 @@
                             '<div  class="col-xs-12 col-md-2 ">年级:'+require_list.grade_str+'</div>'+
                             '<div  class="col-xs-12 col-md-2 ">科目:'+require_list.subject_str+'</div>'+
                             '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
+                            '<div  class="col-xs-12 col-md-1 ">老师要求:</div>'+
+                            '<div  class="col-xs-12 col-md-11 ">'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>风格性格:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>专业能力:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>老师身份:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>年龄段:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>性别:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>课堂氛围:</label>幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-2 " style="margin-top:-4px"><label>课件要求:</label>幽默风趣</span>'+
+                            '</div>'+
+                            '<div  class="col-xs-12 col-md-1 ">试听内容:</div>'+
+                            '<div  class="col-xs-12 col-md-11 ">'+
+                            '<div  class="col-xs-12 col-md-4 ">'+
+                            '<span class="col-xs-12 col-md-6 " style="margin-top:-6px">幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-6 " style="margin-top:-6px">幽默风趣</span>'+
+                            '<span class="col-xs-12 col-md-6 " style="margin-top:-6px">幽默风趣</span>'+
+                            '</div>'+
+                            '<div  class="col-xs-12 col-md-8 ">'+require_list.test_stu_request_test_lesson_demand+'</div>'+
+                            
+                            '</div>'+
+                            '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
                             '</div>');
 
                     

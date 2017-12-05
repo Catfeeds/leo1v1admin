@@ -44,7 +44,8 @@ $(function(){
 
     $('.opt-show').on('click', function (){
         var pdf_url = $(this).attr('data-pdf');
-        $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
+        // $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
+        window.open(pdf_url, '_blank');
     })
 
     var cur_status = $('#my_status').attr('cur-status');
