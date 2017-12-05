@@ -2876,23 +2876,13 @@ $(function(){
                     'arg_name' :  "nick_phone"  ,
                     type  : "input"
                 }, {
-                    size_class: "col-md-7" ,
+                    size_class: "col-md-9" ,
                     title :"试听上课时间",
                     'arg_name' :  "nick_phone"  ,
                     type  : "input"
-                }, {
-                    size_class: "col-md-1" ,
-                    title :"排课",
-                    'arg_name' :  "nick_phone"  ,
-                    type  : "div"
-                }, {
-                    size_class: "col-md-1" ,
-                    title :"驳回",
-                    'arg_name' :  "nick_phone"  ,
-                    type  : "div"
                 },{
-                    size_class: "col-md-4" ,
-                    title :"性别",
+                    size_class: "col-md-2" ,
+                    title :"教师相关",
                     type  : "select" ,
                     'arg_name' :  "gender"  ,
                     select_option_list: [ {
@@ -2906,11 +2896,86 @@ $(function(){
                         text :  "女"
                     }]
                 },{
-                    size_class: "col-md-8" ,
-                    title :"姓名/电话",
-                    'arg_name' :  "nick_phone"  ,
-                    type  : "input"
-                }
+                    size_class: "col-md-2" ,
+                    title :"课堂相关",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                }, {
+                    size_class: "col-md-2" ,
+                    title :"教学相关",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                }, {
+                    size_class: "col-md-2" ,
+                    title :"老师身份",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                },{
+                    size_class: "col-md-2" ,
+                    title :"老师性别",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                },{
+                    size_class: "col-md-2" ,
+                    title :"年龄段",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                },
+
+
+
+
+
             ]
 
 
