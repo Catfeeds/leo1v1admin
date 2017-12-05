@@ -1089,6 +1089,9 @@ class wx_teacher_api extends Controller
             }
         }
 
+        $teacher_inf['harvest'] = "教学成果";
+        $teacher_inf['evaluate'] = "家长/学元评价";
+
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
