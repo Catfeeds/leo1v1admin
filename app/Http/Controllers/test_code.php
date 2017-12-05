@@ -1435,6 +1435,8 @@ class test_code extends Controller
         return $this->output_succ($tea_list);
     }
 
-
+    public function get_lesson_count(){
+        
+    }
 
 }
