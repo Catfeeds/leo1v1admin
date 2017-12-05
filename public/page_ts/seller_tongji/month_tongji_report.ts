@@ -88,7 +88,7 @@ $(function(){
             var fail_all_count_for_month = 0;
 
             if( nextItem >= thisItem ){
-                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+')').each(function(){
+                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+').'+nextName).each(function(){
                    
                     var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
                     var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
@@ -97,7 +97,7 @@ $(function(){
                     var field_5 = $(this).find('.suc_lesson_count_three').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_three').text());
                     var field_6 = $(this).find('.suc_lesson_count_four').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_four').text());
                     var field_7 = $(this).find('.fail_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.fail_all_count_for_month').text());
-                    console.log(field_1);
+                   
                     test_lesson_count += field_1;
                     succ_all_count_for_month += field_2;
                     suc_lesson_count_one += field_3;
@@ -106,7 +106,6 @@ $(function(){
                     suc_lesson_count_four += field_6;
                     fail_all_count_for_month += field_7;
                 })
-                console.log('结束');
             }
             $(this).find('.test_lesson_count').text(test_lesson_count);
             $(this).find('.succ_all_count_for_month').text(succ_all_count_for_month);

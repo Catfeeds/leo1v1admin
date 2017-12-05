@@ -41,6 +41,7 @@ class cr_info_month extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+
         $timestamp = time(); 
 
 
