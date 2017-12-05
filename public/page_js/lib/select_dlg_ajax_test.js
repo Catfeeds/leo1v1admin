@@ -364,11 +364,18 @@
 
             $dlg_form.find( ".ajax_list"  ).append(me.$body);
             $dlg_form.find( ".lru_list"  ).append(me.$lru_body);
+            $.ajax({
+                type     : "post",
+                url      : "/ajax_deal2/get_require_info_by_id",
+                dataType : "json",
+                data     : {require_id: me.options.requireid},
+                success  : function(result){
+                    
 
-            $.do_ajax("/ajax_deal2/get_require_info_by_id",{
-                "require_id" :me.options.requireid ,
-            } ,function(ret){
 
+                    
+
+                }
             });
 
 

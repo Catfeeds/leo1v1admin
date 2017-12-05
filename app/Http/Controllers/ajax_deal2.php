@@ -2256,4 +2256,8 @@ class ajax_deal2 extends Controller
             return 0;
         }
     }
+
+    public function get_require_info_by_id(){
+        
+    }
 }
