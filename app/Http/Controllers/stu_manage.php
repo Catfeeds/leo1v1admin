@@ -1114,11 +1114,14 @@ class stu_manage extends Controller
                     $item="";
                 }
             }
+            
         }
+        $this->set_filed_for_js("gg_acc",$this->get_account());
+
         return $this->pageView(__METHOD__,null,
                                [
                                    "init_data"=> $row,
-                                   "show_post_flag"=> $this->check_power(E\Epower::V_POST_STU_INIT_INFO ),
+                                   "show_post_flag"=> $this->check_power(E\Epower::V_POST_STU_INIT_INFO ),                                  
                                ]
         );
     }
