@@ -1149,11 +1149,11 @@ class seller_student_new extends Controller
 
         $return_publish_count = $this->get_in_int_val('return_publish_count',-1);
         $cc_called_count      = $this->get_in_int_val('cc_called_count',-1);
-        $cc_no_called_count   = $this->get_in_int_val('cc_no_called_count',-1);
+        $cc_no_called_count_new   = $this->get_in_int_val('cc_no_called_count_new',-1);
         $call_admin_count     = $this->get_in_int_val('call_admin_count',-1);
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info = $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count,$call_admin_count);
+        $ret_info = $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count_new,$call_admin_count);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
