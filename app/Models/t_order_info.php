@@ -4348,4 +4348,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    public function get_self_order_list($sys_operator){
+        $where_arr=[
+            ["sys_operator='%s'",$sys_operator,""]  
+        ];
+        $sql = $this->gen_sql_new("select o.userid,s.nick,o.orderid"                                 
+                                  ." from %s o left join %s s on o.userid=s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
 }

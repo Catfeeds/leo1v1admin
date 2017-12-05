@@ -2839,7 +2839,7 @@ $(function(){
        // var main_type    = opt_data.main_type;
        // var up_groupid =opt_data.up_groupid ;
 
-        $("<div></div>").admin_select_dlg_ajax({
+        $("<div></div>").admin_select_dlg_ajax_test({
             "opt_type" : "select", // or "list"
             "url"      : "/user_deal/get_group_list_new_month",
             //其他参数

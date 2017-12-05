@@ -2912,9 +2912,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$end_time,0];
             }else{
                 $where_arr[] =["t.train_through_new_time>=%u",$start_time,0];
-                $where_arr[]=["t.train_through_new_time<%u",$end_time,0]; 
+                $where_arr[]=["t.train_through_new_time<%u",$end_time,0];
             }
-           
+
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
 
         }elseif($tea_flag==2){
@@ -3010,7 +3010,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if($start_time >= strtotime("2017-08-01")){
             $where_arr[] =["tf.simul_test_lesson_pass_time<%u",$start_time,0];
         }else{
-            $where_arr[] =["t.train_through_new_time<%u",$start_time,0]; 
+            $where_arr[] =["t.train_through_new_time<%u",$start_time,0];
         }
         $sql = $this->gen_sql_new("select count(1) "
                                   ."from %s t left join %s tf on t.teacherid = tf.teacherid"
@@ -4668,7 +4668,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_bank_info($page_info) {
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t left join %s l on t.teacherid=l.teacherid where lesson_start > 0 group by t.teacherid ",
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t left join %s l on t.teacherid=l.teacherid where lesson_start > 0 and t.is_test_user = 0 group by t.teacherid ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME
         );
@@ -4713,7 +4713,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." count(l_week.lessonid) as week_num,"
                                   ." count(l_month.lessonid) as month_num,"
                                   ." count(l_has.lessonid) as has_num"
-                                  ." from %s t "
+                                  ." from %s force index(subject) t"
                                   ." left join %s tf on t.teacherid=tf.teacherid"
                                   ." left join %s l_day on t.teacherid=l_day.teacherid and %s"
                                   ." left join %s l_week on t.teacherid=l_week.teacherid and %s"
@@ -4737,5 +4737,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_test_teacher_info($lessonid){
+        $sql = $this->gen_sql_new("  select tea_nick, tea_gender, work_year, phone, textbook_type, identity from %s t"
+                                  ." left join %s l.teacherid=t.teacherid"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
 
 }
