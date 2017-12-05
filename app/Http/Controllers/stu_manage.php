@@ -1116,6 +1116,7 @@ class stu_manage extends Controller
             }
             
         }
+
         $this->set_filed_for_js("gg_acc",$this->get_account());
 
         return $this->pageView(__METHOD__,null,
