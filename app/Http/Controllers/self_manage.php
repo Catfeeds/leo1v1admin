@@ -432,4 +432,9 @@ class self_manage extends Controller
         return $this->output_succ();
     }
 
+    public function get_self_order_list(){
+        $list = $this->t_order_info->get_self_order_list($this->get_account());
+        return $this->pageView(__METHOD__,$list);
+    }
+
 }

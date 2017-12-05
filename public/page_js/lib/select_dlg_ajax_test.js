@@ -347,7 +347,7 @@
                 }) ;
             }
 
-            var $dlg_form=$('<div class="row" class=\"require_info\">'+
+            var $dlg_form=$('<div class="row require_info" >'+
                             '</div>'+
                             '<div class="row">'+
                             '    <div class="col-xs-12 col-md-12 ajax_list">'+
@@ -370,8 +370,21 @@
                 dataType : "json",
                 data     : {require_id: me.options.requireid},
                 success  : function(result){
-                    
-
+                    var require_list = result.data;
+                   /* $dlg_form.find( ".require_info"  ).append(
+                        '<div class="row">'+
+                            '<div  class="col-xs-12 col-md-2 ">姓名 :'+require_list.nick+'</div>'+
+                            '<div  class="col-xs-12 col-md-2 ">性别:'+require_list.gender_str+'</div>'+
+                            '<div  class="col-xs-12 col-md-2 ">年级:'+require_list.grade_str+'</div>'+
+                            '<div  class="col-xs-12 col-md-2 ">科目:'+require_list.subject_str+'</div>'+
+                            '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
+                            '</div>');*/
+                    alert(require_list.nick);
+                    console.log($dlg_form.find( ".require_info"  ));
+                    var str = $('<div  class="col-xs-12 col-md-2 ">姓名 :11111</div>');
+                    $dlg_form.find( ".require_info"  ).append(
+                        str
+                    );
 
                     
 
@@ -492,7 +505,7 @@
     };
 
     //在插件中使用对象
-    $.fn.admin_select_dlg_ajax = function(options) {
+    $.fn.admin_select_dlg_ajax_test = function(options) {
         //创建的实体
         var select_dlg_ajax = new Cselect_dlg_ajax(this, options);
         //调用其方法

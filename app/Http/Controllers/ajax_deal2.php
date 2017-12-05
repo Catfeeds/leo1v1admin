@@ -2260,5 +2260,15 @@ class ajax_deal2 extends Controller
     public function get_require_info_by_id(){
         $require_id = $this->get_in_int_val('require_id',-1); 
         $data = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
+        $data["gender_str"] = E\Egender::get_desc(@$data["gender"]);
+        $data["subject_str"] = E\Esubject::get_desc(@$data["subject"]);
+        $data["grade_str"] = E\Egrade::get_desc(@$data["grade"]);
+        $data["intention_level_str"] = E\Eintention_level::get_desc(@$data["intention_level"]);
+        $data["quotation_reaction_str"] = E\Equotation_reaction::get_desc(@$data["quotation_reaction"]);
+        $data["require_time"] = @$data["curl_stu_request_test_lesson_time"]?date("Y-m-d H:i",$data["curl_stu_request_test_lesson_time"]):"无";
+        return $this->output_succ(["data"=>$data]);
+
+
+        
     }
 }
