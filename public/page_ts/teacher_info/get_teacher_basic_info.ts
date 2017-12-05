@@ -43,7 +43,7 @@ $(function(){
     });
 
     $('.opt-show').on('click', function (){
-        var pdf_url = $(this).attr('data-pdf');
+        var file_url = $(this).attr('data-pdf');
         // $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
 
         $.ajax({
@@ -55,12 +55,7 @@ $(function(){
                 if (ret.ret != 0) {
                     BootstrapDialog.alert(ret.info);
                 } else {
-                    var match = file_url.match(/.*\.(.*)?/);
-                    if (match[1].toLowerCase() != "pdf") {
-                        window.open(ret.file_ex, '_blank');
-                        return;
-                    }
-                    window.open(ret.file, '_blank');
+                    window.open(ret.file_ex, '_blank');
                 }
             }
         });

@@ -47,10 +47,10 @@ $(function(){
             }
             if (do_index == row_list.length ) {
                 superAdd('l-4','l-5');
-                // superAdd('l-3','l-4');
-                // superAdd('l-2','l-3');
-                // superAdd('l-1','l-2');
-                // superAdd('l-0','l-1');
+                superAdd('l-3','l-4');
+                superAdd('l-2','l-3');
+                superAdd('l-1','l-2');
+                superAdd('l-0','l-1');
             }
         };
         do_one();
