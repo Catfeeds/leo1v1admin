@@ -1415,23 +1415,24 @@ lesson_type in (0,1) "
      * 重叠取反即可：t3<t2 && t4>t1
      */
     public function check_student_time_free( $userid,$cur_lessonid, $lesson_start,$lesson_end ) {
-        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end "
-                            ." from %s l "
-                            ." left join %s tss on l.lessonid = tss.lessonid "
-                            ." where userid=%u "
-                            ." and l.lessonid<> %d "
-                            ." and %u < lesson_end "
-                            ." and %u > lesson_start "
-                            ." and confirm_flag<2"
-                            ." and lesson_type in (0,1,2,3,3001)"
-                            ." and lesson_del_flag =0 "
-                            ." and (tss.success_flag is null or tss.success_flag <>2)"
-                            ,self::DB_TABLE_NAME
-                            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                            ,$userid
-                            ,$cur_lessonid
-                            ,$lesson_start
-                            ,$lesson_end
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            ["l.lessonid<>%u",$cur_lessonid,0],
+            ["l.lesson_end>%u",$lesson_start,0],
+            ["l.lesson_start<%u",$lesson_end,0],
+        ];
+
+        $sql = $this->gen_sql_new("select l.lessonid,lesson_start,lesson_end "
+                                  ." from %s l "
+                                  ." left join %s tss on l.lessonid = tss.lessonid "
+                                  ." where %s "
+                                  ." and confirm_flag<2"
+                                  ." and lesson_type in (0,1,2,3,3001)"
+                                  ." and lesson_del_flag =0 "
+                                  ." and (tss.success_flag is null or tss.success_flag <>2)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_row($sql);
     }
@@ -2195,6 +2196,16 @@ lesson_type in (0,1) "
         return $this->main_update($sql);
     }
 
+    /**
+     * @author adrian
+     * 此方法供 UpdateOrderLessonList 命令来刷课时收入使用
+     * 请勿随意更改
+     * @param int userid 学生id
+     * @param int competition 竞赛标示
+     * @param int start_time  开始时间
+     * @param int end_time    结束时间
+     * @param int lesson_status 课程状态
+     */
     public function get_user_lesson_list($userid,$competition=-1,$start_time=0,$end_time=0,$lesson_status=2){
         $where_str = [
             ["competition_flag=%u",$competition,-1],
@@ -2204,9 +2215,9 @@ lesson_type in (0,1) "
             ["lesson_status=%u",$lesson_status,-1],
             "lesson_count>0",
             "lesson_type in (0,1,3)",
-            "teacher_money_type in (5,6)",
+            "confirm_flag in (0,1,3)",
+            "lesson_del_flag=0"
         ];
-        $where_str = $this->lesson_common_where_arr($where_str);
         $sql = $this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
                                 ." teacherid,grade,userid,competition_flag,teacher_money_type"
                                 ." from %s"
@@ -3833,7 +3844,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
-            $where_arr[] = "m.del_flag=0";
+            // $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -4177,7 +4188,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
-            $where_arr[] = "m.del_flag=0";
+             $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -7175,7 +7186,7 @@ lesson_type in (0,1) "
             $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
         }else if($fulltime_flag==1){
             $where_arr[] = "m.account_role=5";
-            $where_arr[] = "m.del_flag=0";
+             $where_arr[] = "m.del_flag=0";
         }
 
         if($tea_status==1){

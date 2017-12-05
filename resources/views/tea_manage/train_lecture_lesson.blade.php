@@ -197,7 +197,7 @@
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
                             @endif
-                            @if($acc=="jack" || $acc=="jim")
+                            @if($acc=="jack" || $acc=="jim" || $acc=="林文彬")
                                 <a class="opt-test" >测试</a>
                                 <a class="opt-edit-pass" title="审核">审核-new</a>
                                 <a class="opt-edit-no-pass" title="判定为不通过">不通过 </a>

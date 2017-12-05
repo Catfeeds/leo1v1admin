@@ -1173,8 +1173,13 @@ class teacher_level extends Controller
         $lessonid                         = $this->get_in_int_val("lessonid",0);
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,1,-1);
 
+        //获取老师标签列表
+        $list = $this->get_teacher_tag_list();
 
-        return $this->output_succ(["id"=>$id]);
+
+
+
+        return $this->output_succ(["id"=>$id,"tag"=>$list]);
 
     }
 

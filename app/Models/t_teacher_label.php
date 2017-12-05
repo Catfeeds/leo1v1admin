@@ -74,10 +74,11 @@ class t_teacher_label extends \App\Models\Zgen\z_t_teacher_label
         return $this->main_get_value($sql);
     }
 
-    public function check_label_exist($lessonid,$label_origin){
+    public function check_label_exist($lessonid,$label_origin,$set_adminid=-1){
         $where_arr=[
             ["lessonid=%u",$lessonid,-1 ],
-            ["label_origin =%u ",$label_origin,-1 ]
+            ["label_origin =%u ",$label_origin,-1 ],
+            ["set_adminid=%u",$set_adminid,-1]
         ];
         $sql = $this->gen_sql_new(
             "select id from  %s  "
@@ -87,6 +88,21 @@ class t_teacher_label extends \App\Models\Zgen\z_t_teacher_label
         return $this->main_get_value($sql);
 
     }
+
+    public function check_label_exist_teacherid($teacherid){
+        $where_arr=[
+            ["teacherid =%u ",$teacherid,-1 ],
+            "label_origin=1000"
+        ];
+        $sql = $this->gen_sql_new(
+            "select id from  %s  "
+            . "  where %s",
+            self::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_value($sql);
+
+    }
+
 
     public function get_teacher_all_label_info(){
         $sql = $this->gen_sql_new("select teacherid,tea_label_type"

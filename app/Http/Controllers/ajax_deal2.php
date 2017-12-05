@@ -2210,6 +2210,29 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data"=>$list]);
     }
 
+    //教务设置老师标签
+    public function set_teacher_tag_info(){
+        $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+        $tea_tag_arr=[
+            "style_character"=>$style_character,
+            "professional_ability"=>$professional_ability,
+            "classroom_atmosphere"=>$classroom_atmosphere,
+            "courseware_requirements"=>$courseware_requirements,
+            "diathesis_cultivation"=>$diathesis_cultivation,
+        ];
+        $set_flag=2;
+        $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,1000,$set_flag); 
+        return $this->output_succ();
+
+
+ 
+    }
+
 
     public function get_tq_info(){
         $adminid=$this->get_in_adminid();
@@ -2232,5 +2255,10 @@ class ajax_deal2 extends Controller
         }else{
             return 0;
         }
+    }
+
+    public function get_require_info_by_id(){
+        $require_id = $this->get_in_int_val('require_id',-1); 
+        $data = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
     }
 }

@@ -4266,14 +4266,36 @@ class human_resource extends Controller
                 $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
                 $item["address"]   = substr($item["address"], 0, -6);
             }
+            if(empty($item["teacher_tags"])){
+                $item["teacher_tags"]="";
+            }else{
+                $tag= json_decode($item["teacher_tags"],true);
+                if(is_array($tag)){
+                    $str_tag="";
+                    foreach($tag as $d=>$t){
+                        $str_tag .= $d."  ".$t."<br>";
+                    }
+                    $item["teacher_tags"] = $str_tag;
+                }
+            }
+
 
 
         }
 
         $acc = $this->get_account();
+
+        //检查是否教务组长
+        $is_master_flag_jw = $this->t_admin_group_name->check_is_master(3,$this->get_account_id());
+        if($is_master_flag_jw==1 || in_array($acc,["jack","jim","CoCo老师","孙瞿"])){
+            $is_master_flag_jw=1;
+        }
+
+
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,
-            "account_role" => $this->get_account_role()
+            "account_role" => $this->get_account_role(),
+            "is_master_flag_jw" =>$is_master_flag_jw 
         ]);
     }
 

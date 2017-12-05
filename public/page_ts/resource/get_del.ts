@@ -4,7 +4,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-        user_type:	$('#id_user_type').val(),
+        use_type:	$('#id_use_type').val(),
         resource_type:	$('#id_resource_type').val(),
         subject:	$('#id_subject').val(),
         grade:	$('#id_grade').val(),
@@ -16,7 +16,7 @@ function load_data(){
 }
 $(function(){
 
-    Enum_map.append_option_list("user_type", $("#id_user_type"),true);
+    Enum_map.append_option_list("use_type", $("#id_use_type"),true);
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7,9]);
     Enum_map.append_option_list("subject", $("#id_subject"));
     Enum_map.append_option_list("grade", $("#id_grade"));
@@ -31,7 +31,7 @@ $(function(){
     }
 
 
-    $('#id_user_type').val(g_args.user_type);
+    $('#id_use_type').val(g_args.use_type);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
@@ -40,7 +40,7 @@ $(function(){
     $('#id_tag_three').val(g_args.tag_three);
     $('#id_file_title').val(g_args.file_title);
 
-        $("#id_select_all").on("click",function(){
+    $("#id_select_all").on("click",function(){
         $(".opt-select-item").iCheck("check");
     });
 
@@ -84,34 +84,38 @@ $(function(){
     };
 
     var do_restore = function(obj){
-        var id_list = [];
-        if( obj.data('resource_id') != undefined ) {
-            id_list.push( obj.data('resource_id') );
+
+        var res_id_list = [],file_id_list = [];
+        $('.opt-select-item').each(function(){
+            if( $(this).iCheckValue()){
+                res_id_list.push( $(this).data('id') );
+                file_id_list.push( $(this).data('file_id') );
+            }
+        });
+
+        if(res_id_list.length == 0) {
+            BootstrapDialog.alert('请先选择文件！');
         } else {
-            $('.opt-select-item').each(function(){
-                if( $(this).iCheckValue()){
-                    id_list.push( $(this).data('id') );
+            var res_id_info  = JSON.stringify(res_id_list);
+            var file_id_info = JSON.stringify(file_id_list);
+
+            $.ajax({
+                type    : "post",
+                url     : "/resource/del_or_restore_resource",
+                dataType: "json",
+                data    : {
+                    "type"        : 4,
+                    "res_id_str"  : res_id_info,
+                    "file_id_str" : file_id_info,
+                },
+                success : function(result){
+                    if(result.ret == 0){
+                        window.location.reload();
+                    }
                 }
             });
         }
-        if(id_list.length == 0) {
-            BootstrapDialog.alert('请先选择文件！');
-        } else {
-            var id_info = JSON.stringify(id_list);
-            if( confirm('确定要还原？') ){
-                $.ajax({
-                    type     : "post",
-                    url      : "/resource/restore_resource",
-                    dataType : "json",
-                    data     : {'id_str' : id_info},
-                    success  : function(result){
-                        if(result.ret == 0){
-                            window.location.reload();
-                        }
-                    }
-                });
-            };
-        }
+
     };
 
     $('.opt-forever-del').on('click', function(){
