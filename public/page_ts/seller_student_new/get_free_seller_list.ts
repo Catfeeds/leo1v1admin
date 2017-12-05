@@ -1005,22 +1005,22 @@ $(function(){
                         if(id_status.val() !=  '2'){//
                             if(html_node.find("#id_stu_editionid").val() == 0){
                                 html_node.find("#id_stu_editionid").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_stu_request_test_lesson_time").val() == 0){
                                 html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_stu_subject").val() <= 0){
                                 html_node.find("#id_stu_subject").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_stu_request_test_lesson_time").val() == '无'){
                                 html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }else{
                                 var require_time= $.strtotime(html_node.find("#id_stu_request_test_lesson_time").val());
@@ -1041,87 +1041,87 @@ $(function(){
                                 if (require_time < need_start_time ) {
                                     html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 }
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_stu_nick").val() == ''){
                                 html_node.find("#id_stu_nick").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_stu_grade").val() <= 0){
                                 html_node.find("#id_stu_grade").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_stu_gender").val() == 0){
                                 html_node.find("#id_stu_gender").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(data.region == ''){
                                 html_node.find("#province").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(data.city == ''){
                                 html_node.find("#city").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(data.area == ''){
                                 html_node.find("#area").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_class_rank").val() == ''){
                                 html_node.find("#id_class_rank").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_grade_rank").val() == ''){
                                 html_node.find("#id_grade_rank").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_academic_goal").val() <= 0){
                                 html_node.find("#id_academic_goal").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_test_stress").val() <= 0){
                                 html_node.find("#id_test_stress").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_entrance_school_type").val() <= 0){
                                 html_node.find("#id_entrance_school_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_entrance_school_type").val() <= 0){
                                 html_node.find("#id_entrance_school_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_study_habit").val() == ''){
                                 html_node.find("#id_study_habit").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_character_type").val() == ''){
                                 html_node.find("#id_character_type").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_need_teacher_style").val() == ''){
                                 html_node.find("#id_need_teacher_style").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_intention_level").val() <= 0){
                                 html_node.find("#id_intention_level").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             // if(html_node.find("#id_demand_urgency").val() <= 0){
@@ -1132,12 +1132,12 @@ $(function(){
                             // }
                             if(html_node.find("#id_stu_request_test_lesson_demand").val() == ''){
                                 html_node.find("#id_stu_request_test_lesson_demand").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
                             if(html_node.find("#id_recent_results").val() == ''){
                                 html_node.find("#id_recent_results").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                alert("请补充完整");
+                                alert("请把标红的补充完整");
                                 return;
                             }
 

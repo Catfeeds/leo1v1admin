@@ -1530,7 +1530,7 @@ lesson_type in (0,1) "
 
     public function get_confirm_lesson_list($start_time,$end_time) {
         $sql = $this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, count(distinct l.userid ) as user_count,a.nick assistant_nick from  %s  l, %s s,%s a  ".
-                            " where  l.userid=s.userid  and l.assistantid = a.assistantid and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2)  and lesson_type in (0,1,3)"
+                            " where  l.userid=s.userid  and l.assistantid = a.assistantid and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2,4)  and lesson_type in (0,1,3)"
                             ." and lesson_del_flag=0 and l.assistantid <> 59329  "
                             ." group by l.assistantid  order by lesson_count desc",
                             self::DB_TABLE_NAME,
@@ -1546,7 +1546,7 @@ lesson_type in (0,1) "
             ["s.assistantid= %u",$assistantid, -1  ],
         ];
         $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
-                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and confirm_flag not in (2)  and lesson_type in (0,1,3) and %s "
+                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and confirm_flag not in (2,4)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid,l.subject ",
                                 self::DB_TABLE_NAME,
@@ -1563,7 +1563,7 @@ lesson_type in (0,1) "
         ];
         $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.phone,l.subject,l.teacherid,l.grade,sum(l.lesson_count) as lesson_count,count(*) as count,sum(o.price) price from  %s  l left join %s s on  l.userid=s.userid "
                                 ."left join %s o on l.lessonid = o.lessonid "
-                                . " where  is_test_user=0 and lesson_start >=%u and lesson_start<%u  and confirm_flag not in (2)  and lesson_type in (0,1,3) and %s "
+                                . " where  is_test_user=0 and lesson_start >=%u and lesson_start<%u  and confirm_flag not in (2,4)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid ,l.subject ",
                                 self::DB_TABLE_NAME,
@@ -1582,7 +1582,7 @@ lesson_type in (0,1) "
             ["s.userid= %u",$studentid, -1  ],
         ];
         $sql=$this->gen_sql_new("select s.assistantid, s.userid, l.teacherid,l.lesson_start,l.lesson_end, l.lesson_count  as count from  %s  l, %s s  ".
-                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2)  and lesson_type in (0,1,3) and %s "
+                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,4)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 ",
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME, //
@@ -1599,7 +1599,7 @@ lesson_type in (0,1) "
                             ." and lesson_start >=%s "
                             ." and lesson_start<%s "
                             ." and lesson_status =2 "
-                            ." and confirm_flag not in (2) "
+                            ." and confirm_flag not in (2,4) "
                             ." and lesson_type in (0,1,3) "
                             ,self::DB_TABLE_NAME
                             ,t_student_info::DB_TABLE_NAME
