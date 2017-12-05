@@ -44,10 +44,9 @@ class update_company_wx_data extends Command
         // 企业微信用户
         $users = $task->t_company_wx_users->get_all_users();
         // 后台管理用户
-        $manager = $task->t_manager_info->get_all();
-        $phone = array_column($manager, 'phone');
+        $manager = $task->t_manager_info->get_all_list();
         foreach($users as $key => $item) {
-            if (!in_array($key, $phone)) {
+            if (!isset($manager[$key])) {
                 echo $item['name'].' '.$item['mobile'].',';
             }
         }
