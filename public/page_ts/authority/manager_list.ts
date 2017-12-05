@@ -886,7 +886,7 @@ $(function(){
 
                 for(var i=0; i<perm.length; i++) {
                     if (perm[i] == this['groupid']) {
-                        data_list.push([this["groupid"], this["group_name"]  ]);
+                        //data_list.push([this["groupid"], this["group_name"]  ]);
                         select_list.push (this["groupid"]) ;
                     }
                 }
