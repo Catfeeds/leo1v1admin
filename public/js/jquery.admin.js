@@ -1215,7 +1215,7 @@ jQuery.extend({
         }
     },
 
-    do_ajax: function( url,data, success_func ){
+    do_ajax: function( url,data, success_func, jsonp_flag ){
 
 
         function ajax_default_deal_func(result){
@@ -1236,7 +1236,7 @@ jQuery.extend({
             url:  url,
             type: 'POST',
             data:data,
-            dataType: 'json',
+            dataType: jsonp_flag? "jsonp": 'json',
             success: success_func
 
             ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
