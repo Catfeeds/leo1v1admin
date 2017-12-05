@@ -42,8 +42,32 @@ class add_new_tea_entry extends Command
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
         // 拉取数据
-        //$user = $this->t_manager_info->;
-        $info = $this->t_teacher_lecture_appointment_info_b2->get_info_for_cc();
+        $user = $task->t_teacher_lecture_appointment_info_b2->get_manager_info();
+        $start_time = strtotime('2017-11-1');
+        $end_time = strtotime("2017-12-1");
+        $info = $task->t_teacher_lecture_appointment_info_b2->get_info_for_cc($start_time, $end_time);
+        $users = '';
+        foreach($info as $item) {
+            if (isset($users[$item['uid']]['tag'])) {
+                if ($item['status']) {
+                    $users[$item['uid']]['tag'] += 1;
+                }
+            } else {
+                $users[$item['uid']]['tag'] = 0;
+            }
+            if (isset($users[$item['uid']]['order'])) {
+                if ($item['orderid']) {
+                    $users[$item['uid']]['order'] += 1;
+                }
+            } else {
+                $users[$item['uid']]['order'] = 0;
+            }
+        }
+        foreach($users as $key => $item) {
+            if (!isset($user[$key])) continue;
+            echo $user[$key]['name'].' '.$item['tag'].' '.$item['order'].',';
+        }
+        //dd($users);
         exit;
         $info = $task->t_teacher_lecture_appointment_info_b2->get_name_for_tea_name();
         foreach($info as $item){

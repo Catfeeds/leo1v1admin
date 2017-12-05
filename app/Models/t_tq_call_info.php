@@ -28,12 +28,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                                 'cc_called_count'=>$count+1,
                                 'cc_no_called_count'=>0,
                                 'last_revisit_time'=>$start_time,
+                                'last_revisit_time'=>$start_time,
                             ]);
                         }elseif($is_called_phone==0){//未拨通
                             $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count');
+                            $count_new = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count_new');
                             $this->task->t_seller_student_new->field_update_list($userid,[
                                 'cc_no_called_count'=>$count+1,
                                 'last_revisit_time'=>$start_time,
+                                'cc_no_called_count_new'=>$count_new+1,
                             ]);
                         }
                     }
