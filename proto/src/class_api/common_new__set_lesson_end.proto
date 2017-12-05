@@ -11,5 +11,6 @@ message in  {
 }
 
 message out {
+  repeated common.get_check_lesson_end_item_t  item_list =1;
   
 }
