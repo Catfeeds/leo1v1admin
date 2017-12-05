@@ -130,17 +130,19 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_permission_list($account )
     {
-        $sql = sprintf("select permission from %s where account = '%s' ",
+        $sql = sprintf("select permission , power from %s where account = '%s' ",
                        self::DB_TABLE_NAME, $this->ensql( $account));
-        $grpid = $this->main_get_value( $sql);
-        $grpid_arr = explode(',', $grpid);
+        $row = $this->main_get_row( $sql);
+        $power_str=$row["permission"].",".$row["power"] ;
+        $grpid_arr = explode(',', $power_str);
         $perms = "";
         foreach($grpid_arr as $key => $value){
             $sql = sprintf("select group_authority from %s where groupid = %u",
-                           \App\Models\Zgen\z_t_authority_group::DB_TABLE_NAME,
+                           t_authority_group::DB_TABLE_NAME,
                             $value);
             $perms .= "," . $this->main_get_value( $sql);
         }
+
         return explode(',',$perms);
     }
 
@@ -280,7 +282,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             }
         }
 
-        $sql = sprintf("select account, permission from %s where account in ('%s') "
+        $sql = sprintf("select account, permission, power from %s where account in ('%s') "
                        ,self::DB_TABLE_NAME
                        ,$cond_str
         );
