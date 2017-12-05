@@ -48,8 +48,8 @@ class update_company_wx_data extends Command
         //}
         $url = $this->get_url();
         $token = $this->get_token(); // 获取token
-        $this->flush_tag_data($token,$url,$task); // 刷新tag
-        $this->flush_users_data($token,$url,$task); // 刷新组织用户
+        //$this->flush_tag_data($token,$url,$task); // 刷新tag
+        //$this->flush_users_data($token,$url,$task); // 刷新组织用户
         $this->flush_permission($task); // 刷新权限
     }
 
@@ -182,19 +182,23 @@ class update_company_wx_data extends Command
         // 1. 获取用户 t_manager_info(uid account phone) t_company_wx_users(department)
         $info = $task->t_company_wx_users->get_all_list_for_manager();
         // 2. 获取用户所拥有的tag
-        $department = $task->t_company_wx_department->get_all_list();
-        $tag_depart_temp = $task->t_company_wx_tag_department->get_all_list();
-        $tag_depart = [];
-        $tag_department = [];
-        foreach($tag_depart_temp as $item) {
-            $tag_depart[$item['id']] = $item['department'];
-            $tag_department[$item['department']][] = $item['id'];
-        }
+        // $department = $task->t_company_wx_department->get_all_list();
+        // $tag_depart_temp = $task->t_company_wx_tag_department->get_all_list();
+        // $tag_depart = [];
+        // $tag_department = [];
+        // foreach($tag_depart_temp as $item) {
+        //     $tag_depart[$item['id']] = $item['department'];
+        //     $tag_department[$item['department']][] = $item['id'];
+        // }
 
-        $tag = $task->t_company_wx_tag->get_all_list();
-        $tag_users = $task->t_company_wx_tag_users->get_all_list();
+        // $tag = $task->t_company_wx_tag->get_all_list();
+        // $tag_users = $task->t_company_wx_tag_users->get_all_list();
 
         foreach ($info as $item) {
+            $task->t_manager_info->field_update_list($item['uid'], [
+                'power' => ''
+            ]);
+            continue;
             $item['power'] = '';
             if ($item['isleader'] == 1) { // 领导
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
