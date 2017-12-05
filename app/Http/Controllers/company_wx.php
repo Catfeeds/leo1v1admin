@@ -248,7 +248,9 @@ class company_wx extends Controller
     }
 
     public function all_users() {
+        E\Eseller_student_status::V_100;
         $tag = $this->t_company_wx_tag->get_all_list();
+        //
         
         return $this->pageView(__METHOD__, '', [
             'info' => $tag
