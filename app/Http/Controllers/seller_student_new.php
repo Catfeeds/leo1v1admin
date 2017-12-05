@@ -60,10 +60,8 @@ class seller_student_new extends Controller
         $this->set_in_value("admin_revisiterid", 0);
         $this->set_in_value("sub_assign_adminid_2", 0);
 
-
         return $this->assign_sub_adminid_list();
     }
-
 
     //分配例子
     public function assign_sub_adminid_list(){

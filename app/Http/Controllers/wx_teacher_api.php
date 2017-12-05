@@ -1007,7 +1007,7 @@ class wx_teacher_api extends Controller
 
     //标签系统 微信推送
 
-    public function get_student_info(){
+    public function get_student_info(){ // 获取向老师推送的模板数据
         $lessonid = $this->get_in_int_val("lessonid");
         $test_info = $this->t_lesson_info_b3->get_student_info_to_tea($lessonid);
         return $this->output_succ(['data'=>$test_info]);
@@ -1024,6 +1024,9 @@ class wx_teacher_api extends Controller
         $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
+        //上课要求标签[未定]
+        //学科化内容标签[未定]
+
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -1035,9 +1038,14 @@ class wx_teacher_api extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
         $status   = $this->get_in_int_val('status');
 
+        $check_handout = '';// 待确认[boby]
+        if($check_handout){ //测试
+            header("Location: http://www.baidu.com");
+        }
+
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
         $this->t_test_lesson_subject_require->field_update_list($require_id, [
-            "accept_status" => $status
+            // "accept_status" => $status// 新增字段
         ]);
 
         if($status == 1){ //接受
@@ -1054,7 +1062,8 @@ class wx_teacher_api extends Controller
             $url = ""; //待定
 
             $wx = new \App\Helper\WxSendMsg();
-            $wx->send_ass_for_first($wx_openid, $data, $url);
+            $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
+            // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
         }
 
         return $this->output_succ();

@@ -68,7 +68,8 @@ $(function(){
     function superAdd(className,nextName){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
-            var nextItem = $(this).next('.'+className).index();
+            var nextIndex = thisItem + 1;
+            var nextItem = $(this).find("#id_tbody ."+className+"eq("+nextIndex+")").index();
             if(!nextItem){
                 var nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
