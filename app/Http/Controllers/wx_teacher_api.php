@@ -1030,8 +1030,6 @@ class wx_teacher_api extends Controller
         $ret_info['identity'] = '身份标签';
         $ret_info['atmosphere'] = '课堂氛围标签';
         $ret_info['courseware'] = '课件要求';
-        //
-
         //学科化内容标签[未定]
         $ret_info['subject_tag_a'] = '学科标签A';
         $ret_info['subject_tag_b'] = '学科标签B';
@@ -1046,7 +1044,7 @@ class wx_teacher_api extends Controller
     public function update_accept_status(){ //更新接受状态并发送微信推送
         $lessonid = $this->get_in_int_val('lessonid');
         $status   = $this->get_in_int_val('status');
-        
+
         $check_handout = '';// 待确认[boby]
         if($check_handout){ //测试 若有讲义 则转到讲义列表页面
             header("Location: http://www.baidu.com");
@@ -1083,12 +1081,15 @@ class wx_teacher_api extends Controller
         $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
 
         $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
-        $tea_label_typ_str = "";
+        $tea_label_type_str = "";
 
-        // foreach($tea_label_type_arr as $item){
-            
-        // }
+        if($tea_label_type_arr){
+            foreach($tea_label_type_arr as $item){
+                $tea_label_type_str.=E\Etea_label_type::get_desc($item)."  ";
+            }
+        }
 
+        $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
 
