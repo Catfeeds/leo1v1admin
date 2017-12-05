@@ -4738,7 +4738,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_test_teacher_info($lessonid){
-        $sql = $this->gen_sql_new("  select tea_nick, tea_gender, work_year, phone, textbook_type, identity, tl.tea_label_type from %s t"
+        $sql = $this->gen_sql_new("  select t.nick as tea_nick, t.gender as tea_gender, work_year, phone, textbook_type, identity, tl.tea_label_type from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"
                                   ." left join %s tl on tl.teacherid=t.teacherid "
                                   ." where l.lessonid=$lessonid"
