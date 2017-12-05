@@ -9,7 +9,7 @@ interface JQueryStatic {
 
     reload( ):void;
     isWeiXin():boolean;
-    do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void ):void;
+    do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void, jsonp_flag? ):void;
     do_ajax_t( url:string,data: Object ,succ_call_back?: (result :any )=>void   ):void;
     wopen( url:string,open_self_window?:boolean):void;
     reload_self_page( args:Object, url? ):void;
