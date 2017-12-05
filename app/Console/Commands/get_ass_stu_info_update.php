@@ -40,6 +40,7 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
+
         //更新助教信息
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));

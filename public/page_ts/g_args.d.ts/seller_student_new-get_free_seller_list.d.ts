@@ -15,6 +15,9 @@ interface GargsStatic {
 	test_lesson_order_fail_flag:	number;//App\Enums\Etest_lesson_order_fail_flag
 	origin:	string;
 	return_publish_count:	number;
+	cc_called_count:	number;
+	cc_no_called_count_new:	number;
+	call_admin_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -74,7 +77,10 @@ function load_data(){
 		test_lesson_count_flag:	$('#id_test_lesson_count_flag').val(),
 		test_lesson_order_fail_flag:	$('#id_test_lesson_order_fail_flag').val(),
 		origin:	$('#id_origin').val(),
-		return_publish_count:	$('#id_return_publish_count').val()
+		return_publish_count:	$('#id_return_publish_count').val(),
+		cc_called_count:	$('#id_cc_called_count').val(),
+		cc_no_called_count_new:	$('#id_cc_no_called_count_new').val(),
+		call_admin_count:	$('#id_call_admin_count').val()
     });
 }
 $(function(){
@@ -103,6 +109,9 @@ $(function(){
 	$('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
 	$('#id_origin').val(g_args.origin);
 	$('#id_return_publish_count').val(g_args.return_publish_count);
+	$('#id_cc_called_count').val(g_args.cc_called_count);
+	$('#id_cc_no_called_count_new').val(g_args.cc_no_called_count_new);
+	$('#id_call_admin_count').val(g_args.call_admin_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -177,6 +186,27 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">return_publish_count</span>
                 <input class="opt-change form-control" id="id_return_publish_count" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">cc_called_count</span>
+                <input class="opt-change form-control" id="id_cc_called_count" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">cc_no_called_count_new</span>
+                <input class="opt-change form-control" id="id_cc_no_called_count_new" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">call_admin_count</span>
+                <input class="opt-change form-control" id="id_call_admin_count" />
             </div>
         </div>
 */

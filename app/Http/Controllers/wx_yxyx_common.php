@@ -36,14 +36,14 @@ class wx_yxyx_common extends Controller
         //$web_html_url = "http://wx-yxyx-web.leo1v1.com";
         $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["url"] ) ;
         //测试环境
-        if(\App\Helper\Utils::check_env_is_test()){
+        if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_release()){
             $web_html_url= $wx_config["test_url"];
         }
 
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
             //测试环境
-            if(\App\Helper\Utils::check_env_is_test())
+            if(\App\Helper\Utils::check_env_is_test()|| \App\Helper\Utils::check_env_is_release())
                 $url = "$web_html_url/login.html";
         }else{
             \App\Helper\Utils::logger('yxyx_www_openid:'.$openid);
@@ -58,13 +58,13 @@ class wx_yxyx_common extends Controller
 
                 $url = "/wx_yxyx_web/$action";
                 //测试环境
-                if(\App\Helper\Utils::check_env_is_test())
+                if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_release())
                     $url = "$web_html_url/index.html";
 
             }else{
                 $url = "$web_html_url/index.html#bind?".$action;
                 //测试环境
-                if(\App\Helper\Utils::check_env_is_test())
+                if(\App\Helper\Utils::check_env_is_test() || \App\Helper\Utils::check_env_is_release())
                     $url = "$web_html_url/login.html";
             }
         }

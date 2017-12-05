@@ -381,6 +381,9 @@ $(function(){
                     id_no_tea_score.parent().parent().hide();  
                     id_jkqk.parent().parent().hide();   
                     id_rjcz.parent().parent().hide();  
+                    teacher_related_labels.parent().parent().hide();
+                    class_related_labels.parent().parent().hide();
+                    teaching_related_labels.parent().parent().hide();
                     
                 }else{
                     id_jysj.parent().parent().show();  
@@ -395,7 +398,10 @@ $(function(){
                     id_score.parent().parent().show();  
                     id_no_tea_score.parent().parent().show();  
                     id_jkqk.parent().parent().show();  
-                    id_rjcz.parent().parent().show();  
+                    id_rjcz.parent().parent().show();
+                    teacher_related_labels.parent().parent().show();
+                    class_related_labels.parent().parent().show();
+                    teaching_related_labels.parent().parent().show();
                     
                 }
                 

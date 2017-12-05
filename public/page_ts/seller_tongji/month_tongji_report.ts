@@ -26,65 +26,39 @@ $(function(){
     });
     // $(".common-table").table_admin_level_4_init();
     $(".common-table").table_admin_level_5_init();
-    var whole_data = [];
+    var whole_data = new Array();
+    var do_index = 0;
     function load_row_data (){
         var row_list = $("#id_tbody .l-5");
-        var row_all = $("#id_tbody tr") ;
-        var do_index = 0;
         function do_one() {
-            var className = $("#id_tbody tr:eq("+do_index+")") .attr('class');
-            whole_data[do_index]['level'] = className;
-            if (do_index < row_all.length && className == 'l-5'){
+            if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
                 var opt_data = $tr.find(".opt-show").get_opt_data();
+                whole_data[do_index] = opt_data.adminid;
                 $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
                     "adminid"    : opt_data.adminid,
                     "start_time" : g_args.start_time,
                     "end_time"   : g_args.end_time,
                 },function(data){
-                    pullData($tr,data);
-                    whole_data[do_index] = data;
+                    pushData($tr,data)
+                    do_index++;
                     do_one();
                 });
             }
-            if(do_index == row_all.length){
-                var arr_4 = new Array();
-                var arr_3 = new Array();
-                var arr_2 = new Array();
-                var arr_1 = new Array();
-                var arr_0 = new Array();
-                for(var x in whole_data){
-                    if(whole_data[x]['level'] == 'l-4' ){
-                        arr_4.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-3' ){
-                        arr_3.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-2' ){
-                        arr_2.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-1' ){
-                        arr_1.push(x)
-                    }
-                    if(whole_data[x]['level'] == 'l-0' ){
-                        arr_0.push(x)
-                    }
-                    var strArr = ['test_lesson_count','succ_all_count_for_month','suc_lesson_count_one','suc_lesson_count_two','suc_lesson_count_three','suc_lesson_count_four','fail_all_count_for_month'];
-                    whole_data =  super_add(arr_4,whole_data,'l-5',strArr);
-                    whole_data =  super_add(arr_3,whole_data,'l-4',strArr);
-                    whole_data =  super_add(arr_2,whole_data,'l-3',strArr);
-                    whole_data =  super_add(arr_1,whole_data,'l-2',strArr);
-                    whole_data =  super_add(arr_0,whole_data,'l-1',strArr);
-                    console.log(whole_data);
-                }
+            if (do_index == row_list.length ) {
+                superAdd('l-4','l-5');
+                superAdd('l-3','l-4');
+                superAdd('l-2','l-3');
+                superAdd('l-1','l-2');
+                superAdd('l-0','l-1');
             }
-            do_index++;
         };
+        do_one();
     };
 
     load_row_data ();
 
-    function pullData(obj,data){
+    function pushData(obj,data){
         obj.find(".test_lesson_count").text(data["test_lesson_count"]);
         obj.find(".succ_all_count_for_month").text(data["succ_all_count_for_month"]);
         obj.find(".suc_lesson_count_one").text(data["suc_lesson_count_one"]);
@@ -97,47 +71,55 @@ $(function(){
         obj.find(".order_per").text(data["order_per"]);
     }
 
+    function superAdd(className,nextName){
+        $("#id_tbody ."+className).each(function(){
+            var thisItem = $(this).index();
+            var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
+            console.log(nextItem);
+            if(nextItem < 0){
+                nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
+            }
+            console.log('二：'+nextItem);
+            var test_lesson_count = 0 ;
+            var succ_all_count_for_month = 0;
+            var suc_lesson_count_one = 0;
+            var suc_lesson_count_two = 0;
+            var suc_lesson_count_three = 0;
+            var suc_lesson_count_four = 0;
+            var fail_all_count_for_month = 0;
+
+            if( nextItem >= thisItem ){
+                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+').'+nextName).each(function(){
+                   
+                    var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
+                    var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
+                    var field_3 = $(this).find('.suc_lesson_count_one').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_one').text());
+                    var field_4 = $(this).find('.suc_lesson_count_two').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_two').text());
+                    var field_5 = $(this).find('.suc_lesson_count_three').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_three').text());
+                    var field_6 = $(this).find('.suc_lesson_count_four').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_four').text());
+                    var field_7 = $(this).find('.fail_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.fail_all_count_for_month').text());
+                   
+                    test_lesson_count += field_1;
+                    succ_all_count_for_month += field_2;
+                    suc_lesson_count_one += field_3;
+                    suc_lesson_count_two += field_4;
+                    suc_lesson_count_three += field_5;
+                    suc_lesson_count_four += field_6;
+                    fail_all_count_for_month += field_7;
+                })
+            }
+            $(this).find('.test_lesson_count').text(test_lesson_count);
+            $(this).find('.succ_all_count_for_month').text(succ_all_count_for_month);
+            $(this).find('.suc_lesson_count_one').text(suc_lesson_count_one);
+            $(this).find('.suc_lesson_count_two').text(suc_lesson_count_two);
+            $(this).find('.suc_lesson_count_three').text(suc_lesson_count_three);
+            $(this).find('.suc_lesson_count_four').text(suc_lesson_count_four);
+            $(this).find('.fail_all_count_for_month').text(fail_all_count_for_month);
+        })
+    }
+
     if(g_account=='龚隽' || g_account=='sherry'){
         download_show();
     }
     $('.opt-change').set_input_change_event(load_data);
-
-    function super_add(arr_n,arr,level,strArr){
-         if(!arr_n || !arr){
-            return arr;
-        } 
-        for( var x in arr_n){
-           
-            var first = arr_n[x] + 1;
-            var end = arr_n.length - 1;
-            if( arr_n[x] == arr_n[end] ){
-                var last = arr.length - 1;
-            }else{
-                var last = arr_n[x+1] - 1;
-            }
-
-            if(first > last){
-                for( var x in strArr ){
-                    arr[arr_n[x]][strArr[x]] = 0;
-                }
-                
-            }else if(first == last){
-                for( var x in strArr ){
-                    arr[arr_n[x]][strArr[x]] = arr[first][strArr[x]];
-                }
-            }else{
-                for( var i = first; i <= last; i++ ){
-                    if(arr[i]['level'] == level){
-                        for( var x in strArr ){
-                            arr[arr_n[x]][strArr[x]] += arr[first][strArr[x]];
-                        }
-                    }
-                }
-            }
-                        
-        }
-
-        return arr;
-
-    }
 });

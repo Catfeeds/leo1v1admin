@@ -650,4 +650,10 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
+
+    public function get_all_info_group_by_phone(){
+        $sql = "select count(*) as total,phone   from db_weiyi_admin.t_tq_call_info where is_called_phone=0 and admin_role = 2  and start_time < 1512403200 group by phone";
+        return $this->main_get_list($sql);
+    }
 }

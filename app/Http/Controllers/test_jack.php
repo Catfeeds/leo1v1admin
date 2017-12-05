@@ -637,6 +637,94 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2017-11-01");
+        $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+       
+
+        $lesson_money_all = $this->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
+        $lesson_count_all = $this->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
+        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
+
+        $ass_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        foreach($ass_month as $val){
+            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
+            $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+            $this->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
+                "lesson_money"  =>$item["lesson_money"],
+                "lesson_price_avg" =>$item["lesson_price_avg"]
+            ]);
+
+
+        }
+        dd(11);
+
+
+
+        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+
+        $this->t_manager_info-> get_tquin_uid_map();
+
+        $start_time= time()-900;
+        $end_time = time();
+        $post_arr=[
+            "enterpriseId" => 3005131  ,
+            "userName" => "admin" ,
+            "pwd" =>md5(md5("Aa123456" )."seed1")  ,
+            "seed" => "seed1",
+            "startTime" => date("Y-m-d H:i:s", $start_time),
+            "endTime" => date("Y-m-d H:i:s", $end_time),
+        ];
+
+        $limit_count =500;
+        $index_start=0;
+        $post_arr["start"]  = $index_start;
+        $post_arr["limit"]  = $limit_count;
+        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        $ret=json_decode($return_content, true  );
+        dd($ret);
+
+        $list = $this->t_teacher_info->get_all_teacher_tags();
+        foreach($list as $vall){
+            $teacher_tags_list = json_decode($vall["teacher_tags"],true);
+            // \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
+            if(is_array($teacher_tags_list)){
+                
+            }else{
+                \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
+
+                $tag = trim($vall["teacher_tags"],",");
+                if($tag){
+                    $arr2 = explode(",",$tag);
+                    $teacher_tags_list=[];
+                    foreach($arr2 as $val){
+                        if($val=="循循善诱"){
+                            $val="鼓励激发";
+                        }elseif($val=="细致耐心"){
+                            $val="耐心细致";
+                        }elseif($val=="善于互动"){
+                            $val="互动引导";
+                        }elseif($val=="没有口音"){
+                            $val="普通话标准";
+                        }elseif($val=="考纲熟悉"){
+                            $val="熟悉考纲";
+                        }
+
+                        $teacher_tags_list[$val]=1;
+                    }
+                    $str = json_encode($teacher_tags_list);
+                    $this->t_teacher_info->field_update_list($vall["teacherid"],[
+                        "teacher_tags" =>$str
+                    ]);
+ 
+                }else{
+                    $teacher_tags_list=[];
+                }
+                
+            }
+ 
+        }
+        dd($list);
        
         $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
         $i=2;

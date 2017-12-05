@@ -30,6 +30,9 @@ class update_month_student_count extends cmd_base
 
         /**  @var \App\Console\Tasks\TaskController  $task*/
         $task = new \App\Console\Tasks\TaskController();
+        
+
+
 
         $start_time = strtotime( date('Y-m-01',time()) );
         $end_time   = strtotime( '+1 month',$start_time );

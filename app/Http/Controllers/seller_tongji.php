@@ -251,138 +251,22 @@ class seller_tongji extends Controller
         }
        
         \App\Helper\Utils::logger("OUTPUT");
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
-    }
-
-    public function month_tongji_arrange($ret_info){
-        $arr = $ret_info;
-        if($arr && is_array($arr)){
-            foreach($arr as $k => $v){
-                if( $v['level'] == 'l-4'){
-                    $arr_4[] = $k;
-                }
-                if( $v['level'] == 'l-3'){
-                    $arr_3[] = $k;
-                }
-                if( $v['level'] == 'l-2'){
-                    $arr_2[] = $k;
-                }
-                if( $v['level'] == 'l-1'){
-                    $arr_1[] = $k;
-                }
-                if( $v['level'] == 'l-0'){
-                    $arr_0[] = $k;
-                }
-            }
-
-            $strArr = ['test_lesson_count','succ_all_count_for_month','suc_lesson_count_one','suc_lesson_count_two','suc_lesson_count_three','suc_lesson_count_four','fail_all_count_for_month'];
-            $arr = $this->super_add($arr_4,$arr,'l-5',$strArr);
-            $arr = $this->super_add($arr_3,$arr,'l-4',$strArr);
-            $arr = $this->super_add($arr_2,$arr,'l-3',$strArr);
-            $arr = $this->super_add($arr_1,$arr,'l-2',$strArr);
-            $arr = $this->super_add($arr_0,$arr,'l-1',$strArr);
-        }
-        
-        return $arr;
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
+                               [ '_publish_version' => 201712051413 ]);
     }
 
     public function test(){
-       
-        $arr = [
-            ['level'=>'l-0','num'=>0],
-            ['level'=>'l-1','num'=>0],
-            ['level'=>'l-2','num'=>0],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>3],
-            ['level'=>'l-4','num'=>5],
-            ['level'=>'l-4','num'=>2],
-            ['level'=>'l-4','num'=>5],
-            ['level'=>'l-4','num'=>5],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>3],
-            ['level'=>'l-4','num'=>5],
-            ['level'=>'l-4','num'=>2],
-            ['level'=>'l-4','num'=>52],
-            ['level'=>'l-4','num'=>15],
-            ['level'=>'l-2','num'=>0],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>23],
-            ['level'=>'l-4','num'=>15],
-            ['level'=>'l-4','num'=>12],
-            ['level'=>'l-4','num'=>22],
-            ['level'=>'l-4','num'=>13],
-            ['level'=>'l-1','num'=>0],
-            ['level'=>'l-2','num'=>0],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>23],
-            ['level'=>'l-4','num'=>15],
-            ['level'=>'l-4','num'=>12],
-            ['level'=>'l-4','num'=>22],
-            ['level'=>'l-4','num'=>13],
-            ['level'=>'l-2','num'=>0],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>12],
-            ['level'=>'l-4','num'=>16],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>12],
-            ['level'=>'l-4','num'=>12],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>12],
-            ['level'=>'l-1','num'=>0],
-            ['level'=>'l-2','num'=>0],
-            ['level'=>'l-3','num'=>0],
-            ['level'=>'l-4','num'=>11],
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
+        return json_encode($arr[0]);
 
-
-        ];
-
-
-        foreach($arr as $k => $v){
-            if( $v['level'] == 'l-3'){
-                $arr_3[] = $k;
-            }
-            if( $v['level'] == 'l-2'){
-                $arr_2[] = $k;
-            }
-            if( $v['level'] == 'l-1'){
-                $arr_1[] = $k;
-            }
-            if( $v['level'] == 'l-0'){
-                $arr_0[] = $k;
-            }
-
-        }
-
-        $strNum = ['num'];
-        $arr = $this->super_add($arr_3,$arr,'l-4',$strNum);
-        $arr = $this->super_add($arr_2,$arr,'l-3',$strNum);
-        $arr = $this->super_add($arr_1,$arr,'l-2',$strNum);
-        $arr = $this->super_add($arr_0,$arr,'l-1',$strNum);
-        foreach($arr as $v){
-            
-            if($v['level'] == 'l-0'){
-                echo $v['level'].'--'.$v['num'];
-                echo '<br/>';
-            }
-            if($v['level'] == 'l-1'){
-                echo '--'.$v['level'].'--'.$v['num'];
-                echo '<br/>';
-            }
-            if($v['level'] == 'l-2'){
-                echo '----'.$v['level'].'--'.$v['num'];
-                echo '<br/>';
-            }
-            if($v['level'] == 'l-3'){
-                echo '------'.$v['level'].'--'.$v['num'];
-                echo '<br/>';
-            }
-            if($v['level'] == 'l-4'){
-                echo '--------'.$v['level'].'--'.$v['num'];
-                echo '<br/>';
-            }
-
-        }
-        
     }
 
     private function super_add($arr_n,$arr,$level,$strArr){

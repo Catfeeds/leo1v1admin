@@ -964,6 +964,9 @@ class tongji2 extends Controller
 
         //课时目标系数
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
+        if(empty($lesson_target)){
+            $lesson_target= 14.0; 
+        }
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
