@@ -453,51 +453,50 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2,$adminid=1221);
-        $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
-        if($adminid == $get_self_adminid){
-            $is_group_leader_flag = 1;
-        }else{
-            $is_group_leader_flag = 0;
+        $orderid = $this->t_order_info->get_orderid_by_userid($userid=99, $sys_operator='张龙');
+        $account = '张龙';
+        $ret_info = $this->t_seller_student_new->get_item_list_new();
+        $ret = [];
+        $orderid_arr = [];
+        foreach($ret_info as $info){
+            $userid=$info['userid'];
+            $orderid = $this->t_order_info->get_orderid_by_userid($userid, $sys_operator='张龙');
+            if($orderid>0){
+                $orderid_arr[$userid] = $orderid;
+            }else{
+                $item=$this->t_seller_student_new->get_user_info_for_free($userid);
+                $phone=$item["phone"];
+                $seller_student_status = $item["seller_student_status"];
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者:$account 状态: 回到公海 ",
+                    "system"
+                );
+                $test_subject_free_type=0;
+                if ($seller_student_status==1) {
+                    $test_subject_free_type=3;
+                }
+                $this->t_test_subject_free_list->row_insert([
+                    "add_time" => time(NULL),
+                    "userid" =>   $item["userid"],
+                    "adminid" => 412,
+                    "test_subject_free_type" => $test_subject_free_type,
+                ],false,true);
+                $this->t_seller_student_new->set_user_free($userid);
+                $hand_get_adminid = 0;
+                $orderid = $this->t_order_info->get_orderid_by_userid($userid,'张植源');
+                if($orderid>0){
+                    $hand_get_adminid = $item["hand_get_adminid"];
+                }
+                $ret[$userid] = $this->t_seller_student_new->field_update_list($userid,[
+                    "free_adminid" => 412,
+                    "free_time" => time(null),
+                    "hand_free_count" => $item['hand_free_count']+1,
+                    "hand_get_adminid" => $hand_get_adminid,
+                ]);
+            }
         }
-        dd($is_group_leader_flag);
-        // $account = '张植源';
-        // $ret_info = $this->t_seller_student_new->get_item_list_new();
-        // $ret = [];
-        // foreach($ret_info as $info){
-        //     $userid=$info['userid'];
-        //     $item=$this->t_seller_student_new->get_user_info_for_free($userid);
-        //     $phone=$item["phone"];
-        //     $seller_student_status = $item["seller_student_status"];
-        //     $ret_update = $this->t_book_revisit->add_book_revisit(
-        //         $phone,
-        //         "操作者:$account 状态: 回到公海 ",
-        //         "system"
-        //     );
-        //     $test_subject_free_type=0;
-        //     if ($seller_student_status==1) {
-        //         $test_subject_free_type=3;
-        //     }
-        //     $this->t_test_subject_free_list->row_insert([
-        //         "add_time" => time(NULL),
-        //         "userid" =>   $item["userid"],
-        //         "adminid" => 412,
-        //         "test_subject_free_type" => $test_subject_free_type,
-        //     ],false,true);
-        //     $this->t_seller_student_new->set_user_free($userid);
-        //     $hand_get_adminid = 0;
-        //     $orderid = $this->t_order_info->get_orderid_by_userid($userid,'张植源');
-        //     if($orderid>0){
-        //         $hand_get_adminid = $item["hand_get_adminid"];
-        //     }
-        //     $ret[$userid] = $this->t_seller_student_new->field_update_list($userid,[
-        //         "free_adminid" => 412,
-        //         "free_time" => time(null),
-        //         "hand_free_count" => $item['hand_free_count']+1,
-        //         "hand_get_adminid" => $hand_get_adminid,
-        //     ]);
-        // }
-        // dd($ret);
+        dd($orderid_arr,$ret);
     }
 
     //处理等级头像

@@ -64,63 +64,6 @@ class test_code extends Controller
         return $flag;
     }
 
-    public function set_order_lesson(){
-        $start_time = strtotime("2017-10-1");
-        $end_time = strtotime("2017-11-1");
-
-        $order_name = "/tmp/order_list.txt";
-        $lesson_name = "/tmp/lesson_list.txt";
-
-        $order_flag  = $this->get_file_flag($order_name);
-        $lesson_flag = $this->get_file_flag($lesson_name);
-
-        if($order_flag){
-            $order_list  = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
-            file_put_contents($order_name,json_encode($order_list));
-        }else{
-            $order_list = json_decode(file_get_contents($order_name),true);
-        }
-
-        if($lesson_flag){
-            $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
-            file_put_contents($lesson_name,json_encode($lesson_list));
-        }else{
-            $lesson_list = json_decode(file_get_contents($lesson_name),true);
-        }
-
-        echo count($order_list);
-        echo "<br>";
-        echo count($lesson_list);
-        echo "<br>";
-
-        $stu_order_list = [];
-        foreach($order_list as $o_val){
-            $userid  = $o_val['userid'];
-            $flag    = $o_val['competition_flag'];
-            $orderid = $o_val['orderid'];
-            $stu_order_list[$userid][$flag][$orderid] = $o_val;
-        }
-
-        $sum_price = 0;
-        $num = 0;
-        foreach($lesson_list as $l_val){
-            $lesson_price = 0;
-            $lesson_price = $this->get_lesson_price($stu_order_list,$l_val,$lesson_price);
-
-            if($lesson_price === false){
-                continue;
-            }
-
-            $num++;
-            if($num>1000){
-                break;
-            }
-
-            $sum_price += $lesson_price;
-        }
-        echo "总入:".$sum_price;
-    }
-
     public function get_lesson_price(&$stu_order_list,$lesson_info,&$lesson_price){
         $userid = $lesson_info['userid'];
         $flag   = $lesson_info['competition_flag'];
@@ -1464,12 +1407,36 @@ class test_code extends Controller
         if($ret){
             return false;
         }
-
-
     }
 
+    public function check_test(){
+        $grade   = E\Egrade::V_106;
+        $subject = E\Esubject::V_2;
+        $lesson_start = strtotime("2017-11-20 18:00");
+        $lesson_end   = strtotime("2017-11-20 18:40");
 
+        $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($subject,$grade,$lesson_start);
+        foreach($tea_list as $tea_key => $tea_val){
+            $grade_start = "";
+            $grade_end   = "";
+            $del_flag    = false;
+            if($tea_val['subject']==$subject){
+                $grade_start = $tea_val['grade_start'];
+                $grade_end   = $tea_val['grade_start'];
+            }elseif($tea_val['second_subject']==$subject){
+                $grade_start = $tea_val['second_grade_start'];
+                $grade_end   = $tea_val['second_grade_end'];
+            }else{
+                $del_flag = true;
+            }
 
+        }
 
+        return $this->output_succ($tea_list);
+    }
+
+    public function get_lesson_count(){
+        
+    }
 
 }

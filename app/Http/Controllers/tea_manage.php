@@ -2306,7 +2306,7 @@ class tea_manage extends Controller
 
         $this->switch_tongji_database();
         $teacherid = -1;
-        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿"]) && $is_all==0){
+        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];

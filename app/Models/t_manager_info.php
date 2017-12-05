@@ -910,7 +910,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                             ." from  %s m left join %s a on m.phone = a.phone"
                             ." left join %s l on l.assistantid = a.assistantid"
                             ." left join %s s on l.userid = s.userid"
-                            ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,4)  and l.lesson_type in (0,1,3)"
+                            ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,3)  and l.lesson_type in (0,1,3)"
                             . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1  and m.uid <>74  "
                             ." group by m.uid  ",
                             self::DB_TABLE_NAME,
@@ -930,7 +930,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." from  %s m left join %s a on m.phone = a.phone"
                                 ." left join %s l on l.assistantid = a.assistantid"
                                 ." left join %s s on l.userid = s.userid"
-                                ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag  <>2  and l.lesson_type in (0,1,3)"
+                                ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,3)  and l.lesson_type in (0,1,3)"
                                 . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.uid <>74  ",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
@@ -954,7 +954,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_start >=%u "
                                 ." and l.lesson_start<%u "
                                 ." and l.lesson_status =2 "
-                                ." and l.confirm_flag<>2 "
+                                ." and l.confirm_flag in (0,1,3) "
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
@@ -984,7 +984,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_start >=%u "
                                 ." and l.lesson_start<%u "
                                 ." and l.lesson_status =2 "
-                                ." and l.confirm_flag<>2 "
+                                ." and l.confirm_flag in (0,1,3) "
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
@@ -2282,6 +2282,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
+
+
+
+
     public function get_account_role_by_account($account){
         $sql = $this->gen_sql_new("  select 1 from %s m "
                                   ." where account='$account' and account_role in (10,12) "
@@ -2289,5 +2293,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_all_fulltime_teacherinfo(){
+
+        $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) ) and uid<1000",
+                                    self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
     }
 }

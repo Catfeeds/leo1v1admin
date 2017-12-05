@@ -249,9 +249,10 @@ class seller_tongji extends Controller
                 }
             }
         }
-        dd($ret_info);
+       
         \App\Helper\Utils::logger("OUTPUT");
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
+                               [ '_publish_version' => 201712050938 ]);
     }
 
     public function month_tongji_arrange($ret_info){

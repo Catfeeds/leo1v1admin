@@ -98,7 +98,7 @@
                                        title="视频播放二维码" > </a>
 
                                     <a class="opt-fifth-lesson-record" >反馈</a>
-                                    @if(in_array($acc,["jack","jim"]))
+                                    @if(in_array($acc,["jack","jim","林文彬"]))
                                         <a class="opt-fifth-lesson-record-new" >反馈-new</a>
                                     @endif
 

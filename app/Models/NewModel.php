@@ -11,13 +11,10 @@ use App\Models\Zgen as Z;
  * @author      jim
  */
 /**
- *
  * @property   \App\Console\Tasks\TaskController $task
  */
-
 abstract class NewModel
 {
-
     static function test() {
 
     }
@@ -26,12 +23,9 @@ abstract class NewModel
      */
     var $db = null;
 
-
-
     public $field_id1_name="id";
     public $field_id2_name="";
     public $field_table_name="xxx.sss";
-
 
     public $last_sql;
     public $config_fix="";
@@ -52,20 +46,18 @@ abstract class NewModel
     function switch_readonly_database() {
         $this->readony_on_tongji_flag=false;
         if ($this->config_fix){
-
             $this->db=NewDB::get($this->config_fix."_readonly");
         }else{
             $this->db=NewDB::get("readonly");
         }
     }
+
     function switch_readwrite_database() {
         $this->readony_on_tongji_flag=false;
         $this->db=NewDB::get($this->config_fix);
     }
 
-
     function switch_tongji_database() {
-
         $this->readony_on_tongji_flag=true;
         if ($this->config_fix){
             $this->db=NewDB::get($this->config_fix."_tongji");
@@ -73,8 +65,6 @@ abstract class NewModel
             $this->db=NewDB::get("tongji");
         }
     }
-
-
 
     /**
        @return NewDB
@@ -631,16 +621,15 @@ abstract class NewModel
         return $this->main_get_row($sql);
     }
 
-
     public function row_delete( $id ) {
         $sql=sprintf("delete from %s  where  %s='%s' ",
                      $this->field_table_name,
                      $this->field_id1_name, $this->ensql($id));
         return $this->main_update($sql);
     }
-    public function get_sql_set_str($set_field_arr ) {
 
-        $update_str_arr=[];
+    public function get_sql_set_str($set_field_arr ) {
+        $update_str_arr = [];
         foreach( $set_field_arr as $key=> $item ) {
             if (!is_numeric( $key)) { //
                 $item=[$key,$item];
@@ -672,11 +661,11 @@ abstract class NewModel
         return $this->main_update($sql);
     }
 
-
     public function row_delete_2( $id_value, $id_value_2  ) {
         $sql=sprintf("delete from %s  where  %s='%s' and %s='%s' ", $this->field_table_name ,
                      $this->field_id1_name , $this->ensql($id_value),
-                     $this->field_id2_name,  $this->ensql($id_value_2) );
+                     $this->field_id2_name,  $this->ensql($id_value_2)
+        );
         return $this->main_update($sql);
     }
 
@@ -686,19 +675,19 @@ abstract class NewModel
                      $this->field_id1_name ,
                      $this->ensql($id_value),
                      $this->field_id2_name,
-                     $this->ensql($id_value_2));
-
+                     $this->ensql($id_value_2)
+        );
         return $this->main_get_value($sql);
     }
+
     public function field_get_list_2 ($id_value , $id_value_2, $field_name_list_str  ) {
-        $sql=sprintf("select %s from %s  where  %s='%s' and %s='%s' ", $field_name_list_str,$this->field_table_name ,
-                     $this->field_id1_name ,
-                     $this->ensql($id_value),
-                     $this->field_id2_name,
-                     $this->ensql($id_value_2));
-
+        $sql = sprintf("select %s from %s  where  %s='%s' and %s='%s' ", $field_name_list_str,$this->field_table_name ,
+                       $this->field_id1_name ,
+                       $this->ensql($id_value),
+                       $this->field_id2_name,
+                       $this->ensql($id_value_2)
+        );
         return $this->main_get_row($sql);
-
     }
 
     public function field_update_list_2( $id_value , $id_value_2 , $set_field_arr ) {
@@ -709,8 +698,6 @@ abstract class NewModel
                      $this->field_id2_name, $this->ensql($id_value_2) );
         return $this->main_update($sql);
     }
-
-
 
     function start_transaction(){
         return $this->db->beginTransaction();
@@ -723,7 +710,8 @@ abstract class NewModel
     function rollback(){
         return  $this->db->rollBack();
     }
-    public function check_and_add_where_limit ( $where_str) {
+
+    public function check_and_add_where_limit($where_str){
         $where_str=trim($where_str);
         if ( preg_match("/\bor\b/i",$where_str) &&  $where_str[0] != "(" ) {
             $where_str="($where_str)";
@@ -746,15 +734,6 @@ abstract class NewModel
         return $this->check_and_add_where_limit( call_user_func_array( "sprintf",$args  ));
     }
 
-
-    //
-    // $where_str= $this->where_str_gen(array(
-    //     array( "grade=%d", $grade , -1 ),
-    //             fmtstr      value , if value=-1 no add
-    //     array( "subject=%d", $subject , -1 ),
-    //     array( "ss=%d", $dd),
-    //     "sdd=1" ,
-    // ));
     public function sub_where_str_gen( $where_arr , $join_cmd="and" ) {
        return "(".$this->where_str_gen($where_arr, "$join_cmd").")";
     }
@@ -789,11 +768,9 @@ abstract class NewModel
             return join(" ".$join_cmd . " " ,  $item_arr );
         }
     }
+
     public function where_get_in_str_query( $field_name, $id_list  ) {
         if (is_array($id_list)) {
-
-            //\App\Helper\Utils::logger($field_name.":" .json_encode($id_list));
-
             if ( array_key_exists( "start", $id_list))  {
                 if ($id_list["start"]===null ) {
                     return "true";
@@ -825,7 +802,6 @@ abstract class NewModel
         }else{
             return "false";
         }
-
     }
 
     public function where_get_in_str( $field_name, $id_list, $null_is_true=true   ) {
@@ -846,7 +822,6 @@ abstract class NewModel
     }
 
     public function where_get_not_in_str( $field_name, $id_list, $null_is_true=true   ) {
-
         $new_id_list=[];
         foreach ( $id_list as $id ) {
             $id=intval($id);
@@ -862,7 +837,6 @@ abstract class NewModel
             return "$field_name not in  (" .join("," ,$new_id_list).  ")";
         }
     }
-
 
     public function get_last_insertid(){
         return $this->db->lastInsertId();
@@ -918,9 +892,9 @@ abstract class NewModel
             }elseif($grade==303){
                 return "((((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";
             }
-
         }
     }
+
     //@desn:获取分页信息[union查询]
     //@param:$is_union false 非联结查询 1 union 2 union all
     public function main_get_list_by_page_with_union($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null,$is_union=null)
@@ -973,11 +947,8 @@ abstract class NewModel
             }else
                 $count=$this->main_get_value($count_query,0);
         }else{
-
             $count=count($this->main_get_list($sql ));
-
         }
-
 
         //for old
         $ret_arr["total_num"]=$count;
@@ -996,5 +967,61 @@ abstract class NewModel
         $ret_arr["list"]=$this->main_get_list($sql,$list_key_func);
         return $ret_arr;
     }
+
+    /**
+     * 获取表别名前缀
+     * @param string alias 自定义的表别名
+     * @return string
+     */
+    private function get_table_alias($alias=''){
+        if($alias!=''){
+            $alias .= ".";
+        }
+        return $alias;
+    }
+
+    /**
+     * 添加有效课程的条件语句
+     * @param array where_arr
+     * @param string alias 表别名
+     * @return array
+     */
+    public function lesson_common_sql($where_arr,$alias=''){
+        $alias = $this->get_table_alias($alias);
+        $where_arr[] = $alias."lesson_del_flag=1";
+        $where_arr[] = $alias."confirm_flag!=2";
+        return $where_arr;
+    }
+
+    /**
+     * 课程的时间筛选条件
+     * @param int start_time 开始时间
+     * @param int end_time   结束时间
+     * @param string alias 表别名
+     * @return array
+     */
+    public function lesson_start_sql($start_time,$end_time,$alias=''){
+        $alias = $this->get_table_alias($alias);
+        $where_arr = [
+            [$alias."lesson_start>%u",$start_time],
+            [$alias."lesson_start<%u",$end_time],
+        ];
+        return $where_arr;
+    }
+
+    /**
+     * 时间范围内有效课程的筛选条件
+     * @param int start_time 开始时间
+     * @param int end_time   结束时间
+     * @param string alias   表别名
+     * @return array
+     */
+    public function lesson_start_common_sql($start_time,$end_time,$alias=''){
+        $where_arr = $this->lesson_start_sql($start_time,$end_time,$alias);
+        $where_arr = $this->lesson_common_sql($where_arr,$alias);
+        return $where_arr;
+    }
+
+
 
 }

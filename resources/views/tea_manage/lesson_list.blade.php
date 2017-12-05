@@ -382,6 +382,11 @@
                                 @if(in_array($account_role,[9,12]))
                                     <a class="opt-first-lesson-record" >质监反馈</a>
                                 @endif
+                                @if(in_array($acc,["jim","jack","林文彬"]))
+                                    <a class="opt-first-lesson-record-new" >质监反馈-new</a>
+                                    <a class="opt-seller-ass-record-new" title="教学质量反馈" >馈-new</a>
+                                @endif
+
                             </div>
                         </td>
                     </tr>

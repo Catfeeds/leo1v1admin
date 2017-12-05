@@ -2455,7 +2455,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new("  select m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
+        $sql = $this->gen_sql_new("  select l.userid, m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." left join %s m on m.phone=a.phone"
@@ -2478,7 +2478,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             " l.lesson_start<$lesson_start",
             " l.userid=$userid",
             " l.teacherid=$teacherid",
-            " l.subject=$subject"
+            " l.subject=$subject",
+            " l.lesson_status=2"
+
         ];
 
         $sql = $this->gen_sql_new("  select 1 from %s l "
@@ -2490,5 +2492,42 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_info_for_tag($lessonid){
+        $sql = $this->gen_sql_new("  select l.userid, l.teacherid, l.lesson_start, l.lesson_end, tr.accept_adminid"
+                                  ." from %s l "
+                                  ." left join %s tll on tll.lessonid=l.lessonid"
+                                  ." left join %s tr on tr.require_id=tll.require_id"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

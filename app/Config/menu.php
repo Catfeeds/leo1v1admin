@@ -537,6 +537,7 @@ class menu{
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
 
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
+                ["power_id"=>14, "name"=>"tmk合同",   "url"=>"/self_manage/get_self_order_list"],
                 //                ["power_id"=>14, "name"=>"分享知识库", "url"=>"/seller_student_new/share_knowledge"],
             ]],
 
