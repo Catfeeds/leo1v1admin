@@ -29,28 +29,28 @@ class wx_yxyx_web extends Controller
 
         $wx_config=\App\Helper\Config::get_config("yxyx_wx");
         $base_url=$wx_config["url"];
-        
+
         if($agent_id_new){
-            
+
 
             $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $base_url ) ;
 
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
-            
+
             $url = "$web_html_url/$action.html?v=1101";
             // 测试环境
             if(\App\Helper\Utils::check_env_is_test())
                 $url=$wx_config["test_url"].'/index.html';
-            
+
             if($action == 'bind'){
                 // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
                 //测试环境
                 if(\App\Helper\Utils::check_env_is_test())
                     $url = $wx_config["test_url"].'/login.html';
-                
+
             }
             header("Location: $url");
         }else{

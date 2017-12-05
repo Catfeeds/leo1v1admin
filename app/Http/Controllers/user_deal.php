@@ -750,7 +750,7 @@ class user_deal extends Controller
                     ];
 
                     $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
-                    $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
+                    // $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
                 }
 
                 //  $wx->send_template_msg("orwGAsxjW7pY7EM5JPPHpCY7X3GA",$template_id,$data_msg ,$url);
@@ -4565,6 +4565,12 @@ class user_deal extends Controller
         $stu_request_test_lesson_demand =trim($this->get_in_str_val("stu_request_test_lesson_demand"));
         $stu_score_info=trim($this->get_in_str_val("stu_score_info"));
         $stu_character_info=trim($this->get_in_str_val("stu_character_info"));
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+
         if(empty( $record_info) || empty( $url) ||  empty( $textbook)  || !(!empty( $stu_request_test_lesson_demand) || !(empty($is_change_teacher) || empty($tea_time)  || empty($stu_score_info ) || empty($stu_character_info) ))){
             return $this->output_err("请填写完整!");
         }
@@ -4598,6 +4604,15 @@ class user_deal extends Controller
         $id= $this->t_seller_and_ass_record_list->check_is_exist($lessonid);
         $accept_account = $this->t_manager_info->get_account($accept_adminid);
         if($res){
+            $tea_tag_arr=[
+                "style_character"=>$style_character,
+                "professional_ability"=>$professional_ability,
+                "classroom_atmosphere"=>$classroom_atmosphere,
+                "courseware_requirements"=>$courseware_requirements,
+                "diathesis_cultivation"=>$diathesis_cultivation,
+            ];
+            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5); 
+
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 
         }
@@ -5967,5 +5982,12 @@ class user_deal extends Controller
 
         return $this->output_succ(['data'=>$reject_info]);
 
+    }
+
+
+    public function check_account_role(){
+        $account = $this->get_in_str_val('account');
+        $is_flag = $this->t_manager_info->get_account_role_by_account($account);
+        return $this->output_succ(['data'=>$is_flag]);
     }
 }

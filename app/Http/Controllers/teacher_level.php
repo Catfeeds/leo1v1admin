@@ -1160,6 +1160,7 @@ class teacher_level extends Controller
 
         }
 
+        //获取老师标签列表
         $list = $this->get_teacher_tag_list();
 
 
@@ -1172,8 +1173,13 @@ class teacher_level extends Controller
         $lessonid                         = $this->get_in_int_val("lessonid",0);
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,1,-1);
 
+        //获取老师标签列表
+        $list = $this->get_teacher_tag_list();
 
-        return $this->output_succ(["id"=>$id]);
+
+
+
+        return $this->output_succ(["id"=>$id,"tag"=>$list]);
 
     }
 
@@ -1266,6 +1272,7 @@ class teacher_level extends Controller
 
         //
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        $lesson_invalid_flag_old = $this->t_teacher_record_list->get_lesson_invalid_flag($id);
         $add_time = time();
         if($id>0){
             $ret = $this->t_teacher_record_list->field_update_list($id,[
@@ -1311,12 +1318,17 @@ class teacher_level extends Controller
                 "record_score"                     => $record_score,
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
-                "lesson_invalid_flag"              =>$lesson_invalid_flag,
+                "lesson_invalid_flag"              => $lesson_invalid_flag,
                 "userid"                           => $userid,
                 "train_type"                       => $train_type,
             ]);
 
-            //设置标签
+           
+
+        }
+
+        //设置标签
+        if((empty($lesson_invalid_flag_old) || $lesson_invalid_flag_old==2) && $lesson_invalid_flag==1){
             if($new_tag_flag==0){
                 $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
             }elseif($new_tag_flag==1){
@@ -1329,9 +1341,8 @@ class teacher_level extends Controller
                 ];
                 $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2); 
             }
-
-
         }
+
 
         $this->t_teacher_info->field_update_list($teacherid,["is_record_flag"=>1]);
 

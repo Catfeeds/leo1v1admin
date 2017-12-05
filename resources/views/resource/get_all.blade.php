@@ -27,7 +27,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">角色</span>
-                        <select class="form-control opt-change" id="id_user_type"> </select>
+                        <select class="form-control opt-change" id="id_use_type"> </select>
                     </div>
                 </div>
 
@@ -86,15 +86,9 @@
                 <div class="col-xs-2 col-md-1 ">
                     <button class="btn btn-warning opt-add">上传</button>
                 </div>
-                <!-- <div class="col-xs-2 col-md-1 ">
-                     <button class="btn btn-warning opt-down">下载</button>
-                     </div> -->
                 <div class="col-xs-2 col-md-1 ">
                     <button class="btn btn-warning opt-del">删除</button>
                 </div>
-                <!-- <div class="col-xs-2 col-md-1 ">
-                     <button class="btn btn-warning opt-move">移动</button>
-                     </div> -->
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <input class="opt-change form-control" id="id_file_title" placeholder="输入文件名称搜索" />
@@ -116,24 +110,21 @@
                     <td style="width:10%">操作人</td>
                     <td style="width:10%">文件类型</td>
                     <td style="width:10%">文件大小</td>
-                    <!-- <td style="width:10%">下载次数</td> -->
                     <td style="width:10%">纠错次数</td>
                     <td style="width:10%">是否使用</td>
-                    <!-- <td> 操作  </td> -->
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         <td>
-                            <input type="checkbox" class="opt-select-item" data-id="{{$var["resource_id"]}}"/>
+                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["update_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
-                        <!-- <td>{{@$var["down_num"]}} </td> -->
                         <td>{{@$var["error_num"]}} </td>
                         <td>{{@$var["is_use_str"]}}是 </td>
                     </tr>

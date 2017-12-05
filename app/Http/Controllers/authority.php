@@ -231,6 +231,18 @@ class authority extends Controller
             "permission" => $permission ,
         ] );
 
+        /**
+         * @ 产品部加 数据更改日志
+         */
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "userid"   => $uid, //被修改人
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "用户管理页面,权限修改记录:$permission",
+            "user_log_type" => 3, //用户页面修改记录
+        ]);
+
+
         $adminid = session('adminid');
         $uid = $uid;
         $type = 1;
@@ -530,7 +542,7 @@ class authority extends Controller
 
     public function seller_edit_log_list(){
         $uid_new = $this->get_in_int_val('adminid');
-        $list = $this->t_seller_edit_log->get_all_list($uid_new);
+        $list = $this->t_seller_edit_log->get_all_list_new($uid_new);
         $group_list=$this->t_authority_group->get_auth_groups();
         $group_map=[];
         foreach($group_list as $group_item) {

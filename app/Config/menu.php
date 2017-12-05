@@ -197,13 +197,14 @@ class menu{
                 ["power_id"=>24, "name"=>"教师档案-new",   "url"=>"/human_resource/teacher_info_new"],
                 ["power_id"=>23, "name"=>"教师评估考核",   "url"=>"/human_resource/teacher_assess"],
                 ["power_id"=>8, "name"=>"教师特长",   "url"=>"/human_resource/specialty"],
-                ['power_id'=>30, "name"=>"老师银行卡", "url" => "teacher_money/show_teacher_bank_info_human"],
+                //['power_id'=>30, "name"=>"老师银行卡", "url" => "/teacher_money/show_teacher_bank_info_human"],
                 ["power_id"=>21, "name"=>"老师会议", "list"=>[
                     ["power_id"=>1, "name"=>"会议记录",   "url"=>"/human_resource/teacher_meeting_info"],
                     ["power_id"=>2, "name"=>"与会人员信息",   "url"=>"/human_resource/teacher_meeting_join_info"],
                 ]],
                 ["power_id"=>5, "name"=>"老师工资", "list"=>[
                     ["power_id"=>1, "name"=>"老师课时-总体",   "url"=>"/user_manage_new/tea_lesson_count_total_list"],
+                    ['power_id'=>30, "name"=>"老师银行卡信息", "url" => "/teacher_money/show_teacher_bank_info_human"],
                     ["power_id"=>2, "name"=>"老师工资",   "url"=>"/user_manage_new/tea_lesson_count_detail_list"],
                     ["power_id"=>3, "name"=>"老师课时工资配置信息",   "url"=>"/user_manage_new/get_teacher_money_list"],
                     ["power_id"=>4, "name"=>"学生课程年级异常",   "url"=>"/user_manage_new/lesson_student_grade_list"],

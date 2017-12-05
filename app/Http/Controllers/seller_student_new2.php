@@ -169,7 +169,7 @@ class seller_student_new2 extends Controller
             $tea_subject = "";
         }
         $account_role = $this->get_account_role();
-        if($account_role==3 || $account_role==12){
+        if(($account_role==3 || $account_role==12) ||  in_array($adminid,[895,486]) ){
             $tea_subject="";
         }
 

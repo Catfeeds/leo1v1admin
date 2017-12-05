@@ -262,11 +262,13 @@
                 </div>
             </div>
 
-            <div class="row  " >
+            <div class="row"
+                 @if(in_array($account,['leowang','龚昊天','潘腾野','孙佳旭','童宇周','孙海俊','陶建华','王洪艳']))
+                 style="display:none;"
+                 @endif
+            >
                 <div class="col-xs-3 col-md-1">
-                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
                         <button class="btn btn-primary" id="id_set_select_list">批量分配</button>
-                    @endif
                 </div>
 
                 <div class="col-xs-3 col-md-1">
@@ -279,8 +281,6 @@
                     <button class="btn btn-info" id="id_set_history_to_new">公海->新</button>
                 </div>
 
-
-
                 <div class="col-xs-3 col-md-1" >
                     <button  class="btn btn-info" id="id_add">新增例子</button>
                 </div>
@@ -291,33 +291,24 @@
                     </div>
                 </div>
                 <div class="col-xs-3 col-md-2">
-                        <button class="btn btn-primary" id="id_set_select_set_free">批量回流公海</button>
+                    <button class="btn btn-primary" id="id_set_select_set_free">批量回流公海</button>
                 </div>
 
                 <div class="col-xs-3 col-md-2">
-                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
-                        <button class="btn btn-primary" id="id_set_select_to_admin_list">分配给组员</button>
-                    @endif
+                    <button class="btn btn-primary" id="id_set_select_to_admin_list">分配给组员</button>
                 </div>
 
                 <div class="col-xs-3 col-md-2">
-                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
-                        <button class="btn btn-primary" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
-                    @endif
+                    <button class="btn btn-primary" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
                 </div>
 
                 <div class="col-xs-3 col-md-2">
-                    @if(!in_array($account,['leowang','龚昊天','潘腾野','童宇周','孙佳旭','孙海俊']))
-                        <button class="btn btn-primary" id="id_set_select_to_tmk_list">分配给TMK</button>
-                    @endif
+                    <button class="btn btn-primary" id="id_set_select_to_tmk_list">分配给TMK</button>
                 </div>
+
                 <div class="col-xs-3 col-md-1">
-
                     <button class="btn btn-primary" id="id_tq_no_call_btn">TQ未回访</button>
                 </div>
-
-
-
 
                 <div class="col-xs-6 col-md-8">
                     <button class="btn" id="id_unallot" data-value="{{$unallot_info["zjs_unallot_count"]*1}}" > </button>
@@ -463,11 +454,14 @@
 
                         @endif
 
-                        <td>
+                        <td
+
+                        >
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-
-
+                                @if(in_array($account,['leowang','龚昊天','潘腾野','孙佳旭','童宇周','孙海俊','陶建华','王洪艳']))
+                                style="display:none;"
+                                @endif
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
@@ -477,7 +471,6 @@
                                 <a class="fa fa-list   opt-seller-list " title="拨打cc列表"> </a>
                                 <a class="fa fa-refresh  opt-reset-sys_invaild_flag" title="刷新无效状态"> </a>
                                 <a class="fa fa-flag opt-publish-flag " title="设置是否出现在公海"> </a>
-
                             </div>
                         </td>
                     </tr>

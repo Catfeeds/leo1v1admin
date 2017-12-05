@@ -912,5 +912,333 @@ class test_sam  extends Controller
             echo "<br/>";
         }
     }
+
+
+    /**
+     * @author    jack
+     * @function  全职老师考勤
+     */
+    public function fulltime_teacher_work_attendance_info(){
+        //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $start_time = 1509465600;
+        $end_time   = 1512057600;
+
+
+        //$adminid= $this->get_in_int_val("adminid",480 ); 
+        $adminid_list = $this->t_manager_info->get_all_fulltime_teacherinfo();
+        dd(2);
+        echo "<table >";
+        echo "<tr><td>uid</td><td>姓名</td><td>日期</td><td>开始</td><td>结束</td> <td>间隔</td><td>异常</td></tr>";
+        foreach ($adminid_list as $key => $value) {
+            $adminid = $value['uid'];
+            # code...
+            $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+            $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
+            $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+            $teacherid = @$teacher_info["teacherid"];
+
+            foreach ($ret_info["list"] as $item ) {
+                $logtime=$item["logtime"];
+                $opt_date=date("Y-m-d",$logtime);
+                $date_item= &$date_list[$opt_date];
+                if (!isset($date_item["start_logtime"])) {
+                    $date_item["start_logtime"]=$logtime;
+                    $date_item["end_logtime"]=$logtime;
+                }else{
+                    if ($date_item["start_logtime"] > $logtime  ) {
+                        $date_item["start_logtime"] = $logtime;
+                    }
+                    if ($date_item["end_logtime"] < $logtime  ) {
+                        $date_item["end_logtime"] = $logtime;
+                    }
+                }
+            }
+
+            $today_time = strtotime(date("Y-m-d",time()));
+            foreach( $date_list as  &$d_item ) {
+                $year=date("Y",$start_time);
+                $day_time = strtotime($year."-".$d_item["title"]);
+                $w = date("w",$day_time);
+                $check_holiday = $this->t_festival_info->check_is_holiday($day_time);
+
+                if (isset ( $d_item["start_logtime"]) ){
+                    $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
+                    $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );
+                    \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "_str","H:i:s");
+                    \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"_str", "H:i:s");    
+                }
+                if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
+                    $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
+                    if(!$check_holiday_flag){
+                        $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+                        if($id>0){
+
+                            $attendance_info = $this->t_fulltime_teacher_attendance_list->field_get_list($id,"attendance_time,attendance_type,off_time,delay_work_time");
+                            $attendance_type = $attendance_info["attendance_type"];
+                            if($attendance_type==2){
+                                if (isset ( $d_item["start_logtime"]) ){              
+                                    $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
+                                    $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
+                                    if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+                                        $d_item["error_flag"]=true;
+                                        $d_item["error_flag_str"] ="是"; 
+                                    }
+
+                                }else{
+                                    $d_item["error_flag"]=true;
+                                    $d_item["error_flag_str"] ="是";
+                                }
+
+                            }
+                           
+     
+                        }else{
+                            if (isset ( $d_item["start_logtime"]) ){              
+                                $off_time = $day_time+9.5*3600;                              
+                                $delay_time = $day_time+18.5*3600;
+                                if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+                                    $d_item["error_flag"]=true;
+                                    $d_item["error_flag_str"] ="是"; 
+                                }
+                                // $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+                                // if ($d_item["error_flag"]) {
+                                //     $d_item["error_flag_str"] ="是";
+                                // }
+                            }else{
+                                $d_item["error_flag"]=true;
+                                $d_item["error_flag_str"] ="是";
+                            }
+     
+                        }
+                    }
+                    
+                }
+            }
+            
+            foreach ($date_list as $var) {
+                # code...
+                echo "<tr>";
+                echo "<td>".@$value['uid']."</td>";
+                echo "<td>".@$value['name']."</td>";
+                echo "<td>".@$var["title"]."</td>";
+                echo "<td>".@$var["start_logtime_str"]."</td>";
+                echo "<td>".@$var["end_logtime_str"]."</td>";
+                echo "<td>".@$var["work_time_str"]."</td>";
+                echo "<td>".@$var["error_flag_str"]."</td>";
+                echo "</tr>";
+            }
+
+        }
+        echo "</table>";
+        echo "<tr/>";
+    }
+
+
+    public function get_fulltime_teacher_attendance_info(){
+        $this->set_in_value("account_role",5);
+        //$page_num       = $this->get_in_page_num();
+        //list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
+        $start_time = 1509465600;
+        $end_time   = 1512057600;
+        $attendance_type  = $this->get_in_int_val("attendance_type",-1);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $account_role = $this->get_in_int_val("account_role",-1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+        if(!empty($ret_info)){
+            foreach($ret_info as &$item){
+                \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
+                $item["off_time_str"] = date("H:i",$item["off_time"]);
+                $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
+                $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
+                E\Eattendance_type::set_item_value_str($item);
+            }
+        }
+        echo "<table >";
+        echo "<tr><td>uid</td><td>老师</td><td>类型</td><td>日期</td><td>当日课时</td> <td>延休天数</td><td>延迟上班时间</td><td>提前下班时间</td></tr>";
+        foreach ($ret_info as $var) {
+            echo "<tr>";
+            echo "<td>".@$var['adminid']."</td>";
+            echo "<td>".@$var['realname']."</td>";
+            echo "<td>".@$var["attendance_type_str"]."</td>";
+            echo "<td>".@$var["attendance_time_str"]."</td>";
+            if($var["attendance_type"] ==1 && $var["lesson_count"]>0){
+                echo "<td>".(@$var['lesson_count']/100)."</td>";
+            }
+            else
+                echo  "<td></td>";
+
+            if($var["attendance_type"] ==3)
+               echo "<td>".@$var['day_num']."天</td>";
+            else
+                echo  "<td></td>";
+
+            if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
+               echo "<td>".@$var['delay_work_time_str']."</td>";
+            else
+                echo  "<td></td>";
+
+            if($var["attendance_type"] ==2 && $var["off_time"]>0)
+               echo "<td>".@$var['off_time_str']."</td>";
+            else
+                echo  "<td></td>";
+
+            
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "<tr/>";
+
+    }
+
+
+
+    public function tongji_change_lesson_for_jy(){
+        $this->set_in_value('is_full_time',2);
+        // return $this->tongji_change_lesson_by_teacher();
+
+        $is_full_time = $this->get_in_int_val('is_full_time');
+
+        $teacher_money_type = $this->get_in_int_val('teacher_money_type',-1);
+
+        $page_num = $this->get_in_page_num();
+        $this->switch_tongji_database();
+        // $is_full_time = 1;  // 显示兼职老师
+        // $this->switch_tongji_database();
+        $assistantid= $this->get_in_int_val("assistantid",-1);
+
+        //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $start_time = 1509465600;
+        $end_time   = 1512057600;
+        //权限写死,Erick要求
+        $adminid = $this->get_account_id();
+        $adminid = 72;
+        if(in_array($adminid,[72,967])){
+            $show_all_flag=1;
+        }else{
+            $teacher_money_type=6;
+            $show_all_flag=0;
+        }
+        $show_all_flag=1;
+        
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type,$show_all_flag );
+        $stu_num_all = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy_stu_num($start_time,$end_time,$is_full_time,$teacher_money_type);
+        foreach($ret_info as &$item_list){
+            $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
+
+            if($item_list['train_through_new_time'] !=0){
+                $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400);
+            }else{
+                $item_list["work_time"] = 0;
+            }
+
+            if($item_list['valid_count']>0){
+                $item_list['lesson_leavel_rate'] = number_format(($item_list['teacher_leave_lesson']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_come_late_rate'] = number_format(($item_list['teacher_come_late_count']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_cut_class_rate'] = number_format(($item_list['teacher_cut_class_count']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_change_rate'] = number_format(($item_list['teacher_change_lesson']/$item_list['valid_count'])*100,2);
+            }else{
+                $item_list['lesson_leavel_rate'] = 0;
+                $item_list['lesson_come_late_rate'] = 0;
+                $item_list['lesson_cut_class_rate'] = 0;
+                $item_list['lesson_change_rate'] = 0;
+            }
+
+            E\Eteacher_money_type::set_item_value_str($item_list);
+        }
+
+        $all_item=["teacher_nick" => "全部" ];
+        foreach ($ret_info as &$item) {
+            foreach ($item as $key => $value) {
+                if ((!is_int($key)) && (($key == "stu_num") || ($key =="valid_count") || ($key == "teacher_come_late_count") || ($key == "teacher_cut_class_count") || ($key =="teacher_change_lesson")||($key == 'teacher_leave_lesson') || ($key == "work_time") )) {
+                    $all_item[$key]=(@$all_item[$key])+$value;
+                }
+            }
+        }
+
+
+        if($is_full_time == 1){
+            $all_item['teacher_money_type_str'] = "兼职老师";
+        }elseif($is_full_time == 2){
+            $all_item['teacher_money_type_str'] = "全职老师";
+        }
+
+
+        $teacher_num = count($ret_info);
+        if($teacher_num>0){
+            $all_item['work_time'] = number_format($all_item['work_time']/$teacher_num,2);
+            $all_item['lesson_leavel_rate'] = number_format($all_item['teacher_leave_lesson']/$all_item['valid_count']*100,2);
+            $all_item['lesson_come_late_rate'] = number_format($all_item['teacher_come_late_count']/$all_item['valid_count']*100,2);
+            $all_item['lesson_cut_class_rate'] = number_format($all_item['teacher_cut_class_count']/$all_item['valid_count']*100,2);
+            $all_item['lesson_change_rate'] = number_format($all_item['teacher_change_lesson']/$all_item['valid_count']*100,2);
+        }else{
+            $all_item['work_time'] = 0;
+            $all_item['lesson_leavel_rate'] = 0;
+            $all_item['lesson_come_late_rate'] = 0;
+            $all_item['lesson_cut_class_rate'] = 0;
+            $all_item['lesson_change_rate'] = 0;
+        }
+
+
+        if($show_all_flag==1){
+            array_unshift($ret_info, $all_item); 
+        }
+        $index_num=0;
+        foreach($ret_info as &$p_item){
+            $p_item["index_num"] = $index_num;
+            $index_num++;
+
+            if($p_item["teacher_nick"]=="全部"){
+                $p_item["stu_num"]=$stu_num_all;
+                $p_item["index_num"]=0;
+            }
+        }
+        //$path = '/var/www/admin.yb1v1.com/a.txt';
+        $path = '/home/sam/admin_yb1v1/a.txt';
+        $fp = fopen($path,"a+");
+        //dd($fp);
+        foreach ($ret_info as $key => $value) {
+            fwrite($fp, @$value['index_num']);//1
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['teacher_nick']);//2
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['stu_num']);//3
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['valid_count']);//4
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['teacher_come_late_count']);//5
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['lesson_come_late_rate']);//6
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['teacher_cut_class_count']);//7
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['lesson_cut_class_rate']);//8
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['teacher_change_lesson']);//9
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['lesson_change_rate']);//10
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['teacher_leave_lesson']);//11
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['lesson_leavel_rate']."%");//12
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['teacher_money_type_str']);//13
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['work_time'].'天');//14
+            fwrite($fp, "\n");
+        }
+        fclose($fh);
+        //dd($ret_info);
+        /*
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,[
+            "data_ex_list"=>$ret_info,
+            "show_all_flag" =>$show_all_flag
+        ]);
+        */
+
+    }
+
+    
 }
 

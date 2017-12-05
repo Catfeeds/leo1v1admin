@@ -300,47 +300,48 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     ){
         $where_arr = array(
             // array( "teacherid=%u", $teacherid, -1 ),
-            array( "gender=%u ", $gender, -1 ),
-            array( "grade_part_ex=%u ", $grade_part_ex, -1 ),
-            array( "subject=%u ", $subject, -1 ),
-            array( "second_subject=%u ", $second_subject, -1 ),
-            array( "is_test_user=%u ", $is_test_user, -1 ),
-            array( "is_freeze=%u ", $is_freeze, -1 ),
-            array( "limit_plan_lesson_type=%u ", $limit_plan_lesson_type, -1 ),
-            array( "train_through_new=%u ", $train_through_new, -1 ),
-            array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
-            array( "sleep_flag=%u ", $sleep_flag, -1 ),
+            array( "t.gender=%u ", $gender, -1 ),
+            array( "t.grade_part_ex=%u ", $grade_part_ex, -1 ),
+            array( "t.subject=%u ", $subject, -1 ),
+            array( "t.second_subject=%u ", $second_subject, -1 ),
+            array( "t.is_test_user=%u ", $is_test_user, -1 ),
+            array( "t.is_freeze=%u ", $is_freeze, -1 ),
+            array( "t.limit_plan_lesson_type=%u ", $limit_plan_lesson_type, -1 ),
+            array( "t.train_through_new=%u ", $train_through_new, -1 ),
+            array( "t.lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
+            array( "t.sleep_flag=%u ", $sleep_flag, -1 ),
             //  "teacherid <> 139081 "
             // array( "through_new_time>%u ", $through_start, 0 ),
             // array( "through_new_time<%u ", $through_end, 0 ),
         );
 
         if($seller_flag==1){
-            $where_arr[] = "is_good_flag=1 and change_good_time>0 and is_good_wx_flag=1 ";
+            $where_arr[] = "t.is_good_flag=1 and t.change_good_time>0 and t.is_good_wx_flag=1 ";
         }
         if(!empty($tea_subject)){
-            $where_arr[]="(subject in".$tea_subject." or second_subject in".$tea_subject.")";
+            $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
         }
-        $where_arr[]= $this->where_get_not_in_str("teacherid",  $teacherid_arr);
+        $where_arr[]= $this->where_get_not_in_str("t.teacherid",  $teacherid_arr);
 
         // $where_arr[]= $this->where_get_in_str("teacherid",  $advance_list);
         if($teacherid>0){
-            $where_arr=[array( "teacherid=%u", $teacherid, -1 )];
+            $where_arr=[array( "t.teacherid=%u", $teacherid, -1 )];
         }
         if ($address) {
             $address=$this->ensql($address);
-            $where_arr=["(address like '%%".$address."%%' or school like '%%".$address."%%' or nick like '%%".$address."%%' "
-                        ." or realname like '%%".$address."%%' or phone like '%%".$address."%%' or tea_note like '%%".$address."%%' "
-                        ." or user_agent like '%%".$address."%%' or teacher_tags like '%%".$address."%%' "
-                        ." or teacher_textbook like '%%".$address."%%' or teacherid like '%%".$address."%%')"];
+            $where_arr=["(t.address like '%%".$address."%%' or t.school like '%%".$address."%%' or t.nick like '%%".$address."%%' "
+                        ." or t.realname like '%%".$address."%%' or t.phone like '%%".$address."%%' or t.tea_note like '%%".$address."%%' "
+                        ." or t.user_agent like '%%".$address."%%' or t.teacher_tags like '%%".$address."%%' "
+                        ." or t.teacher_textbook like '%%".$address."%%' or t.teacherid like '%%".$address."%%')"];
         }
 
 
 
-        $sql = $this->gen_sql_new("select * "
-                                  ." from %s "
+        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info "
+                                  ." from %s t left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_teacher_label::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
@@ -4233,12 +4234,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_all_teacher_tags(){
         $where_arr=[
-            "is_test_user=1",
-            // "train_through_new=1",
-            "teacher_tags <> ''"
+            "is_test_user=0",
+            "trial_lecture_is_pass =1 and train_through_new_time=0",
+           "teacher_tags <> ''"
         ];
         $sql = $this->gen_sql_new("select teacherid,teacher_tags from %s where %s ",self::DB_TABLE_NAME,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
     }
 
     public function get_all_has_wx_tea(){
@@ -4664,9 +4667,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
     }
 
-    public function get_teacher_bank_info() {
-        $sql = $this->gen_sql_new("select teacherid,nick,subject,phone,bank_account,bankcard,bank_type,bank_province,bank_city,bank_address,bank_phone,idcard,bind_bankcard_time from %s", self::DB_TABLE_NAME);
-        return $this->main_get_list($sql);
+    public function get_teacher_bank_info($page_info) {
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t left join %s l on t.teacherid=l.teacherid where lesson_start > 0 group by t.teacherid ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql, $page_info);
     }
 
     /**

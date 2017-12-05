@@ -93,16 +93,23 @@ class update_seller_level extends cmd_base
                         }
                         $update_flag = 1;
                     }
+                    //入职小于2月,不降级
+                    if(time(null)-$become_member_time<60*3600*24){
+                        $update_flag = 0;
+                    }
                 }
                 //定级
                 if($no_update_seller_level_flag == 0){//参与
-                    //入职超过2月
                     $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
                     $price_very_last = isset($price_very_last)?$price_very_last/100:0;
                     foreach($ret_level_goal as $item){
                         if($price_very_last >= $item['level_goal']){
                             $month_level = $item['seller_level'];
                         }
+                    }
+                    //入职小于2月,定级>D
+                    if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
+                        $month_level = E\Eseller_level::V_500;
                     }
                 }
                 $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));

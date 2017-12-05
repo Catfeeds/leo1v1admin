@@ -188,13 +188,11 @@ class seller_student_new extends Controller
         }
 
         // 未分配信息
-        if ($self_groupid >0 ) { //主管
+        if($self_groupid >0) { //主管
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info_sub_assign_adminid_2($sub_assign_adminid_2);
         }else{
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
-        // $this->set_filed_for_js('adminid',$this->get_account_id());
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,
@@ -1152,10 +1150,12 @@ class seller_student_new extends Controller
         $origin=trim($this->get_in_str_val("origin",""));
 
         $return_publish_count = $this->get_in_int_val('return_publish_count',-1);
-
+        $cc_called_count      = $this->get_in_int_val('cc_called_count',-1);
+        $cc_no_called_count   = $this->get_in_int_val('cc_no_called_count',-1);
+        $call_admin_count     = $this->get_in_int_val('call_admin_count',-1);
         $this->t_seller_student_new->switch_tongji_database();
         // $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
-        $ret_info = $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location,$return_publish_count);
+        $ret_info = $this->t_seller_student_new->get_free_seller_list_new($page_num,  $start_time, $end_time,$opt_date_str , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$test_lesson_count_flag,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count,$call_admin_count);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
@@ -1213,11 +1213,10 @@ class seller_student_new extends Controller
         $history_count = $this->t_id_opt_log->get_history_count($log_type,$adminid,$start_time,$end_time);
         $left_count = (30-$history_count)>0?30-$history_count:0;
         $acc= $this->get_account();
-        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info,[
             'left_count'=>$left_count,
-             "acc"  =>$acc
-            ]);
+            "acc"  =>$acc
+        ]);
     }
 
     public function get_free_seller_test_fail_list () {

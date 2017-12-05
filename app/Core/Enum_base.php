@@ -12,12 +12,14 @@ class Enum_base {
     static function set_item_field_list(&$item, $field_list  ) {
 
         foreach ($field_list as $key=> $field ) {
-            if( is_string($key) ){
-                $class_name= "\\App\\Enums\\E".$key;
-            }else {
-                $class_name= "\\App\\Enums\\E".$field;
+            if($key !== '' && $field !== ''){
+                if( is_string($key) ){
+                    $class_name= "\\App\\Enums\\E".$key;
+                }else {
+                    $class_name= "\\App\\Enums\\E".$field;
+                }
+                $class_name::set_item_value_str($item, $field  );
             }
-            $class_name::set_item_value_str($item, $field  );
         }
     }
 

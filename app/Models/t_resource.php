@@ -9,10 +9,10 @@ class t_resource extends \App\Models\Zgen\z_t_resource
     }
 
     public function get_all(
-        $user_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $file_title, $page_info, $is_del = 0
+        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $file_title, $page_info, $is_del = 0
     ){
         $where_arr = [
-            ['use_type=%u', $user_type, -1],
+            ['use_type=%u', $use_type, -1],
             ['resource_type=%u', $resource_type, -1],
             ['subject=%u', $subject, -1],
             ['grade=%u', $grade, -1],
@@ -44,4 +44,24 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
+    public function get_count($start_time, $end_time){
+        $where_arr = [
+            'r.is_del=0',
+            'f.status=0',
+            ['r.create_time>%u', $start_time, -1],
+            ['r.create_time<=%u', $end_time, -1],
+        ];
+        $sql = $this->gen_sql_new(
+            "select resource_type,adminid,subject,f.file_id,f.visit_num,f.use_num,f.error_num"
+            ." from %s f"
+            ." left join %s r on r.resource_id=f.resource_id"
+            ." where %s"
+            ." group by file_id"
+            ,t_resource_file::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

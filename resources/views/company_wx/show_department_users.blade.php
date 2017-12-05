@@ -10,9 +10,10 @@
 	  </script>
 <section class='content'>
     <div> <!-- search ... -->
-        <div class='row  row-query-list' >
-            <div class='col-xs-12 col-md-5'>
-                <div id='id_date_range' >
+        <div class='row ' >
+            <div class="col-xs-12 col-md-2">
+                <div class="input-group ">
+                    <button class="btn btn-primary" id="id_flush_data">刷新数据</button>
                 </div>
             </div>
         </div>

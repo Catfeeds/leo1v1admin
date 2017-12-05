@@ -393,4 +393,12 @@ class company_wx extends Controller
         }
         return $tree;
     }
+
+    public function flush_company_wx_data() {
+        $acc = $this->get_account();
+         
+        //exec($command, $output)
+        //$this->dispatch(new UpdateCompanyWxData($acc));
+        //return $this->output_succ();
+    }
 }

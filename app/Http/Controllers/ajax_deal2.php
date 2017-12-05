@@ -1326,8 +1326,20 @@ class ajax_deal2 extends Controller
                     $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
                 }else{
-                    $order_activity_type= $item["order_activity_type"];
-                    $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". E\Eorder_activity_type::get_desc( $order_activity_type). "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
+                    $order_activity_config = $item["order_activity_type"];
+                    $order_activity_type = $item["order_activity_type"];
+
+                    if($item["order_activity_type"] == 0){
+                        $order_activity_config = 1;
+                    }
+                    $ret = $this->t_order_activity_config->get_by_id($order_activity_config);
+
+                    $title = '';
+                    if($ret){
+                        $title = $ret['title'];
+                    }
+
+                    $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". $title. "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
                         . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
                         . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
@@ -2196,6 +2208,29 @@ class ajax_deal2 extends Controller
         $list = $this->get_teacher_tag_list();
 
         return $this->output_succ(["data"=>$list]);
+    }
+
+    //教务设置老师标签
+    public function set_teacher_tag_info(){
+        $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $style_character                  = $this->get_in_str_val("style_character");
+        $professional_ability             = $this->get_in_str_val("professional_ability");
+        $classroom_atmosphere             = $this->get_in_str_val("classroom_atmosphere");
+        $courseware_requirements          = $this->get_in_str_val("courseware_requirements");
+        $diathesis_cultivation            = $this->get_in_str_val("diathesis_cultivation");
+        $tea_tag_arr=[
+            "style_character"=>$style_character,
+            "professional_ability"=>$professional_ability,
+            "classroom_atmosphere"=>$classroom_atmosphere,
+            "courseware_requirements"=>$courseware_requirements,
+            "diathesis_cultivation"=>$diathesis_cultivation,
+        ];
+        $set_flag=2;
+        $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,1000,$set_flag); 
+        return $this->output_succ();
+
+
+ 
     }
 
 

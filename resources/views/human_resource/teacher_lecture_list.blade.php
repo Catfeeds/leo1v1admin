@@ -195,7 +195,7 @@
                                     @if(in_array($acc,["adrian","jack"]))
                                         <a class="opt-set_test">测试数据切换</a>
                                     @endif
-                                    @if(in_array($acc,["jim","jack"]))
+                                    @if(in_array($acc,["jim","jack","林文彬"]))
                                         <a class="opt-edit-pass" title="审核">审核-new </a>
                                         <a class="opt-edit-no-pass" title="淘汰重审判定">不通过 </a>
                                     @endif

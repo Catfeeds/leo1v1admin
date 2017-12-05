@@ -63,6 +63,8 @@ class test_abner extends Controller
     public function test_del(){
         $id = $this->get_in_int_val("id");
         $this->t_test_abner->row_delete($id);
+
         return $this->output_succ();
+
     }
 }

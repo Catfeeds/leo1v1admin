@@ -42,7 +42,7 @@ function isNumber( s ){
 
 $(function(){
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
-    Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
+    //Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
     Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
@@ -3108,15 +3108,9 @@ $(function(){
 
                         }
                     });
-
-
-
                 });
 
             });
-
-
-
 
             var dlg=BootstrapDialog.show({
                 title:title,
@@ -3157,16 +3151,109 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-
                 $.do_ajax('/ajax_deal2/update_parent_name',{
                     'userid'      : userid,
                     "parent_name" : id_parent_name.val()
                 });
-
             }
         });
+    });
 
+    $("#id_order_activity_type").on("click",function(){
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" : "select", // or "list"
+            "url"      : "/seller_student2/get_all_activity",
+            //其他参数
+            "args_ex" : {
+                //type  :  "teacher"
+            },
+            select_primary_field   : "id",   //要拿出来的值
+            select_display         : "id",
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]",
+            width:1000,
+            //字段列表
+            'field_list' :[
+                {
+                title:"id",
+                field_name:"id"
+            },
+                {
+                title:"标题",
+                width:400,
+                render:function(val,item) {
+                    return item.title;
+                }
+            },
+                {
+                title:"是否开启",
+                width:80,
+                render:function(val,item) {
+                    return item.open_flag_str;
+                }
+            },
+                {
+                title:"优惠力度",
+                width:80,
+                render:function(val,item) {
+                    return item.power_value;
+                }
+            }
 
+            ] ,
+            //查询列表
+            filter_list:[
+                [
+                {
+                    size_class: "col-md-2" ,
+                    title :"开启",
+                    type  : "select" ,
+                    'arg_name' :  "open_flag"  ,
+                    select_option_list: [
+                        {
+                        value : -1 ,
+                        text :  "全部" 
+                    },
+                        {
+                        value :  0 ,
+                        text :  "关闭" 
+                    },
+                        {
+                        value :  1 ,
+                        text :  "正式开启" 
+                    },
+                        {
+                        value :  2 ,
+                        text :  "测试开启" 
+                    },
+                        
+                    ]
+                },
+                {
+                    size_class : "col-md-4" ,
+                    title      : "活动ID",
+                    'arg_name' : "id"  ,
+                    type       : "input" 
+                },
+                {
+                    size_class : "col-md-6" ,
+                    title      : "标题",
+                    'arg_name' : "title"  ,
+                    type       : "input" 
+                }
+
+            ] 
+            ],
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(require_id,row_data){
+                $("#id_order_activity_type").val(require_id);
+                load_data();
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null
+
+        });
     });
 
     if ($.get_action_str() == "contract_list_seller" ) {
