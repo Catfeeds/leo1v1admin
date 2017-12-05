@@ -379,6 +379,7 @@ class url_power_map {
 			'/self_manage/self_menu_list'	=>1201100,
 			'/requirement/requirement_info_new'	=>1201200,
 			'/self_manage/upload_face_pic'	=>1201300,
+			'/self_manage/get_self_order_list'	=>1201400,
 			'/main_page/seller'	=>1116000,
 			'/main_page/seller_gold_room'	=>1116100,
 			'/seller_student_new2/tongji_sign_rate'	=>1116200,
