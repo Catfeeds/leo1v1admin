@@ -1033,6 +1033,7 @@ class wx_teacher_api extends Controller
         //学科化内容标签[未定]
         $ret_info['subject_tag_a'] = '学科标签A';
         $ret_info['subject_tag_b'] = '学科标签B';
+        $ret_info['handout_flag'] = 0; //无讲义
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1051,9 +1052,9 @@ class wx_teacher_api extends Controller
         }
 
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
             // "accept_status" => $status// 新增字段
-        ]);
+        // ]);
 
         if($status == 1){ //接受
             $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
