@@ -41,6 +41,8 @@ class t_book_revisit extends \App\Models\Zgen\z_t_book_revisit
         return $this->main_insert($sql);
     }
 
+    
+
     public function get_book_revisit_list($phone ,$revisit_show_all_flag)
     {
         $where_arr=[];
