@@ -2114,7 +2114,7 @@ function init_edit() {
             var id_subject           = html_node.find("#id_stu_subject");
             var id_status            = html_node.find("#id_stu_status");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
-            //var id_user_desc         = html_node.find("#id_stu_user_desc");
+            var id_user_desc         = html_node.find("#id_stu_user_desc");
             //var id_revisite_info     = html_node.find("#id_stu_revisite_info");
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
