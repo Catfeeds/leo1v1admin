@@ -2871,10 +2871,25 @@ $(function(){
             filter_list:[
                 [
                 {
-                    size_class: "col-md-12" ,
-                    title :"姓名/电话",
+                    size_class: "col-md-3" ,
+                    title :"老师",
                     'arg_name' :  "nick_phone"  ,
                     type  : "input"
+                }, {
+                    size_class: "col-md-7" ,
+                    title :"试听上课时间",
+                    'arg_name' :  "nick_phone"  ,
+                    type  : "input"
+                }, {
+                    size_class: "col-md-1" ,
+                    title :"排课",
+                    'arg_name' :  "nick_phone"  ,
+                    type  : "div"
+                }, {
+                    size_class: "col-md-1" ,
+                    title :"驳回",
+                    'arg_name' :  "nick_phone"  ,
+                    type  : "div"
                 },{
                     size_class: "col-md-4" ,
                     title :"性别",

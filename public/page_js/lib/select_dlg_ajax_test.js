@@ -406,7 +406,6 @@
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-4px"><label>报价反应:</label>幽默风趣</span>'+
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-4px"><label>上课意向:</label>幽默风趣</span>'+
                             '</div>'+
-                            '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
                             '</div>');
 
                     
