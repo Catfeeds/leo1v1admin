@@ -108,7 +108,7 @@ class test_james extends Controller
     public function set_teacher_free_time(){
         $free_time = $this->get_in_str_val('parent_modify_time');
 
-        $this->t_teacher_info->
+        //$this->t_teacher_info->
         // 加一个时间的限制
     }
 
