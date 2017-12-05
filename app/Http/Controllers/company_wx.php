@@ -250,10 +250,35 @@ class company_wx extends Controller
     public function all_users() {
         E\Eseller_student_status::V_100;
         $tag = $this->t_company_wx_tag->get_all_list();
-        //
+        $list    = $this->t_authority_group->get_all_list();
+        $group = [];
+        foreach($list as $item) {
+            $group[$item['groupid']] = $item['group_name'];
+        }
+
+        foreach($tag as &$item) {
+            if ($item['leader_power']) {
+                $power = explode(',', $item['leader_power']);
+                $power_s = '';
+                foreach($power as $val) {
+                    $power_s .= $val.'-'.$group[$val];
+                }
+                $item['leader_power'] = $power_s;
+            }
+            // no_leader_power
+            if ($item['no_leader_power']) {
+                $power = explode(',', $item['no_leader_power']);
+                $power_s = '';
+                foreach($power as $val) {
+                    $power_s .= $val.'-'.$group[$val];
+                }
+                $item['no_leader_power'] = $power_s;
+            }
+        }
         
         return $this->pageView(__METHOD__, '', [
-            'info' => $tag
+            'info' => $tag,
+            'group' => $group
         ]);
     }
 
