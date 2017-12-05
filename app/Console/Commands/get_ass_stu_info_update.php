@@ -54,9 +54,12 @@ class get_ass_stu_info_update extends Command
         foreach($ass_month as $k=>$val){
             $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
             $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+            $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
+
             $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
                 "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"]
+                "lesson_price_avg" =>$item["lesson_price_avg"],
+                "lesson_total"     => $item["lesson_total"] 
             ]);
 
 
@@ -75,9 +78,11 @@ class get_ass_stu_info_update extends Command
         foreach($ass_month as $k=>$val){
             $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
             $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+            $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
             $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
                 "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"]
+                "lesson_price_avg" =>$item["lesson_price_avg"],
+                "lesson_total"     => $item["lesson_total"] 
             ]);
 
 
@@ -96,9 +101,11 @@ class get_ass_stu_info_update extends Command
         foreach($ass_month as $k=>$val){
             $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
             $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+            $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
             $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
                 "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"]
+                "lesson_price_avg" =>$item["lesson_price_avg"],
+                "lesson_total"     => $item["lesson_total"] 
             ]);
 
 
