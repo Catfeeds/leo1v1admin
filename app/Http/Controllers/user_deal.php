@@ -602,26 +602,8 @@ class user_deal extends Controller
             return $this->output_err( "时间不对: $lesson_start>$lesson_end");
         }
 
-        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
-        $userid    = $this->t_lesson_info->get_userid($lessonid);
-
-
-
-        /* 设置lesson_count */
-        // $diff=($lesson_end-$lesson_start)/60;
-        // if ($diff<=20) {
-        //     $lesson_count=50;
-        // } else if ($diff<=40) {
-        //     $lesson_count=100;
-        // } else if ( $diff <= 60) {
-        //     $lesson_count=150;
-        // } else if ( $diff <=90 ) {
-        //     $lesson_count=200;
-        // } else if ( $diff <=100 ) {
-        //     $lesson_count=250;
-        // }else{
-        //     $lesson_count= ceil($diff/40)*100 ;
-        // }
+        $teacherid    = $this->t_lesson_info->get_teacherid($lessonid);
+        $userid       = $this->t_lesson_info->get_userid($lessonid);
         $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start,$lesson_end);
 
         //百度分期用户首月排课限制
@@ -635,7 +617,6 @@ class user_deal extends Controller
         if($student_type>4){
             //return $this->output_err("百度分期逾期学员不能排课!");
         }
-
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
         $lesson_type = $lesson_info['lesson_type'];
@@ -679,7 +660,6 @@ class user_deal extends Controller
             $ret_row = $this->t_lesson_info->check_student_time_free(
                 $userid,$lessonid,$lesson_start,$lesson_end
             );
-
             if($ret_row) {
                 $error_lessonid=$ret_row["lessonid"];
                 return $this->output_err(
@@ -1627,7 +1607,7 @@ class user_deal extends Controller
         //6-9月份新建学生课程包需升一个年级
         $month = date("m",time());
         if($month>6 && $month <9){
-            $stu_info['grade'] = \App\Helper\Utils::get_up_grade($stu_info['grade']);
+            $stu_info['grade'] = \App\Helper\Utils::get_next_grade($stu_info['grade']);
             $lesson_grade_type = 1;
         }
 
@@ -1703,7 +1683,7 @@ class user_deal extends Controller
         //6-9月份新建学生课程包需升一个年级
         $month = date("m",time());
         if($month>6 && $month <9){
-            $stu_info['grade'] = \App\Helper\Utils::get_up_grade($stu_info['grade']);
+            $stu_info['grade'] = \App\Helper\Utils::get_next_grade($stu_info['grade']);
             $lesson_grade_type = 1;
         }
 
