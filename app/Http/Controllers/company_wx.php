@@ -429,4 +429,10 @@ class company_wx extends Controller
         }
         return $this->output_succ(['data' => $log]);
     }
+
+    public function get_ower_power() {
+        $uid = $this->get_in_str_val('uid', 0);
+        $power = $this->t_manager_info->get_power($uid);
+        return $this->output_succ(['data' => $power]);
+    }
 }
