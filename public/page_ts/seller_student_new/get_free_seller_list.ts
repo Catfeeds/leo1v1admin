@@ -26,9 +26,9 @@ $(function(){
             test_lesson_count_flag : $('#id_test_lesson_count_flag').val(),
             test_lesson_order_fail_flag:    $('#id_test_lesson_order_fail_flag').val(),
             return_publish_count : $('#id_return_publish_count').val(),
-            cc_no_called_count_new   : $('#cc_no_called_count_new').val(),
-            cc_called_count      : $('#cc_called_count').val(),
-            call_admin_count     : $('#call_admin_count').val(), 
+            cc_no_called_count_new   : $('#id_cc_no_called_count_new').val(),
+            cc_called_count      : $('#id_cc_called_count').val(),
+            call_admin_count     : $('#id_call_admin_count').val(), 
         });
     }
 
