@@ -569,7 +569,6 @@ class seller_student_new extends Controller
 
         //销售主管以上列表
         $seller_master_list = $this->t_admin_group_name->get_all_master_adminid_list(2);
-
         $seller_master_list[] = "349";
         $seller_master_list[] = "448";
         $is_seller_master= 1;
