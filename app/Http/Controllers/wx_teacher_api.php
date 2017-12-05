@@ -1006,17 +1006,23 @@ class wx_teacher_api extends Controller
     }
 
     //标签系统 微信推送
+
+    public function get_student_info(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $test_info = $this->t_lesson_info_b3->get_student_info_to_tea($lessonid);
+        return $this->output_succ(['data'=>$test_info]);
+    }
+
+
     public function get_test_lesson_info(){ //标签系统 jack
         $lessonid  = $this->get_in_int_val('lessonid',-1);
 
         $ret_info = $this->t_test_lesson_subject->get_test_require_info($lessonid);
 
-        foreach($ret_info as &$item){
-            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
-            $item['grade_str']   = E\Egrade::get_desc($item['grade']);
-            $item['lesson_time_str'] = date('m-d H:i',$item['lesson_start'])." ~ ".date('H:i',$item['lesson_end']);
-            $item['gender_str'] = E\Egender::get_desc($item['gender']);
-        }
+        $ret_info['subject_str'] = E\Esubject::get_desc($ret_info['subject']);
+        $ret_info['grade_str']   = E\Egrade::get_desc($ret_info['grade']);
+        $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
+        $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
         return $this->output_succ(["data"=>$ret_info]);
     }
