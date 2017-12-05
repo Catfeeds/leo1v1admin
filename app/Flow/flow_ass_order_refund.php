@@ -114,9 +114,9 @@ class flow_ass_order_refund  extends flow_base{
     static function next_node_process_2 ($flowid, $adminid){ //
         $flag=\App\Helper\Utils::check_env_is_release() ;
         if (static::check_post_admin_account_type( $adminid, E\Erole::V_ASSISTENT) ) {
-            return [8, $flag? "孙佳旭":"jim"] ;
+            return [9, $flag? "孙佳旭":"jim"] ;
         }else {
-            return [9, $flag? "zero":"jim"] ;
+            return [8, $flag? "zero":"jim"] ;
         }
 
     }
