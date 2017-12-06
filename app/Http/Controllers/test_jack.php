@@ -858,7 +858,10 @@ class test_jack  extends Controller
 
     public function get_reference_teacher_money_info(){
 
-        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list();
+        $start_time = strtotime("2017-06-01");
+        $end_time = strtotime("2017-12-01");
+
+        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
 
         // $this->switch_tongji_database();
         // $start_time = time()-5*86400;
