@@ -6,11 +6,14 @@ use \App\Models as M;
 use \App\Enums as E;
 
 class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
-    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ) {
+    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ,$lesson_type, $subject) {
         $where_arr=[
             ["record_audio_server1='%s'", $record_audio_server1, "" ],
             ["xmpp_server_name='%s'", $xmpp_server_name, "" ],
         ];
+        $this->where_arr_add_int_or_idlist($where_arr, "lesson_type", $lesson_type);
+        $this->where_arr_add_int_or_idlist($where_arr, "subject", $subject);
+
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new(
             "select lessonid, record_audio_server1, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
