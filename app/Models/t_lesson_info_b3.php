@@ -2344,6 +2344,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "t.teacher_money_type = 6",
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
@@ -2357,11 +2359,35 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
+
+    public function get_total_lesson_time($start_time, $end_time,$teacherid){
+        $where_arr = [
+            "t.trial_lecture_is_pass=1",
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "t.teacher_money_type = 6",
+            ["l.teacherid=%d",$teacherid,-1]
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select sum(l.lesson_count)/100 from %s l"
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s  "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_violation_num($start_time, $end_time, $teacherid){
         $where_arr = [
             "l.lesson_type in (0,1,3)",
             "l.teacherid=$teacherid",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_status=2"
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
@@ -2540,6 +2566,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr=[
             "t.is_test_user = 0",
             "l.lesson_del_flag = 0",
+            "l.lesson_type<1000",
             ["l.teacherid=%d",$teacherid,-1]
         ];
 

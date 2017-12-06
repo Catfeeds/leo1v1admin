@@ -1073,7 +1073,7 @@ class wx_teacher_api extends Controller
                 "keyword2" => "\n 学员姓名:$stu_nick \n 老师姓名:$tea_nick \n 教务姓名:$jw_nick \n 上课时间:$lesson_time_str",
                 "keyword3" => date("Y-m-d H:i:s"),
             ];
-            $url = ""; //待定
+            $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //待定
 
             $wx = new \App\Helper\WxSendMsg();
             $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james

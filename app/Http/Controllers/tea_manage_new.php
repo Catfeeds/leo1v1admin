@@ -988,7 +988,7 @@ class tea_manage_new extends Controller
 
 
         //老师标签
-        
+
         $list = $this->get_teacher_tag_list();
 
 
@@ -1269,6 +1269,10 @@ class tea_manage_new extends Controller
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
             $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
             $item['violation_num'] = array_sum($violation_info);
+
+
+            // 计算总课时
+            $item['total_lesson_num'] = $this->t_lesson_info_b3->get_total_lesson_time($start_time, $end_time,$item['teacherid']);
         }
 
 

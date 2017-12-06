@@ -13,6 +13,8 @@
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
      var tag_three = '{{@$tag_info['tag_three']['menu']}}';
      var tag_four = '{{@$tag_info['tag_four']['menu']}}';
+     var my_subject = {{@$subject}};
+     var my_grade = {{@$grade}};
     </script>
     <section class="content">
 

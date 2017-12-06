@@ -464,5 +464,4 @@ class teacher_simulate extends Controller
         $this->get_level_simulate_list();
     }
 
-
 }
