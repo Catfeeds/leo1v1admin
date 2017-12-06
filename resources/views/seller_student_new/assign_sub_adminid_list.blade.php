@@ -312,7 +312,11 @@
                  @endif
 
                 >
-                    <div>
+                    <div
+  @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
+                 style="display:none;"
+                 @endif
+                    >
                         <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
                     </div>
                 </div>
