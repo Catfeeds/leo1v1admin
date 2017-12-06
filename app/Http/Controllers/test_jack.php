@@ -346,7 +346,17 @@ class test_jack  extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $adminid= $this->get_in_int_val("adminid",480 );
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
-        dd($date_list);
+        $date_arr=[];
+        foreach($date_list as $k=>$val){
+            $time = strtotime($k);
+            $date_arr[$time]["date"]=$time;
+        }
+        $adminid_list = $this->t_manager_info->get_adminid_list_by_account_role(5);
+        $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,-1,100000,5 );
+        dd($ret_info["list"]);
+        foreach($adminid_list as $k=>$val){
+        }
+        dd($adminid_list);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         $teacherid = @$teacher_info["teacherid"];
@@ -847,7 +857,7 @@ class test_jack  extends Controller
                // return $this->output_succ();
 
         // $this->t_student_info->reset_lesson_count(440915);
-        dd(111);
+        dd(1111);
         $aa = E\Eorder_channel::s2v("alipay_pc_direct");
         $channel_name = E\Eorder_channel::get_desc($aa);
         dd($channel_name);
@@ -1083,6 +1093,9 @@ class test_jack  extends Controller
     }
 
 
+    public function test_ws() {
+        return $this->pageView(__METHOD__);
+    }
 
 
 

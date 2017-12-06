@@ -1413,7 +1413,7 @@ class Utils  {
         }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
             $money=75;
         }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
-            // $money=
+
         }
         return $money;
     }

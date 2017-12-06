@@ -32,35 +32,36 @@ class company_wx extends Controller
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
         // 获取标签
-        $url = $config['url'].'/cgi-bin/tag/list?access_token='.$token;
-        $tag = $this->get_company_wx_data($url,'taglist');
-        if ($tag) {
-            foreach($tag as $item) {
-                $info = $this->t_company_wx_tag->get_name($item['tagid']);
-                if (!$info) {
-                    $id = $this->t_company_wx_tag->row_insert([
-                        "id" => $item['tagid'],
-                        'name' => $item['tagname'],
-                    ]);
-                }
-                // 获取标签部门
-                $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
-                $info = file_get_contents($url);
-                $info = json_decode($info, true);
+        // $url = $config['url'].'/cgi-bin/tag/list?access_token='.$token;
+        // $tag = $this->get_company_wx_data($url,'taglist');
+        // if ($tag) {
+        //     foreach($tag as $item) {
+        //         $info = $this->t_company_wx_tag->get_name($item['tagid']);
+        //         if (!$info) {
+        //             $id = $this->t_company_wx_tag->row_insert([
+        //                 "id" => $item['tagid'],
+        //                 'name' => $item['tagname'],
+        //             ]);
+        //         }
+        //         // 获取标签部门
+        //         $url = $config['url'].'/cgi-bin/tag/get?access_token='.$token.'&tagid='.$item['tagid'];
+        //         $info = file_get_contents($url);
+        //         $info = json_decode($info, true);
 
-                $users = $this->get_company_wx_data($url,"partylist");
-                foreach($users as $val) {
-                    if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { 
-                        $this->t_company_wx_tag_department->row_insert([
-                            "id" => $item['tagid'],
-                            'department' => $val
-                        ]);
-                    }
-                }
+        //         $users = $this->get_company_wx_data($url,"partylist");
+        //         foreach($users as $val) {
+        //             if (!(isset($tag_depart[$item['tagid']]) && in_array($val, $tag_depart[$item['tagid']]))) { 
+        //                 $this->t_company_wx_tag_department->row_insert([
+        //                     "id" => $item['tagid'],
+        //                     'department' => $val
+        //                 ]);
+        //             }
+        //         }
 
-            }
-            echo '加载标签完成';
-        }
+        //     }
+        //     echo '加载标签完成';
+        // }
+
 
         // 获取部门
         $url = $config['url'].'/cgi-bin/department/list?access_token='.$token;
@@ -442,7 +443,8 @@ class company_wx extends Controller
         // 后台管理用户
         $manager = $this->t_manager_info->get_all_list();
         $info = '';
-        foreach($users as $key => $item) {
+        foreach($users as $item) {
+            $key = $item['mobile'];
             if (!isset($manager[$key])) {
                 $info[$key]['name'] = $item['name'];
                 $info[$key]['phone'] = $item['mobile'];
