@@ -858,26 +858,27 @@ class test_jack  extends Controller
 
     public function get_reference_teacher_money_info(){
 
+        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list();
 
-        $this->switch_tongji_database();
-        $start_time = time()-5*86400;
-        $end_time = time();
-        $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
+        // $this->switch_tongji_database();
+        // $start_time = time()-5*86400;
+        // $end_time = time();
+        // $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
 
-        foreach($list as &$val){
-            $subject = $val["subject"];
-            $grade = $val["grade"];
-            if($grade==1){
-                $val["grade_str"]="小学";
-            }elseif($grade==2){
-                $val["grade_str"]="初中";
-            }else{
-                $val["grade_str"]="高中";
-            }
-            E\Esubject::set_item_value_str($val,"subject");
-            $val["num"]=0;
+        // foreach($list as &$val){
+        //     $subject = $val["subject"];
+        //     $grade = $val["grade"];
+        //     if($grade==1){
+        //         $val["grade_str"]="小学";
+        //     }elseif($grade==2){
+        //         $val["grade_str"]="初中";
+        //     }else{
+        //         $val["grade_str"]="高中";
+        //     }
+        //     E\Esubject::set_item_value_str($val,"subject");
+        //     $val["num"]=0;
             
-        }
+        // }
        
         
         //  dd($list);
@@ -1004,7 +1005,7 @@ class test_jack  extends Controller
 
         //  }
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$arr
+            "list"  =>$list
         ]);
 
         // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));

@@ -15,9 +15,8 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".row-data");
-                var subject = opt_data.data("subject");
-                var grade = opt_data.data("grade");
-                if(subject>0){
+                var teacherid = opt_data.data("teacherid");
+                if(teacherid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -39,12 +38,19 @@ $(function(){
                         do_one();
                         });*/
                     $.do_ajax("/ajax_deal2/get_three_month_stu_num",{
-                        "subject"       : subject,
-                        "grade"       : grade
+                        "teacherid"       : teacherid,
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".num").text(data.num); 
+                        $tr.find(".reg_num").text(data.reg_num); 
+                        $tr.find(".late_num").text(data.late_num); 
+                        $tr.find(".leave_num").text(data.leave_num); 
+                        $tr.find(".change_num").text(data.change_num); 
+                        $tr.find(".kk_num").text(data.kk_num); 
+                        $tr.find(".test_num").text(data.test_num); 
+                        $tr.find(".test_late_num").text(data.test_late_num); 
+                        $tr.find(".test_kk_num").text(data.test_kk_num); 
+                        $tr.find(".test_person_num").text(data.test_person_num); 
                        
                                                                                              
                         
