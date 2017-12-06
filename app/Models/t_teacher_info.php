@@ -4750,12 +4750,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_all_train_throuth_teacher_list(){
         $where_arr   = [
-            "train_through_new=1",
-            "is_test_user=0",
+            "t.train_through_new=1",
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000"
         ];
-        $sql = $this->gen_sql_new("select teacherid,realname"
-                                  ." from %s where %s",
+        $sql = $this->gen_sql_new("select distinct t.teacherid,t.realname"
+                                  ." from %s t left join %s l on t.teacherid=l.teacherid "
+                                  ."where %s and l.lessonid>0",
                                   self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
