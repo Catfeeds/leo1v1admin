@@ -302,7 +302,7 @@ $(function(){
 
             var list = result.data;
             var teacher_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"professional_ability\"> </div><div>");
-            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂氛围:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
+            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂气氛:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
             var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
 
             $.each(list,function(i,item){
@@ -315,7 +315,7 @@ $(function(){
                     teacher_related_labels.find("#style_character").append(str);
                 }else if(i=="专业能力"){
                     teacher_related_labels.find("#professional_ability").append(str);
-                }else if(i=="课堂氛围"){
+                }else if(i=="课堂气氛"){
                     class_related_labels.find("#classroom_atmosphere").append(str);
                 }else if(i=="课件要求"){
                     class_related_labels.find("#courseware_requirements").append(str);
@@ -433,7 +433,7 @@ $(function(){
                         professional_ability.push($(this).val());
                     });
                     var classroom_atmosphere=[];
-                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂氛围']:checked").each(function(i) {
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂气氛']:checked").each(function(i) {
                         classroom_atmosphere.push($(this).val());
                     });
                     var courseware_requirements=[];

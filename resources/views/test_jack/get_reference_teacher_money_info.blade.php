@@ -15,9 +15,19 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>科目</td>                   
-                    <td>年级</td>                   
-                    <td>数量</td>                   
+                    <td>id</td>                   
+                    <td>名字</td>                   
+                    <td>常规课次数</td>                   
+                    <td>迟到次数</td>                   
+                    <td>请假次数</td>                   
+                    <td>调课次数</td>                   
+                    <td>旷课次数</td>                   
+                    <td>试听课次数</td>
+                    <td>迟到次数</td>                   
+                    <td>旷课次数</td>                   
+                    <td>个人原因次数</td>                   
+
+                               
                                    
                                  
                      <td> 操作</td>
@@ -26,14 +36,22 @@
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
-                        <td>{{@$var["subject_str"]}} </td>     
+                        <td>{{@$var["teacherid"]}} </td>     
+                        <td>{{@$var["realname"]}} </td>     
                         
-                        <td class="lesson_count">{{@$var["grade_str"]}}  </td>                           
-                        <td class="num"> {{@$var["num"]}} </td>                           
+                        <td class="reg_num"> {{@$var["reg_num"]}} </td>                           
+                        <td class="late_num"> {{@$var["late_num"]}} </td>                           
+                        <td class="leave_num"> {{@$var["leave_num"]}} </td>                           
+                        <td class="change_num"> {{@$var["change_num"]}} </td>                           
+                        <td class="kk_num"> {{@$var["kk_num"]}} </td>                           
+                        <td class="test_num"> {{@$var["test_num"]}} </td>                           
+                        <td class="test_late_num"> {{@$var["test_late_num"]}} </td>                           
+                        <td class="test_kk_num"> {{@$var["test_kk_num"]}} </td>                           
+                        <td class="test_person_num"> {{@$var["test_person_num"]}} </td>                           
                                                 
                                           
                         <td>
-                            <div class="row-data" data-grade="{{$var["grade"]}}" data-subject="{{$var["subject"]}}" >
+                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" data-subject="{{$var["teacherid"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

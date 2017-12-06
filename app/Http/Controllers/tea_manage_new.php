@@ -294,10 +294,14 @@ class tea_manage_new extends Controller
 
     public function lesson_record_server_list() {
         $page_num=$this->get_in_page_num();
-        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        list($start_time,$end_time)=$this->get_in_date_range_day(0,0, [
+           0=> [ "lesson_start" ,"上课时间" ],
+        ]);
         $record_audio_server1= $this->get_in_str_val("record_audio_server1");
         $xmpp_server_name= $this->get_in_str_val("xmpp_server_name");
-        $ret_info=$this->t_lesson_info_b3-> lesson_record_server_list($page_num,  $start_time,$end_time, $record_audio_server1, $xmpp_server_name );
+        $lesson_type=$this->get_in_e_contract_type(-1, "lesson_type");
+        $subject   = $this->get_in_el_subject();
+        $ret_info=$this->t_lesson_info_b3->lesson_record_server_list($page_num,  $start_time,$end_time, $record_audio_server1, $xmpp_server_name, $lesson_type, $subject );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach($ret_info["list"] as $key=> &$item ) {
             $item["index"] =  $start_index+$key;
