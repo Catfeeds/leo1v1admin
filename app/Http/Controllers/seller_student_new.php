@@ -124,6 +124,11 @@ class seller_student_new extends Controller
         $this->switch_tongji_database();
 
         $this->t_seller_student_new->switch_tongji_database();
+
+        //主管查看例子
+        if(in_array($this->get_account_id(),[287,416,1221,1200])){
+            $admin_revisiterid = $this->get_account_id();
+        }
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
