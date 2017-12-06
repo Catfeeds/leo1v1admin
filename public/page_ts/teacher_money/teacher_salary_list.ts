@@ -46,19 +46,16 @@ $(function(){
         window.location.href="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&end_time="+end_time;
     })
 
-    $(".id_lesson_price").on("click",function(){
+    $("#id_get_lesson_price").on("click",function(){
         var start_time = $('#id_start_time').val();
-        $("#id_lesson_price").val(100);
-        console.log(start_time);
-	      $.do_ajax("/user_manage_new/get_lesson_price",{
+
+        BootstrapDialog.alert("开始拉取课程收入！请稍后...");
+        $.do_ajax("/user_manage_new/get_lesson_price",{
             "start_time" : start_time
         },function(result){
-            if(result.ret==0){
-                window.location.reload();
-            }else{
-                BootstrapDialog.alert(result.info);
-            }
+            $("#id_lesson_price").html(result.lesson_price);
         });
+
     });
 
     $('.opt-edit').on('click', function() {
@@ -83,7 +80,7 @@ $(function(){
         });
     });
 
-    if(g_account_role===12 || g_account=="jim"){
+    if(g_account_role===13 || g_account=="adrian" || g_account=="jim"){
         $(".show_lesson_price").show();
     }else{
         $(".show_lesson_price").hide();
