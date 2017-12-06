@@ -1480,7 +1480,12 @@ class test_code extends Controller
                     $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
-                    $tea_val['ruzhi_day'] = $this->get_teacher_ruzhi_day($tea_val['train_through_new_time']);
+                    if($tea_val['train_through_new_time']<time()){
+                        $diff_time = time()-$tea_val['train_through_new_time'];
+                        $tea_val['ruzhi_day'] = $diff_time%86400;
+                    }else{
+                        $tea_val['ruzhi_day'] = 0;
+                    }
                 }
             }
             array_multisort($identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,$match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list);
