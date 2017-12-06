@@ -1421,7 +1421,7 @@ class test_code extends Controller
 
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $redis_key = 1001;
-        $ret_list = \App\Helper\Common::redis_get_json($key);
+        $ret_list = \App\Helper\Common::redis_get_json($redis_key);
         if($ret_list === null){
             $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
@@ -1429,52 +1429,80 @@ class test_code extends Controller
             $tea_list = $ret_list;
         }
 
-        foreach($tea_list as $tea_key => &$tea_val){
-            $grade_start = 0;
-            $grade_end   = 0;
-            $del_flag    = false;
-            $limit_day   = $tea_val['limit_day_lesson_num'];
-            $day_num     = $tea_val['day_num'];
-            $limit_week  = $tea_val['limit_week_lesson_num']<$tea_val['limit_plan_lesson_type']?$tea_val['limit_week_lesson_num']:$tea_val['limit_plan_lesson_type'];
-            $week_num    = $tea_val['week_num'];
-            $limit_month = $tea_val['limit_month_lesson_num'];
-            $month_num   = $tea_val['month_num'];
-            $has_num     = $tea_val['has_num'];
+        if(!empty($tea_list) && is_array($tea_list)){
+            foreach($tea_list as $tea_key => &$tea_val){
+                $grade_start = 0;
+                $grade_end   = 0;
+                $del_flag    = false;
+                $limit_day   = $tea_val['limit_day_lesson_num'];
+                $day_num     = $tea_val['day_num'];
+                $limit_week  = $tea_val['limit_week_lesson_num']<$tea_val['limit_plan_lesson_type']?$tea_val['limit_week_lesson_num']:$tea_val['limit_plan_lesson_type'];
+                $week_num    = $tea_val['week_num'];
+                $limit_month = $tea_val['limit_month_lesson_num'];
+                $month_num   = $tea_val['month_num'];
+                $has_num     = $tea_val['has_num'];
 
-            if($tea_val['subject']==$subject){
-                $grade_start = $tea_val['grade_start'];
-                $grade_end   = $tea_val['grade_end'];
-            }elseif($tea_val['second_subject']==$subject){
-                $grade_start = $tea_val['second_grade_start'];
-                $grade_end   = $tea_val['second_grade_end'];
-            }else{
-                $del_flag = true;
+                if($tea_val['subject']==$subject){
+                    $grade_start = $tea_val['grade_start'];
+                    $grade_end   = $tea_val['grade_end'];
+                }elseif($tea_val['second_subject']==$subject){
+                    $grade_start = $tea_val['second_grade_start'];
+                    $grade_end   = $tea_val['second_grade_end'];
+                }else{
+                    $del_flag = true;
+                }
+
+                if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0 || $day_num>=$limit_day
+                   || $week_num >=$limit_week || $month_num>=$limit_month
+                ){
+                    $del_flag = true;
+                }
+
+                $tea_val['age_flag']    = $this->check_teacher_age($age);
+                $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
+                $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
+                $tea_val['is_age']      = $age==$tea_val['age_flag']?1:0;
+
+                if($del_flag){
+                    unset($tea_list[$tea_key]);
+                }else{
+                    $tea_val['match_num']    = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
+                    $identity_list[$tea_key] = $tea_val['is_identity'];
+                    $gender_list[$tea_key]   = $tea_val['is_gender'];
+                    $age_list[$tea_key]      = $tea_val['is_age'];
+                    $match_list[$tea_key]    = $tea_val['match_num'];
+                    $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
+                    E\Eidentity::set_item_value_str($tea_val);
+                    E\Egender::set_item_value_str($tea_val);
+                    $tea_val['ruzhi_day'] = $this->get_teacher_ruzhi_day($tea_val['train_through_new_time']);
+                }
             }
-
-            if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0 || $day_num>=$limit_day
-               || $week_num >=$limit_week || $month_num>=$limit_month
-            ){
-                $del_flag = true;
-            }
-
-            $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
-            $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
-            $tea_val['is_age']      = $age==$tea_val['age']?1:0;
-
-            if($del_flag){
-                unset($tea_list[$tea_key]);
-            }else{
-                $tea_val['match_num']    = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
-                $match_list[$tea_key]    = $tea_val['match_num'];
-                $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
-                $identity_list[$tea_key] = $tea_val['is_identity'];
-                $gender_list[$tea_key]   = $tea_val['is_gender'];
-                $age_list[$tea_key]      = $tea_val['is_age'];
-            }
+            array_multisort($identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,$match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list);
         }
-        array_multisort($match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list);
+
 
         return $this->output_succ($tea_list);
+    }
+
+    public function check_teacher_age($age){
+        switch($age){
+        case $age<30:
+            $age_flag = 1;
+            break;
+        case $age<40:
+            $age_flag = 2;
+            break;
+        case $age<50:
+            $age_flag = 3;
+            break;
+        case $age<60:
+            $age_flag = 4;
+            break;
+        default:
+            $age_flag = 0;
+            break;
+        }
+        return $age_flag;
     }
 
     /**
