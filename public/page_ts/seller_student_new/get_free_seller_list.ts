@@ -1002,6 +1002,8 @@ $(function(){
                         if(html_node.find("#area").val()==""){
                             area="";
                         }
+                        alert(html_node.find("#id_stu_user_desc").val());
+                        alert(html_node.find("#id_stu_status").val());
                         if(html_node.find("#id_stu_status").val() !=  '2'){//
                             if(html_node.find("#id_stu_editionid").val() == 0){
                                 html_node.find("#id_stu_editionid").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
