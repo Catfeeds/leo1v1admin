@@ -247,11 +247,7 @@ class menu{
                 ["power_id"=>37, "name"=>"用户管理-全职老师(上海)",   "url"=>"/authority/manager_list_for_qz_shanghai"],
                 ["power_id"=>38, "name"=>"用户管理-全职老师(武汉)",   "url"=>"/authority/manager_list_for_qz_wuhan"],
 
-                ["power_id"=>31, "name"=>"部门管理",  "list" => [
-                    ["power_id"=> 40, "name"=>"部门管理", "url"=>"/user_manage_new/admin_group_manage"],
-                    ["power_id"=> 41, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
-                    ["power_id"=> 42, "name"=>"权限角色", "url"=>"/company_wx/all_users"]
-                ] ],
+                ["power_id"=>31, "name"=>"部门管理",  "url"=>"/user_manage_new/admin_group_manage"],
                 ["power_id"=>40, "name"=>"校区管理",   "url"=>"/campus_manage/admin_campus_manage"],
                 ["power_id"=>41, "name"=>"月份时间定义",   "url"=>"/month_def_type/def_list"],
                 ["power_id"=>35, "name"=>"各部门花名册", "list"=>[
@@ -279,7 +275,9 @@ class menu{
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
-                ["power_id"=>5, "name"=>"权限管理",   "url"=>"/user_manage_new/power_group_edit"],
+                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
+                ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
+                ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
                 ["power_id"=>6, "name"=>"权限查询",   "url"=>"/authority/get_acc_power_list"],
                 ["power_id"=>7, "name"=>"登录日志",   "url"=>"/authority/get_login_list"],
@@ -430,6 +428,8 @@ class menu{
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
                 // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
+                ["power_id"=>71, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
+                ["power_id"=>70, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
                 ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
                 ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
@@ -440,6 +440,7 @@ class menu{
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
                 ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

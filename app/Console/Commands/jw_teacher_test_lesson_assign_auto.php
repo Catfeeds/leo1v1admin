@@ -56,7 +56,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
                 }else if($grade>=100 && $grade<200 && $subject==1){
                     $accept_adminid = 1238;
                 }else if($grade>=200 && $grade<400 && $subject==1){
-                    $accept_adminid = 436;
+                    $accept_adminid = 513;
                 }else if( $subject==3){
                     $accept_adminid = 723;
                 }elseif($subject>3){

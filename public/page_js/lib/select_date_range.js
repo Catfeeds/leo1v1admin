@@ -36,6 +36,7 @@
             input_width= 140;
             date_format= 'Y-m-d H:i';
         }
+        if ($.get_action_str( )=="todo_list") {alert("xxxx");}
 
         var me =this;
         var html='                    <div class="input-group ">'+

@@ -8,25 +8,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	key1_class	:any;
-	level	:any;
-	resource_type_str	:any;
-	resource_type	:any;
-	subject_str	:any;
-	grade_str	:any;
-	tag_one_str	:any;
-	tag_two_str	:any;
-	tag_three_str	:any;
-	tag_four_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../resource; vi  ../resource/resource_frame.ts
+	 mkdir -p ../company_wx; vi  ../company_wx/dissimil_users.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/resource-resource_frame.d.ts" />
+/// <reference path="../g_args.d.ts/company_wx-dissimil_users.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

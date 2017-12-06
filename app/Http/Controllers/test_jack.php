@@ -342,6 +342,43 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $adminid= $this->get_in_int_val("adminid",480 );
+        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $date_arr=[];
+        foreach($date_list as $k=>$val){
+            $time = strtotime($k);
+            $date_arr[$time]["date"]=$time;
+        }
+        $adminid_list = $this->t_manager_info->get_adminid_list_by_account_role(5);
+        $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,-1,100000,5 );
+        dd($ret_info["list"]);
+        foreach($adminid_list as $k=>$val){
+        }
+        dd($adminid_list);
+        $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
+        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+        $teacherid = @$teacher_info["teacherid"];
+
+        foreach ($ret_info["list"] as $item ) {
+            $logtime=$item["logtime"];
+            $opt_date=date("Y-m-d",$logtime);
+            $date_item= &$date_list[$opt_date];
+            if (!isset($date_item["start_logtime"])) {
+                $date_item["start_logtime"]=$logtime;
+                $date_item["end_logtime"]=$logtime;
+            }else{
+                if ($date_item["start_logtime"] > $logtime  ) {
+                    $date_item["start_logtime"] = $logtime;
+                }
+                if ($date_item["end_logtime"] < $logtime  ) {
+                    $date_item["end_logtime"] = $logtime;
+                }
+            }
+        }
+        dd(1111);
+
         // $start_time = strtotime("2017-11-15");
         // $list = $this->t_seller_student_new->get_ass_tran_stu_info_new($start_time,time());
 
@@ -637,110 +674,133 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-11-01");
-        $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+        
+
+        // $start_time = strtotime("2016-12-01");
+        // for($i=1;$i<11;$i++){
+        //     $start_time = strtotime("+1 months",$start_time);
+        //     $end_time = strtotime("+1 months",$start_time);
+        //     $top_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,2);//教务1000精排总体
+        //     $top_jw_total["per"] = !empty($top_jw_total["person_num"])?round($top_jw_total["have_order"]/$top_jw_total["person_num"]*100,2):0;
+        //     @$arr["精排"] +=$top_jw_total["have_order"];
+
+        //     $green_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,2); //教务绿色通道总体
+        //     $green_jw_total["per"] = !empty($green_jw_total["person_num"])?round($green_jw_total["have_order"]/$green_jw_total["person_num"]*100,2):0;
+        //     @$arr["绿色"] +=$green_jw_total["have_order"];
+
+        //     $normal_jw_total_grab = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2,1); //教务普通排课总体(抢课)
+        //     $normal_jw_total_grab["per"] = !empty($normal_jw_total_grab["person_num"])?round($normal_jw_total_grab["have_order"]/$normal_jw_total_grab["person_num"]*100,2):0;
+        //     @$arr["抢课"] +=$normal_jw_total_grab["have_order"];
+        //     $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2,0); //教务普通排课总体(非抢课)
+        //     $normal_jw_total["per"] = !empty($normal_jw_total["person_num"])?round($normal_jw_total["have_order"]/$normal_jw_total["person_num"]*100,2):0;
+        //     @$arr["普通"] +=$normal_jw_total["have_order"];
+
+
+        // }
+        // dd($arr);
+        // $end_time = strtotime("2017-11-01");
+        // $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
        
 
-        $lesson_money_all = $this->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
-        $lesson_count_all = $this->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
-        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
+        // $lesson_money_all = $this->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
+        // $lesson_count_all = $this->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
+        // $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
 
-        $ass_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
-        foreach($ass_month as $val){
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
-            $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
-            $this->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
-                "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"]
-            ]);
-
-
-        }
-        dd(11);
+        // $ass_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        // foreach($ass_month as $val){
+        //     $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
+        //     $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+        //     $this->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
+        //         "lesson_money"  =>$item["lesson_money"],
+        //         "lesson_price_avg" =>$item["lesson_price_avg"]
+        //     ]);
 
 
+        // }
+        // dd(11);
 
-        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
 
-        $this->t_manager_info-> get_tquin_uid_map();
 
-        $start_time= time()-900;
-        $end_time = time();
-        $post_arr=[
-            "enterpriseId" => 3005131  ,
-            "userName" => "admin" ,
-            "pwd" =>md5(md5("Aa123456" )."seed1")  ,
-            "seed" => "seed1",
-            "startTime" => date("Y-m-d H:i:s", $start_time),
-            "endTime" => date("Y-m-d H:i:s", $end_time),
-        ];
+        // $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
 
-        $limit_count =500;
-        $index_start=0;
-        $post_arr["start"]  = $index_start;
-        $post_arr["limit"]  = $limit_count;
-        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-        $ret=json_decode($return_content, true  );
-        dd($ret);
+        // $this->t_manager_info-> get_tquin_uid_map();
 
-        $list = $this->t_teacher_info->get_all_teacher_tags();
-        foreach($list as $vall){
-            $teacher_tags_list = json_decode($vall["teacher_tags"],true);
-            // \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
-            if(is_array($teacher_tags_list)){
+        // $start_time= time()-900;
+        // $end_time = time();
+        // $post_arr=[
+        //     "enterpriseId" => 3005131  ,
+        //     "userName" => "admin" ,
+        //     "pwd" =>md5(md5("Aa123456" )."seed1")  ,
+        //     "seed" => "seed1",
+        //     "startTime" => date("Y-m-d H:i:s", $start_time),
+        //     "endTime" => date("Y-m-d H:i:s", $end_time),
+        // ];
+
+        // $limit_count =500;
+        // $index_start=0;
+        // $post_arr["start"]  = $index_start;
+        // $post_arr["limit"]  = $limit_count;
+        // $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        // $ret=json_decode($return_content, true  );
+        // dd($ret);
+
+        // $list = $this->t_teacher_info->get_all_teacher_tags();
+        // foreach($list as $vall){
+        //     $teacher_tags_list = json_decode($vall["teacher_tags"],true);
+        //     // \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
+        //     if(is_array($teacher_tags_list)){
                 
-            }else{
-                \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
+        //     }else{
+        //         \App\Helper\Utils::logger("teacherid".$vall["teacherid"]);
 
-                $tag = trim($vall["teacher_tags"],",");
-                if($tag){
-                    $arr2 = explode(",",$tag);
-                    $teacher_tags_list=[];
-                    foreach($arr2 as $val){
-                        if($val=="循循善诱"){
-                            $val="鼓励激发";
-                        }elseif($val=="细致耐心"){
-                            $val="耐心细致";
-                        }elseif($val=="善于互动"){
-                            $val="互动引导";
-                        }elseif($val=="没有口音"){
-                            $val="普通话标准";
-                        }elseif($val=="考纲熟悉"){
-                            $val="熟悉考纲";
-                        }
+        //         $tag = trim($vall["teacher_tags"],",");
+        //         if($tag){
+        //             $arr2 = explode(",",$tag);
+        //             $teacher_tags_list=[];
+        //             foreach($arr2 as $val){
+        //                 if($val=="循循善诱"){
+        //                     $val="鼓励激发";
+        //                 }elseif($val=="细致耐心"){
+        //                     $val="耐心细致";
+        //                 }elseif($val=="善于互动"){
+        //                     $val="互动引导";
+        //                 }elseif($val=="没有口音"){
+        //                     $val="普通话标准";
+        //                 }elseif($val=="考纲熟悉"){
+        //                     $val="熟悉考纲";
+        //                 }
 
-                        $teacher_tags_list[$val]=1;
-                    }
-                    $str = json_encode($teacher_tags_list);
-                    $this->t_teacher_info->field_update_list($vall["teacherid"],[
-                        "teacher_tags" =>$str
-                    ]);
+        //                 $teacher_tags_list[$val]=1;
+        //             }
+        //             $str = json_encode($teacher_tags_list);
+        //             $this->t_teacher_info->field_update_list($vall["teacherid"],[
+        //                 "teacher_tags" =>$str
+        //             ]);
  
-                }else{
-                    $teacher_tags_list=[];
-                }
+        //         }else{
+        //             $teacher_tags_list=[];
+        //         }
                 
-            }
+        //     }
  
-        }
-        dd($list);
+        // }
+        // dd($list);
        
-        $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
-        $i=2;
-        foreach($list as $val){
-            $this->t_teacher_record_list->row_insert([
-                "teacherid"      => $val["teacherid"],
-                "type"           => 1,
-                "train_lessonid" => $val["lessonid"],
-                "lesson_time"    => $val["lesson_start"],
-                "lesson_style"   => $i,
-                "add_time"       => time()+$i*100,
-                "userid"         => $val["userid"]
-            ]);
-            $i++;
+        // $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test(85081);
+        // $i=2;
+        // foreach($list as $val){
+        //     $this->t_teacher_record_list->row_insert([
+        //         "teacherid"      => $val["teacherid"],
+        //         "type"           => 1,
+        //         "train_lessonid" => $val["lessonid"],
+        //         "lesson_time"    => $val["lesson_start"],
+        //         "lesson_style"   => $i,
+        //         "add_time"       => time()+$i*100,
+        //         "userid"         => $val["userid"]
+        //     ]);
+        //     $i++;
  
-        }
+        // }
         
 
         // $arr=[
@@ -766,27 +826,27 @@ class test_jack  extends Controller
 
         $adminid = $this->get_account_id();
         $arr=[
-            ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"生动活泼","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"耐心绅士","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"口语标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"经验丰富","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"普通话标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"熟悉考纲","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"激昂热情","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"生动活泼","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"经验丰富","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"丰富有趣","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"游戏相关","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"图片精美","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"嘻嘻哈哈","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"兴趣培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"习惯培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"信心建立","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"学习方法技巧","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
-            ["tag_name"=>"文学素养培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"幽默风趣","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"生动活泼","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"鼓励激发","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"耐心绅士","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"口语标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"经验丰富","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"普通话标准","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"熟悉考纲","tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"激昂热情","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"生动活泼","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"鼓励激发","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            ["tag_name"=>"经验丰富","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"丰富有趣","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"游戏相关","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"图片精美","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"嘻嘻哈哈","tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"兴趣培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"习惯培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"信心建立","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"学习方法技巧","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
+            // ["tag_name"=>"文学素养培养","tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养",'create_time' => time(NULL),'manager_id' => $adminid],
            
 
         ];
@@ -797,7 +857,7 @@ class test_jack  extends Controller
                // return $this->output_succ();
 
         // $this->t_student_info->reset_lesson_count(440915);
-        dd(111);
+        dd(1111);
         $aa = E\Eorder_channel::s2v("alipay_pc_direct");
         $channel_name = E\Eorder_channel::get_desc($aa);
         dd($channel_name);
@@ -835,26 +895,30 @@ class test_jack  extends Controller
 
     public function get_reference_teacher_money_info(){
 
+        $start_time = strtotime("2017-06-01");
+        $end_time = strtotime("2017-12-01");
 
-        $this->switch_tongji_database();
-        $start_time = time()-5*86400;
-        $end_time = time();
-        $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
+        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
 
-        foreach($list as &$val){
-            $subject = $val["subject"];
-            $grade = $val["grade"];
-            if($grade==1){
-                $val["grade_str"]="小学";
-            }elseif($grade==2){
-                $val["grade_str"]="初中";
-            }else{
-                $val["grade_str"]="高中";
-            }
-            E\Esubject::set_item_value_str($val,"subject");
-            $val["num"]=0;
+        // $this->switch_tongji_database();
+        // $start_time = time()-5*86400;
+        // $end_time = time();
+        // $list = $this->t_lesson_info_b3->get_tea_info_by_subject($start_time,$end_time);
+
+        // foreach($list as &$val){
+        //     $subject = $val["subject"];
+        //     $grade = $val["grade"];
+        //     if($grade==1){
+        //         $val["grade_str"]="小学";
+        //     }elseif($grade==2){
+        //         $val["grade_str"]="初中";
+        //     }else{
+        //         $val["grade_str"]="高中";
+        //     }
+        //     E\Esubject::set_item_value_str($val,"subject");
+        //     $val["num"]=0;
             
-        }
+        // }
        
         
         //  dd($list);
@@ -981,7 +1045,7 @@ class test_jack  extends Controller
 
         //  }
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$arr
+            "list"  =>$list
         ]);
 
         // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
@@ -1029,6 +1093,9 @@ class test_jack  extends Controller
     }
 
 
+    public function test_ws() {
+        return $this->pageView(__METHOD__);
+    }
 
 
 

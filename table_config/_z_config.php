@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_resource_agree_info","agree_id"],
     ["db_weiyi","t_resource_file","file_id"],
     ["db_weiyi","t_resource_file_visit_info","visit_id"],
     ["db_weiyi","t_lore_info","lore_id"],
