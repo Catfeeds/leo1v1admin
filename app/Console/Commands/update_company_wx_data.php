@@ -54,6 +54,7 @@ class update_company_wx_data extends Command
                     }
                 }
                 echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
+                continue;
             }
             if (!isset($manager[$item['mobile']])) {
                 $phone = '';
