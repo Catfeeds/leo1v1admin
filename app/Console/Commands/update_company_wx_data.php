@@ -50,7 +50,7 @@ class update_company_wx_data extends Command
                 $phone = '';
                 foreach($manager as $val) {
                     if ($val['name'] == $item['name']) {
-                        $phone = $val['name'];
+                        $phone = $val['phone'];
                     }
                 }
                 echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
