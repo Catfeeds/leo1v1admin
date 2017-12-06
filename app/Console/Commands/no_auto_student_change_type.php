@@ -42,6 +42,20 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
              
+        // $time = strtotime("2016-12-01");
+        // for($i=1;$i<13;$i++){
+        //     $start_time = strtotime("+$i months",$time);
+        //     $end_time = strtotime("+1 months",$start_time);
+        //     $m = date("m",$start_time);
+        //     $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1,-1);
+        //     @$arr[$m]=$success_test_lesson_list_total["order_number"];
+
+           
+
+
+        // }
+        // dd($arr);
+
         // //临时数据
         // $start_time = strtotime("2017-01-01");
         // $end_time   = time();

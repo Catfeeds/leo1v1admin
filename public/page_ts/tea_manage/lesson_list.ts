@@ -820,7 +820,6 @@ $(function(){
                 if (ret.ret != 0) {
                     BootstrapDialog.alert(ret.info);
                 } else {
-                    // BootstrapDialog.alert( ret.file_ex );
                     if (file_url.match(/.pdf$/ ) ) {
                         window.open('/pdf_viewer/?file='+ret.file, '_blank');
                     }else{

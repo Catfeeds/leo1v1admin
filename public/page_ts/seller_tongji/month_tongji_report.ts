@@ -26,13 +26,15 @@ $(function(){
     });
     // $(".common-table").table_admin_level_4_init();
     $(".common-table").table_admin_level_5_init();
+    var whole_data = new Array();
+    var do_index = 0;
     function load_row_data (){
         var row_list = $("#id_tbody .l-5");
-        var do_index = 0;
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
                 var opt_data = $tr.find(".opt-show").get_opt_data();
+                whole_data[do_index] = opt_data.adminid;
                 $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
                     "adminid"    : opt_data.adminid,
                     "start_time" : g_args.start_time,
@@ -45,6 +47,10 @@ $(function(){
             }
             if (do_index == row_list.length ) {
                 superAdd('l-4','l-5');
+                superAdd('l-3','l-4');
+                superAdd('l-2','l-3');
+                superAdd('l-1','l-2');
+                superAdd('l-0','l-1');
             }
         };
         do_one();
@@ -65,29 +71,69 @@ $(function(){
         obj.find(".order_per").text(data["order_per"]);
     }
 
+    function job_tongji(className,nextName){
+        $("#id_tbody ."+className).each(function(){
+            var thisItem = $(this).index();
+            var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
+            
+            if(nextItem < 0){
+                nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
+            }
+            var at_job = 0;
+            var leave_job = 0;
+
+            if( nextItem >= thisItem ){
+                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+').'+nextName).each(function(){
+                    var field_1 = $(this).find('.at_job').text() == '' ? 0 : parseInt($(this).find('.at_job').text());
+                    var field_2 = $(this).find('.leave_job').text() == '' ? 0 : parseInt($(this).find('.leave_job').text());
+                    at_job += field_1;
+                    leave_job += field_2;
+                })
+            }
+            $(this).find('.at_job').text(at_job);
+            $(this).find('.leave_job').text(leave_job);
+        })
+    }
+
+    job_tongji('l-2','l-3');
+    job_tongji('l-1','l-2');
+    job_tongji('l-0','l-1');
+
     function superAdd(className,nextName){
         $("#id_tbody ."+className).each(function(){
             var thisItem = $(this).index();
             var nextItem = $('#id_tbody tr:gt('+thisItem+').'+className).index();
-            if(nextItem == undefined){
+            
+            if(nextItem < 0){
                 nextItem = $('#id_tbody .'+nextName+':last').index() + 1;
             }
+            //console.log(nextItem);
+            var test_lesson_count = 0 ;
+            var succ_all_count_for_month = 0;
+            var suc_lesson_count_one = 0;
+            var suc_lesson_count_two = 0;
+            var suc_lesson_count_three = 0;
+            var suc_lesson_count_four = 0;
+            var fail_all_count_for_month = 0;
+
             if( nextItem >= thisItem ){
-                var test_lesson_count = 0 ;
-                var succ_all_count_for_month = 0;
-                var suc_lesson_count_one = 0;
-                var suc_lesson_count_two = 0;
-                var suc_lesson_count_three = 0;
-                var suc_lesson_count_four = 0;
-                var fail_all_count_for_month = 0;
-                $('#id_tbody tr:gt('+thisItem+'):lt('+nextItem+').'+nextName).each(function(){
-                    test_lesson_count += parseInt($(this).find('.test_lesson_count').text());
-                    succ_all_count_for_month += parseInt($(this).find('.succ_all_count_for_month').text());
-                    suc_lesson_count_one += parseInt($(this).find('.suc_lesson_count_one').text());
-                    suc_lesson_count_two += parseInt($(this).find('.suc_lesson_count_two').text());
-                    suc_lesson_count_three += parseInt($(this).find('.suc_lesson_count_three').text());
-                    suc_lesson_count_four += parseInt($(this).find('.suc_lesson_count_four').text());
-                    fail_all_count_for_month += parseInt($(this).find('.fail_all_count_for_month').text());
+                $('#id_tbody tr:lt('+nextItem+'):gt('+thisItem+').'+nextName).each(function(){
+                   
+                    var field_1 = $(this).find('.test_lesson_count').text() == '' ? 0 : parseInt($(this).find('.test_lesson_count').text());
+                    var field_2 = $(this).find('.succ_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.succ_all_count_for_month').text());
+                    var field_3 = $(this).find('.suc_lesson_count_one').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_one').text());
+                    var field_4 = $(this).find('.suc_lesson_count_two').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_two').text());
+                    var field_5 = $(this).find('.suc_lesson_count_three').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_three').text());
+                    var field_6 = $(this).find('.suc_lesson_count_four').text() == '' ? 0 : parseInt($(this).find('.suc_lesson_count_four').text());
+                    var field_7 = $(this).find('.fail_all_count_for_month').text() == '' ? 0 : parseInt($(this).find('.fail_all_count_for_month').text());
+                   
+                    test_lesson_count += field_1;
+                    succ_all_count_for_month += field_2;
+                    suc_lesson_count_one += field_3;
+                    suc_lesson_count_two += field_4;
+                    suc_lesson_count_three += field_5;
+                    suc_lesson_count_four += field_6;
+                    fail_all_count_for_month += field_7;
                 })
             }
             $(this).find('.test_lesson_count').text(test_lesson_count);

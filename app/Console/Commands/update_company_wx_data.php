@@ -40,6 +40,17 @@ class update_company_wx_data extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+
+        // 企业微信用户
+        $users = $task->t_company_wx_users->get_all_users();
+        // 后台管理用户
+        $manager = $task->t_manager_info->get_all_list();
+        foreach($users as $key => $item) {
+            if (!isset($manager[$key])) {
+                echo $item['name'].' '.$item['mobile'].','.PHP_EOL;
+            }
+        }
+        exit;
         //$type = $this->argument('type');
         //if ($type == 1) { // 刷新权限
         //    $this->flush_permission($task); // 刷新权限
@@ -195,12 +206,8 @@ class update_company_wx_data extends Command
         // $tag_users = $task->t_company_wx_tag_users->get_all_list();
 
         foreach ($info as $item) {
-            $task->t_manager_info->field_update_list($item['uid'], [
-                'power' => ''
-            ]);
-            continue;
             $item['power'] = '';
-            if ($item['isleader'] == 1) { // 领导
+            if ($item['isleader'] == 1 || true) { // 领导
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['leader_power'];
                 $parent = $this->get_parent_node($department, $item['department']);
                 $parent = explode("-", $parent);

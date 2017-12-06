@@ -118,8 +118,8 @@
                         <td >{{@$var["target_money"]}}</td>
                         <td >{{@$var["finish_per"]}}</td>
                         <td >{{@$var["los_money"]}}</td>
-                        <td >{{@$var["become_member_num"]}}</td>
-                        <td >{{@$var["leave_member_num"]}}</td>
+                        <td class="at_job">{{@$var["become_member_num"]}}</td>
+                        <td class="leave_job">{{@$var["leave_member_num"]}}</td>
                         <td >{{@$var["target_personal_money"]}}</td>
                         <td >{{@$var["finish_personal_per"]}}</td>
                         <td >{{@$var["los_personal_money"]}}</td>

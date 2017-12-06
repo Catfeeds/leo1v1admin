@@ -51,7 +51,6 @@ class NoticeAssForFirstLesson extends Command
             $not_first = $this->task->t_lesson_info_b3->check_not_first_lesson($item['userid'],$item['teacherid'],$item['subject'],$item['lesson_start']);
 
             if($not_first != 1){
-                // unset($lesson_list[$i]);
                 $lesson_count_str = $item['lesson_count']/100;
                 $subject_str      = E\Esubject::get_desc($item['subject']);
                 $tea_nick         = $this->task->t_teacher_info->get_nick($item['teacherid']);
@@ -71,6 +70,7 @@ class NoticeAssForFirstLesson extends Command
                     "keyword3" => date('Y-m-d H:i:s'),
                 ];
                 $url = "";
+                WxSendMsg::send_ass_for_first($item['wx_openid'], $data, $url); //james
                 WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
             }
         }

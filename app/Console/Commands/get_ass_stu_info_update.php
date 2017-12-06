@@ -40,80 +40,6 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-11-01");
-        $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
-        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time); 
-       
-
-        $lesson_money_all = $task->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
-        $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
-        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
-
-        $ass_month = $task->t_month_ass_student_info->get_ass_month_info($start_time);
-        foreach($ass_month as $k=>$val){
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
-            $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
-            $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
-
-            $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
-                "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"],
-                "lesson_total"     => $item["lesson_total"] 
-            ]);
-
-
-        }
-        $start_time = strtotime("2017-11-01");
-        $end_time = strtotime("2017-12-01");
-        $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
-        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time); 
-       
-
-        $lesson_money_all = $task->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
-        $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
-        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
-
-        $ass_month = $task->t_month_ass_student_info->get_ass_month_info($start_time);
-        foreach($ass_month as $k=>$val){
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
-            $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
-            $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
-            $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
-                "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"],
-                "lesson_total"     => $item["lesson_total"] 
-            ]);
-
-
-        }
-        $start_time = strtotime("2017-12-01");
-        $end_time = strtotime("2017-12-05");
-        $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
-        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time); 
-       
-
-        $lesson_money_all = $task->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
-        $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
-        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
-
-        $ass_month = $task->t_month_ass_student_info->get_ass_month_info($start_time);
-        foreach($ass_month as $k=>$val){
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入          
-            $item["lesson_price_avg"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
-            $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
-            $task->t_month_ass_student_info->get_field_update_arr($val["adminid"],$start_time,1,[
-                "lesson_money"  =>$item["lesson_money"],
-                "lesson_price_avg" =>$item["lesson_price_avg"],
-                "lesson_total"     => $item["lesson_total"] 
-            ]);
-
-
-        }
-
-
-        dd(11);
-
 
         //更新助教信息
         $start_time = strtotime(date("Y-m-01",time()-86400));
@@ -318,6 +244,20 @@ class get_ass_stu_info_update extends Command
                 
             }
 
+            //月初周总课时消耗数(临时处理)
+            $read_student_list = @$item["userid_list"];//改为在读人数
+            // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
+            if( $read_student_list){
+                $read_student_arr = json_decode( $read_student_list,true);
+                $last_stu_num = count($read_student_arr);//月初在读人员数
+                $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
+                $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
+            }else{
+                $read_student_arr=[];      
+                $estimate_month_lesson_count =100;
+            }
+
+
 
 
 
@@ -363,8 +303,8 @@ class get_ass_stu_info_update extends Command
                     "stop_student_list"       =>$item["stop_student_list"],
                     "registered_student_list" =>$item["registered_student_list"],
                     "all_ass_stu_num"         =>$item["all_ass_stu_num"],
-                    "ass_refund_money"        => $refund_money
-
+                    "ass_refund_money"        => $refund_money,
+                    "estimate_month_lesson_count" =>$estimate_month_lesson_count
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
             }else{
@@ -410,7 +350,8 @@ class get_ass_stu_info_update extends Command
                     "stop_student_list"       =>$item["stop_student_list"],
                     "registered_student_list" =>$item["registered_student_list"],
                     "all_ass_stu_num"         =>$item["all_ass_stu_num"],
-                    "ass_refund_money"        => $refund_money
+                    "ass_refund_money"        => $refund_money,
+                    "estimate_month_lesson_count" =>$estimate_month_lesson_count
                 ]);
 
             }
@@ -484,11 +425,26 @@ class get_ass_stu_info_update extends Command
                     }
                 }
                 $userid_list_last = json_encode($userid_list_last);
+
+                //月初周总课时消耗数
+                $read_student_list = @$item["userid_list"];//改为在读人数
+                // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
+                if( $read_student_list){
+                    $read_student_arr = json_decode( $read_student_list,true);
+                    $last_stu_num = count($read_student_arr);//月初在读人员数
+                    $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
+                    $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
+                }else{
+                    $read_student_arr=[];      
+                    $estimate_month_lesson_count =100;
+                }
+
                 $adminid_exist2 = $task->t_month_ass_student_info->get_ass_month_info($month,$k,1);
                 if($adminid_exist2){                    
                     $month_arr = [
                         "read_student_last"     =>$read_student_last,
-                        "userid_list_last"      =>$userid_list_last 
+                        "userid_list_last"      =>$userid_list_last,
+                        "estimate_month_lesson_count" =>$estimate_month_lesson_count
                     ];
                     $task->t_month_ass_student_info->get_field_update_arr($k,$month,1,$month_arr);                    
                 }else{
@@ -497,7 +453,8 @@ class get_ass_stu_info_update extends Command
                         "month"                 =>$month,
                         "read_student_last"     =>$read_student_last,
                         "userid_list_last"      =>$userid_list_last,
-                        "kpi_type"              =>1
+                        "kpi_type"              =>1,
+                        "estimate_month_lesson_count" =>$estimate_month_lesson_count,
                     ]);
 
                 }
@@ -723,14 +680,18 @@ class get_ass_stu_info_update extends Command
                 //课时消耗达成率
                 $read_student_list = @$last_ass_month[$k]["userid_list"];//改为在读人数
                 // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
-                if( $read_student_list){
-                    $read_student_arr = json_decode( $read_student_list,true);
-                    $last_stu_num = count($read_student_arr);//月初在读人员数
-                    $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
-                    $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
-                }else{
-                    $read_student_arr=[];      
-                    $estimate_month_lesson_count =100;
+                $estimate_month_lesson_count = @$item["estimate_month_lesson_count"];
+                if(empty($estimate_month_lesson_count)){
+                    
+                    if( $read_student_list){
+                        $read_student_arr = json_decode( $read_student_list,true);
+                        $last_stu_num = count($read_student_arr);//月初在读人员数
+                        $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
+                        $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
+                    }else{
+                        $read_student_arr=[];      
+                        $estimate_month_lesson_count =100;
+                    }
                 }
 
                 //得到单位学员平均课时数完成率
