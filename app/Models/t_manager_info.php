@@ -2312,4 +2312,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                     self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+    public function get_phone_by_name($name) {
+        $sql = $this->gen_sql_new("select uid,phone from %s where name='$name'", self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

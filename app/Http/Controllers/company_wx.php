@@ -120,6 +120,11 @@ class company_wx extends Controller
     }
 
     public function get_approve() { // 获取审批数据
+        $config = Config::get_config("company_wx");
+        if (!$config) {
+            exit('没有配置');
+        }
+
         // list($start_time, $end_time) = $this->get_in_date_range_day(0);
         // $start_time = $this->get_in_str_val('start_time');
         // $end_time = $this->get_in_str_val('end_time');
@@ -461,5 +466,39 @@ class company_wx extends Controller
         $uid = $this->get_in_str_val('uid', 0);
         $power = $this->t_manager_info->get_power($uid);
         return $this->output_succ(['data' => $power]);
+    }
+
+    // 显示企业微信与后台不一样的数据
+    public function dissimil_users() {
+        // 企业微信用户
+        $users = $this->t_company_wx_users->get_all_users();
+        // 后台管理用户
+        $manager = $this->t_manager_info->get_all_list();
+        $info = '';
+        foreach($users as $key => $item) {
+            if (!isset($manager[$key])) {
+                $info[$key]['name'] = $item['name'];
+                $info[$key]['phone'] = $item['mobile'];
+                $info[$key]['mobile'] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['mobile']);
+            }
+        }
+        return $this->pageView(__METHOD__,null,[
+            'info' => $info
+        ]);
+    }
+
+    //更新手机号
+    public function update_phone_data() {
+        $name = $this->get_in_str_val('name');
+        $phone = $this->get_in_str_val('phone','');
+        $info = $this->t_manager_info->get_phone_by_name($name);
+        if ($info) {
+            
+            $this->t_manager_info->field_update_list($info['uid'], [
+                'phone' => $phone
+            ]);
+            return $this->output_succ();
+        }
+        return $this->output_err('管理后台无此账号');
     }
 }
