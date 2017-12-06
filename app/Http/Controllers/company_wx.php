@@ -129,6 +129,7 @@ class company_wx extends Controller
         // $start_time = $this->get_in_str_val('start_time');
         // $end_time = $this->get_in_str_val('end_time');
         // 获取token
+        $config = Config::get_config("company_wx");
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
