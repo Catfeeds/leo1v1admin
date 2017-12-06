@@ -2345,6 +2345,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
             "l.lesson_status=2",
+            "t.teacher_money_type = 6",
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
@@ -2362,7 +2363,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_type in (0,1,3)",
             "l.teacherid=$teacherid",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_status=2"
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
