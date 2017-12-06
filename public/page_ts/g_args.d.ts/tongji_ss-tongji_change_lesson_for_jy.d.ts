@@ -19,6 +19,27 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacher_type	:any;
+	account_role	:any;
+	stu_num	:any;
+	valid_count	:any;
+	teacher_come_late_count	:any;
+	teacher_cut_class_count	:any;
+	teacher_change_lesson	:any;
+	teacher_leave_lesson	:any;
+	teacher_leave_num	:any;
+	teacher_money_type	:any;
+	train_through_new_time	:any;
+	lesson_cancel_reason_type	:any;
+	teacherid	:any;
+	teacher_nick	:any;
+	work_time	:any;
+	lesson_leavel_rate	:any;
+	lesson_come_late_rate	:any;
+	lesson_cut_class_rate	:any;
+	lesson_change_rate	:any;
+	teacher_money_type_str	:any;
+	index_num	:any;
 }
 
 /*

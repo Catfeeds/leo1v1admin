@@ -3,6 +3,7 @@
 
 
 $(function(){
+	alert("xxx");
     function load_data(){
         $.reload_self_page ( {
             date_type_config:	$('#id_date_type_config').val(),
@@ -31,6 +32,7 @@ $(function(){
     $('#id_todo_status').val(g_args.todo_status);
     $.enum_multi_select( $('#id_todo_status'), 'todo_status', function(){load_data();} )
 
+	alert("222");
 
     $('.opt-change').set_input_change_event(load_data);
 
@@ -114,5 +116,6 @@ $(function(){
 
     init_noit_btn("id_assign_lesson_count",   g_args.assign_lesson_count,    "可赠送课时", "可赠送课时数" );
 
+	alert("xxxxx22");
 
 });

@@ -2100,7 +2100,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_all_list() {
-        $sql = $this->gen_sql_new(" select account,name,phone from %s where leave_member_time=0",
+        $sql = $this->gen_sql_new(" select account,name,phone from %s ",
                                   self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql, function($item) {
@@ -2311,5 +2311,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) ) and uid<1000",
                                     self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
+    }
+
+    public function get_phone_by_name($name) {
+        $sql = $this->gen_sql_new("select uid,phone from %s where name='$name'", self::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
     }
 }
