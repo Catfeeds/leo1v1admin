@@ -4652,8 +4652,8 @@ class human_resource extends Controller
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
-            E\Egrade::set_item_value_str($item,"grade_start");
-            E\Egrade::set_item_value_str($item,"grade_end");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
         }
         return $this->pageView(__METHOD__,$ret_info,[
             '_publish_version' =>'201712161131',

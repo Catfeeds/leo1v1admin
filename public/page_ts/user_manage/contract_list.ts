@@ -41,6 +41,7 @@ function isNumber( s ){
 }
 
 $(function(){
+	alert("xxxx");
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
     //Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
     Enum_map.append_option_list( "test_user", $("#id_test_user"));
@@ -3265,7 +3266,6 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-    //施文斌
     if(g_account=="wenbin"){
         download_show();
     }

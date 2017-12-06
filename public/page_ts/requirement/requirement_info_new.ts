@@ -72,7 +72,6 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
-
                 if(name.val() == ''){
                     alert("请输入需求名称");
                     return;

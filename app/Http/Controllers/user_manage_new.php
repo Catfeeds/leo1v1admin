@@ -3240,16 +3240,17 @@ class user_manage_new extends Controller
      */
     public function get_lesson_price(){
         $start_date = $this->get_in_str_val("start_time");
-        $end_date   = $this->get_in_str_val("end_time");
 
         $start_time = strtotime($start_date);
-        $end_time   = strtotime($end_date)+86400;
+        $end_time   = strtotime("+1 month",$start_time);
 
-        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time);
-
+        $money_list = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time);
+        $lesson_price = 0;
+        foreach($money_list as $val){
+            $lesson_price += $val['lesson_money'];
+        }
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }
-
 
     private function get_price_percent($price,$all_price){
         if($all_price!=0){

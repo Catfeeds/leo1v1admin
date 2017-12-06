@@ -32,7 +32,7 @@
                 <tr>
                     <td >老师</td>
                     <td >学生数</td>
-                    <td >课耗</td>
+                    <td >课耗/(单位:课时)</td>
                     <td >CC转化率</td>
                     <td >CR转化率</td>
                     <td >老师违规数</td>
@@ -49,7 +49,7 @@
                             {{@$var['stu_num']}}
                         </td>
                         <td>
-                            {{@$var['lesson_num']}}
+                            {{@round($var['total_lesson_num'],2)}}
                         </td>
                         <td>
                             {{@round($var['cc_rate']*100,2)}}%

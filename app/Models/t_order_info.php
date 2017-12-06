@@ -4282,6 +4282,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             "l.lesson_del_flag=0",
             "l.lesson_type=2",
+            "l.lesson_status=2",
             "l.teacherid=$teacherid",
             "l.confirm_flag in (0,1)",
             "o.contract_type in (0,1,3)",
@@ -4310,6 +4311,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             "l.lesson_del_flag=0",
             "l.lesson_type=2",
+            "l.lesson_status=2",
             "l.teacherid=$teacherid",
             "l.confirm_flag in (0,1)",
             "tls.require_admin_type=$require_admin_type"
@@ -4346,6 +4348,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_self_order_list($sys_operator){
+        $where_arr=[
+            ["sys_operator='%s'",$sys_operator,""]  
+        ];
+        $sql = $this->gen_sql_new("select o.userid,s.nick,o.orderid"                                 
+                                  ." from %s o left join %s s on o.userid=s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
     }
 
 }

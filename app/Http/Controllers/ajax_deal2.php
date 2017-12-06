@@ -1646,10 +1646,16 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $subject             = $this->get_in_int_val("subject");
-        $grade             = $this->get_in_int_val("grade");
-        $start_time = time()-90*86400;
-        $end_time = time();
+        $teacherid             = $this->get_in_int_val("teacherid");
+        $start_time = strtotime("2017-06-01");
+        $end_time = strtotime("2017-12-01");
+        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+        $data = @$list[0];
+        return $this->output_succ($data);
+
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type,$show_all_flag );
+
+
         $num = $this->t_lesson_info_b3->get_tea_num_by_subject_grade($start_time,$end_time,$subject,$grade);
         return $this->output_succ([
             "num" =>$num
@@ -2263,5 +2269,15 @@ class ajax_deal2 extends Controller
     public function get_require_info_by_id(){
         $require_id = $this->get_in_int_val('require_id',-1); 
         $data = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
+        $data["gender_str"] = E\Egender::get_desc(@$data["gender"]);
+        $data["subject_str"] = E\Esubject::get_desc(@$data["subject"]);
+        $data["grade_str"] = E\Egrade::get_desc(@$data["grade"]);
+        $data["intention_level_str"] = E\Eintention_level::get_desc(@$data["intention_level"]);
+        $data["quotation_reaction_str"] = E\Equotation_reaction::get_desc(@$data["quotation_reaction"]);
+        $data["require_time"] = @$data["curl_stu_request_test_lesson_time"]?date("Y-m-d H:i",$data["curl_stu_request_test_lesson_time"]):"无";
+        return $this->output_succ(["data"=>$data]);
+
+
+        
     }
 }

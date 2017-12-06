@@ -6,11 +6,14 @@ use \App\Models as M;
 use \App\Enums as E;
 
 class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
-    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ) {
+    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ,$lesson_type, $subject) {
         $where_arr=[
             ["record_audio_server1='%s'", $record_audio_server1, "" ],
             ["xmpp_server_name='%s'", $xmpp_server_name, "" ],
         ];
+        $this->where_arr_add_int_or_idlist($where_arr, "lesson_type", $lesson_type);
+        $this->where_arr_add_int_or_idlist($where_arr, "subject", $subject);
+
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new(
             "select lessonid, record_audio_server1, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
@@ -2341,6 +2344,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "t.teacher_money_type = 6",
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
@@ -2354,11 +2359,35 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
+
+    public function get_total_lesson_time($start_time, $end_time,$teacherid){
+        $where_arr = [
+            "t.trial_lecture_is_pass=1",
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "t.teacher_money_type = 6",
+            ["l.teacherid=%d",$teacherid,-1]
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select sum(l.lesson_count)/100 from %s l"
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s  "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_violation_num($start_time, $end_time, $teacherid){
         $where_arr = [
             "l.lesson_type in (0,1,3)",
             "l.teacherid=$teacherid",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_status=2"
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
@@ -2451,9 +2480,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_common_list($start_time,$end_time){
         $where_arr = [
             " l.lesson_del_flag=0",
-            " l.lesson_type in (0,1,3)"
+            " l.lesson_type in (0,1,3)",
         ];
-        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $this->where_arr_add_time_range($where_arr, "l.lesson_end", $start_time, $end_time);
 
         $sql = $this->gen_sql_new("  select l.userid, m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
                                   ." left join %s s on s.userid=l.userid"
@@ -2492,5 +2521,94 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_info_for_tag($lessonid){
+        $sql = $this->gen_sql_new("  select l.userid, l.teacherid, l.lesson_start, l.lesson_end, m.wx_openid, tr.accept_adminid,m.wx_openid "
+                                  ." from %s l "
+                                  ." left join %s tll on tll.lessonid=l.lessonid"
+                                  ." left join %s tr on tr.require_id=tll.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
+                                  ." left join %s m on m.uid=require_adminid"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
+    public function get_student_info_to_tea($lessonid){
+        $sql = $this->gen_sql_new("  select if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick as stu_nick, l.lesson_start, l.lesson_end, m.phone  "
+                                  ." from %s l "
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." left join %s tss on tss.lessonid=l.lessonid"
+                                  ." left join %s tr on tr.require_id=tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
+                                  ." left join %s m on m.uid=require_adminid"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+    public function get_teacher_lesson_info($teacherid,$start_time,$end_time){
+        $where_arr=[
+            "t.is_test_user = 0",
+            "l.lesson_del_flag = 0",
+            "l.lesson_type<1000",
+            ["l.teacherid=%d",$teacherid,-1]
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+       
+        $sql=$this->gen_sql_new("select  sum(if(l.confirm_flag < 2 and l.lesson_type in (0,1,3),1,0)) reg_num, sum(if(deduct_come_late=1 and l.lesson_type in (0,1,3),1,0)) late_num, sum(if(lesson_cancel_reason_type=21 and l.lesson_type in (0,1,3),1,0)) kk_num,sum(if(lesson_cancel_reason_type=2 and l.lesson_type in (0,1,3),1,0)) change_num,sum(if(lesson_cancel_reason_type=12 and l.lesson_type in (0,1,3),1,0)) leave_num,  sum(if(l.lesson_type=2 and tss.success_flag<2,1,0)) test_num,sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=109,1,0)) test_kk_num, sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=113,1,0)) test_person_num,sum(if(deduct_come_late=1 and l.lesson_type =2,1,0)) test_late_num,  l.teacherid "
+                                ." from %s l "
+                                ." left join %s t on t.teacherid = l.teacherid"
+                                ." left join %s tss on tss.lessonid = l.lessonid"
+                                ." where  %s group by l.teacherid "
+                                ,self::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

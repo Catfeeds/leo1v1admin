@@ -8,7 +8,9 @@ interface GargsStatic {
 	end_time:	string;
 	record_audio_server1:	string;
 	xmpp_server_name:	string;
-}
+	lesson_type:	number;//\App\Enums\Econtract_type
+	subject:	string;//枚举列表: \App\Enums\Esubject
+ }
 declare module "g_args" {
     export = g_args;
 }
@@ -47,11 +49,14 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		record_audio_server1:	$('#id_record_audio_server1').val(),
-		xmpp_server_name:	$('#id_xmpp_server_name').val()
+		xmpp_server_name:	$('#id_xmpp_server_name').val(),
+		lesson_type:	$('#id_lesson_type').val(),
+		subject:	$('#id_subject').val()
     });
 }
 $(function(){
 
+	Enum_map.append_option_list("contract_type",$("#id_lesson_type"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -65,6 +70,9 @@ $(function(){
     });
 	$('#id_record_audio_server1').val(g_args.record_audio_server1);
 	$('#id_xmpp_server_name').val(g_args.xmpp_server_name);
+	$('#id_lesson_type').val(g_args.lesson_type);
+	$('#id_subject').val(g_args.subject);
+	$.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -86,6 +94,21 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">xmpp_server_name</span>
                 <input class="opt-change form-control" id="id_xmpp_server_name" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">contract_type</span>
+                <select class="opt-change form-control" id="id_lesson_type" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
 */

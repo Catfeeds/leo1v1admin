@@ -73,31 +73,25 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
+            "lesson_status=2",
             "lesson_type in (0,1,3)",
-            "s.is_test_user=0"
+            "lesson_del_flag = 0",
+            "confirm_flag in (0,1,3)",
+            "t.is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_money  "
+        $sql = $this->gen_sql_new("select l.lessonid,sum(ol.price)/100 as lesson_money"
                                   ." from %s l force index(lesson_type_and_start)"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
-                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
+                                  ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
-
-    // public function get_lesson_info_tmp($last_normal_id){
-    //     $sql = $this->gen_sql_new("  select l.teacherid, l.subject, l.userid from %s l "
-    //                               ." where l.lessonid = %d"
-    //                               ,t_lesson_info::DB_TABLE_NAME
-    //                               ,$last_normal_id
-    //     );
-
-    //     return $this->main_get_row($sql);
-    // }
 
     public function get_last_lessonid($subject,$userid,$grade,$lesson_start){
         $sql = $this->gen_sql_new("  select l.teacherid from %s l  "

@@ -200,7 +200,6 @@ class WxSendMsg{
     //老师　面试通知
     static public function template_tea_face_test($wx_openid,$name,$time,$phone,$grader,$subject){
         $template_id      = WxSendMsg::$tea_todo_reminder;
-
         $data['first']    = $name."老师您好,您的面试课程已排好";
         $data['keyword1'] = "1对1面试课程";
         $data['keyword2'] = "\n面试时间：$time "
@@ -217,7 +216,6 @@ class WxSendMsg{
     //老师　邀请参训通知(原来在job中，通知为通过测试的老师，人数较多用job)
     static public function template_tea_train($wx_openid){
         $template_id      = WxSendMsg::$tea_todo_reminder;
-
         $data['first']    = "老师您好！";
         $data['keyword1'] = "邀请参训通知";
         $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师尽快完成入职手续，敬请您参加定于每周三、五19点的新师培训；若时间冲突，您可登录老师端，在【我的培训】中观看回放后，点击【自我测评】回答，通过后即收到【入职offer】，另请您在【后台】尽快设置【模拟课程时间】，通过后即成功晋升。";
@@ -934,7 +932,6 @@ class WxSendMsg{
 
     //master 交接单更新通知
     static public function template_transfer_change($wx_openid,$stu,$account,$userid){
-
         $template_id = WxSendMsg::$wait_deal;
         $data = [
             "first"    => "PDF 交接单 更新",
@@ -950,8 +947,7 @@ class WxSendMsg{
 
     //家长　理优周年庆
     static public function template_par_leo_year($wx_openid,$content){
-
-        $template_id      = WxSendMsg::$wait_deal;
+        $template_id    = WxSendMsg::$wait_deal;
         $data = [
             "first"     => "您有一条未处理的\"理优周年庆\"活动奖励，请及时处理",
             "keyword1"  => "理优周年庆活动",

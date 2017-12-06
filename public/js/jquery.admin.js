@@ -253,6 +253,50 @@ jQuery.fn.extend({
         });
     },
 
+    table_group_level_more_init:function(level, show_flag) {
+        var $table=$(this);
+
+        if (!show_flag) {
+            for(var a=2; a<level; a++){
+                $.each($table.find(".l-"+a),function(){
+                    $(this).hide();
+                });
+            }
+        }
+
+        var link_css=    {
+            color: "#3c8dbc",
+            cursor:"pointer"
+        };
+
+        for(var i=1; i<level; i++){
+            $table.find(".l-"+i+" .key"+i).css(link_css);
+        }
+
+        for(var b=1; b<(level-1); b++){
+
+            $table.find(".l-"+b+" .key"+b).on("click",function(){
+                var $this=$(this);
+                var class_name= $this.data("class_name");
+                var num = $this.data('index');
+                var c = 1+num;
+                var find_str = ".key"+c+"."+class_name;
+                var parent_str = ".l-"+c;
+                if ($this.data("show") ==true) {
+                    $table.find( find_str ).parent().hide();
+                }else{
+                    var $opt_item=$table.find( find_str ).parent( parent_str );
+                    $opt_item.show();
+                }
+                $this.parent().show();
+                $this.data("show", !$this.data("show") );
+
+            });
+        }
+
+    },
+
+
     tbody_scroll_table:function( height  )  {
         if(!$.check_in_phone() ) {
             var $table=$(this);
@@ -682,8 +726,8 @@ jQuery.extend({
                               }, bucket_info ,noti_origin_file_func  );
 
     },
-    
-    
+
+
     custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process , before_upload, bucket_info,noti_origin_file_func ){
         var init_upload=function( ret ) {
             var domain_name=ret.domain;
@@ -1141,7 +1185,7 @@ jQuery.extend({
             });
         });
     },
-   
+
 
     check_in_wx :function (){
         //window.
@@ -1215,7 +1259,7 @@ jQuery.extend({
         }
     },
 
-    do_ajax: function( url,data, success_func ){
+    do_ajax: function( url,data, success_func, jsonp_flag ){
 
 
         function ajax_default_deal_func(result){
@@ -1236,7 +1280,7 @@ jQuery.extend({
             url:  url,
             type: 'POST',
             data:data,
-            dataType: 'json',
+            dataType: jsonp_flag? "jsonp": 'json',
             success: success_func
 
             ,error: function( XMLHttpRequest, textStatus, errorThrown ) {

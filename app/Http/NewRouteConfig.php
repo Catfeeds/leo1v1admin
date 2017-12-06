@@ -61,6 +61,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/resource/add_or_del_or_edit"         => true,
         "/resource/resource_count"             => true,
         "/tea_manage_new/approved_data"        => true,
         "/resource/update_stu_hash"            => true,

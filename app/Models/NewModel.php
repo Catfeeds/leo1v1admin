@@ -654,10 +654,8 @@ abstract class NewModel
 
     public function update_field_list( $table_name, $set_field_arr,$id_name ,$id_value ) {
         $set_field_list_str=$this->get_sql_set_str( $set_field_arr);
-
         $sql=sprintf("update %s set  %s  where  %s= '%s' ", $table_name, $set_field_list_str,
                      $id_name , $this->ensql( $id_value));
-
         return $this->main_update($sql);
     }
 
@@ -988,11 +986,9 @@ abstract class NewModel
      */
     public function lesson_common_sql($where_arr,$alias=''){
         $alias = $this->get_table_alias($alias);
-        $add_arr = [
-            $alias."lesson_del_flag=1",
-            $alias."confirm_flag!=2",
-        ];
-        return array_push($where_arr,$add_arr);
+        $where_arr[] = $alias."lesson_del_flag=0";
+        $where_arr[] = $alias."confirm_flag!=2";
+        return $where_arr;
     }
 
     /**

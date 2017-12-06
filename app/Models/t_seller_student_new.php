@@ -1202,7 +1202,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $before_48_time= $before_24_time - 86400;
         $check_no_call_time_str=" ( origin_level <>99 and   (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) )";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
-
+        E\Eorigin_level::V_2;
         //E\Eorigin_level
         switch ( $seller_level_flag ) {
         case 1 :  //s
@@ -1332,7 +1332,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
-    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count,$call_admin_count
+    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count_new,$call_admin_count
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -1350,7 +1350,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
             ['n.return_publish_count=%u',$return_publish_count,-1],
             ['n.cc_called_count=%u',$cc_called_count,-1],
-            ['n.cc_no_called_count=%u',$cc_no_called_count,-1],
+            ['n.cc_no_called_count_new=%u',$cc_no_called_count_new,-1],
             ['n.call_admin_count=%u',$call_admin_count,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
@@ -1382,7 +1382,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
-            ."tr.test_lesson_order_fail_flag,n.return_publish_count,n.cc_no_called_count,n.cc_called_count,n.call_admin_count"
+            ."tr.test_lesson_order_fail_flag,n.return_publish_count,n.cc_no_called_count_new,n.cc_called_count,n.call_admin_count"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
@@ -3200,4 +3200,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function update_cc_no_called_count_new($phone,$total){
+        $sql = "update db_weiyi.t_seller_student_new set cc_no_called_count_new = $total where phone = $phone ";
+        return $this->main_update($sql);
+    }
 }

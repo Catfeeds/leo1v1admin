@@ -875,4 +875,9 @@ $(function(){
             load_data();
         });
     });
+
+
+    if(g_account=="wenbin"){
+        download_show();
+    }
 });

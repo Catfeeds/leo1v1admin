@@ -130,17 +130,19 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_permission_list($account )
     {
-        $sql = sprintf("select permission from %s where account = '%s' ",
+        $sql = sprintf("select permission , power from %s where account = '%s' ",
                        self::DB_TABLE_NAME, $this->ensql( $account));
-        $grpid = $this->main_get_value( $sql);
-        $grpid_arr = explode(',', $grpid);
+        $row = $this->main_get_row( $sql);
+        $power_str=$row["permission"].",".$row["power"] ;
+        $grpid_arr = explode(',', $power_str);
         $perms = "";
         foreach($grpid_arr as $key => $value){
             $sql = sprintf("select group_authority from %s where groupid = %u",
-                           \App\Models\Zgen\z_t_authority_group::DB_TABLE_NAME,
+                           t_authority_group::DB_TABLE_NAME,
                             $value);
             $perms .= "," . $this->main_get_value( $sql);
         }
+
         return explode(',',$perms);
     }
 
@@ -280,7 +282,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             }
         }
 
-        $sql = sprintf("select account, permission from %s where account in ('%s') "
+        $sql = sprintf("select account, permission, power from %s where account in ('%s') "
                        ,self::DB_TABLE_NAME
                        ,$cond_str
         );
@@ -910,7 +912,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                             ." from  %s m left join %s a on m.phone = a.phone"
                             ." left join %s l on l.assistantid = a.assistantid"
                             ." left join %s s on l.userid = s.userid"
-                            ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,4)  and l.lesson_type in (0,1,3)"
+                            ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,3)  and l.lesson_type in (0,1,3)"
                             . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1  and m.uid <>74  "
                             ." group by m.uid  ",
                             self::DB_TABLE_NAME,
@@ -930,7 +932,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." from  %s m left join %s a on m.phone = a.phone"
                                 ." left join %s l on l.assistantid = a.assistantid"
                                 ." left join %s s on l.userid = s.userid"
-                                ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag  <>2  and l.lesson_type in (0,1,3)"
+                                ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,3)  and l.lesson_type in (0,1,3)"
                                 . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.uid <>74  ",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
@@ -954,7 +956,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_start >=%u "
                                 ." and l.lesson_start<%u "
                                 ." and l.lesson_status =2 "
-                                ." and l.confirm_flag<>2 "
+                                ." and l.confirm_flag in (0,1,3) "
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
@@ -984,7 +986,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_start >=%u "
                                 ." and l.lesson_start<%u "
                                 ." and l.lesson_status =2 "
-                                ." and l.confirm_flag<>2 "
+                                ." and l.confirm_flag in (0,1,3) "
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
@@ -2097,6 +2099,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list() {
+        $sql = $this->gen_sql_new(" select account,name,phone from %s ",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['phone'];
+        });
+    }
+
     public function get_ass_leader_opneid($assid){
         $where_arr = [
             "au.adminid=$assid"
@@ -2300,5 +2311,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) ) and uid<1000",
                                     self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
+    }
+
+    public function get_phone_by_name($name) {
+        $sql = $this->gen_sql_new("select uid,phone from %s where name='$name'", self::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
     }
 }

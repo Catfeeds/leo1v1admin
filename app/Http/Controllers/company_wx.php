@@ -5,6 +5,7 @@ use \App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config as Config;
 
+use Illuminate\Support\Facades\Redis;
 class company_wx extends Controller
 {
     public function get_company_all_user() {
@@ -103,10 +104,16 @@ class company_wx extends Controller
     }
 
     public function get_approve() { // 获取审批数据
+        $config = Config::get_config("company_wx");
+        if (!$config) {
+            exit('没有配置');
+        }
+
         // list($start_time, $end_time) = $this->get_in_date_range_day(0);
         // $start_time = $this->get_in_str_val('start_time');
         // $end_time = $this->get_in_str_val('end_time');
         // 获取token
+        $config = Config::get_config("company_wx");
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
@@ -174,21 +181,7 @@ class company_wx extends Controller
                 }
             }
         }
-        // $len = count($info);
-        // foreach($info as $key=>$item) {
-        //     foreach($tag as $val) {
-        //         if (in_array($item['id'], $val['department'])) {
-        //             $pid = $val['id'] + $len;
-        //             $info[$len]['id'] = $pid;
-        //             $info[$len]['pId'] = $item['pId'];
-        //             $info[$len]['name'] = $val['name'];
-        //             $info[$key]['pId'] = $pid;
-        //             $len++;
-        //         }
-        //     }
-        // }
 
-        //$role = $this->t_company_wx_role->get_all_for_auth(); // 获取当前权限组的所有成员
         foreach($users as $key => $item) {
             $power = '';
             if ($item['power']) $power = '('.$item['power'].')';
@@ -198,10 +191,6 @@ class company_wx extends Controller
             }
             $users[$key]['name'] = $name;
             
-            // if ( $item['id'] < 600) {
-            //     $users[$key]['checked'] = true;
-            //     $users[$key]['open'] = true;
-            // }
         }
 
         // if ($type == 1) { // 部门授权 
@@ -220,9 +209,9 @@ class company_wx extends Controller
         //     }
         //     $info = array_merge($info, $people);
         // } else {
-        //     $info = array_merge($info,$users);
+        //    $info = array_merge($info,$users);
         // }
-
+        $info = array_merge($info,$users);
         //$info = $this->genTree($info, 0);
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
@@ -231,10 +220,37 @@ class company_wx extends Controller
     }
 
     public function all_users() {
+        E\Eseller_student_status::V_100;
         $tag = $this->t_company_wx_tag->get_all_list();
+        $list    = $this->t_authority_group->get_all_list();
+        $group = [];
+        foreach($list as $item) {
+            $group[$item['groupid']] = $item['group_name'];
+        }
+
+        foreach($tag as &$item) {
+            if ($item['leader_power']) {
+                $power = explode(',', $item['leader_power']);
+                $power_s = '';
+                foreach($power as $val) {
+                    $power_s .= $val.'-'.$group[$val];
+                }
+                $item['leader_power'] = $power_s;
+            }
+            // no_leader_power
+            if ($item['no_leader_power']) {
+                $power = explode(',', $item['no_leader_power']);
+                $power_s = '';
+                foreach($power as $val) {
+                    $power_s .= $val.'-'.$group[$val];
+                }
+                $item['no_leader_power'] = $power_s;
+            }
+        }
         
         return $this->pageView(__METHOD__, '', [
-            'info' => $tag
+            'info' => $tag,
+            'group' => $group
         ]);
     }
 
@@ -396,9 +412,62 @@ class company_wx extends Controller
 
     public function flush_company_wx_data() {
         $acc = $this->get_account();
-         
-        //exec($command, $output)
-        //$this->dispatch(new UpdateCompanyWxData($acc));
-        //return $this->output_succ();
+        //$base = substr(dirname(__FILE__), 0, -20);
+        //$command = $base.'artisan command:update_company_wx_data 0 > /tmp/1.log';
+        //exec($command);
+        dispatch( new \App\Jobs\update_company_wx_data());
+        return $this->output_succ();
+    }
+
+    public function flush_company_wx_data_log() { // 数据添加至redis 参看 app/Jobs/update_company_wx_data.php
+        $redis = Redis::connection('cache_nick');
+        $len = $redis -> lLen('flush_company_wx_data');
+        $log = '';
+        for ($i = 1; $i <= $len; $i ++) {
+            $log[] = $redis -> rPop('flush_company_wx_data');
+        }
+        return $this->output_succ(['data' => $log]);
+    }
+
+    public function get_ower_power() {
+        $uid = $this->get_in_str_val('uid', 0);
+        $power = $this->t_manager_info->get_power($uid);
+        return $this->output_succ(['data' => $power]);
+    }
+
+    // 显示企业微信与后台不一样的数据
+    public function dissimil_users() {
+        // 企业微信用户
+        $users = $this->t_company_wx_users->get_all_users();
+        // 后台管理用户
+        $manager = $this->t_manager_info->get_all_list();
+        $info = '';
+        foreach($users as $key => $item) {
+            if (!isset($manager[$key])) {
+                $info[$key]['name'] = $item['name'];
+                $info[$key]['phone'] = $item['mobile'];
+                $info[$key]['mobile'] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['mobile']);
+            }
+        }
+        return $this->pageView(__METHOD__,null,[
+            'info' => $info
+        ]);
+    }
+
+    //更新手机号
+    public function update_phone_data() {
+        $name = $this->get_in_str_val('name');
+        $phone = $this->get_in_str_val('phone');
+        $info = $this->t_manager_info->get_phone_by_name($name);
+        if ($info) { 
+            $this->t_manager_info->field_update_list($info['uid'], [
+                'phone' => $phone
+            ]);
+
+            // 添加操作日志
+            $this->t_user_log->add_data("企业微信与后台管理手机号不一致,修改手机号,修改前: ".$info['phone'].' 修改后: '.$phone, $info['uid']);
+            return $this->output_succ();
+        }
+        return $this->output_err('管理后台无此账号');
     }
 }

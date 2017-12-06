@@ -16,6 +16,25 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	pay_time	:any;
+	teacherid	:any;
+	realname	:any;
+	phone	:any;
+	level	:any;
+	bankcard	:any;
+	bank_address	:any;
+	bank_account	:any;
+	idcard	:any;
+	bank_phone	:any;
+	bank_type	:any;
+	bank_province	:any;
+	bank_city	:any;
+	money	:any;
+	pay_status	:any;
+	is_negative	:any;
+	subject	:any;
+	subject_str	:any;
 }
 
 /*

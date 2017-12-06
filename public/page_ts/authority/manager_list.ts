@@ -865,6 +865,51 @@ $(function(){
 
     });
 
+    $('.opt-ower-permission').on('click', function() {
+        var opt_data=$(this).get_opt_data();
+        console.log(parseInt(opt_data.uid));
+        $.do_ajax('/company_wx/get_ower_power',{
+            'uid':parseInt(opt_data.uid)
+        }, function(res) {
+            var permission = res.data
+        $.do_ajax("/authority/get_permission_list",{
+            "permission" : permission
+        },function(response){
+            var data_list   = [];
+            var select_list = [];
+
+            var perm = permission.split(",");
+
+            $.each( response.data,function(){
+                data_list.push([this["groupid"], this["group_name"]  ]);
+                
+
+                for(var i=0; i<perm.length; i++) {
+                    if (perm[i] == this['groupid']) {
+                        //data_list.push([this["groupid"], this["group_name"]  ]);
+                        select_list.push (this["groupid"]) ;
+                    }
+                }
+
+            });
+            $(this).admin_select_dlg({
+                header_list     : [ "id","名称" ],
+                data_list       : data_list,
+                multi_selection : true,
+                select_list     : select_list,
+                // onChange        : function( select_list,dlg) {
+                //     $.do_ajax("/company_wx/set_permission",{
+                //         "userid": userid,
+                //         "groupid_list":JSON.stringify(select_list),
+                //     });
+                // }
+            });
+        }) ;
+
+        });
+        // alert('wel');
+    });
+
     //实例化一个plupload上传对象
     var uploader = $.plupload_Uploader({
         browse_button : 'id_upload_xls', //触发文件选择对话框的按钮，为那个元素id
@@ -888,8 +933,6 @@ $(function(){
     if(g_account=='龚隽'){
         download_show();
     }
-
-
 
 
 
