@@ -29,6 +29,8 @@ class product_tag extends Controller
         $tag_l1_sort = $this->get_in_str_val('tag_l1_sort');
         $tag_l2_sort = $this->get_in_str_val('tag_l2_sort');
         $tag_l3_sort = $this->get_in_str_val('tag_l3_sort');
+        if($tag_l3_sort == '标签三级分类')
+            $tag_l3_sort = '';
         $tag_name = $this->get_in_str_val('tag_name');
         $tag_desc = $this->get_in_str_val('tag_desc');
         $tag_object = $this->get_in_int_val('tag_object');
@@ -53,6 +55,8 @@ class product_tag extends Controller
         $tag_l1_sort = $this->get_in_str_val('tag_l1_sort');
         $tag_l2_sort = $this->get_in_str_val('tag_l2_sort');
         $tag_l3_sort = $this->get_in_str_val('tag_l3_sort');
+        if($tag_l3_sort == '标签三级分类')
+            $tag_l3_sort = '';
         $tag_name = $this->get_in_str_val('tag_name');
         $tag_desc = $this->get_in_str_val('tag_desc');
         $tag_object = $this->get_in_int_val('tag_object');
@@ -77,6 +81,11 @@ class product_tag extends Controller
         $id = $this->get_in_int_val("tag_id");
         $this->t_tag_library->row_delete($id);
         return $this->output_succ();
+    }
+
+    public function get_all_tag(){
+        $ret = $this->t_tag_library->get_all_tag_list();
+        return $this->output_succ(["data" => $ret]);
     }
 
 }

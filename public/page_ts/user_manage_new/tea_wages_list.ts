@@ -132,21 +132,19 @@ $(function(){
                     "show_type"  : $("#id_show_type").val()
                 },function(result){
                     var data = result.data[0];
-                    // if(teacher_ref_type>0){
-                        var id_teacher_ref_money = "#id_teacher_ref_money_"+teacher_ref_type;
-                        var id_lesson_ref_money  = "#id_lesson_ref_money_"+teacher_ref_type;
-                        var teacher_ref_money    = parseFloat($(id_teacher_ref_money).val());
-                        var lesson_ref_money     = parseFloat($(id_lesson_ref_money).val());
+                    var id_teacher_ref_money = "#id_teacher_ref_money_"+teacher_ref_type;
+                    var id_lesson_ref_money  = "#id_lesson_ref_money_"+teacher_ref_type;
+                    var teacher_ref_money    = parseFloat($(id_teacher_ref_money).val());
+                    var lesson_ref_money     = parseFloat($(id_lesson_ref_money).val());
 
-                        $tr.find(".lesson_ref_money").text(data.lesson_ref_money);
-                        $tr.find(".teacher_ref_money").text(data.teacher_ref_money);
-                        $tr.find(".teacher_ref_rate").text(data.teacher_ref_rate);
-                        teacher_ref_money   += parseFloat(data.teacher_ref_money);
-                        lesson_ref_money    += parseFloat(data.lesson_ref_money);
-                        $(id_teacher_ref_money).val(teacher_ref_money);
-                        $(id_lesson_ref_money).val(lesson_ref_money);
-                        $tr.find(".lesson_ref_money").text(data.lesson_ref_money);
-                    // }
+                    $tr.find(".lesson_ref_money").text(data.lesson_ref_money);
+                    $tr.find(".teacher_ref_money").text(data.teacher_ref_money);
+                    $tr.find(".teacher_ref_rate").text(data.teacher_ref_rate);
+                    teacher_ref_money   += parseFloat(data.teacher_ref_money);
+                    lesson_ref_money    += parseFloat(data.lesson_ref_money);
+                    $(id_teacher_ref_money).val(teacher_ref_money);
+                    $(id_lesson_ref_money).val(lesson_ref_money);
+                    $tr.find(".lesson_ref_money").text(data.lesson_ref_money);
 
                     $tr.find(".lesson_price_tax").text(data.lesson_price_tax);
                     $tr.find(".lesson_price").text(data.lesson_price);
@@ -194,7 +192,6 @@ $(function(){
             $("#id_lesson_price").val(result.lesson_price);
             do_one();
         });
-
     });
 
     $("#id_reset_lesson_count_all").on("click",function(){

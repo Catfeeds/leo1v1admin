@@ -4,13 +4,15 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		record_audio_server1:	$('#id_record_audio_server1').val(),
-		xmpp_server_name:	$('#id_xmpp_server_name').val()
+        date_type_config:	$('#id_date_type_config').val(),
+        date_type:	$('#id_date_type').val(),
+        opt_date_type:	$('#id_opt_date_type').val(),
+        start_time:	$('#id_start_time').val(),
+        end_time:	$('#id_end_time').val(),
+        subject:	$('#id_subject').val(),
+        record_audio_server1:	$('#id_record_audio_server1').val(),
+        xmpp_server_name:	$('#id_xmpp_server_name').val(),
+        lesson_type:	$('#id_lesson_type').val()
     });
 }
 
@@ -28,8 +30,15 @@ $(function(){
             load_data();
         }
     });
-	$('#id_record_audio_server1').val(g_args.record_audio_server1);
-	$('#id_xmpp_server_name').val(g_args.xmpp_server_name);
+
+    Enum_map.append_option_list("contract_type",$("#id_lesson_type"));
+
+    $('#id_record_audio_server1').val(g_args.record_audio_server1);
+    $('#id_xmpp_server_name').val(g_args.xmpp_server_name);
+    $('#id_lesson_type').val(g_args.lesson_type);
+
+    $('#id_subject').val(g_args.subject);
+    $.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
 
 
     $("#id_xmpp_server_name").admin_select_dlg_ajax({
@@ -38,7 +47,8 @@ $(function(){
         select_primary_field   : "server_name",
         select_display         : "server_name",
         select_no_select_value : "",
-        select_no_select_title : "[全部]",
+        //select_no_select_title : "[全部]",
+        select_no_select_title : "xmpp服务器",
 
         //其他参数
         "args_ex" : {
@@ -79,7 +89,7 @@ $(function(){
         select_primary_field   : "ip",
         select_display         : "ip",
         select_no_select_value : "",
-        select_no_select_title : "[全部]",
+        select_no_select_title : "声音服务器",
 
         //其他参数
         "args_ex" : {
@@ -87,19 +97,19 @@ $(function(){
         //字段列表
         'field_list' :[
             {
-                title:"ip",
-                render:function(val,item) {return item.ip;}
-            },{
-                title:"权重",
-                render:function(val,item) {return item.priority;}
-            },{
-                title:"上报时间",
-                render:function(val,item) {return item.last_active_time;}
-            },{
+            title:"ip",
+            render:function(val,item) {return item.ip;}
+        },{
+            title:"权重",
+            render:function(val,item) {return item.priority;}
+        },{
+            title:"上报时间",
+            render:function(val,item) {return item.last_active_time;}
+        },{
 
-                title:"说明",
-                render:function(val,item) {return item.desc;}
-            }
+            title:"说明",
+            render:function(val,item) {return item.desc;}
+        }
         ] ,
         filter_list: [],
 
@@ -154,19 +164,19 @@ $(function(){
             //字段列表
             'field_list' :[
                 {
-                    title:"ip",
-                    render:function(val,item) {return item.ip;}
-                },{
-                    title:"权重",
-                    render:function(val,item) {return item.weights ;}
-                },{
-                    title:"名称",
-                    render:function(val,item) {return item.server_name;}
-                },{
+                title:"ip",
+                render:function(val,item) {return item.ip;}
+            },{
+                title:"权重",
+                render:function(val,item) {return item.weights ;}
+            },{
+                title:"名称",
+                render:function(val,item) {return item.server_name;}
+            },{
 
-                    title:"说明",
-                    render:function(val,item) {return item.server_desc;}
-                }
+                title:"说明",
+                render:function(val,item) {return item.server_desc;}
+            }
             ] ,
             filter_list: [],
 
@@ -213,19 +223,19 @@ $(function(){
             //字段列表
             'field_list' :[
                 {
-                    title:"ip",
-                    render:function(val,item) {return item.ip;}
-                },{
-                    title:"权重",
-                    render:function(val,item) {return item.priority;}
-                },{
-                    title:"上报时间",
-                    render:function(val,item) {return item.last_active_time;}
-                },{
+                title:"ip",
+                render:function(val,item) {return item.ip;}
+            },{
+                title:"权重",
+                render:function(val,item) {return item.priority;}
+            },{
+                title:"上报时间",
+                render:function(val,item) {return item.last_active_time;}
+            },{
 
-                    title:"说明",
-                    render:function(val,item) {return item.desc;}
-                }
+                title:"说明",
+                render:function(val,item) {return item.desc;}
+            }
             ] ,
             filter_list: [],
 
@@ -256,7 +266,23 @@ $(function(){
 
     //$.do_ajax("");
 
-	$('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
+
+    $(".td-query").each(function(){
+        var $td= $(this);
+        var queryid=$td.data("queryid");
+        if( queryid =="id_date_range"   ) {
+            var obj=$("#"+queryid) ;
+            //obj.find("span").hide();
+            obj.parent().hide();
+            $td.html(obj);
+        }else {
+            var obj=$("#"+queryid).parent()  ;
+            obj.find("span").hide();
+            obj.parent().hide();
+            $td.html(obj);
+        }
+
+    });
+
 });
-
-

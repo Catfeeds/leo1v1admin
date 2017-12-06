@@ -442,6 +442,7 @@ class menu{
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
                 ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

@@ -254,7 +254,7 @@ i).attr("text") + "</option>");
             ["<span style='color:red;'>*</span>标签名称" ,tag_name ],
             ["<span style='color:red;'>*</span>标签定义" ,tag_desc  ],
             ["<span style='color:red;'>*</span>设定对象" ,tag_object  ],
-            ["权重系数" ,tag_weight  ],
+            ["<span style='color:red;'>*</span>权重系数" ,tag_weight  ],
         ] ;
 
         
@@ -280,6 +280,10 @@ i).attr("text") + "</option>");
                 }
                 if(tag_object.val() <= 0){
                     alert('设定对象为必填项!');
+                    return false;
+                }
+                if(tag_weight.val() < 0 || tag_weight.val() > 99){
+                    alert('权重系数范围为0~99!');
                     return false;
                 }
                 $.do_ajax("/product_tag/tag_add",{
@@ -423,7 +427,7 @@ i).attr("text") + "</option>");
             ["<span style='color:red;'>*</span>标签名称" ,tag_name ],
             ["<span style='color:red;'>*</span>标签定义" ,tag_desc  ],
             ["<span style='color:red;'>*</span>设定对象" ,tag_object  ],
-            ["权重系数" ,tag_weight],
+            ["<span style='color:red;'>*</span>权重系数" ,tag_weight],
         ] ;
         tag_name.val(opt_data.tag_name);
         tag_desc.val(opt_data.tag_desc);
@@ -435,11 +439,11 @@ i).attr("text") + "</option>");
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                if(tag_l1_sort.val() <= 0){
+                if(tag_l1_sort.find("option:selected").text() == ''){
                     alert('一级标签为必填项!');
                     return false;
                 }
-                if(tag_l2_sort.val() <= 0){
+                if(tag_l2_sort.find("option:selected").text() == ''){
                     alert('二级标签为必填项!');
                     return false;
                 }
@@ -453,6 +457,10 @@ i).attr("text") + "</option>");
                 }
                 if(tag_object.val() <= 0){
                     alert('设定对象为必填项!');
+                    return false;
+                }
+                if(tag_weight.val() < 0 || tag_weight.val() > 99){
+                    alert('权重系数范围为0~99!');
                     return false;
                 }
 
