@@ -768,7 +768,7 @@ class teacher_money extends Controller
             $reference_phone = "";
         }
         $teacherid = $this->get_in_int_val('teacherid',-1);
-        
+
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
         $all_money = 0;
         foreach($ret_info['list'] as &$t_val){
@@ -783,9 +783,9 @@ class teacher_money extends Controller
         $all_money_tax = $all_money*0.98;
         $this->set_filed_for_js("g_adminid",$this->get_account_id());
         return $this->pageView(__METHOD__,$ret_info,[
-            "all_money" => $all_money,
+            "all_money"     => $all_money,
             "all_money_tax" => $all_money_tax,
-            "acc" => $acc,
+            "acc"           => $acc,
         ]);
     }
 

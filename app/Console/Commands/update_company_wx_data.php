@@ -47,7 +47,7 @@ class update_company_wx_data extends Command
         $manager = $task->t_manager_info->get_all_list();
         foreach($users as $key => $item) {
             if (!isset($manager[$key])) {
-                echo $item['name'].' '.$item['mobile'].',';
+                echo $item['name'].' '.$item['mobile'].','.PHP_EOL;
             }
         }
         exit;
