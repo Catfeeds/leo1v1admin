@@ -46,7 +46,7 @@ class update_company_wx_data extends Command
         // 后台管理用户
         $manager = $task->t_manager_info->get_all_list();
         foreach($users as $item) {
-            if (!$item['phone']) {
+            if (!$item['mobile']) {
                 $phone = '';
                 foreach($manager as $val) {
                     if ($val['name'] == $item['name']) {
@@ -55,7 +55,7 @@ class update_company_wx_data extends Command
                 }
                 echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
             }
-            if (!isset($manager[$item['phone']])) {
+            if (!isset($manager[$item['mobile']])) {
                 $phone = '';
                 foreach($manager as $val) {
                     if ($val['name'] == $item['name']) {
