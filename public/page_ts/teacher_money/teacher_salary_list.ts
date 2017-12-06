@@ -53,6 +53,7 @@ $(function(){
         $.do_ajax("/user_manage_new/get_lesson_price",{
             "start_time" : start_time
         },function(result){
+            console.log(result);
             $("#id_lesson_price").html(result.lesson_price);
         });
 
