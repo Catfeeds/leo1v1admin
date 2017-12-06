@@ -1053,6 +1053,9 @@ class test_jack  extends Controller
     }
 
 
+    public function test_ws() {
+        return $this->pageView(__METHOD__);
+    }
 
 
 
