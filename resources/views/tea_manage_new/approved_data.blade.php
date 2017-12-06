@@ -49,7 +49,7 @@
                             {{@$var['stu_num']}}
                         </td>
                         <td>
-                            {{@$var['lesson_num']}}
+                            {{@$var['total_lesson_num']}}
                         </td>
                         <td>
                             {{@round($var['cc_rate']*100,2)}}%

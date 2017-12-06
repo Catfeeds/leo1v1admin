@@ -6,7 +6,7 @@
 
 /*global define */
 
-;(function( factory ) {
+(function( factory ) {
   if ( typeof define === "function" && define.amd ) {
 
     // AMD. Register as an anonymous module.
@@ -26,7 +26,8 @@
             menuClass: "dropdown-menu",
             headerClass: "dropdown-header",
             dividerClass: "divider",
-            before: false
+            before: false,
+            onshow: false
         },
         contextifyId = 0,
         $window = $(window);
@@ -106,9 +107,9 @@
                             a.attr('id',item.id);
                         }
                         //添加class
-                        // if (item.class) {
-                        //     a.addClass(item.class);
-                        // }
+                        if (item.class) {
+                            a.addClass(item.class);
+                        }
                        a.html(item.text);
                     }
 
@@ -137,7 +138,14 @@
                     .css('top', y)
                     .css('left', x)
                     .css('position', 'fixed')
-                    .show();
+                    .show(
+                        //2017-12-06 自定义添加显示后执行函数
+                        function(){
+                            if(typeof(options.onshow) === 'function') {
+                                options.onshow(this, options);
+                            };
+                        }
+                    );
             })
         .parents().on('mouseup', function () {
             // $("#" + options.menuId).hide();
