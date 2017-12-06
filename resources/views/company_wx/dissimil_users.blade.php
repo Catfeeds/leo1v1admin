@@ -3,14 +3,6 @@
 @section('content')
 <section class='content'>
     <div> <!-- search ... -->
-        <div class='col-xs-12 col-md-5' data-title='时间段'>
-        </div>
-        <div class='row  row-query-list' >
-            <div class='col-xs-12 col-md-5'>
-                <div id='id_date_range' >
-                </div>
-            </div>
-        </div>
     </div>
     <hr/>
     <table class="common-table">
@@ -28,7 +20,7 @@
                     <td class="phone" style="display:none">{{$var['phone']}}</td>
                     <td>{{$var['mobile']}}</td>
                     <td>
-                        <a class="opt-edit">更换后台手机号</a>
+                        <a class="opt-edit" title="将企业微信手机号更新至少管理后台">更换后台手机号</a>
                     </td>
                 </tr>
             @endforeach

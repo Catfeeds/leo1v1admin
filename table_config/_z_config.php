@@ -294,11 +294,13 @@ return array(
     ["db_tool","t_scores_min","id"] ,
     ["db_message","t_sms_msg","recordid"] ,
     ["db_message","t_weixin_msg","recordid"], 
-    // ["db_question","t_lesson_note_list","id"] ,
+    //["db_question","t_lesson_note_list","id"] ,
     //["db_question","t_lesson_note","note_id"] ,
-    // ["db_question","t_question","id"] ,
-    // ["db_ejabberd","users","username"] ,
+    //["db_question","t_question","id"] ,
+    //["db_ejabberd","users","username"] ,
 
-
-    //
+    ["db_question_new","t_question","question_id"] ,
+    ["db_question_new","t_knowledge_point","knowledge_id"] ,
+    ["db_question_new","t_answer","answer_id"] ,
+    ["db_question_new","t_question_knowledge","id"], 
 );

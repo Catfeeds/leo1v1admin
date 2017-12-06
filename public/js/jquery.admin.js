@@ -253,7 +253,7 @@ jQuery.fn.extend({
         });
     },
 
-    table_group_level_more_init:function(level=4, show_flag) {
+    table_group_level_more_init:function(level, show_flag) {
         var $table=$(this);
 
         if (!show_flag) {
@@ -726,8 +726,8 @@ jQuery.extend({
                               }, bucket_info ,noti_origin_file_func  );
 
     },
-    
-    
+
+
     custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process , before_upload, bucket_info,noti_origin_file_func ){
         var init_upload=function( ret ) {
             var domain_name=ret.domain;
@@ -1185,7 +1185,7 @@ jQuery.extend({
             });
         });
     },
-   
+
 
     check_in_wx :function (){
         //window.

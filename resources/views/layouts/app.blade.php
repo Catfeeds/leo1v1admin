@@ -45,6 +45,13 @@
          .wrapper {
              position :static;
          }
+         .content  table .input-group >select {
+             display:table-cell;
+         }
+         .content  table .input-group >input{
+             display:table-cell;
+         }
+
 
         </style>
         <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />

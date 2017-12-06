@@ -16,6 +16,51 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function update_ban($resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $adminid, $time, $is_ban){
+        $where_arr = [
+            ['resource_type=%u', $resource_type, -1],
+            ['subject=%u', $subject, -1],
+            ['grade=%u', $grade, ''],
+            ['tag_one=%u', $tag_one, ''],
+            ['tag_two=%u', $tag_two, ''],
+            ['tag_three=%u', $tag_three, ''],
+            ['tag_four=%u', $tag_four, ''],
+        ];
+
+        $sql = $this->gen_sql_new("update %s set is_ban=$is_ban,lock_adminid=$adminid,lock_time=$time where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
+    public function del_agree($resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four ){
+        $where_arr = [
+            ['resource_type=%u', $resource_type, -1],
+            ['subject=%u', $subject, -1],
+            ['grade=%u', $grade, ''],
+            ['tag_one=%u', $tag_one, ''],
+            ['tag_two=%u', $tag_two, ''],
+            ['tag_three=%u', $tag_three, ''],
+            ['tag_four=%u', $tag_four, ''],
+        ];
+
+        $sql = $this->gen_sql_new("delete from %s where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
+    public function get_all_resource_type(){
+        $sql = $this->gen_sql_new("select distinct tag_one from %s where resource_type in (1,2,3,4,5,9)"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

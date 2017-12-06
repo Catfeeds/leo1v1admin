@@ -263,7 +263,7 @@
             </div>
 
             <div class="row"
-                 @if(in_array($account,['leowang','龚昊天','潘腾野','孙佳旭','童宇周','孙海俊','陶建华','王洪艳']))
+                 @if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
                  style="display:none;"
                  @endif
             >

@@ -62,32 +62,14 @@ class resource extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
-        // if($resource_type == 3 || $resource_type == 9){//没有三级标签
-        //     $tag_three = -1;
-        // } else if($resource_type == 4 || $resource_type == 5){//没有二，三级标签
-        //     $tag_two   = -1;
-        //     $tag_three = -1;
-        // }
-
-        // if ($resource_type != 3){
-        //     $tag_four = -1;
-        // }
 
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
-            // E\Egrade::set_item_field_list($item, ["subject","grade","resource_type" ]);
-
-            // \App\Helper\Utils::transform_1tg_0tr($item,'is_use');
             $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
-            // if($item['is_use'] == 0) {
-            //     $item['is_use_str'] = '否';
-            // } else {
-            //     $item['is_use_str'] = '是';
-            // }
             $tag_arr = $this->tag_arr[ $item['resource_type'] ];
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
@@ -108,8 +90,60 @@ class resource extends Controller
             ]);
         }
 
-        // dd($ret_info);
-        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $this->tag_arr[$resource_type]]);
+        //查询老师负责的科目,年级
+        $sub_grade_info = $this->get_rule_range();
+
+        //获取所有开放的教材版本
+        $book = $this->t_resource_agree_info->get_all_resource_type();
+        $book_arr = [];
+        foreach($book as $v) {
+            if( $v['tag_one'] != 0 ){
+                array_push($book_arr, intval($v['tag_one']) );
+            }
+        }
+
+        return $this->pageView( __METHOD__,$ret_info,[
+            'tag_info' => $this->tag_arr[$resource_type],
+            'subject'  => json_encode($sub_grade_info['subject']),
+            'grade'    => json_encode($sub_grade_info['grade']),
+            'book'     => json_encode($book_arr),
+        ]);
+    }
+
+    public function get_rule_range(){
+
+        $adminid  = $this->get_account_id();
+
+        //判断是不是总监
+        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        if ($is_master == false) {
+            $data = [
+                'subject' => [1,2,3,4,5,6,7,8,9,10],
+                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+            ];
+            return $data;
+        }
+
+        //判断是不是主管
+        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        if ($is_zhuguan) {
+            $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+            $data = [
+                'subject' => $info['subject'],
+                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+            ];
+
+            return $data;
+        }
+
+
+        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        $data = [
+            'subject' => $info['subject'],
+            'grade'   => \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']),
+        ];
+
+        return $data;
     }
 
     public function resource_count(){
@@ -357,82 +391,104 @@ class resource extends Controller
             $item['key5_class'] = 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark;
             $item['key6_class'] = 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark;
             $item['key7_class'] = 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark.'-'.$four_mark;
- 
+
 
             if($item['resource_type'] == 3){
                 $sub_grade = $this->get_sub_grade_tag($item['subject'], $item['grade']);
                 $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
 
             }
+            // dd($item);
             $list[] = $item;
         }
 
+        // dd($ret_info);
+        // dd($list);
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 
-    public function add_region_version(){
+    public function add_or_del_or_edit(){
         $info_str = $this->get_in_str_val('info_str','');
         $region   = $this->get_in_int_val('region','');
+        $do_type  = $this->get_in_str_val('do_type','');
         $arr      = explode('-', substr($info_str,5));
         $adminid  = $this->get_account_id();
         $time     = time();
-        if($arr[0] < 3) {//1v1
-            $season = E\Eresource_season::$desc_map;
-            foreach($season as $key=>$v) {
-                $this->t_resource_agree_info->row_insert([
-                    'resource_type' => $arr[0],
-                    'subject'       => $arr[1],
-                    'grade'         => $arr[2],
-                    'tag_one'       => $region,
-                    'tag_two'       => $key,
-                    'agree_adminid' => $adminid,
-                    'agree_time'    => $time,
-                ]);
-            }
-        } else if ($arr[0] == 3){//标准试听课
-            $free = E\Eresource_free::$desc_map;
-            $diff = E\Eresource_diff_level::$desc_map;
-            foreach($free as $f=>$v){
-                foreach($diff as $d=>$val){
-                    $sub_grade_arr = $this->get_sub_grade_tag($arr[1],$arr[2]);
-                    foreach($sub_grade_arr as $sg => $value){
-                        $this->t_resource_agree_info->row_insert([
-                            'resource_type' => $arr[0],
-                            'subject'       => $arr[1],
-                            'grade'         => $arr[2],
-                            'tag_one'       => $region,
-                            'tag_two'       => $f,
-                            'tag_three'     => $d,
-                            'tag_four'      => $sg,
-                            'agree_adminid' => $adminid,
-                            'agree_time'    => $time,
-                        ]);
+        if($do_type === 'add'){//添加版本
+            if($arr[0] < 3) {//1v1
+                $season = E\Eresource_season::$desc_map;
+                foreach($season as $key=>$v) {
+                    $this->t_resource_agree_info->row_insert([
+                        'resource_type' => $arr[0],
+                        'subject'       => $arr[1],
+                        'grade'         => $arr[2],
+                        'tag_one'       => $region,
+                        'tag_two'       => $key,
+                        'agree_adminid' => $adminid,
+                        'agree_time'    => $time,
+                    ]);
+                }
+            } else if ($arr[0] == 3){//标准试听课
+                $free = E\Eresource_free::$desc_map;
+                $diff = E\Eresource_diff_level::$desc_map;
+                foreach($free as $f=>$v){
+                    foreach($diff as $d=>$val){
+                        $sub_grade_arr = $this->get_sub_grade_tag($arr[1],$arr[2]);
+                        foreach($sub_grade_arr as $sg => $value){
+                            $this->t_resource_agree_info->row_insert([
+                                'resource_type' => $arr[0],
+                                'subject'       => $arr[1],
+                                'grade'         => $arr[2],
+                                'tag_one'       => $region,
+                                'tag_two'       => $f,
+                                'tag_three'     => $d,
+                                'tag_four'      => $sg,
+                                'agree_adminid' => $adminid,
+                                'agree_time'    => $time,
+                            ]);
+                        }
                     }
                 }
-            }
-        } else if ($arr[0] == 4 || $arr[0] == 5){
-            $this->t_resource_agree_info->row_insert([
-                'resource_type' => $arr[0],
-                'subject'       => $arr[1],
-                'grade'         => $arr[2],
-                'tag_one'       => $region,
-                'agree_adminid' => $adminid,
-                'agree_time'    => $time,
-            ]);
-        } else if ($arr[0] == 9){
-            $train = E\Eresource_train::$desc_map;
-            foreach($train as $k=>$v){
+            } else if ($arr[0] == 4 || $arr[0] == 5){
                 $this->t_resource_agree_info->row_insert([
                     'resource_type' => $arr[0],
                     'subject'       => $arr[1],
                     'grade'         => $arr[2],
                     'tag_one'       => $region,
-                    'tag_two'       => $k,
                     'agree_adminid' => $adminid,
                     'agree_time'    => $time,
                 ]);
+            } else if ($arr[0] == 9){
+                $train = E\Eresource_train::$desc_map;
+                foreach($train as $k=>$v){
+                    $this->t_resource_agree_info->row_insert([
+                        'resource_type' => $arr[0],
+                        'subject'       => $arr[1],
+                        'grade'         => $arr[2],
+                        'tag_one'       => $region,
+                        'tag_two'       => $k,
+                        'agree_adminid' => $adminid,
+                        'agree_time'    => $time,
+                    ]);
+                }
+            }
+        } else if($do_type === 'use'){//启用
+            $this->t_resource_agree_info->update_ban($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,0);
+        } else if ($do_type === 'ban'){//禁用
+            $this->t_resource_agree_info->update_ban($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,1);
+        } else if ($do_type === 'del'){//删除版本
+            //先查询该版本下是否有上传的文件
+            $ret = $this->t_resource->is_has_file($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+            if($ret > 0){
+                return $this->output_err("该版本下有文件,无法删除!");
+            }
+            if(@$arr[0] > 0){
+                $ret = $this->t_resource_agree_info->del_agree($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+            } else {
+                return $this->output_err("信息有误,删除失败!");
             }
         }
+
         return $this->output_succ();
 
     }
@@ -503,11 +559,11 @@ class resource extends Controller
         $use_type     = $this->get_in_int_val('use_type');
         $resource_type = $this->get_in_int_val('resource_type');
         $subject       = $this->get_in_int_val('subject');
-        $grade         = $this->get_in_int_val('grade');
-        $tag_one       = $this->get_in_int_val('tag_one');
-        $tag_two       = $this->get_in_int_val('tag_two');
-        $tag_three     = $this->get_in_int_val('tag_three');
-        $tag_four      = $this->get_in_int_val('tag_four');
+        $grade         = $this->get_in_int_val('grade',0);
+        $tag_one       = $this->get_in_int_val('tag_one',0);
+        $tag_two       = $this->get_in_int_val('tag_two',0);
+        $tag_three     = $this->get_in_int_val('tag_three',0);
+        $tag_four      = $this->get_in_int_val('tag_four',0);
         $add_num       = $this->get_in_int_val('add_num');
 
         $adminid = $this->get_account_id();

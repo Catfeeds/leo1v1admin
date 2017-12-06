@@ -4595,7 +4595,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $arr=[
             ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"风格性格"],
             ["tag_l1_sort"=>"教师相关","tag_l2_sort"=>"专业能力"],
-            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂氛围"],
+            ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课堂气氛"],
             ["tag_l1_sort"=>"课堂相关","tag_l2_sort"=>"课件要求"],
             ["tag_l1_sort"=>"教学相关","tag_l2_sort"=>"素质培养"] ,
         ];

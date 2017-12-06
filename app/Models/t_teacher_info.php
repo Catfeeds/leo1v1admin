@@ -4712,7 +4712,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
-                                  ." t.limit_month_lesson_num,"
+                                  ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num,"
@@ -4746,6 +4746,38 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
 
         return $this->main_get_row($sql);
+    }
+
+    public function get_subject_grade_by_adminid($adminid){
+        $sql = $this->gen_sql_new("select t.subject,t.grade_start,t.grade_end "
+                                  ." from %s t"
+                                  ." left join %s m on m.phone=t.phone"
+                                  ." where m.uid = $adminid"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+    public function get_all_train_throuth_teacher_list($start_time,$end_time){
+        $where_arr   = [
+            "t.train_through_new=1",
+            "t.is_test_user=0",
+            "l.lesson_del_flag=0",
+            "l.lesson_type <1000"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select distinct t.teacherid,t.realname"
+                                  ." from %s t left join %s l on t.teacherid=l.teacherid "
+                                  ."where %s and l.lessonid>0",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 
 }

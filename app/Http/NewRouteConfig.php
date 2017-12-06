@@ -53,6 +53,7 @@ class NewRouteConfig {
         "rule_txt"=>true,
         "resource"=>true,
         'test_bacon'=>true,
+        'question'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -61,7 +62,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/resource/add_region_version"         => true,
+        "/resource/add_or_del_or_edit"         => true,
         "/resource/resource_count"             => true,
         "/tea_manage_new/approved_data"        => true,
         "/resource/update_stu_hash"            => true,
@@ -411,6 +412,21 @@ class NewRouteConfig {
         "/stu_manage/user_login_list"          => true,
         "/stu_manage/one_three_grade_student"  => true,
         "/stu_manage/score_list1"              => true,
+        
+        "/question/question_list"              => true,
+        "/question/knowledge_list"              => true,
+        "/question/question_know_list"              => true,
+        "/question/answer_list"              => true,
+        "/question/question_add"              => true,
+        "/question/question_edit"              => true,
+        "/question/knowledge_add"              => true,
+        "/question/knowledge_edit"              => true,
+        "/question/knowledge_dele"              => true,
+        "/question/answer_add"              => true,
+        "/question/answer_edit"              => true,
+        "/question/answer_dele"              => true,
+        "/question/question_know_get"        => true,
+        "/question/question_know_add"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,

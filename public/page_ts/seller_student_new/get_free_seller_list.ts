@@ -1002,7 +1002,7 @@ $(function(){
                         if(html_node.find("#area").val()==""){
                             area="";
                         }
-                        if(id_status.val() !=  '2'){//
+                        if(html_node.find("#id_stu_status").val() !=  2){//
                             if(html_node.find("#id_stu_editionid").val() == 0){
                                 html_node.find("#id_stu_editionid").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 alert("请把标红的补充完整");
@@ -1194,7 +1194,7 @@ $(function(){
                                 test_paper: html_node.find("#id_test_paper").val(),
                             });
                         }else{
-                            if(html_node.find("#id_stu_user_desc").val() == ''){
+                            if(html_node.find("#id_stu_user_desc").val() == ' '){
                                 alert("请填写备注");
                                 return;
                             }

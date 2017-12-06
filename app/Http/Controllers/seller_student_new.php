@@ -16,7 +16,9 @@ class seller_student_new extends Controller
     public function assign_member_list ( ) {
         $adminid=$this->get_account_id();
         $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
-        if (!$self_groupid) {
+        if($adminid == 287 || $adminid == 416 || $adminid == 1221 || $adminid == 1200 || $adminid == 944){
+
+        }else if(!$self_groupid ) {
             return $this->error_view(["你不是销售主管"]);
         }
 

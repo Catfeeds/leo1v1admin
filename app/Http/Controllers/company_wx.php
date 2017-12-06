@@ -8,22 +8,6 @@ use \App\Helper\Config as Config;
 use Illuminate\Support\Facades\Redis;
 class company_wx extends Controller
 {
-    public function test_redis() { // 测试redis
-        $redis = Redis::connection('cache_nick');
-        // for($i = 0; $i < 100; $i ++) {
-        //     $redis->lPush('flush_company_wx_data', date('Y-m-d H:i:s',time()).' 加载权限结束'.$i);
-        // }
-        // var_dump($redis -> lPush('favorite_fruit','cherry'));
-        // var_dump($redis -> lPush('favorite_fruit','banana'));
-        // $len = $redis -> lLen('flush_company_wx_data');
-        // $log = '';
-        // for ($i = 1; $i <= 10; $i ++) {
-        //     $log[] = $redis -> rPop('flush_company_wx_data');
-        // }
-        // dd($log);
-        // var_dump($redis -> lLen('flush_company_wx_data'));
-    }
-
     public function get_company_all_user() {
         $config = Config::get_config("company_wx");
         if (!$config) {
@@ -77,6 +61,7 @@ class company_wx extends Controller
             }
             echo '加载标签完成';
         }
+
 
         // 获取部门
         $url = $config['url'].'/cgi-bin/department/list?access_token='.$token;
@@ -197,21 +182,7 @@ class company_wx extends Controller
                 }
             }
         }
-        // $len = count($info);
-        // foreach($info as $key=>$item) {
-        //     foreach($tag as $val) {
-        //         if (in_array($item['id'], $val['department'])) {
-        //             $pid = $val['id'] + $len;
-        //             $info[$len]['id'] = $pid;
-        //             $info[$len]['pId'] = $item['pId'];
-        //             $info[$len]['name'] = $val['name'];
-        //             $info[$key]['pId'] = $pid;
-        //             $len++;
-        //         }
-        //     }
-        // }
 
-        //$role = $this->t_company_wx_role->get_all_for_auth(); // 获取当前权限组的所有成员
         foreach($users as $key => $item) {
             $power = '';
             if ($item['power']) $power = '('.$item['power'].')';
@@ -221,10 +192,6 @@ class company_wx extends Controller
             }
             $users[$key]['name'] = $name;
             
-            // if ( $item['id'] < 600) {
-            //     $users[$key]['checked'] = true;
-            //     $users[$key]['open'] = true;
-            // }
         }
 
         // if ($type == 1) { // 部门授权 
@@ -453,7 +420,7 @@ class company_wx extends Controller
         return $this->output_succ();
     }
 
-    public function flush_company_wx_data_log() {
+    public function flush_company_wx_data_log() { // 数据添加至redis 参看 app/Jobs/update_company_wx_data.php
         $redis = Redis::connection('cache_nick');
         $len = $redis -> lLen('flush_company_wx_data');
         $log = '';
@@ -476,7 +443,8 @@ class company_wx extends Controller
         // 后台管理用户
         $manager = $this->t_manager_info->get_all_list();
         $info = '';
-        foreach($users as $key => $item) {
+        foreach($users as $item) {
+            $key = $item['mobile'];
             if (!isset($manager[$key])) {
                 $info[$key]['name'] = $item['name'];
                 $info[$key]['phone'] = $item['mobile'];
