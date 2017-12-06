@@ -6,11 +6,14 @@ use \App\Models as M;
 use \App\Enums as E;
 
 class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
-    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ) {
+    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ,$lesson_type, $subject) {
         $where_arr=[
             ["record_audio_server1='%s'", $record_audio_server1, "" ],
             ["xmpp_server_name='%s'", $xmpp_server_name, "" ],
         ];
+        $this->where_arr_add_int_or_idlist($where_arr, "lesson_type", $lesson_type);
+        $this->where_arr_add_int_or_idlist($where_arr, "subject", $subject);
+
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new(
             "select lessonid, record_audio_server1, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
@@ -2341,6 +2344,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "t.teacher_money_type = 6",
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
@@ -2358,7 +2363,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_type in (0,1,3)",
             "l.teacherid=$teacherid",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_status=2"
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
 
