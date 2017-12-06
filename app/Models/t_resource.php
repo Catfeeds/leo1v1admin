@@ -64,4 +64,22 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
         return $this->main_get_list($sql);
     }
+
+    public function is_has_file($resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four){
+        $where_arr = [
+            ['resource_type=%u', $resource_type, -1],
+            ['subject=%u', $subject, -1],
+            ['grade=%u', $grade, ''],
+            ['tag_one=%u', $tag_one, ''],
+            ['tag_two=%u', $tag_two, ''],
+            ['tag_three=%u', $tag_three, ''],
+            ['tag_four=%u', $tag_four, ''],
+            'is_del<3',
+        ];
+        $sql = $this->gen_sql_new("select count(1) from %s where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
