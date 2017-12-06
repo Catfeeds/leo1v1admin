@@ -1194,11 +1194,12 @@ $(function(){
                                 test_paper: html_node.find("#id_test_paper").val(),
                             });
                         }else{
-                            alert(id_user_desc.val());
-                            if(id_user_desc.val() === ''){
+                            alert(4);
+                            if(html_node.find("#id_stu_user_desc").val() == ' '){
                                 alert("请填写备注");
                                 return;
                             }
+                            alert(5);
                             if(html_node.find("#id_stu_status").val() <= 0){
                                 alert("请选择回访状态");
                                 return;
