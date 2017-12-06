@@ -45,10 +45,26 @@ class update_company_wx_data extends Command
         $users = $task->t_company_wx_users->get_all_users();
         // 后台管理用户
         $manager = $task->t_manager_info->get_all_list();
-        foreach($users as $key => $item) {
-            if (!isset($manager[$key])) {
-                echo $item['name'].' '.$item['mobile'].','.PHP_EOL;
+        foreach($users as $item) {
+            if (!$item['mobile']) {
+                $phone = '';
+                foreach($manager as $val) {
+                    if ($val['name'] == $item['name']) {
+                        $phone = $val['phone'];
+                    }
+                }
+                echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
+                continue;
             }
+            if (!isset($manager[$item['mobile']])) {
+                $phone = '';
+                foreach($manager as $val) {
+                    if ($val['name'] == $item['name']) {
+                        $phone = $val['phone'];
+                    }
+                }
+                echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
+            } 
         }
         exit;
         //$type = $this->argument('type');
