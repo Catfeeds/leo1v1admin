@@ -1413,15 +1413,17 @@ class test_code extends Controller
      * 排课方法
      */
     public function check_test(){
-        $identity = $this->get_in_int_val("identity");
-        $grade   = E\Egrade::V_106;
-        $subject = E\Esubject::V_2;
+        $identity     = $this->get_in_int_val("identity");
+        $gender= $this->get_in_int_val("gender");
+        $age= $this->get_in_int_val("age");
+        $grade        = E\Egrade::V_106;
+        $subject      = E\Esubject::V_2;
         $lesson_start = strtotime("2017-11-20 18:00");
         $lesson_end   = strtotime("2017-11-20 18:40");
 
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $redis_key = 1001;
-        $ret_list = \App\Helper\Common::redis_get_json($redis_key);
+        $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
         if($ret_list === null){
             $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
@@ -1458,7 +1460,7 @@ class test_code extends Controller
                     $del_flag = true;
                 }
 
-                $tea_val['age_flag']    = $this->check_teacher_age($age);
+                $tea_val['age_flag']    = $this->check_teacher_age($tea_val['age']);
                 $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
                 $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
                 $tea_val['is_age']      = $age==$tea_val['age_flag']?1:0;
@@ -1466,7 +1468,11 @@ class test_code extends Controller
                 if($del_flag){
                     unset($tea_list[$tea_key]);
                 }else{
-                    $tea_val['match_num']    = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
+                    if(!empty($tea_val['free_time_new']) && is_array($tea_val['free_time_new'])){
+                        $tea_val['match_num'] = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
+                    }else{
+                        $tea_val['match_num'] = 0;
+                    }
                     $identity_list[$tea_key] = $tea_val['is_identity'];
                     $gender_list[$tea_key]   = $tea_val['is_gender'];
                     $age_list[$tea_key]      = $tea_val['is_age'];
