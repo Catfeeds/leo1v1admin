@@ -49,8 +49,8 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <button id="id_add" class="btn btn-primary"> 添加标签 </button>
                         <button id="id_search" class="btn btn-primary"> 查找 </button>
+                        <button id="id_add" class="btn btn-primary"> 添加标签 </button>
                     </div>
                 </div>
             </div>

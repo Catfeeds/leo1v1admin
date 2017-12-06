@@ -1410,7 +1410,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.confirm_flag in (0,1,3)",
             "l.lesson_type in (0,1,3)",
             "s.is_test_user=0",
-            // "l.lesson_user_online_status=1 ",
+            "l.lesson_user_online_status=1 ",
             "l.lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new(
@@ -2515,7 +2515,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     public function get_student_info_to_tea($lessonid){
-        $sql = $this->gen_sql_new("  select if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick as stu_nick, l.lesson_start, l.lesson_end, m.wx_openid  "
+        $sql = $this->gen_sql_new("  select if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick as stu_nick, l.lesson_start, l.lesson_end, m.phone  "
                                   ." from %s l "
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s t on t.teacherid=l.teacherid"
@@ -2535,6 +2535,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_row($sql);
     }
+
+    public function get_teacher_lesson_info($teacherid,$start_time,$end_time){
+        $where_arr=[
+            "t.is_test_user = 0",
+            "l.lesson_del_flag = 0",
+            ["l.teacherid=%d",$teacherid,-1]
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+       
+        $sql=$this->gen_sql_new("select  sum(if(l.confirm_flag < 2 and l.lesson_type in (0,1,3),1,0)) reg_num, sum(if(deduct_come_late=1 and l.lesson_type in (0,1,3),1,0)) late_num, sum(if(lesson_cancel_reason_type=21 and l.lesson_type in (0,1,3),1,0)) kk_num,sum(if(lesson_cancel_reason_type=2 and l.lesson_type in (0,1,3),1,0)) change_num,sum(if(lesson_cancel_reason_type=12 and l.lesson_type in (0,1,3),1,0)) leave_num,  sum(if(l.lesson_type=2 and tss.success_flag<2,1,0)) test_num,sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=109,1,0)) test_kk_num, sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=113,1,0)) test_person_num,sum(if(deduct_come_late=1 and l.lesson_type =2,1,0)) test_late_num,  l.teacherid "
+                                ." from %s l "
+                                ." left join %s t on t.teacherid = l.teacherid"
+                                ." left join %s tss on tss.lessonid = l.lessonid"
+                                ." where  %s group by l.teacherid "
+                                ,self::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+
+    }
+
 }
 
 

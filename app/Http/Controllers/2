@@ -942,6 +942,7 @@ class ss_deal2 extends Controller
         if ($phone == "") {
             $phone=$this->t_seller_student_new->get_phone($userid);
         }
+
         $grade         = $this->get_in_grade();
         $gender        = $this->get_in_int_val("gender");
         $address       = $this->get_in_str_val("address");
@@ -949,6 +950,8 @@ class ss_deal2 extends Controller
         $par_nick      = $this->get_in_str_val("par_nick");
         $editionid     = $this->get_in_int_val("editionid");
         $school        = $this->get_in_str_val("school");
+
+
         $has_pad       = $this->get_in_int_val("has_pad");
         $intention_level       = $this->get_in_int_val("intention_level");//上课意向
         $user_desc     = $this->get_in_str_val("user_desc");
@@ -957,6 +960,8 @@ class ss_deal2 extends Controller
         // $stu_score_info        = $this->get_in_str_val("stu_score_info");
         // $stu_character_info    = $this->get_in_str_val("stu_character_info");
         $seller_student_sub_status= $this->get_in_int_val("seller_student_sub_status");
+
+
         $subject       = $this->get_in_subject();
         $seller_student_status = $this->get_in_int_val("seller_student_status");
         $stu_request_test_lesson_time = $this->get_in_str_val("stu_request_test_lesson_time");
@@ -964,7 +969,10 @@ class ss_deal2 extends Controller
         // $stu_request_lesson_time_info      = $this->get_in_str_val("stu_request_lesson_time_info");
         $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
         // $stu_test_lesson_level = $this->get_in_str_val("stu_test_lesson_level");
+
+
         // $revisite_info = trim($this->get_in_str_val("revisite_info"));
+
         //新增字段
         $class_rank     = $this->get_in_str_val("class_rank");//班级排名
         $grade_rank     = $this->get_in_str_val("grade_rank");//年级排名

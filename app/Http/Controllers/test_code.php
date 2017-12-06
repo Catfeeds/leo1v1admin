@@ -1415,14 +1415,24 @@ class test_code extends Controller
         $lesson_start = strtotime("2017-11-20 18:00");
         $lesson_end   = strtotime("2017-11-20 18:40");
 
-        $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($subject,$grade,$lesson_start);
-        foreach($tea_list as $tea_key => $tea_val){
-            $grade_start = "";
-            $grade_end   = "";
+        $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
+
+        $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
+        foreach($tea_list as $tea_key => &$tea_val){
+            $grade_start = 0;
+            $grade_end   = 0;
             $del_flag    = false;
+            $limit_day   = $tea_val['limit_day_lesson_num'];
+            $day_num     = $tea_val['day_num'];
+            $limit_week  = $tea_val['limit_week_lesson_num']<$tea_val['limit_plan_lesson_type']?$tea_val['limit_week_lesson_num']:$tea_val['limit_plan_lesson_type'];
+            $week_num    = $tea_val['week_num'];
+            $limit_month = $tea_val['limit_month_lesson_num'];
+            $month_num   = $tea_val['month_num'];
+            $has_num     = $tea_val['has_num'];
+
             if($tea_val['subject']==$subject){
                 $grade_start = $tea_val['grade_start'];
-                $grade_end   = $tea_val['grade_start'];
+                $grade_end   = $tea_val['grade_end'];
             }elseif($tea_val['second_subject']==$subject){
                 $grade_start = $tea_val['second_grade_start'];
                 $grade_end   = $tea_val['second_grade_end'];
@@ -1430,13 +1440,45 @@ class test_code extends Controller
                 $del_flag = true;
             }
 
+            if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0 || $day_num>=$limit_day
+               || $week_num >=$limit_week || $month_num>=$limit_month
+            ){
+                $del_flag = true;
+            }
+
+            if($del_flag){
+                unset($tea_list[$tea_key]);
+            }else{
+                $tea_val['match_num'] = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
+            }
         }
 
         return $this->output_succ($tea_list);
     }
 
-    public function get_lesson_count(){
-        // $list = $this->t_order_lesson_list->
+    public function check_teacher_free_time($free_time,$check_time,$check_time_end){
+        $free_time_arr  = json_decode($free_time);
+        $match_num = 0;
+        $break_flag = false;
+        foreach($free_time_arr as $val){
+            $start_time = strtotime($val[0]);
+            $date       = date("Y-m-d",$start_time);
+            $end_time   = strtotime($date." ".$val[1]);
+            if($check_time>$start_time && $check_time<$end_time){
+                $match_num = 50;
+            }
+            if($check_time_end<$end_time && $check_time_end>$start_time){
+                $match_num = $match_num==0?50:100;
+                $break_flag = true;
+            }
+            if($check_time_end<$start_time){
+                $break_flag = true;
+            }
+            if($break_flag){
+                break;
+            }
+        }
+        return $match_num;
     }
 
 }

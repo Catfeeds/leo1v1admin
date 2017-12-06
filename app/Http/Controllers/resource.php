@@ -33,7 +33,7 @@ class resource extends Controller
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            6 => ['tag_one' => ['name' => '年份','menu' => 'resorece_year','hide' => ''],
+            6 => ['tag_one' => ['name' => '年份','menu' => 'resource_year','hide' => ''],
                   'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
                   'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
@@ -133,18 +133,22 @@ class resource extends Controller
         $final_list = [];
         foreach($list as $s=>$item){
             //subject
-            foreach($item as $a=>$val){
+            //标记,这科目的第一个
+            $flag = 1;
+           foreach($item as $a=>$val){
                 //adminid
                 //标记,这个人的第一个
                 $mark = 1;
                 foreach($val as $r=>$v){
                     //resource_type
+                    $subject = ($flag == 1) ? E\Esubject::get_desc($s): '';
+                    $nick = ($mark == 1) ? $this->cache_get_account_nick($a): '';
                     $final_list[] = [
                         'mark'              => $mark,
                         'subject'           => $s,
-                        'subject_str'       => E\Esubject::get_desc($s),
+                        'subject_str'       => $subject,
                         'adminid'           => $a,
-                        'nick'              => $this->cache_get_account_nick($a),
+                        'nick'              => $nick,
                         'resource_type'     => $r,
                         'resource_type_str' => E\Eresource_type::get_desc($r),
                         'file_num'          => $v['file_num'],
@@ -159,83 +163,340 @@ class resource extends Controller
                         'use_rate'          => round( $v['use']/$v['file_num'], 2),
                         'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
                     ];
+                    $flag++;
                     $mark++;
                 }
             }
         }
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list),['info' => $ret_info]);
+        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list));
     }
 
     public function resource_frame(){
-        //*******************************待开发**********************************//
-        //资源类型数组
-        $resource_type_arr = E\Eresource_type::$desc_map;
-        //科目数组
-        $subject_arr = E\Esubject::$desc_map;
-        //年级数组
-        $grade_arr = E\Egrade::$desc_map;
+        $ret_info = $this->t_resource_agree_info->get_agree_resource();
 
-        //一级标签
-        //教材版本数组
-        $region_arr = E\Eregion_version::$desc_map;
-        //年份数组
-        $year_arr = E\Eresource_year::$desc_map;
-        //一级知识点数组
-        // $resource_type_arr = E\Eresource_type::$desc_map;
+        $list = [];
+        // dd($ret_info);
 
-        //二级标签
-        //四季
-        $season_arr = E\Eresource_season::$desc_map;
-        //试听类型
-        $free_arr = E\Eresource_free::$desc_map;
-        //省份
-        $resource_type_arr = E\Eresource_type::$desc_map;
-        //二级知识点
-        // $resource_type_arr = E\Eresource_type::$desc_map;
-        //培训资料数组
-        $train_arr = E\Eresource_train::$desc_map;
+        $r_mark = 0;
+        $s_mark = 0;
+        $g_mark = 0;
+        $one_mark = 0;
+        $two_mark = 0;
+        $three_mark = 0;
+        $four_mark = 0;
+        foreach($ret_info as $item){
+            $tag_arr = $this->tag_arr[ $item['resource_type'] ];
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
 
-        //三级标签
-        //城市
-        // $resource_type_arr = E\Eresource_type::$desc_map;
-        //三级知识点
-        // $resource_type_arr = E\Eresource_type::$desc_map;
-        //难度类型
-        $diff_arr = E\Eresource_diff_level::$desc_map;
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                // $tag_arr['tag_four']['menu'] => 'tag_four',
+            ]);
 
-        //四级标签
-        //学科化标签--------待开发
-        $diff_arr = E\Eresource_diff_level::$desc_map;
+            //添加一组数据 资源类型
+            $g = '';
+            if( $r_mark != $item['resource_type'] ) {
+                $r_mark = $item['resource_type'];
+                $g = ($r_mark == 7)?'年级段':'年级';
+                $list[] = [
+                    'key1_class'        => 'key1-'.$r_mark,
+                    'level'             => 'l-1',
+                    'resource_type_str' => $item['resource_type_str'],
+                    'resource_type'     => $item['resource_type'],
+                    'subject_str'       => '科目',
+                    'grade_str'         => $g,
+                    'tag_one_str'       => $item['tag_one_name'],
+                    'tag_two_str'       => $item['tag_two_name'],
+                    'tag_three_str'     => $item['tag_three_name'],
+                    'tag_four_str'      => $item['tag_four_name'],
+                ];
+                $s_mark = 0;
+                $g_mark = 0;
+                $one_mark = 0;
+                $two_mark = 0;
+                $three_mark = 0;
+                $four_mark = 0;
 
-        //将四级标签压入三级标签数组 ----待开发
+            }
 
-        //将三级标签压入二级标签数组 ----待开发
-        \App\Helper\Utils::push_arr_to_arr($free_arr, $diff_arr, 'resource_diff_level');
+            //添加一组数据 科目
+            if( $s_mark != $item['subject'] ) {
+                $s_mark = $item['subject'];
+                $list[] = [
+                    'key1_class'        => 'key1-'.$r_mark,
+                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
+                    'level'             => 'l-2',
+                    'resource_type_str' => $item['resource_type_str'],
+                    'resource_type'     => $item['resource_type'],
+                    'subject_str'       => $item['subject_str'],
+                    // 'grade_str'         => $g,
+                    // 'tag_one_str'       => $item['tag_one_name'],
+                    // 'tag_two_str'       => $item['tag_two_name'],
+                    // 'tag_three_str'     => $item['tag_three_name'],
+                    // 'tag_four_str'      => $item['tag_four_name'],
+                ];
+                $g_mark = 0;
+                $one_mark = 0;
+                $two_mark = 0;
+                $three_mark = 0;
+                $four_mark = 0;
+            }
 
-        //将二级标签压入一级标签数组 ----待开发
-        $region_1 = \App\Helper\Utils::push_arr_to_arr_new($region_arr, $season_arr , 'resource_season');
-        $region_3 = \App\Helper\Utils::push_arr_to_arr_new($region_arr, $free_arr ,'resource_free');
-        $region_9 = \App\Helper\Utils::push_arr_to_arr_new($region_arr, $train_arr ,'resource_traion');
+            //添加一组数据 年级
+            if( $g_mark != $item['grade'] ) {
+                $g_mark = $item['grade'];
+                if($item['resource_type'] < 6 || $item['resource_type'] == 9){
+                    $text = '添加';
+                } else {
+                    $text = '';
+                }
+                $list[] = [
+                    'key1_class'        => 'key1-'.$r_mark,
+                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
+                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
+                    'level'             => 'l-3',
+                    'resource_type_str' => $item['resource_type_str'],
+                    'resource_type'     => $item['resource_type'],
+                    'subject_str'       => $item['subject_str'],
+                    'grade_str'         => $item['grade_str'],
+                    'tag_one_str'       => $text,
+                    // 'tag_two_str'       => $item['tag_two_name'],
+                    // 'tag_three_str'     => $item['tag_three_name'],
+                    // 'tag_four_str'      => $item['tag_four_name'],
+                ];
+                $one_mark = 0;
+                $two_mark = 0;
+                $three_mark = 0;
+                $four_mark = 0;
+            }
 
-        //将一级标签压入年级标签 ----待开发
-        $grade_1 = \App\Helper\Utils::push_arr_to_arr_new($grade_arr, $region_1 , 'region_version');
-        $grade_3 = \App\Helper\Utils::push_arr_to_arr_new($grade_arr, $region_3 , 'region_version');
-        $grade_9 = \App\Helper\Utils::push_arr_to_arr_new($grade_arr, $region_9 , 'region_version');
+            //添加一组数据 一级标签
+            if( $one_mark != $item['tag_one'] ) {
+                $one_mark = $item['tag_one'];
+                $list[] = [
+                    'key1_class'        => 'key1-'.$r_mark,
+                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
+                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
+                    'key4_class'        => 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark,
+                    'level'             => 'l-4',
+                    'resource_type_str' => $item['resource_type_str'],
+                    'resource_type'     => $item['resource_type'],
+                    'subject_str'       => $item['subject_str'],
+                    'grade_str'         => $item['grade_str'],
+                    'tag_one_str'       => $item['tag_one_str'],
+                    // 'tag_two_str'       => $item['tag_two_name'],
+                    // 'tag_three_str'     => $item['tag_three_name'],
+                    // 'tag_four_str'      => $item['tag_four_name'],
+                ];
+                $two_mark = 0;
+                $three_mark = 0;
+                $four_mark = 0;
+            }
 
-        //将年级压入学科 ----待开发
-        $subject_1 = \App\Helper\Utils::push_arr_to_arr_new($subject_arr, $grade_1 , 'region_version');
-        $subject_3 = \App\Helper\Utils::push_arr_to_arr_new($subject_arr, $grade_3 , 'region_version');
-        $subject_9 = \App\Helper\Utils::push_arr_to_arr_new($subject_arr, $grade_9 , 'region_version');
-        foreach($resource_type_arr as $k => &$v){
-            $arr = [];
-            $key = 'subject_'.$k;
-            $arr['name'] = $v;
-            $arr['subject'] = @$$key;
-            $v = $arr;
+            //添加一组数据 二级标签
+            if( $two_mark != $item['tag_two'] ) {
+                $two_mark = $item['tag_two'];
+                $list[] = [
+                    'key1_class'        => 'key1-'.$r_mark,
+                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
+                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
+                    'key4_class'        => 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark,
+                    'key5_class'        => 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark,
+                    'level'              => 'l-5',
+                    'resource_type_str' => $item['resource_type_str'],
+                    'resource_type'     => $item['resource_type'],
+                    'subject_str'       => $item['subject_str'],
+                    'grade_str'         => $item['grade_str'],
+                    'tag_one_str'       => $item['tag_one_str'],
+                    'tag_two_str'       => $item['tag_two_str'],
+                    // 'tag_three_str'     => $item['tag_three_name'],
+                    // 'tag_four_str'      => $item['tag_four_name'],
+                ];
+                $three_mark = 0;
+                $four_mark = 0;
+            }
+
+            //添加一组数据 三级标签
+            if( $three_mark != $item['tag_three'] ) {
+                $three_mark = $item['tag_three'];
+                $list[] = [
+                    'key1_class'        => 'key1-'.$r_mark,
+                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
+                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
+                    'key4_class'        => 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark,
+                    'key5_class'        => 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark,
+                    'key6_class'        => 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark,
+                    'level'             => 'l-6',
+                    'resource_type_str' => $item['resource_type_str'],
+                    'resource_type'     => $item['resource_type'],
+                    'subject_str'       => $item['subject_str'],
+                    'grade_str'         => $item['grade_str'],
+                    'tag_one_str'       => $item['tag_one_str'],
+                    'tag_two_str'       => $item['tag_two_str'],
+                    'tag_three_str'     => $item['tag_three_str'],
+                    'tag_four_str'      => $item['tag_four_name'],
+                ];
+                $four_mark = 0;
+            }
+
+            //添加一组数据 四级标签
+
+            $item['level'] = 'l-7';
+            $item['key1_class'] = 'key1-'.$r_mark;
+            $item['key2_class'] = 'key2-'.$r_mark.'-'.$s_mark;
+            $item['key3_class'] = 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark;
+            $item['key4_class'] = 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark;
+            $item['key5_class'] = 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark;
+            $item['key6_class'] = 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark;
+            $item['key7_class'] = 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark.'-'.$four_mark;
+ 
+
+            if($item['resource_type'] == 3){
+                $sub_grade = $this->get_sub_grade_tag($item['subject'], $item['grade']);
+                $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+
+            }
+            $list[] = $item;
         }
 
-        dd($resource_type_arr);
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($info));
+        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
+    }
+
+    public function add_region_version(){
+        $info_str = $this->get_in_str_val('info_str','');
+        $region   = $this->get_in_int_val('region','');
+        $arr      = explode('-', substr($info_str,5));
+        $adminid  = $this->get_account_id();
+        $time     = time();
+        if($arr[0] < 3) {//1v1
+            $season = E\Eresource_season::$desc_map;
+            foreach($season as $key=>$v) {
+                $this->t_resource_agree_info->row_insert([
+                    'resource_type' => $arr[0],
+                    'subject'       => $arr[1],
+                    'grade'         => $arr[2],
+                    'tag_one'       => $region,
+                    'tag_two'       => $key,
+                    'agree_adminid' => $adminid,
+                    'agree_time'    => $time,
+                ]);
+            }
+        } else if ($arr[0] == 3){//标准试听课
+            $free = E\Eresource_free::$desc_map;
+            $diff = E\Eresource_diff_level::$desc_map;
+            foreach($free as $f=>$v){
+                foreach($diff as $d=>$val){
+                    $sub_grade_arr = $this->get_sub_grade_tag($arr[1],$arr[2]);
+                    foreach($sub_grade_arr as $sg => $value){
+                        $this->t_resource_agree_info->row_insert([
+                            'resource_type' => $arr[0],
+                            'subject'       => $arr[1],
+                            'grade'         => $arr[2],
+                            'tag_one'       => $region,
+                            'tag_two'       => $f,
+                            'tag_three'     => $d,
+                            'tag_four'      => $sg,
+                            'agree_adminid' => $adminid,
+                            'agree_time'    => $time,
+                        ]);
+                    }
+                }
+            }
+        } else if ($arr[0] == 4 || $arr[0] == 5){
+            $this->t_resource_agree_info->row_insert([
+                'resource_type' => $arr[0],
+                'subject'       => $arr[1],
+                'grade'         => $arr[2],
+                'tag_one'       => $region,
+                'agree_adminid' => $adminid,
+                'agree_time'    => $time,
+            ]);
+        } else if ($arr[0] == 9){
+            $train = E\Eresource_train::$desc_map;
+            foreach($train as $k=>$v){
+                $this->t_resource_agree_info->row_insert([
+                    'resource_type' => $arr[0],
+                    'subject'       => $arr[1],
+                    'grade'         => $arr[2],
+                    'tag_one'       => $region,
+                    'tag_two'       => $k,
+                    'agree_adminid' => $adminid,
+                    'agree_time'    => $time,
+                ]);
+            }
+        }
+        return $this->output_succ();
+
+    }
+
+    //学科化标签
+    public function get_sub_grade_tag($subject,$grade){
+        $arr = [
+            1 => [
+                101 =>['拼音基础','看图写话','阅读练习'],
+                102 =>['拼音基础','看图写话','阅读练习'],
+                103 =>['基础知识','阅读练习','作文提升'],
+                104 =>['基础知识','阅读练习','作文提升'],
+                105 =>['阅读练习','作文提升','文言文'],
+                106 =>['阅读练习','作文提升','文言文'],
+                201 =>['阅读练习','作文提升','文言文'],
+                202 =>['阅读练习','作文提升','文言文'],
+                203 =>['阅读练习','作文提升','文言文'],
+                301 =>['现代文阅读练习','文言文阅读练习','写作技巧提升训练'],
+                302 =>['现代文阅读练习','文言文阅读练习','写作技巧提升训练'],
+                303 =>['现代文阅读练习','文言文阅读练习','写作技巧提升训练'],
+            ],
+            2 => [
+                101 => ['分与合','100以内加减法的应用','几个与第几个'],
+                102 => ['乘除法','乘除法的应用','有余数的除法'],
+                103 => ['乘乘除除','解决问题','长方形正方形面积'],
+                104 => ['单位的认识','巧算','文字题'],
+                105 => ['小数的四则混合运算','平均数','列方程解决问题'],
+                106 => ['数的整除','分解素因数','比和比例'],
+                201 => ['因式分解','全等三角形','实数'],
+                202 => ['平行四边形','直角三角形的性质','代数方程'],
+                203 => ['相似三角形','二次函数','垂径定理'],
+                301 => ['函数','不等式','集合'],
+                302 => ['解析几何','三角函数','数列'],
+                303 => ['立体几何','排列组合','复数'],
+            ],
+            3 => [
+                101 => ['字母','自然拼读','词汇'],
+                102 => ['音标','词汇','口语'],
+                103 => ['听力','词汇','语法'],
+                104 => ['听力','词汇','语法'],
+                105 => ['词汇','语法','阅读'],
+                106 => ['词汇','语法','阅读'],
+                201 => ['听力','语法','阅读'],
+                202 => ['语法','阅读','写作'],
+                203 => ['语法','阅读','写作'],
+                301 => ['听力','语法','词汇'],
+                302 => ['语法','阅读','写作'],
+                303 => ['语法','阅读','写作'],
+            ],
+            4 => [
+                203 => ['气体的制取和性质','碳及碳的化合物','溶液及溶液的计算'],
+                301 => ['化学中能量变化','电解质','氮、磷、硫非金属元素'],
+                302 => ['元素周期律','铁、铝及其化合物','有机物及其性质'],
+                303 => ['结构化学(化学键、原子、晶体结构)','化学反应原理(平衡与速率)','离子反应及氧化还原反应'],
+            ],
+            5 => [
+                202 => ['压力、压强','浮力','力学','机械', '热学'],
+                203 => ['压力、压强','浮力','电学','机械', '热学'],
+                301 => ['压力、压强','浮力','力学','机械', '热学'],
+                302 => ['压力、压强','浮力','电学','机械', '热学'],
+                303 => ['压力、压强','浮力','力学','机械', '热学'],
+            ],
+        ];
+        return @$arr[$subject][$grade];
     }
 
     public function add_resource() {
