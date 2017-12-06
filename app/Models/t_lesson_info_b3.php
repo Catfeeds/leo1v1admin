@@ -2371,7 +2371,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
-        $sql = $this->gen_sql_new("  select sum(l.lesson_count)/100 "
+        $sql = $this->gen_sql_new("  select sum(l.lesson_count)/100 from %s l"
                                   ." left join %s t on t.teacherid=l.teacherid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
