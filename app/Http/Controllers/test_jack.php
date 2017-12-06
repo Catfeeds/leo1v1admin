@@ -857,7 +857,7 @@ class test_jack  extends Controller
                // return $this->output_succ();
 
         // $this->t_student_info->reset_lesson_count(440915);
-        dd(111);
+        dd(1111);
         $aa = E\Eorder_channel::s2v("alipay_pc_direct");
         $channel_name = E\Eorder_channel::get_desc($aa);
         dd($channel_name);
@@ -1093,6 +1093,9 @@ class test_jack  extends Controller
     }
 
 
+    public function test_ws() {
+        return $this->pageView(__METHOD__);
+    }
 
 
 
