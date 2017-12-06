@@ -318,6 +318,7 @@ class url_power_map {
 			'/user_manage_new/product_info'	=>1093500,
 			'/aliyun_oss/upload_list'	=>1093600,
 			'/tea_manage_new/approved_data'	=>1093700,
+			'/product_tag/tag_list'	=>1094700,
 			'/tongji_ex/top_list'	=>1101000,
 			'/human_resource/get_input_score_list'	=>1101300,
 			'/human_resource/get_lesson_modify_list'	=>1101400,

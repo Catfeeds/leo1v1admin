@@ -83,4 +83,9 @@ class product_tag extends Controller
         return $this->output_succ();
     }
 
+    public function get_all_tag(){
+        $ret = $this->t_tag_library->get_all_tag_list();
+        return $this->output_succ(["data" => $ret]);
+    }
+
 }
