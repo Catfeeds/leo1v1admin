@@ -100,7 +100,7 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">未接通次数</span>
-                    <input class="opt-change form-control" id="id_no_called_count_new" placeholder="数字-数字"/>
+                    <input class="opt-change form-control" id="id_cc_no_called_count_new" placeholder="数字-数字"/>
                 </div>
             </div>
             <button class="btn btn-primary" id="id_left_count"  title="可领个数" > {{$left_count}}
