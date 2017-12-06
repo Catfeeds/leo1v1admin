@@ -85,7 +85,6 @@ class grab_lesson extends Controller
             if($check_flag){
                 return $check_flag;
             }
-                
             $this->t_grab_lesson_link_info->row_insert([
                 'grab_lesson_link' => 0,
                 'live_time'        => 0,

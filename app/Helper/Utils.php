@@ -1413,7 +1413,7 @@ class Utils  {
         }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
             $money=75;
         }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
-            // $money=
+
         }
         return $money;
     }
@@ -2285,6 +2285,25 @@ class Utils  {
             $v = $arr;
         }
         return $arr1;
+    }
+
+    //grade_start,grade_end转为年级
+    static public function grade_start_end_tran_grade($grade_start, $grade_end){
+        $grade = [
+            0 => [],
+            1 => [1=>101, 2=>102, 3=>103],
+            2 => [4=>104, 5=>105, 6=>106],
+            3 => [7=>201, 8=>202],
+            4 => [9=>203],
+            5 => [10=>301, 11=>302],
+            6 => [12=>303],
+        ];
+        $arr = [];
+        for ($a = $grade_start; $a <= $grade_end; $a++){
+            $arr = $arr+$grade[$a];
+        }
+        // E\Egrade_range::
+        return $arr;
     }
 
 

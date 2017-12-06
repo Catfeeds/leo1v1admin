@@ -19,9 +19,8 @@ $(function(){
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true);
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7,9]);
-    Enum_map.append_option_list("subject", $("#id_subject"));
-    Enum_map.append_option_list("grade", $("#id_grade"));
-    console.log(tag_one);
+    Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
+    Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
 
     if(tag_one != ''){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"));
@@ -93,8 +92,8 @@ $(function(){
 
         Enum_map.append_option_list("use_type",id_use_type,true);
         Enum_map.append_option_list("resource_type",id_resource_type,true,[1,2,3,4,5,6,7,9]);
-        Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_option_list("grade",id_grade,true);
+        Enum_map.append_option_list("subject",id_subject,true,my_subject);
+        Enum_map.append_option_list("grade",id_grade,true,my_grade);
         Enum_map.append_option_list("region_version",id_tag_one,true);
         // Enum_map.append_option_list("resource_type2",id_tag_two,true);
         Enum_map.append_option_list("resource_season",id_tag_three,true);
@@ -193,7 +192,7 @@ $(function(){
     var change_tag = function(val){
         $('#id_stu_file').parent().parent().hide();
         if(val < 3){//1v1
-            Enum_map.append_option_list("grade",$('.grade'),true);
+            Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("region_version",$('.tag_one'),true);
             Enum_map.append_option_list("resource_type2",$('.tag_two'),true);
             Enum_map.append_option_list("resource_season",$('.tag_three'),true);
@@ -201,20 +200,20 @@ $(function(){
             $('.tag_two').parent().prev().text('资料类型：');
             $('.tag_three').parent().prev().text('春署秋寒：');
         } else if(val == 3){
-            Enum_map.append_option_list("grade",$('.grade'),true);
+            Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_free",$('.tag_one'),true);
             Enum_map.append_option_list("resource_diff_level",$('.tag_two'),true);
             $('.tag_one').parent().prev().text('试听类型：');
             $('.tag_two').parent().prev().text('难度类型：');
             $('.tag_three').parent().parent().hide();
         } else if (val == 4 || val == 5) {
-            Enum_map.append_option_list("grade",$('.grade'),true);
+            Enum_map.append_option_list("grade",$('.grade'),true, my_grade);
             Enum_map.append_option_list("region_version",$('.tag_one'),true);
             $('.tag_one').parent().prev().text('教材版本：');
             $('.tag_two').parent().parent().hide();
             $('.tag_three').parent().parent().hide();
         } else if (val == 6 ){
-            Enum_map.append_option_list("grade",$('.grade'),true);
+            Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_year",$('.tag_one'),true);
             Enum_map.append_option_list("resource_type2",$('.tag_two'),true);
             Enum_map.append_option_list("resource_season",$('.tag_three'),true);
@@ -239,7 +238,7 @@ $(function(){
             $('.tag_two').parent().prev().text('省份：');
             $('.tag_three').parent().prev().text('城市：');
         } else if (val == 9){
-            Enum_map.append_option_list("grade",$('.grade'),true);
+            Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("region_version",$('.tag_one'),true);
             Enum_map.append_option_list("resource_train",$('.tag_two'),true);
             $('.tag_one').parent().prev().text('教材版本：');
@@ -510,7 +509,7 @@ $(function(){
             }
         } );
 
-    }};
+    },onshow:function(){}};
     $('.right-menu').contextify(options);
 
     $('body').click(function(){

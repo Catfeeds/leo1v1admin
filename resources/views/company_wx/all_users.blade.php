@@ -31,8 +31,8 @@
                 <td class="leader_power">{{$var['leader_power']}}</td>
                 <td class="no_leader_power">{{$var['no_leader_power']}}</td>
                 <td>
-                    <a class="fa fa-edit opt-leader" title="添加领导权限"></a>
-                    <a class="fa fa-edit opt-not-leader" title="添加非领导权限"></a>
+                    <a class="fa opt-leader" title="添加领导权限">添加领导权限</a>
+                    <a class="fa opt-not-leader" title="添加非领导权限">添加非领导权限</a>
                 </td>
             </tr>
             @endforeach
