@@ -265,24 +265,23 @@
             <div class="row"
             >
                 <div class="col-xs-3 col-md-1"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
-                 style="display:none;"
-                 @endif
-
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
+                     style="display:none;"
+                     @endif
                 >
                         <button class="btn btn-primary" id="id_set_select_list">批量分配</button>
                 </div>
 
                 <div class="col-xs-3 col-md-1"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
-                 style="display:none;"
-                 @endif
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
+                     style="display:none;"
+                    @endif
 
                 >
                     <button class="btn btn-primary" id="id_set_origin_list">设置渠道</button>
                 </div>
                 <div class="col-xs-3 col-md-1"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -290,7 +289,7 @@
                     <button class="btn btn-info" id="id_set_level_b">设置可抢</button>
                 </div>
                 <div class="col-xs-3 col-md-1"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -299,7 +298,7 @@
                 </div>
 
                 <div class="col-xs-3 col-md-1"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -308,7 +307,7 @@
                 </div>
 
                 <div class="col-md-1 remove-for-xs col-xs-6 ""
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -318,7 +317,7 @@
                     </div>
                 </div>
                 <div class="col-xs-3 col-md-2"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -331,7 +330,7 @@
                 </div>
 
                 <div class="col-xs-3 col-md-2"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -340,7 +339,7 @@
                 </div>
 
                 <div class="col-xs-3 col-md-2"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
@@ -349,7 +348,7 @@
                 </div>
 
                 <div class="col-xs-3 col-md-1"
-@if(in_array($account,['龚昊天','潘腾野','孙佳旭','孙海俊']))
+                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
                  style="display:none;"
                  @endif
 
