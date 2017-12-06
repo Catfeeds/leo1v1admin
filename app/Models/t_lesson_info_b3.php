@@ -2566,6 +2566,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr=[
             "t.is_test_user = 0",
             "l.lesson_del_flag = 0",
+            "l.lesson_type<1000",
             ["l.teacherid=%d",$teacherid,-1]
         ];
 
