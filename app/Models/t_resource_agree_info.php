@@ -53,6 +53,14 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         return $this->main_update($sql);
     }
 
+    public function get_all_resource_type(){
+        $sql = $this->gen_sql_new("select distinct tag_one from %s where resource_type in (1,2,3,4,5,9)"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }
 
 
