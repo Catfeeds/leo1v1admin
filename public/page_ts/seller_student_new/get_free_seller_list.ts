@@ -1194,8 +1194,8 @@ $(function(){
                                 test_paper: html_node.find("#id_test_paper").val(),
                             });
                         }else{
-                            alert(html_node.find("#id_stu_user_desc").val());
-                            if(html_node.find("#id_stu_user_desc").val() === ''){
+                            alert(id_user_desc.val());
+                            if(id_user_desc.val() === ''){
                                 alert("请填写备注");
                                 return;
                             }
