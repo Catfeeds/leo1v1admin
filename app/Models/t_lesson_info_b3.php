@@ -2341,6 +2341,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
