@@ -3172,9 +3172,29 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'add_time', $begin_time, $end_time);
         $sql =$this->gen_sql_new(
-            'select userid,phone,seller_resource_type from %s '.
-            'where %s',
+            "select origin as channel_name,count(*) as total_case,".
+            "count(distinct(phone)) as heavy_case,sum(global_tq_called_flag <>0) phoned_num,".
+            "sum(global_tq_called_flag=0 and seller_student_status =0  ) no_get_through_invalid_num,".
+            "sum(n.admin_revisiterid >0) distribution_num,sum( t.seller_student_status = 1) invalid_count,".
+            "sum(t.seller_student_status =2) no_get_through_num,".
+            "sum(t.seller_student_status =100 and  global_tq_called_flag =2 ) A_intention,".
+            "sum(t.seller_student_status =101 and  global_tq_called_flag =2) B_intention,".
+            "sum(t.seller_student_status =102 and  global_tq_called_flag =2) C_intention,".
+            "sum( tmk_student_status=3 ) tmk_effect_num,".
+            "sum(global_tq_called_flag=2 ) called_num,".
+            "sum(global_tq_called_flag=0 ) no_call_num,".
+            "sum( global_tq_called_flag =1 ) no_get_through_num, ".
+            "sum( global_tq_called_flag =1 and  n.sys_invaild_flag =1 ) no_get_through_invalid_num, ".
+            "sum( global_tq_called_flag =2 and  n.sys_invaild_flag =1 ) called_invalid_num,".
+            "avg(if(add_time<first_call_time ,first_call_time-add_time,null)) first_phone_average, ".
+            "sum( global_tq_called_flag =2 and  n.sys_invaild_flag=0  ) called_effect_num".
+            " from %s n ".
+            " left join %s s on s.userid = n.userid".
+            " left join %s t on t.userid= n.userid ".
+            " where %s group by origin",
             self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);

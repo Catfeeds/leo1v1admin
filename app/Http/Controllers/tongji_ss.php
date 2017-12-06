@@ -560,7 +560,7 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
         // dd($ret_info);
-        //订单占比
+        //签单占比  ---begin---
         $order_area_map    = [];
         $order_subject_map = [];
         $order_grade_map   = [];
@@ -581,13 +581,14 @@ class tongji_ss extends Controller
             }
 
         }
-        //试听占比
+        //签单占比  ---end---
+        //试听占比  ---begin---
         $test_area_map    = [];
         $test_subject_map = [];
         $test_grade_map   = [];
         //试听信息
         $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
-        dd($test_data);
+        // dd($test_data);
         foreach ($test_data as $a_item) {
             $subject   = $a_item["subject"];
             $grade     = $a_item["grade"];
@@ -602,9 +603,9 @@ class tongji_ss extends Controller
             }
 
         }
+        //试听占比  ---end---
 
-
-        ///  测试区
+        //
         $data_map=&$ret_info["list"];
         //试听信息
         $this->t_test_lesson_subject_require->switch_tongji_database();

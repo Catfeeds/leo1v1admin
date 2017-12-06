@@ -45,7 +45,7 @@ class funnel_channel_statistics extends cmd_base
         foreach($example_info as $item){
             $phone = $item['phone'];
             echo "$phone ok";
-            \App\Helper\funnel_channel_sta::insert_funnel_channel_sta($item);
+            \App\Helper\funnel_channel_sta::insert_funnel_channel_sta($item,$begin_time);
         }
     }
 }

@@ -36,7 +36,7 @@ class CreateTFunnelChannelStatistics extends Migration
             t_field($table->integer('C_intention'),"有效意向(C)");
             t_field($table->integer('appointment_num'),"预约数[cc提交的试听申请]");
             t_field($table->integer('have_class_num'),"上课数[成功排上试听课的量]");
-            t_field($table->integer('have_class_succ_nun'),"上课成功数[成功试听的量]");
+            t_field($table->integer('have_class_succ_num'),"上课成功数[成功试听的量]");
             t_field($table->integer('audition_rate'),"试听率[上课成功数/已拨打量][比率×100除去%]");
             t_field($table->integer('contract_num'),"合同个数");
             t_field($table->integer('contract_people_num'),"合同人数");
