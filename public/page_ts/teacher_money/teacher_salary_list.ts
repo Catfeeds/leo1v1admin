@@ -48,6 +48,7 @@ $(function(){
 
     $(".id_lesson_price").on("click",function(){
         var start_time = $('#id_start_time').val();
+        $("#id_lesson_price").val(100);
         console.log(start_time);
 	      $.do_ajax("/user_manage_new/get_lesson_price",{
             "start_time" : start_time
@@ -82,7 +83,7 @@ $(function(){
         });
     });
 
-    if(g_account_role===12 || g_account=="adrian"){
+    if(g_account_role===12 || g_account=="jim"){
         $(".show_lesson_price").show();
     }else{
         $(".show_lesson_price").hide();
