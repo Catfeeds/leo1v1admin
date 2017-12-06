@@ -490,13 +490,15 @@ class company_wx extends Controller
     //更新手机号
     public function update_phone_data() {
         $name = $this->get_in_str_val('name');
-        $phone = $this->get_in_str_val('phone','');
+        $phone = $this->get_in_str_val('phone');
         $info = $this->t_manager_info->get_phone_by_name($name);
-        if ($info) {
-            
+        if ($info) { 
             $this->t_manager_info->field_update_list($info['uid'], [
                 'phone' => $phone
             ]);
+
+            // 添加操作日志
+            $this->t_user_log->add_data("企业微信与后台管理手机号不一致,修改手机号,修改前: ".$info['phone'].' 修改后: '.$phone, $info['uid']);
             return $this->output_succ();
         }
         return $this->output_err('管理后台无此账号');

@@ -30,6 +30,17 @@ class t_user_log extends \App\Models\Zgen\z_t_user_log
         ]);
     }
 
+    public function add_data_new($msg,$userid='',$type=0) {
+        return $this->row_insert([
+            'userid' => $userid,
+            'adminid' => session('adminid'),
+            'msg' => $msg,
+            'user_log_type' => $type,
+            'add_time' => time()
+        ]);
+    }
+
+
 }
 
 
