@@ -46,45 +46,65 @@ $(function(){
         window.location.href="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&end_time="+end_time;
     })
 
+    $(".id_lesson_price").on("click",function(){
+        var start_time = $('#id_start_time').val();
+        console.log(start_time);
+	      $.do_ajax("/user_manage_new/get_lesson_price",{
+            "start_time" : start_time
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        });
+    });
+
     $('.opt-edit').on('click', function() {
-        var opt_data=$(this).get_opt_data();
-        var s_input = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');
-        var arr=[
+        var opt_data = $(this).get_opt_data();
+        var s_input  = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');
+        var arr      = [
             ['工资结算开始时间', s_input]
         ] ;
 
         initPicker(s_input);
 
         $.show_key_value_table("修改", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
                 var $pay_time = $('input[name="pay_time"]').val();
-                    $.do_ajax("/teacher_money/update_pay_time",{
-                        "id": opt_data.id,
-                        "pay_time" : $pay_time,
-                    });
-
+                $.do_ajax("/teacher_money/update_pay_time",{
+                    "id"       : opt_data.id,
+                    "pay_time" : $pay_time,
+                });
             }
         });
     });
+
+    if(g_account_role===12 || g_account=="adrian"){
+        $(".show_lesson_price").show();
+    }else{
+        $(".show_lesson_price").hide();
+    }
 
     if(g_args.g_adminid==780 || g_args.g_adminid==895){
         download_show();
     }
 
-
-    function initPicker(obj)
-    {
-      obj.datetimepicker({
+    function initPicker(obj){
+        obj.datetimepicker({
             lang       : 'ch',
             datepicker : true,
             timepicker : false,
             format     : 'Y-m-d',
             step       : 30,
             onChangeDateTime :function(){
-              $(this).hide();
+                $(this).hide();
             }
         });
     }
+
+
+
 });
