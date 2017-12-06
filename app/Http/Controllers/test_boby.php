@@ -1183,4 +1183,37 @@ class test_boby extends Controller
         dd($ret);
 
     }
+
+    public function add_resource_type(){
+        $r_arr = [1,2,3,4,5,6,7,9];//资源类型
+        // $s_arr = E\Esubject::$desc_map;
+        $s_arr = [1,2,3,4,5,6,7,8,9,10,11];//科目
+        $g_arr = [101,102,103,104,105,106,201,202,203,301,302,303];
+        $o_arr = [201,202,203,301,302,303];
+        foreach($r_arr as $r){
+            foreach($s_arr as $s){
+                if($r == 7){//要年级段,不要年级
+                    if($s<4){//语数外
+                        $grade = [100,200,300];
+                    } else {//没有小学
+                        $grade = [200,300];
+                    }
+                } else {
+                    if($s<4){//语数外
+                        $grade = $g_arr;
+                    } else {//没有小学
+                        $grade = $o_arr;
+                    }
+                }
+                foreach($grade as $g){
+                    $this->t_resource_agree_info->row_insert([
+                        'resource_type' => $r,
+                        'subject' => $s,
+                        'grade' => $g,
+                    ]);
+                }
+
+            }
+        }
+    }
 }

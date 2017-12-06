@@ -1005,16 +1005,23 @@ class wx_teacher_api extends Controller
 
     }
 
-    //标签系统 微信推送
+
+    /**
+     * @ 标签系统 微信推送
+     */
 
     public function get_student_info(){ // 获取向老师推送的模板数据
-        $lessonid = $this->get_in_int_val("lessonid");
+        $lessonid  = $this->get_in_int_val("lessonid");
         $test_info = $this->t_lesson_info_b3->get_student_info_to_tea($lessonid);
         return $this->output_succ(['data'=>$test_info]);
     }
 
 
-    public function get_test_lesson_info(){ //标签系统 jack
+    /**
+     * @ 标签 Tom对接
+     * @
+     */
+    public function get_test_lesson_info(){
         $lessonid  = $this->get_in_int_val('lessonid',-1);
 
         $ret_info = $this->t_test_lesson_subject->get_test_require_info($lessonid);
@@ -1033,7 +1040,10 @@ class wx_teacher_api extends Controller
         //学科化内容标签[未定]
         $ret_info['subject_tag_a'] = '学科标签A';
         $ret_info['subject_tag_b'] = '学科标签B';
+
+        // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
+        $ret_info['status'] = 0;
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1046,11 +1056,6 @@ class wx_teacher_api extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
         $status   = $this->get_in_int_val('status');
 
-        $check_handout = '';// 待确认[boby]
-        if($check_handout){ //测试 若有讲义 则转到讲义列表页面
-            header("Location: http://www.baidu.com");
-        }
-
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
         // $this->t_test_lesson_subject_require->field_update_list($require_id, [
             // "accept_status" => $status// 新增字段
@@ -1060,6 +1065,7 @@ class wx_teacher_api extends Controller
             $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
             $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
             $stu_nick = $this->cache_get_teacher_nick($lesson_info['userid']);
+            $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
             $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
             $data = [
                 "first" => "$stu_nick 同学的试听课排课成功",
@@ -1072,6 +1078,8 @@ class wx_teacher_api extends Controller
             $wx = new \App\Helper\WxSendMsg();
             $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
             // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
+        }else{ // 拒绝
+
         }
 
         return $this->output_succ(["status"=>$status]);
@@ -1080,9 +1088,10 @@ class wx_teacher_api extends Controller
     public function get_test_teacher_info(){ //排课人推送 点击详情数据接口
         $lessonid = $this->get_in_int_val('lessonid');
         $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
-        $teahcer_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
-        $teahcer_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
-        $teahcer_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
+        $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
+        $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
+        $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
+
 
         $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
         $tea_label_type_str = "";

@@ -40,6 +40,23 @@ class update_company_wx_data extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+
+        // 企业微信用户
+        $users = $task->t_company_wx_users->get_all_users();
+        // 后台管理用户
+        $manager = $task->t_manager_info->get_all_list();
+        foreach($users as $key => $item) {
+            if (!isset($manager[$key])) {
+                $phone = '';
+                foreach($manager as $val) {
+                    if ($val['name'] == $item['name']) {
+                        $phone = $val['phone'];
+                    }
+                }
+                echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
+            } 
+        }
+        exit;
         //$type = $this->argument('type');
         //if ($type == 1) { // 刷新权限
         //    $this->flush_permission($task); // 刷新权限

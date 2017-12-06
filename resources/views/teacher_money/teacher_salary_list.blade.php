@@ -15,20 +15,25 @@
                         <input class="opt-change" id="id_reference"/>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-1 show_lesson_price" style="display:none">
+                    <div class="input-group ">
+                        <button class="btn btn-primary" id="id_get_lesson_price">重置课程收入</button>
+                    </div>
+                </div>
                 <!-- <div class="col-xs-6 col-md-2">
                      <div class="input-group ">
                      <span>老师</span>
                      <input class="opt-change" id="id_teacherid"/>
                      </div>
                      </div> -->
-                <div class="col-xs-6 col-md-10">
+                <div class="col-xs-6 col-md-8">
                     <div class="input-group">
-                        <span class="input-group">课程收入</span>
-                        <input id="id_lesson_price" value="0">
+                        <span class="input-group show_lesson_price">课程收入:</span>
+                        <span id="id_lesson_price" class="show_lesson_price">0</span>
                         <span class="input-group">老师总工资</span>
-                        <input id="id_teacher_money" value="{{$all_money}}">
+                        <span id="id_teacher_money">{{$all_money}}</span>
                         <span class="input-group">税后老师总工资</span>
-                        <input id="id_teacher_money_tax" value="{{$all_money_tax}}">
+                        <span id="id_teacher_money_tax">{{$all_money_tax}}</span>
                     </div>
                 </div>
             </div>

@@ -351,10 +351,12 @@
                             '    <div class="col-xs-12 col-md-12 require_info">'+
                             '    </div>'+
 
-                            '    <div class="col-xs-12 col-md-12 ajax_list">'+
+                            '    <div class="col-xs-12 col-md-10 ajax_list">'+
                             '    </div>'+
-                           /* '    <div class="col-xs-12 col-md-4 lru_list " >'+
-                            '    </div>'+*/
+                            '    <div class="col-xs-12 col-md-2  " >'+
+                            '<button id="plan_lesson">排课</button>'+
+                            '<button id="set_back">驳回</button>'+
+                            '    </div>'+
                             '</div>');
             if (me.options.opt_type=="list" ) {
                 $dlg_form=$('<div class="row">'+
@@ -406,7 +408,6 @@
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-4px"><label>报价反应:</label>幽默风趣</span>'+
                             '<span class="col-xs-12 col-md-6 " style="margin-top:-4px"><label>上课意向:</label>幽默风趣</span>'+
                             '</div>'+
-                            '<div  class="col-xs-12 col-md-4 ">试听上课时间:'+require_list.require_time+'</div>'+
                             '</div>');
 
                     

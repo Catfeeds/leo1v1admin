@@ -637,7 +637,30 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
-        $start_time = strtotime("2017-10-01");
+        
+
+        $start_time = strtotime("2016-12-01");
+        for($i=1;$i<11;$i++){
+            $start_time = strtotime("+1 months",$start_time);
+            $end_time = strtotime("+1 months",$start_time);
+            $top_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,2);//教务1000精排总体
+            $top_jw_total["per"] = !empty($top_jw_total["person_num"])?round($top_jw_total["have_order"]/$top_jw_total["person_num"]*100,2):0;
+            @$arr["精排"] +=$top_jw_total["have_order"];
+
+            $green_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,2); //教务绿色通道总体
+            $green_jw_total["per"] = !empty($green_jw_total["person_num"])?round($green_jw_total["have_order"]/$green_jw_total["person_num"]*100,2):0;
+            @$arr["绿色"] +=$green_jw_total["have_order"];
+
+            $normal_jw_total_grab = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2,1); //教务普通排课总体(抢课)
+            $normal_jw_total_grab["per"] = !empty($normal_jw_total_grab["person_num"])?round($normal_jw_total_grab["have_order"]/$normal_jw_total_grab["person_num"]*100,2):0;
+            @$arr["抢课"] +=$normal_jw_total_grab["have_order"];
+            $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2,0); //教务普通排课总体(非抢课)
+            $normal_jw_total["per"] = !empty($normal_jw_total["person_num"])?round($normal_jw_total["have_order"]/$normal_jw_total["person_num"]*100,2):0;
+            @$arr["普通"] +=$normal_jw_total["have_order"];
+
+
+        }
+        dd($arr);
         $end_time = strtotime("2017-11-01");
         $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
        
