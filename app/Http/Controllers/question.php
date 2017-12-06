@@ -1,0 +1,233 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use \App\Enums as E;
+use \App\Helper\Config;
+
+class question extends Controller
+{
+    public function question_list(){
+        $subject   = $this->get_in_int_val('subject',-1);
+        $where_arr = [
+            ["subject=%d" , $subject,-1 ],
+        ];
+        $page_num        = $this->get_in_page_num();
+        $ret_list = $this->t_question->question_list($where_arr,$page_num);
+        if($ret_list){
+            foreach( $ret_list['list'] as &$item ){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+                //$item['knowledge_detail'] = $this->question_know_list($item['question_id']);
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712051956"]);
+    }
+
+    public function question_add(){
+        $subject   = $this->get_in_int_val('subject',-1);
+        $title   = $this->get_in_str_val('title','');
+        $detail   = $this->get_in_str_val('detail','');
+
+        $ret = $this->t_question->row_insert([
+            "title"   => $title,
+            "subject"   => $subject,
+            "detail"   => $detail,
+        ]);
+
+        if($ret){
+            $result['status'] = 200;
+            $result['msg'] = "插入成功";
+            return $this->output_succ($result); 
+        }else{
+            $result['status'] = 500;
+            $result['msg'] = "插入失败";
+            return $this->output_succ($result); 
+        }
+    }
+
+    public function question_edit(){
+        $question_id   = $this->get_in_int_val('question_id');
+        $subject   = $this->get_in_int_val('subject',-1);
+        $title   = $this->get_in_str_val('title','');
+        $detail   = $this->get_in_str_val('detail','');
+
+        $updateArr = [
+            'title' => $title,
+            'subject' => $subject,
+            'detail' => $detail,
+        ];
+
+        if($this->t_question->field_update_list($question_id,$updateArr)){
+            $result['msg'] = '更新成功';
+            $result['status'] = 200;
+            return $this->output_succ($result);
+        }else{
+            $result['msg'] = '更新失败';
+            $result['status'] = 500;
+            return $this->output_succ($result);
+        };
+
+    }
+
+    public function knowledge_list(){
+        $subject   = $this->get_in_int_val('subject',-1);
+        $where_arr = [
+            ["subject=%d" , $subject,-1 ],
+        ];
+        $page_num        = $this->get_in_page_num();
+        $ret_list = $this->t_knowledge_point->knowledge_list($where_arr,$page_num);
+        if($ret_list){
+            foreach( $ret_list['list'] as &$item ){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712051856"]);
+
+    }
+
+    public function knowledge_add(){
+        $subject   = $this->get_in_int_val('subject',-1);
+        $title   = $this->get_in_str_val('title','');
+        $detail   = $this->get_in_str_val('detail','');
+
+        $ret = $this->t_knowledge_point->row_insert([
+            "title"   => $title,
+            "subject"   => $subject,
+            "detail"   => $detail,
+        ]);
+
+        if($ret){
+            $result['status'] = 200;
+            $result['msg'] = "插入成功";
+            return $this->output_succ($result); 
+        }else{
+            $result['status'] = 500;
+            $result['msg'] = "插入失败";
+            return $this->output_succ($result); 
+        }
+    }
+
+    public function knowledge_edit(){
+        $knowledge_id   = $this->get_in_int_val('knowledge_id');
+        $subject   = $this->get_in_int_val('subject',-1);
+        $title   = $this->get_in_str_val('title','');
+        $detail   = $this->get_in_str_val('detail','');
+
+        $updateArr = [
+            'title' => $title,
+            'subject' => $subject,
+            'detail' => $detail,
+        ];
+
+        if($this->t_knowledge_point->field_update_list($knowledge_id,$updateArr)){
+            $result['msg'] = '更新成功';
+            $result['status'] = 200;
+            return $this->output_succ($result);
+        }else{
+            $result['msg'] = '更新失败';
+            $result['status'] = 500;
+            return $this->output_succ($result);
+        };
+
+    }
+
+    public function knowledge_dele(){
+        $knowledge_id = $this->get_in_int_val('knowledge_id');
+        $this->t_knowledge_point->del_by_id($knowledge_id);
+        return $this->output_succ(); 
+    }
+
+    public function question_know_get(){
+        $subject   = $this->get_in_int_val('subject',-1);
+        $title   = $this->get_in_str_val('title',-1);
+        $where_arr = [
+            ["subject=%d" , $subject,-1 ],
+        ];
+        if ($title) {
+            $title = "%".$title."%";
+            $where_arr[]= [ "title like '".$title."'",null ];
+        }
+        $page_num        = $this->get_in_page_num();
+        
+        $ret  = \App\Helper\Utils::list_to_page_info([]);
+        $ret =  $this->t_knowledge_point->knowledge_get($where_arr,$page_num);
+        
+        if($ret){
+            foreach($ret['list'] as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+            }
+        }
+        
+        return $this->output_ajax_table($ret, [ "lru_list" => [] ]);
+    }
+
+    public function question_know_list(){
+        
+    }
+
+    //添加题目对应的知识点
+    public function question_know_add(){
+        $question_id = $this->get_in_int_val('question_id');
+        $idstr = $this->get_in_str_val('strArr');
+        if(!$idstr){
+            $result['msg'] = '请添加知识点';
+            $result['status'] = 500;
+            return $this->output_succ($result);
+        }
+      
+        $success_item = 0 ;
+        $fail_item = 0;
+        $idArr = $idstr;
+        foreach( $idArr as $knowledge_id => $difficult){
+            //查找该知识点id是否删除
+            $where_arr = [
+                ["knowledge_id=%d" , $knowledge_id ],
+            ];
+            $is_knowledge_exit = $this->t_knowledge_point->knowledge_get($where_arr,1);
+            if(!$is_knowledge_exit){
+                continue;
+            }
+
+            //查找该条目录是否已经存在 不存在才能添加
+            $is_question_know_exit = $this->t_question_knowledge->is_question_know_exit($question_id,$knowledge_id,$difficult);
+            if($is_question_know_exit){
+                $fail_item++;
+                continue;
+            }
+
+            $ret = $this->t_question_knowledge->row_insert([
+                'question_id' => $question_id,
+                'knowledge_id' => $knowledge_id,
+                'difficult' => $difficult,
+            ]);
+            if($ret){
+                $success_item++;
+            }else{
+                $fail_item++;
+            }
+        }
+        $result['msg'] = '成功添加知识点条数：'.$success_item.'添加失败条数：'.$fail_item;
+        $result['status'] = 200;
+        return $this->output_succ($result);
+    }
+
+    public function answer_list(){
+        
+    }
+
+    public function answer_add(){
+        
+    }
+
+    public function answer_edit(){
+        
+    }
+
+    public function answer_dele(){
+        $answer_list = $this->get_in_int_val('answer_list');
+        $this->t_answer->del_by_id($answer_list);
+        return $this->output_succ(); 
+    }
+
+}
