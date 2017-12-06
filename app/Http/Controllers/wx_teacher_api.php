@@ -1065,7 +1065,7 @@ class wx_teacher_api extends Controller
             $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
             $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
             $stu_nick = $this->cache_get_teacher_nick($lesson_info['userid']);
-            $jw_nick  = "James_test";
+            $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
             $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
             $data = [
                 "first" => "$stu_nick 同学的试听课排课成功",
@@ -1079,7 +1079,7 @@ class wx_teacher_api extends Controller
             $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
             // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
         }else{ // 拒绝
-            
+
         }
 
         return $this->output_succ(["status"=>$status]);
