@@ -1380,7 +1380,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $curcode = $this->get_in_str_val("CURCODE","01");
         $remark1 = $this->get_in_str_val("REMARK1","");
         $remark2 = $this->get_in_str_val("REMARK2","");
-        $success = $this->get_in_str_val("SUCCESS","Y");
+        $success = $this->get_in_str_val("SUCCESS","N");
         $acc_type = $this->get_in_str_val("ACC_TYPE","30");
         $type = $this->get_in_str_val("TYPE","1");
         $referer = $this->get_in_str_val("REFERER","");
@@ -1402,7 +1402,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         //当前默认为true
         //$verifyResult=true;
-        if($verifyResult){
+        if($verifyResult && $success=="Y"){
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
             if(empty($check_exist)){
