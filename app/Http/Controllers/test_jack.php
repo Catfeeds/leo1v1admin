@@ -342,6 +342,33 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $adminid= $this->get_in_int_val("adminid",480 );
+        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        dd($date_list);
+        $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
+        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+        $teacherid = @$teacher_info["teacherid"];
+
+        foreach ($ret_info["list"] as $item ) {
+            $logtime=$item["logtime"];
+            $opt_date=date("Y-m-d",$logtime);
+            $date_item= &$date_list[$opt_date];
+            if (!isset($date_item["start_logtime"])) {
+                $date_item["start_logtime"]=$logtime;
+                $date_item["end_logtime"]=$logtime;
+            }else{
+                if ($date_item["start_logtime"] > $logtime  ) {
+                    $date_item["start_logtime"] = $logtime;
+                }
+                if ($date_item["end_logtime"] < $logtime  ) {
+                    $date_item["end_logtime"] = $logtime;
+                }
+            }
+        }
+        dd(1111);
+
         // $start_time = strtotime("2017-11-15");
         // $list = $this->t_seller_student_new->get_ass_tran_stu_info_new($start_time,time());
 
