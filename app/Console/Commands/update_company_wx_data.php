@@ -54,9 +54,7 @@ class update_company_wx_data extends Command
                     }
                 }
                 echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
-            } else {
-                unset($manager[$key]);
-            }
+            } 
         }
         exit;
         //$type = $this->argument('type');
