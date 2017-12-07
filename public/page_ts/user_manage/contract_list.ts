@@ -1898,7 +1898,10 @@ $(function(){
         });
     };
     var add_free=function( from_parent_order_type ) {
-        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag=0) {
+        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag) {
+            if (! part_competition_flag) {
+                part_competition_flag =0;
+            }
                 $.do_ajax("/ss_deal/seller_add_contract_free",{
                     "from_parent_order_type" : from_parent_order_type,
                     "parent_order_id"        : parent_order_id,
