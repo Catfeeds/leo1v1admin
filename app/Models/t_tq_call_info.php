@@ -78,20 +78,14 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ["tq.is_called_phone=%u", $is_called_phone, -1] ,
             ["tq.phone='%s'", $phone, ''] ,
         ];
-        if ($user_info >0 ) {
-            if  ($user_info < 100000) {
-                $where_arr[]=[  "tq.uid=%u", $user_info, "" ] ;
-            }else{
-                $where_arr[]=[  "tq.phone like '%%%s%%'", $user_info, "" ] ;
-            }
-        }else{
-            if ($user_info!=""){
-                $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",
-                                    array(
-                                        $this->ensql($user_info),
-                                        $this->ensql($user_info)));
-            }
+        
+        if ($user_info!=""){
+            $where_arr[]=array( "(m.account like '%%%s%%' or  m.name like '%%%s%%')",
+                                array(
+                                    $this->ensql($user_info),
+                                    $this->ensql($user_info)));
         }
+        
         if (!$phone) {
             $where_arr[]= ["tq.start_time>=%u", $start_time, -1] ;
             $where_arr[]=["tq.start_time<%u", $end_time, -1] ;
@@ -101,13 +95,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $sql=$this->gen_sql_new(
             "select tq.*, admin_role ,  -2 as seller_student_status from %s tq"
             . " left  join %s n on  n.phone= tq.phone  "
+            ." left join %s m on m.uid = tq.adminid "
             //. " left  join %s t on  t.userid= n.userid "
             ."  where  %s order by start_time ",
             self::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
             // t_test_lesson_subject::DB_TABLE_NAME,
             $where_arr);
-
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_num);
 
     }
