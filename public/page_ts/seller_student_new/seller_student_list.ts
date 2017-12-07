@@ -3661,10 +3661,10 @@ function init_edit() {
             }
 
             id_grade.change(function(){
-$.do_ajax("/product_tag/get_all_tag", {
-},function(resp){
-    id_add_tag.parent().children('button').remove();
-    id_add_tag.parent().children('input').remove();
+                $.do_ajax("/product_tag/get_all_tag", {
+                },function(resp){
+                    id_add_tag.parent().children('button').remove();
+                    id_add_tag.parent().children('input').remove();
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
@@ -3672,22 +3672,22 @@ $.do_ajax("/product_tag/get_all_tag", {
                         }
                     })
                         })
-                        });
-                id_subject.change(function(){
-$.do_ajax("/product_tag/get_all_tag", {
-},function(resp){
-id_add_tag.parent().children('button').remove();
-    id_add_tag.parent().children('input').remove();
+            });
+            id_subject.change(function(){
+                $.do_ajax("/product_tag/get_all_tag", {
+                },function(resp){
+                    id_add_tag.parent().children('button').remove();
+                    id_add_tag.parent().children('input').remove();
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
                             id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_id']+"' />");
                         }
-                    })})
-                        });
+                    })
+                        })
+            });
             id_subject.change(function(){
                 id_subject_score.val(id_subject.val());
-
             })
             var reset_seller_student_status_options=function()  {
                 var opt_list=[0];
