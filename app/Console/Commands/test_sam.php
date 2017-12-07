@@ -63,15 +63,15 @@ class test_sam extends Command
                 fwrite($fp, '   ');
             }
 
-            if(isset($ret_test[$value['sys_operator']]['total_money'])){
-                fwrite($fp, @$ret_test[$value['sys_operator']]['total_money']);//4
+            if(isset($ret_test[$value['adminid']]['total_money'])){
+                fwrite($fp, @$ret_test[$value['adminid']]['total_money']);//4
                 fwrite($fp, '   ');
             }else{
                 fwrite($fp, 0);//4
                 fwrite($fp, '   ');
             }
-            if(isset($ret_test[$value['sys_operator']]['total_num'])){
-                fwrite($fp, @$ret_test[$value['sys_operator']]['total_num']);//4
+            if(isset($ret_test[$value['adminid']]['total_num'])){
+                fwrite($fp, @$ret_test[$value['adminid']]['total_num']);//4
                 fwrite($fp, '   ');
             }else{
                 fwrite($fp, 0);//4
