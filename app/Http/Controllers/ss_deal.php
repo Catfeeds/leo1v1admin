@@ -315,6 +315,7 @@ class ss_deal extends Controller
         $stu_nick=$student["nick"];
         $ret["stu_nick"]   = $stu_nick;
         $ret["par_nick"]   = $student["parent_name"];
+        $ret["par_type"]   = $student["parent_type"];
         $ret["gender"]     = $student["gender"];
         $ret["grade"]      = $student["grade"];
         $ret["user_agent"] = $student["user_agent"];
@@ -5520,7 +5521,7 @@ class ss_deal extends Controller
         $ytx_phone=session("ytx_phone");
 
         $admin_info=$this->t_manager_info->field_get_list(  $this->get_account_id(),"*");
-        if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL )  {//天润
+        if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL)  {//天润
             //?enterpriseId=&cno=&pwd=&customerNumber=&userField=
             if ($this->get_account()=="jim") {
                 $admin_info["tquin"]="2063";

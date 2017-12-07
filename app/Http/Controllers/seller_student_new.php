@@ -645,7 +645,6 @@ class seller_student_new extends Controller
         if ($status_list_str==-1) {
             $status_list_str="";
         }
-
         $this->set_in_value("status_list_str",$status_list_str) ;
         $this->set_in_value("cur_page","$id") ;
         return $this->seller_student_list();
@@ -760,7 +759,6 @@ class seller_student_new extends Controller
                 return $this->output_err("有新例子tq未拨打",["need_deal_cur_user_flag" =>true]);
 
             }
-
             if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
                 return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
             }
