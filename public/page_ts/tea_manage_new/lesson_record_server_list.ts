@@ -291,4 +291,17 @@ $(function(){
         });
     });
 
+
+    var  field_str = ' <li class="dropdown  " style="list-style: none;" >  ' +
+        '  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> 课程类型 </a> ' +
+        '  <ul class="dropdown-menu" style="height:200px" > ' +
+        '       <li class="header">You have 9 tasks</li> ' +
+        '       <li class="header">You have 9 tasks</li> ' +
+        '       <li class="header">You have 9 tasks</li> ' +
+        '       <li class="header">You have 9 tasks</li> ' +
+        '       <li class="header">You have 9 tasks</li> ' +
+        '  </ul> ' +
+        ' </li> ';
+    $("#id_test").html( field_str );
+
 });

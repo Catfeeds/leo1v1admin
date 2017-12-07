@@ -3,6 +3,7 @@ interface C_Enum_map {
     td_show_desc(enum_type :string , $item: JQuery ):void;
     td_show_descs(enum_type :string , $item: JQuery ):void;
     get_desc(  enum_type :string ,value: any ):string;
+
 }
 
 interface C_qiniu{
@@ -19,7 +20,9 @@ declare var  g_data_ex_list:any;
 declare var  audiojs : any;
 interface Window {
     navigate (str:string);
+    download_show();
 }
+
 declare function load_data():any ;
 
 declare module "enum_map" {

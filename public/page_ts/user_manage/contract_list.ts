@@ -41,7 +41,6 @@ function isNumber( s ){
 }
 
 $(function(){
-    Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
     //Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
     Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
@@ -62,14 +61,16 @@ $(function(){
     });
 
 
+	$('#id_contract_type').val(g_args.contract_type);
+	$.enum_multi_select( $('#id_contract_type'), 'contract_type', function(){load_data();} )
+	$('#id_contract_status').val(g_args.contract_status);
+	$.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
 
 
     //init  input data
     $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
-    $("#id_contract_type").val(g_args.contract_type);
     $("#id_order_activity_type").val(g_args.order_activity_type );
-    $("#id_contract_status").val(g_args.contract_status);
     $("#id_test_user").val(g_args.test_user);
     $("#id_studentid").val(g_args.studentid);
     $("#id_sys_operator").val(g_args.sys_operator);
@@ -1988,7 +1989,7 @@ $(function(){
                     label: '确认',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
-                        do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val(),0,0);
+                        do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val(),0,0, 0);
                     }
                 },function(){
                     opt_change_order_require_flag();
@@ -1999,7 +2000,7 @@ $(function(){
 
                 });
             }else{ //转介绍 , 试听24小时内赠送课时
-                do_post_add_free( parent_order_id, 6,0,"",0,0);
+                do_post_add_free( parent_order_id, 6,0,"",0,0, 0 );
             }
         };
 
@@ -3211,37 +3212,37 @@ $(function(){
                     select_option_list: [
                         {
                         value : -1 ,
-                        text :  "全部" 
+                        text :  "全部"
                     },
                         {
                         value :  0 ,
-                        text :  "关闭" 
+                        text :  "关闭"
                     },
                         {
                         value :  1 ,
-                        text :  "正式开启" 
+                        text :  "正式开启"
                     },
                         {
                         value :  2 ,
-                        text :  "测试开启" 
+                        text :  "测试开启"
                     },
-                        
+
                     ]
                 },
                 {
                     size_class : "col-md-4" ,
                     title      : "活动ID",
                     'arg_name' : "id"  ,
-                    type       : "input" 
+                    type       : "input"
                 },
                 {
                     size_class : "col-md-6" ,
                     title      : "标题",
                     'arg_name' : "title"  ,
-                    type       : "input" 
+                    type       : "input"
                 }
 
-            ] 
+            ]
             ],
             "auto_close"       : true,
             //选择
@@ -3265,7 +3266,6 @@ $(function(){
     });
 
     if(g_account=="wenbin"){
-        download_show();
+        window.download_show();
     }
 });
-

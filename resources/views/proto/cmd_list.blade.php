@@ -11,6 +11,8 @@
                         <select   id="id_project" class="opt-change"   >
                             <option value="yb_admin">yb_admin</option>
                             <option value="agent_api">agent_api</option>
+                            <option value="class_api">class_api</option>
+                            <option value="yb_account">yb_account</option>
                         </select>
                     </div>
                 </div>

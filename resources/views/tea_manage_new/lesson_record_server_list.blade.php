@@ -63,7 +63,9 @@
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
 
-                    <td>lessonid</td>
+                    <td id="id_test">
+
+                    </td>
                     <td class="td-query" data-queryid="id_record_audio_server1"  style="min-width:100px;"   >声音服务器</td>
                     <td class="td-query" data-queryid="id_xmpp_server_name"  style="min-width:100px;"   > xmpp服务器</td>
                     <td  style="min-width:100px;"   >
