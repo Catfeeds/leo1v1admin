@@ -39,8 +39,80 @@ class fulltime_teacher_kaoqin extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-
         $time = time();
+        //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $start_time = strtotime("2017-11-01");
+        $end_time = strtotime("2017-12-01");
+        $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $date_arr=[];
+        foreach($date_list_old as $k=>$val){
+            $time = strtotime($k);
+            $date_arr[$time]["date"]=$time;
+        }
+        $adminid_list = $task->t_manager_info->get_adminid_list_by_account_role(5);
+        $ret_info=$task->t_admin_card_log->get_list( 1, $start_time,$end_time,-1,100000,5 );
+        $data=[];
+        foreach($adminid_list as $k=>$val){
+            $date_list = $date_arr;
+            foreach($ret_info["list"] as $item){
+                if($item["uid"]==$k){
+                    $logtime=$item["logtime"];
+                    $opt_date=strtotime(date("Y-m-d",$logtime));
+                    $date_item= &$date_list[$opt_date];
+                    if (!isset($date_item["start_logtime"])) {
+                        $date_item["start_logtime"]=$logtime;
+                        $date_item["end_logtime"]=$logtime;
+                    }else{
+                        if ($date_item["start_logtime"] > $logtime  ) {
+                            $date_item["start_logtime"] = $logtime;
+                        }
+                        if ($date_item["end_logtime"] < $logtime  ) {
+                            $date_item["end_logtime"] = $logtime;
+                        }
+                    }
+
+                }
+            }
+            $data[$k] = $date_list;
+
+        }
+
+        foreach($data as $key=>$p_item){
+            $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($key);                   
+            $teacherid = $teacher_info["teacherid"];
+            if($teacherid>0){
+                foreach($p_item as $k=>$v){
+                    $card_start_time = isset($v["start_logtime"])?$v["start_logtime"]:0;
+                    $card_end_time = isset($v["end_logtime"])?$v["end_logtime"]:0;
+                    $id = $task->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$k);
+                    if($id>0){
+                        $task->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                            "card_start_time"  =>$card_start_time,
+                            "card_end_time"   =>$card_end_time,
+                        ]);
+                    }else{
+                        $task->t_fulltime_teacher_attendance_list->row_insert([
+                            "teacherid"  =>$teacherid,
+                            "add_time"   =>$time,
+                            "attendance_time"  =>$k,
+                            "adminid"           =>$key,
+                            "card_start_time"  =>$card_start_time,
+                            "card_end_time"   =>$card_end_time,
+                        ]);
+ 
+                    }
+
+                }
+ 
+            }
+        }
+
+        dd(111);
+
+
+
+
+
         $day_time = strtotime(date("Y-m-d",$time));
         
         $w = date("w");        
