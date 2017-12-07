@@ -1,5 +1,8 @@
 interface GargsStatic {
+	majordomo_groupid:	number;
+	admin_main_groupid:	number;
 	self_groupid:	number;
+	button_show_flag:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -134,7 +137,10 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		majordomo_groupid:	$('#id_majordomo_groupid').val(),
+		admin_main_groupid:	$('#id_admin_main_groupid').val(),
 		self_groupid:	$('#id_self_groupid').val(),
+		button_show_flag:	$('#id_button_show_flag').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -200,7 +206,10 @@ $(function(){
             load_data();
         }
     });
+	$('#id_majordomo_groupid').val(g_args.majordomo_groupid);
+	$('#id_admin_main_groupid').val(g_args.admin_main_groupid);
 	$('#id_self_groupid').val(g_args.self_groupid);
+	$('#id_button_show_flag').val(g_args.button_show_flag);
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_userid').val(g_args.userid);
 	$('#id_origin').val(g_args.origin);
@@ -251,8 +260,29 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">majordomo_groupid</span>
+                <input class="opt-change form-control" id="id_majordomo_groupid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">admin_main_groupid</span>
+                <input class="opt-change form-control" id="id_admin_main_groupid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">self_groupid</span>
                 <input class="opt-change form-control" id="id_self_groupid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">button_show_flag</span>
+                <input class="opt-change form-control" id="id_button_show_flag" />
             </div>
         </div>
 

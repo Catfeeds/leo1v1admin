@@ -16,7 +16,18 @@ class t_question extends \App\Models\Zgen\z_t_question
         );
         return  $this->main_get_list_by_page($sql,$page_num,10);
     }
+    public function get_question_info($question_id){
+        $where_arr = [
+            ["question_id=%d" , $question_id ],
+        ];
+        $where_str = $this->where_str_gen($where_arr);
+        $sql = $this->gen_sql("select * from %s where  %s ",
+                              self::DB_TABLE_NAME,
+                              [$where_str]
+        );
+        return  $this->main_get_row($sql);
 
+    }
 }
 
 

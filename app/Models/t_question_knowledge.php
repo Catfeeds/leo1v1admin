@@ -33,6 +33,16 @@ class t_question_knowledge extends \App\Models\Zgen\z_t_question_knowledge
         return $this->main_get_row($sql);
 
     }
+
+    public function del_by_id($id){
+        $sql=$this->gen_sql("delete from %s where id=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$id
+        );
+        return $this->main_update($sql);
+ 
+    }
+
 }
 
 

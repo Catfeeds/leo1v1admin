@@ -189,7 +189,7 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
 
     public function get_groupid_by_group_name($group_name,$main_type=-1){
         $where_arr=[
-            ["main_type=%u",$main_type,-1]  
+            ["main_type=%u",$main_type,-1]
         ];
         $sql = $this->gen_sql_new("select groupid from %s where group_name = '%s' and %s",
                                   self::DB_TABLE_NAME,
@@ -350,6 +350,19 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_value($sql);
     }
 
-   
+    public function get_son_adminid_by_up_groupid($majordomo_groupid){
+        $sql = $this->gen_sql_new(
+            " select mg.up_groupid,u.adminid "
+            ." from %s mg "
+            ." left join %s g on g.up_groupid = mg.groupid "
+            ." left join %s u on u.groupid = n.groupid "
+            ." where mg.up_groupid = %u "
+            ,self::DB_TABLE_NAME//jg
+            ,t_admin_group_name::DB_TABLE_NAME//g
+            ,t_admin_group_user::DB_TABLE_NAME//u
+            ,$majordomo_groupid
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

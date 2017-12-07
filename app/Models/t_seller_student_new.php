@@ -552,7 +552,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,
+            $seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count,
+            $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1,$admin_revisiterid_list=[]
     ) {
 
         if ($userid>0) {
@@ -613,6 +615,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=['m.del_flag=%d', $admin_del_flag ,-1];
 
             $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
+            $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
             $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
 
         }
