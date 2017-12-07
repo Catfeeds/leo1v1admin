@@ -21,5 +21,21 @@ $(function(){
 	      
     });
 
+    $('.btn-warning').on("click",function(){
+        $.ajax({
+            url:  'http://dev.api.class.leo1v1.com/course/stu_list?type=0',
+            type: 'POST',
+            data:'',
+            dataType: 'json',
+            success: function(data){
+                alert(data);
+            }
+
+            ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
+                    alert(errorThrown);
+            },
+        });
+    })
+
 });
 
