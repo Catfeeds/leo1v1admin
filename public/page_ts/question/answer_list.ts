@@ -15,37 +15,55 @@ $(function(){
         //默认步骤
         var default_step = $('#next_step').val();
         var id_step = $("<input/>只能填数字");
-        var id_difficult = $("<select/>");
-        var id_detail = $("<textarea></textarea>");
         id_step.val(default_step);
+
+        var id_difficult = $("<select/>");
         Enum_map.append_option_list("question_difficulty",id_difficult,true);
 
-         var arr=[
-            ["知识点标题", id_title ],
-            ["知识点科目", id_subject ],
-            ["知识点详情解读", id_detail ],
+        var id_knowledge = $("<input id='knowledge_title'/><input id='knowledge_id' type='hidden'/>");
+        id_knowledge.on("click", choose_knowledge);
+
+        var id_score = $("<input />");
+
+        var id_detail = $("<textarea style='width:100%;height:240px'></textarea>");
+
+        var question_id = $('#question_id').val();
+
+        var arr=[
+            ["解题步骤", id_step ],
+            ["步骤难度", id_difficult ],
+            ["步骤分值", id_score ],
+            ["涉及知识点", id_knowledge ],
+            ["具体过程", id_detail ],
         ];
 
         $.show_key_value_table("添加知识点", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-                var title = id_title.val();
-                var subject = id_subject.val();
-                if( title == '' || subject ==''){
-                    BootstrapDialog.alert('标题或者科目必填');
+                var step = id_step.val();
+                var difficult = id_difficult.val();
+                var knowledge_id = $('#knowledge_id').val();
+                var detail = id_detail.val();
+                var score = id_score.val();
+
+                if( step == '' || difficult ==''){
+                    BootstrapDialog.alert('解题步骤和具体过程必填');
                     return false;
                 }
  
                 var data = {
-                    'title': title,
-                    'subject':subject,
-                    'detail':id_detail.val(),
+                    'question_id':question_id,
+                    'step': step,
+                    'difficult':difficult,
+                    'knowledge_id':knowledge_id,
+                    'detail':detail,
+                    'score':score
                 }
               
                 $.ajax({
                     type     :"post",
-                    url      :"/question/knowledge_add",
+                    url      :"/question/answer_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -56,48 +74,76 @@ $(function(){
                     }
                 });
             }
-        })
+        },null,false,800)
 
-    },null,false,800);
+    });
 
     //编辑答案
     $('.opt-set').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        var id_title = $("<input/>");
-        var id_subject = $("<select/>");
-        var id_detail = $("<textarea></textarea>");
+        var opt_data = $(this).get_opt_data();
 
-        Enum_map.append_option_list("subject",id_subject,true);
-        id_title.val(opt_data.title);
-        id_subject.val(opt_data.subject);
-        id_detail.val(opt_data.detail);
+        //默认步骤
+        var id_step = $("<input/>只能填数字");
+        id_step.val(opt_data['step']);
+
+        var id_difficult = $("<select/>");
+        Enum_map.append_option_list("question_difficulty",id_difficult,true);
+        id_difficult.val(opt_data['difficult']);
+
+        var knowledge_title = opt_data['title'];
+        var knowledge_id = opt_data['knowledge_id'];
+        if( knowledge_id == 0){
+            knowledge_id = '';
+            knowledge_title = '';
+        }
+        var id_knowledge = $("<input id='knowledge_title' value='"+knowledge_title+"'/><input id='knowledge_id' value='"+knowledge_id+"' type='hidden'/>");
+        id_knowledge.on("click", choose_knowledge);
+      
+        var id_detail = $("<textarea style='width:100%;height:240px'></textarea>");
+        id_detail.val(opt_data['detail']);
+
+        var question_id = $('#question_id').val();
+
+        var id_score = $("<input />");
+        id_score.val(opt_data['score']);
+
         var arr=[
-            ["知识点标题", id_title ],
-            ["知识点科目", id_subject ],
-            ["知识点详情解读", id_detail ],
+            ["解题步骤", id_step ],
+            ["步骤难度", id_difficult ],
+            ["步骤分值", id_score ],
+            ["涉及知识点", id_knowledge ],
+            ["具体过程", id_detail ],
         ];
 
-        $.show_key_value_table("编辑知识点", arr ,{
+
+        $.show_key_value_table("编辑答案", arr,{
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-                var title = id_title.val();
-                var subject = id_subject.val();
-                if( title == '' || subject ==''){
-                    BootstrapDialog.alert('标题或者科目必填');
+                var step = id_step.val();
+                var difficult = id_difficult.val();
+                var knowledge_id = $('#knowledge_id').val();
+                var detail = id_detail.val();
+                var score = id_score.val();
+
+                if( step == '' || difficult ==''){
+                    BootstrapDialog.alert('解题步骤和具体过程必填');
                     return false;
                 }
- 
+                
                 var data = {
-                    'knowledge_id':opt_data.knowledge_id,
-                    'title': title,
-                    'subject':subject,
-                    'detail':id_detail.val(),
+                    'answer_id':opt_data['answer_id'],
+                    'question_id':question_id,
+                    'step': step,
+                    'difficult':difficult,
+                    'knowledge_id':knowledge_id,
+                    'detail':detail,
+                    'score':score
                 }
-          
+                
                 $.ajax({
                     type     :"post",
-                    url      :"/question/knowledge_edit",
+                    url      :"/question/answer_edit",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -108,18 +154,17 @@ $(function(){
                     }
                 });
             }
-        })
+        },null,false,800)
 
-    },null,false,800);
+    });
 
      var choose_knowledge = function(){
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/question/question_know_get",
-            //"url"      : "/seller_student2/get_all_activity",
             //其他参数
             "args_ex" : {
-                subject  :  subject
+                subject  :  $('#subject').val()
             },
             select_primary_field   : "id",   //要拿出来的值
             select_display         : "id",
@@ -160,16 +205,10 @@ $(function(){
             "auto_close"       : true,
             //选择
             "onChange"         : function(id,data){
+                var question_id = $('.bootstrap-dialog-body').find('tr.warning td:eq(0)').text();
                 var title = $('.bootstrap-dialog-body').find('tr.warning td:eq(1)').text();
-                var html = "<div class='each_knowledge' id='knowledge_"+id+"'>";
-                var difficult = $('.difficult_box:hidden').clone().html();
-
-                html += "<input type='text' readonly value='"+title+"'>";
-                html += "<input type='hidden' readonly value='"+id+"'>";
-                html += difficult;
-                html += "<button title='移除知识点' class='btn btn-warning fa remove_knowledge' onclick='remove_knowledge("+id+")'>移除知识点</button>";
-                html += "</div>";
-                $('#id_knowledge').append(html);
+                $('#knowledge_id').val(question_id);
+                $('#knowledge_title').val(title);
             },
             //加载数据后，其它的设置
             "onLoadData"       : function(id,data){
@@ -182,15 +221,14 @@ $(function(){
     $('.opt-del').on('click',function(){
         var opt_data = $(this).get_opt_data();
 
-        var knowledge_id = opt_data.knowledge_id;
+        var answer_id = opt_data['answer_id'];
         var title = "你确定删除本知识点,标题为" + opt_data.title + "？";
         var data = {
-            'knowledge_id':knowledge_id
+            'answer_id':answer_id
         };
-
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/knowledge_dele",data);
+                $.do_ajax("/question/answer_dele",data);
             }
         });
 

@@ -212,6 +212,7 @@ class ajax_deal2 extends Controller
         $competition_flag    = $row["competition_flag"];
         $one_lesson_count    = $row["lesson_weeks"] ;
         $per_lesson_interval = $row["lesson_duration"] ;
+
         $order_start_time    = $row["contract_starttime"];
         $order_end_time      = \App\Helper\Utils::get_order_term_of_validity($order_start_time,$lesson_count);
         $contract_type       = $row["contract_type"];
@@ -227,13 +228,13 @@ class ajax_deal2 extends Controller
             return $this->output_err("不是1对１合同，不能生成合同");
         }
 
-        if (($lesson_count) <=90 ) {
-            $order_end_time =$order_start_time+365*86400;
-        } else if (($lesson_count) <=270 ) {
-            $order_end_time =$order_start_time+365*86400*2;
-        } else  {
-            $order_end_time =$order_start_time+365*86400*3;
-        }
+        // if (($lesson_count) <=90 ) {
+        //     $order_end_time =$order_start_time+365*86400;
+        // } else if (($lesson_count) <=270 ) {
+        //     $order_end_time =$order_start_time+365*86400*2;
+        // } else  {
+        //     $order_end_time =$order_start_time+365*86400*3;
+        // }
 
         if(!$one_lesson_count    ){ $one_lesson_count= 3; }
         if(!$per_lesson_interval ){ $per_lesson_interval = 40; }
