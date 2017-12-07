@@ -355,9 +355,9 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
             " select mg.up_groupid,u.adminid "
             ." from %s mg "
             ." left join %s g on g.up_groupid = mg.groupid "
-            ." left join %s u on u.groupid = n.groupid "
+            ." left join %s u on u.groupid = g.groupid "
             ." where mg.up_groupid = %u "
-            ,self::DB_TABLE_NAME//jg
+            ,self::DB_TABLE_NAME//mg
             ,t_admin_group_name::DB_TABLE_NAME//g
             ,t_admin_group_user::DB_TABLE_NAME//u
             ,$majordomo_groupid
