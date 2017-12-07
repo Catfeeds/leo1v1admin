@@ -1169,7 +1169,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.contract_type in (3,3001)"
         ];
         // $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
-        $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2,co.price*0.8,co.price)) money ".
+        $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2 and (co.channel='建行分期' or co.channel='baidu'),co.price*0.8,co.price)) money ".
                                  " from  %s m ".
                                  " left join %s o on o.sys_operator  = m.account".
                                  " left join %s co on o.orderid = co.parent_orderid and co.pay_status=1".

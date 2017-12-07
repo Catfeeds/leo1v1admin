@@ -475,5 +475,17 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_value($sql);
     }
 
+    public function get_son_adminid_by_up_groupid($admin_main_groupid){
+        $sql = $this->gen_sql_new(
+            " select g.up_groupid,u.adminid "
+            ." from %s g "
+            ." left join %s u on u.groupid = g.groupid "
+            ." where g.up_groupid = %u "
+            ,self::DB_TABLE_NAME//g
+            ,t_admin_group_user::DB_TABLE_NAME//u
+            ,$admin_main_groupid
+        );
+        return $this->main_get_list($sql);
+    }
  
 }

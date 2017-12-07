@@ -1898,7 +1898,7 @@ $(function(){
         });
     };
     var add_free=function( from_parent_order_type ) {
-        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count) {
+        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag=0) {
                 $.do_ajax("/ss_deal/seller_add_contract_free",{
                     "from_parent_order_type" : from_parent_order_type,
                     "parent_order_id"        : parent_order_id,
@@ -1907,6 +1907,7 @@ $(function(){
                     "lesson_total"           : lesson_total*100,
                     "to_userid" : to_userid,
                     "from_parent_order_lesson_count" :  from_parent_order_lesson_count*100 ,
+                    "part_competition_flag" : part_competition_flag
                 });
 
             };
@@ -1923,12 +1924,14 @@ $(function(){
             var $from_parent_order_lesson_count =$("<input/>");
             var $to_userid=$("<input/>");
             var $order_require_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
+            var $part_competition_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
             var $order_require_reason=$("<textarea/>");
 
             var arr=[
                 ["提取课时数",  $from_parent_order_lesson_count],
                 ["转给学生",    $to_userid ],
                 ["转给课时数",  $lesson_count  ],
+                ["是否转为竞赛合同",  $part_competition_flag  ],
                 ["需要特殊申请",$order_require_flag ],
                 ["特殊申请说明",$order_require_reason ],
             ];
@@ -1947,7 +1950,7 @@ $(function(){
                     if (!to_userid) {
                         alert("还没选择被赠送人");
                     }
-                    do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val() ,  to_userid  ,  $from_parent_order_lesson_count.val()  );
+                    do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val() ,  to_userid  ,  $from_parent_order_lesson_count.val(),$part_competition_flag.val()  );
                 }
             },function(){
                 opt_change_order_require_flag();

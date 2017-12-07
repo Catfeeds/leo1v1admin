@@ -85,13 +85,13 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $this->where_arr_add_int_or_idlist ($where_arr ,"seller_student_status", $seller_student_status );
         }
         $sql=$this->gen_sql_new(
-            "select tq.*, admin_role ,seller_student_status from %s tq"
+            "select tq.*, admin_role ,  -2 as seller_student_status from %s tq"
             . " left  join %s n on  n.phone= tq.phone  "
-            . " left  join %s t on  t.userid= n.userid "
+            //. " left  join %s t on  t.userid= n.userid "
             ."  where  %s order by start_time ",
             self::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
+            // t_test_lesson_subject::DB_TABLE_NAME,
             $where_arr);
 
         return $this->main_get_list_by_page($sql,$page_num);
@@ -107,7 +107,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ["m.uid=%u" , $callerid, -1 ],
         ];
 
-        $sql=$this->gen_sql_new("select account,tq.uid, count(*)  all_count, ".
+        $sql=$this->gen_sql_new("select account,tq.uid, m.uid as adminid,  count(*)  all_count, ".
                                 "sum(is_called_phone)  as is_called_phone_count, ".
                                 "sum(duration)  as duration_count, ".
                                 "count(distinct tq.phone )  as phone_count, "
@@ -661,10 +661,37 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
 
     public function get_all_info_by_cc(){
-        $sql = "select t.adminid, count(distinct(t.phone)) as total_user, sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0),o.price,0)) as total_money,sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0),1,0)) as total_num from db_weiyi_admin.t_tq_call_info  t
+        $sql = "select m.account ,t.adminid, count(distinct(t.phone)) as total_user".
+        /*
+        , sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),o.price,0)) as total_money,
+        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),1,0)) as total_num 
+        */
+        " from db_weiyi_admin.t_tq_call_info  t
 left join db_weiyi.t_student_info s on s.phone = t.phone
 left join db_weiyi.t_order_info o on s.userid = o.userid
-where t.start_time > 1509465600 and t.start_time < 1512057600 and o.order_time > 1509465600 and t.admin_role =2 group by t.adminid";
-        return $this->main_get_list($sql);
+left join db_weiyi_admin.t_manager_info m on m.uid = t.adminid
+where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role =2 group by t.adminid";
+        return $this->main_get_list($sql,function($item){
+               return $item["adminid"];
+        }); 
+    }
+
+    public function get_all_info_by_cc_new(){
+        $sql = "select adminid, count(distinct(phone)) as total_con_user from db_weiyi_admin.t_tq_call_info  
+        where start_time > 1509465600 and start_time < 1512057600 and is_called_phone=1 and admin_role =2 group by adminid";
+        return $this->main_get_list($sql,function($item){
+               return $item["adminid"];
+        }); 
+
+    }
+
+    public function get_all_info_by_cc_test(){
+        $sql = "select o.sys_operator, count(o.orderid) as total_num , sum(o.price)  as total_money from
+db_weiyi.t_order_info o 
+left join db_weiyi.t_student_info s on s.userid = o.userid
+where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600 and exists( select 1 from db_weiyi_admin.t_tq_call_info t where t.phone=s.phone and t.start_time > 1509465600 and t.start_time < 1512057600)  group by o.sys_operator";
+        return $this->main_get_list($sql,function($item){
+               return $item["sys_operator"];
+        });
     }
 }

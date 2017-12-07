@@ -42,23 +42,50 @@ class test_sam extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $ret_info = $task->t_tq_call_info->get_all_info_by_cc();
-        $path = '/var/www/admin.yb1v1.com/test_sam.txt';
+        $ret = $task->t_tq_call_info->get_all_info_by_cc_new();
+        $ret_test = $task->t_tq_call_info->get_all_info_by_cc_new();
+        $path = '/home/ybai/test_sam.txt';
         //$path = '/home/sam/admin_yb1v1/a.txt';
         $fp = fopen($path,"a+");
         //dd($fp);
         foreach ($ret_info as $key => $value) {
+            fwrite($fp, @$value['account']);//1
+            fwrite($fp, '   ');
             fwrite($fp, @$value['adminid']);//1
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_user']);//2
             fwrite($fp, '   ');
+            if(isset($ret[$value['adminid']]['total_con_user'])){
+                fwrite($fp, @$ret[$value['adminid']]['total_con_user']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+
+            if(isset($ret_test[$value['adminid']]['total_money'])){
+                fwrite($fp, @$ret_test[$value['adminid']]['total_money']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+            if(isset($ret_test[$value['adminid']]['total_num'])){
+                fwrite($fp, @$ret_test[$value['adminid']]['total_num']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+            /*
             fwrite($fp, @$value['total_money']);//3
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_num']);//4
-            fwrite($fp, '   ');
+            */
             fwrite($fp, "\n");
         }
         fclose($fp);
-        dd($ret_info);
+        //dd($ret_info);
         /*
         $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();
         foreach ($ret_info as $key => $value) {
