@@ -21,10 +21,14 @@
 
         <div class="col-xs-5 col-md-5">
             <div class="input-group">
-                <h4>{{@$question['title']}}</h4>
+                <span>总分值：{{@$question['score']}}</span>
+                <h4 style="margin-left:12px">{{@$question['title']}}</h4>
             </div>
         </div>
 
+        <input type="hidden" value="{{$next_step}}" id="next_step" />
+        <input type="hidden" value="{{$question['question_id']}}" id="question_id" />
+        <input type="hidden" value="{{$question['subject']}}" id="subject" />
     </div>
     <hr/>
 
@@ -59,7 +63,6 @@
             @endforeach
         </tbody>
     </table>
-    <input type="hidden" value="{{$next_step}}" id="next_step" />
     @include("layouts.page")
     
     </section>
