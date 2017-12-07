@@ -36,7 +36,7 @@ $(function(){
             $(this).attr({'id':'adminid_'+opt_data.adminid});
         });
 
-        $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
+        $.do_ajax("/seller_tongji/seller_test_lesson_info",{
             "adminid_arr"    : whole_data,
             "start_time" : g_args.start_time,
             "end_time"   : g_args.end_time,
