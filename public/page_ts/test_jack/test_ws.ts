@@ -13,7 +13,7 @@ $(function(){
     var ws = $.websocket("ws://" + window.location.hostname + ":8808/", {
         events: {
             "noti_order_payed": function (e) {
-                alert("xxxx");
+                alert("xxxxx");
                 /*
                 $.ajax({
                     'url': "/wx_login/check",
