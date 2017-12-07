@@ -1444,7 +1444,7 @@ class Utils  {
         }else{
             $validty_str = "+4 year";
         }
-        $validty_time = strtotime($validty_str,$pay_time);
+        $validty_time = strtotime($validty_str,$start_time);
         return $validty_time;
     }
 
