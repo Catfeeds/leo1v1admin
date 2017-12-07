@@ -260,7 +260,7 @@ class seller_tongji extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
         $data = [];
-        if(!is_array($adminid_arr) || !is_object($adminid_arr)){
+        if(!is_array($adminid_arr) && !is_object($adminid_arr)){
             return $this->output_succ($data);
         }
         foreach( $adminid_arr as $adminid){
