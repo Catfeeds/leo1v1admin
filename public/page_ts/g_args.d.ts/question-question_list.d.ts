@@ -16,6 +16,7 @@ interface RowData {
 	subject	:any;
 	detail	:any;
 	subject_str	:any;
+	knowledge_detail	:any;
 }
 
 /*

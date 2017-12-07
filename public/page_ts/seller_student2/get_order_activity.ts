@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/seller_student_new2-show_order_activity_info.d.ts" />
+/// <reference path="../g_args.d.ts/seller_student2-get_order_activity.d.ts" />
 
 $(function(){
     Enum_map.append_option_list("open_flag", $("#id_open_flag"));
@@ -7,40 +7,27 @@ $(function(){
     Enum_map.append_option_list("contract_type", $("#id_contract_type"));
     Enum_map.append_option_list("period_flag", $("#id_period_flag"));
 
-    $("#id_open_flag").val(g_args.id_open_flag);
-    $("#id_can_disable_flag").val(g_args.id_can_disable_flag);
-    $("#id_contract_type").val(g_args.id_contract_type);
-    $("#id_period_flag").val(g_args.id_period_flag);
 
-    //返回
-    $('#id_return').on('click',function(){
-        var return_url = GetQueryString("return_url");
-        window.location.href = return_url;
-    })
 
-    //关闭
-    $('#id_close').on('click',function(){
-        window.close(); 
-    })
 
     //编辑活动1
     $('#opt_edit_01').on('click',function(){
-        var opt_data = $(this).parents('#id_tea_info').get_self_opt_data(); 
+        var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
         var id_title = $("<input style='width:400px'/>");
         var id_date_range_start = $("<input/>");
         var id_date_range_end = $("<input/>");
         var id_lesson_times_min = $("<input/>");
         var id_lesson_times_max = $("<input/>");
 
-        id_title.val(opt_data.title);
-        id_date_range_start.val(opt_data.date_range_start);
-        id_date_range_end.val(opt_data.date_range_end);
-        id_lesson_times_min.val(opt_data.lesson_times_min);
-        id_lesson_times_max.val(opt_data.lesson_times_max);
+        id_title.val(opt_data["title"]);
+        id_date_range_start.val(opt_data["date_range_start"]);
+        id_date_range_end.val(opt_data["date_range_end"]);
+        id_lesson_times_min.val(opt_data["lesson_times_min"]);
+        id_lesson_times_max.val(opt_data["lesson_times_max"]);
 
         var timeItem = [id_date_range_start,id_date_range_end];
-        
-        bindTime(timeItem); 
+
+        bindTime(timeItem);
 
         var arr=[
             ["活动标题", id_title ],
@@ -71,14 +58,14 @@ $(function(){
                 ];
 
                 var checkTimeInfo = checkTime(timeInput);
-                
+
                 if( checkTimeInfo['status'] != 200 ){
                     BootstrapDialog.alert(checkTimeInfo['msg']);
                     return false;
                 }
 
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'title':title,
                     'date_range_start':date_range_start,
                     'date_range_end':date_range_end,
@@ -92,12 +79,7 @@ $(function(){
                     dataType :"json",
                     data     :data,
                     success : function(result){
-                        //console.log(result);
-                        BootstrapDialog.alert(result.info);
-                        var return_url = GetQueryString("return_url");
-                        if(result.status == 200){
-                            window.location.reload();
-                        }
+                        window.location.reload();
                     }
                 });
             }
@@ -108,17 +90,17 @@ $(function(){
     //编辑活动2
     $('#opt_edit_02').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
-        
+
         var id_grade_list =$("<input id='grade_list' />");
-        id_grade_list.val(opt_data.grade_list);
+        id_grade_list.val(opt_data["grade_list"]);
 
 
         var id_contract_type_list =$("<input id='contract_type_list'/> ");
-        id_contract_type_list.val(opt_data.contract_type_list);
+        id_contract_type_list.val(opt_data["contract_type_list"]);
 
         var id_period_flag_list =$("<input id='period_flag_list'/> ");
-        id_period_flag_list.val(opt_data.period_flag_list);
-        
+        id_period_flag_list.val(opt_data["period_flag_list"]);
+
         var arr=[
             ["适配年级", id_grade_list ],
             ["分期试用*", id_period_flag_list ],
@@ -131,12 +113,12 @@ $(function(){
             action : function(dialog) {
 
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'period_flag_list':id_period_flag_list.val(),
                     'contract_type_list':id_contract_type_list.val(),
                     'grade_list':id_grade_list.val(),
                 }
-                
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_02",
@@ -152,23 +134,23 @@ $(function(){
             $.enum_multi_select_new( $('#contract_type_list'), 'contract_type', function(){});
             $.enum_multi_select_new( $('#period_flag_list'), 'period_flag', function(){});
             $.enum_multi_select_new( $('#grade_list'), 'grade_only', function(){});
-            
+
         } ,false,900)
-        
+
     })
 
 
     //编辑活动3
     $('#opt_edit_03').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
-        
+
         var id_power_value = $("<input/>");
         var id_max_count = $("<input/>");
         var id_max_change_value = $("<input/>");
 
-        id_power_value.val(opt_data.power_value);
-        id_max_count.val(opt_data.max_count);
-        id_max_change_value.val(opt_data.max_change_value);
+        id_power_value.val(opt_data["power_value"]);
+        id_max_count.val(opt_data["max_count"]);
+        id_max_change_value.val(opt_data["max_change_value"]);
 
         var arr=[
             ["优惠力度(power_value)", id_power_value ],
@@ -180,14 +162,14 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-                
+
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'power_value':id_power_value.val(),
                     'max_count':id_max_count.val(),
                     'max_change_value':id_max_change_value.val(),
                 }
-              
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_03",
@@ -202,7 +184,7 @@ $(function(){
         })
 
     })
- 
+
     //编辑活动4
     $('#opt_edit_04').on('click',function(){
 
@@ -212,9 +194,9 @@ $(function(){
             type : "post",
             url : "/seller_student2/get_activity_all_list",
             dataType : "json",
-            data:{id:opt_data.id,max_count_activity_type_list:opt_data.max_count_activity_type_list}, 
+            data:{id:opt_data["id"],max_count_activity_type_list:opt_data["max_count_activity_type_list"]},
             success : function(res){
-                
+
                 if( res.status = 200 ){
                     var html = '';
                     for(var x in res.data){
@@ -227,7 +209,7 @@ $(function(){
 
                         }
                         html+= "<span>" + res.data[x].title + "</span></div>"
-                    } 
+                    }
                 }
                 id_activity_list.append(html);
             },
@@ -252,12 +234,12 @@ $(function(){
                 });
 
                 activity_list = activity_list.substring(0,activity_list.length-1);
- 
+
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'max_count_activity_type_list':activity_list,
                 }
-              
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_04",
@@ -270,7 +252,7 @@ $(function(){
                 });
             }
         })
- 
+
 
     })
 
@@ -287,10 +269,10 @@ $(function(){
         var id_need_spec_require_flag =$("<select/>");
         Enum_map.append_option_list("boolean", id_need_spec_require_flag,true);
 
-        id_can_disable_flag.val(opt_data.can_disable_flag);
-        id_open_flag.val(opt_data.open_flag);
-        id_need_spec_require_flag.val(opt_data.need_spec_require_flag);
- 
+        id_can_disable_flag.val(opt_data["can_disable_flag"]);
+        id_open_flag.val(opt_data["open_flag"]);
+        id_need_spec_require_flag.val(opt_data["need_spec_require_flag"]);
+
         var arr=[
             ["是否需要特殊申请", id_need_spec_require_flag ],
             ["是否开启活动", id_open_flag ],
@@ -301,14 +283,14 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-               
+
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'can_disable_flag':id_can_disable_flag.val(),
                     'open_flag':id_open_flag.val(),
                     'need_spec_require_flag':id_need_spec_require_flag.val(),
                 }
-              
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_05",
@@ -326,21 +308,21 @@ $(function(){
     //编辑活动6
     $('#opt_edit_06').on('click',function(){
 
-        var opt_data = $(this).parents('#id_tea_info').get_self_opt_data(); 
-        
+        var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
+
         var id_user_join_time_start = $("<input/>");
         var id_user_join_time_end = $("<input/>");
         var id_last_test_lesson_start = $("<input/>");
         var id_last_test_lesson_end = $("<input/>");
 
-        id_user_join_time_start.val(opt_data.user_join_time_start);
-        id_user_join_time_end.val(opt_data.user_join_time_end);
-        id_last_test_lesson_start.val(opt_data.last_test_lesson_start);
-        id_last_test_lesson_end.val(opt_data.last_test_lesson_end);
+        id_user_join_time_start.val(opt_data["user_join_time_start"]);
+        id_user_join_time_end.val(opt_data["user_join_time_end"]);
+        id_last_test_lesson_start.val(opt_data["last_test_lesson_start"]);
+        id_last_test_lesson_end.val(opt_data["last_test_lesson_end"]);
 
         var timeItem = [id_user_join_time_start,id_user_join_time_end,id_last_test_lesson_start,id_last_test_lesson_end];
-        
-        bindTime(timeItem); 
+
+        bindTime(timeItem);
 
         var arr=[
             ["用户加入开始时间", id_user_join_time_start ],
@@ -367,7 +349,7 @@ $(function(){
                 ];
 
                 var checkTimeInfo = checkTime(timeInput);
-                
+
                 if( checkTimeInfo['status'] != 200 ){
                     BootstrapDialog.alert(checkTimeInfo['msg']);
                     return false;
@@ -375,13 +357,13 @@ $(function(){
 
 
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'user_join_time_start':user_join_time_start,
                     'user_join_time_end':user_join_time_end,
                     'last_test_lesson_start':last_test_lesson_start,
                     'last_test_lesson_end':last_test_lesson_end,
                 }
-               
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_06",
@@ -396,22 +378,22 @@ $(function(){
         })
 
     })
-  
+
     //编辑活动7
     $('#opt_edit_07').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
 
         var id_discount_type =$("<select onchange='changeActivity(this)'/>");
-        Enum_map.append_option_list("order_activity_discount_type", id_discount_type);
-        id_discount_type.val(opt_data.order_activity_discount_type);
+        Enum_map.append_option_list("order_activity_discount_type", id_discount_type,true);
+        id_discount_type.val(opt_data["order_activity_discount_type"]);
         var id_discount_json = $("<div class='discount_activity' style='width:420px'/>");
-        var edit_json = opt_data.discount_json;
-        var discount_type = opt_data.order_activity_discount_type;
+        var edit_json = opt_data["discount_json"];
+        var discount_type = opt_data["order_activity_discount_type"];
 
         //展示编辑页面
-        
+
         editJson(id_discount_json,edit_json,discount_type);
-        
+
         var arr=[
             ["优惠类型", id_discount_type ],
             ["优惠方案",id_discount_json  ],
@@ -429,23 +411,23 @@ $(function(){
                     if( condition == '' || discount == ''){
                         checkFull = 0;
                     }
-                    
+
                     discount_json[condition] = discount;
-                   
+
                 });
-                
+
                 if( checkFull == 0 ){
                     BootstrapDialog.alert("请输入完整，再点击提交");
                     return false;
                 }
                 discount_json = JSON.stringify(discount_json);
-                
+
                 var data = {
-                    'id': opt_data.id,
+                    'id': opt_data["id"],
                     'order_activity_discount_type':id_discount_type.val(),
                     'discount_json':discount_json,
                 }
-                
+
                 $.ajax({
                     type     :"post",
                     url      :"/seller_student2/update_order_activity_07",
@@ -464,13 +446,13 @@ $(function(){
 });
 //根据不同的优惠活动选择不同的选项
 function changeActivity(obj){
-    //1 按课次数打折 2 按年级打折 3 按课次数送课 4 按金额立减
+    //1 按课次数打折 2 按年级打折 3 按课次数送课 4 按金额立减 4 按课次数立减
     var act = $(obj).val();
     var activity = showActivity(act);
     var opt_data = $('#id_tea_info').get_self_opt_data();
 
-    var edit_json = opt_data.discount_json;
-    var discount_type = opt_data.order_activity_discount_type;
+    var edit_json = opt_data["discount_json"];
+    var discount_type = opt_data["order_activity_discount_type"];
     var id_discount_json = $('.discount_activity');
     id_discount_json.html('');
     if( act == discount_type ){
@@ -483,10 +465,10 @@ function changeActivity(obj){
 }
 
 function showActivity(config){
- 
-    var activity = '';
-    var config = parseInt(config);
-    switch(config){
+
+    var activity = null;
+    var config_type = parseInt(config);
+    switch(config_type){
     case 1:
         activity = $(".lesson_times_off_perent_list:hidden").clone();
         break;
@@ -498,6 +480,9 @@ function showActivity(config){
         break;
     case 4:
         activity = $(".price_off_money_list:hidden").clone();
+        break;
+    case 5:
+        activity = $(".lesson_times_off_money:hidden").clone();
         break;
     default:
         activity = $(".lesson_times_off_perent_list:hidden").clone();
@@ -519,7 +504,7 @@ function showActivity(config){
 
 //编辑活动
 function editJson(id_discount_json,edit_json,discount_type){
-    
+
     if( edit_json != ''){
         var index = 0;
         for(var x in edit_json){
@@ -541,7 +526,7 @@ function editJson(id_discount_json,edit_json,discount_type){
         var activity = showActivity(1);
         id_discount_json.append(activity);
     }
-    
+
 }
 
 //回车添加新的输入框
@@ -575,13 +560,6 @@ function nextInput(event){
 function remove_activity(index){
     $('.discount_activity .activity_'+index).remove();
 };
-//获取链接参数
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null) return unescape(r[2]); return null;
-}
 
 //必须检查输入
 function  checkInput(haveInput)
@@ -630,10 +608,3 @@ function bindTime(itemArr){
     }
 }
 
-function keyPressCheck(ob) {
-    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
-}
-
-function keyUpCheck(ob) {
-    if (!ob.value.match(/^[\+\-]?\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
-}

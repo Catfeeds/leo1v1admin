@@ -5,6 +5,7 @@ interface JQueryStatic {
     custom_upload_file_process (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ):void;
 
     enum_multi_select ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
+    enum_multi_select_new ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
     intval_range_select ( $element,  onChange  ):void ;
 
     reload( ):void;

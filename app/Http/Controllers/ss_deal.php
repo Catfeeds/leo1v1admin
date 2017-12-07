@@ -1996,6 +1996,8 @@ class ss_deal extends Controller
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = "";
             $url = "http://www.leo1v1.com/login/teacher";
+            // $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 

@@ -1,5 +1,4 @@
 interface GargsStatic {
-
 }
 declare module "g_args" {
     export = g_args;
@@ -14,17 +13,18 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/tongji_student_subject.ts
+	 mkdir -p ../test_jack; vi  ../test_jack/test_ws.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage-tongji_student_subject.d.ts" />
+/// <reference path="../g_args.d.ts/test_jack-test_ws.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-
-        });
-    }
 
 
 
