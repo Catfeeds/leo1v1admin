@@ -3266,4 +3266,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_parentid_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new("  select s.parentid from %s s "
+                                  ." left join %s l on l.userid=s.userid"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
 }
