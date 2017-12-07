@@ -1097,6 +1097,13 @@ class test_jack  extends Controller
         return $this->pageView(__METHOD__);
     }
 
+    public function test_hha(){
+        // $url = \App\Helper\Config::get_monitor_new_url() .":8808/pay_notify?userid=10001&sub_orderid=88";
+        // dd($url);
+        file_get_contents("http://self.admin.leo1v1.com:8808/pay_notify?userid=10001&sub_orderid=88");
+
+    }
+
 
 
 
