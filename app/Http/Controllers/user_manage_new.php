@@ -1208,9 +1208,10 @@ class user_manage_new extends Controller
             if (isset($power_map[$page_id]) && $power_map[$page_id]) { $check = true;}
             $item['checked'] = $check;
             unset($item['url']);
-            $info[] = $item;
+            //$info[] = $item;
             if (isset($item['list'])) {
-                $len2 = count($item['list']);
+                $len1 = count($item['list']);
+                $j = 0;
                 foreach($item['list'] as &$item2) {
                     $k2 = $i;
                     $item2['id'] = $k2;
@@ -1222,12 +1223,17 @@ class user_manage_new extends Controller
                     }
                     $item2['name'] .= ' - '.$item2['page_id'];
                     $check = false;
-                    if (isset($power_map[$page_id2]) && $power_map[$page_id2]) { $check = true;}
+                    if (isset($power_map[$page_id2]) && $power_map[$page_id2]) {
+                        $check = true;
+                        $j ++;
+                    }
                     $item2['checked'] = $check;
                     unset($item2['url']);
-                    $info[] = $item2;
+                    //$info[] = $item2;
                     $i ++;
                     if (isset($item2['list'])) {
+                        $len2 = count($item2['list']);
+                        $k = 0;
                         foreach($item2['list'] as &$item3) {
                             $k3 = $i;
                             $item3['page_id'] = $page_id2 + $item3['power_id'];
@@ -1235,16 +1241,28 @@ class user_manage_new extends Controller
                             $item3['id'] = $k3;
                             $item3['pId'] = $k2;
                             $check = false;
-                            if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) { $check = true;}
+                            if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) {
+                                $check = true;
+                                $k ++;
+                            }
                             $item3['checked'] = true;
                             unset($item3['url']);
                             $info[] = $item3;
                             $i ++;
+                            if ($len2 == $k) {
+                                $item2['checked'] = true;
+                                $j ++;
+                            }
                         }
                     }
+                    if ($len1 == $j) {
+                        $item['checked'] = true;
+                    }
+                    $info[] = $item2;
                 }
                 
-            } 
+            }
+            $info[] = $item;
         }
 
         $key = $i;

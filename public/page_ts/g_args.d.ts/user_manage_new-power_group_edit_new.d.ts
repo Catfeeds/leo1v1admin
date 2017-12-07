@@ -12,8 +12,6 @@ declare var g_adminid: any;
 interface RowData {
 	power_id	:any;
 	name	:any;
-	list	:any;
-	start	:any;
 	id	:any;
 	pId	:any;
 	page_id	:any;

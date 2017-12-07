@@ -58,7 +58,17 @@ function load_data(){
     });
 }
 $(function(){
-  $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+    // 处理全选
+    var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+    var nodes = treeObj.getCheckedNodes(true);
+    for(var i = 0; i < nodes.length; i ++) {
+        if (nodes[i].name == '服务管理') {
+            nodes[i].checked = true;
+            treeObj.updateNode(nodes[i]); 
+        }
+    }
 
 	$('#id_groupid').val(g_args.groupid);
 	$('#id_show_flag').val(g_args.show_flag);
