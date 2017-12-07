@@ -119,7 +119,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
 
         var question_id = opt_data.question_id;
-        var title = "当删除本题时，本题目对应的知识点和解题步骤将全部删除，你确定删除？,标题为" + opt_data.title + "？";
+        var title = "当删除本题时，本题目对应的知识点和解题步骤将全部删除，你确定删除？";
         var data = {
             'question_id':question_id
         };
@@ -252,15 +252,37 @@ $(function(){
         });
     };
 
+    //获取知识点详情
     $('.get_knowledge_detail').click(function(){
-        var detail = $(this).next().text();
-        console.log(detail);
+        var detail = $(this).parent().find('.question_knowledge_detail').text();
         var arr=[
             ["知识点详情", detail ],
         ];
         $.show_key_value_table("知识点详情", arr,null);
     })
 
+    //删除题目对应的知识点
+    $('.del_knowledge').click(function(){
+        var id = $(this).parent().find('input:hidden').val();
+        var title = "确定删除?";
+        var data = {
+            'id':id
+        };
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question/question_know_dele",data);
+            }
+        });
+
+    })
+
+    //编辑对应的答案
+    $('.fa-comments').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var question_id = opt_data.question_id;
+        window.open('/question/answer_list?question_id='+question_id);
+    })
+ 
 })
 
 

@@ -379,6 +379,42 @@ $(function(){
 
     })
 
+    //8编辑json字符串
+    $('#opt_edit_08').on('click',function(){
+        var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
+
+        var id_discount_json = $("<textarea/>");
+        var discount_json = $(this).parent().parent().find('.json_input').val();
+        id_discount_json.val(discount_json);
+        var arr=[
+            ["优惠json字符串", id_discount_json ],
+        ];
+
+        $.show_key_value_table("编辑活动", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action : function(dialog) {
+
+                var data = {
+                    'id': opt_data["id"],
+                    'discount_json':id_discount_json.val(),
+                }
+  
+                $.ajax({
+                    type     :"post",
+                    url      :"/seller_student2/update_order_activity_08",
+                    dataType :"json",
+                    data     :data,
+                    success : function(result){
+                        BootstrapDialog.alert(result['info']);
+                        window.location.reload();
+                    }
+                });
+            }
+        })
+
+    })
+
     //编辑活动7
     $('#opt_edit_07').on('click',function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
@@ -522,6 +558,11 @@ function editJson(id_discount_json,edit_json,discount_type){
         }
         var activity = showActivity(discount_type);
         id_discount_json.append(activity);
+        var className = id_discount_json.find('.lesson_activity:eq('+index+')').attr('class').replace(/[0-9]/ig,"")+index;
+        id_discount_json.find('.lesson_activity:eq('+index+')').attr({'class':className});
+        id_discount_json.find('.activity_'+index+' button').attr({
+            'onclick':"remove_activity("+index+")"
+        });
     }else{
         var activity = showActivity(1);
         id_discount_json.append(activity);
