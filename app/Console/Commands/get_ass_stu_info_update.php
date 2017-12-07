@@ -175,6 +175,19 @@ class get_ass_stu_info_update extends Command
         $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
         $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
 
+
+        // 获取当前月周数
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+
+
         foreach($ass_list as $k=>$item){
             if(!isset($item["warning_student"])){
                 $item["warning_student"]=0;
@@ -426,6 +439,20 @@ class get_ass_stu_info_update extends Command
                 }
                 $userid_list_last = json_encode($userid_list_last);
 
+
+                //获取该月有几周
+                $start_info       = \App\Helper\Utils::get_week_range($month,1 );
+                $first_week = $start_info["sdate"];
+                $next_month = strtotime("+1 months",$month);
+                $end_info = \App\Helper\Utils::get_week_range($next_month,1 );
+                if($end_info["edate"] <= $next_month){
+                    $last_week =  $end_info["sdate"];
+                }else{
+                    $last_week =  $end_info["sdate"]-7*86400;
+                }
+                $number = ($last_week-$first_week)/(7*86400)+1;
+
+
                 //月初周总课时消耗数
                 $read_student_list = @$item["userid_list"];//改为在读人数
                 // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
@@ -433,7 +460,7 @@ class get_ass_stu_info_update extends Command
                     $read_student_arr = json_decode( $read_student_list,true);
                     $last_stu_num = count($read_student_arr);//月初在读人员数
                     $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
-                    $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
+                    $estimate_month_lesson_count =$number*$last_lesson_total/$last_stu_num;
                 }else{
                     $read_student_arr=[];      
                     $estimate_month_lesson_count =100;
