@@ -24,9 +24,9 @@ class seller_student2 extends Controller
         ];
 
         $page_num        = $this->get_in_page_num();
- 
+
         $ret_list = $this->t_order_activity_config->get_list($where_arr,$page_num);
-        
+
         $gradeArr = E\Egrade_only::$desc_map;
         if($ret_list['list']){
             foreach( $ret_list['list'] as &$item){
@@ -49,7 +49,7 @@ class seller_student2 extends Controller
                     }
                     $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
                 }else{
-                    $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']); 
+                    $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
                 }
 
                 $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
@@ -95,7 +95,7 @@ class seller_student2 extends Controller
                 }else{
                     $item['last_test_lesson_range'] = "未设置";
                 }
-              
+
                 //优惠列表展示
                 $discount_str = '';
                 if($item['discount_json']){
@@ -107,7 +107,7 @@ class seller_student2 extends Controller
                         }
                     }
                 }
-         
+
                 $item['discount_list'] = $discount_str;
 
                 //配额组合
@@ -141,7 +141,7 @@ class seller_student2 extends Controller
             if($item){
                 $result['status'] = 500;
                 $result['msg'] = "活动id:".$id."已经存在，请换个id输入！";
-                return $this->output_succ($result); 
+                return $this->output_succ($result);
             }
         }
 
@@ -172,11 +172,11 @@ class seller_student2 extends Controller
         if($ret){
             $result['status'] = 200;
             $result['msg'] = "插入成功";
-            return $this->output_succ($result); 
+            return $this->output_succ($result);
         }else{
             $result['status'] = 500;
             $result['msg_get_queue($key, $perms)'] = "插入失败！";
-            return $this->output_succ($result); 
+            return $this->output_succ($result);
 
         }
     }
@@ -184,9 +184,9 @@ class seller_student2 extends Controller
     public function dele_order_activity(){
         $id = $this->get_in_int_val('id');
         $this->t_order_activity_config->del_by_id($id);
-        return $this->output_succ(); 
+        return $this->output_succ();
     }
-    
+
     public function get_order_activity(){
         $id = $this->get_in_int_val('id');
         $item = $this->t_order_activity_config->get_by_id($id);
@@ -241,14 +241,14 @@ class seller_student2 extends Controller
             $item["user_join_time_end"] = !empty($item["user_join_time_end"]) ? date('Y-m-d',$item["user_join_time_end"]) : '';
             $item["last_test_lesson_start"] = !empty($item["last_test_lesson_start"]) ? date('Y-m-d',$item["last_test_lesson_start"]) : '';
             $item["last_test_lesson_end"] = !empty($item["last_test_lesson_end"]) ? date('Y-m-d',$item["last_test_lesson_end"]) : '';
- 
+
             //寻找配额组合
             $activity_type_list = $this->t_order_activity_config->get_activity_exits_list($item['max_count_activity_type_list']);
-            
-            
+
+
             //优惠列表展示
             $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
-            
+
         }
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
@@ -270,23 +270,23 @@ class seller_student2 extends Controller
         $page_num  = $this->get_in_page_num();
         $ret  = \App\Helper\Utils::list_to_page_info([]);
         $ret = $this->t_order_activity_config->get_all_activity($id,$open_flag,$title,$page_num);
-        
+
         if($ret){
             foreach($ret['list'] as &$item){
                 $item['open_flag_str'] = E\Eopen_flag::get_desc($item['open_flag']);
             }
         }
-        
+
         return $this->output_ajax_table($ret, [ "lru_list" => [] ]);
     }
 
     //获取当前时间内所有有效活动
     public function get_current_activity(){
-        
+
         $open_flag   = $this->get_in_int_val('id_open_flag',-1);
         $page_num        = $this->get_in_page_num();
         $ret = $this->t_order_activity_config->get_current_activity($open_flag,$page_num);
-        
+
         if($ret['list']){
             foreach($ret['list'] as &$item){
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
@@ -320,7 +320,7 @@ class seller_student2 extends Controller
             return $this->output_succ($result);
         }
         $all_activity_type_list = array_column($activity_type_list, 'title', 'id');
-        
+
         $exits_arr = [];
         $info = [];
         if($activity_type_list_id){
@@ -360,7 +360,7 @@ class seller_student2 extends Controller
         if(!$discout_json){
             return $dicount_list;
         }
-        
+
         $discount_type = (int)$discount_type;
         $discout = json_decode($discout_json);
         if(is_array($discout) || is_object($discout)){
@@ -402,19 +402,19 @@ class seller_student2 extends Controller
                 $dicount_list = array();
                 break;
             }
-            
+
         }
-        
+
         return $dicount_list;
     }
 
     public function update_order_activity_01(){
         //返回结果
         $result['status'] = 200;
-       
+
         $id = $this->get_in_int_val('id');
-        
-        
+
+
         $title = $this->get_in_str_val('title','-1');
         $date_range_start = trim($this->get_in_str_val('date_range_start',null));
         $date_range_end = trim($this->get_in_str_val('date_range_end',null));
@@ -430,7 +430,7 @@ class seller_student2 extends Controller
         !empty($date_range_start) ? $updateArr['date_range_start'] = strtotime($date_range_start.' 00:00:00') : $updateArr['date_range_start'] = null;
         !empty($date_range_end) ? $updateArr['date_range_end'] = strtotime($date_range_end.' 23:59:59') : $updateArr['date_range_end'] = null;
 
- 
+
         if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             $result['info'] = '更新成功';
             return $this->output_succ($result);
