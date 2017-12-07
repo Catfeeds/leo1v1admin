@@ -2149,6 +2149,7 @@ class ss_deal extends Controller
         $order_require_reason   = $this->get_in_str_val("order_require_reason");
         $to_userid  = $this->get_in_int_val("to_userid");
         $from_parent_order_lesson_count  = $this->get_in_int_val("from_parent_order_lesson_count");
+        $part_competition_flag  = $this->get_in_int_val("part_competition_flag");
 
         $tt_item=$this->t_order_info->field_get_list($parent_order_id,"userid,grade,subject,competition_flag");
         if (!$tt_item) {
@@ -2209,6 +2210,7 @@ class ss_deal extends Controller
                 return $this->output_err("请选择被赠人");
             }
             $grade = $this->t_student_info->get_grade($userid);
+            $competition_flag = $part_competition_flag;
 
 
         }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){

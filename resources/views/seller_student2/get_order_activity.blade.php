@@ -357,6 +357,10 @@
 
                                     </div>
                                 </div>
+                                <div class="col-xs-1 col-md-1  row-td-field-value">
+                                    <button style="margin-left:10px"  id="opt_edit_07" type="button" class="btn btn-primary">编辑</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -372,7 +376,7 @@
                                     <textarea class="json_input" disabled ="disabled">{{@$ret_info['discount_json']}}</textarea>
                                 </div>
                                 <div class="col-xs-1 col-md-1  row-td-field-value">
-                                    <button style="margin-left:10px"  id="opt_edit_07" type="button" class="btn btn-primary">编辑</button>
+                                    <button style="margin-left:10px"  id="opt_edit_08" type="button" class="btn btn-primary">编辑</button>
                                 </div>
 
                             </div>
