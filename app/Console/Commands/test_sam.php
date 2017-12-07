@@ -43,6 +43,7 @@ class test_sam extends Command
         $task=new \App\Console\Tasks\TaskController();
         $ret_info = $task->t_tq_call_info->get_all_info_by_cc();
         $ret = $task->t_tq_call_info->get_all_info_by_cc_new();
+        $ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
         $path = '/home/ybai/test_sam.txt';
         //$path = '/home/sam/admin_yb1v1/a.txt';
         $fp = fopen($path,"a+");
@@ -54,17 +55,33 @@ class test_sam extends Command
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_user']);//2
             fwrite($fp, '   ');
-            if(isset($ret[$value['adminid']]['total_con_user'])){
-                fwrite($fp, @$ret[$value['adminid']]['total_con_user']);//4
+            if(isset($ret[$value['account']]['total_con_user'])){
+                fwrite($fp, @$ret[$value['account']]['total_con_user']);//4
                 fwrite($fp, '   ');
             }else{
                 fwrite($fp, 0);//4
                 fwrite($fp, '   ');
             }
+
+            if(isset($ret_test[$value['account']]['total_money'])){
+                fwrite($fp, @$ret_test[$value['account']]['total_money']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+            if(isset($ret_test[$value['account']]['total_num'])){
+                fwrite($fp, @$ret_test[$value['account']]['total_num']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+            /*
             fwrite($fp, @$value['total_money']);//3
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_num']);//4
-            
+            */
             fwrite($fp, "\n");
         }
         fclose($fp);

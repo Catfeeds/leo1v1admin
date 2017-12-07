@@ -1165,6 +1165,118 @@ class user_manage_new extends Controller
         return array_merge($list, $class_list ,$sub_list);
     }
 
+    public function get_menu_list_new($power_map) {
+        $start = 1000000;
+        $menu =\App\Helper\Config::get_menu();
+        foreach($menu as &$item) {
+            $item['start'] = $start;
+        }
+        $stu_menu = \App\Helper\Config::get_stu_menu();
+        $tea_menu = \App\Helper\Config::get_tea_menu();
+
+        $sub_menu=[
+            ["power_id"=>1, "name"=>"子栏-学生信息", "list"=> $stu_menu],
+            ["power_id"=>2, "name"=>"子栏-老师信息", "list"=> $tea_menu],
+        ]; // * 2
+        foreach($sub_menu as &$item) {
+            $item['start'] = $start * 2;
+        }
+
+        $class_list=\App\ClassMenu\menu::get_config(); // * 3
+        foreach($class_list as &$item) {
+            $item['start'] = $start * 3;
+        }
+
+
+        $menu = array_merge($menu, $sub_menu, $class_list);
+
+        $len = count($menu);
+        $i = 1;
+        $info = '';
+        foreach($menu as &$item) { // 生成树对应的数据
+            $k1 = $i;
+            $item['id'] = $k1;
+            $item['pId'] = 0;
+            $i ++;
+            $page_id = $item['start'] + $item['power_id'] * 10000;
+            $item['page_id'] = $page_id;
+            if (isset($item['list'])) {
+                $item['page_id'] = 0;
+            }
+            $item['name'] .= ' - '.$item['page_id'];
+            $check = false;
+            if (isset($power_map[$page_id]) && $power_map[$page_id]) { $check = true;}
+            $item['checked'] = $check;
+            unset($item['url']);
+            //$info[] = $item;
+            if (isset($item['list'])) {
+                $len1 = count($item['list']);
+                $j = 0;
+                foreach($item['list'] as &$item2) {
+                    $k2 = $i;
+                    $item2['id'] = $k2;
+                    $item2['pId'] = $k1;
+                    $page_id2 = $page_id + $item2['power_id'] * 100;
+                    $item2['page_id'] = $page_id2;
+                    if (isset($item2['list'])) {
+                        $item2['page_id'] = 0;
+                    }
+                    $item2['name'] .= ' - '.$item2['page_id'];
+                    $check = false;
+                    if (isset($power_map[$page_id2]) && $power_map[$page_id2]) {
+                        $check = true;
+                        $j ++;
+                    }
+                    $item2['checked'] = $check;
+                    unset($item2['url']);
+                    //$info[] = $item2;
+                    $i ++;
+                    if (isset($item2['list'])) {
+                        $len2 = count($item2['list']);
+                        $k = 0;
+                        foreach($item2['list'] as &$item3) {
+                            $k3 = $i;
+                            $item3['page_id'] = $page_id2 + $item3['power_id'];
+                            $item3['name'] .= ' - '.$item3['page_id'];
+                            $item3['id'] = $k3;
+                            $item3['pId'] = $k2;
+                            $check = false;
+                            if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) {
+                                $check = true;
+                                $k ++;
+                            }
+                            $item3['checked'] = true;
+                            unset($item3['url']);
+                            $info[] = $item3;
+                            $i ++;
+                            if ($len2 == $k) {
+                                $item2['checked'] = true;
+                                $j ++;
+                            }
+                        }
+                    }
+                    if ($len1 == $j) {
+                        $item['checked'] = true;
+                    }
+                    $info[] = $item2;
+                }
+                
+            }
+            $info[] = $item;
+        }
+
+        $key = $i;
+        $info[] = ['id' => $key, 'pId' => 0, 'name' => '其它 - 0'];
+        $i ++;
+        foreach(E\Epower::$desc_map as $k => $v) {
+            $check = false;
+            if (isset($power_map[$k]) && $power_map[$k]) { $check = true;}
+            $info[] = ['id' => $i, 'pId' => $key, 'name' => $v.' - '.$k.'    配置权限', 'page_id' => $k, 'checked' => $check];
+            $i ++;
+        }
+        return $info;
+    }
+
 
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;
@@ -1953,6 +2065,34 @@ class user_manage_new extends Controller
 
 
     }
+
+    public function power_group_edit_new() {
+        $group_list = $this->t_authority_group->get_auth_groups();
+        $default_groupid = 0;
+        if (count($group_list)>0) {
+            $default_groupid= $group_list[0]["groupid"];
+        }
+        $groupid  = $this->get_in_int_val("groupid",$default_groupid);
+        $show_flag= $this->get_in_int_val("show_flag", -1);
+        $list=[];
+        $user_list=[];
+        $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
+        if ($show_flag!=2) { //只用户
+            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
+            $list=$this->get_menu_list_new($power_map );
+            $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        }else{
+            $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        }
+
+        return $this->Pageview(__METHOD__,$ret_info,[
+            "group_list"=>$group_list,
+            "user_list"=>$user_list,
+            "list"=>$list
+        ]);
+
+    }
+
     public function power_group_edit() {
         $group_list = $this->t_authority_group->get_auth_groups();
         $default_groupid = 0;

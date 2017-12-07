@@ -41,9 +41,8 @@ $(function(){
                  '&opt_date_type=' + g_args.opt_date_type+
                  '&start_time='    + g_args.start_time+
                  '&end_time='      + g_args.end_time+
-                 '&uid='      +  opt_data.uid
+                 '&uid='      +  opt_data.adminid
                );
-
     });
 
 });

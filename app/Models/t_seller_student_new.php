@@ -1827,7 +1827,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["hold_flag=%u", $hold_flag, -1 ],
         ];
         $sql=$this->gen_sql_new(
-            "select count(*) from %s n join %s t on n.userid=t.userid where admin_revisiterid=%u and %s",
+            "select count(distinct(n.userid ))  from %s n join %s t on n.userid=t.userid where admin_revisiterid=%u and %s",
             self::DB_TABLE_NAME ,
             t_test_lesson_subject::DB_TABLE_NAME,
             $admin_revisiterid,

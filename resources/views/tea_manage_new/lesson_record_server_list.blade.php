@@ -10,18 +10,18 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">subject</span>
-                <input class="opt-change form-control" id="id_subject" />
-            </div>
-        </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">subject</span>
+                        <input class="opt-change form-control" id="id_subject" />
+                    </div>
+                </div>
 
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">类型</span>
-                        <select class="opt-change form-control" id="id_lesson_type" >
+                        <select   class="opt-change form-control" id="id_lesson_type" >
                         </select>
                     </div>
                 </div>
@@ -66,7 +66,9 @@
                     <td>lessonid</td>
                     <td class="td-query" data-queryid="id_record_audio_server1"  style="min-width:100px;"   >声音服务器</td>
                     <td class="td-query" data-queryid="id_xmpp_server_name"  style="min-width:100px;"   > xmpp服务器</td>
-                    <td class="td-query" data-queryid="id_lesson_type"  style="min-width:100px;"   >课程类型</td>
+                    <td  style="min-width:100px;"   >
+                        <span>课程类型</span> <a href="javascript:;" class="fa  fa-sort "/> <a href="javascript:;" class="fa fa-filter"/> 
+                    </td>
                     <td class="td-query" data-queryid="id_date_range"  style="min-width:100px;"   > 上课时间 </td>
                     <td class="td-query" data-queryid="id_subject"  style="min-width:100px;"   > 科目</td>
                     <td>学生</td>

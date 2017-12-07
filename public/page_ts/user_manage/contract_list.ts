@@ -1898,7 +1898,10 @@ $(function(){
         });
     };
     var add_free=function( from_parent_order_type ) {
-        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag=0) {
+        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag) {
+            if (! part_competition_flag) {
+                part_competition_flag =0;
+            }
                 $.do_ajax("/ss_deal/seller_add_contract_free",{
                     "from_parent_order_type" : from_parent_order_type,
                     "parent_order_id"        : parent_order_id,
@@ -2411,7 +2414,6 @@ $(function(){
         var $parent_name = $('<input/>');
         var remark          = $('<textarea></textarea>');
 
-
         $.do_ajax("/ss_deal/get_contract_info",{
             "orderid":opt_data.orderid
         },function(result){
@@ -2422,18 +2424,12 @@ $(function(){
                 [ "收件人"  , addressee ],
                 [ "收件人电话"  , receive_phone],
                 [ "收件人地址"  , receive_addr],
-                /*
-                [ "每周课时"  , lesson_weeks],
-                [ "每节课时长"  , lesson_duration],
-                */
                 [ "申请时间"  , app_time],
-                // [ "备注"  , remark],
             ];
 
             app_time.text(data.app_time_str);
             student_name.text(opt_data.stu_nick);
             addressee.val(data.nick);
-            // alert(data.phone);
             receive_phone.val(data.phone);
             receive_addr.val(data.address);
             if(data.lesson_duration){
