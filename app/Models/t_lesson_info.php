@@ -1573,7 +1573,7 @@ lesson_type in (0,1) "
         if($num >= 1){
             $sql .= "having count(*) = ".$num;
         }
-        return $this->main_get_list_by_page($sql,$page_num,30,true);
+        return $this->main_get_list_by_page($sql,$page_num,5000,true);
     }
     public function get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid){
         $where_arr=[
@@ -3216,7 +3216,7 @@ lesson_type in (0,1) "
                                   ." and lesson_status=2"
                                   ." and s.is_test_user=0"
                                   ." and lesson_del_flag=0"
-                                  ." group by nick"
+                                  ." group by teacherid"
                                   ." order by lesson_total desc"
                                   ." limit 50"
                                   ,self::DB_TABLE_NAME
@@ -3224,6 +3224,7 @@ lesson_type in (0,1) "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 

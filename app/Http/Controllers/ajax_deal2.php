@@ -199,23 +199,24 @@ class ajax_deal2 extends Controller
     }
 
     public function gen_order_pdf(){
-        $orderid   = $this->get_in_int_val("orderid");
-        $parent_name = $this->get_in_str_val("parent_name");
-        $row       = $this->t_order_info->field_get_list($orderid,"*");
-        $type_1_lesson_count=$this->t_order_info->get_type1_lesson_count ($orderid)/100;
-        $userid    = $row["userid"];
-        $username           = $this->t_student_info->get_nick($userid);
-        $phone  = $this->t_student_info->get_phone($userid);
+        $orderid             = $this->get_in_int_val("orderid");
+        $parent_name         = $this->get_in_str_val("parent_name");
+        $row                 = $this->t_order_info->field_get_list($orderid,"*");
+        $type_1_lesson_count = $this->t_order_info->get_type1_lesson_count ($orderid)/100;
+        $userid              = $row["userid"];
+        $username            = $this->t_student_info->get_nick($userid);
+        $phone               = $this->t_student_info->get_phone($userid);
         $grade               = $row["grade"];
         $lesson_count        = $row["lesson_total"] * $row["default_lesson_count"]/100;
         $price               = $row["price"]/100;
-        $competition_flag = $row["competition_flag"];
+        $competition_flag    = $row["competition_flag"];
         $one_lesson_count    = $row["lesson_weeks"] ;
         $per_lesson_interval = $row["lesson_duration"] ;
+
         $order_start_time    = $row["contract_starttime"];
-        $order_end_time      = $row["contract_endtime"];
-        $contract_type = $row["contract_type"];
-        $contract_status = $row["contract_status"];
+        $order_end_time      = \App\Helper\Utils::get_order_term_of_validity($order_start_time,$lesson_count);
+        $contract_type       = $row["contract_type"];
+        $contract_status     = $row["contract_status"];
 
         $this->t_student_info->field_update_list($userid,[
             "parent_name" => $parent_name
@@ -227,13 +228,13 @@ class ajax_deal2 extends Controller
             return $this->output_err("不是1对１合同，不能生成合同");
         }
 
-        if (($lesson_count) <=90 ) {
-            $order_end_time =$order_start_time+365*86400;
-        } else if (($lesson_count) <=270 ) {
-            $order_end_time =$order_start_time+365*86400*2;
-        } else  {
-            $order_end_time =$order_start_time+365*86400*3;
-        }
+        // if (($lesson_count) <=90 ) {
+        //     $order_end_time =$order_start_time+365*86400;
+        // } else if (($lesson_count) <=270 ) {
+        //     $order_end_time =$order_start_time+365*86400*2;
+        // } else  {
+        //     $order_end_time =$order_start_time+365*86400*3;
+        // }
 
         if(!$one_lesson_count    ){ $one_lesson_count= 3; }
         if(!$per_lesson_interval ){ $per_lesson_interval = 40; }
@@ -1643,10 +1644,16 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $subject             = $this->get_in_int_val("subject");
-        $grade             = $this->get_in_int_val("grade");
-        $start_time = time()-90*86400;
-        $end_time = time();
+        $teacherid             = $this->get_in_int_val("teacherid");
+        $start_time = strtotime("2017-06-01");
+        $end_time = strtotime("2017-12-01");
+        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+        $data = @$list[0];
+        return $this->output_succ($data);
+
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type,$show_all_flag );
+
+
         $num = $this->t_lesson_info_b3->get_tea_num_by_subject_grade($start_time,$end_time,$subject,$grade);
         return $this->output_succ([
             "num" =>$num

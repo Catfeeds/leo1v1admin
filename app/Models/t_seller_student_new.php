@@ -552,7 +552,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,
+            $seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count,
+            $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1,$admin_revisiterid_list=[]
     ) {
 
         if ($userid>0) {
@@ -611,9 +613,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
             $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
             $where_arr[]=['m.del_flag=%d', $admin_del_flag ,-1];
-
-            $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
-            $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
+            if(count($admin_revisiterid_list)>0){
+                if($admin_revisiterid>0 && in_array($admin_revisiterid,$admin_revisiterid_list)){
+                    $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
+                }else{
+                    $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+                }
+            }else{
+                $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
+                $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
+            }
 
         }
 
@@ -1188,39 +1197,43 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         // E\Etq_called_flag
         $seller_level= $this->t_manager_info->get_seller_level($not_adminid);
         $seller_level_flag= floor( $seller_level/100);
-        // E\Eseller_level
+        // E\Eseller_level::V_100;
         // E\Eorigin_level
         \App\Helper\Utils::logger("seller_level_flag:$seller_level_flag");
 
-        $before_24_time=time(NULL) -3600*6;
-        if ($seller_level_flag<=3) { //b类以上
+        $before_24_time=time(NULL) - 3600*6;
+        if ($seller_level_flag<=3) { //S,A,B级
             $before_24_time= time(NULL) -3600*3;
         }else{
             $where_arr[] = "origin_level <> 99";
         }
 
         $before_48_time= $before_24_time - 86400;
-        $check_no_call_time_str=" ( origin_level <>99 and   (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) )";
+        // $check_no_call_time_str=" ( origin_level <>99 and   ((origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time)))";
+        //S,A,B级3h前进来的已设置/27h前进来的所有,其他级别6h前进来的已设置/30h前进来的所有
+        $check_no_call_time_str="((origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time))";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
-
-        //E\Eorigin_level
+        E\Eseller_level::V_300;
+        E\Eorigin_level::V_3;
         switch ( $seller_level_flag ) {
-        case 1 :  //s
-        case 2 :  //a
-            $where_arr[] = "(origin_level >0  or $check_no_call_time_str) ";
+        case 1 :  //S级:所有
+        case 2 :  //A级:已设置/3h前进来的已设置/27h前进来的所有
+            $where_arr[] = "(origin_level >0 or $check_no_call_time_str)";
             break;
-        case 3 : //b
-            $where_arr[] = "( (origin_level <>99 and origin_level >2) or $check_no_call_time_str )";
+        case 3 : //B级:B,C,T,Y,Z/3h前进来的已设置/27h前进来的所有
+            // $where_arr[] = "((origin_level <>99 and origin_level >2) or $check_no_call_time_str )";
+            $where_arr[] = "(origin_level >2 or $check_no_call_time_str )";
             break;
-        case 4 : //c
-        case 5 : //d
+        case 4 : //C级:非Y
+        case 5 : //D级:非Y,C,T,Z/3小时前进来的B/6h前进来的已设置/30h前进来的所有
             $before_3_time= time(NULL) -3600*3;
-            $where_arr[] = "( (origin_level <>99 and origin_level >3)  or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time  )  )";
+            // $where_arr[] = "( (origin_level <>99 and origin_level >3) or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time ))";
+            $where_arr[] = "(origin_level >3 or $check_no_call_time_str or (origin_level =3 and n.add_time < $before_3_time ))";
             break;
-        case 6 : //e
-            $where_arr[] = " (origin_level <>99 and origin_level >3) ";
+        case 6 : //E级:非Y,C,T,Z
+            // $where_arr[] = "(origin_level <>99 and origin_level >3)";
+            $where_arr[] = "origin_level >3";
             break;
-
         default:
             if ($t_flag) {
             }else{
@@ -1332,7 +1345,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
-    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count,$call_admin_count
+    public function get_free_seller_list_new($page_num, $start_time, $end_time ,$opt_date_str,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1,$test_lesson_fail_flag,$phone_location,$return_publish_count,$cc_called_count,$cc_no_called_count_new,$call_admin_count
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -1350,7 +1363,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
             ['n.return_publish_count=%u',$return_publish_count,-1],
             ['n.cc_called_count=%u',$cc_called_count,-1],
-            ['n.cc_no_called_count=%u',$cc_no_called_count,-1],
+            ['n.cc_no_called_count_new=%u',$cc_no_called_count_new,-1],
             ['n.call_admin_count=%u',$call_admin_count,-1],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
@@ -1382,7 +1395,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.user_desc,n.last_revisit_time,n.free_time,n.free_adminid,"
             ."s.grade,s.origin,s.realname,s.nick,s.last_lesson_time,"
             ."l.lesson_start, "
-            ."tr.test_lesson_order_fail_flag,n.return_publish_count,n.cc_no_called_count,n.cc_called_count,n.call_admin_count"
+            ."tr.test_lesson_order_fail_flag,n.return_publish_count,n.cc_no_called_count_new,n.cc_called_count,n.call_admin_count"
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
@@ -1814,7 +1827,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["hold_flag=%u", $hold_flag, -1 ],
         ];
         $sql=$this->gen_sql_new(
-            "select count(*) from %s n join %s t on n.userid=t.userid where admin_revisiterid=%u and %s",
+            "select count(distinct(n.userid ))  from %s n join %s t on n.userid=t.userid where admin_revisiterid=%u and %s",
             self::DB_TABLE_NAME ,
             t_test_lesson_subject::DB_TABLE_NAME,
             $admin_revisiterid,

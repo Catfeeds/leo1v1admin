@@ -7,6 +7,7 @@ use \App\Helper\Config;
 
 class user_log extends Controller
 {
+
     public function log_list()
     {
         $page_info = $this->get_in_page_info();

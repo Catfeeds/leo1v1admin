@@ -1085,7 +1085,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             "l.lessonid=$lessonid"
         ];
 
-        $sql = $this->gen_sql_new("  select if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick, s.gender, ts.grade, ts.subject, l.lesson_start, l.lesson_end from %s l "
+        $sql = $this->gen_sql_new("  select l.lesson_del_flag, tr.accept_status as status, if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick, s.gender, ts.grade, ts.subject, l.lesson_start, l.lesson_end from %s l "
                                   ." left join %s tls on tls.lessonid=l.lessonid "
                                   ." left join %s tr on tr.require_id=tls.require_id "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
@@ -1093,7 +1093,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." where %s"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME//tr
                                   ,self::DB_TABLE_NAME //ts
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr

@@ -328,4 +328,34 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_value($sql);
     }
 
+    public function get_majordomo_adminid($opt_adminid){
+        $where_arr = [
+            "au.adminid=$opt_adminid"
+        ];
+        $sql = $this->gen_sql_new("  select md.master_adminid "
+                                  ." from %s au "
+                                  ." left join %s an on an.groupid=au.groupid"
+                                  ." left join %s mg on mg.groupid=an.up_groupid"
+                                  ." left join %s md on md.groupid=an.up_groupid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+                                  ,t_admin_majordomo_group_name::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_son_adminid_by_up_groupid($self_groupid){
+        $sql = $this->gen_sql_new(
+            " select groupid,adminid "
+            ." from %s "
+            ." where groupid = %u "
+            ,self::DB_TABLE_NAME//g
+            ,$self_groupid
+        );
+        return $this->main_get_list($sql);
+    }
 }

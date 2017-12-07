@@ -130,17 +130,19 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_permission_list($account )
     {
-        $sql = sprintf("select permission from %s where account = '%s' ",
+        $sql = sprintf("select permission , power from %s where account = '%s' ",
                        self::DB_TABLE_NAME, $this->ensql( $account));
-        $grpid = $this->main_get_value( $sql);
-        $grpid_arr = explode(',', $grpid);
+        $row = $this->main_get_row( $sql);
+        $power_str=$row["permission"].",".$row["power"] ;
+        $grpid_arr = explode(',', $power_str);
         $perms = "";
         foreach($grpid_arr as $key => $value){
             $sql = sprintf("select group_authority from %s where groupid = %u",
-                           \App\Models\Zgen\z_t_authority_group::DB_TABLE_NAME,
+                           t_authority_group::DB_TABLE_NAME,
                             $value);
             $perms .= "," . $this->main_get_value( $sql);
         }
+
         return explode(',',$perms);
     }
 
@@ -280,7 +282,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             }
         }
 
-        $sql = sprintf("select account, permission from %s where account in ('%s') "
+        $sql = sprintf("select account, permission, power from %s where account in ('%s') "
                        ,self::DB_TABLE_NAME
                        ,$cond_str
         );
@@ -1167,7 +1169,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.contract_type in (3,3001)"
         ];
         // $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
-        $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2,co.price*0.8,co.price)) money ".
+        $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2 and (co.channel='建行分期' or co.channel='baidu'),co.price*0.8,co.price)) money ".
                                  " from  %s m ".
                                  " left join %s o on o.sys_operator  = m.account".
                                  " left join %s co on o.orderid = co.parent_orderid and co.pay_status=1".
@@ -2097,6 +2099,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list() {
+        $sql = $this->gen_sql_new(" select account,name,phone from %s ",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['phone'];
+        });
+    }
+
     public function get_ass_leader_opneid($assid){
         $where_arr = [
             "au.adminid=$assid"
@@ -2300,5 +2311,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid,name from %s where account_role = 5 and (del_flag =0 or (del_flag =1 and leave_member_time > 1506787200) ) and uid<1000",
                                     self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
+    }
+
+    public function get_phone_by_name($name) {
+        $sql = $this->gen_sql_new("select uid,phone from %s where name='$name'", self::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
     }
 }

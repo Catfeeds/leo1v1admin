@@ -8,6 +8,16 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	key1_class	:any;
+	level	:any;
+	resource_type_str	:any;
+	resource_type	:any;
+	subject_str	:any;
+	grade_str	:any;
+	tag_one_str	:any;
+	tag_two_str	:any;
+	tag_three_str	:any;
+	tag_four_str	:any;
 }
 
 /*

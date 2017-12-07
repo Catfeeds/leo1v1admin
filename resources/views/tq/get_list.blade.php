@@ -42,6 +42,11 @@
                     <input class="opt-change form-control" id="id_seller_student_status" />
                 </div>
             </div>
+             <div class="col-md-3 col-xs-0" data-always_show="1">
+                <div class="input-group col-sm-12"  >
+                    <input  id="id_user_info" type="text" value="" class="form-control opt-change"  placeholder="输入拨打者名字，回车查找" />
+                </div>
+            </div>
         </div>
 
         <hr/>

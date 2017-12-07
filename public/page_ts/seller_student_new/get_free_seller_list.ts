@@ -26,9 +26,9 @@ $(function(){
             test_lesson_count_flag : $('#id_test_lesson_count_flag').val(),
             test_lesson_order_fail_flag:    $('#id_test_lesson_order_fail_flag').val(),
             return_publish_count : $('#id_return_publish_count').val(),
-            cc_no_called_count   : $('#cc_no_called_count').val(),
-            cc_called_count      : $('#cc_called_count').val(),
-            call_admin_count     : $('#call_admin_count').val(), 
+            cc_no_called_count_new   : $('#id_cc_no_called_count_new').val(),
+            cc_called_count      : $('#id_cc_called_count').val(),
+            call_admin_count     : $('#id_call_admin_count').val(), 
         });
     }
 
@@ -57,7 +57,7 @@ $(function(){
     $('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
     $('#id_return_publish_count').val(g_args.return_publish_count);
     $('#id_cc_called_count').val(g_args.cc_called_count);
-    $('#id_cc_no_called_count').val(g_args.cc_no_called_count);
+    $('#id_cc_no_called_count_new').val(g_args.cc_no_called_count_new);
     $('#id_call_admin_count').val(g_args.call_admin_count);
     $( "#id_phone_name" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
@@ -1002,7 +1002,7 @@ $(function(){
                         if(html_node.find("#area").val()==""){
                             area="";
                         }
-                        if(id_status.val() !=  '2'){//
+                        if(html_node.find("#id_stu_status").val() !=  2){//
                             if(html_node.find("#id_stu_editionid").val() == 0){
                                 html_node.find("#id_stu_editionid").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                                 alert("请把标红的补充完整");
@@ -1194,7 +1194,7 @@ $(function(){
                                 test_paper: html_node.find("#id_test_paper").val(),
                             });
                         }else{
-                            if(html_node.find("#id_stu_user_desc").val() == ''){
+                            if(html_node.find("#id_stu_user_desc").val() == ' '){
                                 alert("请填写备注");
                                 return;
                             }

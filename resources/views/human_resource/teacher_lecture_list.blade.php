@@ -183,7 +183,7 @@
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
-                                @if(in_array($account_role,["9","10","11","12"]) || $acc=="CoCo" || $acc=="wander")
+                                @if(in_array($account_role,["9","10","11","12"]) || $acc=="CoCo" || $acc=="wander" || $acc=="江敏")
                                     <a class="opt-reset">重置</a>
                                 @endif
                                 @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","ted","jim"]) || $var["account"]==""

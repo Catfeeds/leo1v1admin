@@ -235,11 +235,11 @@ class login extends Controller
     }
 
     public function reset_power($account) {
-        $ret_permission = $this->t_manager_info->get_user_permission(array($account));
 
         \App\Helper\Utils::logger("loginx4");
 
 
+        $ret_permission = $this->t_manager_info->get_user_permission(array($account));
         $permission = array();
         foreach($ret_permission as $key => $value) {
             $permission[$value['account']] = $value['permission'];

@@ -1,4 +1,5 @@
 interface GargsStatic {
+
 }
 declare module "g_args" {
     export = g_args;

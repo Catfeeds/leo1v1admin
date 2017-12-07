@@ -1,12 +1,10 @@
 <?php
 namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
-
-use Illuminate\Support\Facades\Redis ;
+use Illuminate\Support\Facades\Redis;
 use \App\Enums as  E;
 
 class Common {
-
     static function env_obj( $key, $def =null ) {
         $str=env($key,"");
         if(!$str) {
@@ -49,12 +47,10 @@ class Common {
     }
 
     static function get_wx_token(  $appid, $appsecret  ) {
-
         $key="wx_token_$appid";
         $ret_arr=\App\Helper\Common::redis_get_json($key);
         $now=time(NULL);
         if (!$ret_arr ||   $ret_arr["get_time"]+7000 <  $now ) {
-
             \App\Helper\Utils::logger ( "SEND_QQAPI 2222" );
             $json_data=file_get_contents( "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret"  );
             $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
@@ -76,7 +72,6 @@ class Common {
 
 
     static function debug_to_html($data ){
-
         if ( is_string($data ) || is_numeric($data )){
             echo "<pre>";
             echo $data;
@@ -86,6 +81,7 @@ class Common {
         }
         exit;
     }
+
     static function div_safe( $v1, $v2 ){
         if  ($v2==0) {
             return 0;
@@ -640,14 +636,13 @@ class Common {
         }
         return  Redis::get($key);
     }
+
     static public function  redis_del($key,$dbid=null) {
         if ($dbid) {
             Redis::select($dbid);
         }
         return  Redis::del($key);
     }
-
-
 
     static public function  redis_set($key,$data,$dbid=null) {
         if ($dbid) {
@@ -656,10 +651,36 @@ class Common {
         return Redis::set($key,$data) ;
     }
 
+    /**
+     * 设置key的有效时间
+     * @param string key redis中存放的键
+     * @param int    ttl 该键值的有效时间（单位：秒）
+     * @return boolean
+     */
+    static public function redis_expire($key,$ttl){
+        return Redis::expire($key,$ttl);
+    }
+
+    /**
+     * 设置key的过期时间
+     * @param string key redis中存放的键
+     * @param int    timestamp 键值过期时间戳
+     * @return boolean
+     */
+    static public function redis_expireat($key,$timestamp){
+        return Redis::expireat($key,$timestamp);
+    }
+
+    static public function redis_set_expire_value($key,$data,$ttl){
+        $ret = self::redis_set_json($key,$data);
+        if($ret){
+            $ret = self::redis_expire($key,$ttl);
+        }
+        return $ret;
+    }
 
     static public function redis_day_add_with_max_limit( $key , $add_count ,$max_value) {
-
-        $data= json_decode( Redis::get($key) ,true);
+        $data = json_decode( Redis::get($key) ,true);
         $opt_date=date("Y-m-d" );
         if ($data["opt_date"] !=$opt_date ) {
             $data["opt_date"]= $opt_date ;
@@ -1591,7 +1612,7 @@ class Common {
         return $decrypted;
     }
 
-        static public function gen_order_pdf($orderid,$username,$grade, $competition_flag ,$lesson_count,  $price, $one_lesson_count, $per_lesson_interval, $order_start_time, $order_end_time ,$gong_zhang_flag, $flag_str, $type_2_lesson_count  ,$phone, $parent_name) {
+    static public function gen_order_pdf($orderid,$username,$grade, $competition_flag ,$lesson_count,  $price, $one_lesson_count, $per_lesson_interval, $order_start_time, $order_end_time ,$gong_zhang_flag, $flag_str, $type_2_lesson_count  ,$phone, $parent_name) {
         $work_dir=app_path("OrderPdf");
         $order_temp= file_get_contents("$work_dir/order_temp.tex");
 

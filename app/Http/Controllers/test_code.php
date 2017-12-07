@@ -1409,34 +1409,195 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 排课方法
+     */
     public function check_test(){
-        $grade   = E\Egrade::V_106;
-        $subject = E\Esubject::V_2;
-        $lesson_start = strtotime("2017-11-20 18:00");
-        $lesson_end   = strtotime("2017-11-20 18:40");
+        $identity     = $this->get_in_int_val("identity");
+        $gender       = $this->get_in_int_val("gender");
+        $age          = $this->get_in_int_val("age");
+        $grade        = E\Egrade::V_106;
+        $subject      = E\Esubject::V_2;
+        $lesson_start = strtotime("2017-12-13 18:00");
+        $lesson_end   = strtotime("2017-12-13 18:40");
 
-        $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($subject,$grade,$lesson_start);
-        foreach($tea_list as $tea_key => $tea_val){
-            $grade_start = "";
-            $grade_end   = "";
-            $del_flag    = false;
-            if($tea_val['subject']==$subject){
-                $grade_start = $tea_val['grade_start'];
-                $grade_end   = $tea_val['grade_start'];
-            }elseif($tea_val['second_subject']==$subject){
-                $grade_start = $tea_val['second_grade_start'];
-                $grade_end   = $tea_val['second_grade_end'];
-            }else{
-                $del_flag = true;
-            }
-
+        $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
+        $redis_key = $this->get_in_int_val("redis_key",1001);
+        $redis_key = "require_key_".$redis_key;
+        $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
+        if($ret_list === null){
+            $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
+            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
+            $tea_list = array_merge($all_tea_list, $tea_list);
+            return $this->output_succ($tea_list);
+            \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
+        }else{
+            $tea_list = $ret_list;
         }
+        exit;
+        if(!empty($tea_list) && is_array($tea_list)){
+            foreach($tea_list as $tea_key => &$tea_val){
+                $grade_start = 0;
+                $grade_end   = 0;
+                $del_flag    = false;
+                $limit_day   = $tea_val['limit_day_lesson_num'];
+                $day_num     = $tea_val['day_num'];
+                $limit_week  = $tea_val['limit_week_lesson_num']<$tea_val['limit_plan_lesson_type']?$tea_val['limit_week_lesson_num']:$tea_val['limit_plan_lesson_type'];
+                $week_num    = $tea_val['week_num'];
+                $limit_month = $tea_val['limit_month_lesson_num'];
+                $month_num   = $tea_val['month_num'];
+                $has_num     = $tea_val['has_num'];
+
+                if($tea_val['subject']==$subject){
+                    $grade_start = $tea_val['grade_start'];
+                    $grade_end   = $tea_val['grade_end'];
+                }elseif($tea_val['second_subject']==$subject){
+                    $grade_start = $tea_val['second_grade_start'];
+                    $grade_end   = $tea_val['second_grade_end'];
+                }else{
+                    $del_flag = true;
+                }
+
+                if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0 || $day_num>=$limit_day
+                   || $week_num >=$limit_week || $month_num>=$limit_month
+                ){
+                    $del_flag = true;
+                }
+
+                $tea_val['age_flag']    = $this->check_teacher_age($tea_val['age']);
+                $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
+                $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
+                $tea_val['is_age']      = $age==$tea_val['age_flag']?1:0;
+
+                if($del_flag){
+                    unset($tea_list[$tea_key]);
+                }else{
+                    if(!empty($tea_val['free_time_new']) && is_array($tea_val['free_time_new'])){
+                        $tea_val['match_num'] = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
+                    }else{
+                        $tea_val['match_num'] = 0;
+                    }
+                    $identity_list[$tea_key] = $tea_val['is_identity'];
+                    $gender_list[$tea_key]   = $tea_val['is_gender'];
+                    $age_list[$tea_key]      = $tea_val['is_age'];
+                    $match_list[$tea_key]    = $tea_val['match_num'];
+                    $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
+                    E\Eidentity::set_item_value_str($tea_val);
+                    E\Egender::set_item_value_str($tea_val);
+                    if($tea_val['train_through_new_time']<time()){
+                        $diff_time = time()-$tea_val['train_through_new_time'];
+                        $tea_val['ruzhi_day'] = ceil($diff_time/86400);
+                    }else{
+                        $tea_val['ruzhi_day'] = 0;
+                    }
+                }
+            }
+            array_multisort(
+                $identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,
+                $match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
+            );
+        }
+
 
         return $this->output_succ($tea_list);
     }
 
-    public function get_lesson_count(){
-        // $list = $this->t_order_lesson_list->
+    public function get_tea_list_for_trial_lesson($lesson_start,$subject){
+
+    }
+
+    public function check_teacher_age($age){
+        switch($age){
+        case $age<30:
+            $age_flag = 1;
+            break;
+        case $age<40:
+            $age_flag = 2;
+            break;
+        case $age<50:
+            $age_flag = 3;
+            break;
+        case $age<60:
+            $age_flag = 4;
+            break;
+        default:
+            $age_flag = 0;
+            break;
+        }
+        return $age_flag;
+    }
+
+    /**
+     * 检测老师的上课时间
+     */
+    public function check_teacher_free_time($free_time,$check_time,$check_time_end){
+        $free_time_arr  = json_decode($free_time);
+        $match_num = 0;
+        $break_flag = false;
+        foreach($free_time_arr as $val){
+            $start_time = strtotime($val[0]);
+            $date       = date("Y-m-d",$start_time);
+            $end_time   = strtotime($date." ".$val[1]);
+            if($check_time>$start_time && $check_time<$end_time){
+                $match_num = 50;
+            }
+            if($check_time_end<$end_time && $check_time_end>$start_time){
+                $match_num = $match_num==0?50:100;
+                $break_flag = true;
+            }
+            if($check_time_end<$start_time){
+                $break_flag = true;
+            }
+            if($break_flag){
+                break;
+            }
+        }
+        return $match_num;
+    }
+
+    public function get_teacher_grade_info(){
+        $tea_list = $this->t_teacher_info->get_teacher_all_info_list();
+
+        foreach($tea_list as $val){
+            $update_arr         = [];
+            $teacherid          = $val['teacherid'];
+            $phone= $val['phone'];
+            $subject            = $val['subject'];
+            $grade              = $val['grade_part_ex'];
+            $grade_start        = $val['grade_start'];
+            $grade_end          = $val['grade_end'];
+            $second_subject     = $val['second_subject'];
+            $second_grade       = $val['second_grade'];
+            $second_grade_start = $val['second_grade_start'];
+            $second_grade_end   = $val['second_grade_end'];
+
+            $show_flag = false;
+            if($subject>0 && $grade>0 && ($grade_start==0 || $grade_end==0)){
+                $grade_range = \App\Helper\Utils::change_old_grade_to_grade_range($grade);
+                $grade_start = $grade_range['grade_start'];
+                $grade_end   = $grade_range['grade_end'];
+                if($grade_start>0 && $grade_end>0){
+                    $update_arr['grade_start'] = $grade_start;
+                    $update_arr['grade_end']   = $grade_end;
+                }
+            }
+
+            if($second_subject>0 && $second_grade>0 && ($second_grade_start==0 || $second_grade_end==0)){
+                $second_grade_range = \App\Helper\Utils::change_old_grade_to_grade_range($second_grade);
+                $second_grade_start = $second_grade_range['grade_start'];
+                $second_grade_end   = $second_grade_range['grade_end'];
+                if($second_grade_start>0 && $second_grade_end>0){
+                    $update_arr['second_grade_start'] = $second_grade_start;
+                    $update_arr['second_grade_end']   = $second_grade_end;
+                }
+            }
+
+            if(!empty($update_arr)){
+                echo $teacherid."|".$phone."|".$grade."|".$second_grade."|".json_encode($update_arr);
+                echo $this->br;
+                // $this->t_teacher_info->field_update_list($teacherid, $update_arr);
+            }
+        }
     }
 
 }

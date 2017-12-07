@@ -143,6 +143,13 @@ $(function(){
             alert("请先解除挂载!");
             return;
         }
+
+        if(opt_data.accept_status == 1){
+            alert("老师已确认课程，若更换试听课，请取消课程，重新排课!");
+            return;
+        }
+
+
         var id_teacherid       = $("<input/>");
         var id_start_time      = $("<input/>");
         var id_top_seller_flag = $("<select />");
@@ -2871,13 +2878,18 @@ $(function(){
             filter_list:[
                 [
                 {
-                    size_class: "col-md-12" ,
-                    title :"姓名/电话",
+                    size_class: "col-md-3" ,
+                    title :"老师",
+                    'arg_name' :  "nick_phone"  ,
+                    type  : "input"
+                }, {
+                    size_class: "col-md-9" ,
+                    title :"试听上课时间",
                     'arg_name' :  "nick_phone"  ,
                     type  : "input"
                 },{
-                    size_class: "col-md-4" ,
-                    title :"性别",
+                    size_class: "col-md-2" ,
+                    title :"教师相关",
                     type  : "select" ,
                     'arg_name' :  "gender"  ,
                     select_option_list: [ {
@@ -2891,11 +2903,86 @@ $(function(){
                         text :  "女"
                     }]
                 },{
-                    size_class: "col-md-8" ,
-                    title :"姓名/电话",
-                    'arg_name' :  "nick_phone"  ,
-                    type  : "input"
-                }
+                    size_class: "col-md-2" ,
+                    title :"课堂相关",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                }, {
+                    size_class: "col-md-2" ,
+                    title :"教学相关",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                }, {
+                    size_class: "col-md-2" ,
+                    title :"老师身份",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                },{
+                    size_class: "col-md-2" ,
+                    title :"老师性别",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                },{
+                    size_class: "col-md-2" ,
+                    title :"年龄段",
+                    type  : "select" ,
+                    'arg_name' :  "gender"  ,
+                    select_option_list: [ {
+                        value : -1 ,
+                        text :  "全部"
+                    },{
+                        value :  1 ,
+                        text :  "男"
+                    },{
+                        value :  2 ,
+                        text :  "女"
+                    }]
+                },
+
+
+
+
+
             ]
 
 

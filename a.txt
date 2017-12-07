@@ -1,0 +1,10 @@
+/lib/x86_64-linux-gnu/security
+
+ldd pam_check_admin.so  
+
+sudo apt-get install  libcurl4-openssl-dev                                                
+
+/etc/pam.d/sshd
+account    required     pam_check_admin.so  ip=118.190.115.161
+
+

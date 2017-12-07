@@ -327,11 +327,11 @@ class assistant_performance extends Controller
             if($lesson_count_finish_per>=120){
                 $lesson_count_finish_reword=$seller_lesson_count*1.2;
             }elseif($lesson_count_finish_per>=100 ){
-                $lesson_count_finish_reword=$seller_lesson_count*1;
-            }elseif($lesson_count_finish_per>=75 ){
                 $lesson_count_finish_reword=$seller_lesson_count*0.8;
-            }elseif($lesson_count_finish_per>=50 ){
+            }elseif($lesson_count_finish_per>=75 ){
                 $lesson_count_finish_reword=$seller_lesson_count*0.5;
+            }elseif($lesson_count_finish_per>=50 ){
+                $lesson_count_finish_reword=$seller_lesson_count*0.3;
             }else{
                 $lesson_count_finish_reword=0;
             }
@@ -351,11 +351,11 @@ class assistant_performance extends Controller
             }elseif($renw_per>=100){
                 $renw_reword = $renw_price*0.04;
             }elseif($renw_per>=75){
-                $renw_reword = $renw_price*0.026;
+                $renw_reword = $renw_price*0.025;
             }elseif($renw_per>=50){
-                $renw_reword = $renw_price*0.02;
+                $renw_reword = $renw_price*0.018;
             }elseif($renw_per>=30){
-                $renw_reword = $renw_price*0.011;
+                $renw_reword = $renw_price*0.012;
             }
 
             $item["renw_reword"] =  $renw_reword;

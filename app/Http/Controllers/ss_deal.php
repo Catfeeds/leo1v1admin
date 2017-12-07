@@ -237,6 +237,15 @@ class ss_deal extends Controller
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
+
+        //主管分配
+        // if(in_array($this->get_account_id(),[287,416,1221,1200])){
+        //     $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid);
+        //     if($majordomo_adminid == $this->get_account_id()){
+        //         $this->output_err('只能分配给自己组员');
+        //     }
+        // }
+
         $account=$this->get_account();
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
 
@@ -306,6 +315,7 @@ class ss_deal extends Controller
         $stu_nick=$student["nick"];
         $ret["stu_nick"]   = $stu_nick;
         $ret["par_nick"]   = $student["parent_name"];
+        $ret["par_type"]   = $student["parent_type"];
         $ret["gender"]     = $student["gender"];
         $ret["grade"]      = $student["grade"];
         $ret["user_agent"] = $student["user_agent"];
@@ -1016,12 +1026,12 @@ class ss_deal extends Controller
 
         if ( $next_revisit_time==0 ) {
             if (session( "account_role") ==E\Eaccount_role::V_2  ) {
-                return $this->output_err("下次回访时间 需要设置");
+                //return $this->output_err("下次回访时间 需要设置");
             }
         }else if ( $diff > 7*86400 ) {
-            return $this->output_err("下次回访时间只能设置最近一周时间");
+            //return $this->output_err("下次回访时间只能设置最近一周时间");
         }else if (  $diff<0 ) {
-            return $this->output_err("下次回访时间不能早于当前");
+            //return $this->output_err("下次回访时间不能早于当前");
         }
 
         if ($stu_request_test_lesson_time) {
@@ -1987,6 +1997,8 @@ class ss_deal extends Controller
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = "";
             $url = "http://www.leo1v1.com/login/teacher";
+            // $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 
@@ -2138,6 +2150,7 @@ class ss_deal extends Controller
         $order_require_reason   = $this->get_in_str_val("order_require_reason");
         $to_userid  = $this->get_in_int_val("to_userid");
         $from_parent_order_lesson_count  = $this->get_in_int_val("from_parent_order_lesson_count");
+        $part_competition_flag  = $this->get_in_int_val("part_competition_flag");
 
         $tt_item=$this->t_order_info->field_get_list($parent_order_id,"userid,grade,subject,competition_flag");
         if (!$tt_item) {
@@ -2198,6 +2211,7 @@ class ss_deal extends Controller
                 return $this->output_err("请选择被赠人");
             }
             $grade = $this->t_student_info->get_grade($userid);
+            $competition_flag = $part_competition_flag;
 
 
         }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
@@ -2250,6 +2264,9 @@ class ss_deal extends Controller
         );
 
         if ( $from_parent_order_type == E\Efrom_parent_order_type::V_5   ) {
+            //重置原学生课程包分配课时
+            $this->t_course_order->reset_assigned_lesson_count($tt_item["userid"],$tt_item["competition_flag"]);
+
             $this->t_flow->add_flow(
                 E\Eflow_type::V_ORDER_EXCHANGE,
                 $this->get_account_id(),$order_require_reason, $orderid);
@@ -5507,7 +5524,7 @@ class ss_deal extends Controller
         $ytx_phone=session("ytx_phone");
 
         $admin_info=$this->t_manager_info->field_get_list(  $this->get_account_id(),"*");
-        if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL )  {//天润
+        if ($admin_info["call_phone_type"]==E\Ecall_phone_type::V_TL)  {//天润
             //?enterpriseId=&cno=&pwd=&customerNumber=&userField=
             if ($this->get_account()=="jim") {
                 $admin_info["tquin"]="2063";

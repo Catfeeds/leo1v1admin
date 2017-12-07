@@ -38,6 +38,7 @@ class tq extends Controller
         $phone           = $this->get_in_phone();
         $is_called_phone = $this->get_in_int_val("is_called_phone",-1, E\Eboolean::class );
         $uid             = $this->get_in_int_val("uid",-1);
+        $user_info         = trim($this->get_in_str_val('user_info',''));
         if($uid>0){
             $uid = $this->t_manager_info->field_get_value($uid,'tquin');
         }
@@ -47,7 +48,7 @@ class tq extends Controller
 
         $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
 
-        $ret_info=$this->t_tq_call_info->get_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status );
+        $ret_info=$this->t_tq_call_info->get_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$user_info );
         $now=time(NULL);
         foreach($ret_info["list"] as &$item) {
             $record_url= $item["record_url"] ;

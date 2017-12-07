@@ -431,6 +431,8 @@
                                 课时确认(是否成功):{!!$var["success_flag_str"]!!} <br/>
                                 确认人:{!!$var["confirm_admin_nick"]!!} <br/>
                                 确认时间:{!!$var["confirm_time"]!!} <br/>
+                                试听课排课状态:{!!$var["accept_status_str"]!!} <br/>
+
                                 @if ($var["success_flag"]==2)
                                     是否付工资:
                                     @if ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )

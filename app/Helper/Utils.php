@@ -1346,6 +1346,32 @@ class Utils  {
     }
 
     /**
+     * 将旧版的年级体系转换为新版的年级范围
+     * @param int old_grade  旧版的年级体系  参考 grade_part_ex 枚举类
+     */
+    static public function change_old_grade_to_grade_range($old_grade){
+        switch($old_grade){
+        case 1:
+            $grade_range['grade_start']=1;$grade_range['grade_end']=2;break;
+        case 2:
+            $grade_range['grade_start']=3;$grade_range['grade_end']=4;break;
+        case 3:
+            $grade_range['grade_start']=5;$grade_range['grade_end']=6;break;
+        case 4:
+            $grade_range['grade_start']=1;$grade_range['grade_end']=4;break;
+        case 5:
+            $grade_range['grade_start']=3;$grade_range['grade_end']=6;break;
+        case 6:
+            $grade_range['grade_start']=2;$grade_range['grade_end']=4;break;
+        case 7:
+            $grade_range['grade_start']=4;$grade_range['grade_end']=6;break;
+        default:
+            $grade_range['grade_start']=0;$grade_range['grade_end']=0;break;
+        }
+        return $grade_range;
+    }
+
+    /**
      * 转换详细年级为年级阶段
      * @param int grade 待转化的年级 eg:101,102,103,201,202,301,302等
      */
@@ -1398,6 +1424,30 @@ class Utils  {
         return $grade_part;
     }
 
+    /**
+     * 获取合同的有效期
+     * @param int start_time 合同开始时间
+     * @param int lesson_total 购买的合同课时
+     * @param int
+     */
+    static public function get_order_term_of_validity($start_time,$lesson_total){
+        if($lesson_total==0){
+            $validty_str = "+0 day";
+        }elseif($lesson_total<90){
+            $validty_str = "+6 month";
+        }elseif($lesson_total<180){
+            $validty_str = "+1 year";
+        }elseif($lesson_total<360){
+            $validty_str = "+2 year";
+        }elseif($lesson_total<720){
+            $validty_str = "+3 year";
+        }else{
+            $validty_str = "+4 year";
+        }
+        $validty_time = strtotime($validty_str,$start_time);
+        return $validty_time;
+    }
+
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
     //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
@@ -1413,7 +1463,7 @@ class Utils  {
         }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
             $money=75;
         }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
-            // $money=
+
         }
         return $money;
     }
@@ -1674,6 +1724,7 @@ class Utils  {
         }
         return $r;
     }
+
 
     static public function change_key_value_arr($array){
         foreach($array as $key => $val){
@@ -2287,7 +2338,23 @@ class Utils  {
         return $arr1;
     }
 
-
-
+    //grade_start,grade_end转为年级
+    static public function grade_start_end_tran_grade($grade_start, $grade_end){
+        $grade = [
+            0 => [],
+            1 => [1=>101, 2=>102, 3=>103],
+            2 => [4=>104, 5=>105, 6=>106],
+            3 => [7=>201, 8=>202],
+            4 => [9=>203],
+            5 => [10=>301, 11=>302],
+            6 => [12=>303],
+        ];
+        $arr = [];
+        for ($a = $grade_start; $a <= $grade_end; $a++){
+            $arr = $arr+$grade[$a];
+        }
+        // E\Egrade_range::
+        return $arr;
+    }
 
 };

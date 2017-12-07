@@ -169,7 +169,7 @@ class seller_student_new2 extends Controller
             $tea_subject = "";
         }
         $account_role = $this->get_account_role();
-        if(($account_role==3 || $account_role==12) ||  in_array($adminid,[895,486]) ){
+        if(($account_role==3 || $account_role==12) ||  in_array($adminid,[895,486,513]) ){
             $tea_subject="";
         }
 
@@ -284,6 +284,15 @@ class seller_student_new2 extends Controller
             E\Eextra_improvement::set_item_value_str($item);
             E\Ehabit_remodel::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
+
+            if($item['accept_status'] == 0){
+                $item['accept_status_str'] = '<font color="blue">未设置</font>';
+            }elseif($item['accept_status'] == 1){
+                $item['accept_status_str'] = '<font color="green">已接受</font>';
+            }elseif($item['accept_status'] == 2){
+                $item['accept_status_str'] = '<font color="red">已拒绝</font>';
+            }
+
 
             $stu_request_test_lesson_time_info=\App\Helper\Utils::json_decode_as_array(
                 $item["stu_request_test_lesson_time_info"],true
