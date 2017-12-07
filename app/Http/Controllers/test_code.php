@@ -1426,12 +1426,15 @@ class test_code extends Controller
         $redis_key = "require_key_".$redis_key;
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
         if($ret_list === null){
-            $tea_list = $this->get_tea_list_for_trial_lesson($lesson_start,$subject);
+            $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
+            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
+            $tea_list = array_merge($all_tea_list, $tea_list);
+            return $this->output_succ($tea_list);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
         }else{
             $tea_list = $ret_list;
         }
-
+        exit;
         if(!empty($tea_list) && is_array($tea_list)){
             foreach($tea_list as $tea_key => &$tea_val){
                 $grade_start = 0;
@@ -1500,12 +1503,7 @@ class test_code extends Controller
     }
 
     public function get_tea_list_for_trial_lesson($lesson_start,$subject){
-        // $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
-        $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
-        dd($all_tea_list);
-        foreach($all_tea_list as $tea_val){
 
-        }
     }
 
     public function check_teacher_age($age){

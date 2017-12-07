@@ -4716,7 +4716,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$lesson_arr
                                   ,$teacher_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });
@@ -4737,7 +4736,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
                                   ,$teacher_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
     }
 
     public function get_test_teacher_info($lessonid){
