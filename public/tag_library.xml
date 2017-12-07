@@ -21,12 +21,7 @@
 						<tag_l3_sort text="数学"></tag_l3_sort>
 						<tag_l3_sort text="英语"></tag_l3_sort>
 		</tag_l2_sort>
-		<tag_l2_sort text="小二">
-			<tag_l3_sort text="语文"></tag_l3_sort>
-			<tag_l3_sort text="数学"></tag_l3_sort>
-			<tag_l3_sort text="英语"></tag_l3_sort>
-		</tag_l2_sort>
-    <tag_l2_sort text="小二">
+	 <tag_l2_sort text="小二">
 			<tag_l3_sort text="语文"></tag_l3_sort>
 			<tag_l3_sort text="数学"></tag_l3_sort>
 			<tag_l3_sort text="英语"></tag_l3_sort>

@@ -2414,7 +2414,6 @@ $(function(){
         var $parent_name = $('<input/>');
         var remark          = $('<textarea></textarea>');
 
-
         $.do_ajax("/ss_deal/get_contract_info",{
             "orderid":opt_data.orderid
         },function(result){
@@ -2425,18 +2424,12 @@ $(function(){
                 [ "收件人"  , addressee ],
                 [ "收件人电话"  , receive_phone],
                 [ "收件人地址"  , receive_addr],
-                /*
-                [ "每周课时"  , lesson_weeks],
-                [ "每节课时长"  , lesson_duration],
-                */
                 [ "申请时间"  , app_time],
-                // [ "备注"  , remark],
             ];
 
             app_time.text(data.app_time_str);
             student_name.text(opt_data.stu_nick);
             addressee.val(data.nick);
-            // alert(data.phone);
             receive_phone.val(data.phone);
             receive_addr.val(data.address);
             if(data.lesson_duration){

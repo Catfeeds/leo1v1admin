@@ -1612,7 +1612,7 @@ class Common {
         return $decrypted;
     }
 
-        static public function gen_order_pdf($orderid,$username,$grade, $competition_flag ,$lesson_count,  $price, $one_lesson_count, $per_lesson_interval, $order_start_time, $order_end_time ,$gong_zhang_flag, $flag_str, $type_2_lesson_count  ,$phone, $parent_name) {
+    static public function gen_order_pdf($orderid,$username,$grade, $competition_flag ,$lesson_count,  $price, $one_lesson_count, $per_lesson_interval, $order_start_time, $order_end_time ,$gong_zhang_flag, $flag_str, $type_2_lesson_count  ,$phone, $parent_name) {
         $work_dir=app_path("OrderPdf");
         $order_temp= file_get_contents("$work_dir/order_temp.tex");
 
