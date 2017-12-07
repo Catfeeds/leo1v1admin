@@ -1482,7 +1482,7 @@ class test_code extends Controller
                     E\Egender::set_item_value_str($tea_val);
                     if($tea_val['train_through_new_time']<time()){
                         $diff_time = time()-$tea_val['train_through_new_time'];
-                        $tea_val['ruzhi_day'] = $diff_time%86400;
+                        $tea_val['ruzhi_day'] = ceil($diff_time/86400);
                     }else{
                         $tea_val['ruzhi_day'] = 0;
                     }
@@ -1587,10 +1587,9 @@ class test_code extends Controller
             if(!empty($update_arr)){
                 echo $teacherid."|".$phone."|".$grade."|".$second_grade."|".json_encode($update_arr);
                 echo $this->br;
-                $this->t_teacher_info->field_update_list($teacherid, $update_arr);
+                // $this->t_teacher_info->field_update_list($teacherid, $update_arr);
             }
         }
     }
-
 
 }

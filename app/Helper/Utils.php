@@ -1424,6 +1424,30 @@ class Utils  {
         return $grade_part;
     }
 
+    /**
+     * 获取合同的有效期
+     * @param int start_time 合同开始时间
+     * @param int lesson_total 购买的合同课时
+     * @param int
+     */
+    static public function get_order_term_of_validity($start_time,$lesson_total){
+        if($lesson_total==0){
+            $validty_str = "+0 day";
+        }elseif($lesson_total<90){
+            $validty_str = "+6 month";
+        }elseif($lesson_total<180){
+            $validty_str = "+1 year";
+        }elseif($lesson_total<360){
+            $validty_str = "+2 year";
+        }elseif($lesson_total<720){
+            $validty_str = "+3 year";
+        }else{
+            $validty_str = "+4 year";
+        }
+        $validty_time = strtotime($validty_str,$pay_time);
+        return $validty_time;
+    }
+
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
     //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算

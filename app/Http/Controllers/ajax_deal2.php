@@ -199,23 +199,23 @@ class ajax_deal2 extends Controller
     }
 
     public function gen_order_pdf(){
-        $orderid   = $this->get_in_int_val("orderid");
-        $parent_name = $this->get_in_str_val("parent_name");
-        $row       = $this->t_order_info->field_get_list($orderid,"*");
-        $type_1_lesson_count=$this->t_order_info->get_type1_lesson_count ($orderid)/100;
-        $userid    = $row["userid"];
-        $username           = $this->t_student_info->get_nick($userid);
-        $phone  = $this->t_student_info->get_phone($userid);
+        $orderid             = $this->get_in_int_val("orderid");
+        $parent_name         = $this->get_in_str_val("parent_name");
+        $row                 = $this->t_order_info->field_get_list($orderid,"*");
+        $type_1_lesson_count = $this->t_order_info->get_type1_lesson_count ($orderid)/100;
+        $userid              = $row["userid"];
+        $username            = $this->t_student_info->get_nick($userid);
+        $phone               = $this->t_student_info->get_phone($userid);
         $grade               = $row["grade"];
         $lesson_count        = $row["lesson_total"] * $row["default_lesson_count"]/100;
         $price               = $row["price"]/100;
-        $competition_flag = $row["competition_flag"];
+        $competition_flag    = $row["competition_flag"];
         $one_lesson_count    = $row["lesson_weeks"] ;
         $per_lesson_interval = $row["lesson_duration"] ;
         $order_start_time    = $row["contract_starttime"];
-        $order_end_time      = $row["contract_endtime"];
-        $contract_type = $row["contract_type"];
-        $contract_status = $row["contract_status"];
+        $order_end_time      = \App\Helper\Utils::get_order_term_of_validity($order_start_time,$lesson_count);
+        $contract_type       = $row["contract_type"];
+        $contract_status     = $row["contract_status"];
 
         $this->t_student_info->field_update_list($userid,[
             "parent_name" => $parent_name
