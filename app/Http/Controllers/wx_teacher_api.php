@@ -1061,11 +1061,10 @@ class wx_teacher_api extends Controller
         $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
         $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
         $subject_str = E\Esubject::get_desc($lesson_info['subject']);
-        $stu_nick = $this->cache_get_teacher_nick($lesson_info['userid']);
+        $stu_nick = $this->cache_get_student_nick($lesson_info['userid']);
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
-        dd($lesson_info);
         if($status == 1){ //接受 []
             /**
              * @ 教务排课的推送 家长 | CC推送需要取消
