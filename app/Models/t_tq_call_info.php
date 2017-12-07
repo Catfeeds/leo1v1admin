@@ -107,7 +107,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ["m.uid=%u" , $callerid, -1 ],
         ];
 
-        $sql=$this->gen_sql_new("select account,tq.uid, count(*)  all_count, ".
+        $sql=$this->gen_sql_new("select account,tq.uid, m.uid as adminid,  count(*)  all_count, ".
                                 "sum(is_called_phone)  as is_called_phone_count, ".
                                 "sum(duration)  as duration_count, ".
                                 "count(distinct tq.phone )  as phone_count, "
