@@ -2496,14 +2496,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             }else if ( $contract_type==-3){
                 $where_arr[]="contract_type in(0,3)" ;
             }else {
-                $where_arr[]=["contract_type=%u" , $contract_type, -1];
+                $this->where_arr_add_int_or_idlist($where_arr, "contract_type", $contract_type );
             }
 
             if ($contract_status ==-2) {
                 $where_arr[] = "contract_status <> 0";
             }else{
-                $where_arr[]=["contract_status=%u",$contract_status,-1];
-                // $this->where_get_in_str_query("contract_status",$contract_status);
+                $this->where_arr_add_int_or_idlist($where_arr, "contract_status", $contract_status);
             }
 
             $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);

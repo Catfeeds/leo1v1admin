@@ -27,9 +27,7 @@
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span class="input-group-addon">类型</span>
-                      <select class="opt-change form-control " id="id_contract_type" >
-                          <option value="-2">正式1v1课程</option>
-                      </select>
+                      <input class="opt-change form-control " id="id_contract_type" /> 
                   </div>
               </div>
               <div class="col-xs-6 col-md-2">
@@ -90,14 +88,7 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">状态</span>
-                    <select class="opt-change form-control" id="id_contract_status">
-                        <option value="-2" >有效合同</option>
-                        <option value="-1" >全部</option>
-                        <option value="0" >未付款</option>
-                        <option value="1" >执行中</option>
-                        <option value="2" >已结束</option>
-                        <option value="3" >提前终止</option>
-                    </select>
+                    <input class="opt-change form-control" id="id_contract_status">  </input>
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">

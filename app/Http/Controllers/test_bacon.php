@@ -110,7 +110,7 @@ class test_bacon extends Controller
 
 
     public function power_group_edit() {
-        
+
         $sql = "select * from db_weiyi_admin.t_authority_group where groupid in (57,38,74,77,104,129,133,94,102)";
         // $group_arr = [
         //     ['groupid'=>57],
@@ -125,20 +125,20 @@ class test_bacon extends Controller
         // ];
         $group_arr = "( 57,38,74,77,104,129,133,94,102 )";
         $auth_arr = $this->t_authority_group->get_auth_group_more($group_arr);
-        
+
         $auth_str = '';
         foreach( $auth_arr as $auth){
             $auth_str .= $auth['group_authority'];
             //dd($arr);
         }
-       
+
         $arr = explode(',', $auth_str);
         $arr = array_unique($arr);
-        
+
         foreach($arr as $k=>$v){
             $power_map[$v] = true;
         }
-        
+
         $list=$this->get_menu_list($power_map );
 
         $n=["k1"=>"","k2"=>"","k3"=>"" ];
@@ -175,7 +175,7 @@ class test_bacon extends Controller
         //dd($power_menu);
         $this-> download_xls($power_menu);
         //dd($ret);
-      
+
     }
     public function download_xls ($ret)  {
         $xls_data= $ret;
@@ -193,7 +193,7 @@ class test_bacon extends Controller
              ->setCategory("jim  category");
 
         //dd($xls_data);
-     
+
         foreach( $xls_data as $index=> $item ) {
             $index_str = $index+1;
             $objPHPExcel->getActiveSheet()
@@ -202,7 +202,7 @@ class test_bacon extends Controller
                  ->setCellValue('C'.$index_str, @$item['k3'])
                  ->setCellValue('D'.$index_str, @$item['url']);
         }
-        
+
         //$objPHPExcel->getActiveSheet()->setCellValue('A1','haode');
 
         $objPHPExcel->getActiveSheet()->setTitle('User');
@@ -212,7 +212,7 @@ class test_bacon extends Controller
         header('Cache-Control: max-age=0');
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         $objWriter->save('php://output');
-    } 
+    }
     public function test_img(){
         $wx_openid = 'oAJiDwJsZROYopRIpIUmHD6GCIYE';
         $phone = 18898881852;
@@ -231,5 +231,5 @@ class test_bacon extends Controller
         $task->handle();
 
     }
-  
+
 }
