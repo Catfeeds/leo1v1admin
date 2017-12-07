@@ -62,6 +62,7 @@ class company_wx extends Controller
             echo '加载标签完成';
         }
 
+
         // 获取部门
         $url = $config['url'].'/cgi-bin/department/list?access_token='.$token;
         $department = $this->get_company_wx_data($url, 'department');
@@ -442,7 +443,8 @@ class company_wx extends Controller
         // 后台管理用户
         $manager = $this->t_manager_info->get_all_list();
         $info = '';
-        foreach($users as $key => $item) {
+        foreach($users as $item) {
+            $key = $item['mobile'];
             if (!isset($manager[$key])) {
                 $info[$key]['name'] = $item['name'];
                 $info[$key]['phone'] = $item['mobile'];

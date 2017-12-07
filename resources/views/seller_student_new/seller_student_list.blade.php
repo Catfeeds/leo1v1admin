@@ -1223,16 +1223,20 @@
                     </div>
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon"> <font style="color:red">*</font>&nbsp性格特点：</span>
+                            <span class="input-group-addon"> <font style="color:red">*</font>&nbsp性格：</span>
                             <input type="text" class=" form-control "  id="id_character_type_new_two"  />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">兴趣爱好：</span>
+                            <span class="input-group-addon">爱好：</span>
                             <input type="text" class=" form-control "  id="id_interests_hobbies_new_two"  />
                         </div>
                     </div>
+                    
+                </div>
+
+                <div class="row">
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
@@ -1254,11 +1258,9 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12 col-md-6 " style="">
                         <div class="input-group ">
-                            <input type="text" id="id_stu_addr_new"  class="form-control" placeholder='请输入详细地址' />
+                            <input type="text" id="id_stu_addr_new_new"  class="form-control" placeholder='请输入详细地址' />
                         </div>
                     </div>
                 </div>
@@ -1279,7 +1281,7 @@
                         </div>
                         <div class="input-group ">
                             <span class="input-group-addon">年级排名：</span>
-                            <input type="text" class=" form-control "  id="id_grade_rank_new_two"  />
+                            <input type="text" class=" form-control "  id="id_grade_rank_new_two"  placeholder='年级排名' />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3  ">
@@ -1327,14 +1329,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-md-12  ">
-                <span>核心诉求</span>
-            </div>
-            <div class="col-xs-12 col-md-12  ">
                 <div class="row">
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
@@ -1371,14 +1366,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-md-12  ">
-                <span>非智力因素</span>
-            </div>
-            <div class="col-xs-12 col-md-12  ">
                 <div class="row">
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
@@ -1400,7 +1388,7 @@
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听内容：</span>
-                            <textarea class="form-control" style="height:115px;" id="id_stu_request_test_lesson_demand_new_two" > </textarea>
+                            <textarea class="form-control" style="height:115px;" class="class_stu_request_test_lesson_demand_new_two" id="id_stu_request_test_lesson_demand_new_two" ></textarea>
                         </div>
                     </div>
                 </div>
@@ -1595,7 +1583,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 

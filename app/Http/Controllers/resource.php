@@ -91,14 +91,22 @@ class resource extends Controller
         }
 
         //查询老师负责的科目,年级
-
         $sub_grade_info = $this->get_rule_range();
-        // dd($sub_grade_info);
-        // dd($ret_info);
+
+        //获取所有开放的教材版本
+        $book = $this->t_resource_agree_info->get_all_resource_type();
+        $book_arr = [];
+        foreach($book as $v) {
+            if( $v['tag_one'] != 0 ){
+                array_push($book_arr, intval($v['tag_one']) );
+            }
+        }
+
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info' => $this->tag_arr[$resource_type],
             'subject'  => json_encode($sub_grade_info['subject']),
             'grade'    => json_encode($sub_grade_info['grade']),
+            'book'     => json_encode($book_arr),
         ]);
     }
 
@@ -368,13 +376,12 @@ class resource extends Controller
                     'tag_one_str'       => $item['tag_one_str'],
                     'tag_two_str'       => $item['tag_two_str'],
                     'tag_three_str'     => $item['tag_three_str'],
-                    'tag_four_str'      => $item['tag_four_name'],
+                    // 'tag_four_str'      => $item['tag_four_name'],
                 ];
                 $four_mark = 0;
             }
 
             //添加一组数据 四级标签
-
             $item['level'] = 'l-7';
             $item['key1_class'] = 'key1-'.$r_mark;
             $item['key2_class'] = 'key2-'.$r_mark.'-'.$s_mark;
@@ -551,11 +558,11 @@ class resource extends Controller
         $use_type     = $this->get_in_int_val('use_type');
         $resource_type = $this->get_in_int_val('resource_type');
         $subject       = $this->get_in_int_val('subject');
-        $grade         = $this->get_in_int_val('grade');
-        $tag_one       = $this->get_in_int_val('tag_one');
-        $tag_two       = $this->get_in_int_val('tag_two');
-        $tag_three     = $this->get_in_int_val('tag_three');
-        $tag_four      = $this->get_in_int_val('tag_four');
+        $grade         = $this->get_in_int_val('grade',0);
+        $tag_one       = $this->get_in_int_val('tag_one',0);
+        $tag_two       = $this->get_in_int_val('tag_two',0);
+        $tag_three     = $this->get_in_int_val('tag_three',0);
+        $tag_four      = $this->get_in_int_val('tag_four',0);
         $add_num       = $this->get_in_int_val('add_num');
 
         $adminid = $this->get_account_id();
