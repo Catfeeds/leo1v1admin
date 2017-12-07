@@ -54,30 +54,35 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
+                    <td> 老师工号 </td>
                     <td> 老师 </td>
-                    <td> 类型 </td>
-                    <td> 日期 </td>
-                    <td> 当日课时 </td>
-                    <td> 延休天数 </td>
-                    <td> 延迟上班时间 </td>
-                    <td> 提前下班时间 </td>
+                    <td> 考勤日期 </td>
+                    <td> 考勤类型 </td>
+                    <td> 考勤状态 </td>
+                    <td> 满足在家上课课时 </td>
+                    <td> 满足延迟上班时间 </td>
+                    <td> 满足提前下班时间 </td>
+                    <td> 请假类型 </td>
+                    <td> 满足延休的累计课时 </td>
+                    <td> 延休日期 </td>
+                    <td> 满足调休的加班日期 </td>
+                    <td> 上班打卡时间 </td>
+                    <td> 下班打卡时间 </td>
+                    <td> 考勤结果 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["attendance_type_str"]}} </td>
                         <td>{{@$var["attendance_time_str"]}} </td>
+                        <td>{{@$var["kaoqin_type_str"]}} </td>
+                        <td>{{@$var["attendance_type_str"]}} </td>
                         <td>
                             @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
                                 {{@$var["lesson_count"]/100}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($var["attendance_type"] ==3)
-                                {{@$var["day_num"]}}天
                             @endif
                         </td>
                         <td>
@@ -90,6 +95,31 @@
                                 {{@$var["off_time_str"]}}
                             @endif
                         </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            @if($var["attendance_type"] ==3 && $var["lesson_count"]>0)
+                                {{@$var["lesson_count"]/100}}
+                            @endif
+                        </td>
+                        <td>
+                            @if($var["attendance_type"] ==3 )
+                                {{@$var["holiday_hugh_time_str"]}}
+                            @endif
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>{{@$var["card_start_time_str"]}} </td>
+                        <td>{{@$var["card_end_time_str"]}} </td>
+                        <td>
+                        </td>
+
+
+
+
+
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

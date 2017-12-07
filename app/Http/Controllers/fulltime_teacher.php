@@ -602,8 +602,8 @@ class fulltime_teacher extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "_str","H:i:s");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"_str", "H:i:s");    
             }
-            $d_item["error_flag"]=true;
-            $d_item["error_flag_str"] ="是";
+            // $d_item["error_flag"]=true;
+            // $d_item["error_flag_str"] ="是";
 
             // if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
             //     $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);

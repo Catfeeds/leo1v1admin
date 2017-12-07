@@ -28,7 +28,7 @@
                     <td>开始</td>
                     <td>结束</td>
                     <td>间隔</td>
-                    <td>异常</td>
+                    <!-- <td>异常</td> --> 
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
                         <td>{{@$var["start_logtime_str"]}} </td>
                         <td>{{@$var["end_logtime_str"]}} </td>
                         <td>{{@$var["work_time_str"]}} </td>
-                        <td><font color="red"> {{@$var["error_flag_str"]}}  </font></td>
+                        <!-- <td><font color="red"> {{@$var["error_flag_str"]}}  </font></td> --> 
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
