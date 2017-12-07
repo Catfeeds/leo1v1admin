@@ -775,9 +775,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    /**
-     *
-     */
     public function get_all_usefull_teacher_list($page_num,$teacherid_arr,$subject,$grade,$lstart,$lend){
         $where_arr=[
             ["t.subject=%u",$subject,-1],
@@ -970,8 +967,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_as_page($sql);
     }
 
-
-
     public function get_every_teacherid(){
         $sql=$this->gen_sql_new("select distinct(teacherid) as userid from %s"
                                 ,self::DB_TABLE_NAME
@@ -979,18 +974,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list() {
-        $sql =$this->gen_sql_new("select teacherid from %s", self::DB_TABLE_NAME  );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_teacher_list_new() {
-        $sql =$this->gen_sql_new("select teacherid,nick from %s", self::DB_TABLE_NAME  );
+    public function get_teacher_all_info_list(){
+        $sql = $this->gen_sql_new("select teacherid,phone,nick,subject,grade_part_ex,grade_start,grade_end, "
+                                  ." second_subject,second_grade,second_grade_start,second_grade_end "
+                                  ." from %s "
+                                  , self::DB_TABLE_NAME
+        );
         return $this->main_get_list($sql);
     }
 
     public function send_template_msg($teacherid,$template_id,$data,$url="http://wx-teacher.leo1v1.com"){
-        if (substr($url,0,7 )!= "http://" ) {
+        if (substr($url,0,7 )!= "http://") {
             $url="http://wx.teacher-wx.leo1v1.com/".trim($url,"/ \t");
         }
         \App\Helper\Utils::logger("WX URL $url");
@@ -2824,12 +2818,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
     /**
-     *@function 获取平台老师课耗总数
-     *
+     * @function 获取平台老师课耗总数
      */
     public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=0){
-
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
@@ -4736,15 +4729,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_test_teacher_info($lessonid){
-        $sql = $this->gen_sql_new("  select t.nick as tea_nick, t.gender as tea_gender, work_year, phone, textbook_type, identity, tl.tea_label_type from %s t"
+        $where_arr=[
+            ["l.lessonid=%u",$lessonid,0],
+        ];
+        $sql = $this->gen_sql_new("select t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
+                                  ." textbook_type,identity,tl.tea_label_type "
+                                  ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"
                                   ." left join %s tl on tl.teacherid=t.teacherid "
-                                  ." where l.lessonid=$lessonid"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_label::DB_TABLE_NAME
+                                  ,$where_arr
         );
-
         return $this->main_get_row($sql);
     }
 

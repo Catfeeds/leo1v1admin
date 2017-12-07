@@ -659,4 +659,24 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $sql = "select count(*) as total,phone   from db_weiyi_admin.t_tq_call_info where is_called_phone=0 and admin_role = 2  and start_time < 1512403200 group by phone";
         return $this->main_get_list($sql);
     }
+
+    public function get_all_info_by_cc(){
+        $sql = "select m.account ,t.adminid, count(distinct(t.phone)) as total_user, 
+        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),o.price,0)) as total_money,
+        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),1,0)) as total_num from db_weiyi_admin.t_tq_call_info  t
+left join db_weiyi.t_student_info s on s.phone = t.phone
+left join db_weiyi.t_order_info o on s.userid = o.userid
+left join db_weiyi_admin.t_manager_info m on m.uid = t.adminid
+where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role =2 group by t.adminid";
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_info_by_cc_new(){
+        $sql = "select adminid, count(distinct(phone)) as total_con_user from db_weiyi_admin.t_tq_call_info  
+        where start_time > 1509465600 and start_time < 1512057600 and is_called_phone=1 and admin_role =2 group by adminid";
+        return $this->main_get_list($sql,function($item){
+               return $item["adminid"];
+        }); 
+
+    }
 }

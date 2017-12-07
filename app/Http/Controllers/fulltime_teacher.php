@@ -602,52 +602,55 @@ class fulltime_teacher extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "_str","H:i:s");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"_str", "H:i:s");    
             }
-            if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
-                $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
-                if(!$check_holiday_flag){
-                    $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-                    if($id>0){
+            $d_item["error_flag"]=true;
+            $d_item["error_flag_str"] ="是";
 
-                        $attendance_info = $this->t_fulltime_teacher_attendance_list->field_get_list($id,"attendance_time,attendance_type,off_time,delay_work_time");
-                        $attendance_type = $attendance_info["attendance_type"];
-                        if($attendance_type==2){
-                            if (isset ( $d_item["start_logtime"]) ){              
-                                $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
-                                $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
-                                if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
-                                    $d_item["error_flag"]=true;
-                                    $d_item["error_flag_str"] ="是"; 
-                                }
+            // if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
+            //     $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
+            //     if(!$check_holiday_flag){
+            //         $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+            //         if($id>0){
 
-                            }else{
-                                $d_item["error_flag"]=true;
-                                $d_item["error_flag_str"] ="是";
-                            }
+            //             $attendance_info = $this->t_fulltime_teacher_attendance_list->field_get_list($id,"attendance_time,attendance_type,off_time,delay_work_time");
+            //             $attendance_type = $attendance_info["attendance_type"];
+            //             if($attendance_type==2){
+            //                 if (isset ( $d_item["start_logtime"]) ){              
+            //                     $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
+            //                     $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
+            //                     if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+            //                         $d_item["error_flag"]=true;
+            //                         $d_item["error_flag_str"] ="是"; 
+            //                     }
 
-                        }
+            //                 }else{
+            //                     $d_item["error_flag"]=true;
+            //                     $d_item["error_flag_str"] ="是";
+            //                 }
+
+            //             }
                        
  
-                    }else{
-                        if (isset ( $d_item["start_logtime"]) ){              
-                            $off_time = $day_time+9.5*3600;                              
-                            $delay_time = $day_time+18.5*3600;
-                            if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
-                                $d_item["error_flag"]=true;
-                                $d_item["error_flag_str"] ="是"; 
-                            }
-                            // $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
-                            // if ($d_item["error_flag"]) {
-                            //     $d_item["error_flag_str"] ="是";
-                            // }
-                        }else{
-                            $d_item["error_flag"]=true;
-                            $d_item["error_flag_str"] ="是";
-                        }
+            //         }else{
+            //             if (isset ( $d_item["start_logtime"]) ){              
+            //                 $off_time = $day_time+9.5*3600;                              
+            //                 $delay_time = $day_time+18.5*3600;
+            //                 if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+            //                     $d_item["error_flag"]=true;
+            //                     $d_item["error_flag_str"] ="是"; 
+            //                 }
+            //                 // $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+            //                 // if ($d_item["error_flag"]) {
+            //                 //     $d_item["error_flag_str"] ="是";
+            //                 // }
+            //             }else{
+            //                 $d_item["error_flag"]=true;
+            //                 $d_item["error_flag_str"] ="是";
+            //             }
  
-                    }
-                }
+            //         }
+            //     }
                 
-            }
+            // }
         }
 
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );

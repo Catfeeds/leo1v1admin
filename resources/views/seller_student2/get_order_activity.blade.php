@@ -408,6 +408,19 @@
         <button onclick="remove_activity()"> 移除</button>
     </div>
 
+    <div class="lesson_activity grade_off_perent_list hide">
+        <span>年级：</span>
+        <select class="show_activity lesson_grade" onkeypress="nextInput(event)">
+            @foreach ($gradeArr as $var => $val)
+                <option value="{{$var}}">{{$val}}</option>
+            @endforeach
+        </select>
+        <span>打折：</span>
+        <input type="text" class="show_activity give_grade_perent" onkeypress="addActivity(event,2)">
+        <span> 输完回车</span>
+        <button onclick="remove_activity()">移除</button>
+    </div>
+
     <div class="lesson_activity lesson_times_present_lesson_count hide">
         <span>课时数：</span>
         <input type="text" class="show_activity lesson_have" onkeypress="nextInput(event)">
@@ -427,17 +440,13 @@
 
     </div>
 
-    <div class="lesson_activity grade_off_perent_list hide">
-        <span>年级：</span>
-        <select class="show_activity lesson_grade" onkeypress="nextInput(event)">
-            @foreach ($gradeArr as $var => $val)
-                <option value="{{$var}}">{{$val}}</option>
-            @endforeach
-        </select>
-        <span>打折：</span>
-        <input type="text" class="show_activity give_grade_perent" onkeypress="addActivity(event,2)">
+    <div class="lesson_activity lesson_times_off_money hide">
+        <span>按课次：</span>
+        <input type="text" class="show_activity lesson_pay" onkeypress="nextInput(event)">
+        <span>立减：</span>
+        <input type="text" class="show_activity give_money" onkeypress="addActivity(event,5)">
         <span> 输完回车</span>
-        <button onclick="remove_activity()">移除</button>
+        <button onclick="remove_activity()"> 移除</button>
     </div>
 
 @endsection
