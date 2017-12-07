@@ -237,6 +237,15 @@ class ss_deal extends Controller
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
+
+        //主管分配
+        // if(in_array($this->get_account_id(),[287,416,1221,1200])){
+        //     $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid);
+        //     if($majordomo_adminid == $this->get_account_id()){
+        //         $this->output_err('只能分配给自己组员');
+        //     }
+        // }
+
         $account=$this->get_account();
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
 

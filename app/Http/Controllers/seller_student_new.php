@@ -16,7 +16,9 @@ class seller_student_new extends Controller
     public function assign_member_list ( ) {
         $adminid=$this->get_account_id();
         $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
-        if (!$self_groupid) {
+        if($adminid == 287 || $adminid == 416 || $adminid == 1221 || $adminid == 1200 || $adminid == 944){
+
+        }else if(!$self_groupid ) {
             return $this->error_view(["你不是销售主管"]);
         }
 
@@ -122,6 +124,11 @@ class seller_student_new extends Controller
         $this->switch_tongji_database();
 
         $this->t_seller_student_new->switch_tongji_database();
+
+        //主管查看例子
+        // if(in_array($this->get_account_id(),[287,416,1221,1200])){
+        //     $main_master_flag = 1;
+        // }
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
