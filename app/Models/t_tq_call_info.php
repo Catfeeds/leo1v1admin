@@ -72,12 +72,26 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_insert($sql);
     }
 
-    public function get_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ) {
+    public function get_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ,$user_info) {
         $where_arr=[
             ["tq.uid=%u", $uid, -1] ,
             ["tq.is_called_phone=%u", $is_called_phone, -1] ,
             ["tq.phone='%s'", $phone, ''] ,
         ];
+        if ($user_info >0 ) {
+            if  ($user_info < 100000) {
+                $where_arr[]=[  "tq.uid=%u", $user_info, "" ] ;
+            }else{
+                $where_arr[]=[  "tq.phone like '%%%s%%'", $user_info, "" ] ;
+            }
+        }else{
+            if ($user_info!=""){
+                $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
+        }
         if (!$phone) {
             $where_arr[]= ["tq.start_time>=%u", $start_time, -1] ;
             $where_arr[]=["tq.start_time<%u", $end_time, -1] ;
@@ -672,15 +686,16 @@ left join db_weiyi.t_order_info o on s.userid = o.userid
 left join db_weiyi_admin.t_manager_info m on m.uid = t.adminid
 where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role =2 group by t.adminid";
         return $this->main_get_list($sql,function($item){
-               return $item["adminid"];
+               return $item["account"];
         }); 
     }
 
     public function get_all_info_by_cc_new(){
-        $sql = "select adminid, count(distinct(phone)) as total_con_user from db_weiyi_admin.t_tq_call_info  
+        $sql = "select m.account,t.adminid, count(distinct(t.phone)) as total_con_user from db_weiyi_admin.t_tq_call_info  t
+        left join db_weiyi_admin.t_manager_info m on m.uid = t.adminid
         where start_time > 1509465600 and start_time < 1512057600 and is_called_phone=1 and admin_role =2 group by adminid";
         return $this->main_get_list($sql,function($item){
-               return $item["adminid"];
+               return $item["account"];
         }); 
 
     }
