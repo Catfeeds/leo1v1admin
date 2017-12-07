@@ -975,7 +975,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_all_info_list(){
-        $sql = $this->gen_sql_new("select teacherid,nick,subject,grade_part_ex,grade_start,grade_end, "
+        $sql = $this->gen_sql_new("select teacherid,phone,nick,subject,grade_part_ex,grade_start,grade_end, "
                                   ." second_subject,second_grade,second_grade_start,second_grade_end "
                                   ." from %s "
                                   , self::DB_TABLE_NAME

@@ -1553,6 +1553,7 @@ class test_code extends Controller
         foreach($tea_list as $val){
             $update_arr         = [];
             $teacherid          = $val['teacherid'];
+            $phone= $val['phone'];
             $subject            = $val['subject'];
             $grade              = $val['grade_part_ex'];
             $grade_start        = $val['grade_start'];
@@ -1584,7 +1585,7 @@ class test_code extends Controller
             }
 
             if(!empty($update_arr)){
-                echo $teacherid."|".$grade."|".$second_grade."|".json_encode($update_arr);
+                echo $teacherid."|".$phone."|".$grade."|".$second_grade."|".json_encode($update_arr);
                 echo $this->br;
             }
         }
