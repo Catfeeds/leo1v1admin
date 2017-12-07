@@ -16,9 +16,9 @@ $(function(){
         var id_subject = $("<select/>");
         var id_detail = $("<textarea></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
-         var arr=[
+        var arr=[
             ["知识点标题", id_title ],
             ["知识点科目", id_subject ],
             ["知识点详情解读", id_detail ],
@@ -65,7 +65,8 @@ $(function(){
         var id_subject = $("<select/>");
         var id_detail = $("<textarea></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
+
         id_title.val(opt_data.title);
         id_subject.val(opt_data.subject);
         id_detail.val(opt_data.detail);

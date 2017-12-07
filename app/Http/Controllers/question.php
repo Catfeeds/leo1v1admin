@@ -103,7 +103,7 @@ class question extends Controller
                 $item['subject_str'] = E\Esubject::get_desc($item['subject']);
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712051856"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061856"]);
 
     }
 
