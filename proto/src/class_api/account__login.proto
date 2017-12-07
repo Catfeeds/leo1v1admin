@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1000
+//__DESC: http://dev.api.class.leo1v1.com/account/login 用户登录 
+//__TAGS: for_app
+
+
+message in  {
+	int32  role = 1; // 角色 1学生　2老师
+  	string phone = 2; //电话
+   	string passwd = 3; //密码 :md5( md5(passswd)."@leo" )  
+}
+
+message out {
+  int32  id = 1 ;
+}

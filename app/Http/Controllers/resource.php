@@ -110,6 +110,23 @@ class resource extends Controller
         ]);
     }
 
+    //获取开放的教材版本
+    public function get_resource_type_js(){
+        $resource_type = $this->get_in_int_val('resource_type');
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+
+        $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
+        $book_arr = [];
+        foreach($book as $v) {
+            if( $v['tag_one'] != 0 ){
+                array_push($book_arr, intval($v['tag_one']) );
+            }
+        }
+
+        return $this->output_succ(['book' => $book_arr]);
+    }
+
     public function get_rule_range(){
 
         $adminid  = $this->get_account_id();
@@ -350,7 +367,7 @@ class resource extends Controller
                     'subject_str'       => $item['subject_str'],
                     'grade_str'         => $item['grade_str'],
                     'tag_one_str'       => $item['tag_one_str'],
-                    'tag_two_str'       => $item['tag_two_str'],
+                    'tag_two_str'       => @$item['tag_two_str'],
                     // 'tag_three_str'     => $item['tag_three_name'],
                     // 'tag_four_str'      => $item['tag_four_name'],
                 ];
@@ -374,8 +391,8 @@ class resource extends Controller
                     'subject_str'       => $item['subject_str'],
                     'grade_str'         => $item['grade_str'],
                     'tag_one_str'       => $item['tag_one_str'],
-                    'tag_two_str'       => $item['tag_two_str'],
-                    'tag_three_str'     => $item['tag_three_str'],
+                    'tag_two_str'       => @$item['tag_two_str'],
+                    'tag_three_str'     => @$item['tag_three_str'],
                     // 'tag_four_str'      => $item['tag_four_name'],
                 ];
                 $four_mark = 0;
@@ -397,12 +414,9 @@ class resource extends Controller
                 $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
 
             }
-            // dd($item);
             $list[] = $item;
         }
 
-        // dd($ret_info);
-        // dd($list);
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 
@@ -727,22 +741,12 @@ class resource extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
-        if($resource_type == 3 || $resource_type == 9){//没有三级标签
-            $tag_three = -1;
-        } else if($resource_type == 4 || $resource_type == 5){//没有二，三级标签
-            $tag_two   = -1;
-            $tag_three = -1;
-        }
-        if ($resource_type != 3){
-            $tag_four = -1;
-        }
 
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info, 1
         );
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
-            // \App\Helper\Utils::transform_1tg_0tr($item,'is_use');
             $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
         }

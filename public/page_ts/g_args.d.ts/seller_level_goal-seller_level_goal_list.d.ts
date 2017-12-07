@@ -21,6 +21,7 @@ interface RowData {
 	create_time	:any;
 	num	:any;
 	level_icon	:any;
+	seller_level_goal	:any;
 	seller_level_str	:any;
 }
 
