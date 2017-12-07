@@ -345,18 +345,40 @@ class test_jack  extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $adminid= $this->get_in_int_val("adminid",480 );
-        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $date_arr=[];
-        foreach($date_list as $k=>$val){
+        foreach($date_list_old as $k=>$val){
             $time = strtotime($k);
             $date_arr[$time]["date"]=$time;
         }
         $adminid_list = $this->t_manager_info->get_adminid_list_by_account_role(5);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,-1,100000,5 );
-        dd($ret_info["list"]);
+        $data=[];
         foreach($adminid_list as $k=>$val){
+            $date_list = $date_arr;
+            foreach($ret_info["list"] as $item){
+                if($item["uid"]==$k){
+                    $logtime=$item["logtime"];
+                    $opt_date=strtotime(date("Y-m-d",$logtime));
+                    $date_item= &$date_list[$opt_date];
+                    if (!isset($date_item["start_logtime"])) {
+                        $date_item["start_logtime"]=$logtime;
+                        $date_item["end_logtime"]=$logtime;
+                    }else{
+                        if ($date_item["start_logtime"] > $logtime  ) {
+                            $date_item["start_logtime"] = $logtime;
+                        }
+                        if ($date_item["end_logtime"] < $logtime  ) {
+                            $date_item["end_logtime"] = $logtime;
+                        }
+                    }
+
+                }
+            }
+            $data[$k] = $date_list;
+
         }
-        dd($adminid_list);
+        dd($data);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         $teacherid = @$teacher_info["teacherid"];
