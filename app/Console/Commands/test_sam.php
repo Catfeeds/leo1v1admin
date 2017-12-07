@@ -55,7 +55,7 @@ class test_sam extends Command
             fwrite($fp, @$value['total_user']);//2
             fwrite($fp, '   ');
             if(isset($ret[$value['adminid']]['total_con_user'])){
-                fwrite($fp, @$ret[$value['adminid']]['total_con_user']]);//4
+                fwrite($fp, @$ret[$value['adminid']]['total_con_user']);//4
                 fwrite($fp, '   ');
             }else{
                 fwrite($fp, 0);//4
