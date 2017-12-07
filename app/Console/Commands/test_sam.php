@@ -54,8 +54,8 @@ class test_sam extends Command
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_user']);//2
             fwrite($fp, '   ');
-            if(isset($ret[$value['adminid']['total_con_user']])){
-                fwrite($fp, @$ret[$value['adminid']['total_con_user']]);//4
+            if(isset($ret[$value['adminid']]['total_con_user'])){
+                fwrite($fp, @$ret[$value['adminid']]['total_con_user']]);//4
                 fwrite($fp, '   ');
             }else{
                 fwrite($fp, 0);//4
@@ -68,7 +68,7 @@ class test_sam extends Command
             fwrite($fp, "\n");
         }
         fclose($fp);
-        dd($ret_info);
+        //dd($ret_info);
         /*
         $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();
         foreach ($ret_info as $key => $value) {
