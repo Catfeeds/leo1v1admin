@@ -377,7 +377,7 @@ class test_jack  extends Controller
                 }
             }
         }
-        dd($adminid_list);
+        dd($data);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         $teacherid = @$teacher_info["teacherid"];
