@@ -1368,6 +1368,7 @@ class Utils  {
         default:
             $grade_range['grade_start']=0;$grade_range['grade_end']=0;break;
         }
+        return $grade_range;
     }
 
     /**

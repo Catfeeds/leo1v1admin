@@ -1551,7 +1551,7 @@ class test_code extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_all_info_list();
 
         foreach($tea_list as $val){
-            $update_arr = [];
+            $update_arr         = [];
             $teacherid          = $val['teacherid'];
             $subject            = $val['subject'];
             $grade              = $val['grade_part_ex'];
@@ -1584,7 +1584,7 @@ class test_code extends Controller
             }
 
             if(!empty($update_arr)){
-                echo $teacherid."|".json_encode($update_arr);
+                echo $teacherid."|".$grade."|".$second_grade."|".json_encode($update_arr);
                 echo $this->br;
             }
         }
