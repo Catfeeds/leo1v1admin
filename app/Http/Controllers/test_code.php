@@ -1418,19 +1418,23 @@ class test_code extends Controller
         $age          = $this->get_in_int_val("age");
         $grade        = E\Egrade::V_106;
         $subject      = E\Esubject::V_2;
-        $lesson_start = strtotime("2017-11-20 18:00");
-        $lesson_end   = strtotime("2017-11-20 18:40");
+        $lesson_start = strtotime("2017-12-13 18:00");
+        $lesson_end   = strtotime("2017-12-13 18:40");
 
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
-        $redis_key = 1001;
+        $redis_key = $this->get_in_int_val("redis_key",1001);
+        $redis_key = "require_key_".$redis_key;
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
         if($ret_list === null){
-            $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
+            $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
+            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
+            $tea_list = array_merge($all_tea_list, $tea_list);
+            return $this->output_succ($tea_list);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
         }else{
             $tea_list = $ret_list;
         }
-
+        exit;
         if(!empty($tea_list) && is_array($tea_list)){
             foreach($tea_list as $tea_key => &$tea_val){
                 $grade_start = 0;
@@ -1496,6 +1500,10 @@ class test_code extends Controller
 
 
         return $this->output_succ($tea_list);
+    }
+
+    public function get_tea_list_for_trial_lesson($lesson_start,$subject){
+
     }
 
     public function check_teacher_age($age){
