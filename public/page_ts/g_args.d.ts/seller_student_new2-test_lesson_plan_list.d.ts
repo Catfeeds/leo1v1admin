@@ -45,6 +45,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	accept_status	:any;
 	change_teacher_reason	:any;
 	change_teacher_reason_img_url	:any;
 	change_teacher_reason_type	:any;
@@ -188,6 +189,7 @@ interface RowData {
 	extra_improvement_str	:any;
 	habit_remodel_str	:any;
 	gender_str	:any;
+	accept_status_str	:any;
 	stu_request_test_lesson_time_info_str	:any;
 	stu_test_paper_flag_str	:any;
 	require_admin_nick	:any;

@@ -269,7 +269,7 @@ jQuery.fn.extend({
             cursor:"pointer"
         };
 
-        for(var i=1; i<level; i++){
+        for(var i=1; i<level-1; i++){
             $table.find(".l-"+i+" .key"+i).css(link_css);
         }
 
