@@ -376,13 +376,12 @@ class resource extends Controller
                     'tag_one_str'       => $item['tag_one_str'],
                     'tag_two_str'       => $item['tag_two_str'],
                     'tag_three_str'     => $item['tag_three_str'],
-                    'tag_four_str'      => $item['tag_four_name'],
+                    // 'tag_four_str'      => $item['tag_four_name'],
                 ];
                 $four_mark = 0;
             }
 
             //添加一组数据 四级标签
-
             $item['level'] = 'l-7';
             $item['key1_class'] = 'key1-'.$r_mark;
             $item['key2_class'] = 'key2-'.$r_mark.'-'.$s_mark;
