@@ -661,14 +661,19 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
 
     public function get_all_info_by_cc(){
-        $sql = "select m.account ,t.adminid, count(distinct(t.phone)) as total_user, 
-        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),o.price,0)) as total_money,
-        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),1,0)) as total_num from db_weiyi_admin.t_tq_call_info  t
+        $sql = "select m.account ,t.adminid, count(distinct(t.phone)) as total_user".
+        /*
+        , sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),o.price,0)) as total_money,
+        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),1,0)) as total_num 
+        */
+        " from db_weiyi_admin.t_tq_call_info  t
 left join db_weiyi.t_student_info s on s.phone = t.phone
 left join db_weiyi.t_order_info o on s.userid = o.userid
 left join db_weiyi_admin.t_manager_info m on m.uid = t.adminid
 where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role =2 group by t.adminid";
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+               return $item["adminid"];
+        }); 
     }
 
     public function get_all_info_by_cc_new(){
@@ -678,5 +683,15 @@ where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role 
                return $item["adminid"];
         }); 
 
+    }
+
+    public function get_all_info_by_cc_test(){
+        $sql = "select o.sys_operator, count(o.orderid) as total_num , sum(o.price)  as total_money from
+db_weiyi.t_order_info o 
+left join db_weiyi.t_student_info s on s.userid = o.userid
+where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600 and exists( select 1 from db_weiyi_admin.t_tq_call_info t where t.phone=s.phone and t.start_time > 1509465600 and t.start_time < 1512057600)  group by o.sys_operator";
+        return $this->main_get_list($sql,function($item){
+               return $item["sys_operator"];
+        });
     }
 }

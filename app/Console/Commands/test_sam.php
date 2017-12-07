@@ -43,6 +43,7 @@ class test_sam extends Command
         $task=new \App\Console\Tasks\TaskController();
         $ret_info = $task->t_tq_call_info->get_all_info_by_cc();
         $ret = $task->t_tq_call_info->get_all_info_by_cc_new();
+        $ret_test = $task->t_tq_call_info->get_all_info_by_cc_new();
         $path = '/home/ybai/test_sam.txt';
         //$path = '/home/sam/admin_yb1v1/a.txt';
         $fp = fopen($path,"a+");
@@ -61,10 +62,26 @@ class test_sam extends Command
                 fwrite($fp, 0);//4
                 fwrite($fp, '   ');
             }
+
+            if(isset($ret_test[$value['sys_operator']]['total_money'])){
+                fwrite($fp, @$ret_test[$value['sys_operator']]['total_money']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+            if(isset($ret_test[$value['sys_operator']]['total_num'])){
+                fwrite($fp, @$ret_test[$value['sys_operator']]['total_num']);//4
+                fwrite($fp, '   ');
+            }else{
+                fwrite($fp, 0);//4
+                fwrite($fp, '   ');
+            }
+            /*
             fwrite($fp, @$value['total_money']);//3
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_num']);//4
-            
+            */
             fwrite($fp, "\n");
         }
         fclose($fp);
