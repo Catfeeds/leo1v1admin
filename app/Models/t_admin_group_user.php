@@ -348,4 +348,14 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_value($sql);
     }
 
+    public function get_son_adminid_by_up_groupid($self_groupid){
+        $sql = $this->gen_sql_new(
+            " select groupid,adminid "
+            ." from %s "
+            ." where groupid = %u "
+            ,self::DB_TABLE_NAME//g
+            ,$self_groupid
+        );
+        return $this->main_get_list($sql);
+    }
 }

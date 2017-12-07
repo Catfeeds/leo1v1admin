@@ -13,6 +13,7 @@ $(function(){
             start_time: $('#id_start_time').val(),
             end_time:   $('#id_end_time').val(),
             phone:  $('#id_phone').val(),
+            user_info         : $('#id_user_info').val(),
             is_called_phone:    $('#id_is_called_phone').val(),
             seller_student_status:  $('#id_seller_student_status').val(),
             uid:    $('#id_uid').val()
@@ -20,7 +21,7 @@ $(function(){
     }
 
     Enum_map.append_option_list("boolean",$("#id_is_called_phone"));
-
+    $("#id_user_info").val(g_args.user_info);
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,

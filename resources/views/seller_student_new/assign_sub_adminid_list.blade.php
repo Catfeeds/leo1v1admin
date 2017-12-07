@@ -265,7 +265,7 @@
             <div class="row"
             >
                 <div class="col-xs-3 col-md-1"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
+                     @if($button_show_flag==0)
                      style="display:none;"
                      @endif
                 >
@@ -273,58 +273,52 @@
                 </div>
 
                 <div class="col-xs-3 col-md-1"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
+                     @if($button_show_flag==0)
                      style="display:none;"
-                    @endif
+                     @endif
 
                 >
                     <button class="btn btn-primary" id="id_set_origin_list">设置渠道</button>
                 </div>
                 <div class="col-xs-3 col-md-1"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button class="btn btn-info" id="id_set_level_b">设置可抢</button>
                 </div>
                 <div class="col-xs-3 col-md-1"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button class="btn btn-info" id="id_set_history_to_new">公海->新</button>
                 </div>
 
                 <div class="col-xs-3 col-md-1"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button  class="btn btn-info" id="id_add">新增例子</button>
                 </div>
 
-                <div class="col-md-1 remove-for-xs col-xs-6 ""
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                <div class="col-md-1 remove-for-xs col-xs-6 "
+                    @if($button_show_flag==0)
+                    style="display:none;"
+                    @endif
                 >
-                    <div
-  @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-                    >
-                        <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
-                    </div>
+                    <button class="btn btn-primary" id="id_upload_xls"
+                            @if($button_show_flag==0)
+                            style="display:none;"
+                            @endif       
+                    > 上传xls </button>
                 </div>
-                <div class="col-xs-3 col-md-2"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
 
+                <div class="col-xs-3 col-md-2"
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button class="btn btn-primary" id="id_set_select_set_free">批量回流公海</button>
                 </div>
@@ -334,33 +328,34 @@
                 </div>
 
                 <div class="col-xs-3 col-md-2"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button class="btn btn-primary" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
                 </div>
 
                 <div class="col-xs-3 col-md-2"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button class="btn btn-primary" id="id_set_select_to_tmk_list">分配给TMK</button>
                 </div>
 
                 <div class="col-xs-3 col-md-1"
-                     @if(in_array($account,['leowang','童宇周','陶建华','王洪艳']))
-                 style="display:none;"
-                 @endif
-
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
                 >
                     <button class="btn btn-primary" id="id_tq_no_call_btn">TQ未回访</button>
                 </div>
 
-                <div class="col-xs-6 col-md-8">
+                <div class="col-xs-6 col-md-8"
+                     @if($button_show_flag==0)
+                     style="display:none;"
+                     @endif
+                >
                     <button class="btn" id="id_unallot" data-value="{{$unallot_info["zjs_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_unset_admin_revisiterid" data-value="{{$unallot_info["all_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_all_unallot_count_hight_school" data-value="{{@$unallot_info["all_unallot_count_hight_school"]*1}}" > </button>

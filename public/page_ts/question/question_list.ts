@@ -4,7 +4,23 @@
 
 $(function(){
     Enum_map.append_option_list("question_difficulty", $(".question_difficult"),true);
-    Enum_map.append_option_list("subject", $("#id_subject"));
+    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+    Enum_map.append_option_list("boolean", $("#id_open_flag"));
+
+    $("#id_subject").val(g_args.id_subject);
+    $("#id_open_flag").val(g_args.id_open_flag);
+    $('.opt-change').set_input_change_event(load_data);
+
+    function load_data(){
+
+        var data = {
+            id_subject : $("#id_subject").val(),
+            id_open_flag : $("#id_open_flag").val(),
+        };
+
+        $.reload_self_page(data);
+    }
+
 
     //进入知识点列表页面
     $('#knowledge_list').on('click',function(){
@@ -15,13 +31,15 @@ $(function(){
     $('#id_add_question').on('click',function(){
         var id_title = $("<input style='width:100%'/>");
         var id_subject = $("<select/>");
+        var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
         var arr=[
             ["题目标题", id_title ],
             ["题目所属科目", id_subject ],
+            ["题目分值", id_score ],
             ["题目详情", id_detail ],
         ];
 
@@ -39,6 +57,7 @@ $(function(){
                 var data = {
                     'title': title,
                     'subject':subject,
+                    'score':id_score.val(),
                     'detail':id_detail.val(),
                 }
 
@@ -64,17 +83,20 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var id_title = $("<input style='width:100%'/>");
         var id_subject = $("<select/>");
+        var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
-        Enum_map.append_option_list("subject",id_subject,true);
         id_title.val(opt_data.title);
         id_subject.val(opt_data.subject);
+        id_score.val(opt_data.score);
         id_detail.val(opt_data.detail);
 
         var arr=[
             ["题目标题", id_title ],
             ["题目所属科目", id_subject ],
+            ["题目分值", id_score ],
             ["题目详情", id_detail ],
         ];
 
@@ -94,6 +116,7 @@ $(function(){
                     'question_id':opt_data.question_id,
                     'title': title,
                     'subject':subject,
+                    'score':id_score.val(),
                     'detail':id_detail.val(),
                 }
 
@@ -119,7 +142,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
 
         var question_id = opt_data.question_id;
-        var title = "当删除本题时，本题目对应的知识点和解题步骤将全部删除，你确定删除？,标题为" + opt_data.title + "？";
+        var title = "当删除本题时，本题目对应的知识点和解题步骤将全部删除，你确定删除？";
         var data = {
             'question_id':question_id
         };
@@ -133,7 +156,7 @@ $(function(){
     })
     var subject = 0;
     //编辑对应的知识点
-    $('.opt-stu-origin').on('click',function(){
+    $('.add_question_know').on('click',function(){
 
         var opt_data=$(this).get_opt_data();
         subject = opt_data.subject;
@@ -141,6 +164,8 @@ $(function(){
 
         var id_knowledge = $("<div id='id_knowledge'></div>");
         var add_knowledge = $('<button title="添加知识点" class="btn btn-primary fa">添加知识点</button>');
+
+        
 
         add_knowledge.on("click", choose_knowledge);
         id_knowledge.append(add_knowledge);
@@ -249,6 +274,71 @@ $(function(){
             }
         });
     };
+
+    //获取知识点详情
+    $('.get_knowledge_detail').click(function(){
+        var detail = $(this).parent().find('.question_knowledge_detail').text();
+        var arr=[
+            ["知识点详情", detail ],
+        ];
+        $.show_key_value_table("知识点详情", arr,null);
+    })
+
+    //删除题目对应的知识点
+    $('.del_knowledge').click(function(){
+        var id = $(this).parent().find('input:hidden').val();
+        var title = "确定删除?";
+        var data = {
+            'id':id
+        };
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question/question_know_dele",data);
+            }
+        });
+
+    })
+
+    //编辑对应的答案
+    $('.edit_question_know').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var question_id = opt_data.question_id;
+        window.open('/question/answer_list?question_id='+question_id);
+    })
+
+    //禁用
+    $('.lock_question_know').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var question_id = opt_data.question_id;
+        var title = "你确定禁用该题目?";
+        var data = {
+            'question_id':question_id,
+            'open_flag':0
+        };
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question/question_flag",data);
+            }
+        });
+
+    })
+
+    //启用
+    $('.unlock_question_know').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var question_id = opt_data.question_id;
+        var title = "你确定启用该题目?";
+        var data = {
+            'question_id':question_id,
+            'open_flag':1
+        };
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question/question_flag",data);
+            }
+        });
+
+    })
 
 })
 

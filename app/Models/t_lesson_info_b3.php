@@ -2349,9 +2349,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
-        $sql = $this->gen_sql_new("  select t.teacherid, t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num from %s l "
+        $sql = $this->gen_sql_new("  select sum(l.lesson_count)/100 as total_lesson_num, t.teacherid, t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num from %s l "
                                   ." left join %s t on t.teacherid=l.teacherid"
-                                  ." where %s group by t.teacherid order by lesson_num desc"
+                                  ." where %s group by t.teacherid order by total_lesson_num desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
@@ -2522,7 +2522,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_lesson_info_for_tag($lessonid){
-        $sql = $this->gen_sql_new("  select l.userid, l.teacherid, l.lesson_start, l.lesson_end, m.wx_openid, tr.accept_adminid,m.wx_openid "
+        $sql = $this->gen_sql_new("  select l.subject, l.userid, l.teacherid, l.lesson_start, l.lesson_end, m.wx_openid, tr.accept_adminid,m.wx_openid "
                                   ." from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid"
                                   ." left join %s tr on tr.require_id=tll.require_id"

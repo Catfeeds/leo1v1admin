@@ -14,7 +14,7 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
             ["f.teacherid=%u",$teacherid,-1],
             ["f.adminid=%u",$adminid,-1],
             ["m.account_role=%u",$account_role,-1],
-            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1],
+            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]
         ];
         $this->where_arr_add_time_range($where_arr,"f.attendance_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.realname,f.teacherid,f.adminid,f.add_time,f.attendance_time,f.attendance_type,f.day_num,f.off_time,f.cancel_flag,f.cancel_reason,f.id,f.lesson_count,f.delay_work_time from %s f"
@@ -29,29 +29,19 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function check_is_exist($teacherid,$day_time,$attendance_type=-1){
+    public function check_is_exist($teacherid,$day_time,$attendance_type=-1,$adminid=-1){
         $where_arr=[
             ["attendance_time=%u",$day_time,-1],
             ["teacherid=%u",$teacherid,-1],
             ["attendance_type=%u",$attendance_type,-1],
+            ["adminid=%u",$adminid,-1],
         ];
         $sql = $this->gen_sql_new("select id from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
 
     }
 
-    public function check_is_in_holiday($teacherid,$day_time){
-        $where_arr=[
-            ["attendance_time<=%u",$day_time,-1],
-            ["holiday_end_time>=%u",$day_time,-1],
-            ["teacherid=%u",$teacherid,-1],
-            "attendance_type=3"
-        ];
-        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
-        return $this->main_get_value($sql);
-
-    }
-
+   
 
     public function get_holiday_info(){
         $sql = $this->gen_sql_new("select * from %s where attendance_type=3",self::DB_TABLE_NAME);

@@ -1238,6 +1238,70 @@ class test_james extends Controller
         dd($lesson_list);
     }
 
+    /**
+     * @ 学生和老师同时在教室的时长超过20分钟则认为课程有效
+     * @ 否则 将该课程标记 通知人工进行审查
+     **/
+    public function check_lesson_status(){
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $userid = $this->t_lesson_info_b3->get_userid($lessonid);
+        $teaid  = $this->t_lesson_info_b3->get_teacherid($lessonid);
+
+        $login_log_stu = $this->t_lesson_opt_log->get_stu_log($lessonid,$userid);
+        $login_log_tea = $this->t_lesson_opt_log->get_stu_log($lessonid,$teaid);
+
+
+    }
+
+    /**
+     * @ 百度语音识别
+     **/
+
+    function request_post($url = '', $param = '') {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+
+        $postUrl = $url;
+        $curlPost = $param;
+        $curl = curl_init();//初始化curl
+        curl_setopt($curl, CURLOPT_URL,$postUrl);//抓取指定网页
+        curl_setopt($curl, CURLOPT_HEADER, 0);//设置header
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($curl, CURLOPT_POST, 1);//post提交方式
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $curlPost);
+        $data = curl_exec($curl);//运行curl
+        curl_close($curl);
+
+        return $data;
+    }
+
+    /**
+       App ID: 10485794
+
+       API Key: sViPNnv5bUMEEHwC6FMriOOw
+
+       Secret Key: 1e3f8259f26c7b5b202ec6c380b3de20
+     */
+
+    public function get_baidu_token(){
+        $url = 'https://aip.baidubce.com/oauth/2.0/token';
+        $post_data['grant_type']       = 'client_credentials';
+        $post_data['client_id']      = 'sViPNnv5bUMEEHwC6FMriOOw';
+        $post_data['client_secret'] = '1e3f8259f26c7b5b202ec6c380b3de20';
+        $o = "";
+        foreach ( $post_data as $k => $v )
+        {
+            $o.= "$k=" . urlencode( $v ). "&" ;
+        }
+        $post_data = substr($o,0,-1);
+
+        $res = $this->request_post($url, $post_data);
+
+        var_dump($res);
+
+    }
 
 
 

@@ -1023,8 +1023,11 @@ class wx_teacher_api extends Controller
      */
     public function get_test_lesson_info(){
         $lessonid  = $this->get_in_int_val('lessonid',-1);
+        $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
 
-        $ret_info = $this->t_test_lesson_subject->get_test_require_info($lessonid);
+        if($ret_info['lesson_del_flag']==1){
+            $lesson_info['status'] = 2;
+        }
 
         $ret_info['subject_str'] = E\Esubject::get_desc($ret_info['subject']);
         $ret_info['grade_str']   = E\Egrade::get_desc($ret_info['grade']);
@@ -1043,7 +1046,6 @@ class wx_teacher_api extends Controller
 
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
-        $ret_info['status'] = 0;
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1056,31 +1058,70 @@ class wx_teacher_api extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
         $status   = $this->get_in_int_val('status');
 
-        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
-            // "accept_status" => $status// 新增字段
-        // ]);
+        $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
+        $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
+        $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+        $stu_nick = $this->cache_get_student_nick($lesson_info['userid']);
+        $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
+        $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
-        if($status == 1){ //接受
-            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
-            $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
-            $stu_nick = $this->cache_get_teacher_nick($lesson_info['userid']);
-            $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
-            $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
+        if($status == 1){ //接受 []
+            /**
+             * @ 教务排课的推送 家长 | CC推送需要取消
+             **/
             $data = [
                 "first" => "$stu_nick 同学的试听课排课成功",
                 "keyword1" => "排课成功提醒",
                 "keyword2" => "\n 学员姓名:$stu_nick \n 老师姓名:$tea_nick \n 教务姓名:$jw_nick \n 上课时间:$lesson_time_str",
                 "keyword3" => date("Y-m-d H:i:s"),
             ];
-            $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //待定
+
+            $url = "http://wx-teacher-web.leo1v1.com/teacher_info.html?lessonid=".$lessonid;
 
             $wx = new \App\Helper\WxSendMsg();
             $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
             // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
-        }else{ // 拒绝
 
+
+            // $parentid = $this->t_student_info->get_parentid_by_lessonid($lessonid);
+            $parentid = 271968;//james
+            if($parentid>0){
+                $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+            }
+
+        }else{ // 拒绝
+            /**
+             * @ 给教务发送微信推送
+             **/
+
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "lesson_del_flag" => 1,
+            ]);
+            $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
+                "confirm_time"           => time(NULL),
+                "success_flag"           => 2,
+                "fail_reason"            => "老师微信端拒绝课程",
+                "test_lesson_fail_flag"  => 113, // [不付] 老师个人原因取消
+            ]);
+
+
+            $data = [
+                "first" => "$stu_nick 同学的试听课已拒绝",
+                "keyword1" => "老师拒绝试听课程",
+                "keyword2" => $stu_nick."同学".$lesson_time_str."的[".$subject_str."]试听课已被".$tea_nick."老师拒绝，请尽快重新排课",
+                "keyword3" => date("Y-m-d H:i:s"),
+            ];
+            $url = "http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_jx";
+            $wx = new \App\Helper\WxSendMsg();
+            $jw_openid = $this->t_manager_info->get_wx_openid($lesson_info['accept_adminid']);
+            $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
+           // $wx->send_ass_for_first($jw_openid, $data, $url);
         }
+
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+            "accept_status"=>$status
+        ]);
 
         return $this->output_succ(["status"=>$status]);
     }
@@ -1091,6 +1132,12 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
         $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
+
+        // if($teacher_info['lesson_del_flag'] == 1){
+        //     $teacher_info['status'] = 2;
+        // }else{
+        //     $teacher_info['status'] = 1;
+        // }
 
 
         $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);

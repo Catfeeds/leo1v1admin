@@ -420,7 +420,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "(tss.success_flag is null or tss.success_flag in (0,1))"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,l.train_type "
+        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,"
+                                  ."l.train_type,m.fulltime_teacher_type "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"

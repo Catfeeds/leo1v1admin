@@ -74,7 +74,8 @@
                 <tr>
                     <td>等级序号 </td>
                     <td>销售等级 </td>
-                    <td>等级目标 </td>
+                    <td>定级等级目标 </td>
+                    <td>资源等级目标 </td>
                     <td>等级头像 </td>
                     <td>等级角标 </td>
                     <td>创建时间 </td>
@@ -87,6 +88,7 @@
                         <td>{{@$var["num"]}} </td>
                         <td>{{@$var["seller_level_str"]}} </td>
                         <td>{{@$var["level_goal"]}} </td>
+                        <td>{{@$var["seller_level_goal"]}} </td>
                         <td><img src="{{@$var["level_face"]}}" width="100px;" height="100px;" alt="" /></td>
                         <td><img src="{{@$var["level_icon"]}}" width="100px;" height="100px;" alt="" /></td>
                         <td>{{@$var["create_time"]}} </td>
