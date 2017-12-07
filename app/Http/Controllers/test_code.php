@@ -1414,8 +1414,8 @@ class test_code extends Controller
      */
     public function check_test(){
         $identity     = $this->get_in_int_val("identity");
-        $gender= $this->get_in_int_val("gender");
-        $age= $this->get_in_int_val("age");
+        $gender       = $this->get_in_int_val("gender");
+        $age          = $this->get_in_int_val("age");
         $grade        = E\Egrade::V_106;
         $subject      = E\Esubject::V_2;
         $lesson_start = strtotime("2017-11-20 18:00");
@@ -1488,7 +1488,10 @@ class test_code extends Controller
                     }
                 }
             }
-            array_multisort($identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,$match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list);
+            array_multisort(
+                $identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,
+                $match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
+            );
         }
 
 
@@ -1544,24 +1547,48 @@ class test_code extends Controller
         return $match_num;
     }
 
-    public function array_sort($list,$sort_list){
-        $sort_list = [
-            [
-                0=>"sort_type",
-                1=>$sort_arr,
-            ],[
-                0=>"sort_type",
-                1=>$sort_arr,
-            ]
-        ];
+    public function get_teacher_grade_info(){
+        $tea_list = $this->t_teacher_info->get_teacher_all_info_list();
 
-        if(!is_array($sort_list)){
-            return false;
-        }
+        foreach($tea_list as $val){
+            $update_arr = [];
+            $teacherid          = $val['teacherid'];
+            $subject            = $val['subject'];
+            $grade              = $val['grade_part_ex'];
+            $grade_start        = $val['grade_start'];
+            $grade_end          = $val['grade_end'];
+            $second_subject     = $val['second_subject'];
+            $second_grade       = $val['second_grade'];
+            $second_grade_start = $val['second_grade_start'];
+            $second_grade_end   = $val['second_grade_end'];
 
-        foreach($sort_list as $val){
-            
+            $show_flag = false;
+            if($subject>0 && $grade>0 && ($grade_start==0 || $grade_end==0)){
+                $grade_range = \App\Helper\Utils::change_old_grade_to_grade_range($grade);
+                $grade_start = $grade_range['grade_start'];
+                $grade_end   = $grade_range['grade_end'];
+                if($grade_start>0 && $grade_end>0){
+                    $update_arr['grade_start'] = $grade_start;
+                    $update_arr['grade_end']   = $grade_end;
+                }
+            }
+
+            if($second_subject>0 && $second_grade>0 && ($second_grade_start==0 || $second_grade_end==0)){
+                $second_grade_range = \App\Helper\Utils::change_old_grade_to_grade_range($second_grade);
+                $second_grade_start = $second_grade_range['grade_start'];
+                $second_grade_end   = $second_grade_range['grade_end'];
+                if($second_grade_start>0 && $second_grade_end>0){
+                    $update_arr['second_grade_start'] = $second_grade_start;
+                    $update_arr['second_grade_end']   = $second_grade_end;
+                }
+            }
+
+            if(!empty($update_arr)){
+                echo $teacherid."|".json_encode($update_arr);
+                echo $this->br;
+            }
         }
     }
+
 
 }
