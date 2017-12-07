@@ -47,18 +47,76 @@ class jw_teacher_test_lesson_assign_auto extends Command
             foreach($list as $val){
                 $grade = $val["grade"];
                 $subject = $val["subject"];
-                if($grade>=100 && $grade<200 && $subject==2){
-                    $accept_adminid = 486;
+                if($subject==2){
+                    $jw_list=[1328,1324];
+                              
+                    $num_all = count($jw_list);
+                    $i=0;
+                    foreach($jw_list as $k=>$val){
+                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
+                        if (!$json_ret) {
+                            $json_ret=0;
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", $json_ret);
+                        }
+                        if($json_ret>0){
+                            $i++;
+                        }
+                    }
+                    if($i==$num_all){
+                        foreach($jw_list as $k=>$val){
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 0);
+                        }
+                    }
+                    foreach($jw_list as $k=>$val){
+                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
+                        if($json_ret==0){                           
+                            $accept_adminid=$val;
+                            break;
+               
+                        }
+                    }
+
+                    
+                }elseif($subject==3){
+                    $jw_list=[1329,1326];
+                              
+                    $num_all = count($jw_list);
+                    $i=0;
+                    foreach($jw_list as $k=>$val){
+                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
+                        if (!$json_ret) {
+                            $json_ret=0;
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", $json_ret);
+                        }
+                        if($json_ret>0){
+                            $i++;
+                        }
+                    }
+                    if($i==$num_all){
+                        foreach($jw_list as $k=>$val){
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 0);
+                        }
+                    }
+                    foreach($jw_list as $k=>$val){
+                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
+                        if($json_ret==0){                           
+                            $accept_adminid=$val;
+                            break;
+               
+                        }
+                    }
+
+                    
+                }elseif($grade>=100 && $grade<200 && $subject==2){
+                    // $accept_adminid = 486;
                 }else if($grade>=200 && $grade<300 && $subject==2){
-                    $accept_adminid = 895;
+                    // $accept_adminid = 895;
                 }else if($grade>=300 && $grade<400 && $subject==2){
-                    $accept_adminid = 895;
+                    // $accept_adminid = 895;
                 }else if($grade>=100 && $grade<200 && $subject==1){
                     $accept_adminid = 1238;
                 }else if($grade>=200 && $grade<400 && $subject==1){
                     $accept_adminid = 513;
-                }else if( $subject==3){
-                    $accept_adminid = 723;
                 }elseif($subject>3){
                     $accept_adminid = 436;
                 }
@@ -67,10 +125,8 @@ class jw_teacher_test_lesson_assign_auto extends Command
                     "accept_adminid"=>$accept_adminid,
                     "require_assign_time"=>time()
                 ]);
-                if(in_array($subject,[2,3]) && $accept_adminid==436){
-                    $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
+                $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
  
-                }
                                
 
             }
