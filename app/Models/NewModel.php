@@ -980,15 +980,17 @@ abstract class NewModel
 
     /**
      * 添加有效课程的条件语句
-     * @param array where_arr
      * @param string alias 表别名
+     * @param array merge_arr 待合并的sql数组
      * @return array
      */
-    public function lesson_common_sql($where_arr,$alias=''){
+    public function lesson_common_sql($alias='',$merge_arr=[]){
         $alias = $this->get_table_alias($alias);
-        $where_arr[] = $alias."lesson_del_flag=0";
-        $where_arr[] = $alias."confirm_flag!=2";
-        return $where_arr;
+        $where_arr = [
+            $alias."lesson_del_flag=0",
+            $alias."confirm_flag!=2",
+        ];
+        return array_merge($where_arr,$merge_arr);
     }
 
     /**
@@ -996,15 +998,16 @@ abstract class NewModel
      * @param int start_time 开始时间
      * @param int end_time   结束时间
      * @param string alias 表别名
+     * @param array merge_arr 待合并的sql数组
      * @return array
      */
-    public function lesson_start_sql($start_time,$end_time,$alias=''){
+    public function lesson_start_sql($start_time,$end_time,$alias='',$merge_arr=[]){
         $alias = $this->get_table_alias($alias);
         $where_arr = [
             [$alias."lesson_start>%u",$start_time],
             [$alias."lesson_start<%u",$end_time],
         ];
-        return $where_arr;
+        return array_merge($where_arr,$merge_arr);
     }
 
     /**
@@ -1016,10 +1019,25 @@ abstract class NewModel
      */
     public function lesson_start_common_sql($start_time,$end_time,$alias=''){
         $where_arr = $this->lesson_start_sql($start_time,$end_time,$alias);
-        $where_arr = $this->lesson_common_sql($where_arr,$alias);
+        $where_arr = $this->lesson_common_sql($alias,$where_arr);
         return $where_arr;
     }
 
-
+    /**
+     * 可带课的老师筛选条件
+     * @param string alias 表别名
+     * @param array merge_arr 待合并的sql数组
+     * @return array
+     */
+    public function teacher_common_sql($alias='',$merge_arr=[]){
+        $alias = $this->get_table_alias($alias);
+        $where_arr = [
+            $alias."trial_lecture_is_pass=1",
+            $alias."train_through_new=1",
+            $alias."wx_use_flag=1",
+            $alias."is_test_user=0",
+        ];
+        return array_merge($where_arr,$merge_arr);
+    }
 
 }

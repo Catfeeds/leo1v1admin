@@ -90,7 +90,7 @@ $(function(){
     ],before:function(){
         data_str = $(this).attr('class_name');
         td_index = $(this).attr('index');
-        is_ban   = $(this).parent().data('is_ban');
+        // is_ban   = $(this).parent().data('is_ban');
     },onshow:function(){
         if(td_index == 4 ){
             $('.menu_select,.menu_del').removeClass('hide');
@@ -101,6 +101,13 @@ $(function(){
         //     $('.menu_ban').text('禁用√');
         // }
     }};
+
+    $('[data-is_ban]').each(function(){
+        if($(this).data('is_ban') == 1){
+            console.log($(this))
+            $(this).css('color','red');
+        }
+    });
 
     $('.right-menu').each(
         function(){

@@ -2189,13 +2189,13 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
-function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file_list,process_id ){
+function multi_upload_file(new_qiniu,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file_list,process_id ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
         var domain_name=ret.domain;
         var token=ret.token;
-
+        // var new_qiniu = new QiniuJsSDK();
         var uploader = Qiniu.uploader({
             // disable_statistics_report: false,
             runtimes: 'html5,flash,html4',
@@ -2203,6 +2203,11 @@ function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,sele
             // container: 'container',
             // drop_element: 'container',
             max_file_size: '100mb',
+            filters: {
+                mime_types: [
+                    {title: "", extensions: 'mp4,pdf,png,jpg'}
+                ]
+            },
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
             // dragdrop: true,
             chunk_size: '4mb',
@@ -2228,14 +2233,19 @@ function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,sele
                 },
                 'BeforeUpload': function(up, file) {
 
+                    var is_remove = befor_func(up, file);
                     if(process_id != '') {
                         var progress = new FileProgress(file, process_id);
                         var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                         if (up.runtime === 'html5' && chunk_size) {
                             progress.setChunkProgess(chunk_size);
                         }
-                    }
-                    befor_func(up, file);
+
+                        if(is_remove > -1){
+                            uploader.removeFile(file);
+                            $('#'+file.id).remove();
+                        }
+                   }
 
                 },
                 'UploadProgress': function(up, file) {
