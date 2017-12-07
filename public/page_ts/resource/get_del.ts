@@ -22,13 +22,29 @@ $(function(){
     Enum_map.append_option_list("grade", $("#id_grade"));
     if(tag_one != ''){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"));
+    } else {
+        $("#id_tag_one").append('<option value="-1">全部</option>');
     }
+
     if(tag_two != ''){
         Enum_map.append_option_list(tag_two, $("#id_tag_two"));
+    } else {
+        $("#id_tag_two").append('<option value="-1">全部</option>');
     }
+
     if(tag_three != ''){
         Enum_map.append_option_list(tag_three, $("#id_tag_three"));
+    } else {
+        $("#id_tag_three").append('<option value="-1">全部</option>');
     }
+
+    if(tag_four != ''){
+        Enum_map.append_option_list(tag_four, $("#id_tag_four"));
+    } else {
+        $("#id_tag_four").append('<option value="-1">全部</option>');
+    }
+
+
 
 
     $('#id_use_type').val(g_args.use_type);
@@ -38,6 +54,7 @@ $(function(){
     $('#id_tag_one').val(g_args.tag_one);
     $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_three').val(g_args.tag_three);
+    $('#id_tag_four').val(g_args.tag_four);
     $('#id_file_title').val(g_args.file_title);
 
     $("#id_select_all").on("click",function(){
@@ -55,35 +72,8 @@ $(function(){
         } );
     });
 
-    var do_forever_del = function(){
-        var id_list = [];
-        $('.opt-select-item').each(function(){
-            if( $(this).iCheckValue()){
-                id_list.push( $(this).data('id') );
-            }
-        });
 
-        if(id_list.length == 0) {
-            BootstrapDialog.alert('请先选择文件！');
-        } else {
-            var id_info = JSON.stringify(id_list);
-            if( confirm('确定要永久删除？永久删除后将无法还原！') ){
-                $.ajax({
-                    type     : "post",
-                    url      : "/resource/del_resource",
-                    dataType : "json",
-                    data     : {'id_str' : id_info, 'type' : 'forever'},
-                    success  : function(result){
-                        if(result.ret == 0){
-                            window.location.reload();
-                        }
-                    }
-                });
-            };
-        }
-    };
-
-    var do_restore = function(obj){
+    var do_restore_or_del = function(obj,opt_type){
 
         var res_id_list = [],file_id_list = [];
         $('.opt-select-item').each(function(){
@@ -104,7 +94,7 @@ $(function(){
                 url     : "/resource/del_or_restore_resource",
                 dataType: "json",
                 data    : {
-                    "type"        : 4,
+                    "type"        : opt_type,
                     "res_id_str"  : res_id_info,
                     "file_id_str" : file_id_info,
                 },
@@ -119,11 +109,11 @@ $(function(){
     };
 
     $('.opt-forever-del').on('click', function(){
-        do_forever_del();
+        do_restore_or_del($(this),6);
     });
 
     $('.opt-restore').on('click', function(){
-        do_restore($(this));
+        do_restore_or_del($(this),4);
     });
 
     $('.opt-change').set_input_change_event(load_data);
