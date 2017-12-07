@@ -142,6 +142,8 @@ $(function(){
         var id_knowledge = $("<div id='id_knowledge'></div>");
         var add_knowledge = $('<button title="添加知识点" class="btn btn-primary fa">添加知识点</button>');
 
+        
+
         add_knowledge.on("click", choose_knowledge);
         id_knowledge.append(add_knowledge);
 
@@ -249,6 +251,15 @@ $(function(){
             }
         });
     };
+
+    $('.get_knowledge_detail').click(function(){
+        var detail = $(this).next().text();
+        console.log(detail);
+        var arr=[
+            ["知识点详情", detail ],
+        ];
+        $.show_key_value_table("知识点详情", arr,null);
+    })
 
 })
 

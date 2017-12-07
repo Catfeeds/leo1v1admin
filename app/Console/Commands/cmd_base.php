@@ -23,9 +23,6 @@ class cmd_base extends Command
      */
     protected $description = '';
 
-
-
-
     /**
      * @var  \App\Console\Tasks\TaskController
      */

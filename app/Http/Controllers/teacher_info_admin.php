@@ -97,7 +97,7 @@ class teacher_info_admin extends Controller
     }
 
     public function get_tea_arr_list(){
-        $tea_all_list = $this->t_teacher_info->get_teacher_list_new();
+        $tea_all_list = $this->t_teacher_info->get_teacher_all_info_list();
         $tea_arr= [];
         foreach($tea_all_list as $item){
             $tea_arr[$item['teacherid']] = $item['nick'];
@@ -522,7 +522,7 @@ class teacher_info_admin extends Controller
             "address"=>$address,
             "moderator"=>$moderator
         ]);
-        $ret_tea = $this->t_teacher_info->get_teacher_list_new();
+        $ret_tea = $this->t_teacher_info->get_teacher_all_info_list();
         foreach($ret_tea as $item){
             $this->t_teacher_meeting_join_info->row_insert([
                 "create_time"=>$create_time,

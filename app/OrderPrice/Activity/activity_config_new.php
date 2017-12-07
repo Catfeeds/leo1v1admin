@@ -38,6 +38,7 @@ class activity_config_new extends  activity_new_base {
     public  $lesson_times_present_lesson_count =[]; //按课次数送课
 
     public  $price_off_money_list=[]; //按金额 立减
+    public  $lesson_times_off_money_list=[]; //按课次 立减
 
 
 
@@ -118,6 +119,12 @@ class activity_config_new extends  activity_new_base {
             //按金额 立减
             $this->price_off_money_list = $discount_json;
             break;
+        case E\Eorder_activity_discount_type::V_5:
+            //按金额 立减
+            $this->lesson_times_off_money_list
+                = $discount_json;
+            break;
+
         }
 
     }
@@ -236,11 +243,10 @@ class activity_config_new extends  activity_new_base {
 
         //按课次数送课
         if (count($this->lesson_times_present_lesson_count)>0 ) {
-            $tmp_present_lesson_count=0 ;
             list($find_free_lesson_level , $present_lesson_count_1 )=$this->get_value_from_config_ex(
                 $this->lesson_times_present_lesson_count ,  $this->lesson_times , [0,0] );
             if ( $present_lesson_count_1) {
-         
+
                 list( $check_ok_flag,$now_all_change_value, $activity_desc_cur_count )= $this->check_max_change_value($this->max_change_value, $present_lesson_count_1);
                 if ( $check_ok_flag ) {
                     $present_lesson_count += $present_lesson_count_1 *3;
@@ -259,7 +265,6 @@ class activity_config_new extends  activity_new_base {
         //按金额 立减
         if (count($this->price_off_money_list)>0 ) {
 
-            $tmp_present_lesson_count=0 ;
             list($find_money_level , $off_money )=$this->get_value_from_config_ex(
                 $this->price_off_money_list,  $price , [0,0] );
             if ( $off_money) {
@@ -302,6 +307,22 @@ class activity_config_new extends  activity_new_base {
                 return true;
             }
         }
+
+        //按课次 立减
+        if (count($this->lesson_times_off_money_list )>0 ) {
+            list($find_money_level , $off_money )=$this->get_value_from_config_ex(
+                $this->lesson_times_off_money_list ,  $lesson_times , [0,0] );
+            if ( $off_money) {
+                $price-=$off_money;
+                $desc_list[] = $this->gen_activity_item(1, " $activity_desc 购满 $find_money_level 次课 立减 $off_money 元 "   , $price,  $present_lesson_count, $can_period_flag, $off_money, $off_money ,$off_money );
+                return true;
+            }else{
+                $desc_list[]=$this->gen_activity_item(0, " $activity_desc 购买 $lesson_times 次课 未匹配", $price,  $present_lesson_count,$can_period_flag );
+                return false;
+            }
+        }
+
+        //按课次数打折
         return true;
     }
 
@@ -415,6 +436,14 @@ class activity_config_new extends  activity_new_base {
             foreach ( $this->grade_off_perent_list  as  $key => $val) {
                 $grade_str= E\Egrade::get_desc($key);
                 $str.=" $grade_str  打 $val 折  <br/> ";
+            }
+            $arr[]=["优惠", $str  ];
+
+        }else if ( count($this->lesson_times_off_money_list )>0 ) {
+            $arr[]=["--", ""];
+            $str="";
+            foreach ( $this->lesson_times_off_money_list as  $key => $val) {
+                $str.="购满 $key 次课  立减 $val 元  <br/> ";
             }
             $arr[]=["优惠", $str  ];
         }

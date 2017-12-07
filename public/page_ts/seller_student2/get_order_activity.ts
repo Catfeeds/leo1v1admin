@@ -384,7 +384,7 @@ $(function(){
         var opt_data = $(this).parents('#id_tea_info').get_self_opt_data();
 
         var id_discount_type =$("<select onchange='changeActivity(this)'/>");
-        Enum_map.append_option_list("order_activity_discount_type", id_discount_type);
+        Enum_map.append_option_list("order_activity_discount_type", id_discount_type,true);
         id_discount_type.val(opt_data["order_activity_discount_type"]);
         var id_discount_json = $("<div class='discount_activity' style='width:420px'/>");
         var edit_json = opt_data["discount_json"];
@@ -446,7 +446,7 @@ $(function(){
 });
 //根据不同的优惠活动选择不同的选项
 function changeActivity(obj){
-    //1 按课次数打折 2 按年级打折 3 按课次数送课 4 按金额立减
+    //1 按课次数打折 2 按年级打折 3 按课次数送课 4 按金额立减 4 按课次数立减
     var act = $(obj).val();
     var activity = showActivity(act);
     var opt_data = $('#id_tea_info').get_self_opt_data();
@@ -480,6 +480,9 @@ function showActivity(config){
         break;
     case 4:
         activity = $(".price_off_money_list:hidden").clone();
+        break;
+    case 5:
+        activity = $(".lesson_times_off_money:hidden").clone();
         break;
     default:
         activity = $(".lesson_times_off_perent_list:hidden").clone();

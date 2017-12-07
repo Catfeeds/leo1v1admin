@@ -9,12 +9,12 @@ class t_question_knowledge extends \App\Models\Zgen\z_t_question_knowledge
 	}
 
     public function question_know_list($question_id){
-        $sql = $this->gen_sql("select kq.id,kq.difficult,kq.kownledge_id,kn.subject,kn.title
-                               from %s kq left join %s kn on kq.kownledge_id = kn.kownledge_id
+        $sql = $this->gen_sql("select kq.id,kq.difficult,kq.knowledge_id,kn.subject,kn.title,kn.detail
+                               from %s kq left join %s kn on kq.knowledge_id = kn.knowledge_id
                                where kq.question_id = %s
                                order by question_id desc ",
                               self::DB_TABLE_NAME,
-                              t_kownledge_point::DB_TABLE_NAME,
+                              t_knowledge_point::DB_TABLE_NAME,
                               $question_id
         );
 
