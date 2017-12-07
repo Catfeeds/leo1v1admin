@@ -9,15 +9,18 @@ use \App\Helper\Config;
 class question extends Controller
 {
     public function question_list(){
-        $subject   = $this->get_in_int_val('subject',-1);
+        $subject   = $this->get_in_int_val('id_subject',-1);
+        $open_flag   = $this->get_in_int_val('id_open_flag',-1);
         $where_arr = [
             ["subject=%d" , $subject,-1 ],
+            ["open_flag=%d" , $open_flag,-1 ],
         ];
         $page_num        = $this->get_in_page_num();
         $ret_list = $this->t_question->question_list($where_arr,$page_num);
         if($ret_list){
             foreach( $ret_list['list'] as &$item ){
                 $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+                $item['open_str'] = E\Eboolean::get_desc($item['open_flag']);
                 $knowledge_detail = $this->question_know_list($item['question_id']);
                 $item['knowledge_detail'] = json_encode($knowledge_detail);
             }
@@ -75,6 +78,16 @@ class question extends Controller
 
     }
 
+    public function question_flag(){
+        $question_id = $this->get_in_int_val('question_id');
+        $open_flag = $this->get_in_int_val('open_flag');
+        $updateArr = [
+            'open_flag' => $open_flag,
+        ];
+        $this->t_question->field_update_list($question_id,$updateArr);
+        return $this->output_succ();
+    }
+
     public function question_dele(){
         $question_id = $this->get_in_int_val('question_id');
         //删除该提对应的知识点
@@ -92,7 +105,7 @@ class question extends Controller
     }
 
     public function knowledge_list(){
-        $subject   = $this->get_in_int_val('subject',-1);
+        $subject   = $this->get_in_int_val('id_subject',-1);
         $where_arr = [
             ["subject=%d" , $subject,-1 ],
         ];

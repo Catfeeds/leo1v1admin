@@ -2,7 +2,20 @@
 /// <reference path="../g_args.d.ts/question-knowledge_list.d.ts" />
 
 $(function(){
-    Enum_map.append_option_list("subject", $("#id_subject"));
+    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+
+    $("#id_subject").val(g_args.id_subject);
+    $('.opt-change').set_input_change_event(load_data);
+
+    function load_data(){
+
+        var data = {
+            id_subject : $("#id_subject").val(),
+        };
+
+        $.reload_self_page(data);
+    }
+
 
     //进入知识点列表页面
     $('#question_list').on('click',function(){
