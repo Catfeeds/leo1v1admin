@@ -34,9 +34,9 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr      = $(row_list[do_index]);
                 var opt_data = $tr.find(".opt-show").get_opt_data();
-                whole_data[do_index] = opt_data.adminid;
-                $.do_ajax("/seller_tongji/seller_test_lesson_info",{
-                    "adminid"    : opt_data.adminid,
+                whole_data[do_index] = opt_data['adminid'];
+                $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
+                    "adminid"    : opt_data['adminid'],
                     "start_time" : g_args.start_time,
                     "end_time"   : g_args.end_time,
                 },function(data){

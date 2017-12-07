@@ -1310,22 +1310,27 @@ class test_james extends Controller
     public function chang_wen(){
         $url = "http://vop.baidu.com/server_api";
 
-        $path = '/home/james/桌面/16k.wav';
-        $fp = fopen($path, 'rb');  // 以二进制形式打开文件
-        $content = fread($fp, filesize($path)); // 读取文件内容
-        fclose($fp);
-        $content = base64_encode($content); // 将二进制信息编码成字符串
+        // $path = '/home/james/桌面/16k.wav';
+        // $fp = fopen($path, 'rb');  // 以二进制形式打开文件
+        // $content = fread($fp, filesize($path)); // 读取文件内容
+        // fclose($fp);
+        // $content = base64_encode($content); // 将二进制信息编码成字符串
 
+        // $content = str_replace("\n"," ",$content);
 
         $post_data = [
             "format"=>"wav",
             "rate"=>16000,
             "channel"=>1,
             "token"=>"24.17dde2e70ba5d12d9217220c62a95853.2592000.1515234816.282335-10485794",
-            "cuid"=>"98:e7:f4:bd:7d:4c",
-            "len"=>127,
+            "cuid"=>"baidu_workshop122xuejijams",
+            // "len"=>127,
             "lan" => "zh",
-            "speech"=>"$content", // xxx为 base64（FILE_CONTENT）
+            // "speech"=>"$content",
+
+            "url" => "http://speech-doc.gz.bcebos.com/rest-api-asr/public_audio/16k.wav",
+            "callback" => "http://admin.leo1v1.com/test_james/get_post"
+
         ];
 
         $post_data = json_encode($post_data);
@@ -1346,7 +1351,12 @@ class test_james extends Controller
 
         $ret_arr = json_decode($output,true);
 
-        dd($ret_arr);
+        return $ret_arr;
+    }
+
+    public function get_post(){
+        $a = $_SESSION;
+        dd($a);
     }
 
 
