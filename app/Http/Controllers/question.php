@@ -22,7 +22,7 @@ class question extends Controller
                 $item['knowledge_detail'] = json_encode($knowledge_detail);
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061156"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061556"]);
     }
 
     public function question_add(){
@@ -85,7 +85,7 @@ class question extends Controller
 
         //删除该题
         $this->t_question->del_by_id($question_id);
-
+        
         return $this->output_succ(); 
 
 

@@ -18,7 +18,7 @@ $(function(){
         var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
         var arr=[
             ["题目标题", id_title ],
@@ -70,8 +70,8 @@ $(function(){
         var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
-        Enum_map.append_option_list("subject",id_subject,true);
         id_title.val(opt_data.title);
         id_subject.val(opt_data.subject);
         id_score.val(opt_data.score);
