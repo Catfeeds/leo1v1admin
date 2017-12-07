@@ -279,10 +279,16 @@ $(function(){
         }else {
             var obj=$("#"+queryid).parent()  ;
             obj.find("span").hide();
-            obj.parent().hide();
-            $td.html(obj);
+            //obj.parent().hide();
+            //$td.find("span").html(obj);
         }
 
+    });
+    $(".fa-filter").on("click",function( ){
+        var obj=$("#id_lesson_type").parent()  ;
+        BootstrapDialog.show( {
+            message: obj 
+        });
     });
 
 });
