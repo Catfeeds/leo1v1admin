@@ -41,8 +41,8 @@ class fulltime_teacher_kaoqin extends Command
         $task=new \App\Console\Tasks\TaskController();
         $time = time();
         //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $start_time = strtotime("2017-11-01");
-        $end_time = strtotime("2017-12-01");
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2017-12-07");
         $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $date_arr=[];
         foreach($date_list_old as $k=>$val){
