@@ -613,10 +613,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
             $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
             $where_arr[]=['m.del_flag=%d', $admin_del_flag ,-1];
-
-            $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
-            $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
-            $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
+            if(count($admin_revisiterid_list)>0){
+                if($admin_revisiterid>0 && in_array($admin_revisiterid,$admin_revisiterid_list)){
+                    $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
+                }else{
+                    $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+                }
+            }else{
+                $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
+                $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
+            }
 
         }
 
