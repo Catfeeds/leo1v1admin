@@ -673,7 +673,7 @@ where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role 
 
     public function get_all_info_by_cc_new(){
         $sql = "select adminid, count(distinct(phone)) as total_con_user from db_weiyi_admin.t_tq_call_info  
-        where start_time > 1509465600 and start_time < 1512057600 and is_called_phone=1 and t.admin_role =2 group by adminid";
+        where start_time > 1509465600 and start_time < 1512057600 and is_called_phone=1 and admin_role =2 group by adminid";
         return $this->main_get_list($sql,function($item){
                return $item["adminid"];
         }); 
