@@ -54,17 +54,17 @@ class test_sam extends Command
             fwrite($fp, '   ');
             fwrite($fp, @$value['total_user']);//2
             fwrite($fp, '   ');
-            fwrite($fp, @$value['total_money']);//3
-            fwrite($fp, '   ');
-            fwrite($fp, @$value['total_num']);//4
-            fwrite($fp, '   ');
-            if(isset($ret[$value['adminid']])){
+            if(isset($ret[$value['adminid']['total_con_user']])){
                 fwrite($fp, @$ret[$value['adminid']['total_con_user']]);//4
                 fwrite($fp, '   ');
             }else{
                 fwrite($fp, 0);//4
                 fwrite($fp, '   ');
             }
+            fwrite($fp, @$value['total_money']);//3
+            fwrite($fp, '   ');
+            fwrite($fp, @$value['total_num']);//4
+            
             fwrite($fp, "\n");
         }
         fclose($fp);
