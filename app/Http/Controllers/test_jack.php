@@ -355,11 +355,11 @@ class test_jack  extends Controller
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,-1,100000,5 );
         $data=[];
         foreach($adminid_list as $k=>$val){
+            $date_list = $date_arr;
             foreach($ret_info["list"] as $item){
                 if($item["uid"]==$k){
                     $logtime=$item["logtime"];
                     $opt_date=strtotime(date("Y-m-d",$logtime));
-                    $date_list = $date_arr;
                     $date_item= &$date_list[$opt_date];
                     if (!isset($date_item["start_logtime"])) {
                         $date_item["start_logtime"]=$logtime;
@@ -372,10 +372,11 @@ class test_jack  extends Controller
                             $date_item["end_logtime"] = $logtime;
                         }
                     }
-                    $data[$k] = $date_list;
 
                 }
             }
+            $data[$k] = $date_list;
+
         }
         dd($data);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000,5 );
