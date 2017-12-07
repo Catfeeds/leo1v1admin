@@ -1128,7 +1128,6 @@ class wx_teacher_api extends Controller
     public function get_test_teacher_info(){ //排课人推送 点击详情数据接口
         $lessonid = $this->get_in_int_val('lessonid');
         $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
-        dd($teacher_info);
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
         $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
