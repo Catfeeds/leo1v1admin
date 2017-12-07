@@ -14,20 +14,41 @@ class seller_student_new extends Controller
     use CacheNick;
     //分配例子--主管
     public function assign_member_list ( ) {
-        $adminid=$this->get_account_id();
-        $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
-        if($adminid == 287 || $adminid == 416 || $adminid == 1221 || $adminid == 1200 || $adminid == 944){
+        // $adminid=$this->get_account_id();
+        // $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
+        // if(!$self_groupid ) {
+        //     return $this->error_view(["你不是销售主管"]);
+        // }
 
-        }else if(!$self_groupid ) {
+        // $this->set_in_value("self_groupid", $self_groupid );
+        // $this->set_in_value("sub_assign_adminid_2",$adminid );
+        // if (!$this->check_in_has( "admin_revisiterid")) {
+        //     $this->set_in_value("admin_revisiterid", 0);
+        // }
+
+        $button_show_flag = 1;
+        $adminid=$this->get_account_id();
+        $majordomo_groupid=$this->t_admin_majordomo_group_name->is_master($adminid);
+        $admin_main_groupid=$this->t_admin_main_group_name->is_master($adminid);
+        $self_groupid=$this->t_admin_group_name->is_master($adminid);
+        if($majordomo_groupid>0){//总监
+            $button_show_flag = 0;
+        }elseif($admin_main_groupid>0){//经理
+            $button_show_flag = 0;
+        }elseif($self_groupid>0){//组长
+            $button_show_flag = 0;
+        }else{
             return $this->error_view(["你不是销售主管"]);
         }
 
+        $this->set_in_value("majordomo_groupid",$majordomo_groupid);
+        $this->set_in_value("admin_main_groupid",$admin_main_groupid);
         $this->set_in_value("self_groupid", $self_groupid );
+        $this->set_in_value("button_show_flag",$button_show_flag);
         $this->set_in_value("sub_assign_adminid_2",$adminid );
         if (!$this->check_in_has( "admin_revisiterid")) {
             $this->set_in_value("admin_revisiterid", 0);
         }
-
 
         return $this->assign_sub_adminid_list();
     }
@@ -67,7 +88,10 @@ class seller_student_new extends Controller
 
     //分配例子
     public function assign_sub_adminid_list(){
+        $majordomo_groupid = $this->get_in_int_val("majordomo_groupid",-1);
+        $admin_main_groupid = $this->get_in_int_val("admin_main_groupid",-1);
         $self_groupid = $this->get_in_int_val("self_groupid",-1);
+        $button_show_flag = $this->get_in_int_val('button_show_flag',1);
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
             -30*6, 1, 0, [
@@ -118,6 +142,7 @@ class seller_student_new extends Controller
         $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
         $self_adminid = $this->get_account_id();
         $origin_count = $this->get_in_intval_range("origin_count");
+
         if($self_adminid==349){
             $self_adminid=-1;
         }
@@ -125,12 +150,27 @@ class seller_student_new extends Controller
 
         $this->t_seller_student_new->switch_tongji_database();
 
-        //主管查看自己例子
-        $button_show_flag = 1;
-        if(in_array($this->get_account_id(),[287,416,1221,1200])){
-            $admin_revisiterid = $this->get_account_id();
-            $button_show_flag = 0;
+        //主管查看下级例子
+        $admin_revisiterid_list = [];
+        if($button_show_flag == 0){
+            $son_adminid = [];
+            $son_adminid_arr = [];
+            if($majordomo_groupid>0){//总监
+                $son_adminid = $this->t_admin_main_group_name->get_son_adminid_by_up_groupid($majordomo_groupid);
+            }elseif($admin_main_groupid>0){//经理
+                $son_adminid = $this->t_admin_group_name->get_son_adminid_by_up_groupid($admin_main_groupid);
+            }elseif($self_groupid>0){//组长
+                $son_adminid = $this->t_admin_group_user->get_son_adminid_by_up_groupid($self_groupid);
+            }
+            foreach($son_adminid as $item){
+                if($item['adminid']>0){
+                    $son_adminid_arr[] = $item['adminid'];
+                }
+            }
+            array_unshift($son_adminid_arr,$this->get_account_id());
+            $admin_revisiterid_list = array_unique($son_adminid_arr);
         }
+
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
@@ -138,7 +178,9 @@ class seller_student_new extends Controller
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
-            $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,$main_master_flag,$self_adminid, $origin_count );
+            $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,
+            $main_master_flag,$self_adminid, $origin_count,$admin_revisiterid_list
+        );
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
@@ -200,6 +242,7 @@ class seller_student_new extends Controller
         }else{
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
+        $this->set_filed_for_js('button_show_flag',$button_show_flag);
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,

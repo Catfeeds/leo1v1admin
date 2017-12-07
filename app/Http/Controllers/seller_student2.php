@@ -253,7 +253,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
                                [
-                                   "_publish_version"      => "201711251756",
+                                   "_publish_version"      => "201711251757",
                                    "ret_info" => $item,
                                    "gradeArr" => $gradeArr,
                                    "discount_list"=>$discount_list,
@@ -499,8 +499,6 @@ class seller_student2 extends Controller
         }else{
             return $this->output_err("更新出错！");
         };
-
-
     }
 
     public function update_order_activity_05(){
@@ -560,6 +558,19 @@ class seller_student2 extends Controller
             return $this->output_err("更新出错！");
         };
 
+    }
+
+    public function update_order_activity_08(){
+        $id = $this->get_in_int_val('id');
+        $discount_json = trim($this->get_in_str_val('discount_json',null));
+        $updateArr = [
+            'discount_json' => $discount_json,
+        ];
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
+            return $this->output_succ();
+        }else{
+            return $this->output_err("更新出错！");
+        };
     }
 
     public function update_power_value(){

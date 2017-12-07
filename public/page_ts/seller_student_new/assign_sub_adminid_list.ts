@@ -15,7 +15,7 @@ function load_data(){
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
         admin_del_flag:	$('#id_admin_del_flag').val(),
         start_time:	$('#id_start_time').val(),
-		    origin_count:	$('#id_origin_count').val(),
+        origin_count:	$('#id_origin_count').val(),
         account_role:	$('#id_account_role').val(),
         end_time:	$('#id_end_time').val(),
         userid:	$('#id_userid').val(),
@@ -112,7 +112,7 @@ $(function(){
     $('#id_show_list_flag').val(g_args.show_list_flag);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
     $('#id_first_seller_adminid').val(g_args.first_seller_adminid);
-	  $('#id_origin_count').val(g_args.origin_count);
+    $('#id_origin_count').val(g_args.origin_count);
 
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();},null, {
@@ -546,7 +546,9 @@ $(function(){
     if(is_assign_group) {
         //$("#id_admin_revisiterid").parent().parent().hide();
     }else{
-        $("#id_set_select_to_admin_list").parent().hide();
+        if(g_args.button_show_flag==1){
+            $("#id_set_select_to_admin_list").parent().hide();
+        }
         $("#id_set_select_to_tmk_list").parent().hide();
         $("#id_sub_assign_adminid_2").parent().parent().hide();
         $("#id_add").hide();
@@ -821,7 +823,6 @@ $(function(){
 
     if ($.get_action_str()=="tmk_assign_sub_adminid_list") {
         $("#id_set_select_to_admin_list").parent().hide();
-
     }
 
     $(" .opt-reset-sys_invaild_flag").on("click",function(){
