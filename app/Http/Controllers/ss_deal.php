@@ -2263,6 +2263,9 @@ class ss_deal extends Controller
         );
 
         if ( $from_parent_order_type == E\Efrom_parent_order_type::V_5   ) {
+            //重置原学生课程包分配课时
+            $this->t_course_order->reset_assigned_lesson_count($tt_item["userid"],$tt_item["competition_flag"]);
+
             $this->t_flow->add_flow(
                 E\Eflow_type::V_ORDER_EXCHANGE,
                 $this->get_account_id(),$order_require_reason, $orderid);
