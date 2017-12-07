@@ -1329,7 +1329,7 @@ class test_james extends Controller
             // "speech"=>"$content",
 
             "url" => "http://speech-doc.gz.bcebos.com/rest-api-asr/public_audio/16k.wav",
-            "callback" => "http://admin.leo1v1.com/test_james/get_post"
+            "callback" => "http://admin.leo1v1.com/test_james/chang_wen"
             
         ];
 
@@ -1351,6 +1351,7 @@ class test_james extends Controller
 
         $ret_arr = json_decode($output,true);
 
+        dd($_POST);
         dd($ret_arr);
     }
 
