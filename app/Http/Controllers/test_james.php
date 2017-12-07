@@ -1238,6 +1238,22 @@ class test_james extends Controller
         dd($lesson_list);
     }
 
+    /**
+     * @ 学生和老师同时在教室的时长超过20分钟则认为课程有效
+     * @ 否则 将该课程标记 通知人工进行审查
+     **/
+    public function check_lesson_status(){
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $userid = $this->t_lesson_info_b3->get_userid($lessonid);
+        $teaid  = $this->t_lesson_info_b3->get_teacherid($lessonid);
+
+        $login_log_stu = $this->t_lesson_opt_log->get_stu_log($lessonid,$userid);
+        $login_log_tea = $this->t_lesson_opt_log->get_stu_log($lessonid,$teaid);
+
+
+    }
+
 
 
 

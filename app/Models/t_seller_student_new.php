@@ -1197,39 +1197,43 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         // E\Etq_called_flag
         $seller_level= $this->t_manager_info->get_seller_level($not_adminid);
         $seller_level_flag= floor( $seller_level/100);
-        // E\Eseller_level
+        // E\Eseller_level::V_100;
         // E\Eorigin_level
         \App\Helper\Utils::logger("seller_level_flag:$seller_level_flag");
 
-        $before_24_time=time(NULL) -3600*6;
-        if ($seller_level_flag<=3) { //b类以上
+        $before_24_time=time(NULL) - 3600*6;
+        if ($seller_level_flag<=3) { //S,A,B级
             $before_24_time= time(NULL) -3600*3;
         }else{
             $where_arr[] = "origin_level <> 99";
         }
 
         $before_48_time= $before_24_time - 86400;
-        $check_no_call_time_str=" ( origin_level <>99 and   (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) )";
+        // $check_no_call_time_str=" ( origin_level <>99 and   ((origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time)))";
+        //S,A,B级3h前进来的已设置/27h前进来的所有,其他级别6h前进来的已设置/30h前进来的所有
+        $check_no_call_time_str="((origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time))";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
-        E\Eorigin_level::V_2;
-        //E\Eorigin_level
+        E\Eseller_level::V_300;
+        E\Eorigin_level::V_3;
         switch ( $seller_level_flag ) {
-        case 1 :  //s
-        case 2 :  //a
-            $where_arr[] = "(origin_level >0  or $check_no_call_time_str) ";
+        case 1 :  //S级:所有
+        case 2 :  //A级:已设置/3h前进来的已设置/27h前进来的所有
+            $where_arr[] = "(origin_level >0 or $check_no_call_time_str)";
             break;
-        case 3 : //b
-            $where_arr[] = "( (origin_level <>99 and origin_level >2) or $check_no_call_time_str )";
+        case 3 : //B级:B,C,T,Y,Z/3h前进来的已设置/27h前进来的所有
+            // $where_arr[] = "((origin_level <>99 and origin_level >2) or $check_no_call_time_str )";
+            $where_arr[] = "(origin_level >2 or $check_no_call_time_str )";
             break;
-        case 4 : //c
-        case 5 : //d
+        case 4 : //C级:非Y
+        case 5 : //D级:非Y,C,T,Z/3小时前进来的B/6h前进来的已设置/30h前进来的所有
             $before_3_time= time(NULL) -3600*3;
-            $where_arr[] = "( (origin_level <>99 and origin_level >3)  or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time  )  )";
+            // $where_arr[] = "( (origin_level <>99 and origin_level >3) or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time ))";
+            $where_arr[] = "(origin_level >3 or $check_no_call_time_str or (origin_level =3 and n.add_time < $before_3_time ))";
             break;
-        case 6 : //e
-            $where_arr[] = " (origin_level <>99 and origin_level >3) ";
+        case 6 : //E级:非Y,C,T,Z
+            // $where_arr[] = "(origin_level <>99 and origin_level >3)";
+            $where_arr[] = "origin_level >3";
             break;
-
         default:
             if ($t_flag) {
             }else{
@@ -1823,7 +1827,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["hold_flag=%u", $hold_flag, -1 ],
         ];
         $sql=$this->gen_sql_new(
-            "select count(*) from %s n join %s t on n.userid=t.userid where admin_revisiterid=%u and %s",
+            "select count(distinct(n.userid ))  from %s n join %s t on n.userid=t.userid where admin_revisiterid=%u and %s",
             self::DB_TABLE_NAME ,
             t_test_lesson_subject::DB_TABLE_NAME,
             $admin_revisiterid,
