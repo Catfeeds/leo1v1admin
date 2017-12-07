@@ -66,6 +66,7 @@ class menu{
                 ["power_id"=>4, "name"=>"微信运营",   "url"=>"/seller_student_new2/tmk_student_list"],
                 ["power_id"=>11, "name"=>"排课", "list"=>[
                     ["power_id"=>1, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list"],
+                    ["power_id"=>3, "name"=>"选择老师",   "url"=>"/seller_student_new2/select_teacher_for_test_lesson"],
                     ["power_id"=>11, "name"=>"试听排课-教务",   "url"=>"/seller_student_new2/test_lesson_plan_list_jx"],
                     ["power_id"=>2, "name"=>"未绑定的试听课",   "url"=>"/seller_student_new2/test_lesson_no_binding_list"],
                     ["power_id"=>5, "name"=>"教务排课明细", "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
