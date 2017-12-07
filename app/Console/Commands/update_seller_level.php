@@ -72,10 +72,12 @@ class update_seller_level extends cmd_base
             $this_level = $item['seller_level'];
             $num = isset($item['num'])?$item['num']:0;
             $level_goal = isset($item['level_goal'])?$item['level_goal']:0;
+            $seller_level_goal = isset($item['seller_level_goal'])?$item['seller_level_goal']:0;
             $become_member_time = $item['create_time'];
             $no_update_seller_level_flag = $item['no_update_seller_level_flag'];
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($num+1);
             $next_goal = isset($ret_next['level_goal'])?$ret_next['level_goal']:$level_goal;
+            $seller_next_goal = isset($ret_next['seller_level_goal'])?$ret_next['seller_level_goal']:$seller_level_goal;
             $update_flag = 0;
             if($reduce_flag == 1){//月头
                 $month_level = $this_level;
@@ -84,9 +86,9 @@ class update_seller_level extends cmd_base
                     //统计上个月
                     $price = $this->task->t_order_info->get_seller_price($start_time_last,$end_time_last,$adminid);
                     $price = $price/100;
-                    if($price<$level_goal){//降级
+                    if($price<$seller_level_goal){//降级
                         foreach($ret_level_goal as $item){
-                            if($price >= $item['level_goal']){
+                            if($price >= $item['seller_level_goal']){
                                 $next_level = $item['seller_level'];
                                 $level_face = $item['level_face'];
                             }
@@ -126,9 +128,9 @@ class update_seller_level extends cmd_base
                 //统计本月
                 $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
                 $price = $price/100;
-                if($price>$next_goal){//升级
+                if($price>$seller_next_goal){//升级
                     foreach($ret_level_goal as $item){
-                        if($price >= $item['level_goal']){
+                        if($price >= $item['seller_level_goal']){
                             $next_level = $item['seller_level'];
                             $level_face = $item['level_face'];
                         }
