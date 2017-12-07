@@ -419,6 +419,7 @@ class NewRouteConfig {
         "/question/answer_list"              => true,
         "/question/question_add"              => true,
         "/question/question_edit"              => true,
+        "/question/question_dele"              => true,
         "/question/knowledge_add"              => true,
         "/question/knowledge_edit"              => true,
         "/question/knowledge_dele"              => true,

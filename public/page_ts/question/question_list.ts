@@ -15,6 +15,7 @@ $(function(){
     $('#id_add_question').on('click',function(){
         var id_title = $("<input style='width:100%'/>");
         var id_subject = $("<select/>");
+        var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
         Enum_map.append_option_list("subject",id_subject,true);
@@ -22,6 +23,7 @@ $(function(){
         var arr=[
             ["题目标题", id_title ],
             ["题目所属科目", id_subject ],
+            ["题目分值", id_score ],
             ["题目详情", id_detail ],
         ];
 
@@ -39,6 +41,7 @@ $(function(){
                 var data = {
                     'title': title,
                     'subject':subject,
+                    'score':id_score.val(),
                     'detail':id_detail.val(),
                 }
 
@@ -64,17 +67,20 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var id_title = $("<input style='width:100%'/>");
         var id_subject = $("<select/>");
+        var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
 
         Enum_map.append_option_list("subject",id_subject,true);
         id_title.val(opt_data.title);
         id_subject.val(opt_data.subject);
+        id_score.val(opt_data.score);
         id_detail.val(opt_data.detail);
 
         var arr=[
             ["题目标题", id_title ],
             ["题目所属科目", id_subject ],
+            ["题目分值", id_score ],
             ["题目详情", id_detail ],
         ];
 
@@ -94,6 +100,7 @@ $(function(){
                     'question_id':opt_data.question_id,
                     'title': title,
                     'subject':subject,
+                    'score':id_score.val(),
                     'detail':id_detail.val(),
                 }
 
