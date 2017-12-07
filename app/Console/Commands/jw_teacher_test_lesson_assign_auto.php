@@ -71,6 +71,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
                         $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
                         if($json_ret==0){                           
                             $accept_adminid=$val;
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 1);
                             break;
                
                         }
@@ -101,6 +102,8 @@ class jw_teacher_test_lesson_assign_auto extends Command
                         $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
                         if($json_ret==0){                           
                             $accept_adminid=$val;
+                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 1);
+
                             break;
                
                         }
