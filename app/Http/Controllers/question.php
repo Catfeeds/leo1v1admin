@@ -18,10 +18,11 @@ class question extends Controller
         if($ret_list){
             foreach( $ret_list['list'] as &$item ){
                 $item['subject_str'] = E\Esubject::get_desc($item['subject']);
-                //$item['knowledge_detail'] = $this->question_know_list($item['question_id']);
+                $knowledge_detail = $this->question_know_list($item['question_id']);
+                $item['knowledge_detail'] = json_encode($knowledge_detail);
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712051956"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061056"]);
     }
 
     public function question_add(){
@@ -162,8 +163,17 @@ class question extends Controller
         return $this->output_ajax_table($ret, [ "lru_list" => [] ]);
     }
 
-    public function question_know_list(){
+    public function question_know_list($question_id){
         
+        $q_k = $this->t_question_knowledge->question_know_list($question_id);
+        if($q_k){
+            foreach($q_k as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+                $item['difficult_str'] = E\Equestion_difficulty::get_desc($item['difficult']);
+
+            }
+        }
+        return $q_k;
     }
 
     //添加题目对应的知识点
