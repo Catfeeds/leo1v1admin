@@ -29,6 +29,7 @@ class seller_level_goal extends Controller
     public function add_seller_level_goal(){
         $seller_level = $this->get_in_int_val('seller_level');
         $level_goal = $this->get_in_int_val('level_goal');
+        $seller_level_goal = $this->get_in_int_val('seller_level_goal');
         $level_face = $this->get_in_str_val('level_face');
         $level_icon = $this->get_in_str_val('level_icon');
         $num = $this->get_in_int_val('num');
@@ -51,6 +52,7 @@ class seller_level_goal extends Controller
         $this->t_seller_level_goal->row_insert([
             "seller_level" => $seller_level,
             "level_goal"   => $level_goal ,
+            "seller_level_goal"   => $seller_level_goal,
             "level_face"   => $level_face_url,
             "level_icon"   => $level_icon_url,
             "num"          => $num ,
@@ -63,6 +65,7 @@ class seller_level_goal extends Controller
     public function edit_seller_level_goal(){
         $seller_level = $this->get_in_int_val('seller_level');
         $level_goal = $this->get_in_int_val('level_goal');
+        $seller_level_goal = $this->get_in_int_val('seller_level_goal');
         $level_face = $this->get_in_str_val('level_face');
         $level_face_old = $this->get_in_str_val('level_face_old');
         $level_icon = $this->get_in_str_val('level_icon');
@@ -91,6 +94,7 @@ class seller_level_goal extends Controller
 
         $this->t_seller_level_goal->field_update_list($seller_level,[
             "level_goal" => $level_goal ,
+            "seller_level_goal" => $seller_level_goal ,
             "level_face" => $level_face_url,
             "level_icon" => $level_icon_url,
             "num"        => $num ,
