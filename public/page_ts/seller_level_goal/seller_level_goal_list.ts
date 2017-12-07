@@ -74,7 +74,7 @@ $(function(){
         Enum_map.append_option_list("seller_level",$id_seller_level,true);
         $id_seller_level.val(opt_data.seller_level);
         $id_level_goal.val(opt_data.level_goal);
-        $id_level_goal.val(opt_data.seller_level_goal);
+        $id_seller_level_goal.val(opt_data.seller_level_goal);
         $id_level_face.find('#level_face_url').val(opt_data.level_face);
         $id_level_icon.find('#level_icon_url').val(opt_data.level_icon);
         $id_num.val(opt_data.num);
