@@ -9,14 +9,14 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
     <script>
-        var tag_one = '{{@$tag_info['tag_one']['menu']}}';
-        var tag_two = '{{@$tag_info['tag_two']['menu']}}';
-        var tag_three = '{{@$tag_info['tag_three']['menu']}}';
-        var tag_four = '{{@$tag_info['tag_four']['menu']}}';
-        var tag_one_name = '{{@$tag_info['tag_one']['name']}}';
-        var tag_two_name = '{{@$tag_info['tag_two']['name']}}';
-        var tag_three_name = '{{@$tag_info['tag_three']['name']}}';
-        var tag_four_name = '{{@$tag_info['tag_four']['name']}}';
+     var tag_one = '{{@$tag_info['tag_one']['menu']}}';
+     var tag_two = '{{@$tag_info['tag_two']['menu']}}';
+     var tag_three = '{{@$tag_info['tag_three']['menu']}}';
+     var tag_four = '{{@$tag_info['tag_four']['menu']}}';
+     var tag_one_name = '{{@$tag_info['tag_one']['name']}}';
+     var tag_two_name = '{{@$tag_info['tag_two']['name']}}';
+     var tag_three_name = '{{@$tag_info['tag_three']['name']}}';
+     var tag_four_name = '{{@$tag_info['tag_four']['name']}}';
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};

@@ -17,6 +17,15 @@
                 </div>
             </div>
 
+            <div class="col-xs-2 col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon">是否开启</span>
+                    <select class="opt-change form-control" id="id_open_flag">
+                    </select>
+                </div>
+            </div>
+
+
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
                     <div class=" input-group-btn ">
@@ -42,7 +51,9 @@
                     <td >题目ID</td>
                     <td >题目标题</td>
                     <td >科目类型</td>
+                    <td >题目分值</td>
                     <td style="display:">涉及知识点</td>
+                    <td >是否开启</td>
                     <td style="display:none">题目详情</td>
                     <td >操作</td>
                 </tr>
@@ -53,6 +64,7 @@
                         <td >{{$var["question_id"]}}</td>
                         <td >{{$var["title"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
+                        <td >{{$var["score"]}}</td>
                         <td >
                             @if(@$var["knowledge_detail"])
                                 @foreach (json_decode($var['knowledge_detail'],true) as $item)
@@ -64,20 +76,26 @@
                                         <span class="del_knowledge" style="margin-left:5px;color:#fb3b3b;cursor:pointer">删除</span>
                                         <span class="question_knowledge_detail">{{$item['detail']}}</span>
                                     </p>
-                            @endforeach
-                        @endif
-                    </td>
-                    <td >{{$var["detail"]}}</td>
-                    <td >
-                        <div 
-                            {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                        >
-                            <a class="fa-edit opt-set" title="编辑题目"> </a>
-                            <a class="fa-hand-o-up opt-stu-origin btn fa" title="添加题目的知识点"> </a>
-                            <a class="fa-comments opt-return-back-list btn fa" title="编辑答案详情"> </a>
-                            <a class="fa fa-times opt-del" title="删除"> </a>
-                        </div>
-                    </td>
+                                @endforeach
+                            @endif
+                        </td>
+                        <td >{{$var["open_str"]}}</td>
+                        <td >{{$var["detail"]}}</td>
+                        <td >
+                            <div 
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                                <a class="fa-edit opt-set" title="编辑题目"> </a>
+                                <a class="fa-align-justify add_question_know" title="添加题目的知识点"> </a>
+                                <a class="fa-tags edit_question_know" title="编辑答案详情"> </a>
+                                @if(@$var["open_flag"] == 1)
+                                    <a class="fa fa-lock lock_question_know" title="禁用"> </a>
+                                @else
+                                    <a class="fa fa-unlock unlock_question_know" title="开启"> </a>
+                                @endif
+                                <a class="fa-times opt-del" title="删除"> </a>
+                            </div>
+                        </td>
                 </tr>
                 @endforeach
             </tbody>

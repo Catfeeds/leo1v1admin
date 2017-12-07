@@ -62,6 +62,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/resource/get_resource_type_js"       => true,
         "/resource/add_or_del_or_edit"         => true,
         "/resource/resource_count"             => true,
         "/tea_manage_new/approved_data"        => true,
@@ -419,6 +420,8 @@ class NewRouteConfig {
         "/question/answer_list"              => true,
         "/question/question_add"              => true,
         "/question/question_edit"              => true,
+        "/question/question_dele"              => true,
+        "/question/question_flag"              => true,
         "/question/knowledge_add"              => true,
         "/question/knowledge_edit"              => true,
         "/question/knowledge_dele"              => true,

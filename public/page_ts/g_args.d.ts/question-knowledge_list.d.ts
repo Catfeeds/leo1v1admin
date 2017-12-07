@@ -1,5 +1,5 @@
 interface GargsStatic {
-	subject:	number;
+	id_subject:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -29,13 +29,13 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		subject:	$('#id_subject').val()
+		id_subject:	$('#id_id_subject').val()
     });
 }
 $(function(){
 
 
-	$('#id_subject').val(g_args.subject);
+	$('#id_id_subject').val(g_args.id_subject);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -48,8 +48,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">subject</span>
-                <input class="opt-change form-control" id="id_subject" />
+                <span class="input-group-addon">id_subject</span>
+                <input class="opt-change form-control" id="id_id_subject" />
             </div>
         </div>
 */

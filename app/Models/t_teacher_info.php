@@ -3873,13 +3873,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-
     public function get_on_total($str){
         $sql = $this->gen_sql_new(" select t.teacherid from %s t left join %s l on l.teacherid=t.teacherid where t.teacherid not in ($str) and t.is_test_user=0 and t.trial_lecture_is_pass =1 and t.create_time<1490976000 and l.lesson_end>0 order by t.teacherid desc"
                                   ,self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME
         );
-
         return $this->main_get_list($sql);
     }
 
@@ -4680,6 +4678,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $day_range   = \App\Helper\Utils::get_day_range($lesson_start);
         $week_range  = \App\Helper\Utils::get_week_range($lesson_start);
         $month_range = \App\Helper\Utils::get_month_range($lesson_start);
+        $lesson_end  = strtotime("+40 minute",$lesson_start);
 
         $start_time = $week_range['sdate']<$month_range['sdate']?$week_range['sdate']:$month_range['sdate'];
         $end_time   = $week_range['edate']<$month_range['edate']?$week_range['edate']:$month_range['edate'];
@@ -4687,21 +4686,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate']);
         $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate']);
         $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate']);
-        $lesson_end = strtotime("+40 minute",$lesson_start);
-        $has_arr = $this->lesson_start_sql($lesson_start, $lesson_end,"l");
-        $has_arr = array_merge($has_arr,["l.lesson_del_flag=0","confirm_flag<2"]);
+        $has_arr   = $this->lesson_start_sql($lesson_start, $lesson_end,"l",["l.lesson_del_flag=0","confirm_flag<2"]);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
-        $where_arr   = [
-            $subject_str,
-            "t.trial_lecture_is_pass=1",
-            "t.train_through_new=1",
-            "t.wx_use_flag=1",
-            "t.is_test_user=0",
-            "l.lesson_type in (0,1,3)"
-        ];
-        $lesson_arr = $this->lesson_start_common_sql($start_time,$end_time,"l");
-        $where_arr  = array_merge($where_arr,$lesson_arr);
+        $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+        $lesson_arr  = $this->lesson_start_common_sql($start_time,$end_time,"l",["l.lesson_type in (0,1,3)"]);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
@@ -4715,6 +4704,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s tf on t.teacherid=tf.teacherid "
                                   ." where %s"
+                                  ." and %s"
                                   ." group by t.teacherid"
                                   ,$day_arr
                                   ,$week_arr
@@ -4723,16 +4713,39 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
-                                  ,$where_arr
+                                  ,$lesson_arr
+                                  ,$teacher_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid']."_key";
+        });
+    }
+
+    public function get_teacher_list_by_subject($subject){
+        $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
+        $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
+                                  ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
+                                  ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,"
+                                  ." tf.free_time_new"
+                                  ." from %s t"
+                                  ." left join %s tf on t.teacherid=tf.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                  ,$teacher_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid']."_key";
+        });
     }
 
     public function get_test_teacher_info($lessonid){
         $where_arr=[
             ["l.lessonid=%u",$lessonid,0],
         ];
-        $sql = $this->gen_sql_new("select t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
+        $sql = $this->gen_sql_new("select l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
                                   ." textbook_type,identity,tl.tea_label_type "
                                   ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"

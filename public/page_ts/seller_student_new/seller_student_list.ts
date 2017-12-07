@@ -3610,6 +3610,7 @@ function init_edit() {
 
             id_stu_nick.val(data.stu_nick);
             id_par_nick.val(data.par_nick);
+            id_par_type.val(data.par_type);
             id_grade.val(data.grade);
             id_gender.val(data.gender);
             id_address.val(data.address);
@@ -3869,52 +3870,56 @@ function init_edit() {
                         if(html_node.find("#area_new_two").val()==""){
                             area="";
                         }
-                        $.do_ajax("/ss_deal2/save_user_info_new",{
-                            new_demand_flag   : 1,
-                            click_type        : click_type,
-                            userid            : opt_data.userid,
-                            test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                            phone: opt_data.phone,
-                            stu_nick      : id_stu_nick.val(),
-                            par_nick      : id_par_nick.val(),
-                            grade         : id_grade.val(),
-                            gender        : id_gender.val(),
-                            address       : id_address.val(),
-                            subject       : id_subject.val(),
-                            seller_student_status : id_status.val(),
-                            seller_student_sub_status : id_seller_student_sub_status.val(),
-                            user_desc     : id_user_desc.val(),
-                            next_revisit_time : id_next_revisit_time.val(),
-                            editionid : id_editionid.val(),
-                            school: id_school.val(),
-                            stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
-                            stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                            has_pad       : id_has_pad.val(),
-                            intention_level       : id_intention_level.val(),
-                            class_rank: html_node.find("#id_class_rank_new_two").val(),
-                            class_num: html_node.find("#id_class_num_new_two").val(),
-                            grade_rank: html_node.find("#id_grade_rank_two").val(),
-                            academic_goal: html_node.find("#id_academic_goal_two").val(),
-                            test_stress: html_node.find("#id_test_stress_new_two").val(),
-                            entrance_school_type: html_node.find("#id_entrance_school_type_new_two").val(),
-                            interest_cultivation: html_node.find("#id_interest_cultivation_new_two").val(),
-                            extra_improvement : html_node.find("#id_extra_improvement_new_two").val(),
-                            habit_remodel: html_node.find("#id_habit_remodel_new_two").val(),
-                            study_habit : html_node.find("#id_study_habit_new_two").val(),
-                            interests_and_hobbies: html_node.find("#id_interests_hobbies_new_two").val(),
-                            character_type: html_node.find("#id_character_type_new_two").val(),
-                            need_teacher_style: html_node.find("#id_need_teacher_style_new_two").val(),
-                            demand_urgency: html_node.find("#id_demand_urgency_new_two").val(),
-                            quotation_reaction: html_node.find("#id_quotation_reaction_new_two").val(),
-                            recent_results: html_node.find("#id_recent_results_new_two").val(),
-                            advice_flag: html_node.find("#id_advice_flag_new_two").val(),
-                            test_paper: html_node.find("#id_test_paper_new_two").val(),
-                            province: province,
-                            city: city,
-                            area: area,
-                            region: region,
-                        });
+                        alert(province);
+                        // $.do_ajax("/ss_deal2/save_user_info_new",{
+                        //     new_demand_flag   : 1,
+                        //     click_type        : click_type,
+                        //     userid            : opt_data.userid,
+                        //     test_lesson_subject_id : opt_data.test_lesson_subject_id,
+                        //     phone: opt_data.phone,
+                        //     stu_nick      : id_stu_nick.val(),
+                        //     gender        : id_gender.val(),
+                        //     par_nick      : id_par_nick.val(),
+                        //     id_par_type   : id_par_type.val(),
+                        //     grade         : id_grade.val(),
+                        //     subject       : id_subject.val(),
+                        //     editionid     : id_editionid.val(),
+                        //     has_pad       : id_has_pad.val(),
+                        //     school        : id_school.val(),
+                        //     character_type: html_node.find("#id_character_type_new_two").val(),
+                        //     interests_and_hobbies: html_node.find("#id_interests_hobbies_new_two").val(),
+                        //     province: province,
+                        //     city: city,
+                        //     area: area,
+                        //     region: region,
+
+                        //     address       : id_address.val(),
+                        //     seller_student_status : id_status.val(),
+                        //     seller_student_sub_status : id_seller_student_sub_status.val(),
+                        //     user_desc     : id_user_desc.val(),
+                        //     next_revisit_time : id_next_revisit_time.val(),
+                        //     stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
+                        //     stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
+                        //     stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
+                        //     intention_level       : id_intention_level.val(),
+                        //     class_rank: html_node.find("#id_class_rank_new_two").val(),
+                        //     class_num: html_node.find("#id_class_num_new_two").val(),
+                        //     grade_rank: html_node.find("#id_grade_rank_two").val(),
+                        //     academic_goal: html_node.find("#id_academic_goal_two").val(),
+                        //     test_stress: html_node.find("#id_test_stress_new_two").val(),
+                        //     entrance_school_type: html_node.find("#id_entrance_school_type_new_two").val(),
+                        //     interest_cultivation: html_node.find("#id_interest_cultivation_new_two").val(),
+                        //     extra_improvement : html_node.find("#id_extra_improvement_new_two").val(),
+                        //     habit_remodel: html_node.find("#id_habit_remodel_new_two").val(),
+                        //     study_habit : html_node.find("#id_study_habit_new_two").val(),
+                        //     need_teacher_style: html_node.find("#id_need_teacher_style_new_two").val(),
+                        //     demand_urgency: html_node.find("#id_demand_urgency_new_two").val(),
+                        //     quotation_reaction: html_node.find("#id_quotation_reaction_new_two").val(),
+                        //     recent_results: html_node.find("#id_recent_results_new_two").val(),
+                        //     advice_flag: html_node.find("#id_advice_flag_new_two").val(),
+                        //     test_paper: html_node.find("#id_test_paper_new_two").val(),
+                        
+                        // });
 
                     }
                 }]
