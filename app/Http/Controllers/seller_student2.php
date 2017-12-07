@@ -253,7 +253,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
                                [
-                                   "_publish_version"      => "201711251755",
+                                   "_publish_version"      => "201711251756",
                                    "ret_info" => $item,
                                    "gradeArr" => $gradeArr,
                                    "discount_list"=>$discount_list,
@@ -398,6 +398,15 @@ class seller_student2 extends Controller
                     $dicount_list[] = $before.$var.$middle.$val.$after;
                 }
                 break;
+            case 5:
+                $before = '满课次数：';
+                $middle = ' 立减￥';
+                $after = '元';
+                foreach( $discout as $var => $val){
+                    $dicount_list[] = $before.$var.$middle.$val.$after;
+                }
+                break;
+
             default:
                 $dicount_list = array();
                 break;
