@@ -427,6 +427,7 @@ class NewRouteConfig {
         "/question/answer_dele"              => true,
         "/question/question_know_get"        => true,
         "/question/question_know_add"        => true,
+        "/question/question_know_dele"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
@@ -439,6 +440,7 @@ class NewRouteConfig {
         "/seller_student2/update_order_activity_05"  => true,
         "/seller_student2/update_order_activity_06"  => true,
         "/seller_student2/update_order_activity_07"  => true,
+        "/seller_student2/update_order_activity_08"  => true,
         "/seller_student2/get_order_activity"  => true,
         "/seller_student2/get_activity_all_list"  => true,
         "/seller_student2/get_current_activity"  => true,

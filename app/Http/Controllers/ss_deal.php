@@ -1996,6 +1996,8 @@ class ss_deal extends Controller
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = "";
             $url = "http://www.leo1v1.com/login/teacher";
+            // $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 
@@ -2147,6 +2149,7 @@ class ss_deal extends Controller
         $order_require_reason   = $this->get_in_str_val("order_require_reason");
         $to_userid  = $this->get_in_int_val("to_userid");
         $from_parent_order_lesson_count  = $this->get_in_int_val("from_parent_order_lesson_count");
+        $part_competition_flag  = $this->get_in_int_val("part_competition_flag");
 
         $tt_item=$this->t_order_info->field_get_list($parent_order_id,"userid,grade,subject,competition_flag");
         if (!$tt_item) {
@@ -2207,6 +2210,7 @@ class ss_deal extends Controller
                 return $this->output_err("请选择被赠人");
             }
             $grade = $this->t_student_info->get_grade($userid);
+            $competition_flag = $part_competition_flag;
 
 
         }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
@@ -2259,6 +2263,9 @@ class ss_deal extends Controller
         );
 
         if ( $from_parent_order_type == E\Efrom_parent_order_type::V_5   ) {
+            //重置原学生课程包分配课时
+            $this->t_course_order->reset_assigned_lesson_count($tt_item["userid"],$tt_item["competition_flag"]);
+
             $this->t_flow->add_flow(
                 E\Eflow_type::V_ORDER_EXCHANGE,
                 $this->get_account_id(),$order_require_reason, $orderid);

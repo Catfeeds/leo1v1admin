@@ -1061,11 +1061,10 @@ class wx_teacher_api extends Controller
         $lesson_info = $this->t_lesson_info_b3->get_lesson_info_for_tag($lessonid);
         $tea_nick = $this->cache_get_teacher_nick($lesson_info['teacherid']);
         $subject_str = E\Esubject::get_desc($lesson_info['subject']);
-        $stu_nick = $this->cache_get_teacher_nick($lesson_info['userid']);
+        $stu_nick = $this->cache_get_student_nick($lesson_info['userid']);
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
-        dd($lesson_info);
         if($status == 1){ //接受 []
             /**
              * @ 教务排课的推送 家长 | CC推送需要取消
@@ -1076,7 +1075,8 @@ class wx_teacher_api extends Controller
                 "keyword2" => "\n 学员姓名:$stu_nick \n 老师姓名:$tea_nick \n 教务姓名:$jw_nick \n 上课时间:$lesson_time_str",
                 "keyword3" => date("Y-m-d H:i:s"),
             ];
-            $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //待定
+
+            $url = "http://wx-teacher-web.leo1v1.com/teacher_info.html?lessonid=".$lessonid;
 
             $wx = new \App\Helper\WxSendMsg();
             $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james

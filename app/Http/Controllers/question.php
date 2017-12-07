@@ -222,7 +222,30 @@ class question extends Controller
         return $this->output_succ($result);
     }
 
+    public function question_know_dele(){
+        $id = $this->get_in_int_val('id');
+        $this->t_question_knowledge->del_by_id($id);
+        return $this->output_succ(); 
+
+    }
     public function answer_list(){
+        $question_id   = $this->get_in_int_val('question_id');
+        $where_arr = [
+            ["question_id=%d" , $question_id ],
+        ];
+        $ret_list = $this->t_answer->answer_list($where_arr);
+        $next_step = 1;
+        if($ret_list){
+            foreach( $ret_list as &$item ){
+                $item['difficult_str'] = E\Equestion_difficulty::get_desc($item['difficult']);
+                $item['step_str'] = '第'.$item['step'].'步';
+            }
+            $next_step = (int)end($ret_list)['step'] + 1;
+        }
+
+        //获取题目信息
+        $question_info = $this->t_question->get_question_info($question_id);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712051856",'next_step'=>$next_step,'question'=>$question_info]);
         
     }
 
