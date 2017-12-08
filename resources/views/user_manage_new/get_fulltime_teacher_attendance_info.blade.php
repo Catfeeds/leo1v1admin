@@ -1,11 +1,13 @@
 @extends('layouts.app')
 @section('content')
     <link rel='stylesheet' href='/css/fullcalendar.css' />
+    <script src='/js/moment.js'></script>
+    <script src='/js/fullcalendar.js'></script>
     <script src='/js/lang-all.js'></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
-    <script src='/js/fullcalendar.js'></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
 
     <section class="content ">
 
