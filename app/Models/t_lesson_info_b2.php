@@ -4219,7 +4219,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag<2",
             "l.lesson_status=1",
-            "l.lesson_start>$today"
+            "l.lesson_start>$today",
         ];
 
         $sql = $this->gen_sql_new(" select l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
