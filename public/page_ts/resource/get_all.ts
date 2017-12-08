@@ -16,6 +16,7 @@ function load_data(){
     });
 }
 $(function(){
+
     var get_province = function(obj,is_true){
         if (is_true == true){
             var pro = '';
@@ -87,7 +88,6 @@ $(function(){
 
     var city_num = $('#id_tag_two').val();
     if($('#id_resource_type').val() == 6 && city_num != -1){
-
         get_city($('#id_tag_three'), city_num);
     }
     $('#id_tag_three').val(g_args.tag_three);
@@ -110,14 +110,16 @@ $(function(){
     });
 
     $('.opt-add').on('click', function(){
-        add_resource();
+        var timestamp = Date.parse(new Date());
+
+        add_resource(timestamp);
     });
 
     var last_id  = 0, stu_hash = '', stu_link = '';
 
     var remove_id = [];
 
-    var add_resource = function(){
+    var add_resource = function(new_flag){
 
         var id_use_type      = $("<select class=\"use\"/>");
         var id_resource_type = $("<select class=\"resource\"/>");
@@ -233,8 +235,10 @@ $(function(){
                         } ,
                         success : function(result){
                             if(result.ret == 0){
+                                console.log(6)
                                 // window.location.reload();
                                 last_id = result.resource_id;
+                                $('#up_load').attr('flag', new_flag);//开始上传
                                 $('#up_load').click();//开始上传
 
                             } else {
@@ -282,7 +286,7 @@ $(function(){
                     get_city($('.tag_three'), $(this).val(), true);
                 });
 
-                $('.tag_three').append('<option value="-2">请先选择省份</option>');
+                get_city($('.tag_three'), 110000, true);
 
             } else{
                 $('#id_les_file').parent().parent().hide();
@@ -292,15 +296,15 @@ $(function(){
                     get_book();
                 }
             }
-
+            // $('#id_other_file,#id_les_file,#id_tea_file,#id_stu_file').unbind()
             //其他版本
-            get_qiniu(true,false,'id_other_file',0, 'other_file');
+            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file');
             //课件版
-            get_qiniu(false,false,'id_les_file',0, 'les_file');
+            get_qiniu(new_flag,false,false,'id_les_file',0, 'les_file');
             //老师版
-            get_qiniu(false,false,'id_tea_file',1, 'tea_file');
+            get_qiniu(new_flag,false,false,'id_tea_file',1, 'tea_file');
             //学生版
-            get_qiniu(false,false,'id_stu_file',2, 'stu_file');
+            get_qiniu(new_flag,false,false,'id_stu_file',2, 'stu_file');
         },false,600);
     };
 
@@ -364,7 +368,7 @@ $(function(){
             $('.tag_three').parent().prev().text('城市');
             $('.tag_four').parent().parent().hide();
 
-            $('#id_tea_file,#id_tea_file').parent().parent().show();
+            $('#id_tea_file,#id_stu_file').parent().parent().show();
             $('#id_les_file,#id_other_file').parent().parent().hide();
         } else if (val == 7) {
             Enum_map.append_option_list("grade",$('.grade'),true,[100,200,300]);
@@ -448,9 +452,9 @@ $(function(){
         return remove_id;
     }
 
-    var get_qiniu = function(is_multi, is_auto_upload, btn_id,use_type=0,add_class){
+    var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class){
 
-        multi_upload_file(is_multi,is_auto_upload,btn_id,1,function(files){
+        multi_upload_file(flag,is_multi,is_auto_upload,btn_id,1,function(files){
             var name_str = '';
             if (!is_multi){
                 remove_id.push($('.'+add_class).data('id'));
@@ -476,7 +480,7 @@ $(function(){
                     last_id = last_id -1;
                 }
             }
-        }, ["jpg","png"],'fsUploadProgress');
+        }, 'mp4,pdf,png,jpg','fsUploadProgress');
 
     };
 
@@ -573,7 +577,7 @@ $(function(){
 
     var re_upload = function(resource_id,file_id, file_use_type){
 
-        multi_upload_file(false,true,'upload_flag',1,'',function(up,file) {
+        multi_upload_file('',false,true,'upload_flag',1,'',function(up,file) {
             $('.opt_process').show();
         },function(up, file, info) {
             var res = $.parseJSON(info.response);
@@ -602,7 +606,7 @@ $(function(){
                 });
 
             }
-        }, ["jpg","png"],'fsUploadProgress');
+        }, 'mp4,pdf,png,jpg','fsUploadProgress');
 
     };
 
