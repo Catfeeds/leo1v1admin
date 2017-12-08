@@ -323,11 +323,4 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
         //select tl.recommended_teacherid,tl.add_time,tl.money,t.identity from t_teacher_money_list tl left join t_teacher_info t on tl.recommended_teacherid=t.teacherid  where tl.teacherid = 284393 and tl.recommended_teacherid >0 and tl.add_time > unix_timestamp('2017-11-1')
     }
-
-    public function get_test_list() {
-        //select * from t_teacher_money_list where type=7 and add_time > unix_timestamp('2017-12-1')
-        $time = strtotime(date('Y-m-7', strtotime('-1month')));
-        $sql = $this->gen_sql_new("select id from %s where type=7 and add_time > $time", self::DB_TABLE_NAME);
-        return $this->main_get_list($sql);
-    }
 }
