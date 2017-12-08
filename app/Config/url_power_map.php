@@ -632,6 +632,7 @@ class url_power_map {
 			'/main_page/quality_control_jy'	=>1327300,
 			'/fulltime_teacher/fulltime_teacher_count'	=>1348000,
 			'/fulltime_teacher/fulltime_teacher_work_attendance_info'	=>1348100,
+			'/fulltime_teacher/fulltime_teacher_attendance_info_month'	=>1348200,
 			'/tongji_ss/tongji_fulltime_teacher_test_lesson_info'	=>1340200,
 			'/human_resource/teacher_test_lesson_info_total_fulltime'	=>1340500,
 			'/human_resource/get_broken_line_order_rate'	=>1342000,

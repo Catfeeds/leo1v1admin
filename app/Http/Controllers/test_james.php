@@ -1381,7 +1381,6 @@ class test_james extends Controller
         fclose($fp);
         $content = base64_encode($content); // 将二进制信息编码成字符串
 
-
         $Param = [
             "auf"   => '16k',
             "aue"   => 'raw',
@@ -1415,6 +1414,192 @@ class test_james extends Controller
         dd($ret_arr);
         return $ret_arr;
     }
+
+
+    //以上讯飞已接入成功
+
+
+    /**
+     * @ 将远程录音下载到本地
+     * @ 将录音格式 .MP3 => WAV
+     * @ 对录音进行分割
+     * @ 对分割文件进行 文字转换
+     * @ 对转换内容进行拼接 并存入数据库
+     * @ 将视频删除
+     * @
+     * @
+     **/
+
+    public function chunk_voice(){
+        $voice_url = $this->get_in_str_val('voice_url');
+        $pdf_file_path = $this->get_pdf_download_url($voice_url);
+
+        $savePathFile = public_path('wximg').'/1.mp3';
+
+        $msg = \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+
+        dd($msg);
+    }
+
+
+
+    public function get_pdf_download_url($file_url){
+        if (preg_match("/http/", $file_url)) {
+            return $file_url;
+        } else {
+            return \App\Helper\Utils::gen_download_url($file_url);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    public function video_info() {
+
+        //ffmpeg -i sample.mp3 sample.wav
+        //mkdir split; X=0; while( [ $X -lt 5 ] ); do echo $X; ffmpeg -i big_audio_file.mp3 -acodec copy -t 00:30:00 -ss 0$X:00:00 split/${X}a.mp3; ffmpeg -i big_audio_file.mp3 -acodec copy -t 00:30:00 -ss 0$X:30:00 split/${X}b.mp3;  X=$((X+1)); done;
+        $file = '/home/ybai/16k.wav';
+        $ffmpeg = "ffmpeg";
+
+        ob_start();
+        passthru(sprintf($ffmpeg.' -i "%s" 2>&1', $file));
+        $info = ob_get_contents();
+        ob_end_clean();
+        // 通过使用输出缓冲，获取到ffmpeg所有输出的内容。
+        $ret = array();
+        // Duration: 01:24:12.73, start: 0.000000, bitrate: 456 kb/s
+        if(preg_match("/Duration: (.*?), start: (.*?), bitrate: (d*) kb\/s/", $info, $match)) {
+            $ret['duration'] = $match[1]; // 提取出播放时间
+            $da = explode(':', $match[1]);
+            $ret['seconds'] = $da[0] * 3600 + $da[1] * 60 + $da[2]; // 转换为秒
+            $ret['start'] = $match[2]; // 开始时间
+            $ret['bitrate'] = $match[3]; // bitrate 码率 单位 kb
+        }
+
+        // Stream #0.1: Video: rv40, yuv420p, 512x384, 355 kb/s, 12.05 fps, 12 tbr, 1k tbn, 12 tbc
+        if (preg_match("/Video: (.*?), (.*?), (.*?)[,s]/", $info, $match)) {
+            $ret['vcodec'] = $match[1]; // 编码格式
+            $ret['vformat'] = $match[2]; // 视频格式
+            $ret['resolution'] = $match[3]; // 分辨率
+            $a = explode('x', $match[3]);
+            $ret['width'] = $a[0];
+            $ret['height'] = $a[1];
+        }
+
+        // Stream #0.0: Audio: cook, 44100 Hz, stereo, s16, 96 kb/s
+        if (preg_match("/Audio: (w*), (d*) Hz/", $info, $match)) {
+            $ret['acodec'] = $match[1];       // 音频编码
+            $ret['asamplerate'] = $match[2];  // 音频采样频率
+        }
+
+        if (isset($ret['seconds']) && isset($ret['start'])) {
+            $ret['play_time'] = $ret['seconds'] + $ret['start']; // 实际播放时间
+        }
+
+        $ret['size'] = filesize($file); // 文件大小
+        return $ret;
+    }
+
+
+    public function voice_to_text(){
+        //输入文件名,输入文件总时间,输出文件名,分割点时间,模式[0保存前段1保存后段]
+        // $mp3_cut=new mp3_cut("input.mp3",265,"output.mp3",120,0);
+        $this->mp3_cut();
+        echo $mp3_cut->error_message;
+    }
+
+    public function mp3_cut($old_file,$time_length,$new_file,$start_time,$type){
+        $this->cut($type);
+    }
+
+    public function cut($type){
+        $this->set_input_file_size();
+        $this->byte_per_second();
+        $this->open_input_mp3();
+        $this->open_output_mp3();
+        $this->make_new_mp3($type);
+        $this->close_output_mp3();
+        $this->close_input_mp3();
+    }
+
+    public function set_input_file_size(){
+        $this->file_size=@filesize($this->old_file);
+    }
+
+    public function byte_per_second(){
+        $this->byte_per_second=(integer)($this->file_size/$this->time_length);
+    }
+
+    public function make_new_mp3($type){
+        $start_position=$this->start_time*$this->byte_per_second;
+        if($type==1){
+            fseek($this->input_data,$start_position);
+            while(!@feof($this->input_data)){
+                @fwrite($this->output_data,@fread($this->input_data,$this->data_buffer));
+            }
+        }
+        else{
+            while(@ftell($this->input_data)<=((integer)$start_position)){
+                @fwrite($this->output_data,@fread($this->input_data,($this->byte_per_second/2)));
+            }
+        }
+    }
+
+
+    public function open_input_mp3(){
+        if(file_exists($this->old_file)){
+            $this->input_data=fopen($this->old_file,"r");
+            $result=true;
+        }
+        else{
+            $this->error("打开文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+    public function close_input_mp3(){
+        if(@fclose($this->input_data)){$result=true;}
+        else{
+            $this->error("操作输入文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+
+    public function open_output_mp3(){
+        $this->output_data=@fopen($this->new_file,"w");
+        if($this->output_data){$result=true;}
+        else{
+            $this->error("创建文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+    public function close_output_mp3(){
+        if(@fclose($this->output_data)){
+            $result=true;
+        }else{
+            $this->error("操作输出文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+
+    public function error($error_message){
+        $this->error_message.=$error_message."<br>";
+    }
+
+
 
 
 

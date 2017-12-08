@@ -13,10 +13,12 @@
             this.$element.hide();
         }
 
+
         this.defaults = {
             "opt_type" : "select", // or "list"
             "url"      : "/user_manage/get_user_list",
             "lru_flag" : false,
+            "th_input_id" :null,
             lru_item_desc: null,
             //其他参数
             "args_ex" : {
@@ -185,12 +187,14 @@
                 }
             });
 
+
             if (get_value_desc_flag ) {
                 //do null
 
             } else if (val==me.options.select_no_select_value ) {
                 me.$show_input.val(me.options.select_no_select_title );
             } else if (val  && me.element_is_input ) {
+
                 var data = {lru_flag: me.options.lru_flag?1:0 };
                 data[ me.options.select_primary_field ] = val;
                 data=$.extend({},me.options.args_ex,data);
@@ -213,6 +217,14 @@
                         }else{
                             me.$show_input.val("[没找到]");
                         }
+                        if ( me.options.th_input_id ) {
+                            var $th_input=$( '#'+ me.options.th_input_id ).find("span");
+                            if (row_data) {
+                                $th_input.text( row_data[me.options.select_display]);
+                            }else{
+                                $th_input.text("[没找到]");
+                            }
+                        }
                     }
                 });
             }else{
@@ -224,6 +236,26 @@
                 this.$show_input.on("click", function(){
                     me.show_select ();
                 });
+
+                if(this.options.th_input_id  ) {
+                    var $th_input=$( '#'+ this.options.th_input_id );
+                    $th_input.data("title", $.trim($th_input.find("span").text()) );
+                    $th_input=$th_input.find("span");
+
+                    $th_input.css({
+                        cursor: "pointer",
+                        color: "#3c8dbc",
+                    });
+                    $th_input.on("click", function(){
+                        me.show_select ();
+                    });
+                    if ($th_input.is(":visible")){ //选择框放到 td
+                        me.$element.parent().parent().hide();
+                        me.$element.parent().parent().data( "always_hide", 1);
+                    }
+
+                }
+
             }
         },show_select:function(){
             var me=this;
@@ -436,7 +468,6 @@
                         });
                         $tbody.append( $tr_item);
                     });
-
 
                     var html_str=get_page_node(ret_page_info ,function(url ){
                         me.reload_data(null,url);

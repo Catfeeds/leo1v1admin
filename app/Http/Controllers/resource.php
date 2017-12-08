@@ -68,6 +68,7 @@ class resource extends Controller
         );
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
+            \App\Helper\Utils::get_file_use_type_str($item);
             $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
             $tag_arr = $this->tag_arr[ $item['resource_type'] ];
@@ -304,7 +305,7 @@ class resource extends Controller
             if( $g_mark != $item['grade'] ) {
                 $g_mark = $item['grade'];
                 if($item['resource_type'] < 6 || $item['resource_type'] == 9){
-                    $text = '添加';
+                    $text = '添加教材';
                 } else {
                     $text = '';
                 }
