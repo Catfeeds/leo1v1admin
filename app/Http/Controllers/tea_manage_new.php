@@ -303,6 +303,7 @@ class tea_manage_new extends Controller
         $subject   = $this->get_in_el_subject();
         $ret_info=$this->t_lesson_info_b3->lesson_record_server_list($page_num,  $start_time,$end_time, $record_audio_server1, $xmpp_server_name, $lesson_type, $subject );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
+
         foreach($ret_info["list"] as $key=> &$item ) {
             $item["index"] =  $start_index+$key;
             $item["lesson_time"]=\App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
@@ -310,6 +311,11 @@ class tea_manage_new extends Controller
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
         }
+        $ret_info["list"][] =[];
+        $ret_info["list"][] =[];
+        $ret_info["list"][] =[];
+        $ret_info["list"][] =[];
+        $ret_info["list"][] =[];
 
         return $this->pageView(__METHOD__, $ret_info);
 
