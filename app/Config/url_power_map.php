@@ -50,6 +50,7 @@ class url_power_map {
 			'/seller_student_new/ass_master_seller_master_student_list'	=>1153100,
 			'/seller_student_new2/tmk_student_list'	=>1150400,
 			'/seller_student_new2/test_lesson_plan_list'	=>1151101,
+			'/seller_student_new2/select_teacher_for_test_lesson'	=>1151103,
 			'/seller_student_new2/test_lesson_plan_list_jx'	=>1151111,
 			'/seller_student_new2/test_lesson_no_binding_list'	=>1151102,
 			'/tongji_ss/test_lesson_plan_detail_list'	=>1151105,
