@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
-use \Proto\class_api\error as ERR;
 
 use App\Helper\Utils;
 
@@ -59,7 +58,6 @@ class proto extends Controller
     }
 
     public function cmd_desc(){
-        dd(ERR\enum_error::ERR_IN_ROLE);
         $project=$this->get_in_str_val("project","yb_db");
         $cmdid=$this->get_in_str_val("cmdid");
         $project_dir=app_path("../public/proto");
