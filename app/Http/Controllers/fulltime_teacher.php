@@ -664,8 +664,6 @@ class fulltime_teacher extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
-        $start_time = strtotime("2017-11-01");
-        $end_time = strtotime("2017-12-01");
         $month_start = strtotime(date("Y-m-01",time()));
         if($start_time>=$month_start){
             $ret=[];
@@ -706,8 +704,8 @@ class fulltime_teacher extends Controller
                 }
             }
             foreach($ret as &$item){
-                $item["late_time"] = $item["late_time"]/3600;
-                $item["early_time"] = $item["early_time"]/3600;
+                $item["late_time"] = @$item["late_time"]/3600;
+                $item["early_time"] = @$item["early_time"]/3600;
             }           
             
  
