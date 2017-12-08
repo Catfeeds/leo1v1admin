@@ -669,7 +669,7 @@ $(function(){
             [obj.data('tag_two_name'), obj.data('tag_two_str')],
             [obj.data('tag_three_name'), obj.data('tag_three_str')],
             [obj.data('tag_four_name'), obj.data('tag_four_str')],
-            ["老师版", obj.data('file_title')],
+            [obj.data('file_use_type_str'), obj.data('file_title')],
             ["文件大小", obj.data('file_size')+'M'],
         ];
         $.show_key_value_table('文件详情', arr,false,function(){
