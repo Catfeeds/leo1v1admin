@@ -84,6 +84,10 @@ $(function(){
                 "time"      : time,
                 "flag"      : flag
             },function(resp) {
+                if(resp.ret==-1){
+                    BootstrapDialog.alert(resp.info);
+                    return;
+                }
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){
                     var lessonid = item["lessonid"];
