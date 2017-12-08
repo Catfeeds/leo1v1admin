@@ -1253,7 +1253,7 @@ class Common_new {
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
         if($monthtime_flag==1){
-            $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
+            $admin_list = $t_manager_info->get_admin_member_list_tmp($month); // test
             // $admin_list = $t_manager_info->get_admin_member_list();
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
