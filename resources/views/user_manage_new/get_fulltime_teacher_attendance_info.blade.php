@@ -4,6 +4,7 @@
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
+    <script src='/js/fullcalendar.js'></script>
 
     <section class="content ">
 
