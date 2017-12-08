@@ -4325,11 +4325,24 @@ class user_manage_new extends Controller
         $account_role = $this->get_in_int_val("account_role",-1);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role,$fulltime_teacher_type);
+        $month_start = strtotime(date("Y-m-01",$start_time));
+        $month_end = strtotime("+1 months",$start_time);
+        $extra_list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($month_start,$month_end,4,-1,-1);
+        //获取当月加班列表
+        $extra_arr=[];
+        foreach($extra_list as $v){
+            $attendance_time_str= date("Y-m-d",$v["attendance_time"]);
+            @$extra_arr[$v["adminid"]] .=$attendance_time_str."<br>" ;
+        }
         
         foreach($ret_info["list"] as &$item){
+
+            //本月加班时间
+            $item["extra_time_info"] = @$extra_arr[$item["adminid"]];
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"card_start_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"card_end_time","_str");
+            $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
             $w = date("w",$item["attendance_time"]);
             if($w>0 && $w <3){
                 $item["kaoqin_type"]=1;
@@ -4339,22 +4352,59 @@ class user_manage_new extends Controller
                 }else{
                     $item["attendance_type_str"]="";
                 }
+                if($item["attendance_type"]==4){
+                    $item["result"] = "加班";
+                }else{
+                    $item["result"]="正常";
+                }
+
             }else{
                 $item["kaoqin_type"]=2;
                 $item["kaoqin_type_str"] = "公司坐班";
                 $item["off_time_str"] = date("H:i",$item["off_time"]);
                 $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
-                $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
                 E\Eattendance_type::set_item_value_str($item);
                 if($item["holiday_hugh_time"]){
                     $holiday_hugh_time_arr = json_decode($item["holiday_hugh_time"],true);
                     $item["holiday_hugh_time_str"] = date("Y-m-d",@$holiday_hugh_time_arr["start"])."-".date("Y-m-d",@$holiday_hugh_time_arr["end"]);
+                    $item["holiday_start_time"] = @$holiday_hugh_time_arr["start"];
                 }else{
                     $item["holiday_hugh_time_str"]="";
+                    $item["holiday_start_time"] =0;
                 }
+
+                if($item["attendance_type"]==5){
+                    $item["result"] = "请假";
+                }elseif($item["attendance_type"]==3){
+                    $item["result"] = "休假";
+                }elseif($item["attendance_type"]==1){
+                    $item["result"]="正常";
+                }else{
+                    if($item["card_start_time"]==0 && $item["card_end_time"]==0){
+                        $item["result"]="旷工";
+                    }else{
+                        $off_time = $item["off_time"]==0?($item["attendance_time"]+9.5*3600):$item["off_time"];
+                        $delay_time = $item["delay_work_time"]==0?($item["attendance_time"]+18.5*3600):$item["delay_work_time"];
+                        if($item["card_start_time"]<=$delay_time && $item["card_end_time"]>=$off_time){
+                            $item["result"]="正常";
+                        }elseif($item["card_start_time"]>$delay_time && $item["card_end_time"]<$off_time){
+                            $item["result"]="迟到且早退";
+                        }elseif($item["card_start_time"]>$delay_time){
+                            $item["result"]="迟到";
+                        }elseif($item["card_end_time"]<$off_time){
+                            $item["result"]="早退";
+                        }
+
+                        
+                       
+ 
+                    }
+                }
+
  
             }
-           
+
+                       
         }
         return $this->Pageview(__METHOD__,$ret_info,[
             "acc"   =>session("acc")

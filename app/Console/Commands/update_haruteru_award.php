@@ -40,6 +40,7 @@ class update_haruteru_award extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date('Y-m-1', strtotime('-1month')));
+        
         $end_time = strtotime(date('Y-m-1', time()));
         // 小学
         $p_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,[],2,false);
@@ -83,10 +84,11 @@ class update_haruteru_award extends Command
                     }
                 }
                 echo 'teacherid '.$item['teacherid'].'money : '.$money.' end ';
+                $time = strtotime(date('Y-m-7', strtotime('-1month')));
 
                 $task->t_teacher_money_list->row_insert([
                     'teacherid' => $item['teacherid'],
-                    'add_time' => time(),
+                    'add_time' => $time,
                     'type' => 7,
                     'money' => $money * 100,
                     'grade' => $grade

@@ -150,7 +150,9 @@ class send_wx_msg_common_lesson extends Command
         }
 
         // 课程中途退出15分钟以上
-        $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
+        $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_common_lesson_list_for_minute();
+
+        $cut_class_lesson_list = $task->t_lesson_info_b2->get_need_late_notic();
 
         if(count($cut_class_lesson_list)<=300){
             foreach($cut_class_lesson_list as $item){
@@ -161,19 +163,45 @@ class send_wx_msg_common_lesson extends Command
                 $opt_time_tea_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['teacherid']);
 
                 if(($opt_time_stu_logout>$opt_time_stu_login)&&($opt_time_stu_logout > $item['lesson_start']) && ($opt_time_stu_logout<=$now-900) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [15分钟]
-                    $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
-                    $this->send_wx_msg_ass($item,3,$data_ass);
+
+
+                    if($item['stu_late_minute'] == 0){
+                        $task->t_lesson_info->field_update_list($item['lessonid'], [
+                            "stu_late_minute" => 15
+                        ]);
+
+                        $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
+                        $this->to_waring('课程中途退出15分钟 学生 课程id:'.$item['lessonid']); //james
+                        $this->send_wx_msg_ass($item,3,$data_ass);
+                    }
+
                 }
 
                 if(($opt_time_tea_logout>$opt_time_tea_login)&&($opt_time_tea_logout > $item['lesson_start']) && ($opt_time_tea_logout<=$now-900)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [15分钟]
-                    $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
-                    $this->send_wx_msg_ass($item,3,$data_ass);
+
+                    if($item['tea_late_minute'] == 0){
+
+                        $task->t_lesson_info->field_update_list($item['lessonid'], [
+                            "tea_late_minute" => 15
+                        ]);
+
+                        $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
+                        $this->to_waring('课程中途退出15分钟 老师 课程id:'.$item['lessonid']);//james
+
+                        $this->send_wx_msg_ass($item,3,$data_ass);
+                    }
                 }
             }
         }else{
             $num = count($cut_class_lesson_list);
             $this->to_waring('课程中途退出15分钟以上'.$num);
         }
+
+
+
+
+
+
 
         // 旷课
         if(count($absenteeism_lesson_list)<=300){
