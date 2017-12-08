@@ -1410,7 +1410,7 @@ class test_james extends Controller
         ));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'text='.$content);
         $output = curl_exec($ch);
         curl_close($ch);
 
