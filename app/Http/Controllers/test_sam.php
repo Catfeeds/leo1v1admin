@@ -12,6 +12,33 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+
+    public function table_1(){
+        $ret_info = $this->t_teacher_info->get_teacher_bank_info_new();
+        echo "<table >";
+        echo "<tr>"."<td >持卡人</td>"
+                ."<td >账户</td>"
+                ."<td >银行</td>"
+                ."<td >省</td>"
+                ."<td >市</td>"
+                ."<td >支行</td></tr>";
+        foreach ($ret_info as $key => $value) {
+            if($value['bankcard'] == '' or $value['bankcard'] == '0'){
+
+            }else{
+                echo "<tr>";
+                echo "<td >".$value['bank_account']."</td>";
+                echo "<td >".$value['bankcard']."</td>";
+                echo "<td >".$value['bank_type']."</td>";
+                echo "<td >".$value['bank_province']."</td>";
+                echo "<td >".$value['bank_city']."</td>";
+                echo "<td >".$value['bank_address']."</td>";
+                echo "</tr>";
+            }
+        }
+        echo "</table>";    
+    }
+
     public function test_kk(){
         $month_time = strtotime(date("Y-m-01",time()));
         dd($month_time);
