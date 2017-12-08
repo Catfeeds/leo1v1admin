@@ -215,6 +215,10 @@
                                 @if(in_array($account_role,["8","10","12"]))
                                     <a class="opt-tea_origin_url" title="招师链接">招</a>
                                 @endif
+                                @if(in_array($acc,["zoe","jim"]) || in_array($account_role,[12]))
+                                    <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
+                                @endif
+
                                 @if(in_array($account_role,["10","12"]))
                                     <a class="fa-shield opt-trial-pass"  title="试讲通过"> </a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
