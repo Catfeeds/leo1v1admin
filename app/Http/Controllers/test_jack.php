@@ -923,7 +923,7 @@ class test_jack  extends Controller
 
         $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
         foreach($list as &$item){
-            E\Eidentity::set_item_value_str($val);
+            E\Eidentity::set_item_value_str($item);
         }
 
         // $this->switch_tongji_database();

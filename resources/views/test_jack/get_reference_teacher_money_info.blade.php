@@ -43,7 +43,7 @@
 
                         <td class="reg_num"> {{@$var["reg_num"]}} </td>
                         <td class="late_num"> {{@$var["late_num"]}} </td>
-                        <td class="invalid_leave_num"> {{@$var["invalid_leave_num"]}} </td>
+                        <td class="invalid_late_num"> {{@$var["invalid_late_num"]}} </td>
                         <td class="all_change_num"> {{@$var["all_change_num"]}} </td>
                         <td class="change_num"> {{@$var["change_num"]}} </td>
                         <td class="stu_change_num"> {{@$var["stu_change_num"]}} </td>
