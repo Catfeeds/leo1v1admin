@@ -1400,7 +1400,7 @@ class test_james extends Controller
         $check_str = '5a28c0a1'.$time.''.$param.'data='.$content;
         $CheckSum = md5($check_str);
 
-        $post_data = json_encode($post_data);
+        // $post_data = json_encode($post_data);
 
 
 
