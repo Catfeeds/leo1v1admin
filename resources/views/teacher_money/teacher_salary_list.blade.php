@@ -50,6 +50,8 @@
                         <td >开户市</td>
                         <td style="display:none">预留手机</td>
                         <td>总工资</td>
+                        <td style="display:none">添加时间</td>
+                        <td style="display:none">工资发放时间时间</td>
                         <td>操作</td>
                     </tr>
                 </thead>
@@ -73,6 +75,8 @@
                             <td>{{$var['bank_city']}}</td>
                             <td>预留手机:{{$var['bank_phone']}}</td>
                             <td>{{$var['money']}}</td>
+                            <td>{{$var['add_time']}}</td>
+                            <td>{{$var['pay_time']}}</td>
                             <td>
                                 <div class="opt-div"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
