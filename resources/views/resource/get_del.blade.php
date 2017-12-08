@@ -4,6 +4,7 @@
      var tag_one = '{{$tag_info['tag_one']['menu']}}';
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
+     var tag_four = '{{$tag_info['tag_four']['menu']}}';
     </script>
     <section class="content">
         <div>
@@ -63,6 +64,14 @@
                         <select class="form-control opt-change" id="id_tag_three"> </select>
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2 {{$tag_info['tag_four']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{$tag_info['tag_four']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_four"> </select>
+                    </div>
+                </div>
+
 
             </div>
             <div class="row">

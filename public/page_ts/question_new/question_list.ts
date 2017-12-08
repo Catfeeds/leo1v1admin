@@ -4,11 +4,27 @@
 
 $(function(){
     Enum_map.append_option_list("question_difficulty", $(".question_difficult"),true);
-    Enum_map.append_option_list("subject", $("#id_subject"));
+    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+    Enum_map.append_option_list("boolean", $("#id_open_flag"));
+
+    $("#id_subject").val(g_args.id_subject);
+    $("#id_open_flag").val(g_args.id_open_flag);
+    $('.opt-change').set_input_change_event(load_data);
+
+    function load_data(){
+
+        var data = {
+            id_subject : $("#id_subject").val(),
+            id_open_flag : $("#id_open_flag").val(),
+        };
+
+        $.reload_self_page(data);
+    }
+
 
     //进入知识点列表页面
     $('#knowledge_list').on('click',function(){
-        window.open('/question/knowledge_list');
+        window.open('/question_new/knowledge_list');
     });
 
     //添加题目
@@ -18,7 +34,7 @@ $(function(){
         var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
         var arr=[
             ["题目标题", id_title ],
@@ -47,7 +63,7 @@ $(function(){
 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/question_add",
+                    url      :"/question_new/question_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -70,8 +86,8 @@ $(function(){
         var id_score = $("<input />");
         var id_detail = $("<textarea style='width:100%;height:300px'></textarea>");
 
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
-        Enum_map.append_option_list("subject",id_subject,true);
         id_title.val(opt_data.title);
         id_subject.val(opt_data.subject);
         id_score.val(opt_data.score);
@@ -106,7 +122,7 @@ $(function(){
 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/question_edit",
+                    url      :"/question_new/question_edit",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -133,14 +149,14 @@ $(function(){
 
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/question_dele",data);
+                $.do_ajax("/question_new/question_dele",data);
             }
         });
 
     })
     var subject = 0;
     //编辑对应的知识点
-    $('.opt-stu-origin').on('click',function(){
+    $('.add_question_know').on('click',function(){
 
         var opt_data=$(this).get_opt_data();
         subject = opt_data.subject;
@@ -178,7 +194,7 @@ $(function(){
 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/question_know_add",
+                    url      :"/question_new/question_know_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -196,7 +212,7 @@ $(function(){
     var choose_knowledge = function(){
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
-            "url"      : "/question/question_know_get",
+            "url"      : "/question_new/question_know_get",
             //"url"      : "/seller_student2/get_all_activity",
             //其他参数
             "args_ex" : {
@@ -277,19 +293,53 @@ $(function(){
         };
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/question_know_dele",data);
+                $.do_ajax("/question_new/question_know_dele",data);
             }
         });
 
     })
 
     //编辑对应的答案
-    $('.fa-comments').on('click',function(){
+    $('.edit_question_know').on('click',function(){
         var opt_data=$(this).get_opt_data();
         var question_id = opt_data.question_id;
-        window.open('/question/answer_list?question_id='+question_id);
+        window.open('/question_new/answer_list?question_id='+question_id);
     })
- 
+
+    //禁用
+    $('.lock_question_know').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var question_id = opt_data.question_id;
+        var title = "你确定禁用该题目?";
+        var data = {
+            'question_id':question_id,
+            'open_flag':0
+        };
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question_new/question_flag",data);
+            }
+        });
+
+    })
+
+    //启用
+    $('.unlock_question_know').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        var question_id = opt_data.question_id;
+        var title = "你确定启用该题目?";
+        var data = {
+            'question_id':question_id,
+            'open_flag':1
+        };
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question_new/question_flag",data);
+            }
+        });
+
+    })
+
 })
 
 

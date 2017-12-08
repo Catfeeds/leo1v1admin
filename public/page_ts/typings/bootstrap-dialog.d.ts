@@ -7,6 +7,7 @@ interface IBootstrapDialog {
     DEFAULT_TEXTS: string[];
     BUTTON_SIZES: string[];
     METHODS_TO_OVERRIDE: string[];
+    SIZE_WIDE: any;
 
     TYPE_DEFAULT: string;
     TYPE_INFO: string;

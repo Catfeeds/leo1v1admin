@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+     .table-responsive  {
+         overflow-x: unset;
+     }
+
+    </style>
 
     <section class="content ">
 
@@ -54,7 +60,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  >
+        <table     class="common-table"    >
             <thead>
                 <tr>
 
@@ -63,11 +69,13 @@
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
 
-                    <td>lessonid</td>
+                    <td id="id_test" style="min-width:100px;" >
+
+                    </td>
                     <td class="td-query" data-queryid="id_record_audio_server1"  style="min-width:100px;"   >声音服务器</td>
                     <td class="td-query" data-queryid="id_xmpp_server_name"  style="min-width:100px;"   > xmpp服务器</td>
                     <td  style="min-width:100px;"   >
-                        <span>课程类型</span> <a href="javascript:;" class="fa  fa-sort "/> <a href="javascript:;" class="fa fa-filter"/> 
+                        <span>课程类型</span> <a href="javascript:;" class="fa  fa-sort "/> <a href="javascript:;" class="fa fa-filter"/>
                     </td>
                     <td class="td-query" data-queryid="id_date_range"  style="min-width:100px;"   > 上课时间 </td>
                     <td class="td-query" data-queryid="id_subject"  style="min-width:100px;"   > 科目</td>
@@ -80,7 +88,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
 
-                        <td> <input type="checkbox" class="opt-select-item" data-id="{{$var["lessonid"]}}"/>   {{$var["index"]}} </td>
+                        <td> <input type="checkbox" class="opt-select-item" data-id="{{@$var["lessonid"]}}"/>   {{@$var["index"]}} </td>
                         <td>{{@$var["lessonid"]}} </td>
                         <td>{{@$var["record_audio_server1"]}} </td>
                         <td>{{@$var["xmpp_server_name"]}} </td>

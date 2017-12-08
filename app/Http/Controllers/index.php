@@ -135,6 +135,7 @@ class index extends Controller
 
         $tq_token=$this->get_in_str_val("token");
         $tq_uin=$this->get_in_int_val("uin");
+        session(["login_tquin"=>  $tq_uin ]);
 
         if (session("acc")) {
             foreach (  \Illuminate\Support\Facades\Session::all() as $key =>  $value) {

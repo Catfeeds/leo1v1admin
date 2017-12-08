@@ -2,12 +2,25 @@
 /// <reference path="../g_args.d.ts/question-knowledge_list.d.ts" />
 
 $(function(){
-    Enum_map.append_option_list("subject", $("#id_subject"));
+    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
+
+    $("#id_subject").val(g_args.id_subject);
+    $('.opt-change').set_input_change_event(load_data);
+
+    function load_data(){
+
+        var data = {
+            id_subject : $("#id_subject").val(),
+        };
+
+        $.reload_self_page(data);
+    }
+
 
     //进入知识点列表页面
     $('#question_list').on('click',function(){
         var opt_data=$(this).get_opt_data();
-        window.open('/question/question_list');
+        window.open('/question_new/question_list');
     });
 
     //添加知识点
@@ -16,9 +29,9 @@ $(function(){
         var id_subject = $("<select/>");
         var id_detail = $("<textarea></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
 
-         var arr=[
+        var arr=[
             ["知识点标题", id_title ],
             ["知识点科目", id_subject ],
             ["知识点详情解读", id_detail ],
@@ -43,7 +56,7 @@ $(function(){
               
                 $.ajax({
                     type     :"post",
-                    url      :"/question/knowledge_add",
+                    url      :"/question_new/knowledge_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -65,7 +78,8 @@ $(function(){
         var id_subject = $("<select/>");
         var id_detail = $("<textarea></textarea>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
+
         id_title.val(opt_data.title);
         id_subject.val(opt_data.subject);
         id_detail.val(opt_data.detail);
@@ -95,7 +109,7 @@ $(function(){
           
                 $.ajax({
                     type     :"post",
-                    url      :"/question/knowledge_edit",
+                    url      :"/question_new/knowledge_edit",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -122,7 +136,7 @@ $(function(){
 
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/knowledge_dele",data);
+                $.do_ajax("/question_new/knowledge_dele",data);
             }
         });
 

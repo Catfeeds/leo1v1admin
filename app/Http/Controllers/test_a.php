@@ -390,6 +390,9 @@ class test_a extends Controller
         $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__,$ret_info);
 
+        //RETURN  E::ERR_PASSWD;
+        //NORETURN  E::ERR_PASSWD;
+
     }
 
 

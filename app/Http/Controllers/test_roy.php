@@ -10,7 +10,6 @@ class test_roy extends Controller
     use CacheNick;
 
     public function test_list() {
-		dd('11');
         /*
         $row= $this->t_student_info->field_get_list($xx,"*");
         $this->t_student_info->field_update_list($userid,$set_field_arr);

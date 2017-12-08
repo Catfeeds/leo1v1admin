@@ -5,9 +5,9 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	orderid:	number;
-	contract_type:	number;
-	contract_status:	number;
-	config_courseid:	number;
+	contract_type:	string;//枚举列表: \App\Enums\Econtract_type
+ 	contract_status:	string;//枚举列表: \App\Enums\Econtract_status
+ 	config_courseid:	number;
 	test_user:	number;
 	studentid:	number;
 	page_num:	number;
@@ -203,7 +203,9 @@ $(function(){
     });
 	$('#id_orderid').val(g_args.orderid);
 	$('#id_contract_type').val(g_args.contract_type);
+	$.enum_multi_select( $('#id_contract_type'), 'contract_type', function(){load_data();} )
 	$('#id_contract_status').val(g_args.contract_status);
+	$.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
 	$('#id_config_courseid').val(g_args.config_courseid);
 	$('#id_test_user').val(g_args.test_user);
 	$('#id_studentid').val(g_args.studentid);

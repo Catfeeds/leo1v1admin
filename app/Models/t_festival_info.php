@@ -50,6 +50,18 @@ class t_festival_info extends \App\Models\Zgen\z_t_festival_info
         return $this->main_get_value($sql);
 
     }
+
+    public function get_holiday_info_by_day($day_time){
+        $where_arr=[
+            ["begin_time<=%u",$day_time,0],  
+            ["end_time>=%u",$day_time,0],
+            "days>0"
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_row($sql);
+
+    }
+
 }
 
 

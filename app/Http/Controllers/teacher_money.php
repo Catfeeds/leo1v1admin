@@ -386,7 +386,8 @@ class teacher_money extends Controller
                 continue;
             }
 
-            $grade_list[$grade][] = [
+
+            $grade_list[$data_key][$grade][] = [
                 "rank" => $rank,
                 "name" => $val['nick'],
             ];
@@ -394,10 +395,10 @@ class teacher_money extends Controller
                 $ret_list[$data_key] = [
                     "year"      => $year,
                     "month"     => $month,
-                    "rank_info" => $grade_list
+                    "rank_info" => $grade_list[$data_key]
                 ];
             }else{
-                $ret_list[$data_key]["rank_info"] = $grade_list;
+                $ret_list[$data_key]["rank_info"] = $grade_list[$data_key];
             }
         }
         $ret_list = array_values($ret_list);
@@ -807,7 +808,7 @@ class teacher_money extends Controller
         } else if ($type == 2) {
             $type = '兼职老师';
         } else {
-            $type = '未设置';
+            $type = E\Eteacher_type::get_desc($type);
         }
         return $this->output_succ(["type"=>$type]);
     }
