@@ -3292,6 +3292,125 @@ function init_edit() {
                 });
             });
 
+            id_teacher_nature.on("click",function(){
+                var teacher_nature  = id_teacher_nature.data("v");
+                $.do_ajax("/ss_deal2/get_teacher_nature_list",{
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["tag_id"], this["tag_name"]]);
+                        if (this["has_tag_name"]) {
+                            select_list.push (this["tag_id"]) ;
+                        }
+                    });
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","风格性格" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            $.do_ajax("/ss_deal2/get_teacher_nature_name",{
+                                "teacher_nature" : JSON.stringify(select_list)
+                            },function(res){
+                                id_teacher_nature.val(res.data);
+                                id_teacher_nature.data("v",res.data);
+                            });
+                            dlg.close();
+                        }
+                    });
+                });
+            });
+
+            id_pro_ability.on("click",function(){
+                var pro_ability  = id_pro_ability.data("v");
+                $.do_ajax("/ss_deal2/get_pro_ability_list",{
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["tag_id"], this["tag_name"]]);
+                        if (this["has_tag_name"]) {
+                            select_list.push (this["tag_id"]) ;
+                        }
+                    });
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","专业能力" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            $.do_ajax("/ss_deal2/get_pro_ability_name",{
+                                "pro_ability" : JSON.stringify(select_list)
+                            },function(res){
+                                id_pro_ability.val(res.data);
+                                id_pro_ability.data("v",res.data);
+                            });
+                            dlg.close();
+                        }
+                    });
+                });
+            });
+
+            id_class_env.on("click",function(){
+                var class_env  = id_class_env.data("v");
+                $.do_ajax("/ss_deal2/get_class_env_list",{
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["tag_id"], this["tag_name"]]);
+                        if (this["has_tag_name"]) {
+                            select_list.push (this["tag_id"]) ;
+                        }
+                    });
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","课堂气氛" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            $.do_ajax("/ss_deal2/get_class_env_name",{
+                                "class_env" : JSON.stringify(select_list)
+                            },function(res){
+                                id_class_env.val(res.data);
+                                id_class_env.data("v",res.data);
+                            });
+                            dlg.close();
+                        }
+                    });
+                });
+            });
+            id_courseware.on("click",function(){
+                var courseware  = id_courseware.data("v");
+                $.do_ajax("/ss_deal2/get_courseware_list",{
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["tag_id"], this["tag_name"]]);
+                        if (this["has_tag_name"]) {
+                            select_list.push (this["tag_id"]) ;
+                        }
+                    });
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","课件要求" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            $.do_ajax("/ss_deal2/get_courseware_name",{
+                                "courseware" : JSON.stringify(select_list)
+                            },function(res){
+                                id_courseware.val(res.data);
+                                id_courseware.data("v",res.data);
+                            });
+                            dlg.close();
+                        }
+                    });
+                });
+            });
+
             id_character_type.data("v",data.character_type);
             id_character_type.on("click",function(){
                 // var character_type= data.character_type;
@@ -3863,7 +3982,8 @@ function init_edit() {
                                 subject_str += subject_score+':'+subject_score_one+'/'+subject_score_two+',';
                             }
                         });
-                        alert(id_cultivation.find("option:selected").text());
+                        var tag_str = id_cultivation.val()+','+id_teacher_nature.val()+','+id_pro_ability.val()+','+id_class_env.val()+','+id_courseware.val();
+                        alert(tag_str);
                         // $.do_ajax("/ss_deal2/save_user_info_new",{
                             // new_demand_flag   : 1,
                             // click_type        : click_type,
