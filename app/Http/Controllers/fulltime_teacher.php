@@ -656,4 +656,65 @@ class fulltime_teacher extends Controller
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );
 
     }
+
+    public function fulltime_teacher_attendance_info_month(){
+        list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
+        $attendance_type=-1;
+        $account_role=-1;
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $month_start = strtotime(date("Y-m-01",time()));
+        if($start_time>=$month_start){
+            $ret=[];
+        }else{
+            $ret=[];
+            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+            foreach($list as $val){
+                $uid = $val["adminid"]; 
+                $teacherid = $val["teacherid"];
+                $ret[$uid]["realname"] = $val["realname"];
+                $ret[$uid]["adminid"] = $val["adminid"];
+                $ret[$uid]["teacherid"] = $val["teacherid"];
+                $w = date("w",$val["attendance_time"]);
+                if(in_array($val["attendance_type"],[0,2]) && $w!=1 && $w !=2){
+                    @$ret[$uid]["need_work_day"]++;
+
+                    $off_time = $val["off_time"]==0?($val["attendance_time"]+9.5*3600):$val["off_time"];
+                    $delay_time = $val["delay_work_time"]==0?($val["attendance_time"]+18.5*3600):$val["delay_work_time"];
+                    if($val["card_start_time"]>0){                                           
+                        if($delay_time <$val["card_start_time"]){
+                            @$ret[$uid]["late_num"]++;
+                            @$ret[$uid]["late_time"] +=$val["card_start_time"]-$delay_time;
+                        }
+                        if($off_time > $val["card_end_time"]){
+                            @$ret[$uid]["early_num"]++;
+                            @$ret[$uid]["early_time"] +=$off_time-$val["card_end_time"];
+                        }
+                    }else{
+                        @$ret[$uid]["no_attend_num"]++;
+                    }
+
+                }
+                if($val["card_start_time"]>0){
+                    @$ret[$uid]["real_work_day"]++;
+                }
+                if($val["attendance_type"]==3){
+                    @$ret[$uid]["holiday_day"]++;
+                }
+            }
+            foreach($ret as &$item){
+                $item["late_time"] = round(@$item["late_time"]/3600,2);
+                $item["early_time"] = round(@$item["early_time"]/3600,2);
+            }           
+            
+ 
+        }
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret),[
+            "start" =>date("Y-m-d",$start_time),
+            "end" =>date("Y-m-d",$end_time),
+        ] );
+       
+       
+    }
 }

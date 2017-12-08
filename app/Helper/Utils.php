@@ -2363,4 +2363,17 @@ class Utils  {
         return $arr;
     }
 
+    static public function get_file_use_type_str(&$item){
+        if( isset($item['file_use_type']) ) {
+            if($item['file_use_type'] == 0 ){
+                $item['file_use_type_str'] = '文件';
+            } else if ($item['file_use_type'] == 1 ){
+                $item['file_use_type_str'] = '老师版';
+            }else if ($item['file_use_type'] == 2 ){
+                $item['file_use_type_str'] = '学生版';
+            }
+        }
+    }
+
+
 };

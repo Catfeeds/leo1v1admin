@@ -457,8 +457,8 @@ $(function(){
 
             $.show_key_value_table("试听评价", arr);
         });
-
     });
+
     $(".opt-user-info").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
@@ -2843,26 +2843,23 @@ $(function(){
 
     $(".lesson-plan-new-test").on("click",function(){
         var opt_data = $(this).get_opt_data();
-       // var main_type    = opt_data.main_type;
-       // var up_groupid =opt_data.up_groupid ;
+        console.log(opt_data.require_id);
+
 
         $("<div></div>").admin_select_dlg_ajax_test({
             "opt_type" : "select", // or "list"
-            "url"      : "/user_deal/get_group_list_new_month",
+            "url"      : "/seller_student_new2/select_teacher_for_test_lesson",
             //其他参数
-            "args_ex" : {
-                "main_type":2,
+            "args_ex"  : {
+                "identity"  : 2,
                 "start_time" : g_args.start_time
             },
-
             select_primary_field   : "groupid",
             select_display         : "package_name",
             select_no_select_value : 0,
             select_no_select_title : "[未设置]",
-
             //字段列表
-            'field_list' :[
-                {
+            'field_list' :[{
                 title:"groupid",
                 width :50,
                 field_name:"groupid"
@@ -2872,8 +2869,7 @@ $(function(){
             },{
                 title:"助长",
                 field_name:"group_master_nick"
-            }
-            ] ,
+            }] ,
             //查询列表
             filter_list:[
                 [
@@ -3009,11 +3005,7 @@ $(function(){
 
     });
 
-    if(g_adminid != 349){
-        download_hide();
-    }
     $(".opt-download-test-paper").show();
-   // $(".page-opt-show-all-xls").hide();
 
 
 });

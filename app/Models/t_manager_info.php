@@ -551,12 +551,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_admin_member_list_tmp(  $main_type = -1 ,$adminid=-1){
+    public function get_admin_member_list_tmp(  $month=-1,$main_type = -1 ,$adminid=-1){
+        
         $where_arr=[
             [ "tm.main_type =%u ", $main_type,-1] , // 测试
             // [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
             [  "am.account not like 'q\_%s%%'", "",  1] ,
+            "(am.leave_member_time>$month or am.leave_member_time =0)"
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
@@ -592,6 +594,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
             [  "am.account not like 'q\_%s%%'", "",  1] ,
+             "(am.leave_member_time>$month or am.leave_member_time =0)"
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 

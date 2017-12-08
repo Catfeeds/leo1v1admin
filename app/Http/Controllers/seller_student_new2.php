@@ -512,8 +512,9 @@ class seller_student_new2 extends Controller
 
     public function seller_get_new_count_admin_list(){
         $adminid=$this->get_in_int_val("adminid",-1);
-        $ret_info=$this->t_seller_new_count->get_admin_list_get_count($adminid);
-        $admin_map=$this->t_seller_new_count->get_admin_list_count($adminid);
+        $month_time = strtotime(date("Y-m-01",time()));
+        $ret_info=$this->t_seller_new_count->get_admin_list_get_count_new_new($month_time,$adminid);
+        $admin_map=$this->t_seller_new_count->get_admin_list_count_new_new($month_time,$adminid);
 
         //seller_get_new_count_admin_list get_admin_list_count
         foreach ($ret_info["list"] as  &$item ) {
@@ -1431,17 +1432,29 @@ class seller_student_new2 extends Controller
     }
 
     /**
-     * 试听排课选择老师列表
-     * @param int identity 老师身份
-     * @param int identity 老师身份
+     * 试听排课页面
      */
     public function select_teacher_for_test_lesson(){
+        $require_id = $this->get_in_int_val("require_id");
+
+
+    }
+
+    /**
+     * 试听排课选择老师列表
+     * @param int identity 老师身份
+     * @param int gender   老师性别
+     * @param int age      老师年龄
+     * @param int require_id 试听需求id
+     * @param int refresh_flag 刷新标识
+     */
+    public function get_teacher_list_for_test_lesson(){
         $identity     = $this->get_in_int_val("identity");
         $gender       = $this->get_in_int_val("gender");
         $age          = $this->get_in_int_val("age");
-        $require_id   = $this->get_in_int_val("require_id");
         $refresh_flag = $this->get_in_int_val("refresh_flag");
-        // $require_info = $this->t_test_lesson_subject_require->get_test_lesson_require_info($require_id);
+
+        $require_info = $this->t_test_lesson_subject_require->get_test_lesson_require_info($require_id);
 
         //试听需求信息
         $grade        = E\Egrade::V_106;
@@ -1527,7 +1540,6 @@ class seller_student_new2 extends Controller
         }
 
         return $this->pageView(__METHOD__,[],[
-            // "require_info" => $require_info,
             "tea_list"     => $tea_list,
         ]);
     }
