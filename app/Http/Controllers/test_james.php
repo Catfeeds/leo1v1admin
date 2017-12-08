@@ -1390,11 +1390,14 @@ class test_james extends Controller
 
         $time = time();
         $param = base64_encode(json_encode($Param));
-        $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
+        $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'text='.$content;
         $CheckSum = md5($check_str);
 
-        // echo 'param'.$param." CheckSum:".$CheckSum;
-        // return ;
+//         // echo 'param: '.$param."\n CheckSum: ".$CheckSum."\n check_str: $check_str";
+//         $test = md5("07adb47e30dd4b9b8fdcddc5e96e6b781512719028eyJhdWUiOiJyYXciLCJhdWYiOiIxNksiLCJzY2VuZSI6Im1haW4ifQ==
+// text=".$content);
+//         echo $test;
+//         return ;
 
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
@@ -1402,7 +1405,7 @@ class test_james extends Controller
             'Content-Type:application/x-www-form-urlencoded; charset=utf-8',
             'X-Param:'.$param,
             'X-Appid: 5a2a4204',
-            'X-CurTime:'.time(),
+            'X-CurTime:'.$time,
             'X-CheckSum:'.$CheckSum
         ));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
