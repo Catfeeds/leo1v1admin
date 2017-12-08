@@ -75,20 +75,23 @@ $(function(){
         var teacherid = $(this).data("teacherid");
         var time = $(this).data("time");
         if(teacherid > 0){
-            var title = "本周剩余试听课详情";
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>学生</td><td>年级</td><td>科目</td><tr></table></div>");
+            var title = "当天课程详情";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>类型</td><td>开始时间</td><td>结束时间</td><td>学生</td><td>年级</td><td>科目</td><td>折算课时</td><tr></table></div>");
 
-            $.do_ajax('/tongji_ss/get_teacher_test_lesson_info_week',{
-                "teacherid" : teacherid
+            $.do_ajax('/ajax_deal2/get_attendance_lesson_info',{
+                "teacherid" : teacherid,
+                "time"      : time
             },function(resp) {
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){
                     var lessonid = item["lessonid"];
                     var nick = item["nick"]
-                    var time = item["lesson_start_str"];
+                    var start = item["lesson_start_str"];
+                    var end = item["lesson_end_str"];
+                    var lesson_type = item["lesson_type_str"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+lesson_type+"</td><td>"+start+"</td><td>"+end+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["lesson_cout"]+"</td></tr>");
                 });
             });
 

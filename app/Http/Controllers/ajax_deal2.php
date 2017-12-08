@@ -2278,4 +2278,26 @@ class ajax_deal2 extends Controller
 
         
     }
+
+
+    public function get_attendance_lesson_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $time = $this->get_in_int_val("time");
+        $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info($time,$time+86400,$teacherid);
+        foreach($lesson_info as &$item){
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            $item["lesson_end_str"] = date("Y-m-d H:i:s",$item["lesson_end"]);
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Econtract_type::set_item_value_str($item,"lesson_type");
+            
+            if($item["lesson_type"]==2){
+                $item["lesson_count"] = 1.5;
+            }else{
+                $item["lesson_count"]= $item["lesson_count"]/100;
+            }
+
+        }
+
+    }
 }

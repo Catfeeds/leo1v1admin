@@ -353,11 +353,11 @@ class assistant_performance extends Controller
             }elseif($renw_per>=100){
                 $renw_reword = $renw_price*0.04;
             }elseif($renw_per>=75){
-                $renw_reword = $renw_price*0.026;
+                $renw_reword = $renw_price*0.028;
             }elseif($renw_per>=50){
                 $renw_reword = $renw_price*0.02;
             }elseif($renw_per>=30){
-                $renw_reword = $renw_price*0.011;
+                $renw_reword = $renw_price*0.012;
             }
 
             $item["renw_reword"] =  $renw_reword;
