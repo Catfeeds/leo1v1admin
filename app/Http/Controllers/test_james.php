@@ -1416,10 +1416,54 @@ class test_james extends Controller
     }
 
 
+    //以上讯飞已接入成功
+
+
+    /**
+     * @ 将远程录音下载到本地
+     * @ 将录音格式 .MP3 => WAV
+     * @ 对录音进行分割
+     * @ 对分割文件进行 文字转换
+     * @ 对转换内容进行拼接 并存入数据库
+     * @ 将视频删除
+     * @
+     * @
+     **/
+
+    public function chunk_voice(){
+        $voice_url = $this->get_in_str_val('voice_url');
+        $pdf_file_path = $this->get_pdf_download_url($voice_url);
+
+        $savePathFile = public_path('wximg').'/'.$voice_url;
+
+        $msg = \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+
+        dd($msg);
+    }
+
+
+
+    public function get_pdf_download_url($file_url){
+        if (preg_match("/http/", $file_url)) {
+            return $file_url;
+        } else {
+            return \App\Helper\Utils::gen_download_url($file_url);
+        }
+    }
+
+
+
+
+
+
+
+
 
 
     public function video_info() {
 
+        //ffmpeg -i sample.mp3 sample.wav
+        //mkdir split; X=0; while( [ $X -lt 5 ] ); do echo $X; ffmpeg -i big_audio_file.mp3 -acodec copy -t 00:30:00 -ss 0$X:00:00 split/${X}a.mp3; ffmpeg -i big_audio_file.mp3 -acodec copy -t 00:30:00 -ss 0$X:30:00 split/${X}b.mp3;  X=$((X+1)); done;
         $file = '/home/ybai/16k.wav';
         $ffmpeg = "ffmpeg";
 
@@ -1430,7 +1474,7 @@ class test_james extends Controller
         // 通过使用输出缓冲，获取到ffmpeg所有输出的内容。
         $ret = array();
         // Duration: 01:24:12.73, start: 0.000000, bitrate: 456 kb/s
-        if (preg_match("/Duration: (.*?), start: (.*?), bitrate: (d*) kb/s/", $info, $match)) {
+        if(preg_match("/Duration: (.*?), start: (.*?), bitrate: (d*) kb\/s/", $info, $match)) {
             $ret['duration'] = $match[1]; // 提取出播放时间
             $da = explode(':', $match[1]);
             $ret['seconds'] = $da[0] * 3600 + $da[1] * 60 + $da[2]; // 转换为秒
