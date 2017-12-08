@@ -918,10 +918,13 @@ class test_jack  extends Controller
 
     public function get_reference_teacher_money_info(){
 
-        $start_time = strtotime("2017-06-01");
+        $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2017-12-01");
 
         $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
+        foreach($list as &$item){
+            E\Eidentity::set_item_value_str($item);
+        }
 
         // $this->switch_tongji_database();
         // $start_time = time()-5*86400;
