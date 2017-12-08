@@ -4,6 +4,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+        order_by_str : g_args.order_by_str,
         date_type_config:	$('#id_date_type_config').val(),
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
@@ -12,7 +13,8 @@ function load_data(){
         subject:	$('#id_subject').val(),
         record_audio_server1:	$('#id_record_audio_server1').val(),
         xmpp_server_name:	$('#id_xmpp_server_name').val(),
-        lesson_type:	$('#id_lesson_type').val()
+        userid:	$('#id_userid').val(),
+        lesson_type:	$('#id_lesson_type').val(),
     });
 }
 
@@ -31,18 +33,36 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("contract_type",$("#id_lesson_type"));
+
+    $("#id_userid").admin_select_user({
+        "user_type" : "student",
+        "onChange"     : load_data,
+        "th_input_id" :  "th_userid",
+        "can_sellect_all_flag" :true,
+        "select_value" : g_args.userid,
+    });
 
     $('#id_record_audio_server1').val(g_args.record_audio_server1);
     $('#id_xmpp_server_name').val(g_args.xmpp_server_name);
-    $('#id_lesson_type').val(g_args.lesson_type);
+
+
+    $("#id_lesson_type").admin_set_select_field({
+        "enum_type"    : "contract_type",
+        "select_value" : g_args.lesson_type ,
+        "onChange"     : load_data,
+        "th_input_id"  : "th_lesson_type",
+        "btn_id_config"     : {
+        }
+    });
 
     $("#id_subject").admin_set_select_field({
         "enum_type"    : "subject",
         "select_value" : g_args.subject ,
         "onChange"     : load_data,
         "th_input_id"  : "th_subject",
-        "btn_list"     : []
+        "btn_id_config"     : {
+            "语文,英语"  : [1, 3]
+        }
     });
 
 
@@ -54,6 +74,7 @@ $(function(){
         select_no_select_value : "",
         //select_no_select_title : "[全部]",
         select_no_select_title : "xmpp服务器",
+        "th_input_id"  : "th_xmpp_server_name",
 
         //其他参数
         "args_ex" : {

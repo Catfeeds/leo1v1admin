@@ -2572,6 +2572,8 @@ $(function(){
         g_args.order_by_str=order_by_str;
 
         load_data();
+        return false;
+
     });
     try {
 
