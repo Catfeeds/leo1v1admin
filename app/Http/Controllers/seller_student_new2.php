@@ -1434,9 +1434,33 @@ class seller_student_new2 extends Controller
      * 试听排课页面
      */
     public function select_teacher_for_test_lesson(){
-        $require_id = $this->get_in_int_val("require_id");
+        $require_id   = $this->get_in_int_val("require_id");
+        $identity     = $this->get_in_int_val("identity");
+        $gender       = $this->get_in_int_val("gender");
+        $age          = $this->get_in_int_val("age");
+        $refresh_flag = $this->get_in_int_val("refresh_flag");
 
+        $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
+        E\Egender::set_item_value_str($require_info);
+        E\Egrade::set_item_value_str($require_info);
+        E\Esubject::set_item_value_str($require_info);
+        E\Equotation_reaction::set_item_value_str($require_info);
+        E\Eintention_level::set_item_value_str($require_info);
+        $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
 
+        $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
+        $lesson_end   = strtotime("+40 minute",$lesson_start);
+        $redis_key    = "require_key_".$require_id;
+
+        $tea_list  = $this->get_teacher_list_for_test_lesson(
+            $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag,
+            $identity,$gender,$age
+        );
+
+        dd($tea_list);
+        return $this->pageView(__METHOD__,$tea_list,[
+            "require_info" => $require_info
+        ]);
     }
 
     /**
@@ -1447,32 +1471,20 @@ class seller_student_new2 extends Controller
      * @param int require_id 试听需求id
      * @param int refresh_flag 刷新标识
      */
-    public function get_teacher_list_for_test_lesson(){
-        $identity     = $this->get_in_int_val("identity");
-        $gender       = $this->get_in_int_val("gender");
-        $age          = $this->get_in_int_val("age");
-        $refresh_flag = $this->get_in_int_val("refresh_flag");
-
-        $require_info = $this->t_test_lesson_subject_require->get_test_lesson_require_info($require_id);
-
-        //试听需求信息
-        $grade        = E\Egrade::V_106;
-        $subject      = E\Esubject::V_2;
-        $lesson_start = strtotime("2017-12-13 18:00");
-        $lesson_end   = strtotime("2017-12-13 18:40");
-
+    public function get_teacher_list_for_test_lesson($redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,
+                                                     $identity=-1,$gender=-1,$age=-1
+    ){
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
-        $redis_key = "require_key_".$require_id;
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
-        if($ret_list === null){
+        if($ret_list === null || $refresh_flag){
             $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
-            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
+            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject);
             $tea_list     = array_merge($all_tea_list, $tea_list);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
         }else{
             $tea_list = $ret_list;
         }
-
+        dd($tea_list);
         if(!empty($tea_list) && is_array($tea_list)){
             foreach($tea_list as $tea_key => &$tea_val){
                 $grade_start = 0;
@@ -1538,9 +1550,7 @@ class seller_student_new2 extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,[],[
-            "tea_list"     => $tea_list,
-        ]);
+        return $tea_list;
     }
 
     public function check_teacher_age($age){

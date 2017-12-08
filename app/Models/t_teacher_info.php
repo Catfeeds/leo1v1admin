@@ -4673,11 +4673,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      * @param int grade 年级
      * @param int lesson_start 试听需求的课程预约开始时间
      */
-    public function get_teacher_list_for_trial_lesson($lesson_start,$subject){
+    public function get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject){
         $day_range   = \App\Helper\Utils::get_day_range($lesson_start);
         $week_range  = \App\Helper\Utils::get_week_range($lesson_start);
         $month_range = \App\Helper\Utils::get_month_range($lesson_start);
-        $lesson_end  = strtotime("+40 minute",$lesson_start);
 
         $start_time = $week_range['sdate']<$month_range['sdate']?$week_range['sdate']:$month_range['sdate'];
         $end_time   = $week_range['edate']<$month_range['edate']?$week_range['edate']:$month_range['edate'];

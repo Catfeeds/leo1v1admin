@@ -437,7 +437,6 @@
                         $tbody.append( $tr_item);
                     });
 
-
                     var html_str=get_page_node(ret_page_info ,function(url ){
                         me.reload_data(null,url);
                     });
