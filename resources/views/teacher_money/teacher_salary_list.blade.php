@@ -15,6 +15,16 @@
                         <input class="opt-change" id="id_reference"/>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span>老师类型</span>
+                        <select id="id_teacher_type" class="opt-change">
+                            <option value="-1">全部</option>
+                            <option value="1">全职老师</option>
+                            <option value="2">兼职老师</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-1 show_lesson_price" style="display:none">
                     <div class="input-group ">
                         <button class="btn btn-primary" id="id_get_lesson_price">重置课程收入</button>
@@ -32,6 +42,10 @@
                         <span id="id_lesson_price" class="show_lesson_price">0</span>
                         <span class="input-group">老师总工资</span>
                         <span id="id_teacher_money">{{$all_money}}</span>
+                        <span class="input-group">全职老师总工资</span>
+                        <span id="id_all_money">{{$all_all_money}}</span>
+                        <span class="input-group">兼职老师总工资</span>
+                        <span id="id_not_money">{{$all_not_money}}</span>
                         <span class="input-group">税后老师总工资</span>
                         <span id="id_teacher_money_tax">{{$all_money_tax}}</span>
                     </div>

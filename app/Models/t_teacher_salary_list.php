@@ -22,17 +22,22 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_value($sql);
     }
 
-    public function get_salary_list($start_time,$end_time,$reference=""){
+    public function get_salary_list($start_time,$end_time,$teacher_type=-1,$reference=""){
         $where_arr = [
             ["pay_time>=%u",$start_time,0],
             ["pay_time<%u",$end_time,0],
             ["ta.reference='%s'",$reference,""],
             "is_test_user=0",
         ];
+        if ($teacher_type == 1) {
+            array_push($where_arr, "t.teacher_type in (1,3)");
+        } elseif ($teacher_type == 2) {
+            array_push($where_arr, "t.teacher_type=2");
+        }
         $sql = $this->gen_sql_new("select ts.id,ts.pay_time,"
                                   ." t.teacherid,t.realname,t.phone,t.level,t.bankcard,t.bank_address,t.bank_account,t.idcard,"
                                   ." t.bank_phone,t.bank_type,t.bank_province,t.bank_city,sum(ts.money) money,ts.pay_status,ts.is_negative, "
-                                  ." t.subject"
+                                  ." t.subject,t.teacher_type"
                                   ." from %s ts "
                                   ." left join %s t on ts.teacherid=t.teacherid "
                                   //." left join %s ta on t.phone=ta.phone"
