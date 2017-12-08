@@ -28,8 +28,7 @@ class update_seller_level extends cmd_base
     public function handle()
     {
         $reduce_flag = 0;
-        // $time = time(null);
-        $time = 1512061200;
+        $time = time(null);
         $ret_time = $this->task->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
@@ -102,29 +101,29 @@ class update_seller_level extends cmd_base
                     }
                 }
                 //定级
-                // if($no_update_seller_level_flag == 0){//参与
-                //     $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
-                //     $price_very_last = isset($price_very_last)?$price_very_last/100:0;
-                //     foreach($ret_level_goal as $item){
-                //         if($price_very_last >= $item['level_goal']){
-                //             $month_level = $item['seller_level'];
-                //         }
-                //     }
-                //     //入职小于2月,定级>D
-                //     if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
-                //         $month_level = E\Eseller_level::V_500;
-                //     }
-                // }
-                // $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
-                // $row = $this->task->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
-                // if(!$row){
-                //     $this->task->t_seller_level_month->row_insert([
-                //         'adminid' => $adminid,
-                //         'month_date' => $month_date,
-                //         'seller_level' => $month_level,
-                //         'create_time' => $time,
-                //     ]);
-                // }
+                if($no_update_seller_level_flag == 0){//参与
+                    $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
+                    $price_very_last = isset($price_very_last)?$price_very_last/100:0;
+                    foreach($ret_level_goal as $item){
+                        if($price_very_last >= $item['level_goal']){
+                            $month_level = $item['seller_level'];
+                        }
+                    }
+                    //入职小于2月,定级>D
+                    if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
+                        $month_level = E\Eseller_level::V_500;
+                    }
+                }
+                $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+                $row = $this->task->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
+                if(!$row){
+                    $this->task->t_seller_level_month->row_insert([
+                        'adminid' => $adminid,
+                        'month_date' => $month_date,
+                        'seller_level' => $month_level,
+                        'create_time' => $time,
+                    ]);
+                }
             }else{//月中
                 //统计本月
                 $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
@@ -157,7 +156,6 @@ class update_seller_level extends cmd_base
                 // echo $account.':'.$this_level."=>".$next_level.','.date('Y-m-d H:i:s',$time)."\n";
                 // $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(831,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(1118,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
                 // $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
             }
         }
