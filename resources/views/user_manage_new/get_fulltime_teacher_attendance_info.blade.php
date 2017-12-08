@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
 
     <section class="content ">
 
@@ -125,6 +127,8 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
 
                             >
+                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>
+                                <a  href="/teacher_info_admin/lesson_list?teacherid={{$var["teacherid"]}}" target="_blank" title="跳转到老师课表">课 </a>
                                 @if($acc=="jack")
                                     <a class="opt-del">删除</a>
                                 @endif
