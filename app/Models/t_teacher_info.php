@@ -4660,12 +4660,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_bank_info($is_bank) {
-        $where_arr = [];
+        $where_arr = ['is_test_user=0'];
         if ($is_bank == 1) {
-            $where_arr = ["bankcard != '' "];
+            array_push($where_arr, "bankcard != '' ");
         }
         if ($is_bank == 2) {
-            $where_arr = ["bankcard = '' "];
+            array_push($where_arr, "bankcard = '' ");
         }
         $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t where %s",
                                   self::DB_TABLE_NAME,
