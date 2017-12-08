@@ -1,13 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <style>
-     .table-responsive  {
-         overflow-x: unset;
-     }
-
     </style>
 
-    <script type="text/javascript" src="/page_ts/lib/admin_set_select_field.js"></script>
 
     <section class="content ">
 

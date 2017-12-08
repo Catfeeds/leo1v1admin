@@ -316,11 +316,13 @@ class tea_manage_new extends Controller
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
         }
-        $ret_info["list"][] =[];
-        $ret_info["list"][] =[];
-        $ret_info["list"][] =[];
-        $ret_info["list"][] =[];
-        $ret_info["list"][] =[];
+        if ( count( $ret_info["list"]) ==0 ) {
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+        }
 
         return $this->pageView(__METHOD__, $ret_info);
 
