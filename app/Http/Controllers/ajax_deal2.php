@@ -2321,4 +2321,14 @@ class ajax_deal2 extends Controller
 
 
     }
+
+    public function set_teacher_identity(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $identity = $this->get_in_int_val("identity");
+        $this->t_teacher_info->field_update_list($teacherid,[
+           "identity" =>$identity 
+        ]);
+        return $this->output_succ();
+
+    }
 }

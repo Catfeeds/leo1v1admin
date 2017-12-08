@@ -118,11 +118,13 @@
                             @endif
                         </td>
                         <td>
+                          {!!  @$var["extra_time_info"] !!}
                             
                         </td>
                         <td>{{@$var["card_start_time_str"]}} </td>
                         <td>{{@$var["card_end_time_str"]}} </td>
                         <td>
+                            {{@$var["result"]}}
                         </td>
 
 

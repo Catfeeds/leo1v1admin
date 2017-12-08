@@ -194,6 +194,7 @@ interface RowData {
 	age	:any;
 	teaching_achievement	:any;
 	parent_student_evaluate	:any;
+	qq_info	:any;
 	label_id	:any;
 	tag_info	:any;
 	teacher_type_str	:any;

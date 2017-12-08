@@ -583,6 +583,81 @@ $(function(){
         });
     });
 
-    download_hide();
+    $(".opt-account-number").on("click",function(){
+	      var data = $(this).get_opt_data();
+
+        
+        var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
+        var id_identity                = $("<button class='btn btn-danger'>老师身份修改</button>");
+       
+
+       
+        id_change_phone.on("click",function(){change_phone(data);});
+        id_identity.on("click",function(){set_teacher_identity(data);});
+       
+
+        var arr = [
+            ["",id_change_phone],
+            ["",id_identity]
+        ];
+      
+
+        $.show_key_value_table("账号信息修改",arr);
+    });
+
+    var change_phone = function(opt_data){
+        var id_new_phone = $("<input/>");
+        var arr          = [
+            ["新的手机号",id_new_phone],
+        ];
+
+        $.show_key_value_table("更换手机", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/human_resource/change_phone",{
+                    "userid"    : opt_data.teacherid,
+                    "phone"     : opt_data.phone,
+                    "new_phone" : id_new_phone.val(),
+                    "role"      : 2,
+                },function(result){
+                    if(result.ret<0){
+                        BootstrapDialog.alert(result.info);
+                    }else{
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    }
+
+    var set_teacher_identity = function(opt_data){
+        var id_identity_new = $("<select/>");
+        Enum_map.append_option_list("identity", id_identity_new, true,[5,6,7,8] );
+        var arr          = [
+            ["老师身份",id_identity_new],
+        ];
+        id_identity_new.val(opt_data.identity);
+
+        $.show_key_value_table("修改老师身份", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/ajax_deal2/set_teacher_identity",{
+                    "teacherid"    : opt_data.teacherid,
+                    "identity" : id_identity_new.val(),
+                },function(result){
+                    if(result.ret<0){
+                        BootstrapDialog.alert(result.info);
+                    }else{
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    }
+
+
+
 
 });

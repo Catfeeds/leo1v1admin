@@ -656,4 +656,23 @@ class fulltime_teacher extends Controller
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );
 
     }
+
+    public function fulltime_teacher_attendance_info_month(){
+        list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
+        $attendance_type=-1;
+        $account_role=-1;
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $month_start = strtotime(date("Y-m-d",time()));
+        if($start_time>=$month_start){
+            $ret=[];
+        }else{
+            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+            dd($list);
+ 
+        }
+       
+       
+    }
 }

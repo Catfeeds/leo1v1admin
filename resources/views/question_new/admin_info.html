@@ -1,0 +1,86 @@
+<!-- SWITCH-TO: ../../webroot/page_js/
+--> 
+
+<include:file="../al_common/header.html" />
+
+
+<script type="text/javascript" src="/question/download_note_name_js"></script>
+<script type="text/javascript" src="/page_js/admin_info.js"></script>
+
+    
+<section class="content">
+    <div class="row">
+
+
+        <div class="col-xs-6 col-md-5">
+            <div class="input-group ">
+                <span class="input-group-addon">时间:</span>
+                  <input type="text" value="" class=" form-control "  id="datetime_start"  placeholder="" />
+                <span class="input-group-addon">-</span>
+                  <input type="text" value="" class=" form-control "  id="datetime_end"  placeholder="" />
+
+
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+
+
+    <table   class="table table-bordered table-hover"   >
+        <thead>
+            <tr>
+                <td >录入者</td>
+                <td >日期</td>
+                <td >输入题量</td>
+                <td >通过</td>
+                <td >不通过 -10%</td>
+                <td >不通过 -50%</td>
+                <td >不通过 -100%</td>
+                <td >未审核</td>
+            </tr>
+        </thead>
+        <tbody>
+			<tr  class="warning" >
+                <td  >所有</td>
+                <td > 所有 </td>
+                <td class="opt-q" >[$all_count]</td>
+                <td class="opt-q" >[$all_pass]</td>
+                <td class="opt-q" >[$all_nopass_1]</td>
+                <td class="opt-q" >[$all_nopass_5]</td>
+                <td class="opt-q" >[$all_nopass_10]</td>
+                <td class="opt-post" ></td>
+			</tr>
+
+            <foreach name="data_list" key="key" var="var">
+				<tr  class="warning opt-user-all" data-adminid="[$var.adminid]" >
+                    <td  >[$var.account]</td>
+                    <td > 所有  </td>
+                    <td >[$var.count]</td>
+                    <td >[$var.pass]</td>
+                    <td >[$var.nopass_1]</td>
+                    <td >[$var.nopass_5]</td>
+                    <td >[$var.nopass_10]</td>
+                    <td class="opt-post" ></td>
+				</tr>
+                <foreach name="var.list" key="key1" var="var1">
+				    <tr  class="tr-admin-date-info" data-adminid="[$var.adminid]" ><td> <td> [$var1.add_date]
+                        <td>[$var1.add_count]<td>[$var1.pass]
+                            <td>[$var1.nopass_1]
+                            <td>[$var1.nopass_5]
+                            <td>[$var1.nopass_10]
+                                <td class="opt-post" ></td>
+                            <tr>
+			    </foreach>
+			</foreach>
+        </tbody>
+    </table>
+        
+
+
+        
+
+
+
+
+
