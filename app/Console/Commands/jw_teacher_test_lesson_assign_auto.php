@@ -79,7 +79,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
 
                     
                 }elseif($subject==3){
-                    $jw_list=[1329,1326];
+                    $jw_list=[1329];
                               
                     $num_all = count($jw_list);
                     $i=0;
