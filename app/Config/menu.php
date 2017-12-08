@@ -908,7 +908,7 @@ class menu{
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>81, "name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
-                ["power_id"=>82, "name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/get_reference_teacher_money_info"],
+                ["power_id"=>82, "name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/fulltime_teacher_attendance_info_month"],
                 ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
                 ["power_id"=>20, "name"=>"全职老师转化折线",   "url"=>"/human_resource/get_broken_line_order_rate"],
