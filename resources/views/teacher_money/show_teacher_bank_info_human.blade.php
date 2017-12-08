@@ -9,7 +9,7 @@
                     <span>是否有银行卡</span>
                     <select id="id_is_bank" class="opt-change">
                         <option value="-1">全部</option>
-                        <option value="1">有银行卡</option>
+                        <option value="1" selected>有银行卡</option>
                         <option value="2">没有银行卡</option>
                     </select>
                 </div>
