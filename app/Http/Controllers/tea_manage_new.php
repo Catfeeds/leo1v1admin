@@ -1165,7 +1165,7 @@ class tea_manage_new extends Controller
                             continue;
                         }
 
-                        $lesson_end = $lesson_start+5400;
+                        $lesson_end = $lesson_start+3600;
                         $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
 
                         if($ret){

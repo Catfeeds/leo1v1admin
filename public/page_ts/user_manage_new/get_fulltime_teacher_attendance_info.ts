@@ -48,6 +48,12 @@ $(function(){
         "admin", load_data,false,{"main_type":g_args.account_role});
 
     
+    $.each( $(".opt-show-lessons-new"), function(i,item ){
+        $(item).admin_select_teacher_free_time_new({
+            "teacherid" : $(item).get_opt_data("teacherid")
+        });
+    });
+
 
 
 
@@ -64,6 +70,52 @@ $(function(){
         });
 
     });
+
+    $(".lesson_info").on("click",function(){
+        var teacherid = $(this).data("teacherid");
+        var time = $(this).data("time");
+        if(teacherid > 0){
+            var title = "本周剩余试听课详情";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>学生</td><td>年级</td><td>科目</td><tr></table></div>");
+
+            $.do_ajax('/tongji_ss/get_teacher_test_lesson_info_week',{
+                "teacherid" : teacherid
+            },function(resp) {
+                var userid_list = resp.data;
+                $.each(userid_list,function(i,item){
+                    var lessonid = item["lessonid"];
+                    var nick = item["nick"]
+                    var time = item["lesson_start_str"];
+                    var subject = item["subject_str"];
+                    var grade = item["grade_str"];
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                });
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+        }
+        
+    });
+
 
 
 	$('.opt-change').set_input_change_event(load_data);

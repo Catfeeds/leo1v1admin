@@ -1413,9 +1413,11 @@ class test_code extends Controller
      * 排课方法
      */
     public function check_test(){
+        //筛选条件
         $identity     = $this->get_in_int_val("identity");
         $gender       = $this->get_in_int_val("gender");
         $age          = $this->get_in_int_val("age");
+        //试听需求信息
         $grade        = E\Egrade::V_106;
         $subject      = E\Esubject::V_2;
         $lesson_start = strtotime("2017-12-13 18:00");
@@ -1497,12 +1499,7 @@ class test_code extends Controller
             );
         }
 
-
         return $this->output_succ($tea_list);
-    }
-
-    public function get_tea_list_for_trial_lesson($lesson_start,$subject){
-
     }
 
     public function check_teacher_age($age){

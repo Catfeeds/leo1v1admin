@@ -44,6 +44,7 @@
                     <td>绩效(结课未续费) </td>
                     <td>课时消耗奖金</td>
                     <td>续费提成奖金 </td>
+                    <td>续费目标 </td>
                     <td>转介绍奖金</td>
                     <td>总计</td>
                        
@@ -61,6 +62,7 @@
                         <td>{{@$var["end_no_renw_reword"]}}</td> 
                         <td>{{@$var["lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["renw_reword"]}}</td> 
+                        <td>{{@$var["renw_target"]/100}}</td> 
                         <td>{{@$var["cc_tran_reword"]}}</td> 
                         <td>{{@$var["all_reword"]}}</td> 
 

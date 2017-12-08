@@ -24,7 +24,7 @@ $(function(){
 
     //进入知识点列表页面
     $('#knowledge_list').on('click',function(){
-        window.open('/question/knowledge_list');
+        window.open('/question_new/knowledge_list');
     });
 
     //添加题目
@@ -63,7 +63,7 @@ $(function(){
 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/question_add",
+                    url      :"/question_new/question_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -122,7 +122,7 @@ $(function(){
 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/question_edit",
+                    url      :"/question_new/question_edit",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -149,7 +149,7 @@ $(function(){
 
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/question_dele",data);
+                $.do_ajax("/question_new/question_dele",data);
             }
         });
 
@@ -194,7 +194,7 @@ $(function(){
 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/question_know_add",
+                    url      :"/question_new/question_know_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -212,7 +212,7 @@ $(function(){
     var choose_knowledge = function(){
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
-            "url"      : "/question/question_know_get",
+            "url"      : "/question_new/question_know_get",
             //"url"      : "/seller_student2/get_all_activity",
             //其他参数
             "args_ex" : {
@@ -293,7 +293,7 @@ $(function(){
         };
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/question_know_dele",data);
+                $.do_ajax("/question_new/question_know_dele",data);
             }
         });
 
@@ -303,7 +303,7 @@ $(function(){
     $('.edit_question_know').on('click',function(){
         var opt_data=$(this).get_opt_data();
         var question_id = opt_data.question_id;
-        window.open('/question/answer_list?question_id='+question_id);
+        window.open('/question_new/answer_list?question_id='+question_id);
     })
 
     //禁用
@@ -317,7 +317,7 @@ $(function(){
         };
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/question_flag",data);
+                $.do_ajax("/question_new/question_flag",data);
             }
         });
 
@@ -334,7 +334,7 @@ $(function(){
         };
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/question_flag",data);
+                $.do_ajax("/question_new/question_flag",data);
             }
         });
 

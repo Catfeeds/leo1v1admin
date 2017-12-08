@@ -4318,20 +4318,43 @@ class user_manage_new extends Controller
 
     public function get_fulltime_teacher_attendance_info(){
         $page_num       = $this->get_in_page_num();
-        list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
+        list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],1 );
         $attendance_type  = $this->get_in_int_val("attendance_type",-1);
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $account_role = $this->get_in_int_val("account_role",-1);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role,$fulltime_teacher_type);
+        
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
-            $item["off_time_str"] = date("H:i",$item["off_time"]);
-            $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
-            $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
-            E\Eattendance_type::set_item_value_str($item);
-
+            \App\Helper\Utils::unixtime2date_for_item($item,"card_start_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"card_end_time","_str");
+            $w = date("w",$item["attendance_time"]);
+            if($w>0 && $w <3){
+                $item["kaoqin_type"]=1;
+                $item["kaoqin_type_str"] = "正常休息";
+                if($item["attendance_type"]==4){
+                    E\Eattendance_type::set_item_value_str($item);
+                }else{
+                    $item["attendance_type_str"]="";
+                }
+            }else{
+                $item["kaoqin_type"]=2;
+                $item["kaoqin_type_str"] = "公司坐班";
+                $item["off_time_str"] = date("H:i",$item["off_time"]);
+                $item["delay_work_time_str"] = date("H:i",$item["delay_work_time"]);
+                $item["attendance_time_str"] = date("Y-m-d",$item["attendance_time"]);
+                E\Eattendance_type::set_item_value_str($item);
+                if($item["holiday_hugh_time"]){
+                    $holiday_hugh_time_arr = json_decode($item["holiday_hugh_time"],true);
+                    $item["holiday_hugh_time_str"] = date("Y-m-d",@$holiday_hugh_time_arr["start"])."-".date("Y-m-d",@$holiday_hugh_time_arr["end"]);
+                }else{
+                    $item["holiday_hugh_time_str"]="";
+                }
+ 
+            }
+           
         }
         return $this->Pageview(__METHOD__,$ret_info,[
             "acc"   =>session("acc")

@@ -26,29 +26,34 @@ $(function(){
     });
     // $(".common-table").table_admin_level_4_init();
     $(".common-table").table_admin_level_5_init();
-    var whole_data = {};
+    var whole_data = new Array();
     var do_index = 0;
     function load_row_data (){
-        $("#id_tbody .l-5").each(function(){
-            var opt_data = $(this).find(".opt-show").get_opt_data();
-            whole_data[do_index] = opt_data.adminid;
-            do_index++;
-            $(this).attr({'id':'adminid_'+opt_data.adminid});
-        });
-
-        $.do_ajax("/seller_tongji/seller_test_lesson_info",{
-            "adminid_arr"    : whole_data,
-            "start_time" : g_args.start_time,
-            "end_time"   : g_args.end_time,
-        },function(data){
-            console.log(data);
-            // pushData(data);
-            // superAdd('l-4','l-5');
-            // superAdd('l-3','l-4');
-            // superAdd('l-2','l-3');
-            // superAdd('l-1','l-2');
-            // superAdd('l-0','l-1');
-        })
+        var row_list = $("#id_tbody .l-5");
+        function do_one() {
+            if (do_index < row_list.length ) {
+                var $tr      = $(row_list[do_index]);
+                var opt_data = $tr.find(".opt-show").get_opt_data();
+                whole_data[do_index] = opt_data['adminid'];
+                $.do_ajax("/seller_student_new2/seller_test_lesson_info",{
+                    "adminid"    : opt_data['adminid'],
+                    "start_time" : g_args.start_time,
+                    "end_time"   : g_args.end_time,
+                },function(data){
+                    pushData($tr,data)
+                    do_index++;
+                    do_one();
+                });
+            }
+            if (do_index == row_list.length ) {
+                superAdd('l-4','l-5');
+                superAdd('l-3','l-4');
+                superAdd('l-2','l-3');
+                superAdd('l-1','l-2');
+                superAdd('l-0','l-1');
+            }
+        };
+        do_one();
     };
 
     load_row_data ();
