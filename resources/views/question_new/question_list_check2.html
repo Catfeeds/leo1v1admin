@@ -1,0 +1,78 @@
+<!-- SWITCH-TO: ../../webroot/page_js/
+--> 
+
+<include:file="../al_common/header.html" />
+
+
+<script type="text/javascript" src="/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<script type="text/javascript" src="/question/download_note_name_js"></script>
+<script type="text/javascript" src="/page_js/enum_map.js"></script>
+<script type="text/javascript" src="/page_js/mathjax_editor.js"></script>
+<script type="text/javascript" src="/page_js/question_editor.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/js/jquery.admin.js"></script>
+
+
+    
+<section class="content">
+    <div id="id_question_editor" >
+    </div>
+
+
+
+    <table   class="table table-bordered table-hover" style="margin-top:5px" >
+        <thead>
+            <tr>
+                <td class=" remove-for-not-xs  " ></td>
+                <td style="display:none;">序号</td>
+                <td style="width:150px;">时间</td>
+                <td style="width:50px;">年级</td>
+                <td style="width:50px;">科目</td>
+                <td style="width:120px;">知识点</td>
+                <td style="width:50px;">类型</td>
+                <td style="width:50px;">难度</td>
+                <td >问题</td>
+                <td >答案</td>
+                <td  style="width:100px;"  >状态</td>
+                <td style="width:100px;" class=" remove-for-xs  " >操作</td>
+            </tr>
+        </thead>
+        <tbody id="id_table_body">
+            <foreach name="table_data_list" key="key" var="var">
+				<tr  class="opt-edit-record">
+                    <include: file="../al_common/td_xs_opt.html" />
+                    <td style="display:none;"  >[$var.id]</td>
+                    <td >[$var.add_time]</td>
+                    <td >[$var.grade_str]</td>
+                    <td >[$var.subject_str]</td>
+                    <td class="opt-td-note" data-note_id_list="[$var.note]" ></td>
+                    <td >[$var.question_type_str]</td>
+                    <td >[$var.difficulty_str]</td>
+                    <td class="opt-q" >[$var.q]</td>
+                    <td >[$var.a]</td>
+                    <td >[$var.check_flag_str]</td>
+                    <td class=" remove-for-xs  ">
+                        <div class="btn-group   " data-questionid="[$var.id]"  >
+                            <a href="javascript:;" class="btn  fa fa-info td-info "></a>
+                            <a href="javascript:;" class="btn fa fa-list-alt   opt-show" title="查看"> </a>
+                            <a href="javascript:;" class="btn fa fa-trash-o opt-del" title="删除"> </a>
+                        </div>
+                    </td>
+
+				</tr>
+			</foreach>
+        </tbody>
+    </table>
+    <div id="id_page_info"> </div>
+        
+
+
+
+
+
