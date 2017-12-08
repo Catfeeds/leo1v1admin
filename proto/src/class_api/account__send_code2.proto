@@ -1,8 +1,8 @@
 syntax = "proto3";
 import "class_api/common.proto";
 
-//__CMD: 1002
-//__DESC:  /account/send_code 注册请求短信验证码
+//__CMD: 1004
+//__DESC:  /account/send_code2 修改密码请求短信验证码
 //__TAGS: for_app
 
 
