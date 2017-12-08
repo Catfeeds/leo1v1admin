@@ -1373,7 +1373,7 @@ class test_james extends Controller
 
 
     public function xunfei(){
-        $url = "http://api.xfyun.cn/v1/aiui/v1/voice_semantic"; //语音语义接口
+        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //语音语义接口
 
         $path = '/home/ybai/16k.wav';
         $fp = fopen($path, 'rb');  // 以二进制形式打开文件
@@ -1381,18 +1381,23 @@ class test_james extends Controller
         fclose($fp);
         $content = base64_encode($content); // 将二进制信息编码成字符串
 
-        //         curl –XPOST http://base_url/v1/aiui/v1/iat -H "X-Appid: 594b62c3 " -H
-        //         "X-CurTime: 1502184180" -H "X-CheckSum: 001388491350e266fab5e15da9aea749" –H
-        //             "X-Param: eyJhdWYiOiI4ayIsImF1ZSI6InJhdyIsInNjZW5lIjoibWFpbiIsInVzZXJpZCI6InVzZXJfMDAwMSJ9" –d
-        //             "data=PDXOSEarAABo6Ojo6Ojo6IOh9HR0cl8oFw9BVeNc2jFr2ZFfsszurkqtCWGbDVo4BbWtYr
-        // VcURYFsaBzhzw1zOFgTIk3FRsH2E9tYG1N+YqGAPrFrJl70D2jrjK7UjHoKSsP1bxZ5TWiPqUqOh
-        // IMMWGEB4GkIANo3Zc8Ndltx4vefwFWQWS00vNr3z++TcAi6Zs0A4vN3VWC4FDG2urTVuG3GSLfAo
-        // 9NujshWduRgGhAztDgLkw3PDHPLovLerbSod+ZLjopVprhgqHgi6a7F/P/w9NnTSpHeFKV+ibtpENr7miGWC…"
+
+
+
+//         curl –XPOST http[s]://base_url/v1/aiui/v1/iat -H "X-Appid: 594b62c3 " -H
+//         "X-CurTime: 1502184180" -H "X-CheckSum: 001388491350e266fab5e15da9aea749" –H
+//             "X-Param: eyJhdWYiOiI4ayIsImF1ZSI6InJhdyIsInNjZW5jZSI6Im1haW4ifQ==" –d
+//             "data=PDXOSEarAABo6Ojo6Ojo6IOh9HR0cl8oFw9BVeNc2jFr2ZFfsszurkqtCWGbDVo4BbWtYr
+// VcURYFsaBzhzw1zOFgTIk3FRsH2E9tYG1N+YqGAPrFrJl70D2jrjK7UjHoKSsP1bxZ5TWiPqUqOh
+// IMMWGEB4GkIANo3Zc8Ndltx4vefwFWQWS00vNr3z++TcAi6Zs0A4vN3VWC4FDG2urTVuG3GSLfAo
+// 9NujshWduRgGhAztDgLkw3PDHPLovLerbSod+ZLjopVprhgqHgi6a7F/P/w9NnTSpHeFKV+ibtpENr7miGWC…"
+
+
+
         $Param = [
             "auf"   => '16k',
             "aue"   => 'raw',
             "scene" => 'main',
-            "userid" => 'user_0001'
         ];
 
         $time = time();
@@ -1407,9 +1412,9 @@ class test_james extends Controller
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
+            'Content-Type:application/x-www-form-urlencoded; charset=utf-8',
             'X-Param:'.$param,
-            'X-Appid:5a28c0a1 ',
+            'X-Appid: 5a28c0a1',
             'X-CurTime:'.time(),
             'X-CheckSum:'.$CheckSum
         ));
