@@ -51,6 +51,7 @@ $(function(){
                 superAdd('l-2','l-3');
                 superAdd('l-1','l-2');
                 superAdd('l-0','l-1');
+                successAndFail();
             }
         };
         do_one();
@@ -146,6 +147,40 @@ $(function(){
         })
     }
 
+    //统计签约率和取消率
+    function successAndFail(){
+        $('#id_tbody tr[class!="l-5"]').each(function(){
+            var fail_all_count_for_month = $(this).find('.fail_all_count_for_month').text() == '' ? '0' : $(this).find('.fail_all_count_for_month').text();
+            var test_lesson_count = $(this).find('.test_lesson_count').text() == '' ? '0' : $(this).find('.test_lesson_count').text();
+
+            var fail_all_count = parseInt(fail_all_count_for_month);
+            var test_count = parseInt(test_lesson_count);
+
+            var success_all_count_for_month = $(this).find('.success_all_count_for_month').text() == '' ? '0' : $(this).find('.success_all_count_for_month').text();
+            var succ_all_count_for_month = $(this).find('.succ_all_count_for_month').text() == '' ? '0' : $(this).find('.succ_all_count_for_month').text();
+
+            var success_count = parseInt(success_all_count_for_month);
+            var succ_count = parseInt(succ_all_count_for_month);
+
+
+            var lesson_per = 0;
+            if(fail_all_count != 0 && test_count != 0){
+                lesson_per = (fail_all_count/test_count).toFixed(4);
+
+            }
+
+            var order_per = 0;
+            if(success_count != 0 && succ_count != 0){
+                order_per = (success_count/succ_count).toFixed(4);
+            }
+
+            lesson_per = lesson_per*100+'%';
+            order_per = order_per*100+'%';
+
+            $(this).find('.lesson_per').text(lesson_per);
+            $(this).find('.order_per').text(order_per);
+        })
+    }
     if(g_account=='龚隽' || g_account=='sherry'){
         download_show();
     }
