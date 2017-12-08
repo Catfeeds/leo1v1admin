@@ -7,7 +7,6 @@
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
-    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
 
     <section class="content ">
 
@@ -87,9 +86,9 @@
                         <td>{{@$var["attendance_time_str"]}} </td>
                         <td>{{@$var["kaoqin_type_str"]}} </td>
                         <td>{{@$var["attendance_type_str"]}} </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}">
                         @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
-                            <a href="javascript:;" class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" >
+                            <a href="javascript:;"  >
                                 {{@$var["lesson_count"]/100}}
                             </a>
 
