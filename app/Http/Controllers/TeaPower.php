@@ -3886,9 +3886,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
 
-        $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
-        if($check){
-            return $check;
+        if($old_lessonid){
+            
+ 
+        }else{
+            $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
+            if($check){
+                return $check;
+            }
+
         }
 
         if($item['lesson_grade_type']==0){

@@ -763,6 +763,7 @@ class teacher_money extends Controller
         $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
         $reference = $this->get_in_int_val("reference",-1);
+        $teacher_type = $this->get_in_int_val("teacher_type",-1);
         if($reference>0){
             $reference_phone = $this->t_teacher_info->get_phone($reference);
         }else{
@@ -770,22 +771,34 @@ class teacher_money extends Controller
         }
         $teacherid = $this->get_in_int_val('teacherid',-1);
 
-        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
+        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$teacher_type,$reference_phone);
         $all_money = 0;
+        $all_all_money = 0;//全职老师
+        $all_not_money = 0;//兼职老师
         foreach($ret_info['list'] as &$t_val){
-            $t_val['pay_time'] = date('Y-m-d H:i:s', $t_val['pay_time']);
-            $t_val['money'] /= 100;
+            $t_val['pay_time'] = \App\Helper\Utils::unixtime2date($t_val['pay_time']);
+            $t_val['add_time'] = \App\Helper\Utils::unixtime2date($t_val['add_time']);
+            $t_val['money']   /= 100;
             if($t_val['is_negative']==1){
                 $t_val['money'] = 0-$t_val['money'];
             }
             E\Esubject::set_item_value_str($t_val);
             $all_money += $t_val['money'];
+            if ($t_val['teacher_money_type'] == 7 || ($t_val['teacher_type'] == 3 && $t_val["teacher_money_type"] == 0)) {
+                $all_all_money += $t_val['money'];
+            } else {
+                $all_not_money += $t_val['money'];
+            }
+            E\Eteacher_type::set_item_value_str($t_val);
+            E\Eteacher_money_type::set_item_value_str($t_val);
         }
         $all_money_tax = $all_money*0.98;
         $this->set_filed_for_js("g_adminid",$this->get_account_id());
         return $this->pageView(__METHOD__,$ret_info,[
             "all_money"     => $all_money,
             "all_money_tax" => $all_money_tax,
+            'all_all_money' => $all_all_money,
+            'all_not_money' => $all_not_money,
             "acc"           => $acc,
         ]);
     }
@@ -814,17 +827,21 @@ class teacher_money extends Controller
     }
 
     public function show_teacher_bank_info_human() { // 人事绩效 - 老师银行卡信息
-        $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_info->get_teacher_bank_info($page_info);
-        foreach($ret_info['list'] as $key => &$item) {
-            $ret_info['list'][$key]['bind_bankcard_time_str'] = '';
+        $isbank = $this->get_in_int_val("is_bank", 1);
+        //$page_info = $this->get_in_page_info();
+        $ret_info = $this->t_teacher_info->get_teacher_bank_info($isbank);
+
+        foreach($ret_info as $key => &$item) {
+            $ret_info[$key]['bind_bankcard_time_str'] = '';
             if ($item['bind_bankcard_time']) {
-                $ret_info['list'][$key]['bind_bankcard_time_str'] = date('Y-m-d H:i:s', $item['bind_bankcard_time']);
+                $ret_info[$key]['bind_bankcard_time_str'] = date('Y-m-d H:i:s', $item['bind_bankcard_time']);
             }
             E\Esubject::set_item_value_str($item);
             $item["phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
             $item["bank_phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['bank_phone']);
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, '',[
+            'info' => $ret_info
+        ]);
     }
 }

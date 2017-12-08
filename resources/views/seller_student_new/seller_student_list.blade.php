@@ -1321,8 +1321,10 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp素质培养：</span>
-                            <select id="id_cultivation_new_two" class=" form-control " >
-                            </select>
+                            <input type="text" class=" form-control "  id="id_cultivation_new_two"  />
+                            <!-- <span class="input-group-addon"><font style="color:red">*</font>&nbsp素质培养：</span>
+                                 <select id="id_cultivation_new_two" class=" form-control " >
+                                 </select> -->
                         </div>
                     </div>
                 </div>
