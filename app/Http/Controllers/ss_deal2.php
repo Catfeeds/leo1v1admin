@@ -438,6 +438,48 @@ class ss_deal2 extends Controller
         return $this->output_succ(["data"=> $res]);
     }
 
+    public function get_stu_cultivation_list(){
+        $cultivation = $this->get_in_str_val('cultivation',"");
+        $list = $this->t_tag_library->get_cultivation_list();
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["tag_name"=>$val['tag_name'],"tag_id"=>$val['tag_id']];
+            $data[]=$val['tag_name'];
+        }
+        if(!empty($cultivation)){
+            $cultivation = trim($cultivation,",");
+            $arr = explode(",",$cultivation);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["tag_name"]){
+                            $item["has_tag_name"] = in_array($k,$data)?1:0;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_stu_cultivation_name(){
+        $cultivation = $this->get_in_str_val('cultivation',"");
+        $list = [];
+        $list_new = $this->t_tag_library->get_cultivation_list();
+        foreach($list_new as $item){
+            $list[$item['tag_id']] = $item['tag_name'];
+        }
+        $arr = json_decode($cultivation,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+    }
+
     public function get_stu_interests_hobbies_name(){
         $interests_hobbies = $this->get_in_str_val('interests_hobbies',"");
         $list    = E\Einterests_hobbies::$desc_map;
@@ -937,7 +979,14 @@ class ss_deal2 extends Controller
     public function save_user_info_new()
     {
         $subject_score = $this->get_in_str_val('subject_score');
-        dd($subject_score);
+        $subject_score_arr = array_filter(explode(',',$subject_score));
+        $sub_subject_scour_arr = [];
+        foreach($subject_score_arr as $item){
+            $subject_arr = explode(':',$item);
+            $sub_subject_scour_arr[$subject_arr[0]] = $subject_arr[1];
+        }
+        $subject_sore = json_encode($sub_subject_scour_arr);
+
         $userid                 = $this->get_in_userid();
         $phone                  = $this->get_in_phone();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
