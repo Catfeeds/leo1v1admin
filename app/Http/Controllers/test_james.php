@@ -1393,7 +1393,10 @@ class test_james extends Controller
         $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
         $CheckSum = md5($check_str);
 
-        echo 'param: '.$param."\n CheckSum: ".$CheckSum."\n check_str: $check_str";
+        // echo 'param: '.$param."\n CheckSum: ".$CheckSum."\n check_str: $check_str";
+        $test = md5("07adb47e30dd4b9b8fdcddc5e96e6b781512719028eyJhdWUiOiJyYXciLCJhdWYiOiIxNksiLCJzY2VuZSI6Im1haW4ifQ==
+text=".$content);
+        echo $test;
         return ;
 
         $ch = curl_init();
