@@ -204,7 +204,28 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             ,self::DB_TABLE_NAME ,
             t_seller_new_count_get_detail::DB_TABLE_NAME,
             $where_arr  );
+        return $this->main_get_list_as_page($sql);
+    }
 
+    public function get_admin_list_get_count_new_new($month,$adminid){
+        $time=time(NULL);
+        $where_arr=[
+            "end_time>$time",
+            "start_time<$time",
+            ["adminid=%d",$adminid , -1],
+            "(m.leave_member_time>$month or m.leave_member_time =0)"
+        ];
+        $sql=$this->gen_sql_new(
+            "select n.adminid, sum(get_time>0) as get_count "
+            ."from %s n "
+            ."left join %s nd on nd.new_count_id=n.new_count_id "
+            ."left join %s m on m.uid = n.adminid "
+            ." where %s  "
+            ."group  by adminid "
+            ,self::DB_TABLE_NAME ,
+            t_seller_new_count_get_detail::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr  );
         return $this->main_get_list_as_page($sql);
     }
 
@@ -245,6 +266,30 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             ." where %s  "
             ."group  by adminid "
             ,self::DB_TABLE_NAME ,
+            $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["adminid"];
+        });
+    }
+    public function get_admin_list_count_new_new($month,$adminid  )   {
+
+        $time=time(NULL);
+        $where_arr=[
+            "end_time>$time",
+            "start_time<$time",
+            ["adminid=%d",$adminid , -1],
+            "(m.leave_member_time>$month or m.leave_member_time =0)"
+        ];
+        $sql=$this->gen_sql_new(
+            "select n.adminid, sum(count) as count "
+            ."from %s n "
+            ." left join %s m on n.adminid=m.uid "
+            ." where %s  "
+            ."group  by adminid "
+            ,self::DB_TABLE_NAME ,
+            t_manager_info::DB_TABLE_NAME,
             $where_arr
         );
 

@@ -704,8 +704,8 @@ class fulltime_teacher extends Controller
                 }
             }
             foreach($ret as &$item){
-                $item["late_time"] = @$item["late_time"]/3600;
-                $item["early_time"] = @$item["early_time"]/3600;
+                $item["late_time"] = round(@$item["late_time"]/3600,2);
+                $item["early_time"] = round(@$item["early_time"]/3600,2);
             }           
             
  

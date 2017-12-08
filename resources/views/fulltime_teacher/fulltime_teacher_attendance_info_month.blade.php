@@ -74,9 +74,18 @@
                         <td> </td>
                         <td>{{@$var["holiday_day"]}} </td>
                         <td>{{@$var["late_num"]}} </td>
-                        <td>{{@$var["late_time"]}}小时</td>
+                        <td>
+                            @if(@$var["late_num"]>0)
+                                {{@$var["late_time"]}}小时
+                            @endif
+                        </td>
                         <td>{{@$var["early_num"]}} </td>
-                        <td>{{@$var["early_time"]}}小时 </td>
+                        <td>
+                            @if(@$var["early_num"]>0)
+
+                                {{@$var["early_time"]}}小时
+                            @endif
+                        </td>
                         <td>{{@$var["no_attend_num"]}} </td>
              
                         <td>
