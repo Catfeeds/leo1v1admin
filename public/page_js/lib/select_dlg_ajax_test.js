@@ -138,7 +138,6 @@
                                        '                </div>');
                     $filter_item.find(".input-group").append($input);
                     $filter_row.append($filter_item );
-
                 });
 
                 $body.append( $filter_row);
@@ -152,7 +151,6 @@
                     width_css="width:"+field_item.width+"px;";
                 }
                 th_str+= "<th style=\""+width_css+"\">"+ field_item.title + "</th>";
-
             });
 
             $body.append('<table   class="table table-bordered "   >'+
@@ -163,13 +161,6 @@
                          '           <div id="id_page_info"> '+
                          '           </div>  ' );
             me.$body=$body;
-
-           /* me.$lru_body=$('<table   class="table table-bordered "   >'+
-                           '                <tr> <th>[最近选择]id</th> <th>说明 </th> </tr>'+
-                           '                    <tbody id="id_lru_body">'+
-                           '                    </tbody>'+
-                           '            </table>'
-                          );*/
         },
         show_display:function( ) {
             var me =this;
@@ -350,12 +341,7 @@
             var $dlg_form=$('<div class="row">'+
                             '    <div class="col-xs-12 col-md-12 require_info">'+
                             '    </div>'+
-
                             '    <div class="col-xs-12 col-md-10 ajax_list">'+
-                            '    </div>'+
-                            '    <div class="col-xs-12 col-md-2  " >'+
-                            '<button id="plan_lesson">排课</button>'+
-                            '<button id="set_back">驳回</button>'+
                             '    </div>'+
                             '</div>');
             if (me.options.opt_type=="list" ) {
@@ -375,7 +361,7 @@
                 data     : {require_id: me.options.requireid},
                 success  : function(result){
                     var require_list = result.data;
-                    $dlg_form.find( ".require_info"  ).append(
+                    $dlg_form.find(".require_info").append(
                         '<div class="row">'+
                             '<div  class="col-xs-12 col-md-2 ">姓名 :'+require_list.nick+'</div>'+
                             '<div  class="col-xs-12 col-md-2 ">性别:'+require_list.gender_str+'</div>'+
@@ -455,7 +441,6 @@
             if ( me.options.url.substr(0, 7)=="http://" ) {
                 data_type="jsonp";
             }
-
 
             $.ajax({
                 type     : "post",
