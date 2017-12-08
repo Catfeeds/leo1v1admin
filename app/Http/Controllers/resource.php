@@ -269,13 +269,12 @@ class resource extends Controller
                     'tag_three_str'     => $item['tag_three_name'],
                     'tag_four_str'      => $item['tag_four_name'],
                 ];
-                $s_mark = 0;
-                $g_mark = 0;
-                $one_mark = 0;
-                $two_mark = 0;
+                $s_mark     = 0;
+                $g_mark     = 0;
+                $one_mark   = 0;
+                $two_mark   = 0;
                 $three_mark = 0;
-                $four_mark = 0;
-
+                $four_mark  = 0;
             }
 
             //添加一组数据 科目
@@ -332,7 +331,7 @@ class resource extends Controller
             //添加一组数据 一级标签
             if( $one_mark != $item['tag_one'] ) {
                 $one_mark = $item['tag_one'];
-                $list[] = [
+                $data = [
                     'key1_class'        => 'key1-'.$r_mark,
                     'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
                     'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
@@ -347,6 +346,12 @@ class resource extends Controller
                     // 'tag_three_str'     => $item['tag_three_name'],
                     // 'tag_four_str'      => $item['tag_four_name'],
                 ];
+                if($item['resource_type'] == 4 || $item['resource_type'] == 5 ){
+                    $data['is_ban'] = $item['is_ban'];
+                    $data['is_end'] = 1;
+                }
+
+                $list[] = $data;
                 $two_mark = 0;
                 $three_mark = 0;
                 $four_mark = 0;
@@ -355,7 +360,7 @@ class resource extends Controller
             //添加一组数据 二级标签
             if( $two_mark != $item['tag_two'] ) {
                 $two_mark = $item['tag_two'];
-                $list[] = [
+                $data = [
                     'key1_class'        => 'key1-'.$r_mark,
                     'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
                     'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
@@ -371,6 +376,11 @@ class resource extends Controller
                     // 'tag_three_str'     => $item['tag_three_name'],
                     // 'tag_four_str'      => $item['tag_four_name'],
                 ];
+                if($item['resource_type'] < 3 || $item['resource_type'] == 9 ){
+                    $data['is_ban'] = $item['is_ban'];
+                    $data['is_end'] = 1;
+                }
+                $list[] = $data;
                 $three_mark = 0;
                 $four_mark = 0;
             }
@@ -378,7 +388,7 @@ class resource extends Controller
             //添加一组数据 三级标签
             if( $three_mark != $item['tag_three'] ) {
                 $three_mark = $item['tag_three'];
-                $list[] = [
+                $data = [
                     'key1_class'        => 'key1-'.$r_mark,
                     'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
                     'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
@@ -391,10 +401,15 @@ class resource extends Controller
                     'subject_str'       => $item['subject_str'],
                     'grade_str'         => $item['grade_str'],
                     'tag_one_str'       => $item['tag_one_str'],
-                    'tag_two_str'       => @$item['tag_two_str'],
-                    'tag_three_str'     => @$item['tag_three_str'],
+                    'tag_two_str'       => $item['tag_two_str'],
+                    'tag_three_str'     => $item['tag_three_str'],
                     // 'tag_four_str'      => $item['tag_four_name'],
                 ];
+                if($item['resource_type'] == 6 || $item['resource_type'] == 7){
+                    $data['is_ban'] = $item['is_ban'];
+                    $data['is_end'] = 1;
+                }
+                $list[] = $data;
                 $four_mark = 0;
             }
 
@@ -414,6 +429,7 @@ class resource extends Controller
                 $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
 
             }
+            $item['is_end'] = 1;
             $list[] = $item;
         }
 

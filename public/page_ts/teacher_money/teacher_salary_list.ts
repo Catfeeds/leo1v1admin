@@ -11,6 +11,7 @@ function load_data(){
 		    end_time         : $('#id_end_time').val(),
 		    reference        : $('#id_reference').val(),
         teacherid        : $('#id_teacherid').val(),
+        teacher_type     : $('#id_teacher_type').val(),
     });
 }
 
@@ -20,16 +21,14 @@ $(function(){
         'opt_date_type'  : g_args.opt_date_type,
         'start_time'     : g_args.start_time,
         'end_time'       : g_args.end_time,
+        'teacher_type'   : g_args.teacher_type,
         date_type_config : JSON.parse( g_args.date_type_config),
         onQuery          : function() {
             load_data();
         }
     });
 
-    $('#id_reference').on('click', function(){
-        alert('welcome');
-    });
-
+    //Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
     $("#id_reference").val(g_args.reference);
     $.admin_select_user($("#id_reference"),"teacher",load_data);
     //$('#id_teacherid').val(g_args.teacherid);

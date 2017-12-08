@@ -8,6 +8,8 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
+    <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
+	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
     <script>
      var tag_one = '{{@$tag_info['tag_one']['menu']}}';
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
