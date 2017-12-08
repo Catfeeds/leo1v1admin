@@ -165,26 +165,33 @@ class send_wx_msg_common_lesson extends Command
                 if(($opt_time_stu_logout>$opt_time_stu_login)&&($opt_time_stu_logout > $item['lesson_start']) && ($opt_time_stu_logout<=$now-900) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [15分钟]
 
 
-                    // $task->t_lesson_info->field_update_list($item['lessonid'], [
-                    //     "stu_late_minute" => 15
-                    // ]);
+                    if($item['stu_late_minute'] == 0){
+                        $task->t_lesson_info->field_update_list($item['lessonid'], [
+                            "stu_late_minute" => 15
+                        ]);
 
-                    $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
-                    $this->to_waring('课程中途退出15分钟 学生 课程id:'.$item['lessonid']);
+                        $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
+                        $this->to_waring('课程中途退出15分钟 学生 课程id:'.$item['lessonid']);
 
-                    // $this->send_wx_msg_ass($item,3,$data_ass);
+                        // $this->send_wx_msg_ass($item,3,$data_ass);
+
+                    }
+
                 }
 
                 if(($opt_time_tea_logout>$opt_time_tea_login)&&($opt_time_tea_logout > $item['lesson_start']) && ($opt_time_tea_logout<=$now-900)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [15分钟]
 
-                    // $task->t_lesson_info->field_update_list($item['lessonid'], [
-                    //     "tea_late_minute" => 15
-                    // ]);
+                    if($item['tea_late_minute'] == 0){
 
-                    $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
-                    $this->to_waring('课程中途退出15分钟 老师 课程id:'.$item['lessonid']);
+                        $task->t_lesson_info->field_update_list($item['lessonid'], [
+                            "tea_late_minute" => 15
+                        ]);
+
+                        $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
+                        $this->to_waring('课程中途退出15分钟 老师 课程id:'.$item['lessonid']);
 
                     // $this->send_wx_msg_ass($item,3,$data_ass);
+                    }
                 }
             }
         }else{

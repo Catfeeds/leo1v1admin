@@ -4222,7 +4222,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_start>$today",
         ];
 
-        $sql = $this->gen_sql_new(" select l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+        $sql = $this->gen_sql_new(" select l.stu_late_minute, l.tea_late_minute, l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
                                   ." left join %s t on t.teacherid = l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid= s.parentid "
