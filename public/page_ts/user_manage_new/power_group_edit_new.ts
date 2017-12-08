@@ -19,6 +19,7 @@
      };
 
 function zTreeOnClick(event, treeId, treeNode) {
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
     if (treeNode.page_id != 0) {
         var powerid  = treeNode.page_id;
         $.do_ajax("/user_manage_new/get_group_list_by_powerid",{
@@ -48,6 +49,12 @@ function zTreeOnClick(event, treeId, treeNode) {
                 }
             });
         }) ;
+    } else {
+        // alert(treeNode.open);
+        // if (treeNode.open == true) {
+        //     //
+        // }
+        // treeObj.expandNode(treeNode, true, true, true);
     }
 }
 function load_data(){

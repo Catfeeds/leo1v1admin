@@ -7,7 +7,7 @@ $(function(){
     //进入知识点列表页面
     $('#question_list').on('click',function(){
         var opt_data=$(this).get_opt_data();
-        window.open('/question/question_list');
+        window.open('/question_new/question_list');
     });
 
     //添加答案
@@ -63,7 +63,7 @@ $(function(){
               
                 $.ajax({
                     type     :"post",
-                    url      :"/question/answer_add",
+                    url      :"/question_new/answer_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -143,7 +143,7 @@ $(function(){
                 
                 $.ajax({
                     type     :"post",
-                    url      :"/question/answer_edit",
+                    url      :"/question_new/answer_edit",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -161,7 +161,7 @@ $(function(){
      var choose_knowledge = function(){
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
-            "url"      : "/question/question_know_get",
+            "url"      : "/question_new/question_know_get",
             //其他参数
             "args_ex" : {
                 subject  :  $('#subject').val()
@@ -228,7 +228,7 @@ $(function(){
         };
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/answer_dele",data);
+                $.do_ajax("/question_new/answer_dele",data);
             }
         });
 

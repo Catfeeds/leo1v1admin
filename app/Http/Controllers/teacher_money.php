@@ -808,7 +808,7 @@ class teacher_money extends Controller
         } else if ($type == 2) {
             $type = '兼职老师';
         } else {
-            $type = '未设置';
+            $type = E\Eteacher_type::get_desc($type);
         }
         return $this->output_succ(["type"=>$type]);
     }

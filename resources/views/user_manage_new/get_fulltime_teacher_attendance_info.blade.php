@@ -1,6 +1,12 @@
 @extends('layouts.app')
 @section('content')
+    <link rel='stylesheet' href='/css/fullcalendar.css' />
+    <script src='/js/moment.js'></script>
+    <script src='/js/fullcalendar.js'></script>
+    <script src='/js/lang-all.js'></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
 
     <section class="content ">
 
@@ -80,25 +86,28 @@
                         <td>{{@$var["attendance_time_str"]}} </td>
                         <td>{{@$var["kaoqin_type_str"]}} </td>
                         <td>{{@$var["attendance_type_str"]}} </td>
-                        <td>
-                            @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
+                        @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
+                            <a href="javascript:;"  >
                                 {{@$var["lesson_count"]/100}}
-                            @endif
+                            </a>
+
+                        @endif
                         </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
                             @if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
-                                {{@$var["delay_work_time_str"]}}
+                                <a href="javascript:;"  > {{@$var["delay_work_time_str"]}}  </a>
                             @endif
                         </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
                             @if($var["attendance_type"] ==2 && $var["off_time"]>0)
-                                {{@$var["off_time_str"]}}
+                                <a href="javascript:;"  > {{@$var["off_time_str"]}}  </a>
                             @endif
                         </td>
                         <td>
                             
                         </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["holiday_start_time"]}}" data-flag="2">
                             @if($var["attendance_type"] ==3 && $var["lesson_count"]>0)
                                 {{@$var["lesson_count"]/100}}
                             @endif
@@ -125,6 +134,8 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
 
                             >
+                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>
+                                <a  href="/teacher_info_admin/lesson_list?teacherid={{$var["teacherid"]}}" target="_blank" title="跳转到老师课表">课 </a>
                                 @if($acc=="jack")
                                     <a class="opt-del">删除</a>
                                 @endif

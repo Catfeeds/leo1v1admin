@@ -259,7 +259,7 @@ $(function(){
 
     $(".opt-lesson").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        $.wopen("/tea_manage/lesson_list?lessonid="+opt_data.lessonid);
+        $.wopen("/tea_manage/lesson_list?lessonid="+opt_data["lessonid"]);
     });
 
 
@@ -287,21 +287,41 @@ $(function(){
     $(".fa-filter").on("click",function( ){
         var obj=$("#id_lesson_type").parent()  ;
         BootstrapDialog.show( {
-            message: obj 
+            message: obj
         });
     });
 
 
-    var  field_str = ' <li class="dropdown  " style="list-style: none;" >  ' +
-        '  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> 课程类型 </a> ' +
-        '  <ul class="dropdown-menu" style="height:200px" > ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
+    var  field_list =$( ' <li class="dropdown  " style="list-style: none;" >  ' +
+        '  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> 课程类型 <a class="fa  fa-sort" href="javascript:;" > </a>  </a> ' +
+        '  <ul class="dropdown-menu"  style="width:300px;"  > ' +
+        '       <li style=" margin:5px auto; width:90%;float: right;" > <span> <input  type="checkbox"  />  多选  </span>  <button class="btn btn-primary " > 全部</button>  <button class="btn btn-warning"  > 提交 </button> </li>' +
+        '       <table class=" table table-bordered table-hover " style=" margin:0 auto; width:90%;"  > ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr  > <td>XXX </td> </tr> ' +
+        '       <tr > <td>新签</td> </tr> ' +
+        '       <tr > <td>续费</td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       <tr > <td>XXX </td> </tr> ' +
+        '       </table> ' +
+
         '  </ul> ' +
-        ' </li> ';
-    $("#id_test").html( field_str );
+        ' </li> ');
+
+    $("#id_test").html( field_list );
+    field_list.find("td" ).on("click",function( ){
+        $(this).toggleClass("danger" );
+        return false;
+    });
 
 });
