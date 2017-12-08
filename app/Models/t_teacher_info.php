@@ -4717,7 +4717,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$teacher_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item['teacherid'];
+            return $item['teacherid']."_key";
         });
     }
 
@@ -4737,7 +4737,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$teacher_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item['teacherid'];
+            return $item['teacherid']."_key";
         });
     }
 

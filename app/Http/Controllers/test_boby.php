@@ -1187,7 +1187,7 @@ class test_boby extends Controller
     public function add_resource_type(){
         $r_arr = [1,2,3,4,5,6,7,9];//资源类型
         // $s_arr = E\Esubject::$desc_map;
-        $s_arr = [1,2,3,4,5,6,7,8,9,10,11];//科目
+        $s_arr = [1,2,3,4,5,6,7,8,9,10];//科目
         $g_arr = [101,102,103,104,105,106,201,202,203,301,302,303];
         $o_arr = [201,202,203,301,302,303];
         foreach($r_arr as $r){
@@ -1205,15 +1205,47 @@ class test_boby extends Controller
                         $grade = $o_arr;
                     }
                 }
-                foreach($grade as $g){
-                    $this->t_resource_agree_info->row_insert([
-                        'resource_type' => $r,
-                        'subject' => $s,
-                        'grade' => $g,
-                    ]);
-                }
+                // if($r != 6){
+                    foreach($grade as $g){
+                        $this->t_resource_agree_info->row_insert([
+                            'resource_type' => $r,
+                            'subject' => $s,
+                            'grade' => $g,
+                        ]);
+                    }
+                // } else {
+                //     $year = [2015,2016,2017];
+                //     foreach($year as $y){
+                //         $shen = $this->get_shen_shi();
+                //         foreach($shen as $sh => $city){
+                //             foreach($city as $c){
+                //                 $this->t_resource_agree_info->row_insert([
+                //                     'resource_type' => $r,
+                //                     'subject'       => $s,
+                //                     'grade'         => $g,
+                //                     'tag_one'       => $y,
+                //                     'tag_two'       => $sh,
+                //                     'tag_three'     => $c,
+                //                 ]);
+                //             }
+                //         }
+                //     }
+                // }
 
             }
         }
+    }
+
+    //得到省市数组
+    public function get_shen_shi(){
+        $arr = $this->t_area->get_city();
+        // $s = file_get_contents('./province_city_select_Info.xml');
+        $shen = [];
+        foreach($arr as $item){
+
+            $shen[$item['parent_id']][] = $item['area_id'];
+        }
+        // dd($shen);
+        return $shen;
     }
 }

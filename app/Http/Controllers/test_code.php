@@ -1413,9 +1413,11 @@ class test_code extends Controller
      * 排课方法
      */
     public function check_test(){
+        //筛选条件
         $identity     = $this->get_in_int_val("identity");
         $gender       = $this->get_in_int_val("gender");
         $age          = $this->get_in_int_val("age");
+        //试听需求信息
         $grade        = E\Egrade::V_106;
         $subject      = E\Esubject::V_2;
         $lesson_start = strtotime("2017-12-13 18:00");
@@ -1429,24 +1431,23 @@ class test_code extends Controller
             $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
             $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
             $tea_list = array_merge($all_tea_list, $tea_list);
-            return $this->output_succ($tea_list);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
         }else{
             $tea_list = $ret_list;
         }
-        exit;
+
         if(!empty($tea_list) && is_array($tea_list)){
             foreach($tea_list as $tea_key => &$tea_val){
                 $grade_start = 0;
                 $grade_end   = 0;
                 $del_flag    = false;
                 $limit_day   = $tea_val['limit_day_lesson_num'];
-                $day_num     = $tea_val['day_num'];
+                $day_num     = isset($tea_val['day_num'])?$tea_val['day_num']:0;
                 $limit_week  = $tea_val['limit_week_lesson_num']<$tea_val['limit_plan_lesson_type']?$tea_val['limit_week_lesson_num']:$tea_val['limit_plan_lesson_type'];
-                $week_num    = $tea_val['week_num'];
+                $week_num    = isset($tea_val['week_num'])?$tea_val['week_num']:0;
                 $limit_month = $tea_val['limit_month_lesson_num'];
-                $month_num   = $tea_val['month_num'];
-                $has_num     = $tea_val['has_num'];
+                $month_num   = isset($tea_val['month_num'])?$tea_val['month_num']:0;
+                $has_num     = isset($tea_val['has_num'])?$tea_val['has_num']:0;
 
                 if($tea_val['subject']==$subject){
                     $grade_start = $tea_val['grade_start'];
@@ -1498,12 +1499,7 @@ class test_code extends Controller
             );
         }
 
-
         return $this->output_succ($tea_list);
-    }
-
-    public function get_tea_list_for_trial_lesson($lesson_start,$subject){
-
     }
 
     public function check_teacher_age($age){

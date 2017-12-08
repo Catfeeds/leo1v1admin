@@ -1254,6 +1254,110 @@ class test_james extends Controller
 
     }
 
+    /**
+     * @ 百度语音识别
+     **/
+
+    function request_post($url = '', $param = '') {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+
+        $postUrl = $url;
+        $curlPost = $param;
+        $curl = curl_init();//初始化curl
+        curl_setopt($curl, CURLOPT_URL,$postUrl);//抓取指定网页
+        curl_setopt($curl, CURLOPT_HEADER, 0);//设置header
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($curl, CURLOPT_POST, 1);//post提交方式
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $curlPost);
+        $data = curl_exec($curl);//运行curl
+        curl_close($curl);
+
+        return $data;
+    }
+
+    /**
+       App ID: 10485794
+
+       API Key: sViPNnv5bUMEEHwC6FMriOOw
+
+       Secret Key: 1e3f8259f26c7b5b202ec6c380b3de20
+
+
+       string(585) "{"access_token":"24.17dde2e70ba5d12d9217220c62a95853.2592000.1515234816.282335-10485794","session_key":"9mzdCrO0iPQ\/XaC9XIeUd7o2tWb7JeLPwCHucfWyV6psR7MP+WceUG\/4AiEyFHExgiX1xtU\/zzpvH+vyHpjfcO21RfpfAQ==","scope":"public audio_voice_assistant_get wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_Test\u6743\u9650 vis-classify_flower bnstest_fasf lpq_\u5f00\u653e","refresh_token":"25.9fb11b09ef6d52e2c7b8e1c437dbf801.315360000.1828002816.282335-10485794","session_secret":"06a483d75528389b43907dcb2ea66ba4","expires_in":2592000} "
+     */
+
+    public function get_baidu_token(){
+        $url = 'https://aip.baidubce.com/oauth/2.0/token';
+        $post_data['grant_type']       = 'client_credentials';
+        $post_data['client_id']      = 'sViPNnv5bUMEEHwC6FMriOOw';
+        $post_data['client_secret'] = '1e3f8259f26c7b5b202ec6c380b3de20';
+        $o = "";
+        foreach ( $post_data as $k => $v )
+        {
+            $o.= "$k=" . urlencode( $v ). "&" ;
+        }
+        $post_data = substr($o,0,-1);
+
+        $res = $this->request_post($url, $post_data);
+
+        var_dump($res);
+
+    }
+
+
+    public function chang_wen(){
+        $url = "http://vop.baidu.com/server_api";
+
+        $path = '/home/ybai/16k.wav';
+        $fp = fopen($path, 'rb');  // 以二进制形式打开文件
+        $content = fread($fp, filesize($path)); // 读取文件内容
+        fclose($fp);
+        $content = base64_encode($content); // 将二进制信息编码成字符串
+
+        $content = str_replace("\n"," ",$content);
+
+        $post_data = [
+            "format"=>"wav",
+            "rate"=>16000,
+            "channel"=>1,
+            "token"=>"24.17dde2e70ba5d12d9217220c62a95853.2592000.1515234816.282335-10485794",
+            "cuid"=>"baidu_workshop122xuejijams",
+            "len"=>127,
+            "lan" => "zh",
+            "speech"=>"$content",
+
+            // "url" => "http://speech-doc.gz.bcebos.com/rest-api-asr/public_audio/16k.wav",
+            // "callback" => "http://admin.leo1v1.com/test_james/get_post"
+
+        ];
+
+        $post_data = json_encode($post_data);
+
+
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: '.strlen($post_data)
+        ));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $ret_arr = json_decode($output,true);
+
+        return $ret_arr;
+    }
+
+    public function get_post(){
+        $a = $_SESSION;
+        dd($a);
+    }
 
 
 

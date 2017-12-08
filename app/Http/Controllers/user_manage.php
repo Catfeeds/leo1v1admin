@@ -569,8 +569,8 @@ class user_manage extends Controller
         ],3);
 
         $orderid = $this->get_in_int_val('orderid',-1);
-        $contract_type     = $this->get_in_int_val('contract_type',-1);
-        $contract_status   = $this->get_in_int_val('contract_status',-1);
+        $contract_type     = $this->get_in_el_contract_type();
+        $contract_status   = $this->get_in_el_contract_status();
         $config_courseid   = $this->get_in_int_val('config_courseid',-1);
         $is_test_user      = $this->get_in_int_val('test_user',0);
         $studentid         = $this->get_in_studentid(-1);

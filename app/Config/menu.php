@@ -66,6 +66,7 @@ class menu{
                 ["power_id"=>4, "name"=>"微信运营",   "url"=>"/seller_student_new2/tmk_student_list"],
                 ["power_id"=>11, "name"=>"排课", "list"=>[
                     ["power_id"=>1, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list"],
+                    ["power_id"=>3, "name"=>"选择老师",   "url"=>"/seller_student_new2/select_teacher_for_test_lesson"],
                     ["power_id"=>11, "name"=>"试听排课-教务",   "url"=>"/seller_student_new2/test_lesson_plan_list_jx"],
                     ["power_id"=>2, "name"=>"未绑定的试听课",   "url"=>"/seller_student_new2/test_lesson_no_binding_list"],
                     ["power_id"=>5, "name"=>"教务排课明细", "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
@@ -275,8 +276,8 @@ class menu{
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
-                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
-                ["power_id"=>5, "name"=>"权限管理-new", "url"=>"/user_manage_new/power_group_edit_new"],
+                //["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
+                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit_new"],
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
@@ -429,10 +430,10 @@ class menu{
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
                 // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
-                ["power_id"=>71, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
-                ["power_id"=>70, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
-                ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
-                ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
+                // ["power_id"=>71, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
+                // ["power_id"=>70, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                // ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                // ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
@@ -847,6 +848,12 @@ class menu{
 
 
             ["power_id"=>32, "name"=>"角色-教研",  "list"=>[
+                ['power_id'=>74, 'name'=>"教研备课上传","list" => [
+                    ["power_id"=>01, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
+                    ["power_id"=>02, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                    ["power_id"=>03, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                    ["power_id"=>04, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
+                ]],
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                 ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                 ["power_id"=>23,"name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
