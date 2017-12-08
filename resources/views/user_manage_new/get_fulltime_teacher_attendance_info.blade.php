@@ -88,9 +88,12 @@
                         <td>{{@$var["kaoqin_type_str"]}} </td>
                         <td>{{@$var["attendance_type_str"]}} </td>
                         <td>
-                            @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
+                        @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
+                            <a href="javascript:;" class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" >
                                 {{@$var["lesson_count"]/100}}
-                            @endif
+                            </a>
+
+                        @endif
                         </td>
                         <td>
                             @if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
