@@ -1,0 +1,125 @@
+<!-- SWITCH-TO: ../../webroot/page_js/
+--> 
+
+<include:file="../al_common/header.html" />
+
+<script type="text/javascript" src="/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script type="text/javascript" src="/question/download_note_name_js"></script>
+<script type="text/javascript" src="/page_js/enum_map.js"></script>
+<script type="text/javascript" src="/page_js/mathjax_editor.js?03"></script>
+<script type="text/javascript" src="/page_js/question_editor.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/js/jquery.admin.js"></script>
+<script type="text/javascript" src="/js/jquery.websocket.js"></script>
+
+
+<script type="text/javascript" src="/page_js/question_check.js"></script>
+
+    
+<section class="content">
+    <div class="row">
+
+        <div class="col-xs-6 col-md-4">
+            <div class="input-group ">
+                <span class="input-group-addon">录入时间:</span>
+                  <input type="text" value="" class=" c_sel form-control "  id="datetime_start"  placeholder="" />
+                <span class="input-group-addon">-</span>
+                  <input type="text" value="" class=" c_sel form-control "  id="datetime_end"  placeholder="" />
+
+
+            </div>
+        </div>
+
+
+        <div class="col-xs-6 col-md-5">
+            <div class="input-group ">
+                <span class="input-group-addon">年级</span>
+                <select class="c_sel form-control " id="id_grade" >
+                    [$grade_options_str]
+                </select>
+                <span class="input-group-addon">科目</span>
+                <select class="c_sel form-control " id="id_subject" >
+                    [$subject_options_str]
+                </select>
+                <span class="input-group-addon">录入者</span>
+                <select class="c_sel form-control " id="id_adminid" >
+                    <option value="-1" >[全部]</option>
+                    <foreach name="account_list" key="key" var="var">
+                        <option value="[$key]" >[$var]</option>
+                    </foreach>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group-btn">
+                <button id="id_note_info" type="submit" class="btn btn-primary">知识点筛选</button>
+                <span id="id_note_list_info" data-note_id_list=""></span>
+            </div>
+        </div>
+        
+    </div>
+
+    <hr/>
+    <div id="id_question_editor" > </div>
+    <table class="table table-bordered table-hover"   >
+        <thead>
+            <tr>
+                <td class=" remove-for-not-xs  " ></td>
+                <td style="display:none;" >序号</td>
+                <td >录入者</td>
+                <td style="display:none;" >加入时间</td>
+                <td style="display:none;" > 检查者</td>
+                <td style="display:none;" >检查时间 </td>
+
+                <td >年级</td>
+                <td >科目</td>
+                <td >知识点</td>
+                <td >类型</td>
+                <td >难度</td>
+                <td >问题</td>
+                <td >答案</td>
+                <td >状态</td>
+                <td class=" remove-for-xs  " >操作</td>
+            </tr>
+        </thead>
+        <tbody id="id_table_body">
+            <foreach name="table_data_list" key="key" var="var">
+				<tr  class="opt-edit-record">
+                    <include: file="../al_common/td_xs_opt.html" />
+                    <td style="display:none;" >[$var.id]</td>
+                    <td >[$var.account]</td>
+                    <td >[$var.grade_str]</td>
+                    <td >[$var.subject_str]</td>
+                    <td class="opt-td-note" data-note_id_list="[$var.note]" ></td>
+                    <td >[$var.question_type_str]</td>
+                    <td >[$var.difficulty_str]</td>
+                    <td class="opt-q" >[$var.q]</td>
+                    <td >[$var.a]</td>
+                    <td class=" remove-for-xs  ">
+                        <div class="btn-group   " data-questionid="[$var.id]"  >
+                            <a href="javascript:;" class="btn  fa fa-info td-info "></a>
+                            <a href="javascript:;" class="btn fa fa-list-alt opt-show" title="详情"> </a>
+                        </div>
+                    </td>
+
+				</tr>
+			</foreach>
+        </tbody>
+    </table>
+    <div id="id_page_info"> </div>
+
+
+        
+
+
+
+
+

@@ -1359,6 +1359,66 @@ class test_james extends Controller
         dd($a);
     }
 
+    public function get_no(){
+        $a = $this->t_lesson_info_b2->get_need_late_notic();
+        $b = $this->t_lesson_info_b2->get_test_lesson_to_notic();
+        dd($b);
+    }
+
+
+    /**
+     * @ 讯飞听见 WebAPI
+
+     */
+
+
+    public function xunfei(){
+        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //语音语义接口
+
+        $path = '/home/ybai/16k.wav';
+        $fp = fopen($path, 'rb');  // 以二进制形式打开文件
+        $content = fread($fp, filesize($path)); // 读取文件内容
+        fclose($fp);
+        $content = base64_encode($content); // 将二进制信息编码成字符串
+
+
+        $Param = [
+            "auf"   => '16k',
+            "aue"   => 'raw',
+            "scene" => 'main',
+        ];
+
+        $time = time();
+        $param = base64_encode(json_encode($Param));
+        $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
+        $CheckSum = md5($check_str);
+
+        // echo 'param'.$param." CheckSum:".$CheckSum;
+        // return ;
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type:application/x-www-form-urlencoded; charset=utf-8',
+            'X-Param:'.$param,
+            'X-Appid: 5a2a4204',
+            'X-CurTime:'.time(),
+            'X-CheckSum:'.$CheckSum
+        ));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $ret_arr = json_decode($output,true);
+
+        return $ret_arr;
+
+
+
+    }
+
 
 
 }

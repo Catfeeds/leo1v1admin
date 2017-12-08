@@ -174,7 +174,9 @@ class TeacherMoneyTask extends TaskController
                     "add_time"           => $start_time,
                 ]);
             }else{
-                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$start_time,$lesson_money,$is_negative);
+                $this->t_teacher_salary_list->update_teacher_money(
+                    $t_val['teacherid'],$start_time,$lesson_money,$is_negative,$pay_time
+                );
             }
         }
 

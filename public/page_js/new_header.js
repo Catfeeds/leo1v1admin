@@ -1427,7 +1427,8 @@ function show_message(title, message, ok_func ){
 //enum map function
 Enum_map = {
     get_desc : function(group_name,val){
-        return g_enum_map[group_name]["desc_map"][val];
+        var ret=g_enum_map[group_name]["desc_map"][val];
+        return  ret?ret:val;
     },
     get_simple_desc: function (group_name,val){
         var desc=g_enum_map[group_name]["simple_desc_map"][val];

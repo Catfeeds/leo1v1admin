@@ -1275,6 +1275,9 @@ function reset_item (){
 
 function bind_td_info( $table){
 
+    if (!$table) {
+        return;
+    }
     $table.find(".td-info").attr("title","竖向显示");
     $table.find(".td-info").on("click" ,function(){
         var th_row=$(this).closest("table").find("thead td");

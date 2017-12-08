@@ -386,7 +386,8 @@ class teacher_money extends Controller
                 continue;
             }
 
-            $grade_list[$grade][] = [
+
+            $grade_list[$data_key][$grade][] = [
                 "rank" => $rank,
                 "name" => $val['nick'],
             ];
@@ -394,10 +395,10 @@ class teacher_money extends Controller
                 $ret_list[$data_key] = [
                     "year"      => $year,
                     "month"     => $month,
-                    "rank_info" => $grade_list
+                    "rank_info" => $grade_list[$data_key]
                 ];
             }else{
-                $ret_list[$data_key]["rank_info"] = $grade_list;
+                $ret_list[$data_key]["rank_info"] = $grade_list[$data_key];
             }
         }
         $ret_list = array_values($ret_list);
@@ -772,13 +773,16 @@ class teacher_money extends Controller
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
         $all_money = 0;
         foreach($ret_info['list'] as &$t_val){
-            $t_val['pay_time'] = date('Y-m-d H:i:s', $t_val['pay_time']);
-            $t_val['money'] /= 100;
+            $t_val['pay_time'] = \App\Helper\Utils::unixtime2date($t_val['pay_time']);
+            $t_val['add_time'] = \App\Helper\Utils::unixtime2date($t_val['add_time']);
+            $t_val['money']   /= 100;
             if($t_val['is_negative']==1){
                 $t_val['money'] = 0-$t_val['money'];
             }
             E\Esubject::set_item_value_str($t_val);
             $all_money += $t_val['money'];
+            E\Eteacher_type::set_item_value_str($t_val);
+            E\Eteacher_money_type::set_item_value_str($t_val);
         }
         $all_money_tax = $all_money*0.98;
         $this->set_filed_for_js("g_adminid",$this->get_account_id());
@@ -807,7 +811,7 @@ class teacher_money extends Controller
         } else if ($type == 2) {
             $type = '兼职老师';
         } else {
-            $type = '未设置';
+            $type = E\Eteacher_type::get_desc($type);
         }
         return $this->output_succ(["type"=>$type]);
     }

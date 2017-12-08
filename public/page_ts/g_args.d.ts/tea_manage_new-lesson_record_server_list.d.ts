@@ -19,17 +19,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	lessonid	:any;
-	record_audio_server1	:any;
-	xmpp_server_name	:any;
-	lesson_start	:any;
-	lesson_end	:any;
-	userid	:any;
-	teacherid	:any;
-	index	:any;
-	lesson_time	:any;
-	student_nick	:any;
-	teacher_nick	:any;
 }
 
 /*

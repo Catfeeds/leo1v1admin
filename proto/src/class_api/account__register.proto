@@ -2,15 +2,15 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1001
-//__DESC:  /acount/register 用户注册
+//__DESC:  /account/register 用户注册
 //__TAGS: for_app
 
 
 message in  {
 	int32  role = 1; // 角色
 	string phone = 2; //电话
-	string passwd = 3; //密码 md5(passwd) 
-	string reg_ip = 4; //注册ip (xxx.xx.xx.xx)
+	string passwd = 3; //密码
+	string code = 4; //手机验证码
 	string reg_channel = 5; //注册渠道
 }
 

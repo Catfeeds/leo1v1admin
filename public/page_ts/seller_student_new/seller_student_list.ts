@@ -41,7 +41,7 @@ function load_data(){
 }
 
 function add_subject_score(obj){
-    $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3'><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
+    $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
     var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']");
     Enum_map.append_option_list("subject",id_subject_score, true);
 }
@@ -2896,10 +2896,6 @@ function init_edit() {
                         if(html_node.find("#area").val()==""){
                             area="";
                         }
-
-
-
-
                         $.do_ajax("/ss_deal/save_user_info_new",{
                             new_demand_flag   : 1,
                             click_type        : click_type,
@@ -2952,7 +2948,6 @@ function init_edit() {
                             region: region,
                             test_paper: html_node.find("#id_test_paper").val(),
                         });
-
                     }
                 }]
             });
@@ -3061,7 +3056,12 @@ function init_edit() {
             var id_interests_hobbies = html_node.find("#id_interests_hobbies_new_two");
             var id_character_type    = html_node.find("#id_character_type_new_two");
             var id_address           = html_node.find("#id_stu_addr_new_two");
+
+            var id_main_subject = html_node.find("#id_main_subject_new_two");
+            var id_main_subject_score_one = html_node.find("#id_main_subject_score_one_new_two");
+            var id_main_subject_score_two = html_node.find("#id_main_subject_score_two_new_two");
             var id_subject_score     = html_node.find("select[name='subject_score_new_two']");
+
             var id_test_stress = html_node.find("#id_test_stress_new_two");
             var id_academic_goal = html_node.find("#id_academic_goal_new_two");
             var id_entrance_school_type = html_node.find("#id_entrance_school_type_new_two");
@@ -3354,7 +3354,7 @@ function init_edit() {
             }
             var old_area = data.area;
             if(old_area == ''){
-                old_city="选择区（县）";
+                old_area="选择区（县）";
             }
             var province = html_node.find("#province_new_two");
             var city = html_node.find("#city_new_two");
@@ -3374,7 +3374,6 @@ function init_edit() {
                 url : "/province_city_select_Info.xml",
                 success : func_suc_getXmlProvice
             });
-
             //省 下拉选择发生变化触发的事件
             province.change(function() {
                 //province.val()  : 返回是每个省对应的下标,序号从0开始
@@ -3456,52 +3455,11 @@ function init_edit() {
                 });
             }
 
-
-            /*
-              array(0,"","未回访" ),
-              array(1,"","无效资源" ),
-              array(2,"","未接通" ),
-              array(3,"","有效-意向A档" ),
-              array(4,"","有效-意向B档" ),
-              array(5,"","有效-意向C档" ),
-              array(6,"","已试听-待跟进" ),
-              array(7,"","已试听-未签A档" ),
-              array(20,"","已试听-未签B档" ),
-              array(21,"","已试听-未签C档" ),
-              array(8,"","已试听-已签" ),
-              array(9,"test_lesson_report","试听-预约" ),
-              array(10,"test_lesson_set_lesson","试听-已排课" ),
-              array(11,"","试听-时间待定" ), //,有预约意向，但时间没有确定
-              array(12,"","试听-时间确定" ), //
-              array(13,"","试听-无法排课" ),
-              array(14,"","试听-驳回" ),
-              array(15,"","试听-课程取消" ),
-
-            */
-
-
             var now=(new Date()).getTime()/1000;
-
             var status=data.status*1;
             var show_status_list=[];
-
             var cur_page= g_args.cur_page;
-
             show_status_list=[];
-
-            /*
-              return $this->seller_student_list_ex(0,"0,2");
-              return $this->seller_student_list_ex(103,"100,103");
-              return $this->seller_student_list_ex(101,"101,102");
-              return $this->seller_student_list_ex(110,"110,120");
-              return $this->seller_student_list_ex(200);
-              return $this->seller_student_list_ex(1);
-              return $this->seller_student_list_ex(210);
-              return $this->seller_student_list_ex(220);
-              return $this->seller_student_list_ex(290);
-              return $this->seller_student_list_ex(301, "300,301,302,420");
-            */
-
             if(opt_data.stu_type==1){
                 switch ( opt_data.seller_student_status) {
                 case 0:
@@ -3553,7 +3511,6 @@ function init_edit() {
                     show_status_list=[  60,61 ];
                     break;
                 }
-
             }else{
                 switch ( opt_data.seller_student_status) {
                 case 0:
@@ -3598,7 +3555,6 @@ function init_edit() {
                     show_status_list=[   ];
                     break;
                 }
-
             }
 
             show_status_list.push(status);
@@ -3615,7 +3571,11 @@ function init_edit() {
             id_gender.val(data.gender);
             id_address.val(data.address);
             id_subject.val(data.subject);
-            id_subject_score.val(data.subject);
+            id_main_subject.val(data.subject);
+            // id_main_subject_score_one.val();
+            // id_main_subject_score_two.val();
+            // id_subject_score.val(data.subject_score);
+
             id_status.val(data.status);
             //id_user_desc.val(data.user_desc);
             // id_revisite_info.val(data.revisite_info);
@@ -3688,7 +3648,9 @@ function init_edit() {
                         })
             });
             id_subject.change(function(){
-                id_subject_score.val(id_subject.val());
+                id_main_subject.val(id_subject.val());
+                id_main_subject_score_one.val('');
+                id_main_subject_score_two.val('');
             })
             var reset_seller_student_status_options=function()  {
                 var opt_list=[0];
@@ -3832,15 +3794,6 @@ function init_edit() {
                 size: "size-wide",
                 message : html_node,
                 closable: false,
-                // onshown: function(){
-                //     function add_tag(obj){
-                //         var str = $('#id_stu_request_test_lesson_demand_new_two').val()+$(obj).val();
-                //         $('#id_stu_request_test_lesson_demand_new_two').val(str);
-                //     };
-                //     function del_tag(obj){
-                //         $('#id_stu_request_test_lesson_demand_new_two_new').empty();
-                //     }
-                // },
                 buttons: [{
                     label: '返回',
                     action: function(dialog) {
@@ -3870,56 +3823,68 @@ function init_edit() {
                         if(html_node.find("#area_new_two").val()==""){
                             area="";
                         }
-                        alert(province);
-                        // $.do_ajax("/ss_deal2/save_user_info_new",{
-                        //     new_demand_flag   : 1,
-                        //     click_type        : click_type,
-                        //     userid            : opt_data.userid,
-                        //     test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                        //     phone: opt_data.phone,
-                        //     stu_nick      : id_stu_nick.val(),
-                        //     gender        : id_gender.val(),
-                        //     par_nick      : id_par_nick.val(),
-                        //     id_par_type   : id_par_type.val(),
-                        //     grade         : id_grade.val(),
-                        //     subject       : id_subject.val(),
-                        //     editionid     : id_editionid.val(),
-                        //     has_pad       : id_has_pad.val(),
-                        //     school        : id_school.val(),
-                        //     character_type: html_node.find("#id_character_type_new_two").val(),
-                        //     interests_and_hobbies: html_node.find("#id_interests_hobbies_new_two").val(),
-                        //     province: province,
-                        //     city: city,
-                        //     area: area,
-                        //     region: region,
+                        var subject_arr = [];
+                        $(".subject_score ").each(function(){
+                            var subject_score = $(this).children("div").children("select[name='subject_score_new_two']").find("option:selected").text();
+                            var subject_score_one = $(this).children("div").children("input[name='subject_score_one_new_two']").val();
+                            var subject_score_two = $(this).children("div").children("input[name='subject_score_two_new_two']").val();
+                            if(subject_score == ''){
+                            }else{
+                                subject_arr[subject_score]=subject_score_one+'/'+subject_score_two;
+                            }
+                        });
+                        // alert(html_node.find("#id_grade_rank_new_two").val());
+                        $.do_ajax("/ss_deal2/save_user_info_new",{
+                            // new_demand_flag   : 1,
+                            // click_type        : click_type,
+                            // userid            : opt_data.userid,
+                            // test_lesson_subject_id : opt_data.test_lesson_subject_id,
+                            // phone: opt_data.phone,
+                            // stu_nick      : id_stu_nick.val(),
+                            // gender        : id_gender.val(),
+                            // par_nick      : id_par_nick.val(),
+                            // id_par_type   : id_par_type.val(),
+                            // grade         : id_grade.val(),
+                            // subject       : id_subject.val(),
+                            // editionid     : id_editionid.val(),
+                            // has_pad       : id_has_pad.val(),
+                            // school        : id_school.val(),
+                            // character_type: html_node.find("#id_character_type_new_two").val(),
+                            // interests_and_hobbies: html_node.find("#id_interests_hobbies_new_two").val(),
+                            // province: province,
+                            // city: city,
+                            // area: area,
+                            // region: region,
+                            // address       : id_address.val(),
+                            // class_rank: html_node.find("#id_class_rank_new_two").val(),
+                            // class_num: html_node.find("#id_class_num_new_two").val(),
+                            // grade_rank: html_node.find("#id_grade_rank_new_two").val(),
+                            subject_score: subject_arr,
 
-                        //     address       : id_address.val(),
-                        //     seller_student_status : id_status.val(),
-                        //     seller_student_sub_status : id_seller_student_sub_status.val(),
-                        //     user_desc     : id_user_desc.val(),
-                        //     next_revisit_time : id_next_revisit_time.val(),
-                        //     stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                        //     stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
-                        //     stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                        //     intention_level       : id_intention_level.val(),
-                        //     class_rank: html_node.find("#id_class_rank_new_two").val(),
-                        //     class_num: html_node.find("#id_class_num_new_two").val(),
-                        //     grade_rank: html_node.find("#id_grade_rank_two").val(),
-                        //     academic_goal: html_node.find("#id_academic_goal_two").val(),
-                        //     test_stress: html_node.find("#id_test_stress_new_two").val(),
-                        //     entrance_school_type: html_node.find("#id_entrance_school_type_new_two").val(),
-                        //     interest_cultivation: html_node.find("#id_interest_cultivation_new_two").val(),
-                        //     extra_improvement : html_node.find("#id_extra_improvement_new_two").val(),
-                        //     habit_remodel: html_node.find("#id_habit_remodel_new_two").val(),
-                        //     study_habit : html_node.find("#id_study_habit_new_two").val(),
-                        //     need_teacher_style: html_node.find("#id_need_teacher_style_new_two").val(),
-                        //     demand_urgency: html_node.find("#id_demand_urgency_new_two").val(),
-                        //     quotation_reaction: html_node.find("#id_quotation_reaction_new_two").val(),
-                        //     recent_results: html_node.find("#id_recent_results_new_two").val(),
-                        //     advice_flag: html_node.find("#id_advice_flag_new_two").val(),
-                        //     test_paper: html_node.find("#id_test_paper_new_two").val(),
-                        
-                        // });
+                            // seller_student_status : id_status.val(),
+                            // seller_student_sub_status : id_seller_student_sub_status.val(),
+                            // user_desc     : id_user_desc.val(),
+                            // next_revisit_time : id_next_revisit_time.val(),
+                            // stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
+                            // stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
+                            // stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
+                            // intention_level       : id_intention_level.val(),
+                            // class_num: html_node.find("#id_class_num_new_two").val(),
+                            // grade_rank: html_node.find("#id_grade_rank_two").val(),
+                            // academic_goal: html_node.find("#id_academic_goal_two").val(),
+                            // test_stress: html_node.find("#id_test_stress_new_two").val(),
+                            // entrance_school_type: html_node.find("#id_entrance_school_type_new_two").val(),
+                            // interest_cultivation: html_node.find("#id_interest_cultivation_new_two").val(),
+                            // extra_improvement : html_node.find("#id_extra_improvement_new_two").val(),
+                            // habit_remodel: html_node.find("#id_habit_remodel_new_two").val(),
+                            // study_habit : html_node.find("#id_study_habit_new_two").val(),
+                            // need_teacher_style: html_node.find("#id_need_teacher_style_new_two").val(),
+                            // demand_urgency: html_node.find("#id_demand_urgency_new_two").val(),
+                            // quotation_reaction: html_node.find("#id_quotation_reaction_new_two").val(),
+                            // recent_results: html_node.find("#id_recent_results_new_two").val(),
+                            // advice_flag: html_node.find("#id_advice_flag_new_two").val(),
+                            // test_paper: html_node.find("#id_test_paper_new_two").val(),
+                        });
 
                     }
                 }]
