@@ -1233,10 +1233,6 @@
                             <input type="text" class=" form-control "  id="id_interests_hobbies_new_two"  />
                         </div>
                     </div>
-                    
-                </div>
-
-                <div class="row">
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
@@ -1258,9 +1254,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 " style="">
+                    <div class="col-xs-12 col-md-6 " style="display:none">
                         <div class="input-group ">
-                            <input type="text" id="id_stu_addr_new_new"  class="form-control" placeholder='请输入详细地址' />
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp家庭住址：</span>
+                            <input type="text" id="id_stu_addr_new_two"  class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -1283,15 +1280,15 @@
                             <span class="input-group-addon">年级排名：</span>
                             <input type="text" class=" form-control "  id="id_grade_rank_new_two"  placeholder='年级排名' />
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3  ">
+                    </div> 
+                    <div class="col-xs-12 col-md-3 subject_score " >
                         <div class="input-group ">
                             <span class="input-group-addon">
                                 <font style="color:red">*</font>&nbsp科目分数：</span>
-                            <select name="subject_score_new_two" class=" form-control " >
-                            </select>
-                            <input type="text" class=" form-control "  name="subject_score_one_new_two" placeholder='分数' />
-                            <input type="text" class=" form-control "  name="subject_score_two_new_two" placeholder='满分' />
+                            <select name="subject_score_new_two" id="id_main_subject_new_two" class=" form-control " >
+                            </select> 
+                            <input type="text" class=" form-control " id="id_main_subject_score_one_new_two" name="subject_score_one_new_two" placeholder='分数' />
+                            <input type="text" class=" form-control " id="id_main_subject_score_two_new_two" name="subject_score_two_new_two" placeholder='满分' />
                             <button class="btn  btn-primary" onclick="add_subject_score(this)" title="添加科目" >
                                 <i class="fa fa-plus"></i>
                             </button>

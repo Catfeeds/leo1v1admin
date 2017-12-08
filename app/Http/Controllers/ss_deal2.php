@@ -936,6 +936,8 @@ class ss_deal2 extends Controller
 
     public function save_user_info_new()
     {
+        $subject_score = $this->get_in_str_val('subject_score');
+        dd($subject_score);
         $userid                 = $this->get_in_userid();
         $phone                  = $this->get_in_phone();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
