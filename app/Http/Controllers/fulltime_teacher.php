@@ -669,7 +669,6 @@ class fulltime_teacher extends Controller
         $month_start = strtotime(date("Y-m-01",time()));
         if($start_time>=$month_start){
             $ret=[];
-            dd(111);
         }else{
             $ret=[];
             $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
@@ -706,10 +705,17 @@ class fulltime_teacher extends Controller
                     @$ret[$uid]["holiday_day"]++;
                 }
             }
-            dd($ret);
+            foreach($ret as &$item){
+                $item["late_time"] = $item["late_time"]/3600;
+                $item["early_time"] = $item["early_time"]/3600;
+            }           
             
  
         }
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret),[
+            "start" =>date("Y-m-d",$start_time),
+            "end" =>date("Y-m-d",$end_time),
+        ] );
        
        
     }
