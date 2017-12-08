@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <link rel='stylesheet' href='/css/fullcalendar.css' />
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
