@@ -1404,20 +1404,16 @@ class test_james extends Controller
         ));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 'text='.$content);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'data='.$content);
         $output = curl_exec($ch);
         curl_close($ch);
 
         $ret_arr = json_decode($output,true);
 
 
+
         dd($ret_arr);
-        $result  = $ret_arr['data'];
-
         return $ret_arr;
-
-
-
     }
 
 
