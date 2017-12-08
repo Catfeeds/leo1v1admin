@@ -828,20 +828,18 @@ class teacher_money extends Controller
 
     public function show_teacher_bank_info_human() { // 人事绩效 - 老师银行卡信息
         $isbank = $this->get_in_int_val("is_bank", 1);
-        //$page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_info->get_teacher_bank_info($isbank);
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_teacher_info->get_teacher_bank_info($isbank, $page_info);
 
-        foreach($ret_info as $key => &$item) {
-            $ret_info[$key]['bind_bankcard_time_str'] = '';
+        foreach($ret_info['list'] as $key => &$item) {
+            $ret_info['list'][$key]['bind_bankcard_time_str'] = '';
             if ($item['bind_bankcard_time']) {
-                $ret_info[$key]['bind_bankcard_time_str'] = date('Y-m-d H:i:s', $item['bind_bankcard_time']);
+                $ret_info['list'][$key]['bind_bankcard_time_str'] = date('Y-m-d H:i:s', $item['bind_bankcard_time']);
             }
             E\Esubject::set_item_value_str($item);
             $item["phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
             $item["bank_phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['bank_phone']);
         }
-        return $this->pageView(__METHOD__, '',[
-            'info' => $ret_info
-        ]);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 }
