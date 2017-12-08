@@ -1366,5 +1366,72 @@ class test_james extends Controller
     }
 
 
+    /**
+     * @ 讯飞听见 WebAPI
+
+     */
+
+
+    public function xunfei(){
+        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //语音语义接口
+
+        $path = '/home/ybai/16k.wav';
+        $fp = fopen($path, 'rb');  // 以二进制形式打开文件
+        $content = fread($fp, filesize($path)); // 读取文件内容
+        fclose($fp);
+        $content = base64_encode($content); // 将二进制信息编码成字符串
+
+
+
+
+//         curl –XPOST http[s]://base_url/v1/aiui/v1/iat -H "X-Appid: 594b62c3 " -H
+//         "X-CurTime: 1502184180" -H "X-CheckSum: 001388491350e266fab5e15da9aea749" –H
+//             "X-Param: eyJhdWYiOiI4ayIsImF1ZSI6InJhdyIsInNjZW5jZSI6Im1haW4ifQ==" –d
+//             "data=PDXOSEarAABo6Ojo6Ojo6IOh9HR0cl8oFw9BVeNc2jFr2ZFfsszurkqtCWGbDVo4BbWtYr
+// VcURYFsaBzhzw1zOFgTIk3FRsH2E9tYG1N+YqGAPrFrJl70D2jrjK7UjHoKSsP1bxZ5TWiPqUqOh
+// IMMWGEB4GkIANo3Zc8Ndltx4vefwFWQWS00vNr3z++TcAi6Zs0A4vN3VWC4FDG2urTVuG3GSLfAo
+// 9NujshWduRgGhAztDgLkw3PDHPLovLerbSod+ZLjopVprhgqHgi6a7F/P/w9NnTSpHeFKV+ibtpENr7miGWC…"
+
+
+
+        $Param = [
+            "auf"   => '16k',
+            "aue"   => 'raw',
+            "scene" => 'main',
+        ];
+
+        $time = time();
+        $param = base64_encode(json_encode($Param));
+        $check_str = '5a28c0a1'.$time.''.$param.'data='.$content;
+        $CheckSum = md5($check_str);
+
+        // $post_data = json_encode($post_data);
+
+
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type:application/x-www-form-urlencoded; charset=utf-8',
+            'X-Param:'.$param,
+            'X-Appid: 5a28c0a1',
+            'X-CurTime:'.time(),
+            'X-CheckSum:'.$CheckSum
+        ));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $ret_arr = json_decode($output,true);
+
+        return $ret_arr;
+
+
+
+    }
+
+
 
 }

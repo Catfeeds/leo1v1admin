@@ -13,6 +13,8 @@ class test_sam  extends Controller
     use CacheNick;
     use TeaPower;
     public function test_kk(){
+        $month_time = strtotime(date("Y-m-01",time()));
+        dd($month_time);
         $start_time = 1488297600;
         $end_time   = time();
 
