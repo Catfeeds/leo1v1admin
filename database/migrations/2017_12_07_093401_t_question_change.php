@@ -16,8 +16,7 @@ class TQuestionChange extends Migration
 
         Schema::table('db_question_new.t_question', function (Blueprint $table){
             t_field($table->integer('score')->default(null),"分数");
-            　　　　t_field($table->integer('open_flag')->default(1),"1:开,0:关");
-
+            t_field($table->integer('open_flag')->default(1),"1:开,0:关");
         });
 
 
