@@ -3870,7 +3870,7 @@ function init_edit() {
                         if(html_node.find("#area_new_two").val()==""){
                             area="";
                         }
-                        alert(province);
+                        alert(region);
                         // $.do_ajax("/ss_deal2/save_user_info_new",{
                         //     new_demand_flag   : 1,
                         //     click_type        : click_type,

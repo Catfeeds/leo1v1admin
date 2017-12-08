@@ -20,7 +20,7 @@ $(function(){
     //进入知识点列表页面
     $('#question_list').on('click',function(){
         var opt_data=$(this).get_opt_data();
-        window.open('/question/question_list');
+        window.open('/question_new/question_list');
     });
 
     //添加知识点
@@ -56,7 +56,7 @@ $(function(){
               
                 $.ajax({
                     type     :"post",
-                    url      :"/question/knowledge_add",
+                    url      :"/question_new/knowledge_add",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -109,7 +109,7 @@ $(function(){
           
                 $.ajax({
                     type     :"post",
-                    url      :"/question/knowledge_edit",
+                    url      :"/question_new/knowledge_edit",
                     dataType :"json",
                     data     :data,
                     success : function(result){
@@ -136,7 +136,7 @@ $(function(){
 
         BootstrapDialog.confirm(title,function(val ){
             if (val) {
-                $.do_ajax("/question/knowledge_dele",data);
+                $.do_ajax("/question_new/knowledge_dele",data);
             }
         });
 
