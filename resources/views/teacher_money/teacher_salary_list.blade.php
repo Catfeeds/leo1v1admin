@@ -30,12 +30,6 @@
                         <button class="btn btn-primary" id="id_get_lesson_price">重置课程收入</button>
                     </div>
                 </div>
-                <!-- <div class="col-xs-6 col-md-2">
-                     <div class="input-group ">
-                     <span>老师</span>
-                     <input class="opt-change" id="id_teacherid"/>
-                     </div>
-                     </div> -->
                 <div class="col-xs-6 col-md-8">
                     <div class="input-group">
                         <span class="input-group show_lesson_price">课程收入:</span>
@@ -58,6 +52,7 @@
                     <tr>
                         <td width="100px">老师id</td>
                         <td width="100px">姓名</td>
+                        <td style="display:none">老师类型</td>
                         <td >手机号</td>
                         <td >科目</td>
                         <td style="display:none">持卡人</td>
@@ -69,6 +64,8 @@
                         <td >开户市</td>
                         <td style="display:none">预留手机</td>
                         <td>总工资</td>
+                        <td style="display:none">添加时间</td>
+                        <td style="display:none">工资发放时间时间</td>
                         <td>操作</td>
                     </tr>
                 </thead>
@@ -77,6 +74,10 @@
                         <tr>
                             <td>{{$var['teacherid']}}</td>
                             <td>{{$var['realname']}}</td>
+                            <td>
+                                {{$var['teacher_money_type_str']}}<br>
+                                {{$var['teacher_type_str']}}<br>
+                            </td>
                             <td>{{$var['phone']}}</td>
                             <td>{{$var['subject_str']}}</td>
                             <td>{{$var['bank_account']}}</td>
@@ -88,6 +89,8 @@
                             <td>{{$var['bank_city']}}</td>
                             <td>预留手机:{{$var['bank_phone']}}</td>
                             <td>{{$var['money']}}</td>
+                            <td>{{$var['add_time']}}</td>
+                            <td>{{$var['pay_time']}}</td>
                             <td>
                                 <div class="opt-div"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

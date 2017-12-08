@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1002
+//__DESC:  /account/send_code 请求短信验证码
+//__TAGS: for_app
+
+
+message in  {
+  	string phone = 1; //电话
+}
+
+message out {
+}

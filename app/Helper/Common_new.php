@@ -1253,7 +1253,7 @@ class Common_new {
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
         if($monthtime_flag==1){
-            $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
+            $admin_list = $t_manager_info->get_admin_member_list_tmp($month); // test
             // $admin_list = $t_manager_info->get_admin_member_list();
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
@@ -1492,6 +1492,7 @@ class Common_new {
                 unset($list[$k]);
             }
         }
+
         $num = count($list)+1;
 
         $main_type_list    = E\Emain_type::$desc_map;
@@ -1506,7 +1507,6 @@ class Common_new {
         if($max_main_type<12){
             $max_main_type = 12;  
         }
-
         for ($i=1; $i<=$max_main_type; $i++) {
             $n = $num;
             $list[] = ["main_type"=>$i,"first_group_name"=>"","up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
@@ -1537,9 +1537,9 @@ class Common_new {
                     foreach($group_list as $val){
                         $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-4","master_adminid"=>$val["master_adminid"]];
                         if($monthtime_flag==1){
-                            $admin_list = $task->t_admin_group_user->get_user_list_new($val["groupid"]);
+                            $admin_list = $task->t_admin_group_user->get_user_list_new_new($val["groupid"],$month);
                         }else{
-                            $admin_list = $task->t_group_user_month->get_user_list_new($val["groupid"],$month);
+                            $admin_list = $task->t_group_user_month->get_user_list_new_new($val["groupid"],$month);
                         }
 
                         $c = $num;

@@ -776,8 +776,9 @@ class teacher_money extends Controller
         $all_all_money = 0;//全职老师
         $all_not_money = 0;//兼职老师
         foreach($ret_info['list'] as &$t_val){
-            $t_val['pay_time'] = date('Y-m-d H:i:s', $t_val['pay_time']);
-            $t_val['money'] /= 100;
+            $t_val['pay_time'] = \App\Helper\Utils::unixtime2date($t_val['pay_time']);
+            $t_val['add_time'] = \App\Helper\Utils::unixtime2date($t_val['add_time']);
+            $t_val['money']   /= 100;
             if($t_val['is_negative']==1){
                 $t_val['money'] = 0-$t_val['money'];
             }
@@ -789,6 +790,8 @@ class teacher_money extends Controller
             if ($v_val['teacher_type'] == 2) {
                 $all_not_money += $v_val['money'];
             }
+            E\Eteacher_type::set_item_value_str($t_val);
+            E\Eteacher_money_type::set_item_value_str($t_val);
         }
         $all_money_tax = $all_money*0.98;
         $this->set_filed_for_js("g_adminid",$this->get_account_id());
