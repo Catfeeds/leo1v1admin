@@ -305,7 +305,7 @@ class resource extends Controller
             if( $g_mark != $item['grade'] ) {
                 $g_mark = $item['grade'];
                 if($item['resource_type'] < 6 || $item['resource_type'] == 9){
-                    $text = '添加';
+                    $text = '添加教材';
                 } else {
                     $text = '';
                 }
