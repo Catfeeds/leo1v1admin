@@ -780,6 +780,8 @@ class teacher_money extends Controller
             }
             E\Esubject::set_item_value_str($t_val);
             $all_money += $t_val['money'];
+            E\Eteacher_type::set_item_value_str($t_val);
+            E\Eteacher_money_type::set_item_value_str($t_val);
         }
         $all_money_tax = $all_money*0.98;
         $this->set_filed_for_js("g_adminid",$this->get_account_id());
