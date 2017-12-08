@@ -74,13 +74,15 @@ $(function(){
     $(".lesson_info").on("click",function(){
         var teacherid = $(this).data("teacherid");
         var time = $(this).data("time");
+        var flag = $(this).data("flag");
         if(teacherid > 0){
             var title = "当天课程详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>类型</td><td>开始时间</td><td>结束时间</td><td>学生</td><td>年级</td><td>科目</td><td>折算课时</td><tr></table></div>");
 
             $.do_ajax('/ajax_deal2/get_attendance_lesson_info',{
                 "teacherid" : teacherid,
-                "time"      : time
+                "time"      : time,
+                "flag"      : flag
             },function(resp) {
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){

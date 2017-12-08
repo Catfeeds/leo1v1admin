@@ -2283,6 +2283,20 @@ class ajax_deal2 extends Controller
     public function get_attendance_lesson_info(){
         $teacherid = $this->get_in_int_val("teacherid");
         $time = $this->get_in_int_val("time");
+        $flag = $this->get_in_int_val("flag");
+        if($flag==1){
+            $start_time = $time;
+            $end_time = $time+86400;
+        }elseif($flag==2){
+            $end_time = $time;
+            $day_time = $end_time-86400;
+            $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
+            $start_time = @$festival_info["begin_time"];
+        }
+        if($start_time<=0){
+            return $this->output_err("无数据!");
+        }
+        
         $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info($time,$time+86400,$teacherid);
         foreach($lesson_info as &$item){
             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
