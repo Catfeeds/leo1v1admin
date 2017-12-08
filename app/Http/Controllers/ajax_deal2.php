@@ -2293,7 +2293,7 @@ class ajax_deal2 extends Controller
             $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
             $start_time = @$festival_info["begin_time"];
         }
-        if($start_time<=0){
+        if(empty($start_time)){
             return $this->output_err("无数据!");
         }
         
