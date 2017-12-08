@@ -43,7 +43,7 @@ class update_haruteru_award extends Command
         //
         $info = $task->t_teacher_money_list->get_test_list();
         foreach($info as $item) {
-            $task->t_teacher_money_list->field_update_list($id, [
+            $task->t_teacher_money_list->field_update_list($item['id'], [
                 'add_time' => $start_time
             ]);
         }
