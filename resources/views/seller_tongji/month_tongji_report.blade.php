@@ -24,9 +24,6 @@
      table > thead > tr > th,table > thead > tr >td{ word-break: break-all;}
     </style>
 
-
-
-
     <section class="content ">
 
         <div>
@@ -111,7 +108,7 @@
                         <td class="fail_all_count_for_month"></td>
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
-                        <td >{{@$var["all_new_contract_for_month"]}}</td>
+                        <td class="success_all_count_for_month">{{@$var["all_new_contract_for_month"]}}</td>
                         <td class="order_per"></td>
                         <td >{{@$var["all_price_for_month"]}}</td>
                         <td >{{@$var["ave_price_for_month"]}}</td>
