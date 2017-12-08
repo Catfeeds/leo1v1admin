@@ -21,7 +21,7 @@
      #cal_week .select_free_time {
          background-color : #17a6e8;
      }
-     table > thead > tr > th,table > thead > tr >td{ word-break: break-all;}
+     table > thead > tr > th,table > thead > tr >td, table > tbody > tr > th,table > tbody > tr >td{ word-break: break-all;}
     </style>
 
     <section class="content ">
