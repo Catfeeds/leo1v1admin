@@ -7,6 +7,8 @@
 
     </style>
 
+    <script type="text/javascript" src="/page_ts/lib/admin_set_select_field.js"></script>
+
     <section class="content ">
 
         <div>
@@ -14,12 +16,6 @@
 
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
                     <div  id="id_date_range" >
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">subject</span>
-                        <input class="opt-change form-control" id="id_subject" />
                     </div>
                 </div>
 
@@ -31,6 +27,16 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">科目</span>
+                        <input class="opt-change form-control" id="id_subject" />
+                    </div>
+                </div>
+
+
+
 
 
                 <div class="col-xs-12 col-md-4">
@@ -72,13 +78,14 @@
                     <td id="id_test" style="min-width:100px;" >
 
                     </td>
+
+                    <td  style="min-width:100px;" id="th_subject"  > <span> 科目</span> </td>
                     <td class="td-query" data-queryid="id_record_audio_server1"  style="min-width:100px;"   >声音服务器</td>
                     <td class="td-query" data-queryid="id_xmpp_server_name"  style="min-width:100px;"   > xmpp服务器</td>
                     <td  style="min-width:100px;"   >
                         <span>课程类型</span> <a href="javascript:;" class="fa  fa-sort "/> <a href="javascript:;" class="fa fa-filter"/>
                     </td>
                     <td class="td-query" data-queryid="id_date_range"  style="min-width:100px;"   > 上课时间 </td>
-                    <td class="td-query" data-queryid="id_subject"  style="min-width:100px;"   > 科目</td>
                     <td>学生</td>
                     <td>老师</td>
                     <td> 操作  </td>

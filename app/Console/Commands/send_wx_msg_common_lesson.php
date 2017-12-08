@@ -171,10 +171,8 @@ class send_wx_msg_common_lesson extends Command
                         ]);
 
                         $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
-                        $this->to_waring('课程中途退出15分钟 学生 课程id:'.$item['lessonid']);
-
-                        // $this->send_wx_msg_ass($item,3,$data_ass);
-
+                        $this->to_waring('课程中途退出15分钟 学生 课程id:'.$item['lessonid']); //james
+                        $this->send_wx_msg_ass($item,3,$data_ass);
                     }
 
                 }
@@ -188,9 +186,9 @@ class send_wx_msg_common_lesson extends Command
                         ]);
 
                         $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
-                        $this->to_waring('课程中途退出15分钟 老师 课程id:'.$item['lessonid']);
+                        $this->to_waring('课程中途退出15分钟 老师 课程id:'.$item['lessonid']);//james
 
-                    // $this->send_wx_msg_ass($item,3,$data_ass);
+                        $this->send_wx_msg_ass($item,3,$data_ass);
                     }
                 }
             }
