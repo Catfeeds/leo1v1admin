@@ -91,7 +91,7 @@ $(function(){
                     var lesson_type = item["lesson_type_str"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+lesson_type+"</td><td>"+start+"</td><td>"+end+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["lesson_cout"]+"</td></tr>");
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+lesson_type+"</td><td>"+start+"</td><td>"+end+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["lesson_count"]+"</td></tr>");
                 });
             });
 

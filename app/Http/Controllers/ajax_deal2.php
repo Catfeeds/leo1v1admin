@@ -2289,12 +2289,17 @@ class ajax_deal2 extends Controller
             $item["lesson_end_str"] = date("Y-m-d H:i:s",$item["lesson_end"]);
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
-            E\Econtract_type::set_item_value_str($item,"lesson_type");
             
             if($item["lesson_type"]==2){
                 $item["lesson_count"] = 1.5;
+                $item["lesson_type_str"]="试听";
+            }elseif(in_array($item["lesson_type"],[0,1,3])){
+                $item["lesson_count"]= $item["lesson_count"]/100;
+                $item["lesson_type_str"]="常规";
             }else{
                 $item["lesson_count"]= $item["lesson_count"]/100;
+                $item["lesson_type_str"]="其他";
+
             }
 
         }
