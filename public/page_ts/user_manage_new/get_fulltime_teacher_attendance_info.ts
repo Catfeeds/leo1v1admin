@@ -99,28 +99,30 @@ $(function(){
                     var grade = item["grade_str"];
                     html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+lesson_type+"</td><td>"+start+"</td><td>"+end+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["lesson_count"]+"</td></tr>");
                 });
-            });
 
-            var dlg=BootstrapDialog.show({
-                title:title, 
-                message :  html_node   ,
-                closable: true, 
-                buttons:[{
-                    label: '返回',
-                    cssClass: 'btn',
-                    action: function(dialog) {
-                        dialog.close();
+                var dlg=BootstrapDialog.show({
+                    title:title, 
+                    message :  html_node   ,
+                    closable: true, 
+                    buttons:[{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
 
+                        }
+                    }],
+                    onshown:function(){
+                        
                     }
-                }],
-                onshown:function(){
-                    
-                }
+
+                });
+
+                dlg.getModalDialog().css("width","1024px");
 
             });
 
-            dlg.getModalDialog().css("width","1024px");
-
+           
         }
         
     });
