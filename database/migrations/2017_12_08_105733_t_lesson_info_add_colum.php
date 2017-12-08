@@ -14,8 +14,8 @@ class TLessonInfoAddColum extends Migration
     {
         //
         Schema::table("db_weiyi.t_lesson_info", function(Blueprint $table) {
-            t_field($table->integer('tea_late_minute'),"老师迟到时间/分钟");
-            t_field($table->integer('stu_late_minute'),"学生迟到时间/分钟");
+            t_field($table->integer('tea_late_minute'),"老师中断时间/分钟");
+            t_field($table->integer('stu_late_minute'),"学生中断时间/分钟");
         });
 
     }
