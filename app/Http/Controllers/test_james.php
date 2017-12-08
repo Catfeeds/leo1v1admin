@@ -1373,7 +1373,7 @@ class test_james extends Controller
 
 
     public function xunfei(){
-        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //语音语义接口
+        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //
 
         $path = '/home/ybai/16k.wav';
         $fp = fopen($path, 'rb');  // 以二进制形式打开文件
@@ -1386,11 +1386,12 @@ class test_james extends Controller
             "auf"   => '16k',
             "aue"   => 'raw',
             "scene" => 'main',
+            "userid" =>
         ];
 
         $time = time();
         $param = base64_encode(json_encode($Param));
-        $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'text='.$content;
+        $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
         $CheckSum = md5($check_str);
 
 //         // echo 'param: '.$param."\n CheckSum: ".$CheckSum."\n check_str: $check_str";
@@ -1410,7 +1411,7 @@ class test_james extends Controller
         ));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 'text='.$content);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'data='.$content);
         $output = curl_exec($ch);
         curl_close($ch);
 
