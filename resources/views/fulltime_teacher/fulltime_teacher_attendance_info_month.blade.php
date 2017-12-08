@@ -84,7 +84,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
 
                             >
-                                <a  href="/user_manage_new/get_fulltime_teacher_attendance_info_full?date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $var["start"] }}&end_time={{ $var["end"] }}&attendance_type=-1&teacherid=-1&adminid={{ $var["adminid"] }}&account_role=5&fulltime_teacher_type=-1" target="_blank" >查看详情 </a>
+                                <a  href="/user_manage_new/get_fulltime_teacher_attendance_info_full?date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start}}&end_time={{ $end }}&attendance_type=-1&teacherid=-1&adminid={{ $var["adminid"] }}&account_role=5&fulltime_teacher_type=-1" target="_blank" >查看详情 </a>
                                
                             </div>
                         </td>
