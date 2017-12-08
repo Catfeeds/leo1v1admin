@@ -61,7 +61,7 @@ $(function(){
             } ,
             success : function(result){
                 if(result.ret == 0){
-                    // window.location.reload();
+                    window.location.reload();
                 } else {
                     alert(result.info);
                 }
