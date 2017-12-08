@@ -54,6 +54,20 @@ class t_tag_library extends \App\Models\Zgen\z_t_tag_library
         return $this->main_get_list($sql);
     }
 
+    public function get_cultivation_list(){
+        $where_arr=[
+            "tag_l1_sort='教学相关'",
+            "tag_l2_sort='素质培养'",
+        ];
+        $sql = $this->gen_sql_new(
+            'select * from %s '
+            .' where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

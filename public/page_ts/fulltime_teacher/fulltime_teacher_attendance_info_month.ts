@@ -27,6 +27,8 @@ $(function(){
             load_data();
         }
     });
+    $("#id_opt_date_type").hide();
+
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
 	  $('#id_teacherid').val(g_args.teacherid);
 	  $('#id_adminid').val(g_args.adminid);
