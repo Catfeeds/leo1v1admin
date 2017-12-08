@@ -89,8 +89,9 @@ class send_wx_msg_for_test_lesson extends Command
 
 
         // 课程中途退出10分钟以上
-        $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_lesson_list_for_minute();
+        $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_lesson_list_for_minute();
 
+        $cut_class_lesson_list = $task->t_lesson_info_b2->get_test_lesson_to_notic();
         if($cut_class_lesson_list ){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
@@ -100,13 +101,34 @@ class send_wx_msg_for_test_lesson extends Command
                 $opt_time_tea_login = $task->t_lesson_opt_log->get_login_time($item['lessonid'],$item['teacherid']);
 
                 if(($opt_time_stu>$opt_time_stu_login)&&($opt_time_stu > $item['lesson_start']) && ($opt_time_stu<=$now-600) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [10分钟]
-                    $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
-                    $this->send_wx_msg_ass($item,3,$data_ass);
+
+                    if($item['stu_late_minute'] == 0){
+
+                        $task->t_lesson_info->field_update_list($item['lessonid'], [
+                            "stu_late_minute" => 10
+                        ]);
+
+                        $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
+                        $this->send_wx_msg_ass($item,3,$data_ass);
+                        $this->to_waring('[试听课] 课程中途退出10分钟 学生 课程id:'.$item['lessonid']); //james
+
+                    }
                 }
 
                 if(($opt_time_tea>$opt_time_tea_login)&&($opt_time_tea > $item['lesson_start']) && ($opt_time_tea<=$now-600)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [10分钟]
-                    $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
-                    $this->send_wx_msg_ass($item,3,$data_ass);
+
+
+                    if($item['tea_late_minute'] == 0){
+
+                        $task->t_lesson_info->field_update_list($item['lessonid'], [
+                            "tea_late_minute" => 10
+                        ]);
+
+                        $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
+                        $this->send_wx_msg_ass($item,3,$data_ass);
+                        $this->to_waring('[试听课] 课程中途退出10分钟 老师 课程id:'.$item['lessonid']); //james
+
+                    }
                 }
             }
         }
@@ -321,6 +343,22 @@ class send_wx_msg_for_test_lesson extends Command
         // 给助教发送
         $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,'');
     }
+
+
+    public function to_waring($type){
+        $wx  = new \App\Helper\Wx();
+        $template_id_self = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
+        $data_self = [
+            "first"    => "常规课 微信推送 报警",
+            "keyword1" => $type,
+            "keyword2" => date('Y-m-d H:i:s'),
+            "keyword3" => '后台',
+            "keyword4" => '微信推送 报警',
+        ];
+        $self_openid = 'orwGAs_IqKFcTuZcU1xwuEtV3Kek'; //james
+        $wx->send_template_msg_color($self_openid,$template_id_self,$data_self ,'');
+    }
+
 
 
 
