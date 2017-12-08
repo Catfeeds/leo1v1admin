@@ -29,16 +29,15 @@ trait  ViewDeal {
         if (isset( $this->last_in_values["date_type_config"] ) ) { //id_date_type
             //$str.=  "\tdate_type_config:\tstring;\n";
             $set_filed_str.=
-                          "    $('#id_date_range').select_date_range({\n".
-                          "        'date_type' : g_args.date_type,\n".
-                          "        'opt_date_type' : g_args.opt_date_type,\n".
-                          "        'start_time'    : g_args.start_time,\n".
-                          "        'end_time'      : g_args.end_time,\n".
-                          "        date_type_config : JSON.parse( g_args.date_type_config),\n".
-                          "        onQuery :function() {\n".
-                          "            load_data();\n".
-                          "        }\n".
-                          "    });\n";
+                "\t$('#id_date_range').select_date_range({\n".
+                "\t\t'date_type' : g_args.date_type,\n".
+                "\t\t'opt_date_type' : g_args.opt_date_type,\n".
+                "\t\t'start_time'    : g_args.start_time,\n".
+                "\t\t'end_time'      : g_args.end_time,\n".
+                "\t\tdate_type_config : JSON.parse( g_args.date_type_config),\n".
+                "\t\tonQuery :function() {\n".
+                "\t\t\tload_data();\n".
+                "\t\t});\n";
             $check_data_range=true;
         }
         foreach( $this->last_in_types as $key => $value)  {
@@ -112,10 +111,38 @@ trait  ViewDeal {
                     $add_set_filed_flag=true;
                 }
                 if ($add_set_filed_flag) {
-                    $set_filed_str.=  "\t\$('#id_$key').val(g_args.$key);\n";
                     if ($is_enum_list_flag) {
                         $enum_type_str=preg_replace("/.*E/", "", $muti_enum_class);
-                        $set_filed_str.= "\t\$.enum_multi_select( $('#id_$key'), '$enum_type_str', function(){load_data();} )\n";
+                        $set_filed_str.= "\t\$('#id_$key').admin_set_select_field({\n"
+                                      .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
+                                      .'		"select_value" : g_args.'.$key .','  . "\n"
+                                      .'		"onChange"     : load_data,'  . "\n"
+                                      .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
+                                      .'		"btn_id_config"     : {}' . "\n"
+                                      ."	});"  . "\n";
+                    }else{
+                        $user_type_config=[
+                            "userid"=> "student",
+                            "studentid"=> "student",
+                            "adminid"=> "account",
+                            "assistantid"=> "assistant",
+                            "teacherid"=> "teacher",
+                        ];
+
+                        if (  @$user_type_config[$key] ) {
+                            $user_type=$user_type_config[$key];
+                            $set_filed_str.= "\t\$('#id_$key').admin_select_user_new({\n"
+                                          .'		"user_type"    : "'.$user_type .'",' . "\n"
+                                          .'		"select_value" : g_args.'.$key .','  . "\n"
+                                          .'		"onChange"     : load_data,'  . "\n"
+                                          .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
+                                          .'		"can_sellect_all_flag"     : true' . "\n"
+                                          ."	});"  . "\n";
+
+
+                        }else{
+                            $set_filed_str.=  "\t\$('#id_$key').val(g_args.$key);\n";
+                        }
                     }
                 }
             }
@@ -179,10 +206,11 @@ trait  ViewDeal {
              "/// <reference path=\"../g_args.d.ts/{$this->view_ctrl}-{$this->view_action}.d.ts\" />\n".
              "\n".
              "function load_data(){\n".
-             "    if ( window[\"g_load_data_flag\"]) {return;}\n".
-             "    $.reload_self_page ( {\n".
+             "\tif ( window[\"g_load_data_flag\"]) {return;}\n".
+             "\t\t$.reload_self_page ( {\n".
+             "\t\torder_by_str : g_args.order_by_str,\n".
              $reload_filed_str.
-             "    });\n".
+             "\t\t});\n".
              "}\n".
 
              "$(function(){\n".

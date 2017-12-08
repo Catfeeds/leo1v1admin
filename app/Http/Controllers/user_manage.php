@@ -580,8 +580,8 @@ class user_manage extends Controller
         $stu_from_type     = $this->get_in_int_val("stu_from_type",-1);
         $account_role      = $this->get_in_int_val("account_role",-1);
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
-        $grade             = $this->get_in_int_val("grade",-1);
-        $subject           = $this->get_in_int_val("subject",-1);
+        $grade             = $this->get_in_el_grade();
+        $subject           = $this->get_in_el_subject();
         $this->get_in_int_val("self_adminid", $this->get_account_id());
         $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
         $teacherid         = $this->get_in_teacherid(-1);

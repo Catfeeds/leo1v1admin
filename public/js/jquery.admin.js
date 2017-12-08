@@ -1532,6 +1532,7 @@ jQuery.extend({
 
 
     admin_select_user :function ( $element, type, call_func, is_not_query_flag, args_ex, th_input_id ) {
+
         var select_no_select_value = -1;
         var select_no_select_title = "[全部]"  ;
         if (is_not_query_flag)  {
