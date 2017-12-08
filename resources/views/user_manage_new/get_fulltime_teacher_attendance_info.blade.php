@@ -61,6 +61,7 @@
             <thead>
                 <tr>
                     <td> 老师工号 </td>
+                    <td> teacherid </td>
                     <td> 老师 </td>
                     <td> 考勤日期 </td>
                     <td> 考勤类型 </td>
@@ -81,6 +82,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["adminid"]}} </td>
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["attendance_time_str"]}} </td>
