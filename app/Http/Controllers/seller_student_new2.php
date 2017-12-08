@@ -1518,17 +1518,69 @@ class seller_student_new2 extends Controller
                     }
                 }
             }
-            array_multisort(
-                $identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,
-                $match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
-            );
+            if(!empty($tea_list)){
+                array_multisort(
+                    $identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,
+                    $match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
+                );
+            }
         }
 
         return $this->pageView(__METHOD__,[],[
-            "require_info" => $require_info,
+            // "require_info" => $require_info,
             "tea_list"     => $tea_list,
         ]);
     }
+
+    public function check_teacher_age($age){
+        switch($age){
+        case $age<30:
+            $age_flag = 1;
+            break;
+        case $age<40:
+            $age_flag = 2;
+            break;
+        case $age<50:
+            $age_flag = 3;
+            break;
+        case $age<60:
+            $age_flag = 4;
+            break;
+        default:
+            $age_flag = 0;
+            break;
+        }
+        return $age_flag;
+    }
+
+    /**
+     * 检测老师的上课时间
+     */
+    public function check_teacher_free_time($free_time,$check_time,$check_time_end){
+        $free_time_arr  = json_decode($free_time);
+        $match_num = 0;
+        $break_flag = false;
+        foreach($free_time_arr as $val){
+            $start_time = strtotime($val[0]);
+            $date       = date("Y-m-d",$start_time);
+            $end_time   = strtotime($date." ".$val[1]);
+            if($check_time>$start_time && $check_time<$end_time){
+                $match_num = 50;
+            }
+            if($check_time_end<$end_time && $check_time_end>$start_time){
+                $match_num = $match_num==0?50:100;
+                $break_flag = true;
+            }
+            if($check_time_end<$start_time){
+                $break_flag = true;
+            }
+            if($break_flag){
+                break;
+            }
+        }
+        return $match_num;
+    }
+
 
 
 

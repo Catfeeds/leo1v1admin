@@ -4316,7 +4316,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$reward_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 

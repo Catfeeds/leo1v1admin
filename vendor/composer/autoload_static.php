@@ -967,6 +967,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTeacherAdvanceListAddTeacherMoneyType' => __DIR__ . '/../..' . '/database/migrations/2017_10_17_100916_t_teacher_advance_list_add_teacher_money_type.php',
         'TTeacherFlow' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_120629_t_teacher_flow.php',
         'TTeacherFlowAddId' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_183054_t_teacher_flow_add_id.php',
+        'TTeacherInfo' => __DIR__ . '/../..' . '/database/migrations/2017_12_06_134955_t_teacher_info.php',
         'TTeacherInfoAddFreeTime' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_153619_t_teacher_info_add_free_time.php',
         'TTeacherInfoAddPhoneLocation' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_104311_t_teacher_info_add_phone_location.php',
         'TTeacherInfoAddQqInfo' => __DIR__ . '/../..' . '/database/migrations/2017_12_04_132751_t_teacher_info_add_qq_info.php',

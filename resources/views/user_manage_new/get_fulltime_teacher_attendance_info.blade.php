@@ -86,7 +86,7 @@
                         <td>{{@$var["attendance_time_str"]}} </td>
                         <td>{{@$var["kaoqin_type_str"]}} </td>
                         <td>{{@$var["attendance_type_str"]}} </td>
-                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}">
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
                         @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
                             <a href="javascript:;"  >
                                 {{@$var["lesson_count"]/100}}
@@ -94,20 +94,20 @@
 
                         @endif
                         </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
                             @if($var["attendance_type"] ==2 && $var["delay_work_time"]>0)
-                                {{@$var["delay_work_time_str"]}}
+                                <a href="javascript:;"  > {{@$var["delay_work_time_str"]}}  </a>
                             @endif
                         </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["attendance_time"]}}" data-flag="1">
                             @if($var["attendance_type"] ==2 && $var["off_time"]>0)
-                                {{@$var["off_time_str"]}}
+                                <a href="javascript:;"  > {{@$var["off_time_str"]}}  </a>
                             @endif
                         </td>
                         <td>
                             
                         </td>
-                        <td>
+                        <td class="lesson_info" data-teacherid="{{@$var["teacherid"]}}" data-time="{{@$var["holiday_start_time"]}}" data-flag="2">
                             @if($var["attendance_type"] ==3 && $var["lesson_count"]>0)
                                 {{@$var["lesson_count"]/100}}
                             @endif
@@ -118,11 +118,13 @@
                             @endif
                         </td>
                         <td>
+                          {!!  @$var["extra_time_info"] !!}
                             
                         </td>
                         <td>{{@$var["card_start_time_str"]}} </td>
                         <td>{{@$var["card_end_time_str"]}} </td>
                         <td>
+                            {{@$var["result"]}}
                         </td>
 
 
