@@ -75,7 +75,7 @@ class url_power_map {
 			'/tongji_ss/require_count_seller'	=>1151207,
 			'/tongji_ss/master_no_assign_count'	=>1151208,
 			'/user_manage_new/seller_tongji_report_info'	=>1151209,
-			'/seller_tongji/month_tongji_report'	=>1151309,
+			'/seller_tongji/month_tongji_report'	=>1151224,
 			'/user_manage_new/seller_require_tq_time_list'	=>1151210,
 			'/tongji_ss/require_no_set_lesson_info'	=>1151211,
 			'/tongji_ss/teacher_test_lesson_info'	=>1151212,
