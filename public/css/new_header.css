@@ -145,3 +145,23 @@ section  hr  {
 .tbody-scroll-table  thead {
     width: 100%;
 }
+.table-responsive  {
+    overflow-x: unset;
+}
+
+.content  .row  .input-group >select {
+    display:table-cell;
+}
+.content  .row  .input-group >input{
+    display:table-cell;
+}
+.wrapper {
+    position :static;
+}
+.content  table .input-group >select {
+    display:table-cell;
+}
+.content  table .input-group >input{
+    display:table-cell;
+}
+

@@ -4,10 +4,9 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	reference:	number;
-	teacher_type:	number;
 	teacherid:	number;
-	g_adminid:	number;
+	adminid:	number;
+	fulltime_teacher_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -22,10 +21,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../teacher_money; vi  ../teacher_money/teacher_salary_list.ts
+	 mkdir -p ../fulltime_teacher; vi  ../fulltime_teacher/fulltime_teacher_attendance_info_month.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_money-teacher_salary_list.d.ts" />
+/// <reference path="../g_args.d.ts/fulltime_teacher-fulltime_teacher_attendance_info_month.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -35,10 +34,9 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		reference:	$('#id_reference').val(),
-		teacher_type:	$('#id_teacher_type').val(),
 		teacherid:	$('#id_teacherid').val(),
-		g_adminid:	$('#id_g_adminid').val()
+		adminid:	$('#id_adminid').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
     });
 }
 $(function(){
@@ -54,10 +52,9 @@ $(function(){
             load_data();
         }
     });
-	$('#id_reference').val(g_args.reference);
-	$('#id_teacher_type').val(g_args.teacher_type);
 	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_g_adminid').val(g_args.g_adminid);
+	$('#id_adminid').val(g_args.adminid);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -70,20 +67,6 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">reference</span>
-                <input class="opt-change form-control" id="id_reference" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">teacher_type</span>
-                <input class="opt-change form-control" id="id_teacher_type" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
                 <span class="input-group-addon">teacherid</span>
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
@@ -91,8 +74,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">g_adminid</span>
-                <input class="opt-change form-control" id="id_g_adminid" />
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 */

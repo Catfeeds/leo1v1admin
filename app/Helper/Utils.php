@@ -560,14 +560,20 @@ class Utils  {
         $item[$phone_field_name."_hide"]=substr($phone,0,3)."****".substr($phone,7);
     }
 
-    static function th_order_gen( $title, $field_name ="" ) {
+    static function th_order_gen( $title  ) {
         if ( is_array($title) ) {
             $arr=$title;
             $str="";
             foreach( $arr as $item ) {
-                $str.=' <td > '.$item[0]
-                    .'<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$item[1]
-                    .'"  > </a> </td>';
+
+                $order_field= $item[1];
+                $order_str="";
+                if ($order_field) {
+                    $order_str=' <a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$order_field.'"  ></a>';
+
+                }
+                $str.=' <td id="'. @$item[2] .'"> <span> '.$item[0]
+                    .' </span> '. $order_str .'  </td>';
             }
             return $str;
         }else{
@@ -2356,5 +2362,18 @@ class Utils  {
         // E\Egrade_range::
         return $arr;
     }
+
+    static public function get_file_use_type_str(&$item){
+        if( isset($item['file_use_type']) ) {
+            if($item['file_use_type'] == 0 ){
+                $item['file_use_type_str'] = '文件';
+            } else if ($item['file_use_type'] == 1 ){
+                $item['file_use_type_str'] = '老师版';
+            }else if ($item['file_use_type'] == 2 ){
+                $item['file_use_type_str'] = '学生版';
+            }
+        }
+    }
+
 
 };

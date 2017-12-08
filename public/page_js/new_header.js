@@ -354,12 +354,15 @@ function table_init() {
             var $table= $(this).closest("table");
             var $th=$table.find("thead >tr");
 
-            var $th_td_list= $th.find("td");
+            var $th_td_list= $th.find(">td");
             var arr=[];
             $.each($th_td_list, function(i,item){
                 if (!(i==0 || i== $th_td_list.length-1)) {
                     var $item=$(item);
-                    var title= $.trim($item.text());
+                    var title= $item.data("title")  ;
+                    if (!title) {
+                        title= $.trim($item.text());
+                    }
                     var display= $item.css("display");
                     var $input=$("<input type=\"checkbox\"/>");
                     if (display=="none") {
@@ -2190,14 +2193,18 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
-function multi_upload_file(new_qiniu,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file_list,process_id ){
+function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file,process_id ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
         var domain_name=ret.domain;
         var token=ret.token;
-        // var new_qiniu = new QiniuJsSDK();
-        var uploader = Qiniu.uploader({
+        //保证每次new不同的对象
+        var qi_niu = ['Qiniu_'+new_flag];
+        console.log(qi_niu[0]);
+        qi_niu[0] = new QiniuJsSDK();
+        var uploader = qi_niu[0].uploader({
+        // var uploader = Qiniu.uploader({
             // disable_statistics_report: false,
             runtimes: 'html5,flash,html4',
             browse_button: btn_id , //choose files id
@@ -2206,7 +2213,7 @@ function multi_upload_file(new_qiniu,is_multi,is_auto_start,btn_id, is_public_bu
             max_file_size: '100mb',
             filters: {
                 mime_types: [
-                    {title: "", extensions: 'mp4,pdf,png,jpg'}
+                    {title: "", extensions: ext_file}
                 ]
             },
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
@@ -2223,14 +2230,22 @@ function multi_upload_file(new_qiniu,is_multi,is_auto_start,btn_id, is_public_bu
                     // console.log("before chunk upload:", file.name);
                 },
                 'FilesAdded': function(up, files) {
-                    select_func(files);
                     // $('table').show();
                     // $('#success').hide();
+                    //删除单选文件的多余文件
+                    var remove_file_id = select_func(files);
+                    $(remove_file_id).each(function(i,val){
+                        if(val != undefined){
+                            uploader.removeFile(val);
+                            $('#'+val).remove();
+                        }
+                    });
                     plupload.each(files, function(file) {
                         var progress = new FileProgress(file, 'fsUploadProgress');
                         progress.setStatus("等待...");
                         progress.bindUploadCancel(up);
                     });
+
                 },
                 'BeforeUpload': function(up, file) {
 
@@ -2285,7 +2300,9 @@ function multi_upload_file(new_qiniu,is_multi,is_auto_start,btn_id, is_public_bu
         });
 
         $('#up_load').on('click', function(){
-            uploader.start();
+            if($(this).attr('flag') == new_flag){//保证文件是这次上传的
+                uploader.start();
+            }
         });
     });
 
@@ -2572,6 +2589,8 @@ $(function(){
         g_args.order_by_str=order_by_str;
 
         load_data();
+        return false;
+
     });
     try {
 

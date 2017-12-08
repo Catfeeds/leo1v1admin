@@ -203,6 +203,7 @@ class teaching_menu{
 
                 [ "name"=>"教学部", "list"=>[
                     ["name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
+                    ["name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/fulltime_teacher_attendance_info_month"],
                     [ "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                     [ "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                     [ "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],

@@ -1,4 +1,5 @@
 interface GargsStatic {
+	is_bank:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -38,12 +39,13 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-
+		is_bank:	$('#id_is_bank').val()
     });
 }
 $(function(){
 
 
+	$('#id_is_bank').val(g_args.is_bank);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -53,4 +55,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_bank</span>
+                <input class="opt-change form-control" id="id_is_bank" />
+            </div>
+        </div>
 */

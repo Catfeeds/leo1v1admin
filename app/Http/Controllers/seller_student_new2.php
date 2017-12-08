@@ -512,8 +512,9 @@ class seller_student_new2 extends Controller
 
     public function seller_get_new_count_admin_list(){
         $adminid=$this->get_in_int_val("adminid",-1);
-        $ret_info=$this->t_seller_new_count->get_admin_list_get_count($adminid);
-        $admin_map=$this->t_seller_new_count->get_admin_list_count($adminid);
+        $month_time = strtotime(date("Y-m-01",time()));
+        $ret_info=$this->t_seller_new_count->get_admin_list_get_count_new_new($month_time,$adminid);
+        $admin_map=$this->t_seller_new_count->get_admin_list_count_new_new($month_time,$adminid);
 
         //seller_get_new_count_admin_list get_admin_list_count
         foreach ($ret_info["list"] as  &$item ) {
