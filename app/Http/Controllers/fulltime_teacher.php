@@ -692,22 +692,22 @@ class fulltime_teacher extends Controller
                         }
                         if($off_time > $val["card_end_time"]){
                             @$ret[$uid]["early_num"]++;
-                            @$ret[$uid]["early_time"] +=$val["card_end_time"]-$off_time;
+                            @$ret[$uid]["early_time"] +=$off_time-$val["card_end_time"];
                         }
                     }else{
                         @$ret[$uid]["no_attend_num"]++;
                     }
 
                 }
-                if($var["card_start_time"]>0){
+                if($val["card_start_time"]>0){
                     @$ret[$uid]["real_work_day"]++;
                 }
                 if($val["attendance_type"]==3){
                     @$ret[$uid]["holiday_day"]++;
                 }
             }
-            
             dd($ret);
+            
  
         }
        
