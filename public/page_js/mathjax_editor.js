@@ -506,7 +506,7 @@
 
             function set_upload_data_end(domain, info)
             {
-                var res = $.parseJSON(info);
+                var res = $.parseJSON(info.response);
                 var pic_str="\n![]("+  domain+res.key+")\n";
                 me.insert(pic_str );
             }
