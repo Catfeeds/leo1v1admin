@@ -124,6 +124,7 @@
                         <td>{{@$var["card_start_time_str"]}} </td>
                         <td>{{@$var["card_end_time_str"]}} </td>
                         <td>
+                            {{@$var["result"]}}
                         </td>
 
 
