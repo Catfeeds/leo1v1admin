@@ -2298,6 +2298,8 @@ class ajax_deal2 extends Controller
             }
 
         }
+        return $this->output_succ(["data"=>$lesson_info]);
+
 
     }
 }
