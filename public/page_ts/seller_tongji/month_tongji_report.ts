@@ -162,20 +162,23 @@ $(function(){
             var success_count = parseInt(success_all_count_for_month);
             var succ_count = parseInt(succ_all_count_for_month);
 
-
-            var lesson_per = 0;
             if(fail_all_count != 0 && test_count != 0){
-                lesson_per = (fail_all_count/test_count).toFixed(4);
-
+                var lesson_per = (fail_all_count/test_count)*10000;
+		            lesson_per = Math.round(lesson_per);
+		            lesson_per = lesson_per/100+'%';
+            }else{
+                var lesson_per = '0%';
             }
 
             var order_per = 0;
             if(success_count != 0 && succ_count != 0){
-                order_per = (success_count/succ_count).toFixed(4);
-            }
+                var order_per = (success_count/succ_count)*10000;
+                order_per = Math.round(order_per);
+		            order_per = (order_per/100).toString() + '%';
 
-            lesson_per = lesson_per*100+'%';
-            order_per = order_per*100+'%';
+            }else{
+                var order_per = '0%'
+            }
 
             $(this).find('.lesson_per').text(lesson_per);
             $(this).find('.order_per').text(order_per);
