@@ -44,9 +44,9 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $w = date("w");
         if($w != 2){
             $list = $task->t_test_lesson_subject_require->get_all_need_plan_require_list($start_time,$end_time,-1);
-            foreach($list as $val){
-                $grade = $val["grade"];
-                $subject = $val["subject"];
+            foreach($list as $vall){
+                $grade = $vall["grade"];
+                $subject = $vall["subject"];
                 if($subject==2){
                     $jw_list=[1328,1324];
                               
@@ -124,11 +124,11 @@ class jw_teacher_test_lesson_assign_auto extends Command
                     $accept_adminid = 436;
                 }
 
-                $task->t_test_lesson_subject_require->field_update_list($val["require_id"],[
+                $task->t_test_lesson_subject_require->field_update_list($vall["require_id"],[
                     "accept_adminid"=>$accept_adminid,
                     "require_assign_time"=>time()
                 ]);
-               // $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
+                $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
  
                                
 
