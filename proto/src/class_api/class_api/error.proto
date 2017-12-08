@@ -1,7 +1,9 @@
 syntax = "proto3";
 package error;
-option php_namespace = "Proto\\agent_api\\error"; 
+option php_namespace = "Proto\\class_api\\error"; 
 enum  enum_error {
+  ERR_SUCC  =0;
+  
   //密码出错
   ERR_PASSWD  = 3001 ;
 
