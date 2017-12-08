@@ -41,48 +41,37 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $ret_info = $task->t_tq_call_info->get_all_info_by_cc();
-        $ret = $task->t_tq_call_info->get_all_info_by_cc_new();
-        $ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
+        //$ret_info = $task->t_tq_call_info->get_all_info_by_cc();
+        //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
+        //$ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
+        $ret_info = $task->t_teacher_info->get_teacher_bank_info_new();
         $path = '/home/ybai/test_sam.txt';
         //$path = '/home/sam/admin_yb1v1/a.txt';
         $fp = fopen($path,"a+");
         //dd($fp);
         foreach ($ret_info as $key => $value) {
-            fwrite($fp, @$value['account']);//1
-            fwrite($fp, '   ');
-            fwrite($fp, @$value['adminid']);//1
-            fwrite($fp, '   ');
-            fwrite($fp, @$value['total_user']);//2
-            fwrite($fp, '   ');
-            if(isset($ret[$value['account']]['total_con_user'])){
-                fwrite($fp, @$ret[$value['account']]['total_con_user']);//4
-                fwrite($fp, '   ');
-            }else{
-                fwrite($fp, 0);//4
-                fwrite($fp, '   ');
-            }
+            if($value['bankcard'] == ' '){
 
-            if(isset($ret_test[$value['account']]['total_money'])){
-                fwrite($fp, @$ret_test[$value['account']]['total_money']);//4
-                fwrite($fp, '   ');
             }else{
-                fwrite($fp, 0);//4
+                fwrite($fp, @$value['bank_account']);//1
                 fwrite($fp, '   ');
+                fwrite($fp, @$value['bankcard']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_type']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_province']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_city']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_address']);//2
+                /*
+                fwrite($fp, @$value['total_money']);//3
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['total_num']);//4
+                */
+                fwrite($fp, "\n");
             }
-            if(isset($ret_test[$value['account']]['total_num'])){
-                fwrite($fp, @$ret_test[$value['account']]['total_num']);//4
-                fwrite($fp, '   ');
-            }else{
-                fwrite($fp, 0);//4
-                fwrite($fp, '   ');
-            }
-            /*
-            fwrite($fp, @$value['total_money']);//3
-            fwrite($fp, '   ');
-            fwrite($fp, @$value['total_num']);//4
-            */
-            fwrite($fp, "\n");
+            
         }
         fclose($fp);
         //dd($ret_info);
