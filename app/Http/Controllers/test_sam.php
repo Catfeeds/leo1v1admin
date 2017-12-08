@@ -14,6 +14,7 @@ class test_sam  extends Controller
     use TeaPower;
 
     public function table_1(){
+        dd(2);
         $ret_info = $this->t_teacher_info->get_teacher_bank_info_new();
         echo "<table >";
         echo "<tr>"."<td >持卡人</td>"
