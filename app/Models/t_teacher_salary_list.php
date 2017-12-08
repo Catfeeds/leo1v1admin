@@ -46,16 +46,17 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_list_as_page($sql);
     }
 
-    public function update_teacher_money($teacherid,$add_time,$money,$is_negative){
+    public function update_teacher_money($teacherid,$add_time,$money,$is_negative,$pay_time){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
             ["add_time=%u",$add_time,0],
         ];
-        $sql = $this->gen_sql_new("update %s set money=%u,is_negative=%u"
+        $sql = $this->gen_sql_new("update %s set money=%u,is_negative=%u,pay_time=%u"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$money
                                   ,$is_negative
+                                  ,$pay_time
                                   ,$where_arr
         );
         return $this->main_update($sql);
