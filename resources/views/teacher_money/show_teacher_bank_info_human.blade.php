@@ -14,6 +14,12 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-2" >
+                <div class="input-group ">
+                    <span >老师</span>
+                    <input id="id_teacherid"/>
+                </div>
+            </div>
         </div>
     </div>
     <hr/>
