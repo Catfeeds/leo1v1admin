@@ -560,14 +560,20 @@ class Utils  {
         $item[$phone_field_name."_hide"]=substr($phone,0,3)."****".substr($phone,7);
     }
 
-    static function th_order_gen( $title, $field_name ="" ) {
+    static function th_order_gen( $title  ) {
         if ( is_array($title) ) {
             $arr=$title;
             $str="";
             foreach( $arr as $item ) {
-                $str.=' <td > '.$item[0]
-                    .'<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$item[1]
-                    .'"  > </a> </td>';
+
+                $order_field= $item[1];
+                $order_str="";
+                if ($order_field) {
+                    $order_str=' <a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$order_field.'"  ></a>';
+
+                }
+                $str.=' <td id="'. @$item[2] .'"> <span> '.$item[0]
+                    .' </span> '. $order_str .'  </td>';
             }
             return $str;
         }else{

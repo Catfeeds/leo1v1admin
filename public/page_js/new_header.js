@@ -354,12 +354,15 @@ function table_init() {
             var $table= $(this).closest("table");
             var $th=$table.find("thead >tr");
 
-            var $th_td_list= $th.find("td");
+            var $th_td_list= $th.find(">td");
             var arr=[];
             $.each($th_td_list, function(i,item){
                 if (!(i==0 || i== $th_td_list.length-1)) {
                     var $item=$(item);
-                    var title= $.trim($item.text());
+                    var title= $item.data("title")  ;
+                    if (!title) {
+                        title= $.trim($item.text());
+                    }
                     var display= $item.css("display");
                     var $input=$("<input type=\"checkbox\"/>");
                     if (display=="none") {
@@ -2586,6 +2589,8 @@ $(function(){
         g_args.order_by_str=order_by_str;
 
         load_data();
+        return false;
+
     });
     try {
 

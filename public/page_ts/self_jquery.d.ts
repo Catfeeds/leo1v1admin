@@ -47,7 +47,7 @@ interface JQueryStatic {
         }
     );
     */
-    admin_select_user ( $element:JQuery, user_type:string, call_func?:(id:number)=>void, is_not_query_flag?:boolean, args_ex?: any ):void ;
+    admin_select_user ( $element:JQuery, user_type:string, call_func?:(id:number)=>void, is_not_query_flag?:boolean, args_ex?: any, th_input_id?:string, select_all_flag?:boolean ):void ;
 
     dlg_get_html_by_class(item_class:string):string;
     obj_copy_node(item_class:string):JQuery;
