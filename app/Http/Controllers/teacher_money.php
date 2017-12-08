@@ -787,7 +787,7 @@ class teacher_money extends Controller
             if ($t_val['teacher_type'] == 1 || $t_val['teacher_type'] == 3) {
                 $all_all_money += $t_val['money'];
             }
-            if ($v_val['teacher_type'] == 2) {
+            if ($t_val['teacher_type'] == 2) {
                 $all_not_money += $t_val['money'];
             }
             E\Eteacher_type::set_item_value_str($t_val);
