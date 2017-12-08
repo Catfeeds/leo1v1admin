@@ -763,6 +763,7 @@ class teacher_money extends Controller
         $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
         $reference = $this->get_in_int_val("reference",-1);
+        $teacher_type = $this->get_in_int_val("teacher_type",-1);
         if($reference>0){
             $reference_phone = $this->t_teacher_info->get_phone($reference);
         }else{
@@ -770,8 +771,10 @@ class teacher_money extends Controller
         }
         $teacherid = $this->get_in_int_val('teacherid',-1);
 
-        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$reference_phone);
+        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$teacher_type,$reference_phone);
         $all_money = 0;
+        $all_all_money = 0;//全职老师
+        $all_not_money = 0;//兼职老师
         foreach($ret_info['list'] as &$t_val){
             $t_val['pay_time'] = \App\Helper\Utils::unixtime2date($t_val['pay_time']);
             $t_val['add_time'] = \App\Helper\Utils::unixtime2date($t_val['add_time']);
@@ -781,6 +784,12 @@ class teacher_money extends Controller
             }
             E\Esubject::set_item_value_str($t_val);
             $all_money += $t_val['money'];
+            if ($t_val['teacher_type'] == 1 || $t_val['teacher_type'] == 3) {
+                $all_all_money += $t_val['money'];
+            }
+            if ($t_val['teacher_type'] == 2) {
+                $all_not_money += $t_val['money'];
+            }
             E\Eteacher_type::set_item_value_str($t_val);
             E\Eteacher_money_type::set_item_value_str($t_val);
         }
@@ -789,6 +798,8 @@ class teacher_money extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "all_money"     => $all_money,
             "all_money_tax" => $all_money_tax,
+            'all_all_money' => $all_all_money,
+            'all_not_money' => $all_not_money,
             "acc"           => $acc,
         ]);
     }

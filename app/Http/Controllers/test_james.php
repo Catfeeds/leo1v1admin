@@ -1373,7 +1373,7 @@ class test_james extends Controller
 
 
     public function xunfei(){
-        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //语音语义接口
+        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //
 
         $path = '/home/ybai/16k.wav';
         $fp = fopen($path, 'rb');  // 以二进制形式打开文件
@@ -1385,7 +1385,7 @@ class test_james extends Controller
         $Param = [
             "auf"   => '16k',
             "aue"   => 'raw',
-            "scene" => 'main',
+            "scene" => 'main'
         ];
 
         $time = time();
@@ -1393,8 +1393,11 @@ class test_james extends Controller
         $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
         $CheckSum = md5($check_str);
 
-        // echo 'param'.$param." CheckSum:".$CheckSum;
-        // return ;
+//         // echo 'param: '.$param."\n CheckSum: ".$CheckSum."\n check_str: $check_str";
+//         $test = md5("07adb47e30dd4b9b8fdcddc5e96e6b781512719028eyJhdWUiOiJyYXciLCJhdWYiOiIxNksiLCJzY2VuZSI6Im1haW4ifQ==
+// text=".$content);
+//         echo $test;
+//         return ;
 
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
@@ -1402,12 +1405,12 @@ class test_james extends Controller
             'Content-Type:application/x-www-form-urlencoded; charset=utf-8',
             'X-Param:'.$param,
             'X-Appid: 5a2a4204',
-            'X-CurTime:'.time(),
+            'X-CurTime:'.$time,
             'X-CheckSum:'.$CheckSum
         ));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'text='.$content);
         $output = curl_exec($ch);
         curl_close($ch);
 
