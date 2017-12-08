@@ -143,6 +143,8 @@ interface JQuery {
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js?v={{@$_publish_version}}"></script>
     admin_select_dlg_ajax(conf:Object):void;
 
+    admin_set_select_field (conf:Object ):void;
+
     //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     admin_select_dlg(conf:Object):void;
     select_date_range(conf:Object):void;

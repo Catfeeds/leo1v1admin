@@ -100,6 +100,7 @@ class menu{
                     ["power_id"=>8, "name"=>"销售主管未分配统计", "url"=>"/tongji_ss/master_no_assign_count"],
 
                     ["power_id"=>9, "name"=>"销售月度统计报表",   "url"=>"/user_manage_new/seller_tongji_report_info"],
+                    ["power_id"=>24, "name"=>"销售月度统计报表新",   "url"=>"/seller_tongji/month_tongji_report"],
                     ["power_id"=>10, "name"=>"销售红黑榜",   "url"=>"/user_manage_new/seller_require_tq_time_list"],
                     ["power_id"=>11, "name"=>"实时申请未排统计",   "url"=>"/tongji_ss/require_no_set_lesson_info"],
                     ["power_id"=>12, "name"=>"试听老师统计",   "url"=>"/tongji_ss/teacher_test_lesson_info"],

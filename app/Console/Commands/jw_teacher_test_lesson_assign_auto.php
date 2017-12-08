@@ -128,7 +128,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
                     "accept_adminid"=>$accept_adminid,
                     "require_assign_time"=>time()
                 ]);
-                $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
+                //  $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","科目:".$subject.",年级:".$grade."教务:".$accept_adminid,"");
  
                                
 

@@ -530,8 +530,6 @@
                                     @if(in_array($acc,["jack","jim","adrian"]))
                                         <a title="排课" class="lesson-plan-new-test">排课</a>
                                     @endif
-
-
                                 </div>
                             </td>
                         </tr>

@@ -37,8 +37,13 @@ $(function(){
     $('#id_xmpp_server_name').val(g_args.xmpp_server_name);
     $('#id_lesson_type').val(g_args.lesson_type);
 
-    $('#id_subject').val(g_args.subject);
-    $.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
+    $("#id_subject").admin_set_select_field({
+        "enum_type"    : "subject",
+        "select_value" : g_args.subject ,
+        "onChange"     : load_data,
+        "th_input_id"  : "th_subject",
+        "btn_list"     : []
+    });
 
 
     $("#id_xmpp_server_name").admin_select_dlg_ajax({
@@ -259,7 +264,7 @@ $(function(){
 
     $(".opt-lesson").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        $.wopen("/tea_manage/lesson_list?lessonid="+opt_data.lessonid);
+        $.wopen("/tea_manage/lesson_list?lessonid="+opt_data["lessonid"]);
     });
 
 
@@ -268,6 +273,7 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
 
+    /*
     $(".td-query").each(function(){
         var $td= $(this);
         var queryid=$td.data("queryid");
@@ -284,24 +290,7 @@ $(function(){
         }
 
     });
-    $(".fa-filter").on("click",function( ){
-        var obj=$("#id_lesson_type").parent()  ;
-        BootstrapDialog.show( {
-            message: obj 
-        });
-    });
+    */
 
-
-    var  field_str = ' <li class="dropdown  " style="list-style: none;" >  ' +
-        '  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> 课程类型 </a> ' +
-        '  <ul class="dropdown-menu" style="height:200px" > ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '       <li class="header">You have 9 tasks</li> ' +
-        '  </ul> ' +
-        ' </li> ';
-    $("#id_test").html( field_str );
 
 });

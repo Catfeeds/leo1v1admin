@@ -1359,6 +1359,12 @@ class test_james extends Controller
         dd($a);
     }
 
+    public function get_no(){
+        $a = $this->t_lesson_info_b2->get_need_late_notic();
+        $b = $this->t_lesson_info_b2->get_test_lesson_to_notic();
+        dd($b);
+    }
+
 
 
 }
