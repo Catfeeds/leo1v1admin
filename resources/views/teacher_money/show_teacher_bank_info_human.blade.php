@@ -3,6 +3,18 @@
 @section('content')
 <section class='content'>
     <div> <!-- search ... -->
+        <div class="row">
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span>是否有银行卡</span>
+                    <select id="id_is_bank" class="opt-change">
+                        <option value="-1">全部</option>
+                        <option value="1">有银行卡</option>
+                        <option value="2">没有银行卡</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
     <hr/>
     <table class="common-table">
@@ -22,7 +34,7 @@
             <td>绑卡时间</td>
         </thead>
         <tbody>
-            @foreach($table_data_list as $var)
+            @foreach($info as $var)
                 <tr>
                     <td>{{$var['teacherid']}}</td>
                     <td>{{$var['nick']}}</td>
