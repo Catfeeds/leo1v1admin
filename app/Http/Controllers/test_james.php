@@ -1393,12 +1393,6 @@ class test_james extends Controller
         $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
         $CheckSum = md5($check_str);
 
-//         // echo 'param: '.$param."\n CheckSum: ".$CheckSum."\n check_str: $check_str";
-//         $test = md5("07adb47e30dd4b9b8fdcddc5e96e6b781512719028eyJhdWUiOiJyYXciLCJhdWYiOiIxNksiLCJzY2VuZSI6Im1haW4ifQ==
-// text=".$content);
-//         echo $test;
-//         return ;
-
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -1410,16 +1404,16 @@ class test_james extends Controller
         ));
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 'text='.$content);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'data='.$content);
         $output = curl_exec($ch);
         curl_close($ch);
 
         $ret_arr = json_decode($output,true);
 
+
+
+        dd($ret_arr);
         return $ret_arr;
-
-
-
     }
 
 
