@@ -20,12 +20,6 @@
                         <button class="btn btn-primary" id="id_get_lesson_price">重置课程收入</button>
                     </div>
                 </div>
-                <!-- <div class="col-xs-6 col-md-2">
-                     <div class="input-group ">
-                     <span>老师</span>
-                     <input class="opt-change" id="id_teacherid"/>
-                     </div>
-                     </div> -->
                 <div class="col-xs-6 col-md-8">
                     <div class="input-group">
                         <span class="input-group show_lesson_price">课程收入:</span>
@@ -44,6 +38,7 @@
                     <tr>
                         <td width="100px">老师id</td>
                         <td width="100px">姓名</td>
+                        <td style="display:none">老师类型</td>
                         <td >手机号</td>
                         <td >科目</td>
                         <td style="display:none">持卡人</td>
@@ -63,6 +58,10 @@
                         <tr>
                             <td>{{$var['teacherid']}}</td>
                             <td>{{$var['realname']}}</td>
+                            <td>
+                                {{$var['teacher_money_type_str']}}<br>
+                                {{$var['teacher_type_str']}}<br>
+                            </td>
                             <td>{{$var['phone']}}</td>
                             <td>{{$var['subject_str']}}</td>
                             <td>{{$var['bank_account']}}</td>
