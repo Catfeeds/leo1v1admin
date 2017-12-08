@@ -1385,8 +1385,7 @@ class test_james extends Controller
         $Param = [
             "auf"   => '16k',
             "aue"   => 'raw',
-            "scene" => 'main',
-            "userid" =>
+            "scene" => 'main'
         ];
 
         $time = time();
