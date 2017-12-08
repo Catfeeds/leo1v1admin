@@ -1272,7 +1272,7 @@ class tea_manage_new extends Controller
 
 
             // 计算总课时
-            $item['total_lesson_num'] = $this->t_lesson_info_b3->get_total_lesson_time($start_time, $end_time,$item['teacherid']);
+            // $item['total_lesson_num'] = $this->t_lesson_info_b3->get_total_lesson_time($start_time, $end_time,$item['teacherid']);
         }
 
 
