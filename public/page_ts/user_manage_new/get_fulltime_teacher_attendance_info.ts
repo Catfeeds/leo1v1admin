@@ -48,6 +48,12 @@ $(function(){
         "admin", load_data,false,{"main_type":g_args.account_role});
 
     
+    $.each( $(".opt-show-lessons-new"), function(i,item ){
+        $(item).admin_select_teacher_free_time_new({
+            "teacherid" : $(item).get_opt_data("teacherid")
+        });
+    });
+
 
 
 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Helper\Config;
 
-class question extends Controller
+class question_new extends Controller
 {
     public function question_list(){
         $subject   = $this->get_in_int_val('id_subject',-1);
