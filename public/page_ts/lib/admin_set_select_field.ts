@@ -5,6 +5,7 @@
     var init_th_input=function( $ele, $th, options ) {
         var title=$.trim($th.find("span").text());
         var old_title=title;
+        $th.data("title",title);
         var enum_name =  options.enum_type;
         var id_list= options.show_id_list;
         var select_group_list= options.btn_list;

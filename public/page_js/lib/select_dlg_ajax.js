@@ -238,7 +238,10 @@
                 });
 
                 if(this.options.th_input_id  ) {
-                    var $th_input=$( '#'+ this.options.th_input_id ).find("span");
+                    var $th_input=$( '#'+ this.options.th_input_id );
+                    $th_input.data("title", $.trim($th_input.find("span").text()) );
+                    $th_input=$th_input.find("span");
+
                     $th_input.css({
                         cursor: "pointer",
                         color: "#3c8dbc",
