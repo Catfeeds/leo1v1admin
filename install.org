@@ -1,6 +1,13 @@
 * 安装软件
-  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk php-gd php-zip 
-  #sudo apt-get install git nginx php-cli php-fpm  php-mysql phpunit  mysql-client php-curl gawk php-gd php-zip 
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk php-gd php-zip supervisor
+
+
+**  设置 Job 处理
+   
+  sudo cp ./install_files/laravel-worker.conf /etc/supervisor/conf.d/
+  sudo  sed -i -e "s/ybai/$USER/" /etc/supervisor/conf.d/laravel-worker.conf
+  sudo /etc/init.d/supervisor restart 
+
   
 ** 安装 mysql
   sudo apt-get install mysql-server

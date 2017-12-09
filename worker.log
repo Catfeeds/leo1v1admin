@@ -1,0 +1,568 @@
+--2017-12-09 13:27:29--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.65M=0.02s
+
+2017-12-09 13:27:30 (1.65 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:31--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.04M=0.04s
+
+2017-12-09 13:27:31 (1.04 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:32--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1020K=0.04s
+
+2017-12-09 13:27:32 (1020 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:34--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.94M=0.02s
+
+2017-12-09 13:27:34 (1.94 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:36--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.50M=0.03s
+
+2017-12-09 13:27:36 (1.50 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+--2017-12-09 13:27:40--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.61M=0.02s
+
+2017-12-09 13:27:40 (1.61 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:44--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.07M=0.04s
+
+2017-12-09 13:27:44 (1.07 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:45--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.09M=0.04s
+
+2017-12-09 13:27:45 (1.09 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:48--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.25M=0.03s
+
+2017-12-09 13:27:48 (1.25 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:27:48--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.81M=0.02s
+
+2017-12-09 13:27:48 (1.81 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+PHP Fatal error:  method_exists(): The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition "App\Jobs\UpdateTeacherMoney" of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition  in /home/jim/admin_yb1v1_git/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php on line 74
+
+                                                                                                                                                                                                                                                                                                                                       
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                                                                                                                                                                                                                                              
+  method_exists(): The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition "App\Jobs\UpdateTeacherMoney" of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition   
+                                                                                                                                                                                                                                                                                                                                       
+
+--2017-12-09 13:27:51--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.34M=0.03s
+
+2017-12-09 13:27:56 (1.34 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:25--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.226.90.164, 180.97.8.36, 180.163.21.155, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.226.90.164|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.65M=0.02s
+
+2017-12-09 13:28:25 (1.65 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:26--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 61.151.186.31, 101.226.90.164, 180.97.8.36, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|61.151.186.31|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.54M=0.03s
+
+2017-12-09 13:28:26 (1.54 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:33--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.09M=0.04s
+
+2017-12-09 13:28:34 (1.09 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:38--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.01M=0.04s
+
+2017-12-09 13:28:38 (1.01 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:41--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100%  899K=0.05s
+
+2017-12-09 13:28:41 (899 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:42--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.00M=0.04s
+
+2017-12-09 13:28:42 (1.00 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:46--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 2.17M=0.02s
+
+2017-12-09 13:28:46 (2.17 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:46--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.89M=0.02s
+
+2017-12-09 13:28:46 (1.89 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:46--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.52M=0.03s
+
+2017-12-09 13:28:46 (1.52 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:48--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 2.20M=0.02s
+
+2017-12-09 13:28:48 (2.20 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:28:52--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.03M=0.04s
+
+2017-12-09 13:28:52 (1.03 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:24--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.49M=0.03s
+
+2017-12-09 13:29:24 (1.49 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:28--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 2.16M=0.02s
+
+2017-12-09 13:29:28 (2.16 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:32--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.51M=0.03s
+
+2017-12-09 13:29:33 (1.51 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:36--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ......--2017-12-09 13:29:36--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... .... .......... ..........           100% 1.58M=0.03s
+
+2017-12-09 13:29:36 (1.58 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 
+已连接。
+已发出 HTTP 请求，正在等待回应...                                                                                                                     
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x00 0x00  
+                                                                                                                    
+
+200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 2.09M=0.02s
+
+2017-12-09 13:29:36 (2.09 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:42--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.41M=0.03s
+
+2017-12-09 13:29:42 (1.41 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:43--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.06M=0.04s
+
+2017-12-09 13:29:43 (1.06 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:46--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.41M=0.03s
+
+2017-12-09 13:29:46 (1.41 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:47--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.07M=0.04s
+
+2017-12-09 13:29:47 (1.07 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:49--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 180.163.21.101, 61.151.168.149, 101.226.233.167, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|180.163.21.101|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.21M=0.03s
+
+2017-12-09 13:29:49 (1.21 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
+--2017-12-09 13:29:50--  http://wx.qlogo.cn/mmopen/Q3auHgzwzM67OmCRhg8pRCjJPEsUPT7Qb3beCAyU8ColEyShPV1Uk1UKgrCQyPWqxPAo8q91kkfic8nzUjdgyQCoEwVWwibiaFgoxKc2jz0CCg/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 101.227.160.54, 180.163.26.112, 61.151.186.31, ...
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|101.227.160.54|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度：41714 (41K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ..........           100% 1.26M=0.03s
+
+2017-12-09 13:29:50 (1.26 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [41714/41714])
+
+
+                                                                                                                    
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                           
+  imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
+                                                                                                                    
+
