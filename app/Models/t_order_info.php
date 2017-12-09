@@ -4375,7 +4375,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m on o.sys_operator=m.account"
                                   ." left join %s tq on tq.adminid=m.uid "
                                   ." left join %s s on tq.phone=s.phone "
-                                  ." where %s group by o.orderid"
+                                  ." where %s group by tq.phone"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_tq_call_info::DB_TABLE_NAME
