@@ -209,7 +209,7 @@
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
-                    <td >特殊折扣申请状态</td>
+                    {!!\App\Helper\Utils::th_order_gen([["特殊折扣申请状态", "", "th_spec_flag" ]])!!}
                     <td >发放礼拜时间</td>
                     <td >个人总课时</td>
                     <td >是否分期</td>

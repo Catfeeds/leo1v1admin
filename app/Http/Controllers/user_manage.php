@@ -581,7 +581,7 @@ class user_manage extends Controller
         $contract_type     = $this->get_in_el_contract_type();
         $contract_status   = $this->get_in_el_contract_status();
         $config_courseid   = $this->get_in_int_val('config_courseid',-1);
-        $is_test_user      = $this->get_in_int_val('test_user',0);
+        $is_test_user      = $this->get_in_e_boolean(0, 'test_user' );
         $studentid         = $this->get_in_studentid(-1);
         $page_num          = $this->get_in_page_num();
         $has_money         = $this->get_in_int_val("has_money",-1);

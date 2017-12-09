@@ -43,11 +43,8 @@ function isNumber( s ){
 }
 
 $(function(){
-    //Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
-    Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
-    Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -66,19 +63,41 @@ $(function(){
 	  $('#id_contract_status').val(g_args.contract_status);
 	  $.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
 
+	  $('#id_spec_flag').admin_set_select_field({
+		    "enum_type"    : "boolean",
+		    "field_name" : "spec_flag",
+		    "select_value" : g_args.spec_flag,
+		    "onChange"     : load_data,
+		    "multi_select_flag"     : false ,
+		    "th_input_id"  : "th_spec_flag",
+		    "only_show_in_th_input"     : true,
+        "show_title_flag" : true,
+		    "btn_id_config"     : {},
+	  });
+
+
+	$('#id_test_user').admin_set_select_field({
+		  "enum_type"    : "boolean",
+      "field_name"  :"test_user",
+		"select_value" : g_args.test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+
 
     //init  input data
     $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
     $("#id_order_activity_type").val(g_args.order_activity_type );
-    $("#id_test_user").val(g_args.test_user);
     $("#id_sys_operator").val(g_args.sys_operator);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
     $("#id_stu_from_type").val(g_args.stu_from_type);
     $('#id_assistantid').val(g_args.assistantid);
     $('#id_origin_userid').val(g_args.origin_userid);
     $("#id_account_role").val(g_args.account_role);
-    $('#id_spec_flag').val(g_args.spec_flag);
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_teacherid').val(g_args.teacherid);
 
