@@ -705,4 +705,33 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
                return $item["sys_operator"];
         });
     }
+
+    public function get_called_num($adminid,$start_time,$end_time){
+        $where_arr = [
+            "tq.adminid=$adminid",
+        ];
+        $this->where_arr_add_time_range($where_arr, "tq.start_time", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select count(distinct(tq.phone)) as called_num from %s tq"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
+    public function get_succ_num($adminid,$start_time,$end_time){
+        $where_arr = [
+            "tq.adminid=$adminid",
+            "tq.duration>0"
+        ];
+        $this->where_arr_add_time_range($where_arr, "tq.start_time", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select count(distinct(tq.phone)) as called_num from %s tq"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
