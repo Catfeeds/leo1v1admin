@@ -413,9 +413,10 @@ function table_init() {
                         }, function(resp ){
                             var cur=(new Date() ).getTime()/1000;
                             resp.log_time=cur;
+                            //alert("XXXX SET :"+ JSON.stringify(resp)  );
                             window.localStorage.setItem(table_key , JSON.stringify(resp));
+                            window.location.reload();
                         });
-                        window.location.reload();
                     });
 
 
@@ -598,6 +599,7 @@ function table_init() {
                 }, function(resp ){
                     reset_table (resp);
                     resp.log_time=cur;
+                    //alert("XXXX SET :"+ JSON.stringify(resp)  );
                     window.localStorage.setItem(table_key , JSON.stringify(resp));
                 });
             }
