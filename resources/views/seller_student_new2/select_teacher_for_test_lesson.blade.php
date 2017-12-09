@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <section class="content">
+    @if(!empty($require_info))
     <table >
         <tr>
             <td>姓名：{{$require_info['nick']}}</td>
@@ -20,20 +21,30 @@
             <td>上课意向:{{$require_info['intention_level_str']}}</td>
         </tr>
     </table>
+    @endif
     <hr/>
     <div class="row">
     </div>
     <table   class="common-table" >
         <thead>
             <tr>
-                <td >活动ID</td>
+                <td style="display:none">老师id</td>
+                <td >姓名</td>
+                <td >性别</td>
+                <td >年龄</td>
+                <td >手机号</td>
+                <td >入职时长</td>
+                <td >老师身份</td>
+                <td >可上课时间</td>
+                <td >标签</td>
                 <td >操作</td>
             </tr>
         </thead>
         <tbody>
             @foreach ($table_data_list as $var)
                 <tr>
-                    <td >{{$var["id"]}}</td>
+                    <td >{{$var["teacherid"]}}</td>
+                    <td >{{$var["nick"]}}</td>
                     <td >
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                             <a class="fa-hand-o-up opt-stu-origin btn fa" title="编辑优惠力度"></a>
@@ -45,12 +56,6 @@
                 @endforeach
             </tbody>
         </table>
-        @include("layouts.page")
-
     </section>
-    <script type="text/javascript" src="/page_js/select_course.js"></script>
-    <script type="text/javascript" src="/page_js/select_user.js"></script>
-    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
-
 @endsection
 

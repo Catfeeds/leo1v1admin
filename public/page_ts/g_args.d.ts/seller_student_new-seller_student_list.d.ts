@@ -181,8 +181,9 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student_new-seller_student_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
 		status_list_str:	$('#id_status_list_str').val(),
 		no_jump:	$('#id_no_jump').val(),
@@ -222,7 +223,7 @@ function load_data(){
 		account_role:	$('#id_account_role').val(),
 		account:	$('#id_account').val(),
 		admin_seller_level:	$('#id_admin_seller_level').val()
-    });
+		});
 }
 $(function(){
 
@@ -237,16 +238,15 @@ $(function(){
 	Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
 	Enum_map.append_option_list("boolean",$("#id_current_require_id_flag"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_cur_page').val(g_args.cur_page);
 	$('#id_status_list_str').val(g_args.status_list_str);
 	$('#id_no_jump').val(g_args.no_jump);
@@ -254,17 +254,33 @@ $(function(){
 	$('#id_adminid_list').val(g_args.adminid_list);
 	$('#id_origin_assistant_role').val(g_args.origin_assistant_role);
 	$('#id_origin').val(g_args.origin);
-	$('#id_userid').val(g_args.userid);
-	$('#id_seller_student_status').val(g_args.seller_student_status);
-	$.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"can_sellect_all_flag"     : true
+	});
+	$('#id_seller_student_status').admin_set_select_field({
+		"enum_type"    : "seller_student_status",
+		"select_value" : g_args.seller_student_status,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_seller_student_status",
+		"btn_id_config"     : {}
+	});
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_seller_groupid_ex_new').val(g_args.seller_groupid_ex_new);
 	$('#id_phone_location').val(g_args.phone_location);
 	$('#id_require_admin_type').val(g_args.require_admin_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_has_pad').val(g_args.has_pad);
-	$('#id_seller_level').val(g_args.seller_level);
-	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
+	$('#id_seller_level').admin_set_select_field({
+		"enum_type"    : "seller_level",
+		"select_value" : g_args.seller_level,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_seller_level",
+		"btn_id_config"     : {}
+	});
 	$('#id_tq_called_flag').val(g_args.tq_called_flag);
 	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 	$('#id_seller_resource_type').val(g_args.seller_resource_type);

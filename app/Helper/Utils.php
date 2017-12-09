@@ -2344,6 +2344,31 @@ class Utils  {
         return $arr1;
     }
 
+    /**
+     * 把年龄转换为枚举类里对应的值
+     * @param int age 老师年龄
+     */
+    static public function check_teacher_age($age){
+        switch($age){
+        case $age>20:
+            $age_flag = 1;
+            break;
+        case $age>30:
+            $age_flag = 2;
+            break;
+        case $age>40:
+            $age_flag = 3;
+            break;
+        case $age>50:
+            $age_flag = 4;
+            break;
+        default:
+            $age_flag = 0;
+            break;
+        }
+        return $age_flag;
+    }
+
     //grade_start,grade_end转为年级
     static public function grade_start_end_tran_grade($grade_start, $grade_end){
         $grade = [
@@ -2359,7 +2384,6 @@ class Utils  {
         for ($a = $grade_start; $a <= $grade_end; $a++){
             $arr = $arr+$grade[$a];
         }
-        // E\Egrade_range::
         return $arr;
     }
 
