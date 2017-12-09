@@ -73,8 +73,8 @@ class add_new_tea_entry extends Command
                 echo $init_start_date.' '.$init_end_date;
                 $start_time2 = strtotime($init_start_date);
                 $end_time2 = strtotime($init_end_date);
-                $last_month_info = $task->get_last_lesson_count_info($start_time,$end_time,$teacherid);
-                $last_all_lesson_count    = $last_month_info['all_lesson_count'];
+                $last_month_info = $task->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+                var_dump($last_month_info);
 
                 $teacher_honor            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
                 $teacher_trial            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
