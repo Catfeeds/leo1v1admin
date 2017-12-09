@@ -1421,7 +1421,7 @@ class test_james extends Controller
 
     /**
      * @ 将远程录音下载到本地
-     * @ 将录音格式 .MP3 => WAV
+     * @ 将录音格式 .MP3 => WAV [若不是WAV 则 => WAV]
      * @ 对录音进行分割
      * @ 对分割文件进行 文字转换
      * @ 对转换内容进行拼接 并存入数据库
@@ -1432,11 +1432,18 @@ class test_james extends Controller
 
     public function chunk_voice(){
         $voice_url = $this->get_in_str_val('voice_url');
+        // @将远程录音下载到本地
         $pdf_file_path = $this->get_pdf_download_url($voice_url);
-
         $savePathFile = public_path('wximg').'/1.mp3';
-
         $msg = \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+
+        // @录音格式转换
+        // ffmpeg -i sample.mp3 sample.wav
+        $input_file  = "";
+        $output_file = "";
+
+        $transhell = 'ffmpeg -i '.$input_file.' '.$output_file.' ';
+        shell_exec($transhell);
 
         dd($msg);
     }
@@ -1600,6 +1607,144 @@ class test_james extends Controller
     }
 
 
+    public function get_data(){
+        // ["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]
+        $a[] = [
+            "adminid" => "0",
+            "name" => "",
+            "called_succ" => "71",
+            "has_called" => "196",
+            "total_money" => "429460.0000"
+        ];
+
+        $a[]  =  [
+            "adminid" => "3",
+            "name" => "ddd",
+            "called_succ" => "77y7",
+            "has_called" => "196",
+            "total_money" => "42sdjfh000"
+        ];
+
+
+        $c = '';
+        foreach($a as $v){
+            $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        }
+
+        dd($c);
+
+        dd(json_encode($a));
+
+        $one_week_start = 1509379200; //10-31
+        $one_week_end   = 1509984000; //11-7
+
+        $c = '';
+        // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
+        // $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
+        $admin_list = $this->t_seller_student_new->getAdminList($one_week_start, $one_week_end);
+        foreach($admin_list as &$item){
+            $item['name'] = $this->cache_get_account_nick($item['adminid']);
+            $item['called_succ'] = $this->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
+            $item['has_called'] = $this->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
+            $item['total_money'] = $this->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
+
+            if(!$item['adminid']){$item['adminid'] = 0;}
+            if(!$item['name']){$item['name'] = 0;}
+            if(!$item['called_succ']){$item['called_succ'] = 0;}
+            if(!$item['has_called']){$item['has_called'] = 0;}
+            if(!$item['total_money']){$item['total_money'] = 0;}
+            $c.='['.$item['adminid'].','.$item['name'].','.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],';
+        }
+
+        // foreach($admin_list){
+            
+        // }
+
+        $this->download_xls_tmp($c);
+
+        dd($admin_list);
+    }
+
+
+    public function download_xls_tmp ($c)  { // 测试
+        // $xls_data= session("xls_data" );
+
+        // $a[] = [
+        //     "adminid" => "0",
+        //     "name" => "22",
+        //     "called_succ" => "71",
+        //     "has_called" => "196",
+        //     "total_money" => "429460.0000"
+        // ];
+
+        // $a[]  =  [
+        //     "adminid" => "3",
+        //     "name" => "ddd",
+        //     "called_succ" => "77y7",
+        //     "has_called" => "196",
+        //     "total_money" => "42sdjfh000"
+        // ];
+
+
+        // $c = '';
+        // foreach($a as $v){
+        //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        // }
+
+        // $c = substr($c,0,strlen($c)-1); 
+
+
+        // $a = '["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]';
+        $xsl_data = '
+[
+["id","姓名","电话拨打数","拨通数","签单金额"],
+'.$c.'
+]
+';
+        // dd($xsl_data);
+
+        $xsl_data = json_decode($xsl_data,true);
+
+
+        if(!is_array($xsl_data)) {
+            return $this->output_err("download error");
+        }
+
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setCreator("jim ")
+                             ->setLastModifiedBy("jim")
+                             ->setTitle("jim title")
+                             ->setSubject("jim subject")
+                             ->setDescription("jim Desc")
+                             ->setKeywords("jim key")
+                             ->setCategory("jim  category");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $col_list=[
+            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T", "U","V","W","X","Y","Z"
+            ,"AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ"
+            ,"BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ"
+            ,"CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ"
+
+        ];
+
+        foreach( $xsl_data as $index=> $item ) {
+            foreach ( $item as $key => $cell_data ) {
+                $index_str = $index+1;
+                $pos_str   = $col_list[$key].$index_str;
+                $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
+            }
+        }
+
+      $date=\App\Helper\Utils::unixtime2date (time(NULL));
+      header('Content-type: application/vnd.ms-excel');
+      header( "Content-Disposition:attachment;filename=\"$date.xlsx\"");
+
+      $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+      $objWriter->save('php://output');
+    }
 
 
 

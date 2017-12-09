@@ -4349,9 +4349,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_self_order_list($sys_operator){
         $where_arr=[
-            ["sys_operator='%s'",$sys_operator,""]  
+            ["sys_operator='%s'",$sys_operator,""]
         ];
-        $sql = $this->gen_sql_new("select o.userid,s.nick,o.orderid"                                 
+        $sql = $this->gen_sql_new("select o.userid,s.nick,o.orderid"
                                   ." from %s o left join %s s on o.userid=s.userid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
@@ -4361,4 +4361,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_total_price_for_tq($adminid,$start_time,$end_time){
+        // $where_arr = [
+        //     "tq.adminid=$adminid",
+        //     "o.contract_status =1",
+        //     'o.price>0',
+        // ];
+
+        // $this->where_arr_add_time_range($where_arr, "tq.start_time", $start_time, $end_time);
+
+        $sql = $this->gen_sql_new("  select sum(o.price)/100 as total_money from %s o "
+                                  ." left join %s s on s.userid=o.userid"
+                                  ." where  o.contract_status=1 and price>0 and s.phone in (select phone from %s tq1 where tq1.adminid=$adminid and tq1.start_time>$start_time and tq1.start_time<$end_time group by tq1.phone )"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,t_tq_call_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+
+    }
 }

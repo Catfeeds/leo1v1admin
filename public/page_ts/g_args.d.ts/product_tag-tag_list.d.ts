@@ -37,13 +37,14 @@ tofile:
 /// <reference path="../g_args.d.ts/product_tag-tag_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		tag_l1_sort:	$('#id_tag_l1_sort').val(),
 		tag_l2_sort:	$('#id_tag_l2_sort').val(),
 		tag_l3_sort:	$('#id_tag_l3_sort').val(),
 		tag_name:	$('#id_tag_name').val()
-    });
+		});
 }
 $(function(){
 

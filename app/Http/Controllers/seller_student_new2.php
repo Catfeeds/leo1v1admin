@@ -1459,9 +1459,12 @@ class seller_student_new2 extends Controller
             $tea_list = [];
         }
 
-        $tea_list = \App\Helper\Utils::list_to_page_info($tea_list);
+        $select_list = $this->teacher_tags_list_for_select();
+        $tea_list    = \App\Helper\Utils::list_to_page_info($tea_list);
+
         return $this->pageView(__METHOD__,$tea_list,[
-            "require_info" => $require_info
+            "select_list"  => $select_list,
+            "require_info" => $require_info,
         ]);
     }
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 cd $(dirname $0)
 project_name=yb_account
-./gen_proto  --controller_dir=./  $project_name
+./gen_proto  --controller_dir=$HOME/yb_account/app/Controllers  $project_name
 
-proto_dir=~/server_others/dbserver/app/proto
+proto_dir=~/yb_account/app/proto
 rm -rf $proto_dir/$project_name
 mkdir -p    $proto_dir
 cp -rf ./php_${project_name}  $proto_dir/$project_name

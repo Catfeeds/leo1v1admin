@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+     select{width:200px;}
+
+    </style>
     <section class="content">
     @if(!empty($require_info))
     <table >
@@ -24,7 +28,55 @@
     @endif
     <hr/>
     <div class="row">
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span>老师</span>
+                <input id="id_teacherid" type="text" value="" class="opt-change" placeholder="" />
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+            <div class="input-group ">
+                <span>试听上课时间</span>
+                <input id="id_teacherid" type="text" value="" class="opt-change" placeholder="" />
+            </div>
+        </div>
+        <div class="col-md-1 col-xs-3">
+            <div>
+                <button class="btn btn-primary" id="id_set_lesson_time">排课</button>
+            </div>
+        </div>
+        <div class="col-md-1 col-xs-3">
+            <div>
+                <button class="btn btn-danger" id="id_refund_lesson">驳回</button>
+            </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-12" >
+            <div class="input-group ">
+                <span class="input-group-addon">教师相关</span>
+                <select class="opt-change form-control" id="id_teacher_tag1" >
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-6" >
+            <div class="input-group ">
+                <span class="input-group-addon">老师身份</span>
+                <select class="opt-change form-control" id="id_identity">
+                </select>
+                <span class="input-group-addon">性别</span>
+                <select class="opt-change form-control" id="id_gender">
+                </select>
+                <span class="input-group-addon">年龄段</span>
+                <select class="opt-change form-control" id="id_tea_age">
+                </select>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <hr>
     <table   class="common-table" >
         <thead>
             <tr>
@@ -43,24 +95,26 @@
         <tbody>
             @foreach ($table_data_list as $var)
                 <tr>
-                    <td >{{$var["teacherid"]}}</td>
-                    <td >{{$var["realname"]}}</td>
-                    <td >{{$var["gender_str"]}}</td>
-                    <td >{{$var["age"]}}</td>
-                    <td >
+                    <td>{{$var["teacherid"]}}</td>
+                    <td>{{$var["realname"]}}</td>
+                    <td>{{$var["gender_str"]}}</td>
+                    <td>{{$var["age"]}}</td>
+                    <td>
                         <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
                             {{$var["phone_hide"]}}
                         </a>
                     </td>
-                    <td >{{$var["work_day"]}}</td>
-                    <td >{{$var["identity_str"]}}</td>
-                    <td >查看详情</td>
-                    <td >标签</td>
-                    <td >
+                    <td>{{$var["work_day"]}}</td>
+                    <td>{{$var["identity_str"]}}</td>
+                    <td>
+                        <a href="javascript:;" class="show_phone" data-phone="{{$var["teacherid"]}}" >
+                            查看详情
+                        </a>
+                    </td>
+                    <td>标签</td>
+                    <td>
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                             <a class="fa-hand-o-up opt-stu-origin btn fa" title="编辑优惠力度"></a>
-                            <a href="javascript:;" class="fa-edit btn act-edit" title="编辑活动"></a>
-                            <a href="javascript:;" class="fa-comment opt-return-back btn fa act-look" title="查看活动"></a>
                         </div>
                     </td>
                 </tr>

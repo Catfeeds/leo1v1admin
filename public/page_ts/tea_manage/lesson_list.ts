@@ -1931,7 +1931,7 @@ $(function(){
                 var str="";
                 $.each(item,function(ii,item_p){
                     console.log(item_p);
-                    str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                    str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
                 });
                 if(i=="风格性格"){
                     teacher_related_labels.find("#style_character").append(str);
@@ -2555,7 +2555,7 @@ $(function(){
                     var str="";
                     $.each(item,function(ii,item_p){
                         console.log(item_p);
-                        str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                        str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
                     });
                     if(i=="风格性格"){
                         teacher_related_labels.find("#style_character").append(str);

@@ -3168,7 +3168,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql= $this->gen_sql_new(
             "select first_seller_adminid as adminid,   count(*) as count from %s"
             . "  where  %s group  by first_seller_adminid ",
-            self::DB_TABLE_NAME, 
+            self::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
@@ -3182,4 +3182,63 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = "update db_weiyi.t_seller_student_new set cc_no_called_count_new = $total where phone = $phone ";
         return $this->main_update($sql);
     }
+
+    public function get_data($one_week_start, $one_week_end){
+        //admin_role
+        $where_arr = [
+            "tq.admin_role=2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "tq.start_time", $one_week_start, $one_week_end);
+
+        $sql = $this->gen_sql_new("  select count(s.userid) as stu_num, sum(o.price)/100 as total_money from %s s "
+                                  ." left join %s tq on tq.phone=s.phone "
+                                  ." left join %s m on tq.adminid=m.uid "
+                                  ." left join %s o on o.sys_operator=m.account"
+                                  ." where %s group by s.userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_tq_call_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function getPhoneList($one_week_start, $one_week_end){
+        $where_arr = [
+            "tq.is_called_phone=1"
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "tq.start_time", $one_week_start, $one_week_end);
+
+        $sql = $this->gen_sql_new("  select count(distinct(s.userid)) as num, adminid  from %s s "
+                                  ." left join %s tq on tq.phone=s.phone "
+                                  ." where %s group by tq.adminid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_tq_call_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        // return $sql;
+        return $this->main_get_list($sql);
+    }
+
+
+    public function getAdminList($one_week_start, $one_week_end){
+        $where_arr = [
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "tq.start_time", $one_week_start, $one_week_end);
+
+        $sql = $this->gen_sql_new("  select adminid  from %s tq "
+                                  ." where %s group by adminid"
+                                  ,t_tq_call_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }
