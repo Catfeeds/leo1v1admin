@@ -3136,6 +3136,7 @@ function init_edit() {
             Enum_map.append_option_list("intention_level", id_intention_level, true);
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
+            Enum_map.append_option_list("identity", id_tea_status, true);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
@@ -3751,6 +3752,7 @@ function init_edit() {
             html_node.find("#id_intention_level_new_two").val(data.intention_level);
             html_node.find("#id_demand_urgency_new_two").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction_new_two").val(data.quotation_reaction);
+            id_tea_status.val(data.);
 
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
@@ -3764,7 +3766,7 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_id']+"' />");
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
                         }
                     });
             });
@@ -3778,7 +3780,7 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_id']+"' />");
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
                         }
                     })
                         })
@@ -3791,7 +3793,7 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_id']+"' />");
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
                         }
                     })
                         })
@@ -3982,8 +3984,13 @@ function init_edit() {
                                 subject_str += subject_score+':'+subject_score_one+'/'+subject_score_two+',';
                             }
                         });
-                        var tag_str = id_cultivation.val()+','+id_teacher_nature.val()+','+id_pro_ability.val()+','+id_class_env.val()+','+id_courseware.val();
-                        alert(tag_str);
+                        var add_tag = '';
+                        $("[name = subject_tag]:checkbox").each(function(){
+                            if($(this).is(":checked")){
+                                add_tag += $(this).attr('value')+',';
+                            }
+                        });
+                        alert(id_test_paper.val());
                         // $.do_ajax("/ss_deal2/save_user_info_new",{
                             // new_demand_flag   : 1,
                             // click_type        : click_type,
@@ -4013,27 +4020,33 @@ function init_edit() {
                             // test_stress: html_node.find("#id_test_stress_new_two").val(),
                             // academic_goal: id_academic_goal.val(),
                             // entrance_school_type: id_entrance_school_type.val(),
+                            // cultivation:id_cultivation.val(),
+                            // add_tag:id_add_tag.val(),
+                            // teacher_nature:id_teacher_nature.val(),
+                            // pro_ability:id_pro_ability.val(),
+                            // class_env:id_class_env.val(),
+                            // courseware:id_courseware.val(),
+                            // recent_results: html_node.find("#id_recent_results_new_two").val(),
+                            // advice_flag: id_advice_flag.val(),
+                            // interest_cultivation: id_interest_cultivation.val(),
+                            // extra_improvement : id_extra_improvement.val(),
+                            // habit_remodel: id_habit_remodel.val(),
+                            // study_habit : id_study_habit.val(),
+                            // stu_request_test_lesson_demand : id_stu_request_test_lesson_demand.val(),
+                            // intention_level : id_intention_level.val(),
+                            // stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
+                            // test_paper: id_test_paper.val(),
 
                             // seller_student_status : id_status.val(),
                             // seller_student_sub_status : id_seller_student_sub_status.val(),
                             // user_desc     : id_user_desc.val(),
                             // next_revisit_time : id_next_revisit_time.val(),
-                            // stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            // stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
                             // stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                            // intention_level       : id_intention_level.val(),
                             // class_num: html_node.find("#id_class_num_new_two").val(),
                             // grade_rank: html_node.find("#id_grade_rank_two").val(),
-                            // interest_cultivation: html_node.find("#id_interest_cultivation_new_two").val(),
-                            // extra_improvement : html_node.find("#id_extra_improvement_new_two").val(),
-                            // habit_remodel: html_node.find("#id_habit_remodel_new_two").val(),
-                            // study_habit : html_node.find("#id_study_habit_new_two").val(),
                             // need_teacher_style: html_node.find("#id_need_teacher_style_new_two").val(),
                             // demand_urgency: html_node.find("#id_demand_urgency_new_two").val(),
                             // quotation_reaction: html_node.find("#id_quotation_reaction_new_two").val(),
-                            // recent_results: html_node.find("#id_recent_results_new_two").val(),
-                            // advice_flag: html_node.find("#id_advice_flag_new_two").val(),
-                            // test_paper: html_node.find("#id_test_paper_new_two").val(),
                         // });
 
                     }
