@@ -1657,16 +1657,16 @@ class test_james extends Controller
             if(!$item['called_succ']){$item['called_succ'] = 0;}
             if(!$item['has_called']){$item['has_called'] = 0;}
             if(!$item['total_money']){$item['total_money'] = 0;}
-            $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],';
+            $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
         }
 
         // foreach($admin_list){
 
         // }
+        dd($c);
 
         $this->download_xls_tmp($c);
 
-        echo $c;
         dd($admin_list);
     }
 
@@ -1697,7 +1697,6 @@ class test_james extends Controller
         // foreach($a as $v){
         //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
         // }
-        $c='[1233,0,55,146,0],[1234,0,82,207,0],[1235,0,55,177,0],[1236,8,66,292,0],[1242,7,22,89,0]';
 
         // $c = substr($c,0,strlen($c)-1);
 
