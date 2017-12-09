@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\get_data::class,
         Commands\NoticeAssForFirstLesson::class,
         Commands\update_company_wx_data::class,
         Commands\update_identity_for_teacher::class,

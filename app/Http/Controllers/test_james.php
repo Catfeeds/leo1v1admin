@@ -1609,34 +1609,38 @@ class test_james extends Controller
 
     public function get_data(){
         // ["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]
-        $a[] = [
-            "adminid" => "0",
-            "name" => "",
-            "called_succ" => "71",
-            "has_called" => "196",
-            "total_money" => "429460.0000"
-        ];
+        // $a[] = [
+        //     "adminid" => "0",
+        //     "name" => "",
+        //     "called_succ" => "71",
+        //     "has_called" => "196",
+        //     "total_money" => "429460.0000"
+        // ];
 
-        $a[]  =  [
-            "adminid" => "3",
-            "name" => "ddd",
-            "called_succ" => "77y7",
-            "has_called" => "196",
-            "total_money" => "42sdjfh000"
-        ];
+        // $a[]  =  [
+        //     "adminid" => "3",
+        //     "name" => "ddd",
+        //     "called_succ" => "77y7",
+        //     "has_called" => "196",
+        //     "total_money" => "42sdjfh000"
+        // ];
 
 
-        $c = '';
-        foreach($a as $v){
-            $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
-        }
+        // $c = '';
+        // foreach($a as $v){
+        //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        // }
 
-        dd($c);
+        // dd($c);
 
-        dd(json_encode($a));
+        // dd(json_encode($a));
+
 
         $one_week_start = 1509379200; //10-31
         $one_week_end   = 1509984000; //11-7
+
+        $one_week_start = $this->get_in_int_val('s');
+        $one_week_end   = $this->get_in_int_val('e');
 
         $c = '';
         // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
@@ -1653,20 +1657,23 @@ class test_james extends Controller
             if(!$item['called_succ']){$item['called_succ'] = 0;}
             if(!$item['has_called']){$item['has_called'] = 0;}
             if(!$item['total_money']){$item['total_money'] = 0;}
-            $c.='['.$item['adminid'].','.$item['name'].','.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],';
+            $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
         }
 
         // foreach($admin_list){
-            
-        // }
 
-        $this->download_xls_tmp($c);
+        // }
+        dd($c);
+
+        // $this->download_xls_tmp($c);
 
         dd($admin_list);
     }
 
 
-    public function download_xls_tmp ($c)  { // 测试
+    public function download_xls_tmp ()  { // 测试
+        $c = $this->get_in_str_val('c');
+
         // $xls_data= session("xls_data" );
 
         // $a[] = [
@@ -1691,21 +1698,20 @@ class test_james extends Controller
         //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
         // }
 
-        // $c = substr($c,0,strlen($c)-1); 
+        // $c = substr($c,0,strlen($c)-1);
 
 
-        // $a = '["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]';
         $xsl_data = '
 [
 ["id","姓名","电话拨打数","拨通数","签单金额"],
 '.$c.'
 ]
 ';
-        // dd($xsl_data);
 
         $xsl_data = json_decode($xsl_data,true);
+        dd($xsl_data);
 
-
+        
         if(!is_array($xsl_data)) {
             return $this->output_err("download error");
         }

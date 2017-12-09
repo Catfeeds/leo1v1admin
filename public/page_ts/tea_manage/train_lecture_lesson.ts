@@ -958,10 +958,10 @@ $(function(){
         var id_reason_all = $("<textarea/>");
 
         var arr = [
-            ["未通过",id_lecture_out],
-            ["原因/建议",id_reason_all]
+            ["<font style=\"color:red\">*</font>&nbsp未通过",id_lecture_out],
+            ["<font style=\"color:red\">*</font>&nbsp原因/建议",id_reason_all]
         ];
-        $.show_key_value_table("审核-new",arr,{
+        $.show_key_value_table("不通过",arr,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {

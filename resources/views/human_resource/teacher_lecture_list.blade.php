@@ -195,11 +195,7 @@
                                     @if(in_array($acc,["adrian","jack"]))
                                         <a class="opt-set_test">测试数据切换</a>
                                     @endif
-                                    @if(in_array($acc,["jim","jack","林文彬"]))
-                                        <a class="opt-edit-pass" title="审核">审核-new </a>
-                                        <a class="opt-edit-no-pass" title="淘汰重审判定">不通过 </a>
-                                    @endif
-
+                                   
                                     @if($var["account"]!="" || in_array($acc,["adrian"]) || $account_role==12)
                                         @if($account_role != 8) 
                                             <!-- 蔡老师要求　招师不可见 -->
@@ -208,6 +204,11 @@
                                         @if(($var['status']!=2 || in_array($acc,["adrian","alan","jack"]) || $account_role==12) && $account_role !=8)
                                             <!-- 蔡老师要求 招师不可见   -->
                                             <a class="opt-edit-new" title="更改状态">审核 </a>
+                                            @if(in_array($acc,["jim","jack","林文彬"]))
+                                                <a class="opt-edit-pass" title="审核">审核-new </a>
+                                                <a class="opt-edit-no-pass" title="淘汰重审判定">不通过 </a>
+                                            @endif
+
                                         @endif
                                         @if($var['identity_image']!='')
                                             <a class="opt-get_identity_image" title="查看证书">证书</a>
