@@ -41,7 +41,59 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        // 拉取数据
+        // 拉取数据(6月至11月的总工资)
+        $arr = [6,7,8,9,10,11];
+        foreach($arr as $item) {
+            $start = '2017-'.$item.'-1';
+            $end = '2017-'.($item+1).'-1';
+            $start_time = strtotime($start);
+            $end_time = strtotime($end);
+            $info = $task->t_teacher_salary_list->get_salary_list($start_time,$end_time);
+
+            // $all_money = 0;//总工资
+            // $all_all_money = 0;//全职老师
+            // $all_not_money = 0;//兼职老师
+            // foreach($info['list'] as &$t_val){
+            //     $t_val['money']   /= 100;
+            //     $all_money += $t_val['money'];
+            //     if ($t_val['teacher_money_type'] == 7 || ($t_val['teacher_type'] == 3 && $t_val["teacher_money_type"] == 0)) {
+            //         $all_all_money += $t_val['money'];
+            //     } else {
+            //         $all_not_money += $t_val['money'];
+            //     }
+            // }
+            // $all_money_tax = $all_money*0.98;
+            // echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;
+
+            foreach($info['list'] as $val) {
+                var_dump($val);
+                $teacherid = $val['teacherid'];
+                $init_start_date = date("Y-m-01",  $val['add_time']);
+                $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
+                $start_time2 = strtotime($init_start_date);
+                $end_time2 = strtotime($init_end_date);
+                $last_month_info = $task->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+                $last_all_lesson_count    = $last_month_info['all_lesson_count'];
+
+                $teacher_honor            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
+                $teacher_trial            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
+                $teacher_compensate       = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
+                $teacher_compensate_price = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
+                $teacher_reference        = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
+                $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
+                $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
+                $val['money']   /= 100;
+                $money = $val['money'] - $redward;
+                echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$last_all_lesson_count.' '.$money.PHP_EOL;
+                exit;
+            }
+            sleep(2);
+        }
+        // 拉取数据(6月至11月的老师工资)
+
+        //$start_time = strtotime('')
+        exit;
+
         $user = $task->t_teacher_lecture_appointment_info_b2->get_manager_info();
         $start_time = strtotime('2017-11-1');
         $end_time = strtotime("2017-12-1");

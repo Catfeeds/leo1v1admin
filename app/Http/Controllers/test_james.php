@@ -1615,13 +1615,64 @@ class test_james extends Controller
         // $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
         $admin_list = $this->t_seller_student_new->getAdminList($one_week_start, $one_week_end);
         foreach($admin_list as &$item){
+            $item['name'] = $this->cache_get_account_nick($item['adminid']);
             $item['called_succ'] = $this->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
             $item['has_called'] = $this->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
-            // $item['total_money'] = $this->
+            $item['total_money'] = $this->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
         }
 
 
         dd($admin_list);
+    }
+
+
+    public function download_xls_tmp ()  { // 测试
+        // $xls_data= session("xls_data" );
+        $xsl_data = '
+[["Field","Type","Collation","Null","Key","Default","Extra","Privileges","Comment"],["id","int(10) unsigned","","NO","PRI","","auto_increment","select,insert,update",""],["parentid","int(11)","","NO","MUL","","","select,insert,update","家长id"],["get_prize_time","varchar(255)","latin1_bin","NO","MUL","","","select,insert,update","领奖时间"],["presenterid","int(11)","","NO","MUL","","","select,insert,update","发奖人"],["prize_time","int(11)","","NO","","","","select,insert,update","抽奖时间"],["stu_type","tinyint(4)","","NO","","","","select,insert,update","学员类型 1:新用户 2:老用户"],["create_time","int(11)","","NO","","","","select,insert,update","后台奖品录入时间"],["validity_time","int(11)","","NO","","","","select,insert,update","有效期"],["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id"],["prize_type","int(11)","","NO","","","","select,insert,update","ruffian_prize_type 枚举类"]]
+';
+
+        $xsl_data = json_decode($xsl_data,true);
+
+
+        if(!is_array($xsl_data)) {
+            return $this->output_err("download error");
+        }
+
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setCreator("jim ")
+                             ->setLastModifiedBy("jim")
+                             ->setTitle("jim title")
+                             ->setSubject("jim subject")
+                             ->setDescription("jim Desc")
+                             ->setKeywords("jim key")
+                             ->setCategory("jim  category");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $col_list=[
+            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T", "U","V","W","X","Y","Z"
+            ,"AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ"
+            ,"BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ"
+            ,"CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ"
+
+        ];
+
+        foreach( $xsl_data as $index=> $item ) {
+            foreach ( $item as $key => $cell_data ) {
+                $index_str = $index+1;
+                $pos_str   = $col_list[$key].$index_str;
+                $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
+            }
+        }
+
+      $date=\App\Helper\Utils::unixtime2date (time(NULL));
+      header('Content-type: application/vnd.ms-excel');
+      header( "Content-Disposition:attachment;filename=\"$date.xlsx\"");
+
+      $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+      $objWriter->save('php://output');
     }
 
 

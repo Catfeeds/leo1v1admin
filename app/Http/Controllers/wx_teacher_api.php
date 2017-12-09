@@ -1158,9 +1158,6 @@ class wx_teacher_api extends Controller
     }
 
 
-    public function get_data(){
-        
-    }
 
 
 }
