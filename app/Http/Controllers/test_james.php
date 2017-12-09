@@ -1615,9 +1615,10 @@ class test_james extends Controller
         // $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
         $admin_list = $this->t_seller_student_new->getAdminList($one_week_start, $one_week_end);
         foreach($admin_list as &$item){
+            $item['name'] = $this->cache_get_account_nick($item['adminid']);
             $item['called_succ'] = $this->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
             $item['has_called'] = $this->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
-            // $item['total_money'] = $this->
+            $item['total_money'] = $this->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
         }
 
 
