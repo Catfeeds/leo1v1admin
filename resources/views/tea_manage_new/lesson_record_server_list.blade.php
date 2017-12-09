@@ -100,9 +100,7 @@
 
                     </td>
                     <td class="td-query" data-queryid="id_date_range"  style="min-width:100px;"   > 上课时间 </td>
-                    {!!\App\Helper\Utils::th_order_gen([
-                        ["学生", "", "th_userid" ]
-                       ])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["学生", "", "th_userid" ]])!!}
 
                     <td>老师</td>
                     <td> 操作  </td>

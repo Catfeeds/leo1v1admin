@@ -32,8 +32,9 @@ tofile:
 /// <reference path="../g_args.d.ts/tea_manage_new-lesson_record_server_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		order_by_str:	$('#id_order_by_str').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
@@ -45,29 +46,44 @@ function load_data(){
 		lesson_type:	$('#id_lesson_type').val(),
 		subject:	$('#id_subject').val(),
 		userid:	$('#id_userid').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_record_audio_server1').val(g_args.record_audio_server1);
 	$('#id_xmpp_server_name').val(g_args.xmpp_server_name);
-	$('#id_lesson_type').val(g_args.lesson_type);
-	$.enum_multi_select( $('#id_lesson_type'), 'contract_type', function(){load_data();} )
-	$('#id_subject').val(g_args.subject);
-	$.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
-	$('#id_userid').val(g_args.userid);
+	$('#id_lesson_type').admin_set_select_field({
+		"enum_type"    : "contract_type",
+		"select_value" : g_args.lesson_type,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_lesson_type",
+		"btn_id_config"     : {}
+	});
+	$('#id_subject').admin_set_select_field({
+		"enum_type"    : "subject",
+		"select_value" : g_args.subject,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_subject",
+		"btn_id_config"     : {}
+	});
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"can_sellect_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
