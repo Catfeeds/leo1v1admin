@@ -1617,7 +1617,9 @@ class test_james extends Controller
         foreach($admin_list as &$item){
             $item['called_succ'] = $this->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
             $item['has_called'] = $this->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
+            // $item['total_money'] = $this->
         }
+
 
         dd($admin_list);
     }
