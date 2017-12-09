@@ -12,7 +12,7 @@
       <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
       <section class="content">
           <div class="row row-query-list">
-              <div class="col-xs-12 col-md-4"  data-title="时间段">
+              <div class="col-xs-12 col-md-5"  data-title="时间段">
                   <div  id="id_date_range" >
                   </div>
               </div>
@@ -113,15 +113,13 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">年级</span>
-                    <select class="opt-change form-control" id="id_grade" >
-                    </select>
+                    <input class="opt-change form-control" id="id_grade" />
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">科目</span>
-                    <select class="opt-change form-control" id="id_subject" >
-                    </select>
+                    <input class="opt-change form-control" id="id_subject" />
                 </div>
             </div>
 
@@ -169,16 +167,19 @@
                     <td style="display:none">userid</td>
                     <td style="display:none">orderid</td>
                     <td class="td-origin" >渠道</td>
-                    <td >学员姓名</td>
+
+                    {!!\App\Helper\Utils::th_order_gen([["学生", "", "th_studentid" ]])!!}
                     <td style="display:none;" >家长姓名</td>
                     <td style="display:none;" >地区</td>
                     <td style="display:none;" >1v1详细分类</td>
                     <td style="display:none;">是否新增 </td>
                     <td >试听课时间</td>
-                    <td >年级</td>
-                    <td >科目</td>
-                    <td >合同状态</td>
-                    <td >合同类型</td>
+
+                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
+
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
                     <td >总课时</td>

@@ -179,7 +179,7 @@
 
         };
         this.options = $.extend({}, this.defaults, opt);
-        this.options.multi_selection_key=$.trim(window.location.pathname)+ "_"  + this.$ele.attr("id");
+        this.options.multi_selection_key="multi_selection_key_"+$.trim(window.location.pathname)+ "_"  + this.$ele.attr("id");
 
         var me=this;
         var th_input_id=this.options.th_input_id  ;
@@ -225,7 +225,7 @@
 (function($, window, document,undefined) {
 
     //在插件中使用对象
-    $.fn.admin_select_user = function(options) {
+    $.fn.admin_select_user_new = function(options) {
         $(this).val( options.select_value);
         if (options.can_sellect_all_flag) {
             var args_ex= $.extend({}, options.args_ex, { "select_btn_config": [{

@@ -562,11 +562,20 @@ class user_manage extends Controller
 
     public function contract_list () {
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("t1.order_time","下单日期"),
-            2 => array("t1.pay_time", "生效日期"),
+            1 => array("o.order_time","下单日期"),
+            2 => array("o.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
             4 => array("n.add_time", "例子进入时间"),
         ],3);
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"order_time desc",[
+                "grade" => "s.grade",
+                "contract_status" => "o.contract_status",
+                "contract_type" => "o.contract_type",
+            ]);
+
+
 
         $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_el_contract_type();
@@ -580,8 +589,8 @@ class user_manage extends Controller
         $stu_from_type     = $this->get_in_int_val("stu_from_type",-1);
         $account_role      = $this->get_in_int_val("account_role",-1);
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
-        $grade             = $this->get_in_int_val("grade",-1);
-        $subject           = $this->get_in_int_val("subject",-1);
+        $grade             = $this->get_in_el_grade();
+        $subject           = $this->get_in_el_subject();
         $this->get_in_int_val("self_adminid", $this->get_account_id());
         $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
         $teacherid         = $this->get_in_teacherid(-1);
@@ -628,7 +637,7 @@ class user_manage extends Controller
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type,
-            " t2.assistantid asc , order_time desc",
+            $order_by_str,
             $spec_flag,$orderid ,$order_activity_type,$show_son_flag
         );
 

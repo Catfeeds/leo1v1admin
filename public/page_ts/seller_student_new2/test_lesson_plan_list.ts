@@ -1576,7 +1576,7 @@ $(function(){
 
     $(".opt-set-limit-require-agree").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        if(g_adminid != opt_data.limit_require_send_adminid){
+        if(g_adminid != opt_data.limit_require_send_adminid && g_adminid !=478){
             alert("您无权处置!");
             return;
         }
@@ -1597,7 +1597,7 @@ $(function(){
 
     $(".opt-set-limit-require-refuce").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        if(g_adminid != opt_data.limit_require_send_adminid){
+        if(g_adminid != opt_data.limit_require_send_adminid && g_adminid !=478){
             alert("您无权处置!");
             return;
         }
