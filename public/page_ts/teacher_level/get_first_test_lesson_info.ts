@@ -719,6 +719,39 @@ $(function(){
 
     });
 
+    $("#id_test_lesson_assign").on("click",function(){
+        var $teacherid = $("<input />");
+     
+
+
+        var arr=[           
+            ["老师", $teacherid],        
+        ];
+       
+
+        $.show_key_value_table("新增", arr, {
+            label    : '提交',
+            cssClass : 'btn-primary',
+            action   : function(dialog) {
+
+               
+                    $.do_ajax("/test_jack/add_record", {
+                        "teacherid" : $teacherid.val(),
+                       
+                    });
+
+              
+
+            }
+        },function(){
+            $.admin_select_user($teacherid,"teacher" );
+            
+
+
+        });
+ 
+    })
+
 
 
 	$('.opt-change').set_input_change_event(load_data);
