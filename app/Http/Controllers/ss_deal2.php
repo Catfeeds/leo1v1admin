@@ -480,6 +480,174 @@ class ss_deal2 extends Controller
         return $this->output_succ(["data"=> $data]);
     }
 
+    public function get_teacher_nature_list(){
+        $teacher_nature = $this->get_in_str_val('teacher_nature',"");
+        $list = $this->t_tag_library->get_teacher_nature_list();
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["tag_name"=>$val['tag_name'],"tag_id"=>$val['tag_id']];
+            $data[]=$val['tag_name'];
+        }
+        if(!empty($teacher_nature)){
+            $teacher_nature = trim($teacher_nature,",");
+            $arr = explode(",",$teacher_nature);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["tag_name"]){
+                            $item["has_tag_name"] = in_array($k,$data)?1:0;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_teacher_nature_name(){
+        $teacher_nature = $this->get_in_str_val('teacher_nature',"");
+        $list = [];
+        $list_new = $this->t_tag_library->get_teacher_nature_list();
+        foreach($list_new as $item){
+            $list[$item['tag_id']] = $item['tag_name'];
+        }
+        $arr = json_decode($teacher_nature,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+    }
+
+    public function get_pro_ability_list(){
+        $pro_ability = $this->get_in_str_val('pro_ability',"");
+        $list = $this->t_tag_library->get_pro_ability_list();
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["tag_name"=>$val['tag_name'],"tag_id"=>$val['tag_id']];
+            $data[]=$val['tag_name'];
+        }
+        if(!empty($cultivation)){
+            $cultivation = trim($cultivation,",");
+            $arr = explode(",",$cultivation);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["tag_name"]){
+                            $item["has_tag_name"] = in_array($k,$data)?1:0;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_pro_ability_name(){
+        $pro_ability = $this->get_in_str_val('pro_ability',"");
+        $list = [];
+        $list_new = $this->t_tag_library->get_pro_ability_list();
+        foreach($list_new as $item){
+            $list[$item['tag_id']] = $item['tag_name'];
+        }
+        $arr = json_decode($pro_ability,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+    }
+
+    public function get_class_env_list(){
+        $class_env = $this->get_in_str_val('class_env',"");
+        $list = $this->t_tag_library->get_class_env_list();
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["tag_name"=>$val['tag_name'],"tag_id"=>$val['tag_id']];
+            $data[]=$val['tag_name'];
+        }
+        if(!empty($class_env)){
+            $class_env = trim($class_env,",");
+            $arr = explode(",",$class_env);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["tag_name"]){
+                            $item["has_tag_name"] = in_array($k,$data)?1:0;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_class_env_name(){
+        $class_env = $this->get_in_str_val('class_env',"");
+        $list = [];
+        $list_new = $this->t_tag_library->get_class_env_list();
+        foreach($list_new as $item){
+            $list[$item['tag_id']] = $item['tag_name'];
+        }
+        $arr = json_decode($class_env,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+    }
+
+    public function get_courseware_list(){
+        $courseware = $this->get_in_str_val('courseware',"");
+        $list = $this->t_tag_library->get_courseware_list();
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["tag_name"=>$val['tag_name'],"tag_id"=>$val['tag_id']];
+            $data[]=$val['tag_name'];
+        }
+        if(!empty($courseware)){
+            $courseware = trim($courseware,",");
+            $arr = explode(",",$courseware);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["tag_name"]){
+                            $item["has_tag_name"] = in_array($k,$data)?1:0;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_courseware_name(){
+        $courseware = $this->get_in_str_val('courseware',"");
+        $list = [];
+        $list_new = $this->t_tag_library->get_courseware_list();
+        foreach($list_new as $item){
+            $list[$item['tag_id']] = $item['tag_name'];
+        }
+        $arr = json_decode($courseware,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+    }
+
     public function get_stu_interests_hobbies_name(){
         $interests_hobbies = $this->get_in_str_val('interests_hobbies',"");
         $list    = E\Einterests_hobbies::$desc_map;
@@ -972,7 +1140,7 @@ class ss_deal2 extends Controller
         ]);
 
         return $this->output_succ();
- 
+
     }
 
 

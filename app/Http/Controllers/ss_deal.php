@@ -375,6 +375,7 @@ class ss_deal extends Controller
         $ret["tea_province"] = $tt_item["tea_province"];
         $ret["tea_city"] = $tt_item["tea_city"];
         $ret["tea_area"] = $tt_item["tea_area"];
+        $ret["tea_identity"] = $tt_item["tea_identity"];
         $ret["stu_test_paper"] = $tt_item["stu_test_paper"];
         $ret["ass_test_lesson_type"] = $tt_item["ass_test_lesson_type"];
         $ret["change_teacher_reason_type"] = $tr_item["change_teacher_reason_type"];
