@@ -14,7 +14,19 @@ $(function(){
         teacherid        : $('#id_teacherid').val(),
         teacher_type     : $('#id_teacher_type').val(),
     });
-}
+    }
+
+        $('#id_date_range').select_date_range({
+        'date_type'      : g_args.date_type,
+        'opt_date_type'  : g_args.opt_date_type,
+        'start_time'     : g_args.start_time,
+        'end_time'       : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery          : function() {
+            load_data();
+        }
+    });
+
 
 
     //Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
