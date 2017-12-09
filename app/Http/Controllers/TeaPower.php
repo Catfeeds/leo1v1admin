@@ -4617,6 +4617,49 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
+    /**
+     * 匹配老师的上课时间
+     * @param string teacher_free_time 老师空闲时间
+     * @param string match_time     匹配开始时间
+     * @param string match_time_end 匹配结束时间
+     * @return int match_num 匹配度
+     */
+    public function match_teacher_free_time($teacher_free_time,$match_time,$match_time_end){
+        $teacher_free_time_arr  = json_decode($teacher_free_time);
+
+        $match_num  = 0;
+        $break_flag = false;
+        foreach($teacher_free_time_arr as $val){
+            $start_time = strtotime($val[0]);
+            $date       = date("Y-m-d",$start_time);
+            $end_time   = strtotime("+1 minute",strtotime($date." ".$val[1]));
+            if($match_time>=$start_time && $match_time<$end_time){
+                $match_num = 50;
+            }
+            if($match_time_end<=$end_time && $match_time_end>$start_time){
+                $match_num = $match_num==0?50:100;
+                $break_flag = true;
+            }
+            if($match_time_end<$start_time){
+                $break_flag = true;
+            }
+
+            if($break_flag){
+                break;
+            }
+        }
+        return $match_num;
+    }
+
+    /**
+     * 匹配老师标签
+     * @param string teacher_tags 老师标签
+     * @param string match_tags   匹配标签
+     * @return int   match_num 匹配度
+     */
+    public function match_teacher_tags($teacher_tags,$match_tags){
+
+    }
 
 
 }
