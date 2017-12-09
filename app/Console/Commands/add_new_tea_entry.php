@@ -41,9 +41,10 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+        $teacher_money = new \App\Http\Controllers\teacher_money();
         // 拉取数据(6月至11月的总工资)
         $arr = [6,7,8,9,10,11];
-        //$arr = [11];
+        $arr = [11];
         foreach($arr as $item) {
             $start = '2017-'.$item.'-1';
             $end = '2017-'.($item+1).'-1';
@@ -66,7 +67,21 @@ class add_new_tea_entry extends Command
             // $all_money_tax = $all_money*0.98;
             // echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;
 
+            // $info= $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
+            // $lesson_money;   总工资
+            // $info['lesson_total'];    总课时
+            // $info['lesson_trial_total']; 试听总课时
+            // $info['teacher_lesson_price']; 老师课时总收入
+
+
             foreach($info['list'] as $val) {
+                $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
+                dd($teacher);
+                // $lesson_money;   总工资
+                // $info['lesson_total'];    总课时
+                // $info['lesson_trial_total']; 试听总课时
+                // $info['teacher_lesson_price']; 老师课时总收入
+
                 $teacherid = $val['teacherid'];
                 $init_start_date = date("Y-m-01",  $val['add_time']);
                 $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
