@@ -303,28 +303,9 @@ class fulltime_teacher extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
-        $start_time_ave = time()-30*86400;
-        $res = $this->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
-        $num = 0;
-        $arr = 0;
-        foreach($res as $item){
-            if($item["orderid"]>0 && $item["order_time"]>0 && $item["lesson_start"]>0){
-                $num++;
-                $arr += ($item["order_time"]-$item["lesson_start"]);
-            }
-        }
+       
 
-        if($num!=0){
-            $day_num = round($arr/$num/86400,0);
-        }else{
-            $day_num = 0;
-        }
-
-        if((time() - $end_time) <= $day_num*86400){
-            $lesson_end_time = time()- $day_num*86400;
-        }else{
-            $lesson_end_time = $end_time;
-        }
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
 
 
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
