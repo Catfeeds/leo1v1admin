@@ -1666,6 +1666,7 @@ class test_james extends Controller
 
         $this->download_xls_tmp($c);
 
+        echo $c;
         dd($admin_list);
     }
 
@@ -1695,10 +1696,9 @@ class test_james extends Controller
         //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
         // }
 
-        // $c = substr($c,0,strlen($c)-1); 
+        $c = substr($c,0,strlen($c)-1); 
 
 
-        // $a = '["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]';
         $xsl_data = '
 [
 ["id","姓名","电话拨打数","拨通数","签单金额"],
