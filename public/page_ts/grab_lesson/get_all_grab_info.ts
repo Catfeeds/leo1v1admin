@@ -48,62 +48,49 @@ $(function(){
             //字段列表
             'field_list' :[
                 {
-                    title:"visitid",
-                    render:function(val,item) {
-                        return item.visitid;
-                    }
-
-                },{
-
-                    title:"老师",
-                    render:function(val,item) {
-                        return item.tea_nick ;
-                    }
-
-                },{
-
-                    title:"访问时间",
-                    render:function(val,item) {
-                        return item.visit_time ;
-                    }
-
-                },{
-                    title:"是否抢课",
-                    //width :50,
-                    render:function(val,item) {
-                        return $(item.operation_str );
-                    }
-                },{
-
-                    title:"抢课时间",
-                    render:function(val,item) {
-                        return item.grab_time ;
-                    }
-
-                },{
-                    title:"是否成功",
-                    render:function(val,item) {
-                        return $(item.success_flag_str) ;
-                    }
-
-                },{
-                    title:"requireid",
-                    render:function(val,item) {
-                        return item.requireid ;
-                    }
-
-                },{
-                    title:"失败原因",
-                    render:function(val,item) {
-                        return item.fail_reason ;
-                    }
-
+                title:"visitid",
+                render:function(val,item) {
+                    return item.visitid;
                 }
-
-
+            },{
+                title:"老师",
+                render:function(val,item) {
+                    return item.tea_nick ;
+                }
+            },{
+                title:"访问时间",
+                render:function(val,item) {
+                    return item.visit_time ;
+                }
+            },{
+                title:"是否抢课",
+                //width :50,
+                render:function(val,item) {
+                    return $(item.operation_str );
+                }
+            },{
+                title:"抢课时间",
+                render:function(val,item) {
+                    return item.grab_time ;
+                }
+            },{
+                title:"是否成功",
+                render:function(val,item) {
+                    return $(item.success_flag_str) ;
+                }
+            },{
+                title:"requireid",
+                render:function(val,item) {
+                    return item.requireid ;
+                }
+            },{
+                title:"失败原因",
+                render:function(val,item) {
+                    return item.fail_reason ;
+                }
+            }
             ] ,
             filter_list: [],
-
             "auto_close"       : true,
             //选择
             "onChange"         : null,
@@ -111,7 +98,6 @@ $(function(){
             "onLoadData"       : null,
 
         });
-
 
     });
 

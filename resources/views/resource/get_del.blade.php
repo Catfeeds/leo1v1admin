@@ -104,8 +104,8 @@
                     <td style="width:8%">文件大小</td>
                     <td style="width:8%">下载次数</td>
                     <td style="width:8%">纠错次数</td>
-                    <td style="width:8%">是否使用</td>
-                    <td style="width:8%"> 操作 </td>
+                    <!-- <td style="width:8%">是否使用</td> -->
+                    <!-- <td style="width:8%"> 操作 </td> -->
                 </tr>
             </thead>
             <tbody>
@@ -121,10 +121,10 @@
                         <td>{{@$var["file_size"]}}M </td>
                         <td>{{@$var["down_num"]}} </td>
                         <td>{{@$var["error_num"]}} </td>
-                        <td>{{@$var["is_use_str"]}} </td>
-                        <td>
-                            <a class="opt-restore btn"  title="还原" data-resource_id="{{@$var['resource_id']}}">还原</a>
-                        </td>
+                        <!-- <td>{{@$var["is_use_str"]}} </td> -->
+                        <!-- <td>
+                             <a class="opt-restore btn"  title="还原" data-resource_id="{{@$var['resource_id']}}">还原</a>
+                             </td> -->
                     </tr>
                 @endforeach
             </tbody>

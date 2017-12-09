@@ -28,7 +28,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             $where_arr[] = ["file_title like '%s%%'", $this->ensql( $file_title), ""];
         }
         $sql = $this->gen_sql_new(
-            "select r.resource_id,resource_type,file_title,file_size,file_type,error_num,use_type,"
+            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,"
             ."file_hash,subject,grade,tag_one,tag_two,tag_three,tag_four,use_type,file_link,f.file_id,file_use_type,"
             ."max(if( v.visit_id>0,v.create_time,r.create_time)) update_time,"
             ."if( v.visit_id>0,v.visitor_id,r.adminid) edit_adminid"
