@@ -81,9 +81,9 @@ class add_new_tea_entry extends Command
                 $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
                 $val['money']   /= 100;
                 $money = $val['money'] - $redward;
+                $lesson_count = $last_month_info / 100;
                 echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$last_month_info.' '.$money.PHP_EOL;
             }
-            exit;
             sleep(2);
         }
         // 拉取数据(6月至11月的老师工资)
