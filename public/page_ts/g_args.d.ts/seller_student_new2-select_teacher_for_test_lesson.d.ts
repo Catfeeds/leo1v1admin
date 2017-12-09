@@ -28,6 +28,8 @@ interface RowData {
 	identity	:any;
 	gender	:any;
 	age	:any;
+	realname	:any;
+	phone	:any;
 	free_time_new	:any;
 	age_flag	:any;
 	is_identity	:any;
@@ -36,7 +38,8 @@ interface RowData {
 	match_num	:any;
 	identity_str	:any;
 	gender_str	:any;
-	ruzhi_day	:any;
+	work_day	:any;
+	phone_hide	:any;
 }
 
 /*
