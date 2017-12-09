@@ -762,22 +762,23 @@ class teacher_money extends Controller
     public function teacher_salary_list(){
         $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
-        $reference = $this->get_in_int_val("reference",-1);
+        //$reference = $this->get_in_int_val("reference",-1);
+        $teacher = $this->get_in_int_val('teacher',-1);
         $teacher_type = $this->get_in_int_val("teacher_type",-1);
-        if($reference>0){
-            $reference_phone = $this->t_teacher_info->get_phone($reference);
-        }else{
-            $reference_phone = "";
-        }
+        // if($reference>0){
+        //     $reference_phone = $this->t_teacher_info->get_phone($reference);
+        // }else{
+        //     $reference_phone = "";
+        // }
         $teacherid = $this->get_in_int_val('teacherid',-1);
 
-        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$teacher_type,$reference_phone);
+        $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$teacher_type,$teacher);
         $all_money = 0;
         $all_all_money = 0;//全职老师
         $all_not_money = 0;//兼职老师
         foreach($ret_info['list'] as &$t_val){
-            $t_val['pay_time'] = \App\Helper\Utils::unixtime2date($t_val['pay_time']);
-            $t_val['add_time'] = \App\Helper\Utils::unixtime2date($t_val['add_time']);
+            $t_val['pay_time'] = \App\Helper\Utils::unixtime2date($t_val['pay_time'],"Y-m-d");
+            $t_val['add_time'] = \App\Helper\Utils::unixtime2date($t_val['add_time'],"Y-m-d");
             $t_val['money']   /= 100;
             if($t_val['is_negative']==1){
                 $t_val['money'] = 0-$t_val['money'];

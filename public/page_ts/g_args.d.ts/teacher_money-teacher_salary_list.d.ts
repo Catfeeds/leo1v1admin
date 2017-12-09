@@ -4,7 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	reference:	number;
+	teacher:	number;
 	teacher_type:	number;
 	teacherid:	number;
 	g_adminid:	number;
@@ -36,7 +36,7 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		reference:	$('#id_reference').val(),
+		teacher:	$('#id_teacher').val(),
 		teacher_type:	$('#id_teacher_type').val(),
 		teacherid:	$('#id_teacherid').val(),
 		g_adminid:	$('#id_g_adminid').val()
@@ -54,7 +54,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_reference').val(g_args.reference);
+	$('#id_teacher').val(g_args.teacher);
 	$('#id_teacher_type').val(g_args.teacher_type);
 	$('#id_teacherid').admin_select_user_new({
 		"user_type"    : "teacher",
@@ -76,8 +76,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">reference</span>
-                <input class="opt-change form-control" id="id_reference" />
+                <span class="input-group-addon">teacher</span>
+                <input class="opt-change form-control" id="id_teacher" />
             </div>
         </div>
 

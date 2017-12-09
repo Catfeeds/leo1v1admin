@@ -10,7 +10,7 @@ $(function(){
 		    opt_date_type    : $('#id_opt_date_type').val(),
 		    start_time       : $('#id_start_time').val(),
 		    end_time         : $('#id_end_time').val(),
-		    reference        : $('#id_reference').val(),
+		    teacher          : $('#id_teacher').val(),
         teacherid        : $('#id_teacherid').val(),
         teacher_type     : $('#id_teacher_type').val(),
     });
@@ -30,10 +30,10 @@ $(function(){
 
 
     //Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
-    $("#id_reference").val(g_args.reference);
+    $("#id_teacher").val(g_args.teacher);
     $("#id_teacher_type").val(g_args.teacher_type);
 
-    $.admin_select_user($("#id_reference"),"teacher",load_data);
+    $.admin_select_user($("#id_teacher"),"teacher",load_data);
     //$('#id_teacherid').val(g_args.teacherid);
     //$.admin_select_user($('#id_teacherid'),'teacher',load_data);
 
@@ -43,9 +43,8 @@ $(function(){
     $('.opt-show').on('click',function(){
         var data=$(this).get_opt_data();
         var teacherid=data.teacherid;
-        var start_time=g_args.start_time;
-        var end_time=g_args.end_time;
-        window.location.href="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&end_time="+end_time;
+        var start_time=data.add_time;
+        window.open("/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&opt_date_type=3");
     })
 
     $("#id_get_lesson_price").on("click",function(){
