@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	order_by_str:	string;
 	orderid:	number;
 	contract_type:	string;//枚举列表: \App\Enums\Econtract_type
  	contract_status:	string;//枚举列表: \App\Enums\Econtract_status
@@ -158,6 +159,7 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
+		order_by_str:	$('#id_order_by_str').val(),
 		orderid:	$('#id_orderid').val(),
 		contract_type:	$('#id_contract_type').val(),
 		contract_status:	$('#id_contract_status').val(),
@@ -201,6 +203,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_orderid').val(g_args.orderid);
 	$('#id_contract_type').admin_set_select_field({
 		"enum_type"    : "contract_type",
@@ -279,6 +282,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

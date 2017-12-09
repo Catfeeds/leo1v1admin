@@ -175,10 +175,11 @@
                     <td style="display:none;">是否新增 </td>
                     <td >试听课时间</td>
 
-                    {!!\App\Helper\Utils::th_order_gen([["年级", "", "th_grade" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
-                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "", "th_contract_status" ]])!!}
-                    {!!\App\Helper\Utils::th_order_gen([["合同类型", "", "th_contract_type" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "subject", "th_contract_status" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
+
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
                     <td >总课时</td>
