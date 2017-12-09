@@ -1461,7 +1461,7 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp性别：</span>
-                            <select id="id_tea_sex_new_two" class=" form-control " >
+                            <select id="id_tea_gender_new_two" class=" form-control " >
                             </select>
                         </div>
                     </div>
