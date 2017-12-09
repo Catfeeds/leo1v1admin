@@ -1752,6 +1752,23 @@ class test_james extends Controller
       $objWriter->save('php://output');
     }
 
+    public function dd(){
+        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
+        // // $month_start_time = strtotime(date("Y-m-01",$end_time));
+        $month_start_time = '1509465600';
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
+        // $main_type = 2;// 销售
+        // $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$month_start_time); // 销售月目标收入
+        // if (!$ret_info['seller_target_income'] ) {
+        //     $ret_info['seller_target_income'] = 1600000;
+        // }
+
+        $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+
+        dd($month_date_money_list);
+
+    }
+
 
 
 }
