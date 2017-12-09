@@ -70,6 +70,7 @@ class add_new_tea_entry extends Command
                 $teacherid = $val['teacherid'];
                 $init_start_date = date("Y-m-01",  $val['add_time']);
                 $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
+                echo $init_start_date.' '.$init_end_date;
                 $start_time2 = strtotime($init_start_date);
                 $end_time2 = strtotime($init_end_date);
                 $last_month_info = $task->get_last_lesson_count_info($start_time,$end_time,$teacherid);
