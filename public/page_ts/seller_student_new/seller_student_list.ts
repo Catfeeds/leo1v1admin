@@ -3752,7 +3752,7 @@ function init_edit() {
             html_node.find("#id_intention_level_new_two").val(data.intention_level);
             html_node.find("#id_demand_urgency_new_two").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction_new_two").val(data.quotation_reaction);
-            id_tea_status.val(data.);
+            id_tea_status.val(data.tea_identity);
 
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
@@ -3990,7 +3990,7 @@ function init_edit() {
                                 add_tag += $(this).attr('value')+',';
                             }
                         });
-                        alert(id_test_paper.val());
+                        // alert(id_tea_status.val());
                         // $.do_ajax("/ss_deal2/save_user_info_new",{
                             // new_demand_flag   : 1,
                             // click_type        : click_type,
@@ -4036,6 +4036,7 @@ function init_edit() {
                             // intention_level : id_intention_level.val(),
                             // stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
                             // test_paper: id_test_paper.val(),
+                            // tea_identity:id_tea_status.val();
 
                             // seller_student_status : id_status.val(),
                             // seller_student_sub_status : id_seller_student_sub_status.val(),
