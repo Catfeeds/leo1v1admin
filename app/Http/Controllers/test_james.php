@@ -1434,7 +1434,7 @@ class test_james extends Controller
         $voice_url = $this->get_in_str_val('voice_url');
         $pdf_file_path = $this->get_pdf_download_url($voice_url);
 
-        $savePathFile = public_path('wximg').'/'.$voice_url;
+        $savePathFile = public_path('wximg').'/1.mp3';
 
         $msg = \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
 

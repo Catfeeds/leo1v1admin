@@ -1,8 +1,8 @@
 interface GargsStatic {
+	require_id:	number;
 	identity:	number;
 	gender:	number;
 	age:	number;
-	require_id:	number;
 	refresh_flag:	number;
 }
 declare module "g_args" {
@@ -26,20 +26,20 @@ tofile:
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
+		require_id:	$('#id_require_id').val(),
 		identity:	$('#id_identity').val(),
 		gender:	$('#id_gender').val(),
 		age:	$('#id_age').val(),
-		require_id:	$('#id_require_id').val(),
 		refresh_flag:	$('#id_refresh_flag').val()
     });
 }
 $(function(){
 
 
+	$('#id_require_id').val(g_args.require_id);
 	$('#id_identity').val(g_args.identity);
 	$('#id_gender').val(g_args.gender);
 	$('#id_age').val(g_args.age);
-	$('#id_require_id').val(g_args.require_id);
 	$('#id_refresh_flag').val(g_args.refresh_flag);
 
 
@@ -50,6 +50,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">require_id</span>
+                <input class="opt-change form-control" id="id_require_id" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -69,13 +76,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">age</span>
                 <input class="opt-change form-control" id="id_age" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">require_id</span>
-                <input class="opt-change form-control" id="id_require_id" />
             </div>
         </div>
 
