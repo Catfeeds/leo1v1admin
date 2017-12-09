@@ -535,12 +535,13 @@ function table_init() {
                                 "table_key":table_key,
                                 "data":""
                             });
+                            window.localStorage.setItem(table_key , "");
+
                         });
+                        $item.data("title", $.trim($item.text()) );
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
 
-                        //alert(" XXXXX set table_key clean 3 ");
-                        //window.localStorage.setItem(table_key , "");
                     }
 
                 }
