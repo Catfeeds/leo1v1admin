@@ -2439,7 +2439,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= "order by s.assistantid asc , order_time desc"
-        ,$spec_flag=-1, $orderid=-1 ,$order_activity_type=-1,$show_son_flag=false
+        ,$spec_flag=-1, $orderid=-1 ,$order_activity_type=-1,$show_son_flag=false, $adminid = -1
     ){
         $where_arr=[];
         if($orderid>=0){
@@ -2472,6 +2472,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"s.assistantid",$assistantid);
             $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
             $this->where_arr_add_int_or_idlist($where_arr,"o.subject",$subject);
+            $this->where_arr_add_int_or_idlist($where_arr,"m.uid",$adminid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
             if ($order_activity_type != -1 ) {
