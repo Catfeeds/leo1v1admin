@@ -129,7 +129,7 @@
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
-                        <td>{{@$var["update_time"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>

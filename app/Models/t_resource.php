@@ -27,19 +27,21 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         if($file_title != ''){
             $where_arr[] = ["file_title like '%s%%'", $this->ensql( $file_title), ""];
         }
+
         $sql = $this->gen_sql_new(
-            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,"
-            ." file_hash,subject,grade,tag_one,tag_two,tag_three,tag_four,use_type,file_link,f.file_id,file_use_type,"
-            ." max(if( v.visit_id>0,v.create_time,r.create_time)) update_time,"
-            ." if( v.visit_id>0,v.visitor_id,r.adminid) edit_adminid"
+            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,v.create_time,v.visitor_id,"
+            ." file_hash,subject,grade,tag_one,tag_two,tag_three,tag_four,use_type,file_link,f.file_id,file_use_type"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
-            ." where %s group by f.file_id order by r.resource_id,f.file_use_type desc"
+            ." where %s"
+            ." and exists ( select 1 from %s where file_id=f.file_id order by create_time desc limit 1) "
+            ." order by r.resource_id,f.file_use_type desc"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME
             ,t_resource_file_visit_info::DB_TABLE_NAME
             ,$where_arr
+            ,t_resource_file_visit_info::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }

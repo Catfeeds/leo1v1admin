@@ -67,9 +67,9 @@ class resource extends Controller
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
         foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item);
-            $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
             $tag_arr = $this->tag_arr[ $item['resource_type'] ];
 
@@ -687,6 +687,16 @@ class resource extends Controller
             'file_link'     => $file_link,
             'file_use_type' => $file_use_type,
         ]);
+
+        $file_id = $this->t_resource_file->get_last_insertid();
+        $adminid = $this->get_account_id();
+        $this->t_resource_file_visit_info->row_insert([
+            'file_id'     => $file_id,
+            'visit_type'  => 9,
+            'create_time' => time(),
+            'visitor_id'  => $adminid,
+        ]);
+
         return $this->output_succ();
     }
 
