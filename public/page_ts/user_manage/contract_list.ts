@@ -90,7 +90,7 @@ $(function(){
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
 		    "can_sellect_all_flag"     : true,
-        "only_show_in_th_input" :true,
+        "only_show_in_th_input" :false,
 
 	  });
 
@@ -99,7 +99,7 @@ $(function(){
 		    "select_value" : g_args.contract_type,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_contract_type",
-        "only_show_in_th_input" :true,
+        "only_show_in_th_input" :false,
 		    "btn_id_config"     : {}
 	  });
 	$('#id_contract_status').admin_set_select_field({
