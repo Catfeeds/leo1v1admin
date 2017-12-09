@@ -197,14 +197,14 @@
         }
 
         this.$ele.val(this.options.select_value);
-        if (!set_to_th_flag ){
+        //if (!set_to_th_flag ){
             $.enum_multi_select(
                 this.$ele,
                 this.options.enum_type ,
                 this.options.onChange,
                 this.options.show_id_list ,
                 this.options.btn_id_config );
-        }
+        //}
     };
 
 
