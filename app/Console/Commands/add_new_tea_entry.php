@@ -77,30 +77,32 @@ class add_new_tea_entry extends Command
             foreach($info['list'] as $val) {
                 echo $val['teacherid'].' --- '.$val['realname'];
                 $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
-                dd($teacher);
+                $lesson_count = $teacher['lesson_total'];
+                $money = $teacher['teacher_lesson_price'];
                 // $lesson_money;   总工资
                 // $info['lesson_total'];    总课时
                 // $info['lesson_trial_total']; 试听总课时
                 // $info['teacher_lesson_price']; 老师课时总收入
 
-                $teacherid = $val['teacherid'];
-                $init_start_date = date("Y-m-01",  $val['add_time']);
-                $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
-                $start_time2 = strtotime($init_start_date);
-                $end_time2 = strtotime($init_end_date);
-                $last_month_info = $task->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
-                $teacher_honor            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
-                $teacher_trial            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
-                $teacher_compensate       = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
-                $teacher_compensate_price = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
-                $teacher_reference        = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-                $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
-                $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
+                // $teacherid = $val['teacherid'];
+                // $init_start_date = date("Y-m-01",  $val['add_time']);
+                // $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
+                // $start_time2 = strtotime($init_start_date);
+                // $end_time2 = strtotime($init_end_date);
+                // $last_month_info = $task->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+                // $teacher_honor            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
+                // $teacher_trial            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
+                // $teacher_compensate       = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
+                // $teacher_compensate_price = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
+                // $teacher_reference        = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
+                // $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
+                // $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
                 
-                $val['money']   /= 100;
-                $money = $val['money'] - ($redward / 100);
-                $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$lesson_count.' '.$money.PHP_EOL;
+                // $val['money']   /= 100;
+                // $money = $val['money'] - ($redward / 100);
+                // $lesson_count = $last_month_info / 100;
+                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$val['money'].' '.$lesson_count.' '.$money.PHP_EOL;
+                exit;
             }
             sleep(2);
         }
