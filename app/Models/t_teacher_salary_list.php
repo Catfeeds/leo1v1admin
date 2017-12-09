@@ -22,7 +22,7 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_value($sql);
     }
 
-    public function get_salary_list($start_time,$end_time,$teacher_type=-1,$teacherid){
+    public function get_salary_list($start_time,$end_time,$teacher_type=-1,$teacherid=-1){
         $where_arr = [
             ["ts.pay_time>=%u",$start_time,0],
             ["ts.pay_time<%u",$end_time,0],
