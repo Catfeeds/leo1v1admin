@@ -194,8 +194,9 @@ tofile:
 /// <reference path="../g_args.d.ts/human_resource-index.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		teacherid:	$('#id_teacherid').val(),
 		is_freeze:	$('#id_is_freeze').val(),
 		teacher_money_type:	$('#id_teacher_money_type').val(),
@@ -240,12 +241,18 @@ function load_data(){
 		tea_label_type:	$('#id_tea_label_type').val(),
 		plan_level:	$('#id_plan_level').val(),
 		teacher_textbook:	$('#id_teacher_textbook').val()
-    });
+		});
 }
 $(function(){
 
 
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"can_sellect_all_flag"     : true
+	});
 	$('#id_is_freeze').val(g_args.is_freeze);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_teacher_ref_type').val(g_args.teacher_ref_type);

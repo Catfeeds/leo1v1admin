@@ -944,7 +944,7 @@ $(function(){
                     var str="";
                     $.each(item,function(ii,item_p){
                         console.log(item_p);
-                        str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                        str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\"  /> "+item_p+"</label>";
                     });
                     if(i=="风格性格"){
                         teacher_related_labels.find("#style_character").append(str);
@@ -1028,13 +1028,13 @@ $(function(){
                     ["语言表达能力", id_teacher_language_performance_score],
                     ["总分",id_total_score],
                     ["结果",id_res],
-                    ["原因或意见或建议",id_reason],
+                    ["<font style=\"color:red\">*</font>&nbsp原因或意见或建议",id_reason],
                     ["老师类型",id_identity],
                     ["工作年限",id_work_year],
                     ["禁止年级",id_not_grade],
-                    ["教师相关标签",teacher_related_labels],
-                    ["课堂相关标签",class_related_labels],
-                    ["教学相关标签",teaching_related_labels]
+                    ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
+                    ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
+                    ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels]
                 ];
 
                 $.show_key_value_table("试听评价", arr,{
