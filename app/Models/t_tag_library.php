@@ -40,16 +40,11 @@ class t_tag_library extends \App\Models\Zgen\z_t_tag_library
             $where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
     public function get_all_tag_list(){
-        $where_arr=[];
-        $sql = $this->gen_sql_new(
-            'select * from %s '
-            .' where %s',
-            self::DB_TABLE_NAME,
-            $where_arr
+        $sql = $this->gen_sql_new('select * from %s '
+                                  ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
@@ -69,10 +64,10 @@ class t_tag_library extends \App\Models\Zgen\z_t_tag_library
     }
 
     public function get_teacher_nature_list(){
-            $where_arr=[
-                "tag_l1_sort='教师相关'",
-                "tag_l2_sort='风格性格'",
-            ];
+        $where_arr=[
+            "tag_l1_sort='教师相关'",
+            "tag_l2_sort='风格性格'",
+        ];
         $sql = $this->gen_sql_new(
             'select * from %s '
             .' where %s',

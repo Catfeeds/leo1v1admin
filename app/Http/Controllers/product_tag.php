@@ -1,16 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use \App\Enums as E;
 use App\Http\Requests;
 
 class product_tag extends Controller
 {
-    //
-    //@desn:展示所有的产品标签库
+    //@desc:展示所有的产品标签库
     public function tag_list(){
         $tag_l1_sort = $this->get_in_str_val('tag_l1_sort');
         $tag_l2_sort = $this->get_in_str_val('tag_l2_sort');
@@ -24,6 +21,7 @@ class product_tag extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
     //@desn:添加产品标签库
     public function tag_add(){
         $tag_l1_sort = $this->get_in_str_val('tag_l1_sort');
@@ -49,6 +47,7 @@ class product_tag extends Controller
         ]);
         return $this->output_succ();
     }
+
     //@desn:修改产品标签库
     public function tag_update(){
         $tag_id = $this->get_in_id();
@@ -74,8 +73,8 @@ class product_tag extends Controller
             'manager_id' => $adminid,
         ]);
         return $this->output_succ();
-
     }
+
     //@desn:删除标签库
     public function tag_del(){
         $id = $this->get_in_int_val("tag_id");
