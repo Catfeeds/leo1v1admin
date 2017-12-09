@@ -437,6 +437,40 @@ class resource extends Controller
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 
+    public function resource_frame_new(){
+        // $ret_info = $this->t_resource_agree_info->get_agree_resource();
+        return $this->pageView( __METHOD__,[]);
+        // return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
+    }
+
+    public function get_next_info_js(){
+        $info_str = $this->get_in_str_val('info_str','');
+        //根据info_str判断查询几个字段
+        $arr = explode('-', $info_str);
+        $sel_arr = ['','subject','grade','tag_one','tag_two','tag_three','tag_four'];
+        $num = count($arr);
+        $select = $sel_arr[$num];
+        $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5]);
+        //对应枚举类
+        $menu = '';
+        foreach($data as &$item){
+            if($num < 3){
+                E\Egrade::set_item_field_list($item, [$select]);
+            } else {
+                if($arr[0] <6 || $arr[0] ==9){
+                    $menu = $this->tag_arr[ $arr[0] ][ $select ]['menu'];
+                    $item[$menu] = $item[$select];
+                    E\Egrade::set_item_field_list($item, [$menu]);
+                }
+            }
+        }
+        if($menu != ''){
+            $select = $menu;
+        }
+
+        return $this->output_succ(['data' => $data,'select' => $select]);
+    }
+
     public function add_or_del_or_edit(){
         $info_str = $this->get_in_str_val('info_str','');
         $region   = $this->get_in_int_val('region','');
@@ -737,9 +771,6 @@ class resource extends Controller
         $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $resource_id, $file_use_type, $page_num);
         foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            // $this->cache_set_item_teacher_nick($item,"teacherid", "tea_nick");
-            // \App\Helper\Utils::transform_1tg_0tr($item,"operation");
-            // \App\Helper\Utils::transform_1tg_0tr($item,"success_flag");
             $this->cache_set_item_account_nick($item,"visitor_id", 'nick');
             E\Eresource_visit::set_item_value_simple_str($item,'visit_type');
         }
