@@ -41,8 +41,6 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
-        dd($start_time);
         // 拉取数据(6月至11月的总工资)
         $arr = [6,7,8,9,10,11];
         foreach($arr as $item) {
