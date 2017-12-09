@@ -53,7 +53,7 @@ class add_new_tea_entry extends Command
             $all_money = 0;//总工资
             $all_all_money = 0;//全职老师
             $all_not_money = 0;//兼职老师
-            foreach($ret_info['list'] as &$t_val){
+            foreach($info['list'] as &$t_val){
                 $t_val['money']   /= 100;
                 $all_money += $t_val['money'];
                 if ($t_val['teacher_money_type'] == 7 || ($t_val['teacher_type'] == 3 && $t_val["teacher_money_type"] == 0)) {
@@ -64,6 +64,7 @@ class add_new_tea_entry extends Command
             }
             $all_money_tax = $all_money*0.98;
             echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;
+            sleep(2);
         }
         // 拉取数据(6月至11月的老师工资)
 
