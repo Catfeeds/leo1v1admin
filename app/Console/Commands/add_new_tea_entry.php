@@ -103,9 +103,9 @@ class add_new_tea_entry extends Command
                 // $lesson_count = $last_month_info / 100;
                 echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$teacher['lesson_price_tax'].' '.$lesson_count.' '.$money.PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
-                    $all_all_money += $val['money'];
+                    $all_all_money += $teacher['lesson_price_tax'];
                 } else {
-                    $all_not_money += $val['money'];
+                    $all_not_money += $teacher['lesson_price_tax'];
                 }
             }
             $all_money_tax = $all_money*0.98;
