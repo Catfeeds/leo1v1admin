@@ -30,9 +30,9 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
             "is_test_user=0",
             "ts.money!=0"
         ];
-        // if ($teacherid != -1) {
-        //     array_push($where_arr, ["t.teacherid=%u", $teacherid, -1]);
-        // }
+        if ($teacherid != -1) {
+            array_push($where_arr, ["t.teacherid=%u", $teacherid, -1]);
+        }
         if ($teacher_type == 1) {
             array_push($where_arr, "t.teacher_money_type=7 or (t.teacher_type=3 and t.teacher_money_type=0)");
         } elseif ($teacher_type == 2) {

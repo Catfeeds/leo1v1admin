@@ -9,12 +9,12 @@
                     <div id="id_date_range">
                     </div>
                 </div>
-                <!-- <div class="col-xs-6 col-md-2">
-                     <div class="input-group ">
-                     <span>老师</span>
-                     <input class="opt-change" id="id_teacher"/>
-                     </div>
-                     </div> -->
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span>老师</span>
+                        <input class="opt-change" id="id_teacher"/>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span>老师类型</span>
