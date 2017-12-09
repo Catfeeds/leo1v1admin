@@ -406,9 +406,18 @@ function table_init() {
                         "opt_type":"set",
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
+                    },function(){
+                        $.do_ajax("/page_common/opt_table_field_list",{
+                            "opt_type":"get",
+                            "table_key":table_key
+                        }, function(resp ){
+                            var cur=(new Date() ).getTime()/1000;
+                            resp.log_time=cur;
+                            window.localStorage.setItem(table_key , JSON.stringify(resp));
+                        });
+                        window.location.reload();
                     });
-                    //alert(" XXXXX set table_key clean 2 ");
-                    window.localStorage.setItem(table_key , "");
+
 
                 }
             }]);
@@ -589,9 +598,8 @@ function table_init() {
                 }, function(resp ){
                     reset_table (resp);
                     resp.log_time=cur;
-                    //alert(" XXXXX set table_key ");
                     window.localStorage.setItem(table_key , JSON.stringify(resp));
-                } );
+                });
             }
         }else{
             reset_table ({});
