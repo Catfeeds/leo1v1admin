@@ -1634,7 +1634,7 @@ class test_james extends Controller
         // dd($c);
 
         // dd(json_encode($a));
-        
+
 
         $one_week_start = 1509379200; //10-31
         $one_week_end   = 1509984000; //11-7
@@ -1661,17 +1661,18 @@ class test_james extends Controller
         }
 
         // foreach($admin_list){
-            
+
         // }
 
-        $this->download_xls_tmp($c);
+        // $this->download_xls_tmp($c);
 
         echo $c;
         dd($admin_list);
     }
 
 
-    public function download_xls_tmp ($c)  { // 测试
+    public function download_xls_tmp ()  { // 测试
+        $c = $this->get_in_str_val($c);
         // $xls_data= session("xls_data" );
 
         // $a[] = [
@@ -1696,7 +1697,7 @@ class test_james extends Controller
         //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
         // }
 
-        $c = substr($c,0,strlen($c)-1); 
+        $c = substr($c,0,strlen($c)-1);
 
 
         $xsl_data = '
