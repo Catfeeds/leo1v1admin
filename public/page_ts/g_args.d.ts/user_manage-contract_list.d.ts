@@ -210,14 +210,16 @@ $(function(){
 		"select_value" : g_args.contract_type,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_type",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_contract_status').admin_set_select_field({
 		"enum_type"    : "contract_status",
 		"select_value" : g_args.contract_status,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_status",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_config_courseid').val(g_args.config_courseid);
 	$('#id_test_user').val(g_args.test_user);
@@ -226,6 +228,7 @@ $(function(){
 		"select_value" : g_args.studentid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_studentid",
+		"only_show_in_th_input"     : false,
 		"can_sellect_all_flag"     : true
 	});
 	$('#id_has_money').val(g_args.has_money);
@@ -238,14 +241,16 @@ $(function(){
 		"select_value" : g_args.grade,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_subject').admin_set_select_field({
 		"enum_type"    : "subject",
 		"select_value" : g_args.subject,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_subject",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_self_adminid').val(g_args.self_adminid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
@@ -254,6 +259,7 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
 		"can_sellect_all_flag"     : true
 	});
 	$('#id_origin_userid').val(g_args.origin_userid);
@@ -263,6 +269,7 @@ $(function(){
 		"select_value" : g_args.assistantid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_assistantid",
+		"only_show_in_th_input"     : false,
 		"can_sellect_all_flag"     : true
 	});
 	$('#id_from_key').val(g_args.from_key);

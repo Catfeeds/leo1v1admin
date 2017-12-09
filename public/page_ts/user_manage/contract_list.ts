@@ -89,16 +89,19 @@ $(function(){
 		    "select_value" : g_args.studentid,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
-		    "can_sellect_all_flag"     : true
+		    "can_sellect_all_flag"     : true,
+        "only_show_in_th_input" :true,
+
 	  });
 
-	$('#id_contract_type').admin_set_select_field({
-		"enum_type"    : "contract_type",
-		"select_value" : g_args.contract_type,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_contract_type",
-		"btn_id_config"     : {}
-	});
+	  $('#id_contract_type').admin_set_select_field({
+		    "enum_type"    : "contract_type",
+		    "select_value" : g_args.contract_type,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_type",
+        "only_show_in_th_input" :true,
+		    "btn_id_config"     : {}
+	  });
 	$('#id_contract_status').admin_set_select_field({
 		"enum_type"    : "contract_status",
 		"select_value" : g_args.contract_status,
