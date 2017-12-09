@@ -1028,7 +1028,7 @@ $(function(){
     $(".opt-return-back-list-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid    = opt_data.teacherid;
-        // alert(teacherid);
+
         $.ajax({
             type     :"post",
             url      :"/human_resource/get_new_teacher_revisit_info",

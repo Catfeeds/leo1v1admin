@@ -1544,12 +1544,12 @@ class seller_student_new2 extends Controller
                     $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
-                    if($tea_val['train_through_new_time']<time()){
-                        $diff_time = time()-$tea_val['train_through_new_time'];
-                        $tea_val['ruzhi_day'] = ceil($diff_time/86400);
+                    if($tea_val['train_through_new_time']>0){
+                        $tea_val['work_day'] = \App\Helper\Utils::change_time_difference_to_day($tea_val['train_through_new_time']);
                     }else{
-                        $tea_val['ruzhi_day'] = 0;
+                        $tea_val['work_day'] = 0;
                     }
+                    \App\Helper\Utils::hide_item_phone($tea_val);
                 }
             }
             if(!empty($tea_list)){
