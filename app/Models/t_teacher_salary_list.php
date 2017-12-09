@@ -70,5 +70,10 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_update($sql);
     }
 
+    public function get_teacher_money_info() {
+        $sql = $this->gen_sql_new("select teacher_money_type,teacher_type,realname,teacherid from %s where is_test_user=0", t_teacher_info::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+
 
 }
