@@ -2222,7 +2222,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
         var token=ret.token;
         //保证每次new不同的对象
         var qi_niu = ['Qiniu_'+new_flag];
-        console.log(qi_niu[0]);
+        // console.log(qi_niu[0]);
         qi_niu[0] = new QiniuJsSDK();
         var uploader = qi_niu[0].uploader({
         // var uploader = Qiniu.uploader({
@@ -2245,7 +2245,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
             domain: "http://"+domain_name,
             get_new_uptoken: false,
             auto_start: is_auto_start,
-            log_level: 5,
+            // log_level: 5,
             init: {
                 'BeforeChunkUpload': function(up, file) {
                     // console.log("before chunk upload:", file.name);
