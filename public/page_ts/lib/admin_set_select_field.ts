@@ -189,7 +189,7 @@
             var $th_input= $("#" + this.options.th_input_id  );
             if ($th_input.is(":visible")){ 
                 this.$ele.parent().parent().hide();
-                this.$ele.parent().parent().data( "always_hide", 1);
+                //this.$ele.parent().parent().data( "always_hide", 1);
                 init_th_input( $ele, $th_input, this.options  );
 
                 set_to_th_flag=true;

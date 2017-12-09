@@ -251,7 +251,7 @@
                     });
                     if ($th_input.is(":visible")){ //选择框放到 td
                         me.$element.parent().parent().hide();
-                        me.$element.parent().parent().data( "always_hide", 1);
+                        //me.$element.parent().parent().data( "always_hide", 1);
                     }
 
                 }
