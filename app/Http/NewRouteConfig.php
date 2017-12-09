@@ -62,6 +62,8 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/resource/get_next_info_js"           => true,
+        "/resource/resource_frame_new"         => true,
         "/resource/get_resource_type_js"       => true,
         "/resource/add_or_del_or_edit"         => true,
         "/resource/resource_count"             => true,

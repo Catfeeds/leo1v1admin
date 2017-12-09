@@ -1435,16 +1435,12 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp风格性格：</span>
-                            <!-- <select id="id_teacher_nature_new_two" class=" form-control " >
-                                 </select> -->
                             <input type="text" class=" form-control "  id="id_teacher_nature_new_two" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp专业能力：</span>
-                            <!-- <select id="id_pro_ability_new_two" class=" form-control " >
-                                 </select> -->
                             <input type="text" class=" form-control "  id="id_pro_ability_new_two" />
                         </div>
                     </div>
@@ -1465,7 +1461,7 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp性别：</span>
-                            <select id="id_tea_sex_new_two" class=" form-control " >
+                            <select id="id_tea_gender_new_two" class=" form-control " >
                             </select>
                         </div>
                     </div>

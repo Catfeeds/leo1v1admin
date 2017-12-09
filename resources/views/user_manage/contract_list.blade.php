@@ -12,7 +12,7 @@
       <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
       <section class="content">
           <div class="row row-query-list">
-              <div class="col-xs-12 col-md-4"  data-title="时间段">
+              <div class="col-xs-12 col-md-5"  data-title="时间段">
                   <div  id="id_date_range" >
                   </div>
               </div>
@@ -177,7 +177,7 @@
 
                     {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
-                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "subject", "th_contract_status" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
 
                     <td style="display:none;">生效日期</td>

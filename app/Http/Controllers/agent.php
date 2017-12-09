@@ -453,7 +453,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        E\Eseller_level::V_101;
         $seller_level_flag= floor(102/100);
         dd($seller_level_flag);
         $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid=99);

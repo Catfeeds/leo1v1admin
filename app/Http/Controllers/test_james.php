@@ -1421,7 +1421,7 @@ class test_james extends Controller
 
     /**
      * @ 将远程录音下载到本地
-     * @ 将录音格式 .MP3 => WAV
+     * @ 将录音格式 .MP3 => WAV [若不是WAV 则 => WAV]
      * @ 对录音进行分割
      * @ 对分割文件进行 文字转换
      * @ 对转换内容进行拼接 并存入数据库
@@ -1432,11 +1432,18 @@ class test_james extends Controller
 
     public function chunk_voice(){
         $voice_url = $this->get_in_str_val('voice_url');
+        // @将远程录音下载到本地
         $pdf_file_path = $this->get_pdf_download_url($voice_url);
-
         $savePathFile = public_path('wximg').'/1.mp3';
-
         $msg = \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+
+        // @录音格式转换
+        // ffmpeg -i sample.mp3 sample.wav
+        $input_file  = "";
+        $output_file = "";
+
+        $transhell = 'ffmpeg -i '.$input_file.' '.$output_file.' ';
+        shell_exec($transhell);
 
         dd($msg);
     }
@@ -1600,6 +1607,15 @@ class test_james extends Controller
     }
 
 
+    public function get_data(){
+        $one_week_start = 1509379200; //10-31
+        $one_week_end   = 1509984000; //11-7
+
+        // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
+        $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
+
+        dd($phone_list);
+    }
 
 
 
