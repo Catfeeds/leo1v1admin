@@ -1753,7 +1753,7 @@ class test_james extends Controller
     }
 
     public function dd(){
-        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
         // // $month_start_time = strtotime(date("Y-m-01",$end_time));
         $month_start_time = '1509465600';
         $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
