@@ -72,15 +72,15 @@ class add_new_tea_entry extends Command
                 $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
                 $start_time2 = strtotime($init_start_date);
                 $end_time2 = strtotime($init_end_date);
-                $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+                $last_month_info = $task->get_last_lesson_count_info($start_time,$end_time,$teacherid);
                 $last_all_lesson_count    = $last_month_info['all_lesson_count'];
 
-                $teacher_honor            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
-                $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
-                $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
-                $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
-                $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-                $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
+                $teacher_honor            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
+                $teacher_trial            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
+                $teacher_compensate       = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
+                $teacher_compensate_price = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
+                $teacher_reference        = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
+                $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
                 $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
                 $val['money']   /= 100;
                 $money = $val['money'] - $redward;
