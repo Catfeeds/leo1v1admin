@@ -4377,9 +4377,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s s on tq.phone=s.phone "
                                   ." where %s group by o.orderid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,t_tq_call_info::DB_TABLE_NAME
                                   ,t_seller_student_new::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
