@@ -43,7 +43,7 @@ class add_new_tea_entry extends Command
         $task = new \App\Console\Tasks\TaskController();
         // 拉取数据(6月至11月的总工资)
         $arr = [6,7,8,9,10,11];
-        $arr = [11];
+        //$arr = [11];
         foreach($arr as $item) {
             $start = '2017-'.$item.'-1';
             $end = '2017-'.($item+1).'-1';
