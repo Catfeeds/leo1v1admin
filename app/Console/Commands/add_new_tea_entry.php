@@ -79,10 +79,11 @@ class add_new_tea_entry extends Command
                 $teacher_reference        = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
                 $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
                 $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
+                
                 $val['money']   /= 100;
-                $money = $val['money'] - $redward;
+                $money = $val['money'] - ($redward / 100);
                 $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$last_month_info.' '.$money.PHP_EOL;
+                echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$lesson_count.' '.$money.PHP_EOL;
             }
             sleep(2);
         }
