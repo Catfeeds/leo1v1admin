@@ -438,19 +438,31 @@ class resource extends Controller
     }
 
     public function resource_frame_new(){
-        // $ret_info = $this->t_resource_agree_info->get_agree_resource();
         return $this->pageView( __METHOD__,[]);
-        // return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 
     public function get_next_info_js(){
         $info_str = $this->get_in_str_val('info_str','');
+        $level = $this->get_in_int_val('level', 0);
         //根据info_str判断查询几个字段
         $arr = explode('-', $info_str);
         $sel_arr = ['','subject','grade','tag_one','tag_two','tag_three','tag_four'];
         $num = count($arr);
         $select = $sel_arr[$num];
-        $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5]);
+        $is_end = 0;
+        //判断是不是最后
+        if (in_array($arr[0], [1,2,9]) && $level == 4) {
+            $is_end = 1;
+        } else if ($arr[0] == 3 && $level == 6){
+            $is_end = 1;
+        } else if (in_array($arr[0], [4,5]) && $level == 3){
+            $is_end = 1;
+        } else if (in_array($arr[0], [6,7]) && $level == 5){
+            $is_end = 1;
+        }
+
+        $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
+
         //对应枚举类
         $menu = '';
         foreach($data as &$item){
@@ -468,14 +480,15 @@ class resource extends Controller
             $select = $menu;
         }
 
-        return $this->output_succ(['data' => $data,'select' => $select]);
+        return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
     }
 
     public function add_or_del_or_edit(){
         $info_str = $this->get_in_str_val('info_str','');
         $region   = $this->get_in_int_val('region','');
         $do_type  = $this->get_in_str_val('do_type','');
-        $arr      = explode('-', substr($info_str,5));
+        // $arr      = explode('-', substr($info_str,5));
+        $arr      = explode('-', $info_str);
         $adminid  = $this->get_account_id();
         $time     = time();
         if($do_type === 'add'){//添加版本

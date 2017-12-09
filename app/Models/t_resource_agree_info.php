@@ -68,7 +68,7 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         return $this->main_get_list($sql);
     }
 
-    public function get_next_info($select,$resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three ){
+    public function get_next_info($select,$resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $is_end){
         $where_arr = [
             ['resource_type=%u', $resource_type, -1],
             ['subject=%u', $subject, ''],
@@ -79,6 +79,7 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
             "$select > 0",
         ];
 
+        $select = $is_end?$select.',is_ban':$select;
         $sql = $this->gen_sql_new("select distinct $select from %s where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
