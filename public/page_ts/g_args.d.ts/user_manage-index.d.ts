@@ -97,7 +97,8 @@ $(function(){
 		"select_value" : g_args.assistantid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_assistantid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_seller_adminid').val(g_args.seller_adminid);
 	$('#id_order_type').val(g_args.order_type);
@@ -107,7 +108,8 @@ $(function(){
 		"select_value" : g_args.userid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_userid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 
 

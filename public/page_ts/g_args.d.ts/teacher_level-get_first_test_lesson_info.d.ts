@@ -85,7 +85,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_record_flag').val(g_args.record_flag);
 	$('#id_acc').val(g_args.acc);
