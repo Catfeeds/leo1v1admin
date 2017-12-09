@@ -4365,21 +4365,21 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             "tq.adminid=$adminid",
             "o.contract_status =1",
-            'o.price>0'
+            'o.price>0',
         ];
 
         $this->where_arr_add_time_range($where_arr, "tq.start_time", $start_time, $end_time);
 
 
-        $sql = $this->gen_sql_new("  select sum(o.price)/100 as total_money from %s s "
-                                  ." left join %s tq on tq.phone=s.phone "
-                                  ." left join %s m on tq.adminid=m.uid "
-                                  ." left join %s o on o.sys_operator=m.account"
-                                  ." where %s group by s.userid"
-                                  ,t_seller_student_new::DB_TABLE_NAME
-                                  ,t_tq_call_info::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
+        $sql = $this->gen_sql_new("  select sum(o.price)/100 as total_money from %s o "
+                                  ." left join %s m on o.sys_operator=m.account"
+                                  ." left join %s tq on tq.adminid=m.uid "
+                                  ." left join %s s on tq.phone=s.phone "
+                                  ." where %s group by o.orderid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_tq_call_info::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
