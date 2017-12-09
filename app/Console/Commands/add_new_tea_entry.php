@@ -75,6 +75,7 @@ class add_new_tea_entry extends Command
 
 
             foreach($info['list'] as $val) {
+                echo $val['teacherid'].' --- '.$val['realname'];
                 $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
                 dd($teacher);
                 // $lesson_money;   总工资
