@@ -89,6 +89,29 @@ class AddUserToTrainLesson extends Job implements ShouldQueue
                     $data['date']       = $lesson_time;
                     $data['remark']     = "请准时参加！";
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data);
+
+                    // /**
+                    //  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                    //  * 标题课程 : 待办事项提醒
+                    //  * {{first.DATA}}
+                    //  * 待办主题：{{keyword1.DATA}}
+                    //  * 待办内容：{{keyword2.DATA}}
+                    //  * 日期：{{keyword3.DATA}}
+                    //  * {{remark.DATA}}
+                    //  */
+                    // $data=[];
+                    // $url = "";
+                    // $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                    // $data['first']    = "老师您好,为方便您尽快完成理优入职流程,特邀您参加在线【新师培训】";
+                    // $data['keyword1'] = "新师培训";
+                    // $data['keyword2'] = "参训方法:登录老师端-我的培训-新师培训-进入课堂(提前5分钟)";
+                    // $data['keyword3'] = date("Y-m-d H:i",time());
+                    // $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师";
+                    // $url="";
+                    // //$wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        
+                    // \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+
                 }
             }
         }
