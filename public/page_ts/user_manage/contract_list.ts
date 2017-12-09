@@ -23,10 +23,11 @@ function load_data(){
         has_money         : $("#id_has_money").val(),
         account_role      : $("#id_account_role").val(),
         teacherid         : $('#id_teacherid').val(),
+		    adminid:	$('#id_adminid').val(),
         tmk_adminid       : $('#id_tmk_adminid').val(),
         origin_userid     : $('#id_origin_userid').val(),
         referral_adminid:	$('#id_referral_adminid').val(),
-        spec_flag:	$('#id_spec_flag').val()
+        spec_flag:	$('#id_spec_flag').val(),
 
     });
 }
@@ -83,6 +84,16 @@ $(function(){
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_referral_adminid').val(g_args.referral_adminid);
+
+	  $('#id_adminid').admin_select_user_new({
+		    "user_type"    : "account",
+		    "select_value" : g_args.adminid,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_adminid",
+		    "only_show_in_th_input"     :  true,
+		    "can_select_all_flag"     : true
+	  });
+
 
 	  $('#id_studentid').admin_select_user_new({
 		    "user_type"    : "student",
