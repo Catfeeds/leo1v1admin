@@ -172,7 +172,7 @@ interface JQuery {
 		    "select_value" : g_args.studentid,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
-		    "can_sellect_all_flag"     : true
+		    "can_select_all_flag"     : true
 	  });
     */
     admin_select_user_new(obj:Object) ;

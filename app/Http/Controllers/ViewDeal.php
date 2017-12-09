@@ -138,7 +138,7 @@ trait  ViewDeal {
                                           .'		"onChange"     : load_data,'  . "\n"
                                           .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
                                           .'		"only_show_in_th_input"     : false,' . "\n"
-                                          .'		"can_sellect_all_flag"     : true' . "\n"
+                                          .'		"can_select_all_flag"     : true' . "\n"
                                           ."	});"  . "\n";
 
 
