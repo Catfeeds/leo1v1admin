@@ -1608,9 +1608,37 @@ class test_james extends Controller
 
 
     public function get_data(){
+        // ["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]
+        $a[] = [
+            "adminid" => "0",
+            "name" => "",
+            "called_succ" => "71",
+            "has_called" => "196",
+            "total_money" => "429460.0000"
+        ];
+
+        $a[]  =  [
+            "adminid" => "3",
+            "name" => "ddd",
+            "called_succ" => "77y7",
+            "has_called" => "196",
+            "total_money" => "42sdjfh000"
+        ];
+
+
+        $c = '';
+        foreach($a as $v){
+            $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        }
+
+        dd($c);
+
+        dd(json_encode($a));
+
         $one_week_start = 1509379200; //10-31
         $one_week_end   = 1509984000; //11-7
 
+        $c = '';
         // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
         // $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
         $admin_list = $this->t_seller_student_new->getAdminList($one_week_start, $one_week_end);
@@ -1619,17 +1647,61 @@ class test_james extends Controller
             $item['called_succ'] = $this->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
             $item['has_called'] = $this->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
             $item['total_money'] = $this->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
+
+            if(!$item['adminid']){$item['adminid'] = 0;}
+            if(!$item['name']){$item['name'] = 0;}
+            if(!$item['called_succ']){$item['called_succ'] = 0;}
+            if(!$item['has_called']){$item['has_called'] = 0;}
+            if(!$item['total_money']){$item['total_money'] = 0;}
+            $c.='['.$item['adminid'].','.$item['name'].','.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],';
         }
+
+        // foreach($admin_list){
+            
+        // }
+
+        $this->download_xls_tmp($c);
 
         dd($admin_list);
     }
 
 
-    public function download_xls_tmp ()  { // 测试
+    public function download_xls_tmp ($c)  { // 测试
         // $xls_data= session("xls_data" );
+
+        // $a[] = [
+        //     "adminid" => "0",
+        //     "name" => "22",
+        //     "called_succ" => "71",
+        //     "has_called" => "196",
+        //     "total_money" => "429460.0000"
+        // ];
+
+        // $a[]  =  [
+        //     "adminid" => "3",
+        //     "name" => "ddd",
+        //     "called_succ" => "77y7",
+        //     "has_called" => "196",
+        //     "total_money" => "42sdjfh000"
+        // ];
+
+
+        // $c = '';
+        // foreach($a as $v){
+        //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        // }
+
+        // $c = substr($c,0,strlen($c)-1); 
+
+
+        // $a = '["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]';
         $xsl_data = '
-[["Field","Type","Collation","Null","Key","Default","Extra","Privileges","Comment"],["id","int(10) unsigned","","NO","PRI","","auto_increment","select,insert,update",""],["parentid","int(11)","","NO","MUL","","","select,insert,update","家长id"],["get_prize_time","varchar(255)","latin1_bin","NO","MUL","","","select,insert,update","领奖时间"],["presenterid","int(11)","","NO","MUL","","","select,insert,update","发奖人"],["prize_time","int(11)","","NO","","","","select,insert,update","抽奖时间"],["stu_type","tinyint(4)","","NO","","","","select,insert,update","学员类型 1:新用户 2:老用户"],["create_time","int(11)","","NO","","","","select,insert,update","后台奖品录入时间"],["validity_time","int(11)","","NO","","","","select,insert,update","有效期"],["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id"],["prize_type","int(11)","","NO","","","","select,insert,update","ruffian_prize_type 枚举类"]]
+[
+["id","姓名","电话拨打数","拨通数","签单金额"],
+'.$c.'
+]
 ';
+        // dd($xsl_data);
 
         $xsl_data = json_decode($xsl_data,true);
 
