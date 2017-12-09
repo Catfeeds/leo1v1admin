@@ -2454,8 +2454,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                     ["is_test_user=%u" , $is_test_user, -1],
                     ["check_money_flag=%u" , $check_money_flag, -1],
                     ["stu_from_type=%u" , $stu_from_type, -1],
-                    ["o.grade=%u" , $grade, -1],
-                    ["o.subject=%u" , $subject, -1],
                     ["need_receipt=%u" , $need_receipt, -1],
                     ["l.teacherid=%u" , $teacherid, -1],
                 ];
@@ -2464,8 +2462,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                     ["is_test_user=%u" , $is_test_user, -1],
                     ["check_money_flag=%u" , $check_money_flag, -1],
                     ["stu_from_type=%u" , $stu_from_type, -1],
-                    ["o.grade=%u" , $grade, -1],
-                    ["o.subject=%u" , $subject, -1],
                     ["need_receipt=%u" , $need_receipt, -1],
                     ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
                     ["l.teacherid=%u" , $teacherid, -1],
@@ -2474,6 +2470,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
             $this->where_arr_add__2_setid_field($where_arr,"s.assistantid",$assistantid);
+            $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
+            $this->where_arr_add_int_or_idlist($where_arr,"o.subject",$subject);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
             if ($order_activity_type != -1 ) {
