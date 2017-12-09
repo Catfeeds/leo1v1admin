@@ -82,7 +82,7 @@ class add_new_tea_entry extends Command
                 $val['money']   /= 100;
                 $money = $val['money'] - $redward;
                 $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$last_month_info.' '.$money.PHP_EOL;
+                echo $item.'月 '.$val['teacherid'].' '.$val['realname'].' '.$val['money'].' '.$lesson_count.' '.$money.PHP_EOL;
             }
             sleep(2);
         }
