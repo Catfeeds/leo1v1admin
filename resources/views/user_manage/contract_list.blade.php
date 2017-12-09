@@ -12,7 +12,7 @@
       <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
       <section class="content">
           <div class="row row-query-list">
-              <div class="col-xs-12 col-md-4"  data-title="时间段">
+              <div class="col-xs-12 col-md-5"  data-title="时间段">
                   <div  id="id_date_range" >
                   </div>
               </div>

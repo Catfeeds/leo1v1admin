@@ -179,7 +179,7 @@
 
         };
         this.options = $.extend({}, this.defaults, opt);
-        this.options.multi_selection_key=$.trim(window.location.pathname)+ "_"  + this.$ele.attr("id");
+        this.options.multi_selection_key="multi_selection_key_"+$.trim(window.location.pathname)+ "_"  + this.$ele.attr("id");
 
         var me=this;
         var th_input_id=this.options.th_input_id  ;

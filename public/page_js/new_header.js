@@ -385,6 +385,8 @@ function table_init() {
                         "table_key":table_key,
                         "data":""
                     });
+
+                    //alert(" XXXXX set table_key clean 1 ");
                     window.localStorage.setItem(table_key , "");
                 }
             },{
@@ -405,7 +407,9 @@ function table_init() {
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
                     });
+                    //alert(" XXXXX set table_key clean 2 ");
                     window.localStorage.setItem(table_key , "");
+
                 }
             }]);
         });
@@ -476,7 +480,10 @@ function table_init() {
             var set_reset_filed_flag=false;
             $.each($th_td_list, function(i,item){
                 var $item=$(item);
-                var title=$.trim($item.text());
+                var title=$(item).data("title");
+                if (!title){
+                    title=$.trim($item.text());
+                }
                 var config_value=   config_map[title];
                 var use_config=false;
                 if ( config_value == undefined) {
@@ -521,7 +528,9 @@ function table_init() {
                         });
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
-                        window.localStorage.setItem(table_key , "");
+
+                        //alert(" XXXXX set table_key clean 3 ");
+                        //window.localStorage.setItem(table_key , "");
                     }
 
                 }
@@ -580,6 +589,7 @@ function table_init() {
                 }, function(resp ){
                     reset_table (resp);
                     resp.log_time=cur;
+                    //alert(" XXXXX set table_key ");
                     window.localStorage.setItem(table_key , JSON.stringify(resp));
                 } );
             }
