@@ -75,7 +75,7 @@ class add_new_tea_entry extends Command
             // $info['teacher_lesson_price']; 老师课时总收入
 
 
-            foreach($info['list'] as $val) {
+            foreach($info as $val) {
                 $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
                 $lesson_count = $teacher['lesson_total'];
                 $money = $teacher['teacher_lesson_price'];
