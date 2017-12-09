@@ -25,6 +25,8 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-
+    Enum_map.append_option_list("identity",$("#id_identity"));
+    Enum_map.append_option_list("gender",$("#id_gender"));
+    Enum_map.append_option_list("tea_age",$("#id_tea_age"));
 
 });

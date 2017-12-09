@@ -856,9 +856,6 @@ $(function(){
         $(".opt-set-teacher-record-new").hide();
     }
 
-    if(acc=="adrian" || acc=="seven" || acc=="jack"){
-        $(".opt-edit").show();
-    }
     
    
 
@@ -1822,8 +1819,7 @@ $(function(){
         });
     }
 
-
-    if(acc=="alan"){
+    if(acc=="alan" || acc=="adrian" || acc=="seven" || acc=="jack" || acc=="孙瞿"){
         $(".opt-edit").show();
     }
 
