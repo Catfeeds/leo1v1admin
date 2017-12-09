@@ -79,6 +79,8 @@ class add_new_tea_entry extends Command
                 $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
                 $lesson_count = $teacher['lesson_total'];
                 $money = $teacher['teacher_lesson_price'];
+                $price = $teacher['lesson_price_tax'];
+                if ($price == 0) continue;
                 // $lesson_money;   总工资
                 // $info['lesson_total'];    总课时
                 // $info['lesson_trial_total']; 试听总课时

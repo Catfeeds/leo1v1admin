@@ -1765,6 +1765,11 @@ class test_james extends Controller
 
         $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
 
+        $price = 0;
+        foreach($month_date_money_list as $v){
+            $price += $v['money'];
+        }
+        echo $price;
         dd($month_date_money_list);
 
     }
