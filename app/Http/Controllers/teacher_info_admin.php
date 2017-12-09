@@ -161,6 +161,7 @@ class teacher_info_admin extends Controller
     public function update_free_time(){
         $teacherid = $this->teacherid;
         $free_time = $this->get_in_str_val("free_time");
+
         $this->t_teacher_freetime_for_week->field_update_list($teacherid,[
             "free_time_new" => $free_time,
         ]);

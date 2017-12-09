@@ -3,7 +3,7 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			teacherid: g_args.teacherid	
+			      teacherid: g_args.teacherid	
         });
     }
 
@@ -35,34 +35,36 @@ $(function(){
 
     $("#id_update").on("click",function(){
         var free_list=[];
-        var get_free_table_data=function( id_name, start_time  ) {
-            $("#"+id_name+"  tr").each(function() {
-                var $this=$(this);
-                var timeid=$this.data("timeid");
-                $this.find("td").each(function(i,item){
-                    if (i!=0) {//过滤１
-                        var $td=$(item);
-                        if ($td.hasClass("select_free_time")) {
-                            var tmp_date=$.DateFormat(start_time+(i-1)*86400,"yyyy-MM-dd" );
-                            free_list.push ([
-                                ""+tmp_date +" "+ timeid+ ":00",
-                                ""+ timeid + ":59",
-                            ]);
-                        }
-                    }
-                });
-            });
-        };
-        get_free_table_data("id_time_body_1", week_start_time );
-        get_free_table_data("id_time_body_2", week_start_time+7*86400 );
-        get_free_table_data("id_time_body_3", week_start_time+14*86400 );
+        get_free_table_data(free_list,"id_time_body_1", week_start_time );
+        get_free_table_data(free_list,"id_time_body_2", week_start_time+7*86400 );
+        get_free_table_data(free_list,"id_time_body_3", week_start_time+14*86400 );
 
         $.do_ajax("/teacher_info_admin/update_free_time",{
             teacherid : g_args.teacherid,
-            free_time : JSON.stringify(free_list )
-        })
+            free_time : JSON.stringify(free_list)
+        });
     });
-    
+
+    var get_free_table_data=function(free_list, id_name, start_time ){
+        $("#"+id_name+"  tr").each(function() {
+            var $this=$(this);
+            var timeid=$this.data("timeid");
+            $this.find("td").each(function(i,item){
+                if (i!=0) {//过滤１
+                    var $td=$(item);
+                    if ($td.hasClass("select_free_time")) {
+                        var tmp_date=$.DateFormat(start_time+(i-1)*86400,"yyyy-MM-dd" );
+                        free_list.push ([
+                            ""+tmp_date +" "+ timeid+ ":00",
+                            ""+ timeid + ":59",
+                        ]);
+                    }
+                }
+            });
+        });
+    };
+
+
     $.do_ajax('/teacher_info_admin/get_free_time_js',{
         'teacherid': g_args.teacherid
     },function(resp) {

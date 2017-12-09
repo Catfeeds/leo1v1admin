@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <section class="content">
+    @if(!empty($require_info))
     <table >
         <tr>
             <td>姓名：{{$require_info['nick']}}</td>
@@ -20,6 +21,7 @@
             <td>上课意向:{{$require_info['intention_level_str']}}</td>
         </tr>
     </table>
+    @endif
     <hr/>
     <div class="row">
     </div>
