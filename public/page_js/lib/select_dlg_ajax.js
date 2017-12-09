@@ -19,6 +19,7 @@
             "url"      : "/user_manage/get_user_list",
             "lru_flag" : false,
             "th_input_id" :null,
+            "only_show_in_th_input" :false , //是否只显示 表头
             lru_item_desc: null,
             //其他参数
             "args_ex" : {
@@ -250,8 +251,10 @@
                         me.show_select ();
                     });
                     if ($th_input.is(":visible")){ //选择框放到 td
-                        //me.$element.parent().parent().hide();
-                        //me.$element.parent().parent().data( "always_hide", 1);
+                        if (me.options.only_show_in_th_input ) {
+                            me.$element.parent().parent().hide();
+                            me.$element.parent().parent().data( "always_hide", 1);
+                        }
                     }
 
                 }

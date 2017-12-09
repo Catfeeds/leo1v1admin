@@ -48,34 +48,39 @@ class jw_teacher_test_lesson_assign_auto extends Command
                 $grade = $vall["grade"];
                 $subject = $vall["subject"];
                 if($subject==2){
-                    $jw_list=[1328,1324];
+                    if($grade>=100 && $grade<200){
+                        $accept_adminid = 1324;
+                    }elseif($grade>=200 && $grade<400){
+                        $accept_adminid = 1328;
+                    }
+                    // $jw_list=[1328,1324];
                               
-                    $num_all = count($jw_list);
-                    $i=0;
-                    foreach($jw_list as $k=>$val){
-                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
-                        if (!$json_ret) {
-                            $json_ret=0;
-                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", $json_ret);
-                        }
-                        if($json_ret>0){
-                            $i++;
-                        }
-                    }
-                    if($i==$num_all){
-                        foreach($jw_list as $k=>$val){
-                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 0);
-                        }
-                    }
-                    foreach($jw_list as $k=>$val){
-                        $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
-                        if($json_ret==0){                           
-                            $accept_adminid=$val;
-                            \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 1);
-                            break;
+                    // $num_all = count($jw_list);
+                    // $i=0;
+                    // foreach($jw_list as $k=>$val){
+                    //     $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
+                    //     if (!$json_ret) {
+                    //         $json_ret=0;
+                    //         \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", $json_ret);
+                    //     }
+                    //     if($json_ret>0){
+                    //         $i++;
+                    //     }
+                    // }
+                    // if($i==$num_all){
+                    //     foreach($jw_list as $k=>$val){
+                    //         \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 0);
+                    //     }
+                    // }
+                    // foreach($jw_list as $k=>$val){
+                    //     $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$val");
+                    //     if($json_ret==0){                           
+                    //         $accept_adminid=$val;
+                    //         \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$val", 1);
+                    //         break;
                
-                        }
-                    }
+                    //     }
+                    // }
 
                     
                 }elseif($subject==3){
