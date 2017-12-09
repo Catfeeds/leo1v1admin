@@ -4296,6 +4296,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         foreach($list as &$item){
+            $item['teacher_lesson_price'] = $item['lesson_price'];
             $item['lesson_price'] = strval(
                 $item['lesson_price']
                 +$item['lesson_reward_ex']
