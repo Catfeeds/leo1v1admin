@@ -1152,6 +1152,28 @@ class test_jack  extends Controller
 
     }
 
+    public function add_record(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $list = $this->t_lesson_info_b3->get_lesson_info_by_teacherid_test($teacherid);
+        $i=1;
+        foreach($list as $val){
+            $this->t_teacher_record_list->row_insert([
+                "teacherid"      => $val["teacherid"],
+                "type"           => 1,
+                "train_lessonid" => $val["lessonid"],
+                "lesson_time"    => $val["lesson_start"],
+                "lesson_style"   => $i,
+                "add_time"       => time()+$i*100,
+                "userid"         => $val["userid"]
+            ]);
+            $i++;
+ 
+        }
+        return  $this->output_succ();
+
+
+    }
+
 
 
 

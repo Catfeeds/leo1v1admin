@@ -232,7 +232,7 @@
     //在插件中使用对象
     $.fn.admin_select_user_new = function(options) {
         $(this).val( options.select_value);
-        if (options.can_sellect_all_flag) {
+        if (options.can_select_all_flag) {
             var args_ex= $.extend({}, options.args_ex, { "select_btn_config": [{
                 "label": "全部",
                 "value": -1

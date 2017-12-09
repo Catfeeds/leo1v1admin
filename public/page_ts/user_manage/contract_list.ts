@@ -89,7 +89,7 @@ $(function(){
 		    "select_value" : g_args.studentid,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
-		    "can_sellect_all_flag"     : true,
+		    "can_select_all_flag"     : true,
         "only_show_in_th_input" :false,
 
 	  });
@@ -102,29 +102,29 @@ $(function(){
         "only_show_in_th_input" :false,
 		    "btn_id_config"     : {}
 	  });
-	$('#id_contract_status').admin_set_select_field({
-		"enum_type"    : "contract_status",
-		"select_value" : g_args.contract_status,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_contract_status",
-		"btn_id_config"     : {}
-	});
+	  $('#id_contract_status').admin_set_select_field({
+		    "enum_type"    : "contract_status",
+		    "select_value" : g_args.contract_status,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_status",
+		    "btn_id_config"     : {}
+	  });
 
 
-	$('#id_grade').admin_set_select_field({
-		"enum_type"    : "grade",
-		"select_value" : g_args.grade,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_grade",
-		"btn_id_config"     : {}
-	});
-	$('#id_subject').admin_set_select_field({
-		"enum_type"    : "subject",
-		"select_value" : g_args.subject,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_subject",
-		"btn_id_config"     : {}
-	});
+	  $('#id_grade').admin_set_select_field({
+		    "enum_type"    : "grade",
+		    "select_value" : g_args.grade,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_grade",
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_subject').admin_set_select_field({
+		    "enum_type"    : "subject",
+		    "select_value" : g_args.subject,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_subject",
+		    "btn_id_config"     : {}
+	  });
 
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data );
 
@@ -785,15 +785,15 @@ $(function(){
             },
             'field_list' :[
                 {
-                    title:"合同编号",
-                    field_name:"orderid"
-                },{
-                    title:"添加时间",
-                    field_name:"order_time_str"
-                },{
-                    title:"合同课时数",
-                    field_name:"lesson_total"
-                }
+                title:"合同编号",
+                field_name:"orderid"
+            },{
+                title:"添加时间",
+                field_name:"order_time_str"
+            },{
+                title:"合同课时数",
+                field_name:"lesson_total"
+            }
             ],
             filter_list:[],
             "auto_close" : true,
