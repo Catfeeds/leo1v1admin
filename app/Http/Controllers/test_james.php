@@ -1609,34 +1609,38 @@ class test_james extends Controller
 
     public function get_data(){
         // ["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]
-        $a[] = [
-            "adminid" => "0",
-            "name" => "",
-            "called_succ" => "71",
-            "has_called" => "196",
-            "total_money" => "429460.0000"
-        ];
+        // $a[] = [
+        //     "adminid" => "0",
+        //     "name" => "",
+        //     "called_succ" => "71",
+        //     "has_called" => "196",
+        //     "total_money" => "429460.0000"
+        // ];
 
-        $a[]  =  [
-            "adminid" => "3",
-            "name" => "ddd",
-            "called_succ" => "77y7",
-            "has_called" => "196",
-            "total_money" => "42sdjfh000"
-        ];
+        // $a[]  =  [
+        //     "adminid" => "3",
+        //     "name" => "ddd",
+        //     "called_succ" => "77y7",
+        //     "has_called" => "196",
+        //     "total_money" => "42sdjfh000"
+        // ];
 
 
-        $c = '';
-        foreach($a as $v){
-            $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
-        }
+        // $c = '';
+        // foreach($a as $v){
+        //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        // }
 
-        dd($c);
+        // dd($c);
 
-        dd(json_encode($a));
+        // dd(json_encode($a));
+        
 
         $one_week_start = 1509379200; //10-31
         $one_week_end   = 1509984000; //11-7
+
+        $one_week_start = $this->get_in_int_val('s');
+        $one_week_end   = $this->get_in_int_val('e');
 
         $c = '';
         // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
