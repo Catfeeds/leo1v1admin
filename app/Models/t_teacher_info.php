@@ -4805,4 +4805,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_teacher_warn_info($start_time, $end_time, $page_info) {
+        $where_arr = [
+            //['lesson_start>=%u', $start_time,-1],
+            ['lesson_start<%u', $end_time, -1]
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lesson_start,l.tea_attend from %s t left join %s l on t.teacherid=l.teacherid where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql, $page_info);
+    }
+
 }

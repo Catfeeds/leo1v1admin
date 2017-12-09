@@ -66,8 +66,9 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage-index.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		grade:	$('#id_grade').val(),
 		all_flag:	$('#id_all_flag').val(),
 		test_user:	$('#id_test_user').val(),
@@ -79,7 +80,7 @@ function load_data(){
 		order_type:	$('#id_order_type').val(),
 		student_type:	$('#id_student_type').val(),
 		userid:	$('#id_userid').val()
-    });
+		});
 }
 $(function(){
 
@@ -91,11 +92,23 @@ $(function(){
 	$('#id_originid').val(g_args.originid);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_phone').val(g_args.phone);
-	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_assistantid').admin_select_user_new({
+		"user_type"    : "assistant",
+		"select_value" : g_args.assistantid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_assistantid",
+		"can_sellect_all_flag"     : true
+	});
 	$('#id_seller_adminid').val(g_args.seller_adminid);
 	$('#id_order_type').val(g_args.order_type);
 	$('#id_student_type').val(g_args.student_type);
-	$('#id_userid').val(g_args.userid);
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"can_sellect_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);

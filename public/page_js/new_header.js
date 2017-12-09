@@ -385,6 +385,8 @@ function table_init() {
                         "table_key":table_key,
                         "data":""
                     });
+
+                    //alert(" XXXXX set table_key clean 1 ");
                     window.localStorage.setItem(table_key , "");
                 }
             },{
@@ -404,8 +406,20 @@ function table_init() {
                         "opt_type":"set",
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
+                    },function(){
+                        $.do_ajax("/page_common/opt_table_field_list",{
+                            "opt_type":"get",
+                            "table_key":table_key
+                        }, function(resp ){
+                            var cur=(new Date() ).getTime()/1000;
+                            resp.log_time=cur;
+                            //alert("XXXX SET :"+ JSON.stringify(resp)  );
+                            window.localStorage.setItem(table_key , JSON.stringify(resp));
+                            window.location.reload();
+                        });
                     });
-                    window.localStorage.setItem(table_key , "");
+
+
                 }
             }]);
         });
@@ -476,7 +490,10 @@ function table_init() {
             var set_reset_filed_flag=false;
             $.each($th_td_list, function(i,item){
                 var $item=$(item);
-                var title=$.trim($item.text());
+                var title=$(item).data("title");
+                if (!title){
+                    title=$.trim($item.text());
+                }
                 var config_value=   config_map[title];
                 var use_config=false;
                 if ( config_value == undefined) {
@@ -521,7 +538,9 @@ function table_init() {
                         });
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
-                        window.localStorage.setItem(table_key , "");
+
+                        //alert(" XXXXX set table_key clean 3 ");
+                        //window.localStorage.setItem(table_key , "");
                     }
 
                 }
@@ -580,8 +599,9 @@ function table_init() {
                 }, function(resp ){
                     reset_table (resp);
                     resp.log_time=cur;
+                    //alert("XXXX SET :"+ JSON.stringify(resp)  );
                     window.localStorage.setItem(table_key , JSON.stringify(resp));
-                } );
+                });
             }
         }else{
             reset_table ({});
