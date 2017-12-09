@@ -1621,7 +1621,6 @@ class test_james extends Controller
             $item['total_money'] = $this->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
         }
 
-
         dd($admin_list);
     }
 

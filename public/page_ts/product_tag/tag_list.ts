@@ -29,13 +29,10 @@ $(function(){
     if(old_tag_l3_sort == ''){
         old_tag_l3_sort="标签三级分类";
     }
-    
-    
 
     var preTag_l1_sort = "<option value=\"\">"+old_tag_l1_sort+"</option>";  
     var preTag_l2_sort = "<option value=\"\">"+old_tag_l2_sort+"</option>";  
     var preTag_l3_sort = "<option value=\"\">"+old_tag_l3_sort+"</option>";  
-    
     //初始化  
     tag_l1_sort.html(preTag_l1_sort);  
     tag_l2_sort.html(preTag_l2_sort);  
@@ -97,19 +94,19 @@ $(function(){
         l1.each(function(i) {  
             tag_l1_sort.append("<option value=" + i + ">"  
                                + l1.eq(i).attr("text") + "</option>");  
-        });  
-    }  
-    
-    function func_suc_getXmlTag_l2_sort(xml) {  
-        var xml_l1 = $(xml).find("tag_l1_sort");  
-        var pro_num = parseInt(tag_l1_sort.val());  
-        var xml_l2 = xml_l1.eq(pro_num).find("tag_l2_sort");  
-        xml_l2.each(function(j) {  
-            tag_l2_sort.append("<option  value=" + j + ">"  
-                               + xml_l2.eq(j).attr("text") + "</option>");  
-        });  
-    }  
-    
+        });
+    }
+
+    function func_suc_getXmlTag_l2_sort(xml) {
+        var xml_l1 = $(xml).find("tag_l1_sort");
+        var pro_num = parseInt(tag_l1_sort.val());
+        var xml_l2 = xml_l1.eq(pro_num).find("tag_l2_sort");
+        xml_l2.each(function(j) {
+            tag_l2_sort.append("<option  value=" + j + ">"
+                               + xml_l2.eq(j).attr("text") + "</option>");
+        });
+    }
+
     function func_suc_getXmlTag_l3_sort(xml) {  
         var xml_l1 = $(xml).find("tag_l1_sort");  
         var pro_num = parseInt(tag_l1_sort.val());  
